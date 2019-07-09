@@ -262,24 +262,23 @@ class WhileDemo {
                 (dimensions))
               (variable_declarator_id
                 (identifier)))))
-        (method_body
-          (block
-            (local_variable_declaration_statement
-              (local_variable_declaration
-                (integral_type)
-                  (variable_declarator
-                    (variable_declarator_id
-                      (identifier))
-                    (decimal_integer_literal))))
-                (while_statement
-                  (binary_expression (identifier) (decimal_integer_literal))
-                  (block
-                    (expression_statement (method_invocation
-                      (scoped_identifier (identifier) (identifier))
-                      (identifier)
-                      (argument_list
-                        (binary_expression (string_literal) (identifier)))))
-                    (expression_statement (update_expression (identifier)))))))))))
+        (block
+          (local_variable_declaration_statement
+            (local_variable_declaration
+              (integral_type)
+                (variable_declarator
+                  (variable_declarator_id
+                    (identifier))
+                  (decimal_integer_literal))))
+              (while_statement
+                (binary_expression (identifier) (decimal_integer_literal))
+                (block
+                  (expression_statement (method_invocation
+                    (scoped_identifier (identifier) (identifier))
+                    (identifier)
+                    (argument_list
+                      (binary_expression (string_literal) (identifier)))))
+                  (expression_statement (update_expression (identifier))))))))))
 
 ==================================
 try-with-resources statements
@@ -377,7 +376,7 @@ class Quack {
         (modifiers (marker_annotation (identifier)))
         (void_type)
         (method_declarator (identifier) (formal_parameters))
-        (method_body (block))))))
+        (block)))))
 
 ==================================
 single element annotation
@@ -406,6 +405,7 @@ lambda expression
 class LambdaTest {
   void singleton() {
     version -> create;
+    (a, b) -> a + b;
   }
 }
 
@@ -418,8 +418,13 @@ class LambdaTest {
       (method_declaration
         (void_type)
         (method_declarator (identifier) (formal_parameters))
-        (method_body (block
-          (expression_statement (lambda_expression (identifier) (lambda_body (identifier))))))))))
+        (block
+          (expression_statement (lambda_expression
+            (identifier)
+            (identifier)))
+          (expression_statement (lambda_expression
+            (inferred_parameters (identifier) (identifier))
+            (binary_expression (identifier) (identifier)))))))))
 
 ==================================
 switch statement
@@ -457,14 +462,13 @@ public class SwitchDemo {
           (identifier)
           (formal_parameters
             (formal_parameter (array_type (type_identifier) (dimensions)) (variable_declarator_id (identifier)))))
-        (method_body
-          (block
-            (local_variable_declaration_statement
-              (local_variable_declaration
-                (integral_type)
-                (variable_declarator
-                  (variable_declarator_id (identifier))
-                  (decimal_integer_literal))))
+        (block
+          (local_variable_declaration_statement
+            (local_variable_declaration
+              (integral_type)
+              (variable_declarator
+                (variable_declarator_id (identifier))
+                (decimal_integer_literal))))
             (local_variable_declaration_statement
               (local_variable_declaration
                 (type_identifier)
@@ -487,7 +491,7 @@ public class SwitchDemo {
             (expression_statement (method_invocation
               (scoped_identifier (identifier) (identifier))
               (identifier)
-              (argument_list (identifier))))))))))
+              (argument_list (identifier)))))))))
 
 ==================================
 type arguments
@@ -583,21 +587,20 @@ class someClass <T> {
             (method_declarator
               (identifier)
               (formal_parameters))
-            (method_body
-              (block
-                (local_variable_declaration_statement
-                  (local_variable_declaration
-                    (generic_type
-                      (type_identifier)
-                      (type_arguments (type_identifier)))
-                    (variable_declarator
-                      (variable_declarator_id (identifier))
-                      (method_invocation
-                        (identifier)
-                        (type_arguments (type_identifier))
-                        (identifier)
-                        (argument_list)))))
-                (return_statement (identifier)))))
+            (block
+              (local_variable_declaration_statement
+                (local_variable_declaration
+                  (generic_type
+                    (type_identifier)
+                    (type_arguments (type_identifier)))
+                  (variable_declarator
+                    (variable_declarator_id (identifier))
+                    (method_invocation
+                      (identifier)
+                      (type_arguments (type_identifier))
+                      (identifier)
+                      (argument_list)))))
+              (return_statement (identifier))))
         (method_declaration
           (modifiers)
           (type_parameters
@@ -611,20 +614,19 @@ class someClass <T> {
                   (type_identifier)
                     (variable_declarator_id
                       (identifier)))))
-            (method_body
-              (block
-                (local_variable_declaration_statement
-                  (local_variable_declaration
-                    (generic_type
-                      (type_identifier)
-                      (type_arguments (type_identifier)))
-                    (variable_declarator
-                      (variable_declarator_id (identifier))
-                      (method_invocation
-                        (identifier)
-                        (type_arguments (type_identifier))
-                        (identifier)
-                        (argument_list)))))))))))
+            (block
+              (local_variable_declaration_statement
+                (local_variable_declaration
+                  (generic_type
+                    (type_identifier)
+                    (type_arguments (type_identifier)))
+                  (variable_declarator
+                    (variable_declarator_id (identifier))
+                    (method_invocation
+                      (identifier)
+                      (type_arguments (type_identifier))
+                      (identifier)
+                      (argument_list))))))))))
 
 ==================================
 empty type arguments

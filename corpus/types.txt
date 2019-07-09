@@ -20,41 +20,40 @@ class Beyonce {
     (class_body
       (method_declaration
         (integral_type)
-          (method_declarator
-            (identifier)
-            (formal_parameters))
-        (method_body
-          (block
-            (local_variable_declaration_statement
-              (local_variable_declaration
-                (integral_type)
-                  (variable_declarator
-                    (variable_declarator_id
-                      (identifier)))))
-            (local_variable_declaration_statement
-              (local_variable_declaration
-                (integral_type)
-                  (variable_declarator
-                    (variable_declarator_id
-                      (identifier)))))
-            (local_variable_declaration_statement
-              (local_variable_declaration
-                (integral_type)
-                  (variable_declarator
-                    (variable_declarator_id
-                      (identifier)))))
-            (local_variable_declaration_statement
-              (local_variable_declaration
-                (integral_type)
-                  (variable_declarator
-                    (variable_declarator_id
-                      (identifier)))))
-            (local_variable_declaration_statement
-              (local_variable_declaration
-                (integral_type)
-                  (variable_declarator
-                    (variable_declarator_id
-                      (identifier)))))))))))
+        (method_declarator
+          (identifier)
+          (formal_parameters))
+        (block
+          (local_variable_declaration_statement
+            (local_variable_declaration
+              (integral_type)
+                (variable_declarator
+                  (variable_declarator_id
+                    (identifier)))))
+          (local_variable_declaration_statement
+            (local_variable_declaration
+              (integral_type)
+                (variable_declarator
+                  (variable_declarator_id
+                    (identifier)))))
+          (local_variable_declaration_statement
+            (local_variable_declaration
+              (integral_type)
+                (variable_declarator
+                  (variable_declarator_id
+                    (identifier)))))
+          (local_variable_declaration_statement
+            (local_variable_declaration
+              (integral_type)
+                (variable_declarator
+                  (variable_declarator_id
+                    (identifier)))))
+          (local_variable_declaration_statement
+            (local_variable_declaration
+              (integral_type)
+                (variable_declarator
+                  (variable_declarator_id
+                    (identifier))))))))))
 
 
 =====================
@@ -78,13 +77,12 @@ class Beyonce {
         (integral_type)
         (method_declarator (identifier)
           (formal_parameters))
-        (method_body
-          (block
-            (local_variable_declaration_statement
-              (local_variable_declaration
-                (floating_point_type)
-                (variable_declarator (variable_declarator_id (identifier)))))
-            (local_variable_declaration_statement
-              (local_variable_declaration
-                (floating_point_type)
-                (variable_declarator (variable_declarator_id (identifier)))))))))))
+        (block
+          (local_variable_declaration_statement
+            (local_variable_declaration
+              (floating_point_type)
+              (variable_declarator (variable_declarator_id (identifier)))))
+          (local_variable_declaration_statement
+            (local_variable_declaration
+              (floating_point_type)
+              (variable_declarator (variable_declarator_id (identifier))))))))))

@@ -20,15 +20,14 @@ class A {
         (method_declarator
           (identifier)
           (formal_parameters))
-        (method_body
-          (block
-            (local_variable_declaration_statement
-              (local_variable_declaration
-                (integral_type)
-                (variable_declarator
-                  (variable_declarator_id
-                    (identifier))
-                  (decimal_integer_literal))))))))))
+        (block
+          (local_variable_declaration_statement
+            (local_variable_declaration
+              (integral_type)
+              (variable_declarator
+                (variable_declarator_id
+                  (identifier))
+                (decimal_integer_literal)))))))))
 
 =====================
 local array variable
@@ -316,9 +315,9 @@ class Point {
       (method_declaration
         (void_type)
         (method_declarator (identifier) (formal_parameters))
-        (method_body (block
+        (block
           (expression_statement
-            (assignment_expression (lhs (identifier)) (decimal_integer_literal)))))))))
+            (assignment_expression (lhs (identifier)) (decimal_integer_literal))))))))
 
 ======================
 interface declaration
@@ -389,7 +388,7 @@ class Beyonce {
             (formal_parameter (integral_type) (variable_declarator_id (identifier)))
             (formal_parameter (floating_point_type) (variable_declarator_id (identifier)))
             (formal_parameter (floating_point_type) (variable_declarator_id (identifier)))))
-        (method_body (block (comment)))))))
+        (block (comment))))))
 
 ========================
 constructor declaration
@@ -449,23 +448,22 @@ class Beyonce {
             (identifier)
             (formal_parameters))
           (throws (type_identifier))
-          (method_body
-            (block
-              (expression_statement
-                (class_instance_creation_expression
-                  (unqualified_class_instance_creation_expression
-                    (type_identifier)
-                  (argument_list
-                    (class_instance_creation_expression
-                      (unqualified_class_instance_creation_expression
-                        (type_identifier)
-                        (argument_list
-                          (class_instance_creation_expression
-                            (unqualified_class_instance_creation_expression
-                              (type_identifier)
-                                (argument_list
-                                  (identifier))))
-                          (identifier))))))))))))))
+          (block
+            (expression_statement
+              (class_instance_creation_expression
+                (unqualified_class_instance_creation_expression
+                  (type_identifier)
+                (argument_list
+                  (class_instance_creation_expression
+                    (unqualified_class_instance_creation_expression
+                      (type_identifier)
+                      (argument_list
+                        (class_instance_creation_expression
+                          (unqualified_class_instance_creation_expression
+                            (type_identifier)
+                              (argument_list
+                                (identifier))))
+                        (identifier)))))))))))))
 
 ======================
 object instantiation
@@ -489,13 +487,12 @@ class Point {
         (method_declarator
           (identifier)
           (formal_parameters))
-        (method_body
-          (block
-            (expression_statement
-              (class_instance_creation_expression
-                (unqualified_class_instance_creation_expression
-                  (type_identifier)
-                  (argument_list))))))))))
+        (block
+          (expression_statement
+            (class_instance_creation_expression
+              (unqualified_class_instance_creation_expression
+                (type_identifier)
+                (argument_list)))))))))
 
 =====================
 variable declaration
@@ -519,13 +516,12 @@ class JayZ {
         (method_declarator
           (identifier)
           (formal_parameters))
-        (method_body
-          (block
-            (local_variable_declaration_statement
-              (local_variable_declaration
-                (integral_type)
-                (variable_declarator
-                  (variable_declarator_id (identifier)))))))))))
+        (block
+          (local_variable_declaration_statement
+            (local_variable_declaration
+              (integral_type)
+              (variable_declarator
+                (variable_declarator_id (identifier))))))))))
 
 =================
 enum declaration
