@@ -47,7 +47,6 @@ module.exports = grammar({
     [$.modifiers, $.annotated_type, $.receiver_parameter],
     [$.modifiers, $.annotated_type, $.module_declaration, $.package_declaration],
     [$.variable_declarator_id],
-    [$._lambda_parameters, $.inferred_parameters],
     [$._unannotated_type, $._expression],
     [$._unannotated_type, $._expression, $.inferred_parameters],
     [$._unannotated_type, $.class_literal],
@@ -205,23 +204,16 @@ module.exports = grammar({
       $._type
     )),
 
-    lambda_expression: $ => seq($._lambda_parameters, '->', $.lambda_body),
-
-    _lambda_parameters: $ => choice(
-      $.identifier,
-      $.formal_parameters,
-      $.inferred_parameters
+    lambda_expression: $ => seq(
+      choice($.identifier, $.formal_parameters, $.inferred_parameters),
+      '->',
+      choice($._expression, $.block)
     ),
 
     inferred_parameters: $ => seq(
       '(',
       commaSep1($.identifier),
       ')'
-    ),
-
-    lambda_body: $ => choice(
-      $._expression,
-      $.block,
     ),
 
     ternary_expression: $ => prec.right(PREC.TERNARY, seq(
@@ -957,11 +949,6 @@ module.exports = grammar({
       'throws', commaSep1($._type)
     ),
 
-    method_body: $ => choice(
-      $.block,
-      ';'
-    ),
-
     local_variable_declaration_statement: $ => seq(
       $.local_variable_declaration,
       ';'
@@ -976,7 +963,7 @@ module.exports = grammar({
     method_declaration: $ => seq(
       optional($.modifiers),
       $._method_header,
-      $.method_body
+      choice($.block, ';')
     ),
 
     _reserved_identifier: $ => alias(choice(
