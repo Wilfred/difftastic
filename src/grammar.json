@@ -1122,8 +1122,12 @@
           "name": "update_expression"
         },
         {
-          "type": "SYMBOL",
-          "name": "_ambiguous_name"
+          "type": "PREC_DYNAMIC",
+          "value": 1,
+          "content": {
+            "type": "SYMBOL",
+            "name": "_ambiguous_name"
+          }
         },
         {
           "type": "SYMBOL",
@@ -2662,7 +2666,15 @@
             },
             {
               "type": "SYMBOL",
+              "name": "_ambiguous_name"
+            },
+            {
+              "type": "SYMBOL",
               "name": "_primary"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "super"
             }
           ]
         },
@@ -2873,6 +2885,10 @@
         {
           "type": "SYMBOL",
           "name": "for_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "enhanced_for_statement"
         },
         {
           "type": "SYMBOL",
@@ -3601,19 +3617,6 @@
       ]
     },
     "for_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "basic_for_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "enhanced_for_statement"
-        }
-      ]
-    },
-    "basic_for_statement": {
       "type": "SEQ",
       "members": [
         {
@@ -5778,7 +5781,7 @@
     },
     "generic_type": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6345,15 +6348,6 @@
       "package_declaration"
     ],
     [
-      "_unannotated_type",
-      "class_literal"
-    ],
-    [
-      "_unannotated_type",
-      "class_literal",
-      "array_access"
-    ],
-    [
       "variable_declarator_id"
     ],
     [
@@ -6368,6 +6362,19 @@
       "_unannotated_type",
       "_expression",
       "inferred_parameters"
+    ],
+    [
+      "_unannotated_type",
+      "class_literal"
+    ],
+    [
+      "_unannotated_type",
+      "class_literal",
+      "array_access"
+    ],
+    [
+      "_unannotated_type",
+      "method_reference"
     ],
     [
       "_unannotated_type",
