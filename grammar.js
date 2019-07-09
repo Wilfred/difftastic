@@ -352,6 +352,7 @@ module.exports = grammar({
       $.if_statement,
       $.while_statement,
       $.for_statement,
+      $.enhanced_for_statement,
       $.block,
       ';',
       $.assert_statement,
@@ -467,12 +468,7 @@ module.exports = grammar({
 
     while_statement: $ => seq('while', '(', $._expression, ')', $._statement),
 
-    for_statement: $ => choice(
-      $.basic_for_statement,
-      $.enhanced_for_statement
-    ),
-
-    basic_for_statement: $ => seq(
+    for_statement: $ => seq(
       'for', '(',
       optional($.for_init), ';',
       optional($._expression), ';',

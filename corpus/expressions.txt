@@ -175,46 +175,60 @@ max = (a > b) ? a : b;
 for statement
 ==================================
 
-class ForDemo {
-    public static void main(String[] args){
-         for(int i=1; i<11; i++){
-              System.out.println("Count is: " + i);
-         }
-    }
+for(int i = 1; i < 11; i++) {
+  System.out.println("Count is: " + i);
+}
+
+for (j.init(i); j.check(); j.update()) {
+  System.out.println(j);
 }
 
 ---
 
 (program
-  (class_declaration
+  (for_statement
+    (for_init
+      (local_variable_declaration
+        (integral_type)
+        (variable_declarator
+          (variable_declarator_id (identifier))
+          (decimal_integer_literal))))
+    (binary_expression (identifier) (decimal_integer_literal))
+    (update_expression (identifier))
+    (block
+      (expression_statement (method_invocation
+        (scoped_identifier (identifier) (identifier))
+        (identifier)
+        (argument_list (binary_expression (string_literal) (identifier)))))))
+  (for_statement
+    (for_init (method_invocation (identifier) (identifier) (argument_list (identifier))))
+    (method_invocation (identifier) (identifier) (argument_list))
+    (method_invocation (identifier) (identifier) (argument_list))
+    (block
+      (expression_statement (method_invocation
+        (scoped_identifier (identifier) (identifier))
+        (identifier)
+        (argument_list (identifier)))))))
+
+================================
+Enhanced for statements
+================================
+
+for (A b : c) {
+  d(b);
+}
+
+---
+
+(program
+  (enhanced_for_statement
+    (type_identifier)
+    (variable_declarator_id (identifier))
     (identifier)
-    (class_body
-      (method_declaration
-        (modifiers)
-        (void_type)
-        (method_declarator
-          (identifier)
-          (formal_parameters
-            (formal_parameter
-              (array_type (type_identifier) (dimensions))
-              (variable_declarator_id (identifier)))))
-          (method_body
-            (block
-              (for_statement
-                (basic_for_statement
-                  (for_init
-                    (local_variable_declaration
-                      (integral_type)
-                      (variable_declarator
-                        (variable_declarator_id (identifier))
-                        (decimal_integer_literal))))
-                  (binary_expression (identifier) (decimal_integer_literal))
-                  (update_expression (identifier))
-                  (block
-                    (expression_statement (method_invocation
-                      (scoped_identifier (identifier) (identifier))
-                      (identifier)
-                      (argument_list (binary_expression (string_literal) (identifier))))))))))))))
+    (block
+      (expression_statement (method_invocation
+        (identifier)
+        (argument_list (identifier)))))))
 
 ==================================
 while statement
