@@ -643,3 +643,22 @@ Box<Integer> integerBox = new Box<>();
         (unqualified_class_instance_creation_expression
           (generic_type (type_identifier) (type_arguments))
           (argument_list)))))))
+
+=================
+method references
+=================
+
+action = bar::method;
+foo.bar::method;
+String[]::new;
+Foo<T>::apply;
+super::something;
+
+---
+
+(program
+  (expression_statement (assignment_expression (lhs (identifier)) (method_reference (identifier) (identifier))))
+  (expression_statement (method_reference (scoped_identifier (identifier) (identifier)) (identifier)))
+  (expression_statement (method_reference (array_type (type_identifier) (dimensions))))
+  (expression_statement (method_reference (generic_type (type_identifier) (type_arguments (type_identifier))) (identifier)))
+  (expression_statement (method_reference (super) (identifier))))

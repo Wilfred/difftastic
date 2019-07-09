@@ -46,12 +46,13 @@ module.exports = grammar({
   conflicts: $ => [
     [$.modifiers, $.annotated_type, $.receiver_parameter],
     [$.modifiers, $.annotated_type, $.module_declaration, $.package_declaration],
-    [$._unannotated_type, $.class_literal],
-    [$._unannotated_type, $.class_literal, $.array_access],
     [$.variable_declarator_id],
     [$._lambda_parameters, $.inferred_parameters],
     [$._unannotated_type, $._expression],
     [$._unannotated_type, $._expression, $.inferred_parameters],
+    [$._unannotated_type, $.class_literal],
+    [$._unannotated_type, $.class_literal, $.array_access],
+    [$._unannotated_type, $.method_reference],
     [$._unannotated_type, $.generic_type],
     [$._expression, $.generic_type],
     [$.scoped_identifier, $.scoped_type_identifier],
@@ -147,7 +148,7 @@ module.exports = grammar({
       $.lambda_expression,
       $.ternary_expression,
       $.update_expression,
-      $._ambiguous_name,
+      prec.dynamic(1, $._ambiguous_name),
       $._primary,
       $.unary_expression,
       $.cast_expression
@@ -316,7 +317,7 @@ module.exports = grammar({
     argument_list: $ => seq('(', commaSep($._expression), ')'),
 
     method_reference: $ => seq(
-      choice($._type, $._primary),
+      choice($._type, $._ambiguous_name, $._primary, $.super),
       '::',
       optional($.type_arguments),
       choice('new', $.identifier)
@@ -872,7 +873,7 @@ module.exports = grammar({
       alias($.identifier, $.type_identifier)
     ),
 
-    generic_type: $ => prec.dynamic(1, seq(
+    generic_type: $ => prec.dynamic(10, seq(
       choice(
         alias($.identifier, $.type_identifier),
         $.scoped_type_identifier
