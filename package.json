@@ -16,7 +16,7 @@
     "acorn": "^2.6.4",
     "babylon": "^6.3.26",
     "esprima": "^2.7.1",
-    "tree-sitter-cli": "^0.15.3",
+    "tree-sitter-cli": "^0.15.5",
     "tree-sitter-highlight-schema": "0.1.1"
   },
   "scripts": {

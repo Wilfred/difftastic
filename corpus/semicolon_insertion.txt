@@ -12,11 +12,13 @@ if (a) {
 ---
 
 (program
-  (if_statement (parenthesized_expression (identifier)) (statement_block
-    (variable_declaration (variable_declarator (identifier) (identifier)))
-    (expression_statement (call_expression (identifier) (arguments)))
-    (expression_statement (call_expression (identifier) (arguments)))
-    (return_statement (identifier)))))
+  (if_statement
+    (parenthesized_expression (identifier))
+    (statement_block
+      (variable_declaration (variable_declarator (identifier) (identifier)))
+      (expression_statement (call_expression (identifier) (arguments)))
+      (expression_statement (call_expression (identifier) (arguments)))
+      (return_statement (identifier)))))
 
 ============================================
 Semicolon insertion before update expressions
@@ -42,7 +44,7 @@ if (a)
     (parenthesized_expression (identifier))
     (expression_statement
       (call_expression (identifier) (arguments))))
-  (expression_statement (update_expression (identifier)))) 
+  (expression_statement (update_expression (identifier))))
 
 ==========================================
 property access across lines
@@ -69,7 +71,7 @@ indented code after blocks
 ---
 
 (program
-  (function
+  (function_declaration
     (identifier)
     (formal_parameters)
     (statement_block))
@@ -170,9 +172,9 @@ function c() {return d}
 ---
 
 (program
-  (function (identifier) (formal_parameters) (statement_block
+  (function_declaration (identifier) (formal_parameters) (statement_block
     (expression_statement (identifier))))
-  (function (identifier) (formal_parameters) (statement_block
+  (function_declaration (identifier) (formal_parameters) (statement_block
     (return_statement (identifier)))))
 
 ==============================================
@@ -229,7 +231,8 @@ if (p) { var q }
     (for_of_statement (identifier) (identifier)
       (continue_statement))))
   (if_statement (parenthesized_expression (identifier)) (statement_block
-    (while_statement (parenthesized_expression (identifier))
+    (while_statement
+      (parenthesized_expression (identifier))
       (break_statement))))
   (if_statement (parenthesized_expression (identifier)) (statement_block
     (do_statement
@@ -246,10 +249,10 @@ function a () { function b () {} function *c () {} class D {} return }
 ---
 
 (program
-  (function (identifier) (formal_parameters) (statement_block
-    (function (identifier) (formal_parameters) (statement_block))
-    (generator_function (identifier) (formal_parameters) (statement_block))
-    (class (identifier) (class_body))
+  (function_declaration (identifier) (formal_parameters) (statement_block
+    (function_declaration (identifier) (formal_parameters) (statement_block))
+    (generator_function_declaration (identifier) (formal_parameters) (statement_block))
+    (class_declaration (identifier) (class_body))
     (return_statement))))
 
 =====================================================

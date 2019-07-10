@@ -110,7 +110,15 @@ export class Foo {
 
 ---
 
-(program (export_statement (decorator (call_expression (identifier) (arguments))) (class (identifier) (class_body))))
+(program
+  (export_statement
+    decorator: (decorator
+      (call_expression
+        function: (identifier)
+        arguments: (arguments)))
+    declaration: (class_declaration
+      name: (identifier)
+      body: (class_body))))
 
 ============================================
 If statements
@@ -127,14 +135,23 @@ if (a.b) {
 ----
 
 (program
-  (if_statement (parenthesized_expression (identifier))
-    (expression_statement (call_expression
-      (identifier) (arguments (identifier)))))
-  (if_statement (parenthesized_expression (member_expression (identifier) (property_identifier)))
-    (statement_block
-      (expression_statement (call_expression
-        (identifier) (arguments (identifier))))
-      (expression_statement (identifier)))))
+  (if_statement
+    condition: (parenthesized_expression (identifier))
+    consequence: (expression_statement
+      (call_expression
+        function: (identifier)
+        arguments: (arguments (identifier)))))
+  (if_statement
+    condition: (parenthesized_expression (member_expression
+      object: (identifier)
+      property: (property_identifier)))
+    consequence: (statement_block
+      (expression_statement
+        (call_expression
+          function: (identifier)
+          arguments: (arguments (identifier))))
+      (expression_statement
+        (identifier)))))
 
 ============================================
 If-else statements
@@ -155,15 +172,18 @@ if (a) {
 ----
 
 (program
-  (if_statement (parenthesized_expression (identifier))
-    (expression_statement (identifier))
-    (if_statement (parenthesized_expression (identifier))
-      (expression_statement (identifier))))
-  (if_statement (parenthesized_expression (identifier))
-    (statement_block
+  (if_statement
+    condition: (parenthesized_expression (identifier))
+    consequence: (expression_statement (identifier))
+    alternative: (if_statement
+      condition: (parenthesized_expression (identifier))
+      consequence: (expression_statement (identifier))))
+  (if_statement
+    condition: (parenthesized_expression (identifier))
+    consequence: (statement_block
       (expression_statement (identifier))
       (expression_statement (identifier)))
-    (statement_block
+    alternative: (statement_block
       (expression_statement (identifier)))))
 
 ============================================
@@ -190,33 +210,46 @@ for (var i = 0
 
 (program
   (for_statement
-    (variable_declaration
-      (variable_declarator (identifier))
-      (variable_declarator (identifier)))
-    (expression_statement (identifier))
-    (identifier)
-    (expression_statement (identifier)))
+    initializer: (variable_declaration
+      (variable_declarator name: (identifier))
+      (variable_declarator name: (identifier)))
+    condition: (expression_statement (identifier))
+    increment: (identifier)
+    body: (expression_statement (identifier)))
 
   (for_statement
-    (expression_statement (sequence_expression
-      (assignment_expression (identifier) (number))
-      (call_expression (identifier) (arguments))))
-    (expression_statement (binary_expression (identifier) (number)))
-    (update_expression (identifier))
-    (expression_statement (call_expression (identifier) (arguments (identifier)))))
+    initializer: (expression_statement (sequence_expression
+      left: (assignment_expression
+        left: (identifier)
+        right: (number))
+      right: (call_expression
+        function: (identifier)
+        arguments: (arguments))))
+    condition: (expression_statement (binary_expression
+      left: (identifier)
+      right: (number)))
+    increment: (update_expression argument: (identifier))
+    body: (expression_statement (call_expression
+      function: (identifier)
+      arguments: (arguments (identifier)))))
 
   (for_statement
-    (empty_statement)
-    (empty_statement)
-    (statement_block
+    initializer: (empty_statement)
+    condition: (empty_statement)
+    body: (statement_block
       (expression_statement (identifier))
       (continue_statement)))
 
   (for_statement
-    (variable_declaration (variable_declarator (identifier) (number)))
-    (expression_statement (binary_expression (identifier) (identifier)))
-    (update_expression (identifier))
-    (expression_statement (object))))
+    initializer: (variable_declaration (variable_declarator
+      name: (identifier)
+      value: (number)))
+    condition: (expression_statement (binary_expression
+      left: (identifier)
+      right: (identifier)))
+    increment: (update_expression
+      argument: (identifier))
+    body: (expression_statement (object))))
 
 ============================================
 For-in statements
@@ -312,8 +345,11 @@ while (a)
 ---
 
 (program
-  (while_statement (parenthesized_expression (identifier))
-    (expression_statement (call_expression (identifier) (arguments)))))
+  (while_statement
+    condition: (parenthesized_expression (identifier))
+    body: (expression_statement (call_expression
+      function: (identifier)
+      arguments: (arguments)))))
 
 ============================================
 Do statements
@@ -328,9 +364,11 @@ do a; while (b)
 
 (program
   (do_statement
-    (statement_block (expression_statement (identifier)))
-    (parenthesized_expression (identifier)))
-  (do_statement (expression_statement (identifier)) (parenthesized_expression (identifier))))
+    body: (statement_block (expression_statement (identifier)))
+    condition: (parenthesized_expression (identifier)))
+  (do_statement
+    body: (expression_statement (identifier))
+    condition: (parenthesized_expression (identifier))))
 
 ============================================
 Return statements
@@ -491,7 +529,7 @@ switch (x) {
 ---
 
 (program
-  (switch_statement (parenthesized_expression (identifier)) (switch_body
+  (switch_statement (identifier) (switch_body
     (switch_case (number))
     (switch_case (number)
       (expression_statement (call_expression (identifier) (arguments)))
@@ -563,8 +601,9 @@ if (true) { ; };;;
 ---
 
 (program
-  (if_statement (parenthesized_expression (true)) (statement_block
-    (empty_statement)))
+  (if_statement
+    (parenthesized_expression (true))
+    (statement_block (empty_statement)))
   (empty_statement)
   (empty_statement)
   (empty_statement))
@@ -585,14 +624,18 @@ for (;;) {
 ---
 
 (program
-  (labeled_statement (statement_identifier)
+  (labeled_statement
+    label: (statement_identifier)
     (for_statement
-      (empty_statement)
-      (empty_statement)
-      (statement_block
-        (if_statement (parenthesized_expression (identifier))
-          (statement_block (break_statement (statement_identifier)))
-          (statement_block (continue_statement (statement_identifier))))))))
+      initializer: (empty_statement)
+      condition: (empty_statement)
+      body: (statement_block
+        (if_statement
+          condition: (parenthesized_expression (identifier))
+          consequence: (statement_block
+            (break_statement label: (statement_identifier)))
+          alternative: (statement_block
+            (continue_statement label: (statement_identifier))))))))
 
 ============================================
 Debugger statements
@@ -613,7 +656,10 @@ with (x) { i; }
 
 ---
 
-(program (with_statement (parenthesized_expression (identifier)) (statement_block (expression_statement (identifier)))))
+(program
+  (with_statement
+    object: (parenthesized_expression (identifier))
+    body: (statement_block (expression_statement (identifier)))))
 
 ==========================================
 Hash bang lines
