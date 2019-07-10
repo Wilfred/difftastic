@@ -39,7 +39,7 @@ function a ({b, c}, {d}) {}
 ---
 
 (program
-  (function (identifier)
+  (function_declaration (identifier)
     (formal_parameters
       (object_pattern (shorthand_property_identifier) (shorthand_property_identifier))
       (object_pattern (shorthand_property_identifier)))
@@ -83,12 +83,12 @@ function b({c} = {}) {}
 ---
 
 (program
-  (function (identifier)
+  (function_declaration (identifier)
     (formal_parameters
       (object_pattern (assignment_pattern (shorthand_property_identifier) (true)))
       (array_pattern (identifier) (assignment_expression (identifier) (false))))
     (statement_block))
-  (function (identifier)
+  (function_declaration (identifier)
     (formal_parameters
       (assignment_pattern (object_pattern (shorthand_property_identifier)) (object)))
     (statement_block)))

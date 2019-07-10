@@ -355,7 +355,7 @@ class Foo extends require('another-class') {
 ---
 
 (program
-  (class
+  (class_declaration
     (identifier)
     (class_body
       (method_definition
@@ -371,7 +371,7 @@ class Foo extends require('another-class') {
         (formal_parameters (identifier))
         (statement_block (return_statement (identifier))))))
 
-  (class
+  (class_declaration
     (identifier)
     (class_heritage (call_expression (identifier) (arguments (string))))
     (class_body
@@ -398,7 +398,7 @@ class Foo {
 ---
 
 (program
-  (class
+  (class_declaration
     (identifier)
     (class_body
       (method_definition
@@ -421,7 +421,7 @@ class Foo {
 ---
 
 (program
-  (class
+  (class_declaration
     (identifier)
     (class_body
       (public_field_definition (property_identifier) (number)))))
@@ -429,6 +429,7 @@ class Foo {
 ============================================
 Class Decorators
 ============================================
+
 @reload
 @eval
 class Foo {
@@ -440,13 +441,18 @@ class Foo {
 ---
 
 (program
-  (class
+  (class_declaration
     (decorator (identifier))
     (decorator (identifier))
     (identifier)
     (class_body
-      (decorator (call_expression (member_expression (identifier) (property_identifier)) (arguments (identifier))))
-      (method_definition (property_identifier) (formal_parameters) (statement_block)))))
+      (method_definition
+        (decorator (call_expression
+          (member_expression (identifier) (property_identifier))
+          (arguments (identifier))))
+        (property_identifier)
+        (formal_parameters)
+        (statement_block)))))
 
 ============================================
 Arrays
@@ -582,7 +588,7 @@ function a({b}, c = d, e = f) {
 ---
 
 (program
-  (function
+  (function_declaration
     (identifier)
     (formal_parameters
       (object_pattern (shorthand_property_identifier))
@@ -730,7 +736,7 @@ async (a) => { return foo; };
 ---
 
 (program
-  (function
+  (function_declaration
     (identifier)
     (formal_parameters)
     (statement_block))
@@ -740,7 +746,7 @@ async (a) => { return foo; };
         (property_identifier)
         (formal_parameters)
         (statement_block))))
-  (class (identifier) (class_body
+  (class_declaration (identifier) (class_body
     (method_definition
       (property_identifier)
       (formal_parameters)
