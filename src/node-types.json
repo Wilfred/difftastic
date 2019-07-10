@@ -1007,10 +1007,6 @@
           "named": true
         },
         {
-          "type": "lhs",
-          "named": true
-        },
-        {
           "type": "method_invocation",
           "named": true
         },
@@ -4904,33 +4900,6 @@
         },
         {
           "type": "update_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "lhs",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "array_access",
-          "named": true
-        },
-        {
-          "type": "field_access",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "scoped_identifier",
           "named": true
         }
       ]

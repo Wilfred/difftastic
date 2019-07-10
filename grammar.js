@@ -158,15 +158,13 @@ module.exports = grammar({
     )),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
-      $.lhs,
+      choice(
+        $._ambiguous_name,
+        $.field_access,
+        $.array_access
+      ),
       choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>='),
       $._expression)
-    ),
-
-    lhs: $ => choice(
-      $._ambiguous_name,
-      $.field_access,
-      $.array_access
     ),
 
     binary_expression: $ => choice(
@@ -493,9 +491,9 @@ module.exports = grammar({
       $.annotation
     ),
 
-    marker_annotation: $ => seq('@', $._ambiguous_name),
+    marker_annotation: $ => seq('@', choice($.identifier, $.scoped_identifier)),
 
-    annotation: $ => seq('@', $._ambiguous_name, $.annotation_argument_list),
+    annotation: $ => seq('@', choice($.identifier, $.scoped_identifier), $.annotation_argument_list),
 
     annotation_argument_list: $ => seq(
       '(',
@@ -506,17 +504,17 @@ module.exports = grammar({
       ')'
     ),
 
-    element_value_pair: $ => prec.right(10, seq(
+    element_value_pair: $ => seq(
       $.identifier,
       '=',
       $._element_value
-    )),
+    ),
 
-    _element_value: $ => choice(
+    _element_value: $ => prec(1, choice(
       $._expression,
       $.element_value_array_initializer,
       $._annotation
-    ),
+    )),
 
     element_value_array_initializer: $ => seq(
       '{',
