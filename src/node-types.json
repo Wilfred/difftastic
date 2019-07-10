@@ -289,21 +289,20 @@
   {
     "type": "array",
     "named": true,
-    "fields": {
-      "element": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "spread_element",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "spread_element",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -451,17 +450,16 @@
   {
     "type": "await_expression",
     "named": true,
-    "fields": {
-      "argument": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1519,25 +1517,24 @@
   {
     "type": "jsx_expression",
     "named": true,
-    "fields": {
-      "value": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "sequence_expression",
-            "named": true
-          },
-          {
-            "type": "spread_element",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "sequence_expression",
+          "named": true
+        },
+        {
+          "type": "spread_element",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1950,33 +1947,32 @@
   {
     "type": "object",
     "named": true,
-    "fields": {
-      "entry": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "assignment_pattern",
-            "named": true
-          },
-          {
-            "type": "method_definition",
-            "named": true
-          },
-          {
-            "type": "pair",
-            "named": true
-          },
-          {
-            "type": "shorthand_property_identifier",
-            "named": true
-          },
-          {
-            "type": "spread_element",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "assignment_pattern",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "pair",
+          "named": true
+        },
+        {
+          "type": "shorthand_property_identifier",
+          "named": true
+        },
+        {
+          "type": "spread_element",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2360,24 +2356,17 @@
   {
     "type": "template_string",
     "named": true,
-    "fields": {
-      "substitution": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "template_substitution",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
           "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "template_substitution",
           "named": true
         }
       ]
@@ -2386,21 +2375,20 @@
   {
     "type": "template_substitution",
     "named": true,
-    "fields": {
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "sequence_expression",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "sequence_expression",
+          "named": true
+        }
+      ]
     }
   },
   {
