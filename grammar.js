@@ -431,7 +431,7 @@ module.exports = grammar({
 
     object: $ => prec(PREC.OBJECT, seq(
       '{',
-      commaSep(optional(field('entry', choice(
+      commaSep(optional(choice(
         $.pair,
         $.spread_element,
         $.method_definition,
@@ -440,7 +440,7 @@ module.exports = grammar({
           choice($.identifier, $._reserved_identifier),
           $.shorthand_property_identifier
         )
-      )))),
+      ))),
       '}'
     )),
 
@@ -455,10 +455,10 @@ module.exports = grammar({
 
     array: $ => seq(
       '[',
-      commaSep(optional(field('element', choice(
+      commaSep(optional(choice(
         $._expression,
         $.spread_element
-      )))),
+      ))),
       ']'
     ),
 
@@ -476,11 +476,11 @@ module.exports = grammar({
 
     jsx_expression: $ => seq(
       '{',
-      field('value', optional(choice(
+      optional(choice(
         $._expression,
         $.sequence_expression,
         $.spread_element
-      ))),
+      )),
       '}'
     ),
 
@@ -657,7 +657,7 @@ module.exports = grammar({
 
     await_expression: $ => seq(
       'await',
-      field('argument', $._expression)
+      $._expression
     ),
 
     member_expression: $ => prec(PREC.MEMBER, seq(
@@ -842,14 +842,14 @@ module.exports = grammar({
       repeat(choice(
         $._template_chars,
         $.escape_sequence,
-        field('substitution', $.template_substitution)
+        $.template_substitution
       )),
       '`'
     ),
 
     template_substitution: $ => seq(
       '${',
-      field('value', $._expressions),
+      $._expressions,
       '}'
     ),
 
