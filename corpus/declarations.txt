@@ -12,22 +12,20 @@ class A {
 
 (program
   (class_declaration
-    (identifier)
-    (class_body
+    name: (identifier)
+    body: (class_body
       (method_declaration
         (modifiers)
-        (integral_type)
-        (method_declarator
-          (identifier)
-          (formal_parameters))
-        (block
+        type: (integral_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
           (local_variable_declaration_statement
             (local_variable_declaration
-              (integral_type)
-              (variable_declarator
-                (variable_declarator_id
-                  (identifier))
-                (decimal_integer_literal)))))))))
+              type: (integral_type)
+              declarator: (variable_declarator
+                name: (identifier)
+                value: (decimal_integer_literal)))))))))
 
 =====================
 local array variable
@@ -40,19 +38,27 @@ Integer[][] inputArrays = new Integer[0x100][];
 
 (program
   (local_variable_declaration_statement (local_variable_declaration
-    (array_type (type_identifier) (dimensions))
-    (variable_declarator
-      (variable_declarator_id (identifier))
-      (method_invocation
-        (method_invocation (identifier) (argument_list))
-        (identifier) (argument_list)))))
+    type: (array_type
+      element: (type_identifier)
+      dimensions: (dimensions))
+    declarator: (variable_declarator
+      name: (identifier)
+      value: (method_invocation
+        object: (method_invocation
+          name: (identifier)
+          arguments: (argument_list))
+        name: (identifier)
+        arguments: (argument_list)))))
   (local_variable_declaration_statement (local_variable_declaration
-    (array_type (type_identifier) (dimensions))
-    (variable_declarator
-      (variable_declarator_id (identifier))
-    (array_creation_expression
-      (type_identifier)
-      (dimensions_expr (hex_integer_literal)) (dimensions))))))
+    type: (array_type
+      element: (type_identifier)
+      dimensions: (dimensions))
+    declarator: (variable_declarator
+      name: (identifier)
+      value: (array_creation_expression
+        type: (type_identifier)
+        dimensions: (dimensions_expr (hex_integer_literal))
+        dimensions: (dimensions))))))
 
 ==========
 module
@@ -311,10 +317,11 @@ class Point {
     (class_body
       (field_declaration
         (integral_type)
-        (variable_declarator (variable_declarator_id (identifier))))
+        (variable_declarator (identifier)))
       (method_declaration
         (void_type)
-        (method_declarator (identifier) (formal_parameters))
+        (identifier)
+        (formal_parameters)
         (block
           (expression_statement
             (assignment_expression (identifier) (decimal_integer_literal))))))))
@@ -381,13 +388,12 @@ class Beyonce {
     (class_body
       (method_declaration
         (void_type)
-        (method_declarator
-          (identifier)
-          (formal_parameters
-            (formal_parameter (floating_point_type) (variable_declarator_id (identifier)))
-            (formal_parameter (integral_type) (variable_declarator_id (identifier)))
-            (formal_parameter (floating_point_type) (variable_declarator_id (identifier)))
-            (formal_parameter (floating_point_type) (variable_declarator_id (identifier)))))
+        (identifier)
+        (formal_parameters
+          (formal_parameter (floating_point_type) (identifier))
+          (formal_parameter (integral_type) (identifier))
+          (formal_parameter (floating_point_type) (identifier))
+          (formal_parameter (floating_point_type) (identifier)))
         (block (comment))))))
 
 ========================
@@ -410,14 +416,14 @@ class Point {
     (class_body
       (field_declaration
         (integral_type)
-        (variable_declarator (variable_declarator_id (identifier)))
-        (variable_declarator (variable_declarator_id (identifier))))
+        (variable_declarator (identifier))
+        (variable_declarator (identifier)))
       (constructor_declaration
         (constructor_declarator
           (identifier)
           (formal_parameters
-            (formal_parameter (integral_type) (variable_declarator_id (identifier)))
-            (formal_parameter (integral_type) (variable_declarator_id (identifier)))))
+            (formal_parameter (integral_type) (identifier))
+            (formal_parameter (integral_type) (identifier))))
         (constructor_body
           (expression_statement (assignment_expression
             (field_access (this) (identifier))
@@ -444,19 +450,18 @@ class Beyonce {
       (class_body
         (method_declaration
           (type_identifier)
-          (method_declarator
-            (identifier)
-            (formal_parameters))
+          (identifier)
+          (formal_parameters)
           (throws (type_identifier))
           (block
             (expression_statement
-              (class_instance_creation_expression
+              (object_creation_expression
                 (type_identifier)
                 (argument_list
-                  (class_instance_creation_expression
+                  (object_creation_expression
                     (type_identifier)
                     (argument_list
-                      (class_instance_creation_expression
+                      (object_creation_expression
                         (type_identifier)
                         (argument_list (identifier)))
                       (identifier)))))))))))
@@ -481,16 +486,15 @@ class Point {
       (method_declaration
         (modifiers)
         (floating_point_type)
-        (method_declarator
-          (identifier)
-          (formal_parameters))
+        (identifier)
+        (formal_parameters)
         (block
           (expression_statement
-            (class_instance_creation_expression
+            (object_creation_expression
               (type_identifier)
               (argument_list)))
           (expression_statement
-            (class_instance_creation_expression
+            (object_creation_expression
               (identifier)
               (type_identifier)
               (argument_list))))))))
@@ -514,15 +518,14 @@ class JayZ {
       (method_declaration
         (modifiers)
         (void_type)
-        (method_declarator
-          (identifier)
-          (formal_parameters))
+        (identifier)
+        (formal_parameters)
         (block
           (local_variable_declaration_statement
             (local_variable_declaration
               (integral_type)
               (variable_declarator
-                (variable_declarator_id (identifier))))))))))
+                (identifier)))))))))
 
 =================
 enum declaration
