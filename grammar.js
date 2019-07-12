@@ -69,7 +69,8 @@ module.exports = grammar({
       $.hex_integer_literal,
       $.octal_integer_literal,
       $.binary_integer_literal,
-      $.floating_point_literal,
+      $.decimal_floating_point_literal,
+      $.hex_floating_point_literal,
       $.true,
       $.false,
       $.character_literal,
@@ -100,11 +101,6 @@ module.exports = grammar({
       optional(choice('l', 'L'))
     )),
 
-    floating_point_literal: $ => choice(
-      $.decimal_floating_point_literal,
-      $.hex_floating_point_literal
-    ),
-
     decimal_floating_point_literal: $ => token(choice(
       seq(DIGITS, '.', optional(DIGITS), optional(seq((/[eE]/), optional(choice('-', '+')), DIGITS)), optional(/[fFdD]/)),
       seq('.', DIGITS, optional(seq((/[eE]/), optional(choice('-','+')), DIGITS)), optional(/[fFdD]/)),
@@ -118,10 +114,12 @@ module.exports = grammar({
         seq(HEX_DIGITS, optional('.')),
         seq(optional(HEX_DIGITS), '.', HEX_DIGITS)
       ),
+      optional(seq(
         /[eEpP]/,
-      optional(choice('-','+')),
-      DIGITS,
-      optional(/[fFdD]/)
+        optional(choice('-','+')),
+        DIGITS,
+        optional(/[fFdD]/)
+      ))
     )),
 
     true: $ => 'true',

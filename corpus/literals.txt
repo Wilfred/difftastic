@@ -59,7 +59,7 @@ binary integer literal
   (expression_statement (binary_integer_literal)))
 
 ===============================
-decimal_floating_point_literal
+floating point literals
 ===============================
 
 4.23e9;
@@ -74,22 +74,26 @@ decimal_floating_point_literal
 0.2e-2;
 0.0e-4;
 .2e-2;
+0x5.4;
+0x5.4e-10;
 
 ---
 
 (program
-  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
-  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
-  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
-  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
-  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
-  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
-  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
-  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
-  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
-  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
-  (expression_statement (floating_point_literal (decimal_floating_point_literal)))
-  (expression_statement (floating_point_literal (decimal_floating_point_literal))))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (hex_floating_point_literal))
+  (expression_statement (hex_floating_point_literal)))
 
 ================
 boolean literals
