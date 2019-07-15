@@ -3,7 +3,7 @@ language: node_js
 sudo: false
 
 node_js:
-  - "node"
+  - "11"
 
 compiler: clang
 env: CXX=clang
