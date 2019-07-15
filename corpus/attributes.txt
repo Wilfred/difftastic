@@ -15,6 +15,24 @@ Global attributes
 
 
 =======================================
+Attributes with arguments
+=======================================
+
+[A(B.C)]
+class D {}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (attribute_list
+      (attribute
+        (identifier_name)
+        (attribute_argument_list (qualified_name (identifier_name) (identifier_name)))))
+    (identifier_name)
+    (class_body)))
+
+=======================================
 Attributes on classes
 =======================================
 
@@ -34,19 +52,21 @@ class A { }
 (compilation_unit
   (class_declaration
     (attribute_list (attribute (identifier_name)))
-    (identifier_name))
+    (identifier_name)
+    (class_body))
 
   (class_declaration
     (attribute_list (attribute (identifier_name)))
     (attribute_list (attribute (identifier_name)))
     (attribute_list (attribute (identifier_name)))
-    (identifier_name))
+    (identifier_name)
+    (class_body))
 
   (class_declaration
     (attribute_list (attribute (identifier_name)))
     (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
-    (identifier_name)))
-
+    (identifier_name)
+    (class_body)))
 
 =======================================
 Attributes on structs
@@ -61,8 +81,8 @@ struct A { }
   (struct_declaration
     (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
     (attribute_list (attribute (identifier_name)))
-    (identifier_name)))
-
+    (identifier_name)
+    (class_body)))
 
 =======================================
 Attributes on fields
@@ -78,11 +98,15 @@ class Zzz {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (field_declaration
-      (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
-      (attribute_list (attribute (identifier_name)))
-      (modifiers) (variable_declaration (predefined_type) (variable_declarator (identifier_name))))))
-
+    (class_body
+      (field_declaration
+        (attribute_list
+          (attribute (identifier_name))
+          (attribute (identifier_name) (attribute_argument_list)))
+        (attribute_list
+          (attribute (identifier_name)))
+        (modifiers)
+        (variable_declaration (predefined_type) (variable_declarator (identifier_name)))))))
 
 =======================================
 Attributes on enums
@@ -137,21 +161,25 @@ class Zzz {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (event_declaration
-      (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
-      (attribute_list (attribute (identifier_name)))
-      (modifiers)
-      (identifier_name)
-      (identifier_name)
-      (add_accessor_declaration (statement_block))
-      (remove_accessor_declaration (statement_block)))))
+    (class_body
+      (event_declaration
+        (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
+        (attribute_list (attribute (identifier_name)))
+        (modifiers)
+        (identifier_name)
+        (identifier_name)
+        (add_accessor_declaration (statement_block))
+        (remove_accessor_declaration (statement_block))))))
 
 =======================================
 Attributes on event accessors
 =======================================
 
 class Zzz {
-  public event EventHandler SomeEvent {   [A,B()][C]add { }   [A,B()][C]remove { } }
+  public event EventHandler SomeEvent {
+    [A,B()][C] add { }
+    [A,B()][C] remove { }
+  }
 }
 
 ---
@@ -159,15 +187,16 @@ class Zzz {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (event_declaration
-      (modifiers)
-      (identifier_name)
-      (identifier_name)
-      (add_accessor_declaration
-        (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
-        (attribute_list (attribute (identifier_name)))
-        (statement_block))
-      (remove_accessor_declaration
-        (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
-        (attribute_list (attribute (identifier_name)))
-        (statement_block)))))
+    (class_body
+      (event_declaration
+        (modifiers)
+        (identifier_name)
+        (identifier_name)
+        (add_accessor_declaration
+          (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
+          (attribute_list (attribute (identifier_name)))
+          (statement_block))
+        (remove_accessor_declaration
+          (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
+          (attribute_list (attribute (identifier_name)))
+          (statement_block))))))

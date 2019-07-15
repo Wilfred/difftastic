@@ -78,54 +78,6 @@ namespace A {
       (qualified_name (identifier_name) (identifier_name)))))
 
 =====================================
-Classes
-=====================================
-
-namespace A {
-  public sealed class B {
-    protected class C {
-    }
-
-    internal static class D<T1> {
-    }
-
-    class E<T2, T3> {
-    }
-  }
-}
-
-class F {};
-
-class Outer {
-  class Inner { };
-}
-
----
-
-(compilation_unit
-  (namespace_declaration
-    (identifier_name)
-    (class_declaration
-      (modifiers)
-      (identifier_name)
-      (class_declaration
-        (modifiers)
-        (identifier_name))
-      (class_declaration
-        (modifiers)
-        (identifier_name)
-        (type_parameter_list
-          (type_parameter (identifier_name))))
-      (class_declaration
-        (identifier_name)
-        (type_parameter_list
-          (type_parameter (identifier_name))
-          (type_parameter (identifier_name))))))
-  (class_declaration (identifier_name))
-  (class_declaration (identifier_name)
-    (class_declaration (identifier_name))))
-
-=====================================
 Interfaces
 =====================================
 
@@ -138,27 +90,6 @@ public interface IFoo {
   (interface_declaration
     (modifiers)
     (identifier_name)))
-
-=====================================
-Structs
-=====================================
-
-struct A<T> {
-  private struct B {
-  }
-}
-
----
-
-(compilation_unit
-  (struct_declaration
-    (identifier_name)
-    (type_parameter_list
-      (type_parameter (identifier_name)))
-    (struct_declaration
-      (modifiers)
-      (identifier_name))))
-
 
 =====================================
 Externs
@@ -174,10 +105,11 @@ extern alias A;
 
 
 =====================================
-Delegate
+Delegates
 =====================================
 
 public delegate int Global(ref char a = '\n');
+
 delegate void A(params int [] test);
 
 class Z {
@@ -187,9 +119,17 @@ class Z {
 ---
 
 (compilation_unit
-  (delegate_declaration (modifiers) (predefined_type) (identifier_name)
-    (parameter_list (parameter (parameter_modifier) (predefined_type) (identifier_name) (default_argument (character_literal)))))
+  (delegate_declaration
+    (modifiers)
+    (predefined_type)
+    (identifier_name)
+    (parameter_list
+      (parameter
+        (parameter_modifier)
+        (predefined_type)
+        (identifier_name)
+        (default_argument (character_literal (escape_sequence))))))
   (delegate_declaration (void_keyword) (identifier_name)
     (parameter_list (parameter_array (array_type (predefined_type) (rank_specifier)) (identifier_name))))
-  (class_declaration (identifier_name)
-    (delegate_declaration (void_keyword) (identifier_name) (parameter_list))))
+  (class_declaration (identifier_name) (class_body
+    (delegate_declaration (void_keyword) (identifier_name) (parameter_list)))))

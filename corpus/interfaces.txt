@@ -120,7 +120,7 @@ private interface IOne<T1> : ITwo { }
   (interface_declaration
     (modifiers)
     (identifier_name)
-    (type_parameter_list (type_parameter (identifier_name)))
+    (type_parameter_list (identifier_name))
     (interface_base
       (identifier_name))))
 
@@ -136,7 +136,7 @@ private interface IOne<T1> : ITwo where T1:T2 { }
   (interface_declaration
     (modifiers)
     (identifier_name)
-    (type_parameter_list (type_parameter (identifier_name)))
+    (type_parameter_list (identifier_name))
     (interface_base (identifier_name))
      (type_parameter_constraints_clause
       (identifier_name)
@@ -155,8 +155,8 @@ private interface IOne<T1, T3> : ITwo where T1:T2 where T3:new() { }
     (modifiers)
     (identifier_name)
     (type_parameter_list
-      (type_parameter (identifier_name))
-      (type_parameter (identifier_name)))
+      (identifier_name)
+      (identifier_name))
     (interface_base (identifier_name))
      (type_parameter_constraints_clause
       (identifier_name)
@@ -197,7 +197,7 @@ interface A {
     (identifier_name)
     (interface_event_declaration
       (generic_name (identifier_name)
-        (type_parameter_list (type_parameter (identifier_name))))
+        (type_argument_list (identifier_name)))
       (identifier_name))))
 
 =====================================

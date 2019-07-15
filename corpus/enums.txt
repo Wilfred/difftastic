@@ -12,45 +12,21 @@ enum A { One }
     (enum_member_declaration (identifier_name))))
 
 =======================================
-enum in class with two options
+enum with integer values
 =======================================
 
-class A {
-  enum B { One, Two };
-}
+enum B { Ten = 10, Twenty = 20 }
 
 ---
 
 (compilation_unit
-  (class_declaration
+  (enum_declaration
     (identifier_name)
-    (enum_declaration
-      (identifier_name)
-      (enum_member_declaration (identifier_name))
-      (enum_member_declaration (identifier_name)))))
-
+    (enum_member_declaration (identifier_name) (integer_literal))
+    (enum_member_declaration (identifier_name) (integer_literal))))
 
 =======================================
-enum in struct with integer values
-=======================================
-
-struct A {
-  enum B { Ten = 10, Twenty = 20 }
-}
-
----
-
-(compilation_unit
-  (struct_declaration
-    (identifier_name)
-    (enum_declaration
-      (identifier_name)
-      (enum_member_declaration (identifier_name) (constant_expression (integer_literal)))
-      (enum_member_declaration (identifier_name) (constant_expression (integer_literal))))))
-
-
-=======================================
-enum in namespace with byte base
+enum with byte base
 =======================================
 
 namespace A {
@@ -64,5 +40,5 @@ namespace A {
     (identifier_name)
     (enum_declaration
       (identifier_name)
-      (enum_member_declaration (identifier_name) (constant_expression (integer_literal)))
-      (enum_member_declaration (identifier_name) (constant_expression (integer_literal))))))
+      (enum_member_declaration (identifier_name) (integer_literal))
+      (enum_member_declaration (identifier_name) (integer_literal)))))

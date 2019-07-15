@@ -1,0 +1,30 @@
+===================================
+if directives inside of namespaces
+====================================
+
+
+namespace foo {
+
+class bar {}
+
+#if WIN32
+
+class baz {}
+
+#endif
+
+}
+
+---
+
+(compilation_unit
+  (namespace_declaration (identifier_name)
+    (class_declaration (identifier_name) (class_body))
+    (if_directive (identifier_name)
+      (class_declaration (identifier_name) (class_body)))))
+
+============================
+Region directives
+===========================
+
+#region a cool region

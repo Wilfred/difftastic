@@ -13,38 +13,15 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (modifiers)
-      (predefined_type)
-      (identifier_name)
-      (parameter_list
-        (parameter (predefined_type) (identifier_name)))
-      (statement_block
-        (return_statement (identifier_name))))))
-
-=======================================
-Struct method with single parameter
-=======================================
-
-struct A {
-  private int GetBack(int b) {
-    return b;
-  }
-}
-
----
-
-(compilation_unit
-  (struct_declaration
-    (identifier_name)
-    (method_declaration
-      (modifiers)
-      (predefined_type)
-      (identifier_name)
-      (parameter_list
-        (parameter (predefined_type) (identifier_name)))
-      (statement_block
-        (return_statement (identifier_name))))))
+    (class_body
+      (method_declaration
+        (modifiers)
+        (predefined_type)
+        (identifier_name)
+        (parameter_list
+          (parameter (predefined_type) (identifier_name)))
+        (statement_block
+          (return_statement (identifier_name)))))))
 
 =======================================
 Class method with multiple parameters
@@ -60,13 +37,14 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (void_keyword)
-      (identifier_name)
-      (parameter_list
-        (parameter (identifier_name) (identifier_name))
-        (parameter (identifier_name) (identifier_name)))
-      (statement_block))))
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list
+          (parameter (identifier_name) (identifier_name))
+          (parameter (identifier_name) (identifier_name)))
+        (statement_block)))))
 
 =======================================
 Class generic method
@@ -82,13 +60,14 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (void_keyword)
-      (identifier_name)
-      (type_parameter_list (type_parameter (identifier_name)))
-      (parameter_list
-        (parameter (identifier_name) (identifier_name)))
-      (statement_block))))
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (type_parameter_list (identifier_name))
+        (parameter_list
+          (parameter (identifier_name) (identifier_name)))
+        (statement_block)))))
 
 =======================================
 Class generic method with new type constraint
@@ -104,16 +83,17 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (void_keyword)
-      (identifier_name)
-      (type_parameter_list (type_parameter (identifier_name)))
-      (parameter_list
-        (parameter (identifier_name) (identifier_name)))
-      (type_parameter_constraints_clause
+    (class_body
+      (method_declaration
+        (void_keyword)
         (identifier_name)
-        (type_parameter_constraints (constructor_constraint)))
-      (statement_block))))
+        (type_parameter_list (identifier_name))
+        (parameter_list
+          (parameter (identifier_name) (identifier_name)))
+        (type_parameter_constraints_clause
+          (identifier_name)
+          (type_parameter_constraints (constructor_constraint)))
+        (statement_block)))))
 
 =======================================
 Class generic method with multiple type constraints
@@ -131,23 +111,24 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (void_keyword)
-      (identifier_name)
-      (type_parameter_list
-        (type_parameter (identifier_name))
-        (type_parameter (identifier_name)))
-      (parameter_list
-        (parameter (identifier_name) (identifier_name))
-        (parameter (identifier_name) (identifier_name)))
-      (type_parameter_constraints_clause
+    (class_body
+      (method_declaration
+        (void_keyword)
         (identifier_name)
-        (type_parameter_constraints (constructor_constraint)))
-      (type_parameter_constraints_clause
-        (identifier_name)
-        (type_parameter_constraints
-          (identifier_name) (constructor_constraint)))
-      (statement_block))))
+        (type_parameter_list
+          (identifier_name)
+          (identifier_name))
+        (parameter_list
+          (parameter (identifier_name) (identifier_name))
+          (parameter (identifier_name) (identifier_name)))
+        (type_parameter_constraints_clause
+          (identifier_name)
+          (type_parameter_constraints (constructor_constraint)))
+        (type_parameter_constraints_clause
+          (identifier_name)
+          (type_parameter_constraints
+            (identifier_name) (constructor_constraint)))
+        (statement_block)))))
 
 =======================================
 Class method with out parameter
@@ -163,12 +144,13 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (void_keyword)
-      (identifier_name)
-      (parameter_list
-        (parameter (parameter_modifier) (predefined_type) (identifier_name)))
-      (statement_block))))
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list
+          (parameter (parameter_modifier) (predefined_type) (identifier_name)))
+        (statement_block)))))
 
 =======================================
 Class method with ref parameter
@@ -184,12 +166,13 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (void_keyword)
-      (identifier_name)
-      (parameter_list
-        (parameter (parameter_modifier) (predefined_type) (identifier_name)))
-      (statement_block))))
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list
+          (parameter (parameter_modifier) (predefined_type) (identifier_name)))
+        (statement_block)))))
 
 =======================================
 Class method with default parameter
@@ -205,15 +188,16 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (void_keyword)
-      (identifier_name)
-      (parameter_list
-        (parameter
-          (predefined_type)
-          (identifier_name)
-          (default_argument (integer_literal))))
-      (statement_block))))
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list
+          (parameter
+            (predefined_type)
+            (identifier_name)
+            (default_argument (integer_literal))))
+        (statement_block)))))
 
 =======================================
 Class static method with single parameter
@@ -230,11 +214,12 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (modifiers)
-      (predefined_type)
-      (identifier_name)
-      (parameter_list
-        (parameter (predefined_type) (identifier_name)))
-      (statement_block
-        (return_statement (identifier_name))))))
+    (class_body
+      (method_declaration
+        (modifiers)
+        (predefined_type)
+        (identifier_name)
+        (parameter_list
+          (parameter (predefined_type) (identifier_name)))
+        (statement_block
+          (return_statement (identifier_name)))))))

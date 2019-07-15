@@ -1,6 +1,7 @@
 =====================================
 Return constant
 =====================================
+
 class A {
   int Sample() {
     return 1;
@@ -12,16 +13,17 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (predefined_type)
       (identifier_name)
       (parameter_list)
       (statement_block
-        (return_statement (integer_literal))))))
+        (return_statement (integer_literal)))))))
 
 =====================================
 Return nothing
 =====================================
+
 class A {
   void Sample() {
     return;
@@ -33,18 +35,18 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (void_keyword)
-      (identifier_name)
-      (parameter_list)
-      (statement_block
-        (return_statement)))))
-
-
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list)
+        (statement_block
+          (return_statement))))))
 
 =====================================
-Break in while
+Break statement
 =====================================
+
 class A {
   void Sample() {
     while (true) break;
@@ -56,17 +58,19 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (void_keyword)
-      (identifier_name)
-      (parameter_list)
-      (statement_block
-        (while_statement (boolean_expression  (boolean_literal))
-          (break_statement))))))
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list)
+        (statement_block
+          (while_statement (boolean_literal)
+            (break_statement)))))))
 
 =====================================
-Continue in while
+Continue statement
 =====================================
+
 class A {
   void Sample() {
     while (false) continue;
@@ -78,17 +82,18 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
       (statement_block
-        (while_statement (boolean_expression (boolean_literal))
-          (continue_statement))))))
+        (while_statement (boolean_literal)
+          (continue_statement)))))))
 
 =====================================
 Throw nothing
 =====================================
+
 class A {
   void Sample() {
     throw;
@@ -100,16 +105,17 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
       (statement_block
-        (throw_statement)))))
+        (throw_statement))))))
 
 =====================================
 Throw exception
 =====================================
+
 class A {
   void Sample() {
     throw ex;
@@ -121,16 +127,17 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
       (statement_block
-        (throw_statement (identifier_name))))))
+        (throw_statement (identifier_name)))))))
 
 =====================================
 Do while
 =====================================
+
 class A {
   void Sample(bool a) {
     do { } while (a);
@@ -142,7 +149,7 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list
@@ -150,11 +157,12 @@ class A {
       (statement_block
         (do_statement
           (statement_block)
-          (boolean_expression (identifier_name)))))))
+          (identifier_name)))))))
 
 =====================================
 Goto statement and label
 =====================================
+
 class A {
   void Sample() {
     goto end;
@@ -168,17 +176,18 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
       (statement_block
         (goto_statement (label_name))
-        (label_name) (return_statement)))))
+        (label_name) (return_statement))))))
 
 =====================================
 If statement
 =====================================
+
 class A {
   int Sample() {
     if (true) return 1;
@@ -190,17 +199,18 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (predefined_type)
       (identifier_name)
       (parameter_list)
       (statement_block
-        (if_statement (boolean_expression (boolean_literal))
-          (return_statement (integer_literal)))))))
+        (if_statement (boolean_literal)
+          (return_statement (integer_literal))))))))
 
 =====================================
 If Else statement
 =====================================
+
 class A {
   int Sample() {
     if (true) return 1;
@@ -213,18 +223,19 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (predefined_type)
       (identifier_name)
       (parameter_list)
       (statement_block
-        (if_statement (boolean_expression (boolean_literal))
+        (if_statement (boolean_literal)
           (return_statement (integer_literal))
-          (return_statement (integer_literal)))))))
+          (return_statement (integer_literal))))))))
 
 =====================================
 Switch statement
 =====================================
+
 class A {
   int Sample(int a) {
     switch (a) {
@@ -243,7 +254,7 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (predefined_type)
       (identifier_name)
       (parameter_list
@@ -251,17 +262,18 @@ class A {
       (statement_block
         (switch_statement (identifier_name)
           (switch_section
-            (switch_label (constant_expression (integer_literal)))
-            (switch_label (constant_expression (integer_literal)))
+            (switch_label (integer_literal))
+            (switch_label (integer_literal))
             (return_statement (integer_literal)))
           (switch_section
             (switch_label)
             (statement_block
-              (return_statement (integer_literal)))))))))
+              (return_statement (integer_literal))))))))))
 
 =====================================
 Try finally statement
 =====================================
+
 class A {
   void Sample() {
     try {
@@ -275,7 +287,7 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
@@ -283,11 +295,12 @@ class A {
         (try_statement
           (statement_block)
           (finally_clause
-            (statement_block)))))))
+            (statement_block))))))))
 
 =====================================
 Try catch statement
 =====================================
+
 class A {
   void Sample() {
     try {
@@ -301,7 +314,7 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
@@ -310,11 +323,12 @@ class A {
           (statement_block)
           (catch_clause
             (identifier_name) (identifier_name)
-            (statement_block)))))))
+            (statement_block))))))))
 
 =====================================
 Try catch finally statement
 =====================================
+
 class A {
   void Sample() {
     try {
@@ -329,7 +343,7 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
@@ -340,11 +354,12 @@ class A {
             (identifier_name) (identifier_name)
             (statement_block))
           (finally_clause
-            (statement_block)))))))
+            (statement_block))))))))
 
 =====================================
 Try catch multiple statement
 =====================================
+
 class A {
   void Sample() {
     try {
@@ -359,7 +374,7 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
@@ -371,11 +386,12 @@ class A {
             (statement_block))
           (catch_clause
             (identifier_name) (identifier_name)
-            (statement_block)))))))
+            (statement_block))))))))
 
 =====================================
 Try catch filtered statement
 =====================================
+
 class A {
   void Sample() {
     try {
@@ -389,7 +405,7 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
@@ -399,11 +415,12 @@ class A {
           (catch_clause
             (identifier_name) (identifier_name)
             (binary_expression (identifier_name) (integer_literal))
-            (statement_block)))))))
+            (statement_block))))))))
 
 =====================================
 Checked statement
 =====================================
+
 class A {
   void Sample() {
     checked {
@@ -417,18 +434,19 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
       (statement_block
         (checked_statement
           (statement_block
-            (return_statement)))))))
+            (return_statement))))))))
 
 =====================================
 Unchecked statement
 =====================================
+
 class A {
   void Sample() {
     unchecked {
@@ -442,18 +460,19 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
       (statement_block
         (unchecked_statement
           (statement_block
-            (return_statement)))))))
+            (return_statement))))))))
 
 =====================================
 Lock statement
 =====================================
+
 class A {
   void Sample() {
     lock (this) {
@@ -467,7 +486,7 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
@@ -475,11 +494,12 @@ class A {
         (lock_statement
           (identifier_name)
           (statement_block
-            (return_statement)))))))
+            (return_statement))))))))
 
 =====================================
 Yield statement
 =====================================
+
 class A {
   IEnumerable<int> Sample() {
     yield return 1;
@@ -492,19 +512,20 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (generic_name
         (identifier_name)
-        (type_parameter_list (type_parameter (predefined_type))))
+        (type_argument_list (predefined_type)))
       (identifier_name)
       (parameter_list)
       (statement_block
         (yield_statement (integer_literal))
-        (yield_statement)))))
+        (yield_statement))))))
 
 =====================================
 Implicit local variable with literal initializer
 =====================================
+
 class A {
   void Sample() {
     var a = 1;
@@ -516,20 +537,20 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
       (statement_block
         (local_variable_declaration
-          (local_variable_declarator
+          (variable_declarator
             (identifier_name)
-              (local_variable_initializer
-                (integer_literal))))))))
+            (integer_literal))))))))
 
 =====================================
 Explicit local variable with literal initializer
 =====================================
+
 class A {
   void Sample() {
     int a = 1;
@@ -541,21 +562,21 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
       (statement_block
         (local_variable_declaration
           (predefined_type)
-          (local_variable_declarator
+          (variable_declarator
             (identifier_name)
-              (local_variable_initializer
-                (integer_literal))))))))
+            (integer_literal))))))))
 
 =====================================
 Explicit local variable with no initializer
 =====================================
+
 class A {
   void Sample() {
     int a;
@@ -567,19 +588,20 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
       (statement_block
         (local_variable_declaration
           (predefined_type)
-          (local_variable_declarator
-            (identifier_name)))))))
+          (variable_declarator
+            (identifier_name))))))))
 
 =====================================
 Explicit local variables with multiple literal initializers
 =====================================
+
 class A {
   void Sample() {
     int a = 1, b = 2;
@@ -591,25 +613,24 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
       (statement_block
         (local_variable_declaration
           (predefined_type)
-          (local_variable_declarator
+          (variable_declarator
             (identifier_name)
-              (local_variable_initializer
-                (integer_literal)))
-          (local_variable_declarator
+            (integer_literal))
+          (variable_declarator
             (identifier_name)
-              (local_variable_initializer
-                (integer_literal))))))))
+            (integer_literal))))))))
 
 =====================================
 Explicit local constant with literal initializer
 =====================================
+
 class A {
   void Sample() {
     const int a = 1;
@@ -621,7 +642,7 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
@@ -629,11 +650,12 @@ class A {
         (local_constant_declaration
           (predefined_type)
             (constant_declarator (identifier_name)
-              (constant_expression (integer_literal))))))))
+              (integer_literal))))))))
 
 =====================================
 Explicit local constant with multiple literal initializers
 =====================================
+
 class A {
   void Sample() {
     const int a = 1, b = 2;
@@ -645,7 +667,7 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
@@ -653,13 +675,14 @@ class A {
         (local_constant_declaration
           (predefined_type)
             (constant_declarator (identifier_name)
-              (constant_expression (integer_literal)))
+              (integer_literal))
             (constant_declarator (identifier_name)
-              (constant_expression (integer_literal))))))))
+              (integer_literal))))))))
 
 =====================================
 Using statement with implicit local variable
 =====================================
+
 class A {
   void Sample() {
     using (var a = b) {
@@ -673,23 +696,23 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
       (statement_block
         (using_statement
           (local_variable_declaration
-            (local_variable_declarator
+            (variable_declarator
               (identifier_name)
-                (local_variable_initializer
-                  (identifier_name))))
+              (identifier_name)))
           (statement_block
-            (return_statement)))))))
+            (return_statement))))))))
 
 =====================================
 Using statement with explicit local variable
 =====================================
+
 class A {
   void Sample() {
     using (Object a = b) {
@@ -703,7 +726,7 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
@@ -711,16 +734,16 @@ class A {
         (using_statement
           (local_variable_declaration
             (identifier_name)
-            (local_variable_declarator
+            (variable_declarator
               (identifier_name)
-                (local_variable_initializer
-                  (identifier_name))))
+              (identifier_name)))
           (statement_block
-            (return_statement)))))))
-        
+            (return_statement))))))))
+
 =====================================
 Using statement with expression
 =====================================
+
 class A {
   void Sample() {
     using (this) {
@@ -734,7 +757,7 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
+    (class_body (method_declaration
       (void_keyword)
       (identifier_name)
       (parameter_list)
@@ -742,5 +765,4 @@ class A {
         (using_statement
           (identifier_name)
           (statement_block
-            (return_statement)))))))
-        
+            (return_statement))))))))

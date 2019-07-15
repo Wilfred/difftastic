@@ -1,0 +1,177 @@
+=======================================
+integer literals
+=======================================
+
+const int dec = 1;
+const long hex = 0xf1l;
+const UInt64 dec = 1uL;
+
+---
+
+(compilation_unit
+  (constant_declaration
+    (predefined_type)
+    (constant_declarator (identifier_name) (integer_literal)))
+  (constant_declaration
+    (predefined_type)
+    (constant_declarator (identifier_name) (integer_literal)))
+  (constant_declaration
+    (identifier_name)
+    (constant_declarator (identifier_name) (integer_literal))))
+
+=======================================
+boolean literals
+=======================================
+
+const bool t = true, u = false;
+
+---
+
+(compilation_unit
+  (constant_declaration
+    (predefined_type)
+    (constant_declarator (identifier_name) (boolean_literal))
+    (constant_declarator (identifier_name) (boolean_literal))))
+
+=======================================
+char literals
+=======================================
+
+const char c = 'a';
+const char esc = '\n';
+const char hex = '\xf09a';
+const char uni16 = '\ua0bf';
+const char uni32 = '\UA0BFf9ca';
+
+---
+
+(compilation_unit
+  (constant_declaration
+    (predefined_type)
+    (constant_declarator (identifier_name) (character_literal)))
+  (constant_declaration
+    (predefined_type)
+    (constant_declarator (identifier_name) (character_literal (escape_sequence))))
+  (constant_declaration
+    (predefined_type)
+    (constant_declarator (identifier_name) (character_literal (escape_sequence))))
+  (constant_declaration
+    (predefined_type)
+    (constant_declarator (identifier_name) (character_literal (escape_sequence))))
+  (constant_declaration
+    (predefined_type)
+    (constant_declarator (identifier_name) (character_literal (escape_sequence)))))
+
+=======================================
+real literals
+=======================================
+
+const float s = 012.23F;
+const float e = 1e6f;
+const Single en = 0e-1f;
+const Single ep = 1e+12f;
+const double d = 0.9d;
+const decimal m = 0.9m;
+const Decimal m2 = 102.349m;
+
+---
+
+(compilation_unit
+  (constant_declaration
+    (predefined_type)
+    (constant_declarator (identifier_name) (real_literal)))
+  (constant_declaration
+    (predefined_type)
+    (constant_declarator (identifier_name) (real_literal)))
+  (constant_declaration
+    (identifier_name)
+    (constant_declarator (identifier_name) (real_literal)))
+  (constant_declaration
+    (identifier_name)
+    (constant_declarator (identifier_name) (real_literal)))
+  (constant_declaration
+    (predefined_type)
+    (constant_declarator (identifier_name) (real_literal)))
+  (constant_declaration
+    (predefined_type)
+    (constant_declarator (identifier_name) (real_literal)))
+  (constant_declaration
+    (identifier_name)
+    (constant_declarator (identifier_name) (real_literal))))
+
+=======================================
+null literals
+=======================================
+
+const string x = null;
+
+---
+
+(compilation_unit
+  (constant_declaration
+    (predefined_type)
+    (constant_declarator (identifier_name) (null_literal))))
+
+=======================================
+string literals
+=======================================
+
+class A {
+  String e = "";
+  string s = "a";
+  string m = "abc";
+  string esc = "ab\"\t";
+  string hex = "ab\x22r";
+  string hex2 = "\x22r\x00";
+  string u16 = "\ub0d0ok";
+  string u32 = "\uF1D20ff0test";
+  string ve = @"";
+  string v = @"abcde\ef";
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (field_declaration
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator (identifier_name) (string_literal))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier_name) (string_literal))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier_name) (string_literal))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier_name) (string_literal (escape_sequence) (escape_sequence)))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier_name) (string_literal (escape_sequence)))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier_name) (string_literal (escape_sequence) (escape_sequence)))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier_name) (string_literal (escape_sequence)))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier_name) (string_literal (escape_sequence)))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier_name) (verbatim_string_literal))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier_name) (verbatim_string_literal)))))))
