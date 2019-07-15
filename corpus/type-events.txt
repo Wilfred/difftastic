@@ -11,13 +11,14 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (event_declaration
-      (modifiers)
-      (generic_name (identifier_name)
-        (type_parameter_list (type_parameter (identifier_name))))
-      (identifier_name)
-      (add_accessor_declaration (statement_block))
-      (remove_accessor_declaration (statement_block)))))
+    (class_body
+      (event_declaration
+        (modifiers)
+        (generic_name (identifier_name)
+          (type_argument_list (identifier_name)))
+        (identifier_name)
+        (add_accessor_declaration (statement_block))
+        (remove_accessor_declaration (statement_block))))))
 
 =======================================
 Struct event declarations
@@ -32,10 +33,11 @@ struct A {
 (compilation_unit
   (struct_declaration
     (identifier_name)
-    (event_declaration
-      (modifiers)
-      (generic_name (identifier_name)
-        (type_parameter_list (type_parameter (identifier_name))))
-      (identifier_name)
-      (add_accessor_declaration (statement_block))
-      (remove_accessor_declaration (statement_block)))))
+    (class_body
+      (event_declaration
+        (modifiers)
+        (generic_name (identifier_name)
+          (type_argument_list (identifier_name)))
+        (identifier_name)
+        (add_accessor_declaration (statement_block))
+        (remove_accessor_declaration (statement_block))))))

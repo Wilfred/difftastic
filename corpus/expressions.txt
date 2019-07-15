@@ -13,16 +13,17 @@ class Foo {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (void_keyword)
-      (identifier_name)
-      (parameter_list)
-      (statement_block
-      (expression_statement
-        (ternary_expression
-          (identifier_name)
-          (string_literal)
-          (string_literal)))))))
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list)
+        (statement_block
+        (expression_statement
+          (ternary_expression
+            (identifier_name)
+            (string_literal)
+            (string_literal))))))))
 
 =====================================
 Binary Expressions
@@ -40,19 +41,20 @@ class Foo {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (void_keyword)
-      (identifier_name)
-      (parameter_list)
-      (statement_block
-      (expression_statement
-        (binary_expression
-          (identifier_name)
-          (identifier_name)))
-      (expression_statement
-        (binary_expression
-          (integer_literal)
-          (integer_literal)))))))
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list)
+        (statement_block
+        (expression_statement
+          (binary_expression
+            (identifier_name)
+            (identifier_name)))
+        (expression_statement
+          (binary_expression
+            (integer_literal)
+            (integer_literal))))))))
 
 =====================================
 Prefix-Unary Expressions
@@ -72,22 +74,44 @@ class Foo {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (method_declaration
-      (void_keyword)
-      (identifier_name)
-      (parameter_list)
-      (statement_block
-      (expression_statement
-        (unary_expression
-          (identifier_name)))
-      (expression_statement
-        (unary_expression
-          (identifier_name)))
-      (expression_statement
-        (unary_expression
-        (parenthesized_expression
-          (identifier_name))))
-      (expression_statement
-        (unary_expression
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list)
+        (statement_block
+        (expression_statement
+          (unary_expression
+            (identifier_name)))
+        (expression_statement
+          (unary_expression
+            (identifier_name)))
+        (expression_statement
+          (unary_expression
           (parenthesized_expression
-            (identifier_name))))))))
+            (identifier_name))))
+        (expression_statement
+          (unary_expression
+            (parenthesized_expression
+              (identifier_name)))))))))
+
+============================
+Object creation expressions
+============================
+
+void b() {
+  new C.D(1, "hi");
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (statement_block
+      (expression_statement
+        (object_creation_expression
+          (qualified_name (identifier_name) (identifier_name))
+          (argument_list (integer_literal) (string_literal)))))))

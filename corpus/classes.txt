@@ -9,7 +9,8 @@ public class F {}
 (compilation_unit
   (class_declaration
     (modifiers)
-    (identifier_name)))
+    (identifier_name)
+    (class_body)))
 
 =====================================
 Class base is dynamic
@@ -23,7 +24,8 @@ public class F : dynamic { }
   (class_declaration
     (modifiers)
     (identifier_name)
-    (class_base)))
+    (class_base)
+    (class_body)))
 
 =====================================
 Class base is object with interfaces
@@ -39,7 +41,8 @@ public class F : object, IAlpha, IOmega { }
     (identifier_name)
     (class_base
       (identifier_name)
-      (identifier_name))))
+      (identifier_name))
+    (class_body)))
 
 =====================================
 Partial class
@@ -52,7 +55,8 @@ public partial class F {}
 (compilation_unit
  (class_declaration
    (modifiers)
-   (identifier_name)))
+   (identifier_name)
+   (class_body)))
 
 =====================================
 Class with a single type parameter
@@ -65,7 +69,8 @@ class F<T> {}
 (compilation_unit
   (class_declaration
     (identifier_name)
-     (type_parameter_list (type_parameter (identifier_name)))))
+     (type_parameter_list (identifier_name))
+     (class_body)))
 
 =====================================
 Class with multiple type parameters
@@ -80,8 +85,9 @@ internal class F<T1, T2> {}
    (modifiers)
    (identifier_name)
     (type_parameter_list
-      (type_parameter (identifier_name))
-      (type_parameter (identifier_name)))))
+      (identifier_name)
+      (identifier_name))
+    (class_body)))
 
 =====================================
 Class with a type parameter struct constraint
@@ -95,9 +101,10 @@ public class F<T> where T:struct {}
   (class_declaration
     (modifiers)
     (identifier_name)
-     (type_parameter_list (type_parameter (identifier_name)))
-     (type_parameter_constraints_clause
-      (identifier_name) (type_parameter_constraints))))
+    (type_parameter_list (identifier_name))
+    (type_parameter_constraints_clause
+      (identifier_name) (type_parameter_constraints))
+    (class_body)))
 
 =====================================
 Class with a type parameter class constraint
@@ -111,9 +118,10 @@ public class F<T> where T:class {}
   (class_declaration
     (modifiers)
     (identifier_name)
-     (type_parameter_list (type_parameter (identifier_name)))
-     (type_parameter_constraints_clause
-      (identifier_name) (type_parameter_constraints))))
+    (type_parameter_list (identifier_name))
+    (type_parameter_constraints_clause
+      (identifier_name) (type_parameter_constraints))
+    (class_body)))
 
 =====================================
 Class with type parameter new constraint
@@ -127,10 +135,11 @@ public class F<T> where T: new() {}
   (class_declaration
     (modifiers)
     (identifier_name)
-     (type_parameter_list (type_parameter (identifier_name)))
-     (type_parameter_constraints_clause
+    (type_parameter_list (identifier_name))
+    (type_parameter_constraints_clause
       (identifier_name)
-       (type_parameter_constraints (constructor_constraint)))))
+      (type_parameter_constraints (constructor_constraint)))
+    (class_body)))
 
 =====================================
 Class with type parameter identifier constraint
@@ -144,10 +153,11 @@ public class F<T> where T: I {}
   (class_declaration
     (modifiers)
     (identifier_name)
-     (type_parameter_list (type_parameter (identifier_name)))
-     (type_parameter_constraints_clause
+    (type_parameter_list (identifier_name))
+    (type_parameter_constraints_clause
       (identifier_name)
-       (type_parameter_constraints (identifier_name)))))
+      (type_parameter_constraints (identifier_name)))
+    (class_body)))
 
 =====================================
 Class with type parameter identifier and new constraints
@@ -161,12 +171,13 @@ public class F<T> where T: I, new() {}
   (class_declaration
     (modifiers)
     (identifier_name)
-     (type_parameter_list (type_parameter (identifier_name)))
-     (type_parameter_constraints_clause
+    (type_parameter_list (identifier_name))
+    (type_parameter_constraints_clause
       (identifier_name)
       (type_parameter_constraints
         (identifier_name)
-        (constructor_constraint)))))
+        (constructor_constraint)))
+    (class_body)))
 
 =====================================
 Class with multiple type parameter constraints
@@ -180,18 +191,19 @@ private class F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
   (class_declaration
     (modifiers)
     (identifier_name)
-     (type_parameter_list
-      (type_parameter (identifier_name))
-      (type_parameter (identifier_name)))
-     (type_parameter_constraints_clause
+    (type_parameter_list
+      (identifier_name)
+      (identifier_name))
+    (type_parameter_constraints_clause
       (identifier_name)
       (type_parameter_constraints
         (identifier_name)
         (identifier_name)
         (constructor_constraint)))
     (type_parameter_constraints_clause
-     (identifier_name)
-     (type_parameter_constraints (identifier_name)))))
+      (identifier_name)
+      (type_parameter_constraints (identifier_name)))
+    (class_body)))
 
 =====================================
 Class with public constructor
@@ -206,67 +218,12 @@ class Foo {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (constructor_declaration
-      (modifiers)
-      (identifier_name)
-      (parameter_list)
-      (statement_block))))
-
-=====================================
-Class with private constructor
-=====================================
-
-class Foo {
-  private Foo() {}
-}
-
----
-
-(compilation_unit
-  (class_declaration
-    (identifier_name)
-    (constructor_declaration
-      (modifiers)
-      (identifier_name)
-      (parameter_list)
-      (statement_block))))
-
-=====================================
-Class with protected constructor
-=====================================
-
-class Foo {
-  protected Foo() {}
-}
-
----
-
-(compilation_unit
-  (class_declaration
-    (identifier_name)
-    (constructor_declaration
-      (modifiers)
-      (identifier_name)
-      (parameter_list)
-      (statement_block))))
-
-=====================================
-Class with default constructor
-=====================================
-
-class Foo {
-  Foo() {}
-}
-
----
-
-(compilation_unit
-  (class_declaration
-    (identifier_name)
-    (constructor_declaration
-      (identifier_name)
-      (parameter_list)
-      (statement_block))))
+    (class_body
+      (constructor_declaration
+        (modifiers)
+        (identifier_name)
+        (parameter_list)
+        (statement_block)))))
 
 =====================================
 Class with static constructor
@@ -283,21 +240,22 @@ class Foo {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (constructor_declaration
-      (modifiers)
-      (identifier_name)
-      (parameter_list)
-      (statement_block))
-    (constructor_declaration
-      (modifiers)
-      (identifier_name)
-      (parameter_list)
-      (statement_block))
-    (constructor_declaration
-      (modifiers)
-      (identifier_name)
-      (parameter_list)
-      (statement_block))))
+    (class_body
+      (constructor_declaration
+        (modifiers)
+        (identifier_name)
+        (parameter_list)
+        (statement_block))
+      (constructor_declaration
+        (modifiers)
+        (identifier_name)
+        (parameter_list)
+        (statement_block))
+      (constructor_declaration
+        (modifiers)
+        (identifier_name)
+        (parameter_list)
+        (statement_block)))))
 
 =====================================
 Class with extern destructor
@@ -312,10 +270,11 @@ class Foo {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (destructor_declaration
-      (identifier_name)
-      (parameter_list)
-      (statement_block))))
+    (class_body
+      (destructor_declaration
+        (identifier_name)
+        (parameter_list)
+        (statement_block)))))
 
 =====================================
 Class with constants
@@ -331,19 +290,18 @@ class Foo {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (constant_declaration
-      (modifiers)
-      (predefined_type)
-      (constant_declarator
-        (identifier_name)
-        (constant_expression
-        (integer_literal))))
-    (constant_declaration
-      (predefined_type)
-      (constant_declarator
-        (identifier_name)
-        (constant_expression
-        (string_literal))))))
+    (class_body
+      (constant_declaration
+        (modifiers)
+        (predefined_type)
+        (constant_declarator
+          (identifier_name)
+          (integer_literal)))
+      (constant_declaration
+        (predefined_type)
+        (constant_declarator
+          (identifier_name)
+          (string_literal))))))
 
 =====================================
 Class with indexer
@@ -361,11 +319,34 @@ class Foo {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (indexer_declaration
-      (modifiers)
-      (predefined_type)
-      (parameter (predefined_type) (identifier_name))
-      (get_accessor_declaration
-        (statement_block (return_statement (identifier_name))))
-      (set_accessor_declaration
-        (statement_block (variable_assignment_statement (identifier_name) (equals_value_clause (identifier_name))))))))
+    (class_body
+      (indexer_declaration
+        (modifiers)
+        (predefined_type)
+        (parameter (predefined_type) (identifier_name))
+        (accessor_declaration
+          (statement_block (return_statement (identifier_name))))
+        (accessor_declaration
+          (statement_block (variable_assignment_statement (identifier_name) (identifier_name))))))))
+
+=================================
+Method with qualified return type
+=================================
+
+class A {
+  B.C d() {
+    return null;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration (identifier_name)
+    (class_body
+      (method_declaration
+        (qualified_name (identifier_name) (identifier_name))
+        (identifier_name)
+        (parameter_list)
+        (statement_block
+          (return_statement (null_literal)))))))

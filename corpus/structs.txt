@@ -1,59 +1,4 @@
 =====================================
-Global empty struct
-=====================================
-
-public struct F {}
-
----
-
-(compilation_unit
-  (struct_declaration
-    (modifiers)
-    (identifier_name)))
-
-=====================================
-Partial struct
-=====================================
-
-public partial struct F {}
-
----
-
-(compilation_unit
- (struct_declaration
-   (modifiers)
-   (identifier_name)))
-
-=====================================
-Struct with a single type parameter
-=====================================
-
-struct F<T> {}
-
----
-
-(compilation_unit
-  (struct_declaration
-    (identifier_name)
-     (type_parameter_list (type_parameter (identifier_name)))))
-
-=====================================
-Struct with multiple type parameters
-=====================================
-
-internal struct F<T1, T2> {}
-
----
-
-(compilation_unit
- (struct_declaration
-   (modifiers)
-   (identifier_name)
-    (type_parameter_list
-      (type_parameter (identifier_name))
-      (type_parameter (identifier_name)))))
-
-=====================================
 Struct with a type parameter struct constraint
 =====================================
 
@@ -65,9 +10,10 @@ public struct F<T> where T:struct {}
   (struct_declaration
     (modifiers)
     (identifier_name)
-     (type_parameter_list (type_parameter (identifier_name)))
-     (type_parameter_constraints_clause
-      (identifier_name) (type_parameter_constraints))))
+    (type_parameter_list (identifier_name))
+    (type_parameter_constraints_clause
+      (identifier_name) (type_parameter_constraints))
+    (class_body)))
 
 =====================================
 Struct with a type parameter class constraint
@@ -81,9 +27,10 @@ public struct F<T> where T:class {}
   (struct_declaration
     (modifiers)
     (identifier_name)
-     (type_parameter_list (type_parameter (identifier_name)))
-     (type_parameter_constraints_clause
-      (identifier_name) (type_parameter_constraints))))
+    (type_parameter_list (identifier_name))
+    (type_parameter_constraints_clause
+      (identifier_name) (type_parameter_constraints))
+    (class_body)))
 
 =====================================
 Struct with type parameter new constraint
@@ -97,46 +44,11 @@ public struct F<T> where T: new() {}
   (struct_declaration
     (modifiers)
     (identifier_name)
-     (type_parameter_list (type_parameter (identifier_name)))
-     (type_parameter_constraints_clause
+    (type_parameter_list (identifier_name))
+    (type_parameter_constraints_clause
       (identifier_name)
-       (type_parameter_constraints (constructor_constraint)))))
-
-=====================================
-Struct with type parameter identifier constraint
-=====================================
-
-public struct F<T> where T: I {}
-
----
-
-(compilation_unit
-  (struct_declaration
-    (modifiers)
-    (identifier_name)
-     (type_parameter_list (type_parameter (identifier_name)))
-     (type_parameter_constraints_clause
-      (identifier_name)
-       (type_parameter_constraints (identifier_name)))))
-
-=====================================
-Struct with type parameter identifier and new constraints
-=====================================
-
-public struct F<T> where T: I, new() {}
-
----
-
-(compilation_unit
-  (struct_declaration
-    (modifiers)
-    (identifier_name)
-     (type_parameter_list (type_parameter (identifier_name)))
-     (type_parameter_constraints_clause
-      (identifier_name)
-      (type_parameter_constraints
-        (identifier_name)
-        (constructor_constraint)))))
+      (type_parameter_constraints (constructor_constraint)))
+    (class_body)))
 
 =====================================
 Struct with multiple type parameter constraints
@@ -151,8 +63,8 @@ private struct F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
     (modifiers)
     (identifier_name)
      (type_parameter_list
-      (type_parameter (identifier_name))
-      (type_parameter (identifier_name)))
+      (identifier_name)
+      (identifier_name))
      (type_parameter_constraints_clause
       (identifier_name)
       (type_parameter_constraints
@@ -160,146 +72,6 @@ private struct F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
         (identifier_name)
         (constructor_constraint)))
     (type_parameter_constraints_clause
-     (identifier_name)
-     (type_parameter_constraints (identifier_name)))))
-
-=====================================
-Struct with public constructor
-=====================================
-
-struct Foo {
-  public Foo() {}
-}
-
----
-
-(compilation_unit
-  (struct_declaration
-    (identifier_name)
-    (constructor_declaration
-      (modifiers)
       (identifier_name)
-      (parameter_list)
-      (statement_block))))
-
-=====================================
-Struct with private constructor
-=====================================
-
-struct Foo {
-  private Foo() {}
-}
-
----
-
-(compilation_unit
-  (struct_declaration
-    (identifier_name)
-    (constructor_declaration
-      (modifiers)
-      (identifier_name)
-      (parameter_list)
-      (statement_block))))
-
-=====================================
-Struct with default constructor
-=====================================
-
-struct Foo {
-  Foo() {}
-}
-
----
-
-(compilation_unit
-  (struct_declaration
-    (identifier_name)
-    (constructor_declaration
-      (identifier_name)
-      (parameter_list)
-      (statement_block))))
-
-=====================================
-Struct with static constructor
-=====================================
-
-class Foo {
-  static Foo() {}
-  static extern Foo() {}
-  extern static Foo() {}
-}
-
----
-
-(compilation_unit
-  (class_declaration
-    (identifier_name)
-    (constructor_declaration
-      (modifiers)
-      (identifier_name)
-      (parameter_list)
-      (statement_block))
-    (constructor_declaration
-      (modifiers)
-      (identifier_name)
-      (parameter_list)
-      (statement_block))
-    (constructor_declaration
-      (modifiers)
-      (identifier_name)
-      (parameter_list)
-      (statement_block))))
-
-=====================================
-Struct with constants
-=====================================
-
-struct Foo {
-  private const int a = 1;
-  const string b = "hello";
-}
-
----
-
-(compilation_unit
-  (struct_declaration
-    (identifier_name)
-    (constant_declaration
-      (modifiers)
-      (predefined_type)
-      (constant_declarator
-        (identifier_name)
-        (constant_expression
-        (integer_literal))))
-    (constant_declaration
-      (predefined_type)
-      (constant_declarator
-        (identifier_name)
-        (constant_expression
-        (string_literal))))))
-
-
-=====================================
-Struct with indexer
-=====================================
-
-struct Foo {
-  public bool this[int index] {
-    get { return a; }
-    set { a = value; }
-  }
-}
-
----
-
-(compilation_unit
-  (struct_declaration
-    (identifier_name)
-    (indexer_declaration
-      (modifiers)
-      (predefined_type)
-      (parameter (predefined_type) (identifier_name))
-      (get_accessor_declaration
-        (statement_block (return_statement (identifier_name))))
-      (set_accessor_declaration
-        (statement_block (variable_assignment_statement (identifier_name) (equals_value_clause (identifier_name))))))))
+      (type_parameter_constraints (identifier_name)))
+    (class_body)))
