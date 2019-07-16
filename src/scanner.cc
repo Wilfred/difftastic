@@ -286,8 +286,8 @@ struct Scanner
                 {
                     advance(lexer);
                     lexer->result_symbol = LINE_COMMENT;
-                    // Take everything until the line ends
-                    while (lexer->lookahead != '\n')
+                    // Take everything until the line or the file ends
+                    while (lexer->lookahead != '\n' && lexer->lookahead != '\0')
                     {
                         advance(lexer);
                     }
