@@ -309,11 +309,11 @@ for (let {a, b} of items || [])
 ---
 
 (program
-  (for_of_statement
+  (for_in_statement
     (identifier)
     (identifier)
     (expression_statement (call_expression (identifier) (arguments (identifier)))))
-  (for_of_statement
+  (for_in_statement
     (object_pattern (shorthand_property_identifier) (shorthand_property_identifier))
     (binary_expression (identifier) (array))
     (expression_statement (call_expression (identifier) (arguments (identifier) (identifier))))))
@@ -329,7 +329,7 @@ for await (const chunk of stream) {
 ---
 
 (program
-  (for_of_statement
+  (for_in_statement
     (identifier)
     (identifier)
     (statement_block
@@ -529,7 +529,7 @@ switch (x) {
 ---
 
 (program
-  (switch_statement (identifier) (switch_body
+  (switch_statement (parenthesized_expression (identifier)) (switch_body
     (switch_case (number))
     (switch_case (number)
       (expression_statement (call_expression (identifier) (arguments)))
