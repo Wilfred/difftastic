@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-elm",
-  "version": "2.4.1",
+  "version": "2.5.0",
   "description": "Tree sitter definitions for elm",
   "main": "index.js",
   "keywords": [
@@ -10,12 +10,12 @@
   "author": "Razze",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.13.2",
+    "nan": "^2.14.0",
     "prebuild-install": "^5.3.0"
   },
   "devDependencies": {
-    "prebuild": "^9.0.0",
-    "tree-sitter-cli": "^0.15.5"
+    "prebuild": "^9.0.1",
+    "tree-sitter-cli": "^0.15.6"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build --debug",
