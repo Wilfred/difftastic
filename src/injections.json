@@ -22,16 +22,6 @@
       "property_set_id": 0,
       "transitions": [
         {
-          "type": "macro_invocation",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "macro_rule",
-          "named": true,
-          "state_id": 1
-        },
-        {
           "type": "token_tree",
           "named": true,
           "state_id": 2
@@ -42,18 +32,7 @@
     {
       "id": 2,
       "property_set_id": 1,
-      "transitions": [
-        {
-          "type": "macro_invocation",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "macro_rule",
-          "named": true,
-          "state_id": 1
-        }
-      ],
+      "transitions": [],
       "default_next_state_id": 0
     }
   ],
