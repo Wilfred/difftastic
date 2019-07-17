@@ -17,6 +17,8 @@ call_expression > identifier {
 
 function,
 generator_function,
+function_declaration,
+generator_function_declaration,
 call_expression {
   & > identifier {
     highlight: 'function';
@@ -55,7 +57,7 @@ formal_parameters {
   }
 }
 
-arrow_function > identifier:nth-child(0) {
+arrow_function > .parameter {
   highlight: 'variable.parameter';
   local-definition: true;
 }
