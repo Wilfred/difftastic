@@ -20,35 +20,13 @@
     {
       "id": 1,
       "property_set_id": 1,
-      "transitions": [
-        {
-          "type": "style_element",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "script_element",
-          "named": true,
-          "state_id": 2
-        }
-      ],
+      "transitions": [],
       "default_next_state_id": 0
     },
     {
       "id": 2,
       "property_set_id": 2,
-      "transitions": [
-        {
-          "type": "style_element",
-          "named": true,
-          "state_id": 1
-        },
-        {
-          "type": "script_element",
-          "named": true,
-          "state_id": 2
-        }
-      ],
+      "transitions": [],
       "default_next_state_id": 0
     }
   ],
