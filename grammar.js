@@ -330,13 +330,13 @@ module.exports = grammar({
 
     return_statement: $ => seq(
       'return',
-      optional(field('argument', $._expressions)),
+      optional($._expressions),
       $._semicolon
     ),
 
     throw_statement: $ => seq(
       'throw',
-      field('argument', $._expressions),
+      $._expressions,
       $._semicolon
     ),
 
@@ -414,7 +414,7 @@ module.exports = grammar({
 
     yield_expression: $ => prec.right(seq(
       'yield',
-      optional(field('argument', $._expression))
+      optional($._expression)
     )),
 
     object: $ => prec(PREC.OBJECT, seq(
