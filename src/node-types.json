@@ -218,10 +218,6 @@
         "named": true
       },
       {
-        "type": "for_of_statement",
-        "named": true
-      },
-      {
         "type": "for_statement",
         "named": true
       },
@@ -1012,7 +1008,7 @@
         ]
       },
       "left": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1026,51 +1022,7 @@
         ]
       },
       "right": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "sequence_expression",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "for_of_statement",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "_statement",
-            "named": true
-          }
-        ]
-      },
-      "left": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "_destructuring_pattern",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "right": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -2133,21 +2085,20 @@
   {
     "type": "return_statement",
     "named": true,
-    "fields": {
-      "argument": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "sequence_expression",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "sequence_expression",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2342,11 +2293,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "sequence_expression",
+            "type": "parenthesized_expression",
             "named": true
           }
         ]
@@ -2430,21 +2377,20 @@
   {
     "type": "throw_statement",
     "named": true,
-    "fields": {
-      "argument": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "sequence_expression",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "sequence_expression",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2663,17 +2609,16 @@
   {
     "type": "yield_expression",
     "named": true,
-    "fields": {
-      "argument": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2741,6 +2686,10 @@
     "named": false
   },
   {
+    "type": "for",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -2749,15 +2698,11 @@
     "named": false
   },
   {
-    "type": "for",
+    "type": "await",
     "named": false
   },
   {
     "type": "in",
-    "named": false
-  },
-  {
-    "type": "await",
     "named": false
   },
   {
