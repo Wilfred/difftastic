@@ -75,17 +75,15 @@ module.exports = grammar({
 
   rules: {
     source_file: $ => repeat(seq(
-      $._top_level_declaration,
+      choice(
+        $.package_clause,
+        $.function_declaration,
+        $.method_declaration,
+        $.import_declaration,
+        $._declaration
+      ),
       optional(terminator)
     )),
-
-    _top_level_declaration: $ => choice(
-      $.package_clause,
-      $.function_declaration,
-      $.method_declaration,
-      $.import_declaration,
-      $._declaration
-    ),
 
     package_clause: $ => seq(
       'package',

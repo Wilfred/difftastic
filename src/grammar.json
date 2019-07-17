@@ -8,8 +8,29 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_top_level_declaration"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "package_clause"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "function_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "method_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "import_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_declaration"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -34,31 +55,6 @@
           }
         ]
       }
-    },
-    "_top_level_declaration": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "package_clause"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "method_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "import_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_declaration"
-        }
-      ]
     },
     "package_clause": {
       "type": "SEQ",
