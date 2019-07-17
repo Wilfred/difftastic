@@ -193,7 +193,6 @@ module.exports = grammar({
       $.switch_statement,
       $.for_statement,
       $.for_in_statement,
-      $.for_of_statement,
       $.while_statement,
       $.do_statement,
       $.try_statement,
@@ -217,8 +216,6 @@ module.exports = grammar({
       commaSep1($.variable_declarator),
       $._semicolon
     ),
-
-    // let x = y, z = a;
 
     lexical_declaration: $ => seq(
       choice('let', 'const'),
@@ -249,9 +246,7 @@ module.exports = grammar({
 
     switch_statement: $ => seq(
       'switch',
-      '(',
-      field('value', $._expressions),
-      ')',
+      field('value', $.parenthesized_expression),
       field('body', $.switch_body)
     ),
 
@@ -275,25 +270,18 @@ module.exports = grammar({
 
     for_in_statement: $ => seq(
       'for',
-      '(',
-      optional(choice('var', 'let', 'const')),
-      field('left', choice($.identifier, $._destructuring_pattern)),
-      'in',
-      field('right', $._expressions),
-      ')',
+      optional('await'),
+      $._for_header,
       field('body', $._statement)
     ),
 
-    for_of_statement: $ => seq(
-      'for',
-      optional('await'),
+    _for_header: $ => seq(
       '(',
       optional(choice('var', 'let', 'const')),
       field('left', choice($.identifier, $._destructuring_pattern)),
-      'of',
+      choice('in', 'of'),
       field('right', $._expression),
       ')',
-      field('body', $._statement)
     ),
 
     while_statement: $ => seq(

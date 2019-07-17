@@ -228,7 +228,7 @@ if (p) { var q }
     (for_in_statement (identifier) (identifier)
       (break_statement))))
   (if_statement (parenthesized_expression (identifier)) (statement_block
-    (for_of_statement (identifier) (identifier)
+    (for_in_statement (identifier) (identifier)
       (continue_statement))))
   (if_statement (parenthesized_expression (identifier)) (statement_block
     (while_statement
