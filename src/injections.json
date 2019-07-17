@@ -15,13 +15,7 @@
     {
       "id": 1,
       "property_set_id": 1,
-      "transitions": [
-        {
-          "type": "regex",
-          "named": true,
-          "state_id": 1
-        }
-      ],
+      "transitions": [],
       "default_next_state_id": 0
     }
   ],
