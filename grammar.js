@@ -320,7 +320,7 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      field('parameters', optional($._parameters)),
+      optional($._parameters),
       ')'
     ),
 
