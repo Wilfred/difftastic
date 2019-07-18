@@ -218,7 +218,8 @@ Objects
 ---
 
 (program
-  (expression_statement (object))
+  (statement_block)
+  (empty_statement)
   (expression_statement (object
     (pair (property_identifier) (string))))
   (expression_statement (object

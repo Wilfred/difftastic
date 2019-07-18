@@ -249,7 +249,7 @@ for (var i = 0
       right: (identifier)))
     increment: (update_expression
       argument: (identifier))
-    body: (expression_statement (object))))
+    body: (statement_block)))
 
 ============================================
 For-in statements
@@ -349,6 +349,10 @@ While statements
 while (a)
   b();
 
+while (a) {
+
+}
+
 ---
 
 (program
@@ -356,7 +360,10 @@ while (a)
     condition: (parenthesized_expression (identifier))
     body: (expression_statement (call_expression
       function: (identifier)
-      arguments: (arguments)))))
+      arguments: (arguments))))
+  (while_statement
+    condition: (parenthesized_expression (identifier))
+    body: (statement_block)))
 
 ============================================
 Do statements
@@ -367,6 +374,9 @@ do {
 } while (b)
 
 do a; while (b)
+
+do {} while (b)
+
 ---
 
 (program
@@ -375,6 +385,9 @@ do a; while (b)
     condition: (parenthesized_expression (identifier)))
   (do_statement
     body: (expression_statement (identifier))
+    condition: (parenthesized_expression (identifier)))
+  (do_statement
+    body: (statement_block)
     condition: (parenthesized_expression (identifier))))
 
 ============================================
@@ -604,6 +617,7 @@ Empty statements
 ============================================
 
 if (true) { ; };;;
+if (true) {} else {}
 
 ---
 
@@ -613,7 +627,11 @@ if (true) { ; };;;
     (statement_block (empty_statement)))
   (empty_statement)
   (empty_statement)
-  (empty_statement))
+  (empty_statement)
+  (if_statement
+    (parenthesized_expression (true))
+    (statement_block)
+    (statement_block)))
 
 ============================================
 Labeled statements
@@ -661,12 +679,17 @@ With statements
 
 with (x) { i; }
 
+with (x) { }
+
 ---
 
 (program
   (with_statement
     object: (parenthesized_expression (identifier))
-    body: (statement_block (expression_statement (identifier)))))
+    body: (statement_block (expression_statement (identifier))))
+  (with_statement
+    object: (parenthesized_expression (identifier))
+    body: (statement_block)))
 
 ==========================================
 Hash bang lines
