@@ -2,6 +2,7 @@
 #include <wctype.h>
 
 enum TokenType {
+  STRING_CONTENT,
   RAW_STRING_LITERAL,
   FLOAT_LITERAL,
   BLOCK_COMMENT,
@@ -23,6 +24,21 @@ static bool is_num_char(int32_t c) {
 
 bool tree_sitter_rust_external_scanner_scan(void *payload, TSLexer *lexer,
                                             const bool *valid_symbols) {
+  if (valid_symbols[STRING_CONTENT]) {
+    bool has_content = false;
+    for (;;) {
+      if (lexer->lookahead == '\"' || lexer->lookahead == '\\') {
+        break;
+      } else if (lexer->lookahead == 0) {
+        return false;
+      }
+      has_content = true;
+      advance(lexer);
+    }
+    lexer->result_symbol = STRING_CONTENT;
+    return has_content;
+  }
+
   while (iswspace(lexer->lookahead)) lexer->advance(lexer, true);
 
   if (

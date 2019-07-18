@@ -41,6 +41,7 @@ module.exports = grammar({
   extras: $ => [/\s/, $.line_comment, $.block_comment],
 
   externals: $ => [
+    $._string_content,
     $.raw_string_literal,
     $.float_literal,
     $.block_comment,
@@ -1256,7 +1257,7 @@ module.exports = grammar({
       alias(/b?"/, '"'),
       repeat(choice(
         $.escape_sequence,
-        token.immediate(prec(1, /[^\\"]+/))
+        $._string_content
       )),
       token.immediate('"')
     ),
