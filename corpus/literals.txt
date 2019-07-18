@@ -60,6 +60,9 @@ b"foo\nbar";
 "foo\
     bar";
 "\"foo\"";
+"/* foo bar */ foo bar";
+"foo\x42\x43bar";
+"foo \x42  \x43 bar";
 
 ---
 
@@ -68,6 +71,9 @@ b"foo\nbar";
   (string_literal)
   (string_literal (escape_sequence))
   (string_literal (escape_sequence))
+  (string_literal (escape_sequence) (escape_sequence))
+  (string_literal)
+  (string_literal (escape_sequence) (escape_sequence))
   (string_literal (escape_sequence) (escape_sequence)))
 
 ============================================
