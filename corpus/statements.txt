@@ -264,6 +264,9 @@ for (var item in items || {})
 for (const {thing} in things)
   thing();
 
+for (x in a, b, c)
+  foo();
+
 ---
 
 (program
@@ -274,6 +277,10 @@ for (const {thing} in things)
   (for_in_statement
     (object_pattern (shorthand_property_identifier))
     (identifier)
+    (expression_statement (call_expression (identifier) (arguments))))
+  (for_in_statement
+    (identifier)
+    (sequence_expression (identifier) (sequence_expression (identifier) (identifier)))
     (expression_statement (call_expression (identifier) (arguments)))))
 
 ==========================================

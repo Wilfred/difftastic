@@ -973,7 +973,7 @@
           "name": "right",
           "content": {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "_expressions"
           }
         },
         {
@@ -3120,52 +3120,6 @@
     "binary_expression": {
       "type": "CHOICE",
       "members": [
-        {
-          "type": "PREC_LEFT",
-          "value": 4,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "left",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "identifier"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "object"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "array"
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "FIELD",
-                "name": "operator",
-                "content": {
-                  "type": "STRING",
-                  "value": "in"
-                }
-              },
-              {
-                "type": "FIELD",
-                "name": "right",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_expression"
-                }
-              }
-            ]
-          }
-        },
         {
           "type": "PREC_LEFT",
           "value": 3,
@@ -5688,6 +5642,10 @@
     [
       "computed_property_name",
       "array"
+    ],
+    [
+      "_for_header",
+      "_expression"
     ]
   ],
   "externals": [

@@ -72,6 +72,7 @@ module.exports = grammar({
     [$.labeled_statement, $._property_name],
     [$.assignment_pattern, $.assignment_expression],
     [$.computed_property_name, $.array],
+    [$._for_header, $._expression],
   ],
 
   word: $ => $.identifier,
@@ -280,7 +281,7 @@ module.exports = grammar({
       optional(choice('var', 'let', 'const')),
       field('left', choice($.identifier, $._destructuring_pattern)),
       choice('in', 'of'),
-      field('right', $._expression),
+      field('right', $._expressions),
       ')',
     ),
 
@@ -708,13 +709,6 @@ module.exports = grammar({
     )),
 
     binary_expression: $ => choice(
-      // Avoid a conflict between `for_in_statement` and the `in` operator
-      prec.left(PREC.REL, seq(
-        field('left', choice($.identifier, $.object, $.array)),
-        field('operator', 'in'),
-        field('right', $._expression)
-      )),
-
       ...[
         ['&&', PREC.AND],
         ['||', PREC.OR],
