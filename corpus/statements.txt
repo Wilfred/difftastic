@@ -166,12 +166,12 @@ while true:
 ---
 
 (module
-  statement: (while_statement
+  (while_statement
     condition: (identifier)
     body: (block
-      statement: (pass_statement)
-      statement: (break_statement)
-      statement: (continue_statement))))
+      (pass_statement)
+      (break_statement)
+      (continue_statement))))
 
 =====================================
 Return statements
@@ -201,11 +201,11 @@ if a:
 ---
 
 (module
-  statement: (if_statement
+  (if_statement
     condition: (identifier)
     consequence: (block
-      statement: (expression_statement (identifier))
-      statement: (expression_statement (identifier)))))
+      (expression_statement (identifier))
+      (expression_statement (identifier)))))
 
 =====================================
 If else statements
@@ -230,33 +230,33 @@ if a: b; c
 ---
 
 (module
-  statement: (if_statement
+  (if_statement
     condition: (identifier)
     consequence: (block
-      statement: (expression_statement (identifier)))
+      (expression_statement (identifier)))
     alternative: (elif_clause
       condition: (identifier)
       consequence: (block
-        statement: (expression_statement (identifier))))
+        (expression_statement (identifier))))
     alternative: (else_clause
       body: (block
-        statement: (expression_statement (identifier)))))
-  statement: (if_statement
+        (expression_statement (identifier)))))
+  (if_statement
     condition: (identifier)
     consequence: (block
-      statement: (expression_statement (identifier)))
+      (expression_statement (identifier)))
     alternative: (else_clause
       body: (block
-        statement: (expression_statement (identifier)))))
-  statement: (if_statement
+        (expression_statement (identifier)))))
+  (if_statement
     condition: (identifier)
     consequence: (block
-      statement: (expression_statement (identifier))))
-  statement: (if_statement
+      (expression_statement (identifier))))
+  (if_statement
     condition: (identifier)
     consequence: (block
-      statement: (expression_statement (identifier))
-      statement: (expression_statement (identifier)))))
+      (expression_statement (identifier))
+      (expression_statement (identifier)))))
 
 =====================================
 Nested if statements
@@ -273,20 +273,20 @@ g
 ---
 
 (module
-  statement: (if_statement
+  (if_statement
     condition: (identifier)
     consequence: (block
-      statement: (if_statement
+      (if_statement
         condition: (identifier)
         consequence: (block
-          statement: (expression_statement (identifier)))
+          (expression_statement (identifier)))
         alternative: (else_clause
           body: (block
-            statement: (if_statement
+            (if_statement
               condition: (identifier)
               consequence: (block
-                statement: (expression_statement (identifier)))))))))
-  statement: (expression_statement (identifier)))
+                (expression_statement (identifier)))))))))
+  (expression_statement (identifier)))
 
 =====================================
 While statements
@@ -304,18 +304,18 @@ else:
 ---
 
 (module
-  statement: (while_statement
+  (while_statement
     condition: (identifier)
     body: (block
-      statement: (expression_statement (identifier))))
-  statement: (while_statement
+      (expression_statement (identifier))))
+  (while_statement
     condition: (identifier)
     body: (block
-      statement: (expression_statement (identifier)))
+      (expression_statement (identifier)))
     alternative: (else_clause
       body: (block
-        statement: (expression_statement (identifier))
-        statement: (expression_statement (identifier))))))
+        (expression_statement (identifier))
+        (expression_statement (identifier))))))
 
 =====================================
 For statements
@@ -334,27 +334,27 @@ for x, in [(1,), (2,), (3,)]:
 ---
 
 (module
-  statement: (for_statement
+  (for_statement
     left: (variables (identifier) (identifier))
     right: (expression_list (identifier))
     body: (block
-      statement: (print_statement
+      (print_statement
         argument: (identifier))
-      statement: (for_statement
+      (for_statement
         left: (variables (identifier) (identifier))
         right: (expression_list (identifier))
         body: (block
-          statement: (print_statement
+          (print_statement
             argument: (identifier)))))
     alternative: (else_clause
       body: (block
-        statement: (print_statement
+        (print_statement
           argument: (identifier)))))
-  statement: (for_statement
+  (for_statement
     left: (variables (identifier))
     right: (expression_list (list (tuple (integer)) (tuple (integer)) (tuple (integer))))
     body: (block
-      statement: (expression_statement (identifier)))))
+      (expression_statement (identifier)))))
 
 =====================================
 Try statements
@@ -384,32 +384,32 @@ finally:
 ---
 
 (module
-  statement: (try_statement
+  (try_statement
     body: (block
-      statement: (expression_statement (identifier)))
+      (expression_statement (identifier)))
     (except_clause (identifier)
       (block
-        statement: (expression_statement (identifier))))
+        (expression_statement (identifier))))
     (except_clause (identifier) (identifier)
       (block
-        statement: (expression_statement (identifier))))
+        (expression_statement (identifier))))
     (except_clause (identifier) (identifier)
       (block
-        statement: (expression_statement (identifier))))
+        (expression_statement (identifier))))
     (except_clause
       (block
-        statement: (expression_statement (identifier)))))
-  statement: (try_statement
+        (expression_statement (identifier)))))
+  (try_statement
     body: (block
-      statement: (expression_statement (identifier)))
+      (expression_statement (identifier)))
     (except_clause (identifier)
       (block
-        statement: (expression_statement (identifier))
-        statement: (expression_statement (identifier))))
+        (expression_statement (identifier))
+        (expression_statement (identifier))))
     (else_clause body: (block
-      statement: (expression_statement (identifier))))
+      (expression_statement (identifier))))
     (finally_clause (block
-      statement: (expression_statement (identifier))))))
+      (expression_statement (identifier))))))
 
 =====================================
 With statements
@@ -460,88 +460,81 @@ async def d(a:str="default", b=c) -> None:
 ---
 
 (module
-  statement: (function_definition
+  (function_definition
     name: (identifier)
     parameters: (parameters)
     body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
+      (expression_statement (identifier))))
+  (function_definition
     name: (identifier)
     parameters: (parameters (identifier))
     body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
+      (expression_statement (identifier))))
+  (function_definition
     name: (identifier)
     parameters: (parameters (identifier) (identifier))
     body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
+      (expression_statement (identifier))))
+  (function_definition
     name: (identifier)
-    parameters: (parameters (typed_parameter (identifier) (type (identifier))))
+    parameters: (parameters
+      (typed_parameter
+        (identifier)
+        type: (type (identifier))))
     body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
+      (expression_statement (identifier))))
+  (function_definition
     name: (identifier)
-    parameters: (parameters (typed_parameter (identifier) (type (attribute (identifier) (identifier)))))
+    parameters: (parameters
+      (typed_parameter
+        (identifier)
+        type: (type (attribute (identifier) (identifier)))))
     body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
+      (expression_statement (identifier))))
+  (function_definition
     name: (identifier)
-    parameters: (parameters (typed_parameter (identifier) (type (subscript (identifier) (identifier)))))
+    parameters: (parameters
+      (typed_parameter
+        (identifier)
+        type: (type (subscript value: (identifier) subscript: (identifier)))))
     return_type: (type (identifier))
     body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
+      (expression_statement (identifier))))
+  (function_definition
     name: (identifier)
     parameters: (parameters
       (identifier)
-      (default_parameter (identifier) (identifier))
+      (default_parameter
+        name: (identifier)
+        value: (identifier))
       (list_splat (identifier))
       (dictionary_splat (identifier)))
     body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
-    name: (identifier)
-    parameters: (parameters (typed_parameter (identifier) (type (identifier))))
-    return_type: (type (none))
-    body: (block
-      statement: (return_statement (expression_list (none)))))
-  statement: (function_definition
+      (expression_statement (identifier))))
+  (function_definition
     name: (identifier)
     parameters: (parameters
-      (typed_default_parameter (identifier) (type (identifier)) (string))
-      (default_parameter (identifier) (identifier)))
+      (typed_parameter (identifier) type: (type (identifier))))
     return_type: (type (none))
     body: (block
-      statement: (return_statement (expression_list (none))))))
+      (return_statement (expression_list (none)))))
+  (function_definition
+    name: (identifier)
+    parameters: (parameters
+      (typed_default_parameter
+        name: (identifier)
+        type: (type (identifier))
+        value: (string))
+      (default_parameter
+        name: (identifier)
+        value: (identifier)))
+    return_type: (type (none))
+    body: (block
+      (return_statement (expression_list (none))))))
 
 =====================================
 Function definitions
 =====================================
-
-def a():
-  b
-
-def c(d):
-  e
-
-def g(g, h,):
-  i
-
-def c(a: str):
-  a
-
-def c(a: b.c):
-  a
-
-def d(a: Sequence[T]) -> T:
-  a
-
-def i(a, b=c, *c, **d):
-  a
-
-def d(a: str) -> None:
-  return None
 
 def e((a,b)):
   return (a,b)
@@ -561,83 +554,41 @@ def g(h, i, *, j, k=100, **kwarg):
 ---
 
 (module
-  statement: (function_definition
-    name: (identifier)
-    parameters: (parameters)
-    body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
-    name: (identifier)
-    parameters: (parameters (identifier))
-    body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
-    name: (identifier)
-    parameters: (parameters (identifier) (identifier))
-    body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
-    name: (identifier)
-    parameters: (parameters (typed_parameter (identifier) (type (identifier))))
-    body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
-    name: (identifier)
-    parameters: (parameters (typed_parameter (identifier) (type (attribute (identifier) (identifier)))))
-    body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
-    name: (identifier)
-    parameters: (parameters (typed_parameter (identifier) (type (subscript (identifier) (identifier)))))
-    return_type: (type (identifier))
-    body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
-    name: (identifier)
-    parameters: (parameters
-      (identifier)
-      (default_parameter (identifier) (identifier))
-      (list_splat (identifier))
-      (dictionary_splat (identifier)))
-    body: (block
-      statement: (expression_statement (identifier))))
-  statement: (function_definition
-    name: (identifier)
-    parameters: (parameters (typed_parameter (identifier) (type (identifier))))
-    return_type: (type (none))
-    body: (block
-      statement: (return_statement (expression_list (none)))))
-  statement: (function_definition
+  (function_definition
     name: (identifier)
     parameters: (parameters (tuple (identifier) (identifier)))
     body: (block
-      statement: (return_statement (expression_list (tuple (identifier) (identifier))))))
-  statement: (function_definition
+      (return_statement (expression_list (tuple (identifier) (identifier))))))
+  (function_definition
     name: (identifier)
-    parameters: (parameters (typed_parameter (list_splat (identifier)) (type (identifier))))
+    parameters: (parameters (typed_parameter
+      (list_splat (identifier))
+      type: (type (identifier))))
     body: (block
-      statement: (pass_statement)))
-  statement: (function_definition
+      (pass_statement)))
+  (function_definition
     name: (identifier)
-    parameters: (parameters (typed_parameter (dictionary_splat (identifier)) (type (identifier))))
+    parameters: (parameters (typed_parameter
+      (dictionary_splat (identifier))
+      type: (type (identifier))))
     body: (block
-      statement: (pass_statement)))
-  statement: (function_definition
+      (pass_statement)))
+  (function_definition
     name: (identifier)
     parameters: (parameters)
     body: (block
-      statement: (nonlocal_statement (identifier))))
-  statement: (function_definition
+      (nonlocal_statement (identifier))))
+  (function_definition
     name: (identifier)
     parameters: (parameters
       (identifier)
       (identifier)
       (list_splat)
       (identifier)
-      (default_parameter (identifier) (integer))
+      (default_parameter name: (identifier) value: (integer))
       (dictionary_splat (identifier)))
     body: (block
-      statement: (return_statement (expression_list
+      (return_statement (expression_list
         (identifier)
         (identifier)
         (identifier)

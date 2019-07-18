@@ -7,7 +7,7 @@ Identifiers with Greek letters
 ---
 
 (module
-  statement: (expression_statement (assignment
+  (expression_statement (assignment
     left: (expression_list (identifier))
     right: (expression_list (binary_operator
       left: (identifier)

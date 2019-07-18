@@ -59,17 +59,17 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._simple_statements,
-      field('statement', $._compound_statement)
+      $._compound_statement
     ),
 
     // Simple statements
 
     _simple_statements: $ => seq(
-      field('statement', $._simple_statement),
+      $._simple_statement,
       optional(repeat(seq(
         $._semicolon,
-        field('statement', $._simple_statement))
-      )),
+        $._simple_statement
+      ))),
       optional($._semicolon),
       $._newline
     ),
@@ -162,8 +162,7 @@ module.exports = grammar({
 
     assert_statement: $ => seq(
       'assert',
-      $._expression,
-      repeat(seq(',', $._expression))
+      commaSep1($._expression)
     ),
 
     expression_statement: $ => choice(
@@ -175,9 +174,9 @@ module.exports = grammar({
     ),
 
     named_expression: $ => seq(
-      $.identifier,
+      field('name', $.identifier),
       ':=',
-      $._expression
+      field('value', $._expression)
     ),
 
     return_statement: $ => seq(
@@ -193,7 +192,7 @@ module.exports = grammar({
     raise_statement: $ => seq(
       'raise',
       optional($.expression_list),
-      optional(seq('from', $._expression))
+      optional(seq('from', field('cause', $._expression)))
     ),
 
     pass_statement: $ => prec.left('pass'),
@@ -292,14 +291,14 @@ module.exports = grammar({
       'with',
       commaSep1($.with_item),
       ':',
-      $._suite
+      field('body', $._suite)
     ),
 
     with_item: $ => seq(
-      $._expression,
+      field('value', $._expression),
       optional(seq(
         'as',
-        $._expression
+        field('alias', $._expression)
       ))
     ),
 
@@ -341,17 +340,17 @@ module.exports = grammar({
     ),
 
     default_parameter: $ => seq(
-      choice($.identifier, $.keyword_identifier),
+      field('name', choice($.identifier, $.keyword_identifier)),
       '=',
-      $._expression
+      field('value', $._expression)
     ),
 
     typed_default_parameter: $ => prec(PREC.typed_parameter, seq(
-      choice($.identifier, $.keyword_identifier),
+      field('name', choice($.identifier, $.keyword_identifier)),
       ':',
-      $.type,
+      field('type', $.type),
       '=',
-      $._expression
+      field('value', $._expression)
     )),
 
     list_splat: $ => seq(
@@ -377,7 +376,7 @@ module.exports = grammar({
 
     exec_statement: $ => seq(
       'exec',
-      $.string,
+      field('code', $.string),
       optional(
         seq(
           'in',
@@ -410,16 +409,16 @@ module.exports = grammar({
 
     decorated_definition: $ => seq(
       repeat1($.decorator),
-      choice(
+      field('definition', choice(
         $.class_definition,
         $.function_definition
-      )
+      ))
     ),
 
     decorator: $ => seq(
       '@',
       $.dotted_name,
-      optional($.argument_list),
+      field('arguments', optional($.argument_list)),
       $._newline
     ),
 
@@ -612,9 +611,9 @@ module.exports = grammar({
     ),
 
     subscript: $ => seq(
-      $._primary_expression,
+      field('value', $._primary_expression),
       '[',
-      commaSep1(choice($._expression, $.slice)),
+      field('subscript', commaSep1(choice($._expression, $.slice))),
       optional(','),
       ']'
     ),
@@ -643,15 +642,15 @@ module.exports = grammar({
         $.dictionary_splat
       ),
       ':',
-      $.type
+      field('type', $.type)
     )),
 
     type: $ => $._expression,
 
     keyword_argument: $ => seq(
-      choice($.identifier, $.keyword_identifier),
+      field('name', choice($.identifier, $.keyword_identifier)),
       '=',
-      $._expression
+      field('value', $._expression)
     ),
 
     // Literals
@@ -663,7 +662,7 @@ module.exports = grammar({
       ']'
     ),
 
-    _comprehension_body: $ => seq(
+    _comprehension_clauses: $ => seq(
       $.for_in_clause,
       repeat(choice(
         $.for_in_clause,
@@ -673,8 +672,8 @@ module.exports = grammar({
 
     list_comprehension: $ => seq(
       '[',
-      $._expression,
-      $._comprehension_body,
+      field('body', $._expression),
+      $._comprehension_clauses,
       ']'
     ),
 
@@ -687,15 +686,15 @@ module.exports = grammar({
 
     dictionary_comprehension: $ => seq(
       '{',
-      $.pair,
-      $._comprehension_body,
+      field('body', $.pair),
+      $._comprehension_clauses,
       '}'
     ),
 
     pair: $ => seq(
-      $._expression,
+      field('key', $._expression),
       ':',
-      $._expression
+      field('value', $._expression)
     ),
 
     set: $ => seq(
@@ -707,8 +706,8 @@ module.exports = grammar({
 
     set_comprehension: $ => seq(
       '{',
-      $._expression,
-      $._comprehension_body,
+      field('body', $._expression),
+      $._comprehension_clauses,
       '}'
     ),
 
@@ -727,17 +726,17 @@ module.exports = grammar({
 
     generator_expression: $ => seq(
       '(',
-      $._expression,
-      $._comprehension_body,
+      field('body', $._expression),
+      $._comprehension_clauses,
       ')'
     ),
 
     for_in_clause: $ => seq(
       optional('async'),
       'for',
-      $.variables,
+      field('left', $.variables),
       'in',
-      commaSep1($._expression_within_for_in_clause),
+      field('right', commaSep1($._expression_within_for_in_clause)),
       optional(',')
     ),
 
