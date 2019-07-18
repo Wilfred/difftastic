@@ -1,21 +1,268 @@
 [
   {
+    "type": "_compound_statement",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "class_definition",
+        "named": true
+      },
+      {
+        "type": "decorated_definition",
+        "named": true
+      },
+      {
+        "type": "for_statement",
+        "named": true
+      },
+      {
+        "type": "function_definition",
+        "named": true
+      },
+      {
+        "type": "if_statement",
+        "named": true
+      },
+      {
+        "type": "try_statement",
+        "named": true
+      },
+      {
+        "type": "while_statement",
+        "named": true
+      },
+      {
+        "type": "with_statement",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_expression",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "_primary_expression",
+        "named": true
+      },
+      {
+        "type": "await",
+        "named": true
+      },
+      {
+        "type": "boolean_operator",
+        "named": true
+      },
+      {
+        "type": "comparison_operator",
+        "named": true
+      },
+      {
+        "type": "conditional_expression",
+        "named": true
+      },
+      {
+        "type": "lambda",
+        "named": true
+      },
+      {
+        "type": "named_expression",
+        "named": true
+      },
+      {
+        "type": "not_operator",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_primary_expression",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "attribute",
+        "named": true
+      },
+      {
+        "type": "binary_operator",
+        "named": true
+      },
+      {
+        "type": "call",
+        "named": true
+      },
+      {
+        "type": "concatenated_string",
+        "named": true
+      },
+      {
+        "type": "dictionary",
+        "named": true
+      },
+      {
+        "type": "dictionary_comprehension",
+        "named": true
+      },
+      {
+        "type": "ellipsis",
+        "named": true
+      },
+      {
+        "type": "false",
+        "named": true
+      },
+      {
+        "type": "float",
+        "named": true
+      },
+      {
+        "type": "generator_expression",
+        "named": true
+      },
+      {
+        "type": "identifier",
+        "named": true
+      },
+      {
+        "type": "integer",
+        "named": true
+      },
+      {
+        "type": "list",
+        "named": true
+      },
+      {
+        "type": "list_comprehension",
+        "named": true
+      },
+      {
+        "type": "none",
+        "named": true
+      },
+      {
+        "type": "parenthesized_expression",
+        "named": true
+      },
+      {
+        "type": "set",
+        "named": true
+      },
+      {
+        "type": "set_comprehension",
+        "named": true
+      },
+      {
+        "type": "string",
+        "named": true
+      },
+      {
+        "type": "subscript",
+        "named": true
+      },
+      {
+        "type": "true",
+        "named": true
+      },
+      {
+        "type": "tuple",
+        "named": true
+      },
+      {
+        "type": "unary_operator",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_simple_statement",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "assert_statement",
+        "named": true
+      },
+      {
+        "type": "break_statement",
+        "named": true
+      },
+      {
+        "type": "continue_statement",
+        "named": true
+      },
+      {
+        "type": "delete_statement",
+        "named": true
+      },
+      {
+        "type": "exec_statement",
+        "named": true
+      },
+      {
+        "type": "expression_statement",
+        "named": true
+      },
+      {
+        "type": "future_import_statement",
+        "named": true
+      },
+      {
+        "type": "global_statement",
+        "named": true
+      },
+      {
+        "type": "import_from_statement",
+        "named": true
+      },
+      {
+        "type": "import_statement",
+        "named": true
+      },
+      {
+        "type": "nonlocal_statement",
+        "named": true
+      },
+      {
+        "type": "pass_statement",
+        "named": true
+      },
+      {
+        "type": "print_statement",
+        "named": true
+      },
+      {
+        "type": "raise_statement",
+        "named": true
+      },
+      {
+        "type": "return_statement",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "aliased_import",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "dotted_name",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "alias": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dotted_name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -27,43 +274,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
+          "type": "_expression",
           "named": true
         },
         {
@@ -71,91 +282,11 @@
           "named": true
         },
         {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
           "type": "keyword_argument",
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
           "type": "list_splat",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -170,123 +301,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -295,32 +310,49 @@
   {
     "type": "assignment",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "augmented_assignment",
-          "named": true
-        },
-        {
-          "type": "expression_list",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        },
-        {
-          "type": "yield",
-          "named": true
-        }
-      ]
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression_list",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "augmented_assignment",
+            "named": true
+          },
+          {
+            "type": "expression_list",
+            "named": true
+          },
+          {
+            "type": "yield",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -332,95 +364,11 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
+          "type": "_primary_expression",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -429,28 +377,39 @@
   {
     "type": "augmented_assignment",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "augmented_assignment",
-          "named": true
-        },
-        {
-          "type": "expression_list",
-          "named": true
-        },
-        {
-          "type": "yield",
-          "named": true
-        }
-      ]
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression_list",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "augmented_assignment",
+            "named": true
+          },
+          {
+            "type": "expression_list",
+            "named": true
+          },
+          {
+            "type": "yield",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -462,123 +421,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -587,235 +430,145 @@
   {
     "type": "binary_operator",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        }
-      ]
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_primary_expression",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "%",
+            "named": false
+          },
+          {
+            "type": "&",
+            "named": false
+          },
+          {
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "**",
+            "named": false
+          },
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": "/",
+            "named": false
+          },
+          {
+            "type": "//",
+            "named": false
+          },
+          {
+            "type": "<<",
+            "named": false
+          },
+          {
+            "type": ">>",
+            "named": false
+          },
+          {
+            "type": "@",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "|",
+            "named": false
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_primary_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "block",
+    "named": true,
+    "fields": {
+      "statement": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "_compound_statement",
+            "named": true
+          },
+          {
+            "type": "_simple_statement",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "boolean_operator",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        }
-      ]
+    "fields": {
+      "left": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "and",
+            "named": false
+          },
+          {
+            "type": "or",
+            "named": false
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -826,108 +579,31 @@
   {
     "type": "call",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "argument_list",
-          "named": true
-        },
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        }
-      ]
+    "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "argument_list",
+            "named": true
+          },
+          {
+            "type": "generator_expression",
+            "named": true
+          }
+        ]
+      },
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_primary_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -939,123 +615,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -1064,112 +624,37 @@
   {
     "type": "class_definition",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "argument_list",
-          "named": true
-        },
-        {
-          "type": "assert_statement",
-          "named": true
-        },
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "class_definition",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "decorated_definition",
-          "named": true
-        },
-        {
-          "type": "delete_statement",
-          "named": true
-        },
-        {
-          "type": "exec_statement",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "future_import_statement",
-          "named": true
-        },
-        {
-          "type": "global_statement",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "import_from_statement",
-          "named": true
-        },
-        {
-          "type": "import_statement",
-          "named": true
-        },
-        {
-          "type": "nonlocal_statement",
-          "named": true
-        },
-        {
-          "type": "pass_statement",
-          "named": true
-        },
-        {
-          "type": "print_statement",
-          "named": true
-        },
-        {
-          "type": "raise_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        },
-        {
-          "type": "with_statement",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "superclasses": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "argument_list",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1181,95 +666,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_primary_expression",
           "named": true
         }
       ]
@@ -1299,123 +696,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -1477,123 +758,11 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
+          "type": "_expression",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -1665,123 +834,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -1805,327 +858,43 @@
   {
     "type": "elif_clause",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "assert_statement",
-          "named": true
-        },
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "class_definition",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "decorated_definition",
-          "named": true
-        },
-        {
-          "type": "delete_statement",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "exec_statement",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "future_import_statement",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "global_statement",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "import_from_statement",
-          "named": true
-        },
-        {
-          "type": "import_statement",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "nonlocal_statement",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "pass_statement",
-          "named": true
-        },
-        {
-          "type": "print_statement",
-          "named": true
-        },
-        {
-          "type": "raise_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        },
-        {
-          "type": "with_statement",
-          "named": true
-        }
-      ]
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "else_clause",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "assert_statement",
-          "named": true
-        },
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "class_definition",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "decorated_definition",
-          "named": true
-        },
-        {
-          "type": "delete_statement",
-          "named": true
-        },
-        {
-          "type": "exec_statement",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "future_import_statement",
-          "named": true
-        },
-        {
-          "type": "global_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "import_from_statement",
-          "named": true
-        },
-        {
-          "type": "import_statement",
-          "named": true
-        },
-        {
-          "type": "nonlocal_statement",
-          "named": true
-        },
-        {
-          "type": "pass_statement",
-          "named": true
-        },
-        {
-          "type": "print_statement",
-          "named": true
-        },
-        {
-          "type": "raise_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        },
-        {
-          "type": "with_statement",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2137,215 +906,11 @@
       "required": false,
       "types": [
         {
-          "type": "assert_statement",
+          "type": "_expression",
           "named": true
         },
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "class_definition",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "decorated_definition",
-          "named": true
-        },
-        {
-          "type": "delete_statement",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "exec_statement",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "future_import_statement",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "global_statement",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "import_from_statement",
-          "named": true
-        },
-        {
-          "type": "import_statement",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "nonlocal_statement",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "pass_statement",
-          "named": true
-        },
-        {
-          "type": "print_statement",
-          "named": true
-        },
-        {
-          "type": "raise_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        },
-        {
-          "type": "with_statement",
+          "type": "block",
           "named": true
         }
       ]
@@ -2360,123 +925,11 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
+          "type": "_expression",
           "named": true
         },
         {
           "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -2491,123 +944,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -2622,131 +959,15 @@
       "required": false,
       "types": [
         {
+          "type": "_expression",
+          "named": true
+        },
+        {
           "type": "assignment",
           "named": true
         },
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
           "type": "augmented_assignment",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         },
         {
@@ -2765,95 +986,7 @@
       "required": false,
       "types": [
         {
-          "type": "assert_statement",
-          "named": true
-        },
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "class_definition",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "decorated_definition",
-          "named": true
-        },
-        {
-          "type": "delete_statement",
-          "named": true
-        },
-        {
-          "type": "exec_statement",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "future_import_statement",
-          "named": true
-        },
-        {
-          "type": "global_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "import_from_statement",
-          "named": true
-        },
-        {
-          "type": "import_statement",
-          "named": true
-        },
-        {
-          "type": "nonlocal_statement",
-          "named": true
-        },
-        {
-          "type": "pass_statement",
-          "named": true
-        },
-        {
-          "type": "print_statement",
-          "named": true
-        },
-        {
-          "type": "raise_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        },
-        {
-          "type": "with_statement",
+          "type": "block",
           "named": true
         }
       ]
@@ -2868,123 +1001,11 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
+          "type": "_expression",
           "named": true
         },
         {
           "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         },
         {
@@ -2997,116 +1018,47 @@
   {
     "type": "for_statement",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "assert_statement",
-          "named": true
-        },
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "class_definition",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "decorated_definition",
-          "named": true
-        },
-        {
-          "type": "delete_statement",
-          "named": true
-        },
-        {
-          "type": "else_clause",
-          "named": true
-        },
-        {
-          "type": "exec_statement",
-          "named": true
-        },
-        {
-          "type": "expression_list",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "future_import_statement",
-          "named": true
-        },
-        {
-          "type": "global_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "import_from_statement",
-          "named": true
-        },
-        {
-          "type": "import_statement",
-          "named": true
-        },
-        {
-          "type": "nonlocal_statement",
-          "named": true
-        },
-        {
-          "type": "pass_statement",
-          "named": true
-        },
-        {
-          "type": "print_statement",
-          "named": true
-        },
-        {
-          "type": "raise_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "variables",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        },
-        {
-          "type": "with_statement",
-          "named": true
-        }
-      ]
+    "fields": {
+      "alternative": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "else_clause",
+            "named": true
+          }
+        ]
+      },
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variables",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression_list",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3118,123 +1070,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -3258,135 +1094,67 @@
   {
     "type": "function_definition",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "assert_statement",
-          "named": true
-        },
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "class_definition",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "decorated_definition",
-          "named": true
-        },
-        {
-          "type": "delete_statement",
-          "named": true
-        },
-        {
-          "type": "exec_statement",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "future_import_statement",
-          "named": true
-        },
-        {
-          "type": "global_statement",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "import_from_statement",
-          "named": true
-        },
-        {
-          "type": "import_statement",
-          "named": true
-        },
-        {
-          "type": "nonlocal_statement",
-          "named": true
-        },
-        {
-          "type": "parameters",
-          "named": true
-        },
-        {
-          "type": "pass_statement",
-          "named": true
-        },
-        {
-          "type": "print_statement",
-          "named": true
-        },
-        {
-          "type": "raise_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        },
-        {
-          "type": "with_statement",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "parameters": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "parameters",
+            "named": true
+          }
+        ]
+      },
+      "return_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "future_import_statement",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "aliased_import",
-          "named": true
-        },
-        {
-          "type": "dotted_name",
-          "named": true
-        }
-      ]
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "aliased_import",
+            "named": true
+          },
+          {
+            "type": "dotted_name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3398,55 +1166,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
+          "type": "_expression",
           "named": true
         },
         {
@@ -3454,75 +1174,7 @@
           "named": true
         },
         {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_clause",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -3552,123 +1204,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -3677,254 +1213,80 @@
   {
     "type": "if_statement",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "assert_statement",
-          "named": true
-        },
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "class_definition",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "decorated_definition",
-          "named": true
-        },
-        {
-          "type": "delete_statement",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "elif_clause",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "else_clause",
-          "named": true
-        },
-        {
-          "type": "exec_statement",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "future_import_statement",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "global_statement",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "import_from_statement",
-          "named": true
-        },
-        {
-          "type": "import_statement",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "nonlocal_statement",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "pass_statement",
-          "named": true
-        },
-        {
-          "type": "print_statement",
-          "named": true
-        },
-        {
-          "type": "raise_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        },
-        {
-          "type": "with_statement",
-          "named": true
-        }
-      ]
+    "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "elif_clause",
+            "named": true
+          },
+          {
+            "type": "else_clause",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "import_from_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "module_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "relative_import",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "aliased_import",
+            "named": true
+          },
+          {
+            "type": "dotted_name",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "aliased_import",
-          "named": true
-        },
-        {
-          "type": "dotted_name",
-          "named": true
-        },
-        {
-          "type": "relative_import",
-          "named": true
-        },
         {
           "type": "wildcard_import",
           "named": true
@@ -3940,20 +1302,21 @@
   {
     "type": "import_statement",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "aliased_import",
-          "named": true
-        },
-        {
-          "type": "dotted_name",
-          "named": true
-        }
-      ]
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "aliased_import",
+            "named": true
+          },
+          {
+            "type": "dotted_name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3965,55 +1328,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
+          "type": "_expression",
           "named": true
         },
         {
@@ -4021,75 +1336,7 @@
           "named": true
         },
         {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
           "type": "type_conversion",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -4104,123 +1351,11 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
+          "type": "_expression",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -4229,136 +1364,31 @@
   {
     "type": "lambda",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "lambda_parameters",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
+          }
+        ]
+      },
+      "parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "lambda_parameters",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4409,127 +1439,11 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
+          "type": "_expression",
           "named": true
         },
         {
           "type": "list_splat",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -4544,55 +1458,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
+          "type": "_expression",
           "named": true
         },
         {
@@ -4600,75 +1466,7 @@
           "named": true
         },
         {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_clause",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -4683,123 +1481,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -4808,104 +1490,21 @@
   {
     "type": "module",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "assert_statement",
-          "named": true
-        },
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "class_definition",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "decorated_definition",
-          "named": true
-        },
-        {
-          "type": "delete_statement",
-          "named": true
-        },
-        {
-          "type": "exec_statement",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "future_import_statement",
-          "named": true
-        },
-        {
-          "type": "global_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "import_from_statement",
-          "named": true
-        },
-        {
-          "type": "import_statement",
-          "named": true
-        },
-        {
-          "type": "nonlocal_statement",
-          "named": true
-        },
-        {
-          "type": "pass_statement",
-          "named": true
-        },
-        {
-          "type": "print_statement",
-          "named": true
-        },
-        {
-          "type": "raise_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        },
-        {
-          "type": "with_statement",
-          "named": true
-        }
-      ]
+    "fields": {
+      "statement": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "_compound_statement",
+            "named": true
+          },
+          {
+            "type": "_simple_statement",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4917,123 +1516,11 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
+          "type": "_expression",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -5057,132 +1544,17 @@
   {
     "type": "not_operator",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        }
-      ]
+    "fields": {
+      "argument": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -5194,123 +1566,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -5364,123 +1620,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         },
         {
@@ -5498,133 +1638,24 @@
   {
     "type": "print_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "argument": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
           "type": "chevron",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -5639,127 +1670,11 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
+          "type": "_expression",
           "named": true
         },
         {
           "type": "expression_list",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -5808,127 +1723,11 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
+          "type": "_expression",
           "named": true
         },
         {
           "type": "list_splat",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -5943,55 +1742,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
+          "type": "_expression",
           "named": true
         },
         {
@@ -5999,75 +1750,7 @@
           "named": true
         },
         {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_clause",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -6082,123 +1765,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -6232,127 +1799,15 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
+          "type": "_expression",
           "named": true
         },
         {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
+          "type": "_primary_expression",
           "named": true
         },
         {
           "type": "slice",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -6361,35 +1816,22 @@
   {
     "type": "try_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "assert_statement",
-          "named": true
-        },
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "class_definition",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "decorated_definition",
-          "named": true
-        },
-        {
-          "type": "delete_statement",
-          "named": true
-        },
         {
           "type": "else_clause",
           "named": true
@@ -6399,75 +1841,7 @@
           "named": true
         },
         {
-          "type": "exec_statement",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
           "type": "finally_clause",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "future_import_statement",
-          "named": true
-        },
-        {
-          "type": "global_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "import_from_statement",
-          "named": true
-        },
-        {
-          "type": "import_statement",
-          "named": true
-        },
-        {
-          "type": "nonlocal_statement",
-          "named": true
-        },
-        {
-          "type": "pass_statement",
-          "named": true
-        },
-        {
-          "type": "print_statement",
-          "named": true
-        },
-        {
-          "type": "raise_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        },
-        {
-          "type": "with_statement",
           "named": true
         }
       ]
@@ -6482,123 +1856,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         },
         {
@@ -6617,123 +1875,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -6748,59 +1890,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
+          "type": "_expression",
           "named": true
         },
         {
@@ -6808,67 +1898,7 @@
           "named": true
         },
         {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
           "type": "type",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]
@@ -6904,104 +1934,35 @@
   {
     "type": "unary_operator",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        }
-      ]
+    "fields": {
+      "argument": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_primary_expression",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
     }
   },
   {
@@ -7013,95 +1974,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_primary_expression",
           "named": true
         }
       ]
@@ -7110,228 +1983,37 @@
   {
     "type": "while_statement",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "assert_statement",
-          "named": true
-        },
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "class_definition",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "decorated_definition",
-          "named": true
-        },
-        {
-          "type": "delete_statement",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "else_clause",
-          "named": true
-        },
-        {
-          "type": "exec_statement",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "future_import_statement",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "global_statement",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "import_from_statement",
-          "named": true
-        },
-        {
-          "type": "import_statement",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "nonlocal_statement",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "pass_statement",
-          "named": true
-        },
-        {
-          "type": "print_statement",
-          "named": true
-        },
-        {
-          "type": "raise_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        },
-        {
-          "type": "with_statement",
-          "named": true
-        }
-      ]
+    "fields": {
+      "alternative": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "else_clause",
+            "named": true
+          }
+        ]
+      },
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -7348,123 +2030,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -7479,99 +2045,11 @@
       "required": false,
       "types": [
         {
-          "type": "assert_statement",
-          "named": true
-        },
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "class_definition",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "decorated_definition",
-          "named": true
-        },
-        {
-          "type": "delete_statement",
-          "named": true
-        },
-        {
-          "type": "exec_statement",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "future_import_statement",
-          "named": true
-        },
-        {
-          "type": "global_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "import_from_statement",
-          "named": true
-        },
-        {
-          "type": "import_statement",
-          "named": true
-        },
-        {
-          "type": "nonlocal_statement",
-          "named": true
-        },
-        {
-          "type": "pass_statement",
-          "named": true
-        },
-        {
-          "type": "print_statement",
-          "named": true
-        },
-        {
-          "type": "raise_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "while_statement",
+          "type": "block",
           "named": true
         },
         {
           "type": "with_item",
-          "named": true
-        },
-        {
-          "type": "with_statement",
           "named": true
         }
       ]
@@ -7586,127 +2064,11 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "dictionary_comprehension",
-          "named": true
-        },
-        {
-          "type": "ellipsis",
+          "type": "_expression",
           "named": true
         },
         {
           "type": "expression_list",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "generator_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "list_comprehension",
-          "named": true
-        },
-        {
-          "type": "named_expression",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "set_comprehension",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
           "named": true
         }
       ]

@@ -428,19 +428,19 @@
       "id": 1,
       "property_set_id": 1,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 2,
       "property_set_id": 2,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 3,
       "property_set_id": 3,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 4,
@@ -449,51 +449,51 @@
         {
           "type": "{",
           "named": false,
-          "state_id": 20
+          "state_id": 21
         },
         {
           "type": "}",
           "named": false,
-          "state_id": 20
+          "state_id": 21
         }
       ],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 5,
       "property_set_id": 5,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 6,
       "property_set_id": 6,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 7,
       "property_set_id": 7,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 8,
       "property_set_id": 8,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 9,
       "property_set_id": 9,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 10,
       "property_set_id": 10,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 11,
@@ -503,10 +503,10 @@
           "type": "identifier",
           "named": true,
           "index": 0,
-          "state_id": 21
+          "state_id": 22
         }
       ],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 12,
@@ -515,10 +515,22 @@
         {
           "type": "identifier",
           "named": true,
-          "state_id": 22
+          "text": "^[A-Z][A-Z_]*$",
+          "state_id": 23
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^[A-Z]",
+          "state_id": 23
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 23
         }
       ],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 13,
@@ -528,19 +540,31 @@
           "type": "identifier",
           "named": true,
           "text": "^(abs|all|any|ascii|bin|bool|breakpoint|bytearray|bytes|callable|chr|classmethod|compile|complex|delattr|dict|dir|divmod|enumerate|eval|exec|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|isinstance|issubclass|iter|len|list|locals|map|max|memoryview|min|next|object|oct|open|ord|pow|print|property|range|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|vars|zip|__import__)$",
-          "state_id": 23
+          "state_id": 24
         }
       ],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 14,
       "property_set_id": 0,
       "transitions": [
         {
+          "type": "identifier",
+          "named": true,
+          "text": "^[A-Z][A-Z_]*$",
+          "state_id": 25
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^[A-Z]",
+          "state_id": 25
+        },
+        {
           "type": "attribute",
           "named": true,
-          "state_id": 24
+          "state_id": 26
         },
         {
           "type": "identifier",
@@ -548,13 +572,13 @@
           "state_id": 25
         }
       ],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 15,
       "property_set_id": 11,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 16,
@@ -563,10 +587,22 @@
         {
           "type": "identifier",
           "named": true,
+          "text": "^[A-Z][A-Z_]*$",
+          "state_id": 25
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^[A-Z]",
+          "state_id": 25
+        },
+        {
+          "type": "identifier",
+          "named": true,
           "state_id": 25
         }
       ],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 17,
@@ -576,16 +612,16 @@
           "type": "identifier",
           "named": true,
           "index": 2,
-          "state_id": 26
+          "state_id": 27
         }
       ],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 18,
       "property_set_id": 13,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 19,
@@ -594,71 +630,89 @@
         {
           "type": "identifier",
           "named": true,
-          "state_id": 27
+          "text": "^[A-Z][A-Z_]*$",
+          "state_id": 28
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "text": "^[A-Z]",
+          "state_id": 28
+        },
+        {
+          "type": "identifier",
+          "named": true,
+          "state_id": 28
         }
       ],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 20,
-      "property_set_id": 14,
+      "property_set_id": 0,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 21,
-      "property_set_id": 15,
+      "property_set_id": 14,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 22,
-      "property_set_id": 16,
+      "property_set_id": 15,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 23,
-      "property_set_id": 17,
+      "property_set_id": 16,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 24,
+      "property_set_id": 17,
+      "transitions": [],
+      "default_next_state_id": 20
+    },
+    {
+      "id": 25,
+      "property_set_id": 18,
+      "transitions": [],
+      "default_next_state_id": 20
+    },
+    {
+      "id": 26,
       "property_set_id": 0,
       "transitions": [
         {
           "type": "identifier",
           "named": true,
           "index": 2,
-          "state_id": 28
+          "state_id": 29
         }
       ],
-      "default_next_state_id": 0
-    },
-    {
-      "id": 25,
-      "property_set_id": 18,
-      "transitions": [],
-      "default_next_state_id": 0
-    },
-    {
-      "id": 26,
-      "property_set_id": 19,
-      "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 27,
-      "property_set_id": 20,
+      "property_set_id": 19,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     },
     {
       "id": 28,
+      "property_set_id": 20,
+      "transitions": [],
+      "default_next_state_id": 20
+    },
+    {
+      "id": 29,
       "property_set_id": 21,
       "transitions": [],
-      "default_next_state_id": 0
+      "default_next_state_id": 20
     }
   ],
   "property_sets": [
