@@ -7277,7 +7277,15 @@
           "named": true
         },
         {
+          "type": "crate",
+          "named": true
+        },
+        {
           "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         },
         {
@@ -7285,11 +7293,27 @@
           "named": true
         },
         {
+          "type": "metavariable",
+          "named": true
+        },
+        {
           "type": "raw_string_literal",
           "named": true
         },
         {
+          "type": "scoped_identifier",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "super",
           "named": true
         }
       ]

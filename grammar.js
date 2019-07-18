@@ -1202,9 +1202,15 @@ module.exports = grammar({
     )),
 
     range_pattern: $ => seq(
-      $._literal_pattern,
+      choice(
+        $._literal_pattern,
+        $._path,
+      ),
       '...',
-      $._literal_pattern
+      choice(
+        $._literal_pattern,
+        $._path,
+      ),
     ),
 
     ref_pattern: $ => seq(
