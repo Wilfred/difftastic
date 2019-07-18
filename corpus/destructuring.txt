@@ -2,18 +2,18 @@
 Object destructuring assignments
 ============================================
 
-{a, b} = object
+({a, b} = object);
 let {a, b, ...c} = object
 const {a, b: {c, d}} = object
 
 ---
 
 (program
-  (expression_statement (assignment_expression
+  (expression_statement (parenthesized_expression (assignment_expression
     (object_pattern
       (shorthand_property_identifier)
       (shorthand_property_identifier))
-    (identifier)))
+    (identifier))))
   (lexical_declaration (variable_declarator
     (object_pattern
       (shorthand_property_identifier)

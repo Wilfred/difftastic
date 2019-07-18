@@ -3,9 +3,9 @@ const PREC = {
   STRING: 2,  // In a string, prefer string characters over comments
 
   COMMA: -1,
+  OBJECT: -1,
   DECLARATION: 1,
   ASSIGN: 0,
-  OBJECT: 1,
   TERNARY: 1,
   OR: 2,
   AND: 3,
@@ -229,11 +229,12 @@ module.exports = grammar({
       optional($._initializer)
     ),
 
-    statement_block: $ => seq(
+    statement_block: $ => prec.right(seq(
       '{',
       repeat($._statement),
-      '}'
-    ),
+      '}',
+      optional($._automatic_semicolon)
+    )),
 
     if_statement: $ => prec.right(seq(
       'if',
