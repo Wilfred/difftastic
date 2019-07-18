@@ -469,18 +469,6 @@
           {
             "type": "_expression",
             "named": true
-          },
-          {
-            "type": "array",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "object",
-            "named": true
           }
         ]
       },
@@ -1027,6 +1015,10 @@
         "types": [
           {
             "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "sequence_expression",
             "named": true
           }
         ]
