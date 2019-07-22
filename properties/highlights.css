@@ -57,13 +57,13 @@ formal_parameters {
   }
 }
 
-arrow_function > .parameter {
+arrow_function > identifier.parameter {
   highlight: 'variable.parameter';
   local-definition: true;
 }
 
 variable_declarator {
-  & > identifier,
+  & > identifier.name,
   & array_pattern > identifier,
   & object_pattern > shorthand_property_identifier,
   & object_pattern > pair > identifier {
