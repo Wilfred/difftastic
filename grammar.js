@@ -423,8 +423,10 @@ module.exports = grammar({
 
     yield_expression: $ => prec.right(seq(
       'yield',
-      optional($._expression)
-    )),
+      choice(
+        seq('*', $._expression),
+        optional($._expression)
+      ))),
 
     object: $ => prec(PREC.OBJECT, seq(
       '{',

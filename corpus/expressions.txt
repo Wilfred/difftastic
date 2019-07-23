@@ -571,6 +571,7 @@ Generator Functions
   function *generateStuff(arg1, arg2) {
     yield;
     yield arg2;
+    yield * foo();
   }
 ]
 
@@ -586,7 +587,8 @@ Generator Functions
       (formal_parameters (identifier) (identifier))
       (statement_block
         (expression_statement (yield_expression))
-        (expression_statement (yield_expression (identifier))))))))
+        (expression_statement (yield_expression (identifier)))
+        (expression_statement (yield_expression (call_expression (identifier) (arguments)))))))))
 
 ============================================
 Function parameters with default values
