@@ -651,6 +651,10 @@
         "required": false,
         "types": [
           {
+            "type": "_destructuring_pattern",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }

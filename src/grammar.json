@@ -1376,8 +1376,17 @@
                   "type": "FIELD",
                   "name": "parameter",
                   "content": {
-                    "type": "SYMBOL",
-                    "name": "identifier"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_destructuring_pattern"
+                      }
+                    ]
                   }
                 },
                 {

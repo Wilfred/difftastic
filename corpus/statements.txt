@@ -611,6 +611,7 @@ Try catch finally statements
 try { a; } catch (b) { c; }
 try { d; } finally { e; }
 try { f; } catch { g; } finally { h; }
+try { throw [a, b] } catch ([c, d]) { }
 
 ---
 
@@ -628,7 +629,12 @@ try { f; } catch { g; } finally { h; }
     (catch_clause
       (statement_block (expression_statement (identifier))))
     (finally_clause
-      (statement_block (expression_statement (identifier))))))
+      (statement_block (expression_statement (identifier)))))
+  (try_statement
+    (statement_block (throw_statement (array (identifier) (identifier))))
+    (catch_clause
+      (array_pattern (identifier) (identifier))
+      (statement_block))))
 
 ============================================
 Empty statements
