@@ -588,6 +588,7 @@ module.exports = grammar({
     )),
 
     generator_function: $ => seq(
+      optional('async'),
       'function',
       '*',
       field('name', optional($.identifier)),
@@ -596,6 +597,7 @@ module.exports = grammar({
     ),
 
     generator_function_declaration: $ => prec(PREC.DECLARATION, seq(
+      optional('async'),
       'function',
       '*',
       field('name', $.identifier),
