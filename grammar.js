@@ -60,6 +60,7 @@ module.exports = grammar({
     $._jsx_attribute_name,
     $._jsx_attribute_value,
     $._jsx_identifier,
+    $._lhs_expression,
   ],
 
   conflicts: $ => [
@@ -280,7 +281,7 @@ module.exports = grammar({
     _for_header: $ => seq(
       '(',
       optional(choice('var', 'let', 'const')),
-      field('left', choice($.identifier, $._destructuring_pattern)),
+      field('left', $._lhs_expression),
       choice('in', 'of'),
       field('right', $._expressions),
       ')',
@@ -666,14 +667,16 @@ module.exports = grammar({
       '[', field('index', $._expressions), ']'
     )),
 
+    _lhs_expression: $ => choice(
+      $.member_expression,
+      $.subscript_expression,
+      $.identifier,
+      alias($._reserved_identifier, $.identifier),
+      $._destructuring_pattern
+    ),
+    
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
-      field('left', choice(
-        $.member_expression,
-        $.subscript_expression,
-        $.identifier,
-        alias($._reserved_identifier, $.identifier),
-        $._destructuring_pattern
-      )),
+      field('left', $._lhs_expression),
       '=',
       field('right', $._expression)
     )),

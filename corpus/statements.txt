@@ -267,6 +267,12 @@ for (const {thing} in things)
 for (x in a, b, c)
   foo();
 
+for (x[i] in a) {}
+
+for (x.y in a) {}
+
+for ([a, b] in c) {}
+
 ---
 
 (program
@@ -281,7 +287,19 @@ for (x in a, b, c)
   (for_in_statement
     (identifier)
     (sequence_expression (identifier) (sequence_expression (identifier) (identifier)))
-    (expression_statement (call_expression (identifier) (arguments)))))
+    (expression_statement (call_expression (identifier) (arguments))))
+  (for_in_statement
+    (subscript_expression (identifier) (identifier))
+    (identifier)
+    (statement_block))
+  (for_in_statement
+    (member_expression (identifier) (property_identifier))
+    (identifier)
+    (statement_block))
+  (for_in_statement
+    (array_pattern (identifier) (identifier))
+    (identifier)
+    (statement_block)))
 
 ==========================================
 For loops beginning with an in-expression
