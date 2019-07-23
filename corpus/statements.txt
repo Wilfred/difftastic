@@ -685,6 +685,11 @@ label
   break label;
 }
 
+async:
+while (true) {
+  continue async;
+}
+
 ---
 
 (program
@@ -700,10 +705,16 @@ label
             (break_statement label: (statement_identifier)))
           alternative: (statement_block
             (continue_statement label: (statement_identifier)))))))
-    (labeled_statement
-      label: (statement_identifier)
-      (statement_block
-        (break_statement label: (statement_identifier)))))
+  (labeled_statement
+    label: (statement_identifier)
+    (statement_block
+      (break_statement label: (statement_identifier))))
+  (labeled_statement
+    label: (statement_identifier)
+    (while_statement
+      condition: (parenthesized_expression (true))
+      body: (statement_block
+        (continue_statement label: (statement_identifier))))))
 
 ============================================
 Debugger statements

@@ -351,7 +351,7 @@ module.exports = grammar({
     empty_statement: $ => ';',
 
     labeled_statement: $ => prec.dynamic(-1, seq(
-      field('label', alias($.identifier, $.statement_identifier)),
+      field('label', alias(choice($.identifier, $._reserved_identifier), $.statement_identifier)),
       ':',
       $._statement
     )),
