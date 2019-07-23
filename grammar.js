@@ -437,7 +437,7 @@ module.exports = grammar({
 
     assignment_pattern: $ => seq(
       field('left', choice(
-        alias($.identifier, $.shorthand_property_identifier),
+        alias(choice($._reserved_identifier, $.identifier), $.shorthand_property_identifier),
         $._destructuring_pattern
       )),
       '=',
@@ -678,7 +678,7 @@ module.exports = grammar({
       alias($._reserved_identifier, $.identifier),
       $._destructuring_pattern
     ),
-    
+
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
       field('left', $._lhs_expression),
       '=',
