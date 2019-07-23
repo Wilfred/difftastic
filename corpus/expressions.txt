@@ -746,6 +746,8 @@ class Foo {
 
 async (a) => { return foo; };
 
+async function* foo() { yield 1; }
+
 ---
 
 (program
@@ -768,7 +770,11 @@ async (a) => { return foo; };
     (arrow_function
       (formal_parameters (identifier))
       (statement_block
-        (return_statement (identifier))))))
+        (return_statement (identifier)))))
+  (generator_function_declaration
+    (identifier)
+      (formal_parameters)
+      (statement_block (expression_statement (yield_expression (number))))))
 
 ============================================
 Math operators
