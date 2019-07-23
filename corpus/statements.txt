@@ -680,6 +680,11 @@ for (;;) {
   }
 }
 
+label
+: {
+  break label;
+}
+
 ---
 
 (program
@@ -694,7 +699,11 @@ for (;;) {
           consequence: (statement_block
             (break_statement label: (statement_identifier)))
           alternative: (statement_block
-            (continue_statement label: (statement_identifier))))))))
+            (continue_statement label: (statement_identifier)))))))
+    (labeled_statement
+      label: (statement_identifier)
+      (statement_block
+        (break_statement label: (statement_identifier)))))
 
 ============================================
 Debugger statements
