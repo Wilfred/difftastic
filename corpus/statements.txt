@@ -11,6 +11,8 @@ import defaultMember, { member1, member2 as alias2 } from "module-name";
 import defaultMember, * as name from "module-name";
 import "module-name";
 import { member1 , member2 as alias2, } from "module-name";
+import("a");
+import("a").then((m) => {});
 
 ----
 
@@ -32,7 +34,15 @@ import { member1 , member2 as alias2, } from "module-name";
   (import_statement
     (string))
   (import_statement
-    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string)))
+    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string))
+  (expression_statement
+    (import_expression (arguments (string))))
+  (expression_statement
+    (call_expression
+      (member_expression
+        (import_expression (arguments (string)))
+        (property_identifier))
+      (arguments (arrow_function (formal_parameters (identifier)) (statement_block))))))
 
 ============================================
 Exports

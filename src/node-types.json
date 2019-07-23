@@ -92,6 +92,10 @@
         "named": true
       },
       {
+        "type": "import_expression",
+        "named": true
+      },
+      {
         "type": "jsx_element",
         "named": true
       },
@@ -1328,6 +1332,21 @@
         },
         {
           "type": "namespace_import",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "import_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "arguments",
           "named": true
         }
       ]
