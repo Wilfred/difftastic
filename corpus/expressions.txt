@@ -527,6 +527,7 @@ a => 1;
 (trailing,) => 4;
 (h, trailing,) => 5;
 (set, kv) => 2;
+async => async + 1;
 
 ---
 
@@ -551,7 +552,10 @@ a => 1;
     (formal_parameters (identifier) (identifier))
     (number)))
   (expression_statement (arrow_function
-    (formal_parameters (identifier) (identifier)) (number))))
+    (formal_parameters (identifier) (identifier)) (number)))
+  (expression_statement (arrow_function
+    (identifier)
+    (binary_expression (identifier) (number)))))
 
 ============================================
 Generator Functions

@@ -599,7 +599,11 @@ module.exports = grammar({
     arrow_function: $ => seq(
       optional('async'),
       choice(
-        field('parameter', $.identifier),
+        field('parameter',
+              choice(
+                alias($._reserved_identifier, $.identifier),
+                $.identifier,
+              )),
         field('parameters', $.formal_parameters)
       ),
       '=>',
