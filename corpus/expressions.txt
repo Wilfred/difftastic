@@ -17,7 +17,7 @@ line';
   (expression_statement (string (escape_sequence) (escape_sequence)))
   (expression_statement (string (escape_sequence)))
   (expression_statement (string (escape_sequence)))
-	(expression_statement (string (escape_sequence))))
+  (expression_statement (string)))
 
 ============================================
 Template strings
