@@ -799,7 +799,7 @@ module.exports = grammar({
       seq(
         '"',
         repeat(choice(
-          token.immediate(prec(PREC.STRING, /[^"\\\n]+/)),
+          token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)),
           $.escape_sequence
         )),
         '"'
@@ -807,7 +807,7 @@ module.exports = grammar({
       seq(
         "'",
         repeat(choice(
-          token.immediate(prec(PREC.STRING, /[^'\\\n]+/)),
+          token.immediate(prec(PREC.STRING, /[^'\\\n]+|\\\r?\n/)),
           $.escape_sequence
         )),
         "'"
