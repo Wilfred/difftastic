@@ -15,7 +15,13 @@
     {
       "id": 1,
       "property_set_id": 1,
-      "transitions": [],
+      "transitions": [
+        {
+          "type": "call_expression",
+          "named": true,
+          "state_id": 1
+        }
+      ],
       "default_next_state_id": 0
     }
   ],
