@@ -487,7 +487,8 @@ Functions
   },
   function stuff() {},
   function trailing(a,) {},
-  function trailing(a,b,) {}
+  function trailing(a,b,) {},
+  function reserved(async) {}
 ]
 
 ---
@@ -512,6 +513,10 @@ Functions
     (function
       (identifier)
       (formal_parameters (identifier) (identifier))
+      (statement_block))
+    (function
+      (identifier)
+      (formal_parameters (identifier))
       (statement_block)))))
 
 ===================================================
@@ -587,7 +592,7 @@ Generator Functions
 Function parameters with default values
 ============================================
 
-function a({b}, c = d, e = f) {
+function a({b}, c = d, e = f, async = true) {
 }
 
 ---
@@ -598,7 +603,8 @@ function a({b}, c = d, e = f) {
     (formal_parameters
       (object_pattern (shorthand_property_identifier))
       (assignment_pattern (shorthand_property_identifier) (identifier))
-      (assignment_pattern (shorthand_property_identifier) (identifier)))
+      (assignment_pattern (shorthand_property_identifier) (identifier))
+      (assignment_pattern (shorthand_property_identifier) (true)))
     (statement_block)))
 
 ============================================
