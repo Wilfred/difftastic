@@ -71,12 +71,18 @@ Future import statements
 
 from __future__ import print_statement
 from __future__ import python4
-
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
 ---
 
 (module
   (future_import_statement (dotted_name (identifier)))
-  (future_import_statement (dotted_name (identifier))))
+  (future_import_statement (dotted_name (identifier)))
+  (future_import_statement
+    (dotted_name (identifier))
+    (dotted_name (identifier))
+    (dotted_name (identifier))
+    (dotted_name (identifier))))
 
 =====================================
 Print statements

@@ -108,7 +108,10 @@ module.exports = grammar({
       'from',
       '__future__',
       'import',
-      $._import_list
+      choice(
+        $._import_list,
+        seq('(', $._import_list, ')'),
+      )
     ),
 
     import_from_statement: $ => seq(
