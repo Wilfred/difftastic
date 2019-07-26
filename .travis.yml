@@ -5,18 +5,15 @@ sudo: false
 node_js:
   - "10"
 
-matrix:
+os:
+  - linux
+
+  matrix:
   include:
     - os: osx
+      osx_image: xcode9.2
     - os: linux
-      env:
-        - CXX=clang++
-        - CC=clang
-      addons:
-        apt:
-          packages:
-            - build-essential
-            - clang-3.3
+      env: CXX=clang++
 
 branches:
   only:
