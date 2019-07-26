@@ -299,6 +299,16 @@ echo "s$"
   (command (command_name (word)) (string))
   (command (command_name (word)) (string)))
 
+========================================
+Strings with ANSI-C quoting
+========================================
+
+echo $'Here\'s johnny!\r\n'
+
+---
+
+(program (command (command_name (word)) (ansii_c_string)))
+
 =========================================
 Arrays and array expansions
 =========================================
