@@ -1,7 +1,7 @@
 image: Visual Studio 2017
 
 environment:
-  NODEJS_VERSION: "11"
+  NODEJS_VERSION: "10"
   PREBUILD_UPLOAD:
     secure: /JesINEpGYP12bsjCPZEozyGOBGXj48nVKYqcS7kHO+aiL8+R/ko8vmh3mo5aQvw
 
@@ -15,10 +15,10 @@ install:
   - npm --version
   - npm install
 
+build: off
+
 test_script:
   - npm run test-windows
-
-build: off
 
 branches:
   only:
