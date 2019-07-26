@@ -8,12 +8,12 @@ node_js:
 os:
   - linux
 
-  matrix:
-  include:
-    - os: osx
-      osx_image: xcode9.2
-    - os: linux
-      env: CXX=clang++
+matrix:
+include:
+  - os: osx
+    osx_image: xcode9.2
+  - os: linux
+    env: CXX=clang++
 
 branches:
   only:
