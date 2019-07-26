@@ -1628,6 +1628,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "ansii_c_string"
+        },
+        {
+          "type": "SYMBOL",
           "name": "expansion"
         },
         {
@@ -1865,6 +1869,10 @@
     "raw_string": {
       "type": "PATTERN",
       "value": "'[^']*'"
+    },
+    "ansii_c_string": {
+      "type": "PATTERN",
+      "value": "\\$'([^']|\\\\')*'"
     },
     "simple_expansion": {
       "type": "SEQ",
