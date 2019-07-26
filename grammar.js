@@ -396,6 +396,7 @@ module.exports = grammar({
       $.word,
       $.string,
       $.raw_string,
+      $.ansii_c_string,
       $.expansion,
       $.simple_expansion,
       $.string_expansion,
@@ -444,6 +445,8 @@ module.exports = grammar({
     ),
 
     raw_string: $ => /'[^']*'/,
+
+    ansii_c_string: $ => /\$'([^']|\\')*'/,
 
     simple_expansion: $ => seq(
       '$',
