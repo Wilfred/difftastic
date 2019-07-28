@@ -1,0 +1,22 @@
+{
+	"fileTypes": [],
+	"injectionSelector": "L:markup.fenced_code.block.markdown",
+	"patterns": [
+		{
+			"include": "#kotlin-code-block"
+		}
+	],
+	"repository": {
+		"kotlin-code-block": {
+			"begin": "kotlin",
+			"end": "(^|\\G)(?=\\s*[`~]{3,}\\s*$)",
+			"contentName": "meta.embedded.block.kotlin",
+			"patterns": [
+				{
+					"include": "source.Kotlin"
+				}
+			]
+		}
+	},
+	"scopeName": "markdown.Kotlin.codeblock"
+}
