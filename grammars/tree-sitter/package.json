@@ -1,0 +1,26 @@
+{
+	"name": "tree-sitter-kotlin",
+	"version": "0.0.1",
+	"description": "Tree-Sitter grammar for Kotlin",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"install": "node-gyp rebuild"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/fwcd/KotlinLanguageGrammars.git"
+	},
+	"keywords": [
+		"tree-sitter",
+		"kotlin",
+		"grammar"
+	],
+	"author": "fwcd",
+	"license": "MIT",
+	"gypfile": true,
+	"bugs": {
+		"url": "https://github.com/fwcd/KotlinLanguageGrammars/issues"
+	},
+	"homepage": "https://github.com/fwcd/KotlinLanguageGrammars#readme"
+}
