@@ -17,7 +17,7 @@ to install the parser generator.
 
 ## Compilation
 
-To re-compile the grammar, navigate to the `tree-sitter` directory and run:
+To re-compile the grammar, run:
 
 >`tree-sitter generate`
 
