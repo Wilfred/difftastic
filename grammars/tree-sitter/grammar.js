@@ -86,7 +86,7 @@ module.exports = grammar({
 			"import",
 			$.identifier,
 			optional(choice(".", "*", $.import_alias)),
-			optional(semi)
+			optional($.semi)
 		),
 		
 		import_alias: $ => seq("as", $.simple_identifier),
@@ -180,7 +180,7 @@ module.exports = grammar({
 		type_parameter: $ => seq(
 			optional($.type_parameter_modifiers),
 			$.simple_identifier,
-			optional(":", $.type)
+			optional(seq(":", $.type))
 		),
 		
 		type_constraints: $ => seq(
@@ -189,12 +189,19 @@ module.exports = grammar({
 			repeat(seq(",", $.type_constraint))
 		),
 		
+		type_constraint: $ => seq(
+			repeat($.annotation),
+			$.simple_identifier,
+			":",
+			$.type
+		),
+		
 		// ==========
 		// Class members
 		// ==========
 		
 		// modified
-		class_member_declarations: $ => repeat1($.class_member_declaration, optional($.semis)),
+		class_member_declarations: $ => repeat1(seq($.class_member_declaration, optional($.semis))),
 		
 		class_member_declaration: $ => choice(
 			$.declaration,
@@ -216,17 +223,17 @@ module.exports = grammar({
 		
 		function_value_parameters: $ => seq(
 			"(",
-			optional(
+			optional(seq(
 				$.function_value_parameter,
 				repeat(seq(",", $.function_value_parameter))
-			),
+			)),
 			")"
 		),
 		
 		function_value_parameter: $ => seq(
 			optional($.parameter_modifiers),
 			$.parameter,
-			optional("=", $.expression)
+			optional(seq("=", $.expression))
 		),
 		
 		function_declaration: $ => seq(
@@ -291,10 +298,10 @@ module.exports = grammar({
 		
 		parameters_with_optional_type: $ => seq(
 			"(",
-			optional(
+			optional(seq(
 				$.parameter_with_optional_type,
-				repeat(",", $.parameter_with_optional_type)
-			),
+				repeat(seq(",", $.parameter_with_optional_type))
+			)),
 			")"
 		),
 		
@@ -410,10 +417,10 @@ module.exports = grammar({
 		function_type_parameters: $ => seq(
 			"(",
 			optional(choice($.parameter, $.type)),
-			repeat(
+			repeat(seq(
 				",",
 				choice($.parameter, $.type)
-			),
+			)),
 			")"
 		),
 		
@@ -538,7 +545,7 @@ module.exports = grammar({
 		
 		comparison: $ => seq($.infix_operation, optional(seq($.comparison_operator, $.infix_operation))),
 		
-		infix_operation: $ => seq($.elvis_operator, repeat(choice(
+		infix_operation: $ => seq($.elvis_expression, repeat(choice(
 			seq($.in_operator, $.elvis_expression),
 			seq($.is_operator, $.type)
 		))),
@@ -624,7 +631,7 @@ module.exports = grammar({
 		
 		annotated_lambda: $ => seq(
 			repeat($.annotation),
-			optional($.lambda),
+			optional($.label),
 			$.lambda_literal
 		),
 		
@@ -719,11 +726,13 @@ module.exports = grammar({
 		
 		line_string_expression: $ => seq("${", $.expression, "}"),
 		
-		multi_line_string_expression: $ => choice(
+		multi_line_string_content: $ => choice(
 			$.multi_line_str_text,
 			'"',
 			$.multi_line_str_ref
 		),
+		
+		multi_line_string_expression: $ => seq("${", $.expression, "}"),
 		
 		// modified
 		lambda_literal: $ => choice(
@@ -912,7 +921,7 @@ module.exports = grammar({
 		// Modifiers
 		// ==========
 		
-		modifier: $ => choice($.annotation, repeat1($.modifier)),
+		modifiers: $ => choice($.annotation, repeat1($.modifier)),
 		
 		parameter_modifiers: $ => choice($.annotation, repeat1($.parameter_modifier)),
 		
