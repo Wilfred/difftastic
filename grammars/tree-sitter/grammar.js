@@ -311,7 +311,105 @@ module.exports = grammar({
 			"}"
 		),
 		
-		// >> TODO <<
+		enum_entries: $ => seq(
+			$.enum_entry,
+			repeat(seq(",", $.enum_entry)),
+			optional(",")
+		),
+		
+		enum_entry: $ => seq(
+			optional($.modifiers),
+			$.simple_identifier,
+			optional($.value_arguments),
+			optional($.class_body)
+		),
+		
+		// ==========
+		// Types
+		// ==========
+		
+		type: $ => seq(
+			optional($.type_modifiers),
+			choice(
+				$.parenthesized_type,
+				$.nullable_type,
+				$.type_reference,
+				$.function_type
+			)
+		),
+		
+		type_reference: $ => choice(
+			$.user_type,
+			"dynamic"
+		),
+		
+		nullable_type: $ => seq(
+			choice($.type_reference, $.parenthesized_type),
+			repeat($.quest)
+		),
+		
+		quest: $ => choice("?", $.quest_ws),
+		
+		user_type: $ => seq(
+			$.simple_user_type,
+			repeat(seq(".", $.simple_user_type))
+		),
+		
+		simple_user_type: $ => seq(
+			$.simple_identifier,
+			optional($.type_arguments)
+		),
+		
+		type_projection: $ => choice(
+			seq(optional($.type_projection_modifiers), $.type),
+			"*"
+		),
+		
+		type_projection_modifiers: $ => repeat1($.type_projection_modifier),
+		
+		type_projection_modifier: $ => choice(
+			$.variance_modifier,
+			$.annotation
+		),
+		
+		function_type: $ => seq(
+			optional(seq($.receiver_type, ".")),
+			$.function_type_parameters,
+			"->",
+			$.type
+		),
+		
+		function_type_parameters: $ => seq(
+			"(",
+			optional(choice($.parameter, $.type)),
+			repeat(
+				",",
+				choice($.parameter, $.type)
+			),
+			")"
+		),
+		
+		parenthesized_type: $ => seq("(", $.type, ")"),
+		
+		receiver_type: $ => seq(
+			optional($.type_modifiers),
+			choice(
+				$.parenthesized_type,
+				$.nullable_type,
+				$.type_reference
+			)
+		),
+		
+		parenthesized_user_type: $ => choice(
+			seq("(", $.user_type, ")"),
+			seq("(", $.parenthesized_user_type, ")")
+		),
+		
+		// ==========
+		// Statements
+		// ==========
+		
+		// TODO
 		
 		// See also https://github.com/tree-sitter/tree-sitter/issues/160
 		// for discussion of a generic EOF/newline token
