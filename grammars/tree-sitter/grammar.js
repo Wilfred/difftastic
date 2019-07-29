@@ -12,6 +12,10 @@ module.exports = grammar({
 		// zero-width matches. See https://gist.github.com/Aerijo/df27228d70c633e088b0591b8857eeef#general-tips
 		// for an explanation.
 		
+		// ====================
+		// Syntax grammar
+		// ====================
+		
 		// ==========
 		// General
 		// ==========
@@ -36,7 +40,7 @@ module.exports = grammar({
 			)
 		),
 		
-		shebang_line: $ => /#![^\r\n]*/,
+		shebang_line: $ => seq("#!", /[^\r\n]*/),
 		
 		file_annotation: $ => seq(
 			choice("@", $.at_pre_ws),
@@ -1015,5 +1019,298 @@ module.exports = grammar({
 		// ==========
 		// Identifiers
 		// ==========
+		
+		simple_identifier: $ => choice(
+			$.lexical_identifier,
+			"abstract",
+			"annotation",
+			"by",
+			"catch",
+			"companion",
+			"constructor",
+			"crossinline",
+			"data",
+			"dynamic",
+			"enum",
+			"external",
+			"final",
+			"finally",
+			"get",
+			"import",
+			"infix",
+			"init",
+			"inline",
+			"inner",
+			"internal",
+			"lateinit",
+			"noinline",
+			"open",
+			"operator",
+			"out",
+			"override",
+			"private",
+			"protected",
+			"public",
+			"reified",
+			"sealed",
+			"tailrec",
+			"set",
+			"vararg",
+			"where",
+			"field",
+			"property",
+			"receiver",
+			"param",
+			"setparam",
+			"delegate",
+			"file",
+			"expect",
+			"actual",
+			"const",
+			"suspend"
+		),
+		
+		identifier: $ => seq(
+			$.simple_identifier,
+			repeat(seq(".", $.simple_identifier))
+		),
+		
+		// ====================
+		// Lexical grammar
+		// ====================
+		
+		// ==========
+		// General
+		// ==========
+		
+		delimited_comment: $ => seq(
+			"/*",
+			repeat(choice($.delimited_comment, ".")),
+			"*/"
+		),
+		
+		line_comment: $ => seq("//", /[^\r\n]*/),
+		
+		ws: $ => /[ \t\u000C]/,
+		
+		hidden: $ => choice(
+			$.delimited_comment,
+			$.line_comment,
+			$.ws
+		),
+		
+		// ==========
+		// Separators and operations
+		// ==========
+		
+		reserved: $ => "...",
+		
+		excl_ws: $ => seq("!", $.hidden),
+		
+		double_arrow: $ => "=>",
+		
+		double_semicolon: $ => ";;",
+		
+		hash: $ => "#",
+		
+		at_post_ws: $ => seq("@", $.hidden),
+		
+		at_pre_ws: $ => seq($.hidden, "@"),
+		
+		at_both_ws: $ => seq($.hidden, "@", $.hidden),
+		
+		quest_ws: $ => seq("?", $.hidden),
+		
+		single_quote: $ => "'",
+		
+		// ==========
+		// Keywords
+		// ==========
+		
+		return_at: $ => seq("return@", $.lexical_identifier),
+		
+		continue_at: $ => seq("continue@", $.lexical_identifier),
+		
+		break_at: $ => seq("break@", $.lexical_identifier),
+		
+		this_at: $ => seq("this@", $.lexical_identifier),
+		
+		super_at: $ => seq("super@", $.lexical_identifier),
+		
+		typeof: $ => "typeof",
+		
+		not_is: $ => seq("!is", $.hidden),
+		
+		not_in: $ => seq("!in", $.hidden),
+		
+		// ==========
+		// Literals
+		// ==========
+		
+		dec_digit: $ => /[0-9]/,
+		
+		dec_digit_no_zero: $ => /[1-9]/,
+		
+		dec_digit_or_separator: $ => choice($.dec_digit, "_"),
+		
+		dec_digits: $ => choice(
+			seq($.dec_digit, repeat($.dec_digit_or_separator), $.dec_digit),
+			$.dec_digit
+		),
+		
+		double_exponent: $ => seq(/[eE]/, optional(/[+-]/), $.dec_digits),
+		
+		real_literal: $ => choice(
+			$.float_literal,
+			$.double_literal
+		),
+		
+		float_literal: $ => choice(
+			seq($.double_literal, /[fF]/),
+			seq($.dec_digits, /[fF]/)
+		),
+		
+		double_literal: $ => choice(
+			seq(optional($.dec_digits), ".", $.dec_digits, optional($.double_exponent)),
+			seq($.dec_digits, $.double_exponent)
+		),
+		
+		integer_literal: $ => choice(
+			seq($.dec_digit_no_zero, repeat($.dec_digit_or_separator), $.dec_digit),
+			$.dec_digit
+		),
+		
+		hex_digit: $ => /[0-9a-fA-F]/,
+		
+		hex_digit_or_separator: $ => choice($.hex_digit, "_"),
+		
+		hex_literal: $ => choice(
+			seq("0", /[xX]/, $.hex_digit, repeat($.hex_digit_or_separator), $.hex_digit),
+			seq("0", /[xX]/, $.hex_digit)
+		),
+		
+		bin_digit: $ => /[01]/,
+		
+		bin_digit_or_separator: $ => choice($.bin_digit, "_"),
+		
+		bin_literal: $ => choice(
+			seq("0", /[bB]/, $.bin_digit, repeat($.bin_digit_or_separator), $.bin_digit),
+			seq("0", /[bB]/, $.bin_digit)
+		),
+		
+		unsigned_literal: $ => seq(
+			choice($.integer_literal, $.hex_literal, $.bin_literal),
+			/[uU]/,
+			optional("L")
+		),
+		
+		long_literal: $ => seq(
+			choice($.integer_literal, $.hex_literal, $.bin_literal),
+			"L"
+		),
+		
+		boolean_literal: $ => choice("true", "false"),
+		
+		character_literal: $ => seq(
+			"'",
+			choice($.escape_seq, /[^\n\r'\\]/),
+			"'"
+		),
+		
+		// ==========
+		// Identifiers
+		// ==========
+		
+		lexical_identifier: $ => choice(
+			/[a-zA-Z_][a-zA-Z_0-9]+/,
+			/`[^\r\n`]+`/
+		),
+		
+		identifier_or_soft_key: $ => choice(
+			$.lexical_identifier,
+			"abstract",
+			"annotation",
+			"by",
+			"catch",
+			"companion",
+			"constructor",
+			"crossinline",
+			"data",
+			"dynamic",
+			"enum",
+			"external",
+			"final",
+			"finally",
+			"import",
+			"infix",
+			"init",
+			"inline",
+			"inner",
+			"internal",
+			"lateinit",
+			"noinline",
+			"open",
+			"operator",
+			"out",
+			"override",
+			"private",
+			"protected",
+			"public",
+			"reified",
+			"sealed",
+			"tailrec",
+			"vararg",
+			"where",
+			"get",
+			"set",
+			"field",
+			"property",
+			"receiver",
+			"param",
+			"setparam",
+			"delegate",
+			"file",
+			"expect",
+			"actual",
+			"const",
+			"suspend"
+		),
+		
+		field_identifier: $ => seq("$", $.identifier_or_soft_key),
+		
+		uni_character_literal: $ => seq(
+			"\\",
+			"u",
+			$.hex_digit,
+			$.hex_digit,
+			$.hex_digit,
+			$.hex_digit
+		),
+		
+		escaped_identifier: $ => /\\[tbrn'"\\$]/,
+		
+		escape_seq: $ => choice(
+			$.uni_character_literal,
+			$.escaped_identifier
+		),
+		
+		// ==========
+		// Strings
+		// ==========
+		
+		line_str_ref: $ => $.field_identifier,
+		
+		line_str_text: $ => choice(/[^\\"$]+/, "$"),
+		
+		line_str_escaped_char: $ => choice(
+			$.escaped_identifier,
+			$.uni_character_literal
+		),
+		
+		triple_quote_close: $ => /"?"""/,
+		
+		multi_line_str_ref: $ => $.field_identifier,
+		
+		multi_line_str_text: $ => choice(/[^"$]+/, "$")
 	}
 });
