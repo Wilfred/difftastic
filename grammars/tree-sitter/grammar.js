@@ -958,10 +958,62 @@ module.exports = grammar({
 		
 		reification_modifier: $ => "reified",
 		
-		platform_modifier: $ => choice("expect", "actual")
+		platform_modifier: $ => choice("expect", "actual"),
 		
 		// ==========
 		// Annotations
+		// ==========
+		
+		annotation: $ => choice(
+			$.single_annotation,
+			$.multi_annotation
+		),
+		
+		single_annotation: $ => choice(
+			seq($.annotation_use_site_target, $.unescaped_annotation),
+			seq(
+				choice("@", $.at_pre_ws),
+				$.unescaped_annotation
+			)
+		),
+		
+		multi_annotation: $ => choice(
+			seq(
+				$.annotation_use_site_target,
+				"[",
+				repeat1($.unescaped_annotation),
+				"]"
+			),
+			seq(
+				choice("@", $.at_pre_ws),
+				"[",
+				repeat1($.unescaped_annotation),
+				"]"
+			)
+		),
+		
+		annotation_use_site_target: $ => seq(
+			choice("@", $.at_pre_ws),
+			choice(
+				"field",
+				"property",
+				"get",
+				"set",
+				"receiver",
+				"param",
+				"setparam",
+				"delegate"
+			),
+			":"
+		),
+		
+		unescaped_annotation: $ => choice(
+			$.constructor_invocation,
+			$.user_type
+		),
+		
+		// ==========
+		// Identifiers
 		// ==========
 	}
 });
