@@ -409,12 +409,102 @@ module.exports = grammar({
 		// Statements
 		// ==========
 		
-		// TODO
+		// modified
+		statements: $ => seq(
+			$.statement,
+			repeat(seq($.semis, $.statement)),
+			optional($.semis)
+		),
+		
+		statement: $ => seq(
+			repeat(choice($.label, $.annotation)),
+			choice(
+				$.declaration,
+				$.assignment,
+				$.loop_statement,
+				$.expression
+			)
+		),
+		
+		label: $ => seq(
+			$.simple_identifier,
+			choice("@", $.at_post_ws)
+		),
+		
+		control_structure_body: $ => choice($.block, $.statement),
+		
+		// modified
+		block: $ => seq("{", optional($.statements), "}"),
+		
+		loop_statement: $ => choice(
+			$.for_statement,
+			$.while_statement,
+			$.do_while_statement
+		),
+		
+		for_statement: $ => seq(
+			"for",
+			"(",
+			repeat($.annotation),
+			choice($.variable_declaration, $.multi_variable_declaration),
+			"in",
+			$.expression,
+			")",
+			optional($.control_structure_body)
+		),
+		
+		while_statement: $ => choice(
+			seq(
+				"while",
+				"(",
+				$.expression,
+				")",
+				$.control_structure_body
+			),
+			seq(
+				"while",
+				"(",
+				$.expression,
+				")",
+				";"
+			)
+		),
+		
+		do_while_statement: $ => seq(
+			"do",
+			optional($.control_structure_body),
+			"while",
+			"(",
+			$.expression,
+			")"
+		),
+		
+		assignment: $ => choice(
+			seq($.directly_assignable_expression, "=", $.expression),
+			seq($.assignable_expression, $.assignment_and_operator, $.expression)
+		),
 		
 		// See also https://github.com/tree-sitter/tree-sitter/issues/160
 		// for discussion of a generic EOF/newline token
 		semi: $ => /[\r\n]+/,
 		
-		semis: $ => /[\r\n]+/
+		semis: $ => /[\r\n]+/,
+		
+		// ==========
+		// Expressions
+		// ==========
+		
+		// TODO
+		
+		// modified
+		lambda_literal: $ => choice(
+			seq("{", optional($.statements), "}"),
+			seq(
+				"{",
+				optional($.lambda_parameters),
+				"->",
+				optional($.statements)
+			)
+		)
 	}
 });
