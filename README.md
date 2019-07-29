@@ -6,6 +6,7 @@
 The grammars are based on the [official language grammar](https://kotlinlang.org/docs/reference/grammar.html).
 
 ## Tree-Sitter
+_Note that the Tree-Sitter grammar is highly experimental and not suited for production usage yet!_
 
 ### Setup
 
