@@ -884,6 +884,84 @@ module.exports = grammar({
 		// Modifiers
 		// ==========
 		
-		// TODO
+		modifier: $ => choice($.annotation, repeat1($.modifier)),
+		
+		parameter_modifiers: $ => choice($.annotation, repeat1($.parameter_modifier)),
+		
+		modifier: $ => choice(
+			$.class_modifier,
+			$.member_modifier,
+			$.visibility_modifier,
+			$.function_modifier,
+			$.property_modifier,
+			$.inheritance_modifier,
+			$.parameter_modifier,
+			$.platform_modifier
+		),
+		
+		type_modifiers: $ => repeat1($.type_modifier),
+		
+		type_modifier: $ => choice($.annotation, "suspend"),
+		
+		class_modifier: $ => choice(
+			"enum",
+			"sealed",
+			"annotation",
+			"data",
+			"inner"
+		),
+		
+		member_modifier: $ => choice(
+			"override",
+			"lateinit"
+		),
+		
+		visibility_modifier: $ => choice(
+			"public",
+			"private",
+			"internal",
+			"protected"
+		),
+		
+		variance_modifier: $ => choice("in", "out"),
+		
+		type_parameter_modifiers: $ => repeat1($.type_parameter_modifier),
+		
+		type_parameter_modifier: $ => choice(
+			$.reification_modifier,
+			$.variance_modifier,
+			$.annotation
+		),
+		
+		function_modifier: $ => choice(
+			"tailrec",
+			"operator",
+			"infix",
+			"inline",
+			"external",
+			"suspend"
+		),
+		
+		property_modifier: $ => "const",
+		
+		inheritance_modifier: $ => choice(
+			"abstract",
+			"final",
+			"open"
+		),
+		
+		parameter_modifier: $ => choice(
+			"vararg",
+			"noinline",
+			"crossinline"
+		),
+		
+		reification_modifier: $ => "reified",
+		
+		platform_modifier: $ => choice("expect", "actual")
+		
+		// ==========
+		// Annotations
+		// ==========
 	}
 });
