@@ -274,8 +274,7 @@ module.exports = grammar({
       'rescue',
       optional($.exceptions),
       optional($.exception_variable),
-      choice($._terminator, $.then),
-      optional($.rescue)
+      choice($._terminator, $.then)
     ),
 
     exceptions: $ => commaSep1($._arg_or_splat_arg),
@@ -284,9 +283,7 @@ module.exports = grammar({
 
     _body_statement: $ => seq(
       optional($._statements),
-      optional($.rescue),
-      optional($.else),
-      optional($.ensure),
+      repeat(choice($.rescue, $.else, $.ensure)),
       'end'
     ),
 
@@ -413,8 +410,7 @@ module.exports = grammar({
       'do',
       optional($._terminator),
       optional(seq($.block_parameters, optional($._terminator))),
-      optional($._statements),
-      'end'
+      $._body_statement
     ),
 
     block: $ => prec(PREC.CURLY_BLOCK, seq(

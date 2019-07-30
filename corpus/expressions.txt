@@ -908,7 +908,11 @@ method call with block argument do end
 ======================================
 
 foo do |i|
-  foo
+  bar
+rescue E
+  baz
+ensure
+  quux
 end
 
 foo do
@@ -933,7 +937,13 @@ end
 (program
   (method_call
     (identifier)
-    (do_block (block_parameters (identifier)) (identifier)))
+    (do_block
+      (block_parameters (identifier))
+        (identifier)
+      (rescue (exceptions (constant)) (then
+        (identifier)))
+      (ensure
+        (identifier))))
   (method_call
     (identifier)
     (do_block (block_parameters (identifier)) (identifier)))
