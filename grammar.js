@@ -319,7 +319,8 @@ module.exports = grammar({
         $.if_else_expr,
         $.case_of_expr,
         $.let_in_expr,
-        $.anonymous_function_expr
+        $.anonymous_function_expr,
+        $.glsl_code_expr
       ),
 
     field_access_expr: $ =>
@@ -550,6 +551,10 @@ module.exports = grammar({
         $.value_expr
       ),
 
+    glsl_code_expr: $ => seq($.glsl_begin, repeat($.glsl_content), $.glsl_end),
+
+    glsl_content: $ => /.+/,
+
     // Stuff from lexer
 
     upper_case_identifier: $ => /[A-Z][a-zA-Z0-9_]*/,
@@ -629,6 +634,8 @@ module.exports = grammar({
         "|="
       ),
     infix: $ => "infix",
+    glsl_begin: $ => "[glsl|",
+    glsl_end: $ => "|]",
 
     _char_quote: $ => "'"
   }

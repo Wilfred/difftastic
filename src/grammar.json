@@ -1150,6 +1150,10 @@
         {
           "type": "SYMBOL",
           "name": "anonymous_function_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "glsl_code_expr"
         }
       ]
     },
@@ -2283,6 +2287,30 @@
         }
       ]
     },
+    "glsl_code_expr": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "glsl_begin"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "glsl_content"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "glsl_end"
+        }
+      ]
+    },
+    "glsl_content": {
+      "type": "PATTERN",
+      "value": ".+"
+    },
     "upper_case_identifier": {
       "type": "PATTERN",
       "value": "[A-Z][a-zA-Z0-9_]*"
@@ -2574,6 +2602,14 @@
           "value": "|="
         }
       ]
+    },
+    "glsl_begin": {
+      "type": "STRING",
+      "value": "[glsl|"
+    },
+    "glsl_end": {
+      "type": "STRING",
+      "value": "|]"
     },
     "_char_quote": {
       "type": "STRING",

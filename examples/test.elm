@@ -1,46 +1,18 @@
 
-string1 =
-        """
-        multiline
+textures_skies_tim_hell_fragment_1 = 
+    [glsl|
+precision mediump float;
 
-        """
-
-string2 =
-        """"""
-
-string3 =
-        """
-        "
-
-        """
-
-string4 =
-        """
-        --comment
-
-        """
-
-string5 =
-        """
-        {- block comment -}
-
-        """
-
-json =
-        """
-            { "description": null
-            , "slug": \"""" ++ str ++ """"
-            , "title": ""
-            , "tagList": []
-            , "createdAt": "2012-04-23T18:25:43.511Z"
-            , "updatedAt": "2012-04-23T18:25:43.511Z"
-            , "favorited": false
-            , "favoritesCount": 1
-            , "author":
-                 { "username": ""
-                 , "bio": null
-                 , "image": null
-                 , "following": false
-                 }
-            }
-        """
+varying vec2 vTextureCoord;
+varying vec2 vLightmapCoord;
+varying vec4 vColor;
+uniform sampler2D texture;
+uniform float time;
+void main(void) {
+	vec4 textureColor = texture2D(texture, vTextureCoord.st);
+	vec3 rgb = textureColor.rgb;
+	// alphaGen
+	float alpha = textureColor.a;
+	gl_FragColor = vec4(rgb, alpha);
+}
+    |]
