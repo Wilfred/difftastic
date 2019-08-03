@@ -22,7 +22,8 @@ enum TokenType
     OPEN_QUOTE,
     CLOSE_QUOTE,
     OPEN_QUOTE_MULTILINE,
-    CLOSE_QUOTE_MULTILINE
+    CLOSE_QUOTE_MULTILINE,
+    GLSL_CONTENT
 };
 
 struct Scanner
@@ -350,6 +351,32 @@ struct Scanner
         if (in_string != 0 && (valid_symbols[CLOSE_QUOTE] || valid_symbols[CLOSE_QUOTE_MULTILINE]))
         {
             return scan_quote(lexer, CLOSE_QUOTE, CLOSE_QUOTE_MULTILINE, true);
+        }
+
+
+        if (in_string == 0 && valid_symbols[GLSL_CONTENT])
+        {
+            lexer->result_symbol = GLSL_CONTENT;
+            while (true)
+            {
+                switch (lexer->lookahead)
+                {
+                case '|':
+                    lexer->mark_end(lexer);
+                    advance(lexer);
+                    if(lexer->lookahead == ']'){
+                        advance(lexer);
+                        return true;
+                    }
+                    break;
+                case '\0':
+                    lexer->mark_end(lexer);
+                    return true;
+                default:
+                    advance(lexer);
+                }
+            }
+
         }
 
         return false;

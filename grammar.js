@@ -18,7 +18,8 @@ module.exports = grammar({
     $.open_quote,
     $.close_quote,
     $.open_quote_multiline,
-    $.close_quote_multiline
+    $.close_quote_multiline,
+    $.glsl_content
   ],
 
   extras: $ => [
@@ -551,9 +552,7 @@ module.exports = grammar({
         $.value_expr
       ),
 
-    glsl_code_expr: $ => seq($.glsl_begin, repeat($.glsl_content), $.glsl_end),
-
-    glsl_content: $ => /.+/,
+    glsl_code_expr: $ => seq($.glsl_begin, $.glsl_content, $.glsl_end),
 
     // Stuff from lexer
 

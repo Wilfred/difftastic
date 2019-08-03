@@ -2676,10 +2676,6 @@
     "named": false
   },
   {
-    "type": "glsl_content",
-    "named": true
-  },
-  {
     "type": "upper_case_identifier",
     "named": true
   },
