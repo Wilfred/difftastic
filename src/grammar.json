@@ -2295,21 +2295,14 @@
           "name": "glsl_begin"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "glsl_content"
-          }
+          "type": "SYMBOL",
+          "name": "glsl_content"
         },
         {
           "type": "SYMBOL",
           "name": "glsl_end"
         }
       ]
-    },
-    "glsl_content": {
-      "type": "PATTERN",
-      "value": ".+"
     },
     "upper_case_identifier": {
       "type": "PATTERN",
@@ -2685,6 +2678,10 @@
     {
       "type": "SYMBOL",
       "name": "close_quote_multiline"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "glsl_content"
     }
   ],
   "inline": [],
