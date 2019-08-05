@@ -1,4 +1,4 @@
-# TreeSitterKotlin
+# Tree-Sitter Kotlin Grammar
 [Kotlin](https://kotlinlang.org) language grammar for [Tree-Sitter](http://tree-sitter.github.io/tree-sitter/).
 
 ![Icon](Icon128.png)
@@ -29,5 +29,5 @@ More documentation on how to create Tree-Sitter grammars [can be found here](htt
 
 ## See also
 
-* [KotlinLanguageServer](https://github.com/fwcd/KotlinLanguageServer) for code completion, diagnostics and more
-* [KotlinDebugAdapter](https://github.com/fwcd/KotlinDebugAdapter) for JVM debugging support
+* [Kotlin Language Server](https://github.com/fwcd/kotlin-language-server) for code completion, diagnostics and more
+* [Kotlin Debug Adapter](https://github.com/fwcd/kotlin-debug-adapter) for JVM debugging support
