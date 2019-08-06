@@ -8,10 +8,22 @@ Numbers
 0xffffffffn
 0b00111n
 0o1234n
+0xa_b_c
+0o1_1
+0b1_000_000
+1_2_3
+12_3.4_5e6_7
+0b1_000_000n
 
 ---
 
 (program
+  (expression_statement (number))
+  (expression_statement (number))
+  (expression_statement (number))
+  (expression_statement (number))
+  (expression_statement (number))
+  (expression_statement (number))
   (expression_statement (number))
   (expression_statement (number))
   (expression_statement (number))
