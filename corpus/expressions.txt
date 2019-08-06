@@ -490,7 +490,8 @@ Functions
   function stuff() {},
   function trailing(a,) {},
   function trailing(a,b,) {},
-  function reserved(async) {}
+  function reserved(async) {},
+  function rest(...[_ = x]) {}
 ]
 
 ---
@@ -519,6 +520,10 @@ Functions
     (function
       (identifier)
       (formal_parameters (identifier))
+      (statement_block))
+    (function
+      (identifier)
+      (formal_parameters (rest_parameter (array_pattern (assignment_expression (identifier) (identifier)))))
       (statement_block)))))
 
 ===================================================

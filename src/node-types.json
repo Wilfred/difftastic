@@ -2093,6 +2093,10 @@
       "required": true,
       "types": [
         {
+          "type": "_destructuring_pattern",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         }
