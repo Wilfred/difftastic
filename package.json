@@ -16,7 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/Azganoth/tree-sitter-lua.git"
   },
-  "author": "Ademir Ferreira <ademir.ferreiracif@gmail.com> (https://github.com/Azganoth)",
+  "author": "Ademir Ferreira <ademir.ferreira.zorah@gmail.com> (https://github.com/Azganoth)",
   "main": "index",
   "scripts": {
     "build": "tree-sitter generate && node-gyp build --debug",
