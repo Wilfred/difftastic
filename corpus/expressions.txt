@@ -121,10 +121,12 @@ Variables
 theVar;
 theVar2;
 $_;
+\u0061\u{62}cd;
 
 ---
 
 (program
+  (expression_statement (identifier))
   (expression_statement (identifier))
   (expression_statement (identifier))
   (expression_statement (identifier)))
