@@ -898,7 +898,8 @@ module.exports = grammar({
       const decimal_literal = choice(
         seq(decimal_integer_literal, '.', optional(decimal_digits), optional(exponent_part)),
         seq('.', decimal_digits, optional(exponent_part)),
-        seq(decimal_integer_literal, optional(exponent_part))
+        seq(decimal_integer_literal, exponent_part),
+        seq(decimal_digits),
       )
 
       return token(choice(
