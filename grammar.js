@@ -1002,7 +1002,10 @@ module.exports = grammar({
 
     rest_parameter: $ => seq(
       '...',
-      $.identifier
+      choice(
+        $.identifier,
+        $._destructuring_pattern,
+      )
     ),
 
     method_definition: $ => seq(
