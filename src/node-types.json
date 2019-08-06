@@ -92,7 +92,7 @@
         "named": true
       },
       {
-        "type": "import_expression",
+        "type": "import",
         "named": true
       },
       {
@@ -1315,6 +1315,11 @@
     }
   },
   {
+    "type": "import",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "import_clause",
     "named": true,
     "fields": {},
@@ -1332,21 +1337,6 @@
         },
         {
           "type": "namespace_import",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "import_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "arguments",
           "named": true
         }
       ]
@@ -1857,6 +1847,10 @@
           },
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "import",
             "named": true
           },
           {
