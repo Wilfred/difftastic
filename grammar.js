@@ -140,19 +140,16 @@ module.exports = grammar({
     // Import declarations
     //
 
-    import_expression: $ => seq(
-      'import', 
-      $.arguments,
-    ),
+    import: $ => token('import'),
 
-    import_statement: $ => seq(
+    import_statement: $ => prec(1, seq(
       'import',
       choice(
         seq($.import_clause, $._from_clause),
         field('source', $.string)
       ),
       $._semicolon
-    ),
+    )),
 
     import_clause: $ => choice(
       $.namespace_import,
@@ -418,7 +415,6 @@ module.exports = grammar({
       $.update_expression,
       $.call_expression,
       $.yield_expression,
-      $.import_expression,
     ),
 
     yield_expression: $ => prec.right(seq(
@@ -647,6 +643,7 @@ module.exports = grammar({
       $.false,
       $.null,
       $.undefined,
+      $.import,
       $.object,
       $.array,
       $.function,
