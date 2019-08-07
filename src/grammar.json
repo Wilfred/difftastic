@@ -42,11 +42,11 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "statement"
+                "name": "_statement"
               },
               {
                 "type": "SYMBOL",
-                "name": "semi"
+                "name": "_semi"
               }
             ]
           }
@@ -82,7 +82,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "semi"
+              "name": "_semi"
             },
             {
               "type": "BLANK"
@@ -133,7 +133,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "semi"
+              "name": "_semi"
             },
             {
               "type": "BLANK"
@@ -160,14 +160,14 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "declaration"
+          "name": "_declaration"
         },
         {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "semis"
+              "name": "_semis"
             },
             {
               "type": "BLANK"
@@ -193,11 +193,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "type"
+          "name": "_type"
         }
       ]
     },
-    "declaration": {
+    "_declaration": {
       "type": "CHOICE",
       "members": [
         {
@@ -284,14 +284,14 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "declaration"
+            "name": "_declaration"
           },
           {
             "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "semis"
+                "name": "_semis"
               },
               {
                 "type": "BLANK"
@@ -320,7 +320,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "type"
+                  "name": "_type"
                 }
               ]
             },
@@ -369,7 +369,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "block"
+          "name": "_block"
         },
         {
           "type": "SEQ",
@@ -380,7 +380,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "expression"
+              "name": "_expression"
             }
           ]
         }
@@ -411,16 +411,16 @@
         }
       ]
     },
-    "type": {
+    "_type": {
       "type": "SYMBOL",
       "name": "simple_identifier"
     },
-    "statements": {
+    "_statements": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "statement"
+          "name": "_statement"
         },
         {
           "type": "REPEAT",
@@ -429,11 +429,11 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "semis"
+                "name": "_semis"
               },
               {
                 "type": "SYMBOL",
-                "name": "statement"
+                "name": "_statement"
               }
             ]
           }
@@ -443,7 +443,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "semis"
+              "name": "_semis"
             },
             {
               "type": "BLANK"
@@ -452,7 +452,7 @@
         }
       ]
     },
-    "statement": {
+    "_statement": {
       "type": "SEQ",
       "members": [
         {
@@ -476,7 +476,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "declaration"
+              "name": "_declaration"
             },
             {
               "type": "SYMBOL",
@@ -484,11 +484,11 @@
             },
             {
               "type": "SYMBOL",
-              "name": "loop_statement"
+              "name": "_loop_statement"
             },
             {
               "type": "SYMBOL",
-              "name": "expression"
+              "name": "_expression"
             }
           ]
         }
@@ -505,9 +505,9 @@
     },
     "control_structure_body": {
       "type": "SYMBOL",
-      "name": "block"
+      "name": "_block"
     },
-    "block": {
+    "_block": {
       "type": "SEQ",
       "members": [
         {
@@ -519,7 +519,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "statements"
+              "name": "_statements"
             },
             {
               "type": "BLANK"
@@ -532,7 +532,7 @@
         }
       ]
     },
-    "loop_statement": {
+    "_loop_statement": {
       "type": "CHOICE",
       "members": [
         {
@@ -582,7 +582,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expression"
+          "name": "_expression"
         },
         {
           "type": "STRING",
@@ -615,7 +615,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expression"
+          "name": "_expression"
         },
         {
           "type": "STRING",
@@ -665,7 +665,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expression"
+          "name": "_expression"
         },
         {
           "type": "STRING",
@@ -673,11 +673,11 @@
         }
       ]
     },
-    "semi": {
+    "_semi": {
       "type": "PATTERN",
       "value": "[\\r\\n]+"
     },
-    "semis": {
+    "_semis": {
       "type": "PATTERN",
       "value": "[\\r\\n]+"
     },
@@ -697,13 +697,13 @@
             },
             {
               "type": "SYMBOL",
-              "name": "expression"
+              "name": "_expression"
             }
           ]
         }
       ]
     },
-    "expression": {
+    "_expression": {
       "type": "CHOICE",
       "members": [
         {
@@ -736,7 +736,7 @@
     },
     "simple_identifier": {
       "type": "SYMBOL",
-      "name": "lexical_identifier"
+      "name": "_lexical_identifier"
     },
     "identifier": {
       "type": "SEQ",
@@ -763,7 +763,7 @@
         }
       ]
     },
-    "lexical_identifier": {
+    "_lexical_identifier": {
       "type": "CHOICE",
       "members": [
         {

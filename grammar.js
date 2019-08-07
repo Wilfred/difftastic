@@ -41,32 +41,32 @@ module.exports = grammar({
 			// repeat($.file_annotation), TODO
 			optional($.package_header),
 			repeat($.import_header),
-			repeat(seq($.statement, $.semi))
+			repeat(seq($._statement, $._semi))
 		),
 		
 		shebang_line: $ => seq("#!", /[^\r\n]*/),
 		
-		package_header: $ => seq("package", $.identifier, optional($.semi)),
+		package_header: $ => seq("package", $.identifier, optional($._semi)),
 		
 		import_header: $ => seq(
 			"import",
 			$.identifier,
 			optional(choice(seq(".*"), $.import_alias)), 
-			optional($.semi)
+			optional($._semi)
 		),
 
 		import_alias: $ => seq("as", $.simple_identifier),
 
-		top_level_object: $ => seq($.declaration, optional($.semis)),
+		top_level_object: $ => seq($._declaration, optional($._semis)),
 
 		type_alias: $ => seq(
 			"typealias",
 			$.simple_identifier,
 			"=",
-			$.type
+			$._type
 		),
 		
-		declaration: $ => choice(
+		_declaration: $ => choice(
 			$.class_declaration,
 			$.object_declaration,
 			$.function_declaration,
@@ -89,12 +89,12 @@ module.exports = grammar({
 		// Class members
 		// ==========
 		
-		class_member_declarations: $ => repeat1(seq($.declaration, optional($.semis))), // TODO
+		class_member_declarations: $ => repeat1(seq($._declaration, optional($._semis))), // TODO
 
 		variable_declaration: $ => seq(
 			// repeat($.annotation), TODO
 			$.simple_identifier,
-			optional(seq(":", $.type))
+			optional(seq(":", $._type))
 		),
 
 		function_declaration: $ => seq( // TODO
@@ -104,7 +104,7 @@ module.exports = grammar({
 			optional($.function_body)
 		),
 
-		function_body: $ => choice($.block, seq("=", $.expression)),
+		function_body: $ => choice($._block, seq("=", $._expression)),
 
 		object_declaration: $ => seq( // TODO
 			"object",
@@ -121,25 +121,25 @@ module.exports = grammar({
 		// Types
 		// ==========
 		
-		type: $ => $.simple_identifier, // TODO
+		_type: $ => $.simple_identifier, // TODO
 		
 		// ==========
 		// Statements
 		// ==========
 		
-		statements: $ => seq(
-			$.statement,
-			repeat(seq($.semis, $.statement)),
-			optional($.semis),
+		_statements: $ => seq(
+			$._statement,
+			repeat(seq($._semis, $._statement)),
+			optional($._semis),
 		),
 
-		statement: $ => seq(
+		_statement: $ => seq(
 			repeat(choice($.label, $.annotation)),
 			choice(
-				$.declaration,
+				$._declaration,
 				$.assignment,
-				$.loop_statement,
-				$.expression
+				$._loop_statement,
+				$._expression
 			)
 		),
 
@@ -148,11 +148,11 @@ module.exports = grammar({
 			// TODO
 		),
 
-		control_structure_body: $ => $.block, // TODO
+		control_structure_body: $ => $._block, // TODO
 
-		block: $ => seq("{", optional($.statements), "}"),
+		_block: $ => seq("{", optional($._statements), "}"),
 
-		loop_statement: $ => choice(
+		_loop_statement: $ => choice(
 			$.for_statement,
 			$.while_statement,
 			$.do_while_statement
@@ -164,7 +164,7 @@ module.exports = grammar({
 			repeat($.annotation),
 			choice($.variable_declaration), // TODO: Multi-variable declaration
 			"in",
-			$.expression,
+			$._expression,
 			")",
 			optional($.control_structure_body)
 		),
@@ -172,7 +172,7 @@ module.exports = grammar({
 		while_statement: $ => seq(
 			"while",
 			"(",
-			$.expression,
+			$._expression,
 			")",
 			choice(";", $.control_structure_body)
 		),
@@ -182,18 +182,18 @@ module.exports = grammar({
 			optional($.control_structure_body),
 			"while",
 			"(",
-			$.expression,
+			$._expression,
 			")",
 		),
 
 		// See also https://github.com/tree-sitter/tree-sitter/issues/160
 		// generic EOF/newline token
-		semi: $ => /[\r\n]+/,
+		_semi: $ => /[\r\n]+/,
 		
-		semis: $ => /[\r\n]+/,
+		_semis: $ => /[\r\n]+/,
 		
 		assignment: $ => choice(
-			seq($.directly_assignable_expression, "=", $.expression),
+			seq($.directly_assignable_expression, "=", $._expression),
 			// TODO
 		),
 		
@@ -201,7 +201,7 @@ module.exports = grammar({
 		// Expressions
 		// ==========
 		
-		expression: $ => choice(
+		_expression: $ => choice(
 			$.simple_identifier
 			// TODO
 		),
@@ -230,7 +230,7 @@ module.exports = grammar({
 		// Identifiers
 		// ==========
 		
-		simple_identifier: $ => $.lexical_identifier, // TODO
+		simple_identifier: $ => $._lexical_identifier, // TODO
 		
 		identifier: $ => seq(
 			$.simple_identifier,
@@ -266,7 +266,7 @@ module.exports = grammar({
 		// Identifiers
 		// ==========
 		
-		lexical_identifier: $ => choice(
+		_lexical_identifier: $ => choice(
 			/[a-zA-Z_][a-zA-Z_0-9]+/,
 			/`[^\r\n`]+`/
 		)

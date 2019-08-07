@@ -27,22 +27,7 @@
           "named": true
         },
         {
-          "type": "expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "statements",
+          "type": "simple_identifier",
           "named": true
         }
       ]
@@ -91,11 +76,19 @@
       "required": false,
       "types": [
         {
-          "type": "declaration",
+          "type": "class_declaration",
           "named": true
         },
         {
-          "type": "semis",
+          "type": "function_declaration",
+          "named": true
+        },
+        {
+          "type": "object_declaration",
+          "named": true
+        },
+        {
+          "type": "type_alias",
           "named": true
         }
       ]
@@ -110,22 +103,23 @@
       "required": false,
       "types": [
         {
-          "type": "block",
+          "type": "annotation",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
         {
           "type": "class_declaration",
+          "named": true
+        },
+        {
+          "type": "do_while_statement",
+          "named": true
+        },
+        {
+          "type": "for_statement",
           "named": true
         },
         {
@@ -133,11 +127,23 @@
           "named": true
         },
         {
+          "type": "label",
+          "named": true
+        },
+        {
           "type": "object_declaration",
           "named": true
         },
         {
+          "type": "simple_identifier",
+          "named": true
+        },
+        {
           "type": "type_alias",
+          "named": true
+        },
+        {
+          "type": "while_statement",
           "named": true
         }
       ]
@@ -171,21 +177,6 @@
           "named": true
         },
         {
-          "type": "expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
           "type": "simple_identifier",
           "named": true
         }
@@ -209,7 +200,7 @@
           "named": true
         },
         {
-          "type": "expression",
+          "type": "simple_identifier",
           "named": true
         },
         {
@@ -228,11 +219,47 @@
       "required": false,
       "types": [
         {
-          "type": "block",
+          "type": "annotation",
           "named": true
         },
         {
-          "type": "expression",
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "class_declaration",
+          "named": true
+        },
+        {
+          "type": "do_while_statement",
+          "named": true
+        },
+        {
+          "type": "for_statement",
+          "named": true
+        },
+        {
+          "type": "function_declaration",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "object_declaration",
+          "named": true
+        },
+        {
+          "type": "simple_identifier",
+          "named": true
+        },
+        {
+          "type": "type_alias",
+          "named": true
+        },
+        {
+          "type": "while_statement",
           "named": true
         }
       ]
@@ -302,10 +329,6 @@
         {
           "type": "import_alias",
           "named": true
-        },
-        {
-          "type": "semi",
-          "named": true
         }
       ]
     }
@@ -320,34 +343,6 @@
       "types": [
         {
           "type": "simple_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "lexical_identifier",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "loop_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "do_while_statement",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "while_statement",
           "named": true
         }
       ]
@@ -383,23 +378,9 @@
         {
           "type": "identifier",
           "named": true
-        },
-        {
-          "type": "semi",
-          "named": true
         }
       ]
     }
-  },
-  {
-    "type": "semi",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "semis",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "shebang_line",
@@ -409,51 +390,10 @@
   {
     "type": "simple_identifier",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "lexical_identifier",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "source_file",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "import_header",
-          "named": true
-        },
-        {
-          "type": "package_header",
-          "named": true
-        },
-        {
-          "type": "semi",
-          "named": true
-        },
-        {
-          "type": "shebang_line",
-          "named": true
-        },
-        {
-          "type": "statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "statement",
     "named": true,
     "fields": {},
     "children": {
@@ -469,11 +409,23 @@
           "named": true
         },
         {
-          "type": "declaration",
+          "type": "class_declaration",
           "named": true
         },
         {
-          "type": "expression",
+          "type": "do_while_statement",
+          "named": true
+        },
+        {
+          "type": "for_statement",
+          "named": true
+        },
+        {
+          "type": "function_declaration",
+          "named": true
+        },
+        {
+          "type": "import_header",
           "named": true
         },
         {
@@ -481,26 +433,27 @@
           "named": true
         },
         {
-          "type": "loop_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "statements",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "semis",
+          "type": "object_declaration",
           "named": true
         },
         {
-          "type": "statement",
+          "type": "package_header",
+          "named": true
+        },
+        {
+          "type": "shebang_line",
+          "named": true
+        },
+        {
+          "type": "simple_identifier",
+          "named": true
+        },
+        {
+          "type": "type_alias",
+          "named": true
+        },
+        {
+          "type": "while_statement",
           "named": true
         }
       ]
@@ -515,26 +468,19 @@
       "required": false,
       "types": [
         {
-          "type": "declaration",
+          "type": "class_declaration",
           "named": true
         },
         {
-          "type": "semis",
+          "type": "function_declaration",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
+        },
         {
-          "type": "simple_identifier",
+          "type": "object_declaration",
+          "named": true
+        },
+        {
+          "type": "type_alias",
           "named": true
         }
       ]
@@ -551,10 +497,6 @@
         {
           "type": "simple_identifier",
           "named": true
-        },
-        {
-          "type": "type",
-          "named": true
         }
       ]
     }
@@ -569,10 +511,6 @@
       "types": [
         {
           "type": "simple_identifier",
-          "named": true
-        },
-        {
-          "type": "type",
           "named": true
         }
       ]
@@ -591,7 +529,7 @@
           "named": true
         },
         {
-          "type": "expression",
+          "type": "simple_identifier",
           "named": true
         }
       ]
