@@ -38,6 +38,26 @@ string.
 	(multi_line_string_literal))
 
 ==================
+String interpolation
+==================
+
+"Sample $string.interpolation literal"
+"Sample ${"string.interpolation"} literal"
+"""
+Multiline
+${"""string interpolation"""} $literal
+"""
+
+---
+
+(source_file
+	(line_string_literal (interpolation (simple_identifier)))
+	(line_string_literal (interpolation (line_string_literal)))
+	(multi_line_string_literal
+		(interpolation (multi_line_string_literal))
+		(interpolation (simple_identifier))))
+
+==================
 Integer literals
 ==================
 

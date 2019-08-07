@@ -1327,8 +1327,17 @@
           ]
         },
         {
-          "type": "PATTERN",
-          "value": "\\$\\w+"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "$"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "simple_identifier"
+            }
+          ]
         }
       ]
     },

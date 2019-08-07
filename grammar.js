@@ -312,7 +312,7 @@ module.exports = grammar({
 
 		interpolation: $ => choice(
 			seq("${", $._expression, "}"),
-			/\$\w+/
+			seq("$", $.simple_identifier)
 		),
 
 		lambda_literal: $ => seq(
