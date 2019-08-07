@@ -6,7 +6,8 @@
 	"scripts": {
 		"test": "tree-sitter test",
 		"install": "node-gyp rebuild",
-		"generate": "tree-sitter generate"
+		"generate": "tree-sitter generate",
+		"parse": "tree-sitter parse"
 	},
 	"repository": {
 		"type": "git",

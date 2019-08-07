@@ -5,3 +5,8 @@ bin
 build
 node_modules
 *.swp
+
+# Windows compiler
+*.exp
+*.lib
+*.obj
