@@ -42,7 +42,11 @@ const PREC = {
 	SPREAD: 2,
 	ASSIGNMENT: 1,
 	RETURN_OR_THROW: 0
-}
+};
+const DEC_DIGITS = token(sep1(/[0-9]+/, /_+/));
+const HEX_DIGITS = token(sep1(/[0-9a-fA-F]+/, /_+/));
+const BIN_DIGITS = token(sep1(/[01]/, /_+/));
+const REAL_EXPONENT = token(seq(/[eE]/, optional(/[+-]/), DEC_DIGITS))
 
 module.exports = grammar({
 	name: "kotlin",
@@ -541,56 +545,22 @@ module.exports = grammar({
 		// Literals
 		// ==========
 		
-		_dec_digit: $ => /[0-9]/,
+		real_literal: $ => token(choice(
+			seq(
+				choice(
+					seq(DEC_DIGITS, REAL_EXPONENT),
+					seq(optional(DEC_DIGITS), ".", DEC_DIGITS, optional(REAL_EXPONENT))
+				),
+				optional(/[fF]/)
+			),
+			seq(DEC_DIGITS, /[fF]/)
+		)),
 		
-		_dec_digit_no_zero: $ => /[1-9]/,
+		integer_literal: $ => token(seq(optional(/[1-9]/), DEC_DIGITS)),
 		
-		_dec_digit_or_separator: $ => choice($._dec_digit, "_"),
+		hex_literal: $ => token(seq("0", /[xX]/, HEX_DIGITS)),
 		
-		_dec_digits: $ => choice(
-			seq($._dec_digit, repeat($._dec_digit_or_separator), $._dec_digit),
-			$._dec_digit
-		),
-		
-		_double_exponent: $ => seq(/[eE]/, optional(/[+-]/), $._dec_digits),
-		
-		real_literal: $ => choice(
-			$._float_literal,
-			$._double_literal
-		),
-		
-		_float_literal: $ => choice(
-			seq($._double_literal, /[fF]/),
-			seq($._dec_digits, /[fF]/)
-		),
-		
-		_double_literal: $ => choice(
-			seq(optional($._dec_digits), ".", $._dec_digits, optional($._double_exponent)),
-			seq($._dec_digits, $._double_exponent)
-		),
-		
-		integer_literal: $ => choice(
-			seq($._dec_digit_no_zero, repeat($._dec_digit_or_separator), $._dec_digit),
-			$._dec_digit
-		),
-		
-		_hex_digit: $ => /[0-9a-fA-F]/,
-		
-		_hex_digit_or_separator: $ => choice($._hex_digit, "_"),
-		
-		hex_literal: $ => choice(
-			seq("0", /[xX]/, $._hex_digit, repeat($._hex_digit_or_separator), $._hex_digit),
-			seq("0", /[xX]/, $._hex_digit)
-		),
-		
-		_bin_digit: $ => /[01]/,
-		
-		_bin_digit_or_separator: $ => choice($._bin_digit, "_"),
-		
-		bin_literal: $ => choice(
-			seq("0", /[bB]/, $._bin_digit, repeat($._bin_digit_or_separator), $._bin_digit),
-			seq("0", /[bB]/, $._bin_digit)
-		),
+		bin_literal: $ => token(seq("0", /[bB]/, BIN_DIGITS)),
 		
 		unsigned_literal: $ => seq(
 			choice($.integer_literal, $.hex_literal, $.bin_literal),
@@ -624,10 +594,7 @@ module.exports = grammar({
 		_uni_character_literal: $ => seq(
 			"\\",
 			"u",
-			$._hex_digit,
-			$._hex_digit,
-			$._hex_digit,
-			$._hex_digit
+			/[0-9a-fA-F]{4}/
 		),
 
 		_escaped_identifier: $ => /\\[tbrn'"\\$]/,
@@ -651,3 +618,7 @@ module.exports = grammar({
 		_multi_line_str_text: $ => /[^"$]+/
 	}
 });
+
+function sep1(rule, separator) {
+	return seq(rule, repeat(seq(separator, rule)));
+}

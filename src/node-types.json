@@ -149,11 +149,6 @@
     }
   },
   {
-    "type": "bin_literal",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "binary_expression",
     "named": true,
     "fields": {},
@@ -902,11 +897,6 @@
     }
   },
   {
-    "type": "hex_literal",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "identifier",
     "named": true,
     "fields": {},
@@ -1069,11 +1059,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "integer_literal",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "interpolation",
@@ -1780,11 +1765,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "real_literal",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "shebang_line",
@@ -3164,12 +3144,20 @@
     "named": false
   },
   {
-    "type": "_",
-    "named": false
+    "type": "real_literal",
+    "named": true
   },
   {
-    "type": "0",
-    "named": false
+    "type": "integer_literal",
+    "named": true
+  },
+  {
+    "type": "hex_literal",
+    "named": true
+  },
+  {
+    "type": "bin_literal",
+    "named": true
   },
   {
     "type": "L",
