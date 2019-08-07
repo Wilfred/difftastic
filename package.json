@@ -4,8 +4,9 @@
 	"description": "Tree-Sitter grammar for Kotlin",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"install": "node-gyp rebuild"
+		"test": "tree-sitter test",
+		"install": "node-gyp rebuild",
+		"generate": "tree-sitter generate"
 	},
 	"repository": {
 		"type": "git",
@@ -22,5 +23,11 @@
 	"bugs": {
 		"url": "https://github.com/fwcd/KotlinLanguageGrammars/issues"
 	},
-	"homepage": "https://github.com/fwcd/KotlinLanguageGrammars#readme"
+	"homepage": "https://github.com/fwcd/KotlinLanguageGrammars#readme",
+	"dependencies": {
+		"nan": "^2.12.1"
+	},
+	"devDependencies": {
+		"tree-sitter-cli": "^0.15.7"
+	}
 }

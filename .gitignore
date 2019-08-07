@@ -4,3 +4,4 @@
 bin
 build
 node_modules
+*.swp
