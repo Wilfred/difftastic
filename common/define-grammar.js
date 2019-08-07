@@ -53,7 +53,6 @@ module.exports = function defineGrammar(dialect) {
       [$._expression, $._primary_type],
       [$._expression, $.generic_type],
       [$._expression, $.predefined_type],
-      [$.this_type, $.this],
 
       [$.object, $.object_type],
       [$.object, $._property_name],
@@ -208,7 +207,7 @@ module.exports = function defineGrammar(dialect) {
         $._semicolon
       ),
 
-      class_body: ($, previous) => seq(
+      class_body: $ => seq(
         '{',
         repeat(choice(
           $.decorator,
@@ -262,7 +261,7 @@ module.exports = function defineGrammar(dialect) {
         choice($._type, $.template_string)
       )),
 
-      class_heritage: ($, previous) => choice(
+      class_heritage: $ => choice(
         seq($.extends_clause, optional($.implements_clause)),
         $.implements_clause
       ),
@@ -462,11 +461,10 @@ module.exports = function defineGrammar(dialect) {
         $.flow_maybe_type,
         $.type_query,
         $.index_type_query,
-        $.this_type,
+        $.this,
         $.existential_type,
         $.literal_type,
         $.lookup_type
-        // $.mapped_type
       ),
 
       generic_type: $ => seq(
@@ -500,8 +498,8 @@ module.exports = function defineGrammar(dialect) {
         ']'
       )),
 
-      mapped_type: $ => prec(1, seq(
-        choice($._type_identifier, $.nested_type_identifier),
+      mapped_type_clause: $ => prec(1, seq(
+        $._type_identifier,
         'in',
         $._type,
       )),
@@ -512,9 +510,7 @@ module.exports = function defineGrammar(dialect) {
 
       existential_type: $ => '*',
 
-      this_type: $ => 'this',
-
-      flow_maybe_type: $ => prec.right(seq( '?', $._primary_type )),
+      flow_maybe_type: $ => prec.right(seq( '?', $._primary_type)),
 
       parenthesized_type: $ => seq(
         '(', $._type, ')'
@@ -606,7 +602,7 @@ module.exports = function defineGrammar(dialect) {
             ':',
             $.predefined_type,
           ),
-          $.mapped_type
+          $.mapped_type_clause
         ),
         ']',
         $.type_annotation

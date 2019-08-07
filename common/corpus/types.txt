@@ -575,7 +575,7 @@ export type NoInfer<T> = T & { [K in keyof T]: T[K] };
     (intersection_type (type_identifier)
       (object_type
         (index_signature
-          (mapped_type
+          (mapped_type_clause
             (type_identifier)
             (index_type_query (type_identifier)))
-            (type_annotation (lookup_type (type_identifier) (type_identifier)))))))))
+          (type_annotation (lookup_type (type_identifier) (type_identifier)))))))))

@@ -7599,7 +7599,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "this_type"
+          "name": "this"
         },
         {
           "type": "SYMBOL",
@@ -7727,24 +7727,15 @@
         ]
       }
     },
-    "mapped_type": {
+    "mapped_type_clause": {
       "type": "PREC",
       "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_type_identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "nested_type_identifier"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_type_identifier"
           },
           {
             "type": "STRING",
@@ -7816,10 +7807,6 @@
     "existential_type": {
       "type": "STRING",
       "value": "*"
-    },
-    "this_type": {
-      "type": "STRING",
-      "value": "this"
     },
     "flow_maybe_type": {
       "type": "PREC_RIGHT",
@@ -8379,7 +8366,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "mapped_type"
+              "name": "mapped_type_clause"
             }
           ]
         },
@@ -8692,10 +8679,6 @@
     [
       "_expression",
       "predefined_type"
-    ],
-    [
-      "this_type",
-      "this"
     ],
     [
       "object",
