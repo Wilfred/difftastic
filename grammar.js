@@ -24,6 +24,24 @@
 
 // Using an adapted version of https://kotlinlang.org/docs/reference/grammar.html
 
+const PREC = {
+	POSTFIX: 15,
+	PREFIX: 14,
+	TYPE_RHS: 13,
+	MULTIPLICATIVE: 12,
+	ADDITIVE: 11,
+	RANGE: 10,
+	INFIX: 9,
+	ELVIS: 8,
+	CHECK: 7,
+	COMPARISON: 6,
+	EQUALITY: 5,
+	CONJUNCTION: 4,
+	DISJUNCTION: 3,
+	SPREAD: 2,
+	ASSIGNMENT: 1
+}
+
 module.exports = grammar({
 	name: "kotlin",
 	rules: {
@@ -144,8 +162,8 @@ module.exports = grammar({
 		),
 
 		label: $ => seq(
-			$.simple_identifier
-			// TODO
+			$.simple_identifier,
+			"@"
 		),
 
 		control_structure_body: $ => $._block, // TODO
@@ -193,7 +211,7 @@ module.exports = grammar({
 		_semis: $ => /[\r\n]+/,
 		
 		assignment: $ => choice(
-			seq($.directly_assignable_expression, "=", $._expression),
+			prec.left(PREC.ASSIGNMENT, seq($.directly_assignable_expression, choice("=", "+=", "-=", "*=", "/=", "%="), $._expression)),
 			// TODO
 		),
 		
@@ -202,8 +220,28 @@ module.exports = grammar({
 		// ==========
 		
 		_expression: $ => choice(
-			$.simple_identifier
-			// TODO
+			$.simple_identifier,
+			$.unary_expression,
+			$.binary_expression
+		),
+
+		unary_expression: $ => choice(
+			prec.left(PREC.POSTFIX, seq($._expression, choice("++", "--", ".", "?.", "?"))),
+			prec.right(PREC.PREFIX, seq(choice("-", "+", "++", "--", "!", $.label), $._expression)),
+			prec.left(PREC.SPREAD, seq("*", $._expression))
+		),
+
+		binary_expression: $ => choice(
+			prec.left(PREC.MULTIPLICATIVE, seq($._expression, choice("*", "/", "%"), $._expression)),
+			prec.left(PREC.ADDITIVE, seq($._expression, choice("+", "-"), $._expression)),
+			prec.left(PREC.RANGE, seq($._expression, "..", $._expression)),
+			prec.left(PREC.INFIX, seq($._expression, $.simple_identifier, $._expression)),
+			prec.left(PREC.ELVIS, seq($._expression, "?:", $._expression)),
+			prec.left(PREC.CHECK, seq($._expression, choice("in", "!in", "is", "!is"), $._expression)),
+			prec.left(PREC.COMPARISON, seq($._expression, choice("<", ">", "<=", ">="), $._expression)),
+			prec.left(PREC.EQUALITY, seq($._expression, choice("==", "!=", "===", "!=="), $._expression)),
+			prec.left(PREC.CONJUNCTION, seq($._expression, "&&", $._expression)),
+			prec.left(PREC.DISJUNCTION, seq($._expression, "||", $._expression))
 		),
 
 		directly_assignable_expression: $ => choice(
