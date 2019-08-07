@@ -40,7 +40,8 @@ const PREC = {
 	CONJUNCTION: 4,
 	DISJUNCTION: 3,
 	SPREAD: 2,
-	ASSIGNMENT: 1
+	ASSIGNMENT: 1,
+	RETURN_OR_THROW: 0
 }
 
 module.exports = grammar({
@@ -65,13 +66,13 @@ module.exports = grammar({
 		
 		shebang_line: $ => seq("#!", /[^\r\n]*/),
 		
-		package_header: $ => seq("package", $.identifier, optional($._semi)),
+		package_header: $ => seq("package", $.identifier, $._semi),
 		
 		import_header: $ => seq(
 			"import",
 			$.identifier,
 			optional(choice(seq(".*"), $.import_alias)), 
-			optional($._semi)
+			$._semi
 		),
 
 		import_alias: $ => seq("as", $.simple_identifier),
@@ -221,9 +222,9 @@ module.exports = grammar({
 		// ==========
 		
 		_expression: $ => choice(
-			$.simple_identifier,
 			$.unary_expression,
-			$.binary_expression
+			$.binary_expression,
+			$._primary_expression
 		),
 
 		unary_expression: $ => choice(
@@ -289,28 +290,30 @@ module.exports = grammar({
 			$.multi_line_string_literal
 		),
 
-		line_string_literal: $ => seq('"', repeat(choice($.line_string_content, $.line_string_expression)), '"'),
+		line_string_literal: $ => seq('"', repeat(choice($._line_string_content, $.interpolation)), '"'),
 
 		multi_line_string_literal: $ => seq(
 			'"""',
 			repeat(choice(
-				$.multi_line_string_content,
-				$.multi_line_string_expression
+				$._multi_line_string_content,
+				$.interpolation
 			)),
 			'"""'
 		),
 
-		line_string_content: $ => choice(
+		_line_string_content: $ => choice(
 			$._line_str_text,
-			$._line_str_escaped_char,
-			$._line_str_ref
+			$._line_str_escaped_char
 		),
 
 		line_string_expression: $ => seq("${", $._expression, "}"),
 
-		multi_line_string_content: $ => choice($._multi_line_str_text, '"', $._multi_line_str_ref),
+		_multi_line_string_content: $ => choice($._multi_line_str_text, '"'),
 
-		multi_line_string_expression: $ => seq("${", $._expression, "}"),
+		interpolation: $ => choice(
+			seq("${", $._expression, "}"),
+			/\$\w+/
+		),
 
 		lambda_literal: $ => seq(
 			"{",
@@ -348,7 +351,11 @@ module.exports = grammar({
 
 		this_expression: $ => "this",
 
-		super_expression: $ => seq("super", optional(seq("<", $._type, ">")), optional(seq("@", $.simple_identifier))),
+		super_expression: $ => seq(
+			"super",
+			// TODO optional(seq("<", $._type, ">")),
+			// TODO optional(seq("@", $.simple_identifier))
+		),
 
 		if_expression: $ => seq(
 			"if",
@@ -428,8 +435,8 @@ module.exports = grammar({
 		finally_block: $ => seq("finally", $._block),
 
 		jump_expression: $ => choice(
-			seq("throw", $._expression),
-			seq(choice("return", $._return_at), optional($._expression)),
+			prec.left(PREC.RETURN_OR_THROW, seq("throw", $._expression)),
+			prec.left(PREC.RETURN_OR_THROW, seq(choice("return", $._return_at), optional($._expression))),
 			"continue",
 			$._continue_at,
 			"break",
@@ -623,8 +630,6 @@ module.exports = grammar({
 			$._hex_digit
 		),
 
-		_field_identifier: $ => $.simple_identifier, // TODO
-
 		_escaped_identifier: $ => /\\[tbrn'"\\$]/,
 
 		_escape_seq: $ => choice(
@@ -636,17 +641,13 @@ module.exports = grammar({
 		// Strings
 		// ==========
 		
-		_line_str_ref: $ => $._field_identifier,
-		
-		_line_str_text: $ => choice(/[^\\"$]+/, "$"),
+		_line_str_text: $ => /[^\\"$]+/,
 		
 		_line_str_escaped_char: $ => choice(
 			$._escaped_identifier,
 			$._uni_character_literal
 		),
 		
-		_multi_line_str_ref: $ => $._field_identifier,
-		
-		_multi_line_str_text: $ => choice(/[^"$]+/, "$")
+		_multi_line_str_text: $ => /[^"$]+/
 	}
 });

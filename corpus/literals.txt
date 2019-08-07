@@ -1,0 +1,56 @@
+==================
+Simple identifiers
+==================
+
+helloWorld
+
+---
+
+(source_file (simple_identifier))
+
+==================
+Boolean literals
+==================
+
+true
+false
+
+---
+
+(source_file
+	(boolean_literal)
+	(boolean_literal))
+
+==================
+String literals
+==================
+
+"Hello World!"
+"""
+This is a "multiline"
+string.
+"""
+
+---
+
+(source_file
+	(line_string_literal)
+	(multi_line_string_literal))
+
+==================
+Integer literals
+==================
+
+0
+4
+32
+459
+
+---
+
+(source_file
+	(integer_literal)
+	(integer_literal)
+	(integer_literal)
+	(integer_literal))
+

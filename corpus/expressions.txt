@@ -6,5 +6,5 @@ Multiplication expression
 
 ---
 
-(source_file)
+(source_file ((integer_literal) binary_expression (integer_literal)))
 
