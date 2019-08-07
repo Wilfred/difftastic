@@ -507,7 +507,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -624,7 +624,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -779,7 +779,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -1372,7 +1372,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -1490,7 +1490,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -1629,7 +1629,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -1976,7 +1976,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -2377,7 +2377,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -2643,7 +2643,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -2782,7 +2782,7 @@
           "named": true
         },
         {
-          "type": "mapped_type",
+          "type": "mapped_type_clause",
           "named": true
         },
         {
@@ -2960,7 +2960,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -3381,7 +3381,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -3408,7 +3408,7 @@
     }
   },
   {
-    "type": "mapped_type",
+    "type": "mapped_type_clause",
     "named": true,
     "fields": {},
     "children": {
@@ -3472,7 +3472,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -4190,7 +4190,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -4738,16 +4738,6 @@
     }
   },
   {
-    "type": "this",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "this_type",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "throw_statement",
     "named": true,
     "fields": {},
@@ -4867,7 +4857,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -4978,7 +4968,7 @@
             "named": true
           },
           {
-            "type": "this_type",
+            "type": "this",
             "named": true
           },
           {
@@ -5070,7 +5060,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -5161,7 +5151,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -5313,7 +5303,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -5473,7 +5463,7 @@
           "named": true
         },
         {
-          "type": "this_type",
+          "type": "this",
           "named": true
         },
         {
@@ -6073,7 +6063,7 @@
   },
   {
     "type": "this",
-    "named": false
+    "named": true
   },
   {
     "type": "super",
