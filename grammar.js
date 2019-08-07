@@ -63,6 +63,7 @@ module.exports = grammar({
 		top_level_object: $ => seq($.declaration, optional($.semis)),
 		
 		declaration: $ => choice(
+			$.simple_identifier
 			// TODO
 		),
 		
@@ -74,6 +75,11 @@ module.exports = grammar({
 		// Class members
 		// ==========
 		
+		variable_declaration: $ => seq(
+			repeat($.annotation),
+			$.simple_identifier,
+			optional(seq(":", $.type))
+		),
 		
 		// ==========
 		// Enum classes
@@ -84,6 +90,7 @@ module.exports = grammar({
 		// Types
 		// ==========
 		
+		type: $ => $.simple_identifier, // TODO
 		
 		// ==========
 		// Statements
@@ -105,6 +112,15 @@ module.exports = grammar({
 			)
 		),
 
+		label: $ => seq(
+			$.simple_identifier
+			// TODO
+		),
+
+		control_structure_body: $ => choice($.block, $.statement),
+
+		block: $ => seq("{", optional($.statements), "}"),
+
 		loop_statement: $ => choice(
 			$.for_statement,
 			$.while_statement,
@@ -115,7 +131,7 @@ module.exports = grammar({
 			"for",
 			"(",
 			repeat($.annotation),
-			choice($.variable_declaration, $.multi_variable_declaration),
+			choice($.variable_declaration), // TODO: Multi-variable declaration
 			"in",
 			$.expression,
 			")",
@@ -133,6 +149,12 @@ module.exports = grammar({
 		do_while_statement: $ => seq(
 			"do",
 			optional($.control_structure_body),
+			"while",
+			"(",
+			$.expression,
+			")",
+		),
+
 		// See also https://github.com/tree-sitter/tree-sitter/issues/160
 		// generic EOF/newline token
 		semi: $ => /[\r\n]+/,
@@ -143,7 +165,7 @@ module.exports = grammar({
 			seq($.directly_assignable_expression, "=", $.expression),
 			// TODO
 		),
-		$
+		
 		// ==========
 		// Expressions
 		// ==========
@@ -167,12 +189,17 @@ module.exports = grammar({
 		// Annotations
 		// ==========
 		
+		annotation: $ => seq(
+			"@",
+			$.simple_identifier
+			// TODO
+		),
 		
 		// ==========
 		// Identifiers
 		// ==========
 		
-		simple_identifier: $ => lexical_identifier, // TODO
+		simple_identifier: $ => $.lexical_identifier, // TODO
 		
 		identifier: $ => seq(
 			$.simple_identifier,
