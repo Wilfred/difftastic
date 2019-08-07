@@ -128,7 +128,21 @@ module.exports = grammar(C, {
       ))
     ),
 
-    enum_specifier: ($, original) => prec.left(original),
+    enum_specifier: $ => prec.left(seq(
+      'enum',
+      optional(choice(
+        'class',
+        'struct',
+      )),
+      choice(
+        seq(
+          field('name', choice($.scoped_type_identifier, $._type_identifier)),
+          field('base', optional(seq(':', choice($.scoped_type_identifier, $._type_identifier, $.sized_type_specifier)))),
+          field('body', optional($.enumerator_list))
+        ),
+        field('body', $.enumerator_list)
+      )
+    )),
 
     // The `auto` storage class is removed in C++0x in order to allow for the `auto` type.
     storage_class_specifier: ($, original) => choice(
