@@ -228,7 +228,7 @@ module.exports = grammar({
 
 		unary_expression: $ => choice(
 			prec.left(PREC.POSTFIX, seq($._expression, $._postfix_unary_suffix)),
-			prec.right(PREC.PREFIX, seq($._unary_prefix, $._expression)),
+			prec.right(PREC.PREFIX, seq(choice($.annotation, $.label, $._prefix_unary_operator), $._expression)),
 			prec.left(PREC.AS, seq($._expression, seq($._as_operator, $._type))),
 			prec.left(PREC.SPREAD, seq("*", $._expression))
 		),
@@ -244,12 +244,6 @@ module.exports = grammar({
 			prec.left(PREC.EQUALITY, seq($._expression, $._equality_operator, $._expression)),
 			prec.left(PREC.CONJUNCTION, seq($._expression, "&&", $._expression)),
 			prec.left(PREC.DISJUNCTION, seq($._expression, "||", $._expression))
-		),
-
-		_unary_prefix: $ => choice(
-			$.annotation,
-			$.label,
-			$._prefix_unary_operator
 		),
 
 		_postfix_unary_suffix: $ => choice(
@@ -308,13 +302,15 @@ module.exports = grammar({
 
 		line_string_content: $ => choice(
 			$._line_str_text,
-			$._line_str_escaped_chat,
+			$._line_str_escaped_char,
 			$._line_str_ref
 		),
 
 		line_string_expression: $ => seq("${", $._expression, "}"),
 
 		multi_line_string_content: $ => choice($._multi_line_str_text, '"', $._multi_line_str_ref),
+
+		multi_line_string_expression: $ => seq("${", $._expression, "}"),
 
 		lambda_literal: $ => seq(
 			"{",
@@ -396,13 +392,13 @@ module.exports = grammar({
 			),
 			"->",
 			$.control_structure_body,
-			optional($.semi)
+			optional($._semi)
 		),
 
 		when_condition: $ => seq(
 			$._expression,
 			$.range_test,
-			$._type_test
+			$.type_test
 		),
 
 		range_test: $ => seq($._in_operator, $._expression),
@@ -538,6 +534,76 @@ module.exports = grammar({
 		// Literals
 		// ==========
 		
+		_dec_digit: $ => /[0-9]/,
+		
+		_dec_digit_no_zero: $ => /[1-9]/,
+		
+		_dec_digit_or_separator: $ => choice($._dec_digit, "_"),
+		
+		_dec_digits: $ => choice(
+			seq($._dec_digit, repeat($._dec_digit_or_separator), $._dec_digit),
+			$._dec_digit
+		),
+		
+		_double_exponent: $ => seq(/[eE]/, optional(/[+-]/), $._dec_digits),
+		
+		real_literal: $ => choice(
+			$._float_literal,
+			$._double_literal
+		),
+		
+		_float_literal: $ => choice(
+			seq($._double_literal, /[fF]/),
+			seq($._dec_digits, /[fF]/)
+		),
+		
+		_double_literal: $ => choice(
+			seq(optional($._dec_digits), ".", $._dec_digits, optional($._double_exponent)),
+			seq($._dec_digits, $._double_exponent)
+		),
+		
+		integer_literal: $ => choice(
+			seq($._dec_digit_no_zero, repeat($._dec_digit_or_separator), $._dec_digit),
+			$._dec_digit
+		),
+		
+		_hex_digit: $ => /[0-9a-fA-F]/,
+		
+		_hex_digit_or_separator: $ => choice($._hex_digit, "_"),
+		
+		hex_literal: $ => choice(
+			seq("0", /[xX]/, $._hex_digit, repeat($._hex_digit_or_separator), $._hex_digit),
+			seq("0", /[xX]/, $._hex_digit)
+		),
+		
+		_bin_digit: $ => /[01]/,
+		
+		_bin_digit_or_separator: $ => choice($._bin_digit, "_"),
+		
+		bin_literal: $ => choice(
+			seq("0", /[bB]/, $._bin_digit, repeat($._bin_digit_or_separator), $._bin_digit),
+			seq("0", /[bB]/, $._bin_digit)
+		),
+		
+		unsigned_literal: $ => seq(
+			choice($.integer_literal, $.hex_literal, $.bin_literal),
+			/[uU]/,
+			optional("L")
+		),
+		
+		long_literal: $ => seq(
+			choice($.integer_literal, $.hex_literal, $.bin_literal),
+			"L"
+		),
+		
+		boolean_literal: $ => choice("true", "false"),
+		
+		character_literal: $ => seq(
+			"'",
+			choice($._escape_seq, /[^\n\r'\\]/),
+			"'"
+		),
+
 		
 		// ==========
 		// Identifiers
@@ -546,12 +612,41 @@ module.exports = grammar({
 		_lexical_identifier: $ => choice(
 			/[a-zA-Z_][a-zA-Z_0-9]+/,
 			/`[^\r\n`]+`/
-		)
-		
+		),
+
+		_uni_character_literal: $ => seq(
+			"\\",
+			"u",
+			$._hex_digit,
+			$._hex_digit,
+			$._hex_digit,
+			$._hex_digit
+		),
+
+		_field_identifier: $ => $.simple_identifier, // TODO
+
+		_escaped_identifier: $ => /\\[tbrn'"\\$]/,
+
+		_escape_seq: $ => choice(
+			$._uni_character_literal,
+			$._escaped_identifier
+		),
+
 		// ==========
 		// Strings
 		// ==========
 		
+		_line_str_ref: $ => $._field_identifier,
 		
+		_line_str_text: $ => choice(/[^\\"$]+/, "$"),
+		
+		_line_str_escaped_char: $ => choice(
+			$._escaped_identifier,
+			$._uni_character_literal
+		),
+		
+		_multi_line_str_ref: $ => $._field_identifier,
+		
+		_multi_line_str_text: $ => choice(/[^"$]+/, "$")
 	}
 });
