@@ -1342,6 +1342,28 @@
     "type": "enum_specifier",
     "named": true,
     "fields": {
+      "base": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "scoped_type_identifier",
+            "named": true
+          },
+          {
+            "type": "sized_type_specifier",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      },
       "body": {
         "multiple": false,
         "required": false,
@@ -1356,6 +1378,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "scoped_type_identifier",
+            "named": true
+          },
           {
             "type": "type_identifier",
             "named": true
@@ -4241,15 +4267,19 @@
     "named": false
   },
   {
+    "type": "class",
+    "named": false
+  },
+  {
     "type": "struct",
     "named": false
   },
   {
-    "type": "union",
+    "type": ":",
     "named": false
   },
   {
-    "type": ":",
+    "type": "union",
     "named": false
   },
   {
@@ -4487,10 +4517,6 @@
   {
     "type": "comment",
     "named": true
-  },
-  {
-    "type": "class",
-    "named": false
   },
   {
     "type": "final",

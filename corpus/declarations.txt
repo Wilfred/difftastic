@@ -782,3 +782,28 @@ class TT {
                 (type_identifier)
                 (reference_declarator (variadic_declarator (identifier))))))
           (compound_statement))))))
+
+============================
+Enums
+============================
+
+enum Foo : char { };
+enum Foo : Bar { };
+enum Foo : unsigned int { };
+enum {a, b};
+enum Foo : Bar::Rab { };
+enum Foo::Oof : Bar::Rab { };
+enum class Foo;
+enum struct Foo : char { };
+
+---
+
+(translation_unit
+  (enum_specifier (type_identifier) (type_identifier) (enumerator_list))
+  (enum_specifier (type_identifier) (type_identifier) (enumerator_list))
+  (enum_specifier (type_identifier) (sized_type_specifier (primitive_type)) (enumerator_list))
+  (enum_specifier (enumerator_list (enumerator (identifier)) (enumerator (identifier))))
+  (enum_specifier (type_identifier) (scoped_type_identifier (namespace_identifier) (type_identifier)) (enumerator_list))
+  (enum_specifier (scoped_type_identifier (namespace_identifier) (type_identifier)) (scoped_type_identifier (namespace_identifier) (type_identifier)) (enumerator_list))
+  (enum_specifier (type_identifier))
+  (enum_specifier (type_identifier) (type_identifier) (enumerator_list)))
