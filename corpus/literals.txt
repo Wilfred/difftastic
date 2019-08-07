@@ -74,3 +74,22 @@ Integer literals
 	(integer_literal)
 	(integer_literal))
 
+==================
+Real literals
+==================
+
+0.0
+-23.434
+1e-10
+4.3f
++53.9e-3F
+
+---
+
+(source_file
+	(real_literal)
+	(unary_expression (real_literal))
+	(real_literal)
+	(real_literal)
+	(unary_expression (real_literal)))
+
