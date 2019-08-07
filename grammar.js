@@ -25,9 +25,10 @@
 // Using an adapted version of https://kotlinlang.org/docs/reference/grammar.html
 
 const PREC = {
-	POSTFIX: 15,
-	PREFIX: 14,
-	TYPE_RHS: 13,
+	POSTFIX: 16,
+	PREFIX: 15,
+	TYPE_RHS: 14,
+	AS: 13,
 	MULTIPLICATIVE: 12,
 	ADDITIVE: 11,
 	RANGE: 10,
@@ -145,7 +146,7 @@ module.exports = grammar({
 		// Statements
 		// ==========
 		
-		_statements: $ => seq(
+		statements: $ => seq(
 			$._statement,
 			repeat(seq($._semis, $._statement)),
 			optional($._semis),
@@ -168,7 +169,7 @@ module.exports = grammar({
 
 		control_structure_body: $ => $._block, // TODO
 
-		_block: $ => seq("{", optional($._statements), "}"),
+		_block: $ => seq("{", optional($.statements), "}"),
 
 		_loop_statement: $ => choice(
 			$.for_statement,
@@ -211,7 +212,7 @@ module.exports = grammar({
 		_semis: $ => /[\r\n]+/,
 		
 		assignment: $ => choice(
-			prec.left(PREC.ASSIGNMENT, seq($.directly_assignable_expression, choice("=", "+=", "-=", "*=", "/=", "%="), $._expression)),
+			prec.left(PREC.ASSIGNMENT, seq($.directly_assignable_expression, $._assignment_and_operator, $._expression)),
 			// TODO
 		),
 		
@@ -226,23 +227,248 @@ module.exports = grammar({
 		),
 
 		unary_expression: $ => choice(
-			prec.left(PREC.POSTFIX, seq($._expression, choice("++", "--", ".", "?.", "?"))),
-			prec.right(PREC.PREFIX, seq(choice("-", "+", "++", "--", "!", $.label), $._expression)),
+			prec.left(PREC.POSTFIX, seq($._expression, $._postfix_unary_suffix)),
+			prec.right(PREC.PREFIX, seq($._unary_prefix, $._expression)),
+			prec.left(PREC.AS, seq($._expression, seq($._as_operator, $._type))),
 			prec.left(PREC.SPREAD, seq("*", $._expression))
 		),
 
 		binary_expression: $ => choice(
-			prec.left(PREC.MULTIPLICATIVE, seq($._expression, choice("*", "/", "%"), $._expression)),
-			prec.left(PREC.ADDITIVE, seq($._expression, choice("+", "-"), $._expression)),
+			prec.left(PREC.MULTIPLICATIVE, seq($._expression, $._multiplicative_operator, $._expression)),
+			prec.left(PREC.ADDITIVE, seq($._expression, $._additive_operator, $._expression)),
 			prec.left(PREC.RANGE, seq($._expression, "..", $._expression)),
 			prec.left(PREC.INFIX, seq($._expression, $.simple_identifier, $._expression)),
 			prec.left(PREC.ELVIS, seq($._expression, "?:", $._expression)),
-			prec.left(PREC.CHECK, seq($._expression, choice("in", "!in", "is", "!is"), $._expression)),
-			prec.left(PREC.COMPARISON, seq($._expression, choice("<", ">", "<=", ">="), $._expression)),
-			prec.left(PREC.EQUALITY, seq($._expression, choice("==", "!=", "===", "!=="), $._expression)),
+			prec.left(PREC.CHECK, seq($._expression, choice($._in_operator, $._is_operator), $._expression)),
+			prec.left(PREC.COMPARISON, seq($._expression, $._comparison_operator, $._expression)),
+			prec.left(PREC.EQUALITY, seq($._expression, $._equality_operator, $._expression)),
 			prec.left(PREC.CONJUNCTION, seq($._expression, "&&", $._expression)),
 			prec.left(PREC.DISJUNCTION, seq($._expression, "||", $._expression))
 		),
+
+		_unary_prefix: $ => choice(
+			$.annotation,
+			$.label,
+			$._prefix_unary_operator
+		),
+
+		_postfix_unary_suffix: $ => choice(
+			$._postfix_unary_operator,
+			// TODO
+		),
+
+		_primary_expression: $ => choice(
+			$.parenthesized_expression,
+			$.simple_identifier,
+			$._literal_constant,
+			$._string_literal,
+			$.callable_reference,
+			$._function_literal,
+			$.object_literal,
+			$.collection_literal,
+			$.this_expression,
+			$.super_expression,
+			$.if_expression,
+			$.when_expression,
+			$.try_expression,
+			$.jump_expression
+		),
+
+		parenthesized_expression: $ => seq("(", $._expression, ")"),
+
+		collection_literal: $ => seq("[", $._expression, repeat(seq(",", $._expression)), "]"),
+
+		_literal_constant: $ => choice(
+			$.boolean_literal,
+			$.integer_literal,
+			$.hex_literal,
+			$.bin_literal,
+			$.character_literal,
+			$.real_literal,
+			"null",
+			$.long_literal,
+			$.unsigned_literal
+		),
+
+		_string_literal: $ => choice(
+			$.line_string_literal,
+			$.multi_line_string_literal
+		),
+
+		line_string_literal: $ => seq('"', repeat(choice($.line_string_content, $.line_string_expression)), '"'),
+
+		multi_line_string_literal: $ => seq(
+			'"""',
+			repeat(choice(
+				$.multi_line_string_content,
+				$.multi_line_string_expression
+			)),
+			'"""'
+		),
+
+		line_string_content: $ => choice(
+			$._line_str_text,
+			$._line_str_escaped_chat,
+			$._line_str_ref
+		),
+
+		line_string_expression: $ => seq("${", $._expression, "}"),
+
+		multi_line_string_content: $ => choice($._multi_line_str_text, '"', $._multi_line_str_ref),
+
+		lambda_literal: $ => seq(
+			"{",
+			optional(seq(optional($.lambda_parameters), "->")),
+			optional($.statements),
+			"}"
+		),
+
+		lambda_parameters: $ => seq(
+			$._lambda_parameter,
+			repeat(seq(",", $._lambda_parameter))
+		),
+
+		_lambda_parameter: $ => choice(
+			$.variable_declaration, // TODO
+		),
+
+		anonymous_function: $ => seq(
+			"fun",
+			optional(seq($._type, ".")),
+			"(", ")", // TODO
+			optional($.function_body)
+		),
+
+		_function_literal: $ => choice(
+			$.lambda_literal,
+			$.anonymous_function
+		),
+
+		object_literal: $ => seq(
+			"object",
+			// TODO: optional(seq(":", $.delegation_specifiers)),
+			$.class_body
+		),
+
+		this_expression: $ => "this",
+
+		super_expression: $ => seq("super", optional(seq("<", $._type, ">")), optional(seq("@", $.simple_identifier))),
+
+		if_expression: $ => seq(
+			"if",
+			"(", $._expression, ")",
+			choice(
+				$.control_structure_body,
+				";",
+				seq(
+					optional($.control_structure_body),
+					optional(";"),
+					"else",
+					choice($.control_structure_body, ";")
+				)
+			)
+		),
+
+		when_subject: $ => seq(
+			"(",
+			optional(seq(
+				repeat($.annotation),
+				"val",
+				$.variable_declaration,
+				"="
+			)),
+			$._expression,
+			")",
+		),
+
+		when_expression: $ => seq(
+			"when",
+			optional($.when_subject),
+			"{",
+			repeat($.when_entry),
+			"}"
+		),
+
+		when_entry: $ => seq(
+			choice(
+				seq($.when_condition, repeat(seq(",", $.when_condition))),
+				"else"
+			),
+			"->",
+			$.control_structure_body,
+			optional($.semi)
+		),
+
+		when_condition: $ => seq(
+			$._expression,
+			$.range_test,
+			$._type_test
+		),
+
+		range_test: $ => seq($._in_operator, $._expression),
+
+		type_test: $ => seq($._is_operator, $._expression),
+
+		try_expression: $ => seq(
+			"try",
+			$._block,
+			choice(
+				seq(repeat1($.catch_block), optional($.finally_block)),
+				$.finally_block
+			)
+		),
+
+		catch_block: $ => seq(
+			"catch",
+			"(",
+			repeat($.annotation),
+			$.simple_identifier,
+			":",
+			$._type,
+			")",
+			$._block,
+		),
+
+		finally_block: $ => seq("finally", $._block),
+
+		jump_expression: $ => choice(
+			seq("throw", $._expression),
+			seq(choice("return", $._return_at), optional($._expression)),
+			"continue",
+			$._continue_at,
+			"break",
+			$._break_at
+		),
+
+		callable_reference: $ => seq(
+			optional($._type),
+			"::",
+			choice($.simple_identifier, "class")
+		),
+
+		_assignment_and_operator: $ => choice("+=", "-=", "*=", "/=", "%="),
+		
+		_equality_operator: $ => choice("!=", "!==", "==", "==="),
+		
+		_comparison_operator: $ => choice("<", ">", "<=", ">="),
+		
+		_in_operator: $ => choice("in", "!in"),
+		
+		_is_operator: $ => choice("is", $._not_is),
+		
+		_additive_operator: $ => choice("+", "-"),
+		
+		_multiplicative_operator: $ => choice("*", "/", "%"),
+		
+		_as_operator: $ => choice("as", "as?"),
+		
+		_prefix_unary_operator: $ => choice("++", "--", "-", "+", "!"),
+		
+		_postfix_unary_operator: $ => choice("++", "--", "!!"),
+		
+		_member_access_operator: $ => choice(".", $._safe_nav, "::"),
+		
+		_safe_nav: $ => seq("?", "."),
 
 		directly_assignable_expression: $ => choice(
 			$.simple_identifier
@@ -294,6 +520,19 @@ module.exports = grammar({
 		// Keywords
 		// ==========
 		
+		_return_at: $ => seq("return@", $._lexical_identifier),
+
+		_continue_at: $ => seq("continue@", $._lexical_identifier),
+
+		_break_at: $ => seq("break@", $._lexical_identifier),
+
+		_this_at: $ => seq("this@", $._lexical_identifier),
+
+		_super_at: $ => seq("super@", $._lexical_identifier),
+
+		_not_is: $ => "!is",
+
+		_not_in: $ => "!in",
 		
 		// ==========
 		// Literals

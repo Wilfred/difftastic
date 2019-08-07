@@ -1,0 +1,10 @@
+==================
+Multiplication expression
+==================
+
+45 * 3
+
+---
+
+(source_file)
+
