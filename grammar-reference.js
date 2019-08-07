@@ -85,7 +85,7 @@ module.exports = grammar({
 		import_header: $ => seq(
 			"import",
 			$.identifier,
-			optional(choice(".", "*", $.import_alias)),
+			optional(choice(seq(".", "*"), $.import_alias)),
 			optional($.semi)
 		),
 		
@@ -98,7 +98,7 @@ module.exports = grammar({
 			"typealias",
 			$.simple_identifier,
 			optional($.type_parameters),
-			"0",
+			"=",
 			$.type
 		),
 		

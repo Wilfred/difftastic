@@ -36,15 +36,12 @@ module.exports = grammar({
 		// ==========
 		
 		// start
-		program: $ => seq(
+		source_file: $ => seq(
 			optional($.shebang_line),
 			// repeat($.file_annotation), TODO
 			optional($.package_header),
 			repeat($.import_header),
-			choice(
-				repeat($.top_level_object),
-				repeat(seq($.statement, $.semi))
-			)
+			repeat(seq($.statement, $.semi))
 		),
 		
 		shebang_line: $ => seq("#!", /[^\r\n]*/),
@@ -54,31 +51,65 @@ module.exports = grammar({
 		import_header: $ => seq(
 			"import",
 			$.identifier,
-			optional(choice(".", "*", $.import_alias)),
+			optional(choice(seq(".*"), $.import_alias)), 
 			optional($.semi)
 		),
 
 		import_alias: $ => seq("as", $.simple_identifier),
 
 		top_level_object: $ => seq($.declaration, optional($.semis)),
+
+		type_alias: $ => seq(
+			"typealias",
+			$.simple_identifier,
+			"=",
+			$.type
+		),
 		
 		declaration: $ => choice(
-			$.simple_identifier
-			// TODO
+			$.class_declaration,
+			$.object_declaration,
+			$.function_declaration,
+			$.type_alias
 		),
 		
 		// ==========
 		// Classes
 		// ==========
 		
+		class_declaration: $ => seq( // TODO
+			choice("class", "interface"),
+			$.simple_identifier,
+			optional($.class_body)
+		),
+
+		class_body: $ => seq("{", optional($.class_member_declarations), "}"),
+
 		// ==========
 		// Class members
 		// ==========
 		
+		class_member_declarations: $ => repeat1(seq($.declaration, optional($.semis))), // TODO
+
 		variable_declaration: $ => seq(
-			repeat($.annotation),
+			// repeat($.annotation), TODO
 			$.simple_identifier,
 			optional(seq(":", $.type))
+		),
+
+		function_declaration: $ => seq( // TODO
+			"fun",
+			$.simple_identifier,
+			"(", ")",
+			optional($.function_body)
+		),
+
+		function_body: $ => choice($.block, seq("=", $.expression)),
+
+		object_declaration: $ => seq( // TODO
+			"object",
+			$.simple_identifier,
+			optional($.class_body)
 		),
 		
 		// ==========
@@ -117,7 +148,7 @@ module.exports = grammar({
 			// TODO
 		),
 
-		control_structure_body: $ => choice($.block, $.statement),
+		control_structure_body: $ => $.block, // TODO
 
 		block: $ => seq("{", optional($.statements), "}"),
 
@@ -138,7 +169,7 @@ module.exports = grammar({
 			optional($.control_structure_body)
 		),
 
-		while_statement: $ => choice(
+		while_statement: $ => seq(
 			"while",
 			"(",
 			$.expression,
