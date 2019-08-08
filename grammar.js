@@ -101,9 +101,12 @@ module.exports = grammar({
 		// Classes
 		// ==========
 		
-		class_declaration: $ => seq( // TODO
+		class_declaration: $ => seq(
+			optional($.modifiers),
 			choice("class", "interface"),
 			$.simple_identifier,
+			optional($.type_parameters),
+			// TODO
 			optional($.class_body)
 		),
 
@@ -175,7 +178,7 @@ module.exports = grammar({
 			optional($.function_body)
 		),
 
-		function_body: $ => choice($._block, seq("=", $._expression)),
+		function_body: $ => choice($._block, seq("=", $._expression, $._semi)),
 
 		parameter: $ => seq($.simple_identifier, ":", $._type),
 
@@ -260,13 +263,15 @@ module.exports = grammar({
 			optional($._semis),
 		),
 
-		_statement: $ => seq(
-			repeat(choice($.label, $.annotation)),
-			choice(
-				$._declaration,
-				$.assignment,
-				$._loop_statement,
-				$._expression
+		_statement: $ => choice(
+			$._declaration,
+			seq(
+				repeat(choice($.label, $.annotation)),
+				choice(
+					$.assignment,
+					$._loop_statement,
+					$._expression
+				)
 			)
 		),
 

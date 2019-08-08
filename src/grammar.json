@@ -209,6 +209,18 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "SYMBOL",
+              "name": "modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "STRING",
               "value": "class"
             },
@@ -221,6 +233,18 @@
         {
           "type": "SYMBOL",
           "name": "simple_identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_parameters"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -721,6 +745,10 @@
             {
               "type": "SYMBOL",
               "name": "_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_semi"
             }
           ]
         }
@@ -1122,42 +1150,47 @@
       ]
     },
     "_statement": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "label"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "annotation"
-              }
-            ]
-          }
+          "type": "SYMBOL",
+          "name": "_declaration"
         },
         {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_declaration"
+              "type": "REPEAT",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "label"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "annotation"
+                  }
+                ]
+              }
             },
             {
-              "type": "SYMBOL",
-              "name": "assignment"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_loop_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_expression"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "assignment"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_loop_statement"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                }
+              ]
             }
           ]
         }
