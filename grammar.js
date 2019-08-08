@@ -50,6 +50,21 @@ const REAL_EXPONENT = token(seq(/[eE]/, optional(/[+-]/), DEC_DIGITS))
 
 module.exports = grammar({
 	name: "kotlin",
+	
+	conflicts: $ => [
+		// Ambiguous when used in an explicit delegation expression,
+		// since the '{' could either be interpreted as the class body
+		// or as the anonymous function body. Consider the following sequence:
+		//
+		// 'class'  simple_identifier  ':'  user_type  'by'  'fun'  '('  ')'  •  '{'  …
+		//
+		// Possible interpretations:
+		//
+		// 'class'  simple_identifier  ':'  user_type  'by'  (anonymous_function  'fun'  '('  ')'  •  function_body)
+		// 'class'  simple_identifier  ':'  user_type  'by'  (anonymous_function  'fun'  '('  ')')  •  '{'  …
+		[$.anonymous_function]
+	],
+
 	rules: {
 		// ====================
 		// Syntax grammar
@@ -107,7 +122,7 @@ module.exports = grammar({
 			$.simple_identifier,
 			optional($.type_parameters),
 			optional($.primary_constructor),
-			// TODO: Delegation specifiers
+			optional(seq(":", $._delegation_specifiers)),
 			optional($.type_constraints),
 			optional($.class_body)
 		),
@@ -130,21 +145,28 @@ module.exports = grammar({
 			optional(seq("=", $._expression))
 		),
 
-		delegation_specifiers: $ => sep1($._annotated_delegation_specifier, ","),
+		_delegation_specifiers: $ => sep1(
+			$.delegation_specifier,
+			// $._annotated_delegation_specifier, // TODO: Annotations cause ambiguities with type modifiers
+			","
+		),
 
-		_delegation_specifier: $ => choice(
+		delegation_specifier: $ => choice(
 			$.constructor_invocation,
 			$.explicit_delegation,
 			$.user_type,
-			$.function_type
+			// $.function_type // TODO: Function delegation causes ambiguities currently
 		),
 
 		constructor_invocation: $ => seq($.user_type, $.value_arguments),
 
-		_annotated_delegation_specifier: $ => seq(repeat($.annotation), $._delegation_specifier),
+		_annotated_delegation_specifier: $ => seq(repeat($.annotation), $.delegation_specifier),
 
 		explicit_delegation: $ => seq(
-			choice($.user_type, $.function_type),
+			choice(
+				$.user_type,
+				// $.function_type // TODO: See above, function delegation causes ambiguities
+			),
 			"by",
 			$._expression
 		),
@@ -186,7 +208,7 @@ module.exports = grammar({
 			"companion",
 			"object",
 			optional($.simple_identifier),
-			// TODO: Delegation specifiers
+			optional(seq(":", $._delegation_specifiers)),
 			optional($.class_body)
 		),
 
@@ -508,7 +530,7 @@ module.exports = grammar({
 
 		object_literal: $ => seq(
 			"object",
-			// TODO: optional(seq(":", $.delegation_specifiers)),
+			optional(seq(":", $._delegation_specifiers)),
 			$.class_body
 		),
 

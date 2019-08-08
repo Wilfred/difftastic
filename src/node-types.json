@@ -394,6 +394,10 @@
           "named": true
         },
         {
+          "type": "delegation_specifier",
+          "named": true
+        },
+        {
           "type": "modifiers",
           "named": true
         },
@@ -676,6 +680,10 @@
           "named": true
         },
         {
+          "type": "delegation_specifier",
+          "named": true
+        },
+        {
           "type": "modifiers",
           "named": true
         },
@@ -721,7 +729,7 @@
     }
   },
   {
-    "type": "delegation_specifiers",
+    "type": "delegation_specifier",
     "named": true,
     "fields": {},
     "children": {
@@ -729,19 +737,11 @@
       "required": false,
       "types": [
         {
-          "type": "annotation",
-          "named": true
-        },
-        {
           "type": "constructor_invocation",
           "named": true
         },
         {
           "type": "explicit_delegation",
-          "named": true
-        },
-        {
-          "type": "function_type",
           "named": true
         },
         {
@@ -915,10 +915,6 @@
         },
         {
           "type": "collection_literal",
-          "named": true
-        },
-        {
-          "type": "function_type",
           "named": true
         },
         {
@@ -2159,6 +2155,10 @@
       "types": [
         {
           "type": "class_body",
+          "named": true
+        },
+        {
+          "type": "delegation_specifier",
           "named": true
         }
       ]
@@ -4169,6 +4169,10 @@
     "named": false
   },
   {
+    "type": ":",
+    "named": false
+  },
+  {
     "type": "constructor",
     "named": false
   },
@@ -4198,10 +4202,6 @@
   },
   {
     "type": "var",
-    "named": false
-  },
-  {
-    "type": ":",
     "named": false
   },
   {

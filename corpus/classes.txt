@@ -122,3 +122,33 @@ data class Vector2D(
 			(class_parameter
 				(simple_identifier)
 				(type_reference (user_type (simple_identifier)))))))
+
+==================
+Inheritance
+==================
+
+class A : B() {}
+
+class C(param: Int) : D(param)
+
+class D : SomeInterface
+
+---
+
+(source_file
+	(class_declaration
+		(simple_identifier)
+		(delegation_specifier (constructor_invocation (user_type (simple_identifier))
+			(value_arguments)))
+		(class_body))
+	(class_declaration
+		(simple_identifier)
+		(primary_constructor
+			(class_parameter
+				(simple_identifier)
+				(type_reference (user_type (simple_identifier)))))
+		(delegation_specifier (constructor_invocation (user_type (simple_identifier))
+			(value_arguments (value_argument (simple_identifier))))))
+	(class_declaration
+		(simple_identifier)
+		(delegation_specifier (user_type (simple_identifier)))))
