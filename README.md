@@ -7,8 +7,6 @@
 
 The grammar is based on the [official language grammar](https://kotlinlang.org/docs/reference/grammar.html).
 
-_Note that the grammar is highly experimental and not suited for production usage yet!_
-
 ## Project Structure
 
 | File | Description |
