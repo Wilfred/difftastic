@@ -152,3 +152,34 @@ class D : SomeInterface
 	(class_declaration
 		(simple_identifier)
 		(delegation_specifier (user_type (simple_identifier)))))
+
+==================
+Properties
+==================
+
+class Something {
+	val x: Int = 4
+	var y: Int?
+	val z: Int get() = x
+}
+
+---
+
+(source_file
+	(class_declaration
+		(simple_identifier)
+		(class_body
+			(property_declaration
+				(variable_declaration
+					(simple_identifier)
+					(type_reference (user_type (simple_identifier))))
+				(integer_literal))
+			(property_declaration
+				(variable_declaration
+					(simple_identifier)
+					(nullable_type (type_reference (user_type (simple_identifier))))))
+			(property_declaration
+				(variable_declaration
+					(simple_identifier)
+					(type_reference (user_type (simple_identifier))))
+				(getter (function_body (simple_identifier)))))))

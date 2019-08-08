@@ -109,6 +109,7 @@ module.exports = grammar({
 			$.class_declaration,
 			$.object_declaration,
 			$.function_declaration,
+			$.property_declaration,
 			$.type_alias
 		),
 		
@@ -239,6 +240,56 @@ module.exports = grammar({
 			optional(seq(":", $._type))
 		),
 
+		property_declaration: $ => seq(
+			optional($.modifiers),
+			choice("val", "var"),
+			optional($.type_parameters),
+			// TODO: Receiver type
+			$.variable_declaration, // TODO: Multi-variable-declaration
+			optional($.type_constraints),
+			optional(choice(
+				seq("=", $._expression),
+				$.property_delegate
+			)),
+			choice(
+				// TODO: Getter-setter combinations
+				optional($.getter),
+				optional($.setter)
+			)
+		),
+
+		property_delegate: $ => seq("by", $._expression),
+
+		getter: $ => seq(
+			// optional(seq($._semi, $.modifiers)), // TODO
+			"get",
+			optional(seq(
+				"(", ")",
+				optional(seq(":", $._type)),
+				$.function_body
+			))
+		),
+
+		setter: $ => seq(
+			// optional(seq($._semi, $.modifiers)), // TODO
+			"set",
+			optional(seq(
+				"(",
+				$.parameter_with_optional_type,
+				")",
+				optional(seq(":", $._type)),
+				$.function_body
+			))
+		),
+
+		parameters_with_optional_type: $ => seq("(", sep1($.parameter_with_optional_type, ","), ")"),
+
+		parameter_with_optional_type: $ => seq(
+			optional($.parameter_modifiers),
+			$.simple_identifier,
+			optional(seq(":", $._type))
+		),
+
 		parameter: $ => seq($.simple_identifier, ":", $._type),
 
 		object_declaration: $ => seq( // TODO
@@ -281,10 +332,10 @@ module.exports = grammar({
 
 		nullable_type: $ => seq(
 			choice($.type_reference, $.parenthesized_type),
-			repeat1($.quest)
+			repeat1($._quest)
 		),
 
-		quest: $ => "?",
+		_quest: $ => "?",
 
 		user_type: $ => prec.left(sep1($._simple_user_type, ".")),
 		
