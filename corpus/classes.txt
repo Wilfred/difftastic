@@ -41,3 +41,27 @@ class Container<T> {}
 	(class_declaration (simple_identifier)
 		(type_parameters (type_parameter (simple_identifier)))
 		(class_body)))
+
+==================
+Class with methods and expressions
+==================
+
+class Strings {
+	fun aString() = "Hello World!"
+
+	fun anotherString() = "Hello" + " " + "World"
+}
+
+---
+
+(source_file
+	(class_declaration (simple_identifier)
+		(class_body (class_member_declarations
+			(function_declaration (simple_identifier) (function_body
+				(line_string_literal)))
+			(function_declaration (simple_identifier) (function_body
+				(binary_expression
+					(binary_expression
+						(line_string_literal)
+						(line_string_literal))
+					(line_string_literal))))))))
