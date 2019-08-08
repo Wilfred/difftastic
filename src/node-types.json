@@ -38,6 +38,21 @@
     }
   },
   {
+    "type": "anonymous_initializer",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "statements",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "assignment",
     "named": true,
     "fields": {},
@@ -378,7 +393,15 @@
       "required": false,
       "types": [
         {
+          "type": "anonymous_initializer",
+          "named": true
+        },
+        {
           "type": "class_declaration",
+          "named": true
+        },
+        {
+          "type": "companion_object",
           "named": true
         },
         {
@@ -387,6 +410,10 @@
         },
         {
           "type": "object_declaration",
+          "named": true
+        },
+        {
+          "type": "secondary_constructor",
           "named": true
         },
         {
@@ -653,6 +680,29 @@
         },
         {
           "type": "when_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "companion_object",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "class_body",
+          "named": true
+        },
+        {
+          "type": "modifiers",
+          "named": true
+        },
+        {
+          "type": "simple_identifier",
           "named": true
         }
       ]
@@ -2381,6 +2431,25 @@
     }
   },
   {
+    "type": "secondary_constructor",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "modifiers",
+          "named": true
+        },
+        {
+          "type": "statements",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "shebang_line",
     "named": true,
     "fields": {}
@@ -3939,11 +4008,23 @@
     "named": false
   },
   {
-    "type": "fun",
+    "type": "init",
+    "named": false
+  },
+  {
+    "type": "companion",
     "named": false
   },
   {
     "type": "object",
+    "named": false
+  },
+  {
+    "type": "fun",
+    "named": false
+  },
+  {
+    "type": "constructor",
     "named": false
   },
   {

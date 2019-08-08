@@ -163,7 +163,25 @@ module.exports = grammar({
 		// Class members
 		// ==========
 		
-		class_member_declarations: $ => repeat1(seq($._declaration, $._semis)), // TODO
+		class_member_declarations: $ => repeat1(seq($._class_member_declaration, $._semis)),
+
+		_class_member_declaration: $ => choice(
+			$._declaration,
+			$.companion_object,
+			$.anonymous_initializer,
+			$.secondary_constructor
+		),
+
+		anonymous_initializer: $ => seq("init", $._block),
+
+		companion_object: $ => seq(
+			optional($.modifiers),
+			"companion",
+			"object",
+			optional($.simple_identifier),
+			// TODO: Delegation specifiers
+			optional($.class_body)
+		),
 
 		variable_declaration: $ => seq(
 			// repeat($.annotation), TODO
@@ -188,6 +206,14 @@ module.exports = grammar({
 			"object",
 			$.simple_identifier,
 			optional($.class_body)
+		),
+
+		secondary_constructor: $ => seq(
+			optional($.modifiers),
+			"constructor",
+			"(", ")", // TODO: Value parameters
+			// TODO: Delegation call
+			optional($._block)
 		),
 		
 		// ==========

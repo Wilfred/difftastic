@@ -648,7 +648,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_declaration"
+            "name": "_class_member_declaration"
           },
           {
             "type": "SYMBOL",
@@ -656,6 +656,89 @@
           }
         ]
       }
+    },
+    "_class_member_declaration": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "companion_object"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "anonymous_initializer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "secondary_constructor"
+        }
+      ]
+    },
+    "anonymous_initializer": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "init"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_block"
+        }
+      ]
+    },
+    "companion_object": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "companion"
+        },
+        {
+          "type": "STRING",
+          "value": "object"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "simple_identifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "class_body"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "variable_declaration": {
       "type": "SEQ",
@@ -800,6 +883,47 @@
             {
               "type": "SYMBOL",
               "name": "class_body"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "secondary_constructor": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "constructor"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_block"
             },
             {
               "type": "BLANK"
