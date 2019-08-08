@@ -8,3 +8,20 @@ Multiplication expression
 
 (source_file (binary_expression (integer_literal) (integer_literal)))
 
+==================
+Function calls
+==================
+
+print("Hello World!")
+sum(1, 2)
+
+---
+
+(source_file
+	(unary_expression (simple_identifier)
+		(call_suffix (value_arguments
+			(value_argument (line_string_literal)))))
+	(unary_expression (simple_identifier)
+		(call_suffix (value_arguments
+			(value_argument (integer_literal))
+			(value_argument (integer_literal))))))

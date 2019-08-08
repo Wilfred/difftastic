@@ -25,6 +25,7 @@
 // Using an adapted version of https://kotlinlang.org/docs/reference/grammar.html
 
 const PREC = {
+	TYPE_ARGS: 17,
 	POSTFIX: 16,
 	PREFIX: 15,
 	TYPE_RHS: 14,
@@ -62,7 +63,10 @@ module.exports = grammar({
 		//
 		// 'class'  simple_identifier  ':'  user_type  'by'  (anonymous_function  'fun'  '('  ')'  •  function_body)
 		// 'class'  simple_identifier  ':'  user_type  'by'  (anonymous_function  'fun'  '('  ')')  •  '{'  …
-		[$.anonymous_function]
+		[$.anonymous_function],
+
+		// Member access operator '::' conflicts with callable reference
+		[$._primary_expression, $.callable_reference]
 	],
 
 	rules: {
@@ -337,7 +341,11 @@ module.exports = grammar({
 
 		_quest: $ => "?",
 
-		user_type: $ => prec.left(sep1($._simple_user_type, ".")),
+		// TODO: Figure out a better solution than right associativity
+		//       to prevent nested types from being recognized as
+		//       unary expresions with navigation suffixes.
+
+		user_type: $ => prec.right(sep1($._simple_user_type, ".")),
 		
 		_simple_user_type: $ => prec.right(seq($.simple_identifier, optional($.type_arguments))),
 
@@ -479,10 +487,41 @@ module.exports = grammar({
 
 		_postfix_unary_suffix: $ => choice(
 			$._postfix_unary_operator,
-			// TODO
+			// $.type_arguments // TODO: Type arguments conflict naturally with 'less than'.
+			                    //       Possible solutions include listing this conflict
+			                    //       between 'unary_expression' and 'binary_expression'
+			                    //       in the array of LR(1) conflicts at the top.
+			$.call_suffix,
+			$.indexing_suffix,
+			$.navigation_suffix
 		),
 
-		type_arguments: $ => seq("<", sep1($.type_projection, ","), ">"),
+		indexing_suffix: $ => seq("[", sep1($._expression, ","), "]"),
+
+		navigation_suffix: $ => seq(
+			$._member_access_operator,
+			choice(
+				$.simple_identifier,
+				$.parenthesized_expression,
+				"class"
+			)
+		),
+
+		call_suffix: $ => prec.left(seq(
+			// optional($.type_arguments), // TODO: Type args conflict with 'less than', see above
+			choice(
+				seq(optional($.value_arguments), $.annotated_lambda),
+				$.value_arguments
+			)
+		)),
+
+		annotated_lambda: $ => seq(
+			// repeat($.annotation),
+			// optional($.label),
+			$.lambda_literal
+		),
+
+		type_arguments: $ => prec.left(PREC.TYPE_ARGS, seq("<", sep1($.type_projection, ","), ">")),
 
 		value_arguments: $ => seq("(", optional(sep1($.value_argument, ",")), ")"),
 
@@ -709,7 +748,11 @@ module.exports = grammar({
 		
 		_member_access_operator: $ => choice(".", $._safe_nav, "::"),
 		
-		_safe_nav: $ => seq("?", "."),
+		_safe_nav: $ => "?.",      // TODO: '?' and '.' should actually be separate tokens
+		                           //       but produce an LR(1) conflict that way, however.
+		                           //       ('as' expression with '?' produces conflict). Also
+		                           //       does it seem to be very uncommon to write the safe
+		                           //       navigation operator 'split up' in Kotlin.
 
 		directly_assignable_expression: $ => choice(
 			$.simple_identifier
