@@ -44,3 +44,42 @@ somethingElse as A.Deeply.Nested.Type
 			(simple_identifier)
 			(simple_identifier)
 			(simple_identifier)))))
+
+==================
+Generic wildcard types
+==================
+
+something as Generic<*>
+
+---
+
+(source_file
+	(unary_expression
+		(simple_identifier)
+		(type_reference (user_type (simple_identifier)
+			(type_arguments (type_projection))))))
+
+==================
+Generic parameterized types
+==================
+
+something as Generic<T>
+something as Generic<A, Type>
+
+---
+
+(source_file
+	(unary_expression
+		(simple_identifier)
+		(type_reference (user_type (simple_identifier)
+			(type_arguments
+				(type_projection
+					(type_reference (user_type (simple_identifier))))))))
+	(unary_expression
+		(simple_identifier)
+		(type_reference (user_type (simple_identifier)
+			(type_arguments
+				(type_projection
+					(type_reference (user_type (simple_identifier))))
+				(type_projection
+					(type_reference (user_type (simple_identifier)))))))))
