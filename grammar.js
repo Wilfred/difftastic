@@ -109,6 +109,53 @@ module.exports = grammar({
 
 		class_body: $ => seq("{", optional($.class_member_declarations), "}"),
 
+		class_parameters: $ => seq("(", optional(sep1($.class_parameter, ",")), ")"),
+
+		class_parameter: $ => seq(
+			optional($.modifiers),
+			optional(choice("val", "var")),
+			$.simple_identifier,
+			":",
+			$._type,
+			optional(seq("=", $._expression))
+		),
+
+		delegation_specifiers: $ => sep1($._annotated_delegation_specifier, ","),
+
+		_delegation_specifier: $ => choice(
+			$.constructor_invocation,
+			$.explicit_delegation,
+			$.user_type,
+			$.function_type
+		),
+
+		constructor_invocation: $ => seq($.user_type, $.value_arguments),
+
+		_annotated_delegation_specifier: $ => seq(repeat($.annotation), $._delegation_specifier),
+
+		explicit_delegation: $ => seq(
+			choice($.user_type, $.function_type),
+			"by",
+			$._expression
+		),
+
+		type_parameters: $ => seq("<", sep1($.type_parameter, ","), ">"),
+
+		type_parameter: $ => seq(
+			optional($.type_parameter_modifiers),
+			$.simple_identifier,
+			optional(seq(":", $._type))
+		),
+
+		type_constraints: $ => seq("where", sep1($.type_constraint, ",")),
+
+		type_constraint: $ => seq(
+			repeat($.annotation),
+			$.simple_identifier,
+			":",
+			$._type
+		),
+
 		// ==========
 		// Class members
 		// ==========
@@ -130,6 +177,8 @@ module.exports = grammar({
 
 		function_body: $ => choice($._block, seq("=", $._expression)),
 
+		parameter: $ => seq($.simple_identifier, ":", $._type),
+
 		object_declaration: $ => seq( // TODO
 			"object",
 			$.simple_identifier,
@@ -145,7 +194,80 @@ module.exports = grammar({
 		// Types
 		// ==========
 		
-		_type: $ => $.simple_identifier, // TODO
+		_type: $ => sep1(
+			$.simple_identifier,
+			"."
+			// optional($.type_modifiers), TODO
+			//choice(
+			//	$.parenthesized_type,
+			//	$.nullable_type,
+			//	$.type_reference,
+			//	$.function_type TODO
+			//)
+		),
+
+		type_reference: $ => choice(
+			$.user_type,
+			"dynamic"
+		),
+
+		nullable_type: $ => seq(
+			choice($.type_reference, $.parenthesized_type),
+			repeat1($.quest)
+		),
+
+		quest: $ => "?",
+
+		// user_type: $ => sep1($.simple_user_type, "."), TODO
+		user_type: $ => $.simple_user_type,
+		
+		simple_user_type: $ => seq($.simple_identifier, optional($.type_arguments)),
+
+		type_projection: $ => choice(
+			seq(optional($.type_projection_modifiers), $._type),
+			"*"
+		),
+
+		type_projection_modifiers: $ => repeat1($._type_projection_modifier),
+
+		_type_projection_modifier: $ => choice(
+			$.variance_modifier,
+			$.annotation
+		),
+
+		function_type: $ => seq(
+			optional(seq($.receiver_type, ".")),
+			$.function_type_parameters,
+			"->",
+			$._type
+		),
+
+		function_type_parameters: $ => seq(
+			"(",
+			optional(choice($.parameter, $._type)),
+			repeat(seq(
+				",",
+				choice($.parameter, $._type)
+			)),
+			")"
+		),
+
+		parenthesized_type: $ => seq("(", $._type, ")"),
+
+		receiver_type: $ => seq(
+			optional($.type_modifiers),
+			choice(
+				$.parenthesized_type,
+				$.nullable_type,
+				$.type_reference
+			)
+		),
+
+		parenthesized_user_type: $ => seq(
+			"(",
+			choice($.user_type, $.parenthesized_user_type),
+			")"
+		),
 		
 		// ==========
 		// Statements
@@ -256,6 +378,17 @@ module.exports = grammar({
 			// TODO
 		),
 
+		type_arguments: $ => seq("<", sep1($.type_projection, ","), ">"),
+
+		value_arguments: $ => seq("(", optional(sep1($.value_argument, ",")), ")"),
+
+		value_argument: $ => seq(
+			optional($.annotation),
+			optional(seq($.simple_identifier, "=")),
+			optional("*"),
+			$._expression
+		),
+
 		_primary_expression: $ => choice(
 			$.parenthesized_expression,
 			$.simple_identifier,
@@ -337,8 +470,11 @@ module.exports = grammar({
 
 		anonymous_function: $ => seq(
 			"fun",
-			optional(seq($._type, ".")),
-			"(", ")", // TODO
+			choice(
+				"(",
+				seq($._type, ".(")
+			),
+			")", // TODO
 			optional($.function_body)
 		),
 
@@ -486,6 +622,87 @@ module.exports = grammar({
 		// Modifiers
 		// ==========
 		
+		modifiers: $ => choice($.annotation, repeat1($._modifier)),
+
+		parameter_modifiers: $ => choice($.annotation, repeat1($.parameter_modifier)),
+
+		_modifier: $ => choice(
+			$.class_modifier,
+			$.member_modifier,
+			$.visibility_modifier,
+			$.function_modifier,
+			$.property_modifier,
+			$.inheritance_modifier,
+			$.parameter_modifier,
+			$.platform_modifier
+		),
+
+		type_modifiers: $ => repeat1($._type_modifier),
+
+		_type_modifier: $ => choice($.annotation, "suspend"),
+
+		class_modifier: $ => choice(
+			"enum",
+			"sealed",
+			"annotation",
+			"data",
+			"inner"
+		),
+
+		member_modifier: $ => choice(
+			"override",
+			"lateinit"
+		),
+
+		visibility_modifier: $ => choice(
+			"public",
+			"private",
+			"internal",
+			"protected"
+		),
+
+		variance_modifier: $ => choice(
+			"in",
+			"out"
+		),
+
+		type_parameter_modifiers: $ => repeat1($._type_parameter_modifier),
+
+		_type_parameter_modifier: $ => choice(
+			$.reification_modifier,
+			$.variance_modifier,
+			$.annotation
+		),
+
+		function_modifier: $ => choice(
+			"tailrec",
+			"operator",
+			"infix",
+			"inline",
+			"external",
+			"suspend"
+		),
+
+		property_modifier: $ => "const",
+
+		inheritance_modifier: $ => choice(
+			"abstract",
+			"final",
+			"open"
+		),
+
+		parameter_modifier: $ => choice(
+			"vararg",
+			"noinline",
+			"crossinline"
+		),
+
+		reification_modifier: $ => "reified",
+
+		platform_modifier: $ => choice(
+			"expect",
+			"actual"
+		),
 		
 		// ==========
 		// Annotations

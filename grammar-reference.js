@@ -380,7 +380,7 @@ module.exports = grammar({
 		
 		nullable_type: $ => seq(
 			choice($.type_reference, $.parenthesized_type),
-			repeat($.quest)
+			repeat1($.quest)
 		),
 		
 		quest: $ => choice("?", $.quest_ws),
