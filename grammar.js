@@ -226,6 +226,8 @@ module.exports = grammar({
 			"fun",
 			$.simple_identifier,
 			$._function_value_parameters,
+			optional(seq(":", $._type)),
+			optional($.type_constraints),
 			optional($.function_body)
 		),
 

@@ -1326,6 +1326,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_literal",
           "named": true
         },
@@ -1339,6 +1343,10 @@
         },
         {
           "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_type",
           "named": true
         },
         {
@@ -1362,7 +1370,19 @@
           "named": true
         },
         {
+          "type": "type_constraints",
+          "named": true
+        },
+        {
+          "type": "type_modifiers",
+          "named": true
+        },
+        {
           "type": "type_parameters",
+          "named": true
+        },
+        {
+          "type": "type_reference",
           "named": true
         },
         {

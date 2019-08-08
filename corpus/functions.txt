@@ -56,4 +56,18 @@ fun sum(a: Int, b: Int) = a + b
 			(binary_expression
 				(simple_identifier)
 				(simple_identifier)))))
-		
+
+==================
+Functions with return types
+==================
+
+fun answerToTheUltimateQuestionOfLifeTheUniverseAndEverything(): Int = 42
+
+---
+
+(source_file
+	(function_declaration
+		(simple_identifier)
+		(type_reference (user_type (simple_identifier)))
+		(function_body (integer_literal))))
+
