@@ -24,5 +24,34 @@
     "test-typescript": "cd typescript && tree-sitter test && script/parse-examples",
     "test-tsx": "cd tsx && tree-sitter test",
     "test-windows": "pushd typescript && tree-sitter test && popd && pushd tsx && tree-sitter test"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.ts",
+      "file-types": [
+        "ts"
+      ],
+      "path": "typescript",
+      "highlights": "typescript/src/highlights.json",
+      "injection-regex": "^(ts|typescript)$"
+    },
+    {
+      "scope": "source.tsx",
+      "file-types": [
+        "tsx"
+      ],
+      "path": "tsx",
+      "highlights": "typescript/src/highlights.json",
+      "injection-regex": "^(ts|typescript)$"
+    },
+    {
+      "scope": "source.js.flow",
+      "file-types": [
+        "js"
+      ],
+      "path": "tsx",
+      "highlights": "typescript/src/highlights.json",
+      "content-regex": "@flow"
+    }
+  ]
 }
