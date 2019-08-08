@@ -194,16 +194,14 @@ module.exports = grammar({
 		// Types
 		// ==========
 		
-		_type: $ => sep1(
-			$.simple_identifier,
-			"."
-			// optional($.type_modifiers), TODO
-			//choice(
-			//	$.parenthesized_type,
-			//	$.nullable_type,
-			//	$.type_reference,
-			//	$.function_type TODO
-			//)
+		_type: $ => seq(
+			optional($.type_modifiers),
+			choice(
+				// $.parenthesized_type, TODO: Conflicts with function_type_parameters
+				$.nullable_type,
+				$.type_reference,
+				$.function_type
+			)
 		),
 
 		type_reference: $ => choice(
@@ -218,10 +216,9 @@ module.exports = grammar({
 
 		quest: $ => "?",
 
-		// user_type: $ => sep1($.simple_user_type, "."), TODO
-		user_type: $ => $.simple_user_type,
+		user_type: $ => prec.left(sep1($.simple_user_type, ".")),
 		
-		simple_user_type: $ => seq($.simple_identifier, optional($.type_arguments)),
+		simple_user_type: $ => prec.left(seq($.simple_identifier, optional($.type_arguments))),
 
 		type_projection: $ => choice(
 			seq(optional($.type_projection_modifiers), $._type),
@@ -230,10 +227,7 @@ module.exports = grammar({
 
 		type_projection_modifiers: $ => repeat1($._type_projection_modifier),
 
-		_type_projection_modifier: $ => choice(
-			$.variance_modifier,
-			$.annotation
-		),
+		_type_projection_modifier: $ => $.variance_modifier,
 
 		function_type: $ => seq(
 			optional(seq($.receiver_type, ".")),
@@ -244,18 +238,16 @@ module.exports = grammar({
 
 		function_type_parameters: $ => seq(
 			"(",
-			optional(choice($.parameter, $._type)),
-			repeat(seq(
-				",",
-				choice($.parameter, $._type)
-			)),
+			optional(sep1(choice($.parameter, $._type), ",")),
 			")"
 		),
 
 		parenthesized_type: $ => seq("(", $._type, ")"),
 
 		receiver_type: $ => seq(
-			optional($.type_modifiers),
+			// optional($.type_modifiers), TODO: Conflicts with multiple optional type modifiers
+			//                                   when using (_type (function_type (receiver_type)))
+			//                                   since _type declares optional type modifiers too
 			choice(
 				$.parenthesized_type,
 				$.nullable_type,
@@ -459,10 +451,7 @@ module.exports = grammar({
 			"}"
 		),
 
-		lambda_parameters: $ => seq(
-			$._lambda_parameter,
-			repeat(seq(",", $._lambda_parameter))
-		),
+		lambda_parameters: $ => sep1($._lambda_parameter, ","),
 
 		_lambda_parameter: $ => choice(
 			$.variable_declaration, // TODO
@@ -470,10 +459,8 @@ module.exports = grammar({
 
 		anonymous_function: $ => seq(
 			"fun",
-			choice(
-				"(",
-				seq($._type, ".(")
-			),
+			optional(seq($.receiver_type, ".")), // TODO
+			"(",
 			")", // TODO
 			optional($.function_body)
 		),
@@ -584,7 +571,7 @@ module.exports = grammar({
 		),
 
 		callable_reference: $ => seq(
-			optional($._type),
+			optional($.simple_identifier), // TODO
 			"::",
 			choice($.simple_identifier, "class")
 		),

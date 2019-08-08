@@ -27,7 +27,7 @@
           "named": true
         },
         {
-          "type": "simple_identifier",
+          "type": "receiver_type",
           "named": true
         }
       ]
@@ -292,11 +292,27 @@
           "named": true
         },
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "simple_identifier",
           "named": true
         },
         {
           "type": "statements",
+          "named": true
+        },
+        {
+          "type": "type_modifiers",
+          "named": true
+        },
+        {
+          "type": "type_reference",
           "named": true
         }
       ]
@@ -410,6 +426,10 @@
           "named": true
         },
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
           "type": "hex_literal",
           "named": true
         },
@@ -446,6 +466,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_literal",
           "named": true
         },
@@ -471,6 +495,14 @@
         },
         {
           "type": "try_expression",
+          "named": true
+        },
+        {
+          "type": "type_modifiers",
+          "named": true
+        },
+        {
+          "type": "type_reference",
           "named": true
         },
         {
@@ -1214,7 +1246,15 @@
       "required": false,
       "types": [
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
           "type": "function_type_parameters",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -1222,7 +1262,11 @@
           "named": true
         },
         {
-          "type": "simple_identifier",
+          "type": "type_modifiers",
+          "named": true
+        },
+        {
+          "type": "type_reference",
           "named": true
         }
       ]
@@ -1237,11 +1281,23 @@
       "required": false,
       "types": [
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
         {
-          "type": "simple_identifier",
+          "type": "type_modifiers",
+          "named": true
+        },
+        {
+          "type": "type_reference",
           "named": true
         }
       ]
@@ -1984,7 +2040,23 @@
       "required": false,
       "types": [
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "simple_identifier",
+          "named": true
+        },
+        {
+          "type": "type_modifiers",
+          "named": true
+        },
+        {
+          "type": "type_reference",
           "named": true
         }
       ]
@@ -2134,7 +2206,19 @@
       "required": false,
       "types": [
         {
-          "type": "simple_identifier",
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "type_modifiers",
+          "named": true
+        },
+        {
+          "type": "type_reference",
           "named": true
         }
       ]
@@ -2294,10 +2378,6 @@
         },
         {
           "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "type_modifiers",
           "named": true
         },
         {
@@ -2714,7 +2794,23 @@
       "required": false,
       "types": [
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "simple_identifier",
+          "named": true
+        },
+        {
+          "type": "type_modifiers",
+          "named": true
+        },
+        {
+          "type": "type_reference",
           "named": true
         }
       ]
@@ -2748,7 +2844,23 @@
           "named": true
         },
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "simple_identifier",
+          "named": true
+        },
+        {
+          "type": "type_modifiers",
+          "named": true
+        },
+        {
+          "type": "type_reference",
           "named": true
         }
       ]
@@ -2793,11 +2905,27 @@
       "required": false,
       "types": [
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "simple_identifier",
           "named": true
         },
         {
+          "type": "type_modifiers",
+          "named": true
+        },
+        {
           "type": "type_parameter_modifiers",
+          "named": true
+        },
+        {
+          "type": "type_reference",
           "named": true
         }
       ]
@@ -2850,11 +2978,23 @@
       "required": false,
       "types": [
         {
-          "type": "simple_identifier",
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "type_modifiers",
           "named": true
         },
         {
           "type": "type_projection_modifiers",
+          "named": true
+        },
+        {
+          "type": "type_reference",
           "named": true
         }
       ]
@@ -2868,10 +3008,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "annotation",
-          "named": true
-        },
         {
           "type": "variance_modifier",
           "named": true
@@ -3046,6 +3182,10 @@
           "named": true
         },
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
           "type": "hex_literal",
           "named": true
         },
@@ -3082,6 +3222,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_literal",
           "named": true
         },
@@ -3107,6 +3251,14 @@
         },
         {
           "type": "try_expression",
+          "named": true
+        },
+        {
+          "type": "type_modifiers",
+          "named": true
+        },
+        {
+          "type": "type_reference",
           "named": true
         },
         {
@@ -3301,7 +3453,23 @@
       "required": false,
       "types": [
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "simple_identifier",
+          "named": true
+        },
+        {
+          "type": "type_modifiers",
+          "named": true
+        },
+        {
+          "type": "type_reference",
           "named": true
         }
       ]
@@ -3801,15 +3969,15 @@
     "named": false
   },
   {
-    "type": ".",
-    "named": false
-  },
-  {
     "type": "dynamic",
     "named": false
   },
   {
     "type": "?",
+    "named": false
+  },
+  {
+    "type": ".",
     "named": false
   },
   {
@@ -3886,10 +4054,6 @@
   },
   {
     "type": "$",
-    "named": false
-  },
-  {
-    "type": ".(",
     "named": false
   },
   {
