@@ -1,0 +1,26 @@
+==================
+Top-level functions
+==================
+
+fun main() {}
+
+---
+
+(source_file
+	(function_declaration
+		(simple_identifier)
+		(function_body)))
+
+==================
+Generic functions
+==================
+
+<T> fun test() {}
+
+---
+
+(source_file
+	(function_declaration
+		(type_parameters (type_parameter (simple_identifier)))
+		(simple_identifier)
+		(function_body)))

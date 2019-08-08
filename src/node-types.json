@@ -1244,6 +1244,10 @@
         {
           "type": "simple_identifier",
           "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
         }
       ]
     }

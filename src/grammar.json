@@ -651,16 +651,8 @@
             "name": "_declaration"
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_semis"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_semis"
           }
         ]
       }
@@ -704,6 +696,18 @@
             {
               "type": "SYMBOL",
               "name": "modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_parameters"
             },
             {
               "type": "BLANK"
@@ -757,10 +761,6 @@
             {
               "type": "SYMBOL",
               "name": "_expression"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_semi"
             }
           ]
         }

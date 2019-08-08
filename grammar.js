@@ -163,7 +163,7 @@ module.exports = grammar({
 		// Class members
 		// ==========
 		
-		class_member_declarations: $ => repeat1(seq($._declaration, optional($._semis))), // TODO
+		class_member_declarations: $ => repeat1(seq($._declaration, $._semis)), // TODO
 
 		variable_declaration: $ => seq(
 			// repeat($.annotation), TODO
@@ -173,13 +173,14 @@ module.exports = grammar({
 
 		function_declaration: $ => seq( // TODO
 			optional($.modifiers),
+			optional($.type_parameters),
 			"fun",
 			$.simple_identifier,
 			"(", ")",
 			optional($.function_body)
 		),
 
-		function_body: $ => choice($._block, seq("=", $._expression, $._semi)),
+		function_body: $ => choice($._block, seq("=", $._expression)),
 
 		parameter: $ => seq($.simple_identifier, ":", $._type),
 
