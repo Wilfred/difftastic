@@ -4368,6 +4368,10 @@
             "named": true
           },
           {
+            "type": "pointer_type",
+            "named": true
+          },
+          {
             "type": "primitive_type",
             "named": true
           },

@@ -1022,9 +1022,9 @@ pub trait A<B> where B: C,
 {
 }
 
-fn foo<A>() where A: B + As<f64>, f64: As<A>
-{
-}
+fn foo<A>() where A: B + As<f64>, f64: As<A> {}
+
+impl<A> Default for B<A> where *mut A: C + D {}
 
 ---
 
@@ -1141,6 +1141,7 @@ fn foo<A>() where A: B + As<f64>, f64: As<A>
       left: (type_identifier)
       bounds: (trait_bounds (type_identifier))))
     body: (declaration_list))
+
   (function_item
     name: (identifier)
     type_parameters: (type_parameters (type_identifier))
@@ -1158,7 +1159,19 @@ fn foo<A>() where A: B + As<f64>, f64: As<A>
         bounds: (trait_bounds (generic_type
           type: (type_identifier)
           type_arguments: (type_arguments (type_identifier))))))
-    body: (block)))
+    body: (block))
+
+  (impl_item
+    type_parameters: (type_parameters (type_identifier))
+    trait: (type_identifier)
+    type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments (type_identifier)))
+    (where_clause
+      (where_predicate
+        left: (pointer_type (mutable_specifier) type: (type_identifier))
+        bounds: (trait_bounds (type_identifier) (type_identifier))))
+    body: (declaration_list)))
 
 ===================================
 External Modules
