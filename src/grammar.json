@@ -2412,12 +2412,8 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "parameters",
-          "content": {
-            "type": "SYMBOL",
-            "name": "formal_parameters"
-          }
+          "type": "SYMBOL",
+          "name": "_call_signature"
         },
         {
           "type": "FIELD",
@@ -2460,12 +2456,8 @@
             }
           },
           {
-            "type": "FIELD",
-            "name": "parameters",
-            "content": {
-              "type": "SYMBOL",
-              "name": "formal_parameters"
-            }
+            "type": "SYMBOL",
+            "name": "_call_signature"
           },
           {
             "type": "FIELD",
@@ -2530,12 +2522,8 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "parameters",
-          "content": {
-            "type": "SYMBOL",
-            "name": "formal_parameters"
-          }
+          "type": "SYMBOL",
+          "name": "_call_signature"
         },
         {
           "type": "FIELD",
@@ -2582,12 +2570,8 @@
             }
           },
           {
-            "type": "FIELD",
-            "name": "parameters",
-            "content": {
-              "type": "SYMBOL",
-              "name": "formal_parameters"
-            }
+            "type": "SYMBOL",
+            "name": "_call_signature"
           },
           {
             "type": "FIELD",
@@ -2653,12 +2637,8 @@
               }
             },
             {
-              "type": "FIELD",
-              "name": "parameters",
-              "content": {
-                "type": "SYMBOL",
-                "name": "formal_parameters"
-              }
+              "type": "SYMBOL",
+              "name": "_call_signature"
             }
           ]
         },
@@ -2681,6 +2661,19 @@
                 "name": "statement_block"
               }
             ]
+          }
+        }
+      ]
+    },
+    "_call_signature": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "parameters",
+          "content": {
+            "type": "SYMBOL",
+            "name": "formal_parameters"
           }
         }
       ]
@@ -5905,6 +5898,7 @@
     }
   ],
   "inline": [
+    "_call_signature",
     "_constructable_expression",
     "_statement",
     "_expressions",
