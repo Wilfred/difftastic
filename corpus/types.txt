@@ -1,0 +1,42 @@
+==================
+Type references
+==================
+
+something as Int
+
+---
+
+(source_file 
+	(unary_expression
+		(simple_identifier)
+		(type_reference (user_type (simple_identifier)))))
+
+==================
+Nested types
+==================
+
+something as Some.NestedType
+
+---
+
+(some_file
+	(unary_expression
+		(simple_identifier)
+		(type_reference (user_type (simple_identifier) (simple_identifier)))))
+
+==================
+Deeply nested types
+==================
+
+somethingElse as A.Deeply.Nested.Type
+
+---
+
+(some_file
+	(unary_expression
+		(simple_identifier)
+		(type_reference (user_type
+			(simple_identifier)
+			(simple_identifier)
+			(simple_identifier)
+			(simple_identifier)))))

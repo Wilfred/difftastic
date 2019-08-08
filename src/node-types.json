@@ -2398,25 +2398,6 @@
     "fields": {}
   },
   {
-    "type": "simple_user_type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "simple_identifier",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "source_file",
     "named": true,
     "fields": {},
@@ -3308,7 +3289,11 @@
       "required": false,
       "types": [
         {
-          "type": "simple_user_type",
+          "type": "simple_identifier",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
           "named": true
         }
       ]

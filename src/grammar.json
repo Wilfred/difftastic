@@ -852,7 +852,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "simple_user_type"
+            "name": "_simple_user_type"
           },
           {
             "type": "REPEAT",
@@ -865,7 +865,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "simple_user_type"
+                  "name": "_simple_user_type"
                 }
               ]
             }
@@ -873,7 +873,7 @@
         ]
       }
     },
-    "simple_user_type": {
+    "_simple_user_type": {
       "type": "PREC_LEFT",
       "value": 0,
       "content": {

@@ -216,9 +216,9 @@ module.exports = grammar({
 
 		quest: $ => "?",
 
-		user_type: $ => prec.left(sep1($.simple_user_type, ".")),
+		user_type: $ => prec.left(sep1($._simple_user_type, ".")),
 		
-		simple_user_type: $ => prec.left(seq($.simple_identifier, optional($.type_arguments))),
+		_simple_user_type: $ => prec.left(seq($.simple_identifier, optional($.type_arguments))),
 
 		type_projection: $ => choice(
 			seq(optional($.type_projection_modifiers), $._type),
