@@ -109,6 +109,7 @@ match x {
   a @ 1 ... 5 => a,
   Some(1 ... 5) => a,
   a @ b...c => a,
+  a @ b..=c => a,
 }
 
 ---
@@ -127,6 +128,9 @@ match x {
     (match_arm
       (match_pattern
         (tuple_struct_pattern (identifier) (range_pattern (integer_literal) (integer_literal))))
+      (identifier))
+    (match_arm
+      (match_pattern (captured_pattern (identifier) (range_pattern (identifier) (identifier))))
       (identifier))
     (match_arm
       (match_pattern (captured_pattern (identifier) (range_pattern (identifier) (identifier))))
