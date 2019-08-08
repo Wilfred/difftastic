@@ -45,6 +45,7 @@ module.exports = grammar({
   ],
 
   inline: $ => [
+    $._call_signature,
     $._constructable_expression,
     $._statement,
     $._expressions,
@@ -570,15 +571,15 @@ module.exports = grammar({
       optional('async'),
       'function',
       field('name', optional($.identifier)),
-      field('parameters', $.formal_parameters),
+      $._call_signature,
       field('body', $.statement_block)
     ),
 
-    function_declaration: $ => prec(PREC.DECLARATION, seq(
+    function_declaration: $ => prec.right(PREC.DECLARATION, seq(
       optional('async'),
       'function',
       field('name', $.identifier),
-      field('parameters', $.formal_parameters),
+      $._call_signature,
       field('body', $.statement_block),
       optional($._automatic_semicolon)
     )),
@@ -588,16 +589,16 @@ module.exports = grammar({
       'function',
       '*',
       field('name', optional($.identifier)),
-      field('parameters', $.formal_parameters),
+      $._call_signature,
       field('body', $.statement_block)
     ),
 
-    generator_function_declaration: $ => prec(PREC.DECLARATION, seq(
+    generator_function_declaration: $ => prec.right(PREC.DECLARATION, seq(
       optional('async'),
       'function',
       '*',
       field('name', $.identifier),
-      field('parameters', $.formal_parameters),
+      $._call_signature,
       field('body', $.statement_block),
       optional($._automatic_semicolon)
     )),
@@ -605,18 +606,22 @@ module.exports = grammar({
     arrow_function: $ => seq(
       optional('async'),
       choice(
-        field('parameter',
-              choice(
-                alias($._reserved_identifier, $.identifier),
-                $.identifier,
-              )),
-        field('parameters', $.formal_parameters)
+        field('parameter', choice(
+          alias($._reserved_identifier, $.identifier),
+          $.identifier,
+        )),
+        $._call_signature
       ),
       '=>',
       field('body', choice(
         $._expression,
         $.statement_block
       ))
+    ),
+
+    // Override
+    _call_signature: $ => seq(
+      field('parameters', $.formal_parameters)
     ),
 
     call_expression: $ => prec(PREC.CALL, seq(
