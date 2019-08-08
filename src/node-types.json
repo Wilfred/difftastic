@@ -398,7 +398,15 @@
           "named": true
         },
         {
+          "type": "primary_constructor",
+          "named": true
+        },
+        {
           "type": "simple_identifier",
+          "named": true
+        },
+        {
+          "type": "type_constraints",
           "named": true
         },
         {
@@ -539,21 +547,6 @@
         },
         {
           "type": "when_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "class_parameters",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "class_parameter",
           "named": true
         }
       ]
@@ -2404,6 +2397,25 @@
     "fields": {}
   },
   {
+    "type": "primary_constructor",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "class_parameter",
+          "named": true
+        },
+        {
+          "type": "modifiers",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "quest",
     "named": true,
     "fields": {}
@@ -4157,6 +4169,10 @@
     "named": false
   },
   {
+    "type": "constructor",
+    "named": false
+  },
+  {
     "type": "{",
     "named": false
   },
@@ -4218,10 +4234,6 @@
   },
   {
     "type": "fun",
-    "named": false
-  },
-  {
-    "type": "constructor",
     "named": false
   },
   {

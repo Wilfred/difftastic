@@ -106,13 +106,20 @@ module.exports = grammar({
 			choice("class", "interface"),
 			$.simple_identifier,
 			optional($.type_parameters),
-			// TODO
+			optional($.primary_constructor),
+			// TODO: Delegation specifiers
+			optional($.type_constraints),
 			optional($.class_body)
+		),
+
+		primary_constructor: $ => seq(
+			optional(seq(optional($.modifiers), "constructor")),
+			$._class_parameters
 		),
 
 		class_body: $ => seq("{", optional($._class_member_declarations), "}"),
 
-		class_parameters: $ => seq("(", optional(sep1($.class_parameter, ",")), ")"),
+		_class_parameters: $ => seq("(", optional(sep1($.class_parameter, ",")), ")"),
 
 		class_parameter: $ => seq(
 			optional($.modifiers),

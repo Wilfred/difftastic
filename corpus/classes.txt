@@ -99,3 +99,26 @@ object Singleton {
 	(object_declaration (simple_identifier)
 		(class_body
 			(function_declaration (simple_identifier)))))
+
+==================
+Primary constructors
+==================
+
+data class Vector2D(
+	val x: Int,
+	val y: Int
+)
+
+---
+
+(source_file
+	(class_declaration
+		(modifiers (class_modifier))
+		(simple_identifier)
+		(primary_constructor
+			(class_parameter
+				(simple_identifier)
+				(type_reference (user_type (simple_identifier))))
+			(class_parameter
+				(simple_identifier)
+				(type_reference (user_type (simple_identifier)))))))
