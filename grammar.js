@@ -183,10 +183,12 @@ module.exports = grammar({
 			optional($.class_body)
 		),
 
-		variable_declaration: $ => seq(
-			// repeat($.annotation), TODO
-			$.simple_identifier,
-			optional(seq(":", $._type))
+		_function_value_parameters: $ => seq("(", optional(sep1($._function_value_parameter, ",")), ")"),
+
+		_function_value_parameter: $ => seq(
+			optional($.parameter_modifiers),
+			$.parameter,
+			optional(seq("=", $._expression))
 		),
 
 		function_declaration: $ => seq( // TODO
@@ -194,11 +196,17 @@ module.exports = grammar({
 			optional($.type_parameters),
 			"fun",
 			$.simple_identifier,
-			"(", ")",
+			$._function_value_parameters,
 			optional($.function_body)
 		),
 
 		function_body: $ => choice($._block, seq("=", $._expression)),
+		
+		variable_declaration: $ => seq(
+			// repeat($.annotation), TODO
+			$.simple_identifier,
+			optional(seq(":", $._type))
+		),
 
 		parameter: $ => seq($.simple_identifier, ":", $._type),
 
@@ -211,7 +219,7 @@ module.exports = grammar({
 		secondary_constructor: $ => seq(
 			optional($.modifiers),
 			"constructor",
-			"(", ")", // TODO: Value parameters
+			$._function_value_parameters,
 			// TODO: Delegation call
 			optional($._block)
 		),

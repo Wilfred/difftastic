@@ -24,3 +24,36 @@ Generic functions
 		(type_parameters (type_parameter (simple_identifier)))
 		(simple_identifier)
 		(function_body)))
+
+==================
+Functions with parameters
+==================
+
+fun main(args: Array<String>) {}
+
+fun sum(a: Int, b: Int) = a + b
+
+---
+
+(source_file
+	(function_declaration
+		(simple_identifier)
+		(parameter 
+			(simple_identifier)
+			(type_reference (user_type
+				(simple_identifier)
+				(type_arguments (type_projection (type_reference (user_type (simple_identifier))))))))
+		(function_body))
+	(function_declaration
+		(simple_identifier)
+		(parameter
+			(simple_identifier)
+			(type_reference (user_type (simple_identifier))))
+		(parameter
+			(simple_identifier)
+			(type_reference (user_type (simple_identifier))))
+		(function_body
+			(binary_expression
+				(simple_identifier)
+				(simple_identifier)))))
+		
