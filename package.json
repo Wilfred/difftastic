@@ -7,7 +7,9 @@
 		"test": "tree-sitter test",
 		"install": "node-gyp rebuild",
 		"generate": "tree-sitter generate",
-		"parse": "tree-sitter parse"
+		"parse": "tree-sitter parse",
+		"build-wasm": "tree-sitter build-wasm",
+		"web-ui": "tree-sitter web-ui"
 	},
 	"repository": {
 		"type": "git",
