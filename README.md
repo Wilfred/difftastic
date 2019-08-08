@@ -51,7 +51,9 @@ After compiling the grammar to WebAssembly, you can invoke
 
 >`npm run web-ui`
 
-to launch an interactive editing environment that displays the parsed syntax tree on-the-fly.
+to launch an interactive editing environment that displays the parsed syntax tree on-the-fly:
+
+![Screenshot](web-ui-screenshot.png)
 
 ## Documentation
 
