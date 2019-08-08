@@ -294,6 +294,8 @@ for (x.y in a) {}
 
 for ([a, b] in c) {}
 
+for ((a) in b) {}
+
 ---
 
 (program
@@ -319,6 +321,10 @@ for ([a, b] in c) {}
     (statement_block))
   (for_in_statement
     (array_pattern (identifier) (identifier))
+    (identifier)
+    (statement_block))
+  (for_in_statement
+    (parenthesized_expression (identifier))
     (identifier)
     (statement_block)))
 

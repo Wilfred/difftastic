@@ -891,6 +891,8 @@ x = 0;
 x.y = 0;
 x["y"] = 0;
 async = 0;
+(x) = 1;
+(x) += 1;
 
 ---
 
@@ -906,6 +908,12 @@ async = 0;
     (number)))
   (expression_statement (assignment_expression
     (identifier)
+    (number)))
+  (expression_statement (assignment_expression
+    (parenthesized_expression (identifier))
+    (number)))
+  (expression_statement (augmented_assignment_expression
+    (parenthesized_expression (identifier))
     (number))))
 
 ==============================================
