@@ -25,9 +25,9 @@ class HelloWorld {
 
 (source_file
 	(class_declaration (simple_identifier)
-		(class_body (class_member_declarations
+		(class_body
 			(function_declaration (simple_identifier) (function_body))
-			(function_declaration (simple_identifier) (function_body))))))
+			(function_declaration (simple_identifier) (function_body)))))
 
 ==================
 Generic class
@@ -56,7 +56,7 @@ class Strings {
 
 (source_file
 	(class_declaration (simple_identifier)
-		(class_body (class_member_declarations
+		(class_body
 			(function_declaration (simple_identifier) (function_body
 				(line_string_literal)))
 			(function_declaration (simple_identifier) (function_body
@@ -64,7 +64,7 @@ class Strings {
 					(binary_expression
 						(line_string_literal)
 						(line_string_literal))
-					(line_string_literal))))))))
+					(line_string_literal)))))))
 
 ==================
 Class with modifiers
@@ -80,7 +80,22 @@ internal open class Test {
 	(class_declaration
 		(modifiers (visibility_modifier) (inheritance_modifier))
 		(simple_identifier)
-		(class_body (class_member_declarations
+		(class_body
 			(function_declaration
 				(modifiers (visibility_modifier) (inheritance_modifier) (function_modifier))
-				(simple_identifier))))))
+				(simple_identifier)))))
+
+==================
+Objects
+==================
+
+object Singleton {
+	fun test()
+}
+
+---
+
+(source_file
+	(object_declaration (simple_identifier)
+		(class_body
+			(function_declaration (simple_identifier)))))

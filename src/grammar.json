@@ -272,7 +272,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "class_member_declarations"
+              "name": "_class_member_declarations"
             },
             {
               "type": "BLANK"
@@ -641,7 +641,7 @@
         }
       ]
     },
-    "class_member_declarations": {
+    "_class_member_declarations": {
       "type": "REPEAT1",
       "content": {
         "type": "SEQ",

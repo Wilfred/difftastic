@@ -110,7 +110,7 @@ module.exports = grammar({
 			optional($.class_body)
 		),
 
-		class_body: $ => seq("{", optional($.class_member_declarations), "}"),
+		class_body: $ => seq("{", optional($._class_member_declarations), "}"),
 
 		class_parameters: $ => seq("(", optional(sep1($.class_parameter, ",")), ")"),
 
@@ -163,7 +163,7 @@ module.exports = grammar({
 		// Class members
 		// ==========
 		
-		class_member_declarations: $ => repeat1(seq($._class_member_declaration, $._semis)),
+		_class_member_declarations: $ => repeat1(seq($._class_member_declaration, $._semis)),
 
 		_class_member_declaration: $ => choice(
 			$._declaration,

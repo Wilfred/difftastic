@@ -351,7 +351,31 @@
       "required": false,
       "types": [
         {
-          "type": "class_member_declarations",
+          "type": "anonymous_initializer",
+          "named": true
+        },
+        {
+          "type": "class_declaration",
+          "named": true
+        },
+        {
+          "type": "companion_object",
+          "named": true
+        },
+        {
+          "type": "function_declaration",
+          "named": true
+        },
+        {
+          "type": "object_declaration",
+          "named": true
+        },
+        {
+          "type": "secondary_constructor",
+          "named": true
+        },
+        {
+          "type": "type_alias",
           "named": true
         }
       ]
@@ -379,45 +403,6 @@
         },
         {
           "type": "type_parameters",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "class_member_declarations",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "anonymous_initializer",
-          "named": true
-        },
-        {
-          "type": "class_declaration",
-          "named": true
-        },
-        {
-          "type": "companion_object",
-          "named": true
-        },
-        {
-          "type": "function_declaration",
-          "named": true
-        },
-        {
-          "type": "object_declaration",
-          "named": true
-        },
-        {
-          "type": "secondary_constructor",
-          "named": true
-        },
-        {
-          "type": "type_alias",
           "named": true
         }
       ]
