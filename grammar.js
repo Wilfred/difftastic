@@ -172,6 +172,7 @@ module.exports = grammar({
 		),
 
 		function_declaration: $ => seq( // TODO
+			optional($.modifiers),
 			"fun",
 			$.simple_identifier,
 			"(", ")",

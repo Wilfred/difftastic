@@ -65,3 +65,22 @@ class Strings {
 						(line_string_literal)
 						(line_string_literal))
 					(line_string_literal))))))))
+
+==================
+Class with modifiers
+==================
+
+internal open class Test {
+	private abstract inline fun test()
+}
+
+---
+
+(source_file
+	(class_declaration
+		(modifiers (visibility_modifier) (inheritance_modifier))
+		(simple_identifier)
+		(class_body (class_member_declarations
+			(function_declaration
+				(modifiers (visibility_modifier) (inheritance_modifier) (function_modifier))
+				(simple_identifier))))))

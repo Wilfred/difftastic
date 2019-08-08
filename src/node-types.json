@@ -1238,6 +1238,10 @@
           "named": true
         },
         {
+          "type": "modifiers",
+          "named": true
+        },
+        {
           "type": "simple_identifier",
           "named": true
         }
