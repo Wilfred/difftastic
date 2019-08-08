@@ -283,7 +283,7 @@ module.exports = grammar({
     _for_header: $ => seq(
       '(',
       optional(choice('var', 'let', 'const')),
-      field('left', $._lhs_expression),
+      field('left', choice($.parenthesized_expression, $._lhs_expression)),
       choice('in', 'of'),
       field('right', $._expressions),
       ')',
@@ -687,7 +687,7 @@ module.exports = grammar({
     ),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
-      field('left', $._lhs_expression),
+      field('left', choice($.parenthesized_expression, $._lhs_expression)),
       '=',
       field('right', $._expression)
     )),
@@ -697,7 +697,8 @@ module.exports = grammar({
         $.member_expression,
         $.subscript_expression,
         alias($._reserved_identifier, $.identifier),
-        $.identifier
+        $.identifier,
+        $.parenthesized_expression,
       )),
       choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=', '<<=', '**='),
       field('right', $._expression)
