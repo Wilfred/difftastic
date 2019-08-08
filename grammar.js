@@ -197,10 +197,10 @@ module.exports = grammar({
 		_type: $ => seq(
 			optional($.type_modifiers),
 			choice(
-				// $.parenthesized_type, TODO: Conflicts with function_type_parameters
+				$.parenthesized_type, // TODO: Conflicts with function_type_parameters
 				$.nullable_type,
-				$.type_reference,
-				$.function_type
+				$.type_reference
+				// $.function_type
 			)
 		),
 
@@ -230,7 +230,7 @@ module.exports = grammar({
 		_type_projection_modifier: $ => $.variance_modifier,
 
 		function_type: $ => seq(
-			optional(seq($.receiver_type, ".")),
+			optional(seq($._type, ".")),
 			$.function_type_parameters,
 			"->",
 			$._type
@@ -243,17 +243,6 @@ module.exports = grammar({
 		),
 
 		parenthesized_type: $ => seq("(", $._type, ")"),
-
-		receiver_type: $ => seq(
-			// optional($.type_modifiers), TODO: Conflicts with multiple optional type modifiers
-			//                                   when using (_type (function_type (receiver_type)))
-			//                                   since _type declares optional type modifiers too
-			choice(
-				$.parenthesized_type,
-				$.nullable_type,
-				$.type_reference
-			)
-		),
 
 		parenthesized_user_type: $ => seq(
 			"(",
@@ -459,9 +448,8 @@ module.exports = grammar({
 
 		anonymous_function: $ => seq(
 			"fun",
-			optional(seq($.receiver_type, ".")), // TODO
-			"(",
-			")", // TODO
+			optional(seq(sep1($._simple_user_type, "."), ".")), // TODO
+			"(", ")",
 			optional($.function_body)
 		),
 
@@ -707,10 +695,7 @@ module.exports = grammar({
 		
 		simple_identifier: $ => $._lexical_identifier, // TODO
 		
-		identifier: $ => seq(
-			$.simple_identifier,
-			repeat(seq(".", $.simple_identifier))
-		),
+		identifier: $ => sep1($.simple_identifier, "."),
 		
 		// ====================
 		// Lexical grammar
@@ -791,7 +776,7 @@ module.exports = grammar({
 		// ==========
 		
 		_lexical_identifier: $ => choice(
-			/[a-zA-Z_][a-zA-Z_0-9]+/,
+			/[a-zA-Z_][a-zA-Z_0-9]*/,
 			/`[^\r\n`]+`/
 		),
 

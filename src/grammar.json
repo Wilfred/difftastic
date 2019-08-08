@@ -788,15 +788,15 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "parenthesized_type"
+            },
+            {
+              "type": "SYMBOL",
               "name": "nullable_type"
             },
             {
               "type": "SYMBOL",
               "name": "type_reference"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "function_type"
             }
           ]
         }
@@ -950,7 +950,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "receiver_type"
+                  "name": "_type"
                 },
                 {
                   "type": "STRING",
@@ -1055,28 +1055,6 @@
         {
           "type": "STRING",
           "value": ")"
-        }
-      ]
-    },
-    "receiver_type": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "parenthesized_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "nullable_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "type_reference"
-            }
-          ]
         }
       ]
     },
@@ -2288,8 +2266,29 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "receiver_type"
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_simple_user_type"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "."
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_simple_user_type"
+                          }
+                        ]
+                      }
+                    }
+                  ]
                 },
                 {
                   "type": "STRING",
@@ -3965,7 +3964,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "[a-zA-Z_][a-zA-Z_0-9]+"
+          "value": "[a-zA-Z_][a-zA-Z_0-9]*"
         },
         {
           "type": "PATTERN",
