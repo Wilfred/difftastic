@@ -2,3 +2,6 @@ node_modules
 build
 npm-debug.log
 package-lock.json
+parser.exp
+parser.lib
+parser.obj
