@@ -1,0 +1,20 @@
+=====================
+Type declaration
+=====================
+
+type UUID String @go.type("uuid.UUID")
+
+---
+
+(source_file
+  (type_definition
+    (identifier)
+    (identifier)
+    (namespace
+      (namespace_name)
+      (namespace_arguments
+        (string_value)
+      )
+    )
+  )
+)

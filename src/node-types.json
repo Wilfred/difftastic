@@ -1,5 +1,24 @@
 [
   {
+    "type": "array",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "assignee",
     "named": true,
     "fields": {},
@@ -27,6 +46,25 @@
     }
   },
   {
+    "type": "block_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "block_name",
+          "named": true
+        },
+        {
+          "type": "formal_parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "boolean",
     "named": true,
     "fields": {},
@@ -40,6 +78,37 @@
         },
         {
           "type": "true",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "column_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "column_value",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "namespace",
+          "named": true
+        },
+        {
+          "type": "new_line",
           "named": true
         }
       ]
@@ -88,6 +157,149 @@
     }
   },
   {
+    "type": "formal_parameters",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "string_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "model_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "block_attribute",
+          "named": true
+        },
+        {
+          "type": "column_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "model_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "model_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "name_pattern",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "string_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "namespace",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "namespace_arguments",
+          "named": true
+        },
+        {
+          "type": "namespace_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "namespace_arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "namespace_function_call",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "string_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "namespace_function_call",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "new_line",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "source_file",
     "named": true,
     "fields": {},
@@ -98,12 +310,47 @@
         {
           "type": "datasource_definition",
           "named": true
+        },
+        {
+          "type": "model_definition",
+          "named": true
+        },
+        {
+          "type": "type_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "namespace",
+          "named": true
         }
       ]
     }
   },
   {
     "type": "datasource",
+    "named": false
+  },
+  {
+    "type": "type",
+    "named": false
+  },
+  {
+    "type": "model",
     "named": false
   },
   {
@@ -115,11 +362,39 @@
     "named": false
   },
   {
-    "type": "string_value",
+    "type": "namespace_name",
     "named": true
   },
   {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "block_name",
+    "named": true
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
     "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "column_value",
+    "named": true
+  },
+  {
+    "type": "string_value",
     "named": true
   },
   {
@@ -133,6 +408,18 @@
   {
     "type": "dot",
     "named": true
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "\n",
+    "named": false
   },
   {
     "type": "true",

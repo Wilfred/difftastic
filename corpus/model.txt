@@ -1,0 +1,180 @@
+========================
+Simple Model definition
+========================
+
+model User {
+  id         Int
+  email      String
+}
+
+---
+
+(source_file
+  (model_definition
+    (identifier)
+    (model_block
+      (column_statement
+        (identifier)
+        (column_value)
+        (new_line)
+      )
+      (column_statement
+        (identifier)
+        (column_value)
+        (new_line)
+      )
+    )
+  )
+)
+
+============================
+Model with optional columns
+============================
+
+model User {
+  ages     Int?
+  card     Card?
+}
+
+---
+
+(source_file
+  (model_definition
+    (identifier)
+    (model_block
+      (column_statement
+        (identifier)
+        (column_value)
+        (new_line)
+      )
+      (column_statement
+        (identifier)
+        (column_value)
+        (new_line)
+      )
+    )
+  )
+)
+
+=========================
+Model with array columns
+=========================
+
+model User {
+  id         Int
+  posts      Post[]
+}
+
+---
+
+(source_file
+  (model_definition
+    (identifier)
+    (model_block
+      (column_statement
+        (identifier)
+        (column_value)
+        (new_line)
+      )
+      (column_statement
+        (identifier)
+        (column_value)
+        (array)
+        (new_line)
+      )
+    )
+  )
+)
+
+=========================
+Model with namespaces
+=========================
+
+model User {
+  id         String     @default(cuid()) @id
+  email      String     @unique
+  createdAt  DateTime   @default(now())
+}
+
+---
+
+(source_file
+  (model_definition
+    (identifier)
+    (model_block
+      (column_statement
+        (identifier)
+        (column_value)
+        (namespace
+          (namespace_name)
+          (namespace_arguments
+            (identifier)
+            (namespace_function_call)
+          )
+        )
+        (namespace
+          (namespace_name)
+        )
+        (new_line)
+      )
+      (column_statement
+        (identifier)
+        (column_value)
+        (namespace
+          (namespace_name)
+        )
+        (new_line)
+      )
+      (column_statement
+        (identifier)
+        (column_value)
+        (namespace
+          (namespace_name)
+          (namespace_arguments
+            (identifier)
+            (namespace_function_call)
+          )
+        )
+        (new_line)
+      )
+    )
+  )
+)
+
+===============================
+Model with blockattributes
+===============================
+
+model Post {
+  title       String
+
+  @@unique([ title, slug ])
+  @@attribute0
+}
+
+---
+
+(source_file
+  (model_definition
+    (identifier)
+    (model_block
+      (column_statement
+        (identifier)
+        (column_value)
+        (new_line)
+      )
+      (block_attribute
+        (block_name)
+        (formal_parameters
+          (array
+            (identifier)
+            (identifier)
+          )
+        )
+      )
+      (block_attribute
+        (block_name)
+      )
+    )
+  )
+)
