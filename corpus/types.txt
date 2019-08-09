@@ -154,3 +154,19 @@ a as (first: A, second: B) -> Unit
 					(type_reference (user_type (simple_identifier)))))
 			(type_reference (user_type (simple_identifier))))))
 
+==================
+Function types with receiver
+==================
+
+a as T.() -> Unit
+
+---
+
+(source_file
+	(unary_expression
+		(simple_identifier)
+		(function_type
+			(simple_identifier)
+			(function_type_parameters)
+			(type_reference (user_type (simple_identifier))))))
+

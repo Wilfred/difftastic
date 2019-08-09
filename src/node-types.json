@@ -1488,6 +1488,14 @@
           "named": true
         },
         {
+          "type": "simple_identifier",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
           "type": "type_modifiers",
           "named": true
         },

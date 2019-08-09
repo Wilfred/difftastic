@@ -359,7 +359,7 @@ module.exports = grammar({
 		_type_projection_modifier: $ => $.variance_modifier,
 
 		function_type: $ => seq(
-			// optional(seq($._type, ".")), // TODO
+			optional(seq($._simple_user_type, ".")), // TODO: Support "real" types
 			$.function_type_parameters,
 			"->",
 			$._type
