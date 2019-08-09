@@ -105,3 +105,30 @@ consumer as (Int) -> Unit
 			(function_type_parameters (type_reference (user_type (simple_identifier))))
 			(type_reference (user_type (simple_identifier))))))
 
+==================
+Function types with multiple parameters
+==================
+
+a as (Int, Generic<*>, Boolean) -> Unit
+b as (Nested.Type, (Int)) -> Unit
+
+---
+
+(source_file
+	(unary_expression
+		(simple_identifier)
+		(function_type
+			(function_type_parameters
+				(type_reference (user_type (simple_identifier)))
+				(type_reference (user_type (simple_identifier)
+					(type_arguments
+						(type_projection))))
+				(type_reference (user_type (simple_identifier))))
+			(type_reference (user_type (simple_identifier)))))
+	(unary_expression
+		(simple_identifier)
+		(function_type
+			(function_type_parameters
+				(type_reference (user_type (simple_identifier) (simple_identifier)))
+				(parenthesized_type (type_reference (user_type (simple_identifier)))))
+			(type_reference (user_type (simple_identifier))))))
