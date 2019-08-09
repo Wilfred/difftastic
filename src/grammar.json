@@ -134,8 +134,13 @@
           "value": "as"
         },
         {
-          "type": "SYMBOL",
-          "name": "simple_identifier"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "simple_identifier"
+          },
+          "named": true,
+          "value": "type_identifier"
         }
       ]
     },
@@ -168,8 +173,13 @@
           "value": "typealias"
         },
         {
-          "type": "SYMBOL",
-          "name": "simple_identifier"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "simple_identifier"
+          },
+          "named": true,
+          "value": "type_identifier"
         },
         {
           "type": "STRING",
@@ -235,8 +245,13 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "simple_identifier"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "simple_identifier"
+          },
+          "named": true,
+          "value": "type_identifier"
         },
         {
           "type": "CHOICE",
@@ -644,8 +659,13 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "simple_identifier"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "simple_identifier"
+          },
+          "named": true,
+          "value": "type_identifier"
         },
         {
           "type": "CHOICE",
@@ -715,8 +735,13 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "simple_identifier"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "simple_identifier"
+          },
+          "named": true,
+          "value": "type_identifier"
         },
         {
           "type": "STRING",
@@ -805,8 +830,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "simple_identifier"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "simple_identifier"
+              },
+              "named": true,
+              "value": "type_identifier"
             },
             {
               "type": "BLANK"
@@ -1423,8 +1453,13 @@
           "value": "object"
         },
         {
-          "type": "SYMBOL",
-          "name": "simple_identifier"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "simple_identifier"
+          },
+          "named": true,
+          "value": "type_identifier"
         },
         {
           "type": "CHOICE",
@@ -1505,7 +1540,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "type_reference"
+              "name": "_type_reference"
             },
             {
               "type": "SYMBOL",
@@ -1515,7 +1550,7 @@
         }
       ]
     },
-    "type_reference": {
+    "_type_reference": {
       "type": "CHOICE",
       "members": [
         {
@@ -1536,7 +1571,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "type_reference"
+              "name": "_type_reference"
             },
             {
               "type": "SYMBOL",
@@ -1593,8 +1628,13 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "simple_identifier"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "simple_identifier"
+            },
+            "named": true,
+            "value": "type_identifier"
           },
           {
             "type": "CHOICE",
@@ -3678,8 +3718,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "simple_identifier"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "simple_identifier"
+              },
+              "named": true,
+              "value": "type_identifier"
             },
             {
               "type": "BLANK"

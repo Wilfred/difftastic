@@ -10,10 +10,10 @@ something as A
 (source_file 
 	(unary_expression
 		(simple_identifier)
-		(type_reference (user_type (simple_identifier))))
+		(user_type (type_identifier)))
 	(unary_expression
 		(simple_identifier)
-		(type_reference (user_type (simple_identifier)))))
+		(user_type (type_identifier))))
 
 ==================
 Nested types
@@ -26,7 +26,7 @@ something as Some.NestedType
 (source_file
 	(unary_expression
 		(simple_identifier)
-		(type_reference (user_type (simple_identifier) (simple_identifier)))))
+		(user_type (type_identifier) (type_identifier))))
 
 ==================
 Deeply nested types
@@ -39,11 +39,11 @@ somethingElse as A.Deeply.Nested.Type
 (source_file
 	(unary_expression
 		(simple_identifier)
-		(type_reference (user_type
-			(simple_identifier)
-			(simple_identifier)
-			(simple_identifier)
-			(simple_identifier)))))
+		(user_type
+			(type_identifier)
+			(type_identifier)
+			(type_identifier)
+			(type_identifier))))
 
 ==================
 Generic wildcard types
@@ -56,8 +56,8 @@ something as Generic<*>
 (source_file
 	(unary_expression
 		(simple_identifier)
-		(type_reference (user_type (simple_identifier)
-			(type_arguments (type_projection))))))
+		(user_type (type_identifier)
+			(type_arguments (type_projection)))))
 
 ==================
 Generic parameterized types
@@ -71,18 +71,18 @@ something as Generic<A, Type>
 (source_file
 	(unary_expression
 		(simple_identifier)
-		(type_reference (user_type (simple_identifier)
+		(user_type (type_identifier)
 			(type_arguments
 				(type_projection
-					(type_reference (user_type (simple_identifier))))))))
+					(user_type (type_identifier))))))
 	(unary_expression
 		(simple_identifier)
-		(type_reference (user_type (simple_identifier)
+		(user_type (type_identifier)
 			(type_arguments
 				(type_projection
-					(type_reference (user_type (simple_identifier))))
+					(user_type (type_identifier)))
 				(type_projection
-					(type_reference (user_type (simple_identifier)))))))))
+					(user_type (type_identifier)))))))
 
 ==================
 Function types
@@ -98,12 +98,12 @@ consumer as (Int) -> Unit
 		(simple_identifier)
 		(function_type
 			(function_type_parameters)
-			(type_reference (user_type (simple_identifier)))))
+			(user_type (type_identifier))))
 	(unary_expression
 		(simple_identifier)
 		(function_type
-			(function_type_parameters (type_reference (user_type (simple_identifier))))
-			(type_reference (user_type (simple_identifier))))))
+			(function_type_parameters (user_type (type_identifier)))
+			(user_type (type_identifier)))))
 
 ==================
 Function types with multiple parameters
@@ -119,19 +119,19 @@ b as (Nested.Type, (Int)) -> Unit
 		(simple_identifier)
 		(function_type
 			(function_type_parameters
-				(type_reference (user_type (simple_identifier)))
-				(type_reference (user_type (simple_identifier)
+				(user_type (type_identifier))
+				(user_type (type_identifier)
 					(type_arguments
-						(type_projection))))
-				(type_reference (user_type (simple_identifier))))
-			(type_reference (user_type (simple_identifier)))))
+						(type_projection)))
+				(user_type (type_identifier)))
+			(user_type (type_identifier))))
 	(unary_expression
 		(simple_identifier)
 		(function_type
 			(function_type_parameters
-				(type_reference (user_type (simple_identifier) (simple_identifier)))
-				(parenthesized_type (type_reference (user_type (simple_identifier)))))
-			(type_reference (user_type (simple_identifier))))))
+				(user_type (type_identifier) (type_identifier))
+				(parenthesized_type (user_type (type_identifier))))
+			(user_type (type_identifier)))))
 
 ==================
 Function types with named parameters
@@ -148,11 +148,11 @@ a as (first: A, second: B) -> Unit
 			(function_type_parameters
 				(parameter
 					(simple_identifier)
-					(type_reference (user_type (simple_identifier))))
+					(user_type (type_identifier)))
 				(parameter
 					(simple_identifier)
-					(type_reference (user_type (simple_identifier)))))
-			(type_reference (user_type (simple_identifier))))))
+					(user_type (type_identifier))))
+			(user_type (type_identifier)))))
 
 ==================
 Function types with receiver
@@ -166,7 +166,7 @@ a as T.() -> Unit
 	(unary_expression
 		(simple_identifier)
 		(function_type
-			(simple_identifier)
+			(type_identifier)
 			(function_type_parameters)
-			(type_reference (user_type (simple_identifier))))))
+			(user_type (type_identifier)))))
 

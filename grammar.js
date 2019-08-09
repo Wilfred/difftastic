@@ -98,13 +98,13 @@ module.exports = grammar({
 			$._semi
 		),
 
-		import_alias: $ => seq("as", $.simple_identifier),
+		import_alias: $ => seq("as", alias($.simple_identifier, $.type_identifier)),
 
 		top_level_object: $ => seq($._declaration, optional($._semis)),
 
 		type_alias: $ => seq(
 			"typealias",
-			$.simple_identifier,
+			alias($.simple_identifier, $.type_identifier),
 			"=",
 			$._type
 		),
@@ -124,7 +124,7 @@ module.exports = grammar({
 		class_declaration: $ => seq(
 			optional($.modifiers),
 			choice("class", "interface"),
-			$.simple_identifier,
+			alias($.simple_identifier, $.type_identifier),
 			optional($.type_parameters),
 			optional($.primary_constructor),
 			optional(seq(":", $._delegation_specifiers)),
@@ -180,7 +180,7 @@ module.exports = grammar({
 
 		type_parameter: $ => seq(
 			optional($.type_parameter_modifiers),
-			$.simple_identifier,
+			alias($.simple_identifier, $.type_identifier),
 			optional(seq(":", $._type))
 		),
 
@@ -188,7 +188,7 @@ module.exports = grammar({
 
 		type_constraint: $ => seq(
 			repeat($.annotation),
-			$.simple_identifier,
+			alias($.simple_identifier, $.type_identifier),
 			":",
 			$._type
 		),
@@ -212,7 +212,7 @@ module.exports = grammar({
 			optional($.modifiers),
 			"companion",
 			"object",
-			optional($.simple_identifier),
+			optional(alias($.simple_identifier, $.type_identifier)),
 			optional(seq(":", $._delegation_specifiers)),
 			optional($.class_body)
 		),
@@ -298,7 +298,7 @@ module.exports = grammar({
 
 		object_declaration: $ => seq( // TODO
 			"object",
-			$.simple_identifier,
+			alias($.simple_identifier, $.type_identifier),
 			optional($.class_body)
 		),
 
@@ -324,18 +324,18 @@ module.exports = grammar({
 			choice(
 				$.parenthesized_type,
 				$.nullable_type,
-				$.type_reference,
+				$._type_reference,
 				$.function_type
 			)
 		),
 
-		type_reference: $ => choice(
+		_type_reference: $ => choice(
 			$.user_type,
 			"dynamic"
 		),
 
 		nullable_type: $ => seq(
-			choice($.type_reference, $.parenthesized_type),
+			choice($._type_reference, $.parenthesized_type),
 			repeat1($._quest)
 		),
 
@@ -347,7 +347,10 @@ module.exports = grammar({
 
 		user_type: $ => prec.right(sep1($._simple_user_type, ".")),
 		
-		_simple_user_type: $ => prec.right(seq($.simple_identifier, optional($.type_arguments))),
+		_simple_user_type: $ => prec.right(seq(
+			alias($.simple_identifier, $.type_identifier),
+			optional($.type_arguments)
+		)),
 
 		type_projection: $ => choice(
 			seq(optional($.type_projection_modifiers), $._type),
@@ -722,7 +725,7 @@ module.exports = grammar({
 		),
 
 		callable_reference: $ => seq(
-			optional($.simple_identifier), // TODO
+			optional(alias($.simple_identifier, $.type_identifier)), // TODO
 			"::",
 			choice($.simple_identifier, "class")
 		),

@@ -8,8 +8,8 @@ class Empty2 {}
 ---
 
 (source_file
-	(class_declaration (simple_identifier))
-	(class_declaration (simple_identifier) (class_body)))
+	(class_declaration (type_identifier))
+	(class_declaration (type_identifier) (class_body)))
  
 ==================
 Class with methods
@@ -24,7 +24,7 @@ class HelloWorld {
 ---
 
 (source_file
-	(class_declaration (simple_identifier)
+	(class_declaration (type_identifier)
 		(class_body
 			(function_declaration (simple_identifier) (function_body))
 			(function_declaration (simple_identifier) (function_body)))))
@@ -38,8 +38,8 @@ class Container<T> {}
 ---
 
 (source_file
-	(class_declaration (simple_identifier)
-		(type_parameters (type_parameter (simple_identifier)))
+	(class_declaration (type_identifier)
+		(type_parameters (type_parameter (type_identifier)))
 		(class_body)))
 
 ==================
@@ -55,7 +55,7 @@ class Strings {
 ---
 
 (source_file
-	(class_declaration (simple_identifier)
+	(class_declaration (type_identifier)
 		(class_body
 			(function_declaration (simple_identifier) (function_body
 				(line_string_literal)))
@@ -79,7 +79,7 @@ internal open class Test {
 (source_file
 	(class_declaration
 		(modifiers (visibility_modifier) (inheritance_modifier))
-		(simple_identifier)
+		(type_identifier)
 		(class_body
 			(function_declaration
 				(modifiers (visibility_modifier) (inheritance_modifier) (function_modifier))
@@ -96,7 +96,7 @@ object Singleton {
 ---
 
 (source_file
-	(object_declaration (simple_identifier)
+	(object_declaration (type_identifier)
 		(class_body
 			(function_declaration (simple_identifier)))))
 
@@ -114,14 +114,14 @@ data class Vector2D(
 (source_file
 	(class_declaration
 		(modifiers (class_modifier))
-		(simple_identifier)
+		(type_identifier)
 		(primary_constructor
 			(class_parameter
 				(simple_identifier)
-				(type_reference (user_type (simple_identifier))))
+				(user_type (type_identifier)))
 			(class_parameter
 				(simple_identifier)
-				(type_reference (user_type (simple_identifier)))))))
+				(user_type (type_identifier))))))
 
 ==================
 Inheritance
@@ -137,21 +137,21 @@ class D : SomeInterface
 
 (source_file
 	(class_declaration
-		(simple_identifier)
-		(delegation_specifier (constructor_invocation (user_type (simple_identifier))
+		(type_identifier)
+		(delegation_specifier (constructor_invocation (user_type (type_identifier))
 			(value_arguments)))
 		(class_body))
 	(class_declaration
-		(simple_identifier)
+		(type_identifier)
 		(primary_constructor
 			(class_parameter
 				(simple_identifier)
-				(type_reference (user_type (simple_identifier)))))
-		(delegation_specifier (constructor_invocation (user_type (simple_identifier))
+				(user_type (type_identifier))))
+		(delegation_specifier (constructor_invocation (user_type (type_identifier))
 			(value_arguments (value_argument (simple_identifier))))))
 	(class_declaration
-		(simple_identifier)
-		(delegation_specifier (user_type (simple_identifier)))))
+		(type_identifier)
+		(delegation_specifier (user_type (type_identifier)))))
 
 ==================
 Properties
@@ -167,19 +167,19 @@ class Something {
 
 (source_file
 	(class_declaration
-		(simple_identifier)
+		(type_identifier)
 		(class_body
 			(property_declaration
 				(variable_declaration
 					(simple_identifier)
-					(type_reference (user_type (simple_identifier))))
+					(user_type (type_identifier)))
 				(integer_literal))
 			(property_declaration
 				(variable_declaration
 					(simple_identifier)
-					(nullable_type (type_reference (user_type (simple_identifier))))))
+					(nullable_type (user_type (type_identifier)))))
 			(property_declaration
 				(variable_declaration
 					(simple_identifier)
-					(type_reference (user_type (simple_identifier))))
+					(user_type (type_identifier)))
 				(getter (function_body (simple_identifier)))))))

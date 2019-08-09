@@ -21,7 +21,7 @@ Generic functions
 
 (source_file
 	(function_declaration
-		(type_parameters (type_parameter (simple_identifier)))
+		(type_parameters (type_parameter (type_identifier)))
 		(simple_identifier)
 		(function_body)))
 
@@ -40,18 +40,18 @@ fun sum(a: Int, b: Int) = a + b
 		(simple_identifier)
 		(parameter 
 			(simple_identifier)
-			(type_reference (user_type
-				(simple_identifier)
-				(type_arguments (type_projection (type_reference (user_type (simple_identifier))))))))
+			(user_type
+				(type_identifier)
+				(type_arguments (type_projection (user_type (type_identifier))))))
 		(function_body))
 	(function_declaration
 		(simple_identifier)
 		(parameter
 			(simple_identifier)
-			(type_reference (user_type (simple_identifier))))
+			(user_type (type_identifier)))
 		(parameter
 			(simple_identifier)
-			(type_reference (user_type (simple_identifier))))
+			(user_type (type_identifier)))
 		(function_body
 			(binary_expression
 				(simple_identifier)
@@ -68,6 +68,6 @@ fun answerToTheUltimateQuestionOfLifeTheUniverseAndEverything(): Int = 42
 (source_file
 	(function_declaration
 		(simple_identifier)
-		(type_reference (user_type (simple_identifier)))
+		(user_type (type_identifier))
 		(function_body (integer_literal))))
 
