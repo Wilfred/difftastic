@@ -129,6 +129,8 @@ fn high_order3(value: i32, f: &FnOnce(i32) -> i32) -> i32 {
     f(value)
 }
 
+type F = for<'a, 'b> fn(x: &'a A, y: &'a mut B<'i, 't>,) -> C;
+
 ---
 
 (source_file
@@ -151,7 +153,13 @@ fn high_order3(value: i32, f: &FnOnce(i32) -> i32) -> i32 {
     (parameters
       (parameter (identifier) (primitive_type))
       (parameter (identifier) (reference_type (function_type (type_identifier) (parameters (primitive_type)) (primitive_type)))))
-    (primitive_type) (block (call_expression (identifier) (arguments (identifier))))))
+    (primitive_type) (block (call_expression (identifier) (arguments (identifier)))))
+  (type_item
+    (type_identifier)
+    (function_type
+      (for_lifetimes (lifetime (identifier)) (lifetime (identifier)))
+      (parameters (parameter (identifier) (reference_type (lifetime (identifier)) (type_identifier))) (parameter (identifier) (reference_type (lifetime (identifier)) (mutable_specifier) (generic_type (type_identifier) (type_arguments (lifetime (identifier)) (lifetime (identifier)))))))
+      (type_identifier))))
 
 =================================
 Unsafe and extern function types
