@@ -1,0 +1,22 @@
+{
+  "name": "tree-sitter-prisma",
+  "version": "0.0.0",
+  "description": "Prisma Grammar with Tree Sitter",
+  "keywords": [
+    "tree-sitter",
+    "prisma",
+    "grammar"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Victor Quiroz Castro <victorhqc@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.15.7"
+  }
+}
