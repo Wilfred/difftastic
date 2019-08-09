@@ -160,7 +160,7 @@ module.exports = grammar({
 			$.constructor_invocation,
 			$.explicit_delegation,
 			$.user_type,
-			// $.function_type // TODO: Function delegation causes ambiguities currently
+			$.function_type
 		),
 
 		constructor_invocation: $ => seq($.user_type, $.value_arguments),
@@ -170,7 +170,7 @@ module.exports = grammar({
 		explicit_delegation: $ => seq(
 			choice(
 				$.user_type,
-				// $.function_type // TODO: See above, function delegation causes ambiguities
+				$.function_type
 			),
 			"by",
 			$._expression
@@ -322,10 +322,10 @@ module.exports = grammar({
 		_type: $ => seq(
 			optional($.type_modifiers),
 			choice(
-				$.parenthesized_type, // TODO: Conflicts with function_type_parameters
+				$.parenthesized_type,
 				$.nullable_type,
-				$.type_reference
-				// $.function_type
+				$.type_reference,
+				$.function_type
 			)
 		),
 
@@ -359,17 +359,18 @@ module.exports = grammar({
 		_type_projection_modifier: $ => $.variance_modifier,
 
 		function_type: $ => seq(
-			optional(seq($._type, ".")),
+			// optional(seq($._type, ".")), // TODO
 			$.function_type_parameters,
 			"->",
 			$._type
 		),
-
-		function_type_parameters: $ => seq(
+		
+		// A higher-than-default precedence resolves the ambiguity with 'parenthesized_type'
+		function_type_parameters: $ => prec.left(1, seq(
 			"(",
 			optional(sep1(choice($.parameter, $._type), ",")),
 			")"
-		),
+		)),
 
 		parenthesized_type: $ => seq("(", $._type, ")"),
 

@@ -345,6 +345,10 @@
           "named": true
         },
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
           "type": "nullable_type",
           "named": true
         },
@@ -497,6 +501,10 @@
         },
         {
           "type": "collection_literal",
+          "named": true
+        },
+        {
+          "type": "function_type",
           "named": true
         },
         {
@@ -783,6 +791,10 @@
           "named": true
         },
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
           "type": "user_type",
           "named": true
         }
@@ -953,6 +965,10 @@
         },
         {
           "type": "collection_literal",
+          "named": true
+        },
+        {
+          "type": "function_type",
           "named": true
         },
         {
@@ -1328,6 +1344,10 @@
           "named": true
         },
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
           "type": "hex_literal",
           "named": true
         },
@@ -1452,6 +1472,10 @@
       "required": false,
       "types": [
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
           "type": "function_type_parameters",
           "named": true
         },
@@ -1482,6 +1506,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "function_type",
+          "named": true
+        },
         {
           "type": "nullable_type",
           "named": true
@@ -1515,6 +1543,10 @@
       "types": [
         {
           "type": "function_body",
+          "named": true
+        },
+        {
+          "type": "function_type",
           "named": true
         },
         {
@@ -2403,6 +2435,10 @@
       "required": false,
       "types": [
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
           "type": "nullable_type",
           "named": true
         },
@@ -2457,6 +2493,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "function_type",
+          "named": true
+        },
         {
           "type": "nullable_type",
           "named": true
@@ -2618,6 +2658,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "function_type",
+          "named": true
+        },
         {
           "type": "nullable_type",
           "named": true
@@ -3181,6 +3225,10 @@
           "named": true
         },
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
           "type": "nullable_type",
           "named": true
         },
@@ -3603,6 +3651,10 @@
       "required": false,
       "types": [
         {
+          "type": "function_type",
+          "named": true
+        },
+        {
           "type": "nullable_type",
           "named": true
         },
@@ -3650,6 +3702,10 @@
       "types": [
         {
           "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "function_type",
           "named": true
         },
         {
@@ -3713,6 +3769,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "function_type",
+          "named": true
+        },
         {
           "type": "nullable_type",
           "named": true
@@ -3786,6 +3846,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "function_type",
+          "named": true
+        },
         {
           "type": "nullable_type",
           "named": true
@@ -3992,6 +4056,10 @@
         },
         {
           "type": "collection_literal",
+          "named": true
+        },
+        {
+          "type": "function_type",
           "named": true
         },
         {
@@ -4277,6 +4345,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "function_type",
+          "named": true
+        },
         {
           "type": "nullable_type",
           "named": true

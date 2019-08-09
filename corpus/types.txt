@@ -83,3 +83,25 @@ something as Generic<A, Type>
 					(type_reference (user_type (simple_identifier))))
 				(type_projection
 					(type_reference (user_type (simple_identifier)))))))))
+
+==================
+Function types
+==================
+
+unitFunction as () -> Unit
+consumer as (Int) -> Unit
+
+---
+
+(source_file
+	(unary_expression
+		(simple_identifier)
+		(function_type
+			(function_type_parameters)
+			(type_reference (user_type (simple_identifier)))))
+	(unary_expression
+		(simple_identifier)
+		(function_type
+			(function_type_parameters (type_reference (user_type (simple_identifier))))
+			(type_reference (user_type (simple_identifier))))))
+
