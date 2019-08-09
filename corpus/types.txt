@@ -132,3 +132,25 @@ b as (Nested.Type, (Int)) -> Unit
 				(type_reference (user_type (simple_identifier) (simple_identifier)))
 				(parenthesized_type (type_reference (user_type (simple_identifier)))))
 			(type_reference (user_type (simple_identifier))))))
+
+==================
+Function types with named parameters
+==================
+
+a as (first: A, second: B) -> Unit
+
+---
+
+(source_file
+	(unary_expression
+		(simple_identifier)
+		(function_type
+			(function_type_parameters
+				(parameter
+					(simple_identifier)
+					(type_reference (user_type (simple_identifier))))
+				(parameter
+					(simple_identifier)
+					(type_reference (user_type (simple_identifier)))))
+			(type_reference (user_type (simple_identifier))))))
+
