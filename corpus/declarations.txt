@@ -1,0 +1,38 @@
+==================
+Datasource block
+==================
+
+datasource pg {
+  provider = "postgresql"
+  url = env.POSTGRES_URL
+  enabled = true
+}
+
+---
+
+(source_file
+  (datasource_definition
+    (identifier)
+    (datasource_block
+      (identifier)
+      (assignation)
+      (assignee
+          (string_value)
+      )
+      (identifier)
+      (assignation)
+      (assignee
+        (identifier)
+        (dot)
+        (identifier)
+      )
+      (identifier)
+      (assignation)
+      (assignee
+        (boolean
+          (true)
+        )
+      )
+    )
+  )
+)

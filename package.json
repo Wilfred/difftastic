@@ -9,7 +9,8 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run generate && tree-sitter test",
+    "generate": "tree-sitter generate"
   },
   "author": "Victor Quiroz Castro <victorhqc@gmail.com>",
   "license": "MIT",
