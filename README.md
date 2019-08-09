@@ -7,7 +7,7 @@ C# grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter)
 
 ### Status
 
-Currently incomplete, based on the C# 6.0 draft proposal.
+Currently incomplete, based on the [C# language specification](https://github.com/dotnet/csharplang/tree/master/spec).
 
 ### References
 
