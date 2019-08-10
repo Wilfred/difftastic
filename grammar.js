@@ -640,7 +640,7 @@ module.exports = grammar({
 		_multi_line_string_content: $ => choice($._multi_line_str_text, '"'),
 
 		interpolation: $ => choice(
-			seq("${", $._expression, "}"),
+			seq("${", alias($._expression, $.interpolation_content), "}"),
 			seq("$", $.simple_identifier)
 		),
 
