@@ -230,7 +230,7 @@ module.exports = grammar({
     ),
 
     type_parameter_constraints: $ => choice(
-			$.constructor_constraint,
+      $.constructor_constraint,
       seq(
         choice(
           $.class_type,
@@ -273,19 +273,19 @@ module.exports = grammar({
 
     // events
 
-		event_declaration: $ => seq(
-			optional($._attributes),
+    event_declaration: $ => seq(
+      optional($._attributes),
       optional($.modifiers),
-			'event',
-			$._type,
-			$.identifier_name,
-			'{',
+      'event',
+      $._type,
+      $.identifier_name,
+      '{',
       choice(
         seq($.add_accessor_declaration, $.remove_accessor_declaration),
         seq($.remove_accessor_declaration, $.add_accessor_declaration)
       ),
       '}'
-		),
+    ),
 
     add_accessor_declaration: $ => seq(optional($._attributes), 'add', $.statement_block),
     remove_accessor_declaration: $ => seq(optional($._attributes), 'remove', $.statement_block),
@@ -315,7 +315,7 @@ module.exports = grammar({
       $._method_body,
     ),
 
-    overloadable_operator: $=> choice(
+    overloadable_operator: $ => choice(
       '!',
       '~',
       '++',
@@ -831,21 +831,35 @@ module.exports = grammar({
       $.statement_block,
       $.empty_statement,
       $.expression_statement,
-      $.if_statement,
-      $.switch_statement,
-      $.while_statement,
-      $.do_statement,
-      $.break_statement,
-      $.continue_statement,
-      $.goto_statement,
-      $.return_statement,
-      $.throw_statement,
+      $._selection_statement,
+      $._iteration_statement,
+      $._jump_statement,
       $.try_statement,
       $.checked_statement,
       $.unchecked_statement,
       $.lock_statement,
       $.using_statement,
-      $.yield_statement
+      $.yield_statement,
+    ),
+
+    _selection_statement: $ => choice(
+      $.if_statement,
+      $.switch_statement,
+    ),
+
+    _iteration_statement: $ => choice(
+      $.while_statement,
+      $.do_statement,
+      // $.for_statement,
+      // $.foreach_statement,
+    ),
+
+    _jump_statement: $ => choice(
+      $.break_statement,
+      $.continue_statement,
+      $.goto_statement,
+      $.return_statement,
+      $.throw_statement,
     ),
 
     empty_statement: $ => ';',
