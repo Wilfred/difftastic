@@ -464,16 +464,19 @@ module.exports = grammar({
 		// ==========
 		
 		_expression: $ => choice(
-			$.unary_expression,
+			$._unary_expression,
 			$.binary_expression,
 			$._primary_expression
 		),
 
-		unary_expression: $ => choice(
-			prec.left(PREC.POSTFIX, seq($._expression, $._postfix_unary_suffix)),
-			prec.right(PREC.PREFIX, seq(choice($.annotation, $.label, $._prefix_unary_operator), $._expression)),
-			prec.left(PREC.AS, seq($._expression, seq($._as_operator, $._type))),
-			prec.left(PREC.SPREAD, seq("*", $._expression))
+		_unary_expression: $ => choice(
+			$.postfix_expression,
+			$.call_expression,
+			$.indexing_expression,
+			$.navigation_expression,
+			$.prefix_expression,
+			$.as_expression,
+			$.spread_expression
 		),
 
 		binary_expression: $ => choice(
@@ -489,16 +492,26 @@ module.exports = grammar({
 			prec.left(PREC.DISJUNCTION, seq($._expression, "||", $._expression))
 		),
 
-		_postfix_unary_suffix: $ => choice(
-			$._postfix_unary_operator,
-			// $.type_arguments // TODO: Type arguments conflict naturally with 'less than'.
-			                    //       Possible solutions include listing this conflict
-			                    //       between 'unary_expression' and 'binary_expression'
-			                    //       in the array of LR(1) conflicts at the top.
-			$.call_suffix,
-			$.indexing_suffix,
-			$.navigation_suffix
-		),
+		// Unary expressions
+
+		postfix_expression: $ => prec.left(PREC.POSTFIX, seq($._expression, $._postfix_unary_operator)),
+
+		call_expression: $ => prec.left(PREC.POSTFIX, seq($._expression, $.call_suffix)),
+
+		indexing_expression: $ => prec.left(PREC.POSTFIX, seq($._expression, $.indexing_suffix)),
+
+		navigation_expression: $ => prec.left(PREC.POSTFIX, seq($._expression, $.navigation_suffix)),
+		
+		// TODO: Postfix type arguments conflict naturally with 'less than'.
+		//       Possible solutions include listing this conflict
+		//       between 'unary_expression' and 'binary_expression'
+		//       in the array of LR(1) conflicts at the top.
+		
+		prefix_expression: $ => prec.right(PREC.PREFIX, seq(choice($.annotation, $.label, $._prefix_unary_operator), $._expression)),
+
+		as_expression: $ => prec.left(PREC.AS, seq($._expression, $._as_operator, $._type)),
+
+		spread_expression: $ => prec.left(PREC.SPREAD, seq("*", $._expression)),
 
 		indexing_suffix: $ => seq("[", sep1($._expression, ","), "]"),
 

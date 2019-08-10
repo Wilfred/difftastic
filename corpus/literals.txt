@@ -88,8 +88,8 @@ Real literals
 
 (source_file
 	(real_literal)
-	(unary_expression (real_literal))
+	(prefix_expression (real_literal))
 	(real_literal)
 	(real_literal)
-	(unary_expression (real_literal)))
+	(prefix_expression (real_literal)))
 
