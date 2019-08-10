@@ -43,7 +43,7 @@ const PREC = {
 	SPREAD: 2,
 	ASSIGNMENT: 1,
 	RETURN_OR_THROW: 0,
-	COMMENT: -1
+	COMMENT: 0
 };
 const DEC_DIGITS = token(sep1(/[0-9]+/, /_+/));
 const HEX_DIGITS = token(sep1(/[0-9a-fA-F]+/, /_+/));
@@ -72,7 +72,7 @@ module.exports = grammar({
 
 	extras: $ => [
 		$.comment,
-		/\s/ // Whitespace
+		/\s+/ // Whitespace
 	],
 
 	rules: {
@@ -619,13 +619,13 @@ module.exports = grammar({
 			$.multi_line_string_literal
 		),
 
-		line_string_literal: $ => seq('"', repeat(choice($._line_string_content, $.interpolation)), '"'),
+		line_string_literal: $ => seq('"', repeat(choice($._line_string_content, $._interpolation)), '"'),
 
 		multi_line_string_literal: $ => seq(
 			'"""',
 			repeat(choice(
 				$._multi_line_string_content,
-				$.interpolation
+				$._interpolation
 			)),
 			'"""'
 		),
@@ -639,9 +639,9 @@ module.exports = grammar({
 
 		_multi_line_string_content: $ => choice($._multi_line_str_text, '"'),
 
-		interpolation: $ => choice(
-			seq("${", alias($._expression, $.interpolation_content), "}"),
-			seq("$", $.simple_identifier)
+		_interpolation: $ => choice(
+			seq("${", alias($._expression, $.interpolated_expression), "}"),
+			seq("$", alias($.simple_identifier, $.interpolated_identifier))
 		),
 
 		lambda_literal: $ => seq(
@@ -924,7 +924,7 @@ module.exports = grammar({
 		// Source: https://github.com/tree-sitter/tree-sitter-java/blob/bc7124d924723e933b6ffeb5f22c4cf5248416b7/grammar.js#L1030
 		comment: $ => token(prec(PREC.COMMENT, choice(
 			seq("//", /.*/),
-			seq("/*", /[^*]*\*+(?:[^/*][^*]*\*+)*/, "/")
+			seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")
 		))),
 
 		// ==========
