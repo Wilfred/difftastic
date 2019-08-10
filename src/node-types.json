@@ -9404,6 +9404,10 @@
     "named": false
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "return@",
     "named": false
   },

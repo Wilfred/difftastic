@@ -42,7 +42,8 @@ const PREC = {
 	DISJUNCTION: 3,
 	SPREAD: 2,
 	ASSIGNMENT: 1,
-	RETURN_OR_THROW: 0
+	RETURN_OR_THROW: 0,
+	COMMENT: -1
 };
 const DEC_DIGITS = token(sep1(/[0-9]+/, /_+/));
 const HEX_DIGITS = token(sep1(/[0-9a-fA-F]+/, /_+/));
@@ -67,6 +68,11 @@ module.exports = grammar({
 
 		// Member access operator '::' conflicts with callable reference
 		[$._primary_expression, $.callable_reference]
+	],
+
+	extras: $ => [
+		$.comment,
+		/\s/ // Whitespace
 	],
 
 	rules: {
@@ -915,7 +921,12 @@ module.exports = grammar({
 		// General
 		// ==========
 		
-		
+		// Source: https://github.com/tree-sitter/tree-sitter-java/blob/bc7124d924723e933b6ffeb5f22c4cf5248416b7/grammar.js#L1030
+		comment: $ => token(prec(PREC.COMMENT, choice(
+			seq("//", /.*/),
+			seq("/*", /[^*]*\*+(?:[^/*][^*]*\*+)*/, "/")
+		))),
+
 		// ==========
 		// Separators and operations
 		// ==========

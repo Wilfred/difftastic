@@ -1,0 +1,15 @@
+==================
+Comments
+==================
+
+1 + 2
+// 1 + 2
+/*
+/* Hello world */
+
+---
+
+(source_file
+	(additive_expression (integer_literal) (integer_literal))
+	(comment)
+	(comment))
