@@ -60,8 +60,8 @@ class Strings {
 			(function_declaration (simple_identifier) (function_body
 				(line_string_literal)))
 			(function_declaration (simple_identifier) (function_body
-				(binary_expression
-					(binary_expression
+				(additive_expression
+					(additive_expression
 						(line_string_literal)
 						(line_string_literal))
 					(line_string_literal)))))))

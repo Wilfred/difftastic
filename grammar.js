@@ -465,9 +465,11 @@ module.exports = grammar({
 		
 		_expression: $ => choice(
 			$._unary_expression,
-			$.binary_expression,
+			$._binary_expression,
 			$._primary_expression
 		),
+
+		// Unary expressions
 
 		_unary_expression: $ => choice(
 			$.postfix_expression,
@@ -478,21 +480,6 @@ module.exports = grammar({
 			$.as_expression,
 			$.spread_expression
 		),
-
-		binary_expression: $ => choice(
-			prec.left(PREC.MULTIPLICATIVE, seq($._expression, $._multiplicative_operator, $._expression)),
-			prec.left(PREC.ADDITIVE, seq($._expression, $._additive_operator, $._expression)),
-			prec.left(PREC.RANGE, seq($._expression, "..", $._expression)),
-			prec.left(PREC.INFIX, seq($._expression, $.simple_identifier, $._expression)),
-			prec.left(PREC.ELVIS, seq($._expression, "?:", $._expression)),
-			prec.left(PREC.CHECK, seq($._expression, choice($._in_operator, $._is_operator), $._expression)),
-			prec.left(PREC.COMPARISON, seq($._expression, $._comparison_operator, $._expression)),
-			prec.left(PREC.EQUALITY, seq($._expression, $._equality_operator, $._expression)),
-			prec.left(PREC.CONJUNCTION, seq($._expression, "&&", $._expression)),
-			prec.left(PREC.DISJUNCTION, seq($._expression, "||", $._expression))
-		),
-
-		// Unary expressions
 
 		postfix_expression: $ => prec.left(PREC.POSTFIX, seq($._expression, $._postfix_unary_operator)),
 
@@ -512,6 +499,45 @@ module.exports = grammar({
 		as_expression: $ => prec.left(PREC.AS, seq($._expression, $._as_operator, $._type)),
 
 		spread_expression: $ => prec.left(PREC.SPREAD, seq("*", $._expression)),
+
+		// Binary expressions
+
+		_binary_expression: $ => choice(
+			$.multiplicative_expression,
+			$.additive_expression,
+			$.range_expression,
+			$.infix_expression,
+			$.elvis_expression,
+			$.check_expression,
+			$.comparison_expression,
+			$.equality_expression,
+			$.comparison_expression,
+			$.equality_expression,
+			$.conjunction_expression,
+			$.disjunction_expression
+		),
+
+		multiplicative_expression: $ => prec.left(PREC.MULTIPLICATIVE, seq($._expression, $._multiplicative_operator, $._expression)),
+		
+		additive_expression: $ => prec.left(PREC.ADDITIVE, seq($._expression, $._additive_operator, $._expression)),
+
+		range_expression: $ => prec.left(PREC.RANGE, seq($._expression, "..", $._expression)),
+
+		infix_expression: $ => prec.left(PREC.INFIX, seq($._expression, $.simple_identifier, $._expression)),
+
+		elvis_expression: $ => prec.left(PREC.ELVIS, seq($._expression, "?:", $._expression)),
+
+		check_expression: $ => prec.left(PREC.CHECK, seq($._expression, choice($._in_operator, $._is_operator), $._expression)),
+		
+		comparison_expression: $ => prec.left(PREC.COMPARISON, seq($._expression, $._comparison_operator, $._expression)),
+
+		equality_expression: $ => prec.left(PREC.EQUALITY, seq($._expression, $._equality_operator, $._expression)),
+
+		conjunction_expression: $ => prec.left(PREC.CONJUNCTION, seq($._expression, "&&", $._expression)),
+
+		disjunction_expression: $ => prec.left(PREC.DISJUNCTION, seq($._expression, "||", $._expression)),
+
+		// Suffixes
 
 		indexing_suffix: $ => seq("[", sep1($._expression, ","), "]"),
 

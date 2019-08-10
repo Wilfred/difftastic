@@ -6,7 +6,7 @@ Multiplication expression
 
 ---
 
-(source_file (binary_expression (integer_literal) (integer_literal)))
+(source_file (multiplicative_expression (integer_literal) (integer_literal)))
 
 ==================
 Function calls

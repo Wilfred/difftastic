@@ -53,7 +53,7 @@ fun sum(a: Int, b: Int) = a + b
 			(simple_identifier)
 			(user_type (type_identifier)))
 		(function_body
-			(binary_expression
+			(additive_expression
 				(simple_identifier)
 				(simple_identifier)))))
 
