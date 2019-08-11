@@ -1864,6 +1864,21 @@
     }
   },
   {
+    "type": "constructor_delegation_call",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "value_arguments",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "constructor_invocation",
     "named": true,
     "fields": {},
@@ -6676,6 +6691,10 @@
           "named": true
         },
         {
+          "type": "constructor_delegation_call",
+          "named": true
+        },
+        {
           "type": "disjunction_expression",
           "named": true
         },
@@ -7470,6 +7489,11 @@
   },
   {
     "type": "super_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "this_expression",
     "named": true,
     "fields": {}
   },
@@ -8905,6 +8929,14 @@
     "named": false
   },
   {
+    "type": "this",
+    "named": false
+  },
+  {
+    "type": "super",
+    "named": false
+  },
+  {
     "type": "dynamic",
     "named": false
   },
@@ -8986,14 +9018,6 @@
   },
   {
     "type": "$",
-    "named": false
-  },
-  {
-    "type": "this_expression",
-    "named": true
-  },
-  {
-    "type": "super",
     "named": false
   },
   {

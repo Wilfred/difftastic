@@ -312,9 +312,11 @@ module.exports = grammar({
 			optional($.modifiers),
 			"constructor",
 			$._function_value_parameters,
-			// TODO: Delegation call
+			optional(seq(":", $.constructor_delegation_call)),
 			optional($._block)
 		),
+
+		constructor_delegation_call: $ => seq(choice("this", "super"), $.value_arguments),
 		
 		// ==========
 		// Enum classes
