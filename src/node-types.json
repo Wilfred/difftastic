@@ -1101,6 +1101,10 @@
           "named": true
         },
         {
+          "type": "enum_class_body",
+          "named": true
+        },
+        {
           "type": "modifiers",
           "named": true
         },
@@ -2466,6 +2470,80 @@
         },
         {
           "type": "when_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_class_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "anonymous_initializer",
+          "named": true
+        },
+        {
+          "type": "class_declaration",
+          "named": true
+        },
+        {
+          "type": "companion_object",
+          "named": true
+        },
+        {
+          "type": "enum_entry",
+          "named": true
+        },
+        {
+          "type": "function_declaration",
+          "named": true
+        },
+        {
+          "type": "object_declaration",
+          "named": true
+        },
+        {
+          "type": "property_declaration",
+          "named": true
+        },
+        {
+          "type": "secondary_constructor",
+          "named": true
+        },
+        {
+          "type": "type_alias",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_entry",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "class_body",
+          "named": true
+        },
+        {
+          "type": "modifiers",
+          "named": true
+        },
+        {
+          "type": "simple_identifier",
+          "named": true
+        },
+        {
+          "type": "value_arguments",
           "named": true
         }
       ]
@@ -8865,6 +8943,10 @@
     "named": false
   },
   {
+    "type": "enum",
+    "named": false
+  },
+  {
     "type": "constructor",
     "named": false
   },
@@ -8945,6 +9027,10 @@
     "named": false
   },
   {
+    "type": ";",
+    "named": false
+  },
+  {
     "type": "dynamic",
     "named": false
   },
@@ -8974,10 +9060,6 @@
   },
   {
     "type": "while",
-    "named": false
-  },
-  {
-    "type": ";",
     "named": false
   },
   {
@@ -9162,10 +9244,6 @@
   },
   {
     "type": "suspend",
-    "named": false
-  },
-  {
-    "type": "enum",
     "named": false
   },
   {

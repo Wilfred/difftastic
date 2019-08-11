@@ -127,15 +127,27 @@ module.exports = grammar({
 		// Classes
 		// ==========
 		
-		class_declaration: $ => seq(
-			optional($.modifiers),
-			choice("class", "interface"),
-			alias($.simple_identifier, $.type_identifier),
-			optional($.type_parameters),
-			optional($.primary_constructor),
-			optional(seq(":", $._delegation_specifiers)),
-			optional($.type_constraints),
-			optional(choice($.class_body, $.enum_class_body))
+		class_declaration: $ => choice(
+			seq(
+				optional($.modifiers),
+				choice("class", "interface"),
+				alias($.simple_identifier, $.type_identifier),
+				optional($.type_parameters),
+				optional($.primary_constructor),
+				optional(seq(":", $._delegation_specifiers)),
+				optional($.type_constraints),
+				optional($.class_body)
+			),
+			seq(
+				optional($.modifiers),
+				"enum", "class",
+				alias($.simple_identifier, $.type_identifier),
+				optional($.type_parameters),
+				optional($.primary_constructor),
+				optional(seq(":", $._delegation_specifiers)),
+				optional($.type_constraints),
+				optional($.enum_class_body)
+			)
 		),
 
 		primary_constructor: $ => seq(
@@ -851,7 +863,6 @@ module.exports = grammar({
 		_type_modifier: $ => choice($.annotation, "suspend"),
 
 		class_modifier: $ => choice(
-			"enum",
 			"sealed",
 			"annotation",
 			"data",
