@@ -1,6 +1,6 @@
 {
 	"name": "tree-sitter-kotlin",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"description": "Tree-Sitter grammar for Kotlin",
 	"main": "index.js",
 	"scripts": {
@@ -13,7 +13,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/fwcd/KotlinLanguageGrammars.git"
+		"url": "git+https://github.com/fwcd/tree-sitter-kotlin.git"
 	},
 	"keywords": [
 		"tree-sitter",
@@ -24,9 +24,9 @@
 	"license": "MIT",
 	"gypfile": true,
 	"bugs": {
-		"url": "https://github.com/fwcd/KotlinLanguageGrammars/issues"
+		"url": "https://github.com/fwcd/tree-sitter-kotlin/issues"
 	},
-	"homepage": "https://github.com/fwcd/KotlinLanguageGrammars#readme",
+	"homepage": "https://github.com/fwcd/tree-sitter-kotlin#readme",
 	"dependencies": {
 		"nan": "^2.12.1"
 	},
