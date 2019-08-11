@@ -87,13 +87,21 @@ module.exports = grammar({
 		// start
 		source_file: $ => seq(
 			optional($.shebang_line),
-			// repeat($.file_annotation), TODO
+			optional(seq(repeat1($.file_annotation), $._semi)),
 			optional($.package_header),
 			repeat($.import_header),
 			repeat(seq($._statement, $._semi))
 		),
 		
 		shebang_line: $ => seq("#!", /[^\r\n]*/),
+
+		file_annotation: $ => seq(
+			"@", "file", ":",
+			choice(
+				seq("[", repeat1($._unescaped_annotation), "]"),
+				$._unescaped_annotation
+			)
+		),
 		
 		package_header: $ => seq("package", $.identifier, $._semi),
 		
@@ -932,6 +940,11 @@ module.exports = grammar({
 			"@",
 			$.simple_identifier
 			// TODO
+		),
+
+		_unescaped_annotation: $ => choice(
+			$.constructor_invocation,
+			$.user_type
 		),
 		
 		// ==========

@@ -20,6 +20,30 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "file_annotation"
+                  }
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_semi"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "SYMBOL",
               "name": "package_header"
             },
@@ -63,6 +87,52 @@
         {
           "type": "PATTERN",
           "value": "[^\\r\\n]*"
+        }
+      ]
+    },
+    "file_annotation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@"
+        },
+        {
+          "type": "STRING",
+          "value": "file"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "["
+                },
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_unescaped_annotation"
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "]"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_unescaped_annotation"
+            }
+          ]
         }
       ]
     },
@@ -4669,6 +4739,19 @@
         {
           "type": "SYMBOL",
           "name": "simple_identifier"
+        }
+      ]
+    },
+    "_unescaped_annotation": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "constructor_invocation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "user_type"
         }
       ]
     },

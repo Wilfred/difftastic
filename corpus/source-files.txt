@@ -1,0 +1,19 @@
+==================
+File annotations
+==================
+
+@file:JvmName("HelloWorld")
+
+val x = 4
+
+---
+
+(source_file
+	(file_annotation
+		(constructor_invocation
+			(user_type (type_identifier))
+			(value_arguments (value_argument (line_string_literal)))))
+	(property_declaration
+		(variable_declaration
+			(simple_identifier))
+		(integer_literal)))

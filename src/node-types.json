@@ -2900,6 +2900,25 @@
     }
   },
   {
+    "type": "file_annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constructor_invocation",
+          "named": true
+        },
+        {
+          "type": "user_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "finally_block",
     "named": true,
     "fields": {},
@@ -7045,6 +7064,10 @@
           "named": true
         },
         {
+          "type": "file_annotation",
+          "named": true
+        },
+        {
           "type": "for_statement",
           "named": true
         },
@@ -8907,6 +8930,26 @@
     "named": false
   },
   {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "file",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
     "type": "package",
     "named": false
   },
@@ -8936,10 +8979,6 @@
   },
   {
     "type": "interface",
-    "named": false
-  },
-  {
-    "type": ":",
     "named": false
   },
   {
@@ -9047,10 +9086,6 @@
     "named": false
   },
   {
-    "type": "@",
-    "named": false
-  },
-  {
     "type": "for",
     "named": false
   },
@@ -9080,14 +9115,6 @@
   },
   {
     "type": "||",
-    "named": false
-  },
-  {
-    "type": "[",
-    "named": false
-  },
-  {
-    "type": "]",
     "named": false
   },
   {
