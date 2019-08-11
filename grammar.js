@@ -302,9 +302,11 @@ module.exports = grammar({
 
 		parameter: $ => seq($.simple_identifier, ":", $._type),
 
-		object_declaration: $ => seq( // TODO
+		object_declaration: $ => seq(
+			optional($.modifiers),
 			"object",
 			alias($.simple_identifier, $.type_identifier),
+			optional(seq(":", $._delegation_specifiers)),
 			optional($.class_body)
 		),
 

@@ -5174,6 +5174,14 @@
           "named": true
         },
         {
+          "type": "delegation_specifier",
+          "named": true
+        },
+        {
+          "type": "modifiers",
+          "named": true
+        },
+        {
           "type": "type_identifier",
           "named": true
         }
