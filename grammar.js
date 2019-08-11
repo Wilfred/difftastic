@@ -42,6 +42,8 @@ const PREC = {
 	DISJUNCTION: 3,
 	SPREAD: 2,
 	ASSIGNMENT: 1,
+	BLOCK: 1,
+	LAMBDA_LITERAL: 0,
 	RETURN_OR_THROW: 0,
 	COMMENT: 0
 };
@@ -135,7 +137,7 @@ module.exports = grammar({
 		// Classes
 		// ==========
 		
-		class_declaration: $ => choice(
+		class_declaration: $ => prec.right(choice(
 			seq(
 				optional($.modifiers),
 				choice("class", "interface"),
@@ -156,7 +158,7 @@ module.exports = grammar({
 				optional($.type_constraints),
 				optional($.enum_class_body)
 			)
-		),
+		)),
 
 		primary_constructor: $ => seq(
 			optional(seq(optional($.modifiers), "constructor")),
@@ -176,18 +178,18 @@ module.exports = grammar({
 			optional(seq("=", $._expression))
 		),
 
-		_delegation_specifiers: $ => sep1(
+		_delegation_specifiers: $ => prec.left(sep1(
 			$.delegation_specifier,
 			// $._annotated_delegation_specifier, // TODO: Annotations cause ambiguities with type modifiers
 			","
-		),
+		)),
 
-		delegation_specifier: $ => choice(
+		delegation_specifier: $ => prec.left(choice(
 			$.constructor_invocation,
 			$.explicit_delegation,
 			$.user_type,
 			$.function_type
-		),
+		)),
 
 		constructor_invocation: $ => seq($.user_type, $.value_arguments),
 
@@ -210,7 +212,7 @@ module.exports = grammar({
 			optional(seq(":", $._type))
 		),
 
-		type_constraints: $ => seq("where", sep1($.type_constraint, ",")),
+		type_constraints: $ => prec.right(seq("where", sep1($.type_constraint, ","))),
 
 		type_constraint: $ => seq(
 			repeat($.annotation),
@@ -251,7 +253,7 @@ module.exports = grammar({
 			optional(seq("=", $._expression))
 		),
 
-		function_declaration: $ => seq( // TODO
+		function_declaration: $ => prec.right(seq( // TODO
 			optional($.modifiers),
 			optional($.type_parameters),
 			"fun",
@@ -260,7 +262,7 @@ module.exports = grammar({
 			optional(seq(":", $._type)),
 			optional($.type_constraints),
 			optional($.function_body)
-		),
+		)),
 
 		function_body: $ => choice($._block, seq("=", $._expression)),
 		
@@ -270,7 +272,7 @@ module.exports = grammar({
 			optional(seq(":", $._type))
 		),
 
-		property_declaration: $ => seq(
+		property_declaration: $ => prec.right(seq(
 			optional($.modifiers),
 			choice("val", "var"),
 			optional($.type_parameters),
@@ -286,11 +288,11 @@ module.exports = grammar({
 				optional($.getter),
 				optional($.setter)
 			)
-		),
+		)),
 
 		property_delegate: $ => seq("by", $._expression),
 
-		getter: $ => seq(
+		getter: $ => prec.right(seq(
 			// optional(seq($._semi, $.modifiers)), // TODO
 			"get",
 			optional(seq(
@@ -298,9 +300,9 @@ module.exports = grammar({
 				optional(seq(":", $._type)),
 				$.function_body
 			))
-		),
+		)),
 
-		setter: $ => seq(
+		setter: $ => prec.right(seq(
 			// optional(seq($._semi, $.modifiers)), // TODO
 			"set",
 			optional(seq(
@@ -310,7 +312,7 @@ module.exports = grammar({
 				optional(seq(":", $._type)),
 				$.function_body
 			))
-		),
+		)),
 
 		parameters_with_optional_type: $ => seq("(", sep1($.parameter_with_optional_type, ","), ")"),
 
@@ -322,13 +324,13 @@ module.exports = grammar({
 
 		parameter: $ => seq($.simple_identifier, ":", $._type),
 
-		object_declaration: $ => seq(
+		object_declaration: $ => prec.right(seq(
 			optional($.modifiers),
 			"object",
 			alias($.simple_identifier, $.type_identifier),
 			optional(seq(":", $._delegation_specifiers)),
 			optional($.class_body)
-		),
+		)),
 
 		secondary_constructor: $ => seq(
 			optional($.modifiers),
@@ -450,14 +452,14 @@ module.exports = grammar({
 			)
 		),
 
-		label: $ => seq(
-			$.simple_identifier,
+		label: $ => token(seq(
+			/[a-zA-Z_][a-zA-Z_0-9]*/,
 			"@"
-		),
+		)),
 
-		control_structure_body: $ => $._block, // TODO
+		control_structure_body: $ => choice($._block, $._statement),
 
-		_block: $ => seq("{", optional($.statements), "}"),
+		_block: $ => prec(PREC.BLOCK, seq("{", optional($.statements), "}")),
 
 		_loop_statement: $ => choice(
 			$.for_statement,
@@ -465,7 +467,7 @@ module.exports = grammar({
 			$.do_while_statement
 		),
 		
-		for_statement: $ => seq(
+		for_statement: $ => prec.right(seq(
 			"for",
 			"(",
 			repeat($.annotation),
@@ -474,7 +476,7 @@ module.exports = grammar({
 			$._expression,
 			")",
 			optional($.control_structure_body)
-		),
+		)),
 
 		while_statement: $ => seq(
 			"while",
@@ -484,14 +486,14 @@ module.exports = grammar({
 			choice(";", $.control_structure_body)
 		),
 
-		do_while_statement: $ => seq(
+		do_while_statement: $ => prec.right(seq(
 			"do",
 			optional($.control_structure_body),
 			"while",
 			"(",
 			$._expression,
 			")",
-		),
+		)),
 
 		// See also https://github.com/tree-sitter/tree-sitter/issues/160
 		// generic EOF/newline token
@@ -683,12 +685,12 @@ module.exports = grammar({
 			seq("$", alias($.simple_identifier, $.interpolated_identifier))
 		),
 
-		lambda_literal: $ => seq(
+		lambda_literal: $ => prec(PREC.LAMBDA_LITERAL, seq(
 			"{",
 			optional(seq(optional($.lambda_parameters), "->")),
 			optional($.statements),
 			"}"
-		),
+		)),
 
 		lambda_parameters: $ => sep1($._lambda_parameter, ","),
 
@@ -722,7 +724,7 @@ module.exports = grammar({
 			// TODO optional(seq("@", $.simple_identifier))
 		),
 
-		if_expression: $ => seq(
+		if_expression: $ => prec.right(seq(
 			"if",
 			"(", $._expression, ")",
 			choice(
@@ -735,7 +737,7 @@ module.exports = grammar({
 					choice($.control_structure_body, ";")
 				)
 			)
-		),
+		)),
 
 		when_subject: $ => seq(
 			"(",
