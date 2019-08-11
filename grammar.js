@@ -135,7 +135,7 @@ module.exports = grammar({
 			optional($.primary_constructor),
 			optional(seq(":", $._delegation_specifiers)),
 			optional($.type_constraints),
-			optional($.class_body)
+			optional(choice($.class_body, $.enum_class_body))
 		),
 
 		primary_constructor: $ => seq(
@@ -324,6 +324,21 @@ module.exports = grammar({
 		// Enum classes
 		// ==========
 		
+		enum_class_body: $ => seq(
+			"{",
+			optional($._enum_entries),
+			optional(seq(";", optional($._class_member_declarations))),
+			"}"
+		),
+
+		_enum_entries: $ => seq(sep1($.enum_entry, ","), optional(",")),
+
+		enum_entry: $ => seq(
+			optional($.modifiers),
+			$.simple_identifier,
+			optional($.value_arguments),
+			optional($.class_body)
+		),
 		
 		// ==========
 		// Types
