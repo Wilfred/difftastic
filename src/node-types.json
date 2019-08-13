@@ -354,6 +354,10 @@
     "named": false
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "{",
     "named": false
   },

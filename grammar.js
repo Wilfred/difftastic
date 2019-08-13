@@ -1,13 +1,18 @@
 module.exports = grammar({
   name: 'prisma',
 
+  extras: $ => [
+    $.comment,
+    /[\s\uFEFF\u2060\u200B\u00A0]/
+  ],
+
   rules: {
     source_file: $ => repeat($._definition),
 
     _definition: $ => choice(
       $.datasource_definition,
       $.model_definition,
-      $.type_definition
+      $.type_definition,
     ),
 
     datasource_definition: $ => seq(
@@ -27,6 +32,10 @@ module.exports = grammar({
       'model',
       $.identifier,
       $.model_block,
+    ),
+
+    comment: $ => token(
+      seq('//', /.*/),
     ),
 
     datasource_block: $ => seq(

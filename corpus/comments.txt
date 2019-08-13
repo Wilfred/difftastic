@@ -1,0 +1,50 @@
+==================
+Comment block
+==================
+
+// Hello world
+// This is a comment
+
+---
+
+(source_file
+  (comment)
+  (comment)
+)
+
+=====================
+Comment in datasource
+=====================
+
+// before datasource
+datasource pg { // this should be fine
+  provider = "postgresql" // after a column
+  // url = env.POSTGRES_URL
+  enabled = true
+}
+
+---
+
+(source_file
+  (comment)
+  (datasource_definition
+    (identifier)
+    (datasource_block
+      (comment)
+      (identifier)
+      (assignation)
+      (assignee
+          (string_value)
+      )
+      (comment)
+      (comment)
+      (identifier)
+      (assignation)
+      (assignee
+        (boolean
+          (true)
+        )
+      )
+    )
+  )
+)

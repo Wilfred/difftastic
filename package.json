@@ -9,6 +9,7 @@
   ],
   "main": "index.js",
   "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
     "test": "npm run generate && tree-sitter test",
     "generate": "tree-sitter generate"
   },
