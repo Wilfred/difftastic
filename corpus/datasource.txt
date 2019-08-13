@@ -5,33 +5,40 @@ Datasource block
 datasource pg {
   provider = "postgresql"
   url = env.POSTGRES_URL
+  foo = bar.baz.xyz
   enabled = true
 }
 
 ---
 
 (source_file
-  (datasource_definition
+  (datasource
     (identifier)
-    (datasource_block
-      (identifier)
-      (assignation)
-      (assignee
-          (string_value)
-      )
-      (identifier)
-      (assignation)
-      (assignee
+    (statement_block
+      (assignment_pattern
         (identifier)
-        (dot)
-        (identifier)
+        (string_value)
       )
-      (identifier)
-      (assignation)
-      (assignee
-        (boolean
-          (true)
+      (assignment_pattern
+        (identifier)
+        (member_expression
+          (identifier)
+          (identifier)
         )
+      )
+      (assignment_pattern
+        (identifier)
+        (member_expression
+          (member_expression
+            (identifier)
+            (identifier)
+          )
+          (identifier)
+        )
+      )
+      (assignment_pattern
+        (identifier)
+        (true)
       )
     )
   )

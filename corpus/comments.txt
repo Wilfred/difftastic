@@ -27,23 +27,19 @@ datasource pg { // this should be fine
 
 (source_file
   (comment)
-  (datasource_definition
+  (datasource
     (identifier)
-    (datasource_block
+    (statement_block
       (comment)
-      (identifier)
-      (assignation)
-      (assignee
-          (string_value)
+      (assignment_pattern
+        (identifier)
+        (string_value)
       )
       (comment)
       (comment)
-      (identifier)
-      (assignation)
-      (assignee
-        (boolean
-          (true)
-        )
+      (assignment_pattern
+        (identifier)
+        (true)
       )
     )
   )

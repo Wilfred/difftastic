@@ -10,18 +10,20 @@ model User {
 ---
 
 (source_file
-  (model_definition
+  (model
     (identifier)
-    (model_block
-      (column_statement
+    (statement_block
+      (column_declaration
         (identifier)
-        (column_value)
-        (new_line)
+        (column_value
+          (identifier)
+        )
       )
-      (column_statement
+      (column_declaration
         (identifier)
-        (column_value)
-        (new_line)
+        (column_value
+          (identifier)
+        )
       )
     )
   )
@@ -39,18 +41,20 @@ model User {
 ---
 
 (source_file
-  (model_definition
+  (model
     (identifier)
-    (model_block
-      (column_statement
+    (statement_block
+      (column_declaration
         (identifier)
-        (column_value)
-        (new_line)
+        (column_value
+          (identifier)
+        )
       )
-      (column_statement
+      (column_declaration
         (identifier)
-        (column_value)
-        (new_line)
+        (column_value
+          (identifier)
+        )
       )
     )
   )
@@ -68,19 +72,21 @@ model User {
 ---
 
 (source_file
-  (model_definition
+  (model
     (identifier)
-    (model_block
-      (column_statement
+    (statement_block
+      (column_declaration
         (identifier)
-        (column_value)
-        (new_line)
+        (column_value
+          (identifier)
+        )
       )
-      (column_statement
+      (column_declaration
         (identifier)
-        (column_value)
-        (array)
-        (new_line)
+        (column_value
+          (identifier)
+          (array)
+        )
       )
     )
   )

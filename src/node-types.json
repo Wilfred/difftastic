@@ -8,72 +8,31 @@
       "required": false,
       "types": [
         {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "member_expression",
+          "named": true
+        },
+        {
+          "type": "null",
           "named": true
         },
         {
           "type": "number",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "assignee",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
         },
         {
           "type": "string_value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "block_attribute",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "block_name",
-          "named": true
-        },
-        {
-          "type": "formal_parameters",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "boolean",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "false",
           "named": true
         },
         {
@@ -84,7 +43,7 @@
     }
   },
   {
-    "type": "column_statement",
+    "type": "assignment_pattern",
     "named": true,
     "fields": {},
     "children": {
@@ -96,7 +55,7 @@
           "named": true
         },
         {
-          "type": "column_value",
+          "type": "false",
           "named": true
         },
         {
@@ -104,178 +63,11 @@
           "named": true
         },
         {
-          "type": "namespace",
+          "type": "member_expression",
           "named": true
         },
         {
-          "type": "new_line",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "datasource_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "assignation",
-          "named": true
-        },
-        {
-          "type": "assignee",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "datasource_definition",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "datasource_block",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "formal_parameters",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "string_value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "model_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "block_attribute",
-          "named": true
-        },
-        {
-          "type": "column_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "model_definition",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "model_block",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "name_pattern",
-    "named": true,
-    "fields": {
-      "key": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "string_value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "namespace",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "namespace_arguments",
-          "named": true
-        },
-        {
-          "type": "namespace_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "namespace_arguments",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "namespace_function_call",
+          "type": "null",
           "named": true
         },
         {
@@ -285,19 +77,108 @@
         {
           "type": "string_value",
           "named": true
+        },
+        {
+          "type": "true",
+          "named": true
         }
       ]
     }
   },
   {
-    "type": "namespace_function_call",
+    "type": "column_declaration",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "column_value",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
-    "type": "new_line",
+    "type": "column_value",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "datasource",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "statement_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "member_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "member_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "model",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "statement_block",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "source_file",
@@ -308,22 +189,18 @@
       "required": false,
       "types": [
         {
-          "type": "datasource_definition",
+          "type": "datasource",
           "named": true
         },
         {
-          "type": "model_definition",
-          "named": true
-        },
-        {
-          "type": "type_definition",
+          "type": "model",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "type_definition",
+    "type": "statement_block",
     "named": true,
     "fields": {},
     "children": {
@@ -331,11 +208,11 @@
       "required": false,
       "types": [
         {
-          "type": "identifier",
+          "type": "assignment_pattern",
           "named": true
         },
         {
-          "type": "namespace",
+          "type": "column_declaration",
           "named": true
         }
       ]
@@ -343,10 +220,6 @@
   },
   {
     "type": "datasource",
-    "named": false
-  },
-  {
-    "type": "type",
     "named": false
   },
   {
@@ -366,35 +239,15 @@
     "named": false
   },
   {
-    "type": "namespace_name",
-    "named": true
-  },
-  {
-    "type": "(",
+    "type": "=",
     "named": false
   },
   {
-    "type": ")",
-    "named": false
-  },
-  {
-    "type": ":",
-    "named": false
-  },
-  {
-    "type": "block_name",
-    "named": true
-  },
-  {
-    "type": ",",
+    "type": ".",
     "named": false
   },
   {
     "type": "identifier",
-    "named": true
-  },
-  {
-    "type": "column_value",
     "named": true
   },
   {
@@ -406,23 +259,15 @@
     "named": true
   },
   {
-    "type": "assignation",
-    "named": true
-  },
-  {
-    "type": "dot",
-    "named": true
-  },
-  {
     "type": "[",
     "named": false
   },
   {
-    "type": "]",
+    "type": ",",
     "named": false
   },
   {
-    "type": "\n",
+    "type": "]",
     "named": false
   },
   {
@@ -431,6 +276,10 @@
   },
   {
     "type": "false",
+    "named": true
+  },
+  {
+    "type": "null",
     "named": true
   }
 ]

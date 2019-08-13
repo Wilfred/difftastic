@@ -1,3 +1,29 @@
+const PREC = {
+  COMMENT: 1, // Prefer comments over regexes
+  STRING: 2,  // In a string, prefer string characters over comments
+
+  COMMA: -1,
+  OBJECT: -1,
+  DECLARATION: 1,
+  ASSIGN: 0,
+  TERNARY: 1,
+  OR: 2,
+  AND: 3,
+  REL: 4,
+  PLUS: 5,
+  TIMES: 6,
+  EXP: 7,
+  TYPEOF: 8,
+  DELETE: 8,
+  VOID: 8,
+  NOT: 9,
+  NEG: 10,
+  INC: 11,
+  CALL: 12,
+  NEW: 13,
+  MEMBER: 14
+};
+
 module.exports = grammar({
   name: 'prisma',
 
@@ -10,168 +36,186 @@ module.exports = grammar({
     source_file: $ => repeat($._definition),
 
     _definition: $ => choice(
-      $.datasource_definition,
-      $.model_definition,
-      $.type_definition,
+      $.datasource,
+      $.model,
+      // $.type_definition,
     ),
 
-    datasource_definition: $ => seq(
+    datasource: $ => seq(
       'datasource',
       $.identifier,
-      $.datasource_block,
+      $.statement_block,
     ),
 
-    type_definition: $ => seq(
-      'type',
-      $.identifier,
-      $.identifier,
-      $.namespace
-    ),
-
-    model_definition: $ => seq(
+  //   type_definition: $ => seq(
+  //     'type',
+  //     $.identifier,
+  //     $.identifier,
+  //     $.namespace
+  //   ),
+  //
+    model: $ => seq(
       'model',
       $.identifier,
-      $.model_block,
+      $.statement_block,
     ),
 
     comment: $ => token(
       seq('//', /.*/),
     ),
 
-    datasource_block: $ => seq(
+    statement_block: $ => prec.right(seq(
       '{',
-      repeat($._datasource_statement),
+      repeat($._statement),
       '}'
+    )),
+
+    _statement: $ => choice(
+      $._declaration,
     ),
 
-    model_block: $ => seq(
-      '{',
-      repeat($._model_statement),
-      '}'
+    _declaration: $ => choice(
+      $._datasource_declaration,
+      $.column_declaration,
     ),
-
-    _model_statement: $ => choice(
-      $.column_statement,
-      $.block_attribute,
-    ),
-
-    column_statement: $ => seq(
+  //
+  //   _model_statement: $ => choice(
+  //     $.column_statement,
+  //     $.block_attribute,
+  //   ),
+  //
+    column_declaration: $ => seq(
       $.identifier,
-      $._column_value,
-      optional($.namespace),
-      optional($.namespace),
-      $.new_line,
-    ),
-
-    _datasource_statement: $ => seq(
-      $.identifier,
-      $.assignation,
-      $.assignee,
-    ),
-
-    assignee: $ => choice(
-      $.string_value,
-      $._environment_variable,
-      $.boolean
-    ),
-
-    namespace: $ => seq(
-      $.namespace_name,
-      optional($.namespace_arguments),
-    ),
-
-    namespace_name: $ => token(
-      seq(/@@?/, /([a-z_]+\.?([a-z_]+)?)/)
-    ),
-
-    namespace_arguments: $ => seq(
-      '(',
-      choice(
-        $.string_value,
-        $.number,
-        $._namespace_function_call
-      ),
-      ')'
-    ),
-
-    _namespace_function_call: $ => seq(
-      $.identifier,
-      $.namespace_function_call
-    ),
-
-    namespace_function_call: $ => seq(
-      '(',
-      // Could this have arguments? If so, then we need a definition for a generic function call.
-      ')'
-    ),
-
-    name_pattern: $ => seq(
-      field('key', $.identifier),
-      ':',
-      $.string_value
-    ),
-
-    block_attribute: $ => seq(
-      $.block_name,
-      optional($._call_signature)
-    ),
-
-    block_name: $ => token(
-      seq('@@', /([a-zA-Z-_]+\.?([a-zA-Z0-9-_]+)?)/)
-    ),
-
-    _environment_variable: $ => seq(
-      $.identifier,
-      $.dot,
-      $.identifier
-    ),
-
-    _call_signature: $ => seq(
-      $.formal_parameters,
-      // field('parameters', $.formal_parameters)
-    ),
-
-    formal_parameters: $ => seq(
-      '(',
-      optional(seq(
-        commaSep1($._formal_parameter)
-      )),
-      ')'
-    ),
-
-    _formal_parameter: $ => choice(
-      $.identifier,
-      $.string_value,
-      $.array,
-      // $.name_pattern,
-    ),
-
-    _expression: $ => choice(
-      $.identifier,
-      $.number
-      // TODO: other kinds of expressions
-    ),
-
-    identifier: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
-
-    column_value: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*\??/,
-
-    _column_value: $ => seq(
       $.column_value,
+      // optional($.namespace),
+      // optional($.namespace),
+      // $.new_line,
+    ),
+
+    _datasource_declaration: $ => choice(
+      $.assignment_pattern,
+    ),
+
+    assignment_pattern: $ => seq(
+      $.identifier,
+      '=',
+      $._constructable_expression,
+    ),
+
+    _constructable_expression: $ => choice(
+      $.identifier,
+      $.number,
+      $.string_value,
+      $.true,
+      $.false,
+      $.null,
+      $.member_expression,
+      $.array,
+    ),
+
+    member_expression: $ => prec(PREC.MEMBER, seq(
+      choice(
+        $.identifier,
+        $.member_expression
+      ),
+      '.',
+      $.identifier
+    )),
+
+    column_value: $ => seq(
+      $.identifier,
+      /\??/,
       optional($.array)
     ),
 
+    // namespace: $ => seq(
+    //   $.namespace_name,
+    //   optional($.namespace_arguments),
+    // ),
+  //
+  //   namespace_name: $ => token(
+  //     seq(/@@?/, /([a-z_]+\.?([a-z_]+)?)/)
+  //   ),
+  //
+  //   namespace_arguments: $ => seq(
+  //     '(',
+  //     choice(
+  //       $.string_value,
+  //       $.number,
+  //       $._namespace_function_call
+  //     ),
+  //     ')'
+  //   ),
+  //
+  //   _namespace_function_call: $ => seq(
+  //     $.identifier,
+  //     $.namespace_function_call
+  //   ),
+  //
+  //   namespace_function_call: $ => seq(
+  //     '(',
+  //     // Could this have arguments? If so, then we need a definition for a generic function call.
+  //     ')'
+  //   ),
+  //
+  //   name_pattern: $ => seq(
+  //     field('key', $.identifier),
+  //     ':',
+  //     $.string_value
+  //   ),
+  //
+  //   block_attribute: $ => seq(
+  //     $.block_name,
+  //     optional($._call_signature)
+  //   ),
+  //
+  //   block_name: $ => token(
+  //     seq('@@', /([a-zA-Z-_]+\.?([a-zA-Z0-9-_]+)?)/)
+  //   ),
+  //
+  //   _environment_variable: $ => seq(
+  //     $.identifier,
+  //     $.dot,
+  //     $.identifier
+  //   ),
+  //
+  //   _call_signature: $ => seq(
+  //     $.formal_parameters,
+  //     // field('parameters', $.formal_parameters)
+  //   ),
+  //
+  //   formal_parameters: $ => seq(
+  //     '(',
+  //     optional(seq(
+  //       commaSep1($._formal_parameter)
+  //     )),
+  //     ')'
+  //   ),
+  //
+  //   _formal_parameter: $ => choice(
+  //     $.identifier,
+  //     $.string_value,
+  //     $.array,
+  //     // $.name_pattern,
+  //   ),
+  //
+    _expression: $ => choice(
+      $._constructable_expression
+      // TODO: other kinds of expressions
+    ),
+  //
+    identifier: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
     string_value: $ => token(choice(
       seq("'", /([^'\n]|\\(.|\n))*/, "'"),
       seq('"', /([^"\n]|\\(.|\n))*/, '"')
     )),
 
     number: $ => /\d+/,
-
-    assignation: $ => '=',
-
-    dot: $ => '.',
-
+  //
+  //   assignation: $ => '=',
+  //
+  //   dot: $ => '.',
+  //
     array: $ => seq(
       '[',
       commaSep(optional(
@@ -179,18 +223,15 @@ module.exports = grammar({
       )),
       ']'
     ),
-
-    new_line: $ => seq(
-      '\n',
-    ),
-
-    boolean: $ => choice(
-      $.true,
-      $.false
-    ),
+  //
+  //   new_line: $ => seq(
+  //     '\n',
+  //   ),
+  //
 
     true: $ => 'true',
-    false: $ => 'false'
+    false: $ => 'false',
+    null: $ => 'null',
   }
 });
 
