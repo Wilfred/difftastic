@@ -4,7 +4,8 @@ Simple Model definition
 
 model User {
   id         Int
-  email      String
+  email      String?
+  posts      Post?[]
 }
 
 ---
@@ -15,78 +16,25 @@ model User {
     (statement_block
       (column_declaration
         (identifier)
-        (column_value
+        (column_type
           (identifier)
         )
+        (new_line)
       )
       (column_declaration
         (identifier)
-        (column_value
+        (column_type
           (identifier)
         )
-      )
-    )
-  )
-)
-
-============================
-Model with optional columns
-============================
-
-model User {
-  ages     Int?
-  card     Card?
-}
-
----
-
-(source_file
-  (model
-    (identifier)
-    (statement_block
-      (column_declaration
-        (identifier)
-        (column_value
-          (identifier)
-        )
+        (new_line)
       )
       (column_declaration
         (identifier)
-        (column_value
-          (identifier)
-        )
-      )
-    )
-  )
-)
-
-=========================
-Model with array columns
-=========================
-
-model User {
-  id         Int
-  posts      Post[]
-}
-
----
-
-(source_file
-  (model
-    (identifier)
-    (statement_block
-      (column_declaration
-        (identifier)
-        (column_value
-          (identifier)
-        )
-      )
-      (column_declaration
-        (identifier)
-        (column_value
+        (column_type
           (identifier)
           (array)
         )
+        (new_line)
       )
     )
   )
@@ -97,48 +45,39 @@ Model with namespaces
 =========================
 
 model User {
-  id         String     @default(cuid()) @id
   email      String     @unique
-  createdAt  DateTime   @default(now())
+  createdAt  DateTime   @default()
 }
 
 ---
 
 (source_file
-  (model_definition
+  (model
     (identifier)
-    (model_block
-      (column_statement
+    (statement_block
+      (column_declaration
         (identifier)
-        (column_value)
-        (namespace
-          (namespace_name)
-          (namespace_arguments
+        (column_type
+          (identifier)
+        )
+        (column_relation
+          (namespace
             (identifier)
-            (namespace_function_call)
           )
         )
-        (namespace
-          (namespace_name)
-        )
         (new_line)
       )
-      (column_statement
+      (column_declaration
         (identifier)
-        (column_value)
-        (namespace
-          (namespace_name)
+        (column_type
+          (identifier)
         )
-        (new_line)
-      )
-      (column_statement
-        (identifier)
-        (column_value)
-        (namespace
-          (namespace_name)
-          (namespace_arguments
-            (identifier)
-            (namespace_function_call)
+        (column_relation
+          (namespace
+            (call_expression
+              (identifier)
+              (arguments)
+            )
           )
         )
         (new_line)
@@ -166,7 +105,7 @@ model Post {
     (model_block
       (column_statement
         (identifier)
-        (column_value)
+        (column_type)
         (new_line)
       )
       (block_attribute

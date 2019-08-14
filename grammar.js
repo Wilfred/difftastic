@@ -78,18 +78,14 @@ module.exports = grammar({
       $._datasource_declaration,
       $.column_declaration,
     ),
-  //
-  //   _model_statement: $ => choice(
-  //     $.column_statement,
-  //     $.block_attribute,
-  //   ),
-  //
+
     column_declaration: $ => seq(
       $.identifier,
-      $.column_value,
+      $.column_type,
+      optional($.column_relation),
       // optional($.namespace),
-      // optional($.namespace),
-      // $.new_line,
+      // TODO: Check if it's really needed
+      $.new_line,
     ),
 
     _datasource_declaration: $ => choice(
@@ -122,10 +118,41 @@ module.exports = grammar({
       $.identifier
     )),
 
-    column_value: $ => seq(
+    column_type: $ => seq(
       $.identifier,
       /\??/,
-      optional($.array)
+      optional($.array),
+    ),
+
+    column_relation: $ => seq(
+      $.namespace,
+    ),
+
+    call_expression: $ => prec(PREC.CALL, seq(
+      // field('function', $._expression),
+      $._expression,
+      // field('arguments', $.arguments)
+      $.arguments,
+    )),
+
+    namespace: $ => seq(
+      '@',
+      $._expression,
+    ),
+
+    // namespace: $ seq(
+    //   '@',
+    //   $.identifier,
+    // ),
+
+    arguments: $ => prec(PREC.CALL, seq(
+      '(',
+      commaSep(optional($._expression)),
+      ')'
+    )),
+
+    _call_signature: $ => seq(
+      field('parameters', $.formal_parameters)
     ),
 
     // namespace: $ => seq(
@@ -184,24 +211,25 @@ module.exports = grammar({
   //     // field('parameters', $.formal_parameters)
   //   ),
   //
-  //   formal_parameters: $ => seq(
-  //     '(',
-  //     optional(seq(
-  //       commaSep1($._formal_parameter)
-  //     )),
-  //     ')'
-  //   ),
-  //
-  //   _formal_parameter: $ => choice(
-  //     $.identifier,
-  //     $.string_value,
-  //     $.array,
-  //     // $.name_pattern,
-  //   ),
-  //
+    formal_parameters: $ => seq(
+      '(',
+      optional(seq(
+        commaSep1($._formal_parameter)
+      )),
+      ')'
+    ),
+
+    _formal_parameter: $ => choice(
+      $.identifier,
+      $.string_value,
+      $.array,
+      // $.name_pattern,
+    ),
+
+
     _expression: $ => choice(
-      $._constructable_expression
-      // TODO: other kinds of expressions
+      $._constructable_expression,
+      $.call_expression,
     ),
   //
     identifier: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
@@ -223,11 +251,12 @@ module.exports = grammar({
       )),
       ']'
     ),
-  //
-  //   new_line: $ => seq(
-  //     '\n',
-  //   ),
-  //
+
+    // TODO: Check if it's really needed.
+    new_line: $ => seq(
+      '\n',
+    ),
+
 
     true: $ => 'true',
     false: $ => 'false',
