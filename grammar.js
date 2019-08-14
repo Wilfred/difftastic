@@ -38,7 +38,6 @@ module.exports = grammar({
     _definition: $ => choice(
       $.datasource,
       $.model,
-      // $.type_definition,
     ),
 
     datasource: $ => seq(
@@ -47,13 +46,6 @@ module.exports = grammar({
       $.statement_block,
     ),
 
-  //   type_definition: $ => seq(
-  //     'type',
-  //     $.identifier,
-  //     $.identifier,
-  //     $.namespace
-  //   ),
-  //
     model: $ => seq(
       'model',
       $.identifier,
@@ -77,13 +69,13 @@ module.exports = grammar({
     _declaration: $ => choice(
       $._datasource_declaration,
       $.column_declaration,
+      $.block_attribute,
     ),
 
     column_declaration: $ => seq(
       $.identifier,
       $.column_type,
       optional($.column_relation),
-      // optional($.namespace),
       // TODO: Check if it's really needed
       $.new_line,
     ),
@@ -100,13 +92,49 @@ module.exports = grammar({
 
     _constructable_expression: $ => choice(
       $.identifier,
+      $.type_expression,
+      $.block_attribute,
+      // $.column_type,
+      $.member_expression,
       $.number,
       $.string_value,
       $.true,
       $.false,
       $.null,
-      $.member_expression,
       $.array,
+    ),
+
+    binary_expression: $ => choice(
+      ...[
+        ['&&', PREC.AND],
+        ['||', PREC.OR],
+        ['>>', PREC.TIMES],
+        ['>>>', PREC.TIMES],
+        ['<<', PREC.TIMES],
+        ['&', PREC.AND],
+        ['^', PREC.OR],
+        ['|', PREC.OR],
+        ['+', PREC.PLUS],
+        ['-', PREC.PLUS],
+        ['*', PREC.TIMES],
+        ['/', PREC.TIMES],
+        ['%', PREC.TIMES],
+        ['**', PREC.EXP],
+        ['<', PREC.REL],
+        ['<=', PREC.REL],
+        ['==', PREC.REL],
+        ['===', PREC.REL],
+        ['!=', PREC.REL],
+        ['!==', PREC.REL],
+        ['>=', PREC.REL],
+        ['>', PREC.REL],
+      ].map(([operator, precedence]) =>
+        prec.left(precedence, seq(
+          $._expression,
+          operator,
+          $._expression
+        ))
+      )
     ),
 
     member_expression: $ => prec(PREC.MEMBER, seq(
@@ -124,8 +152,14 @@ module.exports = grammar({
       optional($.array),
     ),
 
-    column_relation: $ => seq(
+    column_relation: $ => repeat1(
       $.namespace,
+    ),
+
+    type_expression: $ => seq(
+      $.identifier,
+      ':',
+      $._expression,
     ),
 
     call_expression: $ => prec(PREC.CALL, seq(
@@ -140,10 +174,10 @@ module.exports = grammar({
       $._expression,
     ),
 
-    // namespace: $ seq(
-    //   '@',
-    //   $.identifier,
-    // ),
+    block_attribute: $ => seq(
+      '@@',
+      $._expression,
+    ),
 
     arguments: $ => prec(PREC.CALL, seq(
       '(',
@@ -191,10 +225,6 @@ module.exports = grammar({
   //     $.string_value
   //   ),
   //
-  //   block_attribute: $ => seq(
-  //     $.block_name,
-  //     optional($._call_signature)
-  //   ),
   //
   //   block_name: $ => token(
   //     seq('@@', /([a-zA-Z-_]+\.?([a-zA-Z0-9-_]+)?)/)
@@ -230,6 +260,7 @@ module.exports = grammar({
     _expression: $ => choice(
       $._constructable_expression,
       $.call_expression,
+      $.binary_expression,
     ),
   //
     identifier: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,

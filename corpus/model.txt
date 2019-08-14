@@ -45,6 +45,7 @@ Model with namespaces
 =========================
 
 model User {
+  id         String     @default(cuid()) @id
   email      String     @unique
   createdAt  DateTime   @default()
 }
@@ -55,6 +56,29 @@ model User {
   (model
     (identifier)
     (statement_block
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (column_relation
+          (namespace
+            (call_expression
+              (identifier)
+              (arguments
+                (call_expression
+                  (identifier)
+                  (arguments)
+                )
+              )
+            )
+          )
+          (namespace
+            (identifier)
+          )
+        )
+        (new_line)
+      )
       (column_declaration
         (identifier)
         (column_type
@@ -91,34 +115,94 @@ Model with blockattributes
 ===============================
 
 model Post {
-  title       String
-
   @@unique([ title, slug ])
   @@attribute0
+  @@pg.Point
+  @@pg.index([ email, first_name ], name: "my_index", partial: true)
+  @@check(a > b, name: "a_b_constraint")
+  @@pg.numeric(precision: 5, scale: 2)
 }
 
 ---
 
 (source_file
-  (model_definition
+  (model
     (identifier)
-    (model_block
-      (column_statement
-        (identifier)
-        (column_type)
-        (new_line)
-      )
+    (statement_block
       (block_attribute
-        (block_name)
-        (formal_parameters
-          (array
-            (identifier)
-            (identifier)
+        (call_expression
+          (identifier)
+          (arguments
+            (array
+              (identifier)
+              (identifier)
+            )
           )
         )
       )
       (block_attribute
-        (block_name)
+        (identifier)
+      )
+      (block_attribute
+        (member_expression
+          (identifier)
+          (identifier)
+        )
+      )
+      (block_attribute
+        (call_expression
+          (member_expression
+            (identifier)
+            (identifier)
+          )
+          (arguments
+            (array
+              (identifier)
+              (identifier)
+            )
+            (type_expression
+              (identifier)
+              (string_value)
+            )
+            (type_expression
+              (identifier)
+              (true)
+            )
+          )
+        )
+      )
+      (block_attribute
+        (call_expression
+          (identifier)
+          (arguments
+            (binary_expression
+              (identifier)
+              (identifier)
+            )
+            (type_expression
+              (identifier)
+              (string_value)
+            )
+          )
+        )
+      )
+      (block_attribute
+        (call_expression
+          (member_expression
+            (identifier)
+            (identifier)
+          )
+          (arguments
+            (type_expression
+              (identifier)
+              (number)
+            )
+            (type_expression
+              (identifier)
+              (number)
+            )
+          )
+        )
       )
     )
   )
