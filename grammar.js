@@ -227,11 +227,7 @@ module.exports = grammar({
     )),
 
     number: $ => /\d+/,
-  //
-  //   assignation: $ => '=',
-  //
-  //   dot: $ => '.',
-  //
+
     array: $ => seq(
       '[',
       commaSep(optional(
