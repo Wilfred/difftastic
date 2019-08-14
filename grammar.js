@@ -38,6 +38,7 @@ module.exports = grammar({
     _definition: $ => choice(
       $.datasource,
       $.model,
+      $.type,
     ),
 
     datasource: $ => seq(
@@ -50,6 +51,13 @@ module.exports = grammar({
       'model',
       $.identifier,
       $.statement_block,
+    ),
+
+    type: $ => seq(
+      'type',
+      repeat1(
+        $._expression,
+      ),
     ),
 
     comment: $ => token(
@@ -94,6 +102,7 @@ module.exports = grammar({
       $.identifier,
       $.type_expression,
       $.block_attribute,
+      $.namespace,
       // $.column_type,
       $.member_expression,
       $.number,
@@ -189,58 +198,6 @@ module.exports = grammar({
       field('parameters', $.formal_parameters)
     ),
 
-    // namespace: $ => seq(
-    //   $.namespace_name,
-    //   optional($.namespace_arguments),
-    // ),
-  //
-  //   namespace_name: $ => token(
-  //     seq(/@@?/, /([a-z_]+\.?([a-z_]+)?)/)
-  //   ),
-  //
-  //   namespace_arguments: $ => seq(
-  //     '(',
-  //     choice(
-  //       $.string_value,
-  //       $.number,
-  //       $._namespace_function_call
-  //     ),
-  //     ')'
-  //   ),
-  //
-  //   _namespace_function_call: $ => seq(
-  //     $.identifier,
-  //     $.namespace_function_call
-  //   ),
-  //
-  //   namespace_function_call: $ => seq(
-  //     '(',
-  //     // Could this have arguments? If so, then we need a definition for a generic function call.
-  //     ')'
-  //   ),
-  //
-  //   name_pattern: $ => seq(
-  //     field('key', $.identifier),
-  //     ':',
-  //     $.string_value
-  //   ),
-  //
-  //
-  //   block_name: $ => token(
-  //     seq('@@', /([a-zA-Z-_]+\.?([a-zA-Z0-9-_]+)?)/)
-  //   ),
-  //
-  //   _environment_variable: $ => seq(
-  //     $.identifier,
-  //     $.dot,
-  //     $.identifier
-  //   ),
-  //
-  //   _call_signature: $ => seq(
-  //     $.formal_parameters,
-  //     // field('parameters', $.formal_parameters)
-  //   ),
-  //
     formal_parameters: $ => seq(
       '(',
       optional(seq(

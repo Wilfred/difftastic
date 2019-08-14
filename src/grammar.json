@@ -18,6 +18,10 @@
         {
           "type": "SYMBOL",
           "name": "model"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type"
         }
       ]
     },
@@ -52,6 +56,22 @@
         {
           "type": "SYMBOL",
           "name": "statement_block"
+        }
+      ]
+    },
+    "type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
         }
       ]
     },
@@ -190,6 +210,10 @@
         {
           "type": "SYMBOL",
           "name": "block_attribute"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "namespace"
         },
         {
           "type": "SYMBOL",

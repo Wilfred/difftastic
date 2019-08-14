@@ -7,13 +7,18 @@ type UUID String @go.type("uuid.UUID")
 ---
 
 (source_file
-  (type_definition
+  (type
     (identifier)
     (identifier)
     (namespace
-      (namespace_name)
-      (namespace_arguments
-        (string_value)
+      (call_expression
+        (member_expression
+          (identifier)
+          (identifier)
+        )
+        (arguments
+          (string_value)
+        )
       )
     )
   )
