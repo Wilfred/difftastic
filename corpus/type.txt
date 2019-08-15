@@ -6,7 +6,7 @@ type UUID String @go.type("uuid.UUID")
 
 ---
 
-(source_file
+(program
   (type
     (identifier)
     (identifier)
@@ -14,10 +14,10 @@ type UUID String @go.type("uuid.UUID")
       (call_expression
         (member_expression
           (identifier)
-          (identifier)
+          (property_identifier)
         )
         (arguments
-          (string_value)
+          (string)
         )
       )
     )

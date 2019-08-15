@@ -11,19 +11,19 @@ datasource pg {
 
 ---
 
-(source_file
+(program
   (datasource
     (identifier)
     (statement_block
       (assignment_pattern
         (identifier)
-        (string_value)
+        (string)
       )
       (assignment_pattern
         (identifier)
         (member_expression
           (identifier)
-          (identifier)
+          (property_identifier)
         )
       )
       (assignment_pattern
@@ -31,9 +31,9 @@ datasource pg {
         (member_expression
           (member_expression
             (identifier)
-            (identifier)
+            (property_identifier)
           )
-          (identifier)
+          (property_identifier)
         )
       )
       (assignment_pattern

@@ -10,7 +10,7 @@ model User {
 
 ---
 
-(source_file
+(program
   (model
     (identifier)
     (statement_block
@@ -52,7 +52,7 @@ model User {
 
 ---
 
-(source_file
+(program
   (model
     (identifier)
     (statement_block
@@ -125,7 +125,7 @@ model Post {
 
 ---
 
-(source_file
+(program
   (model
     (identifier)
     (statement_block
@@ -146,14 +146,14 @@ model Post {
       (block_attribute
         (member_expression
           (identifier)
-          (identifier)
+          (property_identifier)
         )
       )
       (block_attribute
         (call_expression
           (member_expression
             (identifier)
-            (identifier)
+            (property_identifier)
           )
           (arguments
             (array
@@ -162,7 +162,7 @@ model Post {
             )
             (type_expression
               (identifier)
-              (string_value)
+              (string)
             )
             (type_expression
               (identifier)
@@ -181,7 +181,7 @@ model Post {
             )
             (type_expression
               (identifier)
-              (string_value)
+              (string)
             )
           )
         )
@@ -190,7 +190,7 @@ model Post {
         (call_expression
           (member_expression
             (identifier)
-            (identifier)
+            (property_identifier)
           )
           (arguments
             (type_expression

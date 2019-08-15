@@ -33,7 +33,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => repeat($._definition),
+    program: $ => repeat($._definition),
 
     _definition: $ => choice(
       $.datasource,
@@ -106,7 +106,7 @@ module.exports = grammar({
       // $.column_type,
       $.member_expression,
       $.number,
-      $.string_value,
+      $.string,
       $.true,
       $.false,
       $.null,
@@ -152,7 +152,7 @@ module.exports = grammar({
         $.member_expression
       ),
       '.',
-      $.identifier
+      alias($.identifier, $.property_identifier)
     )),
 
     column_type: $ => seq(
@@ -208,7 +208,7 @@ module.exports = grammar({
 
     _formal_parameter: $ => choice(
       $.identifier,
-      $.string_value,
+      $.string,
       $.array,
       // $.name_pattern,
     ),
@@ -221,7 +221,7 @@ module.exports = grammar({
     ),
   //
     identifier: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
-    string_value: $ => token(choice(
+    string: $ => token(choice(
       seq("'", /([^'\n]|\\(.|\n))*/, "'"),
       seq('"', /([^"\n]|\\(.|\n))*/, '"')
     )),

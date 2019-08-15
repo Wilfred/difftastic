@@ -7,7 +7,7 @@ Comment block
 
 ---
 
-(source_file
+(program
   (comment)
   (comment)
 )
@@ -25,7 +25,7 @@ datasource pg { // this should be fine
 
 ---
 
-(source_file
+(program
   (comment)
   (datasource
     (identifier)
@@ -33,7 +33,7 @@ datasource pg { // this should be fine
       (comment)
       (assignment_pattern
         (identifier)
-        (string_value)
+        (string)
       )
       (comment)
       (comment)

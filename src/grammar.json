@@ -1,7 +1,7 @@
 {
   "name": "prisma",
   "rules": {
-    "source_file": {
+    "program": {
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
@@ -225,7 +225,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "string_value"
+          "name": "string"
         },
         {
           "type": "SYMBOL",
@@ -736,8 +736,13 @@
             "value": "."
           },
           {
-            "type": "SYMBOL",
-            "name": "identifier"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            "named": true,
+            "value": "property_identifier"
           }
         ]
       }
@@ -973,7 +978,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "string_value"
+          "name": "string"
         },
         {
           "type": "SYMBOL",
@@ -1002,7 +1007,7 @@
       "type": "PATTERN",
       "value": "[a-zA-Z-_][a-zA-Z0-9-_]*"
     },
-    "string_value": {
+    "string": {
       "type": "TOKEN",
       "content": {
         "type": "CHOICE",
