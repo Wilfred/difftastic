@@ -1,5 +1,6 @@
 {
   "name": "prisma",
+  "word": "identifier",
   "rules": {
     "program": {
       "type": "REPEAT",
@@ -13,19 +14,19 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "datasource"
+          "name": "datasource_declaration"
         },
         {
           "type": "SYMBOL",
-          "name": "model"
+          "name": "model_declaration"
         },
         {
           "type": "SYMBOL",
-          "name": "type"
+          "name": "type_declaration"
         }
       ]
     },
-    "datasource": {
+    "datasource_declaration": {
       "type": "SEQ",
       "members": [
         {
@@ -42,7 +43,7 @@
         }
       ]
     },
-    "model": {
+    "model_declaration": {
       "type": "SEQ",
       "members": [
         {
@@ -59,21 +60,25 @@
         }
       ]
     },
-    "type": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "type"
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_expression"
+    "type_declaration": {
+      "type": "PREC",
+      "value": 14,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "type"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     "comment": {
       "type": "TOKEN",
@@ -129,7 +134,15 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_datasource_declaration"
+          "name": "datasource_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "model_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_declaration"
         },
         {
           "type": "SYMBOL",
@@ -137,7 +150,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "block_attribute"
+          "name": "block_attribute_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assignment_pattern"
         }
       ]
     },
@@ -167,15 +184,6 @@
         {
           "type": "SYMBOL",
           "name": "new_line"
-        }
-      ]
-    },
-    "_datasource_declaration": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "assignment_pattern"
         }
       ]
     },
@@ -209,7 +217,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "block_attribute"
+          "name": "block_attribute_declaration"
         },
         {
           "type": "SYMBOL",
@@ -826,7 +834,7 @@
         }
       ]
     },
-    "block_attribute": {
+    "block_attribute_declaration": {
       "type": "SEQ",
       "members": [
         {
@@ -1147,7 +1155,12 @@
       "value": "[\\s\\uFEFF\\u2060\\u200B\\u00A0]"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "type_declaration",
+      "column_declaration"
+    ]
+  ],
   "externals": [],
   "inline": [],
   "supertypes": []

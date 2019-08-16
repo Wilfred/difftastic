@@ -31,34 +31,54 @@ module.exports = grammar({
     $.comment,
     /[\s\uFEFF\u2060\u200B\u00A0]/
   ],
+  //
+  // supertypes: $ => [
+  //   $._statement,
+  //   $._declaration,
+  //   $._expression,
+  // ],
+
+  // inline: $ => [
+  //   $._call_signature,
+  //   $._constructable_expression,
+  //   $._statement,
+  //   $._expression,
+  //   $._formal_parameter,
+  // ],
+
+  conflicts: $ => [
+    [$.type_declaration, $.column_declaration]
+  ],
+
+  word: $ => $.identifier,
 
   rules: {
     program: $ => repeat($._definition),
 
     _definition: $ => choice(
-      $.datasource,
-      $.model,
-      $.type,
+      $.datasource_declaration,
+      $.model_declaration,
+      $.type_declaration,
     ),
 
-    datasource: $ => seq(
+    datasource_declaration: $ => seq(
       'datasource',
       $.identifier,
       $.statement_block,
     ),
 
-    model: $ => seq(
+    model_declaration: $ => seq(
       'model',
       $.identifier,
       $.statement_block,
     ),
 
-    type: $ => seq(
+    type_declaration: $ => prec(PREC.MEMBER, seq(
       'type',
       repeat1(
         $._expression,
       ),
-    ),
+    )),
 
     comment: $ => token(
       seq('//', /.*/),
@@ -75,9 +95,12 @@ module.exports = grammar({
     ),
 
     _declaration: $ => choice(
-      $._datasource_declaration,
+      $.datasource_declaration,
+      $.model_declaration,
+      $.type_declaration,
       $.column_declaration,
-      $.block_attribute,
+      $.block_attribute_declaration,
+      $.assignment_pattern,
     ),
 
     column_declaration: $ => seq(
@@ -86,10 +109,6 @@ module.exports = grammar({
       optional($.column_relation),
       // TODO: Check if it's really needed
       $.new_line,
-    ),
-
-    _datasource_declaration: $ => choice(
-      $.assignment_pattern,
     ),
 
     assignment_pattern: $ => seq(
@@ -101,7 +120,7 @@ module.exports = grammar({
     _constructable_expression: $ => choice(
       $.identifier,
       $.type_expression,
-      $.block_attribute,
+      $.block_attribute_declaration,
       $.namespace,
       // $.column_type,
       $.member_expression,
@@ -183,7 +202,7 @@ module.exports = grammar({
       $._expression,
     ),
 
-    block_attribute: $ => seq(
+    block_attribute_declaration: $ => seq(
       '@@',
       $._expression,
     ),

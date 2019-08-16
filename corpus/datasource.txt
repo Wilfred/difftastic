@@ -12,7 +12,7 @@ datasource pg {
 ---
 
 (program
-  (datasource
+  (datasource_declaration
     (identifier)
     (statement_block
       (assignment_pattern

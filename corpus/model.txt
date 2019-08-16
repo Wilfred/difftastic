@@ -11,7 +11,7 @@ model User {
 ---
 
 (program
-  (model
+  (model_declaration
     (identifier)
     (statement_block
       (column_declaration
@@ -53,7 +53,7 @@ model User {
 ---
 
 (program
-  (model
+  (model_declaration
     (identifier)
     (statement_block
       (column_declaration
@@ -126,10 +126,10 @@ model Post {
 ---
 
 (program
-  (model
+  (model_declaration
     (identifier)
     (statement_block
-      (block_attribute
+      (block_attribute_declaration
         (call_expression
           (identifier)
           (arguments
@@ -140,16 +140,16 @@ model Post {
           )
         )
       )
-      (block_attribute
+      (block_attribute_declaration
         (identifier)
       )
-      (block_attribute
+      (block_attribute_declaration
         (member_expression
           (identifier)
           (property_identifier)
         )
       )
-      (block_attribute
+      (block_attribute_declaration
         (call_expression
           (member_expression
             (identifier)
@@ -171,7 +171,7 @@ model Post {
           )
         )
       )
-      (block_attribute
+      (block_attribute_declaration
         (call_expression
           (identifier)
           (arguments
@@ -186,7 +186,7 @@ model Post {
           )
         )
       )
-      (block_attribute
+      (block_attribute_declaration
         (call_expression
           (member_expression
             (identifier)

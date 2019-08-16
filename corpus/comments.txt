@@ -27,7 +27,7 @@ datasource pg { // this should be fine
 
 (program
   (comment)
-  (datasource
+  (datasource_declaration
     (identifier)
     (statement_block
       (comment)
