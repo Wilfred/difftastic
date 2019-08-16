@@ -1,5 +1,5 @@
 ==========
-short_open_tag: On
+short_open_tag: Off
 ==========
 
 <?
