@@ -1,6 +1,5 @@
 {
   "name": "prisma",
-  "word": "identifier",
   "rules": {
     "program": {
       "type": "REPEAT",
@@ -23,6 +22,10 @@
         {
           "type": "SYMBOL",
           "name": "type_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "generator_declaration"
         }
       ]
     },
@@ -49,6 +52,23 @@
         {
           "type": "STRING",
           "value": "model"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "statement_block"
+        }
+      ]
+    },
+    "generator_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "generator"
         },
         {
           "type": "SYMBOL",
@@ -154,7 +174,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "assignment_pattern"
+          "name": "assignment_expression"
         }
       ]
     },
@@ -203,6 +223,27 @@
           "name": "_constructable_expression"
         }
       ]
+    },
+    "assignment_expression": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          {
+            "type": "STRING",
+            "value": "="
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
     },
     "_constructable_expression": {
       "type": "CHOICE",
@@ -991,6 +1032,10 @@
         {
           "type": "SYMBOL",
           "name": "array"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assignment_pattern"
         }
       ]
     },
@@ -1000,6 +1045,10 @@
         {
           "type": "SYMBOL",
           "name": "_constructable_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assignment_expression"
         },
         {
           "type": "SYMBOL",
@@ -1159,6 +1208,10 @@
     [
       "type_declaration",
       "column_declaration"
+    ],
+    [
+      "assignment_pattern",
+      "assignment_expression"
     ]
   ],
   "externals": [],

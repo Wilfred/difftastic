@@ -4,9 +4,10 @@ Datasource block
 
 datasource pg {
   provider = "postgresql"
-  url = env.POSTGRES_URL
-  foo = bar.baz.xyz
-  enabled = true
+  url      = env.POSTGRES_URL
+  foo      = bar.baz.xyz
+  enabled  = true
+  hello    = env("WORLD")
 }
 
 ---
@@ -15,18 +16,18 @@ datasource pg {
   (datasource_declaration
     (identifier)
     (statement_block
-      (assignment_pattern
+      (assignment_expression
         (identifier)
         (string)
       )
-      (assignment_pattern
+      (assignment_expression
         (identifier)
         (member_expression
           (identifier)
           (property_identifier)
         )
       )
-      (assignment_pattern
+      (assignment_expression
         (identifier)
         (member_expression
           (member_expression
@@ -36,9 +37,18 @@ datasource pg {
           (property_identifier)
         )
       )
-      (assignment_pattern
+      (assignment_expression
         (identifier)
         (true)
+      )
+      (assignment_expression
+        (identifier)
+        (call_expression
+          (identifier)
+          (arguments
+            (string)
+          )
+        )
       )
     )
   )

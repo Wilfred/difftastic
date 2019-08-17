@@ -47,10 +47,9 @@ module.exports = grammar({
   // ],
 
   conflicts: $ => [
-    [$.type_declaration, $.column_declaration]
+    [$.type_declaration, $.column_declaration],
+    [$.assignment_pattern, $.assignment_expression],
   ],
-
-  word: $ => $.identifier,
 
   rules: {
     program: $ => repeat($._definition),
@@ -59,6 +58,7 @@ module.exports = grammar({
       $.datasource_declaration,
       $.model_declaration,
       $.type_declaration,
+      $.generator_declaration,
     ),
 
     datasource_declaration: $ => seq(
@@ -69,6 +69,12 @@ module.exports = grammar({
 
     model_declaration: $ => seq(
       'model',
+      $.identifier,
+      $.statement_block,
+    ),
+
+    generator_declaration: $ => seq(
+      'generator',
       $.identifier,
       $.statement_block,
     ),
@@ -100,7 +106,7 @@ module.exports = grammar({
       $.type_declaration,
       $.column_declaration,
       $.block_attribute_declaration,
-      $.assignment_pattern,
+      $.assignment_expression,
     ),
 
     column_declaration: $ => seq(
@@ -116,6 +122,12 @@ module.exports = grammar({
       '=',
       $._constructable_expression,
     ),
+
+    assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
+      $.identifier,
+      '=',
+      $._expression
+    )),
 
     _constructable_expression: $ => choice(
       $.identifier,
@@ -229,16 +241,20 @@ module.exports = grammar({
       $.identifier,
       $.string,
       $.array,
+      $.assignment_pattern,
       // $.name_pattern,
     ),
 
 
     _expression: $ => choice(
       $._constructable_expression,
+
+      $.assignment_expression,
       $.call_expression,
       $.binary_expression,
     ),
   //
+    // identifier: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
     identifier: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
     string: $ => token(choice(
       seq("'", /([^'\n]|\\(.|\n))*/, "'"),

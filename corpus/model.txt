@@ -11,8 +11,7 @@ model User {
 ---
 
 (program
-  (model_declaration
-    (identifier)
+  (model_declaration (identifier)
     (statement_block
       (column_declaration
         (identifier)
@@ -53,8 +52,7 @@ model User {
 ---
 
 (program
-  (model_declaration
-    (identifier)
+  (model_declaration (identifier)
     (statement_block
       (column_declaration
         (identifier)
@@ -126,8 +124,7 @@ model Post {
 ---
 
 (program
-  (model_declaration
-    (identifier)
+  (model_declaration (identifier)
     (statement_block
       (block_attribute_declaration
         (call_expression
