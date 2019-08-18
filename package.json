@@ -1,0 +1,38 @@
+{
+  "name": "tree-sitter-toml",
+  "version": "0.1.0",
+  "description": "TOML grammar for tree-sitter",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "main": "index.js",
+  "repository": "https://github.com/ikatyang/tree-sitter-toml",
+  "homepage": "https://github.com/ikatyang/tree-sitter-toml#readme",
+  "author": {
+    "name": "Ika",
+    "email": "ikatyang@gmail.com",
+    "url": "https://github.com/ikatyang"
+  },
+  "license": "MIT",
+  "scripts": {
+    "lint": "prettier grammar.js --check",
+    "test": "tree-sitter test && tree-sitter parse examples/*.toml --quiet --time",
+    "build": "tree-sitter generate && node-gyp build",
+    "release": "standard-version"
+  },
+  "dependencies": {
+    "nan": "^2.14.0"
+  },
+  "devDependencies": {
+    "prettier": "1.18.2",
+    "standard-version": "7.0.0",
+    "tree-sitter-cli": "0.15.7"
+  },
+  "files": [
+    "/src/",
+    "/binding.gyp",
+    "/grammar.js",
+    "/index.js"
+  ]
+}

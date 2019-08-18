@@ -1,0 +1,1195 @@
+================================================================================
+VALID - comment - basic
+================================================================================
+
+# This is a full-line comment
+key = "value" # This is a comment at the end of a line
+
+--------------------------------------------------------------------------------
+
+(root
+  (comment)
+  (pair
+    (key) (string) (comment)
+  )
+)
+
+================================================================================
+VALID - key/value pair - basic
+================================================================================
+
+key = "value"
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (string)
+  )
+)
+
+================================================================================
+INVALID - key/value pair - no value provided
+================================================================================
+
+key = # INVALID
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key)
+    (comment)
+    (integer
+      (MISSING _decimal_integer)
+    )
+  )
+)
+
+================================================================================
+VALID - keys - bare keys
+================================================================================
+
+key = "value"
+bare_key = "value"
+bare-key = "value"
+1234 = "value"
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (string)
+  )
+)
+
+================================================================================
+VALID - keys - quoted keys
+================================================================================
+
+"127.0.0.1" = "value"
+"character encoding" = "value"
+"ʎǝʞ" = "value"
+'key2' = "value"
+'quoted "value"' = "value"
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (string)
+  )
+)
+
+================================================================================
+INVALID - keys - bare key
+================================================================================
+
+= "no key name"  # INVALID
+"" = "blank"     # VALID but discouraged
+'' = 'blank'     # VALID but discouraged
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key
+      (MISSING _bare_key)
+    )
+    (string)
+    (comment)
+  )
+  (pair
+    (key) (string) (comment)
+  )
+  (pair
+    (key) (string) (comment)
+  )
+)
+
+================================================================================
+VALID - keys - dotted keys
+================================================================================
+
+name = "Orange"
+physical.color = "orange"
+physical.shape = "round"
+site."google.com" = true
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (string)
+  )
+  (pair
+    (dotted_key
+      (key) (key)
+    )
+    (string)
+  )
+  (pair
+    (dotted_key
+      (key) (key)
+    )
+    (string)
+  )
+  (pair
+    (dotted_key
+      (key) (key)
+    )
+    (boolean)
+  )
+)
+
+================================================================================
+VALID - keys - duplicate keys (semantically INVALID)
+================================================================================
+
+# DO NOT DO THIS
+name = "Tom"
+name = "Pradyun"
+
+--------------------------------------------------------------------------------
+
+(root
+  (comment)
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (string)
+  )
+)
+
+================================================================================
+VALID - keys - directly defined nested keys
+================================================================================
+
+a.b.c = 1
+a.d = 2
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (dotted_key
+      (dotted_key
+        (key) (key)
+      )
+      (key)
+    )
+    (integer)
+  )
+  (pair
+    (dotted_key
+      (key) (key)
+    )
+    (integer)
+  )
+)
+
+================================================================================
+VALID - keys - overlapped keys (semantically INVALID)
+================================================================================
+
+# THIS IS INVALID
+a.b = 1
+a.b.c = 2
+
+--------------------------------------------------------------------------------
+
+(root
+  (comment)
+  (pair
+    (dotted_key
+      (key) (key)
+    )
+    (integer)
+  )
+  (pair
+    (dotted_key
+      (dotted_key
+        (key) (key)
+      )
+      (key)
+    )
+    (integer)
+  )
+)
+
+================================================================================
+VALID - string - basic strings
+================================================================================
+
+str = "I'm a string. \"You can quote me\". Name\tJos\u00E9\nLocation\tSF."
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key)
+    (string
+      (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence)
+    )
+  )
+)
+
+================================================================================
+VALID - string - multi-line basic strings
+================================================================================
+
+str1 = """
+Roses are red
+Violets are blue"""
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (string)
+  )
+)
+
+================================================================================
+VALID - string - multi-line basic strings with trailing backslashes
+================================================================================
+
+# The following strings are byte-for-byte equivalent:
+str1 = "The quick brown fox jumps over the lazy dog."
+
+str2 = """
+The quick brown \
+
+
+  fox jumps over \
+    the lazy dog."""
+
+str3 = """\
+       The quick brown \
+       fox jumps over \
+       the lazy dog.\
+       """
+
+--------------------------------------------------------------------------------
+
+(root
+  (comment)
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key)
+    (string
+      (escape_sequence) (escape_sequence)
+    )
+  )
+  (pair
+    (key)
+    (string
+      (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence)
+    )
+  )
+)
+
+================================================================================
+VALID - string - literal strings
+================================================================================
+
+# What you see is what you get.
+winpath  = 'C:\Users\nodejs\templates'
+winpath2 = '\\ServerX\admin$\system32\'
+quoted   = 'Tom "Dubs" Preston-Werner'
+regex    = '<\i\c*\s*>'
+
+--------------------------------------------------------------------------------
+
+(root
+  (comment)
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (string)
+  )
+)
+
+================================================================================
+VALID - string - multi-line literal strings
+================================================================================
+
+regex2 = '''I [dw]on't need \d{2} apples'''
+lines  = '''
+The first newline is
+trimmed in raw strings.
+   All other whitespace
+   is preserved.
+'''
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (string)
+  )
+)
+
+================================================================================
+VALID - integer - signed/unsigned decimal integer
+================================================================================
+
+int1 = +99
+int2 = 42
+int3 = 0
+int4 = -17
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (integer)
+  )
+  (pair
+    (key) (integer)
+  )
+  (pair
+    (key) (integer)
+  )
+  (pair
+    (key) (integer)
+  )
+)
+
+================================================================================
+VALID - integer - decimal integer with underscores
+================================================================================
+
+int5 = 1_000
+int6 = 5_349_221
+int7 = 1_2_3_4_5     # VALID but discouraged
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (integer)
+  )
+  (pair
+    (key) (integer)
+  )
+  (pair
+    (key) (integer) (comment)
+  )
+)
+
+================================================================================
+VALID - integer - hexadecimal/octal/binary integer
+================================================================================
+
+# hexadecimal with prefix `0x`
+hex1 = 0xDEADBEEF
+hex2 = 0xdeadbeef
+hex3 = 0xdead_beef
+
+# octal with prefix `0o`
+oct1 = 0o01234567
+oct2 = 0o755 # useful for Unix file permissions
+
+# binary with prefix `0b`
+bin1 = 0b11010110
+
+--------------------------------------------------------------------------------
+
+(root
+  (comment)
+  (pair
+    (key) (integer)
+  )
+  (pair
+    (key) (integer)
+  )
+  (pair
+    (key) (integer)
+  )
+  (comment)
+  (pair
+    (key) (integer)
+  )
+  (pair
+    (key) (integer) (comment)
+  )
+  (comment)
+  (pair
+    (key) (integer)
+  )
+)
+
+================================================================================
+VALID - float - float with fractional or exponent or both
+================================================================================
+
+# fractional
+flt1 = +1.0
+flt2 = 3.1415
+flt3 = -0.01
+
+# exponent
+flt4 = 5e+22
+flt5 = 1e6
+flt6 = -2E-2
+
+# both
+flt7 = 6.626e-34
+
+--------------------------------------------------------------------------------
+
+(root
+  (comment)
+  (pair
+    (key) (float)
+  )
+  (pair
+    (key) (float)
+  )
+  (pair
+    (key) (float)
+  )
+  (comment)
+  (pair
+    (key) (float)
+  )
+  (pair
+    (key) (float)
+  )
+  (pair
+    (key) (float)
+  )
+  (comment)
+  (pair
+    (key) (float)
+  )
+)
+
+================================================================================
+VALID - float - float with underscores
+================================================================================
+
+flt8 = 9_224_617.445_991_228_313
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (float)
+  )
+)
+
+================================================================================
+VALID - float - special float values
+================================================================================
+
+# infinity
+sf1 = inf  # positive infinity
+sf2 = +inf # positive infinity
+sf3 = -inf # negative infinity
+
+# not a number
+sf4 = nan  # actual sNaN/qNaN encoding is implementation specific
+sf5 = +nan # same as `nan`
+sf6 = -nan # valid, actual encoding is implementation specific
+
+--------------------------------------------------------------------------------
+
+(root
+  (comment)
+  (pair
+    (key) (float) (comment)
+  )
+  (pair
+    (key) (float) (comment)
+  )
+  (pair
+    (key) (float) (comment)
+  )
+  (comment)
+  (pair
+    (key) (float) (comment)
+  )
+  (pair
+    (key) (float) (comment)
+  )
+  (pair
+    (key) (float) (comment)
+  )
+)
+
+================================================================================
+VALID - boolean - basic
+================================================================================
+
+bool1 = true
+bool2 = false
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (boolean)
+  )
+  (pair
+    (key) (boolean)
+  )
+)
+
+================================================================================
+VALID - offset date time - basic
+================================================================================
+
+odt1 = 1979-05-27T07:32:00Z
+odt2 = 1979-05-27T00:32:00-07:00
+odt3 = 1979-05-27T00:32:00.999999-07:00
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (offset_date_time)
+  )
+  (pair
+    (key) (offset_date_time)
+  )
+  (pair
+    (key) (offset_date_time)
+  )
+)
+
+================================================================================
+VALID - offset date time - whitespace as delimiter
+================================================================================
+
+odt4 = 1979-05-27 07:32:00Z
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (offset_date_time)
+  )
+)
+
+================================================================================
+VALID - local date time - basic
+================================================================================
+
+ldt1 = 1979-05-27T07:32:00
+ldt2 = 1979-05-27T00:32:00.999999
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (local_date_time)
+  )
+  (pair
+    (key) (local_date_time)
+  )
+)
+
+================================================================================
+VALID - local date - basic
+================================================================================
+
+ld1 = 1979-05-27
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (local_date)
+  )
+)
+
+================================================================================
+VALID - local time - basic
+================================================================================
+
+lt1 = 07:32:00
+lt2 = 00:32:00.999999
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key) (local_time)
+  )
+  (pair
+    (key) (local_time)
+  )
+)
+
+================================================================================
+VALID - array - basic (semantically INVALID for children with mixed types)
+================================================================================
+
+arr1 = [ 1, 2, 3 ]
+arr2 = [ "red", "yellow", "green" ]
+arr3 = [ [ 1, 2 ], [3, 4, 5] ]
+arr4 = [ "all", 'strings', """are the same""", '''type''']
+arr5 = [ [ 1, 2 ], ["a", "b", "c"] ]
+
+arr6 = [ 1, 2.0 ] # INVALID
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key)
+    (array
+      (integer) (integer) (integer)
+    )
+  )
+  (pair
+    (key)
+    (array
+      (string) (string) (string)
+    )
+  )
+  (pair
+    (key)
+    (array
+      (array
+        (integer) (integer)
+      )
+      (array
+        (integer) (integer) (integer)
+      )
+    )
+  )
+  (pair
+    (key)
+    (array
+      (string) (string) (string) (string)
+    )
+  )
+  (pair
+    (key)
+    (array
+      (array
+        (integer) (integer)
+      )
+      (array
+        (string) (string) (string)
+      )
+    )
+  )
+  (pair
+    (key)
+    (array
+      (integer) (float)
+    )
+    (comment)
+  )
+)
+
+================================================================================
+VALID - array - allow newlines
+================================================================================
+
+arr7 = [
+  1, 2, 3
+]
+
+arr8 = [
+  1,
+  2, # this is ok
+]
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key)
+    (array
+      (integer) (integer) (integer)
+    )
+  )
+  (pair
+    (key)
+    (array
+      (integer) (integer) (comment)
+    )
+  )
+)
+
+================================================================================
+VALID - table - header
+================================================================================
+
+[table]
+
+--------------------------------------------------------------------------------
+
+(root
+  (table
+    (key)
+  )
+)
+
+================================================================================
+VALID - table - basic
+================================================================================
+
+[table-1]
+key1 = "some string"
+key2 = 123
+
+[table-2]
+key1 = "another string"
+key2 = 456
+
+--------------------------------------------------------------------------------
+
+(root
+  (table
+    (key)
+    (pair
+      (key) (string)
+    )
+    (pair
+      (key) (integer)
+    )
+  )
+  (table
+    (key)
+    (pair
+      (key) (string)
+    )
+    (pair
+      (key) (integer)
+    )
+  )
+)
+
+================================================================================
+VALID - table - header with dotted key
+================================================================================
+
+[dog."tater.man"]
+type.name = "pug"
+
+--------------------------------------------------------------------------------
+
+(root
+  (table
+    (dotted_key
+      (key) (key)
+    )
+    (pair
+      (dotted_key
+        (key) (key)
+      )
+      (string)
+    )
+  )
+)
+
+================================================================================
+VALID - table- header with whitespaces
+================================================================================
+
+[a.b.c]            # this is best practice
+[ d.e.f ]          # same as [d.e.f]
+[ g .  h  . i ]    # same as [g.h.i]
+[ j . "ʞ" . 'l' ]  # same as [j."ʞ".'l']
+
+--------------------------------------------------------------------------------
+
+(root
+  (table
+    (dotted_key
+      (dotted_key
+        (key) (key)
+      )
+      (key)
+    )
+    (comment)
+  )
+  (table
+    (dotted_key
+      (dotted_key
+        (key) (key)
+      )
+      (key)
+    )
+    (comment)
+  )
+  (table
+    (dotted_key
+      (dotted_key
+        (key) (key)
+      )
+      (key)
+    )
+    (comment)
+  )
+  (table
+    (dotted_key
+      (dotted_key
+        (key) (key)
+      )
+      (key)
+    )
+    (comment)
+  )
+)
+
+================================================================================
+VALID - table - directly defined nested header key
+================================================================================
+
+# [x] you
+# [x.y] don't
+# [x.y.z] need these
+[x.y.z.w] # for this to work
+
+--------------------------------------------------------------------------------
+
+(root
+  (comment)
+  (comment)
+  (comment)
+  (table
+    (dotted_key
+      (dotted_key
+        (dotted_key
+          (key) (key)
+        )
+        (key)
+      )
+      (key)
+    )
+    (comment)
+  )
+)
+
+================================================================================
+VALID - table - duplicate header key (semantically INVALID)
+================================================================================
+
+# DO NOT DO THIS
+
+[a]
+b = 1
+
+[a]
+c = 2
+
+--------------------------------------------------------------------------------
+
+(root
+  (comment)
+  (table
+    (key)
+    (pair
+      (key) (integer)
+    )
+  )
+  (table
+    (key)
+    (pair
+      (key) (integer)
+    )
+  )
+)
+
+================================================================================
+VALID - table - overlapped header key (semantically INVALID)
+================================================================================
+
+# DO NOT DO THIS EITHER
+
+[a]
+b = 1
+
+[a.b]
+c = 2
+
+--------------------------------------------------------------------------------
+
+(root
+  (comment)
+  (table
+    (key)
+    (pair
+      (key) (integer)
+    )
+  )
+  (table
+    (dotted_key
+      (key) (key)
+    )
+    (pair
+      (key) (integer)
+    )
+  )
+)
+
+================================================================================
+VALID - inline table - basic
+================================================================================
+
+name = { first = "Tom", last = "Preston-Werner" }
+point = { x = 1, y = 2 }
+animal = { type.name = "pug" }
+
+--------------------------------------------------------------------------------
+
+(root
+  (pair
+    (key)
+    (inline_table
+      (pair
+        (key) (string)
+      )
+      (pair
+        (key) (string)
+      )
+    )
+  )
+  (pair
+    (key)
+    (inline_table
+      (pair
+        (key) (integer)
+      )
+      (pair
+        (key) (integer)
+      )
+    )
+  )
+  (pair
+    (key)
+    (inline_table
+      (pair
+        (dotted_key
+          (key) (key)
+        )
+        (string)
+      )
+    )
+  )
+)
+
+================================================================================
+VALID - array of tables - basic
+================================================================================
+
+[[products]]
+name = "Hammer"
+sku = 738594937
+
+[[products]]
+
+[[products]]
+name = "Nail"
+sku = 284758393
+color = "gray"
+
+--------------------------------------------------------------------------------
+
+(root
+  (table_array
+    (key)
+    (pair
+      (key) (string)
+    )
+    (pair
+      (key) (integer)
+    )
+  )
+  (table_array
+    (key)
+  )
+  (table_array
+    (key)
+    (pair
+      (key) (string)
+    )
+    (pair
+      (key) (integer)
+    )
+    (pair
+      (key) (string)
+    )
+  )
+)
+
+================================================================================
+VALID - array of tables - nested arrays of tables
+================================================================================
+
+[[fruit]]
+  name = "apple"
+
+  [fruit.physical]
+    color = "red"
+    shape = "round"
+
+  [[fruit.variety]]
+    name = "red delicious"
+
+  [[fruit.variety]]
+    name = "granny smith"
+
+[[fruit]]
+  name = "banana"
+
+  [[fruit.variety]]
+    name = "plantain"
+
+--------------------------------------------------------------------------------
+
+(root
+  (table_array
+    (key)
+    (pair
+      (key) (string)
+    )
+  )
+  (table
+    (dotted_key
+      (key) (key)
+    )
+    (pair
+      (key) (string)
+    )
+    (pair
+      (key) (string)
+    )
+  )
+  (table_array
+    (dotted_key
+      (key) (key)
+    )
+    (pair
+      (key) (string)
+    )
+  )
+  (table_array
+    (dotted_key
+      (key) (key)
+    )
+    (pair
+      (key) (string)
+    )
+  )
+  (table_array
+    (key)
+    (pair
+      (key) (string)
+    )
+  )
+  (table_array
+    (dotted_key
+      (key) (key)
+    )
+    (pair
+      (key) (string)
+    )
+  )
+)
+
+================================================================================
+VALID - array of tables - append to statically defined array (semantically INVALID)
+================================================================================
+
+# INVALID TOML DOC
+fruit = []
+
+[[fruit]] # Not allowed
+
+--------------------------------------------------------------------------------
+
+(root
+  (comment)
+  (pair
+    (key) (array)
+  )
+  (table_array
+    (key) (comment)
+  )
+)
+
+================================================================================
+VALID - array of tables - append to table (semantically INVALID)
+================================================================================
+
+# INVALID TOML DOC
+[[fruit]]
+  name = "apple"
+
+  [[fruit.variety]]
+    name = "red delicious"
+
+  # This table conflicts with the previous table
+  [fruit.variety]
+    name = "granny smith"
+
+--------------------------------------------------------------------------------
+
+(root
+  (comment)
+  (table_array
+    (key)
+    (pair
+      (key) (string)
+    )
+  )
+  (table_array
+    (dotted_key
+      (key) (key)
+    )
+    (pair
+      (key) (string)
+    )
+    (comment)
+  )
+  (table
+    (dotted_key
+      (key) (key)
+    )
+    (pair
+      (key) (string)
+    )
+  )
+)

@@ -1,0 +1,16 @@
+language: node_js
+
+node_js:
+  - stable
+
+script:
+  - yarn lint
+  - yarn test
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+matrix:
+  fast_finish: true

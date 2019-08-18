@@ -1,0 +1,4 @@
+* text eol=lf
+
+/src/** linguist-vendored
+/examples/* linguist-vendored
