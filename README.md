@@ -31,7 +31,8 @@ const tree = parser.parse(sourceCode);
 console.log(tree.rootNode.toString());
 // (root
 //   (table
-//     (key) (pair (key) (boolean))))
+//     (key)
+//     (pair (key) (boolean))))
 ```
 
 ## License
