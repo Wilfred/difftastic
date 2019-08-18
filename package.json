@@ -18,7 +18,7 @@
   "scripts": {
     "lint": "prettier grammar.js --check",
     "test": "tree-sitter test && tree-sitter parse examples/*.toml --quiet --time",
-    "build": "tree-sitter generate && node-gyp build",
+    "prepack": "tree-sitter generate",
     "release": "standard-version"
   },
   "dependencies": {
