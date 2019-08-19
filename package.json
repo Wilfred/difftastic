@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "prettier": "1.18.2",
+    "regexp-util": "1.2.2",
     "standard-version": "7.0.0",
     "tree-sitter-cli": "0.15.7"
   },

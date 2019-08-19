@@ -301,8 +301,40 @@
     "named": false
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "\"\"\"",
+    "named": false
+  },
+  {
+    "type": "\"\"\"",
+    "named": false
+  },
+  {
     "type": "escape_sequence",
     "named": true
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "'''",
+    "named": false
+  },
+  {
+    "type": "'''",
+    "named": false
   },
   {
     "type": "boolean",

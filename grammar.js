@@ -1,21 +1,15 @@
+const { Charset } = require("regexp-util");
+
+const getInverseRegex = charset =>
+  new RegExp(`[^${charset.toString().slice(1, -1)}]`);
+
+const control_chars = new Charset([0x0, 0x1f], 0x7f);
+const newline_regex = /(\r?\n)+/;
+
 module.exports = grammar({
   name: "toml",
 
-  externals: $ => [
-    $._eof,
-    $._basic_string_start,
-    $._basic_string_content,
-    $._basic_string_end,
-    $._multiline_basic_string_start,
-    $._multiline_basic_string_content,
-    $._multiline_basic_string_end,
-    $._literal_string_start,
-    $._literal_string_content,
-    $._literal_string_end,
-    $._multiline_literal_string_start,
-    $._multiline_literal_string_content,
-    $._multiline_literal_string_end,
-  ],
+  externals: $ => [$._eof],
 
   extras: $ => [$.comment, /[ \t]/],
 
@@ -33,7 +27,7 @@ module.exports = grammar({
       ),
 
     comment: $ => /#.*/,
-    _newline: $ => /(\r?\n)+/,
+    _newline: $ => newline_regex,
     _newline_or_eof: $ => choice($._newline, $._eof),
 
     ...table_like("table", "[", "]"),
@@ -51,7 +45,8 @@ module.exports = grammar({
     key: $ => choice($._bare_key, $._quoted_key),
     dotted_key: $ => seq(choice($.dotted_key, $.key), ".", $.key),
     _bare_key: $ => /[A-Za-z0-9_-]+/,
-    _quoted_key: $ => choice($._basic_string, $._literal_string),
+    _quoted_key: $ =>
+      choice($._singleline_basic_string, $._singleline_literal_string),
 
     _inline_value: $ =>
       choice(
@@ -69,45 +64,68 @@ module.exports = grammar({
 
     string: $ =>
       choice(
-        $._basic_string,
+        $._singleline_basic_string,
         $._multiline_basic_string,
-        $._literal_string,
+        $._singleline_literal_string,
         $._multiline_literal_string
       ),
-    _basic_string: $ =>
+    _singleline_basic_string: $ =>
       seq(
-        $._basic_string_start,
-        repeat(choice($._basic_string_content, $.escape_sequence)),
-        $._basic_string_end
+        '"',
+        repeat(
+          choice(
+            token.immediate(
+              repeat1(getInverseRegex(control_chars.union('"', "\\")))
+            ),
+            $.escape_sequence
+          )
+        ),
+        token.immediate('"')
       ),
     _multiline_basic_string: $ =>
       seq(
-        $._multiline_basic_string_start,
+        '"""',
         repeat(
           choice(
-            $._multiline_basic_string_content,
+            token.immediate(
+              repeat1(getInverseRegex(control_chars.union('"', "\\")))
+            ),
+            token.immediate(/"{1,2}/),
+            token.immediate(newline_regex),
             $.escape_sequence,
             alias($._escape_line_ending, $.escape_sequence)
           )
         ),
-        $._multiline_basic_string_end
+        token.immediate('"""')
       ),
     escape_sequence: $ =>
       token.immediate(
         seq("\\", choice(/[btnfr"\\]/, /u[0-9a-fA-F]{4}/, /U[0-9a-fA-F]{8}/))
       ),
     _escape_line_ending: $ => token.immediate(seq("\\", /\r?\n/)),
-    _literal_string: $ =>
+    _singleline_literal_string: $ =>
       seq(
-        $._literal_string_start,
-        repeat($._literal_string_content),
-        $._literal_string_end
+        "'",
+        optional(
+          token.immediate(
+            repeat1(getInverseRegex(control_chars.union("'").subtract("\t")))
+          )
+        ),
+        token.immediate("'")
       ),
     _multiline_literal_string: $ =>
       seq(
-        $._multiline_literal_string_start,
-        repeat($._multiline_literal_string_content),
-        $._multiline_literal_string_end
+        "'''",
+        repeat(
+          choice(
+            token.immediate(
+              repeat1(getInverseRegex(control_chars.union("'").subtract("\t")))
+            ),
+            token.immediate(/'{1,2}/),
+            token.immediate(newline_regex)
+          )
+        ),
+        token.immediate("'''")
       ),
 
     integer: $ =>
