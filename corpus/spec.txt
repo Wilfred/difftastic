@@ -37,12 +37,8 @@ key = # INVALID
 --------------------------------------------------------------------------------
 
 (root
-  (pair
-    (key)
-    (comment)
-    (integer
-      (MISSING "integer_token1")
-    )
+  (ERROR
+    (key) (comment)
   )
 )
 
@@ -782,21 +778,21 @@ key2 = 456
 (root
   (table
     (key)
-    (pair
-      (key) (string)
-    )
-    (pair
-      (key) (integer)
-    )
+  )
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (integer)
   )
   (table
     (key)
-    (pair
-      (key) (string)
-    )
-    (pair
-      (key) (integer)
-    )
+  )
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (integer)
   )
 )
 
@@ -814,12 +810,12 @@ type.name = "pug"
     (dotted_key
       (key) (key)
     )
-    (pair
-      (dotted_key
-        (key) (key)
-      )
-      (string)
+  )
+  (pair
+    (dotted_key
+      (key) (key)
     )
+    (string)
   )
 )
 
@@ -920,15 +916,15 @@ c = 2
   (comment)
   (table
     (key)
-    (pair
-      (key) (integer)
-    )
+  )
+  (pair
+    (key) (integer)
   )
   (table
     (key)
-    (pair
-      (key) (integer)
-    )
+  )
+  (pair
+    (key) (integer)
   )
 )
 
@@ -950,17 +946,17 @@ c = 2
   (comment)
   (table
     (key)
-    (pair
-      (key) (integer)
-    )
+  )
+  (pair
+    (key) (integer)
   )
   (table
     (dotted_key
       (key) (key)
     )
-    (pair
-      (key) (integer)
-    )
+  )
+  (pair
+    (key) (integer)
   )
 )
 
@@ -1030,27 +1026,27 @@ color = "gray"
 (root
   (table_array
     (key)
-    (pair
-      (key) (string)
-    )
-    (pair
-      (key) (integer)
-    )
+  )
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (integer)
   )
   (table_array
     (key)
   )
   (table_array
     (key)
-    (pair
-      (key) (string)
-    )
-    (pair
-      (key) (integer)
-    )
-    (pair
-      (key) (string)
-    )
+  )
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (integer)
+  )
+  (pair
+    (key) (string)
   )
 )
 
@@ -1082,50 +1078,50 @@ VALID - array of tables - nested arrays of tables
 (root
   (table_array
     (key)
-    (pair
-      (key) (string)
-    )
+  )
+  (pair
+    (key) (string)
   )
   (table
     (dotted_key
       (key) (key)
     )
-    (pair
-      (key) (string)
-    )
-    (pair
-      (key) (string)
-    )
+  )
+  (pair
+    (key) (string)
+  )
+  (pair
+    (key) (string)
   )
   (table_array
     (dotted_key
       (key) (key)
     )
-    (pair
-      (key) (string)
-    )
+  )
+  (pair
+    (key) (string)
   )
   (table_array
     (dotted_key
       (key) (key)
     )
-    (pair
-      (key) (string)
-    )
+  )
+  (pair
+    (key) (string)
   )
   (table_array
     (key)
-    (pair
-      (key) (string)
-    )
+  )
+  (pair
+    (key) (string)
   )
   (table_array
     (dotted_key
       (key) (key)
     )
-    (pair
-      (key) (string)
-    )
+  )
+  (pair
+    (key) (string)
   )
 )
 
@@ -1171,25 +1167,25 @@ VALID - array of tables - append to table (semantically INVALID)
   (comment)
   (table_array
     (key)
-    (pair
-      (key) (string)
-    )
+  )
+  (pair
+    (key) (string)
   )
   (table_array
     (dotted_key
       (key) (key)
     )
-    (pair
-      (key) (string)
-    )
-    (comment)
   )
+  (pair
+    (key) (string)
+  )
+  (comment)
   (table
     (dotted_key
       (key) (key)
     )
-    (pair
-      (key) (string)
-    )
+  )
+  (pair
+    (key) (string)
   )
 )

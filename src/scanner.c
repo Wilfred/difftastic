@@ -1,7 +1,7 @@
 #include <tree_sitter/parser.h>
 
 enum TokenType {
-  EOF
+  LINE_ENDING_OR_EOF
 };
 
 void *tree_sitter_toml_external_scanner_create() { return NULL; }
@@ -15,10 +15,20 @@ bool tree_sitter_toml_external_scanner_scan(
   TSLexer *lexer,
   const bool *valid_symbols
 ) {
-  if (lexer->lookahead != 0) {
-    return false;
+  if (lexer->lookahead == 0 || lexer->lookahead == '\n') {
+    lexer->result_symbol = LINE_ENDING_OR_EOF;
+    lexer->mark_end(lexer);
+    return true;
   }
-  lexer->result_symbol = EOF;
-  lexer->mark_end(lexer);
-  return true;
+
+  if (lexer->lookahead == '\r') {
+    lexer->mark_end(lexer);
+    lexer->advance(lexer, false);
+    if (lexer->lookahead == '\n') {
+      lexer->result_symbol = LINE_ENDING_OR_EOF;
+      return true;
+    }
+  }
+
+  return false;
 }
