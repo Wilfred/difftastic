@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/ikatyang/tree-sitter-toml/compare/v0.1.1...v0.1.2) (2019-08-20)
+
+
+### Features
+
+* flatten table/table-array structure ([#2](https://github.com/ikatyang/tree-sitter-toml/issues/2)) ([a381203](https://github.com/ikatyang/tree-sitter-toml/commit/a381203))
+* rename `root` with `file` ([a0cd384](https://github.com/ikatyang/tree-sitter-toml/commit/a0cd384))
+
 ### [0.1.1](https://github.com/ikatyang/tree-sitter-toml/compare/v0.1.0...v0.1.1) (2019-08-20)
 
 
