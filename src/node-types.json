@@ -70,6 +70,29 @@
     }
   },
   {
+    "type": "file",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "pair",
+          "named": true
+        },
+        {
+          "type": "table",
+          "named": true
+        },
+        {
+          "type": "table_array",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "float",
     "named": true,
     "fields": {}
@@ -178,29 +201,6 @@
         },
         {
           "type": "string",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "root",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "pair",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "table_array",
           "named": true
         }
       ]
