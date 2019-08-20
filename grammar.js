@@ -2,9 +2,23 @@ const { Charset } = require("regexp-util");
 
 const getInverseRegex = charset =>
   new RegExp(`[^${charset.toString().slice(1, -1)}]`);
+const concatRegex = (...regexes) =>
+  new RegExp(regexes.reduce((a, b) => a.concat(`(${b.source})`), []).join(""));
 
 const control_chars = new Charset([0x0, 0x1f], 0x7f);
-const newline_regex = /(\r?\n)+/;
+const newline = /(\r?\n)+/;
+
+const decimal_integer = /[+-]?(0|[1-9](_?[0-9])*)/;
+const hexadecimal_integer = /0x[0-9a-fA-F](_?[0-9a-fA-F])*/;
+const octal_integer = /0o[0-7](_?[0-7])*/;
+const binary_integer = /0b[01](_?[01])*/;
+const float_fractional_part = /[.][0-9](_?[0-9])*/;
+const float_exponent_part = concatRegex(/[eE]/, decimal_integer);
+
+const rfc3339_date = /([0-9]+)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])/;
+const rfc3339_delimiter = /[ tT]/;
+const rfc3339_time = /([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)([.][0-9]+)?/;
+const rfc3339_offset = /([zZ])|([+-]([01][0-9]|2[0-3]):[0-5][0-9])/;
 
 module.exports = grammar({
   name: "toml",
@@ -27,7 +41,7 @@ module.exports = grammar({
       ),
 
     comment: $ => /#.*/,
-    _newline: $ => newline_regex,
+    _newline: $ => newline,
     _newline_or_eof: $ => choice($._newline, $._eof),
 
     ...table_like("table", "[", "]"),
@@ -45,8 +59,7 @@ module.exports = grammar({
     key: $ => choice($._bare_key, $._quoted_key),
     dotted_key: $ => seq(choice($.dotted_key, $.key), ".", $.key),
     _bare_key: $ => /[A-Za-z0-9_-]+/,
-    _quoted_key: $ =>
-      choice($._singleline_basic_string, $._singleline_literal_string),
+    _quoted_key: $ => choice($._basic_string, $._literal_string),
 
     _inline_value: $ =>
       choice(
@@ -64,12 +77,12 @@ module.exports = grammar({
 
     string: $ =>
       choice(
-        $._singleline_basic_string,
+        $._basic_string,
         $._multiline_basic_string,
-        $._singleline_literal_string,
+        $._literal_string,
         $._multiline_literal_string
       ),
-    _singleline_basic_string: $ =>
+    _basic_string: $ =>
       seq(
         '"',
         repeat(
@@ -91,7 +104,7 @@ module.exports = grammar({
               repeat1(getInverseRegex(control_chars.union('"', "\\")))
             ),
             token.immediate(/"{1,2}/),
-            token.immediate(newline_regex),
+            token.immediate(newline),
             $.escape_sequence,
             alias($._escape_line_ending, $.escape_sequence)
           )
@@ -103,7 +116,7 @@ module.exports = grammar({
         seq("\\", choice(/[btnfr"\\]/, /u[0-9a-fA-F]{4}/, /U[0-9a-fA-F]{8}/))
       ),
     _escape_line_ending: $ => token.immediate(seq("\\", /\r?\n/)),
-    _singleline_literal_string: $ =>
+    _literal_string: $ =>
       seq(
         "'",
         optional(
@@ -122,7 +135,7 @@ module.exports = grammar({
               repeat1(getInverseRegex(control_chars.union("'").subtract("\t")))
             ),
             token.immediate(/'{1,2}/),
-            token.immediate(newline_regex)
+            token.immediate(newline)
           )
         ),
         token.immediate("'''")
@@ -130,49 +143,44 @@ module.exports = grammar({
 
     integer: $ =>
       choice(
-        $._decimal_integer,
-        $._hexadecimal_integer,
-        $._octal_integer,
-        $._binary_integer
+        decimal_integer,
+        hexadecimal_integer,
+        octal_integer,
+        binary_integer
       ),
-    _decimal_integer: $ => /[+-]?(0|[1-9](_?[0-9])*)/,
-    _hexadecimal_integer: $ => /0x[0-9a-fA-F](_?[0-9a-fA-F])*/,
-    _octal_integer: $ => /0o[0-7](_?[0-7])*/,
-    _binary_integer: $ => /0b[01](_?[01])*/,
 
     float: $ =>
       choice(
         seq(
-          $._decimal_integer,
+          decimal_integer,
           choice(
-            seq($._float_fractional_part, optional($._float_exponent_part)),
-            $._float_exponent_part
+            seq(
+              token.immediate(float_fractional_part),
+              optional(token.immediate(float_exponent_part))
+            ),
+            token.immediate(float_exponent_part)
           )
         ),
         /[+-]?(inf|nan)/
       ),
-    _float_fractional_part: $ => /[.][0-9](_?[0-9])*/,
-    _float_exponent_part: $ => seq(/[eE]/, $._decimal_integer),
 
     boolean: $ => /true|false/,
 
     offset_date_time: $ =>
       seq(
-        $._rfc3339_date,
-        $._rfc3339_delimiter,
-        $._rfc3339_time,
-        $._rfc3339_offset
+        rfc3339_date,
+        token.immediate(rfc3339_delimiter),
+        token.immediate(rfc3339_time),
+        token.immediate(rfc3339_offset)
       ),
     local_date_time: $ =>
-      seq($._rfc3339_date, $._rfc3339_delimiter, $._rfc3339_time),
-    local_date: $ => $._rfc3339_date,
-    local_time: $ => $._rfc3339_time,
-
-    _rfc3339_date: $ => /([0-9]+)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])/,
-    _rfc3339_delimiter: $ => /[ tT]/,
-    _rfc3339_time: $ =>
-      /([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)([.][0-9]+)?/,
-    _rfc3339_offset: $ => /([zZ])|([+-]([01][0-9]|2[0-3]):[0-5][0-9])/,
+      seq(
+        rfc3339_date,
+        token.immediate(rfc3339_delimiter),
+        token.immediate(rfc3339_time)
+      ),
+    local_date: $ => rfc3339_date,
+    local_time: $ => rfc3339_time,
 
     array: $ =>
       seq(

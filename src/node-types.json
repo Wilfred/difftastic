@@ -120,11 +120,6 @@
     "fields": {}
   },
   {
-    "type": "local_time",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "offset_date_time",
     "named": true,
     "fields": {}
@@ -338,6 +333,10 @@
   },
   {
     "type": "boolean",
+    "named": true
+  },
+  {
+    "type": "local_time",
     "named": true
   },
   {
