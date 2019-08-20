@@ -28,7 +28,7 @@ module.exports = grammar({
   extras: $ => [$.comment, /[ \t]/],
 
   rules: {
-    root: $ => repeat(choice($.pair, $.table, $.table_array, $._newline)),
+    file: $ => repeat(choice($.pair, $.table, $.table_array, $._newline)),
 
     comment: $ => /#.*/,
     _newline: $ => newline,

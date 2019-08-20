@@ -1,7 +1,7 @@
 {
   "name": "toml",
   "rules": {
-    "root": {
+    "file": {
       "type": "REPEAT",
       "content": {
         "type": "CHOICE",
