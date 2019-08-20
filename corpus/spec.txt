@@ -41,7 +41,7 @@ key = # INVALID
     (key)
     (comment)
     (integer
-      (MISSING _decimal_integer)
+      (MISSING "integer_token1")
     )
   )
 )
