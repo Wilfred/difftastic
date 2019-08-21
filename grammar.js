@@ -153,18 +153,14 @@ module.exports = grammar({
     boolean: $ => /true|false/,
 
     offset_date_time: $ =>
-      seq(
+      concatRegex(
         rfc3339_date,
-        token.immediate(rfc3339_delimiter),
-        token.immediate(rfc3339_time),
-        token.immediate(rfc3339_offset)
+        rfc3339_delimiter,
+        rfc3339_time,
+        rfc3339_offset
       ),
     local_date_time: $ =>
-      seq(
-        rfc3339_date,
-        token.immediate(rfc3339_delimiter),
-        token.immediate(rfc3339_time)
-      ),
+      concatRegex(rfc3339_date, rfc3339_delimiter, rfc3339_time),
     local_date: $ => rfc3339_date,
     local_time: $ => rfc3339_time,
 

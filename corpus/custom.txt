@@ -64,7 +64,7 @@ invalid2 = 1979-05-27 T 07:32:00 Z
 
 (file
   (ERROR
-    (key) (ERROR) (local_time) (local_time)
+    (key) (local_date) (local_time) (local_time)
   )
 )
 
@@ -78,11 +78,22 @@ invalid2 = 1979-05-27 T 07:32:00
 --------------------------------------------------------------------------------
 
 (file
-  (pair
-    (key) (ERROR) (local_time)
+  (ERROR
+    (key) (local_date) (local_time) (local_time)
   )
+)
+
+================================================================================
+VALID - local date - trailing whitespaces are allowed
+================================================================================
+
+valid = 1979-05-27 
+
+--------------------------------------------------------------------------------
+
+(file
   (pair
-    (key) (ERROR) (local_time)
+    (key) (local_date)
   )
 )
 

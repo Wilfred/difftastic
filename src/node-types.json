@@ -133,21 +133,6 @@
     }
   },
   {
-    "type": "local_date",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "local_date_time",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "offset_date_time",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "pair",
     "named": true,
     "fields": {},
@@ -325,6 +310,18 @@
   },
   {
     "type": "boolean",
+    "named": true
+  },
+  {
+    "type": "offset_date_time",
+    "named": true
+  },
+  {
+    "type": "local_date_time",
+    "named": true
+  },
+  {
+    "type": "local_date",
     "named": true
   },
   {
