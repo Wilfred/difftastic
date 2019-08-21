@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/ikatyang/tree-sitter-toml/compare/v0.1.2...v0.1.3) (2019-08-21)
+
+
+### Bug Fixes
+
+* trailing whitespaces are allowed for `local_time` ([#3](https://github.com/ikatyang/tree-sitter-toml/issues/3)) ([752419c](https://github.com/ikatyang/tree-sitter-toml/commit/752419c))
+
 ### [0.1.2](https://github.com/ikatyang/tree-sitter-toml/compare/v0.1.1...v0.1.2) (2019-08-20)
 
 
