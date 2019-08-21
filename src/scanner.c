@@ -15,6 +15,10 @@ bool tree_sitter_toml_external_scanner_scan(
   TSLexer *lexer,
   const bool *valid_symbols
 ) {
+  while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+    lexer->advance(lexer, true);
+  }
+
   if (lexer->lookahead == 0 || lexer->lookahead == '\n') {
     lexer->result_symbol = LINE_ENDING_OR_EOF;
     lexer->mark_end(lexer);
