@@ -58,7 +58,7 @@ module.exports = grammar({
         $.local_date,
         $.local_time,
         $.array,
-        $.inline_table
+        $.inline_table,
       ),
 
     string: $ =>
@@ -66,7 +66,7 @@ module.exports = grammar({
         $._basic_string,
         $._multiline_basic_string,
         $._literal_string,
-        $._multiline_literal_string
+        $._multiline_literal_string,
       ),
     _basic_string: $ =>
       seq(
@@ -74,12 +74,12 @@ module.exports = grammar({
         repeat(
           choice(
             token.immediate(
-              repeat1(getInverseRegex(control_chars.union('"', "\\")))
+              repeat1(getInverseRegex(control_chars.union('"', "\\"))),
             ),
-            $.escape_sequence
-          )
+            $.escape_sequence,
+          ),
         ),
-        token.immediate('"')
+        token.immediate('"'),
       ),
     _multiline_basic_string: $ =>
       seq(
@@ -87,19 +87,19 @@ module.exports = grammar({
         repeat(
           choice(
             token.immediate(
-              repeat1(getInverseRegex(control_chars.union('"', "\\")))
+              repeat1(getInverseRegex(control_chars.union('"', "\\"))),
             ),
             token.immediate(/"{1,2}/),
             token.immediate(newline),
             $.escape_sequence,
-            alias($._escape_line_ending, $.escape_sequence)
-          )
+            alias($._escape_line_ending, $.escape_sequence),
+          ),
         ),
-        token.immediate('"""')
+        token.immediate('"""'),
       ),
     escape_sequence: $ =>
       token.immediate(
-        seq("\\", choice(/[btnfr"\\]/, /u[0-9a-fA-F]{4}/, /U[0-9a-fA-F]{8}/))
+        seq("\\", choice(/[btnfr"\\]/, /u[0-9a-fA-F]{4}/, /U[0-9a-fA-F]{8}/)),
       ),
     _escape_line_ending: $ => token.immediate(seq("\\", /\r?\n/)),
     _literal_string: $ =>
@@ -107,10 +107,10 @@ module.exports = grammar({
         "'",
         optional(
           token.immediate(
-            repeat1(getInverseRegex(control_chars.union("'").subtract("\t")))
-          )
+            repeat1(getInverseRegex(control_chars.union("'").subtract("\t"))),
+          ),
         ),
-        token.immediate("'")
+        token.immediate("'"),
       ),
     _multiline_literal_string: $ =>
       seq(
@@ -118,13 +118,13 @@ module.exports = grammar({
         repeat(
           choice(
             token.immediate(
-              repeat1(getInverseRegex(control_chars.union("'").subtract("\t")))
+              repeat1(getInverseRegex(control_chars.union("'").subtract("\t"))),
             ),
             token.immediate(/'{1,2}/),
-            token.immediate(newline)
-          )
+            token.immediate(newline),
+          ),
         ),
-        token.immediate("'''")
+        token.immediate("'''"),
       ),
 
     integer: $ =>
@@ -132,7 +132,7 @@ module.exports = grammar({
         decimal_integer,
         hexadecimal_integer,
         octal_integer,
-        binary_integer
+        binary_integer,
       ),
 
     float: $ =>
@@ -142,12 +142,12 @@ module.exports = grammar({
           choice(
             seq(
               token.immediate(float_fractional_part),
-              optional(token.immediate(float_exponent_part))
+              optional(token.immediate(float_exponent_part)),
             ),
-            token.immediate(float_exponent_part)
-          )
+            token.immediate(float_exponent_part),
+          ),
         ),
-        /[+-]?(inf|nan)/
+        /[+-]?(inf|nan)/,
       ),
 
     boolean: $ => /true|false/,
@@ -157,7 +157,7 @@ module.exports = grammar({
         rfc3339_date,
         rfc3339_delimiter,
         rfc3339_time,
-        rfc3339_offset
+        rfc3339_offset,
       ),
     local_date_time: $ =>
       concatRegex(rfc3339_date, rfc3339_delimiter, rfc3339_time),
@@ -173,12 +173,12 @@ module.exports = grammar({
             $._inline_value,
             repeat($._newline),
             repeat(
-              seq(",", repeat($._newline), $._inline_value, repeat($._newline))
+              seq(",", repeat($._newline), $._inline_value, repeat($._newline)),
             ),
-            optional(seq(",", repeat($._newline)))
-          )
+            optional(seq(",", repeat($._newline))),
+          ),
         ),
-        "]"
+        "]",
       ),
 
     inline_table: $ =>
@@ -187,10 +187,10 @@ module.exports = grammar({
         optional(
           seq(
             alias($._inline_pair, $.pair),
-            repeat(seq(",", alias($._inline_pair, $.pair)))
-          )
+            repeat(seq(",", alias($._inline_pair, $.pair))),
+          ),
         ),
-        "}"
+        "}",
       ),
   },
 });

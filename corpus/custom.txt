@@ -28,12 +28,9 @@ key
 
 (file
   (pair
-    (key) (ERROR) (boolean)
-  )
+    (key) (ERROR) (boolean))
   (pair
-    (key) (ERROR) (boolean)
-  )
-)
+    (key) (ERROR) (boolean)))
 
 ================================================================================
 INVALID - float - whitespaces between its components are not allowed
@@ -48,10 +45,7 @@ invalid_both = 1 .0 e 2
 (file
   (ERROR
     (dotted_key
-      (key) (ERROR) (key)
-    )
-  )
-)
+      (key) (ERROR) (key))))
 
 ================================================================================
 INVALID - offset date time - whitespaces between its components are not allowed
@@ -64,9 +58,7 @@ invalid2 = 1979-05-27 T 07:32:00 Z
 
 (file
   (ERROR
-    (key) (local_date) (local_time) (local_time)
-  )
-)
+    (key) (local_date) (local_time) (local_time)))
 
 ================================================================================
 INVALID - local date time - whitespaces between its components are not allowed
@@ -79,9 +71,7 @@ invalid2 = 1979-05-27 T 07:32:00
 
 (file
   (ERROR
-    (key) (local_date) (local_time) (local_time)
-  )
-)
+    (key) (local_date) (local_time) (local_time)))
 
 ================================================================================
 VALID - local date - trailing whitespaces are allowed
@@ -93,9 +83,7 @@ valid = 1979-05-27
 
 (file
   (pair
-    (key) (local_date)
-  )
-)
+    (key) (local_date)))
 
 ================================================================================
 INVALID - table - multiline string for header keys are not allowed
@@ -119,12 +107,9 @@ key
 
 (file
   (table
-    (key) (ERROR)
-  )
+    (key) (ERROR))
   (table
-    (key) (ERROR)
-  )
-)
+    (key) (ERROR)))
 
 ================================================================================
 INVALID - inline table - newlines outside of pairs are not allowed
@@ -142,12 +127,8 @@ key = {
     (inline_table
       (ERROR)
       (pair
-        (key) (boolean)
-      )
-      (ERROR)
-    )
-  )
-)
+        (key) (boolean))
+      (ERROR))))
 
 ================================================================================
 INVALID - array of tables - multiline string for header keys are not allowed
@@ -171,9 +152,7 @@ key
 
 (file
   (ERROR
-    (key) (key)
-  )
-)
+    (key) (key)))
 
 ================================================================================
 VALID - table - empty content separated by comments
@@ -187,10 +166,8 @@ VALID - table - empty content separated by comments
 
 (file
   (table
-    (key)
-  )
-  (comment)
-)
+    (key))
+  (comment))
 
 ================================================================================
 VALID - array of tables - empty content separated by comments
@@ -204,10 +181,8 @@ VALID - array of tables - empty content separated by comments
 
 (file
   (table_array
-    (key)
-  )
-  (comment)
-)
+    (key))
+  (comment))
 
 ================================================================================
 VALID - table - two pairs separated by comments
@@ -225,16 +200,12 @@ b = 2
 
 (file
   (table
-    (key)
-  )
+    (key))
   (pair
-    (key) (integer)
-  )
+    (key) (integer))
   (comment)
   (pair
-    (key) (integer)
-  )
-)
+    (key) (integer)))
 
 ================================================================================
 VALID - array of tables - two pairs separated by comments
@@ -252,13 +223,9 @@ b = 2
 
 (file
   (table_array
-    (key)
-  )
+    (key))
   (pair
-    (key) (integer)
-  )
+    (key) (integer))
   (comment)
   (pair
-    (key) (integer)
-  )
-)
+    (key) (integer)))
