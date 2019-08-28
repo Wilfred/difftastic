@@ -174,7 +174,7 @@ char escapes
 '\r';
 '\"';
 '\'';
-'\\';
+'\\' + 'a';
 
 ---
 
@@ -186,7 +186,7 @@ char escapes
   (expression_statement (character_literal))
   (expression_statement (character_literal))
   (expression_statement (character_literal))
-  (expression_statement (character_literal)))
+  (expression_statement (binary_expression (character_literal) (character_literal))))
 
 =========================================
 octal escapes

@@ -126,7 +126,15 @@ module.exports = grammar({
 
     false: $ => 'false',
 
-    character_literal: $ => seq("'", repeat(choice(/[^\'\n]/, /\\./, /\\\n/)), "'"),
+    character_literal: $ => token(seq(
+      "'",
+      repeat1(choice(
+        /[^\\'\n]/,
+        /\\./,
+        /\\\n/
+      )),
+      "'"
+    )),
 
     string_literal: $ => token(choice(
       seq('"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),
