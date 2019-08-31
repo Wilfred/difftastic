@@ -29,10 +29,11 @@ const sourceCode = `
 
 const tree = parser.parse(sourceCode);
 console.log(tree.rootNode.toString());
-// (root
+// (document
 //   (table
 //     (key)
-//     (pair (key) (boolean))))
+//     (pair
+//       (key) (boolean))))
 ```
 
 ## License
