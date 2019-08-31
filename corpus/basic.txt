@@ -989,19 +989,22 @@ abs n =
                 )
                 (eq)
                 (if_else_expr
-                        (if)
-                        (function_call_expr
-                                (value_expr (value_qid (lower_case_identifier)))
-                                (value_expr (value_qid (lower_case_identifier)))
-                                (number_constant_expr (number_literal))
+                        (if
+                                (function_call_expr
+                                        (value_expr (value_qid (lower_case_identifier)))
+                                        (value_expr (value_qid (lower_case_identifier)))
+                                        (number_constant_expr (number_literal))
+                                )
                         )
-                        (then)
-                        (negate_expr
-                                (operator_identifier)
+                        (then
+                                (negate_expr
+                                        (operator_identifier)
+                                        (value_expr (value_qid (lower_case_identifier)))
+                                )
+                        )
+                        (else
                                 (value_expr (value_qid (lower_case_identifier)))
                         )
-                        (else)
-                        (value_expr (value_qid (lower_case_identifier)))
                 )
         )
 
@@ -1028,42 +1031,45 @@ makePows start base =
                 )
                 (eq)
                 (if_else_expr
-                        (if)
-                        (bin_op_expr
-                                (value_expr (value_qid (lower_case_identifier)))
-                                (operator (operator_identifier))
-                                (number_constant_expr (number_literal))
-                        )
-                        (then)
-                        (anonymous_function_expr
-                                (backslash)
-                                (pattern (lower_pattern (lower_case_identifier)))
-                                (arrow)
-                                (negate_expr
-                                        (operator_identifier)
-                                        (parenthesized_expr
-                                                (left_parenthesis)
-                                                (bin_op_expr
-                                                        (value_expr (value_qid (lower_case_identifier)))
-                                                        (operator (operator_identifier))
-                                                        (negate_expr
-                                                                (operator_identifier)
-                                                                (value_expr (value_qid (lower_case_identifier)))
-                                                        )
-                                                )
-                                                (right_parenthesis)
-                                        )
-                                )
-                        )
-                        (else)
-                        (anonymous_function_expr
-                                (backslash)
-                                (pattern (lower_pattern (lower_case_identifier)))
-                                (arrow)
+                        (if
                                 (bin_op_expr
                                         (value_expr (value_qid (lower_case_identifier)))
                                         (operator (operator_identifier))
-                                        (value_expr (value_qid (lower_case_identifier)))
+                                        (number_constant_expr (number_literal))
+                                )
+                        )
+                        (then
+                                (anonymous_function_expr
+                                        (backslash)
+                                        (pattern (lower_pattern (lower_case_identifier)))
+                                        (arrow)
+                                        (negate_expr
+                                                (operator_identifier)
+                                                (parenthesized_expr
+                                                        (left_parenthesis)
+                                                        (bin_op_expr
+                                                                (value_expr (value_qid (lower_case_identifier)))
+                                                                (operator (operator_identifier))
+                                                                (negate_expr
+                                                                        (operator_identifier)
+                                                                        (value_expr (value_qid (lower_case_identifier)))
+                                                                )
+                                                        )
+                                                        (right_parenthesis)
+                                                )
+                                        )
+                                )
+                        )
+                        (else
+                                (anonymous_function_expr
+                                        (backslash)
+                                        (pattern (lower_pattern (lower_case_identifier)))
+                                        (arrow)
+                                        (bin_op_expr
+                                                (value_expr (value_qid (lower_case_identifier)))
+                                                (operator (operator_identifier))
+                                                (value_expr (value_qid (lower_case_identifier)))
+                                        )
                                 )
                         )
                 )

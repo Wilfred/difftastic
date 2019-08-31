@@ -1680,15 +1680,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "SYMBOL",
           "name": "then"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
         },
         {
           "type": "REPEAT",
@@ -1699,8 +1691,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "else"
+                  "type": "STRING",
+                  "value": "else"
                 },
                 {
                   "type": "SYMBOL",
@@ -1708,15 +1700,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_expression"
-                },
-                {
-                  "type": "SYMBOL",
                   "name": "then"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_expression"
                 }
               ]
             }
@@ -1725,10 +1709,6 @@
         {
           "type": "SYMBOL",
           "name": "else"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
         }
       ]
     },
@@ -2392,16 +2372,43 @@
       "value": "exposing"
     },
     "if": {
-      "type": "STRING",
-      "value": "if"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "if"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
     },
     "then": {
-      "type": "STRING",
-      "value": "then"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "then"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
     },
     "else": {
-      "type": "STRING",
-      "value": "else"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "else"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
     },
     "case": {
       "type": "STRING",
