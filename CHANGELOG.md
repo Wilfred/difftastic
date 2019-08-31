@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/ikatyang/tree-sitter-toml/compare/v0.1.3...v0.2.0) (2019-08-31)
+
+
+### ⚠ BREAKING CHANGES
+
+- rename `file` with `document`.
+- rename `table_array` with `table_array_element`.
+- unflatten `table` and `table_array_element`, i.e., `pair`s are now their children instead of siblings.
+
+### Features
+
+* unflatten structure and rename nodes ([#4](https://github.com/ikatyang/tree-sitter-toml/issues/4)) ([42afd6a](https://github.com/ikatyang/tree-sitter-toml/commit/42afd6a)), closes [#2](https://github.com/ikatyang/tree-sitter-toml/issues/2)
+
 ### [0.1.3](https://github.com/ikatyang/tree-sitter-toml/compare/v0.1.2...v0.1.3) (2019-08-21)
 
 
