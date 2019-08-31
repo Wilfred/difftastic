@@ -949,24 +949,26 @@ isUpper char =
                 )
                 (eq)
                 (let_in_expr
-                        (let)
+                        (let
 
-                        (value_declaration
-                                (function_declaration_left (lower_case_identifier))
-                                (eq)
-                                (function_call_expr (value_expr (value_qid (lower_case_identifier)))
-                                (value_expr (value_qid (lower_case_identifier))))
+                                (value_declaration
+                                        (function_declaration_left (lower_case_identifier))
+                                        (eq)
+                                        (function_call_expr (value_expr (value_qid (lower_case_identifier)))
+                                        (value_expr (value_qid (lower_case_identifier))))
+                                )
                         )
 
-                        (in)
-                        (bin_op_expr
-                                (value_expr (value_qid (lower_case_identifier)))
-                                (operator (operator_identifier))
-                                (number_constant_expr (number_literal))
-                                (operator (operator_identifier))
-                                (number_constant_expr (number_literal))
-                                (operator (operator_identifier))
-                                (value_expr (value_qid (lower_case_identifier)))
+                        (in
+                                (bin_op_expr
+                                        (value_expr (value_qid (lower_case_identifier)))
+                                        (operator (operator_identifier))
+                                        (number_constant_expr (number_literal))
+                                        (operator (operator_identifier))
+                                        (number_constant_expr (number_literal))
+                                        (operator (operator_identifier))
+                                        (value_expr (value_qid (lower_case_identifier)))
+                                )
                         )
                 )
         )

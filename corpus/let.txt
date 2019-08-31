@@ -11,16 +11,17 @@ i = let x = 320 in x
         (function_declaration_left (lower_case_identifier))
         (eq)
         (let_in_expr
-            (let)
+            (let
 
-            (value_declaration
-                (function_declaration_left (lower_case_identifier))
-                (eq)
-                (number_constant_expr (number_literal))
+              (value_declaration
+                  (function_declaration_left (lower_case_identifier))
+                  (eq)
+                  (number_constant_expr (number_literal))
+              )
             )
-
-            (in)
-            (value_expr (value_qid (lower_case_identifier)))
+            (in
+              (value_expr (value_qid (lower_case_identifier)))
+            )
         )
     )
 
@@ -47,38 +48,40 @@ letExample =
     )
     (eq)
     (let_in_expr
-      (let)
-      (value_declaration
-        (pattern
-          (record_pattern
-            (left_brace)
-            (lower_pattern
-              (lower_case_identifier)
+      (let
+        (value_declaration
+          (pattern
+            (record_pattern
+              (left_brace)
+              (lower_pattern
+                (lower_case_identifier)
+              )
+              (right_brace)
             )
-            (right_brace)
+          )
+          (eq)
+          (function_call_expr
+            (value_expr
+              (value_qid
+                (upper_case_identifier)
+                (dot)
+                (lower_case_identifier)
+              )
+            )
+            (value_expr
+              (value_qid
+                (lower_case_identifier)
+              )
+            )
           )
         )
-        (eq)
-        (function_call_expr
-          (value_expr
-            (value_qid
-              (upper_case_identifier)
-              (dot)
-              (lower_case_identifier)
-            )
-          )
-          (value_expr
-            (value_qid
-              (lower_case_identifier)
-            )
-          )
-        )
+        (block_comment)
       )
-      (block_comment)
-      (in)
-      (value_expr
-        (value_qid
-          (lower_case_identifier)
+      (in
+        (value_expr
+          (value_qid
+            (lower_case_identifier)
+          )
         )
       )
     )
@@ -106,38 +109,40 @@ letExample =
     )
     (eq)
     (let_in_expr
-      (let)
-      (value_declaration
-        (pattern
-          (record_pattern
-            (left_brace)
-            (lower_pattern
-              (lower_case_identifier)
+      (let
+        (value_declaration
+          (pattern
+            (record_pattern
+              (left_brace)
+              (lower_pattern
+                (lower_case_identifier)
+              )
+              (right_brace)
             )
-            (right_brace)
+          )
+          (eq)
+          (function_call_expr
+            (value_expr
+              (value_qid
+                (upper_case_identifier)
+                (dot)
+                (lower_case_identifier)
+              )
+            )
+            (value_expr
+              (value_qid
+                (lower_case_identifier)
+              )
+            )
           )
         )
-        (eq)
-        (function_call_expr
-          (value_expr
-            (value_qid
-              (upper_case_identifier)
-              (dot)
-              (lower_case_identifier)
-            )
-          )
-          (value_expr
-            (value_qid
-              (lower_case_identifier)
-            )
-          )
-        )
-      )
       (line_comment)
-      (in)
-      (value_expr
-        (value_qid
-          (lower_case_identifier)
+      )
+      (in
+        (value_expr
+          (value_qid
+            (lower_case_identifier)
+          )
         )
       )
     )
@@ -158,36 +163,38 @@ i = let f = (\a b c d -> a + b + c + d) in
         (function_declaration_left (lower_case_identifier))
         (eq)
         (let_in_expr
-            (let)
+            (let
 
-            (value_declaration
-                (function_declaration_left (lower_case_identifier))
-                (eq)
-                (parenthesized_expr
-                    (left_parenthesis)
-                    (anonymous_function_expr
-                        (backslash)
-                        (pattern (lower_pattern (lower_case_identifier)))
-                        (pattern (lower_pattern (lower_case_identifier)))
-                        (pattern (lower_pattern (lower_case_identifier)))
-                        (pattern (lower_pattern (lower_case_identifier)))
-                        (arrow)
-                        (bin_op_expr
-                            (value_expr (value_qid (lower_case_identifier)))
-                            (operator (operator_identifier))
-                            (value_expr (value_qid (lower_case_identifier)))
-                            (operator (operator_identifier))
-                            (value_expr (value_qid (lower_case_identifier)))
-                            (operator (operator_identifier))
-                            (value_expr (value_qid (lower_case_identifier)))
-                        )
-                    )
-                    (right_parenthesis)
-                )
+              (value_declaration
+                  (function_declaration_left (lower_case_identifier))
+                  (eq)
+                  (parenthesized_expr
+                      (left_parenthesis)
+                      (anonymous_function_expr
+                          (backslash)
+                          (pattern (lower_pattern (lower_case_identifier)))
+                          (pattern (lower_pattern (lower_case_identifier)))
+                          (pattern (lower_pattern (lower_case_identifier)))
+                          (pattern (lower_pattern (lower_case_identifier)))
+                          (arrow)
+                          (bin_op_expr
+                              (value_expr (value_qid (lower_case_identifier)))
+                              (operator (operator_identifier))
+                              (value_expr (value_qid (lower_case_identifier)))
+                              (operator (operator_identifier))
+                              (value_expr (value_qid (lower_case_identifier)))
+                              (operator (operator_identifier))
+                              (value_expr (value_qid (lower_case_identifier)))
+                          )
+                      )
+                      (right_parenthesis)
+                  )
+              )
+          )
+
+            (in
+              (value_expr (value_qid (lower_case_identifier)))
             )
-
-            (in)
-            (value_expr (value_qid (lower_case_identifier)))
         )
     )
 
@@ -229,39 +236,41 @@ routeToString page =
         (lower_pattern (lower_case_identifier)))
         (eq)
         (let_in_expr
-            (let)
+            (let
 
-            (value_declaration
-                (function_declaration_left (lower_case_identifier))
-                (eq)
-                (case_of_expr
-                    (case)
-                    (value_expr (value_qid (lower_case_identifier)))
-                    (of)
+              (value_declaration
+                  (function_declaration_left (lower_case_identifier))
+                  (eq)
+                  (case_of_expr
+                      (case)
+                      (value_expr (value_qid (lower_case_identifier)))
+                      (of)
 
-                    (case_of_branch
-                        (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
-                        (arrow)
-                        (list_expr (left_square_bracket) (right_square_bracket))
-                    )
+                      (case_of_branch
+                          (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+                          (arrow)
+                          (list_expr (left_square_bracket) (right_square_bracket))
+                      )
 
-                    (case_of_branch
-                        (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
-                        (arrow)
-                        (list_expr (left_square_bracket) (right_square_bracket))
-                    )
-                )
+                      (case_of_branch
+                          (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+                          (arrow)
+                          (list_expr (left_square_bracket) (right_square_bracket))
+                      )
+                  )
+              )
             )
 
-            (in)
-            (bin_op_expr
-                (string_constant_expr (open_quote) (regular_string_part) (close_quote))
-                (operator (operator_identifier))
-                (function_call_expr
-                    (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
-                    (string_constant_expr (open_quote) (regular_string_part) (close_quote))
-                    (value_expr (value_qid (lower_case_identifier)))
-                )
+            (in
+              (bin_op_expr
+                  (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+                  (operator (operator_identifier))
+                  (function_call_expr
+                      (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
+                      (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+                      (value_expr (value_qid (lower_case_identifier)))
+                  )
+              )
             )
 
         )
@@ -292,25 +301,27 @@ isUpper =
         )
         (eq)
         (let_in_expr
-            (let)
+            (let
 
-            (value_declaration
-                (function_declaration_left
-                    (lower_case_identifier)
-                )
-                (eq)
-                (number_constant_expr (number_literal))
+              (value_declaration
+                  (function_declaration_left
+                      (lower_case_identifier)
+                  )
+                  (eq)
+                  (number_constant_expr (number_literal))
+              )
+
+              (value_declaration
+                  (function_declaration_left (lower_case_identifier))
+                  (eq)
+                  (number_constant_expr (number_literal))
+              )
             )
 
-            (value_declaration
-                (function_declaration_left (lower_case_identifier))
-                (eq)
-                (number_constant_expr (number_literal))
-            )
-
-            (in)
-            (value_expr
-                (value_qid (lower_case_identifier))
+            (in
+              (value_expr
+                  (value_qid (lower_case_identifier))
+              )
             )
         )
     )
@@ -343,42 +354,43 @@ init session =
         )
         (eq)
         (let_in_expr
-            (let)
+            (let
 
-            (value_declaration
-                (function_declaration_left
-                    (lower_case_identifier)
-                )
-                (eq)
-                (case_of_expr
-                    (case)
-                    (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
-                    (of)
+              (value_declaration
+                  (function_declaration_left
+                      (lower_case_identifier)
+                  )
+                  (eq)
+                  (case_of_expr
+                      (case)
+                      (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
+                      (of)
 
-                    (case_of_branch
-                        (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
-                        (arrow)
-                        (function_call_expr (value_expr (upper_case_qid (upper_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
-                    )
+                      (case_of_branch
+                          (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
+                          (arrow)
+                          (function_call_expr (value_expr (upper_case_qid (upper_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
+                      )
 
-                    (case_of_branch
-                        (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
-                        (arrow)
-                        (value_expr (upper_case_qid (upper_case_identifier)))
-                    )
+                      (case_of_branch
+                          (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+                          (arrow)
+                          (value_expr (upper_case_qid (upper_case_identifier)))
+                      )
 
-                )
+                  )
+              )
+
+              (value_declaration
+                  (function_declaration_left (lower_case_identifier))
+                  (eq)
+                  (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))))
+              )
             )
-
-            (value_declaration
-                (function_declaration_left (lower_case_identifier))
-                (eq)
-                (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))))
-            )
-
-            (in)
-            (value_expr
-                (value_qid (lower_case_identifier))
+            (in
+              (value_expr
+                  (value_qid (lower_case_identifier))
+              )
             )
         )
     )
@@ -410,22 +422,24 @@ i =
         (function_declaration_left (lower_case_identifier))
         (eq)
         (let_in_expr
-            (let)
-            (type_annotation
-                (lower_case_identifier)
-                (colon)
-                (type_expression
-                    (type_ref (upper_case_qid (upper_case_identifier)))
-                )
-            )
-            (value_declaration
-                (function_declaration_left (lower_case_identifier))
-                (eq)
-                (number_constant_expr (number_literal))
+            (let
+              (type_annotation
+                  (lower_case_identifier)
+                  (colon)
+                  (type_expression
+                      (type_ref (upper_case_qid (upper_case_identifier)))
+                  )
+              )
+              (value_declaration
+                  (function_declaration_left (lower_case_identifier))
+                  (eq)
+                  (number_constant_expr (number_literal))
+              )
             )
 
-            (in)
-            (value_expr (value_qid (lower_case_identifier)))
+            (in
+              (value_expr (value_qid (lower_case_identifier)))
+            )
         )
     )
 
