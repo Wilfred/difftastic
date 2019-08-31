@@ -1,4 +1,5 @@
 * text eol=lf
+*.wasm binary
 
 /src/** linguist-generated
 /src/scanner.c linguist-generated=false
