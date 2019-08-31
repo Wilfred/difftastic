@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* unflatten structure and rename nodes ([#4](https://github.com/ikatyang/tree-sitter-toml/issues/4)) ([42afd6a](https://github.com/ikatyang/tree-sitter-toml/commit/42afd6a)), closes [#2](https://github.com/ikatyang/tree-sitter-toml/issues/2)
+* unflatten structure and rename nodes ([#4](https://github.com/ikatyang/tree-sitter-toml/issues/4)) ([42afd6a](https://github.com/ikatyang/tree-sitter-toml/commit/42afd6a))
 
 ### [0.1.3](https://github.com/ikatyang/tree-sitter-toml/compare/v0.1.2...v0.1.3) (2019-08-21)
 
