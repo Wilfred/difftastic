@@ -449,17 +449,7 @@ module.exports = grammar({
 
     case_of_branch: $ => seq($.pattern, $.arrow, $._expression),
 
-    let_in_expr: $ => seq($.let, $._let_in_tail),
-
-    _let_in_tail: $ =>
-      seq(
-        $._virtual_open_section,
-        $._inner_declaration,
-        optional($._more_inner_declarations),
-        $._virtual_end_section,
-        $.in,
-        $._expression
-      ),
+    let_in_expr: $ => seq($.let, $.in),
 
     _inner_declaration: $ => choice($.value_declaration, $.type_annotation),
 
@@ -574,8 +564,15 @@ module.exports = grammar({
     else: $ => seq("else", $._expression),
     case: $ => "case",
     of: $ => "of",
-    let: $ => "let",
-    in: $ => "in",
+    let: $ =>
+      seq(
+        "let",
+        $._virtual_open_section,
+        $._inner_declaration,
+        optional($._more_inner_declarations),
+        $._virtual_end_section
+      ),
+    in: $ => seq("in", $._expression),
     type: $ => "type",
     alias: $ => "alias",
     port: $ => "port",
