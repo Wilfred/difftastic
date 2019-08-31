@@ -7,7 +7,7 @@ key = "value" # This is a comment at the end of a line
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (comment)
   (pair
     (key) (string) (comment)))
@@ -20,7 +20,7 @@ key = "value"
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (string)))
 
@@ -32,7 +32,7 @@ key = # INVALID
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (ERROR
     (key) (comment)))
 
@@ -47,7 +47,7 @@ bare-key = "value"
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (string))
   (pair
@@ -69,7 +69,7 @@ VALID - keys - quoted keys
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (string))
   (pair
@@ -91,7 +91,7 @@ INVALID - keys - empty bare key
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key
       (MISSING _bare_key))
@@ -113,7 +113,7 @@ site."google.com" = true
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (string))
   (pair
@@ -139,7 +139,7 @@ name = "Pradyun"
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (comment)
   (pair
     (key) (string))
@@ -155,7 +155,7 @@ a.d = 2
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (dotted_key
       (dotted_key
@@ -177,7 +177,7 @@ a.b.c = 2
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (comment)
   (pair
     (dotted_key
@@ -198,7 +198,7 @@ str = "I'm a string. \"You can quote me\". Name\tJos\u00E9\nLocation\tSF."
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key)
     (string
@@ -214,7 +214,7 @@ Violets are blue"""
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (string)))
 
@@ -240,7 +240,7 @@ str3 = """\
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (comment)
   (pair
     (key) (string))
@@ -265,7 +265,7 @@ regex    = '<\i\c*\s*>'
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (comment)
   (pair
     (key) (string))
@@ -290,7 +290,7 @@ trimmed in raw strings.
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (string))
   (pair
@@ -307,7 +307,7 @@ int4 = -17
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (integer))
   (pair
@@ -327,7 +327,7 @@ int7 = 1_2_3_4_5     # VALID but discouraged
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (integer))
   (pair
@@ -353,7 +353,7 @@ bin1 = 0b11010110
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (comment)
   (pair
     (key) (integer))
@@ -389,7 +389,7 @@ flt7 = 6.626e-34
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (comment)
   (pair
     (key) (float))
@@ -416,7 +416,7 @@ flt8 = 9_224_617.445_991_228_313
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (float)))
 
@@ -436,7 +436,7 @@ sf6 = -nan # valid, actual encoding is implementation specific
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (comment)
   (pair
     (key) (float) (comment))
@@ -461,7 +461,7 @@ bool2 = false
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (boolean))
   (pair
@@ -477,7 +477,7 @@ odt3 = 1979-05-27T00:32:00.999999-07:00
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (offset_date_time))
   (pair
@@ -493,7 +493,7 @@ odt4 = 1979-05-27 07:32:00Z
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (offset_date_time)))
 
@@ -506,7 +506,7 @@ ldt2 = 1979-05-27T00:32:00.999999
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (local_date_time))
   (pair
@@ -520,7 +520,7 @@ ld1 = 1979-05-27
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (local_date)))
 
@@ -533,7 +533,7 @@ lt2 = 00:32:00.999999
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (local_time))
   (pair
@@ -553,7 +553,7 @@ arr6 = [ 1, 2.0 ] # INVALID
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key)
     (array
@@ -601,7 +601,7 @@ arr8 = [
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key)
     (array
@@ -619,7 +619,7 @@ VALID - table - header
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (table
     (key)))
 
@@ -637,19 +637,19 @@ key2 = 456
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (table
-    (key))
-  (pair
-    (key) (string))
-  (pair
-    (key) (integer))
+    (key)
+    (pair
+      (key) (string))
+    (pair
+      (key) (integer)))
   (table
-    (key))
-  (pair
-    (key) (string))
-  (pair
-    (key) (integer)))
+    (key)
+    (pair
+      (key) (string))
+    (pair
+      (key) (integer))))
 
 ================================================================================
 VALID - table - header with dotted key
@@ -660,14 +660,14 @@ type.name = "pug"
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (table
     (dotted_key
-      (key) (key)))
-  (pair
-    (dotted_key
       (key) (key))
-    (string)))
+    (pair
+      (dotted_key
+        (key) (key))
+      (string))))
 
 ================================================================================
 VALID - table- header with whitespaces
@@ -680,7 +680,7 @@ VALID - table- header with whitespaces
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (table
     (dotted_key
       (dotted_key
@@ -717,7 +717,7 @@ VALID - table - directly defined nested header key
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (comment)
   (comment)
   (comment)
@@ -744,16 +744,16 @@ c = 2
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (comment)
   (table
-    (key))
-  (pair
-    (key) (integer))
+    (key)
+    (pair
+      (key) (integer)))
   (table
-    (key))
-  (pair
-    (key) (integer)))
+    (key)
+    (pair
+      (key) (integer))))
 
 ================================================================================
 VALID - table - overlapped header key (semantically INVALID)
@@ -769,17 +769,17 @@ c = 2
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (comment)
   (table
-    (key))
-  (pair
-    (key) (integer))
+    (key)
+    (pair
+      (key) (integer)))
   (table
     (dotted_key
-      (key) (key)))
-  (pair
-    (key) (integer)))
+      (key) (key))
+    (pair
+      (key) (integer))))
 
 ================================================================================
 VALID - inline table - basic
@@ -791,7 +791,7 @@ animal = { type.name = "pug" }
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key)
     (inline_table
@@ -831,23 +831,23 @@ color = "gray"
 
 --------------------------------------------------------------------------------
 
-(file
-  (table_array
+(document
+  (table_array_element
+    (key)
+    (pair
+      (key) (string))
+    (pair
+      (key) (integer)))
+  (table_array_element
     (key))
-  (pair
-    (key) (string))
-  (pair
-    (key) (integer))
-  (table_array
-    (key))
-  (table_array
-    (key))
-  (pair
-    (key) (string))
-  (pair
-    (key) (integer))
-  (pair
-    (key) (string)))
+  (table_array_element
+    (key)
+    (pair
+      (key) (string))
+    (pair
+      (key) (integer))
+    (pair
+      (key) (string))))
 
 ================================================================================
 VALID - array of tables - nested arrays of tables
@@ -874,37 +874,37 @@ VALID - array of tables - nested arrays of tables
 
 --------------------------------------------------------------------------------
 
-(file
-  (table_array
-    (key))
-  (pair
-    (key) (string))
+(document
+  (table_array_element
+    (key)
+    (pair
+      (key) (string)))
   (table
     (dotted_key
-      (key) (key)))
-  (pair
-    (key) (string))
-  (pair
-    (key) (string))
-  (table_array
+      (key) (key))
+    (pair
+      (key) (string))
+    (pair
+      (key) (string)))
+  (table_array_element
     (dotted_key
-      (key) (key)))
-  (pair
-    (key) (string))
-  (table_array
+      (key) (key))
+    (pair
+      (key) (string)))
+  (table_array_element
     (dotted_key
-      (key) (key)))
-  (pair
-    (key) (string))
-  (table_array
-    (key))
-  (pair
-    (key) (string))
-  (table_array
+      (key) (key))
+    (pair
+      (key) (string)))
+  (table_array_element
+    (key)
+    (pair
+      (key) (string)))
+  (table_array_element
     (dotted_key
-      (key) (key)))
-  (pair
-    (key) (string)))
+      (key) (key))
+    (pair
+      (key) (string))))
 
 ================================================================================
 VALID - array of tables - append to statically defined array (semantically INVALID)
@@ -917,11 +917,11 @@ fruit = []
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (comment)
   (pair
     (key) (array))
-  (table_array
+  (table_array_element
     (key) (comment)))
 
 ================================================================================
@@ -941,20 +941,20 @@ VALID - array of tables - append to table (semantically INVALID)
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (comment)
-  (table_array
-    (key))
-  (pair
-    (key) (string))
-  (table_array
+  (table_array_element
+    (key)
+    (pair
+      (key) (string)))
+  (table_array_element
     (dotted_key
-      (key) (key)))
-  (pair
-    (key) (string))
-  (comment)
+      (key) (key))
+    (pair
+      (key) (string))
+    (comment))
   (table
     (dotted_key
-      (key) (key)))
-  (pair
-    (key) (string)))
+      (key) (key))
+    (pair
+      (key) (string))))

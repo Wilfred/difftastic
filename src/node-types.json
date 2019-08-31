@@ -51,26 +51,7 @@
     }
   },
   {
-    "type": "dotted_key",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "dotted_key",
-          "named": true
-        },
-        {
-          "type": "key",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "file",
+    "type": "document",
     "named": true,
     "fields": {},
     "children": {
@@ -86,7 +67,26 @@
           "named": true
         },
         {
-          "type": "table_array",
+          "type": "table_array_element",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dotted_key",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "dotted_key",
+          "named": true
+        },
+        {
+          "type": "key",
           "named": true
         }
       ]
@@ -221,12 +221,16 @@
         {
           "type": "key",
           "named": true
+        },
+        {
+          "type": "pair",
+          "named": true
         }
       ]
     }
   },
   {
-    "type": "table_array",
+    "type": "table_array_element",
     "named": true,
     "fields": {},
     "children": {
@@ -239,6 +243,10 @@
         },
         {
           "type": "key",
+          "named": true
+        },
+        {
+          "type": "pair",
           "named": true
         }
       ]
