@@ -2,18 +2,16 @@ const { Charset } = require("regexp-util");
 
 const getInverseRegex = charset =>
   new RegExp(`[^${charset.toString().slice(1, -1)}]`);
-const concatRegex = (...regexes) =>
-  new RegExp(regexes.reduce((a, b) => a.concat(`(${b.source})`), []).join(""));
 
 const control_chars = new Charset([0x0, 0x1f], 0x7f);
-const newline = /(\r?\n)+/;
+const newline = /\r?\n/;
 
 const decimal_integer = /[+-]?(0|[1-9](_?[0-9])*)/;
 const hexadecimal_integer = /0x[0-9a-fA-F](_?[0-9a-fA-F])*/;
 const octal_integer = /0o[0-7](_?[0-7])*/;
 const binary_integer = /0b[01](_?[01])*/;
 const float_fractional_part = /[.][0-9](_?[0-9])*/;
-const float_exponent_part = concatRegex(/[eE]/, decimal_integer);
+const float_exponent_part = seq(/[eE]/, decimal_integer);
 
 const rfc3339_date = /([0-9]+)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])/;
 const rfc3339_delimiter = /[ tT]/;
@@ -28,16 +26,31 @@ module.exports = grammar({
   extras: $ => [$.comment, /[ \t]/],
 
   rules: {
-    file: $ => repeat(choice($.pair, $.table, $.table_array, $._newline)),
+    document: $ =>
+      seq(
+        repeat(choice($.pair, newline)),
+        repeat(choice($.table, $.table_array_element)),
+      ),
 
     comment: $ => /#.*/,
-    _newline: $ => newline,
 
     table: $ =>
-      seq("[", choice($.dotted_key, $.key), "]", $._line_ending_or_eof),
+      seq(
+        "[",
+        choice($.dotted_key, $.key),
+        "]",
+        $._line_ending_or_eof,
+        repeat(choice($.pair, newline)),
+      ),
 
-    table_array: $ =>
-      seq("[[", choice($.dotted_key, $.key), "]]", $._line_ending_or_eof),
+    table_array_element: $ =>
+      seq(
+        "[[",
+        choice($.dotted_key, $.key),
+        "]]",
+        $._line_ending_or_eof,
+        repeat(choice($.pair, newline)),
+      ),
 
     pair: $ => seq($._inline_pair, $._line_ending_or_eof),
     _inline_pair: $ => seq(choice($.dotted_key, $.key), "=", $._inline_value),
@@ -98,10 +111,8 @@ module.exports = grammar({
         token.immediate('"""'),
       ),
     escape_sequence: $ =>
-      token.immediate(
-        seq("\\", choice(/[btnfr"\\]/, /u[0-9a-fA-F]{4}/, /U[0-9a-fA-F]{8}/)),
-      ),
-    _escape_line_ending: $ => token.immediate(seq("\\", /\r?\n/)),
+      token.immediate(/\\([btnfr"\\]|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8})/),
+    _escape_line_ending: $ => token.immediate(seq(/\\/, newline)),
     _literal_string: $ =>
       seq(
         "'",
@@ -137,14 +148,13 @@ module.exports = grammar({
 
     float: $ =>
       choice(
-        seq(
-          decimal_integer,
-          choice(
-            seq(
-              token.immediate(float_fractional_part),
-              optional(token.immediate(float_exponent_part)),
+        token(
+          seq(
+            decimal_integer,
+            choice(
+              float_fractional_part,
+              seq(optional(float_fractional_part), float_exponent_part),
             ),
-            token.immediate(float_exponent_part),
           ),
         ),
         /[+-]?(inf|nan)/,
@@ -153,29 +163,22 @@ module.exports = grammar({
     boolean: $ => /true|false/,
 
     offset_date_time: $ =>
-      concatRegex(
-        rfc3339_date,
-        rfc3339_delimiter,
-        rfc3339_time,
-        rfc3339_offset,
-      ),
+      token(seq(rfc3339_date, rfc3339_delimiter, rfc3339_time, rfc3339_offset)),
     local_date_time: $ =>
-      concatRegex(rfc3339_date, rfc3339_delimiter, rfc3339_time),
+      token(seq(rfc3339_date, rfc3339_delimiter, rfc3339_time)),
     local_date: $ => rfc3339_date,
     local_time: $ => rfc3339_time,
 
     array: $ =>
       seq(
         "[",
-        repeat($._newline),
+        repeat(newline),
         optional(
           seq(
             $._inline_value,
-            repeat($._newline),
-            repeat(
-              seq(",", repeat($._newline), $._inline_value, repeat($._newline)),
-            ),
-            optional(seq(",", repeat($._newline))),
+            repeat(newline),
+            repeat(seq(",", repeat(newline), $._inline_value, repeat(newline))),
+            optional(seq(",", repeat(newline))),
           ),
         ),
         "]",

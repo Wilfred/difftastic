@@ -4,7 +4,7 @@ VALID - empty file
 
 --------------------------------------------------------------------------------
 
-(file)
+(document)
 
 ================================================================================
 INVALID - key/value pair - multiline string for keys are not allowed
@@ -26,7 +26,7 @@ key
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (ERROR) (boolean))
   (pair
@@ -42,10 +42,9 @@ invalid_both = 1 .0 e 2
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (ERROR
-    (dotted_key
-      (key) (ERROR) (key))))
+    (key) (integer)))
 
 ================================================================================
 INVALID - offset date time - whitespaces between its components are not allowed
@@ -56,7 +55,7 @@ invalid2 = 1979-05-27 T 07:32:00 Z
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (ERROR
     (key) (local_date) (local_time) (local_time)))
 
@@ -69,7 +68,7 @@ invalid2 = 1979-05-27 T 07:32:00
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (ERROR
     (key) (local_date) (local_time) (local_time)))
 
@@ -81,7 +80,7 @@ valid = 1979-05-27
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key) (local_date)))
 
@@ -105,7 +104,7 @@ key
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (table
     (key) (ERROR))
   (table
@@ -121,7 +120,7 @@ key = {
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (pair
     (key)
     (inline_table
@@ -150,7 +149,7 @@ key
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (ERROR
     (key) (key)))
 
@@ -164,10 +163,9 @@ VALID - table - empty content separated by comments
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (table
-    (key))
-  (comment))
+    (key) (comment)))
 
 ================================================================================
 VALID - array of tables - empty content separated by comments
@@ -179,10 +177,9 @@ VALID - array of tables - empty content separated by comments
 
 --------------------------------------------------------------------------------
 
-(file
-  (table_array
-    (key))
-  (comment))
+(document
+  (table_array_element
+    (key) (comment)))
 
 ================================================================================
 VALID - table - two pairs separated by comments
@@ -198,14 +195,14 @@ b = 2
 
 --------------------------------------------------------------------------------
 
-(file
+(document
   (table
-    (key))
-  (pair
-    (key) (integer))
-  (comment)
-  (pair
-    (key) (integer)))
+    (key)
+    (pair
+      (key) (integer))
+    (comment)
+    (pair
+      (key) (integer))))
 
 ================================================================================
 VALID - array of tables - two pairs separated by comments
@@ -221,11 +218,11 @@ b = 2
 
 --------------------------------------------------------------------------------
 
-(file
-  (table_array
-    (key))
-  (pair
-    (key) (integer))
-  (comment)
-  (pair
-    (key) (integer)))
+(document
+  (table_array_element
+    (key)
+    (pair
+      (key) (integer))
+    (comment)
+    (pair
+      (key) (integer))))
