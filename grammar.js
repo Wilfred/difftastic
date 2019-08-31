@@ -430,17 +430,7 @@ module.exports = grammar({
     field: $ => seq($.lower_case_identifier, $.eq, $._expression),
 
     if_else_expr: $ =>
-      seq(
-        $.if,
-        $._expression,
-        $.then,
-        $._expression,
-        repeat(
-          prec.left(seq($.else, $.if, $._expression, $.then, $._expression))
-        ),
-        $.else,
-        $._expression
-      ),
+      seq($.if, $.then, repeat(prec.left(seq("else", $.if, $.then))), $.else),
 
     case_of_expr: $ => seq($.case, $._expression, $._case_of_tail),
 
@@ -579,9 +569,9 @@ module.exports = grammar({
     import: $ => "import",
     as: $ => "as",
     exposing: $ => "exposing",
-    if: $ => "if",
-    then: $ => "then",
-    else: $ => "else",
+    if: $ => seq("if", $._expression),
+    then: $ => seq("then", $._expression),
+    else: $ => seq("else", $._expression),
     case: $ => "case",
     of: $ => "of",
     let: $ => "let",
