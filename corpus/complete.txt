@@ -81,7 +81,7 @@ update msg model =
         Decrement ->
             model - 1
 
-
+{- Test comment -}
 view model =
     div []
         [ button [ onClick Decrement ] [ text "-" ]
@@ -189,6 +189,7 @@ view model =
         )
     )
     
+    (block_comment)
     (value_declaration
         (function_declaration_left
             (lower_case_identifier)
