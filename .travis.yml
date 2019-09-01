@@ -8,6 +8,10 @@ node_js:
 os:
   - linux
 
+script:
+  - tree-sitter test
+  - script/parse-examples
+
 matrix:
   include:
     - os: osx
