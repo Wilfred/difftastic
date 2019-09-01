@@ -258,17 +258,6 @@ struct Scanner
             skip(lexer);
         }
 
-        // Handle block comments if we're not in a string
-        if (in_string == 0 && valid_symbols[BLOCK_COMMENT])
-        {
-            if (scan_comment(lexer))
-            {
-                lexer->mark_end(lexer);
-                lexer->result_symbol = BLOCK_COMMENT;
-                return true;
-            }
-        }
-
         // Handle minus without a whitespace for negate and line comments as both start with '-'
         if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] || valid_symbols[LINE_COMMENT])
         {
@@ -339,6 +328,18 @@ struct Scanner
             {
                 runback.pop_back();
                 lexer->result_symbol = VIRTUAL_END_SECTION;
+                return true;
+            }
+        }
+
+
+        // Handle block comments if we're not in a string
+        if (in_string == 0 && valid_symbols[BLOCK_COMMENT])
+        {
+            if (scan_comment(lexer))
+            {
+                lexer->mark_end(lexer);
+                lexer->result_symbol = BLOCK_COMMENT;
                 return true;
             }
         }

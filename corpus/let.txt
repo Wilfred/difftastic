@@ -28,7 +28,7 @@ i = let x = 320 in x
 )
 
 =====================================
-Let with block comment on last line
+Let with block comment on last line (should be indentation sensitive - unindented)
 =====================================
 
 letExample =
@@ -75,8 +75,8 @@ letExample =
             )
           )
         )
-        (block_comment)
       )
+      (block_comment)
       (in
         (value_expr
           (value_qid
@@ -87,6 +87,7 @@ letExample =
     )
   )
 )
+
 
 =====================================
 Let with line comment on last line

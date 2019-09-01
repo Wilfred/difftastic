@@ -405,3 +405,77 @@ toIntResult s =
     )
     
 )
+
+
+=====================================
+Case with list
+=====================================
+enum key dict =
+  custom key <| \stringList ->
+    case stringList of
+      [str] ->
+        Dict.get str dict
+
+      _ ->
+        Nothing
+
+---
+(file 
+    (value_declaration 
+        (function_declaration_left 
+            (lower_case_identifier) 
+            (lower_pattern (lower_case_identifier)) 
+            (lower_pattern (lower_case_identifier))
+        ) 
+        (eq) 
+        (bin_op_expr 
+            (function_call_expr 
+            (value_expr 
+            (value_qid 
+            (lower_case_identifier))) 
+            (value_expr 
+            (value_qid 
+            (lower_case_identifier)))) 
+            (operator 
+            (operator_identifier)) 
+            (anonymous_function_expr 
+                (backslash) 
+                (pattern (lower_pattern (lower_case_identifier))) 
+                (arrow) 
+                (case_of_expr 
+                    (case) 
+                    (value_expr 
+                        (value_qid (lower_case_identifier))
+                    )
+                    (of) 
+                    (case_of_branch 
+                        (pattern 
+                        (list_pattern 
+                        (left_square_bracket) 
+                        (pattern 
+                        (lower_pattern 
+                        (lower_case_identifier))) 
+                        (right_square_bracket))) 
+                        (arrow) 
+                        (function_call_expr 
+                            (value_expr 
+                            (value_qid 
+                            (upper_case_identifier) 
+                            (dot) 
+                            (lower_case_identifier))) 
+                            (value_expr (value_qid (lower_case_identifier))) 
+                            (value_expr (value_qid (lower_case_identifier)))
+                        )
+                    )
+                    (case_of_branch 
+                        (pattern 
+                            (anything_pattern (underscore))
+                        ) 
+                        (arrow) (value_expr (upper_case_qid (upper_case_identifier)))
+                    )
+                )
+            )
+        )
+    )
+) 
+
