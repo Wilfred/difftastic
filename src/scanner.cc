@@ -191,6 +191,7 @@ struct Scanner
 
         // Check if we have newlines and how much indentation
         bool has_newline = false;
+        lexer->mark_end(lexer);
         while (true)
         {
             if (lexer->lookahead == '\n')
@@ -238,7 +239,6 @@ struct Scanner
             skip(lexer);
             if (lexer->lookahead == 'i')
             {
-                lexer->mark_end(lexer);
                 skip(lexer);
 
                 if (lexer->lookahead == 'n')
