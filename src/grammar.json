@@ -1,5 +1,6 @@
 {
   "name": "elm",
+  "word": "lower_case_identifier",
   "rules": {
     "file": {
       "type": "SEQ",

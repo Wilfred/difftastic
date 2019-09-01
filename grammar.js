@@ -28,6 +28,8 @@ module.exports = grammar({
     /[\s\uFEFF\u2060\u200B]|\\\r?\n/
   ],
 
+  word: $ => $.lower_case_identifier,
+
   rules: {
     file: $ =>
       seq(
@@ -629,10 +631,6 @@ module.exports = grammar({
 
 function commaSep1(rule, comma) {
   return sep1(rule, comma);
-}
-
-function pipeSep1(rule, pipe) {
-  return sep1(rule, pipe);
 }
 
 function arrowSep1(rule, arrow) {
