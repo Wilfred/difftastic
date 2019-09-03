@@ -242,6 +242,90 @@
     }
   },
   {
+    "type": "assignment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment_operator",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "real_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "verbatim_string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "assignment_operator",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "attribute",
     "named": true,
     "fields": {},
@@ -1387,10 +1471,6 @@
           "named": true
         },
         {
-          "type": "variable_assignment_statement",
-          "named": true
-        },
-        {
           "type": "verbatim_string_literal",
           "named": true
         },
@@ -1662,6 +1742,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
         {
           "type": "binary_expression",
           "named": true
@@ -2113,10 +2197,6 @@
         },
         {
           "type": "using_statement",
-          "named": true
-        },
-        {
-          "type": "variable_assignment_statement",
           "named": true
         },
         {
@@ -2671,10 +2751,6 @@
         },
         {
           "type": "using_statement",
-          "named": true
-        },
-        {
-          "type": "variable_assignment_statement",
           "named": true
         },
         {
@@ -3627,10 +3703,6 @@
           "named": true
         },
         {
-          "type": "variable_assignment_statement",
-          "named": true
-        },
-        {
           "type": "while_statement",
           "named": true
         },
@@ -3871,10 +3943,6 @@
         },
         {
           "type": "using_statement",
-          "named": true
-        },
-        {
-          "type": "variable_assignment_statement",
           "named": true
         },
         {
@@ -4470,10 +4538,6 @@
           "named": true
         },
         {
-          "type": "variable_assignment_statement",
-          "named": true
-        },
-        {
           "type": "verbatim_string_literal",
           "named": true
         },
@@ -4483,81 +4547,6 @@
         },
         {
           "type": "yield_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "variable_assignment_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
-          "type": "null_literal",
-          "named": true
-        },
-        {
-          "type": "object_creation_expression",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "real_literal",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "verbatim_string_literal",
           "named": true
         }
       ]
@@ -4808,10 +4797,6 @@
         },
         {
           "type": "using_statement",
-          "named": true
-        },
-        {
-          "type": "variable_assignment_statement",
           "named": true
         },
         {
@@ -5335,6 +5320,42 @@
   {
     "type": "comment",
     "named": true
+  },
+  {
+    "type": "+=",
+    "named": false
+  },
+  {
+    "type": "*=",
+    "named": false
+  },
+  {
+    "type": "/=",
+    "named": false
+  },
+  {
+    "type": "%=",
+    "named": false
+  },
+  {
+    "type": "&=",
+    "named": false
+  },
+  {
+    "type": "|=",
+    "named": false
+  },
+  {
+    "type": "^=",
+    "named": false
+  },
+  {
+    "type": "<<=",
+    "named": false
+  },
+  {
+    "type": ">>=",
+    "named": false
   },
   {
     "type": "try",
