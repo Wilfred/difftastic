@@ -3788,7 +3788,7 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[fFdDmm]"
+                    "value": "[fFdDmM]"
                   },
                   {
                     "type": "BLANK"
@@ -3825,7 +3825,7 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[fFdDmm]"
+                    "value": "[fFdDmM]"
                   },
                   {
                     "type": "BLANK"
@@ -3850,7 +3850,7 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[fFdDmm]"
+                    "value": "[fFdDmM]"
                   },
                   {
                     "type": "BLANK"
@@ -3868,7 +3868,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[fFdDmm]"
+                "value": "[fFdDmM]"
               }
             ]
           }

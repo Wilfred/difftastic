@@ -72,7 +72,7 @@ const Single en = 0e-1f;
 const Single ep = 1e+12f;
 const double d = 0.9d;
 const decimal m = 0.9m;
-const Decimal m2 = 102.349m;
+const Decimal m2 = 102.349M;
 
 ---
 
