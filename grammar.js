@@ -693,7 +693,7 @@ module.exports = grammar({
     null_literal: $ => 'null',
 
     real_literal: $ => {
-      const suffix = /[fFdDmm]/;
+      const suffix = /[fFdDmM]/;
       const exponent = /[eE][+-]?[0-9]+/;
       return token(choice(
         seq(
