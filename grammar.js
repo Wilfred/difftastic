@@ -808,14 +808,7 @@ module.exports = grammar({
     _statement: $ => choice(
       $._labeled_statement,
       $._embedded_statement,
-      $._declaration_statement,
-    ),
-
-    variable_assignment_statement: $ => seq(
-      $.identifier_name,
-      '=',
-      $._expression,
-      ';'
+      $._declaration_statement
     ),
 
     statement_block: $ => seq('{', optional($._statement_list), '}'),
@@ -827,7 +820,6 @@ module.exports = grammar({
     ),
 
     _embedded_statement: $ => choice(
-      $.variable_assignment_statement, // TODO: Remove
       $.statement_block,
       $.empty_statement,
       $.expression_statement,
@@ -863,7 +855,22 @@ module.exports = grammar({
     ),
 
     empty_statement: $ => ';',
-    expression_statement: $ => seq($._expression, ';'),
+    expression_statement: $ => seq($._statement_expression, ';'),
+
+    _statement_expression: $ => choice(
+      $.assignment,
+      $._expression // TODO: Remove once other statement expressions done
+    ),
+
+    assignment: $ => seq(
+      $.identifier_name, // TODO: Switch to unary once converted
+      $.assignment_operator,
+      $._expression
+    ),
+
+    assignment_operator: $ => choice(
+      '=', '+=', '*=', '/=', '%=', '&=', '|=', '^=', '<<=', '>>='
+    ),
 
     try_statement: $ => seq(
       'try',

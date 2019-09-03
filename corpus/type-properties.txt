@@ -58,9 +58,11 @@ class Foo {
         (identifier_name)
         (accessor_declaration
           (statement_block
-            (variable_assignment_statement
-              (identifier_name)
-              (identifier_name))))))))
+            (expression_statement
+              (assignment
+                (identifier_name)
+                (assignment_operator)
+                (identifier_name)))))))))
 
 =====================================
 Class with double-accessor property bodies
@@ -91,17 +93,21 @@ class Foo {
             (return_statement (identifier_name))))
         (accessor_declaration
           (statement_block
-            (variable_assignment_statement
-              (identifier_name)
-              (identifier_name)))))
+            (expression_statement
+              (assignment
+                (identifier_name)
+                (assignment_operator)
+                (identifier_name))))))
       (property_declaration
         (predefined_type)
         (identifier_name)
         (accessor_declaration
           (statement_block
-            (variable_assignment_statement
-              (identifier_name)
-              (identifier_name))))
+            (expression_statement
+              (assignment
+                (identifier_name)
+                (assignment_operator)
+                (identifier_name)))))
         (accessor_declaration
           (statement_block
             (return_statement (identifier_name))))))))
