@@ -828,7 +828,7 @@ module.exports = grammar({
       $.statement_block,
       $.break_statement,
       $.checked_statement,
-      // $.common_for_each_statement,
+      $.for_each_statement,
       $.continue_statement,
       $.do_statement,
       $.empty_statement,
@@ -856,6 +856,20 @@ module.exports = grammar({
     break_statement: $ => seq('break', ';'),
 
     checked_statement: $ => seq(choice('checked', 'unchecked'), $.statement_block),
+
+    for_each_statement: $ => seq(
+      optional('await'),
+      'foreach',
+      '(',
+      choice(
+        seq($._type, $.identifier_name),
+        $._expression,
+      ),
+      'in',
+      $._expression,
+      ')',
+      $._statement
+    ),
 
     continue_statement: $ => seq('continue', ';'),
 
