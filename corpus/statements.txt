@@ -465,7 +465,7 @@ class A {
       (identifier_name)
       (parameter_list)
       (statement_block
-        (unchecked_statement
+        (checked_statement
           (statement_block
             (return_statement))))))))
 
