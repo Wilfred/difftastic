@@ -327,7 +327,7 @@ class Foo {
         (accessor_declaration
           (statement_block (return_statement (identifier_name))))
         (accessor_declaration
-          (statement_block (expression_statement (assignment (identifier_name) (assignment_operator) (identifier_name)))))))))
+          (statement_block (expression_statement (assignment_expression (identifier_name) (assignment_operator) (identifier_name)))))))))
 
 =================================
 Method with qualified return type
