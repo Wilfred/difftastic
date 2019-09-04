@@ -1403,6 +1403,18 @@
           "named": true
         },
         {
+          "type": "label_name",
+          "named": true
+        },
+        {
+          "type": "local_constant_declaration",
+          "named": true
+        },
+        {
+          "type": "local_variable_declaration",
+          "named": true
+        },
+        {
           "type": "lock_statement",
           "named": true
         },
@@ -1460,10 +1472,6 @@
         },
         {
           "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "unchecked_statement",
           "named": true
         },
         {
@@ -2132,6 +2140,18 @@
           "named": true
         },
         {
+          "type": "label_name",
+          "named": true
+        },
+        {
+          "type": "local_constant_declaration",
+          "named": true
+        },
+        {
+          "type": "local_variable_declaration",
+          "named": true
+        },
+        {
           "type": "lock_statement",
           "named": true
         },
@@ -2189,10 +2209,6 @@
         },
         {
           "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "unchecked_statement",
           "named": true
         },
         {
@@ -2686,6 +2702,18 @@
           "named": true
         },
         {
+          "type": "label_name",
+          "named": true
+        },
+        {
+          "type": "local_constant_declaration",
+          "named": true
+        },
+        {
+          "type": "local_variable_declaration",
+          "named": true
+        },
+        {
           "type": "lock_statement",
           "named": true
         },
@@ -2743,10 +2771,6 @@
         },
         {
           "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "unchecked_statement",
           "named": true
         },
         {
@@ -3695,10 +3719,6 @@
           "named": true
         },
         {
-          "type": "unchecked_statement",
-          "named": true
-        },
-        {
           "type": "using_statement",
           "named": true
         },
@@ -3935,10 +3955,6 @@
         },
         {
           "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "unchecked_statement",
           "named": true
         },
         {
@@ -4364,21 +4380,6 @@
     }
   },
   {
-    "type": "unchecked_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "statement_block",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "using_directive",
     "named": true,
     "fields": {},
@@ -4466,6 +4467,14 @@
           "named": true
         },
         {
+          "type": "label_name",
+          "named": true
+        },
+        {
+          "type": "local_constant_declaration",
+          "named": true
+        },
+        {
           "type": "local_variable_declaration",
           "named": true
         },
@@ -4527,10 +4536,6 @@
         },
         {
           "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "unchecked_statement",
           "named": true
         },
         {
@@ -4732,6 +4737,18 @@
           "named": true
         },
         {
+          "type": "label_name",
+          "named": true
+        },
+        {
+          "type": "local_constant_declaration",
+          "named": true
+        },
+        {
+          "type": "local_variable_declaration",
+          "named": true
+        },
+        {
           "type": "lock_statement",
           "named": true
         },
@@ -4789,10 +4806,6 @@
         },
         {
           "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "unchecked_statement",
           "named": true
         },
         {
