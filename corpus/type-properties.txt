@@ -59,7 +59,7 @@ class Foo {
         (accessor_declaration
           (statement_block
             (expression_statement
-              (assignment
+              (assignment_expression
                 (identifier_name)
                 (assignment_operator)
                 (identifier_name)))))))))
@@ -94,7 +94,7 @@ class Foo {
         (accessor_declaration
           (statement_block
             (expression_statement
-              (assignment
+              (assignment_expression
                 (identifier_name)
                 (assignment_operator)
                 (identifier_name))))))
@@ -104,7 +104,7 @@ class Foo {
         (accessor_declaration
           (statement_block
             (expression_statement
-              (assignment
+              (assignment_expression
                 (identifier_name)
                 (assignment_operator)
                 (identifier_name)))))
