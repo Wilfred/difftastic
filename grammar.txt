@@ -450,7 +450,15 @@ fixed_statement
   ;
 
 for_statement
-  : 'for' '(' (variable_declaration? | (expression (',' expression)*)?) ';' expression? ';' (expression (',' expression)*)? ')' statement
+  : 'for'
+    '('
+     (variable_declaration? | (expression (',' expression)*)?) 
+     ';'
+     expression? 
+     ';' 
+     (expression (',' expression)*)?
+     ')'
+     statement
   ;
 
 goto_statement

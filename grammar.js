@@ -33,6 +33,8 @@ module.exports = grammar({
     [$.generic_name, $._identifier_or_global],
     [$.if_statement],
     [$._type, $.type_parameter_list],
+    [$.assignment_expression],
+    [$.assignment_expression, $.call_expression]
   ],
 
   inline: $ => [
@@ -571,6 +573,7 @@ module.exports = grammar({
 
     _expression: $ => choice(
       $._literal,
+      $.assignment_expression,
       $.identifier_name,
       $.qualified_name,
       $.ternary_expression,
@@ -581,6 +584,14 @@ module.exports = grammar({
       $.object_creation_expression,
       $.call_expression
     ),
+
+    assignment_expression: $ => seq(
+      $._expression,
+      $.assignment_operator,
+      $._expression
+    ),
+
+    assignment_operator: $ =>  choice('=', '+=', '-=', '*=', '/=', '%=', '&=', '^=', '|=', '<<=', '>>=', '??='),
 
     parenthesized_expression: $ => seq('(', $._expression, ')'),
 
@@ -842,29 +853,76 @@ module.exports = grammar({
     statement_block: $ => seq('{', optional($._statement_list), '}'),
     _statement_list: $ => repeat1($._statement),
 
+    break_statement: $ => seq('break', ';'),
+
+    checked_statement: $ => seq(choice('checked', 'unchecked'), $.statement_block),
+
+    continue_statement: $ => seq('continue', ';'),
+
+    do_statement: $ => seq('do', $._statement, 'while', '(', $._expression, ')', ';'),
+
+    empty_statement: $ => ';',
+
+    expression_statement: $ => seq($._expression, ';'),
+
+    goto_statement: $ => seq(
+      'goto',
+      choice(
+        alias($.identifier_name, $.label_name),
+        seq('case', $._expression),
+        'default'
+      ),
+      ';'
+    ),
+
+    if_statement: $ => seq(
+      'if',
+      '(',
+      $._expression,
+      ')',
+      $._statement,
+      optional(
+        seq(
+          'else',
+          $._statement,
+        )
+      )
+    ),
+
     _labeled_statement: $ => seq(
       alias($.identifier_name, $.label_name),
       ':',
       $._statement
     ),
 
-    empty_statement: $ => ';',
-    expression_statement: $ => seq($._statement_expression, ';'),
-
-    _statement_expression: $ => choice(
-      $.assignment,
-      $._expression // TODO: Remove once other statement expressions done
+    _declaration_statement: $ => seq(
+      choice(
+        $.local_variable_declaration,
+        $.local_constant_declaration
+      ),
+      ';'
     ),
 
-    assignment: $ => seq(
-      $.identifier_name, // TODO: Switch to unary once converted
-      $.assignment_operator,
-      $._expression
+    lock_statement: $ => seq('lock', '(', $._expression, ')', $._statement),
+
+    return_statement: $ => seq('return', optional($._expression), ';'),
+
+    switch_statement: $ => seq(
+      'switch',
+      '(',
+      $._expression,
+      ')',
+      '{',
+      repeat($.switch_section),
+      '}'
+    ),
+    switch_section: $ => seq(repeat1($.switch_label), $._statement_list),
+    switch_label: $ => choice(
+      seq('case', $._expression, ':'),
+      seq('default', ':')
     ),
 
-    assignment_operator: $ => choice(
-      '=', '+=', '*=', '/=', '%=', '&=', '|=', '^=', '<<=', '>>='
-    ),
+    throw_statement: $ => seq('throw', optional($._expression), ';'),
 
     try_statement: $ => seq(
       'try',
@@ -884,10 +942,10 @@ module.exports = grammar({
     _exception_filter: $ => seq('when', '(', $._expression, ')'),
     finally_clause: $ => seq('finally', $.statement_block),
 
-    checked_statement: $ => seq(choice('checked', 'unchecked'), $.statement_block),
-    lock_statement: $ => seq('lock', '(', $._expression, ')', $._statement),
     using_statement: $ => seq('using', '(', $._resource_acquisition, ')', $._statement),
     _resource_acquisition: $ => choice($.local_variable_declaration, $._expression),
+
+    while_statement: $ => seq('while', '(', $._expression, ')', $._statement),
 
     yield_statement: $ => seq(
       'yield',
@@ -898,62 +956,7 @@ module.exports = grammar({
       ';'
     ),
 
-    if_statement: $ => seq(
-      'if',
-      '(',
-      $._expression,
-      ')',
-      $._statement,
-      optional(
-        seq(
-          'else',
-          $._statement,
-        )
-      )
-    ),
-
-    switch_statement: $ => seq(
-      'switch',
-      '(',
-      $._expression,
-      ')',
-      '{',
-      repeat($.switch_section),
-      '}'
-    ),
-    switch_section: $ => seq(repeat1($.switch_label), $._statement_list),
-    switch_label: $ => choice(
-      seq('case', $._expression, ':'),
-      seq('default', ':')
-    ),
-
-    while_statement: $ => seq('while', '(', $._expression, ')', $._statement),
-    do_statement: $ => seq('do', $._statement, 'while', '(', $._expression, ')', ';'),
-
-    break_statement: $ => seq('break', ';'),
-    continue_statement: $ => seq('continue', ';'),
-    return_statement: $ => seq('return', optional($._expression), ';'),
-    throw_statement: $ => seq('throw', optional($._expression), ';'),
-
-    goto_statement: $ => seq(
-      'goto',
-      choice(
-        alias($.identifier_name, $.label_name),
-        seq('case', $._expression),
-        'default'
-      ),
-      ';'
-    ),
-
     // declaration statements
-
-    _declaration_statement: $ => seq(
-      choice(
-        $.local_variable_declaration,
-        $.local_constant_declaration
-      ),
-      ';'
-    ),
 
     local_variable_declaration: $ => seq(
       choice($._type, 'var'),
