@@ -4231,15 +4231,79 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "statement_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "break_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "checked_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "continue_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "do_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "empty_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "goto_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "if_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_labeled_statement"
         },
         {
           "type": "SYMBOL",
-          "name": "_embedded_statement"
+          "name": "_declaration_statement"
         },
         {
           "type": "SYMBOL",
-          "name": "_declaration_statement"
+          "name": "lock_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "return_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "switch_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "throw_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "try_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "using_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "while_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "yield_statement"
         }
       ]
     },
@@ -4294,110 +4358,6 @@
         {
           "type": "SYMBOL",
           "name": "_statement"
-        }
-      ]
-    },
-    "_embedded_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "statement_block"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "empty_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "expression_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_selection_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_iteration_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_jump_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "try_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "checked_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unchecked_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "lock_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "using_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "yield_statement"
-        }
-      ]
-    },
-    "_selection_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "if_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "switch_statement"
-        }
-      ]
-    },
-    "_iteration_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "while_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "do_statement"
-        }
-      ]
-    },
-    "_jump_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "break_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "continue_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "goto_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "return_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "throw_statement"
         }
       ]
     },
@@ -4629,21 +4589,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "checked"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "statement_block"
-        }
-      ]
-    },
-    "unchecked_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "unchecked"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "checked"
+            },
+            {
+              "type": "STRING",
+              "value": "unchecked"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -4672,7 +4628,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_embedded_statement"
+          "name": "_statement"
         }
       ]
     },
@@ -4697,7 +4653,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_embedded_statement"
+          "name": "_statement"
         }
       ]
     },
@@ -4770,7 +4726,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_embedded_statement"
+          "name": "_statement"
         },
         {
           "type": "CHOICE",
@@ -4784,7 +4740,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_embedded_statement"
+                  "name": "_statement"
                 }
               ]
             },
@@ -4903,7 +4859,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_embedded_statement"
+          "name": "_statement"
         }
       ]
     },
@@ -4916,7 +4872,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_embedded_statement"
+          "name": "_statement"
         },
         {
           "type": "STRING",
