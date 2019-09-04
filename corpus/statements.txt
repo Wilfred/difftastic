@@ -766,3 +766,64 @@ class A {
           (identifier_name)
           (statement_block
             (return_statement))))))))
+
+=====================================
+Foreach inline declaration
+=====================================
+
+class A {
+  void Sample() {
+    foreach(var x in y)
+      z += x;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (for_each_statement
+          (identifier_name)
+          (identifier_name)
+          (identifier_name)
+          (expression_statement
+            (assignment_expression
+              (identifier_name)
+              (assignment_operator)
+              (identifier_name)))))))))
+
+=====================================
+Foreach existing expression
+=====================================
+
+class A {
+  void Sample() {
+    foreach(x in y)
+      z += x;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (for_each_statement
+          (identifier_name)
+          (identifier_name)
+          (expression_statement
+            (assignment_expression
+              (identifier_name)
+              (assignment_operator)
+              (identifier_name)))))))))
