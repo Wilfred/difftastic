@@ -46,9 +46,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "generic_name",
+          "named": true
+        },
         {
           "type": "identifier_name",
           "named": true
@@ -3518,6 +3522,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -5319,16 +5327,16 @@
     "named": false
   },
   {
+    "type": "identifier_name",
+    "named": true
+  },
+  {
     "type": "global",
     "named": false
   },
   {
     "type": "::",
     "named": false
-  },
-  {
-    "type": "identifier_name",
-    "named": true
   },
   {
     "type": "comment",
