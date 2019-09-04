@@ -30,6 +30,7 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.generic_name, $._expression],
+    [$.generic_name, $._identifier_or_global],
     [$.if_statement],
     [$._type, $.type_parameter_list],
   ],
@@ -42,6 +43,7 @@ module.exports = grammar({
   word: $ => $.identifier_name,
 
   rules: {
+    
     compilation_unit: $ => seq(
       optional(BYTE_ORDER_MARK),
       repeat($._declaration)
@@ -100,10 +102,6 @@ module.exports = grammar({
 
     type_parameter_list: $ => seq('<', commaSep1($.identifier_name), '>'),
 
-    generic_name: $ => seq($.identifier_name, $.type_argument_list),
-
-    type_argument_list: $ => seq('<', commaSep1($._type), '>'),
-
     // modifiers
 
     modifiers: $ => repeat1(
@@ -145,7 +143,7 @@ module.exports = grammar({
       ';'
     ),
 
-    name_equals: $ => seq($.identifier_name, '='),
+    name_equals: $ => seq($._identifier_or_global, '='),
 
     // namespace
 
@@ -226,7 +224,7 @@ module.exports = grammar({
     ),
 
     type_parameter_constraints_clause: $ => seq(
-      'where', $.identifier_name, ':', $.type_parameter_constraints
+      'where', $._identifier_or_global, ':', $.type_parameter_constraints
     ),
 
     type_parameter_constraints: $ => choice(
@@ -738,18 +736,28 @@ module.exports = grammar({
 
     // names
 
-    qualified_name: $ => seq(
-      choice(
-        $.identifier_name,
-        $.qualified_name,
-        $.alias_qualified_name
-      ),
-      '.',
-      $.identifier_name
+    identifier_name: $ => /[a-zA-Z_][a-zA-Z_0-9]*/, // identifier_token in Roslyn
+
+    _identifier_or_global: $ => choice('global', $.identifier_name), // identifier_name in Roslyn
+
+    _name: $ => choice(
+      $.alias_qualified_name,
+      $.qualified_name,
+      $._simple_name
     ),
 
-    alias_qualified_name: $ => seq('global', '::', $.identifier_name),
-    identifier_name: $ => /[a-zA-Z_][a-zA-Z_0-9]*/,
+    alias_qualified_name: $ => seq($._identifier_or_global, '::', $._simple_name),
+
+    _simple_name: $ => choice(
+      $.generic_name,
+      $._identifier_or_global
+    ),
+
+    generic_name: $ => seq($.identifier_name, $.type_argument_list),
+
+    type_argument_list: $ => seq('<', commaSep1($._type), '>'),
+
+    qualified_name: $ => seq($._name, '.', $._simple_name),
 
     // commments
 
