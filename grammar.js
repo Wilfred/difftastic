@@ -828,12 +828,12 @@ module.exports = grammar({
       $.statement_block,
       $.break_statement,
       $.checked_statement,
-      $.for_each_statement,
       $.continue_statement,
       $.do_statement,
       $.empty_statement,
       $.expression_statement,
-      // $.fixed_statement,
+      $.fixed_statement,
+      $.for_each_statement,
       // $.for_statement,
       $.goto_statement,
       $.if_statement,
@@ -844,7 +844,7 @@ module.exports = grammar({
       $.switch_statement,
       $.throw_statement,
       $.try_statement,
-//      $.unsafe_statement,
+      $.unsafe_statement,
       $.using_statement,
       $.while_statement,
       $.yield_statement,
@@ -856,6 +856,16 @@ module.exports = grammar({
     break_statement: $ => seq('break', ';'),
 
     checked_statement: $ => seq(choice('checked', 'unchecked'), $.statement_block),
+
+    continue_statement: $ => seq('continue', ';'),
+
+    do_statement: $ => seq('do', $._statement, 'while', '(', $._expression, ')', ';'),
+
+    empty_statement: $ => ';',
+
+    expression_statement: $ => seq($._expression, ';'),
+
+    fixed_statement: $ => seq('fixed', '(', $.variable_declaration, ')', $._statement),
 
     for_each_statement: $ => seq(
       optional('await'),
@@ -870,14 +880,6 @@ module.exports = grammar({
       ')',
       $._statement
     ),
-
-    continue_statement: $ => seq('continue', ';'),
-
-    do_statement: $ => seq('do', $._statement, 'while', '(', $._expression, ')', ';'),
-
-    empty_statement: $ => ';',
-
-    expression_statement: $ => seq($._expression, ';'),
 
     goto_statement: $ => seq(
       'goto',
@@ -955,6 +957,8 @@ module.exports = grammar({
     _exception_specifier: $ => seq('(', $._type, optional($.identifier_name), ')'),
     _exception_filter: $ => seq('when', '(', $._expression, ')'),
     finally_clause: $ => seq('finally', $.statement_block),
+
+    unsafe_statement: $ => seq('unsafe', $.statement_block),
 
     using_statement: $ => seq('using', '(', $._resource_acquisition, ')', $._statement),
     _resource_acquisition: $ => choice($.local_variable_declaration, $._expression),
