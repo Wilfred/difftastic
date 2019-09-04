@@ -773,7 +773,7 @@ Foreach inline declaration
 
 class A {
   void Sample() {
-    foreach(var x in y)
+    foreach(int x in y)
       z += x;
   }
 }
@@ -789,7 +789,7 @@ class A {
       (parameter_list)
       (statement_block
         (for_each_statement
-          (identifier_name)
+          (predefined_type)
           (identifier_name)
           (identifier_name)
           (expression_statement
@@ -883,3 +883,67 @@ class A {
               (identifier_name)
               (identifier_name)))
               (statement_block)))))))
+
+=====================================
+For inline declaration fully populated
+=====================================
+
+class A {
+  void Sample() {
+    for(int x = 0; x < 100; x++) {
+      z += x;
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (for_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier_name)
+              (integer_literal)))
+          (binary_expression
+            (identifier_name)
+            (integer_literal)) 
+          (postfix_expression
+            (identifier_name))
+          (statement_block
+            (expression_statement
+              (assignment_expression
+                (identifier_name)
+                (assignment_operator)
+                (identifier_name))))))))))
+
+=====================================
+For no population
+=====================================
+
+class A {
+  void Sample() {
+    for(;;) {
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (statement_block
+        (for_statement
+          (statement_block)))))))

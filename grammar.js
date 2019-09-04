@@ -834,7 +834,7 @@ module.exports = grammar({
       $.expression_statement,
       $.fixed_statement,
       $.for_each_statement,
-      // $.for_statement,
+      $.for_statement,
       $.goto_statement,
       $.if_statement,
       $._labeled_statement,
@@ -866,6 +866,18 @@ module.exports = grammar({
     expression_statement: $ => seq($._expression, ';'),
 
     fixed_statement: $ => seq('fixed', '(', $.variable_declaration, ')', $._statement),
+
+    for_statement: $ => seq(
+      'for',
+      '(',
+      optional(choice($.variable_declaration, commaSep1($._expression))),
+      ';',
+      optional($._expression),
+      ';',
+      optional(commaSep1($._expression)),
+      ')',
+      $._statement
+    ),
 
     for_each_statement: $ => seq(
       optional('await'),
