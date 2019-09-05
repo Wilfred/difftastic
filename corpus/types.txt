@@ -2,37 +2,35 @@
 Qualified type names
 ============================================
 
-package main
-
 type a b.c
 
 ---
 
 (source_file
-  (package_clause (package_identifier))
   (type_declaration
     (type_spec
-      (type_identifier)
-      (qualified_type (package_identifier) (type_identifier)))))
+      name: (type_identifier)
+      type: (qualified_type
+        package: (package_identifier)
+        name: (type_identifier)))))
 
 ============================================
 Array types
 ============================================
-
-package main
 
 type a [2+2]c
 
 ---
 
 (source_file
-  (package_clause (package_identifier))
   (type_declaration
     (type_spec
-      (type_identifier)
-      (array_type
-        (binary_expression (int_literal) (int_literal))
-        (type_identifier)))))
+      name: (type_identifier)
+      type: (array_type
+        length: (binary_expression
+          left: (int_literal)
+          right: (int_literal))
+        element: (type_identifier)))))
 
 ============================================
 Slice types
