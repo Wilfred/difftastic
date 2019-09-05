@@ -185,7 +185,7 @@ module.exports = grammar({
       optional($._attributes),
       optional($.modifiers),
       choice('get', 'set'),
-      choice($.statement_block, ';')
+      choice($.block, ';')
     ),
 
     // class
@@ -287,8 +287,8 @@ module.exports = grammar({
       '}'
     ),
 
-    add_accessor_declaration: $ => seq(optional($._attributes), 'add', $.statement_block),
-    remove_accessor_declaration: $ => seq(optional($._attributes), 'remove', $.statement_block),
+    add_accessor_declaration: $ => seq(optional($._attributes), 'add', $.block),
+    remove_accessor_declaration: $ => seq(optional($._attributes), 'remove', $.block),
 
     // operator declarations
 
@@ -792,7 +792,7 @@ module.exports = grammar({
       $.identifier_name,
       optional($.type_parameter_list),
       $.parameter_list,
-      $.statement_block
+      $.block
     ),
 
     destructor_declaration: $ => seq(
@@ -801,7 +801,7 @@ module.exports = grammar({
       '~',
       $.identifier_name,
       $.parameter_list,
-      $.statement_block
+      $.block
     ),
 
     method_declaration: $ => seq(
@@ -817,7 +817,7 @@ module.exports = grammar({
     ),
 
     _method_body: $ => choice(
-      $.statement_block,
+      $.block,
       seq('=>', $._expression, ';'),
       ';'
     ),
@@ -825,7 +825,7 @@ module.exports = grammar({
     // Statements
 
     _statement: $ => choice(
-      $.statement_block,
+      $.block,
       $.break_statement,
       $.checked_statement,
       // $.common_for_each_statement,
@@ -850,12 +850,11 @@ module.exports = grammar({
       $.yield_statement,
     ),
 
-    statement_block: $ => seq('{', optional($._statement_list), '}'),
-    _statement_list: $ => repeat1($._statement),
+    block: $ => seq('{', repeat($._statement), '}'),
 
     break_statement: $ => seq('break', ';'),
 
-    checked_statement: $ => seq(choice('checked', 'unchecked'), $.statement_block),
+    checked_statement: $ => seq(choice('checked', 'unchecked'), $.block),
 
     continue_statement: $ => seq('continue', ';'),
 
@@ -916,7 +915,7 @@ module.exports = grammar({
       repeat($.switch_section),
       '}'
     ),
-    switch_section: $ => seq(repeat1($.switch_label), $._statement_list),
+    switch_section: $ => seq(repeat1($.switch_label), repeat1($._statement)),
     switch_label: $ => choice(
       seq('case', $._expression, ':'),
       seq('default', ':')
@@ -926,7 +925,7 @@ module.exports = grammar({
 
     try_statement: $ => seq(
       'try',
-      $.statement_block,
+      $.block,
       repeat($.catch_clause),
       optional($.finally_clause),
     ),
@@ -935,12 +934,12 @@ module.exports = grammar({
       'catch',
       optional($._exception_specifier),
       optional($._exception_filter),
-      $.statement_block
+      $.block
     ),
 
     _exception_specifier: $ => seq('(', $._type, optional($.identifier_name), ')'),
     _exception_filter: $ => seq('when', '(', $._expression, ')'),
-    finally_clause: $ => seq('finally', $.statement_block),
+    finally_clause: $ => seq('finally', $.block),
 
     using_statement: $ => seq('using', '(', $._resource_acquisition, ')', $._statement),
     _resource_acquisition: $ => choice($.local_variable_declaration, $._expression),
