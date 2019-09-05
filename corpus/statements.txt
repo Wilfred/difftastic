@@ -766,3 +766,184 @@ class A {
           (identifier_name)
           (block
             (return_statement))))))))
+
+=====================================
+Foreach inline declaration
+=====================================
+
+class A {
+  void Sample() {
+    foreach(int x in y)
+      z += x;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (block
+        (for_each_statement
+          (predefined_type)
+          (identifier_name)
+          (identifier_name)
+          (expression_statement
+            (assignment_expression
+              (identifier_name)
+              (assignment_operator)
+              (identifier_name)))))))))
+
+=====================================
+Foreach existing expression
+=====================================
+
+class A {
+  void Sample() {
+    foreach(x in y)
+      z += x;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (block
+        (for_each_statement
+          (identifier_name)
+          (identifier_name)
+          (expression_statement
+            (assignment_expression
+              (identifier_name)
+              (assignment_operator)
+              (identifier_name)))))))))
+
+=====================================
+Unsafe statement
+=====================================
+
+class A {
+  void Sample() {
+    unsafe { x = y; }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (block
+        (unsafe_statement
+          (block
+            (expression_statement
+              (assignment_expression
+                (identifier_name)
+                (assignment_operator)
+                (identifier_name))))))))))
+
+=====================================
+Fixed statement
+=====================================
+
+class A {
+  void Sample() {
+    fixed (double p = arr) { }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (block
+        (fixed_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier_name)
+              (identifier_name)))
+              (block)))))))
+
+=====================================
+For inline declaration fully populated
+=====================================
+
+class A {
+  void Sample() {
+    for(int x = 0; x < 100; x++) {
+      z += x;
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (block
+        (for_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier_name)
+              (integer_literal)))
+          (binary_expression
+            (identifier_name)
+            (integer_literal)) 
+          (postfix_expression
+            (identifier_name))
+          (block
+            (expression_statement
+              (assignment_expression
+                (identifier_name)
+                (assignment_operator)
+                (identifier_name))))))))))
+
+=====================================
+For no population
+=====================================
+
+class A {
+  void Sample() {
+    for(;;) {
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body (method_declaration
+      (void_keyword)
+      (identifier_name)
+      (parameter_list)
+      (block
+        (for_statement
+          (block)))))))

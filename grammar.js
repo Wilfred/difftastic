@@ -828,13 +828,13 @@ module.exports = grammar({
       $.block,
       $.break_statement,
       $.checked_statement,
-      // $.common_for_each_statement,
       $.continue_statement,
       $.do_statement,
       $.empty_statement,
       $.expression_statement,
-      // $.fixed_statement,
-      // $.for_statement,
+      $.fixed_statement,
+      $.for_each_statement,
+      $.for_statement,
       $.goto_statement,
       $.if_statement,
       $._labeled_statement,
@@ -844,7 +844,7 @@ module.exports = grammar({
       $.switch_statement,
       $.throw_statement,
       $.try_statement,
-//      $.unsafe_statement,
+      $.unsafe_statement,
       $.using_statement,
       $.while_statement,
       $.yield_statement,
@@ -863,6 +863,34 @@ module.exports = grammar({
     empty_statement: $ => ';',
 
     expression_statement: $ => seq($._expression, ';'),
+
+    fixed_statement: $ => seq('fixed', '(', $.variable_declaration, ')', $._statement),
+
+    for_statement: $ => seq(
+      'for',
+      '(',
+      optional(choice($.variable_declaration, commaSep1($._expression))),
+      ';',
+      optional($._expression),
+      ';',
+      optional(commaSep1($._expression)),
+      ')',
+      $._statement
+    ),
+
+    for_each_statement: $ => seq(
+      optional('await'),
+      'foreach',
+      '(',
+      choice(
+        seq($._type, $.identifier_name),
+        $._expression,
+      ),
+      'in',
+      $._expression,
+      ')',
+      $._statement
+    ),
 
     goto_statement: $ => seq(
       'goto',
@@ -940,6 +968,8 @@ module.exports = grammar({
     _exception_specifier: $ => seq('(', $._type, optional($.identifier_name), ')'),
     _exception_filter: $ => seq('when', '(', $._expression, ')'),
     finally_clause: $ => seq('finally', $.block),
+
+    unsafe_statement: $ => seq('unsafe', $.block),
 
     using_statement: $ => seq('using', '(', $._resource_acquisition, ')', $._statement),
     _resource_acquisition: $ => choice($.local_variable_declaration, $._expression),
