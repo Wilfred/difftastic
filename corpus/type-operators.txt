@@ -25,7 +25,7 @@ class A
         (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))
-        (statement_block (return_statement (integer_literal))))
+        (block (return_statement (integer_literal))))
       (operator_declaration
         (modifiers)
         (predefined_type)
@@ -33,13 +33,13 @@ class A
         (parameter_list
           (parameter (identifier_name) (identifier_name))
           (parameter (identifier_name) (identifier_name)))
-        (statement_block (return_statement (integer_literal))))
+        (block (return_statement (integer_literal))))
       (operator_declaration
         (predefined_type)
         (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))
-        (statement_block (return_statement (integer_literal)))))))
+        (block (return_statement (integer_literal)))))))
 
 =======================================
 boolean operator declarations
@@ -63,13 +63,13 @@ class A
         (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))
-        (statement_block (return_statement (boolean_literal))))
+        (block (return_statement (boolean_literal))))
       (operator_declaration
         (predefined_type)
         (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))
-        (statement_block (return_statement (boolean_literal)))))))
+        (block (return_statement (boolean_literal)))))))
 
 =======================================
 conversion operator declaration
@@ -91,11 +91,11 @@ class A
         (modifiers)
         (predefined_type)
         (parameter_list (parameter (identifier_name) (identifier_name)))
-        (statement_block (return_statement (integer_literal))))
+        (block (return_statement (integer_literal))))
       (conversion_operator_declaration
         (predefined_type)
         (parameter_list (parameter (identifier_name) (identifier_name)))
-        (statement_block (return_statement (integer_literal)))))))
+        (block (return_statement (integer_literal)))))))
 
 =======================================
 extern operators

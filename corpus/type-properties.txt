@@ -51,13 +51,13 @@ class Foo {
         (predefined_type)
         (identifier_name)
         (accessor_declaration
-          (statement_block
+          (block
             (return_statement (integer_literal)))))
       (property_declaration
         (predefined_type)
         (identifier_name)
         (accessor_declaration
-          (statement_block
+          (block
             (expression_statement
               (assignment_expression
                 (identifier_name)
@@ -89,10 +89,10 @@ class Foo {
         (predefined_type)
         (identifier_name)
         (accessor_declaration
-          (statement_block
+          (block
             (return_statement (identifier_name))))
         (accessor_declaration
-          (statement_block
+          (block
             (expression_statement
               (assignment_expression
                 (identifier_name)
@@ -102,14 +102,14 @@ class Foo {
         (predefined_type)
         (identifier_name)
         (accessor_declaration
-          (statement_block
+          (block
             (expression_statement
               (assignment_expression
                 (identifier_name)
                 (assignment_operator)
                 (identifier_name)))))
         (accessor_declaration
-          (statement_block
+          (block
             (return_statement (identifier_name))))))))
 
 =====================================

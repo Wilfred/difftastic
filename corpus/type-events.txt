@@ -17,8 +17,8 @@ class A {
         (generic_name (identifier_name)
           (type_argument_list (identifier_name)))
         (identifier_name)
-        (add_accessor_declaration (statement_block))
-        (remove_accessor_declaration (statement_block))))))
+        (add_accessor_declaration (block))
+        (remove_accessor_declaration (block))))))
 
 =======================================
 Struct event declarations
@@ -39,5 +39,5 @@ struct A {
         (generic_name (identifier_name)
           (type_argument_list (identifier_name)))
         (identifier_name)
-        (add_accessor_declaration (statement_block))
-        (remove_accessor_declaration (statement_block))))))
+        (add_accessor_declaration (block))
+        (remove_accessor_declaration (block))))))

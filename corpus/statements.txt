@@ -17,7 +17,7 @@ class A {
       (predefined_type)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (return_statement (integer_literal)))))))
 
 =====================================
@@ -40,7 +40,7 @@ class A {
         (void_keyword)
         (identifier_name)
         (parameter_list)
-        (statement_block
+        (block
           (return_statement))))))
 
 =====================================
@@ -63,7 +63,7 @@ class A {
         (void_keyword)
         (identifier_name)
         (parameter_list)
-        (statement_block
+        (block
           (while_statement (boolean_literal)
             (break_statement)))))))
 
@@ -86,7 +86,7 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (while_statement (boolean_literal)
           (continue_statement)))))))
 
@@ -109,7 +109,7 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (throw_statement))))))
 
 =====================================
@@ -131,7 +131,7 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (throw_statement (identifier_name)))))))
 
 =====================================
@@ -154,9 +154,9 @@ class A {
       (identifier_name)
       (parameter_list
         (parameter (predefined_type) (identifier_name)))
-      (statement_block
+      (block
         (do_statement
-          (statement_block)
+          (block)
           (identifier_name)))))))
 
 =====================================
@@ -180,7 +180,7 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (goto_statement (label_name))
         (label_name) (return_statement))))))
 
@@ -203,7 +203,7 @@ class A {
       (predefined_type)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (if_statement (boolean_literal)
           (return_statement (integer_literal))))))))
 
@@ -227,7 +227,7 @@ class A {
       (predefined_type)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (if_statement (boolean_literal)
           (return_statement (integer_literal))
           (return_statement (integer_literal))))))))
@@ -259,7 +259,7 @@ class A {
       (identifier_name)
       (parameter_list
         (parameter (predefined_type) (identifier_name)))
-      (statement_block
+      (block
         (switch_statement (identifier_name)
           (switch_section
             (switch_label (integer_literal))
@@ -267,7 +267,7 @@ class A {
             (return_statement (integer_literal)))
           (switch_section
             (switch_label)
-            (statement_block
+            (block
               (return_statement (integer_literal))))))))))
 
 =====================================
@@ -291,11 +291,11 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (try_statement
-          (statement_block)
+          (block)
           (finally_clause
-            (statement_block))))))))
+            (block))))))))
 
 =====================================
 Try catch statement
@@ -318,12 +318,12 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (try_statement
-          (statement_block)
+          (block)
           (catch_clause
             (identifier_name) (identifier_name)
-            (statement_block))))))))
+            (block))))))))
 
 =====================================
 Try catch finally statement
@@ -347,14 +347,14 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (try_statement
-          (statement_block)
+          (block)
           (catch_clause
             (identifier_name) (identifier_name)
-            (statement_block))
+            (block))
           (finally_clause
-            (statement_block))))))))
+            (block))))))))
 
 =====================================
 Try catch multiple statement
@@ -378,15 +378,15 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (try_statement
-          (statement_block)
+          (block)
           (catch_clause
             (identifier_name) (identifier_name)
-            (statement_block))
+            (block))
           (catch_clause
             (identifier_name) (identifier_name)
-            (statement_block))))))))
+            (block))))))))
 
 =====================================
 Try catch filtered statement
@@ -409,13 +409,13 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (try_statement
-          (statement_block)
+          (block)
           (catch_clause
             (identifier_name) (identifier_name)
             (binary_expression (identifier_name) (integer_literal))
-            (statement_block))))))))
+            (block))))))))
 
 =====================================
 Checked statement
@@ -438,9 +438,9 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (checked_statement
-          (statement_block
+          (block
             (return_statement))))))))
 
 =====================================
@@ -464,9 +464,9 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (checked_statement
-          (statement_block
+          (block
             (return_statement))))))))
 
 =====================================
@@ -490,10 +490,10 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (lock_statement
           (identifier_name)
-          (statement_block
+          (block
             (return_statement))))))))
 
 =====================================
@@ -518,7 +518,7 @@ class A {
         (type_argument_list (predefined_type)))
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (yield_statement (integer_literal))
         (yield_statement))))))
 
@@ -541,7 +541,7 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (local_variable_declaration
           (variable_declarator
             (identifier_name)
@@ -566,7 +566,7 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (local_variable_declaration
           (predefined_type)
           (variable_declarator
@@ -592,7 +592,7 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (local_variable_declaration
           (predefined_type)
           (variable_declarator
@@ -617,7 +617,7 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (local_variable_declaration
           (predefined_type)
           (variable_declarator
@@ -646,7 +646,7 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (local_constant_declaration
           (predefined_type)
             (constant_declarator (identifier_name)
@@ -671,7 +671,7 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (local_constant_declaration
           (predefined_type)
             (constant_declarator (identifier_name)
@@ -700,13 +700,13 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (using_statement
           (local_variable_declaration
             (variable_declarator
               (identifier_name)
               (identifier_name)))
-          (statement_block
+          (block
             (return_statement))))))))
 
 =====================================
@@ -730,14 +730,14 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (using_statement
           (local_variable_declaration
             (identifier_name)
             (variable_declarator
               (identifier_name)
               (identifier_name)))
-          (statement_block
+          (block
             (return_statement))))))))
 
 =====================================
@@ -761,8 +761,8 @@ class A {
       (void_keyword)
       (identifier_name)
       (parameter_list)
-      (statement_block
+      (block
         (using_statement
           (identifier_name)
-          (statement_block
+          (block
             (return_statement))))))))

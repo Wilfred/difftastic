@@ -18,7 +18,7 @@ class Foo {
         (void_keyword)
         (identifier_name)
         (parameter_list)
-        (statement_block
+        (block
         (expression_statement
           (ternary_expression
             (identifier_name)
@@ -46,7 +46,7 @@ class Foo {
         (void_keyword)
         (identifier_name)
         (parameter_list)
-        (statement_block
+        (block
         (expression_statement
           (binary_expression
             (identifier_name)
@@ -79,7 +79,7 @@ class Foo {
         (void_keyword)
         (identifier_name)
         (parameter_list)
-        (statement_block
+        (block
         (expression_statement
           (unary_expression
             (identifier_name)))
@@ -110,7 +110,7 @@ void b() {
     (void_keyword)
     (identifier_name)
     (parameter_list)
-    (statement_block
+    (block
       (expression_statement
         (object_creation_expression
           (qualified_name (identifier_name) (identifier_name))

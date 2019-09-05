@@ -12,11 +12,11 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "block",
           "named": true
         },
         {
-          "type": "statement_block",
+          "type": "modifiers",
           "named": true
         }
       ]
@@ -35,7 +35,7 @@
           "named": true
         },
         {
-          "type": "statement_block",
+          "type": "block",
           "named": true
         }
       ]
@@ -502,6 +502,97 @@
     }
   },
   {
+    "type": "block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "break_statement",
+          "named": true
+        },
+        {
+          "type": "checked_statement",
+          "named": true
+        },
+        {
+          "type": "continue_statement",
+          "named": true
+        },
+        {
+          "type": "do_statement",
+          "named": true
+        },
+        {
+          "type": "empty_statement",
+          "named": true
+        },
+        {
+          "type": "expression_statement",
+          "named": true
+        },
+        {
+          "type": "goto_statement",
+          "named": true
+        },
+        {
+          "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "label_name",
+          "named": true
+        },
+        {
+          "type": "local_constant_declaration",
+          "named": true
+        },
+        {
+          "type": "local_variable_declaration",
+          "named": true
+        },
+        {
+          "type": "lock_statement",
+          "named": true
+        },
+        {
+          "type": "return_statement",
+          "named": true
+        },
+        {
+          "type": "switch_statement",
+          "named": true
+        },
+        {
+          "type": "throw_statement",
+          "named": true
+        },
+        {
+          "type": "try_statement",
+          "named": true
+        },
+        {
+          "type": "using_statement",
+          "named": true
+        },
+        {
+          "type": "while_statement",
+          "named": true
+        },
+        {
+          "type": "yield_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "boolean_literal",
     "named": true,
     "fields": {}
@@ -611,6 +702,10 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "boolean_literal",
           "named": true
         },
@@ -663,10 +758,6 @@
           "named": true
         },
         {
-          "type": "statement_block",
-          "named": true
-        },
-        {
           "type": "string_literal",
           "named": true
         },
@@ -709,7 +800,7 @@
       "required": true,
       "types": [
         {
-          "type": "statement_block",
+          "type": "block",
           "named": true
         }
       ]
@@ -1099,6 +1190,10 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -1108,10 +1203,6 @@
         },
         {
           "type": "parameter_list",
-          "named": true
-        },
-        {
-          "type": "statement_block",
           "named": true
         },
         {
@@ -1144,6 +1235,10 @@
         },
         {
           "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "block",
           "named": true
         },
         {
@@ -1204,10 +1299,6 @@
         },
         {
           "type": "real_literal",
-          "named": true
-        },
-        {
-          "type": "statement_block",
           "named": true
         },
         {
@@ -1364,15 +1455,15 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
         {
           "type": "parameter_list",
-          "named": true
-        },
-        {
-          "type": "statement_block",
           "named": true
         }
       ]
@@ -1392,6 +1483,10 @@
         },
         {
           "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "block",
           "named": true
         },
         {
@@ -1488,10 +1583,6 @@
         },
         {
           "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "statement_block",
           "named": true
         },
         {
@@ -1916,7 +2007,7 @@
       "required": true,
       "types": [
         {
-          "type": "statement_block",
+          "type": "block",
           "named": true
         }
       ]
@@ -2144,6 +2235,10 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "boolean_literal",
           "named": true
         },
@@ -2237,10 +2332,6 @@
         },
         {
           "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "statement_block",
           "named": true
         },
         {
@@ -2714,6 +2805,10 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "boolean_literal",
           "named": true
         },
@@ -2810,10 +2905,6 @@
           "named": true
         },
         {
-          "type": "statement_block",
-          "named": true
-        },
-        {
           "type": "string_literal",
           "named": true
         },
@@ -2877,6 +2968,10 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "boolean_literal",
           "named": true
         },
@@ -2934,10 +3029,6 @@
         },
         {
           "type": "real_literal",
-          "named": true
-        },
-        {
-          "type": "statement_block",
           "named": true
         },
         {
@@ -3146,6 +3237,10 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "boolean_literal",
           "named": true
         },
@@ -3207,10 +3302,6 @@
         },
         {
           "type": "real_literal",
-          "named": true
-        },
-        {
-          "type": "statement_block",
           "named": true
         },
         {
@@ -3649,7 +3740,7 @@
           "named": true
         },
         {
-          "type": "statement_block",
+          "type": "block",
           "named": true
         }
       ]
@@ -3729,97 +3820,6 @@
         },
         {
           "type": "verbatim_string_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "statement_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "checked_statement",
-          "named": true
-        },
-        {
-          "type": "continue_statement",
-          "named": true
-        },
-        {
-          "type": "do_statement",
-          "named": true
-        },
-        {
-          "type": "empty_statement",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "goto_statement",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "label_name",
-          "named": true
-        },
-        {
-          "type": "local_constant_declaration",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "lock_statement",
-          "named": true
-        },
-        {
-          "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "statement_block",
-          "named": true
-        },
-        {
-          "type": "switch_statement",
-          "named": true
-        },
-        {
-          "type": "throw_statement",
-          "named": true
-        },
-        {
-          "type": "try_statement",
-          "named": true
-        },
-        {
-          "type": "using_statement",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        },
-        {
-          "type": "yield_statement",
           "named": true
         }
       ]
@@ -3982,6 +3982,10 @@
       "required": true,
       "types": [
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "break_statement",
           "named": true
         },
@@ -4031,10 +4035,6 @@
         },
         {
           "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "statement_block",
           "named": true
         },
         {
@@ -4318,15 +4318,15 @@
       "required": true,
       "types": [
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "catch_clause",
           "named": true
         },
         {
           "type": "finally_clause",
-          "named": true
-        },
-        {
-          "type": "statement_block",
           "named": true
         }
       ]
@@ -4531,6 +4531,10 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "boolean_literal",
           "named": true
         },
@@ -4624,10 +4628,6 @@
         },
         {
           "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "statement_block",
           "named": true
         },
         {
@@ -4809,6 +4809,10 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "boolean_literal",
           "named": true
         },
@@ -4902,10 +4906,6 @@
         },
         {
           "type": "return_statement",
-          "named": true
-        },
-        {
-          "type": "statement_block",
           "named": true
         },
         {
