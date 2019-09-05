@@ -165,7 +165,7 @@ If statements
 package main
 
 func main() {
-  if a() {
+  if a {
     b()
   }
 
@@ -173,15 +173,15 @@ func main() {
     d()
   }
 
-  if a() {
+  if a {
     b()
   } else {
     c()
   }
 
-  if b() {
+  if b {
     c()
-  } else if d() {
+  } else if d {
     e()
   } else {
     f()
@@ -189,34 +189,53 @@ func main() {
 }
 
 ---
+
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameter_list) (block
-    (if_statement
-      (call_expression (identifier) (argument_list))
-      (block (call_expression (identifier) (argument_list))))
+  (function_declaration
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (if_statement
+        condition: (identifier)
+        consequence: (block (call_expression
+          function: (identifier)
+          arguments: (argument_list))))
 
-    (if_statement
-      (if_initializer
-        (short_var_declaration
-          (expression_list (identifier))
-          (expression_list (call_expression (identifier) (argument_list)))))
-      (identifier)
-      (block (call_expression (identifier) (argument_list))))
+      (if_statement
+        initializer: (short_var_declaration
+          left: (expression_list (identifier))
+          right: (expression_list (call_expression
+            function: (identifier)
+            arguments: (argument_list))))
+        condition: (identifier)
+        consequence: (block
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list))))
 
-    (if_statement
-      (call_expression (identifier) (argument_list))
-      (block (call_expression (identifier) (argument_list)))
-      (else_clause (block (call_expression (identifier) (argument_list)))))
+      (if_statement
+        condition: (identifier)
+        consequence: (block (call_expression
+          function: (identifier)
+          arguments: (argument_list)))
+        alternative: (block (call_expression
+          function: (identifier)
+          arguments: (argument_list))))
 
-    (if_statement
-      (call_expression (identifier) (argument_list))
-      (block (call_expression (identifier) (argument_list)))
-      (else_clause
-        (if_statement
-          (call_expression (identifier) (argument_list))
-          (block (call_expression (identifier) (argument_list)))
-          (else_clause (block (call_expression (identifier) (argument_list))))))))))
+      (if_statement
+        condition: (identifier)
+        consequence: (block (call_expression
+          function: (identifier)
+          arguments: (argument_list)))
+        alternative: (if_statement
+          condition: (identifier)
+          consequence: (block (call_expression
+            function: (identifier)
+            arguments: (argument_list)))
+          alternative: (block (call_expression
+            function: (identifier)
+            arguments: (argument_list))))))))
 
 ============================================
 For statements
@@ -295,13 +314,10 @@ loop2:
 Switch statements
 ============================================
 
-package main
-
 func main() {
   switch e {
     case 1, 2:
       a()
-      b()
       fallthrough
     case 3:
       d()
@@ -322,36 +338,43 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_identifier))
-  (function_declaration (identifier) (parameter_list) (block
-    (expression_switch_statement (identifier)
-      (expression_case_clause
-        (expression_case (expression_list (int_literal) (int_literal)))
-        (call_expression (identifier) (argument_list))
-        (call_expression (identifier) (argument_list))
-        (fallthrough_statement))
-      (expression_case_clause
-        (expression_case (expression_list (int_literal)))
-        (call_expression (identifier) (argument_list)))
-      (expression_case_clause
-        (default_case)
-        (call_expression (identifier) (argument_list))
-        (break_statement)))
-    (expression_switch_statement
-      (expression_case_clause
-        (expression_case (expression_list (true)))
-        (return_statement)))
-    (expression_switch_statement
-      (short_var_declaration
-        (expression_list (identifier))
-        (expression_list (call_expression (identifier) (argument_list))))
-      (identifier)))))
+  (function_declaration
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (expression_switch_statement
+        value: (identifier)
+        (expression_case
+          value: (expression_list (int_literal) (int_literal))
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list))
+          (fallthrough_statement))
+        (expression_case
+          value: (expression_list (int_literal))
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list)))
+        (default_case
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list))
+          (break_statement)))
+      (expression_switch_statement
+        (expression_case
+          value: (expression_list (true))
+          (return_statement)))
+      (expression_switch_statement
+        initializer: (short_var_declaration
+          left: (expression_list (identifier))
+          right: (expression_list (call_expression
+            function: (identifier)
+            arguments: (argument_list))))
+        value: (identifier)))))
 
 ============================================
 Type switch statements
 ============================================
-
-package main
 
 func main() {
   switch e.(type) {
@@ -379,37 +402,57 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_identifier))
-  (function_declaration (identifier) (parameter_list) (block
-    (type_switch_statement
-      (type_switch_guard (identifier))
-      (type_case_clause
-        (type_case (slice_type (type_identifier)))
-        (call_expression (identifier) (argument_list)))
-      (type_case_clause
-        (type_case (pointer_type (type_identifier)))
-        (break_statement)))
-    (type_switch_statement
-      (type_switch_guard
-        (expression_list (identifier))
-        (identifier))
-      (type_case_clause
-        (type_case (type_identifier))
-        (call_expression (identifier) (argument_list (interpreted_string_literal))))
-      (type_case_clause
-        (type_case (type_identifier))
-        (call_expression (identifier) (argument_list (identifier))))
-      (type_case_clause
-        (type_case (type_identifier))
-        (call_expression (identifier) (argument_list (identifier))))
-      (type_case_clause
-        (type_case (function_type (parameter_list (parameter_declaration (type_identifier))) (type_identifier)))
-        (call_expression (identifier) (argument_list (identifier))))
-      (type_case_clause
-        (type_case (type_identifier) (type_identifier))
-        (call_expression (identifier) (argument_list (interpreted_string_literal))))
-      (type_case_clause
-        (default_case) (call_expression (identifier) (argument_list (interpreted_string_literal))))))))
+  (function_declaration
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (type_switch_statement
+        value: (identifier)
+        (type_case
+          type: (slice_type
+            element: (type_identifier))
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list)))
+        (type_case
+          type: (pointer_type (type_identifier))
+          (break_statement)))
+      (type_switch_statement
+        alias: (expression_list (identifier))
+        value: (identifier)
+        (type_case
+          type: (type_identifier)
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list (interpreted_string_literal))))
+        (type_case
+          type: (type_identifier)
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list (identifier))))
+        (type_case
+          type: (type_identifier)
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list (identifier))))
+        (type_case
+          type: (function_type
+            parameters: (parameter_list (parameter_declaration
+              type: (type_identifier)))
+            result: (type_identifier))
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list (identifier))))
+        (type_case
+          type: (type_identifier)
+          type: (type_identifier)
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list (interpreted_string_literal))))
+        (default_case
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list (interpreted_string_literal))))))))
 
 ============================================
 Select statements
@@ -434,27 +477,37 @@ func main() {
 
 (source_file
   (package_clause (package_identifier))
-  (function_declaration (identifier) (parameter_list) (block
-    (select_statement
-      (communication_clause
+  (function_declaration
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (select_statement
         (communication_case
-          (receive_statement
-            (expression_list (identifier))
-            (unary_expression (identifier))))
-        (call_expression (identifier) (argument_list (identifier))))
-      (communication_clause
+          communication: (receive_statement
+            left: (expression_list (identifier))
+            right: (unary_expression operand: (identifier)))
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list (identifier))))
         (communication_case
-          (send_statement (identifier) (identifier)))
-        (call_expression (identifier) (argument_list (int_literal))))
-      (communication_clause
+          communication: (send_statement
+            channel: (identifier)
+            value: (identifier))
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list (int_literal))))
         (communication_case
-          (receive_statement (unary_expression (call_expression
-            (selector_expression (identifier) (field_identifier))
-            (argument_list (int_literal))))))
-        (call_expression (identifier) (argument_list (int_literal))))
-      (communication_clause
-        (default_case)
-        (return_statement))))))
+          communication: (receive_statement
+            right: (unary_expression operand: (call_expression
+              function: (selector_expression
+                operand: (identifier)
+                field: (field_identifier))
+              arguments: (argument_list (int_literal)))))
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list (int_literal))))
+        (default_case
+          (return_statement))))))
 
 ============================================
 Go and defer statements
@@ -479,8 +532,6 @@ func main() {
 Nested statement blocks
 ============================================
 
-package main
-
 func main() {
   {
     println("hi")
@@ -493,7 +544,6 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_identifier))
   (function_declaration (identifier) (parameter_list) (block
     (block (call_expression (identifier) (argument_list (interpreted_string_literal))))
     (block (call_expression (identifier) (argument_list (interpreted_string_literal)))))))
@@ -501,8 +551,6 @@ func main() {
 ============================================
 Labels at the ends of statement blocks
 ============================================
-
-package main
 
 func main() {
   {
@@ -513,9 +561,12 @@ func main() {
 ---
 
 (source_file
-  (package_clause (package_identifier))
-  (function_declaration (identifier) (parameter_list) (block
-    (block (labeled_statement (label_name))))))
+  (function_declaration
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block (block
+      (labeled_statement
+        label: (label_name))))))
 
 ============================================
 Empty statements

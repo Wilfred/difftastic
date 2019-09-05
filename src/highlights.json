@@ -372,22 +372,22 @@
         {
           "type": "call_expression",
           "named": true,
-          "state_id": 10
+          "state_id": 12
         },
         {
           "type": "function_declaration",
           "named": true,
-          "state_id": 11
+          "state_id": 12
         },
         {
           "type": "method_declaration",
           "named": true,
-          "state_id": 12
+          "state_id": 13
         },
         {
           "type": "identifier",
           "named": true,
-          "state_id": 13
+          "state_id": 10
         }
       ],
       "default_next_state_id": 0
@@ -448,31 +448,14 @@
     },
     {
       "id": 10,
-      "property_set_id": 0,
-      "transitions": [
-        {
-          "type": "identifier",
-          "named": true,
-          "state_id": 14
-        },
-        {
-          "type": "selector_expression",
-          "named": true,
-          "state_id": 12
-        }
-      ],
+      "property_set_id": 10,
+      "transitions": [],
       "default_next_state_id": 0
     },
     {
       "id": 11,
-      "property_set_id": 0,
-      "transitions": [
-        {
-          "type": "identifier",
-          "named": true,
-          "state_id": 14
-        }
-      ],
+      "property_set_id": 11,
+      "transitions": [],
       "default_next_state_id": 0
     },
     {
@@ -480,23 +463,28 @@
       "property_set_id": 0,
       "transitions": [
         {
-          "type": "field_identifier",
+          "type": "identifier",
           "named": true,
-          "state_id": 14
+          "state_id": 11
+        },
+        {
+          "type": "selector_expression",
+          "named": true,
+          "state_id": 13
         }
       ],
       "default_next_state_id": 0
     },
     {
       "id": 13,
-      "property_set_id": 10,
-      "transitions": [],
-      "default_next_state_id": 0
-    },
-    {
-      "id": 14,
-      "property_set_id": 11,
-      "transitions": [],
+      "property_set_id": 0,
+      "transitions": [
+        {
+          "type": "field_identifier",
+          "named": true,
+          "state_id": 11
+        }
+      ],
       "default_next_state_id": 0
     }
   ],
