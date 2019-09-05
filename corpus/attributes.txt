@@ -8,8 +8,8 @@ Global attributes
 ---
 
 (compilation_unit
-  (attribute_list (attribute (identifier_name)))
-  (attribute_list
+  (global_attribute_list (attribute (identifier_name)))
+  (global_attribute_list
     (attribute (identifier_name))
     (attribute (identifier_name) (attribute_argument_list))))
 
@@ -28,7 +28,8 @@ class D {}
     (attribute_list
       (attribute
         (identifier_name)
-        (attribute_argument_list (qualified_name (identifier_name) (identifier_name)))))
+        (attribute_argument_list
+          (attribute_argument (qualified_name (identifier_name) (identifier_name))))))
     (identifier_name)
     (class_body)))
 

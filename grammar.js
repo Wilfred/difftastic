@@ -31,6 +31,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$.generic_name, $._expression],
     [$.generic_name, $._identifier_or_global],
+    [$._identifier_or_global, $._expression],
     [$.if_statement],
     [$._type, $.type_parameter_list],
     [$.assignment_expression],
@@ -48,11 +49,11 @@ module.exports = grammar({
     
     compilation_unit: $ => seq(
       optional(BYTE_ORDER_MARK),
-      repeat($._declaration)
+      repeat($._declaration) // Intentionally deviates from spec so that we can syntax highlight fragments of code
     ),
 
     _declaration: $ => choice(
-      $._global_attributes,
+      $.global_attribute_list,
       $.class_declaration,
       $.constant_declaration,
       $.delegate_declaration,
@@ -74,6 +75,65 @@ module.exports = grammar({
       $.struct_declaration,
       $.using_directive
     ),
+
+    using_directive: $ => seq(
+      'using',
+      optional(choice(
+        'static',
+        $.name_equals
+      )),
+      $._name,
+      ';'
+    ),
+
+    name_equals: $ => seq($._identifier_or_global, '='),
+
+    identifier_name: $ => /[a-zA-Z_][a-zA-Z_0-9]*/, // identifier_token in Roslyn
+    _identifier_or_global: $ => choice('global', $.identifier_name), // identifier_name in Roslyn
+
+    _name: $ => choice(
+      $.alias_qualified_name,
+      $.qualified_name,
+      $._simple_name
+    ),
+
+    alias_qualified_name: $ => seq($._identifier_or_global, '::', $._simple_name),
+
+    _simple_name: $ => choice(
+      $.generic_name,
+      $._identifier_or_global
+    ),
+
+    generic_name: $ => seq($.identifier_name, $.type_argument_list),
+
+    type_argument_list: $ => seq('<', commaSep1($._type), '>'),
+
+    qualified_name: $ => seq($._name, '.', $._simple_name),
+
+    _attributes: $ => repeat1($.attribute_list),
+    attribute_list: $ => seq('[', commaSep1($.attribute), ']'),
+    attribute: $ => seq($.identifier_name, optional($.attribute_argument_list)),
+
+    attribute_argument_list: $ => seq(
+      '(',
+      commaSep($.attribute_argument),
+      ')'
+    ),
+
+    attribute_argument: $ => seq(
+      optional(choice($.name_equals,$.name_colon)),
+      $._expression
+    ),
+
+    global_attribute_list: $ => seq(
+      '[',
+      choice('assembly', 'module'),
+      ':',
+      commaSep($.attribute),
+      ']'
+    ),
+
+    name_colon: $ => seq($._identifier_or_global, ':'),
 
     // types
 
@@ -129,23 +189,6 @@ module.exports = grammar({
     // extern
 
     extern_alias_directive: $ => seq('extern', 'alias', $.identifier_name, ';'),
-
-    // using
-
-    using_directive: $ => seq(
-      'using',
-      optional(choice(
-        'static',
-        $.name_equals
-      )),
-      choice(
-        $.qualified_name,
-        $.identifier_name
-      ),
-      ';'
-    ),
-
-    name_equals: $ => seq($._identifier_or_global, '='),
 
     // namespace
 
@@ -508,31 +551,6 @@ module.exports = grammar({
     array_type: $ => seq($._type, $.rank_specifier),
     rank_specifier: $ => seq('[', repeat(','), ']'),
 
-    // attributes
-
-    _attributes: $ => repeat1($._attribute_section),
-    _attribute_section: $ => seq('[', $.attribute_list, ']'),
-    attribute_list: $ => commaSep1($.attribute),
-    attribute: $ => seq($.identifier_name, optional($.attribute_argument_list)),
-
-    attribute_argument_list: $ => seq(
-      '(',
-      commaSep(choice(
-        $.identifier_name,
-        $.qualified_name,
-        $._literal
-      )),
-      ')'
-    ),
-
-    _global_attributes: $ => seq(
-      '[',
-      choice('assembly', 'module'),
-      ':',
-      $.attribute_list,
-      ']'
-    ),
-
     // fields
 
     field_declaration: $ => seq(
@@ -744,31 +762,6 @@ module.exports = grammar({
       /[^"]*/,
       '"'
     ),
-
-    // names
-
-    identifier_name: $ => /[a-zA-Z_][a-zA-Z_0-9]*/, // identifier_token in Roslyn
-
-    _identifier_or_global: $ => choice('global', $.identifier_name), // identifier_name in Roslyn
-
-    _name: $ => choice(
-      $.alias_qualified_name,
-      $.qualified_name,
-      $._simple_name
-    ),
-
-    alias_qualified_name: $ => seq($._identifier_or_global, '::', $._simple_name),
-
-    _simple_name: $ => choice(
-      $.generic_name,
-      $._identifier_or_global
-    ),
-
-    generic_name: $ => seq($.identifier_name, $.type_argument_list),
-
-    type_argument_list: $ => seq('<', commaSep1($._type), '>'),
-
-    qualified_name: $ => seq($._name, '.', $._simple_name),
 
     // commments
 

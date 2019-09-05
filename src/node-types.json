@@ -361,15 +361,27 @@
     }
   },
   {
-    "type": "attribute_argument_list",
+    "type": "attribute_argument",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
+          "type": "assignment_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
           "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "call_expression",
           "named": true
         },
         {
@@ -385,7 +397,27 @@
           "named": true
         },
         {
+          "type": "name_colon",
+          "named": true
+        },
+        {
+          "type": "name_equals",
+          "named": true
+        },
+        {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
           "named": true
         },
         {
@@ -401,7 +433,30 @@
           "named": true
         },
         {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
           "type": "verbatim_string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attribute_argument_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute_argument",
           "named": true
         }
       ]
@@ -846,10 +901,6 @@
       "required": false,
       "types": [
         {
-          "type": "attribute_list",
-          "named": true
-        },
-        {
           "type": "class_declaration",
           "named": true
         },
@@ -891,6 +942,10 @@
         },
         {
           "type": "field_declaration",
+          "named": true
+        },
+        {
+          "type": "global_attribute_list",
           "named": true
         },
         {
@@ -984,10 +1039,6 @@
       "required": false,
       "types": [
         {
-          "type": "attribute_list",
-          "named": true
-        },
-        {
           "type": "class_declaration",
           "named": true
         },
@@ -1025,6 +1076,10 @@
         },
         {
           "type": "field_declaration",
+          "named": true
+        },
+        {
+          "type": "global_attribute_list",
           "named": true
         },
         {
@@ -1669,10 +1724,6 @@
       "required": false,
       "types": [
         {
-          "type": "attribute_list",
-          "named": true
-        },
-        {
           "type": "class_declaration",
           "named": true
         },
@@ -1710,6 +1761,10 @@
         },
         {
           "type": "field_declaration",
+          "named": true
+        },
+        {
+          "type": "global_attribute_list",
           "named": true
         },
         {
@@ -2538,6 +2593,21 @@
     }
   },
   {
+    "type": "global_attribute_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "goto_statement",
     "named": true,
     "fields": {},
@@ -2629,10 +2699,6 @@
       "required": true,
       "types": [
         {
-          "type": "attribute_list",
-          "named": true
-        },
-        {
           "type": "class_declaration",
           "named": true
         },
@@ -2674,6 +2740,10 @@
         },
         {
           "type": "field_declaration",
+          "named": true
+        },
+        {
+          "type": "global_attribute_list",
           "named": true
         },
         {
@@ -3605,6 +3675,21 @@
     "fields": {}
   },
   {
+    "type": "name_colon",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "name_equals",
     "named": true,
     "fields": {},
@@ -3627,10 +3712,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "attribute_list",
-          "named": true
-        },
         {
           "type": "class_declaration",
           "named": true
@@ -3669,6 +3750,10 @@
         },
         {
           "type": "field_declaration",
+          "named": true
+        },
+        {
+          "type": "global_attribute_list",
           "named": true
         },
         {
@@ -5068,6 +5153,14 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -5635,6 +5728,78 @@
     "named": false
   },
   {
+    "type": "using",
+    "named": false
+  },
+  {
+    "type": "static",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "identifier_name",
+    "named": true
+  },
+  {
+    "type": "global",
+    "named": false
+  },
+  {
+    "type": "::",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "assembly",
+    "named": false
+  },
+  {
+    "type": "module",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
     "type": "bool",
     "named": false
   },
@@ -5695,18 +5860,6 @@
     "named": false
   },
   {
-    "type": "<",
-    "named": false
-  },
-  {
-    "type": ",",
-    "named": false
-  },
-  {
-    "type": ">",
-    "named": false
-  },
-  {
     "type": "abstract",
     "named": false
   },
@@ -5751,10 +5904,6 @@
     "named": false
   },
   {
-    "type": "static",
-    "named": false
-  },
-  {
     "type": "unsafe",
     "named": false
   },
@@ -5768,18 +5917,6 @@
   },
   {
     "type": "alias",
-    "named": false
-  },
-  {
-    "type": ";",
-    "named": false
-  },
-  {
-    "type": "using",
-    "named": false
-  },
-  {
-    "type": "=",
     "named": false
   },
   {
@@ -5815,10 +5952,6 @@
     "named": false
   },
   {
-    "type": ":",
-    "named": false
-  },
-  {
     "type": ", ",
     "named": false
   },
@@ -5835,27 +5968,7 @@
     "named": false
   },
   {
-    "type": "(",
-    "named": false
-  },
-  {
-    "type": ")",
-    "named": false
-  },
-  {
     "type": "this",
-    "named": false
-  },
-  {
-    "type": "[",
-    "named": false
-  },
-  {
-    "type": "]",
-    "named": false
-  },
-  {
-    "type": ".",
     "named": false
   },
   {
@@ -5991,14 +6104,6 @@
     "named": false
   },
   {
-    "type": "assembly",
-    "named": false
-  },
-  {
-    "type": "module",
-    "named": false
-  },
-  {
     "type": "const",
     "named": false
   },
@@ -6088,18 +6193,6 @@
   },
   {
     "type": "@\"",
-    "named": false
-  },
-  {
-    "type": "identifier_name",
-    "named": true
-  },
-  {
-    "type": "global",
-    "named": false
-  },
-  {
-    "type": "::",
     "named": false
   },
   {
