@@ -34,6 +34,7 @@ module.exports = grammar({
     $._compound_statement,
     $._expression,
     $._primary_expression,
+    $._parameter,
   ],
 
   externals: $ => [
@@ -50,6 +51,7 @@ module.exports = grammar({
     $._compound_statement,
     $.keyword_identifier,
     $._suite,
+    $._parameter,
   ],
 
   word: $ => $.identifier,
@@ -329,17 +331,19 @@ module.exports = grammar({
     lambda_parameters: $ => $._parameters,
 
     _parameters: $ => seq(
-      commaSep1(choice(
-        $.identifier,
-        $.keyword_identifier,
-        $.tuple,
-        $.typed_parameter,
-        $.default_parameter,
-        $.typed_default_parameter,
-        $.list_splat,
-        $.dictionary_splat
-      )),
+      commaSep1($._parameter),
       optional(',')
+    ),
+
+    _parameter: $ => choice(
+      $.identifier,
+      $.keyword_identifier,
+      $.tuple,
+      $.typed_parameter,
+      $.default_parameter,
+      $.typed_default_parameter,
+      $.list_splat,
+      $.dictionary_splat
     ),
 
     default_parameter: $ => seq(
