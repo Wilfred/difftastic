@@ -1338,41 +1338,8 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "identifier"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "keyword_identifier"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "tuple"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "typed_parameter"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "default_parameter"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "typed_default_parameter"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "list_splat"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "dictionary_splat"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_parameter"
             },
             {
               "type": "REPEAT",
@@ -1384,41 +1351,8 @@
                     "value": ","
                   },
                   {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "identifier"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "keyword_identifier"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "tuple"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "typed_parameter"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "default_parameter"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "typed_default_parameter"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "list_splat"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "dictionary_splat"
-                      }
-                    ]
+                    "type": "SYMBOL",
+                    "name": "_parameter"
                   }
                 ]
               }
@@ -1436,6 +1370,43 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "_parameter": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "keyword_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tuple"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "typed_parameter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "default_parameter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "typed_default_parameter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "list_splat"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dictionary_splat"
         }
       ]
     },
@@ -4649,13 +4620,15 @@
     "_simple_statement",
     "_compound_statement",
     "keyword_identifier",
-    "_suite"
+    "_suite",
+    "_parameter"
   ],
   "supertypes": [
     "_simple_statement",
     "_compound_statement",
     "_expression",
-    "_primary_expression"
+    "_primary_expression",
+    "_parameter"
   ]
 }
 
