@@ -20,14 +20,14 @@ class A
     (class_body
       (operator_declaration
         (attribute_list (attribute (identifier_name)))
-        (modifiers)
+        (modifier) (modifier)
         (predefined_type)
         (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))
         (block (return_statement (integer_literal))))
       (operator_declaration
-        (modifiers)
+        (modifier) (modifier)
         (predefined_type)
         (overloadable_operator)
         (parameter_list
@@ -58,7 +58,7 @@ class A
     (identifier_name)
     (class_body
       (operator_declaration
-        (modifiers)
+        (modifier) (modifier)
         (predefined_type)
         (overloadable_operator)
         (parameter_list
@@ -88,7 +88,7 @@ class A
     (identifier_name)
     (class_body
       (conversion_operator_declaration
-        (modifiers)
+        (modifier) (modifier)
         (predefined_type)
         (parameter_list (parameter (identifier_name) (identifier_name)))
         (block (return_statement (integer_literal))))
@@ -115,20 +115,20 @@ class A
     (identifier_name)
     (class_body
       (operator_declaration
-        (modifiers)
+        (modifier) (modifier) (modifier)
         (predefined_type)
         (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name))))
       (operator_declaration
-        (modifiers)
+        (modifier) (modifier) (modifier)
         (predefined_type)
         (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name))
           (parameter (identifier_name) (identifier_name))))
       (conversion_operator_declaration
-        (modifiers)
+        (modifier) (modifier)
         (predefined_type)
         (parameter_list (parameter (identifier_name) (identifier_name)))))))
 
@@ -150,14 +150,14 @@ class A
     (identifier_name)
     (class_body
       (operator_declaration
-        (modifiers)
+        (modifier) (modifier) (modifier)
         (predefined_type)
         (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))
         (integer_literal))
       (operator_declaration
-        (modifiers)
+        (modifier) (modifier) (modifier)
         (predefined_type)
         (overloadable_operator)
         (parameter_list
@@ -165,7 +165,7 @@ class A
           (parameter (identifier_name) (identifier_name)))
         (boolean_literal))
       (conversion_operator_declaration
-        (modifiers)
+        (modifier) (modifier)
         (predefined_type)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))

@@ -653,7 +653,7 @@ class A {
       (parameter_list)
       (block
         (local_declaration_statement
-          (modifiers)
+          (modifier)
           (variable_declaration
             (predefined_type)
               (variable_declarator (identifier_name)
@@ -680,7 +680,7 @@ class A {
       (parameter_list)
       (block
         (local_declaration_statement
-          (modifiers)
+          (modifier)
           (variable_declaration
             (predefined_type)
               (variable_declarator (identifier_name)

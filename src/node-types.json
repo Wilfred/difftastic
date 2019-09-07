@@ -16,7 +16,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         }
       ]
@@ -1008,7 +1008,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         },
         {
@@ -1139,7 +1139,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         },
         {
@@ -1207,7 +1207,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         },
         {
@@ -1361,7 +1361,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         },
         {
@@ -1698,7 +1698,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         }
       ]
@@ -1812,7 +1812,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         },
         {
@@ -1937,7 +1937,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         },
         {
@@ -2859,7 +2859,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         },
         {
@@ -2962,7 +2962,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         },
         {
@@ -2985,7 +2985,7 @@
       "required": true,
       "types": [
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         },
         {
@@ -3215,7 +3215,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         },
         {
@@ -3282,7 +3282,7 @@
     }
   },
   {
-    "type": "modifiers",
+    "type": "modifier",
     "named": true,
     "fields": {}
   },
@@ -3495,7 +3495,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         },
         {
@@ -3860,7 +3860,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         },
         {
@@ -4091,7 +4091,7 @@
           "named": true
         },
         {
-          "type": "modifiers",
+          "type": "modifier",
           "named": true
         },
         {
@@ -5400,66 +5400,6 @@
     "named": false
   },
   {
-    "type": "bool",
-    "named": false
-  },
-  {
-    "type": "byte",
-    "named": false
-  },
-  {
-    "type": "char",
-    "named": false
-  },
-  {
-    "type": "decimal",
-    "named": false
-  },
-  {
-    "type": "double",
-    "named": false
-  },
-  {
-    "type": "float",
-    "named": false
-  },
-  {
-    "type": "int",
-    "named": false
-  },
-  {
-    "type": "long",
-    "named": false
-  },
-  {
-    "type": "object",
-    "named": false
-  },
-  {
-    "type": "sbyte",
-    "named": false
-  },
-  {
-    "type": "short",
-    "named": false
-  },
-  {
-    "type": "string",
-    "named": false
-  },
-  {
-    "type": "uint",
-    "named": false
-  },
-  {
-    "type": "ulong",
-    "named": false
-  },
-  {
-    "type": "ushort",
-    "named": false
-  },
-  {
     "type": "abstract",
     "named": false
   },
@@ -5529,6 +5469,66 @@
   },
   {
     "type": "volatile",
+    "named": false
+  },
+  {
+    "type": "bool",
+    "named": false
+  },
+  {
+    "type": "byte",
+    "named": false
+  },
+  {
+    "type": "char",
+    "named": false
+  },
+  {
+    "type": "decimal",
+    "named": false
+  },
+  {
+    "type": "double",
+    "named": false
+  },
+  {
+    "type": "float",
+    "named": false
+  },
+  {
+    "type": "int",
+    "named": false
+  },
+  {
+    "type": "long",
+    "named": false
+  },
+  {
+    "type": "object",
+    "named": false
+  },
+  {
+    "type": "sbyte",
+    "named": false
+  },
+  {
+    "type": "short",
+    "named": false
+  },
+  {
+    "type": "string",
+    "named": false
+  },
+  {
+    "type": "uint",
+    "named": false
+  },
+  {
+    "type": "ulong",
+    "named": false
+  },
+  {
+    "type": "ushort",
     "named": false
   },
   {

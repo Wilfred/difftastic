@@ -36,7 +36,7 @@ module.exports = grammar({
     [$._type, $.type_parameter_list],
     [$.assignment_expression],
     [$.assignment_expression, $.call_expression],
-    [$.modifiers, $.object_creation_expression]
+    [$.modifier, $.object_creation_expression]
   ],
 
   inline: $ => [
@@ -135,6 +135,28 @@ module.exports = grammar({
 
     name_colon: $ => seq($._identifier_or_global, ':'),
 
+    modifier: $ => choice(
+      'abstract',
+      'async',
+      'const',
+      'extern',
+      'fixed',
+      'internal',
+      'new',
+      'override',
+      'partial',
+      'private',
+      'protected',
+      'public',
+      'readonly',
+      'ref',
+      'sealed',
+      'static',
+      'unsafe',
+      'virtual',
+      'volatile'
+    ),
+
     // types
 
     _type: $ => choice(
@@ -164,32 +186,6 @@ module.exports = grammar({
 
     type_parameter_list: $ => seq('<', commaSep1($.identifier_name), '>'),
 
-    // modifiers
-
-    modifiers: $ => repeat1(
-      choice(
-        'abstract',
-        'async',
-        'const',
-        'extern',
-        'fixed',
-        'internal',
-        'new',
-        'override',
-        'partial',
-        'private',
-        'protected',
-        'public',
-        'readonly',
-        'ref',
-        'sealed',
-        'static',
-        'unsafe',
-        'virtual',
-        'volatile'
-      )
-    ),
-
     // extern
 
     extern_alias_directive: $ => seq('extern', 'alias', $.identifier_name, ';'),
@@ -212,7 +208,7 @@ module.exports = grammar({
 
     property_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       $._type,
       $.identifier_name,
       $._property_body
@@ -230,7 +226,7 @@ module.exports = grammar({
 
     accessor_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       choice('get', 'set'),
       choice($.block, ';')
     ),
@@ -239,7 +235,7 @@ module.exports = grammar({
 
     class_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       'class',
       $.identifier_name,
       optional($.type_parameter_list),
@@ -294,7 +290,7 @@ module.exports = grammar({
 
     indexer_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       $._indexer_declarator,
       $._indexer_body
     ),
@@ -321,7 +317,7 @@ module.exports = grammar({
 
     event_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       'event',
       $._type,
       $.identifier_name,
@@ -345,7 +341,7 @@ module.exports = grammar({
 
     operator_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       $._type,
       'operator',
       $.overloadable_operator,
@@ -355,7 +351,7 @@ module.exports = grammar({
 
     conversion_operator_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       choice(
         'implicit',
         'explicit'
@@ -387,7 +383,7 @@ module.exports = grammar({
 
     interface_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       'interface',
       $.identifier_name,
       optional($.type_parameter_list),
@@ -407,7 +403,7 @@ module.exports = grammar({
 
     struct_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       'struct',
       $.identifier_name,
       optional($.type_parameter_list),
@@ -423,7 +419,7 @@ module.exports = grammar({
 
     enum_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       'enum',
       $.identifier_name,
       optional(seq(':', $._integral_type)),
@@ -455,7 +451,7 @@ module.exports = grammar({
 
     delegate_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       'delegate',
       $.return_type,
       $.identifier_name,
@@ -507,7 +503,7 @@ module.exports = grammar({
 
     field_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       $.variable_declaration,
       ';'
     ),
@@ -720,7 +716,7 @@ module.exports = grammar({
 
     constructor_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       $.identifier_name,
       optional($.type_parameter_list),
       $.parameter_list,
@@ -738,7 +734,7 @@ module.exports = grammar({
 
     method_declaration: $ => seq(
       optional($._attributes),
-      optional($.modifiers),
+      repeat($.modifier),
       $.return_type,
       $.identifier_name,
       optional($.type_parameter_list),
@@ -856,7 +852,7 @@ module.exports = grammar({
     local_declaration_statement: $ => seq(
       optional('await'),
       optional('using'),
-      optional($.modifiers),
+      repeat($.modifier),
       $.variable_declaration,
       ';'
     ),
