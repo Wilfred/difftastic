@@ -3081,21 +3081,6 @@
     "fields": {}
   },
   {
-    "type": "interface_accessor",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "attribute_list",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "interface_base",
     "named": true,
     "fields": {},
@@ -3123,27 +3108,15 @@
           "named": true
         },
         {
+          "type": "class_body",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
         {
           "type": "interface_base",
-          "named": true
-        },
-        {
-          "type": "interface_event_declaration",
-          "named": true
-        },
-        {
-          "type": "interface_indexer_declaration",
-          "named": true
-        },
-        {
-          "type": "interface_method_declaration",
-          "named": true
-        },
-        {
-          "type": "interface_property_declaration",
           "named": true
         },
         {
@@ -3179,131 +3152,6 @@
         },
         {
           "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "interface_indexer_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "attribute_list",
-          "named": true
-        },
-        {
-          "type": "generic_name",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "interface_accessor",
-          "named": true
-        },
-        {
-          "type": "parameter",
-          "named": true
-        },
-        {
-          "type": "parameter_array",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "interface_method_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "attribute_list",
-          "named": true
-        },
-        {
-          "type": "generic_name",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "parameter_list",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "type_parameter_constraints_clause",
-          "named": true
-        },
-        {
-          "type": "type_parameter_list",
-          "named": true
-        },
-        {
-          "type": "void_keyword",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "interface_property_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "attribute_list",
-          "named": true
-        },
-        {
-          "type": "generic_name",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "interface_accessor",
           "named": true
         },
         {
