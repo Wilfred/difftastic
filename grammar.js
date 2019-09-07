@@ -53,7 +53,7 @@ module.exports = grammar({
     ),
 
     _declaration: $ => choice(
-      $.global_attribute_list,
+      $.global_attribute_list, // Consider moving up so only valid in compilation_unit
       $.class_declaration,
       $.constant_declaration,
       $.delegate_declaration,
@@ -322,12 +322,17 @@ module.exports = grammar({
       'event',
       $._type,
       $.identifier_name,
-      '{',
       choice(
-        seq($.add_accessor_declaration, $.remove_accessor_declaration),
-        seq($.remove_accessor_declaration, $.add_accessor_declaration)
-      ),
-      '}'
+        seq(
+          '{',
+          choice(
+            seq($.add_accessor_declaration, $.remove_accessor_declaration),
+            seq($.remove_accessor_declaration, $.add_accessor_declaration)
+          ),
+          '}'
+        ),
+        ';'
+      )
     ),
 
     add_accessor_declaration: $ => seq(optional($._attributes), 'add', $.block),
@@ -386,16 +391,7 @@ module.exports = grammar({
       optional($.type_parameter_list),
       optional($.interface_base),
       repeat($.type_parameter_constraints_clause),
-      '{',
-      repeat(
-        choice(
-          $.interface_method_declaration,
-          $.interface_event_declaration,
-          $.interface_property_declaration,
-          $.interface_indexer_declaration
-        )
-      ),
-      '}',
+      $.class_body,
       optional(';')
     ),
 
@@ -403,51 +399,6 @@ module.exports = grammar({
       ':',
       $.identifier_name,
       optional(seq(',', commaSep1($.identifier_name)))
-    ),
-
-    interface_method_declaration: $ => seq(
-      optional($._attributes),
-      optional('new'),
-      $.return_type,
-      $.identifier_name,
-      optional($.type_parameter_list),
-      optional($.parameter_list),
-      repeat($.type_parameter_constraints_clause),
-      ';'
-    ),
-
-    interface_event_declaration: $ => seq(
-      optional($._attributes),
-      optional('new'),
-      'event',
-      $._type,
-      $.identifier_name,
-      ';'
-    ),
-
-    interface_property_declaration: $ => seq(
-      optional($._attributes),
-      optional('new'),
-      $._type,
-      $.identifier_name,
-      '{',
-      repeat1($.interface_accessor),
-      '}'
-    ),
-
-    interface_accessor: $ => seq(optional($._attributes), choice('get', 'set'), ';'),
-
-    interface_indexer_declaration: $ => seq(
-      optional($._attributes),
-      optional('new'),
-      $._type,
-      'this',
-      '[',
-      $._formal_parameter_list,
-      ']',
-      '{',
-      repeat1($.interface_accessor),
-      '}'
     ),
 
     // struct

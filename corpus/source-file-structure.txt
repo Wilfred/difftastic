@@ -89,7 +89,8 @@ public interface IFoo {
 (compilation_unit
   (interface_declaration
     (modifiers)
-    (identifier_name)))
+    (identifier_name)
+    (class_body)))
 
 =====================================
 Externs

@@ -9,7 +9,8 @@ public interface IOne {};
 (compilation_unit
   (interface_declaration
     (modifiers)
-    (identifier_name)))
+    (identifier_name)
+    (class_body)))
 
 =====================================
 Interface with properties
@@ -27,22 +28,23 @@ interface IOne {
 (compilation_unit
   (interface_declaration
     (identifier_name)
-    (interface_property_declaration
-      (predefined_type)
-      (identifier_name)
-      (interface_accessor))
-    (interface_property_declaration
-      (predefined_type)
-      (identifier_name)
-      (interface_accessor))
-    (interface_property_declaration
-      (predefined_type)
-      (identifier_name)
-      (interface_accessor) (interface_accessor))
-    (interface_property_declaration
-      (predefined_type)
-      (identifier_name)
-      (interface_accessor) (interface_accessor))))
+    (class_body
+      (property_declaration
+        (predefined_type)
+        (identifier_name)
+        (accessor_declaration))
+      (property_declaration
+        (predefined_type)
+        (identifier_name)
+        (accessor_declaration))
+      (property_declaration
+        (predefined_type)
+        (identifier_name)
+        (accessor_declaration) (accessor_declaration))
+      (property_declaration
+        (predefined_type)
+        (identifier_name)
+        (accessor_declaration) (accessor_declaration)))))
 
 =====================================
 Interface with methods
@@ -60,22 +62,23 @@ interface IOne {
 (compilation_unit
   (interface_declaration
     (identifier_name)
-    (interface_method_declaration
-      (void_keyword)
-      (identifier_name)
-      (parameter_list))
-    (interface_method_declaration
-      (predefined_type)
-      (identifier_name)
-      (parameter_list))
-    (interface_method_declaration
-      (void_keyword)
-      (identifier_name)
-      (parameter_list (parameter (predefined_type) (identifier_name))))
-    (interface_method_declaration
-      (predefined_type)
-      (identifier_name)
-      (parameter_list (parameter (predefined_type) (identifier_name))))))
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list))
+      (method_declaration
+        (predefined_type)
+        (identifier_name)
+        (parameter_list))
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list (parameter (predefined_type) (identifier_name))))
+      (method_declaration
+        (predefined_type)
+        (identifier_name)
+        (parameter_list (parameter (predefined_type) (identifier_name)))))))
 
 =====================================
 Interface base single
@@ -90,7 +93,8 @@ private interface IOne : ITwo { }
     (modifiers)
     (identifier_name)
     (interface_base
-      (identifier_name))))
+      (identifier_name))
+    (class_body)))
 
 =====================================
 Interface base multiple
@@ -106,7 +110,8 @@ private interface IOne : ITwo, IThree { }
     (identifier_name)
     (interface_base
       (identifier_name)
-      (identifier_name))))
+      (identifier_name))
+    (class_body)))
 
 =====================================
 Interface generic
@@ -122,7 +127,8 @@ private interface IOne<T1> : ITwo { }
     (identifier_name)
     (type_parameter_list (identifier_name))
     (interface_base
-      (identifier_name))))
+      (identifier_name))
+    (class_body)))
 
 =====================================
 Interface generic single constraint
@@ -140,7 +146,8 @@ private interface IOne<T1> : ITwo where T1:T2 { }
     (interface_base (identifier_name))
      (type_parameter_constraints_clause
       (identifier_name)
-       (type_parameter_constraints (identifier_name)))))
+       (type_parameter_constraints (identifier_name)))
+    (class_body)))
 
 =====================================
 Interface generic multiple constraints
@@ -163,7 +170,8 @@ private interface IOne<T1, T3> : ITwo where T1:T2 where T3:new() { }
        (type_parameter_constraints (identifier_name)))
      (type_parameter_constraints_clause
       (identifier_name)
-      (type_parameter_constraints (constructor_constraint)))))
+      (type_parameter_constraints (constructor_constraint)))
+    (class_body)))
 
 =====================================
 Interface in namespace
@@ -180,7 +188,8 @@ namespace A {
     (interface_declaration
       (identifier_name)
       (interface_base
-        (identifier_name)))))
+        (identifier_name))
+    (class_body))))
 
 =======================================
 Interface event declarations
@@ -195,10 +204,11 @@ interface A {
 (compilation_unit
   (interface_declaration
     (identifier_name)
-    (interface_event_declaration
-      (generic_name (identifier_name)
-        (type_argument_list (identifier_name)))
-      (identifier_name))))
+    (class_body
+      (event_declaration
+        (generic_name (identifier_name)
+          (type_argument_list (identifier_name)))
+        (identifier_name)))))
 
 =====================================
 Interface with indexer
@@ -213,8 +223,36 @@ interface A {
 (compilation_unit
   (interface_declaration
     (identifier_name)
-    (interface_indexer_declaration
-      (predefined_type)
-      (parameter (predefined_type) (identifier_name))
-      (interface_accessor)
-      (interface_accessor))))
+    (class_body
+      (indexer_declaration
+        (predefined_type)
+        (parameter (predefined_type) (identifier_name))
+        (accessor_declaration)
+        (accessor_declaration)))))
+
+=====================================
+Interface with default method
+=====================================
+
+interface MyDefault {
+  void Log(string message) {
+    Console.WriteLine(message);
+  }
+}
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (identifier_name)
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list
+          (parameter (predefined_type) (identifier_name)))
+        (block
+          (expression_statement
+            (call_expression
+              (qualified_name (identifier_name) (identifier_name))
+              (argument_list (identifier_name)))))))))
