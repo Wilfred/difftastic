@@ -917,19 +917,7 @@
           "named": true
         },
         {
-          "type": "endregion_directive",
-          "named": true
-        },
-        {
-          "type": "enum_declaration",
-          "named": true
-        },
-        {
           "type": "event_declaration",
-          "named": true
-        },
-        {
-          "type": "extern_alias_directive",
           "named": true
         },
         {
@@ -937,19 +925,7 @@
           "named": true
         },
         {
-          "type": "global_attribute_list",
-          "named": true
-        },
-        {
-          "type": "if_directive",
-          "named": true
-        },
-        {
           "type": "indexer_declaration",
-          "named": true
-        },
-        {
-          "type": "interface_declaration",
           "named": true
         },
         {
@@ -966,10 +942,6 @@
         },
         {
           "type": "property_declaration",
-          "named": true
-        },
-        {
-          "type": "region_directive",
           "named": true
         },
         {
