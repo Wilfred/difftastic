@@ -1217,6 +1217,10 @@
           "named": true
         },
         {
+          "type": "constructor_initializer",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -1227,9 +1231,20 @@
         {
           "type": "parameter_list",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "constructor_initializer",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
-          "type": "type_parameter_list",
+          "type": "argument_list",
           "named": true
         }
       ]
@@ -3779,7 +3794,7 @@
           "named": true
         },
         {
-          "type": "default_argument",
+          "type": "equals_value_clause",
           "named": true
         },
         {
@@ -5632,6 +5647,18 @@
     "named": false
   },
   {
+    "type": "this",
+    "named": false
+  },
+  {
+    "type": "params",
+    "named": false
+  },
+  {
+    "type": "base",
+    "named": false
+  },
+  {
     "type": "bool",
     "named": false
   },
@@ -5737,10 +5764,6 @@
   },
   {
     "type": "struct",
-    "named": false
-  },
-  {
-    "type": "this",
     "named": false
   },
   {
@@ -5858,10 +5881,6 @@
   {
     "type": "void_keyword",
     "named": true
-  },
-  {
-    "type": "params",
-    "named": false
   },
   {
     "type": "+=",

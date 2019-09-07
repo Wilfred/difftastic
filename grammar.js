@@ -223,6 +223,57 @@ module.exports = grammar({
       $.operator_declaration
     ),
 
+    constructor_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      $.identifier_name,
+      $.parameter_list,
+      optional($.constructor_initializer),
+      $.block
+    ),
+
+    parameter_list: $ => seq(
+      '(',
+      commaSep($.parameter),
+      ')'
+    ),
+
+    // Params varies quite a lot from the Roslyn syntax in grammar.txt as that handles neither 'out' nor 'params' or arrays...
+    
+    parameter_list: $ => seq(
+      '(',
+      optional($._formal_parameter_list),
+      ')'
+    ),
+
+    _formal_parameter_list: $ => commaSep1(choice(
+      $.parameter,
+      $.parameter_array
+    )),
+
+    parameter: $ => seq(
+      optional($._attributes),
+      optional($.parameter_modifier),
+      optional($._type),
+      $.identifier_name,
+      optional($.equals_value_clause)
+    ),
+
+    parameter_modifier: $ => choice('ref', 'out', 'this'),
+
+    parameter_array: $ => seq(
+      optional($._attributes),
+      'params',
+      $.array_type,
+      $.identifier_name
+    ),
+
+    constructor_initializer: $ => seq(
+      ':',
+      choice('base', 'this'),
+      $.argument_list
+    ),
+
     // types
 
     _type: $ => choice(
@@ -370,6 +421,11 @@ module.exports = grammar({
         ']'
       ),
     ),
+
+    _formal_parameter_list: $ => commaSep1(choice(
+      $.parameter,
+      $.parameter_array
+    )),
 
     _indexer_body: $ => choice(
       seq('{', $._accessor_declarations, '}'),
@@ -528,27 +584,7 @@ module.exports = grammar({
 
     // parameters
 
-    parameter_list: $ => seq(
-      '(',
-      optional($._formal_parameter_list),
-      ')'
-    ),
-
-    _formal_parameter_list: $ => commaSep1(choice(
-      $.parameter,
-      $.parameter_array
-    )),
-
-    parameter: $ => seq(
-      optional($._attributes),
-      optional($.parameter_modifier),
-      $._type,
-      $.identifier_name,
-      optional($.default_argument)
-    ),
-
     default_argument: $ => seq('=', $._expression),
-    parameter_modifier: $ => choice('ref', 'out', 'this'),
 
     parameter_array: $ => seq(
       optional($._attributes),
@@ -762,15 +798,6 @@ module.exports = grammar({
     )),
 
     // methods
-
-    constructor_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      $.identifier_name,
-      optional($.type_parameter_list),
-      $.parameter_list,
-      $.block
-    ),
 
     destructor_declaration: $ => seq(
       optional($._attributes),

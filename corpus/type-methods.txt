@@ -196,7 +196,7 @@ class A {
           (parameter
             (predefined_type)
             (identifier_name)
-            (default_argument (integer_literal))))
+            (equals_value_clause (integer_literal))))
         (block)))))
 
 =======================================
