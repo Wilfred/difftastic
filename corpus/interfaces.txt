@@ -205,10 +205,11 @@ interface A {
   (interface_declaration
     (identifier_name)
     (class_body
-      (event_declaration
-        (generic_name (identifier_name)
-          (type_argument_list (identifier_name)))
-        (identifier_name)))))
+        (event_field_declaration
+          (variable_declaration
+            (generic_name (identifier_name)
+              (type_argument_list (identifier_name)))
+            (variable_declarator (identifier_name)))))))
 
 =====================================
 Interface with indexer

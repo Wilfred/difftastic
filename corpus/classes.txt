@@ -297,14 +297,16 @@ class Foo {
           (predefined_type)
           (variable_declarator
             (identifier_name)
-            (integer_literal))))
+            (equals_value_clause
+              (integer_literal)))))
       (field_declaration
         (modifier)
         (variable_declaration
           (predefined_type)
           (variable_declarator
             (identifier_name)
-            (string_literal)))))))
+            (equals_value_clause
+              (string_literal))))))))
 
 =====================================
 Class with indexer

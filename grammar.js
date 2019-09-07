@@ -36,7 +36,8 @@ module.exports = grammar({
     [$._type, $.type_parameter_list],
     [$.assignment_expression],
     [$.assignment_expression, $.call_expression],
-    [$.modifier, $.object_creation_expression]
+    [$.modifier, $.object_creation_expression],
+    [$.event_declaration, $.variable_declarator],
   ],
 
   inline: $ => [
@@ -136,7 +137,7 @@ module.exports = grammar({
     name_colon: $ => seq($._identifier_or_global, ':'),
 
     _member_declaration: $ => choice(
-      $.field_declaration,
+      $._base_field_declaration,
       $.indexer_declaration,
       $.method_declaration,
       $.operator_declaration,
@@ -150,6 +151,19 @@ module.exports = grammar({
       $.event_declaration,
       $.namespace_declaration,
       $.using_directive
+    ),
+
+    _base_field_declaration: $ => choice(
+      $.event_field_declaration,
+      $.field_declaration
+    ),
+
+    event_field_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      'event',
+      $.variable_declaration,
+      ';'
     ),
 
     modifier: $ => choice(
@@ -173,6 +187,28 @@ module.exports = grammar({
       'virtual',
       'volatile'
     ),
+
+    variable_declaration: $ => seq($._type, commaSep1($.variable_declarator)),
+
+    variable_declarator: $ => seq(
+      $.identifier_name,
+      optional($.bracketed_argument_list),
+      optional($.equals_value_clause)
+    ),
+
+    bracketed_argument_list: $ => seq(
+      '[',
+      commaSep1($.argument),
+      ']'
+    ),
+
+    argument: $ => seq(
+      optional($.name_colon),
+      optional(choice('ref', 'out', 'in')),
+      $._expression
+    ),
+
+    equals_value_clause: $ => seq('=', $._expression),
 
     // types
 
@@ -520,13 +556,6 @@ module.exports = grammar({
       repeat($.modifier),
       $.variable_declaration,
       ';'
-    ),
-
-    variable_declaration: $ => seq($._type, commaSep1($.variable_declarator)),
-
-    variable_declarator: $ => seq(
-      $.identifier_name,
-      optional(seq('=', $._initializer))
     ),
 
     _initializer: $ => choice(

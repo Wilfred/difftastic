@@ -13,17 +13,17 @@ const UInt64 dec = 1uL;
     (modifier)
     (variable_declaration
       (predefined_type)
-      (variable_declarator (identifier_name) (integer_literal))))
+      (variable_declarator (identifier_name) (equals_value_clause (integer_literal)))))
   (field_declaration
     (modifier)
     (variable_declaration
       (predefined_type)
-      (variable_declarator (identifier_name) (integer_literal))))
+      (variable_declarator (identifier_name) (equals_value_clause (integer_literal)))))
   (field_declaration
     (modifier)
     (variable_declaration
       (identifier_name)
-      (variable_declarator (identifier_name) (integer_literal)))))
+      (variable_declarator (identifier_name) (equals_value_clause (integer_literal))))))
 
 =======================================
 boolean literals
@@ -38,8 +38,8 @@ const bool t = true, u = false;
     (modifier)
     (variable_declaration
       (predefined_type)
-      (variable_declarator (identifier_name) (boolean_literal))
-      (variable_declarator (identifier_name) (boolean_literal)))))
+      (variable_declarator (identifier_name) (equals_value_clause (boolean_literal)))
+      (variable_declarator (identifier_name) (equals_value_clause (boolean_literal))))))
 
 =======================================
 char literals
@@ -58,27 +58,27 @@ const char uni32 = '\UA0BFf9ca';
     (modifier)
     (variable_declaration
       (predefined_type)
-      (variable_declarator (identifier_name) (character_literal))))
+      (variable_declarator (identifier_name) (equals_value_clause (character_literal)))))
   (field_declaration
     (modifier)
     (variable_declaration
     (predefined_type)
-      (variable_declarator (identifier_name) (character_literal (escape_sequence)))))
+      (variable_declarator (identifier_name) (equals_value_clause (character_literal (escape_sequence))))))
   (field_declaration
     (modifier)
     (variable_declaration
     (predefined_type)
-      (variable_declarator (identifier_name) (character_literal (escape_sequence)))))
+      (variable_declarator (identifier_name) (equals_value_clause (character_literal (escape_sequence))))))
   (field_declaration
     (modifier)
     (variable_declaration
     (predefined_type)
-      (variable_declarator (identifier_name) (character_literal (escape_sequence)))))
+      (variable_declarator (identifier_name) (equals_value_clause (character_literal (escape_sequence))))))
   (field_declaration
     (modifier)
     (variable_declaration
     (predefined_type)
-      (variable_declarator (identifier_name) (character_literal (escape_sequence))))))
+      (variable_declarator (identifier_name) (equals_value_clause (character_literal (escape_sequence)))))))
 
 =======================================
 real literals
@@ -99,37 +99,37 @@ const Decimal m2 = 102.349M;
     (modifier)
     (variable_declaration
     (predefined_type)
-    (variable_declarator (identifier_name) (real_literal))))
+    (variable_declarator (identifier_name) (equals_value_clause (real_literal)))))
   (field_declaration
     (modifier)
     (variable_declaration
     (predefined_type)
-    (variable_declarator (identifier_name) (real_literal))))
+    (variable_declarator (identifier_name) (equals_value_clause (real_literal)))))
   (field_declaration
     (modifier)
     (variable_declaration
     (identifier_name)
-    (variable_declarator (identifier_name) (real_literal))))
+    (variable_declarator (identifier_name) (equals_value_clause (real_literal)))))
   (field_declaration
     (modifier)
     (variable_declaration
     (identifier_name)
-    (variable_declarator (identifier_name) (real_literal))))
+    (variable_declarator (identifier_name) (equals_value_clause (real_literal)))))
   (field_declaration
     (modifier)
     (variable_declaration
     (predefined_type)
-    (variable_declarator (identifier_name) (real_literal))))
+    (variable_declarator (identifier_name) (equals_value_clause (real_literal)))))
   (field_declaration
     (modifier)
     (variable_declaration
     (predefined_type)
-    (variable_declarator (identifier_name) (real_literal))))
+    (variable_declarator (identifier_name) (equals_value_clause (real_literal)))))
   (field_declaration
     (modifier)
     (variable_declaration
     (identifier_name)
-    (variable_declarator (identifier_name) (real_literal)))))
+    (variable_declarator (identifier_name) (equals_value_clause (real_literal))))))
 
 =======================================
 null literals
@@ -144,7 +144,7 @@ const string x = null;
     (modifier)
     (variable_declaration
       (predefined_type)
-      (variable_declarator (identifier_name) (null_literal)))))
+      (variable_declarator (identifier_name) (equals_value_clause (null_literal))))))
 
 =======================================
 string literals
@@ -172,40 +172,40 @@ class A {
       (field_declaration
         (variable_declaration
           (identifier_name)
-          (variable_declarator (identifier_name) (string_literal))))
+          (variable_declarator (identifier_name) (equals_value_clause (string_literal)))))
       (field_declaration
         (variable_declaration
           (predefined_type)
-          (variable_declarator (identifier_name) (string_literal))))
+          (variable_declarator (identifier_name) (equals_value_clause (string_literal)))))
       (field_declaration
         (variable_declaration
           (predefined_type)
-          (variable_declarator (identifier_name) (string_literal))))
+          (variable_declarator (identifier_name) (equals_value_clause (string_literal)))))
       (field_declaration
         (variable_declaration
           (predefined_type)
-          (variable_declarator (identifier_name) (string_literal (escape_sequence) (escape_sequence)))))
+          (variable_declarator (identifier_name) (equals_value_clause (string_literal (escape_sequence) (escape_sequence))))))
       (field_declaration
         (variable_declaration
           (predefined_type)
-          (variable_declarator (identifier_name) (string_literal (escape_sequence)))))
+          (variable_declarator (identifier_name) (equals_value_clause (string_literal (escape_sequence))))))
       (field_declaration
         (variable_declaration
           (predefined_type)
-          (variable_declarator (identifier_name) (string_literal (escape_sequence) (escape_sequence)))))
+          (variable_declarator (identifier_name) (equals_value_clause (string_literal (escape_sequence) (escape_sequence))))))
       (field_declaration
         (variable_declaration
           (predefined_type)
-          (variable_declarator (identifier_name) (string_literal (escape_sequence)))))
+          (variable_declarator (identifier_name) (equals_value_clause (string_literal (escape_sequence))))))
       (field_declaration
         (variable_declaration
           (predefined_type)
-          (variable_declarator (identifier_name) (string_literal (escape_sequence)))))
+          (variable_declarator (identifier_name) (equals_value_clause (string_literal (escape_sequence))))))
       (field_declaration
         (variable_declaration
           (predefined_type)
-          (variable_declarator (identifier_name) (verbatim_string_literal))))
+          (variable_declarator (identifier_name) (equals_value_clause (verbatim_string_literal)))))
       (field_declaration
         (variable_declaration
           (predefined_type)
-          (variable_declarator (identifier_name) (verbatim_string_literal)))))))
+          (variable_declarator (identifier_name) (equals_value_clause (verbatim_string_literal))))))))
