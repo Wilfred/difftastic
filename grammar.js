@@ -171,13 +171,16 @@ module.exports = grammar({
         'abstract',
         'async',
         'extern',
+        'fixed',
         'internal',
         'new',
         'override',
+        'partial',
         'private',
         'protected',
         'public',
         'readonly',
+        'ref',
         'sealed',
         'static',
         'unsafe',
@@ -236,7 +239,6 @@ module.exports = grammar({
     class_declaration: $ => seq(
       optional($._attributes),
       optional($.modifiers),
-      optional('partial'),
       'class',
       $.identifier_name,
       optional($.type_parameter_list),
@@ -385,7 +387,6 @@ module.exports = grammar({
     interface_declaration: $ => seq(
       optional($._attributes),
       optional($.modifiers),
-      optional('partial'),
       'interface',
       $.identifier_name,
       optional($.type_parameter_list),
@@ -406,7 +407,6 @@ module.exports = grammar({
     struct_declaration: $ => seq(
       optional($._attributes),
       optional($.modifiers),
-      optional('partial'),
       'struct',
       $.identifier_name,
       optional($.type_parameter_list),
@@ -751,7 +751,6 @@ module.exports = grammar({
     method_declaration: $ => seq(
       optional($._attributes),
       optional($.modifiers),
-      optional('partial'),
       $.return_type,
       $.identifier_name,
       optional($.type_parameter_list),

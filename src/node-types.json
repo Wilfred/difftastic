@@ -3135,37 +3135,6 @@
     }
   },
   {
-    "type": "interface_event_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "attribute_list",
-          "named": true
-        },
-        {
-          "type": "generic_name",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "local_constant_declaration",
     "named": true,
     "fields": {},
@@ -5720,6 +5689,10 @@
     "named": false
   },
   {
+    "type": "fixed",
+    "named": false
+  },
+  {
     "type": "internal",
     "named": false
   },
@@ -5729,6 +5702,10 @@
   },
   {
     "type": "override",
+    "named": false
+  },
+  {
+    "type": "partial",
     "named": false
   },
   {
@@ -5745,6 +5722,10 @@
   },
   {
     "type": "readonly",
+    "named": false
+  },
+  {
+    "type": "ref",
     "named": false
   },
   {
@@ -5789,10 +5770,6 @@
   },
   {
     "type": "set",
-    "named": false
-  },
-  {
-    "type": "partial",
     "named": false
   },
   {
@@ -5940,10 +5917,6 @@
     "named": true
   },
   {
-    "type": "ref",
-    "named": false
-  },
-  {
     "type": "out",
     "named": false
   },
@@ -6069,10 +6042,6 @@
   },
   {
     "type": "while",
-    "named": false
-  },
-  {
-    "type": "fixed",
     "named": false
   },
   {
