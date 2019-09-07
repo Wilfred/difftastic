@@ -232,12 +232,6 @@ module.exports = grammar({
       $.block
     ),
 
-    parameter_list: $ => seq(
-      '(',
-      commaSep($.parameter),
-      ')'
-    ),
-
     // Params varies quite a lot from the Roslyn syntax in grammar.txt as that handles neither 'out' nor 'params' or arrays...
     
     parameter_list: $ => seq(
@@ -274,6 +268,72 @@ module.exports = grammar({
       $.argument_list
     ),
 
+    argument_list: $ => seq(
+      '(',
+      commaSep($._expression),
+      ')'
+    ),
+
+    block: $ => seq('{', repeat($._statement), '}'),
+
+    conversion_operator_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      choice(
+        'implicit',
+        'explicit'
+      ),
+      'operator',
+      $._type,
+      $.parameter_list,
+      $._method_body,
+    ),
+
+    destructor_declaration: $ => seq(
+      optional($._attributes),
+      optional('extern'),
+      '~',
+      $.identifier_name,
+      $.parameter_list,
+      $.block
+    ),
+
+    method_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      $.return_type,
+      $.identifier_name,
+      optional($.type_parameter_list),
+      $.parameter_list,
+      repeat($.type_parameter_constraints_clause),
+      $._method_body,
+    ),
+
+    _method_body: $ => choice(
+      $.block,
+      seq('=>', $._expression, ';'),
+      ';'
+    ),
+
+    type_parameter_list: $ => seq('<', commaSep1($.identifier_name), '>'),
+
+    type_parameter_constraints_clause: $ => seq(
+      'where', $._identifier_or_global, ':', $.type_parameter_constraints
+    ),
+
+    type_parameter_constraints: $ => choice(
+      $.constructor_constraint,
+      seq(
+        choice(
+          $.class_type,
+          'class',
+          'struct'
+        ),
+        optional(seq(',', commaSep1($.identifier_name))),
+        optional(seq(',', $.constructor_constraint))
+      )
+    ),
+
     // types
 
     _type: $ => choice(
@@ -300,8 +360,6 @@ module.exports = grammar({
       'ulong',
       'ushort'
     ),
-
-    type_parameter_list: $ => seq('<', commaSep1($.identifier_name), '>'),
 
     // extern
 
@@ -381,23 +439,6 @@ module.exports = grammar({
       'string'
     ),
 
-    type_parameter_constraints_clause: $ => seq(
-      'where', $._identifier_or_global, ':', $.type_parameter_constraints
-    ),
-
-    type_parameter_constraints: $ => choice(
-      $.constructor_constraint,
-      seq(
-        choice(
-          $.class_type,
-          'class',
-          'struct'
-        ),
-        optional(seq(',', commaSep1($.identifier_name))),
-        optional(seq(',', $.constructor_constraint))
-      )
-    ),
-
     constructor_constraint: $ => seq('new', '(', ')'),
 
     // indexers
@@ -464,19 +505,6 @@ module.exports = grammar({
       $._type,
       'operator',
       $.overloadable_operator,
-      $.parameter_list,
-      $._method_body,
-    ),
-
-    conversion_operator_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      choice(
-        'implicit',
-        'explicit'
-      ),
-      'operator',
-      $._type,
       $.parameter_list,
       $._method_body,
     ),
@@ -691,12 +719,6 @@ module.exports = grammar({
       $.argument_list
     ),
 
-    argument_list: $ => seq(
-      '(',
-      commaSep($._expression),
-      ')'
-    ),
-
     // literals
 
     _literal: $ => choice(
@@ -797,34 +819,6 @@ module.exports = grammar({
       )
     )),
 
-    // methods
-
-    destructor_declaration: $ => seq(
-      optional($._attributes),
-      optional('extern'),
-      '~',
-      $.identifier_name,
-      $.parameter_list,
-      $.block
-    ),
-
-    method_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      $.return_type,
-      $.identifier_name,
-      optional($.type_parameter_list),
-      $.parameter_list,
-      repeat($.type_parameter_constraints_clause),
-      $._method_body,
-    ),
-
-    _method_body: $ => choice(
-      $.block,
-      seq('=>', $._expression, ';'),
-      ';'
-    ),
-
     // Statements
 
     _statement: $ => choice(
@@ -852,8 +846,6 @@ module.exports = grammar({
       $.while_statement,
       $.yield_statement,
     ),
-
-    block: $ => seq('{', repeat($._statement), '}'),
 
     break_statement: $ => seq('break', ';'),
 
