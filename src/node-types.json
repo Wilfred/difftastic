@@ -617,11 +617,7 @@
           "named": true
         },
         {
-          "type": "local_constant_declaration",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
+          "type": "local_declaration_statement",
           "named": true
         },
         {
@@ -905,10 +901,6 @@
           "named": true
         },
         {
-          "type": "constant_declaration",
-          "named": true
-        },
-        {
           "type": "constructor_declaration",
           "named": true
         },
@@ -1043,10 +1035,6 @@
           "named": true
         },
         {
-          "type": "constant_declaration",
-          "named": true
-        },
-        {
           "type": "conversion_operator_declaration",
           "named": true
         },
@@ -1120,124 +1108,6 @@
         },
         {
           "type": "using_directive",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "constant_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "attribute_list",
-          "named": true
-        },
-        {
-          "type": "constant_declarator",
-          "named": true
-        },
-        {
-          "type": "generic_name",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "modifiers",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "constant_declarator",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
-          "type": "null_literal",
-          "named": true
-        },
-        {
-          "type": "object_creation_expression",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "real_literal",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "verbatim_string_literal",
           "named": true
         }
       ]
@@ -1629,11 +1499,7 @@
           "named": true
         },
         {
-          "type": "local_constant_declaration",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
+          "type": "local_declaration_statement",
           "named": true
         },
         {
@@ -1725,10 +1591,6 @@
       "types": [
         {
           "type": "class_declaration",
-          "named": true
-        },
-        {
-          "type": "constant_declaration",
           "named": true
         },
         {
@@ -2161,11 +2023,7 @@
           "named": true
         },
         {
-          "type": "local_constant_declaration",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
+          "type": "local_declaration_statement",
           "named": true
         },
         {
@@ -2304,11 +2162,7 @@
           "named": true
         },
         {
-          "type": "local_constant_declaration",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
+          "type": "local_declaration_statement",
           "named": true
         },
         {
@@ -2483,11 +2337,7 @@
           "named": true
         },
         {
-          "type": "local_constant_declaration",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
+          "type": "local_declaration_statement",
           "named": true
         },
         {
@@ -2703,10 +2553,6 @@
           "named": true
         },
         {
-          "type": "constant_declaration",
-          "named": true
-        },
-        {
           "type": "conversion_operator_declaration",
           "named": true
         },
@@ -2882,11 +2728,7 @@
           "named": true
         },
         {
-          "type": "local_constant_declaration",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
+          "type": "local_declaration_statement",
           "named": true
         },
         {
@@ -3135,7 +2977,7 @@
     }
   },
   {
-    "type": "local_constant_declaration",
+    "type": "local_declaration_statement",
     "named": true,
     "fields": {},
     "children": {
@@ -3143,54 +2985,11 @@
       "required": true,
       "types": [
         {
-          "type": "constant_declarator",
+          "type": "modifiers",
           "named": true
         },
         {
-          "type": "generic_name",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "local_variable_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_name",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "variable_declarator",
+          "type": "variable_declaration",
           "named": true
         }
       ]
@@ -3285,11 +3084,7 @@
           "named": true
         },
         {
-          "type": "local_constant_declaration",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
+          "type": "local_declaration_statement",
           "named": true
         },
         {
@@ -3531,10 +3326,6 @@
       "types": [
         {
           "type": "class_declaration",
-          "named": true
-        },
-        {
-          "type": "constant_declaration",
           "named": true
         },
         {
@@ -4473,11 +4264,7 @@
           "named": true
         },
         {
-          "type": "local_constant_declaration",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
+          "type": "local_declaration_statement",
           "named": true
         },
         {
@@ -5081,11 +4868,7 @@
           "named": true
         },
         {
-          "type": "local_constant_declaration",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
+          "type": "local_declaration_statement",
           "named": true
         },
         {
@@ -5150,6 +4933,10 @@
         },
         {
           "type": "using_statement",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -5375,11 +5162,7 @@
           "named": true
         },
         {
-          "type": "local_constant_declaration",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
+          "type": "local_declaration_statement",
           "named": true
         },
         {
@@ -5685,6 +5468,10 @@
     "named": false
   },
   {
+    "type": "const",
+    "named": false
+  },
+  {
     "type": "extern",
     "named": false
   },
@@ -5925,10 +5712,6 @@
     "named": false
   },
   {
-    "type": "const",
-    "named": false
-  },
-  {
     "type": "+=",
     "named": false
   },
@@ -6114,10 +5897,6 @@
   },
   {
     "type": "yield",
-    "named": false
-  },
-  {
-    "type": "var",
     "named": false
   },
   {
