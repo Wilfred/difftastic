@@ -547,7 +547,8 @@ class A {
             (identifier_name)
             (variable_declarator
               (identifier_name)
-              (integer_literal)))))))))
+              (equals_value_clause
+                (integer_literal))))))))))
 
 =====================================
 Explicit local variable with literal initializer
@@ -574,7 +575,8 @@ class A {
             (predefined_type)
             (variable_declarator
               (identifier_name)
-              (integer_literal)))))))))
+              (equals_value_clause
+                (integer_literal))))))))))
 
 =====================================
 Explicit local variable with no initializer
@@ -627,10 +629,12 @@ class A {
             (predefined_type)
             (variable_declarator
               (identifier_name)
-              (integer_literal))
+              (equals_value_clause
+                (integer_literal)))
             (variable_declarator
               (identifier_name)
-              (integer_literal)))))))))
+              (equals_value_clause
+                (integer_literal))))))))))
 
 =====================================
 Explicit local constant with literal initializer
@@ -657,7 +661,8 @@ class A {
           (variable_declaration
             (predefined_type)
               (variable_declarator (identifier_name)
-                (integer_literal)))))))))
+                (equals_value_clause
+                  (integer_literal))))))))))
 
 =====================================
 Explicit local constant with multiple literal initializers
@@ -684,9 +689,11 @@ class A {
           (variable_declaration
             (predefined_type)
               (variable_declarator (identifier_name)
-                (integer_literal))
+                (equals_value_clause
+                  (integer_literal)))
               (variable_declarator (identifier_name)
-                (integer_literal)))))))))
+                (equals_value_clause
+                  (integer_literal))))))))))
 
 =====================================
 Using statement with implicit local variable
@@ -715,7 +722,8 @@ class A {
             (identifier_name)
             (variable_declarator
               (identifier_name)
-              (identifier_name)))
+              (equals_value_clause
+                (identifier_name))))
           (block
             (return_statement))))))))
 
@@ -746,7 +754,8 @@ class A {
             (identifier_name)
             (variable_declarator
               (identifier_name)
-              (identifier_name)))
+              (equals_value_clause
+                (identifier_name))))
           (block
             (return_statement))))))))
 
@@ -891,8 +900,9 @@ class A {
             (predefined_type)
             (variable_declarator
               (identifier_name)
-              (identifier_name)))
-              (block)))))))
+              (equals_value_clause
+                (identifier_name))))
+                (block)))))))
 
 =====================================
 For inline declaration fully populated
@@ -921,7 +931,8 @@ class A {
             (predefined_type)
             (variable_declarator
               (identifier_name)
-              (integer_literal)))
+              (equals_value_clause
+                (integer_literal))))
           (binary_expression
             (identifier_name)
             (integer_literal)) 
