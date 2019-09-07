@@ -129,7 +129,7 @@ class Z {
         (parameter_modifier)
         (predefined_type)
         (identifier_name)
-        (default_argument (character_literal (escape_sequence))))))
+        (equals_value_clause (character_literal (escape_sequence))))))
   (delegate_declaration (void_keyword) (identifier_name)
     (parameter_list (parameter_array (array_type (predefined_type) (rank_specifier)) (identifier_name))))
   (class_declaration (identifier_name) (class_body
