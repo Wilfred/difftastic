@@ -5499,6 +5499,10 @@
       "_identifier_or_global"
     ],
     [
+      "_identifier_or_global",
+      "_expression"
+    ],
+    [
       "if_statement"
     ],
     [
