@@ -229,7 +229,7 @@ module.exports = grammar({
       $.identifier_name,
       $.parameter_list,
       optional($.constructor_initializer),
-      $.block
+      $._function_body
     ),
 
     // Params varies quite a lot from the Roslyn syntax in grammar.txt as that handles neither 'out' nor 'params' or arrays...
@@ -276,6 +276,8 @@ module.exports = grammar({
 
     block: $ => seq('{', repeat($._statement), '}'),
 
+    arrow_expression_clause: $ => seq('=>', $._expression),
+
     conversion_operator_declaration: $ => seq(
       optional($._attributes),
       repeat($.modifier),
@@ -286,7 +288,13 @@ module.exports = grammar({
       'operator',
       $._type,
       $.parameter_list,
-      $._method_body,
+      $._function_body,
+    ),
+
+    _function_body: $ => choice(
+      $.block,
+      seq($.arrow_expression_clause, ';'),
+      ';' // Only applies to interfaces
     ),
 
     destructor_declaration: $ => seq(
@@ -295,7 +303,7 @@ module.exports = grammar({
       '~',
       $.identifier_name,
       $.parameter_list,
-      $.block
+      $._function_body
     ),
 
     method_declaration: $ => seq(
@@ -306,13 +314,7 @@ module.exports = grammar({
       optional($.type_parameter_list),
       $.parameter_list,
       repeat($.type_parameter_constraints_clause),
-      $._method_body,
-    ),
-
-    _method_body: $ => choice(
-      $.block,
-      seq('=>', $._expression, ';'),
-      ';'
+      $._function_body,
     ),
 
     type_parameter_list: $ => seq('<', commaSep1($.identifier_name), '>'),
@@ -506,7 +508,7 @@ module.exports = grammar({
       'operator',
       $.overloadable_operator,
       $.parameter_list,
-      $._method_body,
+      $._function_body,
     ),
 
     overloadable_operator: $ => choice(

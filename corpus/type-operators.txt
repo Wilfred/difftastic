@@ -98,6 +98,27 @@ class A
         (block (return_statement (integer_literal)))))))
 
 =======================================
+conversion operator with expression body
+=======================================
+
+class A
+{
+  public static implicit operator int (A a) => 0;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (conversion_operator_declaration
+        (modifier) (modifier)
+        (predefined_type)
+        (parameter_list (parameter (identifier_name) (identifier_name)))
+        (arrow_expression_clause (integer_literal))))))
+
+=======================================
 extern operators
 =======================================
 
@@ -133,7 +154,7 @@ class A
         (parameter_list (parameter (identifier_name) (identifier_name)))))))
 
 =======================================
-Class conversion operators with lambdas
+Class conversion operators with expression body
 =======================================
 
 class A
@@ -155,7 +176,7 @@ class A
         (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))
-        (integer_literal))
+        (arrow_expression_clause (integer_literal)))
       (operator_declaration
         (modifier) (modifier) (modifier)
         (predefined_type)
@@ -163,10 +184,10 @@ class A
         (parameter_list
           (parameter (identifier_name) (identifier_name))
           (parameter (identifier_name) (identifier_name)))
-        (boolean_literal))
+        (arrow_expression_clause (boolean_literal)))
       (conversion_operator_declaration
         (modifier) (modifier)
         (predefined_type)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))
-        (integer_literal)))))
+        (arrow_expression_clause (integer_literal))))))

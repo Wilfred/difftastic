@@ -337,6 +337,85 @@
     }
   },
   {
+    "type": "arrow_expression_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "real_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "verbatim_string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "assignment_expression",
     "named": true,
     "fields": {},
@@ -1209,6 +1288,10 @@
       "required": true,
       "types": [
         {
+          "type": "arrow_expression_clause",
+          "named": true
+        },
+        {
           "type": "attribute_list",
           "named": true
         },
@@ -1264,7 +1347,7 @@
       "required": true,
       "types": [
         {
-          "type": "assignment_expression",
+          "type": "arrow_expression_clause",
           "named": true
         },
         {
@@ -1272,23 +1355,7 @@
           "named": true
         },
         {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
           "type": "block",
-          "named": true
-        },
-        {
-          "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "character_literal",
           "named": true
         },
         {
@@ -1300,31 +1367,11 @@
           "named": true
         },
         {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
           "type": "modifier",
           "named": true
         },
         {
-          "type": "null_literal",
-          "named": true
-        },
-        {
-          "type": "object_creation_expression",
-          "named": true
-        },
-        {
           "type": "parameter_list",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
           "named": true
         },
         {
@@ -1333,26 +1380,6 @@
         },
         {
           "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "real_literal",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "verbatim_string_literal",
           "named": true
         }
       ]
@@ -1488,6 +1515,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "arrow_expression_clause",
+          "named": true
+        },
         {
           "type": "attribute_list",
           "named": true
@@ -3390,7 +3421,7 @@
       "required": true,
       "types": [
         {
-          "type": "assignment_expression",
+          "type": "arrow_expression_clause",
           "named": true
         },
         {
@@ -3398,23 +3429,7 @@
           "named": true
         },
         {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
           "type": "block",
-          "named": true
-        },
-        {
-          "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "character_literal",
           "named": true
         },
         {
@@ -3426,31 +3441,11 @@
           "named": true
         },
         {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
           "type": "modifier",
           "named": true
         },
         {
-          "type": "null_literal",
-          "named": true
-        },
-        {
-          "type": "object_creation_expression",
-          "named": true
-        },
-        {
           "type": "parameter_list",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
           "named": true
         },
         {
@@ -3462,31 +3457,11 @@
           "named": true
         },
         {
-          "type": "real_literal",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "type_parameter_constraints_clause",
           "named": true
         },
         {
           "type": "type_parameter_list",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "verbatim_string_literal",
           "named": true
         },
         {
@@ -3678,7 +3653,7 @@
       "required": true,
       "types": [
         {
-          "type": "assignment_expression",
+          "type": "arrow_expression_clause",
           "named": true
         },
         {
@@ -3686,23 +3661,7 @@
           "named": true
         },
         {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
           "type": "block",
-          "named": true
-        },
-        {
-          "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "character_literal",
           "named": true
         },
         {
@@ -3714,19 +3673,7 @@
           "named": true
         },
         {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "null_literal",
-          "named": true
-        },
-        {
-          "type": "object_creation_expression",
           "named": true
         },
         {
@@ -3738,39 +3685,11 @@
           "named": true
         },
         {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
-          "named": true
-        },
-        {
           "type": "predefined_type",
           "named": true
         },
         {
           "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "real_literal",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "verbatim_string_literal",
           "named": true
         }
       ]
@@ -5667,6 +5586,10 @@
     "named": false
   },
   {
+    "type": "=>",
+    "named": false
+  },
+  {
     "type": "implicit",
     "named": false
   },
@@ -5680,10 +5603,6 @@
   },
   {
     "type": "~",
-    "named": false
-  },
-  {
-    "type": "=>",
     "named": false
   },
   {

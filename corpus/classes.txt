@@ -226,6 +226,27 @@ class Foo {
         (block)))))
 
 =====================================
+Class with expression bodied constructor
+=====================================
+
+class Foo {
+  public Foo(string name) => Name = name;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (constructor_declaration
+        (modifier)
+        (identifier_name)
+        (parameter_list (parameter (predefined_type) (identifier_name)))
+        (arrow_expression_clause
+          (assignment_expression (identifier_name) (assignment_operator) (identifier_name)))))))
+
+=====================================
 Class with static constructor
 =====================================
 
@@ -275,6 +296,28 @@ class Foo {
         (identifier_name)
         (parameter_list)
         (block)))))
+
+=====================================
+Class with expression bodied destructor
+=====================================
+
+class Foo {
+  ~Foo() => base.DoSomething();
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (destructor_declaration
+        (identifier_name)
+        (parameter_list)
+        (arrow_expression_clause
+          (call_expression
+            (qualified_name (identifier_name) (identifier_name))
+            (argument_list)))))))
 
 =====================================
 Class with constants
