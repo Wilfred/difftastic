@@ -62,7 +62,7 @@ module.exports = grammar({
       $.enum_declaration,
       $.event_declaration,
       $.extern_alias_directive,
-      $.field_declaration,
+      $._base_field_declaration,
       $.if_directive,
       $.region_directive,
       $.endregion_directive,
@@ -72,6 +72,8 @@ module.exports = grammar({
       $.namespace_declaration,
       $.operator_declaration,
       $.conversion_operator_declaration,
+      $.constructor_declaration,
+      $.destructor_declaration,
       $.property_declaration,
       $.struct_declaration,
       $.using_directive
@@ -138,12 +140,8 @@ module.exports = grammar({
 
     _member_declaration: $ => choice(
       $._base_field_declaration,
+      $._base_method_declaration,
       $.indexer_declaration,
-      $.method_declaration,
-      $.operator_declaration,
-      $.constructor_declaration,
-      $.destructor_declaration,
-      $.conversion_operator_declaration,
       $.property_declaration,
       $.class_declaration,
       $.struct_declaration,
@@ -209,6 +207,21 @@ module.exports = grammar({
     ),
 
     equals_value_clause: $ => seq('=', $._expression),
+
+    field_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      $.variable_declaration,
+      ';'
+    ),
+
+    _base_method_declaration: $ => choice(
+      $.constructor_declaration,
+      $.conversion_operator_declaration,
+      $.destructor_declaration,
+      $.method_declaration,
+      $.operator_declaration
+    ),
 
     // types
 
@@ -550,13 +563,6 @@ module.exports = grammar({
     rank_specifier: $ => seq('[', repeat(','), ']'),
 
     // fields
-
-    field_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      $.variable_declaration,
-      ';'
-    ),
 
     _initializer: $ => choice(
       $._expression,

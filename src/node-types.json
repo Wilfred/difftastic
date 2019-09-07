@@ -1109,6 +1109,10 @@
           "named": true
         },
         {
+          "type": "constructor_declaration",
+          "named": true
+        },
+        {
           "type": "conversion_operator_declaration",
           "named": true
         },
@@ -1130,6 +1134,10 @@
         },
         {
           "type": "event_declaration",
+          "named": true
+        },
+        {
+          "type": "event_field_declaration",
           "named": true
         },
         {
@@ -1668,6 +1676,10 @@
           "named": true
         },
         {
+          "type": "constructor_declaration",
+          "named": true
+        },
+        {
           "type": "conversion_operator_declaration",
           "named": true
         },
@@ -1689,6 +1701,10 @@
         },
         {
           "type": "event_declaration",
+          "named": true
+        },
+        {
+          "type": "event_field_declaration",
           "named": true
         },
         {
@@ -2729,6 +2745,10 @@
           "named": true
         },
         {
+          "type": "constructor_declaration",
+          "named": true
+        },
+        {
           "type": "conversion_operator_declaration",
           "named": true
         },
@@ -2754,6 +2774,10 @@
         },
         {
           "type": "event_declaration",
+          "named": true
+        },
+        {
+          "type": "event_field_declaration",
           "named": true
         },
         {
@@ -3505,6 +3529,10 @@
           "named": true
         },
         {
+          "type": "constructor_declaration",
+          "named": true
+        },
+        {
           "type": "conversion_operator_declaration",
           "named": true
         },
@@ -3526,6 +3554,10 @@
         },
         {
           "type": "event_declaration",
+          "named": true
+        },
+        {
+          "type": "event_field_declaration",
           "named": true
         },
         {
