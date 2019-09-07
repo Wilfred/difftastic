@@ -5659,6 +5659,46 @@
     "named": false
   },
   {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  },
+  {
+    "type": "implicit",
+    "named": false
+  },
+  {
+    "type": "explicit",
+    "named": false
+  },
+  {
+    "type": "operator",
+    "named": false
+  },
+  {
+    "type": "~",
+    "named": false
+  },
+  {
+    "type": "=>",
+    "named": false
+  },
+  {
+    "type": "where",
+    "named": false
+  },
+  {
+    "type": "class",
+    "named": false
+  },
+  {
+    "type": "struct",
+    "named": false
+  },
+  {
     "type": "bool",
     "named": false
   },
@@ -5727,27 +5767,11 @@
     "named": false
   },
   {
-    "type": "{",
-    "named": false
-  },
-  {
-    "type": "}",
-    "named": false
-  },
-  {
-    "type": "=>",
-    "named": false
-  },
-  {
     "type": "get",
     "named": false
   },
   {
     "type": "set",
-    "named": false
-  },
-  {
-    "type": "class",
     "named": false
   },
   {
@@ -5759,14 +5783,6 @@
     "named": false
   },
   {
-    "type": "where",
-    "named": false
-  },
-  {
-    "type": "struct",
-    "named": false
-  },
-  {
     "type": "add",
     "named": false
   },
@@ -5775,23 +5791,7 @@
     "named": false
   },
   {
-    "type": "operator",
-    "named": false
-  },
-  {
-    "type": "implicit",
-    "named": false
-  },
-  {
-    "type": "explicit",
-    "named": false
-  },
-  {
     "type": "!",
-    "named": false
-  },
-  {
-    "type": "~",
     "named": false
   },
   {
