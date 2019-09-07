@@ -291,17 +291,20 @@ class Foo {
   (class_declaration
     (identifier_name)
     (class_body
-      (constant_declaration
+      (field_declaration
         (modifiers)
-        (predefined_type)
-        (constant_declarator
-          (identifier_name)
-          (integer_literal)))
-      (constant_declaration
-        (predefined_type)
-        (constant_declarator
-          (identifier_name)
-          (string_literal))))))
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator
+            (identifier_name)
+            (integer_literal))))
+      (field_declaration
+        (modifiers)
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator
+            (identifier_name)
+            (string_literal)))))))
 
 =====================================
 Class with indexer

@@ -35,7 +35,8 @@ module.exports = grammar({
     [$.if_statement],
     [$._type, $.type_parameter_list],
     [$.assignment_expression],
-    [$.assignment_expression, $.call_expression]
+    [$.assignment_expression, $.call_expression],
+    [$.modifiers, $.object_creation_expression]
   ],
 
   inline: $ => [
@@ -55,7 +56,6 @@ module.exports = grammar({
     _declaration: $ => choice(
       $.global_attribute_list, // Consider moving up so only valid in compilation_unit
       $.class_declaration,
-      $.constant_declaration,
       $.delegate_declaration,
       $.destructor_declaration,
       $.enum_declaration,
@@ -170,6 +170,7 @@ module.exports = grammar({
       choice(
         'abstract',
         'async',
+        'const',
         'extern',
         'fixed',
         'internal',
@@ -525,19 +526,6 @@ module.exports = grammar({
 
     array_initalizer: $ => seq('{', commaSep1($._initializer), '}'),
 
-    // constants
-
-    constant_declaration: $ => seq(
-      optional($._attributes),
-      optional($.modifiers),
-      'const',
-      $._type,
-      commaSep1($.constant_declarator),
-      ';'
-    ),
-
-    constant_declarator: $ => seq($.identifier_name, '=', $._expression),
-
     // expressions
 
     _expression: $ => choice(
@@ -781,7 +769,7 @@ module.exports = grammar({
       $.goto_statement,
       $.if_statement,
       $._labeled_statement,
-      $._declaration_statement,
+      $.local_declaration_statement,
       $.lock_statement,
       $.return_statement,
       $.switch_statement,
@@ -865,11 +853,11 @@ module.exports = grammar({
       $._statement
     ),
 
-    _declaration_statement: $ => seq(
-      choice(
-        $.local_variable_declaration,
-        $.local_constant_declaration
-      ),
+    local_declaration_statement: $ => seq(
+      optional('await'),
+      optional('using'),
+      optional($.modifiers),
+      $.variable_declaration,
       ';'
     ),
 
@@ -914,8 +902,14 @@ module.exports = grammar({
 
     unsafe_statement: $ => seq('unsafe', $.block),
 
-    using_statement: $ => seq('using', '(', $._resource_acquisition, ')', $._statement),
-    _resource_acquisition: $ => choice($.local_variable_declaration, $._expression),
+    using_statement: $ => seq(
+      optional('await'),
+      'using',
+      '(',
+      choice($.variable_declaration, $._expression),
+      ')',
+      $._statement
+    ),
 
     while_statement: $ => seq('while', '(', $._expression, ')', $._statement),
 
@@ -927,15 +921,6 @@ module.exports = grammar({
       ),
       ';'
     ),
-
-    // declaration statements
-
-    local_variable_declaration: $ => seq(
-      choice($._type, 'var'),
-      commaSep1($.variable_declarator)
-    ),
-
-    local_constant_declaration: $ => seq('const', $._type, commaSep1($.constant_declarator)),
 
     // preproc directives
 

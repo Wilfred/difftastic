@@ -9,15 +9,21 @@ const UInt64 dec = 1uL;
 ---
 
 (compilation_unit
-  (constant_declaration
-    (predefined_type)
-    (constant_declarator (identifier_name) (integer_literal)))
-  (constant_declaration
-    (predefined_type)
-    (constant_declarator (identifier_name) (integer_literal)))
-  (constant_declaration
-    (identifier_name)
-    (constant_declarator (identifier_name) (integer_literal))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier_name) (integer_literal))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier_name) (integer_literal))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
+      (identifier_name)
+      (variable_declarator (identifier_name) (integer_literal)))))
 
 =======================================
 boolean literals
@@ -28,10 +34,12 @@ const bool t = true, u = false;
 ---
 
 (compilation_unit
-  (constant_declaration
-    (predefined_type)
-    (constant_declarator (identifier_name) (boolean_literal))
-    (constant_declarator (identifier_name) (boolean_literal))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier_name) (boolean_literal))
+      (variable_declarator (identifier_name) (boolean_literal)))))
 
 =======================================
 char literals
@@ -46,21 +54,31 @@ const char uni32 = '\UA0BFf9ca';
 ---
 
 (compilation_unit
-  (constant_declaration
+  (field_declaration
+    (modifiers)
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier_name) (character_literal))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
     (predefined_type)
-    (constant_declarator (identifier_name) (character_literal)))
-  (constant_declaration
+      (variable_declarator (identifier_name) (character_literal (escape_sequence)))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
     (predefined_type)
-    (constant_declarator (identifier_name) (character_literal (escape_sequence))))
-  (constant_declaration
+      (variable_declarator (identifier_name) (character_literal (escape_sequence)))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
     (predefined_type)
-    (constant_declarator (identifier_name) (character_literal (escape_sequence))))
-  (constant_declaration
+      (variable_declarator (identifier_name) (character_literal (escape_sequence)))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
     (predefined_type)
-    (constant_declarator (identifier_name) (character_literal (escape_sequence))))
-  (constant_declaration
-    (predefined_type)
-    (constant_declarator (identifier_name) (character_literal (escape_sequence)))))
+      (variable_declarator (identifier_name) (character_literal (escape_sequence))))))
 
 =======================================
 real literals
@@ -77,27 +95,41 @@ const Decimal m2 = 102.349M;
 ---
 
 (compilation_unit
-  (constant_declaration
+  (field_declaration
+    (modifiers)
+    (variable_declaration
     (predefined_type)
-    (constant_declarator (identifier_name) (real_literal)))
-  (constant_declaration
+    (variable_declarator (identifier_name) (real_literal))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
     (predefined_type)
-    (constant_declarator (identifier_name) (real_literal)))
-  (constant_declaration
+    (variable_declarator (identifier_name) (real_literal))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
     (identifier_name)
-    (constant_declarator (identifier_name) (real_literal)))
-  (constant_declaration
+    (variable_declarator (identifier_name) (real_literal))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
     (identifier_name)
-    (constant_declarator (identifier_name) (real_literal)))
-  (constant_declaration
+    (variable_declarator (identifier_name) (real_literal))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
     (predefined_type)
-    (constant_declarator (identifier_name) (real_literal)))
-  (constant_declaration
+    (variable_declarator (identifier_name) (real_literal))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
     (predefined_type)
-    (constant_declarator (identifier_name) (real_literal)))
-  (constant_declaration
+    (variable_declarator (identifier_name) (real_literal))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
     (identifier_name)
-    (constant_declarator (identifier_name) (real_literal))))
+    (variable_declarator (identifier_name) (real_literal)))))
 
 =======================================
 null literals
@@ -108,9 +140,11 @@ const string x = null;
 ---
 
 (compilation_unit
-  (constant_declaration
-    (predefined_type)
-    (constant_declarator (identifier_name) (null_literal))))
+  (field_declaration
+    (modifiers)
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier_name) (null_literal)))))
 
 =======================================
 string literals

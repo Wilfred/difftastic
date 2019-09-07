@@ -542,10 +542,12 @@ class A {
       (identifier_name)
       (parameter_list)
       (block
-        (local_variable_declaration
-          (variable_declarator
+        (local_declaration_statement
+          (variable_declaration
             (identifier_name)
-            (integer_literal))))))))
+            (variable_declarator
+              (identifier_name)
+              (integer_literal)))))))))
 
 =====================================
 Explicit local variable with literal initializer
@@ -567,11 +569,12 @@ class A {
       (identifier_name)
       (parameter_list)
       (block
-        (local_variable_declaration
-          (predefined_type)
-          (variable_declarator
-            (identifier_name)
-            (integer_literal))))))))
+        (local_declaration_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier_name)
+              (integer_literal)))))))))
 
 =====================================
 Explicit local variable with no initializer
@@ -593,10 +596,11 @@ class A {
       (identifier_name)
       (parameter_list)
       (block
-        (local_variable_declaration
-          (predefined_type)
-          (variable_declarator
-            (identifier_name))))))))
+        (local_declaration_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier_name)))))))))
 
 =====================================
 Explicit local variables with multiple literal initializers
@@ -618,14 +622,15 @@ class A {
       (identifier_name)
       (parameter_list)
       (block
-        (local_variable_declaration
-          (predefined_type)
-          (variable_declarator
-            (identifier_name)
-            (integer_literal))
-          (variable_declarator
-            (identifier_name)
-            (integer_literal))))))))
+        (local_declaration_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier_name)
+              (integer_literal))
+            (variable_declarator
+              (identifier_name)
+              (integer_literal)))))))))
 
 =====================================
 Explicit local constant with literal initializer
@@ -647,10 +652,12 @@ class A {
       (identifier_name)
       (parameter_list)
       (block
-        (local_constant_declaration
-          (predefined_type)
-            (constant_declarator (identifier_name)
-              (integer_literal))))))))
+        (local_declaration_statement
+          (modifiers)
+          (variable_declaration
+            (predefined_type)
+              (variable_declarator (identifier_name)
+                (integer_literal)))))))))
 
 =====================================
 Explicit local constant with multiple literal initializers
@@ -672,12 +679,14 @@ class A {
       (identifier_name)
       (parameter_list)
       (block
-        (local_constant_declaration
-          (predefined_type)
-            (constant_declarator (identifier_name)
-              (integer_literal))
-            (constant_declarator (identifier_name)
-              (integer_literal))))))))
+        (local_declaration_statement
+          (modifiers)
+          (variable_declaration
+            (predefined_type)
+              (variable_declarator (identifier_name)
+                (integer_literal))
+              (variable_declarator (identifier_name)
+                (integer_literal)))))))))
 
 =====================================
 Using statement with implicit local variable
@@ -702,7 +711,8 @@ class A {
       (parameter_list)
       (block
         (using_statement
-          (local_variable_declaration
+          (variable_declaration
+            (identifier_name)
             (variable_declarator
               (identifier_name)
               (identifier_name)))
@@ -732,7 +742,7 @@ class A {
       (parameter_list)
       (block
         (using_statement
-          (local_variable_declaration
+          (variable_declaration
             (identifier_name)
             (variable_declarator
               (identifier_name)
