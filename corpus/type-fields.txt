@@ -14,7 +14,7 @@ class A {
   (class_declaration
     (identifier_name)
     (class_body (field_declaration
-      (modifiers)
+      (modifier) (modifier)
       (variable_declaration
         (predefined_type)
         (variable_declarator (identifier_name))))
@@ -45,7 +45,7 @@ struct A {
     (identifier_name)
     (class_body
       (field_declaration
-        (modifiers)
+        (modifier) (modifier)
         (variable_declaration
           (predefined_type)
           (variable_declarator (identifier_name)))))))

@@ -13,7 +13,7 @@ class A {
     (identifier_name)
     (class_body
       (event_declaration
-        (modifiers)
+        (modifier)
         (generic_name (identifier_name)
           (type_argument_list (identifier_name)))
         (identifier_name)
@@ -35,7 +35,7 @@ struct A {
     (identifier_name)
     (class_body
       (event_declaration
-        (modifiers)
+        (modifier)
         (generic_name (identifier_name)
           (type_argument_list (identifier_name)))
         (identifier_name)

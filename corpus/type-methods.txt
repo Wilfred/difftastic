@@ -15,7 +15,7 @@ class A {
     (identifier_name)
     (class_body
       (method_declaration
-        (modifiers)
+        (modifier)
         (predefined_type)
         (identifier_name)
         (parameter_list
@@ -216,7 +216,7 @@ class A {
     (identifier_name)
     (class_body
       (method_declaration
-        (modifiers)
+        (modifier)
         (predefined_type)
         (identifier_name)
         (parameter_list

@@ -8,7 +8,7 @@ public class F {}
 
 (compilation_unit
   (class_declaration
-    (modifiers)
+    (modifier)
     (identifier_name)
     (class_body)))
 
@@ -22,7 +22,7 @@ public class F : dynamic { }
 
 (compilation_unit
   (class_declaration
-    (modifiers)
+    (modifier)
     (identifier_name)
     (class_base)
     (class_body)))
@@ -37,7 +37,7 @@ public class F : object, IAlpha, IOmega { }
 
 (compilation_unit
   (class_declaration
-    (modifiers)
+    (modifier)
     (identifier_name)
     (class_base
       (identifier_name)
@@ -54,7 +54,7 @@ public partial class F {}
 
 (compilation_unit
  (class_declaration
-   (modifiers)
+   (modifier) (modifier)
    (identifier_name)
    (class_body)))
 
@@ -82,7 +82,7 @@ internal class F<T1, T2> {}
 
 (compilation_unit
  (class_declaration
-   (modifiers)
+   (modifier)
    (identifier_name)
     (type_parameter_list
       (identifier_name)
@@ -99,7 +99,7 @@ public class F<T> where T:struct {}
 
 (compilation_unit
   (class_declaration
-    (modifiers)
+    (modifier)
     (identifier_name)
     (type_parameter_list (identifier_name))
     (type_parameter_constraints_clause
@@ -116,7 +116,7 @@ public class F<T> where T:class {}
 
 (compilation_unit
   (class_declaration
-    (modifiers)
+    (modifier)
     (identifier_name)
     (type_parameter_list (identifier_name))
     (type_parameter_constraints_clause
@@ -133,7 +133,7 @@ public class F<T> where T: new() {}
 
 (compilation_unit
   (class_declaration
-    (modifiers)
+    (modifier)
     (identifier_name)
     (type_parameter_list (identifier_name))
     (type_parameter_constraints_clause
@@ -151,7 +151,7 @@ public class F<T> where T: I {}
 
 (compilation_unit
   (class_declaration
-    (modifiers)
+    (modifier)
     (identifier_name)
     (type_parameter_list (identifier_name))
     (type_parameter_constraints_clause
@@ -169,7 +169,7 @@ public class F<T> where T: I, new() {}
 
 (compilation_unit
   (class_declaration
-    (modifiers)
+    (modifier)
     (identifier_name)
     (type_parameter_list (identifier_name))
     (type_parameter_constraints_clause
@@ -189,7 +189,7 @@ private class F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
 
 (compilation_unit
   (class_declaration
-    (modifiers)
+    (modifier)
     (identifier_name)
     (type_parameter_list
       (identifier_name)
@@ -220,7 +220,7 @@ class Foo {
     (identifier_name)
     (class_body
       (constructor_declaration
-        (modifiers)
+        (modifier)
         (identifier_name)
         (parameter_list)
         (block)))))
@@ -242,17 +242,17 @@ class Foo {
     (identifier_name)
     (class_body
       (constructor_declaration
-        (modifiers)
+        (modifier)
         (identifier_name)
         (parameter_list)
         (block))
       (constructor_declaration
-        (modifiers)
+        (modifier) (modifier)
         (identifier_name)
         (parameter_list)
         (block))
       (constructor_declaration
-        (modifiers)
+        (modifier) (modifier)
         (identifier_name)
         (parameter_list)
         (block)))))
@@ -292,14 +292,14 @@ class Foo {
     (identifier_name)
     (class_body
       (field_declaration
-        (modifiers)
+        (modifier) (modifier)
         (variable_declaration
           (predefined_type)
           (variable_declarator
             (identifier_name)
             (integer_literal))))
       (field_declaration
-        (modifiers)
+        (modifier)
         (variable_declaration
           (predefined_type)
           (variable_declarator
@@ -324,7 +324,7 @@ class Foo {
     (identifier_name)
     (class_body
       (indexer_declaration
-        (modifiers)
+        (modifier)
         (predefined_type)
         (parameter (predefined_type) (identifier_name))
         (accessor_declaration

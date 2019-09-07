@@ -10,17 +10,17 @@ const UInt64 dec = 1uL;
 
 (compilation_unit
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier_name) (integer_literal))))
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier_name) (integer_literal))))
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
       (identifier_name)
       (variable_declarator (identifier_name) (integer_literal)))))
@@ -35,7 +35,7 @@ const bool t = true, u = false;
 
 (compilation_unit
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier_name) (boolean_literal))
@@ -55,27 +55,27 @@ const char uni32 = '\UA0BFf9ca';
 
 (compilation_unit
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier_name) (character_literal))))
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
     (predefined_type)
       (variable_declarator (identifier_name) (character_literal (escape_sequence)))))
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
     (predefined_type)
       (variable_declarator (identifier_name) (character_literal (escape_sequence)))))
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
     (predefined_type)
       (variable_declarator (identifier_name) (character_literal (escape_sequence)))))
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
     (predefined_type)
       (variable_declarator (identifier_name) (character_literal (escape_sequence))))))
@@ -96,37 +96,37 @@ const Decimal m2 = 102.349M;
 
 (compilation_unit
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
     (predefined_type)
     (variable_declarator (identifier_name) (real_literal))))
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
     (predefined_type)
     (variable_declarator (identifier_name) (real_literal))))
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
     (identifier_name)
     (variable_declarator (identifier_name) (real_literal))))
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
     (identifier_name)
     (variable_declarator (identifier_name) (real_literal))))
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
     (predefined_type)
     (variable_declarator (identifier_name) (real_literal))))
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
     (predefined_type)
     (variable_declarator (identifier_name) (real_literal))))
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
     (identifier_name)
     (variable_declarator (identifier_name) (real_literal)))))
@@ -141,7 +141,7 @@ const string x = null;
 
 (compilation_unit
   (field_declaration
-    (modifiers)
+    (modifier)
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier_name) (null_literal)))))
