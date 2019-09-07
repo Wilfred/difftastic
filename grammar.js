@@ -135,6 +135,23 @@ module.exports = grammar({
 
     name_colon: $ => seq($._identifier_or_global, ':'),
 
+    _member_declaration: $ => choice(
+      $.field_declaration,
+      $.indexer_declaration,
+      $.method_declaration,
+      $.operator_declaration,
+      $.constructor_declaration,
+      $.destructor_declaration,
+      $.conversion_operator_declaration,
+      $.property_declaration,
+      $.class_declaration,
+      $.struct_declaration,
+      $.delegate_declaration,
+      $.event_declaration,
+      $.namespace_declaration,
+      $.using_directive
+    ),
+
     modifier: $ => choice(
       'abstract',
       'async',
@@ -247,10 +264,7 @@ module.exports = grammar({
 
     class_body: $ => seq(
       '{',
-      repeat(choice(
-        $._declaration,
-        $.constructor_declaration
-      )),
+      repeat($._member_declaration),
       '}'
     ),
 
