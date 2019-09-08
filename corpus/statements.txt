@@ -264,11 +264,11 @@ class A {
       (block
         (switch_statement (identifier_name)
           (switch_section
-            (switch_label (integer_literal))
-            (switch_label (integer_literal))
+            (case_switch_label (integer_literal))
+            (case_switch_label (integer_literal))
             (return_statement (integer_literal)))
           (switch_section
-            (switch_label)
+            (default_switch_label)
             (block
               (return_statement (integer_literal))))))))))
 
