@@ -182,7 +182,8 @@ class A {
       (parameter_list)
       (block
         (goto_statement (label_name))
-        (label_name) (return_statement))))))
+        (labeled_statement
+          (label_name) (return_statement)))))))
 
 =====================================
 If statement
@@ -230,7 +231,8 @@ class A {
       (block
         (if_statement (boolean_literal)
           (return_statement (integer_literal))
-          (return_statement (integer_literal))))))))
+          (else_clause
+            (return_statement (integer_literal)))))))))
 
 =====================================
 Switch statement
@@ -551,12 +553,42 @@ class A {
                 (integer_literal))))))))))
 
 =====================================
-Explicit local variable with literal initializer
+Method with local function block
 =====================================
 
 class A {
   void Sample() {
-    int a = 1;
+    private void A<T1, T2>(T1 a, T2 b) where T1:I1 {
+      return a + b;
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (method_declaration (void_keyword) (identifier_name) (parameter_list)
+      (block
+        (local_function_statement (modifier) (void_keyword) (identifier_name)
+          (type_parameter_list (identifier_name) (identifier_name))
+          (parameter_list
+            (parameter (identifier_name) (identifier_name))
+            (parameter (identifier_name) (identifier_name)))
+          (type_parameter_constraints_clause (identifier_name)
+            (type_parameter_constraint (type_constraint (identifier_name))))
+          (block
+            (return_statement (binary_expression (identifier_name) (identifier_name))))))))))
+
+=====================================
+Method with local expression bodied function
+=====================================
+
+class A {
+  void Sample() {
+    void A<T1, T2>(T1 a, T2 b) => Test(a, b);
   }
 }
 
@@ -570,13 +602,14 @@ class A {
       (identifier_name)
       (parameter_list)
       (block
-        (local_declaration_statement
-          (variable_declaration
-            (predefined_type)
-            (variable_declarator
-              (identifier_name)
-              (equals_value_clause
-                (integer_literal))))))))))
+        (local_function_statement (void_keyword) (identifier_name)
+          (type_parameter_list (identifier_name) (identifier_name))
+          (parameter_list
+            (parameter (identifier_name) (identifier_name))
+            (parameter (identifier_name) (identifier_name)))
+          (arrow_expression_clause
+            (call_expression (identifier_name)
+              (argument_list (identifier_name) (identifier_name))))))))))
 
 =====================================
 Explicit local variable with no initializer
