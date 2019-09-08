@@ -169,8 +169,8 @@ class Zzz {
         (modifier)
         (identifier_name)
         (identifier_name)
-        (add_accessor_declaration (block))
-        (remove_accessor_declaration (block))))))
+        (accessor_declaration (block))
+        (accessor_declaration (block))))))
 
 =======================================
 Attributes on event accessors
@@ -193,11 +193,11 @@ class Zzz {
         (modifier)
         (identifier_name)
         (identifier_name)
-        (add_accessor_declaration
+        (accessor_declaration
           (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
           (attribute_list (attribute (identifier_name)))
           (block))
-        (remove_accessor_declaration
+        (accessor_declaration
           (attribute_list (attribute (identifier_name)) (attribute (identifier_name) (attribute_argument_list)))
           (attribute_list (attribute (identifier_name)))
           (block))))))

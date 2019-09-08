@@ -143,12 +143,10 @@ module.exports = grammar({
     _member_declaration: $ => choice(
       $._base_field_declaration,
       $._base_method_declaration,
-      $.indexer_declaration,
-      $.property_declaration,
+      $. _base_property_declaration,
       $.class_declaration,
       $.struct_declaration,
       $.delegate_declaration,
-      $.event_declaration,
       $.namespace_declaration,
       $.using_directive
     ),
@@ -328,8 +326,6 @@ module.exports = grammar({
       'where', $._identifier_or_global, ':', commaSep1($.type_parameter_constraint)
     ),
 
-    // -> Synced with grammar.txt to here
-
     type_parameter_constraint: $ => choice(
       $._class_or_struct_constraint,
       $.constructor_constraint,
@@ -344,6 +340,67 @@ module.exports = grammar({
     constructor_constraint: $ => seq('new', '(', ')'),
 
     type_constraint: $ => $._type,
+
+    operator_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      $._type,
+      'operator',
+      $._overloadable_operator,
+      $.parameter_list,
+      $._function_body,
+    ),
+
+    _overloadable_operator: $ => choice(
+      '!',
+      '~',
+      '++',
+      '--',
+      'true',
+      'false',
+      '+', '-',
+      '*', '/',
+      '%', '^',
+      '|', '&',
+      '<<', '>>',
+      '==', '!=',
+      '>', '<',
+      '>=', '<='
+    ),
+
+    _base_property_declaration: $ => choice(
+      $.event_declaration,
+      $.indexer_declaration,
+      $.property_declaration
+    ),
+
+    event_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      'event',
+      $._type,
+      optional($.explicit_interface_specifier),
+      $.identifier_name,
+      choice(
+        $._accessor_list,
+        ';'
+      )
+    ),
+
+    _accessor_list: $ => seq(
+      '{',
+      repeat($.accessor_declaration),
+      '}'
+    ),
+
+    accessor_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      choice('get', 'set', 'add', 'remove', $.identifier_name),
+      $._function_body
+    ),
+
+        // -> Synced with grammar.txt to here
 
     // types
 
@@ -410,13 +467,6 @@ module.exports = grammar({
       optional($.accessor_declaration)
     ),
 
-    accessor_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      choice('get', 'set'),
-      choice($.block, ';')
-    ),
-
     // class
 
     class_declaration: $ => seq(
@@ -480,59 +530,6 @@ module.exports = grammar({
     _indexer_body: $ => choice(
       seq('{', $._accessor_declarations, '}'),
       seq('=>', $._expression, ';'),
-    ),
-
-    // events
-
-    event_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      'event',
-      $._type,
-      $.identifier_name,
-      choice(
-        seq(
-          '{',
-          choice(
-            seq($.add_accessor_declaration, $.remove_accessor_declaration),
-            seq($.remove_accessor_declaration, $.add_accessor_declaration)
-          ),
-          '}'
-        ),
-        ';'
-      )
-    ),
-
-    add_accessor_declaration: $ => seq(optional($._attributes), 'add', $.block),
-    remove_accessor_declaration: $ => seq(optional($._attributes), 'remove', $.block),
-
-    // operator declarations
-
-    operator_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      $._type,
-      'operator',
-      $.overloadable_operator,
-      $.parameter_list,
-      $._function_body,
-    ),
-
-    overloadable_operator: $ => choice(
-      '!',
-      '~',
-      '++',
-      '--',
-      'true',
-      'false',
-      '+', '-',
-      '*', '/',
-      '%', '^',
-      '|', '&',
-      '<<', '>>',
-      '==', '!=',
-      '>', '<',
-      '>=', '<='
     ),
 
     // interface

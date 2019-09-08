@@ -17,8 +17,8 @@ class A {
         (generic_name (identifier_name)
           (type_argument_list (identifier_name)))
         (identifier_name)
-        (add_accessor_declaration (block))
-        (remove_accessor_declaration (block))))))
+        (accessor_declaration (block))
+        (accessor_declaration (block))))))
 
 =======================================
 Struct event declarations
@@ -39,5 +39,27 @@ struct A {
         (generic_name (identifier_name)
           (type_argument_list (identifier_name)))
         (identifier_name)
-        (add_accessor_declaration (block))
-        (remove_accessor_declaration (block))))))
+        (accessor_declaration (block))
+        (accessor_declaration (block))))))
+
+=======================================
+Class event declarations with expression bodies
+=======================================
+
+class A {
+  public event EventHandler SomeEvent { add => addSomething(); remove => removeSomething(); }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (event_declaration
+        (modifier)
+        (identifier_name)
+        (identifier_name)
+        (accessor_declaration (arrow_expression_clause (call_expression (identifier_name) (argument_list))))
+        (accessor_declaration (arrow_expression_clause (call_expression (identifier_name) (argument_list))))))))
+
