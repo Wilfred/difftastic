@@ -31,8 +31,11 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.generic_name, $._expression],
+    [$._name, $._expression],
     [$.generic_name, $._identifier_or_global],
     [$._identifier_or_global, $._expression],
+    [$._identifier_or_global, $.enum_member_declaration],
+    [$._identifier_or_global, $.type_parameter_list],
     [$.if_statement],
     [$._type, $.type_parameter_list],
     [$._type, $.enum_member_declaration],
@@ -58,6 +61,8 @@ module.exports = grammar({
       optional(BYTE_ORDER_MARK),
       repeat($._declaration) // Intentionally deviates from spec so that we can syntax highlight fragments of code
     ),
+
+    extern_alias_directive: $ => seq('extern', 'alias', $.identifier_name, ';'),
 
     _declaration: $ => choice(
       $.global_attribute_list, // Consider moving up so only valid in compilation_unit
@@ -523,14 +528,24 @@ module.exports = grammar({
       optional(';')
     ),
 
-    // -> Synced with grammar.txt to here
-
     _type: $ => choice(
+      $.array_type,
+      $._name,
+      $.nullable_type,
+      //$.omitted_type_argument, TODO
+      $.pointer_type,
       $.predefined_type,
-      $.identifier_name,
-      $.qualified_name,
-      $.generic_name
+      // $.ref_type,
+      //$.tuple_type
     ),
+
+    array_type: $ => seq($._type, $.array_rank_specifier),
+
+    array_rank_specifier: $ => seq('[', commaSep($._expression), ']'),
+
+    nullable_type: $ => seq($._type, '?'),
+
+    pointer_type: $ => seq($._type, '*'),
 
     predefined_type: $ => choice(
       'bool',
@@ -547,12 +562,20 @@ module.exports = grammar({
       'string',
       'uint',
       'ulong',
-      'ushort'
+      'ushort',
+      // void is handled in return_type for better matching
     ),
 
-    // extern
+    ref_type: $ => seq(
+      'ref',
+      optional('readonly'),
+      $._type
+    ),
 
-    extern_alias_directive: $ => seq('extern', 'alias', $.identifier_name, ';'),
+    tuple_type: $ => seq('(', commaSep1($.tuple_element), ')'),
+    tuple_type: $ => seq($._type, optional($.identifier_name)),
+
+    // -> Synced with grammar.txt to here
 
     return_type: $ => choice($._type, $.void_keyword),
     void_keyword: $ => 'void',
@@ -567,11 +590,6 @@ module.exports = grammar({
       $.array_type,
       $.identifier_name
     ),
-
-    // arrays
-
-    array_type: $ => seq($._type, $.rank_specifier),
-    rank_specifier: $ => seq('[', repeat(','), ']'),
 
     // fields
 
