@@ -51,6 +51,21 @@ public struct F<T> where T: new() {}
     (class_body)))
 
 =====================================
+Struct with interface
+=====================================
+
+public struct A : ISomething { }
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (modifier)
+    (identifier_name)
+    (base_list (identifier_name))
+    (class_body)))
+
+=====================================
 Struct with multiple type parameter constraints
 =====================================
 

@@ -24,7 +24,7 @@ public class F : dynamic { }
   (class_declaration
     (modifier)
     (identifier_name)
-    (class_base)
+    (base_list (identifier_name))
     (class_body)))
 
 =====================================
@@ -39,7 +39,8 @@ public class F : object, IAlpha, IOmega { }
   (class_declaration
     (modifier)
     (identifier_name)
-    (class_base
+    (base_list
+      (predefined_type)
       (identifier_name)
       (identifier_name))
     (class_body)))
@@ -370,11 +371,66 @@ class Foo {
       (indexer_declaration
         (modifier)
         (predefined_type)
-        (parameter (predefined_type) (identifier_name))
+        (bracketed_parameter_list (parameter (predefined_type) (identifier_name)))
         (accessor_declaration
           (block (return_statement (identifier_name))))
         (accessor_declaration
           (block (expression_statement (assignment_expression (identifier_name) (assignment_operator) (identifier_name)))))))))
+
+=====================================
+Class with expression bodied indexer
+=====================================
+
+class Foo {
+  public bool this[int index] => a[index];
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (indexer_declaration
+        (modifier)
+        (predefined_type)
+        (bracketed_parameter_list (parameter (predefined_type) (identifier_name)))
+        (arrow_expression_clause
+          (element_access_expression (identifier_name)
+            (bracketed_argument_list (argument (identifier_name)))))))))
+
+=====================================
+Class with expression bodied indexer accessors
+=====================================
+
+class Foo {
+    public string this[int index]
+    {
+        get => a[index];
+        set => a[index] = value;
+    }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (indexer_declaration
+        (modifier)
+        (predefined_type)
+        (bracketed_parameter_list (parameter (predefined_type) (identifier_name)))
+        (accessor_declaration
+          (arrow_expression_clause
+            (element_access_expression (identifier_name)
+              (bracketed_argument_list (argument (identifier_name))))))
+        (accessor_declaration
+          (arrow_expression_clause
+            (assignment_expression 
+              (element_access_expression (identifier_name)
+                (bracketed_argument_list (argument (identifier_name))))
+                (assignment_operator) (identifier_name))))))))
 
 =================================
 Method with qualified return type

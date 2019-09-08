@@ -111,6 +111,8 @@ Delegates
 
 public delegate int Global(ref char a = '\n');
 
+delegate void A<T>() where T:class;
+
 delegate void A(params int [] test);
 
 class Z {
@@ -130,6 +132,10 @@ class Z {
         (predefined_type)
         (identifier_name)
         (equals_value_clause (character_literal (escape_sequence))))))
+  (delegate_declaration (void_keyword) (identifier_name)
+    (type_parameter_list (identifier_name))
+    (parameter_list)
+    (type_parameter_constraints_clause (identifier_name) (type_parameter_constraint)))
   (delegate_declaration (void_keyword) (identifier_name)
     (parameter_list (parameter_array (array_type (predefined_type) (rank_specifier)) (identifier_name))))
   (class_declaration (identifier_name) (class_body
