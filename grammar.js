@@ -115,7 +115,6 @@ module.exports = grammar({
 
     qualified_name: $ => seq($._name, '.', $._simple_name),
 
-    _attributes: $ => repeat1($.attribute_list),
     attribute_list: $ => seq('[', commaSep1($.attribute), ']'),
     attribute: $ => seq($.identifier_name, optional($.attribute_argument_list)),
 
@@ -157,7 +156,7 @@ module.exports = grammar({
     ),
 
     event_field_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       'event',
       $.variable_declaration,
@@ -209,7 +208,7 @@ module.exports = grammar({
     equals_value_clause: $ => seq('=', $._expression),
 
     field_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       $.variable_declaration,
       ';'
@@ -224,7 +223,7 @@ module.exports = grammar({
     ),
 
     constructor_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       $.identifier_name,
       $.parameter_list,
@@ -246,7 +245,7 @@ module.exports = grammar({
     )),
 
     parameter: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       optional($.parameter_modifier),
       optional($._type),
       $.identifier_name,
@@ -256,7 +255,7 @@ module.exports = grammar({
     parameter_modifier: $ => choice('ref', 'out', 'this'),
 
     parameter_array: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       'params',
       $.array_type,
       $.identifier_name
@@ -279,7 +278,7 @@ module.exports = grammar({
     arrow_expression_clause: $ => seq('=>', $._expression),
 
     conversion_operator_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       choice(
         'implicit',
@@ -298,7 +297,7 @@ module.exports = grammar({
     ),
 
     destructor_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       optional('extern'),
       '~',
       $.identifier_name,
@@ -307,7 +306,7 @@ module.exports = grammar({
     ),
 
     method_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       $.return_type,
       optional($.explicit_interface_specifier),
@@ -342,7 +341,7 @@ module.exports = grammar({
     type_constraint: $ => $._type,
 
     operator_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       $._type,
       'operator',
@@ -375,7 +374,7 @@ module.exports = grammar({
     ),
 
     event_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       'event',
       $._type,
@@ -394,14 +393,14 @@ module.exports = grammar({
     ),
 
     accessor_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       choice('get', 'set', 'add', 'remove', $.identifier_name),
       $._function_body
     ),
 
     indexer_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       $._type,
       optional($.explicit_interface_specifier),
@@ -416,7 +415,7 @@ module.exports = grammar({
     bracketed_parameter_list: $ => seq('[', commaSep1($.parameter), ']'),
 
     property_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       optional($.explicit_interface_specifier),
       $._type,
@@ -433,7 +432,7 @@ module.exports = grammar({
     ),
 
     enum_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       'enum',
       $.identifier_name,
@@ -448,7 +447,7 @@ module.exports = grammar({
     _base_type: $ => $._type,
 
     enum_member_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       $.identifier_name,
       optional(seq('=', $._expression))
     ),
@@ -460,7 +459,7 @@ module.exports = grammar({
     ),
 
     class_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       'class',
       $.identifier_name,
@@ -478,7 +477,7 @@ module.exports = grammar({
     ),
 
     interface_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       'interface',
       $.identifier_name,
@@ -490,7 +489,7 @@ module.exports = grammar({
     ),
 
     struct_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       'struct',
       $.identifier_name,
@@ -502,7 +501,7 @@ module.exports = grammar({
     ),
 
     delegate_declaration: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       repeat($.modifier),
       'delegate',
       $.return_type,
@@ -563,7 +562,7 @@ module.exports = grammar({
     default_argument: $ => seq('=', $._expression),
 
     parameter_array: $ => seq(
-      optional($._attributes),
+      repeat($.attribute_list),
       'params',
       $.array_type,
       $.identifier_name
