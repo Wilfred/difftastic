@@ -13,22 +13,23 @@ class A {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (class_body (field_declaration
-      (modifier) (modifier)
-      (variable_declaration
-        (predefined_type)
-        (variable_declarator (identifier_name))))
-    (field_declaration
-      (variable_declaration
-        (identifier_name)
-        (variable_declarator (identifier_name))
-        (variable_declarator (identifier_name))))
-    (field_declaration
-      (variable_declaration
-        (generic_name (identifier_name) (type_argument_list
+    (class_body
+      (field_declaration
+        (modifier) (modifier)
+        (variable_declaration
           (predefined_type)
-          (generic_name (identifier_name) (type_argument_list (predefined_type)))))
-        (variable_declarator (identifier_name)))))))
+          (variable_declarator (identifier_name))))
+      (field_declaration
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator (identifier_name))
+          (variable_declarator (identifier_name))))
+      (field_declaration
+        (variable_declaration
+          (generic_name (identifier_name) (type_argument_list
+            (predefined_type)
+            (generic_name (identifier_name) (type_argument_list (predefined_type)))))
+          (variable_declarator (identifier_name)))))))
 
 =======================================
 Struct field declarations
@@ -49,3 +50,56 @@ struct A {
         (variable_declaration
           (predefined_type)
           (variable_declarator (identifier_name)))))))
+
+=======================================
+Class field nullable type
+=======================================
+
+class A {
+  public readonly int? i;
+  private Byte? b;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (field_declaration
+        (modifier) (modifier)
+        (variable_declaration
+          (nullable_type (predefined_type))
+          (variable_declarator (identifier_name))))
+      (field_declaration
+        (modifier)
+        (variable_declaration
+          (nullable_type (identifier_name))
+          (variable_declarator (identifier_name)))))))
+
+=======================================
+Class field pointer type
+=======================================
+
+class A {
+  public readonly int* i;
+  private Byte* b;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (field_declaration
+        (modifier) (modifier)
+        (variable_declaration
+          (pointer_type (predefined_type))
+          (variable_declarator (identifier_name))))
+      (field_declaration
+        (modifier)
+        (variable_declaration
+          (pointer_type (identifier_name))
+          (variable_declarator (identifier_name)))))))
+
