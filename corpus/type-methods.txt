@@ -92,7 +92,7 @@ class A {
           (parameter (identifier_name) (identifier_name)))
         (type_parameter_constraints_clause
           (identifier_name)
-          (type_parameter_constraints (constructor_constraint)))
+          (type_parameter_constraint (constructor_constraint)))
         (block)))))
 
 =======================================
@@ -123,11 +123,11 @@ class A {
           (parameter (identifier_name) (identifier_name)))
         (type_parameter_constraints_clause
           (identifier_name)
-          (type_parameter_constraints (constructor_constraint)))
+          (type_parameter_constraint (constructor_constraint)))
         (type_parameter_constraints_clause
           (identifier_name)
-          (type_parameter_constraints
-            (identifier_name) (constructor_constraint)))
+          (type_parameter_constraint (type_constraint (identifier_name)))
+          (type_parameter_constraint (constructor_constraint)))
         (block)))))
 
 =======================================
@@ -218,6 +218,33 @@ class A {
       (method_declaration
         (modifier)
         (predefined_type)
+        (identifier_name)
+        (parameter_list
+          (parameter (predefined_type) (identifier_name)))
+        (block
+          (return_statement (identifier_name)))))))
+
+
+=======================================
+Class method with explicit interface specifier
+=======================================
+
+class A : ISomething {
+  int ISomething.GetBack(int b) {
+    return b;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_base (identifier_name))
+    (class_body
+      (method_declaration
+        (predefined_type)
+        (explicit_interface_specifier (identifier_name))
         (identifier_name)
         (parameter_list
           (parameter (predefined_type) (identifier_name)))

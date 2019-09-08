@@ -2069,6 +2069,33 @@
     }
   },
   {
+    "type": "explicit_interface_specifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
+          "type": "generic_name",
+          "named": true
+        },
+        {
+          "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "expression_statement",
     "named": true,
     "fields": {},
@@ -3433,6 +3460,10 @@
           "named": true
         },
         {
+          "type": "explicit_interface_specifier",
+          "named": true
+        },
+        {
           "type": "generic_name",
           "named": true
         },
@@ -4744,19 +4775,46 @@
     }
   },
   {
-    "type": "type_parameter_constraints",
+    "type": "type_constraint",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_name",
+          "named": true
+        },
+        {
+          "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_parameter_constraint",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "constructor_constraint",
           "named": true
         },
         {
-          "type": "identifier_name",
+          "type": "type_constraint",
           "named": true
         }
       ]
@@ -4775,7 +4833,7 @@
           "named": true
         },
         {
-          "type": "type_parameter_constraints",
+          "type": "type_parameter_constraint",
           "named": true
         }
       ]
