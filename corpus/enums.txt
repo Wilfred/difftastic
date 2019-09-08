@@ -40,5 +40,6 @@ namespace A {
     (identifier_name)
     (enum_declaration
       (identifier_name)
+      (base_list (predefined_type))
       (enum_member_declaration (identifier_name) (integer_literal))
       (enum_member_declaration (identifier_name) (integer_literal)))))

@@ -92,7 +92,7 @@ private interface IOne : ITwo { }
   (interface_declaration
     (modifier)
     (identifier_name)
-    (interface_base
+    (base_list
       (identifier_name))
     (class_body)))
 
@@ -108,7 +108,7 @@ private interface IOne : ITwo, IThree { }
   (interface_declaration
     (modifier)
     (identifier_name)
-    (interface_base
+    (base_list
       (identifier_name)
       (identifier_name))
     (class_body)))
@@ -126,7 +126,7 @@ private interface IOne<T1> : ITwo { }
     (modifier)
     (identifier_name)
     (type_parameter_list (identifier_name))
-    (interface_base
+    (base_list
       (identifier_name))
     (class_body)))
 
@@ -143,7 +143,7 @@ private interface IOne<T1> : ITwo where T1:T2 { }
     (modifier)
     (identifier_name)
     (type_parameter_list (identifier_name))
-    (interface_base (identifier_name))
+    (base_list (identifier_name))
      (type_parameter_constraints_clause
       (identifier_name)
        (type_parameter_constraint (type_constraint (identifier_name))))
@@ -164,7 +164,7 @@ private interface IOne<T1, T3> : ITwo where T1:T2 where T3:new() { }
     (type_parameter_list
       (identifier_name)
       (identifier_name))
-    (interface_base (identifier_name))
+    (base_list (identifier_name))
      (type_parameter_constraints_clause
       (identifier_name)
        (type_parameter_constraint (type_constraint (identifier_name))))
@@ -187,7 +187,7 @@ namespace A {
   (namespace_declaration (identifier_name)
     (interface_declaration
       (identifier_name)
-      (interface_base
+      (base_list
         (identifier_name))
     (class_body))))
 
@@ -227,7 +227,7 @@ interface A {
     (class_body
       (indexer_declaration
         (predefined_type)
-        (parameter (predefined_type) (identifier_name))
+        (bracketed_parameter_list (parameter (predefined_type) (identifier_name)))
         (accessor_declaration)
         (accessor_declaration)))))
 

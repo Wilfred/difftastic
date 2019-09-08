@@ -34,12 +34,14 @@ module.exports = grammar({
     [$._identifier_or_global, $._expression],
     [$.if_statement],
     [$._type, $.type_parameter_list],
+    [$._type, $.enum_member_declaration],
+    [$.element_access_expression, $.enum_member_declaration],
     [$.assignment_expression],
     [$.assignment_expression, $.call_expression],
     [$.modifier, $.object_creation_expression],
     [$.event_declaration, $.variable_declarator],
-    [$._identifier_or_global, $._indexer_declarator],
     [$.qualified_name, $.explicit_interface_specifier],
+    [$.assignment_expression, $.element_access_expression],
   ],
 
   inline: $ => [
@@ -143,12 +145,12 @@ module.exports = grammar({
     _member_declaration: $ => choice(
       $._base_field_declaration,
       $._base_method_declaration,
-      $. _base_property_declaration,
-      $.class_declaration,
-      $.struct_declaration,
+      $._base_property_declaration,
+      $._base_type_declaration,
       $.delegate_declaration,
-      $.namespace_declaration,
-      $.using_directive
+      $.enum_member_declaration,
+      // TODO: Consider incomplete_member and global_statement...
+      $.namespace_declaration
     ),
 
     _base_field_declaration: $ => choice(
@@ -400,9 +402,131 @@ module.exports = grammar({
       $._function_body
     ),
 
-        // -> Synced with grammar.txt to here
+    indexer_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      $._type,
+      optional($.explicit_interface_specifier),
+      'this',
+      $.bracketed_parameter_list,
+      choice(
+        $._accessor_list,
+        seq($.arrow_expression_clause, ';')
+      )
+    ),
 
-    // types
+    bracketed_parameter_list: $ => seq('[', commaSep1($.parameter), ']'),
+
+    property_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      optional($.explicit_interface_specifier),
+      $._type,
+      $.identifier_name,
+      choice(
+        seq($._accessor_list, optional(seq('=', $._initializer, ';'))), // Roslyn deviation or does not allow bodyless properties.
+        seq($.arrow_expression_clause, ';')
+      ),
+    ),
+
+    _base_type_declaration: $ => choice(
+      $.enum_declaration,
+      $._type_declaration,
+    ),
+
+    enum_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      'enum',
+      $.identifier_name,
+      optional($.base_list),
+      '{',
+      commaSep($.enum_member_declaration),
+      '}',
+      optional(';')
+    ),
+
+    base_list: $ => seq(':', commaSep1($._base_type)),
+    _base_type: $ => $._type,
+
+    enum_member_declaration: $ => seq(
+      optional($._attributes),
+      $.identifier_name,
+      optional(seq('=', $._expression))
+    ),
+
+    _type_declaration: $ => choice(
+      $.class_declaration,
+      $.interface_declaration,
+      $.struct_declaration
+    ),
+
+    class_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      'class',
+      $.identifier_name,
+      optional($.type_parameter_list),
+      optional($.base_list),
+      repeat($.type_parameter_constraints_clause),
+      $.class_body,
+      optional(';')
+    ),
+
+    class_body: $ => seq(
+      '{',
+      repeat($._member_declaration),
+      '}'
+    ),
+
+    interface_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      'interface',
+      $.identifier_name,
+      optional($.type_parameter_list),
+      optional($.base_list),
+      repeat($.type_parameter_constraints_clause),
+      $.class_body,
+      optional(';')
+    ),
+
+    struct_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      'struct',
+      $.identifier_name,
+      optional($.type_parameter_list),
+      optional($.base_list),
+      repeat($.type_parameter_constraints_clause),
+      $.class_body,
+      optional(';')
+    ),
+
+    delegate_declaration: $ => seq(
+      optional($._attributes),
+      repeat($.modifier),
+      'delegate',
+      $.return_type,
+      $.identifier_name,
+      optional($.type_parameter_list),
+      $.parameter_list,
+      repeat($.type_parameter_constraints_clause),
+      ';'
+    ),
+
+    namespace_declaration: $ => seq(
+      'namespace',
+      $._name,
+      '{',
+      repeat($.extern_alias_directive),
+      repeat($.using_directive),
+      repeat($._member_declaration),
+      '}',
+      optional(';')
+    ),
+
+    // -> Synced with grammar.txt to here
 
     _type: $ => choice(
       $.predefined_type,
@@ -432,186 +556,6 @@ module.exports = grammar({
     // extern
 
     extern_alias_directive: $ => seq('extern', 'alias', $.identifier_name, ';'),
-
-    // namespace
-
-    namespace_declaration: $ => seq(
-      'namespace',
-      choice(
-        $.qualified_name,
-        $.identifier_name
-      ),
-      '{',
-      repeat($._declaration),
-      '}',
-      optional(';')
-    ),
-
-    // properties
-
-    property_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      $._type,
-      $.identifier_name,
-      $._property_body
-    ),
-
-    _property_body: $ => choice(
-      seq('{', $._accessor_declarations, '}', optional(seq('=', $._initializer, ';'))),
-      seq('=>', $._expression, ';')
-    ),
-
-    _accessor_declarations: $ => seq(
-      $.accessor_declaration,
-      optional($.accessor_declaration)
-    ),
-
-    // class
-
-    class_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      'class',
-      $.identifier_name,
-      optional($.type_parameter_list),
-      optional($.class_base),
-      repeat($.type_parameter_constraints_clause),
-      $.class_body,
-      optional(';')
-    ),
-
-    class_body: $ => seq(
-      '{',
-      repeat($._member_declaration),
-      '}'
-    ),
-
-    class_base: $ => seq(
-      ':',
-      $.class_type,
-      optional(seq(', ', commaSep1($.identifier_name)))
-    ),
-
-    class_type: $ => choice(
-      $.identifier_name,
-      'object',
-      'dynamic',
-      'string'
-    ),
-
-    // indexers
-
-    indexer_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      $._indexer_declarator,
-      $._indexer_body
-    ),
-
-    _indexer_declarator: $ => choice(
-      seq($._type, 'this', '[', $._formal_parameter_list, ']'),
-      seq(
-        $._type,
-        $.identifier_name,
-        '.',
-        'this',
-        '[',
-        $._formal_parameter_list,
-        ']'
-      ),
-    ),
-
-    _formal_parameter_list: $ => commaSep1(choice(
-      $.parameter,
-      $.parameter_array
-    )),
-
-    _indexer_body: $ => choice(
-      seq('{', $._accessor_declarations, '}'),
-      seq('=>', $._expression, ';'),
-    ),
-
-    // interface
-
-    interface_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      'interface',
-      $.identifier_name,
-      optional($.type_parameter_list),
-      optional($.interface_base),
-      repeat($.type_parameter_constraints_clause),
-      $.class_body,
-      optional(';')
-    ),
-
-    interface_base: $ => seq(
-      ':',
-      $.identifier_name,
-      optional(seq(',', commaSep1($.identifier_name)))
-    ),
-
-    // struct
-
-    struct_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      'struct',
-      $.identifier_name,
-      optional($.type_parameter_list),
-      optional($.struct_interfaces),
-      repeat($.type_parameter_constraints_clause),
-      $.class_body,
-      optional(';')
-    ),
-
-    struct_interfaces: $ => seq(':', commaSep1($.identifier_name)),
-
-    // enum
-
-    enum_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      'enum',
-      $.identifier_name,
-      optional(seq(':', $._integral_type)),
-      '{',
-      commaSep1($.enum_member_declaration),
-      '}',
-      optional(';')
-    ),
-
-    enum_member_declaration: $ => seq(
-      optional($._attributes),
-      $.identifier_name,
-      optional(seq('=', $._expression))
-    ),
-
-    _integral_type: $ => choice(
-      'sbyte',
-      'byte',
-      'short',
-      'ushort',
-      'int',
-      'uint',
-      'long',
-      'ulong',
-      'char'
-    ),
-
-    // delegate
-
-    delegate_declaration: $ => seq(
-      optional($._attributes),
-      repeat($.modifier),
-      'delegate',
-      $.return_type,
-      $.identifier_name,
-      // TODO: Variant type parameters
-      $.parameter_list,
-      ';'
-    ),
 
     return_type: $ => choice($._type, $.void_keyword),
     void_keyword: $ => 'void',
@@ -654,8 +598,11 @@ module.exports = grammar({
       $.postfix_expression,
       $.parenthesized_expression,
       $.object_creation_expression,
-      $.call_expression
+      $.call_expression,
+      $.element_access_expression
     ),
+
+    element_access_expression: $ => seq($._expression, $.bracketed_argument_list),
 
     assignment_expression: $ => seq(
       $._expression,

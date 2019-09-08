@@ -240,7 +240,7 @@ class A : ISomething {
 (compilation_unit
   (class_declaration
     (identifier_name)
-    (class_base (identifier_name))
+    (base_list (identifier_name))
     (class_body
       (method_declaration
         (predefined_type)
