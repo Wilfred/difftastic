@@ -5,37 +5,26 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "arrow_expression_clause",
+          "named": true
+        },
         {
           "type": "attribute_list",
           "named": true
         },
         {
           "type": "block",
+          "named": true
+        },
+        {
+          "type": "identifier_name",
           "named": true
         },
         {
           "type": "modifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "add_accessor_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "attribute_list",
-          "named": true
-        },
-        {
-          "type": "block",
           "named": true
         }
       ]
@@ -2011,11 +2000,15 @@
       "required": true,
       "types": [
         {
-          "type": "add_accessor_declaration",
+          "type": "accessor_declaration",
           "named": true
         },
         {
           "type": "attribute_list",
+          "named": true
+        },
+        {
+          "type": "explicit_interface_specifier",
           "named": true
         },
         {
@@ -2036,10 +2029,6 @@
         },
         {
           "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "remove_accessor_declaration",
           "named": true
         }
       ]
@@ -3708,10 +3697,6 @@
           "named": true
         },
         {
-          "type": "overloadable_operator",
-          "named": true
-        },
-        {
           "type": "parameter_list",
           "named": true
         },
@@ -3725,11 +3710,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "overloadable_operator",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "parameter",
@@ -4125,25 +4105,6 @@
       "types": [
         {
           "type": "region_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "remove_accessor_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "attribute_list",
-          "named": true
-        },
-        {
-          "type": "block",
           "named": true
         }
       ]
@@ -5676,98 +5637,6 @@
     "named": false
   },
   {
-    "type": "bool",
-    "named": false
-  },
-  {
-    "type": "byte",
-    "named": false
-  },
-  {
-    "type": "char",
-    "named": false
-  },
-  {
-    "type": "decimal",
-    "named": false
-  },
-  {
-    "type": "double",
-    "named": false
-  },
-  {
-    "type": "float",
-    "named": false
-  },
-  {
-    "type": "int",
-    "named": false
-  },
-  {
-    "type": "long",
-    "named": false
-  },
-  {
-    "type": "object",
-    "named": false
-  },
-  {
-    "type": "sbyte",
-    "named": false
-  },
-  {
-    "type": "short",
-    "named": false
-  },
-  {
-    "type": "string",
-    "named": false
-  },
-  {
-    "type": "uint",
-    "named": false
-  },
-  {
-    "type": "ulong",
-    "named": false
-  },
-  {
-    "type": "ushort",
-    "named": false
-  },
-  {
-    "type": "alias",
-    "named": false
-  },
-  {
-    "type": "namespace",
-    "named": false
-  },
-  {
-    "type": "get",
-    "named": false
-  },
-  {
-    "type": "set",
-    "named": false
-  },
-  {
-    "type": ", ",
-    "named": false
-  },
-  {
-    "type": "dynamic",
-    "named": false
-  },
-  {
-    "type": "add",
-    "named": false
-  },
-  {
-    "type": "remove",
-    "named": false
-  },
-  {
     "type": "!",
     "named": false
   },
@@ -5841,6 +5710,98 @@
   },
   {
     "type": "<=",
+    "named": false
+  },
+  {
+    "type": "get",
+    "named": false
+  },
+  {
+    "type": "set",
+    "named": false
+  },
+  {
+    "type": "add",
+    "named": false
+  },
+  {
+    "type": "remove",
+    "named": false
+  },
+  {
+    "type": "bool",
+    "named": false
+  },
+  {
+    "type": "byte",
+    "named": false
+  },
+  {
+    "type": "char",
+    "named": false
+  },
+  {
+    "type": "decimal",
+    "named": false
+  },
+  {
+    "type": "double",
+    "named": false
+  },
+  {
+    "type": "float",
+    "named": false
+  },
+  {
+    "type": "int",
+    "named": false
+  },
+  {
+    "type": "long",
+    "named": false
+  },
+  {
+    "type": "object",
+    "named": false
+  },
+  {
+    "type": "sbyte",
+    "named": false
+  },
+  {
+    "type": "short",
+    "named": false
+  },
+  {
+    "type": "string",
+    "named": false
+  },
+  {
+    "type": "uint",
+    "named": false
+  },
+  {
+    "type": "ulong",
+    "named": false
+  },
+  {
+    "type": "ushort",
+    "named": false
+  },
+  {
+    "type": "alias",
+    "named": false
+  },
+  {
+    "type": "namespace",
+    "named": false
+  },
+  {
+    "type": ", ",
+    "named": false
+  },
+  {
+    "type": "dynamic",
     "named": false
   },
   {

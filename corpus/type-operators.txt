@@ -22,21 +22,18 @@ class A
         (attribute_list (attribute (identifier_name)))
         (modifier) (modifier)
         (predefined_type)
-        (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))
         (block (return_statement (integer_literal))))
       (operator_declaration
         (modifier) (modifier)
         (predefined_type)
-        (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name))
           (parameter (identifier_name) (identifier_name)))
         (block (return_statement (integer_literal))))
       (operator_declaration
         (predefined_type)
-        (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))
         (block (return_statement (integer_literal)))))))
@@ -60,13 +57,11 @@ class A
       (operator_declaration
         (modifier) (modifier)
         (predefined_type)
-        (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))
         (block (return_statement (boolean_literal))))
       (operator_declaration
         (predefined_type)
-        (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))
         (block (return_statement (boolean_literal)))))))
@@ -138,13 +133,11 @@ class A
       (operator_declaration
         (modifier) (modifier) (modifier)
         (predefined_type)
-        (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name))))
       (operator_declaration
         (modifier) (modifier) (modifier)
         (predefined_type)
-        (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name))
           (parameter (identifier_name) (identifier_name))))
@@ -173,14 +166,12 @@ class A
       (operator_declaration
         (modifier) (modifier) (modifier)
         (predefined_type)
-        (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name)))
         (arrow_expression_clause (integer_literal)))
       (operator_declaration
         (modifier) (modifier) (modifier)
         (predefined_type)
-        (overloadable_operator)
         (parameter_list
           (parameter (identifier_name) (identifier_name))
           (parameter (identifier_name) (identifier_name)))
