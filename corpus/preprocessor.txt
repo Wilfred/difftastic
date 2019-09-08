@@ -1,15 +1,16 @@
 ===================================
-if directives inside of namespaces
-====================================
-
+If, elif and else directives
+===================================
 
 namespace foo {
 
-class bar {}
-
 #if WIN32
 
-class baz {}
+class win32 {}
+
+#elif MACOSX
+
+class macosx {}
 
 #endif
 
@@ -19,12 +20,82 @@ class baz {}
 
 (compilation_unit
   (namespace_declaration (identifier_name)
+    (preprocessor_directive)
     (class_declaration (identifier_name) (class_body))
-    (if_directive (identifier_name)
-      (class_declaration (identifier_name) (class_body)))))
+    (preprocessor_directive)
+    (class_declaration (identifier_name) (class_body))
+    (preprocessor_directive)))
 
-============================
+===========================
 Region directives
 ===========================
 
-#region a cool region
+#region Here, there, everywhere
+
+// something fast
+
+#endregion
+
+---
+
+(compilation_unit
+  (preprocessor_directive)
+  (comment)
+  (preprocessor_directive))
+
+===================================
+Define and undefine directives
+===================================
+
+#define SOMETHING
+#undef BAD
+
+class A {}
+
+---
+
+(compilation_unit
+  (preprocessor_directive)
+  (preprocessor_directive)
+  (class_declaration (identifier_name) (class_body)))
+
+===================================
+Warning and error directives
+===================================
+
+class Of1879 {
+#warning This class is bad.
+#error Okay, just stop.
+}
+
+---
+
+(compilation_unit
+  (class_declaration (identifier_name)
+    (class_body
+      (preprocessor_directive)
+      (preprocessor_directive))))
+
+===================================
+Line directives
+===================================
+
+class Of1879 {
+  void AMethod() {
+#line 2001 "A Space"
+#line hidden
+#line default
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration (identifier_name)
+    (class_body
+      (method_declaration (void_keyword) (identifier_name) (parameter_list)
+        (block
+          (preprocessor_directive)
+          (preprocessor_directive)
+          (preprocessor_directive))))))
+  

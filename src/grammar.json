@@ -63,18 +63,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "if_directive"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "region_directive"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "endregion_directive"
-        },
-        {
-          "type": "SYMBOL",
           "name": "indexer_declaration"
         },
         {
@@ -3958,6 +3946,79 @@
         ]
       }
     },
+    "preprocessor_directive": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "#"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "if"
+              },
+              {
+                "type": "STRING",
+                "value": "else"
+              },
+              {
+                "type": "STRING",
+                "value": "elif"
+              },
+              {
+                "type": "STRING",
+                "value": "endif"
+              },
+              {
+                "type": "STRING",
+                "value": "define"
+              },
+              {
+                "type": "STRING",
+                "value": "undef"
+              },
+              {
+                "type": "STRING",
+                "value": "warning"
+              },
+              {
+                "type": "STRING",
+                "value": "error"
+              },
+              {
+                "type": "STRING",
+                "value": "line"
+              },
+              {
+                "type": "STRING",
+                "value": "region"
+              },
+              {
+                "type": "STRING",
+                "value": "endregion"
+              },
+              {
+                "type": "STRING",
+                "value": "pragma warning"
+              },
+              {
+                "type": "STRING",
+                "value": "pragma checksum"
+              }
+            ]
+          },
+          {
+            "type": "PATTERN",
+            "value": ".*"
+          }
+        ]
+      }
+    },
     "_statement": {
       "type": "CHOICE",
       "members": [
@@ -4928,79 +4989,6 @@
           "value": ";"
         }
       ]
-    },
-    "if_directive": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "#if"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier_name"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_declaration"
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "else_directive"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "#endif"
-        }
-      ]
-    },
-    "else_directive": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "#else"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_declaration"
-          }
-        }
-      ]
-    },
-    "region_directive": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "#region"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "region_name"
-        }
-      ]
-    },
-    "region_name": {
-      "type": "PATTERN",
-      "value": ".*"
-    },
-    "endregion_directive": {
-      "type": "STRING",
-      "value": "#endregion"
     }
   },
   "extras": [
@@ -5011,6 +4999,10 @@
     {
       "type": "PATTERN",
       "value": "\\s+"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "preprocessor_directive"
     }
   ],
   "conflicts": [

@@ -1264,10 +1264,6 @@
           "named": true
         },
         {
-          "type": "endregion_directive",
-          "named": true
-        },
-        {
           "type": "enum_declaration",
           "named": true
         },
@@ -1292,10 +1288,6 @@
           "named": true
         },
         {
-          "type": "if_directive",
-          "named": true
-        },
-        {
           "type": "indexer_declaration",
           "named": true
         },
@@ -1317,10 +1309,6 @@
         },
         {
           "type": "property_declaration",
-          "named": true
-        },
-        {
-          "type": "region_directive",
           "named": true
         },
         {
@@ -1867,105 +1855,6 @@
         },
         {
           "type": "verbatim_string_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "else_directive",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "class_declaration",
-          "named": true
-        },
-        {
-          "type": "constructor_declaration",
-          "named": true
-        },
-        {
-          "type": "conversion_operator_declaration",
-          "named": true
-        },
-        {
-          "type": "delegate_declaration",
-          "named": true
-        },
-        {
-          "type": "destructor_declaration",
-          "named": true
-        },
-        {
-          "type": "endregion_directive",
-          "named": true
-        },
-        {
-          "type": "enum_declaration",
-          "named": true
-        },
-        {
-          "type": "event_declaration",
-          "named": true
-        },
-        {
-          "type": "event_field_declaration",
-          "named": true
-        },
-        {
-          "type": "extern_alias_directive",
-          "named": true
-        },
-        {
-          "type": "field_declaration",
-          "named": true
-        },
-        {
-          "type": "global_attribute_list",
-          "named": true
-        },
-        {
-          "type": "if_directive",
-          "named": true
-        },
-        {
-          "type": "indexer_declaration",
-          "named": true
-        },
-        {
-          "type": "interface_declaration",
-          "named": true
-        },
-        {
-          "type": "method_declaration",
-          "named": true
-        },
-        {
-          "type": "namespace_declaration",
-          "named": true
-        },
-        {
-          "type": "operator_declaration",
-          "named": true
-        },
-        {
-          "type": "property_declaration",
-          "named": true
-        },
-        {
-          "type": "region_directive",
-          "named": true
-        },
-        {
-          "type": "struct_declaration",
-          "named": true
-        },
-        {
-          "type": "using_directive",
           "named": true
         }
       ]
@@ -2991,113 +2880,6 @@
         },
         {
           "type": "verbatim_string_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "if_directive",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "class_declaration",
-          "named": true
-        },
-        {
-          "type": "constructor_declaration",
-          "named": true
-        },
-        {
-          "type": "conversion_operator_declaration",
-          "named": true
-        },
-        {
-          "type": "delegate_declaration",
-          "named": true
-        },
-        {
-          "type": "destructor_declaration",
-          "named": true
-        },
-        {
-          "type": "else_directive",
-          "named": true
-        },
-        {
-          "type": "endregion_directive",
-          "named": true
-        },
-        {
-          "type": "enum_declaration",
-          "named": true
-        },
-        {
-          "type": "event_declaration",
-          "named": true
-        },
-        {
-          "type": "event_field_declaration",
-          "named": true
-        },
-        {
-          "type": "extern_alias_directive",
-          "named": true
-        },
-        {
-          "type": "field_declaration",
-          "named": true
-        },
-        {
-          "type": "global_attribute_list",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "if_directive",
-          "named": true
-        },
-        {
-          "type": "indexer_declaration",
-          "named": true
-        },
-        {
-          "type": "interface_declaration",
-          "named": true
-        },
-        {
-          "type": "method_declaration",
-          "named": true
-        },
-        {
-          "type": "namespace_declaration",
-          "named": true
-        },
-        {
-          "type": "operator_declaration",
-          "named": true
-        },
-        {
-          "type": "property_declaration",
-          "named": true
-        },
-        {
-          "type": "region_directive",
-          "named": true
-        },
-        {
-          "type": "struct_declaration",
-          "named": true
-        },
-        {
-          "type": "using_directive",
           "named": true
         }
       ]
@@ -4249,21 +4031,6 @@
     "type": "rank_specifier",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "region_directive",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "region_name",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "return_statement",
@@ -6081,6 +5848,10 @@
     "named": true
   },
   {
+    "type": "preprocessor_directive",
+    "named": true
+  },
+  {
     "type": "break",
     "named": false
   },
@@ -6171,29 +5942,5 @@
   {
     "type": "yield",
     "named": false
-  },
-  {
-    "type": "#if",
-    "named": false
-  },
-  {
-    "type": "#endif",
-    "named": false
-  },
-  {
-    "type": "#else",
-    "named": false
-  },
-  {
-    "type": "#region",
-    "named": false
-  },
-  {
-    "type": "region_name",
-    "named": true
-  },
-  {
-    "type": "endregion_directive",
-    "named": true
   }
 ]
