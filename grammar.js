@@ -25,7 +25,8 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /\s+/
+    /\s+/,
+    $.preprocessor_directive
   ],
 
   conflicts: $ => [
@@ -67,9 +68,6 @@ module.exports = grammar({
       $.event_declaration,
       $.extern_alias_directive,
       $._base_field_declaration,
-      $.if_directive,
-      $.region_directive,
-      $.endregion_directive,
       $.indexer_declaration,
       $.interface_declaration,
       $.method_declaration,
@@ -80,7 +78,7 @@ module.exports = grammar({
       $.destructor_declaration,
       $.property_declaration,
       $.struct_declaration,
-      $.using_directive
+      $.using_directive,
     ),
 
     using_directive: $ => seq(
@@ -150,7 +148,7 @@ module.exports = grammar({
       $.delegate_declaration,
       $.enum_member_declaration,
       // TODO: Consider incomplete_member and global_statement...
-      $.namespace_declaration
+      $.namespace_declaration,
     ),
 
     _base_field_declaration: $ => choice(
@@ -758,7 +756,7 @@ module.exports = grammar({
       '"'
     ),
 
-    // commments
+    // Commments
 
     comment: $ => token(choice(
       seq('//', /.*/),
@@ -771,6 +769,31 @@ module.exports = grammar({
         '*/'
       )
     )),
+
+    // Roslyn doesn't deal with preprocessor but we should
+    // Consider giving each it's own name and any necessary tokenization for region name, symbols etc.
+    preprocessor_directive: $ => token(
+      seq(
+        // TODO: Only match start of line ignoring whitespace
+        '#',
+        choice(
+          'if',
+          'else',
+          'elif',
+          'endif',
+          'define',
+          'undef',
+          'warning',
+          'error',
+          'line',
+          'region',
+          'endregion',
+          'pragma warning',
+          'pragma checksum',
+        ),
+        /.*/
+      )
+    ),
 
     // Statements
 
@@ -938,31 +961,6 @@ module.exports = grammar({
       ),
       ';'
     ),
-
-    // preproc directives
-
-    if_directive: $ => seq(
-      '#if',
-      $.identifier_name,
-      repeat($._declaration),
-      // repeat($.elsif_directive),
-      optional($.else_directive),
-      '#endif'
-    ),
-
-    else_directive: $ => seq(
-      '#else',
-      repeat($._declaration)
-    ),
-
-    region_directive: $ => seq(
-      '#region',
-      $.region_name,
-    ),
-
-    region_name: $ => /.*/,
-
-    endregion_directive: $ => '#endregion'
   }
 })
 
