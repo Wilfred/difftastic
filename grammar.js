@@ -38,6 +38,8 @@ module.exports = grammar({
     [$.assignment_expression, $.call_expression],
     [$.modifier, $.object_creation_expression],
     [$.event_declaration, $.variable_declarator],
+    [$._identifier_or_global, $._indexer_declarator],
+    [$.qualified_name, $.explicit_interface_specifier],
   ],
 
   inline: $ => [
@@ -310,6 +312,7 @@ module.exports = grammar({
       optional($._attributes),
       repeat($.modifier),
       $.return_type,
+      optional($.explicit_interface_specifier),
       $.identifier_name,
       optional($.type_parameter_list),
       $.parameter_list,
@@ -317,24 +320,30 @@ module.exports = grammar({
       $._function_body,
     ),
 
+    explicit_interface_specifier: $ => seq($._name, '.'),
+
     type_parameter_list: $ => seq('<', commaSep1($.identifier_name), '>'),
 
     type_parameter_constraints_clause: $ => seq(
-      'where', $._identifier_or_global, ':', $.type_parameter_constraints
+      'where', $._identifier_or_global, ':', commaSep1($.type_parameter_constraint)
     ),
 
-    type_parameter_constraints: $ => choice(
+    // -> Synced with grammar.txt to here
+
+    type_parameter_constraint: $ => choice(
+      $._class_or_struct_constraint,
       $.constructor_constraint,
-      seq(
-        choice(
-          $.class_type,
-          'class',
-          'struct'
-        ),
-        optional(seq(',', commaSep1($.identifier_name))),
-        optional(seq(',', $.constructor_constraint))
-      )
+      $.type_constraint
     ),
+
+    _class_or_struct_constraint: $ => choice(
+      'class',
+      'struct'
+    ),
+    
+    constructor_constraint: $ => seq('new', '(', ')'),
+
+    type_constraint: $ => $._type,
 
     // types
 
@@ -440,8 +449,6 @@ module.exports = grammar({
       'dynamic',
       'string'
     ),
-
-    constructor_constraint: $ => seq('new', '(', ')'),
 
     // indexers
 

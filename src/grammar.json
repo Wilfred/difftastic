@@ -1391,6 +1391,18 @@
           "name": "return_type"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "explicit_interface_specifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "identifier_name"
         },
@@ -1420,6 +1432,19 @@
         {
           "type": "SYMBOL",
           "name": "_function_body"
+        }
+      ]
+    },
+    "explicit_interface_specifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_name"
+        },
+        {
+          "type": "STRING",
+          "value": "."
         }
       ]
     },
@@ -1477,104 +1502,82 @@
           "value": ":"
         },
         {
-          "type": "SYMBOL",
-          "name": "type_parameter_constraints"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_parameter_constraint"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "type_parameter_constraint"
+                  }
+                ]
+              }
+            }
+          ]
         }
       ]
     },
-    "type_parameter_constraints": {
+    "type_parameter_constraint": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_class_or_struct_constraint"
+        },
         {
           "type": "SYMBOL",
           "name": "constructor_constraint"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "class_type"
-                },
-                {
-                  "type": "STRING",
-                  "value": "class"
-                },
-                {
-                  "type": "STRING",
-                  "value": "struct"
-                }
-              ]
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    },
-                    {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "identifier_name"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "SEQ",
-                            "members": [
-                              {
-                                "type": "STRING",
-                                "value": ","
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "identifier_name"
-                              }
-                            ]
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "constructor_constraint"
-                    }
-                  ]
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "type_constraint"
         }
       ]
+    },
+    "_class_or_struct_constraint": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "class"
+        },
+        {
+          "type": "STRING",
+          "value": "struct"
+        }
+      ]
+    },
+    "constructor_constraint": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "new"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "type_constraint": {
+      "type": "SYMBOL",
+      "name": "_type"
     },
     "_type": {
       "type": "CHOICE",
@@ -2075,23 +2078,6 @@
         {
           "type": "STRING",
           "value": "string"
-        }
-      ]
-    },
-    "constructor_constraint": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "new"
-        },
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "STRING",
-          "value": ")"
         }
       ]
     },
@@ -5260,6 +5246,14 @@
     [
       "event_declaration",
       "variable_declarator"
+    ],
+    [
+      "_identifier_or_global",
+      "_indexer_declarator"
+    ],
+    [
+      "qualified_name",
+      "explicit_interface_specifier"
     ]
   ],
   "externals": [],
