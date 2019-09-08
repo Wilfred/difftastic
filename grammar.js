@@ -535,8 +535,8 @@ module.exports = grammar({
       //$.omitted_type_argument, TODO
       $.pointer_type,
       $.predefined_type,
-      // $.ref_type,
-      //$.tuple_type
+      // $.ref_type, - conflicts with 'ref' modifier...
+      // $.tuple_type - conflicts plus no initializer statement syntax yet for testing
     ),
 
     array_type: $ => seq($._type, $.array_rank_specifier),
@@ -573,25 +573,187 @@ module.exports = grammar({
     ),
 
     tuple_type: $ => seq('(', commaSep1($.tuple_element), ')'),
-    tuple_type: $ => seq($._type, optional($.identifier_name)),
+    tuple_element: $ => seq($._type, optional($.identifier_name)),
 
-    // -> Synced with grammar.txt to here
-
-    return_type: $ => choice($._type, $.void_keyword),
-    void_keyword: $ => 'void',
-
-    // parameters
-
-    default_argument: $ => seq('=', $._expression),
-
-    parameter_array: $ => seq(
-      repeat($.attribute_list),
-      'params',
-      $.array_type,
-      $.identifier_name
+    _statement: $ => choice(
+      $.block,
+      $.break_statement,
+      $.checked_statement,
+      $.continue_statement,
+      $.do_statement,
+      $.empty_statement,
+      $.expression_statement,
+      $.fixed_statement,
+      $.for_each_statement,
+      $.for_statement,
+      $.goto_statement,
+      $.if_statement,
+      $.labeled_statement,
+      $.local_declaration_statement,
+      $.local_function_statement,
+      $.lock_statement,
+      $.return_statement,
+      $.switch_statement,
+      $.throw_statement,
+      $.try_statement,
+      $.unsafe_statement,
+      $.using_statement,
+      $.while_statement,
+      $.yield_statement,
     ),
 
-    // fields
+    break_statement: $ => seq('break', ';'),
+
+    checked_statement: $ => seq(choice('checked', 'unchecked'), $.block),
+
+    continue_statement: $ => seq('continue', ';'),
+
+    do_statement: $ => seq('do', $._statement, 'while', '(', $._expression, ')', ';'),
+
+    empty_statement: $ => ';',
+
+    expression_statement: $ => seq($._expression, ';'),
+
+    fixed_statement: $ => seq('fixed', '(', $.variable_declaration, ')', $._statement),
+
+    for_statement: $ => seq(
+      'for',
+      '(',
+      optional(choice($.variable_declaration, commaSep1($._expression))),
+      ';',
+      optional($._expression),
+      ';',
+      optional(commaSep1($._expression)),
+      ')',
+      $._statement
+    ),
+
+    // Combines for_each_statement and for_each_variable_statement from Roslyn
+    for_each_statement: $ => seq(
+      optional('await'),
+      'foreach',
+      '(',
+      choice(
+        seq($._type, $.identifier_name), // for_each_statement
+        $._expression, // for_each_variable_statement
+      ),
+      'in',
+      $._expression,
+      ')',
+      $._statement
+    ),
+
+    goto_statement: $ => seq(
+      'goto',
+      choice(
+        alias($.identifier_name, $.label_name),
+        seq('case', $._expression),
+        'default'
+      ),
+      ';'
+    ),
+
+    if_statement: $ => seq(
+      'if',
+      '(',
+      $._expression,
+      ')',
+      $._statement,
+      optional($.else_clause)
+    ),
+
+    else_clause: $ => seq('else', $._statement),
+
+    labeled_statement: $ => seq(
+      alias($.identifier_name, $.label_name),
+      ':',
+      $._statement
+    ),
+
+    local_declaration_statement: $ => seq(
+      optional('await'),
+      optional('using'),
+      repeat($.modifier),
+      $.variable_declaration,
+      ';'
+    ),
+
+    local_function_statement: $ => seq(
+      repeat($.modifier),
+      $.return_type,
+      $.identifier_name,
+      optional($.type_parameter_list),
+      $.parameter_list,
+      repeat($.type_parameter_constraints_clause),
+      $._function_body
+    ),
+
+    lock_statement: $ => seq('lock', '(', $._expression, ')', $._statement),
+
+    return_statement: $ => seq('return', optional($._expression), ';'),
+
+    switch_statement: $ => seq(
+      'switch',
+      '(',
+      $._expression,
+      ')',
+      '{',
+      repeat($.switch_section),
+      '}'
+    ),
+
+    switch_section: $ => seq(repeat1($.switch_label), repeat1($._statement)),
+
+    switch_label: $ => choice(
+      seq('case', $._expression, ':'),
+      seq('default', ':')
+    ),
+
+    throw_statement: $ => seq('throw', optional($._expression), ';'),
+
+    try_statement: $ => seq(
+      'try',
+      $.block,
+      repeat($.catch_clause),
+      optional($.finally_clause),
+    ),
+
+    catch_clause: $ => seq(
+      'catch',
+      optional($._exception_specifier),
+      optional($._exception_filter),
+      $.block
+    ),
+
+    _exception_specifier: $ => seq('(', $._type, optional($.identifier_name), ')'),
+    _exception_filter: $ => seq('when', '(', $._expression, ')'),
+    finally_clause: $ => seq('finally', $.block),
+
+    unsafe_statement: $ => seq('unsafe', $.block),
+
+    using_statement: $ => seq(
+      optional('await'),
+      'using',
+      '(',
+      choice($.variable_declaration, $._expression),
+      ')',
+      $._statement
+    ),
+
+    while_statement: $ => seq('while', '(', $._expression, ')', $._statement),
+
+    yield_statement: $ => seq(
+      'yield',
+      choice(
+        seq('return', $._expression),
+        'break'
+      ),
+      ';'
+    ),
+
+    // To be checked/unified with grammer.txt
+
+    default_argument: $ => seq('=', $._expression),
 
     _initializer: $ => choice(
       $._expression,
@@ -599,8 +761,6 @@ module.exports = grammar({
     ),
 
     array_initalizer: $ => seq('{', commaSep1($._initializer), '}'),
-
-    // expressions
 
     _expression: $ => choice(
       $._literal,
@@ -787,6 +947,12 @@ module.exports = grammar({
       )
     )),
 
+    // Custom non-Roslyn additions beyond this point that will not sync up with grammer.txt
+
+    // We use this instead of type so 'void' is only treated as type in the right contexts
+    return_type: $ => choice($._type, $.void_keyword),
+    void_keyword: $ => 'void',
+
     // Roslyn doesn't deal with preprocessor but we should
     // Consider giving each it's own name and any necessary tokenization for region name, symbols etc.
     preprocessor_directive: $ => token(
@@ -810,174 +976,7 @@ module.exports = grammar({
         ),
         /.*/
       )
-    ),
-
-    // Statements
-
-    _statement: $ => choice(
-      $.block,
-      $.break_statement,
-      $.checked_statement,
-      $.continue_statement,
-      $.do_statement,
-      $.empty_statement,
-      $.expression_statement,
-      $.fixed_statement,
-      $.for_each_statement,
-      $.for_statement,
-      $.goto_statement,
-      $.if_statement,
-      $._labeled_statement,
-      $.local_declaration_statement,
-      $.lock_statement,
-      $.return_statement,
-      $.switch_statement,
-      $.throw_statement,
-      $.try_statement,
-      $.unsafe_statement,
-      $.using_statement,
-      $.while_statement,
-      $.yield_statement,
-    ),
-
-    break_statement: $ => seq('break', ';'),
-
-    checked_statement: $ => seq(choice('checked', 'unchecked'), $.block),
-
-    continue_statement: $ => seq('continue', ';'),
-
-    do_statement: $ => seq('do', $._statement, 'while', '(', $._expression, ')', ';'),
-
-    empty_statement: $ => ';',
-
-    expression_statement: $ => seq($._expression, ';'),
-
-    fixed_statement: $ => seq('fixed', '(', $.variable_declaration, ')', $._statement),
-
-    for_statement: $ => seq(
-      'for',
-      '(',
-      optional(choice($.variable_declaration, commaSep1($._expression))),
-      ';',
-      optional($._expression),
-      ';',
-      optional(commaSep1($._expression)),
-      ')',
-      $._statement
-    ),
-
-    for_each_statement: $ => seq(
-      optional('await'),
-      'foreach',
-      '(',
-      choice(
-        seq($._type, $.identifier_name),
-        $._expression,
-      ),
-      'in',
-      $._expression,
-      ')',
-      $._statement
-    ),
-
-    goto_statement: $ => seq(
-      'goto',
-      choice(
-        alias($.identifier_name, $.label_name),
-        seq('case', $._expression),
-        'default'
-      ),
-      ';'
-    ),
-
-    if_statement: $ => seq(
-      'if',
-      '(',
-      $._expression,
-      ')',
-      $._statement,
-      optional(
-        seq(
-          'else',
-          $._statement,
-        )
-      )
-    ),
-
-    _labeled_statement: $ => seq(
-      alias($.identifier_name, $.label_name),
-      ':',
-      $._statement
-    ),
-
-    local_declaration_statement: $ => seq(
-      optional('await'),
-      optional('using'),
-      repeat($.modifier),
-      $.variable_declaration,
-      ';'
-    ),
-
-    lock_statement: $ => seq('lock', '(', $._expression, ')', $._statement),
-
-    return_statement: $ => seq('return', optional($._expression), ';'),
-
-    switch_statement: $ => seq(
-      'switch',
-      '(',
-      $._expression,
-      ')',
-      '{',
-      repeat($.switch_section),
-      '}'
-    ),
-    switch_section: $ => seq(repeat1($.switch_label), repeat1($._statement)),
-    switch_label: $ => choice(
-      seq('case', $._expression, ':'),
-      seq('default', ':')
-    ),
-
-    throw_statement: $ => seq('throw', optional($._expression), ';'),
-
-    try_statement: $ => seq(
-      'try',
-      $.block,
-      repeat($.catch_clause),
-      optional($.finally_clause),
-    ),
-
-    catch_clause: $ => seq(
-      'catch',
-      optional($._exception_specifier),
-      optional($._exception_filter),
-      $.block
-    ),
-
-    _exception_specifier: $ => seq('(', $._type, optional($.identifier_name), ')'),
-    _exception_filter: $ => seq('when', '(', $._expression, ')'),
-    finally_clause: $ => seq('finally', $.block),
-
-    unsafe_statement: $ => seq('unsafe', $.block),
-
-    using_statement: $ => seq(
-      optional('await'),
-      'using',
-      '(',
-      choice($.variable_declaration, $._expression),
-      ')',
-      $._statement
-    ),
-
-    while_statement: $ => seq('while', '(', $._expression, ')', $._statement),
-
-    yield_statement: $ => seq(
-      'yield',
-      choice(
-        seq('return', $._expression),
-        'break'
-      ),
-      ';'
-    ),
+    )
   }
 })
 
