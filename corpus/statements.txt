@@ -324,7 +324,7 @@ class A {
         (try_statement
           (block)
           (catch_clause
-            (identifier_name) (identifier_name)
+            (catch_declaration (identifier_name) (identifier_name))
             (block))))))))
 
 =====================================
@@ -353,7 +353,7 @@ class A {
         (try_statement
           (block)
           (catch_clause
-            (identifier_name) (identifier_name)
+            (catch_declaration (identifier_name) (identifier_name))
             (block))
           (finally_clause
             (block))))))))
@@ -384,10 +384,10 @@ class A {
         (try_statement
           (block)
           (catch_clause
-            (identifier_name) (identifier_name)
+            (catch_declaration (identifier_name) (identifier_name))
             (block))
           (catch_clause
-            (identifier_name) (identifier_name)
+            (catch_declaration (identifier_name) (identifier_name))
             (block))))))))
 
 =====================================
@@ -415,8 +415,8 @@ class A {
         (try_statement
           (block)
           (catch_clause
-            (identifier_name) (identifier_name)
-            (binary_expression (identifier_name) (integer_literal))
+            (catch_declaration (identifier_name) (identifier_name))
+            (catch_filter_clause (binary_expression (identifier_name) (integer_literal)))
             (block))))))))
 
 =====================================
