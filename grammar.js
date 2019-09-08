@@ -643,6 +643,7 @@ module.exports = grammar({
       $._statement
     ),
 
+    // Roslyn one doesn't seem to make sense so we do this instead
     goto_statement: $ => seq(
       'goto',
       choice(
@@ -702,12 +703,78 @@ module.exports = grammar({
       '}'
     ),
 
-    switch_section: $ => seq(repeat1($.switch_label), repeat1($._statement)),
+    switch_section: $ => seq(repeat1($._switch_label), repeat1($._statement)),
 
-    switch_label: $ => choice(
-      seq('case', $._expression, ':'),
-      seq('default', ':')
+    _switch_label: $ => choice(
+      $.case_pattern_switch_label,
+      $.case_switch_label,
+      $.default_switch_label
     ),
+
+    case_pattern_switch_label: $ => seq(
+      'case',
+      $._pattern,
+      optional($.when_clause),
+      ':'
+    ),
+
+    _pattern: $ => choice(
+//      $.constant_pattern, Matches constants from case_switch_label...
+      $.declaration_pattern,
+      $.discard_pattern,
+//      $.recursive_pattern,  Matches empty string as all is optional...
+      $.var_pattern
+    ),
+
+    constant_pattern: $ => $._expression,
+
+    declaration_pattern: $ => seq($._type, $._variable_designation),
+
+    _variable_designation: $ => choice(
+      $.discard_designation,
+      $.parenthesized_variable_designation,
+      $.single_variable_designation
+    ),
+
+    discard_designation: $ => '_',
+
+    parenthesized_variable_designation: $ => seq(
+      '(',
+      commaSep($._variable_designation),
+      ')'
+    ),
+
+    single_variable_designation: $ => $.identifier_name,
+
+    discard_pattern: $ => '_',
+
+    recursive_pattern: $ => seq(
+      optional($._type),
+      optional($.positional_pattern_clause),
+      optional($.property_pattern_clause),
+      optional($._variable_designation)
+    ),
+
+    positional_pattern_clause: $ => seq('(', commaSep($.subpattern), ')'),
+
+    subpattern: $ => seq(
+      optional($.name_colon),
+      $._pattern
+    ),
+
+    property_pattern_clause: $ => seq(
+      '{',
+      commaSep($.subpattern),
+      '}'
+    ),
+
+    var_pattern: $ => seq('var', $._variable_designation),
+
+    when_clause: $ => seq('when', $._expression),
+
+    case_switch_label: $ => seq('case', $._expression, ':'),
+
+    default_switch_label: $ => seq('default', ':'),
 
     throw_statement: $ => seq('throw', optional($._expression), ';'),
 
@@ -720,13 +787,15 @@ module.exports = grammar({
 
     catch_clause: $ => seq(
       'catch',
-      optional($._exception_specifier),
-      optional($._exception_filter),
+      optional($.catch_declaration),
+      optional($.catch_filter_clause),
       $.block
     ),
 
-    _exception_specifier: $ => seq('(', $._type, optional($.identifier_name), ')'),
-    _exception_filter: $ => seq('when', '(', $._expression, ')'),
+    catch_declaration: $ => seq('(', $._type, optional($.identifier_name), ')'),
+
+    catch_filter_clause: $ => seq('when', '(', $._expression, ')'),
+
     finally_clause: $ => seq('finally', $.block),
 
     unsafe_statement: $ => seq('unsafe', $.block),
@@ -744,7 +813,7 @@ module.exports = grammar({
 
     yield_statement: $ => seq(
       'yield',
-      choice(
+      choice( // Roslyn incorrectly allows break expression...
         seq('return', $._expression),
         'break'
       ),
@@ -752,15 +821,6 @@ module.exports = grammar({
     ),
 
     // To be checked/unified with grammer.txt
-
-    default_argument: $ => seq('=', $._expression),
-
-    _initializer: $ => choice(
-      $._expression,
-      $.array_initalizer
-    ),
-
-    array_initalizer: $ => seq('{', commaSep1($._initializer), '}'),
 
     _expression: $ => choice(
       $._literal,
@@ -776,6 +836,13 @@ module.exports = grammar({
       $.call_expression,
       $.element_access_expression
     ),
+
+    _initializer: $ => choice(
+      $._expression,
+      $.array_initalizer
+    ),
+
+    array_initalizer: $ => seq('{', commaSep1($._initializer), '}'),
 
     element_access_expression: $ => seq($._expression, $.bracketed_argument_list),
 
