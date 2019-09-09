@@ -1,26 +1,30 @@
 const PREC = {
   COMMA: -1,
-  CAST_VARIABLE: -1,
-  SEMICOLON: -2,
-  DECLARATION: 1,
-  COMMENT: 1,
-  TERNARY: 1,
-  OR: 2,
-  AND: 3,
-  PLUS: 4,
-  MINUS: 4,
-  REL: 5,
-  TIMES: 6,
-  SHIFT: 6,
-  NOT: 8,
-  NEG: 9,
-  NAMESPACE: 9,
-  SCOPE: 9,
-  INC: 10,
-  NEW: 11,
-  CALL: 12,
-  MEMBER: 13,
-  DEREF: 14
+  CAST: -1,
+  LOGICAL_OR_2: 1,
+  LOGICAL_XOR: 2,
+  LOGICAL_AND_2: 3,
+  ASSIGNMENT: 4,
+  TERNARY: 5,
+  NULL_COALESCE: 6,
+  LOGICAL_OR_1: 7,
+  LOGICAL_AND_1: 8,
+  BITWISE_OR: 9,
+  BITWISE_XOR: 10,
+  BITWISE_AND: 11,
+  EQUALITY: 12,
+  INEQUALITY: 13,
+  SHIFT: 14,
+  PLUS: 15,
+  TIMES: 16,
+  NEG: 17,
+  INSTANCEOF: 18,
+  INC: 19,
+  SCOPE: 20,
+  NEW: 21,
+  CALL: 22,
+  MEMBER: 23,
+  DEREF: 24
 };
 
 module.exports = grammar({
@@ -615,14 +619,8 @@ module.exports = grammar({
 
     unary_op_expression: $ => choice(
       seq('@', $._expression),
-      ...[
-      ['+', PREC.NEG],
-      ['-', PREC.NEG],
-      ['~', PREC.NEG],
-      ['!', PREC.NEG],
-    ].map(([operator, precedence]) =>
-      prec.left(precedence, seq(operator, $._expression))
-    )),
+      prec.left(PREC.NEG, seq(choice('+', '-', '~', '!'), $._expression))
+    ),
 
     exponentiation_expression: $ => prec.right(PREC.TIMES, seq(
       choice($.clone_expression, $._primary_expression),
@@ -721,11 +719,11 @@ module.exports = grammar({
       '`', double_quote_chars(), '`'
     )),
 
-    cast_expression: $ => seq(
+    cast_expression: $ => prec(PREC.CAST, seq(
       '(', $.cast_type, ')', $._unary_expression
-    ),
+    )),
 
-    cast_variable: $ => prec(PREC.CAST_VARIABLE, seq(
+    cast_variable: $ => prec(PREC.CAST, seq(
       '(', $.cast_type, ')', $._variable
     )),
 
@@ -744,16 +742,16 @@ module.exports = grammar({
       'unset'
     ),
 
-    _simple_assignment_expression: $ => seq(
+    _simple_assignment_expression: $ => prec.right(PREC.ASSIGNMENT,
       seq(choice($._variable, $.list_literal, $.array_creation_expression), '=', $._expression)
     ),
 
-    _byref_assignment_expression: $ => seq(
-      choice($._variable, $.list_literal, $.array_creation_expression), '=', '&', $._expression
+    _byref_assignment_expression: $ => prec.right(PREC.ASSIGNMENT,
+      seq(choice($._variable, $.list_literal, $.array_creation_expression), '=', '&', $._expression)
     ),
 
-    conditional_expression: $ => prec.right(PREC.TERNARY, seq(
-      choice($.binary_expression, $._unary_expression), '?', optional($._expression), ':', $._expression
+    conditional_expression: $ => prec.left(PREC.TERNARY, seq(
+      $._expression, '?', optional($._expression), ':', $._expression
     )),
 
     assignment_expression: $ => choice(
@@ -761,21 +759,23 @@ module.exports = grammar({
       $._byref_assignment_expression,
     ),
 
-    augmented_assignment_expression: $ => choice(...[
-        ['**=', PREC.TIMES],
-        ['*=', PREC.TIMES],
-        ['/=', PREC.TIMES],
-        ['%=', PREC.TIMES],
-        ['+=', PREC.PLUS],
-        ['-=', PREC.PLUS],
-        ['.=', PREC.PLUS],
-        ['<<=', PREC.SHIFT],
-        ['>>=', PREC.SHIFT],
-        ['&=', PREC.AND],
-        ['^=', PREC.AND],
-        ['|=', PREC.OR]
-      ].map(([operator, precedence]) =>
-        prec.left(precedence, seq($._variable, operator, $._expression))
+    augmented_assignment_expression: $ => prec.right(PREC.ASSIGNMENT, seq(
+      $._variable,
+      choice(
+        '**=',
+        '*=',
+        '/=',
+        '%=',
+        '+=',
+        '-=',
+        '.=',
+        '<<=',
+        '>>=',
+        '&=',
+        '^=',
+        '|='
+      ),
+      $._expression
     )),
 
     _variable: $ => choice(
@@ -921,38 +921,40 @@ module.exports = grammar({
     )),
 
     binary_expression: $ => choice(
-      prec.left(PREC.REL, seq($._unary_expression, 'instanceof', $._class_type_designator)),
+      prec(PREC.INSTANCEOF, seq($._unary_expression, 'instanceof', $._class_type_designator)),
       ...[
-      ['and', PREC.AND],
-      ['or', PREC.OR],
-      ['xor', PREC.OR],
-      ['||', PREC.OR],
-      ['&&', PREC.AND],
-      ['|', PREC.OR],
-      ['^', PREC.AND],
-      ['&', PREC.AND],
-      ['??', PREC.TERNARY],
-      ['==', PREC.REL],
-      ['!=', PREC.REL],
-      ['<>', PREC.REL],
-      ['===', PREC.REL],
-      ['!==', PREC.REL],
-      ['<', PREC.REL],
-      ['>', PREC.REL],
-      ['<=', PREC.REL],
-      ['>=', PREC.REL],
-      ['<=>', PREC.REL],
+      ['and', PREC.LOGICAL_AND_2],
+      ['or', PREC.LOGICAL_OR_2],
+      ['xor', PREC.LOGICAL_XOR],
+      ['||', PREC.LOGICAL_OR_1],
+      ['&&', PREC.LOGICAL_AND_1],
+      ['|', PREC.BITWISE_OR],
+      ['^', PREC.BITWISE_XOR],
+      ['&', PREC.BITWISE_AND],
+      ['==', PREC.EQUALITY],
+      ['!=', PREC.EQUALITY],
+      ['<>', PREC.EQUALITY],
+      ['===', PREC.EQUALITY],
+      ['!==', PREC.EQUALITY],
+      ['<', PREC.INEQUALITY],
+      ['>', PREC.INEQUALITY],
+      ['<=', PREC.INEQUALITY],
+      ['>=', PREC.INEQUALITY],
+      ['<=>', PREC.EQUALITY],
       ['<<', PREC.SHIFT],
       ['>>', PREC.SHIFT],
       ['+', PREC.PLUS],
-      ['-', PREC.MINUS],
+      ['-', PREC.PLUS],
       ['.', PREC.PLUS],
       ['*', PREC.TIMES],
       ['/', PREC.TIMES],
       ['%', PREC.TIMES],
     ].map(([operator, precedence]) =>
-      prec.left(precedence, seq($._expression, operator, $._expression))
-    )),
+      prec.left(precedence, seq($._expression, operator, $._expression))),
+    ...[
+        ['??', PREC.NULL_COALESCE],
+    ].map(([operator, precedence]) =>
+          prec.right(precedence, seq($._expression, operator, $._expression)))),
 
     include_expression: $ => seq(
       'include',
