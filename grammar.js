@@ -19,34 +19,46 @@ const
   unicodeDigit = /[0-9]/,
   unicodeChar = /./,
   unicodeValue = unicodeChar,
+  letter = choice(unicodeLetter, '_'),
+
+  newline = '\n',
+  terminator = choice(newline, ';'),
 
   hexDigit = /[0-9a-fA-F]/,
   octalDigit = /[0-7]/,
   decimalDigit = /[0-9]/,
-  hexByteValue = seq('\\', 'x', hexDigit, hexDigit),
-  octalByteValue = seq('\\', octalDigit, octalDigit, octalDigit)
-  byteValue = choice(octalByteValue, hexByteValue),
+  binaryDigit = /[01]/,
 
-  newline = '\n',
-  letter = choice(unicodeLetter, '_'),
+  hexDigits = seq(hexDigit, repeat(seq(optional('_'), hexDigit))),
+  octalDigits = seq(octalDigit, repeat(seq(optional('_'), octalDigit))),
+  decimalDigits = seq(decimalDigit, repeat(seq(optional('_'), decimalDigit))),
+  binaryDigits = seq(binaryDigit, repeat(seq(optional('_'), binaryDigit))),
 
-  decimals = repeat1(decimalDigit),
-  exponent = seq(
-    choice('e', 'E'),
-    optional(choice('+', '-')),
-    repeat1(decimalDigit)
+  hexLiteral = seq('0', choice('x', 'X'), optional('_'), hexDigits),
+  octalLiteral = seq('0', optional(choice('o', 'O')), optional('_'), octalDigits),
+  decimalLiteral = choice('0', seq(/[1-9]/, optional(seq(optional('_'), decimalDigits)))),
+  binaryLiteral = seq('0', choice('b', 'B'), optional('_'), binaryDigits),
+
+  intLiteral = choice(binaryLiteral, decimalLiteral, octalLiteral, hexLiteral),
+
+  decimalExponent = seq(choice('e', 'E'), optional(choice('+', '-')), decimalDigits),
+  decimalFloatLiteral = choice(
+    seq(decimalDigits, '.', optional(decimalDigits), optional(decimalExponent)),
+    seq(decimalDigits, decimalExponent),
+    seq('.', decimalDigits, optional(decimalExponent)),
   ),
 
-  hexLiteral = seq('0', choice('x', 'X'), repeat1(hexDigit)),
-  octalLiteral = seq('0', repeat(octalDigit)),
-  decimalLiteral = seq(/[1-9]/, repeat(decimalDigit)),
-  floatLiteral = choice(
-    seq(decimals, '.', optional(decimals), optional(exponent)),
-    seq(decimals, exponent),
-    seq('.', decimals, optional(exponent))
+  hexExponent = seq(choice('p', 'P'), optional(choice('+', '-')), decimalDigits),
+  hexMantissa = choice(
+    seq(optional('_'), hexDigits, '.', optional(hexDigits)),
+    seq(optional('_'), hexDigits),
+    seq('.', hexDigits),
   ),
+  hexFloatLiteral = seq('0', choice('x', 'X'), hexMantissa, hexExponent),
 
-  terminator = choice(newline, ';')
+  floatLiteral = choice(decimalFloatLiteral, hexFloatLiteral),
+
+  imaginaryLiteral = seq(choice(decimalDigits, intLiteral, floatLiteral), 'i')
 
 module.exports = grammar({
   name: 'go',
@@ -547,7 +559,7 @@ module.exports = grammar({
         field('initializer', $._simple_statement),
         ';'
       )),
-      optional(seq(field('alias', $.expression_list), ':=' )),
+      optional(seq(field('alias', $.expression_list), ':=')),
       field('value', $._expression),
       '.',
       '(',
@@ -805,14 +817,11 @@ module.exports = grammar({
       )
     )),
 
-    int_literal: $ => token(choice(decimalLiteral, octalLiteral, hexLiteral)),
+    int_literal: $ => token(intLiteral),
 
     float_literal: $ => token(floatLiteral),
 
-    imaginary_literal: $ => token(seq(
-      choice(floatLiteral, repeat1(decimalDigit)),
-      'i'
-    )),
+    imaginary_literal: $ => token(imaginaryLiteral),
 
     rune_literal: $ => token(seq(
       "'",

@@ -6,9 +6,16 @@ package main
 
 const (
   i1 = 42
-  i2 = 0600
-  i3 = 0xBadFace
-  i4 = 170141183460469231731687303715884105727
+  i2 = 4_2
+  i3 = 0600
+  i4 = 0_600
+  i5 = 0o600
+  i6 = 0O600
+  i7 = 0xBadFace
+  i8 = 0xBad_Face
+  i9 = 0x_67_7a_2f_cc_40_c6
+  i10 = 170141183460469231731687303715884105727
+  i11 = 170_141183_460469_231731_687303_715884_105727
 )
 
 ---
@@ -16,6 +23,13 @@ const (
 (source_file
   (package_clause (package_identifier))
   (const_declaration
+    (const_spec (identifier) (expression_list (int_literal)))
+    (const_spec (identifier) (expression_list (int_literal)))
+    (const_spec (identifier) (expression_list (int_literal)))
+    (const_spec (identifier) (expression_list (int_literal)))
+    (const_spec (identifier) (expression_list (int_literal)))
+    (const_spec (identifier) (expression_list (int_literal)))
+    (const_spec (identifier) (expression_list (int_literal)))
     (const_spec (identifier) (expression_list (int_literal)))
     (const_spec (identifier) (expression_list (int_literal)))
     (const_spec (identifier) (expression_list (int_literal)))
@@ -28,11 +42,22 @@ Float literals
 package main
 
 const (
-  f1 = 1.5
-  f2 = 1.5e100
-  f3 = 1.5e+50
-  f4 = 1.5e-5
-  f5 = .5e-50
+  f1 = 0.
+  f2 = 72.40
+  f3 = 072.40
+  f4 = 2.71828
+  f5 = 1.e+0
+  f6 = 6.67428e-11
+  f7 = 1E6
+  f8 = .25
+  f9 = .12345E+5
+  f10 = 1_5.
+  f11 = 0.15e+0_2
+  f12 = 0x1p-2
+  f13 = 0x2.p10
+  f14 = 0x1.Fp+0
+  f15 = 0X.8p-0
+  f16 = 0X_1FFFP-16
 )
 
 ---
@@ -40,6 +65,17 @@ const (
 (source_file
   (package_clause (package_identifier))
   (const_declaration
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))
+    (const_spec (identifier) (expression_list (float_literal)))
     (const_spec (identifier) (expression_list (float_literal)))
     (const_spec (identifier) (expression_list (float_literal)))
     (const_spec (identifier) (expression_list (float_literal)))
@@ -80,8 +116,18 @@ Imaginary literals
 package main
 
 const (
-  a = 01i
-  b = 1.e+100i
+  a = 0i
+  b = 0123i
+  c = 0o123i
+  d = 0xabci
+  e = 0.i
+  f = 2.71828i
+  g = 1.e+0i
+  h = 6.67428e-11i
+  i = 1E6i
+  j = .25i
+  k = .12345E+5i
+  l = 0x1p-2i
 )
 
 ---
@@ -89,6 +135,16 @@ const (
 (source_file
   (package_clause (package_identifier))
   (const_declaration
+    (const_spec (identifier) (expression_list (imaginary_literal)))
+    (const_spec (identifier) (expression_list (imaginary_literal)))
+    (const_spec (identifier) (expression_list (imaginary_literal)))
+    (const_spec (identifier) (expression_list (imaginary_literal)))
+    (const_spec (identifier) (expression_list (imaginary_literal)))
+    (const_spec (identifier) (expression_list (imaginary_literal)))
+    (const_spec (identifier) (expression_list (imaginary_literal)))
+    (const_spec (identifier) (expression_list (imaginary_literal)))
+    (const_spec (identifier) (expression_list (imaginary_literal)))
+    (const_spec (identifier) (expression_list (imaginary_literal)))
     (const_spec (identifier) (expression_list (imaginary_literal)))
     (const_spec (identifier) (expression_list (imaginary_literal)))))
 
