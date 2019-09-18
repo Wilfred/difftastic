@@ -49,6 +49,29 @@ let thing: { [type: string]: string };
       (index_signature (identifier) (predefined_type) (type_annotation (predefined_type))))))))
 
 =======================================
+Object types with call signatures
+=======================================
+
+let MyFunction: {
+  (string): string,
+  length: number
+};
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation (object_type
+        (call_signature
+          (formal_parameters (required_parameter (identifier)))
+          (type_annotation (predefined_type)))
+        (property_signature
+          (property_identifier)
+          (type_annotation (predefined_type))))))))
+
+=======================================
 Array types
 =======================================
 

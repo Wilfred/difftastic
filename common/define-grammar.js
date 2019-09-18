@@ -538,7 +538,7 @@ module.exports = function defineGrammar(dialect) {
             choice(
               $.export_statement,
               $.property_signature,
-              $._call_signature,
+              $.call_signature,
               $.construct_signature,
               $.index_signature,
               $.method_signature
@@ -548,6 +548,8 @@ module.exports = function defineGrammar(dialect) {
         )),
         choice('}', '|}')
       ),
+
+      call_signature: $ => $._call_signature,
 
       property_signature: $ => seq(
         optional($.accessibility_modifier),
