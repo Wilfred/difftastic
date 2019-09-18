@@ -8006,7 +8006,7 @@
                         },
                         {
                           "type": "SYMBOL",
-                          "name": "_call_signature"
+                          "name": "call_signature"
                         },
                         {
                           "type": "SYMBOL",
@@ -8053,7 +8053,7 @@
                               },
                               {
                                 "type": "SYMBOL",
-                                "name": "_call_signature"
+                                "name": "call_signature"
                               },
                               {
                                 "type": "SYMBOL",
@@ -8116,6 +8116,10 @@
           ]
         }
       ]
+    },
+    "call_signature": {
+      "type": "SYMBOL",
+      "name": "_call_signature"
     },
     "property_signature": {
       "type": "SEQ",
