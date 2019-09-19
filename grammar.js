@@ -118,9 +118,9 @@ module.exports = grammar({
     column_declaration: $ => seq(
       $.identifier,
       $.column_type,
-      optional($.column_relation),
-      // TODO: Check if it's really needed
-      $.new_line,
+      optional(repeat(
+        $.namespace
+      )),
     ),
 
     assignment_pattern: $ => seq(
@@ -195,10 +195,6 @@ module.exports = grammar({
       $.identifier,
       /\??/,
       optional($.array),
-    ),
-
-    column_relation: $ => repeat1(
-      $.namespace,
     ),
 
     type_expression: $ => seq(
@@ -276,12 +272,6 @@ module.exports = grammar({
       )),
       ']'
     ),
-
-    // TODO: Check if it's really needed.
-    new_line: $ => seq(
-      '\n',
-    ),
-
 
     true: $ => 'true',
     false: $ => 'false',

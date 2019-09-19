@@ -20,14 +20,12 @@ model User {
         (column_type
           (identifier)
         )
-        (new_line)
       )
       (column_declaration
         (identifier)
         (column_type
           (identifier)
         )
-        (new_line)
       )
       (column_declaration
         (identifier)
@@ -35,21 +33,18 @@ model User {
           (identifier)
           (array)
         )
-        (new_line)
       )
       (column_declaration
         (identifier)
         (column_type
           (identifier)
         )
-        (new_line)
       )
       (column_declaration
         (identifier)
         (column_type
           (identifier)
         )
-        (new_line)
       )
     )
   )
@@ -75,50 +70,113 @@ model User {
         (column_type
           (identifier)
         )
-        (column_relation
-          (namespace
-            (call_expression
-              (identifier)
-              (arguments
-                (call_expression
-                  (identifier)
-                  (arguments)
-                )
+        (namespace
+          (call_expression
+            (identifier)
+            (arguments
+              (call_expression
+                (identifier)
+                (arguments)
               )
             )
           )
-          (namespace
-            (identifier)
-          )
         )
-        (new_line)
+        (namespace
+          (identifier)
+        )
       )
       (column_declaration
         (identifier)
         (column_type
           (identifier)
         )
-        (column_relation
-          (namespace
-            (identifier)
-          )
+        (namespace
+          (identifier)
         )
-        (new_line)
       )
       (column_declaration
         (identifier)
         (column_type
           (identifier)
         )
-        (column_relation
-          (namespace
-            (call_expression
-              (identifier)
-              (arguments)
-            )
+        (namespace
+          (call_expression
+            (identifier)
+            (arguments)
           )
         )
-        (new_line)
+      )
+    )
+  )
+)
+
+=========================
+Model with object namespace
+=========================
+
+model User {
+  id  Number  @id @db.int
+}
+
+---
+
+(program
+  (model_declaration (identifier)
+    (statement_block
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (namespace
+          (identifier)
+        )
+        (namespace
+          (member_expression
+            (identifier)
+            (property_identifier)
+          )
+        )
+      )
+    )
+  )
+)
+
+===============================
+Model with multiline column
+===============================
+
+model User {
+  id          String       @id
+                           @default
+  first_name  LongNumeric  @default
+}
+
+---
+
+(program
+  (model_declaration (identifier)
+    (statement_block
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (namespace
+          (identifier)
+        )
+        (namespace
+          (identifier)
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (namespace
+          (identifier)
+        )
       )
     )
   )

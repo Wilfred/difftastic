@@ -469,10 +469,6 @@
       "required": false,
       "types": [
         {
-          "type": "column_relation",
-          "named": true
-        },
-        {
           "type": "column_type",
           "named": true
         },
@@ -480,21 +476,6 @@
           "type": "identifier",
           "named": true
         },
-        {
-          "type": "new_line",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "column_relation",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
         {
           "type": "namespace",
           "named": true
@@ -738,11 +719,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "new_line",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "program",
@@ -1098,10 +1074,6 @@
   },
   {
     "type": "]",
-    "named": false
-  },
-  {
-    "type": "\n",
     "named": false
   },
   {
