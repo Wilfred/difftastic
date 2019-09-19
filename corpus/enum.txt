@@ -1,0 +1,20 @@
+=====================
+Enum declaration
+=====================
+
+enum Role {
+  USER
+  ADMIN
+}
+
+---
+
+(program
+  (enum_declaration
+    (identifier)
+    (enum_block
+      (enumeral)
+      (enumeral)
+    )
+  )
+)

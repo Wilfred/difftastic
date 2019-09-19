@@ -79,11 +79,18 @@ module.exports = grammar({
       ),
     )),
 
+    enum_declaration: $ => seq(
+      'enum',
+      $.identifier,
+      $.enum_block,
+    ),
+
     _declaration: $ => choice(
       $.datasource_declaration,
       $.model_declaration,
       $.generator_declaration,
       $.type_declaration,
+      $.enum_declaration
     ),
 
     comment: $ => token(
@@ -93,6 +100,12 @@ module.exports = grammar({
     statement_block: $ => prec.right(seq(
       '{',
       repeat($._statement),
+      '}'
+    )),
+
+    enum_block: $ => prec.right(seq(
+      '{',
+      repeat($.enumeral),
       '}'
     )),
 
@@ -251,6 +264,8 @@ module.exports = grammar({
       seq("'", /([^'\n]|\\(.|\n))*/, "'"),
       seq('"', /([^"\n]|\\(.|\n))*/, '"')
     )),
+
+    enumeral: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
 
     number: $ => /\d+/,
 
