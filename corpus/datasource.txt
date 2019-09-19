@@ -17,18 +17,18 @@ datasource pg {
     (identifier)
     (statement_block
       (assignment_expression
-        (identifier)
+        (variable)
         (string)
       )
       (assignment_expression
-        (identifier)
+        (variable)
         (member_expression
           (identifier)
           (property_identifier)
         )
       )
       (assignment_expression
-        (identifier)
+        (variable)
         (member_expression
           (member_expression
             (identifier)
@@ -38,11 +38,11 @@ datasource pg {
         )
       )
       (assignment_expression
-        (identifier)
+        (variable)
         (true)
       )
       (assignment_expression
-        (identifier)
+        (variable)
         (call_expression
           (identifier)
           (arguments

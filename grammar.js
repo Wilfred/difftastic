@@ -130,7 +130,7 @@ module.exports = grammar({
     ),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
-      $.identifier,
+      alias($.identifier, $.variable),
       '=',
       $._expression
     )),
@@ -243,7 +243,6 @@ module.exports = grammar({
       $.string,
       $.array,
       $.assignment_pattern,
-      // $.name_pattern,
     ),
 
     _expression: $ => choice(
@@ -254,7 +253,6 @@ module.exports = grammar({
       $.binary_expression,
     ),
 
-    // identifier: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
     identifier: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
     string: $ => token(choice(
       seq("'", /([^'\n]|\\(.|\n))*/, "'"),

@@ -23,3 +23,57 @@ type UUID String @go.type("uuid.UUID")
     )
   )
 )
+
+=================================
+Type declaration with assignment
+=================================
+
+type Numeric = Float @pg.numeric(precision: 5, scale: 2)
+                     @pg.numeric(precision: 5, scale: 2)
+
+---
+
+(program
+  (type_declaration
+    (assignment_expression
+      (variable)
+      (identifier)
+    )
+    (namespace
+      (call_expression
+        (member_expression
+          (identifier)
+          (property_identifier)
+        )
+        (arguments
+          (type_expression
+            (identifier)
+            (number)
+          )
+          (type_expression
+            (identifier)
+            (number)
+          )
+        )
+      )
+    )
+    (namespace
+      (call_expression
+        (member_expression
+          (identifier)
+          (property_identifier)
+        )
+        (arguments
+          (type_expression
+            (identifier)
+            (number)
+          )
+          (type_expression
+            (identifier)
+            (number)
+          )
+        )
+      )
+    )
+  )
+)

@@ -196,6 +196,10 @@
         {
           "type": "type_expression",
           "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
         }
       ]
     }

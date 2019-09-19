@@ -8,7 +8,7 @@
 #define LANGUAGE_VERSION 10
 #define STATE_COUNT 171
 #define SYMBOL_COUNT 79
-#define ALIAS_COUNT 1
+#define ALIAS_COUNT 2
 #define TOKEN_COUNT 48
 #define EXTERNAL_TOKEN_COUNT 0
 #define FIELD_COUNT 0
@@ -94,6 +94,7 @@ enum {
   aux_sym_column_declaration_repeat1 = 77,
   aux_sym_arguments_repeat1 = 78,
   alias_sym_property_identifier = 79,
+  alias_sym_variable = 80,
 };
 
 static const char *ts_symbol_names[] = {
@@ -177,6 +178,7 @@ static const char *ts_symbol_names[] = {
   [aux_sym_column_declaration_repeat1] = "column_declaration_repeat1",
   [aux_sym_arguments_repeat1] = "arguments_repeat1",
   [alias_sym_property_identifier] = "property_identifier",
+  [alias_sym_variable] = "variable",
 };
 
 static const TSSymbolMetadata ts_symbol_metadata[] = {
@@ -500,10 +502,17 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = true,
   },
+  [alias_sym_variable] = {
+    .visible = true,
+    .named = true,
+  },
 };
 
-static TSSymbol ts_alias_sequences[2][MAX_ALIAS_SEQUENCE_LENGTH] = {
+static TSSymbol ts_alias_sequences[3][MAX_ALIAS_SEQUENCE_LENGTH] = {
   [1] = {
+    [0] = alias_sym_variable,
+  },
+  [2] = {
     [2] = alias_sym_property_identifier,
   },
 };
@@ -5595,12 +5604,12 @@ static TSParseActionEntry ts_parse_actions[] = {
   [279] = {.count = 1, .reusable = false}, REDUCE(sym_arguments, 2),
   [281] = {.count = 1, .reusable = true}, REDUCE(sym_arguments, 2),
   [283] = {.count = 1, .reusable = true}, SHIFT(75),
-  [285] = {.count = 1, .reusable = true}, REDUCE(sym_assignment_expression, 3),
-  [287] = {.count = 1, .reusable = false}, REDUCE(sym_assignment_expression, 3),
+  [285] = {.count = 1, .reusable = true}, REDUCE(sym_assignment_expression, 3, .production_id = 1),
+  [287] = {.count = 1, .reusable = false}, REDUCE(sym_assignment_expression, 3, .production_id = 1),
   [289] = {.count = 1, .reusable = true}, REDUCE(sym_type_expression, 3),
   [291] = {.count = 1, .reusable = false}, REDUCE(sym_type_expression, 3),
-  [293] = {.count = 1, .reusable = false}, REDUCE(sym_member_expression, 3, .production_id = 1),
-  [295] = {.count = 1, .reusable = true}, REDUCE(sym_member_expression, 3, .production_id = 1),
+  [293] = {.count = 1, .reusable = false}, REDUCE(sym_member_expression, 3, .production_id = 2),
+  [295] = {.count = 1, .reusable = true}, REDUCE(sym_member_expression, 3, .production_id = 2),
   [297] = {.count = 1, .reusable = true}, REDUCE(sym_enum_block, 3),
   [299] = {.count = 2, .reusable = true}, REDUCE(aux_sym_enum_block_repeat1, 2), SHIFT_REPEAT(47),
   [302] = {.count = 1, .reusable = true}, REDUCE(aux_sym_enum_block_repeat1, 2),

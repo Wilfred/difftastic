@@ -13,7 +13,7 @@ generator photon {
     (identifier)
     (statement_block
       (assignment_expression
-        (identifier)
+        (variable)
         (string)
       )
     )

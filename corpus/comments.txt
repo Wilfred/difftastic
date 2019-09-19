@@ -32,13 +32,13 @@ datasource pg { // this should be fine
     (statement_block
       (comment)
       (assignment_expression
-        (identifier)
+        (variable)
         (string)
       )
       (comment)
       (comment)
       (assignment_expression
-        (identifier)
+        (variable)
         (true)
       )
     )
