@@ -5,29 +5,8 @@
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "_definition"
+        "name": "_declaration"
       }
-    },
-    "_definition": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "datasource_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "model_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "generator_declaration"
-        }
-      ]
     },
     "datasource_declaration": {
       "type": "SEQ",
@@ -100,6 +79,27 @@
         ]
       }
     },
+    "_declaration": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "datasource_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "model_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "generator_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_declaration"
+        }
+      ]
+    },
     "comment": {
       "type": "TOKEN",
       "content": {
@@ -143,27 +143,6 @@
     "_statement": {
       "type": "CHOICE",
       "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_declaration"
-        }
-      ]
-    },
-    "_declaration": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "datasource_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "model_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type_declaration"
-        },
         {
           "type": "SYMBOL",
           "name": "column_declaration"
@@ -1206,8 +1185,8 @@
   ],
   "conflicts": [
     [
-      "type_declaration",
-      "column_declaration"
+      "column_declaration",
+      "type_declaration"
     ],
     [
       "assignment_pattern",

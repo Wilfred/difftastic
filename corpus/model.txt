@@ -6,6 +6,8 @@ model User {
   id         Int
   email      String?
   posts      Post?[]
+  type       String
+  number     Int?
 }
 
 ---
@@ -32,6 +34,20 @@ model User {
         (column_type
           (identifier)
           (array)
+        )
+        (new_line)
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (new_line)
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
         )
         (new_line)
       )

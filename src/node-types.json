@@ -746,18 +746,6 @@
         {
           "type": "column_declaration",
           "named": true
-        },
-        {
-          "type": "datasource_declaration",
-          "named": true
-        },
-        {
-          "type": "model_declaration",
-          "named": true
-        },
-        {
-          "type": "type_declaration",
-          "named": true
         }
       ]
     }
