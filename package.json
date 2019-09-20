@@ -24,6 +24,8 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
+    "@semantic-release/git": "^7.0.16",
+    "semantic-release": "^15.13.24",
     "tree-sitter-cli": "^0.15.7"
   }
 }
