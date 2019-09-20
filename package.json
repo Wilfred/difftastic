@@ -10,8 +10,9 @@
   "main": "index.js",
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "npm run generate && tree-sitter test",
     "generate": "tree-sitter generate",
+    "publish": "semantic-release",
+    "test": "npm run generate && tree-sitter test",
     "tree-sitter": "tree-sitter"
   },
   "author": "Victor Quiroz Castro <victorhqc@gmail.com>",
@@ -20,6 +21,7 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
+    "semantic-release": "15.13.24",
     "tree-sitter-cli": "^0.15.7"
   }
 }
