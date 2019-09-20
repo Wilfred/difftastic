@@ -19,14 +19,14 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    $._comment,
+    $.developer_comment,
     /[\s\uFEFF\u2060\u200B\u00A0]/
   ],
 
   conflicts: $ => [
     [$.column_declaration, $.type_declaration],
     [$.assignment_pattern, $.assignment_expression],
-    [$.comment, $._comment],
+    [$.comment, $.developer_comment],
   ],
 
   rules: {
@@ -71,7 +71,7 @@ module.exports = grammar({
       $.enum_declaration
     ),
 
-    _comment: $ => token(
+    developer_comment: $ => token(
       seq('//', /.*/),
     ),
 

@@ -121,7 +121,7 @@
         }
       ]
     },
-    "_comment": {
+    "developer_comment": {
       "type": "TOKEN",
       "content": {
         "type": "SEQ",
@@ -1237,7 +1237,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_comment"
+      "name": "developer_comment"
     },
     {
       "type": "PATTERN",
@@ -1255,7 +1255,7 @@
     ],
     [
       "comment",
-      "_comment"
+      "developer_comment"
     ]
   ],
   "externals": [],

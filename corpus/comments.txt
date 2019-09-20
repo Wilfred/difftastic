@@ -9,6 +9,8 @@ Comment block
 ---
 
 (program
+  (developer_comment)
+  (developer_comment)
   (comment)
 )
 
@@ -26,9 +28,11 @@ datasource pg { // this should be fine
 ---
 
 (program
+  (developer_comment)
   (datasource_declaration
     (identifier)
     (statement_block
+      (developer_comment)
       (assignment_expression
         (variable)
         (string)
@@ -42,6 +46,7 @@ datasource pg { // this should be fine
         )
       )
       (comment)
+      (developer_comment)
     )
   )
 )

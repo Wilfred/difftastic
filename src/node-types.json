@@ -933,6 +933,10 @@
     "named": false
   },
   {
+    "type": "developer_comment",
+    "named": true
+  },
+  {
     "type": "comment",
     "named": true
   },
