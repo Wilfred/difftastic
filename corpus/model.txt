@@ -51,7 +51,7 @@ model User {
 )
 
 =========================
-Model with namespaces
+Model with attributes
 =========================
 
 model User {
@@ -70,7 +70,7 @@ model User {
         (column_type
           (identifier)
         )
-        (namespace
+        (attribute
           (call_expression
             (identifier)
             (arguments
@@ -81,7 +81,7 @@ model User {
             )
           )
         )
-        (namespace
+        (attribute
           (identifier)
         )
       )
@@ -90,7 +90,7 @@ model User {
         (column_type
           (identifier)
         )
-        (namespace
+        (attribute
           (identifier)
         )
       )
@@ -99,7 +99,7 @@ model User {
         (column_type
           (identifier)
         )
-        (namespace
+        (attribute
           (call_expression
             (identifier)
             (arguments)
@@ -111,7 +111,7 @@ model User {
 )
 
 =========================
-Model with object namespace
+Model with object attribute
 =========================
 
 model User {
@@ -128,10 +128,10 @@ model User {
         (column_type
           (identifier)
         )
-        (namespace
+        (attribute
           (identifier)
         )
-        (namespace
+        (attribute
           (member_expression
             (identifier)
             (property_identifier)
@@ -162,10 +162,10 @@ model User {
         (column_type
           (identifier)
         )
-        (namespace
+        (attribute
           (identifier)
         )
-        (namespace
+        (attribute
           (identifier)
         )
       )
@@ -174,7 +174,7 @@ model User {
         (column_type
           (identifier)
         )
-        (namespace
+        (attribute
           (identifier)
         )
       )

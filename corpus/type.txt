@@ -10,7 +10,7 @@ type UUID String @go.type("uuid.UUID")
   (type_declaration
     (identifier)
     (identifier)
-    (namespace
+    (attribute
       (call_expression
         (member_expression
           (identifier)
@@ -39,7 +39,7 @@ type Numeric = Float @pg.numeric(precision: 5, scale: 2)
       (variable)
       (identifier)
     )
-    (namespace
+    (attribute
       (call_expression
         (member_expression
           (identifier)
@@ -57,7 +57,7 @@ type Numeric = Float @pg.numeric(precision: 5, scale: 2)
         )
       )
     )
-    (namespace
+    (attribute
       (call_expression
         (member_expression
           (identifier)

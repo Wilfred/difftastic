@@ -119,7 +119,7 @@ module.exports = grammar({
       $.identifier,
       $.column_type,
       optional(repeat(
-        $.namespace
+        $.attribute
       )),
     ),
 
@@ -139,7 +139,7 @@ module.exports = grammar({
       $.identifier,
       $.type_expression,
       $.block_attribute_declaration,
-      $.namespace,
+      $.attribute,
       $.member_expression,
       $.number,
       $.string,
@@ -210,7 +210,7 @@ module.exports = grammar({
       $.arguments,
     )),
 
-    namespace: $ => seq(
+    attribute: $ => seq(
       '@',
       $._expression,
     ),

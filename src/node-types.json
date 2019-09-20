@@ -16,6 +16,10 @@
           "named": true
         },
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -37,10 +41,6 @@
         },
         {
           "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "namespace",
           "named": true
         },
         {
@@ -83,6 +83,10 @@
           "named": true
         },
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -104,10 +108,6 @@
         },
         {
           "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "namespace",
           "named": true
         },
         {
@@ -150,6 +150,10 @@
           "named": true
         },
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -171,10 +175,6 @@
         },
         {
           "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "namespace",
           "named": true
         },
         {
@@ -217,6 +217,10 @@
           "named": true
         },
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
           "type": "block_attribute_declaration",
           "named": true
         },
@@ -233,7 +237,70 @@
           "named": true
         },
         {
-          "type": "namespace",
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment_expression",
+          "named": true
+        },
+        {
+          "type": "attribute",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "block_attribute_declaration",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -276,6 +343,10 @@
           "named": true
         },
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -297,10 +368,6 @@
         },
         {
           "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "namespace",
           "named": true
         },
         {
@@ -343,6 +410,10 @@
           "named": true
         },
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -364,10 +435,6 @@
         },
         {
           "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "namespace",
           "named": true
         },
         {
@@ -414,6 +481,10 @@
           "named": true
         },
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -435,10 +506,6 @@
         },
         {
           "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "namespace",
           "named": true
         },
         {
@@ -473,15 +540,15 @@
       "required": false,
       "types": [
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
           "type": "column_type",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "namespace",
           "named": true
         }
       ]
@@ -658,73 +725,6 @@
     }
   },
   {
-    "type": "namespace",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "block_attribute_declaration",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "namespace",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "type_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "program",
     "named": true,
     "fields": {},
@@ -795,6 +795,10 @@
           "named": true
         },
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -816,10 +820,6 @@
         },
         {
           "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "namespace",
           "named": true
         },
         {
@@ -862,6 +862,10 @@
           "named": true
         },
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -883,10 +887,6 @@
         },
         {
           "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "namespace",
           "named": true
         },
         {

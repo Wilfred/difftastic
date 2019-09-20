@@ -220,7 +220,7 @@
               "type": "REPEAT",
               "content": {
                 "type": "SYMBOL",
-                "name": "namespace"
+                "name": "attribute"
               }
             },
             {
@@ -290,7 +290,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "namespace"
+          "name": "attribute"
         },
         {
           "type": "SYMBOL",
@@ -883,7 +883,7 @@
         ]
       }
     },
-    "namespace": {
+    "attribute": {
       "type": "SEQ",
       "members": [
         {
