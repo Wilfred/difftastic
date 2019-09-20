@@ -28,11 +28,8 @@ jobs:
         CI: true
     - name: publish new version
       run: |
-        echo "TESTING: $TEST"
-        printenv
         npx semantic-release@15
       env:
         CI: true
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        TEST: ${{ secrets.TEST }}
