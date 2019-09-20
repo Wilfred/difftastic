@@ -121,7 +121,7 @@
         }
       ]
     },
-    "comment": {
+    "_comment": {
       "type": "TOKEN",
       "content": {
         "type": "SEQ",
@@ -137,20 +137,24 @@
         ]
       }
     },
-    "info_comment": {
-      "type": "TOKEN",
+    "comment": {
+      "type": "PREC",
+      "value": 1,
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "///"
-          },
-          {
-            "type": "PATTERN",
-            "value": ".*"
-          }
-        ]
+        "type": "TOKEN",
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "///"
+            },
+            {
+              "type": "PATTERN",
+              "value": ".*"
+            }
+          ]
+        }
       }
     },
     "statement_block": {
@@ -1232,6 +1236,10 @@
       "name": "comment"
     },
     {
+      "type": "SYMBOL",
+      "name": "_comment"
+    },
+    {
       "type": "PATTERN",
       "value": "[\\s\\uFEFF\\u2060\\u200B\\u00A0]"
     }
@@ -1246,8 +1254,8 @@
       "assignment_expression"
     ],
     [
-      "info_comment",
-      "comment"
+      "comment",
+      "_comment"
     ]
   ],
   "externals": [],

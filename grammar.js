@@ -19,13 +19,14 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
+    $._comment,
     /[\s\uFEFF\u2060\u200B\u00A0]/
   ],
 
   conflicts: $ => [
     [$.column_declaration, $.type_declaration],
     [$.assignment_pattern, $.assignment_expression],
-    [$.info_comment, $.comment],
+    [$.comment, $._comment],
   ],
 
   rules: {
@@ -70,13 +71,13 @@ module.exports = grammar({
       $.enum_declaration
     ),
 
-    comment: $ => token(
+    _comment: $ => token(
       seq('//', /.*/),
     ),
 
-    info_comment: $ => token(
+    comment: $ => prec(PREC.COMMENT, token(
       seq('///', /.*/),
-    ),
+    )),
 
     statement_block: $ => prec.right(seq(
       '{',
