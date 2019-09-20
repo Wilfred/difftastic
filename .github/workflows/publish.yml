@@ -1,3 +1,5 @@
+name: Publish CI
+
 on:
   push:
     branches:
