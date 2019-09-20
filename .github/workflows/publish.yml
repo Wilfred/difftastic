@@ -28,7 +28,7 @@ jobs:
         CI: true
     - name: publish new version
       run: |
-        echo $TEST
+        echo "TESTING: $TEST"
         npm publish
       env:
         CI: true
