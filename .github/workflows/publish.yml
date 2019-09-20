@@ -32,5 +32,5 @@ jobs:
         npm test
     - name: publish new version
       run: |
-      echo $TEST
-      npm publish
+        echo $TEST
+        npm publish
