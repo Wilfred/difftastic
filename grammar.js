@@ -2,9 +2,6 @@ const PREC = {
   COMMENT: 1, // Prefer comments over regexes
   STRING: 2,  // In a string, prefer string characters over comments
 
-  COMMA: -1,
-  OBJECT: -1,
-  DECLARATION: 1,
   ASSIGN: 0,
   TERNARY: 1,
   OR: 2,
@@ -13,15 +10,8 @@ const PREC = {
   PLUS: 5,
   TIMES: 6,
   EXP: 7,
-  TYPEOF: 8,
-  DELETE: 8,
-  VOID: 8,
-  NOT: 9,
-  NEG: 10,
-  INC: 11,
-  CALL: 12,
-  NEW: 13,
-  MEMBER: 14
+  CALL: 8,
+  MEMBER: 9
 };
 
 module.exports = grammar({
@@ -31,24 +21,11 @@ module.exports = grammar({
     $.comment,
     /[\s\uFEFF\u2060\u200B\u00A0]/
   ],
-  //
-  // supertypes: $ => [
-  //   $._statement,
-  //   $._declaration,
-  //   $._expression,
-  // ],
-
-  // inline: $ => [
-  //   $._call_signature,
-  //   $._constructable_expression,
-  //   $._statement,
-  //   $._expression,
-  //   $._formal_parameter,
-  // ],
 
   conflicts: $ => [
     [$.column_declaration, $.type_declaration],
     [$.assignment_pattern, $.assignment_expression],
+    [$.info_comment, $.comment],
   ],
 
   rules: {
@@ -95,6 +72,10 @@ module.exports = grammar({
 
     comment: $ => token(
       seq('//', /.*/),
+    ),
+
+    info_comment: $ => token(
+      seq('///', /.*/),
     ),
 
     statement_block: $ => prec.right(seq(
@@ -204,9 +185,7 @@ module.exports = grammar({
     ),
 
     call_expression: $ => prec(PREC.CALL, seq(
-      // field('function', $._expression),
       $._expression,
-      // field('arguments', $.arguments)
       $.arguments,
     )),
 

@@ -937,6 +937,10 @@
     "named": true
   },
   {
+    "type": "info_comment",
+    "named": true
+  },
+  {
     "type": "{",
     "named": false
   },
