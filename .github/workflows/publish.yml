@@ -14,6 +14,12 @@ jobs:
       matrix:
         node-version: [12.x]
 
+    env:
+      CI: true
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      TEST: ${{ secrets.TEST }}
+
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }} & Rust
@@ -21,14 +27,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: npm install and test
-      env:
-        CI: true
       run: |
         npm install
         npm test
     - name: publish new version
-      env:
-        CI: true
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: npm publish
+      run: |
+      echo $TEST
+      npm publish
