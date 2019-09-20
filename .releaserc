@@ -1,25 +1,3 @@
 {
-  "plugins": [
-    "@semantic-release/npm",
-    ["@semantic-release/commit-analyzer", {
-      "preset": "angular",
-      "releaseRules": [
-        {"type": "docs", "scope":"README", "release": "patch"},
-        {"type": "refactor", "release": "patch"},
-        {"type": "style", "release": "patch"}
-      ],
-      "parserOpts": {
-        "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES"]
-      }
-    }],
-    ["@semantic-release/github", {
-      "assets": [
-        {"path": "package.json", "label": "Package JSON"},
-        {"path": "index.js", "label": "index"},
-        {"path": "grammar.js", "label": "JS grammar"},
-        {"path": "binding.gyp", "label": "binding"},
-        {"path": "src/**", "label": "source"}
-      ]
-    }]
-  ]
+  "branch": "master"
 }
