@@ -33,3 +33,6 @@ Many parts of the code were scavenged from these repositories:
 
 - [tree-sitter-javascript](https://github.com/tree-sitter/tree-sitter-javascript)
 - [tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)
+
+I'm grateful to the authors and contributors of those repositories, without them this parser would
+be a lot times worse. Thank you for having such a good documentation and code.
