@@ -21,6 +21,9 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
+    "@semantic-release/commit-analyzer": "^6.3.0",
+    "@semantic-release/github": "^5.4.3",
+    "@semantic-release/npm": "^5.1.15",
     "semantic-release": "15.13.24",
     "tree-sitter-cli": "^0.15.7"
   }
