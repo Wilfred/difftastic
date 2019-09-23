@@ -14,7 +14,7 @@ can be found here:
 - [prisma2-data-modeling](https://github.com/prisma/prisma2/blob/master/docs/data-modeling.md)
 
 If you notice any bug or problem, please submit an issue or make a pull request. Any contribution
-is welcomed and probably needed.
+is welcomed and needed.
 
 ## Development
 
@@ -23,7 +23,7 @@ is welcomed and probably needed.
 - Rust >= 1.36
 - npm >= 6
 
-All the parsin logic is specified in `grammar.js` at the root level. To see if the changes made to
+All the parsing logic is specified in `grammar.js` at the root level. To see if the changes made to
 it are working, run the tests and compare the results.
 
 ```
