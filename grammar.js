@@ -32,9 +32,17 @@ module.exports = grammar({
     /\s/
   ],
 
+  supertypes: $ => [
+    $._expression,
+    $._declaration,
+    $._statement,
+    $._literal,
+    $._type,
+    $._unannotated_type,
+  ],
+
   inline: $ => [
     $._numeric_type,
-    $._statement,
     $._ambiguous_name,
     $._simple_type,
     $._reserved_identifier,
@@ -562,9 +570,9 @@ module.exports = grammar({
     ),
 
     element_value_pair: $ => seq(
-      $.identifier,
+      field('key', $.identifier),
       '=',
-      $._element_value
+      field('value', $._element_value)
     ),
 
     _element_value: $ => prec(1, choice(
@@ -639,8 +647,12 @@ module.exports = grammar({
     enum_declaration: $ => seq(
       optional($.modifiers),
       'enum',
-      $.identifier,
-      optional($.super_interfaces),
+      field('name', $.identifier),
+      field('interfaces', optional($.super_interfaces)),
+      field('body', $.enum_body)
+    ),
+
+    enum_body: $ => seq(
       '{',
       commaSep($.enum_constant),
       optional(','),
@@ -655,9 +667,9 @@ module.exports = grammar({
 
     enum_constant: $ => (seq(
       optional($.modifiers),
-      $.identifier,
-      optional($.argument_list),
-      optional($.class_body)
+      field('name', $.identifier),
+      field('arguments', optional($.argument_list)),
+      field('body', optional($.class_body))
     )),
 
     class_declaration: $ => seq(
