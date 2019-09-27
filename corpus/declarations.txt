@@ -539,7 +539,8 @@ enum HandSign {
 
 (program
   (enum_declaration
-    (identifier)
-    (enum_constant (identifier))
-    (enum_constant (identifier))
-    (enum_constant (identifier))))
+    name: (identifier)
+    body: (enum_body
+      (enum_constant name: (identifier))
+      (enum_constant name: (identifier))
+      (enum_constant name: (identifier)))))
