@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="tree-sitter-playground-0.15.8/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="assets/tree-sitter-playground-0.15.9/style.css" media="screen" type="text/css">
   <title>Tree-sitter TOML Playground</title>
-  <style>
-    #main-content {
-      left: 0;
-      padding-left: 20px;
-    }
-    #version {
-      font-size: 0.5em;
-    }
-    #credit {
-      margin-top: 20px;
-      font-style: italic;
-    }
-  </style>
 </head>
+
 <body>
-<div id="container">
-<main id="main-content">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.45.0/codemirror.min.css">
+  <div id="container">
+    <main id="main-content">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.45.0/codemirror.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.css">
+<style>
+.version {
+  font-size: 0.5em;
+}
+.credit {
+  font-style: italic;
+  margin-top: 20px;
+  text-align: center;
+}
+</style>
 
-<h1><a href="https://github.com/ikatyang/tree-sitter-toml">Tree-sitter TOML</a> <span id="version">v0.2.0</span></h1>
+<h1><a href="https://github.com/ikatyang/tree-sitter-toml">Tree-sitter TOML</a> <span class="version">v0.2.0</span></h1>
 
 <div id="playground-container" style="visibility: hidden;">
 
@@ -38,8 +36,16 @@
 <input id="logging-checkbox" type="checkbox"></input>
 <label for="logging-checkbox">Log</label>
 
+<input id="query-checkbox" type="checkbox"></input>
+<label for="query-checkbox">Query</label>
+
 <textarea id="code-input">
 </textarea>
+
+<div id="query-container" style="visibility: hidden; position: absolute;">
+  <h4>Query</h4>
+  <textarea id="query-input"></textarea>
+</div>
 
 <h4>Tree</h4>
 <span id="update-time"></span>
@@ -49,18 +55,18 @@
 
 </div>
 
-<div id="credit">
-  This playground was modified from <a href="http://tree-sitter.github.io/tree-sitter/playground">the official Tree-sitter Playground</a>.
+<div class="credit">
+  This playground was modified from <a href="https://tree-sitter.github.io/tree-sitter/playground">the official Tree-sitter Playground</a>.
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.45.0/codemirror.min.js"></script>
 
-<script>LANGUAGE_BASE_URL = "tree-sitter-toml-0.2.0";</script>
-<script src="web-tree-sitter-0.15.9/tree-sitter.js"></script>
+<script>LANGUAGE_BASE_URL = "assets/tree-sitter-toml-0.2.0";</script>
+<script src="assets/web-tree-sitter-0.15.9/tree-sitter.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
-<script src="tree-sitter-playground-0.15.8/playground.js"></script>
+<script src="assets/tree-sitter-playground-0.15.9/playground.js"></script>
+
 <script>
 (codeExample => {
   const handle = setInterval(() => {
@@ -70,8 +76,7 @@
       clearInterval(handle);
     }
   }, 500);
-})(`
-# This is a TOML document.
+})(`# This is a TOML document.
 
 title = "TOML Example"
 
@@ -104,10 +109,15 @@ hosts = [
   "alpha",
   "omega"
 ]
-`.trim());
+`);
 </script>
 
-</main>
-</div>
+    </main>
+  </div>
 </body>
 </html>
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  crossorigin="anonymous">
+</script>
