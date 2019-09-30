@@ -16,19 +16,17 @@
   },
   "license": "MIT",
   "scripts": {
-    "lint": "prettier grammar.js --check",
-    "test": "tree-sitter test && tree-sitter parse examples/*.toml --quiet --time",
-    "prepack": "tree-sitter generate",
-    "release": "standard-version"
+    "test": "yarn tree-sitter test",
+    "prepack": "yarn tree-sitter generate",
+    "release": "standard-version",
+    "tree-sitter": "./tree-sitter/target/release/tree-sitter"
   },
   "dependencies": {
     "nan": "^2.14.0"
   },
   "devDependencies": {
-    "prettier": "1.18.2",
     "regexp-util": "1.2.2",
-    "standard-version": "7.0.0",
-    "tree-sitter-cli": "0.15.7"
+    "standard-version": "7.0.0"
   },
   "files": [
     "/src/",

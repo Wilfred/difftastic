@@ -28,9 +28,13 @@ key
 
 (document
   (pair
-    (key) (ERROR) (boolean))
+    (key)
+    (ERROR)
+    (boolean))
   (pair
-    (key) (ERROR) (boolean)))
+    (key)
+    (ERROR)
+    (boolean)))
 
 ================================================================================
 INVALID - float - whitespaces between its components are not allowed
@@ -44,7 +48,8 @@ invalid_both = 1 .0 e 2
 
 (document
   (ERROR
-    (key) (integer)))
+    (key)
+    (integer)))
 
 ================================================================================
 INVALID - offset date time - whitespaces between its components are not allowed
@@ -57,7 +62,10 @@ invalid2 = 1979-05-27 T 07:32:00 Z
 
 (document
   (ERROR
-    (key) (local_date) (local_time) (local_time)))
+    (key)
+    (local_date)
+    (local_time)
+    (local_time)))
 
 ================================================================================
 INVALID - local date time - whitespaces between its components are not allowed
@@ -70,7 +78,10 @@ invalid2 = 1979-05-27 T 07:32:00
 
 (document
   (ERROR
-    (key) (local_date) (local_time) (local_time)))
+    (key)
+    (local_date)
+    (local_time)
+    (local_time)))
 
 ================================================================================
 VALID - local date - trailing whitespaces are allowed
@@ -82,7 +93,8 @@ valid = 1979-05-27
 
 (document
   (pair
-    (key) (local_date)))
+    (key)
+    (local_date)))
 
 ================================================================================
 INVALID - table - multiline string for header keys are not allowed
@@ -106,9 +118,11 @@ key
 
 (document
   (table
-    (key) (ERROR))
+    (key)
+    (ERROR))
   (table
-    (key) (ERROR)))
+    (key)
+    (ERROR)))
 
 ================================================================================
 INVALID - inline table - newlines outside of pairs are not allowed
@@ -126,7 +140,8 @@ key = {
     (inline_table
       (ERROR)
       (pair
-        (key) (boolean))
+        (key)
+        (boolean))
       (ERROR))))
 
 ================================================================================
@@ -151,7 +166,8 @@ key
 
 (document
   (ERROR
-    (key) (key)))
+    (key)
+    (key)))
 
 ================================================================================
 VALID - table - empty content separated by comments
@@ -165,7 +181,8 @@ VALID - table - empty content separated by comments
 
 (document
   (table
-    (key) (comment)))
+    (key)
+    (comment)))
 
 ================================================================================
 VALID - array of tables - empty content separated by comments
@@ -179,7 +196,8 @@ VALID - array of tables - empty content separated by comments
 
 (document
   (table_array_element
-    (key) (comment)))
+    (key)
+    (comment)))
 
 ================================================================================
 VALID - table - two pairs separated by comments
@@ -199,10 +217,12 @@ b = 2
   (table
     (key)
     (pair
-      (key) (integer))
+      (key)
+      (integer))
     (comment)
     (pair
-      (key) (integer))))
+      (key)
+      (integer))))
 
 ================================================================================
 VALID - array of tables - two pairs separated by comments
@@ -222,7 +242,9 @@ b = 2
   (table_array_element
     (key)
     (pair
-      (key) (integer))
+      (key)
+      (integer))
     (comment)
     (pair
-      (key) (integer))))
+      (key)
+      (integer))))

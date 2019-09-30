@@ -922,11 +922,6 @@ pinkie@^2.0.0:
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
   integrity sha1-clVrgM+g1IqXToDnckjoDtT3+HA=
 
-prettier@1.18.2:
-  version "1.18.2"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.18.2.tgz#6823e7c5900017b4bd3acf46fe9ac4b4d7bda9ea"
-  integrity sha512-OeHeMc0JhFE9idD4ZdtNibzY0+TPHSpSSb9h8FqtP+YnoZZ1sl8Vc9b1sasjfymH3SonAF4QcA2+mzHPhMvIiw==
-
 process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
@@ -1230,11 +1225,6 @@ through@2, "through@>=2.2.7 <3":
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
-
-tree-sitter-cli@0.15.7:
-  version "0.15.7"
-  resolved "https://registry.yarnpkg.com/tree-sitter-cli/-/tree-sitter-cli-0.15.7.tgz#3cda2910460243ad633c73c81460391ef7ec5798"
-  integrity sha512-6to6Hz4uOdmKd+Co4Y/nQps/u4pBG7oFKSmSVScJXtz+M76bFi1n9pB8s16Kdv55KJi4ur6pK4SGMfNdTKywsw==
 
 trim-newlines@^1.0.0:
   version "1.0.0"

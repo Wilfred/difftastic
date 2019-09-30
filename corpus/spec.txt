@@ -10,7 +10,9 @@ key = "value" # This is a comment at the end of a line
 (document
   (comment)
   (pair
-    (key) (string) (comment)))
+    (key)
+    (string)
+    (comment)))
 
 ================================================================================
 VALID - key/value pair - basic
@@ -22,7 +24,8 @@ key = "value"
 
 (document
   (pair
-    (key) (string)))
+    (key)
+    (string)))
 
 ================================================================================
 INVALID - key/value pair - empty value
@@ -34,7 +37,8 @@ key = # INVALID
 
 (document
   (ERROR
-    (key) (comment)))
+    (key)
+    (comment)))
 
 ================================================================================
 VALID - keys - bare keys
@@ -49,13 +53,17 @@ bare-key = "value"
 
 (document
   (pair
-    (key) (string))
+    (key)
+    (string))
   (pair
-    (key) (string))
+    (key)
+    (string))
   (pair
-    (key) (string))
+    (key)
+    (string))
   (pair
-    (key) (string)))
+    (key)
+    (string)))
 
 ================================================================================
 VALID - keys - quoted keys
@@ -71,15 +79,20 @@ VALID - keys - quoted keys
 
 (document
   (pair
-    (key) (string))
+    (key)
+    (string))
   (pair
-    (key) (string))
+    (key)
+    (string))
   (pair
-    (key) (string))
+    (key)
+    (string))
   (pair
-    (key) (string))
+    (key)
+    (string))
   (pair
-    (key) (string)))
+    (key)
+    (string)))
 
 ================================================================================
 INVALID - keys - empty bare key
@@ -98,9 +111,13 @@ INVALID - keys - empty bare key
     (string)
     (comment))
   (pair
-    (key) (string) (comment))
+    (key)
+    (string)
+    (comment))
   (pair
-    (key) (string) (comment)))
+    (key)
+    (string)
+    (comment)))
 
 ================================================================================
 VALID - keys - dotted keys
@@ -115,18 +132,22 @@ site."google.com" = true
 
 (document
   (pair
-    (key) (string))
-  (pair
-    (dotted_key
-      (key) (key))
+    (key)
     (string))
   (pair
     (dotted_key
-      (key) (key))
+      (key)
+      (key))
     (string))
   (pair
     (dotted_key
-      (key) (key))
+      (key)
+      (key))
+    (string))
+  (pair
+    (dotted_key
+      (key)
+      (key))
     (boolean)))
 
 ================================================================================
@@ -142,9 +163,11 @@ name = "Pradyun"
 (document
   (comment)
   (pair
-    (key) (string))
+    (key)
+    (string))
   (pair
-    (key) (string)))
+    (key)
+    (string)))
 
 ================================================================================
 VALID - keys - directly defined nested keys
@@ -159,12 +182,14 @@ a.d = 2
   (pair
     (dotted_key
       (dotted_key
-        (key) (key))
+        (key)
+        (key))
       (key))
     (integer))
   (pair
     (dotted_key
-      (key) (key))
+      (key)
+      (key))
     (integer)))
 
 ================================================================================
@@ -181,12 +206,14 @@ a.b.c = 2
   (comment)
   (pair
     (dotted_key
-      (key) (key))
+      (key)
+      (key))
     (integer))
   (pair
     (dotted_key
       (dotted_key
-        (key) (key))
+        (key)
+        (key))
       (key))
     (integer)))
 
@@ -202,7 +229,12 @@ str = "I'm a string. \"You can quote me\". Name\tJos\u00E9\nLocation\tSF."
   (pair
     (key)
     (string
-      (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence))))
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence))))
 
 ================================================================================
 VALID - string - multi-line basic strings
@@ -216,7 +248,8 @@ Violets are blue"""
 
 (document
   (pair
-    (key) (string)))
+    (key)
+    (string)))
 
 ================================================================================
 VALID - string - multi-line basic strings with trailing backslashes
@@ -243,15 +276,20 @@ str3 = """\
 (document
   (comment)
   (pair
-    (key) (string))
+    (key)
+    (string))
   (pair
     (key)
     (string
-      (escape_sequence) (escape_sequence)))
+      (escape_sequence)
+      (escape_sequence)))
   (pair
     (key)
     (string
-      (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence))))
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence))))
 
 ================================================================================
 VALID - string - literal strings
@@ -268,13 +306,17 @@ regex    = '<\i\c*\s*>'
 (document
   (comment)
   (pair
-    (key) (string))
+    (key)
+    (string))
   (pair
-    (key) (string))
+    (key)
+    (string))
   (pair
-    (key) (string))
+    (key)
+    (string))
   (pair
-    (key) (string)))
+    (key)
+    (string)))
 
 ================================================================================
 VALID - string - multi-line literal strings
@@ -292,9 +334,11 @@ trimmed in raw strings.
 
 (document
   (pair
-    (key) (string))
+    (key)
+    (string))
   (pair
-    (key) (string)))
+    (key)
+    (string)))
 
 ================================================================================
 VALID - integer - signed/unsigned decimal integer
@@ -309,13 +353,17 @@ int4 = -17
 
 (document
   (pair
-    (key) (integer))
+    (key)
+    (integer))
   (pair
-    (key) (integer))
+    (key)
+    (integer))
   (pair
-    (key) (integer))
+    (key)
+    (integer))
   (pair
-    (key) (integer)))
+    (key)
+    (integer)))
 
 ================================================================================
 VALID - integer - decimal integer with underscores
@@ -329,11 +377,15 @@ int7 = 1_2_3_4_5     # VALID but discouraged
 
 (document
   (pair
-    (key) (integer))
+    (key)
+    (integer))
   (pair
-    (key) (integer))
+    (key)
+    (integer))
   (pair
-    (key) (integer) (comment)))
+    (key)
+    (integer)
+    (comment)))
 
 ================================================================================
 VALID - integer - hexadecimal/octal/binary integer
@@ -356,19 +408,26 @@ bin1 = 0b11010110
 (document
   (comment)
   (pair
-    (key) (integer))
+    (key)
+    (integer))
   (pair
-    (key) (integer))
+    (key)
+    (integer))
   (pair
-    (key) (integer))
+    (key)
+    (integer))
   (comment)
   (pair
-    (key) (integer))
+    (key)
+    (integer))
   (pair
-    (key) (integer) (comment))
+    (key)
+    (integer)
+    (comment))
   (comment)
   (pair
-    (key) (integer)))
+    (key)
+    (integer)))
 
 ================================================================================
 VALID - float - float with fractional or exponent or both
@@ -392,21 +451,28 @@ flt7 = 6.626e-34
 (document
   (comment)
   (pair
-    (key) (float))
+    (key)
+    (float))
   (pair
-    (key) (float))
+    (key)
+    (float))
   (pair
-    (key) (float))
+    (key)
+    (float))
   (comment)
   (pair
-    (key) (float))
+    (key)
+    (float))
   (pair
-    (key) (float))
+    (key)
+    (float))
   (pair
-    (key) (float))
+    (key)
+    (float))
   (comment)
   (pair
-    (key) (float)))
+    (key)
+    (float)))
 
 ================================================================================
 VALID - float - float with underscores
@@ -418,7 +484,8 @@ flt8 = 9_224_617.445_991_228_313
 
 (document
   (pair
-    (key) (float)))
+    (key)
+    (float)))
 
 ================================================================================
 VALID - float - special float values
@@ -439,18 +506,30 @@ sf6 = -nan # valid, actual encoding is implementation specific
 (document
   (comment)
   (pair
-    (key) (float) (comment))
+    (key)
+    (float)
+    (comment))
   (pair
-    (key) (float) (comment))
+    (key)
+    (float)
+    (comment))
   (pair
-    (key) (float) (comment))
+    (key)
+    (float)
+    (comment))
   (comment)
   (pair
-    (key) (float) (comment))
+    (key)
+    (float)
+    (comment))
   (pair
-    (key) (float) (comment))
+    (key)
+    (float)
+    (comment))
   (pair
-    (key) (float) (comment)))
+    (key)
+    (float)
+    (comment)))
 
 ================================================================================
 VALID - boolean - basic
@@ -463,9 +542,11 @@ bool2 = false
 
 (document
   (pair
-    (key) (boolean))
+    (key)
+    (boolean))
   (pair
-    (key) (boolean)))
+    (key)
+    (boolean)))
 
 ================================================================================
 VALID - offset date time - basic
@@ -479,11 +560,14 @@ odt3 = 1979-05-27T00:32:00.999999-07:00
 
 (document
   (pair
-    (key) (offset_date_time))
+    (key)
+    (offset_date_time))
   (pair
-    (key) (offset_date_time))
+    (key)
+    (offset_date_time))
   (pair
-    (key) (offset_date_time)))
+    (key)
+    (offset_date_time)))
 
 ================================================================================
 VALID - offset date time - whitespace as delimiter
@@ -495,7 +579,8 @@ odt4 = 1979-05-27 07:32:00Z
 
 (document
   (pair
-    (key) (offset_date_time)))
+    (key)
+    (offset_date_time)))
 
 ================================================================================
 VALID - local date time - basic
@@ -508,9 +593,11 @@ ldt2 = 1979-05-27T00:32:00.999999
 
 (document
   (pair
-    (key) (local_date_time))
+    (key)
+    (local_date_time))
   (pair
-    (key) (local_date_time)))
+    (key)
+    (local_date_time)))
 
 ================================================================================
 VALID - local date - basic
@@ -522,7 +609,8 @@ ld1 = 1979-05-27
 
 (document
   (pair
-    (key) (local_date)))
+    (key)
+    (local_date)))
 
 ================================================================================
 VALID - local time - basic
@@ -535,9 +623,11 @@ lt2 = 00:32:00.999999
 
 (document
   (pair
-    (key) (local_time))
+    (key)
+    (local_time))
   (pair
-    (key) (local_time)))
+    (key)
+    (local_time)))
 
 ================================================================================
 VALID - array - basic (semantically INVALID for children with mixed types)
@@ -557,33 +647,47 @@ arr6 = [ 1, 2.0 ] # INVALID
   (pair
     (key)
     (array
-      (integer) (integer) (integer)))
+      (integer)
+      (integer)
+      (integer)))
   (pair
     (key)
     (array
-      (string) (string) (string)))
-  (pair
-    (key)
-    (array
-      (array
-        (integer) (integer))
-      (array
-        (integer) (integer) (integer))))
-  (pair
-    (key)
-    (array
-      (string) (string) (string) (string)))
+      (string)
+      (string)
+      (string)))
   (pair
     (key)
     (array
       (array
-        (integer) (integer))
+        (integer)
+        (integer))
       (array
-        (string) (string) (string))))
+        (integer)
+        (integer)
+        (integer))))
   (pair
     (key)
     (array
-      (integer) (float))
+      (string)
+      (string)
+      (string)
+      (string)))
+  (pair
+    (key)
+    (array
+      (array
+        (integer)
+        (integer))
+      (array
+        (string)
+        (string)
+        (string))))
+  (pair
+    (key)
+    (array
+      (integer)
+      (float))
     (comment)))
 
 ================================================================================
@@ -605,11 +709,15 @@ arr8 = [
   (pair
     (key)
     (array
-      (integer) (integer) (integer)))
+      (integer)
+      (integer)
+      (integer)))
   (pair
     (key)
     (array
-      (integer) (integer) (comment))))
+      (integer)
+      (integer)
+      (comment))))
 
 ================================================================================
 VALID - table - header
@@ -641,15 +749,19 @@ key2 = 456
   (table
     (key)
     (pair
-      (key) (string))
+      (key)
+      (string))
     (pair
-      (key) (integer)))
+      (key)
+      (integer)))
   (table
     (key)
     (pair
-      (key) (string))
+      (key)
+      (string))
     (pair
-      (key) (integer))))
+      (key)
+      (integer))))
 
 ================================================================================
 VALID - table - header with dotted key
@@ -663,10 +775,12 @@ type.name = "pug"
 (document
   (table
     (dotted_key
-      (key) (key))
+      (key)
+      (key))
     (pair
       (dotted_key
-        (key) (key))
+        (key)
+        (key))
       (string))))
 
 ================================================================================
@@ -684,25 +798,29 @@ VALID - table- header with whitespaces
   (table
     (dotted_key
       (dotted_key
-        (key) (key))
+        (key)
+        (key))
       (key))
     (comment))
   (table
     (dotted_key
       (dotted_key
-        (key) (key))
+        (key)
+        (key))
       (key))
     (comment))
   (table
     (dotted_key
       (dotted_key
-        (key) (key))
+        (key)
+        (key))
       (key))
     (comment))
   (table
     (dotted_key
       (dotted_key
-        (key) (key))
+        (key)
+        (key))
       (key))
     (comment)))
 
@@ -725,7 +843,8 @@ VALID - table - directly defined nested header key
     (dotted_key
       (dotted_key
         (dotted_key
-          (key) (key))
+          (key)
+          (key))
         (key))
       (key))
     (comment)))
@@ -749,11 +868,13 @@ c = 2
   (table
     (key)
     (pair
-      (key) (integer)))
+      (key)
+      (integer)))
   (table
     (key)
     (pair
-      (key) (integer))))
+      (key)
+      (integer))))
 
 ================================================================================
 VALID - table - overlapped header key (semantically INVALID)
@@ -774,12 +895,15 @@ c = 2
   (table
     (key)
     (pair
-      (key) (integer)))
+      (key)
+      (integer)))
   (table
     (dotted_key
-      (key) (key))
+      (key)
+      (key))
     (pair
-      (key) (integer))))
+      (key)
+      (integer))))
 
 ================================================================================
 VALID - inline table - basic
@@ -796,22 +920,27 @@ animal = { type.name = "pug" }
     (key)
     (inline_table
       (pair
-        (key) (string))
+        (key)
+        (string))
       (pair
-        (key) (string))))
+        (key)
+        (string))))
   (pair
     (key)
     (inline_table
       (pair
-        (key) (integer))
+        (key)
+        (integer))
       (pair
-        (key) (integer))))
+        (key)
+        (integer))))
   (pair
     (key)
     (inline_table
       (pair
         (dotted_key
-          (key) (key))
+          (key)
+          (key))
         (string)))))
 
 ================================================================================
@@ -835,19 +964,24 @@ color = "gray"
   (table_array_element
     (key)
     (pair
-      (key) (string))
+      (key)
+      (string))
     (pair
-      (key) (integer)))
+      (key)
+      (integer)))
   (table_array_element
     (key))
   (table_array_element
     (key)
     (pair
-      (key) (string))
+      (key)
+      (string))
     (pair
-      (key) (integer))
+      (key)
+      (integer))
     (pair
-      (key) (string))))
+      (key)
+      (string))))
 
 ================================================================================
 VALID - array of tables - nested arrays of tables
@@ -878,33 +1012,44 @@ VALID - array of tables - nested arrays of tables
   (table_array_element
     (key)
     (pair
-      (key) (string)))
+      (key)
+      (string)))
   (table
     (dotted_key
-      (key) (key))
+      (key)
+      (key))
     (pair
-      (key) (string))
+      (key)
+      (string))
     (pair
-      (key) (string)))
+      (key)
+      (string)))
   (table_array_element
     (dotted_key
-      (key) (key))
+      (key)
+      (key))
     (pair
-      (key) (string)))
+      (key)
+      (string)))
   (table_array_element
     (dotted_key
-      (key) (key))
+      (key)
+      (key))
     (pair
-      (key) (string)))
+      (key)
+      (string)))
   (table_array_element
     (key)
     (pair
-      (key) (string)))
+      (key)
+      (string)))
   (table_array_element
     (dotted_key
-      (key) (key))
+      (key)
+      (key))
     (pair
-      (key) (string))))
+      (key)
+      (string))))
 
 ================================================================================
 VALID - array of tables - append to statically defined array (semantically INVALID)
@@ -920,9 +1065,11 @@ fruit = []
 (document
   (comment)
   (pair
-    (key) (array))
+    (key)
+    (array))
   (table_array_element
-    (key) (comment)))
+    (key)
+    (comment)))
 
 ================================================================================
 VALID - array of tables - append to table (semantically INVALID)
@@ -946,15 +1093,20 @@ VALID - array of tables - append to table (semantically INVALID)
   (table_array_element
     (key)
     (pair
-      (key) (string)))
+      (key)
+      (string)))
   (table_array_element
     (dotted_key
-      (key) (key))
+      (key)
+      (key))
     (pair
-      (key) (string))
+      (key)
+      (string))
     (comment))
   (table
     (dotted_key
-      (key) (key))
+      (key)
+      (key))
     (pair
-      (key) (string))))
+      (key)
+      (string))))
