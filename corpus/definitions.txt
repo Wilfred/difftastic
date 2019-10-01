@@ -86,6 +86,8 @@ class A : public B {
   A() = default;
   A(A &&) = delete;
   void f() = delete;
+  A& operator=(const A&) = default;
+  A& operator=(A&&) = delete;
 };
 
 ---
@@ -105,7 +107,21 @@ class A : public B {
         (delete_method_clause))
       (function_definition
         (primitive_type)
-        (function_declarator (field_identifier) (parameter_list)) (delete_method_clause)))))
+        (function_declarator (field_identifier) (parameter_list)) (delete_method_clause))
+      (function_definition
+        (type_identifier)
+        (reference_declarator
+          (function_declarator
+            (operator_name)
+            (parameter_list (parameter_declaration (type_qualifier) (type_identifier) (abstract_reference_declarator)))))
+        (default_method_clause))
+      (function_definition
+        (type_identifier)
+        (reference_declarator
+          (function_declarator
+            (operator_name)
+            (parameter_list (parameter_declaration (type_identifier) (abstract_reference_declarator)))))
+        (delete_method_clause)))))
 
 =====================================
 Destructor definitions

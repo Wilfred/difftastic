@@ -314,6 +314,7 @@ module.exports = grammar(C, {
       field('declarator', $._field_declarator),
       choice(
         field('body', $.compound_statement),
+        $.default_method_clause,
         $.delete_method_clause
       )
     ),
