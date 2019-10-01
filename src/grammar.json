@@ -6225,6 +6225,19 @@
             {
               "type": "SYMBOL",
               "name": "function_definition"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "constructor_or_destructor_definition"
+              },
+              "named": true,
+              "value": "function_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "template_declaration"
             }
           ]
         }
@@ -6298,6 +6311,10 @@
                     {
                       "type": "SYMBOL",
                       "name": "optional_type_parameter_declaration"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "template_template_parameter_declaration"
                     }
                   ]
                 },
@@ -6332,6 +6349,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "optional_type_parameter_declaration"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "template_template_parameter_declaration"
                           }
                         ]
                       }
@@ -6383,8 +6404,16 @@
             ]
           },
           {
-            "type": "SYMBOL",
-            "name": "_type_identifier"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_type_identifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
@@ -6413,8 +6442,16 @@
             "value": "..."
           },
           {
-            "type": "SYMBOL",
-            "name": "_type_identifier"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_type_identifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
@@ -6423,16 +6460,33 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "typename"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "typename"
+            },
+            {
+              "type": "STRING",
+              "value": "class"
+            }
+          ]
         },
         {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_type_identifier"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "name",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_type_identifier"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -6445,6 +6499,40 @@
             "type": "SYMBOL",
             "name": "_type_specifier"
           }
+        }
+      ]
+    },
+    "template_template_parameter_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "template"
+        },
+        {
+          "type": "FIELD",
+          "name": "parameters",
+          "content": {
+            "type": "SYMBOL",
+            "name": "template_parameter_list"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_parameter_declaration"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "variadic_type_parameter_declaration"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "optional_type_parameter_declaration"
+            }
+          ]
         }
       ]
     },
