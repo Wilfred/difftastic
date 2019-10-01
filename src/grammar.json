@@ -6667,6 +6667,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "default_method_clause"
+            },
+            {
+              "type": "SYMBOL",
               "name": "delete_method_clause"
             }
           ]
