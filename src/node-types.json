@@ -2394,7 +2394,7 @@
       },
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "type_identifier",
@@ -3441,7 +3441,7 @@
     "named": true,
     "fields": {
       "parameters": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -3452,7 +3452,7 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -3465,6 +3465,10 @@
         },
         {
           "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "template_declaration",
           "named": true
         }
       ]
@@ -3592,6 +3596,44 @@
         },
         {
           "type": "parameter_declaration",
+          "named": true
+        },
+        {
+          "type": "template_template_parameter_declaration",
+          "named": true
+        },
+        {
+          "type": "type_parameter_declaration",
+          "named": true
+        },
+        {
+          "type": "variadic_type_parameter_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_template_parameter_declaration",
+    "named": true,
+    "fields": {
+      "parameters": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "template_parameter_list",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "optional_type_parameter_declaration",
           "named": true
         },
         {
@@ -3867,7 +3909,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "type_identifier",
@@ -4085,7 +4127,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "type_identifier",

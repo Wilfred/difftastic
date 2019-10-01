@@ -443,6 +443,13 @@ int bar(T &t) { return u; }
 template <typename T>
 class Foo {};
 
+template <typename T>
+Foo<T>::Foo(int mem) : mem_(mem) {}
+
+template <typename T>
+template <typename U>
+void A<T>::foo(U&) {}
+
 ---
 
 (translation_unit
@@ -468,7 +475,93 @@ class Foo {};
   (template_declaration
     (template_parameter_list
       (type_parameter_declaration (type_identifier)))
-    (class_specifier (type_identifier) (field_declaration_list))))
+    (class_specifier (type_identifier) (field_declaration_list)))
+  (template_declaration
+    (template_parameter_list
+      (type_parameter_declaration (type_identifier)))
+    (function_definition
+      (function_declarator
+        (scoped_identifier
+          (template_type
+            (type_identifier)
+            (template_argument_list (type_descriptor (type_identifier))))
+          (identifier))
+        (parameter_list
+          (parameter_declaration (primitive_type) (identifier))))
+      (field_initializer_list
+        (field_initializer
+          (field_identifier)
+          (argument_list (identifier))))
+      (compound_statement)))
+  (template_declaration
+    (template_parameter_list
+      (type_parameter_declaration (type_identifier)))
+    (template_declaration
+      (template_parameter_list
+        (type_parameter_declaration (type_identifier)))
+      (function_definition
+        (primitive_type)
+        (function_declarator
+          (scoped_identifier
+            (template_type
+              (type_identifier)
+              (template_argument_list (type_descriptor (type_identifier))))
+            (identifier))
+          (parameter_list
+            (parameter_declaration
+              (type_identifier)
+              (abstract_reference_declarator))))
+        (compound_statement)))))
+
+=========================================
+Template template declarations
+=========================================
+
+template <template <typename> typename T>
+void foo() {}
+
+template <template <typename...> class>
+void bar() {}
+
+template <template <typename> typename...>
+void baz() {}
+
+---
+
+(translation_unit
+  (template_declaration
+    (template_parameter_list
+      (template_template_parameter_declaration
+        (template_parameter_list (type_parameter_declaration))
+        (type_parameter_declaration (type_identifier))))
+    (function_definition
+      (primitive_type)
+      (function_declarator
+        (identifier)
+        (parameter_list))
+      (compound_statement)))
+  (template_declaration
+    (template_parameter_list
+      (template_template_parameter_declaration
+        (template_parameter_list (variadic_type_parameter_declaration))
+        (type_parameter_declaration)))
+    (function_definition
+      (primitive_type)
+      (function_declarator
+        (identifier)
+        (parameter_list))
+      (compound_statement)))
+  (template_declaration
+    (template_parameter_list
+      (template_template_parameter_declaration
+        (template_parameter_list (type_parameter_declaration))
+        (variadic_type_parameter_declaration)))
+    (function_definition
+      (primitive_type)
+      (function_declarator
+        (identifier)
+        (parameter_list))
+      (compound_statement))))
 
 =========================================
 Template specializations
@@ -557,6 +650,11 @@ class X
 {
 };
 
+template <typename = void>
+class Y
+{
+};
+
 ---
 
 (translation_unit
@@ -570,6 +668,13 @@ class X
             name: (type_identifier))
           arguments: (template_argument_list
             (type_descriptor type: (primitive_type))))))
+    (class_specifier
+      name: (type_identifier)
+      body: (field_declaration_list)))
+  (template_declaration
+    parameters: (template_parameter_list
+      (optional_type_parameter_declaration
+        default_type: (primitive_type)))
     (class_specifier
       name: (type_identifier)
       body: (field_declaration_list))))
@@ -753,6 +858,9 @@ class TT {
   }
 
   void func2(Ts &&... args) {}
+
+  template <typename...>
+  void func3() {}
 };
 
 ---
@@ -781,7 +889,15 @@ class TT {
               (variadic_parameter_declaration
                 (type_identifier)
                 (reference_declarator (variadic_declarator (identifier))))))
-          (compound_statement))))))
+          (compound_statement))
+        (template_declaration
+          (template_parameter_list (variadic_type_parameter_declaration))
+          (function_definition
+            (primitive_type)
+            (function_declarator
+              (identifier)
+              (parameter_list))
+            (compound_statement)))))))
 
 ============================
 Enums

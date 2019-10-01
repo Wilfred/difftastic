@@ -174,7 +174,9 @@ module.exports = grammar(C, {
       choice(
         $.declaration,
         $._empty_declaration,
-        $.function_definition
+        $.function_definition,
+        alias($.constructor_or_destructor_definition, $.function_definition),
+        $.template_declaration
       )
     ),
 
@@ -192,7 +194,8 @@ module.exports = grammar(C, {
         $.optional_parameter_declaration,
         $.type_parameter_declaration,
         $.variadic_type_parameter_declaration,
-        $.optional_type_parameter_declaration
+        $.optional_type_parameter_declaration,
+        $.template_template_parameter_declaration
       )),
       alias(token(prec(1, '>')), '>')
     ),
@@ -204,20 +207,30 @@ module.exports = grammar(C, {
 
     type_parameter_declaration: $ => prec(1, seq(
       choice('typename', 'class'),
-      $._type_identifier
+      optional($._type_identifier)
     )),
 
     variadic_type_parameter_declaration: $ => prec(1, seq(
       choice('typename', 'class'),
       '...',
-      $._type_identifier
+      optional($._type_identifier)
     )),
 
     optional_type_parameter_declaration: $ => seq(
-      'typename',
-      field('name', $._type_identifier),
+      choice('typename', 'class'),
+      optional(field('name', $._type_identifier)),
       '=',
       field('default_type', $._type_specifier)
+    ),
+
+    template_template_parameter_declaration: $ => seq(
+      'template',
+      field('parameters', $.template_parameter_list),
+      choice(
+        $.type_parameter_declaration,
+        $.variadic_type_parameter_declaration,
+        $.optional_type_parameter_declaration
+      )
     ),
 
     parameter_list: $ => seq(
