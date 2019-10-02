@@ -337,7 +337,8 @@ interface Top {
 
 (program
   (interface_declaration
-    (normal_interface_declaration (identifier) (interface_body))))
+    (identifier)
+    (interface_body)))
 
 ===================================
 interface declaration with extends
@@ -352,11 +353,12 @@ interface Bottom extends Left, Right {}
 
 (program
   (interface_declaration
-    (normal_interface_declaration (identifier)
-      (extends_interfaces (interface_type_list (type_identifier))) (interface_body)))
+    (identifier)
+    (extends_interfaces (interface_type_list (type_identifier)))
+    (interface_body))
   (interface_declaration
-    (normal_interface_declaration (identifier)
-      (extends_interfaces (interface_type_list (type_identifier) (type_identifier))) (interface_body))))
+    (identifier)
+    (extends_interfaces (interface_type_list (type_identifier) (type_identifier))) (interface_body)))
 
 ===========================================
 interface with annotation type declaration
@@ -367,7 +369,7 @@ interface with annotation type declaration
 ---
 
 (program
-  (interface_declaration (annotation_type_declaration (identifier) (annotation_type_body))))
+  (annotation_type_declaration (identifier) (annotation_type_body)))
 
 ===================
 method declaration
