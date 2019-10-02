@@ -408,31 +408,51 @@ class Point {
     this.x = x;
     this.y = y;
   }
+
+  Point() {
+    this(0, 0);
+  }
 }
 
 ---
 
 (program
   (class_declaration
-    (identifier)
-    (class_body
+    name: (identifier)
+    body: (class_body
       (field_declaration
-        (integral_type)
-        (variable_declarator (identifier))
-        (variable_declarator (identifier)))
+        type: (integral_type)
+        declarator: (variable_declarator name: (identifier))
+        declarator: (variable_declarator name: (identifier)))
       (constructor_declaration
-        (constructor_declarator
-          (identifier)
-          (formal_parameters
-            (formal_parameter (integral_type) (identifier))
-            (formal_parameter (integral_type) (identifier))))
-        (constructor_body
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (integral_type)
+            name: (identifier))
+          (formal_parameter
+            type: (integral_type)
+            name: (identifier)))
+        body: (constructor_body
           (expression_statement (assignment_expression
-            (field_access (this) (identifier))
-            (identifier)))
+            left: (field_access
+              object: (this)
+              field: (identifier))
+            right: (identifier)))
           (expression_statement (assignment_expression
-            (field_access (this) (identifier))
-            (identifier))))))))
+            left: (field_access
+              object: (this)
+              field: (identifier))
+            right: (identifier)))))
+      (constructor_declaration
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (constructor_body
+          (explicit_constructor_invocation
+            constructor: (this)
+            arguments: (argument_list
+              (decimal_integer_literal)
+              (decimal_integer_literal))))))))
 
 =======
 throws

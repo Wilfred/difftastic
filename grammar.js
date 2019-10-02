@@ -171,8 +171,11 @@ module.exports = grammar({
       $.cast_expression
     ),
 
-    cast_expression: $ => prec(PREC.CAST, choice(
-      seq('(', sep1($._type, '&'), ')', $._expression)
+    cast_expression: $ => prec(PREC.CAST, seq(
+      '(',
+      sep1(field('type', $._type), '&'),
+      ')',
+      field('value', $._expression)
     )),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
@@ -315,10 +318,23 @@ module.exports = grammar({
     )),
 
     field_access: $ => choice(
-      seq($._ambiguous_name, '.', $.this),
-      seq($._primary, '.', $.identifier),
-      seq($.super, '.', $.identifier),
-      seq($._ambiguous_name, '.', $.super, '.', $.identifier)
+      seq(
+        field('object', $._ambiguous_name),
+        '.',
+        field('field', $.this)
+      ),
+      seq(
+        field('object', choice($._primary, $.super)),
+        '.',
+        field('field', $.identifier)
+      ),
+      seq(
+        field('object', $._ambiguous_name),
+        '.',
+        $.super,
+        '.',
+        field('field', $.identifier)
+      )
     ),
 
     array_access: $ => seq(
@@ -755,15 +771,15 @@ module.exports = grammar({
 
     constructor_declaration: $ => seq(
       optional($.modifiers),
-      $.constructor_declarator,
+      $._constructor_declarator,
       optional($.throws),
-      $.constructor_body
+      field('body', $.constructor_body)
     ),
 
-    constructor_declarator: $ => seq(
-      optional($.type_parameters),
-      $.identifier,
-      $.formal_parameters
+    _constructor_declarator: $ => seq(
+      field('type_paramaters', optional($.type_parameters)),
+      field('name', $.identifier),
+      field('parameters', $.formal_parameters)
     ),
 
     constructor_body: $ => seq(
@@ -773,11 +789,21 @@ module.exports = grammar({
       '}'
     ),
 
-    explicit_constructor_invocation: $ => choice(
-      seq(optional($.type_arguments), $.this, $.argument_list, ';'),
-      seq(optional($.type_arguments), $.super, $.argument_list, ';'),
-      seq($._ambiguous_name, '.', optional($.type_arguments), $.super, $.argument_list, ';'),
-      seq($._primary, '.', $.super, $.argument_list, ';')
+    explicit_constructor_invocation: $ => seq(
+      choice(
+        seq(
+          field('type_arguments', optional($.type_arguments)),
+          field('constructor', choice($.this, $.super)),
+        ),
+        seq(
+          field('object', choice($._ambiguous_name, $._primary)),
+          '.',
+          field('type_arguments', optional($.type_arguments)),
+          field('constructor', $.super),
+        )
+      ),
+      field('arguments', $.argument_list),
+      ';'
     ),
 
     _ambiguous_name: $ => choice(
@@ -804,7 +830,7 @@ module.exports = grammar({
 
     field_declaration: $ => seq(
       optional($.modifiers),
-      $._unannotated_type,
+      field('type', $._unannotated_type),
       $._variable_declarator_list,
       ';'
     ),
