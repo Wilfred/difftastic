@@ -557,16 +557,15 @@ class Box <T> {
           (variable_declarator (identifier)))
       (constructor_declaration
         (modifiers)
-          (constructor_declarator
+        (identifier)
+        (formal_parameters
+          (formal_parameter
+            (type_identifier)
+            (identifier)))
+        (constructor_body
+          (expression_statement (assignment_expression
             (identifier)
-            (formal_parameters
-              (formal_parameter
-                (type_identifier)
-                (identifier))))
-          (constructor_body
-            (expression_statement (assignment_expression
-              (identifier)
-                (identifier)))))
+              (identifier)))))
       (comment))))
 
 ==================================
