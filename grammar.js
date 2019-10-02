@@ -258,11 +258,19 @@ module.exports = grammar({
     )),
 
     _primary: $ => choice(
-      $._primary_no_new_array,
+      $._literal,
+      $.class_literal,
+      $.this,
+      $.parenthesized_expression,
+      $.object_creation_expression,
+      $.field_access,
+      $.array_access,
+      $.method_invocation,
+      $.method_reference,
       $.array_creation_expression
     ),
 
-    array_creation_expression: $ => seq(
+    array_creation_expression: $ => prec.right(seq(
       'new',
       field('type', $._simple_type),
       choice(
@@ -275,21 +283,9 @@ module.exports = grammar({
           field('value', $.array_initializer)
         )
       )
-    ),
+    )),
 
     dimensions_expr: $ => seq(repeat($._annotation), '[', $._expression, ']'),
-
-    _primary_no_new_array: $ => choice(
-      $._literal,
-      $.class_literal,
-      $.this,
-      $.parenthesized_expression,
-      $.object_creation_expression,
-      $.field_access,
-      $.array_access,
-      $.method_invocation,
-      $.method_reference
-    ),
 
     parenthesized_expression: $ => seq('(', $._expression, ')'),
 
@@ -321,9 +317,11 @@ module.exports = grammar({
       seq($._ambiguous_name, '.', $.super, '.', $.identifier)
     ),
 
-    array_access: $ => choice(
-      seq($._ambiguous_name, '[', $._expression, ']'),
-      seq($._primary_no_new_array, '[', $._expression, ']')
+    array_access: $ => seq(
+      field('array', choice($._ambiguous_name, $._primary)),
+      '[',
+      field('index', $._expression),
+      ']',
     ),
 
     method_invocation: $ => seq(
