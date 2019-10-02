@@ -37,7 +37,9 @@ module.exports = grammar({
     $._declaration,
     $._statement,
     $._literal,
+    $._primary,
     $._type,
+    $._simple_type,
     $._unannotated_type,
   ],
 
