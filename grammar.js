@@ -49,6 +49,8 @@ module.exports = grammar({
     $._simple_type,
     $._reserved_identifier,
     $._class_member_declaration,
+    $._interface_member_declaration,
+    $._annotation_type_member_declaration,
     $._class_body_declaration,
     $._variable_initializer
   ],
@@ -556,9 +558,16 @@ module.exports = grammar({
       $.annotation
     ),
 
-    marker_annotation: $ => seq('@', choice($.identifier, $.scoped_identifier)),
+    marker_annotation: $ => seq(
+      '@',
+      field('name', choice($.identifier, $.scoped_identifier))
+    ),
 
-    annotation: $ => seq('@', choice($.identifier, $.scoped_identifier), $.annotation_argument_list),
+    annotation: $ => seq(
+      '@',
+      field('name', choice($.identifier, $.scoped_identifier)),
+      field('arguments', $.annotation_argument_list)
+    ),
 
     annotation_argument_list: $ => seq(
       '(',
@@ -803,15 +812,15 @@ module.exports = grammar({
     annotation_type_declaration: $ => seq(
       optional($.modifiers),
       '@interface',
-      $.identifier,
-      $.annotation_type_body
+      field('name', $.identifier),
+      field('body', $.annotation_type_body)
     ),
 
     annotation_type_body: $ => seq(
-      '{', repeat($.annotation_type_member_declaration), '}'
+      '{', repeat($._annotation_type_member_declaration), '}'
     ),
 
-    annotation_type_member_declaration: $ => choice(
+    _annotation_type_member_declaration: $ => choice(
       $.annotation_type_element_declaration,
       $.constant_declaration,
       $.class_declaration,
@@ -821,25 +830,26 @@ module.exports = grammar({
 
     annotation_type_element_declaration: $ => seq(
       optional($.modifiers),
-      $._unannotated_type,
-      $.identifier,
+      field('type', $._unannotated_type),
+      field('name', $.identifier),
       '(', ')',
-      optional($.dimensions),
-      optional($.default_value),
+      field('dimensions', optional($.dimensions)),
+      optional($._default_value),
       ';'
     ),
 
-    default_value: $ => seq(
-      'default', $._element_value
+    _default_value: $ => seq(
+      'default',
+      field('value', $._element_value)
     ),
 
     interface_declaration: $ => seq(
       optional($.modifiers),
       'interface',
-      $.identifier,
-      optional($.type_parameters),
+      field('name', $.identifier),
+      field('type_parameters', optional($.type_parameters)),
       optional($.extends_interfaces),
-      $.interface_body
+      field('body', $.interface_body)
     ),
 
     extends_interfaces: $ => seq(
@@ -849,11 +859,11 @@ module.exports = grammar({
 
     interface_body: $ => seq(
       '{',
-      repeat($.interface_member_declaration),
+      repeat($._interface_member_declaration),
       '}'
     ),
 
-    interface_member_declaration: $ => choice(
+    _interface_member_declaration: $ => choice(
       $.constant_declaration,
       $.enum_declaration,
       $.method_declaration,
@@ -865,7 +875,7 @@ module.exports = grammar({
 
     constant_declaration: $ => seq(
       optional($.modifiers),
-      $._unannotated_type,
+      field('type', $._unannotated_type),
       $._variable_declarator_list,
       ';'
     ),
