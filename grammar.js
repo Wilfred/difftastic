@@ -596,6 +596,7 @@ module.exports = grammar({
       $.import_declaration,
       $.class_declaration,
       $.interface_declaration,
+      $.annotation_type_declaration,
       $.enum_declaration,
     )),
 
@@ -787,6 +788,7 @@ module.exports = grammar({
       $.method_declaration,
       $.class_declaration,
       $.interface_declaration,
+      $.annotation_type_declaration,
       $.enum_declaration,
       ';'
     ),
@@ -796,11 +798,6 @@ module.exports = grammar({
       $._unannotated_type,
       $._variable_declarator_list,
       ';'
-    ),
-
-    interface_declaration: $ => choice(
-      $.normal_interface_declaration,
-      $.annotation_type_declaration
     ),
 
     annotation_type_declaration: $ => seq(
@@ -818,7 +815,8 @@ module.exports = grammar({
       $.annotation_type_element_declaration,
       $.constant_declaration,
       $.class_declaration,
-      $.interface_declaration
+      $.interface_declaration,
+      $.annotation_type_declaration
     ),
 
     annotation_type_element_declaration: $ => seq(
@@ -835,7 +833,7 @@ module.exports = grammar({
       'default', $._element_value
     ),
 
-    normal_interface_declaration: $ => seq(
+    interface_declaration: $ => seq(
       optional($.modifiers),
       'interface',
       $.identifier,
@@ -861,6 +859,7 @@ module.exports = grammar({
       $.method_declaration,
       $.class_declaration,
       $.interface_declaration,
+      $.annotation_type_declaration,
       ';'
     ),
 
