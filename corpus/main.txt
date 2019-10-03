@@ -15,7 +15,7 @@ Arrays
 
 ---
 
-(value (array
+(document (array
   (number)
   (number)
   (number)
@@ -38,7 +38,7 @@ String content
 
 ----
 
-(value
+(document
   (array
     (string)
     (string (string_content))
@@ -53,7 +53,7 @@ Top-level numbers
 
 ---
 
-(value (number))
+(document (number))
 
 ================================
 Top-level null
@@ -63,4 +63,4 @@ null
 
 ---
 
-(value (null))
+(document (null))
