@@ -1,7 +1,7 @@
 {
   "name": "json",
   "rules": {
-    "value": {
+    "document": {
       "type": "SYMBOL",
       "name": "_value"
     },

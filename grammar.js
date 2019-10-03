@@ -10,7 +10,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    value: $ => $._value,
+    document: $ => $._value,
 
     _value: $ => choice(
       $.object,
