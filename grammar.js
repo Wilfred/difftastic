@@ -5,6 +5,10 @@ module.exports = grammar({
     /\s/
   ],
 
+  supertypes: $ => [
+    $._value
+  ],
+
   rules: {
     value: $ => $._value,
 
