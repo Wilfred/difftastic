@@ -11,7 +11,7 @@
 #define ALIAS_COUNT 0
 #define TOKEN_COUNT 14
 #define EXTERNAL_TOKEN_COUNT 0
-#define FIELD_COUNT 0
+#define FIELD_COUNT 2
 #define MAX_ALIAS_SEQUENCE_LENGTH 4
 
 enum {
@@ -166,7 +166,28 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
   },
 };
 
-static TSSymbol ts_alias_sequences[1][MAX_ALIAS_SEQUENCE_LENGTH] = {
+enum {
+  field_key = 1,
+  field_value = 2,
+};
+
+static const char *ts_field_names[] = {
+  [0] = NULL,
+  [field_key] = "key",
+  [field_value] = "value",
+};
+
+static const TSFieldMapSlice ts_field_map_slices[] = {
+  [1] = {.index = 0, .length = 2},
+};
+
+static const TSFieldMapEntry ts_field_map_entries[] = {
+  [0] =
+    {field_key, 0},
+    {field_value, 2},
+};
+
+static TSSymbol ts_alias_sequences[2][MAX_ALIAS_SEQUENCE_LENGTH] = {
   [0] = {0},
 };
 
@@ -674,7 +695,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [68] = {.count = 1, .reusable = true}, SHIFT(10),
   [70] = {.count = 1, .reusable = true}, SHIFT(12),
   [72] = {.count = 1, .reusable = true}, SHIFT(14),
-  [74] = {.count = 1, .reusable = true}, REDUCE(sym_pair, 3),
+  [74] = {.count = 1, .reusable = true}, REDUCE(sym_pair, 3, .production_id = 1),
   [76] = {.count = 1, .reusable = true}, REDUCE(sym_document, 1),
   [78] = {.count = 1, .reusable = true}, SHIFT(8),
   [80] = {.count = 1, .reusable = true}, SHIFT(4),
@@ -698,6 +719,9 @@ extern const TSLanguage *tree_sitter_json(void) {
     .symbol_names = ts_symbol_names,
     .alias_sequences = (const TSSymbol *)ts_alias_sequences,
     .field_count = FIELD_COUNT,
+    .field_names = ts_field_names,
+    .field_map_slices = (const TSFieldMapSlice *)ts_field_map_slices,
+    .field_map_entries = (const TSFieldMapEntry *)ts_field_map_entries,
     .max_alias_sequence_length = MAX_ALIAS_SEQUENCE_LENGTH,
     .lex_fn = ts_lex,
     .external_token_count = EXTERNAL_TOKEN_COUNT,
