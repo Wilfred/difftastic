@@ -645,5 +645,7 @@
   ],
   "conflicts": [],
   "externals": [],
-  "inline": []
+  "inline": [],
+  "supertypes": []
 }
+
