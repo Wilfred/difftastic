@@ -30,6 +30,9 @@ using ::e::f::g;
 using h = i::j;
 using namespace std;
 
+template <typename T>
+using a = typename b<T>::c;
+
 ---
 
 (translation_unit
@@ -45,7 +48,17 @@ using namespace std;
   (alias_declaration
     (type_identifier)
     (type_descriptor (scoped_type_identifier (namespace_identifier) (type_identifier))))
-  (using_declaration (identifier)))
+  (using_declaration (identifier))
+  (template_declaration
+    (template_parameter_list
+      (type_parameter_declaration (type_identifier)))
+    (alias_declaration
+      (type_identifier)
+      (type_descriptor
+        (dependent_type
+          (scoped_type_identifier
+            (template_type (type_identifier) (template_argument_list (type_descriptor (type_identifier))))
+            (type_identifier)))))))
 
 =========================================
 Reference declarations
