@@ -6216,11 +6216,19 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "_empty_declaration"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "alias_declaration"
+            },
+            {
+              "type": "SYMBOL",
               "name": "declaration"
             },
             {
               "type": "SYMBOL",
-              "name": "_empty_declaration"
+              "name": "template_declaration"
             },
             {
               "type": "SYMBOL",
@@ -6234,10 +6242,6 @@
               },
               "named": true,
               "value": "function_definition"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "template_declaration"
             }
           ]
         }

@@ -172,11 +172,12 @@ module.exports = grammar(C, {
       'template',
       field('parameters', $.template_parameter_list),
       choice(
-        $.declaration,
         $._empty_declaration,
+        $.alias_declaration,
+        $.declaration,
+        $.template_declaration,
         $.function_definition,
         alias($.constructor_or_destructor_definition, $.function_definition),
-        $.template_declaration
       )
     ),
 
