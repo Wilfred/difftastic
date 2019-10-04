@@ -5,8 +5,12 @@ module.exports = grammar({
     /\s/
   ],
 
+  supertypes: $ => [
+    $._value
+  ],
+
   rules: {
-    value: $ => $._value,
+    document: $ => $._value,
 
     _value: $ => choice(
       $.object,
@@ -23,9 +27,9 @@ module.exports = grammar({
     ),
 
     pair: $ => seq(
-      choice($.string, $.number),
+      field("key", choice($.string, $.number)),
       ":",
-      $._value
+      field("value", $._value)
     ),
 
     array: $ => seq(
