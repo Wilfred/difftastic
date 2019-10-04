@@ -145,6 +145,9 @@ Raw text elements
   </ </s </st </sty </styl
 </style>
 
+<script>
+</SCRIPT>
+
 ---
 
 (fragment
@@ -157,7 +160,10 @@ Raw text elements
     (start_tag (tag_name))
     (raw_text)
     (end_tag (tag_name)))
-  (text))
+  (text)
+  (ERROR
+    (start_tag (tag_name))
+    (raw_text)))
 
 ==================================
 All-caps doctype
