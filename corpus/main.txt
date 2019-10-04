@@ -161,9 +161,11 @@ Raw text elements
     (raw_text)
     (end_tag (tag_name)))
   (text)
-  (ERROR
+  (script_element
     (start_tag (tag_name))
-    (raw_text)))
+    (raw_text)
+    (end_tag (tag_name)))
+  (text))
 
 ==================================
 All-caps doctype
