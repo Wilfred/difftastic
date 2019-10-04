@@ -145,6 +145,9 @@ Raw text elements
   </ </s </st </sty </styl
 </style>
 
+<script>
+</SCRIPT>
+
 ---
 
 (fragment
@@ -154,6 +157,11 @@ Raw text elements
     (end_tag (tag_name)))
   (text)
   (style_element
+    (start_tag (tag_name))
+    (raw_text)
+    (end_tag (tag_name)))
+  (text)
+  (script_element
     (start_tag (tag_name))
     (raw_text)
     (end_tag (tag_name)))
