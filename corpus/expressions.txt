@@ -232,9 +232,11 @@ let u = game::User {name: "Joe", age: 35, score: 100_000};
     (struct_expression
       (type_identifier)
       (field_initializer_list
-        (shorthand_field_identifier)
+        (shorthand_field_initializer
+          (identifier))
         (field_initializer (field_identifier) (identifier))
-        (shorthand_field_identifier))))
+        (shorthand_field_initializer
+          (identifier)))))
   (let_declaration
     (identifier)
     (struct_expression
@@ -258,7 +260,8 @@ let u = User{name, ..current_user()};
     (struct_expression
       (type_identifier)
       (field_initializer_list
-        (shorthand_field_identifier)
+        (shorthand_field_initializer
+          (identifier))
         (base_field_initializer (call_expression (identifier) (arguments)))))))
 
 ============================================
