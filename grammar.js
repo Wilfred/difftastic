@@ -957,12 +957,17 @@ module.exports = grammar({
     field_initializer_list: $ => seq(
       '{',
       sepBy(',', choice(
-        alias($.identifier, $.shorthand_field_identifier),
+        $.shorthand_field_initializer,
         $.field_initializer,
         $.base_field_initializer
       )),
       optional(','),
       '}'
+    ),
+
+    shorthand_field_initializer: $ => seq(
+      repeat($.attribute_item),
+      $.identifier
     ),
 
     field_initializer: $ => seq(
