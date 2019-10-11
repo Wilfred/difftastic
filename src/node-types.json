@@ -318,35 +318,11 @@
     "named": true,
     "subtypes": [
       {
+        "type": "_simple_type",
+        "named": true
+      },
+      {
         "type": "array_type",
-        "named": true
-      },
-      {
-        "type": "boolean_type",
-        "named": true
-      },
-      {
-        "type": "floating_point_type",
-        "named": true
-      },
-      {
-        "type": "generic_type",
-        "named": true
-      },
-      {
-        "type": "integral_type",
-        "named": true
-      },
-      {
-        "type": "scoped_type_identifier",
-        "named": true
-      },
-      {
-        "type": "type_identifier",
-        "named": true
-      },
-      {
-        "type": "void_type",
         "named": true
       }
     ]
@@ -538,7 +514,7 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "_expression",
@@ -560,7 +536,7 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
@@ -960,7 +936,7 @@
     "fields": {
       "type": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "_type",
@@ -1179,7 +1155,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -1215,7 +1191,7 @@
     "fields": {
       "declarator": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "variable_declarator",
@@ -1235,8 +1211,8 @@
       }
     },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
           "type": "modifiers",
@@ -1311,7 +1287,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "modifiers",
@@ -1345,7 +1321,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "annotation",
@@ -1521,8 +1497,8 @@
       }
     },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
           "type": "modifiers",
@@ -1835,7 +1811,7 @@
     "fields": {
       "declarator": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "variable_declarator",
@@ -1855,8 +1831,8 @@
       }
     },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
           "type": "modifiers",
@@ -1963,8 +1939,8 @@
       }
     },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
           "type": "modifiers",
@@ -2283,7 +2259,7 @@
     "fields": {
       "declarator": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "variable_declarator",
@@ -2303,8 +2279,8 @@
       }
     },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
           "type": "modifiers",
@@ -2415,7 +2391,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "annotation",
@@ -2545,7 +2521,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "annotation",
@@ -2672,7 +2648,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "_primary",
@@ -2802,7 +2778,7 @@
       },
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "identifier",
@@ -2832,8 +2808,8 @@
       }
     },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
           "type": "field_access",
