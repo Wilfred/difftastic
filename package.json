@@ -1,16 +1,8 @@
 {
   "name": "tree-sitter-godot-resource",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "tree-sitter parser for godot text resources (tres, tscn)",
   "main": "index.js",
-  "scripts": {
-    "generate": "tree-sitter generate",
-    "parse": "tree-sitter parse -t",
-    "install": "prebuild-install || node-gyp rebuild",
-    "prebuild": "prebuild -r electron -t 1.6.0 -t 1.7.0 -t 1.8.0 -t 2.0.0 -t 3.0.0 -t 4.0.0 --strip --verbose",
-    "prebuild:upload": "prebuild --upload-all",
-    "test": "tree-sitter test"
-  },
   "keywords": [
     "lexer",
     "parser",
@@ -27,8 +19,14 @@
     "prebuild": "^8.2.1",
     "tree-sitter-cli": "^0.14.6"
   },
-  "repository": {
-    "type" : "git",
-    "url" : "https://github.com/PrestonKnopp/tree-sitter-godot-resource.git"
-  }
+  "scripts": {
+    "install": "prebuild-install || node-gyp rebuild",
+    "prebuild": "prebuild -r electron --all --strip --verbose",
+    "prebuild:upload": "prebuild --upload-all",
+    "build": "tree-sitter generate && tree-sitter build",
+    "buildTest": "tree-sitter generate && tree-sitter build && tree-sitter test",
+    "test": "tree-sitter test",
+    "test-windows": "node_modules/.bin/tree-sitter test"
+  },
+  "repository": "https://github.com/PrestonKnopp/tree-sitter-godot-resource.git"
 }

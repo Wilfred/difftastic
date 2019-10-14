@@ -1,7 +1,6 @@
 branches:
   only:
   - master
-skip_non_tags: true
 platform:
 - x86
 - x64
