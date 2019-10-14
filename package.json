@@ -12,21 +12,19 @@
   "author": "Preston Knopp",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.13.2",
-    "prebuild-install": "^5.3.0"
+    "nan": "^2.14.0",
+    "prebuild-install": "^5.3.2"
   },
   "devDependencies": {
-    "prebuild": "^8.2.1",
-    "tree-sitter-cli": "^0.14.6"
+    "prebuild": "^9.1.1",
+    "tree-sitter-cli": "^0.15.9"
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
     "prebuild": "prebuild -r electron --all --strip --verbose",
     "prebuild:upload": "prebuild --upload-all",
-    "build": "tree-sitter generate && tree-sitter build",
-    "buildTest": "tree-sitter generate && tree-sitter build && tree-sitter test",
-    "test": "tree-sitter test",
-    "test-windows": "node_modules/.bin/tree-sitter test"
+    "generate": "tree-sitter generate",
+    "test": "tree-sitter test"
   },
   "repository": "https://github.com/PrestonKnopp/tree-sitter-godot-resource.git"
 }

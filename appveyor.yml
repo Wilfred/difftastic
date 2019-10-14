@@ -5,7 +5,7 @@ platform:
 - x86
 - x64
 environment:
-  NODEJS_VERSION: "8"
+  NODEJS_VERSION: "10"
 install:
 - ps: Install-Product node $env:NODEJS_VERSION $env:Platform
 - node --version
