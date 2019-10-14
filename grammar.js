@@ -47,6 +47,15 @@ module.exports = grammar({
     $.block_comment,
   ],
 
+  supertypes: $ => [
+    $._expression,
+    $._type,
+    $._literal,
+    $._literal_pattern,
+    $._declaration_statement,
+    $._pattern,
+  ],
+
   inline: $ => [
     $._path,
     $._type_identifier,
@@ -1296,8 +1305,12 @@ module.exports = grammar({
       $.raw_string_literal,
       $.char_literal,
       $.boolean_literal,
-      seq(optional('-'), choice($.integer_literal, $.float_literal)),
+      $.integer_literal,
+      $.float_literal,
+      $.negative_literal,
     ),
+
+    negative_literal: $ => seq('-', choice($.integer_literal, $.float_literal)),
 
     integer_literal: $ => token(seq(
       choice(
