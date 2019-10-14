@@ -22,7 +22,6 @@
   "tree-sitter": [
     {
       "scope": "source.rust",
-      "highlights": "src/highlights.json",
       "injection-regex": "rust",
       "file-types": [
         "rs"

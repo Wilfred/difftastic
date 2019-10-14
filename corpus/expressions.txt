@@ -397,8 +397,8 @@ let msg = match x {
   (match_expression (identifier) (match_block
     (match_arm (match_pattern (integer_literal)) (block (string_literal)))
     (match_arm (match_pattern (integer_literal)) (string_literal))
-    (match_arm (match_pattern (integer_literal)) (integer_literal))
-    (match_arm (match_pattern (float_literal)) (integer_literal))
+    (match_arm (match_pattern (negative_literal (integer_literal))) (integer_literal))
+    (match_arm (match_pattern (negative_literal (float_literal))) (integer_literal))
     (match_arm
       (attribute_item (meta_item (identifier)))
       (match_pattern (integer_literal)) (string_literal))
