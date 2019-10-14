@@ -125,7 +125,9 @@ x = y;
 ---
 
 (source_file
-  (binary_expression (assignment_expression (identifier) (identifier))))
+  (assignment_expression
+    left: (identifier)
+    right: (identifier)))
 
 ============================================
 Compound assignment expressions
@@ -137,8 +139,12 @@ x += y;
 ---
 
 (source_file
-  (binary_expression (compound_assignment_expr (identifier) (integer_literal)))
-  (binary_expression (compound_assignment_expr (identifier) (identifier))))
+  (compound_assignment_expr
+    left: (identifier)
+    right: (integer_literal))
+  (compound_assignment_expr
+    left: (identifier)
+    right: (identifier)))
 
 ============================================
 Type cast expressions
@@ -151,11 +157,22 @@ let size: f64 = len(values) as f64;
 ---
 
 (source_file
-  (binary_expression (type_cast_expression (integer_literal) (primitive_type)))
-  (let_declaration (identifier) (binary_expression
-    (type_cast_expression (identifier) (primitive_type))))
-  (let_declaration (identifier) (primitive_type) (binary_expression
-    (type_cast_expression (call_expression (identifier) (arguments (identifier))) (primitive_type)))))
+  (type_cast_expression
+    value: (integer_literal)
+    type: (primitive_type))
+  (let_declaration
+    pattern: (identifier)
+    value: (type_cast_expression
+      value: (identifier)
+      type: (primitive_type)))
+  (let_declaration
+    pattern: (identifier)
+    type: (primitive_type)
+    value: (type_cast_expression
+      value: (call_expression
+        function: (identifier)
+        arguments: (arguments (identifier)))
+      type: (primitive_type))))
 
 ============================================
 Call expressions
@@ -171,9 +188,15 @@ add(
 ---
 
 (source_file
-  (call_expression (identifier) (arguments))
-  (call_expression (identifier) (arguments (integer_literal) (integer_literal)))
-  (call_expression (identifier) (arguments (integer_literal) (integer_literal))))
+  (call_expression
+    function: (identifier)
+    arguments: (arguments))
+  (call_expression
+    function: (identifier)
+    arguments: (arguments (integer_literal) (integer_literal)))
+  (call_expression
+    function: (identifier)
+    arguments: (arguments (integer_literal) (integer_literal))))
 
 ============================================
 Array expressions
@@ -188,9 +211,17 @@ Array expressions
 
 (source_file
   (array_expression)
-  (array_expression (integer_literal) (integer_literal) (integer_literal))
-  (array_expression (string_literal) (string_literal) (string_literal))
-  (array_expression (integer_literal) (integer_literal)))
+  (array_expression
+    (integer_literal)
+    (integer_literal)
+    (integer_literal))
+  (array_expression
+    (string_literal)
+    (string_literal)
+    (string_literal))
+  (array_expression
+    (integer_literal)
+    length: (integer_literal)))
 
 ============================================
 Tuple expressions
@@ -280,13 +311,29 @@ let y = if x == 5 { 10 } else { 15 };
 ---
 
 (source_file
-  (function_item (identifier) (parameters) (block
-    (if_expression (binary_expression (identifier) (integer_literal)) (block)
-    (else_tail (if_expression (binary_expression (identifier) (integer_literal)) (block)
-    (else_tail (block)))))))
-  (let_declaration (identifier)
-    (if_expression (binary_expression (identifier) (integer_literal)) (block (integer_literal))
-    (else_tail (block (integer_literal))))))
+  (function_item
+    name: (identifier)
+    parameters: (parameters)
+    body: (block
+      (if_expression
+        condition: (binary_expression
+          left: (identifier)
+          right: (integer_literal))
+        consequence: (block)
+        alternative: (if_expression
+          condition: (binary_expression
+            left: (identifier)
+            right: (integer_literal))
+          consequence: (block)
+          alternative: (block)))))
+  (let_declaration
+    pattern: (identifier)
+    value: (if_expression
+      condition: (binary_expression
+        left: (identifier)
+        right: (integer_literal))
+      consequence: (block (integer_literal))
+      alternative: (block (integer_literal)))))
 
 ============================================
 If let expressions
@@ -378,8 +425,12 @@ while !done {
 ---
 
 (source_file
-  (while_expression (unary_expression (identifier)) (block
-    (binary_expression (assignment_expression (identifier) (boolean_literal))))))
+  (while_expression
+    condition: (unary_expression (identifier))
+    body: (block
+      (assignment_expression
+        left: (identifier)
+        right: (boolean_literal)))))
 
 ============================================
 Loop expressions

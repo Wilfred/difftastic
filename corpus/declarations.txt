@@ -583,20 +583,45 @@ mod macos_only {}
 
 (source_file
   (attribute_item (meta_item (identifier)))
-  (function_item (identifier) (parameters) (block))
+  (function_item
+    name: (identifier)
+    parameters: (parameters)
+    body: (block))
 
-  (attribute_item (meta_item (identifier) (meta_item (identifier))))
-  (struct_item (type_identifier))
+  (attribute_item (meta_item
+    (identifier)
+    arguments: (meta_arguments (meta_item (identifier)))))
+  (struct_item name: (type_identifier))
 
-  (attribute_item (meta_item (identifier) (meta_item (identifier)) (meta_item (identifier))))
-  (struct_item (type_identifier))
+  (attribute_item (meta_item
+    (identifier)
+    arguments: (meta_arguments
+      (meta_item (identifier))
+      (meta_item (identifier)))))
+  (struct_item name: (type_identifier))
 
-  (attribute_item (meta_item (identifier) (meta_item (identifier) (string_literal))))
-  (mod_item (identifier) (declaration_list))
+  (attribute_item (meta_item
+    (identifier)
+    arguments: (meta_arguments
+      (meta_item
+        (identifier)
+        value: (string_literal)))))
+  (mod_item
+    name: (identifier)
+    body: (declaration_list))
 
-  (inner_attribute_item (meta_item (identifier) (meta_item (scoped_identifier (identifier) (identifier)))))
+  (inner_attribute_item (meta_item
+    (identifier)
+    arguments: (meta_arguments (meta_item
+      (scoped_identifier
+        path: (identifier)
+        name: (identifier))))))
 
-  (attribute_item (meta_item (scoped_identifier (identifier) (identifier)) (string_literal))))
+  (attribute_item (meta_item
+    (scoped_identifier
+      path: (identifier)
+      name: (identifier))
+    value: (string_literal))))
 
 ============================================
 Inner attributes
@@ -609,8 +634,14 @@ mod macos_only {
 ---
 
 (source_file
-  (mod_item (identifier) (declaration_list
-    (inner_attribute_item (meta_item (identifier) (meta_item (identifier) (string_literal)))))))
+  (mod_item
+    name: (identifier)
+    body: (declaration_list
+      (inner_attribute_item (meta_item
+        (identifier)
+        arguments: (meta_arguments (meta_item
+          (identifier)
+          value: (string_literal))))))))
 
 ============================================
 Attributes and Expressions
@@ -627,16 +658,34 @@ fn foo() {
 ---
 
 (source_file
-  (function_item (identifier) (parameters)
-    (block
-      (call_expression (identifier)
-        (arguments
+  (function_item
+    name: (identifier)
+    parameters: (parameters)
+    body: (block
+      (call_expression
+        function: (identifier)
+        arguments: (arguments
           (identifier)
-            (attribute_item (meta_item (identifier) (meta_item (identifier) (string_literal)))) (identifier)))
-      (let_declaration (identifier)
-        (array_expression (attribute_item (meta_item (identifier))) (integer_literal) (integer_literal) (integer_literal)))
-      (let_declaration (identifier)
-        (tuple_expression (attribute_item (meta_item (identifier))) (integer_literal) (integer_literal) (integer_literal))))))
+            (attribute_item (meta_item
+              (identifier)
+              arguments: (meta_arguments (meta_item
+                (identifier)
+                value: (string_literal)))))
+            (identifier)))
+      (let_declaration
+        pattern: (identifier)
+        value: (array_expression
+          (attribute_item (meta_item (identifier)))
+          (integer_literal)
+          (integer_literal)
+          (integer_literal)))
+      (let_declaration
+        pattern: (identifier)
+        value: (tuple_expression
+          (attribute_item (meta_item (identifier)))
+          (integer_literal)
+          (integer_literal)
+          (integer_literal))))))
 
 ===========================================
 Inherent Impls
@@ -676,24 +725,30 @@ impl ConvertTo<i64> for i32 {
 
 (source_file
   (impl_item
-    (type_parameters (lifetime (identifier)))
-    (scoped_type_identifier (identifier) (type_identifier))
-    (impl_for_clause
-      (generic_type
-        (scoped_type_identifier (identifier) (type_identifier))
-        (type_arguments (lifetime (identifier)))))
-    (declaration_list))
+    type_parameters: (type_parameters (lifetime (identifier)))
+    trait: (scoped_type_identifier
+      path: (identifier)
+      name: (type_identifier))
+    type: (generic_type
+      type: (scoped_type_identifier
+        path: (identifier)
+        name: (type_identifier))
+      type_arguments: (type_arguments (lifetime (identifier))))
+    body: (declaration_list))
   (impl_item
-    (type_identifier)
-    (type_arguments (primitive_type))
-    (impl_for_clause (primitive_type))
-    (declaration_list
+    trait: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments (primitive_type)))
+    type: (primitive_type)
+    body: (declaration_list
       (function_item
-        (identifier)
-        (parameters (self_parameter (self)))
-        (primitive_type)
-        (block
-          (binary_expression (type_cast_expression (unary_expression (self)) (primitive_type))))))))
+        name: (identifier)
+        parameters: (parameters (self_parameter (self)))
+        return_type: (primitive_type)
+        body: (block
+          (type_cast_expression
+            value: (unary_expression (self))
+            type: (primitive_type)))))))
 
 ===========================================
 Unsafe impls
@@ -934,78 +989,118 @@ pub trait A<B> where B: C,
 
 (source_file
   (function_item
-    (identifier)
-    (type_parameters (type_identifier))
-    (parameters
+    name: (identifier)
+    type_parameters: (type_parameters (type_identifier))
+    parameters: (parameters
       (self_parameter (self))
-      (parameter (identifier) (reference_type (mutable_specifier) (type_identifier))))
-    (primitive_type)
+      (parameter
+        pattern: (identifier)
+        type: (reference_type
+          (mutable_specifier)
+          type: (type_identifier))))
+    return_type: (primitive_type)
     (where_clause
       (where_predicate
-        (type_identifier)
-        (trait_bounds (function_type (type_identifier) (parameters (reference_type (type_identifier))) (primitive_type)))))
-    (block (return_expression (boolean_literal))))
+        left: (type_identifier)
+        bounds: (trait_bounds
+          (function_type
+            trait: (type_identifier)
+            parameters: (parameters (reference_type type: (type_identifier)))
+            return_type: (primitive_type)))))
+    body: (block (return_expression (boolean_literal))))
+
   (impl_item
-    (type_parameters
+    type_parameters: (type_parameters
       (lifetime (identifier))
       (constrained_type_parameter
-        (type_identifier)
-        (trait_bounds
+        left: (type_identifier)
+        bounds: (trait_bounds
           (lifetime (identifier))
           (type_identifier))))
-    (type_identifier)
-    (impl_for_clause (generic_type (type_identifier) (type_arguments (lifetime (identifier)) (type_identifier))))
-    (where_clause (where_predicate (type_identifier) (trait_bounds (lifetime (identifier)))))
-    (declaration_list))
-  (impl_item
-    (type_parameters (type_identifier))
-    (type_identifier)
-    (impl_for_clause
-      (generic_type (type_identifier) (type_arguments (type_identifier))))
-    (where_clause
-      (where_predicate
-        (generic_type (type_identifier) (type_arguments (type_identifier)))
-        (trait_bounds (type_identifier)))
-      (where_predicate
-        (type_identifier)
-        (trait_bounds (lifetime (identifier))))
-      (where_predicate
+    trait: (type_identifier)
+    type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments
         (lifetime (identifier))
-        (trait_bounds (lifetime (identifier)))))
-    (declaration_list))
+        (type_identifier)))
+    (where_clause (where_predicate
+      left: (type_identifier)
+      bounds: (trait_bounds (lifetime (identifier)))))
+    body: (declaration_list))
+
   (impl_item
-    (type_parameters (lifetime (identifier)) (type_identifier))
-    (type_identifier)
-    (where_clause
-      (where_predicate (reference_type (lifetime (identifier)) (type_identifier)) (trait_bounds (type_identifier))))
-    (declaration_list))
-  (impl_item
-    (type_parameters (type_identifier))
-    (type_identifier)
-    (impl_for_clause
-      (generic_type (type_identifier) (type_arguments (type_identifier))))
-    (where_clause
-      (where_predicate
-        (tuple_type (type_identifier) (type_identifier) (type_identifier))
-        (trait_bounds (type_identifier))))
-    (declaration_list))
-  (impl_item
-    (type_parameters (type_identifier))
-    (type_identifier)
-    (impl_for_clause (generic_type (type_identifier) (type_arguments (type_identifier))))
+    type_parameters: (type_parameters (type_identifier))
+    trait: (type_identifier)
+    type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments (type_identifier)))
     (where_clause
       (where_predicate
-        (higher_ranked_trait_bound
-          (type_parameters (lifetime (identifier)))
-          (generic_type (type_identifier) (type_arguments (type_identifier))))
-        (trait_bounds (generic_type (type_identifier) (type_arguments (lifetime (identifier)))))))
-    (declaration_list))
+        left: (generic_type
+          type: (type_identifier)
+          type_arguments: (type_arguments (type_identifier)))
+        bounds: (trait_bounds (type_identifier)))
+      (where_predicate
+        left: (type_identifier)
+        bounds: (trait_bounds (lifetime (identifier))))
+      (where_predicate
+        left: (lifetime (identifier))
+        bounds: (trait_bounds (lifetime (identifier)))))
+    body: (declaration_list))
+
+  (impl_item
+    type_parameters: (type_parameters
+      (lifetime (identifier))
+      (type_identifier))
+    type: (type_identifier)
+    (where_clause
+      (where_predicate
+        left: (reference_type
+          (lifetime (identifier))
+          type: (type_identifier))
+        bounds: (trait_bounds (type_identifier))))
+    body: (declaration_list))
+
+  (impl_item
+    type_parameters: (type_parameters (type_identifier))
+    trait: (type_identifier)
+    type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments (type_identifier)))
+    (where_clause
+      (where_predicate
+        left: (tuple_type (type_identifier) (type_identifier) (type_identifier))
+        bounds: (trait_bounds (type_identifier))))
+    body: (declaration_list))
+
+  (impl_item
+    type_parameters: (type_parameters (type_identifier))
+    trait: (type_identifier)
+    type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments (type_identifier)))
+    (where_clause
+      (where_predicate
+        left: (higher_ranked_trait_bound
+          type_parameters: (type_parameters (lifetime (identifier)))
+          type: (generic_type
+            type: (type_identifier)
+            type_arguments: (type_arguments (type_identifier))))
+        bounds: (trait_bounds
+          (generic_type
+            type: (type_identifier)
+            type_arguments: (type_arguments (lifetime (identifier)))))))
+    body: (declaration_list))
+
   (trait_item
     (visibility_modifier)
-    (type_identifier)
-    (type_parameters (type_identifier))
-    (where_clause (where_predicate (type_identifier) (trait_bounds (type_identifier))))
-    (declaration_list)))
+    name: (type_identifier)
+    type_parameters: (type_parameters (type_identifier))
+    (where_clause
+      (where_predicate
+        left: (type_identifier)
+        bounds: (trait_bounds (type_identifier))))
+    body: (declaration_list)))
 
 ===================================
 External Modules
