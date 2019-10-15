@@ -263,7 +263,7 @@ struct Scanner
         {
             if (in_string == 0 && lexer->lookahead == '-')
             {
-                skip(lexer);
+                advance(lexer);
                 auto lookahead = lexer->lookahead;
                 if (lookahead >= 'a' && lookahead <= 'z' || lookahead == '(')
                 {
