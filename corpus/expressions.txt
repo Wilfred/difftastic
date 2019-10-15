@@ -97,12 +97,14 @@ yield
 
 yield foo
 yield foo, bar
+yield(baz)
 
 ---
 
 (program
   (yield (argument_list (identifier)))
-  (yield (argument_list (identifier) (identifier))))
+  (yield (argument_list (identifier) (identifier)))
+  (yield (argument_list (identifier))))
 
 ===
 not
@@ -153,7 +155,7 @@ defined? Foo.bar
 defined?(foo)
 defined?($foo)
 defined?(@foo)
-defined?(@äö)
+defined?(@äö).should be_true
 
 ---
 
@@ -163,7 +165,11 @@ defined?(@äö)
   (unary (parenthesized_statements (identifier)))
   (unary (parenthesized_statements (global_variable)))
   (unary (parenthesized_statements (instance_variable)))
-  (unary (parenthesized_statements (instance_variable))))
+  (method_call
+    (call
+      (unary (parenthesized_statements (instance_variable)))
+      (identifier))
+    (argument_list (identifier))))
 
 ==========
 assignment
@@ -615,8 +621,8 @@ foo.(1, 2)
 ---
 
 (program
-  (call (element_reference (identifier) (identifier)) (argument_list_with_parens))
-  (call (identifier) (argument_list_with_parens (integer) (integer))))
+  (call (element_reference (identifier) (identifier)) (argument_list))
+  (call (identifier) (argument_list (integer) (integer))))
 
 ===============================
 implicit call with block
@@ -633,12 +639,12 @@ end
   (method_call
     (call
       (identifier)
-      (argument_list_with_parens))
+      (argument_list))
     (block))
   (method_call
     (call
       (identifier)
-      (argument_list_with_parens (pair (symbol) (identifier))))
+      (argument_list (pair (symbol) (identifier))))
     (do_block (identifier))))
 
 ===============================
@@ -660,6 +666,28 @@ foo&.bar
 ---
 
 (program (call (identifier) (identifier)))
+
+===============================
+calls to methods on negated literals
+===============================
+
+-1.class.should eq(Fixnum)
+-0.1.class
+
+---
+
+(program
+  (method_call
+    (call
+      (call (unary (integer)) (identifier))
+      (identifier))
+    (argument_list
+      (method_call
+        (identifier)
+        (argument_list (constant)))))
+  (call
+    (unary (float))
+    (identifier)))
 
 ===============================
 method call with hash args
@@ -856,6 +884,29 @@ end
   (method_call (identifier)
     (argument_list (symbol) (lambda (lambda_parameters (identifier)) (block (integer))))
     (do_block)))
+
+===============================
+method calls in binary expression
+===============================
+
+one two or
+  three four, five and
+  six seven, eight, nine
+
+---
+
+(program
+  (binary
+    (binary
+      (method_call
+        (identifier)
+        (argument_list (identifier)))
+      (method_call
+        (identifier)
+        (argument_list (identifier) (identifier))))
+    (method_call
+      (identifier)
+      (argument_list (identifier) (identifier) (identifier)))))
 
 ===============================
 method calls with splat argument
