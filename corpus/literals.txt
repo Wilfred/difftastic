@@ -1265,7 +1265,7 @@ hash initialization with hash splat
 
 (program (hash
   (pair (symbol) (integer))
-  (pair (hash_splat_argument (hash (pair (symbol) (integer)))))))
+  (hash_splat_argument (hash (pair (symbol) (integer))))))
 
 ========================
 hash with line breaks and inline comments

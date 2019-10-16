@@ -32,7 +32,6 @@
       "file-types": [
         "rb"
       ],
-      "highlights": "src/highlights.json",
       "injection-regex": "ruby"
     }
   ]

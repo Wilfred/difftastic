@@ -7,7 +7,8 @@ end
 
 ---
 
-(program (while (identifier)))
+(program (while
+  condition: (identifier)))
 
 ================
 while without do
@@ -80,12 +81,15 @@ if true then ;; 123; end
 
 (program
   (if
-    (identifier)
-    (then)
-    (else))
+    condition: (identifier)
+    consequence: (then)
+    alternative: (else))
   (if
-    (true)
-    (then (empty_statement) (empty_statement) (integer))))
+    condition: (true)
+    consequence: (then
+      (empty_statement)
+      (empty_statement)
+      (integer))))
 
 ==================================
 single-line if then else statement
@@ -151,11 +155,16 @@ empty unless statement with then
 ================================
 
 unless foo then
+  hi
 end
 
 ---
 
-(program (unless (identifier) (then)))
+(program
+  (unless
+    condition: (identifier)
+    consequence: (then
+      (identifier))))
 
 ================================
 empty unless statement with else
@@ -167,7 +176,10 @@ end
 
 ---
 
-(program (unless (identifier) (else)))
+(program
+  (unless
+    condition: (identifier)
+    alternative: (else)))
 
 ===
 for
@@ -184,8 +196,15 @@ end
 ---
 
 (program
-  (for (identifier) (in (identifier)) (identifier))
-  (for (identifier) (identifier) (in (identifier)) (identifier)))
+  (for
+    pattern: (identifier)
+    value: (in (identifier))
+    (identifier))
+  (for
+    pattern: (identifier)
+    pattern: (identifier)
+    value: (in (identifier))
+    (identifier)))
 
 ==============
 for without do

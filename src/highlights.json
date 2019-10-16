@@ -622,14 +622,14 @@
           "type": "identifier",
           "named": true,
           "index": 2,
-          "text": "^__(FILE|LINE|ENCODING)__$",
+          "text": "^(private|protected|public)$",
           "state_id": 23
         },
         {
           "type": "identifier",
           "named": true,
           "index": 2,
-          "text": "^(private|protected|public)$",
+          "text": "^__(FILE|LINE|ENCODING)__$",
           "state_id": 23
         },
         {
@@ -656,14 +656,14 @@
           "type": "identifier",
           "named": true,
           "index": 0,
-          "text": "^(private|protected|public)$",
+          "text": "^__(FILE|LINE|ENCODING)__$",
           "state_id": 25
         },
         {
           "type": "identifier",
           "named": true,
           "index": 0,
-          "text": "^__(FILE|LINE|ENCODING)__$",
+          "text": "^(private|protected|public)$",
           "state_id": 25
         },
         {
