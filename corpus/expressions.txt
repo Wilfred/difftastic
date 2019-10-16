@@ -10,9 +10,18 @@ puts ::Foo::Bar
 ---
 
 (program
-  (scope_resolution (constant) (identifier))
-  (scope_resolution (constant))
-  (method_call (identifier) (argument_list (scope_resolution (scope_resolution (constant)) (constant)))))
+  (scope_resolution
+    scope: (constant)
+    name: (identifier))
+  (scope_resolution
+    name: (constant))
+  (method_call
+    method: (identifier)
+    arguments: (argument_list
+      (scope_resolution
+        scope: (scope_resolution
+          name: (constant))
+        name: (constant)))))
 
 ============
 element reference
@@ -26,10 +35,10 @@ foo[]
 ---
 
 (program
-  (element_reference (identifier) (identifier))
-  (element_reference (identifier) (splat_argument (identifier)))
-  (element_reference (identifier) (splat_argument (identifier)))
-  (element_reference (identifier)))
+  (element_reference object: (identifier) (identifier))
+  (element_reference object: (identifier) (splat_argument (identifier)))
+  (element_reference object: (identifier) (splat_argument (identifier)))
+  (element_reference object: (identifier)))
 
 ============
 element reference with string
@@ -59,7 +68,11 @@ foo[bar] = 1
 
 ---
 
-(program (assignment (element_reference (identifier) (identifier)) (integer)))
+(program (assignment
+  left: (element_reference
+    object: (identifier)
+    (identifier))
+  right: (integer)))
 
 ===============
 vacuous literal
@@ -238,14 +251,14 @@ a, (b, c), d, (e, (f, g)) = foo
 
 (program
   (assignment
-    (left_assignment_list
+    left: (left_assignment_list
       (identifier)
       (destructured_left_assignment (identifier) (identifier))
       (identifier)
       (destructured_left_assignment
         (identifier)
         (destructured_left_assignment (identifier) (identifier))))
-    (identifier)))
+    right: (identifier)))
 
 ==========
 assignment from method call
@@ -322,8 +335,14 @@ a ? b
 ---
 
 (program
-  (conditional (identifier) (identifier) (identifier))
-  (conditional (identifier) (identifier) (identifier)))
+  (conditional
+    condition: (identifier)
+    consequence: (identifier)
+    alternative: (identifier))
+  (conditional
+    condition: (identifier)
+    consequence: (identifier)
+    alternative: (identifier)))
 
 ===========================================
 conditional and character literal ambiguity
@@ -401,12 +420,12 @@ a !~ b
 ---
 
 (program
-  (binary (identifier) (identifier))
-  (binary (identifier) (identifier))
-  (binary (identifier) (identifier))
-  (binary (identifier) (identifier))
-  (binary (identifier) (identifier))
-  (binary (identifier) (identifier)))
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier)))
 
 ==========
 comparison
@@ -559,9 +578,15 @@ print("hello")
 
 (program
   (identifier)
-  (method_call (identifier) (argument_list))
-  (method_call (identifier) (argument_list (string)))
-  (method_call (identifier) (argument_list (string))))
+  (method_call
+    method: (identifier)
+    arguments: (argument_list))
+  (method_call
+    method: (identifier)
+    arguments: (argument_list (string)))
+  (method_call
+    method: (identifier)
+    arguments: (argument_list (string))))
 
 ===============================
 method call with arguments on multiple lines
@@ -574,8 +599,8 @@ foo a,
 
 (program
   (method_call
-    (identifier)
-    (argument_list (identifier) (identifier) (identifier))))
+    method: (identifier)
+    arguments: (argument_list (identifier) (identifier) (identifier))))
 
 ===============================
 method call with trailing comma
@@ -604,12 +629,34 @@ foo.bar("hi", 2)
 ---
 
 (program
-  (call (identifier) (identifier))
-  (method_call (call (identifier) (identifier)) (argument_list))
-  (method_call (call (identifier) (identifier)) (argument_list (string)))
-  (method_call (call (identifier) (identifier)) (argument_list (string) (integer)))
-  (method_call (call (identifier) (identifier)) (argument_list (string)))
-  (method_call (call (identifier) (identifier)) (argument_list (string) (integer))))
+  (call
+    receiver: (identifier)
+    method: (identifier))
+  (method_call
+    method: (call
+      receiver: (identifier)
+      method: (identifier))
+    arguments: (argument_list))
+  (method_call
+    method: (call
+      receiver: (identifier)
+      method: (identifier))
+    arguments: (argument_list (string)))
+  (method_call
+    method: (call
+      receiver: (identifier)
+      method: (identifier))
+    arguments: (argument_list (string) (integer)))
+  (method_call
+    method: (call
+      receiver: (identifier)
+      method: (identifier))
+    arguments: (argument_list (string)))
+  (method_call
+    method: (call
+      receiver: (identifier)
+      method: (identifier))
+    arguments: (argument_list (string) (integer))))
 
 ===============================
 implicit call
@@ -897,16 +944,16 @@ one two or
 
 (program
   (binary
-    (binary
-      (method_call
-        (identifier)
-        (argument_list (identifier)))
-      (method_call
-        (identifier)
-        (argument_list (identifier) (identifier))))
-    (method_call
-      (identifier)
-      (argument_list (identifier) (identifier) (identifier)))))
+    left: (binary
+      left: (method_call
+        method: (identifier)
+        arguments: (argument_list (identifier)))
+      right: (method_call
+        method: (identifier)
+        arguments: (argument_list (identifier) (identifier))))
+    right: (method_call
+      method: (identifier)
+      arguments: (argument_list (identifier) (identifier) (identifier)))))
 
 ===============================
 method calls with splat argument
