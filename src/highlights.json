@@ -847,15 +847,15 @@
           "type": "identifier",
           "named": true,
           "index": 2,
-          "text": "^[A-Z][A-Z\\\\d_]+$",
-          "state_id": 17
+          "text": "^[A-Z]",
+          "state_id": 2
         },
         {
           "type": "identifier",
           "named": true,
           "index": 2,
-          "text": "^[A-Z]",
-          "state_id": 2
+          "text": "^[A-Z][A-Z\\\\d_]+$",
+          "state_id": 17
         },
         {
           "type": "identifier",
