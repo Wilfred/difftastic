@@ -4818,12 +4818,20 @@
           "value": "alias"
         },
         {
-          "type": "SYMBOL",
-          "name": "_method_name"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_method_name"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "_method_name"
+          "type": "FIELD",
+          "name": "alias",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_method_name"
+          }
         }
       ]
     },
