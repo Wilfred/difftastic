@@ -735,7 +735,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "[\\/_\\-=->,;:::!=?.@*=\\/='&=#%=^=+<>|~]+"
+          "value": "[/_\\-=->,;:::!=?.@*=/='&=#%=^=+<>|~]+"
         },
         {
           "type": "STRING",
@@ -3093,19 +3093,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "_path"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "use_as_clause"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "use_list"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "scoped_use_list"
+                      "name": "_use_clause"
                     }
                   ]
                 },
@@ -3123,19 +3111,7 @@
                         "members": [
                           {
                             "type": "SYMBOL",
-                            "name": "_path"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "use_as_clause"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "use_list"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "scoped_use_list"
+                            "name": "_use_clause"
                           }
                         ]
                       }

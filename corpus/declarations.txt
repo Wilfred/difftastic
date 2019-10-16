@@ -171,51 +171,81 @@ use sayings::japanese::farewells::*;
 pub use self::greetings::hello;
 use sayings::english::{self, greetings as en_greetings, farewells as en_farewells};
 use three::{ dot::{one, four} };
+use my::{ some::* };
 
 ---
 
 (source_file
-  (use_declaration (identifier))
-  (use_declaration (scoped_identifier (identifier) (identifier)))
   (use_declaration
-    (scoped_identifier
-      (scoped_identifier (identifier) (identifier))
-      (identifier)))
+    argument: (identifier))
   (use_declaration
-    (use_as_clause
-      (scoped_identifier
-        (scoped_identifier (identifier) (identifier))
-        (identifier))
-      (identifier)))
+    argument: (scoped_identifier
+      path: (identifier)
+      name: (identifier)))
   (use_declaration
-    (scoped_use_list
-      (scoped_identifier (identifier) (identifier))
-      (use_list (identifier) (identifier))))
+    argument: (scoped_identifier
+      path: (scoped_identifier
+        path: (identifier)
+        name: (identifier))
+      name: (identifier)))
   (use_declaration
-    (use_wildcard
-      (scoped_identifier
-        (scoped_identifier (identifier) (identifier))
+    argument: (use_as_clause
+      path: (scoped_identifier
+        path: (scoped_identifier
+          path: (identifier)
+          name: (identifier))
+        name: (identifier))
+      alias: (identifier)))
+  (use_declaration
+    argument: (scoped_use_list
+      path: (scoped_identifier
+        path: (identifier)
+        name: (identifier))
+      list: (use_list
+        (identifier)
         (identifier))))
   (use_declaration
+    argument: (use_wildcard
+      (scoped_identifier
+        path: (scoped_identifier
+          path: (identifier)
+          name: (identifier))
+        name: (identifier))))
+  (use_declaration
     (visibility_modifier)
-    (scoped_identifier
-      (scoped_identifier (self) (identifier))
-      (identifier)))
+    argument: (scoped_identifier
+      path: (scoped_identifier
+        path: (self)
+        name: (identifier))
+      name: (identifier)))
   (use_declaration
-    (scoped_use_list
-      (scoped_identifier (identifier) (identifier))
-      (use_list
+    argument: (scoped_use_list
+      path: (scoped_identifier
+        path: (identifier)
+        name: (identifier))
+      list: (use_list
         (self)
-        (use_as_clause (identifier) (identifier))
-        (use_as_clause (identifier) (identifier)))))
+        (use_as_clause
+          path: (identifier)
+          alias: (identifier))
+        (use_as_clause
+          path: (identifier)
+          alias: (identifier)))))
   (use_declaration
-    (scoped_use_list
-      (identifier)
-      (use_list
+    argument: (scoped_use_list
+      path: (identifier)
+      list: (use_list
         (scoped_use_list
-          (identifier)
-          (use_list
-            (identifier) (identifier)))))))
+          path: (identifier)
+          list: (use_list
+            (identifier)
+            (identifier))))))
+  (use_declaration
+    argument: (scoped_use_list
+      path: (identifier)
+      list: (use_list
+        (use_wildcard
+          (identifier))))))
 
 ============================================
 Variable bindings
