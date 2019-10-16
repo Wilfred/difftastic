@@ -661,7 +661,11 @@ module.exports = grammar({
     setter: $ => seq($.identifier, '='),
 
     undef: $ => seq('undef', commaSep1($._method_name)),
-    alias: $ => seq('alias', $._method_name, $._method_name),
+    alias: $ => seq(
+      'alias',
+      field('name', $._method_name),
+      field('alias', $._method_name)
+    ),
 
     comment: $ => token(prec(PREC.COMMENT, choice(
       seq('#', /.*/),
