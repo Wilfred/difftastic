@@ -6363,6 +6363,10 @@
           "value": "protected"
         },
         {
+          "type": "SYMBOL",
+          "name": "readonly"
+        },
+        {
           "type": "STRING",
           "value": "module"
         },

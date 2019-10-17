@@ -642,6 +642,7 @@ module.exports = function defineGrammar(dialect) {
         'public',
         'private',
         'protected',
+        $.readonly,
         'module',
         'any',
         'number',

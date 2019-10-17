@@ -101,3 +101,20 @@ if ( foo ) {
           (member_expression
             (subscript_expression (identifier) (number)) (property_identifier))
           (arguments))))))
+
+====================================
+Objects with reserved words as keys
+====================================
+
+{
+  public: true,
+  private: true,
+  readonly: true
+}
+
+---
+
+(program (expression_statement (object
+  (pair key: (property_identifier) value: (true))
+  (pair key: (property_identifier) value: (true))
+  (pair key: (property_identifier) value: (true)))))
