@@ -29,7 +29,6 @@
       "file-types": [
         "html"
       ],
-      "highlights": "src/highlights.json",
       "injection-regex": "html"
     }
   ]
