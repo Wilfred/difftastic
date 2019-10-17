@@ -23,8 +23,7 @@
     {
       "scope": "source.css",
       "file-types": ["css"],
-      "injection-regex": "^css$",
-      "highlights": "src/highlights.json"
+      "injection-regex": "^css$"
     }
   ]
 }
