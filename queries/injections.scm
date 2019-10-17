@@ -9,3 +9,7 @@
   (member_expression
     (property_identifier) @injection.language)
   (template_string) @injection.content) @injection.site
+
+((regex
+  (regex_pattern) @injection.content) @injection.site
+ (set! injection.language "regex"))
