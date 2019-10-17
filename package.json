@@ -25,7 +25,6 @@
   "tree-sitter": [
     {
       "scope": "source.python",
-      "highlights": "src/highlights.json",
       "file-types": [
         "py"
       ]

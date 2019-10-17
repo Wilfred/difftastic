@@ -494,7 +494,9 @@ async def d(a:str="default", b=c) -> None:
     parameters: (parameters
       (typed_parameter
         (identifier)
-        type: (type (attribute (identifier) (identifier)))))
+        type: (type (attribute
+          object: (identifier)
+          attribute: (identifier)))))
     body: (block
       (expression_statement (identifier))))
   (function_definition

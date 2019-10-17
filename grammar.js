@@ -612,9 +612,9 @@ module.exports = grammar({
     ),
 
     attribute: $ => seq(
-      $._primary_expression,
+      field('object', $._primary_expression),
       '.',
-      $.identifier
+      field('attribute', $.identifier)
     ),
 
     subscript: $ => seq(
