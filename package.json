@@ -32,7 +32,15 @@
         "ts"
       ],
       "path": "typescript",
-      "highlights": "typescript/src/highlights.json",
+      "highlights": [
+        "queries/highlights.scm",
+        "node_modules/tree-sitter-javascript/queries/highlights.scm"
+      ],
+      "locals": [
+        "queries/locals.scm",
+        "node_modules/tree-sitter-javascript/queries/locals.scm"
+      ],
+      "injections": "node_modules/tree-sitter-javascript/queries/injections.scm",
       "injection-regex": "^(ts|typescript)$"
     },
     {
@@ -41,7 +49,12 @@
         "tsx"
       ],
       "path": "tsx",
-      "highlights": "typescript/src/highlights.json",
+      "highlights": [
+        "queries/highlights.scm",
+        "node_modules/tree-sitter-javascript/queries/highlights.scm"
+      ],
+      "locals": "node_modules/tree-sitter-javascript/queries/locals.scm",
+      "injections": "node_modules/tree-sitter-javascript/queries/injections.scm",
       "injection-regex": "^(ts|typescript)$"
     },
     {
@@ -50,7 +63,12 @@
         "js"
       ],
       "path": "tsx",
-      "highlights": "typescript/src/highlights.json",
+      "highlights": [
+        "queries/highlights.scm",
+        "node_modules/tree-sitter-javascript/queries/highlights.scm"
+      ],
+      "locals": "node_modules/tree-sitter-javascript/queries/locals.scm",
+      "injections": "node_modules/tree-sitter-javascript/queries/injections.scm",
       "content-regex": "@flow"
     }
   ]
