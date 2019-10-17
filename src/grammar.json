@@ -2426,7 +2426,7 @@
       ]
     },
     "function_declaration": {
-      "type": "PREC",
+      "type": "PREC_RIGHT",
       "value": 1,
       "content": {
         "type": "SEQ",
@@ -2536,7 +2536,7 @@
       ]
     },
     "generator_function_declaration": {
-      "type": "PREC",
+      "type": "PREC_RIGHT",
       "value": 1,
       "content": {
         "type": "SEQ",
