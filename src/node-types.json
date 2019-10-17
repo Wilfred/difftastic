@@ -92,6 +92,10 @@
         "named": true
       },
       {
+        "type": "keyword_identifier",
+        "named": true
+      },
+      {
         "type": "list_splat",
         "named": true
       },
@@ -159,6 +163,10 @@
       },
       {
         "type": "integer",
+        "named": true
+      },
+      {
+        "type": "keyword_identifier",
         "named": true
       },
       {
@@ -392,20 +400,27 @@
   {
     "type": "attribute",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_primary_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "attribute": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_primary_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -806,6 +821,10 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "keyword_identifier",
             "named": true
           }
         ]
@@ -1222,7 +1241,7 @@
     "fields": {
       "name": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "aliased_import",
@@ -1370,8 +1389,8 @@
       }
     },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
           "type": "wildcard_import",
@@ -1391,7 +1410,7 @@
     "fields": {
       "name": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "aliased_import",
@@ -1438,6 +1457,10 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "keyword_identifier",
             "named": true
           }
         ]
@@ -1720,7 +1743,7 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
@@ -1986,6 +2009,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "keyword_identifier",
+            "named": true
           }
         ]
       },
@@ -2207,19 +2234,23 @@
     }
   },
   {
-    "type": "import",
+    "type": "!=",
     "named": false
   },
   {
-    "type": ".",
+    "type": "%",
     "named": false
   },
   {
-    "type": "from",
+    "type": "%=",
     "named": false
   },
   {
-    "type": "__future__",
+    "type": "&",
+    "named": false
+  },
+  {
+    "type": "&=",
     "named": false
   },
   {
@@ -2231,167 +2262,7 @@
     "named": false
   },
   {
-    "type": ",",
-    "named": false
-  },
-  {
-    "type": "as",
-    "named": false
-  },
-  {
     "type": "*",
-    "named": false
-  },
-  {
-    "type": "print",
-    "named": false
-  },
-  {
-    "type": ">>",
-    "named": false
-  },
-  {
-    "type": "assert",
-    "named": false
-  },
-  {
-    "type": ":=",
-    "named": false
-  },
-  {
-    "type": "return",
-    "named": false
-  },
-  {
-    "type": "del",
-    "named": false
-  },
-  {
-    "type": "raise",
-    "named": false
-  },
-  {
-    "type": "pass",
-    "named": false
-  },
-  {
-    "type": "break",
-    "named": false
-  },
-  {
-    "type": "continue",
-    "named": false
-  },
-  {
-    "type": "if",
-    "named": false
-  },
-  {
-    "type": ":",
-    "named": false
-  },
-  {
-    "type": "elif",
-    "named": false
-  },
-  {
-    "type": "else",
-    "named": false
-  },
-  {
-    "type": "async",
-    "named": false
-  },
-  {
-    "type": "for",
-    "named": false
-  },
-  {
-    "type": "in",
-    "named": false
-  },
-  {
-    "type": "while",
-    "named": false
-  },
-  {
-    "type": "try",
-    "named": false
-  },
-  {
-    "type": "except",
-    "named": false
-  },
-  {
-    "type": "finally",
-    "named": false
-  },
-  {
-    "type": "with",
-    "named": false
-  },
-  {
-    "type": "def",
-    "named": false
-  },
-  {
-    "type": "->",
-    "named": false
-  },
-  {
-    "type": "=",
-    "named": false
-  },
-  {
-    "type": "global",
-    "named": false
-  },
-  {
-    "type": "nonlocal",
-    "named": false
-  },
-  {
-    "type": "exec",
-    "named": false
-  },
-  {
-    "type": "class",
-    "named": false
-  },
-  {
-    "type": "@",
-    "named": false
-  },
-  {
-    "type": "not",
-    "named": false
-  },
-  {
-    "type": "and",
-    "named": false
-  },
-  {
-    "type": "or",
-    "named": false
-  },
-  {
-    "type": "+",
-    "named": false
-  },
-  {
-    "type": "-",
-    "named": false
-  },
-  {
-    "type": "/",
-    "named": false
-  },
-  {
-    "type": "%",
-    "named": false
-  },
-  {
-    "type": "//",
     "named": false
   },
   {
@@ -2399,67 +2270,7 @@
     "named": false
   },
   {
-    "type": "|",
-    "named": false
-  },
-  {
-    "type": "&",
-    "named": false
-  },
-  {
-    "type": "^",
-    "named": false
-  },
-  {
-    "type": "<<",
-    "named": false
-  },
-  {
-    "type": "~",
-    "named": false
-  },
-  {
-    "type": "<",
-    "named": false
-  },
-  {
-    "type": "<=",
-    "named": false
-  },
-  {
-    "type": "==",
-    "named": false
-  },
-  {
-    "type": "!=",
-    "named": false
-  },
-  {
-    "type": ">=",
-    "named": false
-  },
-  {
-    "type": ">",
-    "named": false
-  },
-  {
-    "type": "<>",
-    "named": false
-  },
-  {
-    "type": "is",
-    "named": false
-  },
-  {
-    "type": "lambda",
-    "named": false
-  },
-  {
-    "type": "+=",
-    "named": false
-  },
-  {
-    "type": "-=",
+    "type": "**=",
     "named": false
   },
   {
@@ -2467,11 +2278,39 @@
     "named": false
   },
   {
-    "type": "/=",
+    "type": "+",
     "named": false
   },
   {
-    "type": "@=",
+    "type": "+=",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "-=",
+    "named": false
+  },
+  {
+    "type": "->",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": "//",
     "named": false
   },
   {
@@ -2479,15 +2318,23 @@
     "named": false
   },
   {
-    "type": "%=",
+    "type": "/=",
     "named": false
   },
   {
-    "type": "**=",
+    "type": ":",
     "named": false
   },
   {
-    "type": ">>=",
+    "type": ":=",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<<",
     "named": false
   },
   {
@@ -2495,19 +2342,43 @@
     "named": false
   },
   {
-    "type": "&=",
+    "type": "<=",
     "named": false
   },
   {
-    "type": "^=",
+    "type": "<>",
     "named": false
   },
   {
-    "type": "|=",
+    "type": "=",
     "named": false
   },
   {
-    "type": "yield",
+    "type": "==",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
+    "named": false
+  },
+  {
+    "type": ">>",
+    "named": false
+  },
+  {
+    "type": ">>=",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "@=",
     "named": false
   },
   {
@@ -2519,15 +2390,67 @@
     "named": false
   },
   {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "^=",
+    "named": false
+  },
+  {
+    "type": "__future__",
+    "named": false
+  },
+  {
+    "type": "and",
+    "named": false
+  },
+  {
+    "type": "as",
+    "named": false
+  },
+  {
+    "type": "assert",
+    "named": false
+  },
+  {
+    "type": "async",
+    "named": false
+  },
+  {
+    "type": "await",
+    "named": false
+  },
+  {
+    "type": "break",
+    "named": false
+  },
+  {
+    "type": "class",
+    "named": false
+  },
+  {
+    "type": "continue",
+    "named": false
+  },
+  {
+    "type": "def",
+    "named": false
+  },
+  {
+    "type": "del",
+    "named": false
+  },
+  {
+    "type": "elif",
+    "named": false
+  },
+  {
     "type": "ellipsis",
     "named": true
   },
   {
-    "type": "{",
-    "named": false
-  },
-  {
-    "type": "}",
+    "type": "else",
     "named": false
   },
   {
@@ -2535,39 +2458,139 @@
     "named": true
   },
   {
-    "type": "type_conversion",
-    "named": true
+    "type": "except",
+    "named": false
   },
   {
-    "type": "integer",
-    "named": true
-  },
-  {
-    "type": "float",
-    "named": true
-  },
-  {
-    "type": "identifier",
-    "named": true
-  },
-  {
-    "type": "true",
-    "named": true
+    "type": "exec",
+    "named": false
   },
   {
     "type": "false",
     "named": true
   },
   {
+    "type": "finally",
+    "named": false
+  },
+  {
+    "type": "float",
+    "named": true
+  },
+  {
+    "type": "for",
+    "named": false
+  },
+  {
+    "type": "from",
+    "named": false
+  },
+  {
+    "type": "global",
+    "named": false
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "import",
+    "named": false
+  },
+  {
+    "type": "in",
+    "named": false
+  },
+  {
+    "type": "integer",
+    "named": true
+  },
+  {
+    "type": "is",
+    "named": false
+  },
+  {
+    "type": "lambda",
+    "named": false
+  },
+  {
     "type": "none",
     "named": true
   },
   {
-    "type": "await",
+    "type": "nonlocal",
     "named": false
   },
   {
-    "type": "comment",
+    "type": "not",
+    "named": false
+  },
+  {
+    "type": "or",
+    "named": false
+  },
+  {
+    "type": "pass",
+    "named": false
+  },
+  {
+    "type": "print",
+    "named": false
+  },
+  {
+    "type": "raise",
+    "named": false
+  },
+  {
+    "type": "return",
+    "named": false
+  },
+  {
+    "type": "true",
     "named": true
+  },
+  {
+    "type": "try",
+    "named": false
+  },
+  {
+    "type": "type_conversion",
+    "named": true
+  },
+  {
+    "type": "while",
+    "named": false
+  },
+  {
+    "type": "with",
+    "named": false
+  },
+  {
+    "type": "yield",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "|=",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
+    "named": false
   }
 ]
