@@ -1,4 +1,0 @@
-regex {
-  injection-language: 'regex';
-  injection-content: this();
-}
