@@ -1,4 +1,0 @@
-call_expression {
-  injection-language: child(this(), 0, 'identifier');
-  injection-content: child(this(), 1, 'template_string');
-}

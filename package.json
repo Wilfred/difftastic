@@ -30,7 +30,6 @@
       "file-types": [
         "js"
       ],
-      "highlights": "src/highlights.json",
       "injection-regex": "^(js|javascript)$"
     }
   ]
