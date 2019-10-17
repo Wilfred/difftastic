@@ -964,21 +964,6 @@
     }
   },
   {
-    "type": "field_name_list",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "field_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "for_clause",
     "named": true,
     "fields": {
@@ -2397,24 +2382,44 @@
     "named": false
   },
   {
-    "type": ";",
+    "type": "!",
     "named": false
   },
   {
-    "type": "package",
+    "type": "!=",
     "named": false
   },
   {
-    "type": "import",
+    "type": "\"",
     "named": false
   },
   {
-    "type": ".",
+    "type": "%",
     "named": false
   },
   {
-    "type": "blank_identifier",
-    "named": true
+    "type": "%=",
+    "named": false
+  },
+  {
+    "type": "&",
+    "named": false
+  },
+  {
+    "type": "&&",
+    "named": false
+  },
+  {
+    "type": "&=",
+    "named": false
+  },
+  {
+    "type": "&^",
+    "named": false
+  },
+  {
+    "type": "&^=",
+    "named": false
   },
   {
     "type": "(",
@@ -2425,83 +2430,7 @@
     "named": false
   },
   {
-    "type": "const",
-    "named": false
-  },
-  {
-    "type": ",",
-    "named": false
-  },
-  {
-    "type": "=",
-    "named": false
-  },
-  {
-    "type": "var",
-    "named": false
-  },
-  {
-    "type": "func",
-    "named": false
-  },
-  {
-    "type": "...",
-    "named": false
-  },
-  {
-    "type": "type",
-    "named": false
-  },
-  {
     "type": "*",
-    "named": false
-  },
-  {
-    "type": "[",
-    "named": false
-  },
-  {
-    "type": "]",
-    "named": false
-  },
-  {
-    "type": "struct",
-    "named": false
-  },
-  {
-    "type": "{",
-    "named": false
-  },
-  {
-    "type": "}",
-    "named": false
-  },
-  {
-    "type": "interface",
-    "named": false
-  },
-  {
-    "type": "map",
-    "named": false
-  },
-  {
-    "type": "chan",
-    "named": false
-  },
-  {
-    "type": "<-",
-    "named": false
-  },
-  {
-    "type": ":=",
-    "named": false
-  },
-  {
-    "type": "++",
-    "named": false
-  },
-  {
-    "type": "--",
     "named": false
   },
   {
@@ -2509,27 +2438,11 @@
     "named": false
   },
   {
-    "type": "/=",
+    "type": "+",
     "named": false
   },
   {
-    "type": "%=",
-    "named": false
-  },
-  {
-    "type": "<<=",
-    "named": false
-  },
-  {
-    "type": ">>=",
-    "named": false
-  },
-  {
-    "type": "&=",
-    "named": false
-  },
-  {
-    "type": "&^=",
+    "type": "++",
     "named": false
   },
   {
@@ -2537,91 +2450,7 @@
     "named": false
   },
   {
-    "type": "-=",
-    "named": false
-  },
-  {
-    "type": "|=",
-    "named": false
-  },
-  {
-    "type": "^=",
-    "named": false
-  },
-  {
-    "type": ":",
-    "named": false
-  },
-  {
-    "type": "fallthrough",
-    "named": false
-  },
-  {
-    "type": "break",
-    "named": false
-  },
-  {
-    "type": "continue",
-    "named": false
-  },
-  {
-    "type": "goto",
-    "named": false
-  },
-  {
-    "type": "return",
-    "named": false
-  },
-  {
-    "type": "go",
-    "named": false
-  },
-  {
-    "type": "defer",
-    "named": false
-  },
-  {
-    "type": "if",
-    "named": false
-  },
-  {
-    "type": "else",
-    "named": false
-  },
-  {
-    "type": "for",
-    "named": false
-  },
-  {
-    "type": "range",
-    "named": false
-  },
-  {
-    "type": "switch",
-    "named": false
-  },
-  {
-    "type": "case",
-    "named": false
-  },
-  {
-    "type": "default",
-    "named": false
-  },
-  {
-    "type": "select",
-    "named": false
-  },
-  {
-    "type": "new",
-    "named": false
-  },
-  {
-    "type": "make",
-    "named": false
-  },
-  {
-    "type": "+",
+    "type": ",",
     "named": false
   },
   {
@@ -2629,15 +2458,19 @@
     "named": false
   },
   {
-    "type": "!",
+    "type": "--",
     "named": false
   },
   {
-    "type": "^",
+    "type": "-=",
     "named": false
   },
   {
-    "type": "&",
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "...",
     "named": false
   },
   {
@@ -2645,31 +2478,19 @@
     "named": false
   },
   {
-    "type": "%",
+    "type": "/=",
     "named": false
   },
   {
-    "type": "<<",
+    "type": ":",
     "named": false
   },
   {
-    "type": ">>",
+    "type": ":=",
     "named": false
   },
   {
-    "type": "&^",
-    "named": false
-  },
-  {
-    "type": "|",
-    "named": false
-  },
-  {
-    "type": "==",
-    "named": false
-  },
-  {
-    "type": "!=",
+    "type": ";",
     "named": false
   },
   {
@@ -2677,7 +2498,27 @@
     "named": false
   },
   {
+    "type": "<-",
+    "named": false
+  },
+  {
+    "type": "<<",
+    "named": false
+  },
+  {
+    "type": "<<=",
+    "named": false
+  },
+  {
     "type": "<=",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "==",
     "named": false
   },
   {
@@ -2689,23 +2530,63 @@
     "named": false
   },
   {
-    "type": "&&",
+    "type": ">>",
     "named": false
   },
   {
-    "type": "||",
+    "type": ">>=",
     "named": false
   },
   {
-    "type": "identifier",
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "^=",
+    "named": false
+  },
+  {
+    "type": "blank_identifier",
     "named": true
   },
   {
-    "type": "raw_string_literal",
-    "named": true
+    "type": "break",
+    "named": false
   },
   {
-    "type": "\"",
+    "type": "case",
+    "named": false
+  },
+  {
+    "type": "chan",
+    "named": false
+  },
+  {
+    "type": "const",
+    "named": false
+  },
+  {
+    "type": "continue",
+    "named": false
+  },
+  {
+    "type": "default",
+    "named": false
+  },
+  {
+    "type": "defer",
+    "named": false
+  },
+  {
+    "type": "else",
     "named": false
   },
   {
@@ -2713,7 +2594,15 @@
     "named": true
   },
   {
-    "type": "int_literal",
+    "type": "fallthrough",
+    "named": false
+  },
+  {
+    "type": "false",
+    "named": true
+  },
+  {
+    "type": "field_identifier",
     "named": true
   },
   {
@@ -2721,27 +2610,127 @@
     "named": true
   },
   {
+    "type": "for",
+    "named": false
+  },
+  {
+    "type": "func",
+    "named": false
+  },
+  {
+    "type": "go",
+    "named": false
+  },
+  {
+    "type": "goto",
+    "named": false
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
     "type": "imaginary_literal",
     "named": true
   },
   {
-    "type": "rune_literal",
+    "type": "import",
+    "named": false
+  },
+  {
+    "type": "int_literal",
     "named": true
+  },
+  {
+    "type": "interface",
+    "named": false
+  },
+  {
+    "type": "label_name",
+    "named": true
+  },
+  {
+    "type": "map",
+    "named": false
   },
   {
     "type": "nil",
     "named": true
   },
   {
+    "type": "package",
+    "named": false
+  },
+  {
+    "type": "package_identifier",
+    "named": true
+  },
+  {
+    "type": "range",
+    "named": false
+  },
+  {
+    "type": "raw_string_literal",
+    "named": true
+  },
+  {
+    "type": "return",
+    "named": false
+  },
+  {
+    "type": "rune_literal",
+    "named": true
+  },
+  {
+    "type": "select",
+    "named": false
+  },
+  {
+    "type": "struct",
+    "named": false
+  },
+  {
+    "type": "switch",
+    "named": false
+  },
+  {
     "type": "true",
     "named": true
   },
   {
-    "type": "false",
+    "type": "type",
+    "named": false
+  },
+  {
+    "type": "type_identifier",
     "named": true
   },
   {
-    "type": "comment",
-    "named": true
+    "type": "var",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "|=",
+    "named": false
+  },
+  {
+    "type": "||",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
   }
 ]
