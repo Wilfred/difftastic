@@ -735,7 +735,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "[/_\\-=->,;:::!=?.@*=/='&=#%=^=+<>|~]+"
+          "value": "[\\/_\\-=->,;:::!=?.@*=\\/='&=#%=^=+<>|~]+"
         },
         {
           "type": "STRING",
@@ -4274,6 +4274,10 @@
               {
                 "type": "SYMBOL",
                 "name": "generic_type"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "function_type"
               }
             ]
           }
