@@ -181,6 +181,7 @@ Trait objects
 
 type a = Box<Something + 'a>;
 type b = Rc<dyn Something>;
+type c = A<&dyn Fn(&B) -> C>;
 
 ---
 
@@ -194,4 +195,11 @@ type b = Rc<dyn Something>;
     (type_identifier)
     (generic_type
       (type_identifier)
-      (type_arguments (dynamic_type (type_identifier))))))
+      (type_arguments (dynamic_type (type_identifier)))))
+  (type_item
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (reference_type
+          (dynamic_type (function_type (type_identifier) (parameters (reference_type (type_identifier))) (type_identifier))))))))
