@@ -134,20 +134,31 @@ module.exports = grammar({
 
     _method_rest: $ => seq(
       field('name', $._method_name),
-      choice(field('parameters', $.method_parameters), $._terminator),
+      choice(
+        seq(
+          field('parameters', alias($.parameters, $.method_parameters)),
+          optional($._terminator)
+        ),
+        seq(
+          optional(
+            field('parameters', alias($.bare_parameters, $.method_parameters))
+          ),
+          $._terminator
+        ),
+      ),
       $._body_statement
     ),
 
-    method_parameters: $ => prec.right(choice(
-      seq('(', commaSep($._formal_parameter), ')', optional($._terminator)),
-      seq($._simple_formal_parameter, $._terminator),
-      seq($._simple_formal_parameter, ',', commaSep1($._formal_parameter), $._terminator)
-    )),
+    parameters: $ => seq(
+      '(',
+      commaSep($._formal_parameter),
+      ')'
+    ),
 
-    lambda_parameters: $ => prec.right(choice(
-      seq('(', commaSep($._formal_parameter), ')'),
-      commaSep1($._simple_formal_parameter)
-    )),
+    bare_parameters: $ => seq(
+      $._simple_formal_parameter,
+      repeat(seq(',', $._formal_parameter))
+    ),
 
     block_parameters: $ => seq(
       '|',
@@ -156,7 +167,10 @@ module.exports = grammar({
       '|'
     ),
 
-    _formal_parameter: $ => choice($._simple_formal_parameter, $.destructured_parameter),
+    _formal_parameter: $ => choice(
+      $._simple_formal_parameter,
+      alias($.parameters, $.destructured_parameter)
+    ),
 
     _simple_formal_parameter: $ => choice(
       $.identifier,
@@ -167,12 +181,28 @@ module.exports = grammar({
       $.optional_parameter
     ),
 
-    destructured_parameter: $ => seq('(', commaSep1($._formal_parameter), ')'),
-    splat_parameter: $ => seq('*', optional($.identifier)),
-    hash_splat_parameter: $ => seq('**', optional($.identifier)),
-    block_parameter: $ => seq('&', $.identifier),
-    keyword_parameter: $ => prec.right(PREC.BITWISE_OR + 1, seq($.identifier, token.immediate(':'), optional($._arg))),
-    optional_parameter: $ => prec(PREC.BITWISE_OR + 1, seq($.identifier, '=', $._arg)),
+    splat_parameter: $ => seq(
+      '*',
+      field('name', optional($.identifier))
+    ),
+    hash_splat_parameter: $ => seq(
+      '**',
+      field('name', optional($.identifier))
+    ),
+    block_parameter: $ => seq(
+      '&',
+      field('name', $.identifier)
+    ),
+    keyword_parameter: $ => prec.right(PREC.BITWISE_OR + 1, seq(
+      field('name', $.identifier),
+      token.immediate(':'),
+      field('value', optional($._arg))
+    )),
+    optional_parameter: $ => prec(PREC.BITWISE_OR + 1, seq(
+      field('name', $.identifier),
+      '=',
+      field('value', $._arg)
+    )),
 
     class: $ => seq(
       'class',
@@ -806,7 +836,10 @@ module.exports = grammar({
 
     lambda: $ => seq(
       '->',
-      field('parameters', optional($.lambda_parameters)),
+      field('parameters', optional(choice(
+        alias($.parameters, $.lambda_parameters),
+        alias($.bare_parameters, $.lambda_parameters)
+      ))),
       field('body', choice($.block, $.do_block))
     ),
 
