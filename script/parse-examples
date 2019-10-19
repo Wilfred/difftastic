@@ -46,11 +46,11 @@ examples_to_parse=$(
   done
 )
 
-tree_sitter_report=$(echo $examples_to_parse | xargs -n 1000 tree-sitter parse -q)
+tree_sitter_report=$(echo $examples_to_parse | xargs -n 1000 npx tree-sitter parse -q)
 
 ret_code=$?
 
-echo -e "-----------------------------------------------------------------\n $tree_sitter_report \n -----------------------------------------------------------------\n"
+echo -e "-----------------------------------------------------------------\n$tree_sitter_report \n -----------------------------------------------------------------\n"
 
 errors=$( echo "$tree_sitter_report" | sed '/^\s*$/d' | wc -l )
 
@@ -60,6 +60,6 @@ parsed=$(bc -l <<< "$tried_to_parse-$errors")
 total=$((tried_to_parse+skipped))
 percent=$(bc -l <<< "100*$parsed/$total")
 
-printf "Successfully parsed %d of %d files (%.2f%%)\n Skipped: %d Failed: %d\n" $parsed $total $percent $skipped $errors
+printf "Successfully parsed %d of %d files (%.2f%%)\nSkipped: %d Failed: %d\n" $parsed $total $percent $skipped $errors
 
 exit $ret_code
