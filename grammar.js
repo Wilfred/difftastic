@@ -777,7 +777,8 @@ module.exports = grammar({
       field('trait', choice(
         $._type_identifier,
         $.scoped_type_identifier,
-        $.generic_type
+        $.generic_type,
+        $.function_type
       ))
     ),
 
