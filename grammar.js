@@ -441,6 +441,7 @@ module.exports = grammar({
         $.reference_type,
         $.tuple_type,
         $.higher_ranked_trait_bound,
+        alias(choice(...primitive_types), $.primitive_type)
       )),
       field('bounds', $.trait_bounds)
     ),

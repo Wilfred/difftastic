@@ -4349,6 +4349,10 @@
             "named": true
           },
           {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
             "type": "reference_type",
             "named": true
           },
