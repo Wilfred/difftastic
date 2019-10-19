@@ -1,0 +1,61 @@
+#!/bin/bash
+
+cd "$(dirname "$0")/.."
+
+function checkout() {
+  repo=$1; url=$2;
+  if [ ! -d "$repo" ]; then
+    git clone "https://github.com/$url" "$repo"
+  fi
+
+  pushd "$repo"
+  git fetch && git reset --hard HEAD
+  popd
+}
+
+echo "Getting libs"
+libs_to_parse=$(grep -Po '"name":.*?[^\\]",' ./script/search.json | perl -pe 's/"name": "//; s/^"//; s/",$//')
+libs_not_to_parse=$(grep -Po '".+"' ./script/error-packages.json | perl -pe 's/^"//; s/"$//')
+
+for lib in $libs_to_parse; do
+    if [[ ! $libs_not_to_parse == *$lib* ]]; then
+      echo $lib
+      checkout "examples-full/$lib" "$lib"
+    fi
+done
+
+echo "Getting applications"
+applications_to_parse=$(grep -Po '".+"' ./script/applications.json | perl -pe 's/^"//; s/"$//')
+
+for project in $applications_to_parse; do
+      echo $project
+      checkout "examples-full/$project" "$project"
+done
+
+all_examples=$(find examples-full -name '*.elm')
+known_failures=$(cat script/known-failures.txt)
+examples_to_parse=$(
+  for example in $all_examples; do
+    if [[ ! $known_failures == *$example* ]]; then
+      echo $example
+    fi
+  done
+)
+
+tree_sitter_report=$(echo $examples_to_parse | xargs -n 1000 npx tree-sitter parse -q)
+
+ret_code=$?
+
+echo -e "-----------------------------------------------------------------\n$tree_sitter_report \n -----------------------------------------------------------------\n"
+
+errors=$( echo "$tree_sitter_report" | sed '/^\s*$/d' | wc -l )
+
+skipped=$( echo "$known_failures" | wc -w )
+tried_to_parse=$( echo "$examples_to_parse" | wc -w )
+parsed=$(bc -l <<< "$tried_to_parse-$errors")
+total=$((tried_to_parse+skipped))
+percent=$(bc -l <<< "100*$parsed/$total" )
+
+printf "Successfully parsed %d of %d files (%.2f%%)\nSkipped: %d Failed: %d\n" $parsed $total $percent $skipped $errors
+
+exit $ret_code
