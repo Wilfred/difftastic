@@ -4664,6 +4664,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "async_block"
+        },
+        {
+          "type": "SYMBOL",
           "name": "block"
         },
         {
@@ -6874,6 +6878,31 @@
         {
           "type": "STRING",
           "value": "unsafe"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        }
+      ]
+    },
+    "async_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "async"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "move"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",

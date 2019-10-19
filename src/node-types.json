@@ -106,6 +106,10 @@
         "named": true
       },
       {
+        "type": "async_block",
+        "named": true
+      },
+      {
         "type": "await_expression",
         "named": true
       },
@@ -595,6 +599,21 @@
     }
   },
   {
+    "type": "async_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "attribute_item",
     "named": true,
     "fields": {},
@@ -757,6 +776,10 @@
         },
         {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "async_block",
           "named": true
         },
         {
@@ -3199,6 +3222,10 @@
         },
         {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "async_block",
           "named": true
         },
         {
