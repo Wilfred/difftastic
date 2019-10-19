@@ -64,6 +64,8 @@ fn foo() {
     return
 }
 
+fn foo(x: impl FnOnce() -> result::Result<T, E>) {}
+
 ---
 
 (source_file
@@ -84,7 +86,12 @@ fn foo() {
   (function_item (identifier) (parameters) (tuple_type (primitive_type) (primitive_type))
     (block (return_expression (tuple_expression (integer_literal) (integer_literal)))))
   (function_item (identifier) (parameters)
-    (block (return_expression))))
+    (block (return_expression)))
+  (function_item (identifier)
+    (parameters
+      (parameter (identifier)
+        (abstract_type (function_type (type_identifier) (parameters) (generic_type (scoped_type_identifier (identifier) (type_identifier)) (type_arguments (type_identifier) (type_identifier)))))))
+    (block)))
 
 ============================================
 Const function declarations
