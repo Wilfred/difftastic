@@ -8,20 +8,8 @@ node_js:
 os:
   - linux
 
-script:
-  - tree-sitter test
-  - script/parse-examples
-
-matrix:
-  include:
-    - os: osx
-      osx_image: xcode9.2
-    - os: linux
-      env: CXX=clang++
-
 branches:
   only:
-    - master
     - /^v.*$/
 
 deploy:
