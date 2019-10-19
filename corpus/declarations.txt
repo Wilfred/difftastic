@@ -1022,6 +1022,10 @@ pub trait A<B> where B: C,
 {
 }
 
+fn foo<A>() where A: B + As<f64>, f64: As<A>
+{
+}
+
 ---
 
 (source_file
@@ -1133,11 +1137,28 @@ pub trait A<B> where B: C,
     (visibility_modifier)
     name: (type_identifier)
     type_parameters: (type_parameters (type_identifier))
+    (where_clause (where_predicate
+      left: (type_identifier)
+      bounds: (trait_bounds (type_identifier))))
+    body: (declaration_list))
+  (function_item
+    name: (identifier)
+    type_parameters: (type_parameters (type_identifier))
+    parameters: (parameters)
     (where_clause
       (where_predicate
         left: (type_identifier)
-        bounds: (trait_bounds (type_identifier))))
-    body: (declaration_list)))
+        bounds: (trait_bounds
+          (type_identifier)
+          (generic_type
+            type: (type_identifier)
+            type_arguments: (type_arguments (primitive_type)))))
+      (where_predicate
+        left: (primitive_type)
+        bounds: (trait_bounds (generic_type
+          type: (type_identifier)
+          type_arguments: (type_arguments (type_identifier))))))
+    body: (block)))
 
 ===================================
 External Modules
