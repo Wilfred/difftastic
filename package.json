@@ -30,6 +30,10 @@
       "file-types": [
         "js"
       ],
+      "highlights": [
+        "highlights-jsx.scm",
+        "highlights.scm"
+      ],
       "injection-regex": "^(js|javascript)$"
     }
   ]
