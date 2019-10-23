@@ -16,11 +16,16 @@
 
 ; Keywords
 
+"abstract" @keyword
+"declare" @keyword
 "enum" @keyword
 "export" @keyword
-"interface" @keyword
-"namespace" @keyword
 "implements" @keyword
+"interface" @keyword
+"keyof" @keyword
+"namespace" @keyword
 "private" @keyword
+"protected" @keyword
 "public" @keyword
+"type" @keyword
 (readonly) @keyword
