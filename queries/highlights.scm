@@ -68,7 +68,16 @@
   function: (member_expression
     property: (property_identifier) @function.method.call))
 
+; JSX
+;----
+
+(jsx_opening_element (identifier) @tag)
+(jsx_closing_element (identifier) @tag)
+(jsx_self_closing_element (identifier) @tag)
+(jsx_attribute (property_identifier) @attribute)
+
 ; Variables
+;----------
 
 (formal_parameters (identifier) @variable.parameter)
 
@@ -131,28 +140,43 @@
 ; Keywords
 ;----------
 
+"as" @keyword
+"async" @keyword
+"await" @keyword
 "break" @keyword
 "case" @keyword
-"continue" @keyword
 "catch" @keyword
 "class" @keyword
 "const" @keyword
+"continue" @keyword
+"debugger" @keyword
+"default" @keyword
 "delete" @keyword
 "else" @keyword
 "export" @keyword
 "extends" @keyword
+"finally" @keyword
 "for" @keyword
+"from" @keyword
 "function" @keyword
+"get" @keyword
 "if" @keyword
 "import" @keyword
 "in" @keyword
+"instanceof" @keyword
 "let" @keyword
 "new" @keyword
 "of" @keyword
 "return" @keyword
+"set" @keyword
 "static" @keyword
 "switch" @keyword
+"target" @keyword
+"throw" @keyword
 "try" @keyword
 "typeof" @keyword
 "var" @keyword
+"void" @keyword
 "while" @keyword
+"with" @keyword
+"yield" @keyword
