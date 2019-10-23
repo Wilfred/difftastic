@@ -31,8 +31,8 @@
         "js"
       ],
       "highlights": [
-        "highlights-jsx.scm",
-        "highlights.scm"
+        "queries/highlights-jsx.scm",
+        "queries/highlights.scm"
       ],
       "injection-regex": "^(js|javascript)$"
     }
