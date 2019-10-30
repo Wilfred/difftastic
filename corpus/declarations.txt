@@ -935,3 +935,39 @@ enum struct Foo : char { };
   (enum_specifier (scoped_type_identifier (namespace_identifier) (type_identifier)) (scoped_type_identifier (namespace_identifier) (type_identifier)) (enumerator_list))
   (enum_specifier (type_identifier))
   (enum_specifier (type_identifier) (type_identifier) (enumerator_list)))
+
+============================
+static_assert declarations
+============================
+
+class A { static_assert(true, "message"); };
+void f() { static_assert(false); }
+static_assert(std::is_constructible<A>::value);
+
+---
+
+(translation_unit
+  (class_specifier
+    name: (type_identifier)
+    body: (field_declaration_list
+    (static_assert_declaration
+      condition: (true)
+      message: (string_literal))))
+  (function_definition
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list))
+    body: (compound_statement
+      (static_assert_declaration
+        condition: (false))))
+  (static_assert_declaration
+    condition: (scoped_identifier
+    namespace: (template_type
+      name: (scoped_type_identifier
+      namespace: (namespace_identifier)
+      name: (type_identifier))
+      arguments: (template_argument_list
+      (type_descriptor
+        type: (type_identifier))))
+    name: (identifier))))
