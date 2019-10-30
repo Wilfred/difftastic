@@ -39,6 +39,7 @@ module.exports = grammar(C, {
       $.namespace_definition,
       $.using_declaration,
       $.alias_declaration,
+      $.static_assert_declaration,
       $.template_declaration,
       $.template_instantiation,
       // $.structured_binding_declaration,
@@ -307,7 +308,8 @@ module.exports = grammar(C, {
       $.access_specifier,
       $.alias_declaration,
       $.using_declaration,
-      $.type_definition
+      $.type_definition,
+      $.static_assert_declaration
     ),
 
     field_declaration: $ => seq(
@@ -513,6 +515,18 @@ module.exports = grammar(C, {
       field('name', $._type_identifier),
       '=',
       field('type', $.type_descriptor),
+      ';'
+    ),
+
+    static_assert_declaration: $ => seq(
+      'static_assert',
+      '(',
+      field('condition', $._expression),
+      optional(seq(
+        ',',
+        field('message', $.string_literal)
+      )),
+      ')',
       ';'
     ),
 
