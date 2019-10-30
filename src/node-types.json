@@ -148,6 +148,10 @@
         "named": true
       },
       {
+        "type": "parameter_pack_expansion",
+        "named": true
+      },
+      {
         "type": "parenthesized_expression",
         "named": true
       },
@@ -2158,7 +2162,7 @@
       },
       "declarator": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "abstract_function_declarator",
@@ -2477,6 +2481,22 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "parameter_pack_expansion",
+    "named": true,
+    "fields": {
+      "pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_descriptor",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3262,6 +3282,10 @@
           {
             "type": "_expression",
             "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
           }
         ]
       }
@@ -3427,6 +3451,10 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "parameter_pack_expansion",
           "named": true
         },
         {

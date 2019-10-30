@@ -124,7 +124,8 @@ module.exports = grammar(C, {
       ':',
       commaSep1(seq(
         optional(choice('public', 'private', 'protected')),
-        $._class_name
+        $._class_name,
+        optional('...')
       ))
     ),
 
@@ -292,7 +293,8 @@ module.exports = grammar(C, {
 
     field_initializer: $ => prec(1, seq(
       choice($._field_identifier, $.scoped_field_identifier),
-      choice($.initializer_list, $.argument_list)
+      choice($.initializer_list, $.argument_list),
+      optional('...')
     )),
 
     _field_declaration_list_item: ($, original) => choice(
@@ -483,7 +485,8 @@ module.exports = grammar(C, {
     template_argument_list: $ => seq(
       '<',
       commaSep(choice(
-        prec.dynamic(2, $.type_descriptor),
+        prec.dynamic(3, $.type_descriptor),
+        prec.dynamic(2, alias($.type_parameter_pack_expansion, $.parameter_pack_expansion)),
         prec.dynamic(1, $._expression)
       )),
       alias(token(prec(1, '>')), '>')
@@ -585,6 +588,7 @@ module.exports = grammar(C, {
       $.new_expression,
       $.delete_expression,
       $.lambda_expression,
+      $.parameter_pack_expansion,
       $.nullptr,
       $.raw_string_literal
     ),
@@ -630,7 +634,7 @@ module.exports = grammar(C, {
 
     lambda_expression: $ => seq(
       field('captures', $.lambda_capture_specifier),
-      field('declarator', $.abstract_function_declarator),
+      optional(field('declarator', $.abstract_function_declarator)),
       field('body', $.compound_statement)
     ),
 
@@ -638,12 +642,36 @@ module.exports = grammar(C, {
       '[',
       choice(
         $.lambda_default_capture,
-        commaSep($._expression)
+        commaSep($._expression),
+        seq(
+          $.lambda_default_capture,
+          ',', commaSep1($._expression)
+        )
       ),
       ']'
     )),
 
     lambda_default_capture: $ => choice('=', '&'),
+
+    parameter_pack_expansion: $ => prec(-1, seq(
+      field('pattern', $._expression),
+      '...'
+    )),
+
+    type_parameter_pack_expansion: $ => seq(
+      field('pattern', $.type_descriptor),
+      '...'
+    ),
+
+    sizeof_expression: ($, original) => choice(
+      original,
+      seq(
+        'sizeof', '...',
+        '(',
+        field('value', $.identifier),
+        ')'
+      ),
+    ),
 
     argument_list: $ => seq(
       '(',

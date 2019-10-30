@@ -865,7 +865,6 @@ Variadic templates
 template <class T>
 class TT {
   template <typename... Ts>
-
   void func1(Ts ... args) {
     func3(nullptr);
   }

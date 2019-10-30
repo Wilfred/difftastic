@@ -159,6 +159,14 @@ auto f = [&](int x) -> bool {
   return true;
 };
 
+auto g = [x, y](int z) {
+  return false;
+};
+
+auto h = [] {
+  return false;
+};
+
 ---
 
 (translation_unit
@@ -171,7 +179,23 @@ auto f = [&](int x) -> bool {
         (abstract_function_declarator
           (parameter_list (parameter_declaration (primitive_type) (identifier)))
           (trailing_return_type (primitive_type)))
-        (compound_statement (return_statement (true)))))))
+        (compound_statement (return_statement (true))))))
+  (declaration
+    (auto)
+    (init_declarator
+      (identifier)
+      (lambda_expression
+        (lambda_capture_specifier (identifier) (identifier))
+        (abstract_function_declarator
+          (parameter_list (parameter_declaration (primitive_type) (identifier))))
+        (compound_statement (return_statement (false))))))
+  (declaration
+    (auto)
+    (init_declarator
+      (identifier)
+      (lambda_expression
+        (lambda_capture_specifier)
+        (compound_statement (return_statement (false)))))))
 
 ====================================================
 Nested template calls
@@ -315,3 +339,220 @@ int main() {
           (binary_expression (identifier) (identifier))
           (binary_expression (identifier) (identifier))))
       (compound_statement)))))
+
+====================================================
+Parameter pack expansions
+====================================================
+
+container<A,B,C...> t1;
+container<C...,A,B> t2;
+
+typedef Tuple<Pair<Args1, Args2>...> type;
+
+f(&args...); // expands to f(&E1, &E2, &E3)
+f(n, ++args...); // expands to f(n, ++E1, ++E2, ++E3);
+f(++args..., n); // expands to f(++E1, ++E2, ++E3, n);
+f(const_cast<const Args*>(&args)...); // f(const_cast<const E1*>(&X1), const_cast<const E2*>(&X2), const_cast<const E3*>(&X3))
+f(h(args...) + args...); // expands to f(h(E1,E2,E3) + E1, h(E1,E2,E3) + E2, h(E1,E2,E3) + E3)
+
+const int size = sizeof...(args) + 2;
+int res[size] = {1,args...,2};
+int dummy[sizeof...(Ts)] = { (std::cout << args, 0)... };
+
+auto lm = [&, args...] { return g(args...); };
+
+class X : public Mixins... {
+public:
+    X(const Mixins&... mixins) : Mixins(mixins)... { }
+};
+
+template <typename... Args>
+void wrap(Args&&... args) {
+    f(forward<Args>(args)...);
+}
+
+---
+
+(translation_unit
+  (declaration
+    type: (template_type
+      name: (type_identifier)
+      arguments: (template_argument_list
+        (type_descriptor
+          type: (type_identifier))
+        (type_descriptor
+          type: (type_identifier))
+        (parameter_pack_expansion
+          pattern: (type_descriptor
+            type: (type_identifier)))))
+    declarator: (identifier))
+  (declaration
+    type: (template_type
+      name: (type_identifier)
+      arguments: (template_argument_list
+        (parameter_pack_expansion
+          pattern: (type_descriptor
+            type: (type_identifier)))
+        (type_descriptor
+          type: (type_identifier))
+        (type_descriptor
+          type: (type_identifier))))
+    declarator: (identifier))
+  (type_definition
+    type: (template_type
+      name: (type_identifier)
+      arguments: (template_argument_list
+        (parameter_pack_expansion
+          pattern: (type_descriptor
+            type: (template_type
+              name: (type_identifier)
+              arguments: (template_argument_list
+                (type_descriptor
+                  type: (type_identifier))
+                (type_descriptor
+                  type: (type_identifier))))))))
+    declarator: (type_identifier))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (parameter_pack_expansion
+          pattern: (pointer_expression
+            argument: (identifier))))))
+  (comment)
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (identifier)
+        (parameter_pack_expansion
+          pattern: (update_expression
+            argument: (identifier))))))
+  (comment)
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (parameter_pack_expansion
+          pattern: (update_expression
+            argument: (identifier)))
+        (identifier))))
+  (comment)
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (parameter_pack_expansion
+          pattern: (call_expression
+            function: (template_function
+              name: (identifier)
+              arguments: (template_argument_list
+                (type_descriptor
+                  (type_qualifier)
+                  type: (type_identifier)
+                  declarator: (abstract_pointer_declarator))))
+            arguments: (argument_list
+              (pointer_expression argument: (identifier))))))))
+  (comment)
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (parameter_pack_expansion
+          pattern: (binary_expression
+            left: (call_expression
+              function: (identifier)
+              arguments: (argument_list
+                (parameter_pack_expansion pattern: (identifier))))
+            right: (identifier))))))
+  (comment)
+  (declaration
+    (type_qualifier)
+    type: (primitive_type)
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (binary_expression
+          left: (sizeof_expression value: (identifier))
+          right: (number_literal))))
+  (declaration
+    type: (primitive_type)
+    declarator: (init_declarator
+      declarator: (array_declarator
+        declarator: (identifier)
+        size: (identifier))
+      value: (initializer_list
+        (number_literal)
+        (parameter_pack_expansion pattern: (identifier))
+        (number_literal))))
+  (declaration
+    type: (primitive_type)
+    declarator: (init_declarator
+      declarator: (array_declarator
+        declarator: (identifier)
+        size: (sizeof_expression value: (identifier)))
+      value: (initializer_list
+        (parameter_pack_expansion
+          pattern: (parenthesized_expression
+            (comma_expression
+              left: (binary_expression
+                left: (scoped_identifier
+                  namespace: (namespace_identifier)
+                  name: (identifier))
+                right: (identifier))
+              right: (number_literal)))))))
+  (declaration
+    type: (auto)
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (lambda_expression
+        captures: (lambda_capture_specifier
+          (lambda_default_capture)
+          (parameter_pack_expansion pattern: (identifier)))
+        body: (compound_statement
+          (return_statement
+            (call_expression
+              function: (identifier)
+              arguments: (argument_list
+                (parameter_pack_expansion pattern: (identifier)))))))))
+  (class_specifier
+    name: (type_identifier)
+    (base_class_clause
+      (type_identifier))
+    body: (field_declaration_list
+      (access_specifier)
+      (function_definition
+        declarator: (function_declarator
+          declarator: (identifier)
+          parameters: (parameter_list
+            (variadic_parameter_declaration
+              (type_qualifier)
+              type: (type_identifier)
+              declarator: (reference_declarator
+                (variadic_declarator (identifier))))))
+        (field_initializer_list
+          (field_initializer
+            (field_identifier)
+            (argument_list (identifier))))
+        body: (compound_statement))))
+  (template_declaration
+    parameters: (template_parameter_list (variadic_type_parameter_declaration (type_identifier)))
+    (function_definition
+      type: (primitive_type)
+      declarator: (function_declarator
+        declarator: (identifier)
+        parameters: (parameter_list
+          (variadic_parameter_declaration
+            type: (type_identifier)
+            declarator: (reference_declarator (variadic_declarator (identifier))))))
+      body: (compound_statement
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (parameter_pack_expansion
+                pattern: (call_expression
+                  function: (template_function
+                    name: (identifier)
+                    arguments: (template_argument_list
+                      (type_descriptor type: (type_identifier))))
+                  arguments: (argument_list (identifier)))))))))))
