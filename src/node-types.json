@@ -988,25 +988,6 @@
     }
   },
   {
-    "type": "comment",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "block_comment",
-          "named": true
-        },
-        {
-          "type": "line_comment",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "compound_assignment_expr",
     "named": true,
     "fields": {
@@ -1760,7 +1741,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "extern_modifier",
@@ -1938,7 +1919,7 @@
         "required": true,
         "types": [
           {
-            "type": "scoped_type_identifier",
+            "type": "scoped_identifier",
             "named": true
           },
           {
@@ -2021,7 +2002,7 @@
     "fields": {
       "alternative": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "block",
@@ -2065,7 +2046,7 @@
     "fields": {
       "alternative": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "block",
@@ -3025,7 +3006,7 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -3035,7 +3016,7 @@
         ]
       },
       "path": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -4528,11 +4509,47 @@
     }
   },
   {
-    "type": ";",
+    "type": "!",
     "named": false
   },
   {
-    "type": "macro_rules!",
+    "type": "!=",
+    "named": false
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "#",
+    "named": false
+  },
+  {
+    "type": "$",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "%=",
+    "named": false
+  },
+  {
+    "type": "&",
+    "named": false
+  },
+  {
+    "type": "&&",
+    "named": false
+  },
+  {
+    "type": "&=",
+    "named": false
+  },
+  {
+    "type": "'",
     "named": false
   },
   {
@@ -4544,15 +4561,123 @@
     "named": false
   },
   {
-    "type": "{",
+    "type": "*",
     "named": false
   },
   {
-    "type": "}",
+    "type": "*=",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": "+=",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "-=",
+    "named": false
+  },
+  {
+    "type": "->",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "..",
+    "named": false
+  },
+  {
+    "type": "...",
+    "named": false
+  },
+  {
+    "type": "..=",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": "/=",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "::",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<<",
+    "named": false
+  },
+  {
+    "type": "<<=",
+    "named": false
+  },
+  {
+    "type": "<=",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "==",
     "named": false
   },
   {
     "type": "=>",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
+    "named": false
+  },
+  {
+    "type": ">>",
+    "named": false
+  },
+  {
+    "type": ">>=",
+    "named": false
+  },
+  {
+    "type": "?",
+    "named": false
+  },
+  {
+    "type": "@",
     "named": false
   },
   {
@@ -4564,127 +4689,15 @@
     "named": false
   },
   {
-    "type": ":",
+    "type": "^",
     "named": false
   },
   {
-    "type": "$",
+    "type": "^=",
     "named": false
   },
   {
-    "type": "+",
-    "named": false
-  },
-  {
-    "type": "*",
-    "named": false
-  },
-  {
-    "type": "ident",
-    "named": false
-  },
-  {
-    "type": "path",
-    "named": false
-  },
-  {
-    "type": "expr",
-    "named": false
-  },
-  {
-    "type": "ty",
-    "named": false
-  },
-  {
-    "type": "pat",
-    "named": false
-  },
-  {
-    "type": "stmt",
-    "named": false
-  },
-  {
-    "type": "block",
-    "named": false
-  },
-  {
-    "type": "item",
-    "named": false
-  },
-  {
-    "type": "meta",
-    "named": false
-  },
-  {
-    "type": "tt",
-    "named": false
-  },
-  {
-    "type": "u8",
-    "named": false
-  },
-  {
-    "type": "i8",
-    "named": false
-  },
-  {
-    "type": "u16",
-    "named": false
-  },
-  {
-    "type": "i16",
-    "named": false
-  },
-  {
-    "type": "u32",
-    "named": false
-  },
-  {
-    "type": "i32",
-    "named": false
-  },
-  {
-    "type": "u64",
-    "named": false
-  },
-  {
-    "type": "i64",
-    "named": false
-  },
-  {
-    "type": "u128",
-    "named": false
-  },
-  {
-    "type": "i128",
-    "named": false
-  },
-  {
-    "type": "isize",
-    "named": false
-  },
-  {
-    "type": "usize",
-    "named": false
-  },
-  {
-    "type": "f32",
-    "named": false
-  },
-  {
-    "type": "f64",
-    "named": false
-  },
-  {
-    "type": "bool",
-    "named": false
-  },
-  {
-    "type": "str",
-    "named": false
-  },
-  {
-    "type": "char",
+    "type": "_",
     "named": false
   },
   {
@@ -4700,8 +4713,16 @@
     "named": false
   },
   {
+    "type": "block",
+    "named": false
+  },
+  {
     "type": "break",
     "named": false
+  },
+  {
+    "type": "char_literal",
+    "named": true
   },
   {
     "type": "const",
@@ -4712,12 +4733,44 @@
     "named": false
   },
   {
+    "type": "crate",
+    "named": true
+  },
+  {
     "type": "default",
+    "named": false
+  },
+  {
+    "type": "dyn",
+    "named": false
+  },
+  {
+    "type": "else",
     "named": false
   },
   {
     "type": "enum",
     "named": false
+  },
+  {
+    "type": "escape_sequence",
+    "named": true
+  },
+  {
+    "type": "expr",
+    "named": false
+  },
+  {
+    "type": "extern",
+    "named": false
+  },
+  {
+    "type": "false",
+    "named": false
+  },
+  {
+    "type": "field_identifier",
+    "named": true
   },
   {
     "type": "fn",
@@ -4728,6 +4781,14 @@
     "named": false
   },
   {
+    "type": "ident",
+    "named": false
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
     "type": "if",
     "named": false
   },
@@ -4736,11 +4797,31 @@
     "named": false
   },
   {
+    "type": "in",
+    "named": false
+  },
+  {
+    "type": "integer_literal",
+    "named": true
+  },
+  {
+    "type": "item",
+    "named": false
+  },
+  {
     "type": "let",
     "named": false
   },
   {
+    "type": "line_comment",
+    "named": true
+  },
+  {
     "type": "loop",
+    "named": false
+  },
+  {
+    "type": "macro_rules!",
     "named": false
   },
   {
@@ -4748,11 +4829,43 @@
     "named": false
   },
   {
+    "type": "meta",
+    "named": false
+  },
+  {
+    "type": "metavariable",
+    "named": true
+  },
+  {
     "type": "mod",
     "named": false
   },
   {
+    "type": "move",
+    "named": false
+  },
+  {
+    "type": "mutable_specifier",
+    "named": true
+  },
+  {
+    "type": "pat",
+    "named": false
+  },
+  {
+    "type": "path",
+    "named": false
+  },
+  {
+    "type": "primitive_type",
+    "named": true
+  },
+  {
     "type": "pub",
+    "named": false
+  },
+  {
+    "type": "ref",
     "named": false
   },
   {
@@ -4760,7 +4873,19 @@
     "named": false
   },
   {
+    "type": "self",
+    "named": true
+  },
+  {
+    "type": "shorthand_field_identifier",
+    "named": true
+  },
+  {
     "type": "static",
+    "named": false
+  },
+  {
+    "type": "stmt",
     "named": false
   },
   {
@@ -4768,12 +4893,32 @@
     "named": false
   },
   {
+    "type": "super",
+    "named": true
+  },
+  {
     "type": "trait",
+    "named": false
+  },
+  {
+    "type": "true",
+    "named": false
+  },
+  {
+    "type": "tt",
+    "named": false
+  },
+  {
+    "type": "ty",
     "named": false
   },
   {
     "type": "type",
     "named": false
+  },
+  {
+    "type": "type_identifier",
+    "named": true
   },
   {
     "type": "union",
@@ -4796,95 +4941,7 @@
     "named": false
   },
   {
-    "type": "#",
-    "named": false
-  },
-  {
-    "type": "!",
-    "named": false
-  },
-  {
-    "type": "=",
-    "named": false
-  },
-  {
-    "type": ",",
-    "named": false
-  },
-  {
-    "type": "extern",
-    "named": false
-  },
-  {
-    "type": "ref",
-    "named": false
-  },
-  {
-    "type": "->",
-    "named": false
-  },
-  {
-    "type": "?",
-    "named": false
-  },
-  {
-    "type": "<",
-    "named": false
-  },
-  {
-    "type": ">",
-    "named": false
-  },
-  {
-    "type": "::",
-    "named": false
-  },
-  {
-    "type": "_",
-    "named": false
-  },
-  {
-    "type": "&",
-    "named": false
-  },
-  {
-    "type": "...",
-    "named": false
-  },
-  {
-    "type": "in",
-    "named": false
-  },
-  {
-    "type": "'",
-    "named": false
-  },
-  {
-    "type": "dyn",
-    "named": false
-  },
-  {
-    "type": "mutable_specifier",
-    "named": true
-  },
-  {
-    "type": "..",
-    "named": false
-  },
-  {
-    "type": "..=",
-    "named": false
-  },
-  {
-    "type": "-",
-    "named": false
-  },
-  {
-    "type": "&&",
-    "named": false
-  },
-  {
-    "type": "||",
+    "type": "{",
     "named": false
   },
   {
@@ -4892,143 +4949,15 @@
     "named": false
   },
   {
-    "type": "^",
-    "named": false
-  },
-  {
-    "type": "==",
-    "named": false
-  },
-  {
-    "type": "!=",
-    "named": false
-  },
-  {
-    "type": "<=",
-    "named": false
-  },
-  {
-    "type": ">=",
-    "named": false
-  },
-  {
-    "type": "<<",
-    "named": false
-  },
-  {
-    "type": ">>",
-    "named": false
-  },
-  {
-    "type": "/",
-    "named": false
-  },
-  {
-    "type": "%",
-    "named": false
-  },
-  {
-    "type": "+=",
-    "named": false
-  },
-  {
-    "type": "-=",
-    "named": false
-  },
-  {
-    "type": "*=",
-    "named": false
-  },
-  {
-    "type": "/=",
-    "named": false
-  },
-  {
-    "type": "%=",
-    "named": false
-  },
-  {
-    "type": "&=",
-    "named": false
-  },
-  {
     "type": "|=",
     "named": false
   },
   {
-    "type": "^=",
+    "type": "||",
     "named": false
   },
   {
-    "type": "<<=",
+    "type": "}",
     "named": false
-  },
-  {
-    "type": ">>=",
-    "named": false
-  },
-  {
-    "type": "else",
-    "named": false
-  },
-  {
-    "type": "move",
-    "named": false
-  },
-  {
-    "type": ".",
-    "named": false
-  },
-  {
-    "type": "@",
-    "named": false
-  },
-  {
-    "type": "integer_literal",
-    "named": true
-  },
-  {
-    "type": "\"",
-    "named": false
-  },
-  {
-    "type": "char_literal",
-    "named": true
-  },
-  {
-    "type": "escape_sequence",
-    "named": true
-  },
-  {
-    "type": "true",
-    "named": false
-  },
-  {
-    "type": "false",
-    "named": false
-  },
-  {
-    "type": "line_comment",
-    "named": true
-  },
-  {
-    "type": "identifier",
-    "named": true
-  },
-  {
-    "type": "self",
-    "named": true
-  },
-  {
-    "type": "super",
-    "named": true
-  },
-  {
-    "type": "crate",
-    "named": true
-  },
-  {
-    "type": "metavariable",
-    "named": true
   }
 ]
