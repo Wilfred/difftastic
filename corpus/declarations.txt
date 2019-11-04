@@ -66,32 +66,103 @@ fn foo() {
 
 fn foo(x: impl FnOnce() -> result::Result<T, E>) {}
 
+fn foo(#[attr] x: i32, #[attr] x: i64) {}
+
 ---
 
 (source_file
-  (function_item (identifier) (parameters) (block))
-  (function_item (identifier)
-    (parameters
-      (parameter (identifier) (primitive_type))
-      (parameter (identifier) (primitive_type)))
-    (primitive_type)
-    (block
-      (return_expression (binary_expression (identifier) (identifier)))))
-  (function_item (identifier)
-    (parameters
-      (parameter (identifier) (reference_type (primitive_type))))
-    (block (macro_invocation (identifier) (token_tree (string_literal) (identifier)))))
-  (function_item (identifier) (parameters) (array_type (primitive_type) (integer_literal))
-    (block (return_expression (array_expression (integer_literal) (integer_literal)))))
-  (function_item (identifier) (parameters) (tuple_type (primitive_type) (primitive_type))
-    (block (return_expression (tuple_expression (integer_literal) (integer_literal)))))
-  (function_item (identifier) (parameters)
-    (block (return_expression)))
-  (function_item (identifier)
-    (parameters
-      (parameter (identifier)
-        (abstract_type (function_type (type_identifier) (parameters) (generic_type (scoped_type_identifier (identifier) (type_identifier)) (type_arguments (type_identifier) (type_identifier)))))))
-    (block)))
+  (function_item
+    name: (identifier)
+    parameters: (parameters)
+    body: (block))
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)
+        type: (primitive_type))
+      (parameter
+        pattern: (identifier)
+        type: (primitive_type)))
+    return_type: (primitive_type)
+    body: (block
+      (return_expression
+        (binary_expression
+          left: (identifier)
+          right: (identifier)))))
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)
+        type: (reference_type
+          type: (primitive_type))))
+    body: (block
+      (macro_invocation
+        macro: (identifier)
+        (token_tree
+          (string_literal)
+          (identifier)))))
+  (function_item
+    name: (identifier)
+    parameters: (parameters)
+    return_type: (array_type
+      element: (primitive_type)
+      length: (integer_literal))
+    body: (block
+      (return_expression
+        (array_expression
+          (integer_literal)
+          (integer_literal)))))
+  (function_item
+    name: (identifier)
+    parameters: (parameters)
+    return_type: (tuple_type
+      (primitive_type)
+      (primitive_type))
+    body: (block
+      (return_expression
+        (tuple_expression
+          (integer_literal)
+          (integer_literal)))))
+  (function_item
+    name: (identifier)
+    parameters: (parameters)
+    body: (block
+      (return_expression)))
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)
+        type: (abstract_type
+          trait: (function_type
+            trait: (type_identifier)
+            parameters: (parameters)
+            return_type: (generic_type
+              type: (scoped_type_identifier
+                path: (identifier)
+                name: (type_identifier))
+              type_arguments: (type_arguments
+                (type_identifier)
+                (type_identifier)))))))
+    body: (block))
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (attribute_item
+        (meta_item
+          (identifier)))
+      (parameter
+        pattern: (identifier)
+        type: (primitive_type))
+      (attribute_item
+        (meta_item
+          (identifier)))
+      (parameter
+        pattern: (identifier)
+        type: (primitive_type)))
+    body: (block)))
 
 ============================================
 Const function declarations

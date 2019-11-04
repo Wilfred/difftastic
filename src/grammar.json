@@ -735,7 +735,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "[\\/_\\-=->,;:::!=?.@*=\\/='&=#%=^=+<>|~]+"
+          "value": "[/_\\-=->,;:::!=?.@*=/='&=#%=^=+<>|~]+"
         },
         {
           "type": "STRING",
@@ -3281,27 +3281,44 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "CHOICE",
+                  "type": "SEQ",
                   "members": [
                     {
-                      "type": "SYMBOL",
-                      "name": "parameter"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "attribute_item"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "self_parameter"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "variadic_parameter"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "_"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_type"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "parameter"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "self_parameter"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "variadic_parameter"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "_"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_type"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -3315,27 +3332,44 @@
                         "value": ","
                       },
                       {
-                        "type": "CHOICE",
+                        "type": "SEQ",
                         "members": [
                           {
-                            "type": "SYMBOL",
-                            "name": "parameter"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "attribute_item"
+                              },
+                              {
+                                "type": "BLANK"
+                              }
+                            ]
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "self_parameter"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "variadic_parameter"
-                          },
-                          {
-                            "type": "STRING",
-                            "value": "_"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "_type"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "parameter"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "self_parameter"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "variadic_parameter"
+                              },
+                              {
+                                "type": "STRING",
+                                "value": "_"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "_type"
+                              }
+                            ]
                           }
                         ]
                       }
