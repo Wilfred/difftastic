@@ -586,13 +586,15 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      sepBy(',', choice(
-        $.parameter,
-        $.self_parameter,
-        $.variadic_parameter,
-        '_',
-        $._type
-      )),
+      sepBy(',', seq(
+        optional($.attribute_item),
+        choice(
+          $.parameter,
+          $.self_parameter,
+          $.variadic_parameter,
+          '_',
+          $._type
+      ))),
       optional(','),
       ')'
     ),
