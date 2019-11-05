@@ -35,6 +35,7 @@ module.exports = grammar({
     $._type_identifier,
     $._field_identifier,
     $._statement_identifier,
+    $._non_case_statement,
   ],
 
   conflicts: $ => [
@@ -438,6 +439,11 @@ module.exports = grammar({
     // Statements
 
     _statement: $ => choice(
+      $.case_statement,
+      $._non_case_statement
+    ),
+
+    _non_case_statement: $ => choice(
       $.labeled_statement,
       $.compound_statement,
       $.expression_statement,
@@ -479,13 +485,7 @@ module.exports = grammar({
     switch_statement: $ => seq(
       'switch',
       field('condition', $.parenthesized_expression),
-      field('body', alias($.switch_body, $.compound_statement))
-    ),
-
-    switch_body: $ => seq(
-      '{',
-      repeat(choice($.case_statement, $._statement)),
-      '}'
+      field('body', $.compound_statement)
     ),
 
     case_statement: $ => prec.right(seq(
@@ -495,7 +495,7 @@ module.exports = grammar({
       ),
       ':',
       repeat(choice(
-        $._statement,
+        $._non_case_statement,
         $.declaration,
         $.type_definition
       ))
@@ -511,7 +511,8 @@ module.exports = grammar({
       'do',
       field('body', $._statement),
       'while',
-      field('condition', $.parenthesized_expression)
+      field('condition', $.parenthesized_expression),
+      ';'
     ),
 
     for_statement: $ => seq(

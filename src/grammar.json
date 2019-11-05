@@ -2533,6 +2533,19 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "case_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_non_case_statement"
+        }
+      ]
+    },
+    "_non_case_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
           "name": "labeled_statement"
         },
         {
@@ -2705,43 +2718,9 @@
           "type": "FIELD",
           "name": "body",
           "content": {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "switch_body"
-            },
-            "named": true,
-            "value": "compound_statement"
+            "type": "SYMBOL",
+            "name": "compound_statement"
           }
-        }
-      ]
-    },
-    "switch_body": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "case_statement"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_statement"
-              }
-            ]
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "}"
         }
       ]
     },
@@ -2788,7 +2767,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_statement"
+                  "name": "_non_case_statement"
                 },
                 {
                   "type": "SYMBOL",
@@ -2855,6 +2834,10 @@
             "type": "SYMBOL",
             "name": "parenthesized_expression"
           }
+        },
+        {
+          "type": "STRING",
+          "value": ";"
         }
       ]
     },
@@ -5275,7 +5258,8 @@
     "_top_level_item",
     "_type_identifier",
     "_field_identifier",
-    "_statement_identifier"
+    "_statement_identifier",
+    "_non_case_statement"
   ],
   "supertypes": [
     "_expression",
