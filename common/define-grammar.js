@@ -24,6 +24,15 @@ module.exports = function defineGrammar(dialect) {
   return grammar(require('tree-sitter-javascript/grammar'), {
     name: dialect,
 
+    externals: ($, previous) => previous.concat([
+      // Allow the external scanner to tell whether it is parsing an expression
+      // or a type by checking the validity of this binary operator. This is
+      // needed because the rules for automatic semicolon insertion are
+      // slightly different when parsing types. Any binary-only operator would
+      // work.
+      '||',
+    ]),
+
     conflicts: ($, previous) => previous.concat([
       [$.call_expression, $.binary_expression],
       [$.call_expression, $.binary_expression, $.unary_expression],

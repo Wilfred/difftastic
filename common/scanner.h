@@ -3,7 +3,8 @@
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
-  TEMPLATE_CHARS
+  TEMPLATE_CHARS,
+  BINARY_OPERATORS,
 };
 
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
@@ -67,7 +68,7 @@ static inline bool external_scanner_scan(void *payload, TSLexer *lexer, const bo
           advance(lexer);
       }
     }
-  } else {
+  } else if (valid_symbols[AUTOMATIC_SEMICOLON]) {
     lexer->result_symbol = AUTOMATIC_SEMICOLON;
     lexer->mark_end(lexer);
 
@@ -92,14 +93,20 @@ static inline bool external_scanner_scan(void *payload, TSLexer *lexer, const bo
       case '>':
       case '<':
       case '=':
-      case '[':
-      case '(':
       case '?':
       case '^':
       case '|':
       case '&':
       case '/':
         return false;
+
+      // Don't insert a semicolon before a '[' or '(', unless we're parsing
+      // a type. Detect whether we're parsing a type or an expression using
+      // the validity of a binary operator token.
+      case '(':
+      case '[':
+        if (valid_symbols[BINARY_OPERATORS]) return false;
+        break;
 
       // Insert a semicolon before `--` and `++`, but not before binary `+` or `-`.
       case '+':
@@ -134,5 +141,7 @@ static inline bool external_scanner_scan(void *payload, TSLexer *lexer, const bo
     }
 
     return true;
+  } else {
+    return false;
   }
 }
