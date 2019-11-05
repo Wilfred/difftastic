@@ -8731,6 +8731,10 @@
     {
       "type": "SYMBOL",
       "name": "_template_chars"
+    },
+    {
+      "type": "STRING",
+      "value": "||"
     }
   ],
   "inline": [

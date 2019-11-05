@@ -71,6 +71,33 @@ let MyFunction: {
           (property_identifier)
           (type_annotation (predefined_type))))))))
 
+====================================================
+Object types with automatic semicolon insertion
+====================================================
+
+type Something = {
+  length: number
+  (string): string
+  [index:string] : number
+}
+
+---
+
+(program
+  (type_alias_declaration
+    (type_identifier)
+    (object_type
+      (property_signature
+        (property_identifier)
+        (type_annotation (predefined_type)))
+      (call_signature
+        (formal_parameters (required_parameter (identifier)))
+        (type_annotation (predefined_type)))
+      (index_signature
+        (identifier)
+        (predefined_type)
+        (type_annotation (predefined_type))))))
+
 =======================================
 Array types
 =======================================
