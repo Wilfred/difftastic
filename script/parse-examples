@@ -35,13 +35,15 @@ checkout_at "examples/elm-markup" "mdgriffith/elm-markup" "8d44a27b8fca4cd936577
 checkout_at "examples/elm-visualization" "gampleman/elm-visualization" "b666361498464845b2b9d3da4ff2661cb7f4ae4b"
 
 
-
+skipped_files=()
 all_examples=$(find examples -name '*.elm')
 known_failures=$(cat script/known-failures.txt)
 examples_to_parse=$(
   for example in $all_examples; do
     if [[ ! $known_failures == *$example* ]]; then
       echo $example
+    else
+      skipped_files+=($example)
     fi
   done
 )
@@ -54,7 +56,7 @@ echo -e "-----------------------------------------------------------------\n$tre
 
 errors=$( echo "$tree_sitter_report" | sed '/^\s*$/d' | wc -l )
 
-skipped=$( echo "$known_failures" | wc -w )
+skipped=$( echo ${#skipped_files[@]} )
 tried_to_parse=$( echo "$examples_to_parse" | wc -w )
 parsed=$(bc -l <<< "$tried_to_parse-$errors")
 total=$((tried_to_parse+skipped))
