@@ -26,7 +26,7 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /[\s\uFEFF\u2060\u200B]|\\\r?\n/
+    /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/
   ],
 
   supertypes: $ => [

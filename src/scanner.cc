@@ -246,6 +246,9 @@ struct Scanner {
         } else {
           return false;
         }
+      } else if (lexer->lookahead == '\f') {
+        indent_length = 0;
+        skip(lexer);
       } else if (lexer->lookahead == 0) {
         if (valid_symbols[DEDENT] && indent_length_stack.size() > 1) {
           indent_length_stack.pop_back();
