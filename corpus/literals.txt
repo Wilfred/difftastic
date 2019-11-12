@@ -98,6 +98,7 @@ B"sup"
 "/"
 "multiline \
 string"
+b"\x12\u12\U12\x13\N{WINKING FACE}"
 
 ---
 
@@ -110,7 +111,8 @@ string"
   (expression_statement (string))
   (expression_statement (string (escape_sequence)))
   (expression_statement (string))
-  (expression_statement (string (escape_sequence))))
+  (expression_statement (string (escape_sequence)))
+  (expression_statement (string (escape_sequence) (escape_sequence))))
 
 =====================================
 Raw strings
