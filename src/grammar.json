@@ -4039,6 +4039,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "_not_escape_sequence"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "_string_content"
               }
             ]
@@ -4099,43 +4103,51 @@
     "escape_sequence": {
       "type": "TOKEN",
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "\\"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "PATTERN",
-                "value": "u[a-fA-F\\d]{4}"
-              },
-              {
-                "type": "PATTERN",
-                "value": "U[a-fA-F\\d]{8}"
-              },
-              {
-                "type": "PATTERN",
-                "value": "x[a-fA-F\\d]{2}"
-              },
-              {
-                "type": "PATTERN",
-                "value": "o\\d{3}"
-              },
-              {
-                "type": "PATTERN",
-                "value": "\\r\\n"
-              },
-              {
-                "type": "PATTERN",
-                "value": "[^uxo]"
-              }
-            ]
-          }
-        ]
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "u[a-fA-F\\d]{4}"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "U[a-fA-F\\d]{8}"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "x[a-fA-F\\d]{2}"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\d{3}"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\r?\\n"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "['\"abfrntv\\\\]"
+                }
+              ]
+            }
+          ]
+        }
       }
+    },
+    "_not_escape_sequence": {
+      "type": "STRING",
+      "value": "\\"
     },
     "format_specifier": {
       "type": "SEQ",
