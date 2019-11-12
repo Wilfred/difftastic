@@ -99,6 +99,8 @@ B"sup"
 "multiline \
 string"
 b"\x12\u12\U12\x13\N{WINKING FACE}"
+"\xab\123\'\"\a\b\f\r\n\t\v\\"
+"\xgh\o123\p\q\c\d\e\u12\U1234"
 
 ---
 
@@ -112,7 +114,9 @@ b"\x12\u12\U12\x13\N{WINKING FACE}"
   (expression_statement (string (escape_sequence)))
   (expression_statement (string))
   (expression_statement (string (escape_sequence)))
-  (expression_statement (string (escape_sequence) (escape_sequence))))
+  (expression_statement (string (escape_sequence) (escape_sequence)))
+  (expression_statement (string (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence)))
+  (expression_statement (string)))
 
 =====================================
 Raw strings
@@ -197,7 +201,7 @@ f"{b:{c.d}.{d.e}}"
 Unicode escape sequences
 =====================================
 
-"\x12 \o123 \u1234"
+"\x12 \123 \u1234"
 
 ---
 
