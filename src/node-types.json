@@ -92,10 +92,6 @@
         "named": true
       },
       {
-        "type": "keyword_identifier",
-        "named": true
-      },
-      {
         "type": "list_splat",
         "named": true
       },
@@ -163,10 +159,6 @@
       },
       {
         "type": "integer",
-        "named": true
-      },
-      {
-        "type": "keyword_identifier",
         "named": true
       },
       {
@@ -441,6 +433,64 @@
           }
         ]
       },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "%=",
+            "named": false
+          },
+          {
+            "type": "&=",
+            "named": false
+          },
+          {
+            "type": "**=",
+            "named": false
+          },
+          {
+            "type": "*=",
+            "named": false
+          },
+          {
+            "type": "+=",
+            "named": false
+          },
+          {
+            "type": "-=",
+            "named": false
+          },
+          {
+            "type": "//=",
+            "named": false
+          },
+          {
+            "type": "/=",
+            "named": false
+          },
+          {
+            "type": "<<=",
+            "named": false
+          },
+          {
+            "type": ">>=",
+            "named": false
+          },
+          {
+            "type": "@=",
+            "named": false
+          },
+          {
+            "type": "^=",
+            "named": false
+          },
+          {
+            "type": "|=",
+            "named": false
+          }
+        ]
+      },
       "right": {
         "multiple": false,
         "required": true,
@@ -588,7 +638,7 @@
     "named": true,
     "fields": {
       "left": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -613,7 +663,7 @@
       },
       "right": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "_expression",
@@ -825,10 +875,6 @@
         "types": [
           {
             "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "keyword_identifier",
             "named": true
           }
         ]
@@ -1462,10 +1508,6 @@
           {
             "type": "identifier",
             "named": true
-          },
-          {
-            "type": "keyword_identifier",
-            "named": true
           }
         ]
       },
@@ -2012,10 +2054,6 @@
         "types": [
           {
             "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "keyword_identifier",
             "named": true
           }
         ]

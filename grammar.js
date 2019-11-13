@@ -516,7 +516,7 @@ module.exports = grammar({
       prec.left(PREC.and, seq(
         field('left', $._expression),
         field('operator', 'and'),
-        field('left', $._expression)
+        field('right', $._expression)
       )),
       prec.left(PREC.or, seq(
         field('left', $._expression),
@@ -601,7 +601,10 @@ module.exports = grammar({
 
     augmented_assignment: $ => seq(
       field('left', $.expression_list),
-      choice('+=', '-=', '*=', '/=', '@=', '//=', '%=', '**=', '>>=', '<<=', '&=', '^=', '|='),
+      field('operator', choice(
+        '+=', '-=', '*=', '/=', '@=', '//=', '%=', '**=',
+        '>>=', '<<=', '&=', '^=', '|='
+      )),
       field('right', $._right_hand_side)
     ),
 
