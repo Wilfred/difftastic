@@ -559,6 +559,10 @@ def f():
 def g(h, i, *, j, k=100, **kwarg):
   return h,i,j,k,kwarg
 
+def h(*a):
+  i((*a))
+  j(((*a)))
+
 ---
 
 (module
@@ -601,7 +605,20 @@ def g(h, i, *, j, k=100, **kwarg):
         (identifier)
         (identifier)
         (identifier)
-        (identifier))))))
+        (identifier)))))
+   (function_definition
+     name: (identifier)
+     parameters: (parameters (list_splat (identifier)))
+     body: (block
+       (expression_statement
+         (call function:
+           (identifier)
+           arguments:
+             (argument_list (parenthesized_expression (list_splat (identifier))))))
+       (expression_statement
+         (call function:
+           (identifier)
+           arguments: (argument_list (parenthesized_expression (parenthesized_expression (list_splat (identifier))))))))))
 
 ====================================================
 Class definitions

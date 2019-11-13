@@ -1401,8 +1401,22 @@
           "name": "typed_default_parameter"
         },
         {
-          "type": "SYMBOL",
-          "name": "list_splat"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "list_splat"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": "*"
+              },
+              "named": true,
+              "value": "list_splat"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -1502,16 +1516,8 @@
           "value": "*"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_expression"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_expression"
         }
       ]
     },
@@ -1520,11 +1526,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "*"
-        },
-        {
-          "type": "STRING",
-          "value": "*"
+          "value": "**"
         },
         {
           "type": "SYMBOL",
@@ -1704,6 +1706,37 @@
         }
       ]
     },
+    "parenthesized_list_splat": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "parenthesized_list_splat"
+              },
+              "named": true,
+              "value": "parenthesized_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "list_splat"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
     "argument_list": {
       "type": "SEQ",
       "members": [
@@ -1731,6 +1764,15 @@
                     {
                       "type": "SYMBOL",
                       "name": "dictionary_splat"
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "parenthesized_list_splat"
+                      },
+                      "named": true,
+                      "value": "parenthesized_expression"
                     },
                     {
                       "type": "SYMBOL",
@@ -1761,6 +1803,15 @@
                           {
                             "type": "SYMBOL",
                             "name": "dictionary_splat"
+                          },
+                          {
+                            "type": "ALIAS",
+                            "content": {
+                              "type": "SYMBOL",
+                              "name": "parenthesized_list_splat"
+                            },
+                            "named": true,
+                            "value": "parenthesized_expression"
                           },
                           {
                             "type": "SYMBOL",
