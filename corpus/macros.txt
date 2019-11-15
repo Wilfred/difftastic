@@ -65,32 +65,80 @@ macro_rules! o_O {
     }
 }
 
+macro_rules! zero_or_one {
+    ($($e:expr),?) => {
+        $($e),?
+    };
+}
+
 ----
 
 (source_file
-  (macro_definition (identifier)
+  (macro_definition
+    name: (identifier)
     (macro_rule
-      (token_tree_pattern)
-      (token_tree (identifier) (token_tree (string_literal)))))
-  (macro_definition (identifier)
-    (macro_rule
-      (token_tree_pattern)
-      (token_tree (integer_literal) (integer_literal))))
-  (macro_definition (identifier)
-    (macro_rule
-      (token_tree_pattern (identifier) (token_binding_pattern (metavariable) (fragment_specifier)))
-      (token_tree
-        (identifier) (token_tree (string_literal) (metavariable))))
-    (macro_rule
-      (token_tree_pattern
+      left: (token_tree_pattern)
+      right: (token_tree
         (identifier)
-        (token_binding_pattern (metavariable) (fragment_specifier)))
-      (token_tree
-        (identifier) (token_tree (string_literal) (metavariable)))))
-  (macro_definition (identifier)
+        (token_tree
+          (string_literal)))))
+  (macro_definition
+    name: (identifier)
     (macro_rule
-      (token_tree_pattern (token_repetition_pattern
-        (token_binding_pattern (metavariable) (fragment_specifier))
-        (token_tree_pattern (token_repetition_pattern
-          (token_binding_pattern (metavariable) (fragment_specifier))))))
-      (token_tree (token_repetition (token_repetition (metavariable) (metavariable)))))))
+      left: (token_tree_pattern)
+      right: (token_tree
+        (integer_literal)
+        (integer_literal))))
+  (macro_definition
+    name: (identifier)
+    (macro_rule
+      left: (token_tree_pattern
+        (identifier)
+        (token_binding_pattern
+          name: (metavariable)
+          type: (fragment_specifier)))
+      right: (token_tree
+        (identifier)
+        (token_tree
+          (string_literal)
+          (metavariable))))
+    (macro_rule
+      left: (token_tree_pattern
+        (identifier)
+        (token_binding_pattern
+          name: (metavariable)
+          type: (fragment_specifier)))
+      right: (token_tree
+        (identifier)
+        (token_tree
+          (string_literal)
+          (metavariable)))))
+  (macro_definition
+    name: (identifier)
+    (macro_rule
+      left: (token_tree_pattern
+        (token_repetition_pattern
+          (token_binding_pattern
+            name: (metavariable)
+            type: (fragment_specifier))
+          (token_tree_pattern
+            (token_repetition_pattern
+              (token_binding_pattern
+                name: (metavariable)
+                type: (fragment_specifier))))))
+      right: (token_tree
+        (token_repetition
+          (token_repetition
+            (metavariable)
+            (metavariable))))))
+  (macro_definition
+    name: (identifier)
+    (macro_rule
+      left: (token_tree_pattern
+        (token_repetition_pattern
+          (token_binding_pattern
+            name: (metavariable)
+            type: (fragment_specifier))))
+      right: (token_tree
+        (token_repetition
+          (metavariable))))))
