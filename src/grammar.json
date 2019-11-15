@@ -426,7 +426,7 @@
           "members": [
             {
               "type": "PATTERN",
-              "value": "[^+*]+"
+              "value": "[^+*?]+"
             },
             {
               "type": "BLANK"
@@ -443,6 +443,10 @@
             {
               "type": "STRING",
               "value": "*"
+            },
+            {
+              "type": "STRING",
+              "value": "?"
             }
           ]
         }
@@ -602,7 +606,7 @@
           "members": [
             {
               "type": "PATTERN",
-              "value": "[^+*]+"
+              "value": "[^+*?]+"
             },
             {
               "type": "BLANK"
@@ -619,6 +623,10 @@
             {
               "type": "STRING",
               "value": "*"
+            },
+            {
+              "type": "STRING",
+              "value": "?"
             }
           ]
         }
@@ -735,7 +743,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "[\\/_\\-=->,;:::!=?.@*=\\/='&=#%=^=+<>|~]+"
+          "value": "[/_\\-=->,;:::!=?.@*=/='&=#%=^=+<>|~]+"
         },
         {
           "type": "STRING",

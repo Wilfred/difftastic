@@ -163,7 +163,7 @@ module.exports = grammar({
     )),
 
     token_repetition_pattern: $ => seq(
-      '$', '(', repeat($._token_pattern), ')', optional(/[^+*]+/), choice('+', '*')
+      '$', '(', repeat($._token_pattern), ')', optional(/[^+*?]+/), choice('+', '*', '?')
     ),
 
     fragment_specifier: $ => choice(
@@ -183,7 +183,7 @@ module.exports = grammar({
     ),
 
     token_repetition: $ => seq(
-      '$', '(', repeat($._tokens), ')', optional(/[^+*]+/), choice('+', '*')
+      '$', '(', repeat($._tokens), ')', optional(/[^+*?]+/), choice('+', '*', '?')
     ),
 
     _non_special_token: $ => choice(
