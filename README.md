@@ -96,3 +96,8 @@ $ git diff --histogram --no-index sample_files/css_before.css sample_files/css_a
 ```
 $ diff -y --color=always sample_files/css_before.css sample_files/css_after.css
 ```
+
+### Tree Diff
+
+Jane Street's [patdiff](https://github.com/janestreet/patdiff)
+implements a tree diff, using [an A* algorithm](https://thume.ca/2017/06/17/tree-diffing/).
