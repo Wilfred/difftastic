@@ -109,10 +109,10 @@ fn read_or_die(path: &str) -> String {
             match e.kind() {
                 std::io::ErrorKind::NotFound => {
                     eprintln!("No such file: {}", path);
-                },
+                }
                 std::io::ErrorKind::PermissionDenied => {
                     eprintln!("Permission denied when reading file: {}", path);
-                },
+                }
                 _ => {
                     eprintln!("Could not read file: {} (error {:?})", path, e.kind());
                 }
