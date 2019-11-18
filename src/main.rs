@@ -122,6 +122,39 @@ fn read_or_die(path: &str) -> String {
     }
 }
 
+fn side_by_side_diff(
+    before_src: &str,
+    after_src: &str,
+    terminal_width: usize,
+    language: Language,
+    num_ctx_lines: usize,
+) {
+    let line_length = terminal_width / 2 - 1;
+    let before_src = enforce_length(&before_src, line_length);
+    let after_src = enforce_length(&after_src, line_length);
+
+    let differences = difference_positions(&before_src, &after_src, language);
+
+    let mut left_lines = relevant_lines(&removed(&differences), &before_src);
+    let mut right_lines = relevant_lines(&added(&differences), &after_src);
+
+    let (before_colored, after_colored) =
+        highlight_differences(&before_src, &after_src, &differences);
+
+    left_lines = add_context(&left_lines, num_ctx_lines, max_line(&before_src));
+    right_lines = add_context(&right_lines, num_ctx_lines, max_line(&after_src));
+
+    let result = filter_concat(
+        &before_colored,
+        &after_colored,
+        &left_lines,
+        &right_lines,
+        line_length,
+    );
+
+    print!("{}", result);
+}
+
 fn main() {
     let matches = App::new("Difftastic")
         .version("0.1")
@@ -150,46 +183,29 @@ fn main() {
         .get_matches();
 
     let before_path = matches.value_of("first").unwrap();
-    let mut before_src = read_or_die(before_path);
+    let before_src = read_or_die(before_path);
 
     let after_path = matches.value_of("second").unwrap();
-    let mut after_src = read_or_die(after_path);
+    let after_src = read_or_die(after_path);
 
     let terminal_width = match matches.value_of("COLUMNS") {
         Some(width) => usize::from_str_radix(width, 10).unwrap(),
         None => term_width().unwrap_or(80),
     };
 
-    let line_length = terminal_width / 2 - 1;
-    before_src = enforce_length(&before_src, line_length);
-    after_src = enforce_length(&after_src, line_length);
-
     let language = match matches.value_of("LANGUAGE") {
         Some(s) => Language::from(s).expect("No such language known."),
         _ => infer_language(before_path).expect("Could not infer language"),
     };
 
-    let differences = difference_positions(&before_src, &after_src, language);
+    let num_ctx_lines = matches.value_of("LINES").unwrap_or("3");
+    let num_ctx_lines = usize::from_str_radix(num_ctx_lines, 10).unwrap();
 
-    let mut left_lines = relevant_lines(&removed(&differences), &before_src);
-    let mut right_lines = relevant_lines(&added(&differences), &after_src);
-
-    let (before_colored, after_colored) =
-        highlight_differences(&before_src, &after_src, &differences);
-
-    let context = matches.value_of("LINES").unwrap_or("3");
-    let context = usize::from_str_radix(context, 10).unwrap();
-
-    left_lines = add_context(&left_lines, context, max_line(&before_src));
-    right_lines = add_context(&right_lines, context, max_line(&after_src));
-
-    let result = filter_concat(
-        &before_colored,
-        &after_colored,
-        &left_lines,
-        &right_lines,
-        line_length,
+    side_by_side_diff(
+        &before_src,
+        &after_src,
+        terminal_width,
+        language,
+        num_ctx_lines,
     );
-
-    print!("{}", result);
 }
