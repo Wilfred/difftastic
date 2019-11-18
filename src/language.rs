@@ -52,6 +52,7 @@ pub fn infer_language(filename: &str) -> Option<Language> {
 }
 
 pub fn language_lexer(lang: Language) -> Regex {
+    // TODO: this doesn't handle newlines in comments well, see inline display of the elisp sample file.
     match lang {
         Language::JavaScript => {
             Regex::new(r#"//.+|[a-zA-Z0-9_]+|"(\\.|[^"\\])*"|'(\\.|[^'\\])*'|[^ \t\n]"#).unwrap()
