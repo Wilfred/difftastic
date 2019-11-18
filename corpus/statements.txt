@@ -969,7 +969,7 @@ class A {
           (binary_expression
             (identifier_name)
             (integer_literal)) 
-          (postfix_expression
+          (postfix_unary_expression
             (identifier_name))
           (block
             (expression_statement

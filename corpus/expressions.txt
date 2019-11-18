@@ -64,8 +64,6 @@ class Foo {
   void Test() {
     ++x;
     --y;
-    typeof(x);
-    sizeof(y);
   }
 }
 
@@ -81,19 +79,11 @@ class Foo {
         (parameter_list)
         (block
         (expression_statement
-          (unary_expression
+          (prefix_unary_expression
             (identifier_name)))
         (expression_statement
-          (unary_expression
-            (identifier_name)))
-        (expression_statement
-          (unary_expression
-          (parenthesized_expression
-            (identifier_name))))
-        (expression_statement
-          (unary_expression
-            (parenthesized_expression
-              (identifier_name)))))))))
+          (prefix_unary_expression
+            (identifier_name))))))))
 
 ============================
 Anonymous object creation with empty body
@@ -302,3 +292,171 @@ void b() {
             (equals_value_clause
               (make_ref_expression
                 (identifier_name)))))))))
+
+============================
+Postfix unary
+============================
+
+void b() {
+  a--;
+  a++;
+  var b=a!;
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (expression_statement (postfix_unary_expression (identifier_name)))
+      (expression_statement (postfix_unary_expression (identifier_name)))
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (postfix_unary_expression
+                (identifier_name)))))))))
+
+============================
+__reftype
+============================
+
+void b() {
+  var z = __reftype(g);
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (ref_type_expression
+                (identifier_name)))))))))
+
+============================
+__refvalue
+============================
+
+void b() {
+  var z = __refvalue(g, int);
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (ref_value_expression
+                (identifier_name)
+                (predefined_type)))))))))
+
+============================
+sizeof
+============================
+
+void b() {
+  var z = sizeof(int);
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (size_of_expression
+                (predefined_type)))))))))
+
+============================
+typeof
+============================
+
+void b() {
+  var z = typeof(int);
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (type_of_expression
+                (predefined_type)))))))))
+                
+============================
+switch expression
+============================
+
+void b() {
+  var r = operation switch {
+      1 => "one",
+      2 => "two",
+      _ => "more"
+  };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (switch_expression
+                (identifier_name)
+                (switch_expression_arm
+                  (constant_pattern (integer_literal))
+                  (string_literal))
+                (switch_expression_arm
+                  (constant_pattern (integer_literal))
+                  (string_literal))
+                (switch_expression_arm
+                  (discard_pattern)
+                  (string_literal))))))))))
