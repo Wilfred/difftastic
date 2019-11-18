@@ -302,7 +302,7 @@ Class with expression bodied destructor
 =====================================
 
 class Foo {
-  ~Foo() => base.DoSomething();
+  ~Foo() => DoSomething();
 }
 
 ---
@@ -315,8 +315,8 @@ class Foo {
         (identifier_name)
         (parameter_list)
         (arrow_expression_clause
-          (call_expression
-            (qualified_name (identifier_name) (identifier_name))
+          (invocation_expression
+            (identifier_name)
             (argument_list)))))))
 
 =====================================

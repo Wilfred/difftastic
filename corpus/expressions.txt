@@ -250,3 +250,55 @@ void b() {
                 (integer_literal)
                 (integer_literal)
                 (integer_literal)))))))))
+          
+============================
+Stackalloc implicit array
+============================
+
+void b() {
+  var z = stackalloc [] { 1, 2, 3 };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (implicit_stack_alloc_array_creation_expression
+                (integer_literal)
+                (integer_literal)
+                (integer_literal)))))))))
+
+============================
+Makeref
+============================
+
+void b() {
+  var gp = __makeref(g);
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (make_ref_expression
+                (identifier_name)))))))))

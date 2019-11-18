@@ -49,8 +49,8 @@ module.exports = grammar({
 
     [$.element_access_expression, $.enum_member_declaration],
     [$.element_access_expression, $.assignment_expression],
-    [$.assignment_expression, $.call_expression],
-    [$.call_expression, $.anonymous_method_expression],
+    [$.invocation_expression, $.anonymous_method_expression],
+    [$.invocation_expression, $.assignment_expression],
     [$.assignment_expression, $.anonymous_method_expression],
     [$.element_access_expression, $.anonymous_method_expression],
 
@@ -951,6 +951,55 @@ module.exports = grammar({
       $._initializer_expression
     ),
 
+    implicit_element_access: $ => $.bracketed_argument_list,
+
+    implicit_stack_alloc_array_creation_expression: $ => seq(
+      'stackalloc',
+      '[',
+      ']',
+      $._initializer_expression
+    ),
+
+    _instance_expression: $ => choice(
+      $.base_expression,
+      $.this_expression,
+    ),
+
+    base_expression: $ => 'base',
+    this_expression: $ => 'this',
+
+    invocation_expression: $ => seq(
+      $._expression,
+      $.argument_list
+    ),
+
+    is_pattern_expression: $ => seq(
+      $._expression,
+      'is',
+      $._pattern
+    ),
+
+    _literal_expression: $ => choice(
+      '__arglist',
+//      'default',  // TODO: Causes conflict with switch sections
+      $.null_literal,
+      $.boolean_literal,
+      $.character_literal,
+      // We don't bunch real and integer literals together
+      $.real_literal,
+      $.integer_literal,
+      // Or strings and verbatim strings
+      $.string_literal,
+      $.verbatim_string_literal
+    ),
+    
+    make_ref_expression: $ => seq(
+      '__makeref',
+      '(',
+      $._expression,
+      ')'
+    ),
+
     // TODO: Expressions need work on precedence and conflicts. 
 
     _expression: $ => choice(
@@ -970,14 +1019,14 @@ module.exports = grammar({
       $.element_binding_expression,
       $.implicit_array_creation_expression,
       // $.implicit_element_access,
-      // $.implicit_stack_alloc_array_creation_expression,
-      // $.initializer_expression,
-      // $.instance_expression,
+      $.implicit_stack_alloc_array_creation_expression,
+      // $._initializer_expression,
+      $._instance_expression,
       // $.interpolated_string_expression,
-      // $.invocation_expression,
-      // $.is_pattern_expression,
-      $._literal,
-      // $.make_ref_expression,
+      $.invocation_expression,
+      //$.is_pattern_expression,
+      $._literal_expression,
+      $.make_ref_expression,
       // $.member_access_expression,
       // $.member_binding_expression,
       $.object_creation_expression,
@@ -1000,7 +1049,6 @@ module.exports = grammar({
 
       // These will conflict with above, go one way or the other
       $.identifier_name,
-      $.call_expression,
       $.postfix_expression,
       $.unary_expression,
       $.qualified_name,
@@ -1055,22 +1103,7 @@ module.exports = grammar({
       seq($._expression, '--'),
     )),
 
-    call_expression: $ => seq(
-      $._expression,
-      $.argument_list
-    ),
-
     // literals - grammar.txt is useless here as it just refs to lexical specification
-
-    _literal: $ => choice(
-      $.boolean_literal,
-      $.character_literal,
-      $.integer_literal,
-      $.null_literal,
-      $.real_literal,
-      $.string_literal,
-      $.verbatim_string_literal
-    ),
 
     boolean_literal: $ => choice(
       'true',

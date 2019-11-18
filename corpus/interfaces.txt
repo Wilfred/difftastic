@@ -254,6 +254,6 @@ interface MyDefault {
           (parameter (predefined_type) (identifier_name)))
         (block
           (expression_statement
-            (call_expression
+            (invocation_expression
               (qualified_name (identifier_name) (identifier_name))
               (argument_list (identifier_name)))))))))

@@ -60,6 +60,6 @@ class A {
         (modifier)
         (identifier_name)
         (identifier_name)
-        (accessor_declaration (arrow_expression_clause (call_expression (identifier_name) (argument_list))))
-        (accessor_declaration (arrow_expression_clause (call_expression (identifier_name) (argument_list))))))))
+        (accessor_declaration (arrow_expression_clause (invocation_expression (identifier_name) (argument_list))))
+        (accessor_declaration (arrow_expression_clause (invocation_expression (identifier_name) (argument_list))))))))
 
