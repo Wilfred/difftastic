@@ -46,16 +46,20 @@ module.exports = grammar({
 
     [$._type, $.type_parameter_list],
     [$._type, $.enum_member_declaration],
-
-    [$.element_access_expression, $.enum_member_declaration],
-    [$.element_access_expression, $.assignment_expression],
+    
     [$.invocation_expression, $.anonymous_method_expression],
-    [$.invocation_expression, $.assignment_expression],
     [$.assignment_expression, $.anonymous_method_expression],
     [$.element_access_expression, $.anonymous_method_expression],
+    [$.element_access_expression, $.enum_member_declaration],
+    [$.element_access_expression, $.assignment_expression],
+    [$.invocation_expression, $.assignment_expression],
+        
+    [$.switch_expression, $.anonymous_method_expression],
+    [$.switch_expression, $.assignment_expression],
 
     [$.modifier, $.object_creation_expression],
     [$.event_declaration, $.variable_declarator],
+    [$.constant_pattern, $.case_switch_label]
   ],
 
   inline: $ => [
@@ -716,8 +720,8 @@ module.exports = grammar({
     switch_section: $ => seq(repeat1($._switch_label), repeat1($._statement)),
 
     _switch_label: $ => choice(
+      $.case_switch_label, // TODO: Stop pattern_switch+constant_pattern stealing these
       $.case_pattern_switch_label,
-      $.case_switch_label,
       $.default_switch_label
     ),
 
@@ -729,10 +733,10 @@ module.exports = grammar({
     ),
 
     _pattern: $ => choice(
-//      $.constant_pattern, Matches constants from case_switch_label...
+      $.constant_pattern,
       $.declaration_pattern,
       $.discard_pattern,
-//      $.recursive_pattern,  Matches empty string as all is optional...
+//      $.recursive_pattern,
       $.var_pattern
     ),
 
@@ -758,6 +762,7 @@ module.exports = grammar({
 
     discard_pattern: $ => '_',
 
+    // TODO: Matches everything as optional... this won't work.
     recursive_pattern: $ => seq(
       optional($._type),
       optional($.positional_pattern_clause),
@@ -874,12 +879,6 @@ module.exports = grammar({
       $._expression
     ),
 
-    object_creation_expression: $ => seq(
-      'new',
-      $._type,
-      $.argument_list
-    ),
-
     array_creation_expression: $ => seq(
       'new',
       $.array_type,
@@ -901,8 +900,6 @@ module.exports = grammar({
     assignment_operator: $ => choice('=', '+=', '-=', '*=', '/=', '%=', '&=', '^=', '|=', '<<=', '>>=', '??='),
 
     await_expression: $ => choice('await', $._expression),
-
-    parenthesized_expression: $ => seq('(', $._expression, ')'),
 
     cast_expression: $ => seq(
       ')',
@@ -1000,6 +997,189 @@ module.exports = grammar({
       ')'
     ),
 
+    member_access_expression: $ => seq(
+      $._expression,
+      choice(',', '->'),
+      $._simple_name
+    ),
+
+    member_binding_expression: $ => seq(
+      '.',
+      $._simple_name,
+    ),
+
+    object_creation_expression: $ => seq(
+      'new',
+      $._type,
+      $.argument_list
+    ),
+
+    omitted_array_size_expression: $ => seq(
+      // TODO: Deal with this, grammar.txt says "epsilon"
+    ),
+
+    parenthesized_expression: $ => seq('(', $._expression, ')'),
+
+    postfix_unary_expression: $ => prec.left(PREC.POSTFIX, choice(
+      seq($._expression, '++'),
+      seq($._expression, '--'),
+      seq($._expression, '!')
+    )),
+
+    prefix_unary_expression: $ => prec.right(PREC.UNARY, choice(
+      ...[
+        '!',
+        '&',
+        '*',
+        '+',
+        '++',
+        '-',
+        '--',
+        '^',
+        '~'
+      ].map(operator => seq(operator, $._expression)))),
+
+    // TODO: Lots of conflicts
+    query_expression: $ => seq($.from_clause, $._query_body),
+
+    from_clause: $ => seq(
+      'from',
+      optional($._type),
+      $.identifier_name,
+      'in',
+      $._expression
+    ),
+
+    _query_body: $ => seq(
+      repeat1($.query_clause),
+      $._select_or_group_clause,
+      optional($.query_continuation)
+    ),
+
+    query_clause: $ => seq(
+      $.from_clause,
+      $.join_clause,
+      $.let_clause,
+      $.order_by_clause,
+      $.where_clause
+    ),
+
+    join_clause: $ => seq(
+      'join',
+      optional($._type),
+      $.identifier_name,
+      'in',
+      $._expression,
+      'on',
+      $._expression,
+      'equals',
+      $._expression,
+      optional($.join_into_clause)
+    ),
+
+    join_into_clause: $ => seq('into', $.identifier_name),
+
+    let_clause: $ => seq(
+      'let',
+      $.identifier_name,
+      '=',
+      $._expression
+    ),
+
+    order_by_clause: $ => seq(
+      'orderby',
+      commaSep1($.ordering)
+    ),
+
+    ordering: $ => seq(
+      $._expression,
+      optional(choice('ascending', 'descending'))
+    ),
+
+    where_clause: $ => seq('where', $._expression),
+
+    _select_or_group_clause: $ => choice(
+      $.group_clause,
+      $.select_clause
+    ),
+
+    group_clause: $ => seq(
+      'group',
+      $._expression,
+      'by',
+      $._expression
+    ),
+
+    select_clause: $ => seq('select', $._expression),
+
+    query_continuation: $ => seq('into', $.identifier_name, $._query_body),
+
+    // TODO: Conflicts
+    range_expression: $ => seq(
+      optional($._expression),
+      '..',
+      optional($._expression)
+    ),
+
+    // TODO: Conflicts with modifier
+    ref_expression: $ => seq('ref', $._expression),
+
+    ref_type_expression: $ => seq(
+      '__reftype',
+      '(',
+      $._expression,
+      ')'
+    ),
+
+    ref_value_expression: $ => seq(
+      '__refvalue',
+      '(',
+      $._expression,
+      ',',
+      $._type,
+      ')'
+    ),
+
+    size_of_expression: $ => seq(
+      'sizeof',
+      '(',
+      $._type,
+      ')'
+    ),
+
+    stack_alloc_array_creation_expression: $ => seq(
+      'stackalloc',
+      $._type,
+      optional($._initializer_expression)
+    ),
+
+    switch_expression: $ => seq(
+      $._expression,
+      'switch',
+      '{',
+      commaSep($.switch_expression_arm),
+      '}',
+    ),
+
+    switch_expression_arm: $ => seq(
+      $._pattern,
+      optional($.when_clause),
+      '=>',
+      $._expression
+    ),
+
+    // TODO: Conflicts with many rules
+    throw_expression: $ => seq('throw', $._expression),
+
+    // TODO: Conflicts with parenthesized
+    tuple_expression: $ => seq(
+      '(',
+      commaSep1($.argument),
+      ')'
+    ),
+
+    type_of_expression: $ => seq('typeof', '(', $._type, ')'),
+
     // TODO: Expressions need work on precedence and conflicts. 
 
     _expression: $ => choice(
@@ -1028,29 +1208,27 @@ module.exports = grammar({
       $._literal_expression,
       $.make_ref_expression,
       // $.member_access_expression,
-      // $.member_binding_expression,
+      $.member_binding_expression,
       $.object_creation_expression,
       // $.omitted_array_size_expression,
       $.parenthesized_expression,
-      // $.postfix_unary_expression,
-      // $.prefix_unary_expression,
+      $.postfix_unary_expression,
+      $.prefix_unary_expression,
       // $.query_expression,
       // $.range_expression,
       // $.ref_expression,
-      // $.ref_type_expression,
-      // $.ref_value_expression,
-      // $.size_of_expression,
+      $.ref_type_expression,
+      $.ref_value_expression,
+      $.size_of_expression,
       // $.stack_alloc_array_creation_expression,
-      // $.switch_expression,
+      $.switch_expression,
       // $.throw_expression,
       // $.tuple_expression,
       // $.type,
-      // $.type_of_expression,
+      $.type_of_expression,
 
-      // These will conflict with above, go one way or the other
+      // These should be removed when the ones above get activated
       $.identifier_name,
-      $.postfix_expression,
-      $.unary_expression,
       $.qualified_name,
     ),
 
@@ -1081,27 +1259,13 @@ module.exports = grammar({
         ['!=', PREC.EQUAL],
         ['>=', PREC.REL],
         ['>', PREC.REL],
+        ['??', PREC.EQUAL],
+        ['is', PREC.EQUAL],
+        ['as', PREC.EQUAL],
       ].map(([operator, precedence]) =>
         prec.left(precedence, seq($._expression, operator, $._expression))
       )
     ),
-
-    unary_expression: $ => prec.right(PREC.UNARY, choice(
-      ...[
-        '!',
-        '~',
-        '-',
-        '+',
-        '--',
-        '++',
-        'typeof',
-        'sizeof'
-      ].map(operator => seq(operator, $._expression)))),
-
-    postfix_expression: $ => prec.left(PREC.POSTFIX, choice(
-      seq($._expression, '++'),
-      seq($._expression, '--'),
-    )),
 
     // literals - grammar.txt is useless here as it just refs to lexical specification
 
@@ -1199,8 +1363,8 @@ module.exports = grammar({
     return_type: $ => choice($._type, $.void_keyword),
     void_keyword: $ => 'void',
 
-    // Roslyn doesn't deal with preprocessor but we should
-    // Consider giving each it's own name and any necessary tokenization for region name, symbols etc.
+    // We could line this up with grammar.txt *_trivia at some point.
+    // Will need to understand how structured_trivia is implemented.
     preprocessor_directive: $ => token(
       seq(
         // TODO: Only match start of line ignoring whitespace
