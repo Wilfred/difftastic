@@ -216,3 +216,65 @@ pub fn highlight_differences(
 
     (before_colored, after_colored)
 }
+
+/// Given a list of differences, build up a string of the form:
+///
+///   -line two old
+///   +line two new
+///   +line five new
+///
+pub fn highlight_differences_combined(
+    _before_src: &str,
+    after_src: &str,
+    differences: &[Change],
+) -> String {
+    let after_newlines = NewlinePositions::from(after_src);
+
+    let after_abs_ranges: Vec<_> = added(differences).iter().map(|c| c.range).collect();
+
+    let after_ranges = after_newlines.from_ranges(&after_abs_ranges);
+    let after_ranges = group_by_line(&after_ranges);
+
+    // let mut before_lines_affected: HashSet<usize> = HashSet::new();
+    // for range in before_ranges {
+    //     before_lines_affected.insert(range.line.number);
+    // }
+
+    let mut res = String::new();
+    // for line_num in after_lines_affected {
+    //     result.push_str(&format!("{}\n", line_num).to_owned());
+    // }
+
+    let mut prev_line = None;
+    for (i, line) in after_src.lines().enumerate() {
+        match after_ranges.get(&i) {
+            Some(line_ranges) => {
+                let print_line_num = match prev_line {
+                    Some(prev_line) => i > prev_line + 1,
+                    None => true,
+                };
+                if print_line_num {
+                    res.push_str(&format!("@@ line {} @@", i).blue().to_string());
+                    res.push_str("\n");
+                }
+
+                let ranges: Vec<_> = line_ranges
+                    .iter()
+                    .map(|lr| Range {
+                        start: lr.start,
+                        end: lr.end,
+                    })
+                    .collect();
+
+                res.push_str(&"+".green().to_string());
+                res.push_str(&apply_color(&line, &ranges, Color::Green));
+                res.push_str("\n");
+
+                prev_line = Some(i);
+            }
+            None => {}
+        }
+    }
+
+    res
+}

@@ -9,10 +9,11 @@ mod diffs;
 mod language;
 mod lines;
 
-use crate::diffs::{added, difference_positions, highlight_differences, removed};
+use crate::diffs::{added, difference_positions, highlight_differences, highlight_differences_combined, removed};
 use crate::language::{infer_language, Language};
 use crate::lines::{add_context, enforce_length, max_line, relevant_lines, MatchedLine};
 use clap::{App, Arg};
+use colored::*;
 use std::collections::HashMap;
 use std::fs;
 use std::iter::FromIterator;
@@ -155,6 +156,19 @@ fn side_by_side_diff(
     print!("{}", result);
 }
 
+fn inline_diff(before_path: &str, after_path: &str, language: Language) {
+    println!("{} {}", "---".bright_yellow(), before_path.bright_yellow());
+    println!("{} {}", "+++".bright_yellow(), after_path.bright_yellow());
+    let before_src = read_or_die(before_path);
+    let after_src = read_or_die(after_path);
+
+    let differences = difference_positions(&before_src, &after_src, language);
+
+    let result =
+        highlight_differences_combined(&before_src, &after_src, &differences);
+    print!("{}", result);
+}
+
 fn main() {
     let matches = App::new("Difftastic")
         .version("0.1")
@@ -178,6 +192,11 @@ fn main() {
                 .takes_value(true)
                 .help("Override terminal width"),
         )
+        .arg(
+            Arg::with_name("inline")
+                .long("inline")
+                .help("Prefer single column output"),
+        )
         .arg(Arg::with_name("first").index(1).required(true))
         .arg(Arg::with_name("second").index(2).required(true))
         .get_matches();
@@ -188,11 +207,6 @@ fn main() {
     let after_path = matches.value_of("second").unwrap();
     let after_src = read_or_die(after_path);
 
-    let terminal_width = match matches.value_of("COLUMNS") {
-        Some(width) => usize::from_str_radix(width, 10).unwrap(),
-        None => term_width().unwrap_or(80),
-    };
-
     let language = match matches.value_of("LANGUAGE") {
         Some(s) => Language::from(s).expect("No such language known."),
         _ => infer_language(before_path).expect("Could not infer language"),
@@ -201,11 +215,20 @@ fn main() {
     let num_ctx_lines = matches.value_of("LINES").unwrap_or("3");
     let num_ctx_lines = usize::from_str_radix(num_ctx_lines, 10).unwrap();
 
-    side_by_side_diff(
-        &before_src,
-        &after_src,
-        terminal_width,
-        language,
-        num_ctx_lines,
-    );
+    if matches.is_present("inline") {
+        inline_diff(before_path, after_path, language);
+    } else {
+        let terminal_width = match matches.value_of("COLUMNS") {
+            Some(width) => usize::from_str_radix(width, 10).unwrap(),
+            None => term_width().unwrap_or(80),
+        };
+
+        side_by_side_diff(
+            &before_src,
+            &after_src,
+            terminal_width,
+            language,
+            num_ctx_lines,
+        );
+    }
 }
