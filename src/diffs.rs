@@ -1,6 +1,8 @@
 use crate::language::{language_lexer, lex, Language};
 use crate::lines::{LineNumber, LineRange, NewlinePositions, Range};
 use colored::*;
+use itertools::EitherOrBoth;
+use itertools::Itertools;
 use std::cmp::min;
 use std::collections::HashMap;
 
@@ -224,39 +226,61 @@ pub fn highlight_differences(
 ///   +line five new
 ///
 pub fn highlight_differences_combined(
-    _before_src: &str,
+    before_src: &str,
     after_src: &str,
     differences: &[Change],
 ) -> String {
+    let before_newlines = NewlinePositions::from(before_src);
     let after_newlines = NewlinePositions::from(after_src);
 
+    let before_abs_ranges: Vec<_> = removed(differences).iter().map(|c| c.range).collect();
     let after_abs_ranges: Vec<_> = added(differences).iter().map(|c| c.range).collect();
 
+    let before_ranges = before_newlines.from_ranges(&before_abs_ranges);
     let after_ranges = after_newlines.from_ranges(&after_abs_ranges);
+
+    let before_ranges = group_by_line(&before_ranges);
     let after_ranges = group_by_line(&after_ranges);
 
-    // let mut before_lines_affected: HashSet<usize> = HashSet::new();
-    // for range in before_ranges {
-    //     before_lines_affected.insert(range.line.number);
-    // }
-
     let mut res = String::new();
-    // for line_num in after_lines_affected {
-    //     result.push_str(&format!("{}\n", line_num).to_owned());
-    // }
 
     let mut prev_line = None;
-    for (i, line) in after_src.lines().enumerate() {
-        match after_ranges.get(&i) {
-            Some(line_ranges) => {
-                let print_line_num = match prev_line {
-                    Some(prev_line) => i > prev_line + 1,
-                    None => true,
-                };
-                if print_line_num {
-                    res.push_str(&format!("@@ line {} @@", i).blue().to_string());
-                    res.push_str("\n");
-                }
+
+    for (i, line) in before_src
+        .lines()
+        .zip_longest(after_src.lines())
+        .enumerate()
+    {
+        let (before_line, after_line) = match line {
+            EitherOrBoth::Both(left, right) => (Some(left), Some(right)),
+            EitherOrBoth::Left(left) => (Some(left), None),
+            EitherOrBoth::Right(right) => (None, Some(right)),
+        };
+
+        let before_line_formatted = match (before_ranges.get(&i), before_line) {
+            (Some(line_ranges), Some(before_line)) => {
+                let mut res = String::new();
+
+                let ranges: Vec<_> = line_ranges
+                    .iter()
+                    .map(|lr| Range {
+                        start: lr.start,
+                        end: lr.end,
+                    })
+                    .collect();
+
+                res.push_str(&"-".red().to_string());
+                res.push_str(&apply_color(&before_line, &ranges, Color::Red));
+                res.push_str("\n");
+
+                Some(res)
+            }
+            _ => None,
+        };
+
+        let after_line_formatted = match (after_ranges.get(&i), after_line) {
+            (Some(line_ranges), Some(after_line)) => {
+                let mut res = String::new();
 
                 let ranges: Vec<_> = line_ranges
                     .iter()
@@ -267,12 +291,31 @@ pub fn highlight_differences_combined(
                     .collect();
 
                 res.push_str(&"+".green().to_string());
-                res.push_str(&apply_color(&line, &ranges, Color::Green));
+                res.push_str(&apply_color(&after_line, &ranges, Color::Green));
                 res.push_str("\n");
 
-                prev_line = Some(i);
+                Some(res)
             }
-            None => {}
+            _ => None,
+        };
+
+        if before_line_formatted.is_some() || after_line_formatted.is_some() {
+            let print_line_num = match prev_line {
+                Some(prev_line) => i > prev_line + 1,
+                None => true,
+            };
+            if print_line_num {
+                res.push_str(&format!("@@ line {} @@", i).blue().to_string());
+                res.push_str("\n");
+            }
+            prev_line = Some(i);
+        }
+
+        if let Some(before_line_formatted) = before_line_formatted {
+            res.push_str(&before_line_formatted);
+        }
+        if let Some(after_line_formatted) = after_line_formatted {
+            res.push_str(&after_line_formatted);
         }
     }
 
