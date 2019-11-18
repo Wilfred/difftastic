@@ -90,3 +90,9 @@ of the patience algorithm](https://github.com/git/git/commit/85551232b56e763ecfc
 # Inferior to patience on this example file.
 $ git diff --histogram --no-index sample_files/css_before.css sample_files/css_after.css
 ```
+
+### Side-by-side Diff
+
+```
+$ diff -y --color=always sample_files/css_before.css sample_files/css_after.css
+```
