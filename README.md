@@ -2,6 +2,10 @@
 
 A language-aware word-level diff.
 
+```
+$ cargo run before.js after.js
+```
+
 ## Other Diff Techniques
 
 There are a bunch of other ways of diffing text files. I summarise
