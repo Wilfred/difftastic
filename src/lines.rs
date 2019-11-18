@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 use regex::Regex;
-use diffs::Change;
+use crate::diffs::Change;
 use std::cmp::{max, min};
 
 // TODO: Move to a separate file, this isn't line related.

@@ -1,6 +1,6 @@
 use colored::*;
-use language::{language_lexer, lex, Language};
-use lines::{LineNumber, LineRange, NewlinePositions, Range};
+use crate::language::{language_lexer, lex, Language};
+use crate::lines::{LineNumber, LineRange, NewlinePositions, Range};
 use std::cmp::min;
 use std::collections::HashMap;
 

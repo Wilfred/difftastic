@@ -10,9 +10,9 @@ mod language;
 mod lines;
 
 use clap::{App, Arg};
-use diffs::{added, difference_positions, highlight_differences, removed};
-use language::{infer_language, Language};
-use lines::{add_context, enforce_length, max_line, relevant_lines, MatchedLine};
+use crate::diffs::{added, difference_positions, highlight_differences, removed};
+use crate::language::{infer_language, Language};
+use crate::lines::{add_context, enforce_length, max_line, relevant_lines, MatchedLine};
 use std::collections::HashMap;
 use std::fs;
 use std::iter::FromIterator;
