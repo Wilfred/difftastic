@@ -92,11 +92,7 @@ fn apply_color(s: &str, ranges: &[Range], c: Color) -> String {
     res
 }
 
-/// Apply this colour to all the ranges specified. Handle lines being
-/// shorter than the ranges specified.
-fn apply_color_by_line(s: &str, ranges: &[LineRange], c: Color) -> String {
-    // TODO: we're assuming ranges is sorted. Either sort, or assert.
-
+fn group_by_line(ranges: &[LineRange]) -> HashMap<usize, Vec<LineRange>> {
     let mut ranges_by_line: HashMap<usize, Vec<LineRange>> = HashMap::with_capacity(ranges.len());
     for range in ranges {
         let mut inserted = false;
@@ -108,6 +104,16 @@ fn apply_color_by_line(s: &str, ranges: &[LineRange], c: Color) -> String {
             ranges_by_line.insert(range.line.number, vec![*range]);
         }
     }
+
+    ranges_by_line
+}
+
+/// Apply this colour to all the ranges specified. Handle lines being
+/// shorter than the ranges specified.
+fn apply_color_by_line(s: &str, ranges: &[LineRange], c: Color) -> String {
+    // TODO: we're assuming ranges is sorted. Either sort, or assert.
+
+    let ranges_by_line = group_by_line(ranges);
 
     let mut res = String::with_capacity(s.len());
     for (i, line) in s.lines().enumerate() {
