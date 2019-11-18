@@ -30,22 +30,32 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.generic_name, $._expression],
-    [$._name, $._expression],
-    [$.generic_name, $._identifier_or_global],
-    [$._identifier_or_global, $._expression],
+    [$.if_statement],
+    [$.anonymous_method_expression],
+    [$.assignment_expression],
+
+    [$._expression, $.generic_name],
+    [$._expression, $._name],
+    [$._expression, $._identifier_or_global],
+
+    [$.qualified_name, $.explicit_interface_specifier],
+
     [$._identifier_or_global, $.enum_member_declaration],
     [$._identifier_or_global, $.type_parameter_list],
-    [$.if_statement],
+    [$._identifier_or_global, $.generic_name],
+
     [$._type, $.type_parameter_list],
     [$._type, $.enum_member_declaration],
+
     [$.element_access_expression, $.enum_member_declaration],
-    [$.assignment_expression],
+    [$.element_access_expression, $.assignment_expression],
     [$.assignment_expression, $.call_expression],
+    [$.call_expression, $.anonymous_method_expression],
+    [$.assignment_expression, $.anonymous_method_expression],
+    [$.element_access_expression, $.anonymous_method_expression],
+
     [$.modifier, $.object_creation_expression],
     [$.event_declaration, $.variable_declarator],
-    [$.qualified_name, $.explicit_interface_specifier],
-    [$.assignment_expression, $.element_access_expression],
   ],
 
   inline: $ => [
@@ -820,21 +830,180 @@ module.exports = grammar({
       ';'
     ),
 
-    // To be checked/unified with grammer.txt
+    _anonymous_function_expression: $=> choice(
+      $.anonymous_method_expression,
+//      $.lambda_expression   // TODO: Causes conflicts
+    ),
+
+    anonymous_method_expression: $ => seq(
+      optional('async'),
+      'delegate',
+      optional($.parameter_list),
+      $.block,
+      optional($._expression)
+    ),
+
+    lambda_expression: $ => choice(
+      $._parenthesized_lambda_expression,
+      $._simple_lambda_expression
+    ),
+
+    _parenthesized_lambda_expression: $ => seq(
+      optional('async'),
+      $.parameter_list,
+      '=>',
+      choice($.block, $._expression)
+    ),
+
+    _simple_lambda_expression: $ => seq(
+      optional('async'),
+      $.parameter,
+      '=>',
+      choice($.block, $._expression)
+    ),
+
+    anonymous_object_creation_expression: $ => seq(
+      'new',
+      '{',
+      commaSep($._anonymous_object_member_declarator),
+      '}'
+    ),
+
+    _anonymous_object_member_declarator: $ => seq(
+      optional($.name_equals), // TODO: This doesn't match, becomes assignment_expression via below
+      $._expression
+    ),
+
+    object_creation_expression: $ => seq(
+      'new',
+      $._type,
+      $.argument_list
+    ),
+
+    array_creation_expression: $ => seq(
+      'new',
+      $.array_type,
+      optional($._initializer_expression)
+    ),
+
+    _initializer_expression: $ => seq(
+      '{',
+      commaSep($._expression),
+      '}'
+    ),
+
+    assignment_expression: $ => seq(
+      $._expression,
+      $.assignment_operator,
+      $._expression
+    ),
+
+    assignment_operator: $ => choice('=', '+=', '-=', '*=', '/=', '%=', '&=', '^=', '|=', '<<=', '>>=', '??='),
+
+    await_expression: $ => choice('await', $._expression),
+
+    parenthesized_expression: $ => seq('(', $._expression, ')'),
+
+    cast_expression: $ => seq(
+      ')',
+      $._type,
+      ')',
+      $._expression
+    ),
+
+    checked_expression: $ => choice(
+      seq('checked', '(', $._expression, ')'),
+      seq('unchecked', '(', $._expression, ')')
+    ),
+
+    conditional_access_expression: $ => seq(
+      $._expression,
+      '?',
+      $._expression
+    ),
+
+    conditional_expression: $ => prec.right(PREC.COND, seq(
+      $._expression, '?', $._expression, ':', $._expression
+    )),
+
+    declaration_expression: $ => seq(
+      $._type,
+      $._variable_designation
+    ),
+
+    default_expression: $ => seq(
+      'default',
+      '(',
+      $._type,
+      ')'
+    ),
+
+    element_access_expression: $ => seq($._expression, $.bracketed_argument_list),
+
+    // TODO: Add test coverage for this.
+    element_binding_expression: $ => $.bracketed_argument_list,
+
+    implicit_array_creation_expression: $ => seq(
+      'new',
+      '[',
+      repeat('*'),
+      ']',
+      $._initializer_expression
+    ),
+
+    // TODO: Expressions need work on precedence and conflicts. 
 
     _expression: $ => choice(
-      $._literal,
+      $._anonymous_function_expression,
+      $.anonymous_object_creation_expression,
+      // $.array_creation_expression,
       $.assignment_expression,
-      $.identifier_name,
-      $.qualified_name,
-      $.ternary_expression,
+      // $.await_expression,
       $.binary_expression,
-      $.unary_expression,
-      $.postfix_expression,
-      $.parenthesized_expression,
+      // $.cast_expression
+      $.checked_expression,
+      // $.conditional_access_expression,
+      $.conditional_expression,
+      // $.declaration_expression,
+      // $.default_expression,
+      $.element_access_expression,
+      $.element_binding_expression,
+      $.implicit_array_creation_expression,
+      // $.implicit_element_access,
+      // $.implicit_stack_alloc_array_creation_expression,
+      // $.initializer_expression,
+      // $.instance_expression,
+      // $.interpolated_string_expression,
+      // $.invocation_expression,
+      // $.is_pattern_expression,
+      $._literal,
+      // $.make_ref_expression,
+      // $.member_access_expression,
+      // $.member_binding_expression,
       $.object_creation_expression,
+      // $.omitted_array_size_expression,
+      $.parenthesized_expression,
+      // $.postfix_unary_expression,
+      // $.prefix_unary_expression,
+      // $.query_expression,
+      // $.range_expression,
+      // $.ref_expression,
+      // $.ref_type_expression,
+      // $.ref_value_expression,
+      // $.size_of_expression,
+      // $.stack_alloc_array_creation_expression,
+      // $.switch_expression,
+      // $.throw_expression,
+      // $.tuple_expression,
+      // $.type,
+      // $.type_of_expression,
+
+      // These will conflict with above, go one way or the other
+      $.identifier_name,
       $.call_expression,
-      $.element_access_expression
+      $.postfix_expression,
+      $.unary_expression,
+      $.qualified_name,
     ),
 
     _initializer: $ => choice(
@@ -843,22 +1012,6 @@ module.exports = grammar({
     ),
 
     array_initalizer: $ => seq('{', commaSep1($._initializer), '}'),
-
-    element_access_expression: $ => seq($._expression, $.bracketed_argument_list),
-
-    assignment_expression: $ => seq(
-      $._expression,
-      $.assignment_operator,
-      $._expression
-    ),
-
-    assignment_operator: $ =>  choice('=', '+=', '-=', '*=', '/=', '%=', '&=', '^=', '|=', '<<=', '>>=', '??='),
-
-    parenthesized_expression: $ => seq('(', $._expression, ')'),
-
-    ternary_expression: $ => prec.right(PREC.COND, seq(
-      $._expression, '?', $._expression, ':', $._expression
-    )),
 
     binary_expression: $ => choice(
       ...[
@@ -897,7 +1050,6 @@ module.exports = grammar({
         'sizeof'
       ].map(operator => seq(operator, $._expression)))),
 
-    // TODO, hook this up and fix issues with it
     postfix_expression: $ => prec.left(PREC.POSTFIX, choice(
       seq($._expression, '++'),
       seq($._expression, '--'),
@@ -908,13 +1060,7 @@ module.exports = grammar({
       $.argument_list
     ),
 
-    object_creation_expression: $ => seq(
-      'new',
-      $._type,
-      $.argument_list
-    ),
-
-    // literals
+    // literals - grammar.txt is useless here as it just refs to lexical specification
 
     _literal: $ => choice(
       $.boolean_literal,
@@ -1014,7 +1160,7 @@ module.exports = grammar({
       )
     )),
 
-    // Custom non-Roslyn additions beyond this point that will not sync up with grammer.txt
+    // Custom non-Roslyn additions beyond this point that will not sync up with grammar.txt
 
     // We use this instead of type so 'void' is only treated as type in the right contexts
     return_type: $ => choice($._type, $.void_keyword),

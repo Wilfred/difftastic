@@ -20,7 +20,7 @@ class Foo {
         (parameter_list)
         (block
         (expression_statement
-          (ternary_expression
+          (conditional_expression
             (identifier_name)
             (string_literal)
             (string_literal))))))))
@@ -96,6 +96,114 @@ class Foo {
               (identifier_name)))))))))
 
 ============================
+Anonymous object creation with empty body
+============================
+
+void b() {
+  var x = new { 
+  };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+          (identifier_name)
+            (equals_value_clause
+              (anonymous_object_creation_expression))))))))
+
+============================
+Anonymous object creation with single unnamed
+============================
+
+void b() {
+  var x = new { 
+    args
+  };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+          (identifier_name)
+            (equals_value_clause
+              (anonymous_object_creation_expression (identifier_name)))))))))
+
+============================
+Anonymous object creation with single named
+============================
+
+void b() {
+  var x = new { 
+    test = "This"
+  };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+          (identifier_name)
+            (equals_value_clause
+              (anonymous_object_creation_expression
+                (assignment_expression
+                  (identifier_name)
+                  (assignment_operator)
+                  (string_literal))))))))))
+
+============================
+Checked expressions
+============================
+
+void b() {
+  var three = checked(1 + 2);
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (checked_expression
+                (binary_expression
+                  (integer_literal)
+                  (integer_literal))))))))))
+
+============================
 Object creation expressions
 ============================
 
@@ -115,3 +223,30 @@ void b() {
         (object_creation_expression
           (qualified_name (identifier_name) (identifier_name))
           (argument_list (integer_literal) (string_literal)))))))
+
+============================
+Implicit array creation
+============================
+
+void b() {
+  var z = new [] { 1, 2, 3 };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (implicit_array_creation_expression
+                (integer_literal)
+                (integer_literal)
+                (integer_literal)))))))))
