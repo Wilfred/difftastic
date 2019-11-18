@@ -494,7 +494,7 @@ class A {
       (parameter_list)
       (block
         (lock_statement
-          (identifier_name)
+          (this_expression)
           (block
             (return_statement))))))))
 
@@ -608,7 +608,7 @@ class A {
             (parameter (identifier_name) (identifier_name))
             (parameter (identifier_name) (identifier_name)))
           (arrow_expression_clause
-            (call_expression (identifier_name)
+            (invocation_expression (identifier_name)
               (argument_list (identifier_name) (identifier_name))))))))))
 
 =====================================
@@ -815,7 +815,7 @@ class A {
       (parameter_list)
       (block
         (using_statement
-          (identifier_name)
+          (this_expression)
           (block
             (return_statement))))))))
 

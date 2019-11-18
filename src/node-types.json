@@ -70,6 +70,10 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -79,10 +83,6 @@
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -114,7 +114,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -150,6 +162,10 @@
           "named": true
         },
         {
+          "type": "this_expression",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         },
@@ -181,15 +197,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -221,7 +237,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -257,6 +285,10 @@
           "named": true
         },
         {
+          "type": "this_expression",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         },
@@ -273,7 +305,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -288,15 +320,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -328,7 +360,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -364,6 +408,10 @@
           "named": true
         },
         {
+          "type": "this_expression",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         },
@@ -395,15 +443,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -435,7 +483,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -464,6 +524,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -483,7 +547,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -502,15 +566,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -542,7 +606,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -571,6 +647,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -605,15 +685,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -645,7 +725,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -674,6 +766,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -740,7 +836,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -755,15 +851,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -795,7 +891,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -824,6 +932,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -862,15 +974,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -902,7 +1014,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -931,6 +1055,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -974,7 +1102,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -989,15 +1117,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -1029,7 +1157,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -1066,6 +1206,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -1108,6 +1252,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "base_expression",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "base_list",
@@ -1158,7 +1307,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -1173,15 +1322,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -1213,7 +1362,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -1242,6 +1403,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -1403,113 +1568,6 @@
     "fields": {}
   },
   {
-    "type": "call_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "anonymous_method_expression",
-          "named": true
-        },
-        {
-          "type": "anonymous_object_creation_expression",
-          "named": true
-        },
-        {
-          "type": "argument_list",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "checked_expression",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "element_access_expression",
-          "named": true
-        },
-        {
-          "type": "element_binding_expression",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "implicit_array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
-          "type": "null_literal",
-          "named": true
-        },
-        {
-          "type": "object_creation_expression",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "real_literal",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "verbatim_string_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "case_pattern_switch_label",
     "named": true,
     "fields": {},
@@ -1542,7 +1600,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -1557,15 +1615,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -1597,7 +1655,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -1626,6 +1696,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -1711,7 +1785,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -1726,15 +1800,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -1766,7 +1840,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -1795,6 +1881,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -1829,7 +1919,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -1844,15 +1934,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -1884,7 +1974,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -1913,6 +2015,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -2152,7 +2258,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -2167,15 +2273,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -2207,7 +2313,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -2236,6 +2354,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -2565,6 +2687,10 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -2578,10 +2704,6 @@
         },
         {
           "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -2653,7 +2775,15 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
           "named": true
         },
         {
@@ -2670,6 +2800,10 @@
         },
         {
           "type": "lock_statement",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -2706,6 +2840,10 @@
         },
         {
           "type": "switch_statement",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -2764,6 +2902,10 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -2773,10 +2915,6 @@
         },
         {
           "type": "bracketed_argument_list",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -2808,7 +2946,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -2837,6 +2987,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -3033,15 +3187,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -3073,7 +3227,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -3102,6 +3268,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -3121,7 +3291,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -3136,15 +3306,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -3176,7 +3346,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -3205,6 +3387,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -3333,7 +3519,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -3348,15 +3534,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -3388,7 +3574,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -3417,6 +3615,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -3623,6 +3825,10 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -3636,10 +3842,6 @@
         },
         {
           "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -3715,7 +3917,15 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
           "named": true
         },
         {
@@ -3732,6 +3942,10 @@
         },
         {
           "type": "lock_statement",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -3780,6 +3994,10 @@
         },
         {
           "type": "switch_statement",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -3838,6 +4056,10 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -3851,10 +4073,6 @@
         },
         {
           "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -3926,7 +4144,15 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
           "named": true
         },
         {
@@ -3943,6 +4169,10 @@
         },
         {
           "type": "lock_statement",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -3979,6 +4209,10 @@
         },
         {
           "type": "switch_statement",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -4075,15 +4309,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -4115,11 +4349,23 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
           "named": true
         },
         {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
           "type": "label_name",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -4148,6 +4394,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -4182,6 +4432,10 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -4195,10 +4449,6 @@
         },
         {
           "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -4274,7 +4524,15 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
           "named": true
         },
         {
@@ -4291,6 +4549,10 @@
         },
         {
           "type": "lock_statement",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -4327,6 +4589,10 @@
         },
         {
           "type": "switch_statement",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -4385,15 +4651,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -4425,7 +4691,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -4454,6 +4732,129 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "verbatim_string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "implicit_stack_alloc_array_creation_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "assignment_expression",
+          "named": true
+        },
+        {
+          "type": "base_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
+          "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
+          "named": true
+        },
+        {
+          "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "real_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -4573,6 +4974,129 @@
         },
         {
           "type": "type_parameter_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "invocation_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "argument_list",
+          "named": true
+        },
+        {
+          "type": "assignment_expression",
+          "named": true
+        },
+        {
+          "type": "base_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
+          "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
+          "named": true
+        },
+        {
+          "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "real_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "verbatim_string_literal",
           "named": true
         }
       ]
@@ -4800,6 +5324,10 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -4813,10 +5341,6 @@
         },
         {
           "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -4888,7 +5412,15 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
           "named": true
         },
         {
@@ -4905,6 +5437,10 @@
         },
         {
           "type": "lock_statement",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -4944,6 +5480,10 @@
           "named": true
         },
         {
+          "type": "this_expression",
+          "named": true
+        },
+        {
           "type": "throw_statement",
           "named": true
         },
@@ -4973,6 +5513,125 @@
         },
         {
           "type": "yield_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "make_ref_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "assignment_expression",
+          "named": true
+        },
+        {
+          "type": "base_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
+          "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
+          "named": true
+        },
+        {
+          "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "real_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "verbatim_string_literal",
           "named": true
         }
       ]
@@ -5456,7 +6115,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -5471,15 +6130,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -5511,7 +6170,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -5540,6 +6211,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -5640,7 +6315,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -5655,15 +6330,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -5695,7 +6370,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -5724,6 +6411,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -5787,15 +6478,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -5835,7 +6526,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -5880,6 +6583,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -5956,15 +6663,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -5996,7 +6703,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -6025,6 +6744,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -6259,7 +6982,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -6274,15 +6997,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -6314,7 +7037,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -6350,6 +7085,10 @@
           "named": true
         },
         {
+          "type": "this_expression",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         },
@@ -6359,6 +7098,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "this_expression",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "throw_statement",
@@ -6381,15 +7125,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -6421,7 +7165,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -6450,6 +7206,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -6674,7 +7434,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -6689,15 +7449,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -6729,7 +7489,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -6758,6 +7530,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -6838,6 +7614,10 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -6851,10 +7631,6 @@
         },
         {
           "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -6926,7 +7702,15 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
           "named": true
         },
         {
@@ -6943,6 +7727,10 @@
         },
         {
           "type": "lock_statement",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -6979,6 +7767,10 @@
         },
         {
           "type": "switch_statement",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -7124,7 +7916,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "anonymous_method_expression",
@@ -7139,15 +7931,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -7179,7 +7971,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -7208,6 +8012,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -7242,6 +8050,10 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -7255,10 +8067,6 @@
         },
         {
           "type": "break_statement",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -7330,7 +8138,15 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
           "named": true
         },
         {
@@ -7347,6 +8163,10 @@
         },
         {
           "type": "lock_statement",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -7383,6 +8203,10 @@
         },
         {
           "type": "switch_statement",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -7441,15 +8265,15 @@
           "named": true
         },
         {
+          "type": "base_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
         {
           "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -7481,7 +8305,19 @@
           "named": true
         },
         {
+          "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
           "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "invocation_expression",
+          "named": true
+        },
+        {
+          "type": "make_ref_expression",
           "named": true
         },
         {
@@ -7510,6 +8346,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "this_expression",
           "named": true
         },
         {
@@ -7704,6 +8544,14 @@
     "named": false
   },
   {
+    "type": "__arglist",
+    "named": false
+  },
+  {
+    "type": "__makeref",
+    "named": false
+  },
+  {
     "type": "abstract",
     "named": false
   },
@@ -7880,6 +8728,10 @@
     "named": false
   },
   {
+    "type": "is",
+    "named": false
+  },
+  {
     "type": "label_name",
     "named": true
   },
@@ -7981,6 +8833,10 @@
   },
   {
     "type": "sizeof",
+    "named": false
+  },
+  {
+    "type": "stackalloc",
     "named": false
   },
   {
