@@ -30,7 +30,7 @@ impl Language {
             "js" => Some(Language::JavaScript),
             "lisp" => Some(Language::Lisp),
             "rust" => Some(Language::Rust),
-            _ => None
+            _ => None,
         }
     }
 }

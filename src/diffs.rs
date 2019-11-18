@@ -1,6 +1,6 @@
-use colored::*;
 use crate::language::{language_lexer, lex, Language};
 use crate::lines::{LineNumber, LineRange, NewlinePositions, Range};
+use colored::*;
 use std::cmp::min;
 use std::collections::HashMap;
 
@@ -43,7 +43,7 @@ pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -
                         start: l.start,
                         end: l.start + l.text.len(),
                     },
-                    opposite_line: right_line
+                    opposite_line: right_line,
                 });
             }
             // Present in both.
@@ -59,7 +59,7 @@ pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -
                         start: r.start,
                         end: r.start + r.text.len(),
                     },
-                    opposite_line: left_line
+                    opposite_line: left_line,
                 });
             }
         }

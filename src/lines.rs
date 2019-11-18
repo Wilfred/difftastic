@@ -1,7 +1,7 @@
-use std::collections::HashSet;
-use regex::Regex;
 use crate::diffs::Change;
+use regex::Regex;
 use std::cmp::{max, min};
+use std::collections::HashSet;
 
 // TODO: Move to a separate file, this isn't line related.
 /// A range in a string, relative to the string start.
@@ -177,7 +177,7 @@ fn from_ranges_split_over_multiple_lines() {
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub struct MatchedLine {
     pub line: LineNumber,
-    pub opposite_line: LineNumber
+    pub opposite_line: LineNumber,
 }
 
 /// Given a slice of changes, return the unique lines that
@@ -199,7 +199,7 @@ pub fn relevant_lines(changes: &[Change], s: &str) -> Vec<MatchedLine> {
             line_nums_seen.insert(range.line);
             result.push(MatchedLine {
                 line: range.line,
-                opposite_line: change.opposite_line
+                opposite_line: change.opposite_line,
             });
         }
     }
@@ -207,7 +207,11 @@ pub fn relevant_lines(changes: &[Change], s: &str) -> Vec<MatchedLine> {
     result
 }
 
-pub fn add_context(lines: &[MatchedLine], context: usize, max_line: LineNumber) -> Vec<MatchedLine> {
+pub fn add_context(
+    lines: &[MatchedLine],
+    context: usize,
+    max_line: LineNumber,
+) -> Vec<MatchedLine> {
     let mut result: Vec<MatchedLine> = vec![];
 
     for matched_line in lines {
@@ -215,8 +219,9 @@ pub fn add_context(lines: &[MatchedLine], context: usize, max_line: LineNumber) 
         // calculate the opposite line number for the context lines,
         // we assume that they line up. Context line -1 should have
         // opposite_line - 1.
-        let opposite_offset = matched_line.opposite_line.number as isize - matched_line.line.number as isize;
-        
+        let opposite_offset =
+            matched_line.opposite_line.number as isize - matched_line.line.number as isize;
+
         let line_number = matched_line.line.number;
         let earliest = max(0, line_number as isize - context as isize) as usize;
         let latest = min(line_number + context, max_line.number);
@@ -229,13 +234,10 @@ pub fn add_context(lines: &[MatchedLine], context: usize, max_line: LineNumber) 
                 }
             }
             if is_new {
-                result.push(
-                    MatchedLine {
-                        line: LineNumber::from(i),
-                        opposite_line: LineNumber::from(max(i as isize + opposite_offset, 0) as usize)
-                    }
-
-                );
+                result.push(MatchedLine {
+                    line: LineNumber::from(i),
+                    opposite_line: LineNumber::from(max(i as isize + opposite_offset, 0) as usize),
+                });
             }
         }
     }
@@ -256,12 +258,8 @@ fn test_add_context() {
             opposite_line: LineNumber::from(i),
         }
     }
-    
-    let start_lines = [
-        matched_line(5),
-        matched_line(12),
-        matched_line(14),
-    ];
+
+    let start_lines = [matched_line(5), matched_line(12), matched_line(14)];
     let result = add_context(&start_lines, 2, LineNumber::from(20));
 
     let expected = [
@@ -295,7 +293,7 @@ fn test_add_zero_context() {
         MatchedLine {
             line: LineNumber::from(14),
             opposite_line: LineNumber::from(14),
-        }
+        },
     ];
     let result = add_context(&start_lines, 0, LineNumber::from(20));
 
