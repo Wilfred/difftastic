@@ -1,5 +1,8 @@
 use regex::Regex;
 
+#[cfg(test)]
+use pretty_assertions::assert_eq;
+
 #[derive(Debug, Clone)]
 pub struct Token {
     pub start: usize,

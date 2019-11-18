@@ -3,6 +3,9 @@ use regex::Regex;
 use std::cmp::{max, min};
 use std::collections::HashSet;
 
+#[cfg(test)]
+use pretty_assertions::assert_eq;
+
 // TODO: Move to a separate file, this isn't line related.
 /// A range in a string, relative to the string start.
 #[derive(Debug, PartialEq, Clone, Copy)]

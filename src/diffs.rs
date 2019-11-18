@@ -4,6 +4,9 @@ use colored::*;
 use std::cmp::min;
 use std::collections::HashMap;
 
+#[cfg(test)]
+use pretty_assertions::assert_eq;
+
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum ChangeKind {
     Add,
