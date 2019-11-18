@@ -2564,6 +2564,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "omitted_type_argument"
+        },
+        {
+          "type": "SYMBOL",
           "name": "pointer_type"
         },
         {
@@ -2571,6 +2575,10 @@
           "name": "predefined_type"
         }
       ]
+    },
+    "omitted_type_argument": {
+      "type": "SEQ",
+      "members": []
     },
     "array_type": {
       "type": "SEQ",

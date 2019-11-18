@@ -546,12 +546,14 @@ module.exports = grammar({
       $.array_type,
       $._name,
       $.nullable_type,
-      //$.omitted_type_argument, TODO
+      //$.omitted_type_argument, TODO?  Defined as epsilon in grammar.txt :()
       $.pointer_type,
       $.predefined_type,
       // $.ref_type, - conflicts with 'ref' modifier...
       // $.tuple_type - conflicts plus no initializer statement syntax yet for testing
     ),
+
+    omitted_type_argument: $ => seq(),
 
     array_type: $ => seq($._type, $.array_rank_specifier),
 
@@ -762,7 +764,7 @@ module.exports = grammar({
 
     discard_pattern: $ => '_',
 
-    // TODO: Matches everything as optional... this won't work.
+    // TODO: Matches everything as optional... this won't work here.
     recursive_pattern: $ => seq(
       optional($._type),
       optional($.positional_pattern_clause),
