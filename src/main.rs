@@ -102,6 +102,26 @@ fn filter_concat(
     result
 }
 
+fn read_or_die(path: &str) -> String {
+    match fs::read_to_string(path) {
+        Ok(src) => src.to_owned(),
+        Err(e) => {
+            match e.kind() {
+                std::io::ErrorKind::NotFound => {
+                    eprintln!("No such file: {}", path);
+                },
+                std::io::ErrorKind::PermissionDenied => {
+                    eprintln!("Permission denied when reading file: {}", path);
+                },
+                _ => {
+                    eprintln!("Could not read file: {} (error {:?})", path, e.kind());
+                }
+            };
+            std::process::exit(1);
+        }
+    }
+}
+
 fn main() {
     let matches = App::new("Difftastic")
         .version("0.1")
@@ -130,24 +150,10 @@ fn main() {
         .get_matches();
 
     let before_path = matches.value_of("first").unwrap();
-    let mut before_src: String = match fs::read_to_string(before_path) {
-        Ok(src) => src.to_owned(),
-        Err(_) => {
-            // TODO: distinguish between no such file and a permissions error.
-            eprintln!("Could not read file: {}", before_path);
-            std::process::exit(1);
-        }
-    };
+    let mut before_src = read_or_die(before_path);
 
     let after_path = matches.value_of("second").unwrap();
-    let mut after_src: String = match fs::read_to_string(after_path) {
-        Ok(src) => src.to_owned(),
-        Err(_) => {
-            // TODO: distinguish between no such file and a permissions error.
-            eprintln!("Could not read file: {}", after_path);
-            std::process::exit(1);
-        }
-    };
+    let mut after_src = read_or_die(after_path);
 
     let terminal_width = match matches.value_of("COLUMNS") {
         Some(width) => usize::from_str_radix(width, 10).unwrap(),
