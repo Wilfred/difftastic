@@ -9,7 +9,7 @@ use pretty_assertions::assert_eq;
 // TODO: Move to a separate file, this isn't line related.
 /// A range in a string, relative to the string start.
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub struct Range {
+pub struct AbsoluteRange {
     pub start: usize,
     pub end: usize,
 }
@@ -128,7 +128,7 @@ impl NewlinePositions {
     /// Convert absolute string ranges to line-relative ranges. If the
     /// absolute range crosses a newline, split it into multiple
     /// line-relative ranges.
-    pub fn from_ranges(self: &NewlinePositions, ranges: &[Range]) -> Vec<LineRange> {
+    pub fn from_ranges(self: &NewlinePositions, ranges: &[AbsoluteRange]) -> Vec<LineRange> {
         let mut rel_positions = vec![];
         for range in ranges {
             let start_pos = self.from_offset(range.start);
@@ -144,7 +144,7 @@ impl NewlinePositions {
 #[test]
 fn from_ranges_first_line() {
     let newline_positions = NewlinePositions::from("foo");
-    let relative_ranges = newline_positions.from_ranges(&vec![Range { start: 1, end: 3 }]);
+    let relative_ranges = newline_positions.from_ranges(&vec![AbsoluteRange { start: 1, end: 3 }]);
     assert_eq!(
         relative_ranges,
         vec![LineRange {
@@ -158,7 +158,7 @@ fn from_ranges_first_line() {
 #[test]
 fn from_ranges_split_over_multiple_lines() {
     let newline_positions = NewlinePositions::from("foo\nbar\nbaz\naaaaaaaaaaa");
-    let relative_ranges = newline_positions.from_ranges(&vec![Range { start: 5, end: 10 }]);
+    let relative_ranges = newline_positions.from_ranges(&vec![AbsoluteRange { start: 5, end: 10 }]);
 
     assert_eq!(
         relative_ranges,

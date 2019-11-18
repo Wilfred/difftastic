@@ -1,5 +1,5 @@
 use crate::language::{language_lexer, lex, Language};
-use crate::lines::{LineNumber, LineRange, NewlinePositions, Range};
+use crate::lines::{AbsoluteRange, LineNumber, LineRange, NewlinePositions};
 use colored::*;
 use itertools::EitherOrBoth;
 use itertools::Itertools;
@@ -20,7 +20,7 @@ pub enum ChangeKind {
 pub struct Change {
     kind: ChangeKind,
     /// The position of the affected text.
-    pub range: Range,
+    pub range: AbsoluteRange,
     /// The corresponding position of the comparison string. This
     /// enables us to line up changed lines between the two strings.
     pub opposite_line: LineNumber,
@@ -44,7 +44,7 @@ pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -
             diff::Result::Left(l) => {
                 positions.push(Change {
                     kind: ChangeKind::Remove,
-                    range: Range {
+                    range: AbsoluteRange {
                         start: l.start,
                         end: l.start + l.text.len(),
                     },
@@ -60,7 +60,7 @@ pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -
             diff::Result::Right(r) => {
                 positions.push(Change {
                     kind: ChangeKind::Add,
-                    range: Range {
+                    range: AbsoluteRange {
                         start: r.start,
                         end: r.start + r.text.len(),
                     },
@@ -73,7 +73,7 @@ pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -
 }
 
 /// Return a copy of `s` with this colour applied to the ranges specified.
-fn apply_color(s: &str, ranges: &[Range], c: Color) -> String {
+fn apply_color(s: &str, ranges: &[AbsoluteRange], c: Color) -> String {
     let mut res = String::with_capacity(s.len());
     let mut i = 0;
     for range in ranges {
@@ -123,7 +123,7 @@ fn apply_color_by_line(s: &str, ranges: &[LineRange], c: Color) -> String {
             Some(line_ranges) => {
                 let ranges: Vec<_> = line_ranges
                     .iter()
-                    .map(|lr| Range {
+                    .map(|lr| AbsoluteRange {
                         start: lr.start,
                         end: lr.end,
                     })
@@ -156,7 +156,7 @@ fn apply_color_no_positions() {
 #[test]
 fn apply_color_whole_length() {
     assert_eq!(
-        apply_color("foo", &vec![Range { start: 0, end: 3 }], Color::Red),
+        apply_color("foo", &vec![AbsoluteRange { start: 0, end: 3 }], Color::Red),
         "foo".red().to_string()
     );
 }
@@ -164,7 +164,11 @@ fn apply_color_whole_length() {
 #[test]
 fn apply_color_beyond_end() {
     assert_eq!(
-        apply_color("foobar", &vec![Range { start: 6, end: 10 }], Color::Black),
+        apply_color(
+            "foobar",
+            &vec![AbsoluteRange { start: 6, end: 10 }],
+            Color::Black
+        ),
         "foobar"
     );
 }
@@ -178,7 +182,11 @@ fn apply_color_overlapping_end() {
     expected.push_str(&"bar".green().to_string());
 
     assert_eq!(
-        apply_color("foobar", &vec![Range { start: 3, end: 100 }], Color::Green),
+        apply_color(
+            "foobar",
+            &vec![AbsoluteRange { start: 3, end: 100 }],
+            Color::Green
+        ),
         expected
     );
 }
@@ -263,7 +271,7 @@ pub fn highlight_differences_combined(
 
                 let ranges: Vec<_> = line_ranges
                     .iter()
-                    .map(|lr| Range {
+                    .map(|lr| AbsoluteRange {
                         start: lr.start,
                         end: lr.end,
                     })
@@ -284,7 +292,7 @@ pub fn highlight_differences_combined(
 
                 let ranges: Vec<_> = line_ranges
                     .iter()
-                    .map(|lr| Range {
+                    .map(|lr| AbsoluteRange {
                         start: lr.start,
                         end: lr.end,
                     })
