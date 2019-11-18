@@ -5,7 +5,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "arrow_expression_clause",
@@ -36,7 +36,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "generic_name",
@@ -50,13 +50,132 @@
     }
   },
   {
-    "type": "argument",
+    "type": "anonymous_method_expression",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "assignment_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
+          "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "parameter_list",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "real_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "verbatim_string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "anonymous_object_creation_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
         {
           "type": "assignment_expression",
           "named": true
@@ -78,11 +197,134 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "name_equals",
+          "named": true
+        },
+        {
+          "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "real_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "verbatim_string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "assignment_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
+          "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -122,10 +364,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "unary_expression",
           "named": true
         },
@@ -144,6 +382,14 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
         {
           "type": "assignment_expression",
           "named": true
@@ -165,11 +411,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -205,10 +467,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "unary_expression",
           "named": true
         },
@@ -227,6 +485,14 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
         {
           "type": "array_initalizer",
           "named": true
@@ -252,11 +518,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -289,10 +571,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -315,6 +593,14 @@
       "required": false,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -335,11 +621,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -372,10 +674,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -445,6 +743,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -465,11 +771,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -505,10 +827,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "unary_expression",
           "named": true
         },
@@ -527,6 +845,14 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
         {
           "type": "assignment_expression",
           "named": true
@@ -552,11 +878,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -589,10 +931,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -639,6 +977,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -659,11 +1005,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -704,10 +1066,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -757,7 +1115,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "alias_qualified_name",
@@ -803,6 +1161,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -823,11 +1189,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -860,10 +1242,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -1033,6 +1411,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "argument_list",
           "named": true
         },
@@ -1057,11 +1443,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -1094,10 +1496,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -1147,6 +1545,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -1167,11 +1573,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -1204,10 +1626,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -1250,7 +1668,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "alias_qualified_name",
@@ -1296,6 +1714,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -1316,11 +1742,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -1356,10 +1798,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "unary_expression",
           "named": true
         },
@@ -1380,6 +1818,109 @@
       "types": [
         {
           "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "checked_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "assignment_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
+          "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "real_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "verbatim_string_literal",
           "named": true
         }
       ]
@@ -1606,13 +2147,21 @@
     }
   },
   {
-    "type": "constant_pattern",
+    "type": "conditional_expression",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
         {
           "type": "assignment_expression",
           "named": true
@@ -1634,11 +2183,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -1671,10 +2236,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -1992,6 +2553,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -2020,7 +2589,15 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
           "type": "checked_statement",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -2033,6 +2610,10 @@
         },
         {
           "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
           "named": true
         },
         {
@@ -2065,6 +2646,10 @@
         },
         {
           "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -2124,10 +2709,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "throw_statement",
           "named": true
         },
@@ -2171,6 +2752,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -2195,11 +2784,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -2235,15 +2840,26 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "unary_expression",
           "named": true
         },
         {
           "type": "verbatim_string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "element_binding_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bracketed_argument_list",
           "named": true
         }
       ]
@@ -2401,6 +3017,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -2425,11 +3049,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -2462,10 +3102,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -2488,6 +3124,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -2508,11 +3152,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -2545,10 +3205,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -2650,7 +3306,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "alias_qualified_name",
@@ -2680,6 +3336,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -2700,11 +3364,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -2737,10 +3417,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -2931,6 +3607,14 @@
           "named": true
         },
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "array_type",
           "named": true
         },
@@ -2963,7 +3647,15 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
           "type": "checked_statement",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -2976,6 +3668,10 @@
         },
         {
           "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
           "named": true
         },
         {
@@ -3012,6 +3708,10 @@
         },
         {
           "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -3083,10 +3783,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "throw_statement",
           "named": true
         },
@@ -3130,6 +3826,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -3158,7 +3862,15 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
           "type": "checked_statement",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -3171,6 +3883,10 @@
         },
         {
           "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
           "named": true
         },
         {
@@ -3203,6 +3919,10 @@
         },
         {
           "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -3259,10 +3979,6 @@
         },
         {
           "type": "switch_statement",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -3347,6 +4063,14 @@
       "required": false,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -3367,11 +4091,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -3411,10 +4151,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "unary_expression",
           "named": true
         },
@@ -3433,6 +4169,14 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
         {
           "type": "assignment_expression",
           "named": true
@@ -3462,7 +4206,15 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
           "type": "checked_statement",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -3475,6 +4227,10 @@
         },
         {
           "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
           "named": true
         },
         {
@@ -3511,6 +4267,10 @@
         },
         {
           "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -3570,10 +4330,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "throw_statement",
           "named": true
         },
@@ -3603,6 +4359,109 @@
         },
         {
           "type": "yield_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "implicit_array_creation_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "assignment_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
+          "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "object_creation_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "real_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "verbatim_string_literal",
           "named": true
         }
       ]
@@ -3929,6 +4788,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -3957,7 +4824,15 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
           "type": "checked_statement",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -3970,6 +4845,10 @@
         },
         {
           "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
           "named": true
         },
         {
@@ -4002,6 +4881,10 @@
         },
         {
           "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -4058,10 +4941,6 @@
         },
         {
           "type": "switch_statement",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -4189,7 +5068,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "identifier_name",
@@ -4204,7 +5083,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "identifier_name",
@@ -4219,7 +5098,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "alias_qualified_name",
@@ -4322,7 +5201,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "alias_qualified_name",
@@ -4580,6 +5459,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -4600,11 +5487,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -4637,10 +5540,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -4683,7 +5582,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "alias_qualified_name",
@@ -4744,6 +5643,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -4764,11 +5671,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -4804,10 +5727,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "unary_expression",
           "named": true
         },
@@ -4837,6 +5756,14 @@
         },
         {
           "type": "alias_qualified_name",
+          "named": true
+        },
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
           "named": true
         },
         {
@@ -4876,7 +5803,19 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
           "named": true
         },
         {
@@ -4889,6 +5828,10 @@
         },
         {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -4940,10 +5883,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "unary_expression",
           "named": true
         },
@@ -4975,33 +5914,6 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
-          "type": "generic_name",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "recursive_pattern",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
       "required": false,
       "types": [
         {
@@ -5009,90 +5921,11 @@
           "named": true
         },
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "discard_designation",
-          "named": true
-        },
-        {
           "type": "generic_name",
           "named": true
         },
         {
           "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_variable_designation",
-          "named": true
-        },
-        {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
-          "type": "positional_pattern_clause",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "property_pattern_clause",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "single_variable_designation",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "ref_type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "generic_name",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
           "named": true
         },
         {
@@ -5110,6 +5943,14 @@
       "multiple": false,
       "required": false,
       "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
         {
           "type": "assignment_expression",
           "named": true
@@ -5131,11 +5972,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -5168,10 +6025,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -5409,6 +6262,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -5429,11 +6290,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -5473,93 +6350,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "verbatim_string_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "ternary_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "boolean_literal",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "element_access_expression",
-          "named": true
-        },
-        {
-          "type": "identifier_name",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
-          "type": "null_literal",
-          "named": true
-        },
-        {
-          "type": "object_creation_expression",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "real_literal",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "unary_expression",
           "named": true
         },
@@ -5579,6 +6369,14 @@
       "required": false,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -5599,11 +6397,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -5636,10 +6450,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -5682,7 +6492,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "alias_qualified_name",
@@ -5720,27 +6530,12 @@
     }
   },
   {
-    "type": "tuple_type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "tuple_element",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "type_argument_list",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "alias_qualified_name",
@@ -5783,7 +6578,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "alias_qualified_name",
@@ -5826,7 +6621,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "constructor_constraint",
@@ -5882,6 +6677,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -5902,11 +6705,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -5942,10 +6761,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "unary_expression",
           "named": true
         },
@@ -5977,7 +6792,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "alias_qualified_name",
@@ -6011,6 +6826,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -6039,7 +6862,15 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
           "type": "checked_statement",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -6052,6 +6883,10 @@
         },
         {
           "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
           "named": true
         },
         {
@@ -6084,6 +6919,10 @@
         },
         {
           "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -6140,10 +6979,6 @@
         },
         {
           "type": "switch_statement",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
           "named": true
         },
         {
@@ -6292,6 +7127,14 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -6312,11 +7155,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -6352,10 +7211,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "unary_expression",
           "named": true
         },
@@ -6374,6 +7229,14 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
         {
           "type": "assignment_expression",
           "named": true
@@ -6403,7 +7266,15 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
           "type": "checked_statement",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -6416,6 +7287,10 @@
         },
         {
           "type": "element_access_expression",
+          "named": true
+        },
+        {
+          "type": "element_binding_expression",
           "named": true
         },
         {
@@ -6448,6 +7323,10 @@
         },
         {
           "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -6507,10 +7386,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "throw_statement",
           "named": true
         },
@@ -6554,6 +7429,14 @@
       "required": false,
       "types": [
         {
+          "type": "anonymous_method_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_object_creation_expression",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -6574,11 +7457,27 @@
           "named": true
         },
         {
+          "type": "checked_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "element_access_expression",
           "named": true
         },
         {
+          "type": "element_binding_expression",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "implicit_array_creation_expression",
           "named": true
         },
         {
@@ -6614,10 +7513,6 @@
           "named": true
         },
         {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
           "type": "unary_expression",
           "named": true
         },
@@ -6629,67 +7524,39 @@
     }
   },
   {
-    "type": "ï»¿",
+    "type": "!",
     "named": false
   },
   {
-    "type": "extern",
+    "type": "!=",
     "named": false
   },
   {
-    "type": "alias",
+    "type": "\"",
     "named": false
   },
   {
-    "type": ";",
+    "type": "%",
     "named": false
   },
   {
-    "type": "using",
+    "type": "%=",
     "named": false
   },
   {
-    "type": "static",
+    "type": "&",
     "named": false
   },
   {
-    "type": "=",
+    "type": "&&",
     "named": false
   },
   {
-    "type": "identifier_name",
-    "named": true
-  },
-  {
-    "type": "global",
+    "type": "&=",
     "named": false
   },
   {
-    "type": "::",
-    "named": false
-  },
-  {
-    "type": "<",
-    "named": false
-  },
-  {
-    "type": ",",
-    "named": false
-  },
-  {
-    "type": ">",
-    "named": false
-  },
-  {
-    "type": ".",
-    "named": false
-  },
-  {
-    "type": "[",
-    "named": false
-  },
-  {
-    "type": "]",
+    "type": "'",
     "named": false
   },
   {
@@ -6701,11 +7568,51 @@
     "named": false
   },
   {
-    "type": "assembly",
+    "type": "*",
     "named": false
   },
   {
-    "type": "module",
+    "type": "*=",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": "++",
+    "named": false
+  },
+  {
+    "type": "+=",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "--",
+    "named": false
+  },
+  {
+    "type": "-=",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": "/=",
     "named": false
   },
   {
@@ -6713,7 +7620,87 @@
     "named": false
   },
   {
-    "type": "event",
+    "type": "::",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<<",
+    "named": false
+  },
+  {
+    "type": "<<=",
+    "named": false
+  },
+  {
+    "type": "<=",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "==",
+    "named": false
+  },
+  {
+    "type": "=>",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
+    "named": false
+  },
+  {
+    "type": ">>",
+    "named": false
+  },
+  {
+    "type": ">>=",
+    "named": false
+  },
+  {
+    "type": "?",
+    "named": false
+  },
+  {
+    "type": "??=",
+    "named": false
+  },
+  {
+    "type": "@\"",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "^=",
+    "named": false
+  },
+  {
+    "type": "_",
     "named": false
   },
   {
@@ -6721,7 +7708,59 @@
     "named": false
   },
   {
+    "type": "add",
+    "named": false
+  },
+  {
+    "type": "alias",
+    "named": false
+  },
+  {
+    "type": "assembly",
+    "named": false
+  },
+  {
     "type": "async",
+    "named": false
+  },
+  {
+    "type": "await",
+    "named": false
+  },
+  {
+    "type": "base",
+    "named": false
+  },
+  {
+    "type": "bool",
+    "named": false
+  },
+  {
+    "type": "break",
+    "named": false
+  },
+  {
+    "type": "byte",
+    "named": false
+  },
+  {
+    "type": "case",
+    "named": false
+  },
+  {
+    "type": "catch",
+    "named": false
+  },
+  {
+    "type": "char",
+    "named": false
+  },
+  {
+    "type": "checked",
+    "named": false
+  },
+  {
+    "type": "class",
     "named": false
   },
   {
@@ -6729,7 +7768,111 @@
     "named": false
   },
   {
+    "type": "continue",
+    "named": false
+  },
+  {
+    "type": "decimal",
+    "named": false
+  },
+  {
+    "type": "default",
+    "named": false
+  },
+  {
+    "type": "delegate",
+    "named": false
+  },
+  {
+    "type": "do",
+    "named": false
+  },
+  {
+    "type": "double",
+    "named": false
+  },
+  {
+    "type": "else",
+    "named": false
+  },
+  {
+    "type": "enum",
+    "named": false
+  },
+  {
+    "type": "escape_sequence",
+    "named": true
+  },
+  {
+    "type": "event",
+    "named": false
+  },
+  {
+    "type": "explicit",
+    "named": false
+  },
+  {
+    "type": "extern",
+    "named": false
+  },
+  {
+    "type": "false",
+    "named": false
+  },
+  {
+    "type": "finally",
+    "named": false
+  },
+  {
     "type": "fixed",
+    "named": false
+  },
+  {
+    "type": "float",
+    "named": false
+  },
+  {
+    "type": "for",
+    "named": false
+  },
+  {
+    "type": "foreach",
+    "named": false
+  },
+  {
+    "type": "get",
+    "named": false
+  },
+  {
+    "type": "global",
+    "named": false
+  },
+  {
+    "type": "goto",
+    "named": false
+  },
+  {
+    "type": "identifier_name",
+    "named": true
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "implicit",
+    "named": false
+  },
+  {
+    "type": "in",
+    "named": false
+  },
+  {
+    "type": "int",
+    "named": false
+  },
+  {
+    "type": "interface",
     "named": false
   },
   {
@@ -6737,11 +7880,51 @@
     "named": false
   },
   {
+    "type": "label_name",
+    "named": true
+  },
+  {
+    "type": "lock",
+    "named": false
+  },
+  {
+    "type": "long",
+    "named": false
+  },
+  {
+    "type": "module",
+    "named": false
+  },
+  {
+    "type": "namespace",
+    "named": false
+  },
+  {
     "type": "new",
     "named": false
   },
   {
+    "type": "null_literal",
+    "named": true
+  },
+  {
+    "type": "object",
+    "named": false
+  },
+  {
+    "type": "operator",
+    "named": false
+  },
+  {
+    "type": "out",
+    "named": false
+  },
+  {
     "type": "override",
+    "named": false
+  },
+  {
+    "type": "params",
     "named": false
   },
   {
@@ -6765,171 +7948,11 @@
     "named": false
   },
   {
+    "type": "real_literal",
+    "named": true
+  },
+  {
     "type": "ref",
-    "named": false
-  },
-  {
-    "type": "sealed",
-    "named": false
-  },
-  {
-    "type": "unsafe",
-    "named": false
-  },
-  {
-    "type": "virtual",
-    "named": false
-  },
-  {
-    "type": "volatile",
-    "named": false
-  },
-  {
-    "type": "out",
-    "named": false
-  },
-  {
-    "type": "in",
-    "named": false
-  },
-  {
-    "type": "this",
-    "named": false
-  },
-  {
-    "type": "params",
-    "named": false
-  },
-  {
-    "type": "base",
-    "named": false
-  },
-  {
-    "type": "{",
-    "named": false
-  },
-  {
-    "type": "}",
-    "named": false
-  },
-  {
-    "type": "=>",
-    "named": false
-  },
-  {
-    "type": "implicit",
-    "named": false
-  },
-  {
-    "type": "explicit",
-    "named": false
-  },
-  {
-    "type": "operator",
-    "named": false
-  },
-  {
-    "type": "~",
-    "named": false
-  },
-  {
-    "type": "where",
-    "named": false
-  },
-  {
-    "type": "class",
-    "named": false
-  },
-  {
-    "type": "struct",
-    "named": false
-  },
-  {
-    "type": "!",
-    "named": false
-  },
-  {
-    "type": "++",
-    "named": false
-  },
-  {
-    "type": "--",
-    "named": false
-  },
-  {
-    "type": "true",
-    "named": false
-  },
-  {
-    "type": "false",
-    "named": false
-  },
-  {
-    "type": "+",
-    "named": false
-  },
-  {
-    "type": "-",
-    "named": false
-  },
-  {
-    "type": "*",
-    "named": false
-  },
-  {
-    "type": "/",
-    "named": false
-  },
-  {
-    "type": "%",
-    "named": false
-  },
-  {
-    "type": "^",
-    "named": false
-  },
-  {
-    "type": "|",
-    "named": false
-  },
-  {
-    "type": "&",
-    "named": false
-  },
-  {
-    "type": "<<",
-    "named": false
-  },
-  {
-    "type": ">>",
-    "named": false
-  },
-  {
-    "type": "==",
-    "named": false
-  },
-  {
-    "type": "!=",
-    "named": false
-  },
-  {
-    "type": ">=",
-    "named": false
-  },
-  {
-    "type": "<=",
-    "named": false
-  },
-  {
-    "type": "get",
-    "named": false
-  },
-  {
-    "type": "set",
-    "named": false
-  },
-  {
-    "type": "add",
     "named": false
   },
   {
@@ -6937,59 +7960,7 @@
     "named": false
   },
   {
-    "type": "enum",
-    "named": false
-  },
-  {
-    "type": "interface",
-    "named": false
-  },
-  {
-    "type": "delegate",
-    "named": false
-  },
-  {
-    "type": "namespace",
-    "named": false
-  },
-  {
-    "type": "?",
-    "named": false
-  },
-  {
-    "type": "bool",
-    "named": false
-  },
-  {
-    "type": "byte",
-    "named": false
-  },
-  {
-    "type": "char",
-    "named": false
-  },
-  {
-    "type": "decimal",
-    "named": false
-  },
-  {
-    "type": "double",
-    "named": false
-  },
-  {
-    "type": "float",
-    "named": false
-  },
-  {
-    "type": "int",
-    "named": false
-  },
-  {
-    "type": "long",
-    "named": false
-  },
-  {
-    "type": "object",
+    "type": "return",
     "named": false
   },
   {
@@ -6997,11 +7968,55 @@
     "named": false
   },
   {
+    "type": "sealed",
+    "named": false
+  },
+  {
+    "type": "set",
+    "named": false
+  },
+  {
     "type": "short",
     "named": false
   },
   {
+    "type": "sizeof",
+    "named": false
+  },
+  {
+    "type": "static",
+    "named": false
+  },
+  {
     "type": "string",
+    "named": false
+  },
+  {
+    "type": "struct",
+    "named": false
+  },
+  {
+    "type": "switch",
+    "named": false
+  },
+  {
+    "type": "this",
+    "named": false
+  },
+  {
+    "type": "throw",
+    "named": false
+  },
+  {
+    "type": "true",
+    "named": false
+  },
+  {
+    "type": "try",
+    "named": false
+  },
+  {
+    "type": "typeof",
     "named": false
   },
   {
@@ -7013,79 +8028,19 @@
     "named": false
   },
   {
-    "type": "ushort",
-    "named": false
-  },
-  {
-    "type": "break",
-    "named": false
-  },
-  {
-    "type": "checked",
-    "named": false
-  },
-  {
     "type": "unchecked",
     "named": false
   },
   {
-    "type": "continue",
+    "type": "unsafe",
     "named": false
   },
   {
-    "type": "do",
+    "type": "ushort",
     "named": false
   },
   {
-    "type": "while",
-    "named": false
-  },
-  {
-    "type": "for",
-    "named": false
-  },
-  {
-    "type": "await",
-    "named": false
-  },
-  {
-    "type": "foreach",
-    "named": false
-  },
-  {
-    "type": "goto",
-    "named": false
-  },
-  {
-    "type": "case",
-    "named": false
-  },
-  {
-    "type": "default",
-    "named": false
-  },
-  {
-    "type": "if",
-    "named": false
-  },
-  {
-    "type": "else",
-    "named": false
-  },
-  {
-    "type": "lock",
-    "named": false
-  },
-  {
-    "type": "return",
-    "named": false
-  },
-  {
-    "type": "switch",
-    "named": false
-  },
-  {
-    "type": "_",
+    "type": "using",
     "named": false
   },
   {
@@ -7093,23 +8048,27 @@
     "named": false
   },
   {
+    "type": "virtual",
+    "named": false
+  },
+  {
+    "type": "void_keyword",
+    "named": true
+  },
+  {
+    "type": "volatile",
+    "named": false
+  },
+  {
     "type": "when",
     "named": false
   },
   {
-    "type": "throw",
+    "type": "where",
     "named": false
   },
   {
-    "type": "try",
-    "named": false
-  },
-  {
-    "type": "catch",
-    "named": false
-  },
-  {
-    "type": "finally",
+    "type": "while",
     "named": false
   },
   {
@@ -7117,31 +8076,11 @@
     "named": false
   },
   {
-    "type": "+=",
+    "type": "{",
     "named": false
   },
   {
-    "type": "-=",
-    "named": false
-  },
-  {
-    "type": "*=",
-    "named": false
-  },
-  {
-    "type": "/=",
-    "named": false
-  },
-  {
-    "type": "%=",
-    "named": false
-  },
-  {
-    "type": "&=",
-    "named": false
-  },
-  {
-    "type": "^=",
+    "type": "|",
     "named": false
   },
   {
@@ -7149,67 +8088,19 @@
     "named": false
   },
   {
-    "type": "<<=",
-    "named": false
-  },
-  {
-    "type": ">>=",
-    "named": false
-  },
-  {
-    "type": "??=",
-    "named": false
-  },
-  {
-    "type": "&&",
-    "named": false
-  },
-  {
     "type": "||",
     "named": false
   },
   {
-    "type": "typeof",
+    "type": "}",
     "named": false
   },
   {
-    "type": "sizeof",
+    "type": "~",
     "named": false
   },
   {
-    "type": "'",
+    "type": "ï»¿",
     "named": false
-  },
-  {
-    "type": "escape_sequence",
-    "named": true
-  },
-  {
-    "type": "null_literal",
-    "named": true
-  },
-  {
-    "type": "real_literal",
-    "named": true
-  },
-  {
-    "type": "\"",
-    "named": false
-  },
-  {
-    "type": "@\"",
-    "named": false
-  },
-  {
-    "type": "comment",
-    "named": true
-  },
-  {
-    "type": "void_keyword",
-    "named": true
-  },
-  {
-    "type": "preprocessor_directive",
-    "named": true
   }
 ]
