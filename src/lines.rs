@@ -10,8 +10,8 @@ use pretty_assertions::assert_eq;
 /// A range in a string, relative to the string start.
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct AbsoluteRange {
-    pub start: usize,
-    pub end: usize,
+    pub start: usize, // inclusive
+    pub end: usize, // exclusive
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
