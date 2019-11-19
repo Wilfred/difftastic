@@ -56,16 +56,8 @@ fn filter_concat(
     // Walk the lines and append any if they're present in the slice
     // of matched lines as a line number or opposite line number.
     while left_i < left_str_lines.len() || right_i < right_str_lines.len() {
-        let include_left_i = left_line_indexes.contains_key(&left_i)
-            || right_line_indexes
-                .get(&right_i)
-                .map(|ml| ml.opposite_line.number)
-                == Some(left_i);
-        let include_right_i = right_line_indexes.contains_key(&right_i)
-            || left_line_indexes
-                .get(&left_i)
-                .map(|ml| ml.opposite_line.number)
-                == Some(right_i);
+        let include_left_i = left_line_indexes.contains_key(&left_i);
+        let include_right_i = right_line_indexes.contains_key(&right_i);
 
         if (include_left_i || include_right_i) && needs_separator {
             result.push_str(&"-".repeat(max_left_length));
@@ -83,17 +75,31 @@ fn filter_concat(
             left_i += 1;
             right_i += 1;
         } else if include_left_i {
-            result.push_str(left_str_lines[left_i]);
-            result.push_str("\n");
+            let matching_right_i = (*left_line_indexes.get(&left_i).unwrap())
+                .opposite_line
+                .number;
+            if matching_right_i > right_i {
+                right_i += 1;
+            } else {
+                result.push_str(left_str_lines[left_i]);
+                result.push_str("\n");
 
-            left_i += 1;
+                left_i += 1;
+            }
         } else if include_right_i {
-            result.push_str(&" ".repeat(max_left_length));
-            result.push_str(spacer);
-            result.push_str(right_str_lines[right_i]);
-            result.push_str("\n");
+            let matching_left_i = (*right_line_indexes.get(&right_i).unwrap())
+                .opposite_line
+                .number;
+            if matching_left_i > left_i {
+                left_i += 1;
+            } else {
+                result.push_str(&" ".repeat(max_left_length));
+                result.push_str(spacer);
+                result.push_str(right_str_lines[right_i]);
+                result.push_str("\n");
 
-            right_i += 1;
+                right_i += 1;
+            }
         } else {
             left_i += 1;
             right_i += 1;
