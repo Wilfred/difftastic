@@ -31,8 +31,6 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.anonymous_method_expression],
-    [$.assignment_expression],
-
     [$._expression, $.generic_name],
     [$._expression, $._name],
     [$._expression, $._identifier_or_global],
@@ -50,11 +48,8 @@ module.exports = grammar({
     [$.assignment_expression, $.anonymous_method_expression],
     [$.element_access_expression, $.anonymous_method_expression],
     [$.element_access_expression, $.enum_member_declaration],
-    [$.element_access_expression, $.assignment_expression],
-    [$.invocation_expression, $.assignment_expression],
         
     [$.switch_expression, $.anonymous_method_expression],
-    [$.switch_expression, $.assignment_expression],
 
     [$.modifier, $.object_creation_expression],
     [$.event_declaration, $.variable_declarator],
@@ -892,11 +887,11 @@ module.exports = grammar({
       '}'
     ),
 
-    assignment_expression: $ => seq(
+    assignment_expression: $ => prec.right(seq(
       $._expression,
       $.assignment_operator,
       $._expression
-    ),
+    )),
 
     assignment_operator: $ => choice('=', '+=', '-=', '*=', '/=', '%=', '&=', '^=', '|=', '<<=', '>>=', '??='),
 
@@ -990,7 +985,7 @@ module.exports = grammar({
       $.string_literal,
       $.verbatim_string_literal
     ),
-    
+
     make_ref_expression: $ => seq(
       '__makeref',
       '(',
