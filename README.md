@@ -101,3 +101,8 @@ $ diff -y --color=always sample_files/css_before.css sample_files/css_after.css
 
 Jane Street's [patdiff](https://github.com/janestreet/patdiff)
 implements a tree diff, using [an A* algorithm](https://thume.ca/2017/06/17/tree-diffing/).
+
+### prettydiff
+
+[prettydiff](https://github.com/romankoblov/prettydiff) does really
+well out of the box with the sample files here. It implements LCS on words.
