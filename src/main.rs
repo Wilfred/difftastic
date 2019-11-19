@@ -9,7 +9,9 @@ mod diffs;
 mod language;
 mod lines;
 
-use crate::diffs::{added, difference_positions, highlight_differences, highlight_differences_combined, removed};
+use crate::diffs::{
+    added, difference_positions, highlight_differences, highlight_differences_combined, removed,
+};
 use crate::language::{infer_language, Language};
 use crate::lines::{add_context, enforce_length, max_line, relevant_lines, MatchedLine};
 use clap::{App, Arg};
@@ -164,8 +166,7 @@ fn inline_diff(before_path: &str, after_path: &str, language: Language) {
 
     let differences = difference_positions(&before_src, &after_src, language);
 
-    let result =
-        highlight_differences_combined(&before_src, &after_src, &differences);
+    let result = highlight_differences_combined(&before_src, &after_src, &differences);
     print!("{}", result);
 }
 
