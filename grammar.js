@@ -30,7 +30,6 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.if_statement],
     [$.anonymous_method_expression],
     [$.assignment_expression],
 
@@ -670,14 +669,14 @@ module.exports = grammar({
       ';'
     ),
 
-    if_statement: $ => seq(
+    if_statement: $ => prec.right(seq(
       'if',
       '(',
       $._expression,
       ')',
       $._statement,
       optional($.else_clause)
-    ),
+    )),
 
     else_clause: $ => seq('else', $._statement),
 
