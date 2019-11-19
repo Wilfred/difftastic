@@ -901,7 +901,7 @@ module.exports = grammar({
 
     assignment_operator: $ => choice('=', '+=', '-=', '*=', '/=', '%=', '&=', '^=', '|=', '<<=', '>>=', '??='),
 
-    await_expression: $ => choice('await', $._expression),
+    await_expression: $ => prec.right(PREC.SEQ, seq('await', $._expression)),
 
     cast_expression: $ => seq(
       ')',
@@ -1189,7 +1189,7 @@ module.exports = grammar({
       $.anonymous_object_creation_expression,
       // $.array_creation_expression,
       $.assignment_expression,
-      // $.await_expression,
+      $.await_expression,
       $.binary_expression,
       // $.cast_expression
       $.checked_expression,

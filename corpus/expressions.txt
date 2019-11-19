@@ -460,3 +460,28 @@ void b() {
                 (switch_expression_arm
                   (discard_pattern)
                   (string_literal))))))))))
+
+=====================================
+await Expression
+=====================================
+
+class Foo {
+  void Test() {
+    await x;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list)
+        (block
+        (expression_statement
+          (await_expression
+            (identifier_name))))))))
