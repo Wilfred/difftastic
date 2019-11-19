@@ -901,7 +901,7 @@ module.exports = grammar({
 
     assignment_operator: $ => choice('=', '+=', '-=', '*=', '/=', '%=', '&=', '^=', '|=', '<<=', '>>=', '??='),
 
-    await_expression: $ => choice('await', $._expression),
+    await_expression: $ => seq('await', $._expression),
 
     cast_expression: $ => seq(
       ')',
