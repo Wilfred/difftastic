@@ -90,7 +90,7 @@ Anonymous object creation with empty body
 ============================
 
 void b() {
-  var x = new { 
+  var x = new {
   };
 }
 
@@ -115,7 +115,7 @@ Anonymous object creation with single unnamed
 ============================
 
 void b() {
-  var x = new { 
+  var x = new {
     args
   };
 }
@@ -141,7 +141,7 @@ Anonymous object creation with single named
 ============================
 
 void b() {
-  var x = new { 
+  var x = new {
     test = "This"
   };
 }
@@ -215,6 +215,30 @@ void b() {
           (argument_list (integer_literal) (string_literal)))))))
 
 ============================
+Anonymous method expressions
+============================
+
+void a() {
+  delegate(int a) {
+    return a;
+  };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (expression_statement
+        (anonymous_method_expression
+          (parameter_list (parameter (predefined_type) (identifier_name)))
+          (block
+            (return_statement (identifier_name))))))))
+
+============================
 Implicit array creation
 ============================
 
@@ -240,7 +264,7 @@ void b() {
                 (integer_literal)
                 (integer_literal)
                 (integer_literal)))))))))
-          
+
 ============================
 Stackalloc implicit array
 ============================
@@ -422,7 +446,7 @@ void b() {
             (equals_value_clause
               (type_of_expression
                 (predefined_type)))))))))
-                
+
 ============================
 switch expression
 ============================

@@ -3258,41 +3258,45 @@
       ]
     },
     "if_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "if"
-        },
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_statement"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "else_clause"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "if"
+          },
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_statement"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "else_clause"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "else_clause": {
       "type": "SEQ",
@@ -4225,18 +4229,6 @@
         {
           "type": "SYMBOL",
           "name": "block"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_expression"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
         }
       ]
     },
@@ -4472,21 +4464,25 @@
       ]
     },
     "assignment_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "assignment_operator"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "assignment_operator"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
     },
     "assignment_operator": {
       "type": "CHOICE",
@@ -6806,25 +6802,12 @@
   ],
   "conflicts": [
     [
-      "if_statement"
-    ],
-    [
-      "anonymous_method_expression"
-    ],
-    [
-      "assignment_expression"
-    ],
-    [
       "_expression",
       "generic_name"
     ],
     [
       "_expression",
       "_name"
-    ],
-    [
-      "_expression",
-      "_identifier_or_global"
     ],
     [
       "qualified_name",
@@ -6843,44 +6826,8 @@
       "generic_name"
     ],
     [
-      "_type",
-      "type_parameter_list"
-    ],
-    [
-      "_type",
-      "enum_member_declaration"
-    ],
-    [
-      "invocation_expression",
-      "anonymous_method_expression"
-    ],
-    [
-      "assignment_expression",
-      "anonymous_method_expression"
-    ],
-    [
-      "element_access_expression",
-      "anonymous_method_expression"
-    ],
-    [
       "element_access_expression",
       "enum_member_declaration"
-    ],
-    [
-      "element_access_expression",
-      "assignment_expression"
-    ],
-    [
-      "invocation_expression",
-      "assignment_expression"
-    ],
-    [
-      "switch_expression",
-      "anonymous_method_expression"
-    ],
-    [
-      "switch_expression",
-      "assignment_expression"
     ],
     [
       "modifier",
