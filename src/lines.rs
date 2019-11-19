@@ -44,6 +44,7 @@ pub struct LineRange {
 
 /// A struct for efficiently converting absolute string positions to
 /// line-relative positions.
+#[derive(Debug)]
 pub struct NewlinePositions {
     /// A vector of the start positions of all the lines in `s`.
     positions: Vec<usize>,
