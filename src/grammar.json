@@ -2564,10 +2564,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "omitted_type_argument"
-        },
-        {
-          "type": "SYMBOL",
           "name": "pointer_type"
         },
         {
@@ -4546,17 +4542,21 @@
       ]
     },
     "await_expression": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "await"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "await"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
     },
     "cast_expression": {
       "type": "SEQ",
@@ -5782,6 +5782,10 @@
         {
           "type": "SYMBOL",
           "name": "assignment_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "await_expression"
         },
         {
           "type": "SYMBOL",
