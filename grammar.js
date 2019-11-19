@@ -42,6 +42,7 @@ module.exports = grammar({
 
     [$._expression, $.parameter],
     [$._expression, $.attribute],
+    [$.argument, $.parameter_modifier],
 
     [$.element_access_expression, $.enum_member_declaration],
 
@@ -1151,10 +1152,13 @@ module.exports = grammar({
     // TODO: Conflicts with many rules
     throw_expression: $ => seq('throw', $._expression),
 
-    // TODO: Conflicts with parenthesized
     tuple_expression: $ => seq(
       '(',
-      commaSep1($.argument),
+      $.argument,
+      repeat1(seq(
+        ',',
+        $.argument,
+      )),
       ')'
     ),
 
@@ -1203,7 +1207,7 @@ module.exports = grammar({
       // $.stack_alloc_array_creation_expression,
       $.switch_expression,
       // $.throw_expression,
-      // $.tuple_expression,
+      $.tuple_expression,
       // $.type,
       $.type_of_expression,
 

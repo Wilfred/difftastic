@@ -270,6 +270,31 @@ void a() {
               (argument_list (identifier_name))))))))))
 
 ============================
+Tuple expressions
+============================
+
+void a() {
+  b = (c, d: "e");
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (expression_statement (assignment_expression
+        (identifier_name)
+        (assignment_operator)
+        (tuple_expression
+          (argument (identifier_name))
+          (argument
+            (name_colon (identifier_name))
+            (string_literal))))))))
+
+============================
 Implicit array creation
 ============================
 
