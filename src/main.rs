@@ -56,56 +56,57 @@ fn filter_concat(
     // Walk the lines and append any if they're present in the slice
     // of matched lines as a line number or opposite line number.
     while left_i < left_str_lines.len() || right_i < right_str_lines.len() {
-        let include_left_i = left_line_indexes.contains_key(&left_i);
-        let include_right_i = right_line_indexes.contains_key(&right_i);
+        let left_i_index = left_line_indexes.get(&left_i);
+        let right_i_index = right_line_indexes.get(&right_i);
 
-        if (include_left_i || include_right_i) && needs_separator {
+        if (left_i_index.is_some() || right_i_index.is_some()) && needs_separator {
             result.push_str(&"-".repeat(max_left_length));
             result.push_str(spacer);
             result.push_str(&"-".repeat(max_left_length));
             needs_separator = false;
         }
 
-        if include_left_i && include_right_i {
-            result.push_str(left_str_lines[left_i]);
-            result.push_str(spacer);
-            result.push_str(right_str_lines[right_i]);
-            result.push_str("\n");
-
-            left_i += 1;
-            right_i += 1;
-        } else if include_left_i {
-            let matching_right_i = (*left_line_indexes.get(&left_i).unwrap())
-                .opposite_line
-                .number;
-            if matching_right_i > right_i {
-                right_i += 1;
-            } else {
+        match (left_i_index, right_i_index) {
+            (Some(_), Some(_)) => {
                 result.push_str(left_str_lines[left_i]);
-                result.push_str("\n");
-
-                left_i += 1;
-            }
-        } else if include_right_i {
-            let matching_left_i = (*right_line_indexes.get(&right_i).unwrap())
-                .opposite_line
-                .number;
-            if matching_left_i > left_i {
-                left_i += 1;
-            } else {
-                result.push_str(&" ".repeat(max_left_length));
                 result.push_str(spacer);
                 result.push_str(right_str_lines[right_i]);
                 result.push_str("\n");
 
+                left_i += 1;
                 right_i += 1;
             }
-        } else {
-            left_i += 1;
-            right_i += 1;
+            (Some(left_i_index), None) => {
+                let matching_right_i = left_i_index.opposite_line.number;
+                if matching_right_i > right_i {
+                    right_i += 1;
+                } else {
+                    result.push_str(left_str_lines[left_i]);
+                    result.push_str("\n");
 
-            needs_separator = true;
-        }
+                    left_i += 1;
+                }
+            }
+            (None, Some(right_i_index)) => {
+                let matching_left_i = right_i_index.opposite_line.number;
+                if matching_left_i > left_i {
+                    left_i += 1;
+                } else {
+                    result.push_str(&" ".repeat(max_left_length));
+                    result.push_str(spacer);
+                    result.push_str(right_str_lines[right_i]);
+                    result.push_str("\n");
+
+                    right_i += 1;
+                }
+            }
+            (None, None) => {
+                left_i += 1;
+                right_i += 1;
+
+                needs_separator = true;
+            }
+        };
     }
 
     result
