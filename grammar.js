@@ -30,7 +30,6 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.anonymous_method_expression],
     [$._expression, $.generic_name],
     [$._expression, $._name],
     [$._expression, $._identifier_or_global],
@@ -41,15 +40,7 @@ module.exports = grammar({
     [$._identifier_or_global, $.type_parameter_list],
     [$._identifier_or_global, $.generic_name],
 
-    [$._type, $.type_parameter_list],
-    [$._type, $.enum_member_declaration],
-    
-    [$.invocation_expression, $.anonymous_method_expression],
-    [$.assignment_expression, $.anonymous_method_expression],
-    [$.element_access_expression, $.anonymous_method_expression],
     [$.element_access_expression, $.enum_member_declaration],
-        
-    [$.switch_expression, $.anonymous_method_expression],
 
     [$.modifier, $.object_creation_expression],
     [$.event_declaration, $.variable_declarator],
@@ -57,14 +48,13 @@ module.exports = grammar({
   ],
 
   inline: $ => [
-    $.class_type,
     $.return_type
   ],
 
   word: $ => $.identifier_name,
 
   rules: {
-    
+
     compilation_unit: $ => seq(
       optional(BYTE_ORDER_MARK),
       repeat($._declaration) // Intentionally deviates from spec so that we can syntax highlight fragments of code
@@ -245,7 +235,7 @@ module.exports = grammar({
     ),
 
     // Params varies quite a lot from the Roslyn syntax in grammar.txt as that handles neither 'out' nor 'params' or arrays...
-    
+
     parameter_list: $ => seq(
       '(',
       optional($._formal_parameter_list),
@@ -348,7 +338,7 @@ module.exports = grammar({
       'class',
       'struct'
     ),
-    
+
     constructor_constraint: $ => seq('new', '(', ')'),
 
     type_constraint: $ => $._type,
@@ -833,15 +823,14 @@ module.exports = grammar({
 
     _anonymous_function_expression: $=> choice(
       $.anonymous_method_expression,
-//      $.lambda_expression   // TODO: Causes conflicts
+      // $.lambda_expression   // TODO: Causes conflicts
     ),
 
     anonymous_method_expression: $ => seq(
       optional('async'),
       'delegate',
       optional($.parameter_list),
-      $.block,
-      optional($._expression)
+      $.block
     ),
 
     lambda_expression: $ => choice(
@@ -1176,7 +1165,7 @@ module.exports = grammar({
 
     type_of_expression: $ => seq('typeof', '(', $._type, ')'),
 
-    // TODO: Expressions need work on precedence and conflicts. 
+    // TODO: Expressions need work on precedence and conflicts.
 
     _expression: $ => choice(
       $._anonymous_function_expression,
