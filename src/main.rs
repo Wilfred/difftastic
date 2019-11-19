@@ -67,6 +67,7 @@ fn filter_concat(
         }
 
         match (left_i_index, right_i_index) {
+            // Print the line of code on both sides.
             (Some(_), Some(_)) => {
                 result.push_str(left_str_lines[left_i]);
                 result.push_str(spacer);
@@ -79,8 +80,13 @@ fn filter_concat(
             (Some(left_i_index), None) => {
                 let matching_right_i = left_i_index.opposite_line.number;
                 if matching_right_i > right_i {
+                    // There's a matching line of code on the other
+                    // side, but later. Since we aren't printing the
+                    // other side now, just advance that side.
                     right_i += 1;
                 } else {
+                    // There's no matching line of code on the other
+                    // side, so just print this side.
                     result.push_str(left_str_lines[left_i]);
                     result.push_str("\n");
 
@@ -92,6 +98,8 @@ fn filter_concat(
                 if matching_left_i > left_i {
                     left_i += 1;
                 } else {
+                    // There's no matching line of code on the other
+                    // side, so just print this side.
                     result.push_str(&" ".repeat(max_left_length));
                     result.push_str(spacer);
                     result.push_str(right_str_lines[right_i]);
@@ -101,6 +109,8 @@ fn filter_concat(
                 }
             }
             (None, None) => {
+                // Don't print either side. This means we've finished
+                // a section, so we'll want to print a new separator.
                 left_i += 1;
                 right_i += 1;
 
