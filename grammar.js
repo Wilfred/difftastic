@@ -40,6 +40,9 @@ module.exports = grammar({
     [$._identifier_or_global, $.type_parameter_list],
     [$._identifier_or_global, $.generic_name],
 
+    [$._expression, $.parameter],
+    [$._expression, $.attribute],
+
     [$.element_access_expression, $.enum_member_declaration],
 
     [$.modifier, $.object_creation_expression],
@@ -54,11 +57,8 @@ module.exports = grammar({
   word: $ => $.identifier_name,
 
   rules: {
-
-    compilation_unit: $ => seq(
-      optional(BYTE_ORDER_MARK),
-      repeat($._declaration) // Intentionally deviates from spec so that we can syntax highlight fragments of code
-    ),
+    // Intentionally deviates from spec so that we can syntax highlight fragments of code
+    compilation_unit: $ => repeat($._declaration),
 
     extern_alias_directive: $ => seq('extern', 'alias', $.identifier_name, ';'),
 
@@ -823,7 +823,7 @@ module.exports = grammar({
 
     _anonymous_function_expression: $=> choice(
       $.anonymous_method_expression,
-      // $.lambda_expression   // TODO: Causes conflicts
+      $.lambda_expression   // TODO: Causes conflicts
     ),
 
     anonymous_method_expression: $ => seq(
@@ -833,17 +833,12 @@ module.exports = grammar({
       $.block
     ),
 
-    lambda_expression: $ => choice(
-      $._parenthesized_lambda_expression,
-      $._simple_lambda_expression
-    ),
-
-    _parenthesized_lambda_expression: $ => seq(
+    lambda_expression: $ => prec(-1, seq(
       optional('async'),
-      $.parameter_list,
+      choice($.parameter_list, $.identifier_name),
       '=>',
       choice($.block, $._expression)
-    ),
+    )),
 
     _simple_lambda_expression: $ => seq(
       optional('async'),

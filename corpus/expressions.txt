@@ -239,6 +239,37 @@ void a() {
             (return_statement (identifier_name))))))))
 
 ============================
+Lambda expressions
+============================
+
+void a() {
+  x => x + 1;
+  (A a, B b) => { return a.c(b); };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (expression_statement
+        (lambda_expression
+          (identifier_name)
+          (binary_expression (identifier_name) (integer_literal))))
+      (expression_statement
+        (lambda_expression
+          (parameter_list
+            (parameter (identifier_name) (identifier_name))
+            (parameter (identifier_name) (identifier_name)))
+          (block (return_statement
+            (invocation_expression
+              (qualified_name (identifier_name) (identifier_name))
+              (argument_list (identifier_name))))))))))
+
+============================
 Implicit array creation
 ============================
 
