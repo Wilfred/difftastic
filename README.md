@@ -106,3 +106,9 @@ implements a tree diff, using [an A* algorithm](https://thume.ca/2017/06/17/tree
 
 [prettydiff](https://github.com/romankoblov/prettydiff) does really
 well out of the box with the sample files here. It implements LCS on words.
+
+### wu-diff
+
+[wu-diff](https://crates.io/crates/wu-diff) doesn't have much
+documentation, but it gives the same results as other LCS
+implementations in Rust.
