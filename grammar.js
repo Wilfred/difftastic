@@ -1361,6 +1361,7 @@ module.exports = grammar({
           'endregion',
           'pragma warning',
           'pragma checksum',
+          'nullable'
         ),
         /.*/
       )
