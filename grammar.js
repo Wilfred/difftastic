@@ -41,6 +41,9 @@ module.exports = grammar({
     [$._expression, $.attribute],
     [$.argument, $.parameter_modifier],
 
+    [$._type, $.array_creation_expression],
+    [$._type, $.stack_alloc_array_creation_expression],
+
     [$.element_access_expression, $.enum_member_declaration],
 
     [$.modifier, $.object_creation_expression],
@@ -167,6 +170,7 @@ module.exports = grammar({
       ';'
     ),
 
+    //TODO: split into class_modifier, constant_modifier, field_modifier, method_modifier, property_modifier... 
     modifier: $ => choice(
       'abstract',
       'async',
@@ -174,7 +178,7 @@ module.exports = grammar({
       'extern',
       'fixed',
       'internal',
-      'new',
+      //'new',
       'override',
       'partial',
       'private',
@@ -863,7 +867,7 @@ module.exports = grammar({
     array_creation_expression: $ => seq(
       'new',
       $.array_type,
-      optional($._initializer_expression)
+      optional($.array_initalizer)
     ),
 
     _initializer_expression: $ => seq(
@@ -924,9 +928,9 @@ module.exports = grammar({
     implicit_array_creation_expression: $ => seq(
       'new',
       '[',
-      repeat('*'),
+      repeat(','),
       ']',
-      $._initializer_expression
+      $.array_initalizer
     ),
 
     implicit_element_access: $ => $.bracketed_argument_list,
@@ -935,7 +939,7 @@ module.exports = grammar({
       'stackalloc',
       '[',
       ']',
-      $._initializer_expression
+      $.array_initalizer
     ),
 
     _instance_expression: $ => choice(
@@ -1126,8 +1130,8 @@ module.exports = grammar({
 
     stack_alloc_array_creation_expression: $ => seq(
       'stackalloc',
-      $._type,
-      optional($._initializer_expression)
+      $.array_type,
+      optional($.array_initalizer)
     ),
 
     switch_expression: $ => seq(
@@ -1164,7 +1168,7 @@ module.exports = grammar({
     _expression: $ => choice(
       $._anonymous_function_expression,
       $.anonymous_object_creation_expression,
-      // $.array_creation_expression,
+      $.array_creation_expression,
       $.assignment_expression,
       $.await_expression,
       $.binary_expression,
@@ -1198,7 +1202,7 @@ module.exports = grammar({
       $.ref_type_expression,
       $.ref_value_expression,
       $.size_of_expression,
-      // $.stack_alloc_array_creation_expression,
+      $.stack_alloc_array_creation_expression,
       $.switch_expression,
       $.throw_expression,
       $.tuple_expression,
