@@ -161,6 +161,7 @@ class A {
   string u32 = "\uF1D20ff0test";
   string ve = @"";
   string v = @"abcde\ef";
+  string quotes = @"<TestClass xmlns=""http://example.com/omg"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""></TestClass>";
 }
 
 ---
@@ -201,6 +202,10 @@ class A {
         (variable_declaration
           (predefined_type)
           (variable_declarator (identifier_name) (equals_value_clause (string_literal (escape_sequence))))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier_name) (equals_value_clause (verbatim_string_literal)))))
       (field_declaration
         (variable_declaration
           (predefined_type)
