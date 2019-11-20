@@ -278,11 +278,7 @@ module.exports = grammar({
       $.argument_list
     ),
 
-    argument_list: $ => seq(
-      '(',
-      commaSep($._expression),
-      ')'
-    ),
+    argument_list: $ => seq('(', commaSep($.argument), ')'),
 
     block: $ => seq('{', repeat($._statement), '}'),
 
