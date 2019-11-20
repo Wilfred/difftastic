@@ -1320,11 +1320,14 @@ module.exports = grammar({
       '"'
     ),
 
-    verbatim_string_literal: $ => seq(
+    verbatim_string_literal: $ => token(seq(
       '@"',
-      /[^"]*/,
+      repeat(choice(
+        /[^"]/,
+        '""',
+      )),
       '"'
-    ),
+    )),
 
     // Commments
 
