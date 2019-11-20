@@ -824,7 +824,7 @@ module.exports = grammar({
 
     _anonymous_function_expression: $=> choice(
       $.anonymous_method_expression,
-      $.lambda_expression   // TODO: Causes conflicts
+      $.lambda_expression
     ),
 
     anonymous_method_expression: $ => seq(
