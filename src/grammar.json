@@ -616,6 +616,10 @@
         },
         {
           "type": "STRING",
+          "value": "new"
+        },
+        {
+          "type": "STRING",
           "value": "override"
         },
         {
@@ -6796,6 +6800,11 @@
     [
       "argument",
       "parameter_modifier"
+    ],
+    [
+      "modifier",
+      "array_creation_expression",
+      "object_creation_expression"
     ],
     [
       "_type",

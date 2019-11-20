@@ -40,6 +40,7 @@ module.exports = grammar({
     [$._expression, $.parameter],
     [$._expression, $.attribute],
     [$.argument, $.parameter_modifier],
+    [$.modifier, $.array_creation_expression, $.object_creation_expression],
 
     [$._type, $.array_creation_expression],
     [$._type, $.stack_alloc_array_creation_expression],
@@ -178,7 +179,7 @@ module.exports = grammar({
       'extern',
       'fixed',
       'internal',
-      //'new',
+      'new',
       'override',
       'partial',
       'private',
