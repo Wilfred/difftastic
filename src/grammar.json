@@ -6751,10 +6751,6 @@
     ],
     [
       "_expression",
-      "_name"
-    ],
-    [
-      "_expression",
       "_identifier_or_global"
     ],
     [
@@ -6796,10 +6792,6 @@
     [
       "event_declaration",
       "variable_declarator"
-    ],
-    [
-      "constant_pattern",
-      "case_switch_label"
     ]
   ],
   "externals": [],
