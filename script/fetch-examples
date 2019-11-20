@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+
+function checkout() {
+  repo=$1; url=$2; sha=$3
+
+  if [ ! -d "$repo" ]; then
+    git clone "https://github.com/$url" "$repo"
+  fi
+
+  pushd "$repo"
+  git fetch && git reset --hard "$sha"
+  popd
+}
+
+checkout examples/Newtonsoft.Json JamesNK/Newtonsoft.Json 7c3d7f8da7e35dde8fa74188b0decff70f8f10e3
+checkout examples/nunit     nunit/nunit             1eb24591cdc9835b91d2258b979cef9e9d4bc829
