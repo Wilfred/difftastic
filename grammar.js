@@ -1145,8 +1145,7 @@ module.exports = grammar({
       $._expression
     ),
 
-    // TODO: Conflicts with many rules
-    throw_expression: $ => seq('throw', $._expression),
+    throw_expression: $ => prec.right(seq('throw', $._expression)),
 
     tuple_expression: $ => seq(
       '(',
@@ -1201,7 +1200,7 @@ module.exports = grammar({
       $.size_of_expression,
       // $.stack_alloc_array_creation_expression,
       $.switch_expression,
-      // $.throw_expression,
+      $.throw_expression,
       $.tuple_expression,
       // $.type,
       $.type_of_expression,
