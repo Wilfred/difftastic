@@ -29,7 +29,6 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$._expression, $.generic_name],
-    [$._expression, $._name],
     [$._expression, $._identifier_or_global],
 
     [$.qualified_name, $.explicit_interface_specifier],
@@ -46,7 +45,6 @@ module.exports = grammar({
 
     [$.modifier, $.object_creation_expression],
     [$.event_declaration, $.variable_declarator],
-    [$.constant_pattern, $.case_switch_label]
   ],
 
   inline: $ => [
