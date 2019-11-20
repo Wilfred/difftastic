@@ -5,3 +5,8 @@ node_js: 10
 branches:
   only:
     - master
+
+script:
+  - npm test
+  - script/fetch-examples
+  - script/parse-examples

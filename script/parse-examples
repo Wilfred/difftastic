@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -e
+
+known_failures=$(cat script/known-failures.txt)
+
+example_files=$(find examples -name '*.cs')
+
+examples_to_parse=$(
+  for example in $example_files; do
+    if [[ ! $known_failures == *$example* ]]; then
+      echo $example
+    fi
+  done
+)
+
+tree-sitter parse $examples_to_parse -q
+
+skipped=$(echo $known_failures | wc -w)
+parsed=$(echo $examples_to_parse | wc -w)
+total=$((parsed+skipped))
+percent=$(bc -l <<< "100*$parsed/$total")
+
+printf "Successfully parsed %d of %d example files (%.1f%%)\n" $parsed $total $percent

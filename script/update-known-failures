@@ -1,0 +1,4 @@
+#!/bin/bash
+
+tree-sitter parse $(find examples -name '*.cs') -q \
+  | tee >(cut -d' ' -f1 > script/known-failures.txt)
