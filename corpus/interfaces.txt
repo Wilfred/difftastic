@@ -256,4 +256,4 @@ interface MyDefault {
           (expression_statement
             (invocation_expression
               (member_access_expression (identifier_name) (identifier_name))
-              (argument_list (identifier_name)))))))))
+              (argument_list (argument (identifier_name))))))))))

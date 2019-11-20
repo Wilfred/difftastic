@@ -239,7 +239,9 @@ void b() {
       (expression_statement
         (object_creation_expression
           (qualified_name (identifier_name) (identifier_name))
-          (argument_list (integer_literal) (string_literal))))
+          (argument_list
+            (argument (integer_literal))
+            (argument (string_literal)))))
       (expression_statement
         (assignment_expression
           (identifier_name)
@@ -302,7 +304,30 @@ void a() {
           (block (return_statement
             (invocation_expression
               (member_access_expression (identifier_name) (identifier_name))
-              (argument_list (identifier_name))))))))))
+              (argument_list (argument (identifier_name)))))))))))
+
+============================
+Invocation expressions
+============================
+
+void a() {
+  b(c, in d, out e);
+}
+
+---
+
+(compilation_unit (method_declaration
+  (void_keyword)
+  (identifier_name)
+  (parameter_list)
+  (block
+    (expression_statement
+      (invocation_expression
+        (identifier_name)
+        (argument_list
+          (argument (identifier_name))
+          (argument (identifier_name))
+          (argument (identifier_name))))))))
 
 ============================
 Tuple expressions

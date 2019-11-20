@@ -609,7 +609,9 @@ class A {
             (parameter (identifier_name) (identifier_name)))
           (arrow_expression_clause
             (invocation_expression (identifier_name)
-              (argument_list (identifier_name) (identifier_name))))))))))
+              (argument_list
+                (argument (identifier_name))
+                (argument (identifier_name)))))))))))
 
 =====================================
 Explicit local variable with no initializer
@@ -968,7 +970,7 @@ class A {
                 (integer_literal))))
           (binary_expression
             (identifier_name)
-            (integer_literal)) 
+            (integer_literal))
           (postfix_unary_expression
             (identifier_name))
           (block
