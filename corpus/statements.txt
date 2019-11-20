@@ -235,7 +235,7 @@ class A {
             (return_statement (integer_literal)))))))))
 
 =====================================
-Switch statement (bad switch label match)
+Switch statement
 =====================================
 
 class A {
@@ -264,7 +264,7 @@ class A {
       (block
         (switch_statement (identifier_name)
           (switch_section
-            (case_pattern_switch_label (constant_pattern (integer_literal)))
+            (case_switch_label (integer_literal))
             (case_switch_label (integer_literal))
             (return_statement (integer_literal)))
           (switch_section

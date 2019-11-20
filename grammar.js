@@ -707,7 +707,7 @@ module.exports = grammar({
     switch_section: $ => seq(repeat1($._switch_label), repeat1($._statement)),
 
     _switch_label: $ => choice(
-      $.case_switch_label, // TODO: Stop pattern_switch+constant_pattern stealing these
+      $.case_switch_label,
       $.case_pattern_switch_label,
       $.default_switch_label
     ),
@@ -774,7 +774,7 @@ module.exports = grammar({
 
     when_clause: $ => seq('when', $._expression),
 
-    case_switch_label: $ => seq('case', $._expression, ':'),
+    case_switch_label: $ => prec.left(1, seq('case', $._expression, ':')),
 
     default_switch_label: $ => seq('default', ':'),
 
