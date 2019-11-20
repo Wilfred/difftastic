@@ -5,8 +5,13 @@
     "compilation_unit": {
       "type": "REPEAT",
       "content": {
-        "type": "SYMBOL",
-        "name": "_declaration"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_declaration"
+          }
+        ]
       }
     },
     "extern_alias_directive": {
@@ -2555,10 +2560,6 @@
         }
       ]
     },
-    "omitted_type_argument": {
-      "type": "SEQ",
-      "members": []
-    },
     "array_type": {
       "type": "SEQ",
       "members": [
@@ -2742,29 +2743,24 @@
           "value": "("
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "tuple_element"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "tuple_element"
-                  }
-                ]
+          "type": "SYMBOL",
+          "name": "tuple_element"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "argument"
               }
-            }
-          ]
+            ]
+          }
         },
         {
           "type": "STRING",
@@ -4889,10 +4885,6 @@
           "name": "argument_list"
         }
       ]
-    },
-    "omitted_array_size_expression": {
-      "type": "SEQ",
-      "members": []
     },
     "parenthesized_expression": {
       "type": "SEQ",

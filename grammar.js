@@ -18,8 +18,6 @@ const PREC = {
   SEQ: 1
 };
 
-const BYTE_ORDER_MARK = '\xEF\xBB\xBF';
-
 module.exports = grammar({
   name: 'c_sharp',
 
@@ -59,12 +57,16 @@ module.exports = grammar({
 
   rules: {
     // Intentionally deviates from spec so that we can syntax highlight fragments of code
-    compilation_unit: $ => repeat($._declaration),
+    compilation_unit: $ => repeat(
+      choice(
+        $._declaration
+      )
+    ),
 
     extern_alias_directive: $ => seq('extern', 'alias', $.identifier_name, ';'),
 
     _declaration: $ => choice(
-      $.global_attribute_list, // Consider moving up so only valid in compilation_unit
+      $.global_attribute_list,
       $.class_declaration,
       $.delegate_declaration,
       $.destructor_declaration,
@@ -150,7 +152,7 @@ module.exports = grammar({
       $._base_type_declaration,
       $.delegate_declaration,
       $.enum_member_declaration,
-      // TODO: Consider incomplete_member and global_statement...
+      // TODO: Consider adding incomplete_member and global_statement...
       $.namespace_declaration,
     ),
 
@@ -531,14 +533,11 @@ module.exports = grammar({
       $.array_type,
       $._name,
       $.nullable_type,
-      //$.omitted_type_argument, TODO?  Defined as epsilon in grammar.txt :()
       $.pointer_type,
       $.predefined_type,
-      // $.ref_type, - conflicts with 'ref' modifier...
-      // $.tuple_type - conflicts plus no initializer statement syntax yet for testing
+      // $.ref_type,    // TODO: Conflicts with 'ref' modifier...
+      // $.tuple_type,  // TODO: Conflicts
     ),
-
-    omitted_type_argument: $ => seq(),
 
     array_type: $ => seq($._type, $.array_rank_specifier),
 
@@ -573,7 +572,16 @@ module.exports = grammar({
       $._type
     ),
 
-    tuple_type: $ => seq('(', commaSep1($.tuple_element), ')'),
+    tuple_type: $ => seq(
+      '(',
+      $.tuple_element,
+      repeat1(seq(
+        ',',
+        $.argument,
+      )),
+      ')'
+    ),
+    
     tuple_element: $ => seq($._type, optional($.identifier_name)),
 
     _statement: $ => choice(
@@ -749,7 +757,8 @@ module.exports = grammar({
 
     discard_pattern: $ => '_',
 
-    // TODO: Matches everything as optional... this won't work here.
+    // TODO: Matches everything as optional... this won't work.  Figure out what combinations
+    // are valid with at least one item to remove ambiguity.
     recursive_pattern: $ => seq(
       optional($._type),
       optional($.positional_pattern_clause),
@@ -815,7 +824,7 @@ module.exports = grammar({
 
     yield_statement: $ => seq(
       'yield',
-      choice( // Roslyn incorrectly allows break expression...
+      choice( // Roslyn incorrectly allows "break expression", we do not.
         seq('return', $._expression),
         'break'
       ),
@@ -952,7 +961,7 @@ module.exports = grammar({
 
     _literal_expression: $ => choice(
       '__arglist',
-//      'default',  // TODO: Causes conflict with switch sections
+//      'default',  // TODO: Causes conflict with switch 'default'
       $.null_literal,
       $.boolean_literal,
       $.character_literal,
@@ -986,10 +995,6 @@ module.exports = grammar({
       'new',
       $._type,
       $.argument_list
-    ),
-
-    omitted_array_size_expression: $ => seq(
-      // TODO: Deal with this, grammar.txt says "epsilon"
     ),
 
     parenthesized_expression: $ => seq('(', $._expression, ')'),
@@ -1187,7 +1192,6 @@ module.exports = grammar({
       $.member_access_expression,
       $.member_binding_expression,
       $.object_creation_expression,
-      // $.omitted_array_size_expression,
       $.parenthesized_expression,
       $.postfix_unary_expression,
       $.prefix_unary_expression,
