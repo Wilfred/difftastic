@@ -980,7 +980,7 @@ module.exports = grammar({
 
     member_access_expression: $ => seq(
       $._expression,
-      choice(',', '->'),
+      choice('.', '->'),
       $._simple_name
     ),
 
@@ -1191,7 +1191,7 @@ module.exports = grammar({
       //$.is_pattern_expression,
       $._literal_expression,
       $.make_ref_expression,
-      // $.member_access_expression,
+      $.member_access_expression,
       $.member_binding_expression,
       $.object_creation_expression,
       // $.omitted_array_size_expression,
@@ -1212,8 +1212,7 @@ module.exports = grammar({
       $.type_of_expression,
 
       // These should be removed when the ones above get activated
-      $.identifier_name,
-      $.qualified_name,
+      $.identifier_name
     ),
 
     _initializer: $ => choice(

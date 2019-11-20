@@ -266,7 +266,7 @@ void a() {
             (parameter (identifier_name) (identifier_name)))
           (block (return_statement
             (invocation_expression
-              (qualified_name (identifier_name) (identifier_name))
+              (member_access_expression (identifier_name) (identifier_name))
               (argument_list (identifier_name))))))))))
 
 ============================
