@@ -841,13 +841,6 @@ module.exports = grammar({
       choice($.block, $._expression)
     )),
 
-    _simple_lambda_expression: $ => seq(
-      optional('async'),
-      $.parameter,
-      '=>',
-      choice($.block, $._expression)
-    ),
-
     anonymous_object_creation_expression: $ => seq(
       'new',
       '{',
