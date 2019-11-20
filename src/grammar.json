@@ -4357,7 +4357,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_initializer_expression"
+              "name": "array_initalizer"
             },
             {
               "type": "BLANK"
@@ -4683,7 +4683,7 @@
           "type": "REPEAT",
           "content": {
             "type": "STRING",
-            "value": "*"
+            "value": ","
           }
         },
         {
@@ -4692,7 +4692,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_initializer_expression"
+          "name": "array_initalizer"
         }
       ]
     },
@@ -4717,7 +4717,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_initializer_expression"
+          "name": "array_initalizer"
         }
       ]
     },
@@ -5538,14 +5538,14 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_type"
+          "name": "array_type"
         },
         {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_initializer_expression"
+              "name": "array_initalizer"
             },
             {
               "type": "BLANK"
@@ -5721,6 +5721,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "array_creation_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "assignment_expression"
         },
         {
@@ -5806,6 +5810,10 @@
         {
           "type": "SYMBOL",
           "name": "size_of_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "stack_alloc_array_creation_expression"
         },
         {
           "type": "SYMBOL",
@@ -6792,6 +6800,19 @@
     [
       "argument",
       "parameter_modifier"
+    ],
+    [
+      "modifier",
+      "array_creation_expression",
+      "object_creation_expression"
+    ],
+    [
+      "_type",
+      "array_creation_expression"
+    ],
+    [
+      "_type",
+      "stack_alloc_array_creation_expression"
     ],
     [
       "element_access_expression",
