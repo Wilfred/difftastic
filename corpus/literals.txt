@@ -214,3 +214,23 @@ class A {
         (variable_declaration
           (predefined_type)
           (variable_declarator (identifier_name) (equals_value_clause (verbatim_string_literal))))))))
+
+==================================================
+string literals containing the line comment token
+==================================================
+
+class A {
+  string s = "//\n//";
+}
+
+---
+
+(compilation_unit (class_declaration
+  (identifier_name)
+  (class_body
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier_name)
+          (equals_value_clause (string_literal (escape_sequence)))))))))
