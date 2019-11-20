@@ -317,9 +317,44 @@ void b() {
             (identifier_name)
             (equals_value_clause
               (implicit_array_creation_expression
-                (integer_literal)
-                (integer_literal)
-                (integer_literal)))))))))
+                (array_initalizer
+                  (integer_literal)
+                  (integer_literal)
+                  (integer_literal))))))))))
+
+============================
+Implicit multi array creation
+============================
+
+void b() {
+  var z = new [,] { { 1, 1 }, { 2, 2 }, { 3, 3 } };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (implicit_array_creation_expression
+                (array_initalizer
+                  (array_initalizer
+                    (integer_literal)
+                    (integer_literal))
+                  (array_initalizer
+                    (integer_literal)
+                    (integer_literal))
+                  (array_initalizer
+                    (integer_literal)
+                    (integer_literal)))))))))))
 
 ============================
 Stackalloc implicit array
@@ -344,9 +379,109 @@ void b() {
             (identifier_name)
             (equals_value_clause
               (implicit_stack_alloc_array_creation_expression
-                (integer_literal)
-                (integer_literal)
-                (integer_literal)))))))))
+                (array_initalizer
+                  (integer_literal)
+                  (integer_literal)
+                  (integer_literal))))))))))
+
+============================
+Stackalloc explicit array
+============================
+
+void b() {
+  var z = stackalloc int[] { 1, 2, 3 };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (stack_alloc_array_creation_expression
+                (array_type (predefined_type) (array_rank_specifier))
+                (array_initalizer
+                  (integer_literal)
+                  (integer_literal)
+                  (integer_literal))))))))))
+
+============================
+Explicit array creation
+============================
+
+void b() {
+  var z = new int[3] { 1, 2, 3 };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (array_creation_expression
+                (array_type 
+                  (predefined_type)
+                  (array_rank_specifier (integer_literal)))
+                (array_initalizer
+                  (integer_literal)
+                  (integer_literal)
+                  (integer_literal))))))))))
+
+============================
+Explicit multi array creation
+============================
+
+void b() {
+  var z = new int[3,2] { { 1, 1 }, { 2, 2 }, { 3, 3 } };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (identifier_name)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+              (array_creation_expression
+                (array_type 
+                  (predefined_type)
+                  (array_rank_specifier
+                    (integer_literal)
+                    (integer_literal)))
+                (array_initalizer
+                  (array_initalizer
+                    (integer_literal)
+                    (integer_literal))
+                  (array_initalizer
+                    (integer_literal)
+                    (integer_literal))
+                  (array_initalizer
+                    (integer_literal)
+                    (integer_literal)))))))))))
 
 ============================
 Makeref
