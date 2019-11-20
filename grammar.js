@@ -39,6 +39,7 @@ module.exports = grammar({
 
     [$._expression, $.parameter],
     [$._expression, $.attribute],
+    [$._expression, $.parameter, $._identifier_or_global],
     [$.argument, $.parameter_modifier],
     [$.modifier, $.array_creation_expression, $.object_creation_expression],
 
@@ -171,7 +172,7 @@ module.exports = grammar({
       ';'
     ),
 
-    //TODO: split into class_modifier, constant_modifier, field_modifier, method_modifier, property_modifier... 
+    //TODO: split into class_modifier, constant_modifier, field_modifier, method_modifier, property_modifier...
     modifier: $ => choice(
       'abstract',
       'async',
@@ -584,7 +585,7 @@ module.exports = grammar({
       )),
       ')'
     ),
-    
+
     tuple_element: $ => seq($._type, optional($.identifier_name)),
 
     _statement: $ => choice(
@@ -887,12 +888,12 @@ module.exports = grammar({
 
     await_expression: $ => prec.right(PREC.SEQ, seq('await', $._expression)),
 
-    cast_expression: $ => seq(
-      ')',
+    cast_expression: $ => prec(PREC.CAST, seq(
+      '(',
       $._type,
       ')',
       $._expression
-    ),
+    )),
 
     checked_expression: $ => choice(
       seq('checked', '(', $._expression, ')'),
@@ -1173,7 +1174,7 @@ module.exports = grammar({
       $.assignment_expression,
       $.await_expression,
       $.binary_expression,
-      // $.cast_expression
+      $.cast_expression,
       $.checked_expression,
       // $.conditional_access_expression,
       $.conditional_expression,
