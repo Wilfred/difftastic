@@ -29,7 +29,7 @@ class D {}
       (attribute
         (identifier_name)
         (attribute_argument_list
-          (attribute_argument (qualified_name (identifier_name) (identifier_name))))))
+          (attribute_argument (member_access_expression (identifier_name) (identifier_name))))))
     (identifier_name)
     (class_body)))
 
