@@ -6633,7 +6633,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\*[^/]"
+                      "value": "\\*[^\\/]"
                     }
                   ]
                 }
@@ -6727,6 +6727,10 @@
               {
                 "type": "STRING",
                 "value": "pragma checksum"
+              },
+              {
+                "type": "STRING",
+                "value": "nullable"
               }
             ]
           },
