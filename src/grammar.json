@@ -5638,17 +5638,21 @@
       ]
     },
     "throw_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "throw"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "throw"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
     },
     "tuple_expression": {
       "type": "SEQ",
@@ -5806,6 +5810,10 @@
         {
           "type": "SYMBOL",
           "name": "switch_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "throw_expression"
         },
         {
           "type": "SYMBOL",
@@ -6625,7 +6633,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\*[^\\/]"
+                      "value": "\\*[^/]"
                     }
                   ]
                 }
