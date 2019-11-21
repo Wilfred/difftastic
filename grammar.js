@@ -1300,8 +1300,9 @@ module.exports = grammar({
 
     integer_literal: $ => seq(
       choice(
-        (/[0-9]+/),
-        (/0x[0-9a-fA-F]+/)
+        (/[0-9_]+/), // Decimal
+        (/0x[0-9a-fA-F_]+/), // Hex
+        (/0b[01_]+/) // Binary
       ),
       optional($._integer_type_suffix)
     ),
@@ -1312,28 +1313,28 @@ module.exports = grammar({
 
     real_literal: $ => {
       const suffix = /[fFdDmM]/;
-      const exponent = /[eE][+-]?[0-9]+/;
+      const exponent = /[eE][+-]?[0-9_]+/;
       return token(choice(
         seq(
-          (/[0-9]+/),
+          (/[0-9_]+/),
           '.',
-          (/[0-9]+/),
+          (/[0-9_]+/),
           optional(exponent),
           optional(suffix)
         ),
         seq(
           '.',
-          (/[0-9]+/),
+          (/[0-9_]+/),
           optional(exponent),
           optional(suffix)
         ),
         seq(
-          (/[0-9]+/),
+          (/[0-9_]+/),
           exponent,
           optional(suffix)
         ),
         seq(
-          (/[0-9]+/),
+          (/[0-9_]+/),
           suffix
         )
       ))

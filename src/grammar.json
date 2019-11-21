@@ -6596,11 +6596,15 @@
           "members": [
             {
               "type": "PATTERN",
-              "value": "[0-9]+"
+              "value": "[0-9_]+"
             },
             {
               "type": "PATTERN",
-              "value": "0x[0-9a-fA-F]+"
+              "value": "0x[0-9a-fA-F_]+"
+            },
+            {
+              "type": "PATTERN",
+              "value": "0b[01_]+"
             }
           ]
         },
@@ -6636,7 +6640,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[0-9]+"
+                "value": "[0-9_]+"
               },
               {
                 "type": "STRING",
@@ -6644,14 +6648,14 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[0-9]+"
+                "value": "[0-9_]+"
               },
               {
                 "type": "CHOICE",
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[eE][+-]?[0-9]+"
+                    "value": "[eE][+-]?[0-9_]+"
                   },
                   {
                     "type": "BLANK"
@@ -6681,14 +6685,14 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[0-9]+"
+                "value": "[0-9_]+"
               },
               {
                 "type": "CHOICE",
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[eE][+-]?[0-9]+"
+                    "value": "[eE][+-]?[0-9_]+"
                   },
                   {
                     "type": "BLANK"
@@ -6714,11 +6718,11 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[0-9]+"
+                "value": "[0-9_]+"
               },
               {
                 "type": "PATTERN",
-                "value": "[eE][+-]?[0-9]+"
+                "value": "[eE][+-]?[0-9_]+"
               },
               {
                 "type": "CHOICE",
@@ -6739,7 +6743,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[0-9]+"
+                "value": "[0-9_]+"
               },
               {
                 "type": "PATTERN",
