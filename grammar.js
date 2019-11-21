@@ -949,7 +949,42 @@ module.exports = grammar({
     ),
 
     base_expression: $ => 'base',
+
     this_expression: $ => 'this',
+
+    interpolated_string_expression: $ => choice(
+      seq('$"', repeat($._interpolated_string_content), '"'),
+      seq('$@"', repeat($._interpolated_verbatim_string_content), '"'),
+    ),
+
+    _interpolated_string_content: $ => choice(
+      $.interpolated_string_text,
+      $.interpolation
+    ),
+
+    _interpolated_verbatim_string_content: $ => choice(
+      $.interpolated_verbatim_string_text,
+      $.interpolation
+    ),
+
+    interpolated_string_text: $ => choice(
+      token.immediate(prec(1, /[^{"\\\n]+/)),
+      $.escape_sequence
+    ),
+
+    interpolated_verbatim_string_text: $ => choice(/[^{"]+/, '""'),
+
+    interpolation: $ => seq(
+      '{',
+      $._expression,
+      optional($.interpolation_alignment_clause),
+      optional($.interpolation_format_clause),
+      '}'
+    ),
+
+    interpolation_alignment_clause: $ => seq(',', $._expression),
+
+    interpolation_format_clause: $ => seq(':', /[^}"]+/),
 
     invocation_expression: $ => seq(
       $._expression,
@@ -1187,7 +1222,7 @@ module.exports = grammar({
       $.implicit_stack_alloc_array_creation_expression,
       $.initializer_expression,
       $._instance_expression,
-      // $.interpolated_string_expression,
+      $.interpolated_string_expression,
       $.invocation_expression,
       //$.is_pattern_expression,
       $._literal_expression,
