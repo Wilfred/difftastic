@@ -1132,12 +1132,11 @@ module.exports = grammar({
 
     query_continuation: $ => seq('into', $.identifier_name, $._query_body),
 
-    // TODO: Conflicts
-    range_expression: $ => seq(
+    range_expression: $ => prec.right(seq(
       optional($._expression),
       '..',
       optional($._expression)
-    ),
+    )),
 
     // TODO: Conflicts with modifier
     ref_expression: $ => seq('ref', $._expression),
@@ -1234,7 +1233,7 @@ module.exports = grammar({
       $.postfix_unary_expression,
       $.prefix_unary_expression,
       // $.query_expression,
-      // $.range_expression,
+      $.range_expression,
       // $.ref_expression,
       $.ref_type_expression,
       $.ref_value_expression,
