@@ -4554,7 +4554,7 @@
       }
     },
     "cast_expression": {
-      "type": "PREC",
+      "type": "PREC_RIGHT",
       "value": 14,
       "content": {
         "type": "SEQ",
@@ -7028,6 +7028,11 @@
     [
       "_expression",
       "_identifier_or_global"
+    ],
+    [
+      "_expression",
+      "_identifier_or_global",
+      "parameter"
     ],
     [
       "qualified_name",

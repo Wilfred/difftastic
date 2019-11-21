@@ -31,6 +31,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$._expression, $.generic_name],
     [$._expression, $._identifier_or_global],
+    [$._expression, $._identifier_or_global, $.parameter],
 
     [$.qualified_name, $.explicit_interface_specifier],
 
@@ -174,7 +175,6 @@ module.exports = grammar({
       ';'
     ),
 
-    //TODO: split into class_modifier, constant_modifier, field_modifier, method_modifier, property_modifier...
     modifier: $ => choice(
       'abstract',
       'async',
@@ -900,7 +900,7 @@ module.exports = grammar({
 
     await_expression: $ => prec.right(PREC.SEQ, seq('await', $._expression)),
 
-    cast_expression: $ => prec(PREC.CAST, seq(
+    cast_expression: $ => prec.right(PREC.CAST, seq(
       '(',
       $._type,
       ')',
