@@ -928,3 +928,30 @@ class Foo {
                 (identifier_name)
                 (identifier_name))
               (argument_list))))))))
+
+=====================================
+cast expression
+=====================================
+
+class Foo {
+  void Test() {
+    x = (int) y;
+      }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list)
+        (block
+          (expression_statement
+            (assignment_expression
+              (identifier_name)
+              (assignment_operator)
+              (cast_expression (predefined_type) (identifier_name)))))))))
