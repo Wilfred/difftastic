@@ -213,8 +213,17 @@ module.exports = grammar({
 
     argument: $ => seq(
       optional($.name_colon),
-      optional(choice('ref', 'out', 'in')),
-      $._expression
+      choice(
+        seq(
+          optional(choice('ref','out', 'in')),
+          $._expression
+        ),
+        seq(
+          'out',
+          $._type,
+          $.identifier_name
+        )
+      )
     ),
 
     equals_value_clause: $ => seq('=', $._expression),
@@ -532,6 +541,7 @@ module.exports = grammar({
     ),
 
     _type: $ => choice(
+      $.implicit_type,
       $.array_type,
       $._name,
       $.nullable_type,
@@ -540,6 +550,8 @@ module.exports = grammar({
       // $.ref_type,    // TODO: Conflicts with 'ref' modifier...
       // $.tuple_type,  // TODO: Conflicts
     ),
+
+    implicit_type: $ => 'var',
 
     array_type: $ => prec(PREC.POSTFIX, seq($._type, $.array_rank_specifier)),
 
@@ -781,7 +793,7 @@ module.exports = grammar({
       '}'
     ),
 
-    var_pattern: $ => seq('var', $._variable_designation),
+    var_pattern: $ => prec(1, seq('var', $._variable_designation)),
 
     when_clause: $ => seq('when', $._expression),
 
