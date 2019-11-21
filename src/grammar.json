@@ -4587,21 +4587,25 @@
       ]
     },
     "conditional_access_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": "?"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "?"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
     },
     "conditional_expression": {
       "type": "PREC_RIGHT",
@@ -5963,6 +5967,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "conditional_access_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "conditional_expression"
         },
         {
@@ -7035,6 +7043,11 @@
     [
       "event_declaration",
       "variable_declarator"
+    ],
+    [
+      "await_expression",
+      "conditional_access_expression",
+      "conditional_expression"
     ]
   ],
   "externals": [],

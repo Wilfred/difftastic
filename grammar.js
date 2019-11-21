@@ -51,6 +51,7 @@ module.exports = grammar({
 
     [$.modifier, $.object_creation_expression],
     [$.event_declaration, $.variable_declarator],
+    [$.await_expression, $.conditional_access_expression, $.conditional_expression]
   ],
 
   inline: $ => [
@@ -899,11 +900,11 @@ module.exports = grammar({
       seq('unchecked', '(', $._expression, ')')
     ),
 
-    conditional_access_expression: $ => seq(
+    conditional_access_expression: $ => prec.right(seq(
       $._expression,
       '?',
       $._expression
-    ),
+    )),
 
     conditional_expression: $ => prec.right(PREC.COND, seq(
       $._expression, '?', $._expression, ':', $._expression
@@ -1210,7 +1211,7 @@ module.exports = grammar({
       $.binary_expression,
       $.cast_expression,
       $.checked_expression,
-      // $.conditional_access_expression,
+      $.conditional_access_expression,
       $.conditional_expression,
       // $.declaration_expression,
       // $.default_expression,
