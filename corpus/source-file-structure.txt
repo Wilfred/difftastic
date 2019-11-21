@@ -150,7 +150,7 @@ var a = 1;
 ---
 (compilation_unit
   (field_declaration
-    (variable_declaration (identifier_name)
+    (variable_declaration (implicit_type)
       (variable_declarator (identifier_name)
         (equals_value_clause (integer_literal))))))
 

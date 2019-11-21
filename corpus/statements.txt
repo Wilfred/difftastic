@@ -546,7 +546,7 @@ class A {
       (block
         (local_declaration_statement
           (variable_declaration
-            (identifier_name)
+            (implicit_type)
             (variable_declarator
               (identifier_name)
               (equals_value_clause
@@ -754,7 +754,7 @@ class A {
       (block
         (using_statement
           (variable_declaration
-            (identifier_name)
+            (implicit_type)
             (variable_declarator
               (identifier_name)
               (equals_value_clause

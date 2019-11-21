@@ -127,7 +127,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
           (identifier_name)
             (equals_value_clause
@@ -153,7 +153,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
           (identifier_name)
             (equals_value_clause
@@ -179,7 +179,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
           (identifier_name)
             (equals_value_clause
@@ -207,7 +207,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -311,7 +311,7 @@ Invocation expressions
 ============================
 
 void a() {
-  b(c, in d, out e);
+  b(c, in d, out e, ref f, out var g);
 }
 
 ---
@@ -327,7 +327,9 @@ void a() {
         (argument_list
           (argument (identifier_name))
           (argument (identifier_name))
-          (argument (identifier_name))))))))
+          (argument (identifier_name))
+          (argument (identifier_name))
+          (argument (implicit_type) (identifier_name))))))))
 
 ============================
 Tuple expressions
@@ -372,7 +374,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -400,7 +402,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -434,7 +436,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -462,7 +464,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -491,7 +493,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -522,7 +524,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -561,7 +563,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -590,7 +592,7 @@ void b() {
       (expression_statement (postfix_unary_expression (identifier_name)))
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -615,7 +617,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -640,7 +642,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -666,7 +668,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -691,7 +693,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -720,7 +722,7 @@ void b() {
     (block
       (local_declaration_statement
         (variable_declaration
-          (identifier_name)
+          (implicit_type)
           (variable_declarator
             (identifier_name)
             (equals_value_clause
@@ -814,7 +816,7 @@ class Foo {
         (block
           (local_declaration_statement
             (variable_declaration
-              (identifier_name)
+              (implicit_type)
               (variable_declarator
                 (identifier_name)
                 (equals_value_clause
@@ -827,7 +829,7 @@ class Foo {
                           (integer_literal)))))))))
             (local_declaration_statement
               (variable_declaration
-                (identifier_name)
+                (implicit_type)
                   (variable_declarator
                     (identifier_name)
                     (equals_value_clause
@@ -860,7 +862,7 @@ class Foo {
         (block
           (local_declaration_statement
             (variable_declaration
-              (identifier_name)
+              (implicit_type)
               (variable_declarator
                 (identifier_name)
                 (equals_value_clause
@@ -872,7 +874,7 @@ class Foo {
                           (integer_literal)))))))))
             (local_declaration_statement
               (variable_declaration
-                (identifier_name)
+                (implicit_type)
                   (variable_declarator
                     (identifier_name)
                     (equals_value_clause
@@ -880,7 +882,7 @@ class Foo {
                         (prefix_unary_expression (integer_literal)))))))                        
               (local_declaration_statement
                 (variable_declaration
-                  (identifier_name)
+                  (implicit_type)
                   (variable_declarator
                     (identifier_name)
                     (equals_value_clause
@@ -912,7 +914,7 @@ class Foo {
         (block
           (local_declaration_statement
             (variable_declaration
-              (identifier_name)
+              (implicit_type)
               (variable_declarator
                 (identifier_name)
                 (equals_value_clause
