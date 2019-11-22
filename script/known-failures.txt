@@ -6,7 +6,6 @@ examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/Samples/Linq/Cr
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/Samples/Linq/CreateJsonDeclaratively.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/Samples/Linq/QueryJsonLinq.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/SerializationTests.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1545.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1552.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1593.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1619.cs
@@ -149,14 +148,10 @@ examples/nunit/src/NUnitFramework/testdata/TestDataSpec.cs
 examples/nunit/src/NUnitFramework/testdata/TestFixtureData.cs
 examples/nunit/src/NUnitFramework/testdata/TestFixtureSourceData.cs
 examples/nunit/src/NUnitFramework/testdata/UnhandledExceptions.cs
-examples/nunit/src/NUnitFramework/tests/Assertions/ArrayEqualsFailureMessageFixture.cs
-examples/nunit/src/NUnitFramework/tests/Assertions/ArrayEqualsFixture.cs
 examples/nunit/src/NUnitFramework/tests/Assertions/AssertionHelperTests.cs
 examples/nunit/src/NUnitFramework/tests/Assertions/CollectionAssertTest.cs
-examples/nunit/src/NUnitFramework/tests/Assertions/TypeAssertTest.cs
 examples/nunit/src/NUnitFramework/tests/Attributes/RangeAttributeTests.cs
 examples/nunit/src/NUnitFramework/tests/Attributes/TestFixtureSourceTests.cs
-examples/nunit/src/NUnitFramework/tests/Attributes/ValueSourceTests.cs
 examples/nunit/src/NUnitFramework/tests/Constraints/CollectionEquivalentConstraintResultTests.cs
 examples/nunit/src/NUnitFramework/tests/Constraints/NUnitEqualityComparerTests.cs
 examples/nunit/src/NUnitFramework/tests/HelperConstraints.cs
