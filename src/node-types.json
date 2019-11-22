@@ -1143,14 +1143,26 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
+        {
+          "type": "alias_qualified_name",
+          "named": true
+        },
         {
           "type": "attribute_argument_list",
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         }
       ]

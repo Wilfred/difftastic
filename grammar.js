@@ -137,7 +137,7 @@ module.exports = grammar({
     qualified_name: $ => prec(PREC.DOT, seq($._name, '.', $._simple_name)),
 
     attribute_list: $ => seq('[', commaSep1($.attribute), ']'),
-    attribute: $ => seq($.identifier_name, optional($.attribute_argument_list)),
+    attribute: $ => seq($._name, optional($.attribute_argument_list)),
 
     attribute_argument_list: $ => seq(
       '(',

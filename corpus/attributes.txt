@@ -34,6 +34,25 @@ class D {}
     (class_body)))
 
 =======================================
+Attributes with qualified name
+=======================================
+
+[NS.A(B.C)]
+class D {}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (attribute_list
+      (attribute
+        (qualified_name (identifier_name) (identifier_name))
+        (attribute_argument_list
+          (attribute_argument (member_access_expression (identifier_name) (identifier_name))))))
+    (identifier_name)
+    (class_body)))
+
+=======================================
 Attributes on classes
 =======================================
 
