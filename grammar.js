@@ -123,7 +123,16 @@ module.exports = grammar({
 
     generic_name: $ => seq($.identifier_name, $.type_argument_list),
 
-    type_argument_list: $ => seq('<', commaSep1($._type), '>'),
+    // Intentionally different from Roslyn to avoid non-matching
+    // omitted_type_argument in a lot of unnecessary places.
+    type_argument_list: $ => seq(
+      '<',
+      choice(
+        repeat(','),
+        commaSep1($._type),
+      ),
+      '>'
+    ),
 
     qualified_name: $ => prec(PREC.DOT, seq($._name, '.', $._simple_name)),
 
