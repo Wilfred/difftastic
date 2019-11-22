@@ -1,9 +1,4 @@
-extern crate clap;
-extern crate colored;
-extern crate diff;
-extern crate itertools;
-extern crate regex;
-extern crate term_size;
+use term_size;
 
 mod diffs;
 mod language;
