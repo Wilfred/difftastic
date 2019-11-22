@@ -105,7 +105,7 @@ module.exports = grammar({
 
     name_equals: $ => seq($._identifier_or_global, '='),
 
-    identifier_name: $ => /[a-zA-Z_][a-zA-Z_0-9]*/, // identifier_token in Roslyn
+    identifier_name: $ => token(seq(optional('@'), /[a-zA-Z_][a-zA-Z_0-9]*/)), // identifier_token in Roslyn
     _identifier_or_global: $ => choice('global', $.identifier_name), // identifier_name in Roslyn
 
     _name: $ => choice(
