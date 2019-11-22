@@ -972,3 +972,34 @@ class Foo {
               (identifier_name)
               (assignment_operator)
               (cast_expression (predefined_type) (identifier_name)))))))))
+
+=====================================
+Generic type name no type args
+=====================================
+
+var d = typeof(Dictionary<,>);
+var t = typeof(Tuple<,,,>);
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier_name)
+        (equals_value_clause
+          (type_of_expression
+            (generic_name
+              (identifier_name)
+              (type_argument_list)))))))
+  (field_declaration
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier_name)
+        (equals_value_clause
+          (type_of_expression
+            (generic_name
+              (identifier_name)
+              (type_argument_list))))))))

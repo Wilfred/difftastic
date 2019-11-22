@@ -43,7 +43,6 @@ examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/TypeConverterJson
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/VersionOld.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Utilities/EnumUtilsTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Utilities/LateboundReflectionDelegateFactoryTests.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Utilities/ReflectionUtilsTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Bson/BsonBinaryWriter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Bson/BsonWriter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/BinaryConverter.cs
@@ -51,7 +50,6 @@ examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/BsonObjectIdConverter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/DataTableConverter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/IsoDateTimeConverter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/JavaScriptDateTimeConverter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/KeyValuePairConverter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/RegexConverter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/UnixDateTimeConverter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/XmlNodeConverter.cs
@@ -92,8 +90,6 @@ examples/Newtonsoft.Json/Src/Newtonsoft.Json/Schema/JsonSchemaBuilder.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Schema/UndefinedSchemaIdHandling.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/DefaultContractResolver.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/DefaultReferenceResolver.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/JsonArrayContract.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/JsonDictionaryContract.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/JsonDynamicContract.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/JsonFormatterConverter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/JsonSerializerInternalReader.cs
@@ -105,9 +101,7 @@ examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/CollectionUtils.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/CollectionWrapper.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/ConvertUtils.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/DictionaryWrapper.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/DynamicUtils.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/ExpressionReflectionDelegateFactory.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/ImmutableCollectionsUtils.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/LateBoundReflectionDelegateFactory.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/LinqBridge.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/MiscellaneousUtils.cs
@@ -123,8 +117,6 @@ examples/nunit/src/NUnitFramework/framework/Compatibility/ReflectionExtensions.c
 examples/nunit/src/NUnitFramework/framework/Compatibility/System.Collections.Concurrent/ConcurrentQueue.cs
 examples/nunit/src/NUnitFramework/framework/Constraints/Comparers/EnumerablesComparer.cs
 examples/nunit/src/NUnitFramework/framework/Constraints/Comparers/EquatablesComparer.cs
-examples/nunit/src/NUnitFramework/framework/Constraints/Comparers/KeyValuePairsComparer.cs
-examples/nunit/src/NUnitFramework/framework/Constraints/EqualConstraint.cs
 examples/nunit/src/NUnitFramework/framework/Constraints/MsgUtils.cs
 examples/nunit/src/NUnitFramework/framework/Constraints/ThrowsConstraint.cs
 examples/nunit/src/NUnitFramework/framework/Constraints/ThrowsExceptionConstraint.cs
@@ -134,10 +126,8 @@ examples/nunit/src/NUnitFramework/framework/Guard.cs
 examples/nunit/src/NUnitFramework/framework/Internal/AsyncToSyncAdapter.cs
 examples/nunit/src/NUnitFramework/framework/Internal/Execution/EventListenerTextWriter.cs
 examples/nunit/src/NUnitFramework/framework/Internal/Execution/ParallelExecutionStrategy.cs
-examples/nunit/src/NUnitFramework/framework/Internal/Net40BclTaskAwaitAdapter.cs
 examples/nunit/src/NUnitFramework/framework/Internal/OSPlatform.cs
 examples/nunit/src/NUnitFramework/framework/Internal/Reflect.cs
-examples/nunit/src/NUnitFramework/framework/Internal/TaskAwaitAdapter.cs
 examples/nunit/src/NUnitFramework/framework/Internal/ValueGenerator.cs
 examples/nunit/src/NUnitFramework/nunitlite/Options.cs
 examples/nunit/src/NUnitFramework/testdata/ActionAttributeFixture.cs
@@ -151,15 +141,12 @@ examples/nunit/src/NUnitFramework/testdata/UnhandledExceptions.cs
 examples/nunit/src/NUnitFramework/tests/Assertions/AssertionHelperTests.cs
 examples/nunit/src/NUnitFramework/tests/Assertions/CollectionAssertTest.cs
 examples/nunit/src/NUnitFramework/tests/Attributes/RangeAttributeTests.cs
-examples/nunit/src/NUnitFramework/tests/Attributes/TestFixtureSourceTests.cs
 examples/nunit/src/NUnitFramework/tests/Constraints/CollectionEquivalentConstraintResultTests.cs
 examples/nunit/src/NUnitFramework/tests/Constraints/NUnitEqualityComparerTests.cs
 examples/nunit/src/NUnitFramework/tests/HelperConstraints.cs
 examples/nunit/src/NUnitFramework/tests/Internal/GenericMethodHelperTests.cs
 examples/nunit/src/NUnitFramework/tests/Internal/RuntimeFrameworkTests.cs
 examples/nunit/src/NUnitFramework/tests/Internal/SetUpFixtureTests.cs
-examples/nunit/src/NUnitFramework/tests/Internal/TestFixtureTests.cs
-examples/nunit/src/NUnitFramework/tests/Internal/TypeHelperTests.cs
 examples/nunit/src/NUnitFramework/tests/Internal/UnexpectedExceptionTests.cs
 examples/nunit/src/NUnitFramework/tests/Internal/UnhandledExceptionTests.cs
 examples/nunit/src/NUnitFramework/tests/TestUtilities/Collections/SimpleEnumerable.cs
