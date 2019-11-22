@@ -1,0 +1,27 @@
+=======================================
+basic indentifiers
+=======================================
+
+int x = y;
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier_name) (equals_value_clause (identifier_name))))))
+
+=======================================
+indentifiers with keyword names
+=======================================
+
+int @var = @const;
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier_name) (equals_value_clause (identifier_name))))))
