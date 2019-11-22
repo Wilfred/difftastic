@@ -871,8 +871,8 @@ module.exports = grammar({
       '}'
     ),
 
-    _anonymous_object_member_declarator: $ => seq(
-      optional($.name_equals), // TODO: This doesn't match, becomes assignment_expression via below
+    _anonymous_object_member_declarator: $ => choice(
+      prec.dynamic(PREC.ASSIGN, seq($.name_equals, $._expression)),
       $._expression
     ),
 
