@@ -480,6 +480,7 @@ Explicit array creation
 
 void b() {
   var z = new int[3] { 1, 2, 3 };
+  var b = new byte[,] { { 1, 2 }, { 2, 3 } };
 }
 
 ---
@@ -503,7 +504,24 @@ void b() {
                 (initializer_expression
                   (integer_literal)
                   (integer_literal)
-                  (integer_literal))))))))))
+                  (integer_literal)))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier_name)
+              (equals_value_clause
+                (array_creation_expression
+                  (array_type
+                    (predefined_type)
+                    (array_rank_specifier))
+                  (initializer_expression
+                    (initializer_expression
+                      (integer_literal)
+                      (integer_literal))
+                    (initializer_expression
+                      (integer_literal)
+                      (integer_literal)))))))))))
 
 ============================
 Explicit multi array creation
@@ -878,7 +896,7 @@ class Foo {
                     (identifier_name)
                     (equals_value_clause
                       (range_expression
-                        (prefix_unary_expression (integer_literal)))))))                        
+                        (prefix_unary_expression (integer_literal)))))))
               (local_declaration_statement
                 (variable_declaration
                   (implicit_type)

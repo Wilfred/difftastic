@@ -555,7 +555,9 @@ module.exports = grammar({
 
     array_type: $ => prec(PREC.POSTFIX, seq($._type, $.array_rank_specifier)),
 
-    array_rank_specifier: $ => seq('[', commaSep($._expression), ']'),
+    // Roslyn marks this non-optional and includes omitted_array_size_expression in
+    // expression but we can't match an empty rule everywhere.
+    array_rank_specifier: $ => seq('[', commaSep(optional($._expression)), ']'),
 
     nullable_type: $ => seq($._type, '?'),
 
