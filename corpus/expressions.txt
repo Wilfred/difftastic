@@ -184,10 +184,9 @@ void b() {
           (identifier_name)
             (equals_value_clause
               (anonymous_object_creation_expression
-                (assignment_expression
-                  (identifier_name)
-                  (assignment_operator)
-                  (string_literal))))))))))
+                (name_equals
+                  (identifier_name))
+                (string_literal)))))))))
 
 ============================
 Checked expressions
