@@ -378,7 +378,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "identifier_name"
+          "name": "_name"
         },
         {
           "type": "CHOICE",
@@ -6950,7 +6950,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\*[^\\/]"
+                      "value": "\\*[^/]"
                     }
                   ]
                 }
