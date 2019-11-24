@@ -1,7 +1,9 @@
 .vscode
 corpus
 corpus_failing
+elm-stuff
 examples
+examples-full
 build
 prebuilds
 script
