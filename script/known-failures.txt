@@ -1,5 +1,4 @@
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Benchmarks/LowLevelBenchmarks.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Bson/BsonWriterTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Converters/StringEnumConverterTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/LinqToJsonTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/Samples/Linq/CreateJsonAnonymousObject.cs
@@ -11,17 +10,12 @@ examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1593.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1619.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1725.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1752.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1757.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/JsonConvertTest.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/JsonTextWriterAsyncTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Linq/DynamicTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Linq/JArrayTests.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Linq/JObjectTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Linq/LinqToJsonTest.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/LinqToSql/LinqToSqlClasses.designer.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/DefaultValueHandlingTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/DynamicConcreteTests.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/DynamicTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/ImmutableCollectionsTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/JsonSerializerCollectionsTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/JsonSerializerTest.cs

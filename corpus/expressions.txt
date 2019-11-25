@@ -1003,3 +1003,28 @@ var t = typeof(Tuple<,,,>);
             (generic_name
               (identifier_name)
               (type_argument_list))))))))
+
+=====================================
+default expression
+=====================================
+
+var a = default(int);
+int b = default;
+
+---
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier_name)
+        (equals_value_clause
+          (default_expression
+            (predefined_type))))))
+  (field_declaration
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator
+        (identifier_name)
+        (equals_value_clause
+          (default_expression))))))

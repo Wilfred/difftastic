@@ -3980,17 +3980,21 @@
       }
     },
     "default_switch_label": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "default"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "default"
+          },
+          {
+            "type": "STRING",
+            "value": ":"
+          }
+        ]
+      }
     },
     "throw_statement": {
       "type": "SEQ",
@@ -4742,25 +4746,42 @@
       ]
     },
     "default_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "default"
-        },
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_type"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "default"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "("
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_type"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ")"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "element_access_expression": {
       "type": "SEQ",
@@ -6067,6 +6088,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "default_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "element_access_expression"
         },
         {
@@ -7149,6 +7174,9 @@
       "await_expression",
       "conditional_access_expression",
       "conditional_expression"
+    ],
+    [
+      "switch_section"
     ]
   ],
   "externals": [],
