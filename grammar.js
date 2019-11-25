@@ -52,7 +52,9 @@ module.exports = grammar({
 
     [$.modifier, $.object_creation_expression],
     [$.event_declaration, $.variable_declarator],
-    [$.await_expression, $.conditional_access_expression, $.conditional_expression]
+    [$.await_expression, $.conditional_access_expression, $.conditional_expression],
+
+    [$.switch_section]
   ],
 
   inline: $ => [
@@ -810,7 +812,7 @@ module.exports = grammar({
 
     case_switch_label: $ => prec.left(1, seq('case', $._expression, ':')),
 
-    default_switch_label: $ => seq('default', ':'),
+    default_switch_label: $ => prec.left(1, seq('default', ':')),
 
     throw_statement: $ => seq('throw', optional($._expression), ';'),
 
@@ -938,12 +940,16 @@ module.exports = grammar({
       $._variable_designation
     ),
 
-    default_expression: $ => seq(
+    default_expression: $ => prec.right(seq(
       'default',
-      '(',
-      $._type,
-      ')'
-    ),
+      optional(
+        seq(
+          '(',
+          $._type,
+          ')'
+        )
+      )
+    )),
 
     element_access_expression: $ => seq($._expression, $.bracketed_argument_list),
 
@@ -1237,7 +1243,7 @@ module.exports = grammar({
       $.conditional_access_expression,
       $.conditional_expression,
       // $.declaration_expression,
-      // $.default_expression,
+      $.default_expression,
       $.element_access_expression,
       $.element_binding_expression,
       $.implicit_array_creation_expression,
