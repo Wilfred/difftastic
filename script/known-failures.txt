@@ -6,7 +6,6 @@ examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/Samples/Linq/Cr
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/Samples/Linq/CreateJsonDeclaratively.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/Samples/Linq/QueryJsonLinq.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/SerializationTests.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1552.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1593.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1619.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1725.cs

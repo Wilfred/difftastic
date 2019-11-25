@@ -184,7 +184,7 @@ module.exports = grammar({
       ';'
     ),
 
-    modifier: $ => choice(
+    modifier: $ => prec.right(choice(
       'abstract',
       'async',
       'const',
@@ -204,7 +204,7 @@ module.exports = grammar({
       'unsafe',
       'virtual',
       'volatile'
-    ),
+    )),
 
     variable_declaration: $ => seq($._type, commaSep1($.variable_declarator)),
 
@@ -220,7 +220,7 @@ module.exports = grammar({
       ']'
     ),
 
-    argument: $ => seq(
+    argument: $ => prec(1, seq(
       optional($.name_colon),
       choice(
         seq(
@@ -233,7 +233,7 @@ module.exports = grammar({
           $.identifier_name
         )
       )
-    ),
+    )),
 
     equals_value_clause: $ => seq('=', $._expression),
 
@@ -282,7 +282,7 @@ module.exports = grammar({
       optional($.equals_value_clause)
     ),
 
-    parameter_modifier: $ => choice('ref', 'out', 'this'),
+    parameter_modifier: $ => prec.right(choice('ref', 'out', 'this')),
 
     parameter_array: $ => seq(
       repeat($.attribute_list),
@@ -1162,8 +1162,7 @@ module.exports = grammar({
       optional($._expression)
     )),
 
-    // TODO: Conflicts with modifier
-    ref_expression: $ => seq('ref', $._expression),
+    ref_expression: $ => prec.right(seq('ref', $._expression)),
 
     ref_type_expression: $ => seq(
       '__reftype',
@@ -1258,7 +1257,7 @@ module.exports = grammar({
       $.prefix_unary_expression,
       // $.query_expression,
       $.range_expression,
-      // $.ref_expression,
+      $.ref_expression,
       $.ref_type_expression,
       $.ref_value_expression,
       $.size_of_expression,
