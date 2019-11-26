@@ -956,7 +956,6 @@ module.exports = grammar({
 
     element_access_expression: $ => seq($._expression, $.bracketed_argument_list),
 
-    // TODO: Add test coverage for this.
     element_binding_expression: $ => $.bracketed_argument_list,
 
     implicit_array_creation_expression: $ => seq(
@@ -967,6 +966,7 @@ module.exports = grammar({
       $.initializer_expression
     ),
 
+    // TODO: Conflicts with element_binding_expression as same pattern.
     implicit_element_access: $ => $.bracketed_argument_list,
 
     implicit_stack_alloc_array_creation_expression: $ => seq(
@@ -1248,7 +1248,7 @@ module.exports = grammar({
       $.element_access_expression,
       $.element_binding_expression,
       $.implicit_array_creation_expression,
-      // $.implicit_element_access,
+      //$.implicit_element_access,
       $.implicit_stack_alloc_array_creation_expression,
       $.initializer_expression,
       $._instance_expression,
