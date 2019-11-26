@@ -2048,6 +2048,10 @@
           }
         },
         {
+          "type": "SYMBOL",
+          "name": "_type"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -2058,10 +2062,6 @@
               "type": "BLANK"
             }
           ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_type"
         },
         {
           "type": "SYMBOL",
@@ -7102,7 +7102,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\*[^/]"
+                      "value": "\\*[^\\/]"
                     }
                   ]
                 }
