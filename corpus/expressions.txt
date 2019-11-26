@@ -1035,6 +1035,7 @@ Generic type name no type args
 
 ref VeryLargeStruct reflocal = ref veryLargeStruct;
 ref var elementRef = ref arr[0];
+
 ---
 
 (compilation_unit
@@ -1060,3 +1061,49 @@ ref var elementRef = ref arr[0];
               (bracketed_argument_list
                 (argument
                   (integer_literal))))))))))
+
+=====================================
+Element binding expression
+=====================================
+
+var x = new Dictionary<string,int> { ["a"] = 65 };
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier_name)
+        (equals_value_clause
+          (object_creation_expression
+            (generic_name
+              (identifier_name)
+              (type_argument_list (predefined_type) (predefined_type)))
+            (initializer_expression
+              (assignment_expression
+                (element_binding_expression
+                  (bracketed_argument_list (argument (string_literal))))
+                (assignment_operator)
+                (integer_literal)))))))))
+
+=====================================
+Conditional access to element (should be implicit_element_access)
+=====================================
+
+var x = dict?["a"];
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier_name)
+        (equals_value_clause
+          (conditional_access_expression
+            (identifier_name)
+              (element_binding_expression
+                (bracketed_argument_list (argument (string_literal))))))))))
