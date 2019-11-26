@@ -1,9 +1,5 @@
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Benchmarks/LowLevelBenchmarks.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Converters/StringEnumConverterTests.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/LinqToJsonTests.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/Samples/Linq/CreateJsonAnonymousObject.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/Samples/Linq/CreateJsonDeclaratively.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/Samples/Linq/QueryJsonLinq.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/SerializationTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1593.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1619.cs
@@ -11,8 +7,6 @@ examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1725.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1752.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/JsonConvertTest.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Linq/DynamicTests.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Linq/JArrayTests.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Linq/LinqToJsonTest.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/DefaultValueHandlingTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/DynamicConcreteTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/ImmutableCollectionsTests.cs
@@ -22,13 +16,10 @@ examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/NullValueHandli
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/SerializationErrorHandlingTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/TypeNameHandlingTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestFixtureBase.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/AnswerFilterModel.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/CustomerDataSet.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/MyInterfaceConverter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/PrivateImplementationAClass.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/PrivateImplementationBClass.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/SqlTypesDataSet.Designer.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/TypeConverterJsonConverter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/VersionOld.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Utilities/EnumUtilsTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Utilities/LateboundReflectionDelegateFactoryTests.cs
@@ -109,13 +100,10 @@ examples/nunit/src/NUnitFramework/framework/Internal/OSPlatform.cs
 examples/nunit/src/NUnitFramework/nunitlite/Options.cs
 examples/nunit/src/NUnitFramework/testdata/ActionAttributeFixture.cs
 examples/nunit/src/NUnitFramework/testdata/TestCaseAttributeFixture.cs
-examples/nunit/src/NUnitFramework/testdata/TestCaseSourceAttributeFixture.cs
 examples/nunit/src/NUnitFramework/testdata/TestDataSpec.cs
 examples/nunit/src/NUnitFramework/testdata/TestFixtureData.cs
-examples/nunit/src/NUnitFramework/testdata/TestFixtureSourceData.cs
 examples/nunit/src/NUnitFramework/tests/Assertions/AssertionHelperTests.cs
 examples/nunit/src/NUnitFramework/tests/Assertions/CollectionAssertTest.cs
-examples/nunit/src/NUnitFramework/tests/Attributes/RangeAttributeTests.cs
 examples/nunit/src/NUnitFramework/tests/Constraints/CollectionEquivalentConstraintResultTests.cs
 examples/nunit/src/NUnitFramework/tests/Constraints/NUnitEqualityComparerTests.cs
 examples/nunit/src/NUnitFramework/tests/Internal/GenericMethodHelperTests.cs

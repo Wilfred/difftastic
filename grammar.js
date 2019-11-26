@@ -1,5 +1,6 @@
 const PREC = {
   DOT: 17,
+  SELECT: 16,
   POSTFIX: 16,
   PREFIX: 15,
   UNARY: 15,
@@ -32,6 +33,8 @@ module.exports = grammar({
     [$._expression, $.generic_name],
     [$._expression, $._identifier_or_global],
     [$._expression, $._identifier_or_global, $.parameter],
+
+    [$.from_clause, $._reserved_identifier],
 
     [$.qualified_name, $.explicit_interface_specifier],
 
@@ -1087,7 +1090,6 @@ module.exports = grammar({
         '~'
       ].map(operator => seq(operator, $._expression)))),
 
-    // TODO: Lots of conflicts
     query_expression: $ => seq($.from_clause, $._query_body),
 
     from_clause: $ => seq(
@@ -1098,13 +1100,13 @@ module.exports = grammar({
       $._expression
     ),
 
-    _query_body: $ => seq(
-      repeat1($.query_clause),
+    _query_body: $ => prec.right(seq(
+      repeat($._query_clause), // Grammar.txt is incorrect with '+'
       $._select_or_group_clause,
       optional($.query_continuation)
-    ),
+    )),
 
-    query_clause: $ => seq(
+    _query_clause: $ => choice(
       $.from_clause,
       $.join_clause,
       $.let_clause,
@@ -1136,10 +1138,10 @@ module.exports = grammar({
 
     order_by_clause: $ => seq(
       'orderby',
-      commaSep1($.ordering)
+      commaSep1($._ordering)
     ),
 
-    ordering: $ => seq(
+    _ordering: $ => seq(
       $._expression,
       optional(choice('ascending', 'descending'))
     ),
@@ -1151,14 +1153,14 @@ module.exports = grammar({
       $.select_clause
     ),
 
-    group_clause: $ => seq(
+    group_clause: $ => prec.left(PREC.SELECT, seq(
       'group',
       $._expression,
       'by',
       $._expression
-    ),
+    )),
 
-    select_clause: $ => seq('select', $._expression),
+    select_clause: $ => prec.left(PREC.SELECT, seq('select', $._expression)),
 
     query_continuation: $ => seq('into', $.identifier_name, $._query_body),
 
@@ -1261,7 +1263,7 @@ module.exports = grammar({
       $.parenthesized_expression,
       $.postfix_unary_expression,
       $.prefix_unary_expression,
-      // $.query_expression,
+      $.query_expression,
       $.range_expression,
       $.ref_expression,
       $.ref_type_expression,
@@ -1274,7 +1276,8 @@ module.exports = grammar({
       // $.type,
       $.type_of_expression,
 
-      // These should be removed when the ones above get activated
+      // These should be reconsidered when the ones above get activated
+      alias($._reserved_identifier, $.identifier_name),
       $.identifier_name
     ),
 
@@ -1401,6 +1404,9 @@ module.exports = grammar({
     )),
 
     // Custom non-Roslyn additions beyond this point that will not sync up with grammar.txt
+    _reserved_identifier: $ => choice(
+      'from'
+    ),
 
     // We use this instead of type so 'void' is only treated as type in the right contexts
     return_type: $ => choice($._type, $.void_keyword),
