@@ -5467,35 +5467,39 @@
       ]
     },
     "_query_body": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "query_clause"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_select_or_group_clause"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT",
+            "content": {
               "type": "SYMBOL",
-              "name": "query_continuation"
-            },
-            {
-              "type": "BLANK"
+              "name": "_query_clause"
             }
-          ]
-        }
-      ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_select_or_group_clause"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "query_continuation"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
-    "query_clause": {
-      "type": "SEQ",
+    "_query_clause": {
+      "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
@@ -5626,7 +5630,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "ordering"
+              "name": "_ordering"
             },
             {
               "type": "REPEAT",
@@ -5639,7 +5643,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "ordering"
+                    "name": "_ordering"
                   }
                 ]
               }
@@ -5648,7 +5652,7 @@
         }
       ]
     },
-    "ordering": {
+    "_ordering": {
       "type": "SEQ",
       "members": [
         {
@@ -5705,38 +5709,46 @@
       ]
     },
     "group_clause": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "group"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": "by"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 16,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "group"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "by"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
     },
     "select_clause": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "select"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 16,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "select"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
     },
     "query_continuation": {
       "type": "SEQ",
@@ -6172,6 +6184,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "query_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "range_expression"
         },
         {
@@ -6209,6 +6225,15 @@
         {
           "type": "SYMBOL",
           "name": "type_of_expression"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_reserved_identifier"
+          },
+          "named": true,
+          "value": "identifier_name"
         },
         {
           "type": "SYMBOL",
@@ -7009,6 +7034,15 @@
         ]
       }
     },
+    "_reserved_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "from"
+        }
+      ]
+    },
     "return_type": {
       "type": "CHOICE",
       "members": [
@@ -7131,6 +7165,10 @@
       "_expression",
       "_identifier_or_global",
       "parameter"
+    ],
+    [
+      "from_clause",
+      "_reserved_identifier"
     ],
     [
       "qualified_name",
