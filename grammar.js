@@ -32,6 +32,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$._expression, $.generic_name],
     [$._expression, $._identifier_or_global],
+    [$._expression, $._identifier_or_global, $.generic_name],
     [$._expression, $._identifier_or_global, $.parameter],
 
     [$.from_clause, $._reserved_identifier],
@@ -45,11 +46,13 @@ module.exports = grammar({
     [$._expression, $.parameter],
     [$._expression, $.attribute],
     [$._expression, $.parameter, $._identifier_or_global],
+    [$._expression, $.declaration_pattern],
     [$.argument, $.parameter_modifier],
     [$.modifier, $.array_creation_expression, $.object_creation_expression],
 
     [$._type, $.array_creation_expression],
     [$._type, $.stack_alloc_array_creation_expression],
+    [$._type, $.attribute],
 
     [$.element_access_expression, $.enum_member_declaration],
 
@@ -108,7 +111,7 @@ module.exports = grammar({
       ';'
     ),
 
-    name_equals: $ => seq($._identifier_or_global, '='),
+    name_equals: $ => prec(1, seq($._identifier_or_global, '=')),
 
     identifier_name: $ => token(seq(optional('@'), /[a-zA-Z_][a-zA-Z_0-9]*/)), // identifier_token in Roslyn
     _identifier_or_global: $ => choice('global', $.identifier_name), // identifier_name in Roslyn
@@ -573,9 +576,9 @@ module.exports = grammar({
     // expression but we can't match an empty rule everywhere.
     array_rank_specifier: $ => seq('[', commaSep(optional($._expression)), ']'),
 
-    nullable_type: $ => seq($._type, '?'),
+    nullable_type: $ => prec(1, seq($._type, '?')),
 
-    pointer_type: $ => seq($._type, '*'),
+    pointer_type: $ => prec(1, seq($._type, '*')),
 
     predefined_type: $ => choice(
       'bool',
@@ -1273,7 +1276,7 @@ module.exports = grammar({
       $.switch_expression,
       $.throw_expression,
       $.tuple_expression,
-      // $.type,
+      $._type,
       $.type_of_expression,
 
       // These should be reconsidered when the ones above get activated

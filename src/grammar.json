@@ -155,17 +155,21 @@
       ]
     },
     "name_equals": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_identifier_or_global"
-        },
-        {
-          "type": "STRING",
-          "value": "="
-        }
-      ]
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_identifier_or_global"
+          },
+          {
+            "type": "STRING",
+            "value": "="
+          }
+        ]
+      }
     },
     "identifier_name": {
       "type": "TOKEN",
@@ -2727,30 +2731,38 @@
       ]
     },
     "nullable_type": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_type"
-        },
-        {
-          "type": "STRING",
-          "value": "?"
-        }
-      ]
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_type"
+          },
+          {
+            "type": "STRING",
+            "value": "?"
+          }
+        ]
+      }
     },
     "pointer_type": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_type"
-        },
-        {
-          "type": "STRING",
-          "value": "*"
-        }
-      ]
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_type"
+          },
+          {
+            "type": "STRING",
+            "value": "*"
+          }
+        ]
+      }
     },
     "predefined_type": {
       "type": "CHOICE",
@@ -6224,6 +6236,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_type"
+        },
+        {
+          "type": "SYMBOL",
           "name": "type_of_expression"
         },
         {
@@ -7020,7 +7036,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\*[^\\/]"
+                      "value": "\\*[^/]"
                     }
                   ]
                 }
@@ -7164,6 +7180,11 @@
     [
       "_expression",
       "_identifier_or_global",
+      "generic_name"
+    ],
+    [
+      "_expression",
+      "_identifier_or_global",
       "parameter"
     ],
     [
@@ -7200,6 +7221,10 @@
       "_identifier_or_global"
     ],
     [
+      "_expression",
+      "declaration_pattern"
+    ],
+    [
       "argument",
       "parameter_modifier"
     ],
@@ -7215,6 +7240,10 @@
     [
       "_type",
       "stack_alloc_array_creation_expression"
+    ],
+    [
+      "_type",
+      "attribute"
     ],
     [
       "element_access_expression",

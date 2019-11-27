@@ -77,6 +77,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -86,6 +90,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -141,6 +149,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -150,6 +162,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -193,6 +209,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -201,11 +221,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -549,6 +581,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -558,6 +594,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -613,6 +653,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -622,6 +666,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -661,6 +709,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -669,11 +721,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -799,6 +863,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -808,6 +876,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -863,6 +935,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -872,6 +948,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -911,6 +991,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -919,11 +1003,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -998,6 +1094,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -1007,6 +1107,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -1066,6 +1170,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -1075,6 +1183,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -1114,6 +1226,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -1122,11 +1238,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -1237,6 +1365,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -1246,6 +1378,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -1301,6 +1437,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -1310,6 +1450,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -1357,6 +1501,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -1365,11 +1513,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -1474,6 +1634,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -1483,6 +1647,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -1538,6 +1706,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -1547,6 +1719,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -1586,6 +1762,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -1594,11 +1774,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -1725,6 +1917,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -1734,6 +1930,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -1789,6 +1989,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -1798,6 +2002,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -1837,6 +2045,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -1845,11 +2057,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -2102,6 +2326,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -2111,6 +2339,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -2166,6 +2398,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -2175,6 +2411,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -2214,6 +2454,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -2222,11 +2466,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -2602,6 +2858,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -2611,6 +2871,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -2666,6 +2930,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -2675,6 +2943,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -2714,6 +2986,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -2722,11 +2998,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -2816,6 +3104,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -2825,6 +3117,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -2880,6 +3176,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -2889,6 +3189,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -2928,6 +3232,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -2936,11 +3244,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -3235,6 +3555,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -3244,6 +3568,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -3299,6 +3627,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -3308,6 +3640,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -3347,6 +3683,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -3355,11 +3695,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -3434,6 +3786,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -3443,6 +3799,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -3498,6 +3858,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -3507,6 +3871,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -3546,6 +3914,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -3554,11 +3926,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -3633,6 +4017,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -3642,6 +4030,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -3697,6 +4089,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -3706,6 +4102,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -3745,6 +4145,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -3753,11 +4157,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -4186,6 +4602,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -4195,6 +4615,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -4290,6 +4714,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "goto_statement",
           "named": true
         },
@@ -4307,6 +4735,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -4362,6 +4794,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -4370,11 +4806,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -4481,6 +4929,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -4490,6 +4942,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -4549,6 +5005,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -4558,6 +5018,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -4597,6 +5061,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -4605,11 +5073,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -4842,6 +5322,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -4851,6 +5335,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -4910,6 +5398,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -4919,6 +5411,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -4958,6 +5454,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -4966,11 +5466,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -5045,6 +5557,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -5054,6 +5570,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -5109,6 +5629,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -5118,6 +5642,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -5157,6 +5685,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -5165,11 +5697,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -5357,6 +5901,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -5366,6 +5914,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -5421,6 +5973,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -5430,6 +5986,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -5469,6 +6029,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -5477,11 +6041,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -6047,6 +6623,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -6056,6 +6636,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -6151,6 +6735,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "goto_statement",
           "named": true
         },
@@ -6168,6 +6756,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -6223,6 +6815,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -6231,11 +6827,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -6611,6 +7219,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -6620,6 +7232,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -6675,6 +7291,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -6684,6 +7304,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -6727,6 +7351,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -6735,11 +7363,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -6814,6 +7454,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -6823,6 +7467,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -6878,6 +7526,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -6887,6 +7539,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -6926,6 +7582,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -6934,11 +7594,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -7013,6 +7685,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -7022,6 +7698,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -7121,6 +7801,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "goto_statement",
           "named": true
         },
@@ -7138,6 +7822,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -7193,6 +7881,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -7201,11 +7893,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -7418,6 +8122,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -7427,6 +8135,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -7482,6 +8194,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -7491,6 +8207,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -7530,6 +8250,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -7538,11 +8262,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -7704,6 +8440,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -7713,6 +8453,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -7768,6 +8512,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -7777,6 +8525,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -7824,6 +8576,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -7832,11 +8588,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -7911,6 +8679,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -7920,6 +8692,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -7975,6 +8751,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -7984,6 +8764,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -8023,6 +8807,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -8031,11 +8819,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -8115,6 +8915,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -8128,6 +8932,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -8183,6 +8991,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -8192,6 +9004,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -8231,6 +9047,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -8239,11 +9059,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -8679,6 +9511,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -8688,6 +9524,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -8747,6 +9587,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -8756,6 +9600,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -8795,6 +9643,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -8807,11 +9659,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -8886,6 +9750,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -8895,6 +9763,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -8950,6 +9822,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -8959,6 +9835,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -8998,6 +9878,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -9006,11 +9890,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -9179,6 +10075,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -9188,6 +10088,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -9283,6 +10187,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "goto_statement",
           "named": true
         },
@@ -9300,6 +10208,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -9355,6 +10267,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -9363,11 +10279,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -9474,6 +10402,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -9483,6 +10415,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -9538,6 +10474,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -9547,6 +10487,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -9586,6 +10530,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -9594,11 +10542,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -9673,6 +10633,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -9682,6 +10646,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -9753,6 +10721,10 @@
           "named": true
         },
         {
+          "type": "implicit_type",
+          "named": true
+        },
+        {
           "type": "initializer_expression",
           "named": true
         },
@@ -9789,6 +10761,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -9797,11 +10773,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -10285,6 +11273,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -10294,6 +11286,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -10349,6 +11345,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -10358,6 +11358,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -10397,6 +11401,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -10405,11 +11413,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -10590,6 +11610,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -10599,6 +11623,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -10654,6 +11682,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -10663,6 +11695,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -10702,6 +11738,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -10710,11 +11750,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -10874,6 +11926,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -10883,6 +11939,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -10938,6 +11998,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -10947,6 +12011,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -10986,6 +12054,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -10994,11 +12066,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -11078,6 +12162,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -11087,6 +12175,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -11142,6 +12234,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -11151,6 +12247,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -11190,6 +12290,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -11198,11 +12302,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -11660,6 +12776,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -11669,6 +12789,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -11724,6 +12848,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -11733,6 +12861,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -11772,6 +12904,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -11780,11 +12916,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -11859,6 +13007,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -11868,6 +13020,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -11923,6 +13079,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -11932,6 +13092,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -11971,6 +13135,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -11979,11 +13147,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -12058,6 +13238,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -12067,6 +13251,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -12122,6 +13310,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -12131,6 +13323,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -12170,6 +13366,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -12178,11 +13378,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -12488,6 +13700,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -12497,6 +13713,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -12552,6 +13772,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -12561,6 +13785,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -12600,6 +13828,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -12608,11 +13840,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -12687,6 +13931,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -12696,6 +13944,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -12751,6 +14003,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -12760,6 +14016,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -12799,6 +14059,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -12807,11 +14071,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -13052,6 +14328,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -13061,6 +14341,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -13116,6 +14400,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -13125,6 +14413,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -13164,6 +14456,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -13172,11 +14468,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -13255,6 +14563,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -13264,6 +14576,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -13331,6 +14647,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -13340,6 +14660,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -13379,6 +14703,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -13387,11 +14715,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -13593,6 +14933,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -13602,6 +14946,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -13657,6 +15005,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -13666,6 +15018,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -13705,6 +15061,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -13713,11 +15073,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -13801,6 +15173,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -13810,6 +15186,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -13865,6 +15245,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -13874,6 +15258,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -13913,6 +15301,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -13921,11 +15313,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -14000,6 +15404,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -14009,6 +15417,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -14064,6 +15476,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -14073,6 +15489,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -14112,6 +15532,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -14120,11 +15544,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -14524,6 +15960,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -14533,6 +15973,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -14628,6 +16072,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "goto_statement",
           "named": true
         },
@@ -14645,6 +16093,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -14700,6 +16152,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -14708,11 +16164,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -14920,6 +16388,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -14929,6 +16401,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -14984,6 +16460,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -14993,6 +16473,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -15032,6 +16516,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -15040,11 +16528,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -15119,6 +16619,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -15128,6 +16632,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -15183,6 +16691,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -15192,6 +16704,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -15231,6 +16747,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -15239,11 +16759,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -15318,6 +16850,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -15327,6 +16863,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -15422,6 +16962,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "goto_statement",
           "named": true
         },
@@ -15439,6 +16983,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -15494,6 +17042,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -15502,11 +17054,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -15613,6 +17177,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -15622,6 +17190,10 @@
         },
         {
           "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
           "named": true
         },
         {
@@ -15677,6 +17249,10 @@
           "named": true
         },
         {
+          "type": "generic_name",
+          "named": true
+        },
+        {
           "type": "identifier_name",
           "named": true
         },
@@ -15686,6 +17262,10 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
           "named": true
         },
         {
@@ -15725,6 +17305,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -15733,11 +17317,23 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {

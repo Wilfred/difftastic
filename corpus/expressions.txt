@@ -1107,3 +1107,43 @@ var x = dict?["a"];
             (identifier_name)
               (element_binding_expression
                 (bracketed_argument_list (argument (string_literal))))))))))
+
+=====================================
+Member access expression
+=====================================
+
+void Test(){
+  a.IsInfinity(value);
+  double.IsInfinity(value);
+  string.Empty;
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+    (block
+      (expression_statement
+        (invocation_expression
+          (member_access_expression
+            (identifier_name)
+            (identifier_name))
+          (argument_list
+            (argument
+              (identifier_name)))))
+      (expression_statement
+        (invocation_expression
+          (member_access_expression
+            (predefined_type)
+            (identifier_name))
+          (argument_list
+            (argument
+              (identifier_name)))))
+      (expression_statement
+        (member_access_expression
+          (predefined_type)
+          (identifier_name))))))
+
