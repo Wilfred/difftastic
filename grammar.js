@@ -58,7 +58,7 @@ module.exports = grammar({
 
     [$.modifier, $.object_creation_expression],
     [$.event_declaration, $.variable_declarator],
-    [$.await_expression, $.conditional_access_expression, $.conditional_expression],
+    [$.is_pattern_expression, $.binary_expression],
 
     [$.switch_section]
   ],
@@ -768,7 +768,7 @@ module.exports = grammar({
       $.var_pattern
     ),
 
-    constant_pattern: $ => $._expression,
+    constant_pattern: $ => prec.right($._expression),
 
     declaration_pattern: $ => seq($._type, $._variable_designation),
 
@@ -917,7 +917,7 @@ module.exports = grammar({
 
     assignment_operator: $ => choice('=', '+=', '-=', '*=', '/=', '%=', '&=', '^=', '|=', '<<=', '>>=', '??='),
 
-    await_expression: $ => prec.right(PREC.SEQ, seq('await', $._expression)),
+    await_expression: $ => prec.right(PREC.UNARY, seq('await', $._expression)),
 
     cast_expression: $ => prec.right(PREC.CAST, seq(
       '(',
@@ -1027,11 +1027,11 @@ module.exports = grammar({
       $.argument_list
     ),
 
-    is_pattern_expression: $ => seq(
+    is_pattern_expression: $ => prec.left(PREC.EQUAL, seq(
       $._expression,
       'is',
       $._pattern
-    ),
+    )),
 
     _literal_expression: $ => choice(
       '__arglist',
@@ -1242,6 +1242,7 @@ module.exports = grammar({
       $.assignment_expression,
       $.await_expression,
       $.binary_expression,
+      //$.is_expression,
       $.cast_expression,
       $.checked_expression,
       $.conditional_access_expression,
@@ -1257,7 +1258,7 @@ module.exports = grammar({
       $._instance_expression,
       $.interpolated_string_expression,
       $.invocation_expression,
-      //$.is_pattern_expression,
+      $.is_pattern_expression,
       $._literal_expression,
       $.make_ref_expression,
       $.member_access_expression,
@@ -1305,10 +1306,11 @@ module.exports = grammar({
         ['>=', PREC.REL],
         ['>', PREC.REL],
         ['??', PREC.EQUAL],
-        ['is', PREC.EQUAL],
         ['as', PREC.EQUAL],
       ].map(([operator, precedence]) =>
         prec.left(precedence, seq($._expression, operator, $._expression))
+      ).concat(
+        prec.left(PREC.EQUAL, seq($._expression, 'is', $._type))
       )
     ),
 
