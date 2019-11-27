@@ -3695,8 +3695,12 @@
       ]
     },
     "constant_pattern": {
-      "type": "SYMBOL",
-      "name": "_expression"
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SYMBOL",
+        "name": "_expression"
+      }
     },
     "declaration_pattern": {
       "type": "SEQ",
@@ -4619,7 +4623,7 @@
     },
     "await_expression": {
       "type": "PREC_RIGHT",
-      "value": 1,
+      "value": 15,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5083,21 +5087,25 @@
       ]
     },
     "is_pattern_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "STRING",
-          "value": "is"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_pattern"
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 9,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "is"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_pattern"
+          }
+        ]
+      }
     },
     "_literal_expression": {
       "type": "CHOICE",
@@ -6164,6 +6172,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "is_pattern_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_literal_expression"
         },
         {
@@ -6671,7 +6683,7 @@
               },
               {
                 "type": "STRING",
-                "value": "is"
+                "value": "as"
               },
               {
                 "type": "SYMBOL",
@@ -6692,11 +6704,11 @@
               },
               {
                 "type": "STRING",
-                "value": "as"
+                "value": "is"
               },
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "_type"
               }
             ]
           }
@@ -7036,7 +7048,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\*[^/]"
+                      "value": "\\*[^\\/]"
                     }
                   ]
                 }
@@ -7258,9 +7270,8 @@
       "variable_declarator"
     ],
     [
-      "await_expression",
-      "conditional_access_expression",
-      "conditional_expression"
+      "is_pattern_expression",
+      "binary_expression"
     ],
     [
       "switch_section"
