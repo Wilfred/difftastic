@@ -1107,3 +1107,55 @@ var x = dict?["a"];
             (identifier_name)
               (element_binding_expression
                 (bracketed_argument_list (argument (string_literal))))))))))
+
+=====================================
+is expression
+=====================================
+
+var b = s is string;
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier_name)
+        (equals_value_clause
+          (binary_expression
+            (identifier_name)
+            (predefined_type)))))))
+
+=====================================
+is pattern
+=====================================
+
+var b = s is string s2;
+var c = s is "test";
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier_name)
+        (equals_value_clause
+          (is_pattern_expression
+            (identifier_name)
+            (declaration_pattern
+              (predefined_type)
+              (single_variable_designation
+                (identifier_name))))))))
+  (field_declaration
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier_name)
+        (equals_value_clause
+          (is_pattern_expression
+            (identifier_name)
+              (constant_pattern
+                (string_literal))))))))
