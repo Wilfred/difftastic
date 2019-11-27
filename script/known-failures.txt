@@ -1,6 +1,10 @@
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Converters/StringEnumConverterTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Documentation/SerializationTests.cs
+<<<<<<< HEAD
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1619.cs
+=======
+examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1593.cs
+>>>>>>> 05410db33d736ce4e25b1be5743e707b2ca6f327
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1725.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1752.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/JsonConvertTest.cs
@@ -12,54 +16,28 @@ examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/SerializationEr
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestFixtureBase.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/PrivateImplementationAClass.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/PrivateImplementationBClass.cs
+<<<<<<< HEAD
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/VersionOld.cs
+=======
+examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/SqlTypesDataSet.Designer.cs
+>>>>>>> 05410db33d736ce4e25b1be5743e707b2ca6f327
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Utilities/EnumUtilsTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Utilities/LateboundReflectionDelegateFactoryTests.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Bson/BsonBinaryWriter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Bson/BsonWriter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/BinaryConverter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/BsonObjectIdConverter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/DataTableConverter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/IsoDateTimeConverter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/JavaScriptDateTimeConverter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/RegexConverter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/UnixDateTimeConverter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Converters/XmlNodeConverter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonConvert.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonReader.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonSerializer.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonSerializerSettings.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonTextReader.Async.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonTextReader.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonTextWriter.Async.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonTextWriter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonValidatingReader.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonWriter.Async.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonWriter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/Extensions.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/IJEnumerable.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JArray.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JConstructor.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JContainer.Async.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JContainer.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JObject.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JProperty.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JPropertyDescriptor.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JToken.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JTokenReader.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JTokenWriter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JValue.Async.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JValue.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JsonPath/ArraySliceFilter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JsonPath/FieldFilter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JsonPath/FieldMultipleFilter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JsonPath/PathFilter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JsonPath/QueryExpression.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JsonPath/QueryScanFilter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JsonPath/ScanFilter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JsonPath/ScanMultipleFilter.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Schema/JsonSchemaBuilder.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Schema/UndefinedSchemaIdHandling.cs
+<<<<<<< HEAD
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/DefaultContractResolver.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/DefaultReferenceResolver.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/JsonFormatterConverter.cs
@@ -67,11 +45,14 @@ examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/JsonSerializerInterna
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/JsonSerializerInternalWriter.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/JsonTypeReflector.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/ReflectionValueProvider.cs
+=======
+examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/JsonDynamicContract.cs
+>>>>>>> 05410db33d736ce4e25b1be5743e707b2ca6f327
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Serialization/TraceJsonReader.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/CollectionUtils.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/CollectionWrapper.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/ConvertUtils.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/DictionaryWrapper.cs
+<<<<<<< HEAD
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/ExpressionReflectionDelegateFactory.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/LateBoundReflectionDelegateFactory.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/MiscellaneousUtils.cs
@@ -84,6 +65,14 @@ examples/nunit/src/NUnitFramework/framework/Constraints/Comparers/EnumerablesCom
 examples/nunit/src/NUnitFramework/framework/Constraints/Constraint.cs
 examples/nunit/src/NUnitFramework/framework/Constraints/MsgUtils.cs
 examples/nunit/src/NUnitFramework/framework/Internal/Execution/EventListenerTextWriter.cs
+=======
+examples/Newtonsoft.Json/Src/Newtonsoft.Json/Utilities/LinqBridge.cs
+examples/nunit/src/NUnitFramework/framework/Api/DefaultTestAssemblyBuilder.cs
+examples/nunit/src/NUnitFramework/framework/Api/FrameworkController.cs
+examples/nunit/src/NUnitFramework/framework/Attributes/TestFixtureSourceAttribute.cs
+examples/nunit/src/NUnitFramework/framework/Attributes/ValuesAttribute.cs
+examples/nunit/src/NUnitFramework/framework/Compatibility/System.Collections.Concurrent/ConcurrentQueue.cs
+>>>>>>> 05410db33d736ce4e25b1be5743e707b2ca6f327
 examples/nunit/src/NUnitFramework/framework/Internal/Execution/ParallelExecutionStrategy.cs
 examples/nunit/src/NUnitFramework/framework/Internal/OSPlatform.cs
 examples/nunit/src/NUnitFramework/framework/Internal/TypeHelper.cs
