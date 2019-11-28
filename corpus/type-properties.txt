@@ -145,7 +145,7 @@ class Foo {
         (integer_literal)))))
 
 =====================================
-Class with expplicit interface properties
+Class with explicit interface properties
 =====================================
 
 class Foo: IFoo {
