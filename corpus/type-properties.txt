@@ -143,3 +143,24 @@ class Foo {
         (identifier_name)
         (accessor_declaration) (accessor_declaration)
         (integer_literal)))))
+
+=====================================
+Class with explicit interface properties
+=====================================
+
+class Foo: IFoo {
+  byte IFoo.Get { get; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (base_list (identifier_name))
+    (class_body
+      (property_declaration
+        (predefined_type)
+        (explicit_interface_specifier (identifier_name))
+        (identifier_name)
+        (accessor_declaration)))))
