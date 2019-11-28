@@ -13,11 +13,8 @@ examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/PrivateImplementa
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestObjects/PrivateImplementationBClass.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Utilities/EnumUtilsTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Utilities/LateboundReflectionDelegateFactoryTests.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonConvert.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonReader.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonSerializer.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonValidatingReader.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/Extensions.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/IJEnumerable.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JContainer.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JObject.cs

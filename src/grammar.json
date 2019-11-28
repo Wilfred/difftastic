@@ -347,6 +347,18 @@
           "value": "["
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "attribute_target_specifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -374,6 +386,48 @@
         {
           "type": "STRING",
           "value": "]"
+        }
+      ]
+    },
+    "attribute_target_specifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "field"
+            },
+            {
+              "type": "STRING",
+              "value": "event"
+            },
+            {
+              "type": "STRING",
+              "value": "method"
+            },
+            {
+              "type": "STRING",
+              "value": "param"
+            },
+            {
+              "type": "STRING",
+              "value": "property"
+            },
+            {
+              "type": "STRING",
+              "value": "return"
+            },
+            {
+              "type": "STRING",
+              "value": "type"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ":"
         }
       ]
     },
@@ -7048,7 +7102,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\*[^\\/]"
+                      "value": "\\*[^/]"
                     }
                   ]
                 }
