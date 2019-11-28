@@ -229,7 +229,7 @@ var x = from a in sourceA
                   (identifier_name))))))))))
 
 =====================================
-Query from select with join
+Query from select with multiple from
 =====================================
 
 var x = from a in sourceA
