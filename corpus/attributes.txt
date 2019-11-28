@@ -129,6 +129,51 @@ class Zzz {
         (variable_declaration (predefined_type) (variable_declarator (identifier_name)))))))
 
 =======================================
+Attributes on methods
+=======================================
+
+class Methods {
+  [ValidatedContract]
+  int Method1() { return 0; }
+
+  [method: ValidatedContract]
+  int Method2() { return 0; }
+
+  [return: ValidatedContract]
+  int Method3() { return 0; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (method_declaration
+        (attribute_list
+          (attribute (identifier_name)))
+        (predefined_type)
+        (identifier_name)
+        (parameter_list)
+        (block (return_statement (integer_literal))))
+      (method_declaration
+        (attribute_list
+          (attribute_target_specifier)
+          (attribute (identifier_name)))
+        (predefined_type)
+        (identifier_name)
+        (parameter_list)
+        (block (return_statement (integer_literal))))
+      (method_declaration
+        (attribute_list
+          (attribute_target_specifier)
+          (attribute (identifier_name)))
+        (predefined_type)
+        (identifier_name)
+        (parameter_list)
+        (block (return_statement (integer_literal)))))))
+
+=======================================
 Attributes on enums
 =======================================
 

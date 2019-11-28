@@ -1645,9 +1645,18 @@
         {
           "type": "attribute",
           "named": true
+        },
+        {
+          "type": "attribute_target_specifier",
+          "named": true
         }
       ]
     }
+  },
+  {
+    "type": "attribute_target_specifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "await_expression",
@@ -18231,6 +18240,10 @@
     "named": false
   },
   {
+    "type": "field",
+    "named": false
+  },
+  {
     "type": "finally",
     "named": false
   },
@@ -18327,6 +18340,10 @@
     "named": false
   },
   {
+    "type": "method",
+    "named": false
+  },
+  {
     "type": "module",
     "named": false
   },
@@ -18367,6 +18384,10 @@
     "named": false
   },
   {
+    "type": "param",
+    "named": false
+  },
+  {
     "type": "params",
     "named": false
   },
@@ -18376,6 +18397,10 @@
   },
   {
     "type": "private",
+    "named": false
+  },
+  {
+    "type": "property",
     "named": false
   },
   {
@@ -18464,6 +18489,10 @@
   },
   {
     "type": "try",
+    "named": false
+  },
+  {
+    "type": "type",
     "named": false
   },
   {
