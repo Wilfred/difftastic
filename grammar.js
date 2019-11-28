@@ -451,8 +451,8 @@ module.exports = grammar({
     property_declaration: $ => seq(
       repeat($.attribute_list),
       repeat($.modifier),
-      optional($.explicit_interface_specifier),
       $._type,
+      optional($.explicit_interface_specifier),
       $.identifier_name,
       choice(
         seq($._accessor_list, optional(seq('=', $._expression, ';'))), // Roslyn deviation or does not allow bodyless properties.
