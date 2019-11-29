@@ -1406,7 +1406,7 @@ module.exports = grammar({
       '"'
     )),
 
-    // Commments
+    // Comments
 
     comment: $ => token(choice(
       seq('//', /.*/),
