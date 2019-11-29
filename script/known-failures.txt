@@ -1,5 +1,4 @@
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1725.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/JsonSerializerCollectionsTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/SerializationErrorHandlingTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestFixtureBase.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Utilities/LateboundReflectionDelegateFactoryTests.cs

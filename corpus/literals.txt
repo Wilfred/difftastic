@@ -242,11 +242,13 @@ class A {
 
 
 ==================================================
-interpolated string literals 
+interpolated string literals
 ==================================================
 
 class A {
   string s = $"hello";
+  string esc = $"ab\"\t";
+  string double = $"{{nope}}";
 }
 
 ---
@@ -261,6 +263,27 @@ class A {
           (identifier_name)
           (equals_value_clause
             (interpolated_string_expression
+              (interpolated_string_text))))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_string_text)
+              (interpolated_string_text
+                (escape_sequence))
+              (interpolated_string_text
+                (escape_sequence)))))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator
+            (identifier_name)
+            (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_string_text)
               (interpolated_string_text)))))))))
 
 ==================================================
@@ -337,7 +360,7 @@ class A {
               (interpolated_string_text)))))))))
 
 ==================================================
-interpolated verbatim string literals 
+interpolated verbatim string literals
 ==================================================
 
 class A {
@@ -381,7 +404,7 @@ class A {
               (interpolated_verbatim_string_text)
               (interpolation (identifier_name))
               (interpolated_verbatim_string_text)))))))))
-              
+
 ==================================================
 interpolated verbatim string literals with formatted expressions
 ==================================================
@@ -429,4 +452,4 @@ class A {
               (interpolated_verbatim_string_text)
               (interpolation (identifier_name)
                 (interpolation_alignment_clause (prefix_unary_expression (integer_literal))))
-              (interpolated_verbatim_string_text)))))))))              
+              (interpolated_verbatim_string_text)))))))))
