@@ -10,7 +10,7 @@ public struct F<T> where T:struct {}
   (struct_declaration
     (modifier)
     (identifier_name)
-    (type_parameter_list (identifier_name))
+    (type_parameter_list (type_parameter (identifier_name)))
     (type_parameter_constraints_clause
       (identifier_name) (type_parameter_constraint))
     (class_body)))
@@ -27,7 +27,7 @@ public struct F<T> where T:class {}
   (struct_declaration
     (modifier)
     (identifier_name)
-    (type_parameter_list (identifier_name))
+    (type_parameter_list (type_parameter (identifier_name)))
     (type_parameter_constraints_clause
       (identifier_name) (type_parameter_constraint))
     (class_body)))
@@ -44,7 +44,7 @@ public struct F<T> where T: new() {}
   (struct_declaration
     (modifier)
     (identifier_name)
-    (type_parameter_list (identifier_name))
+    (type_parameter_list (type_parameter (identifier_name)))
     (type_parameter_constraints_clause
       (identifier_name)
       (type_parameter_constraint (constructor_constraint)))
@@ -78,8 +78,8 @@ private struct F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
     (modifier)
     (identifier_name)
      (type_parameter_list
-      (identifier_name)
-      (identifier_name))
+      (type_parameter (identifier_name))
+      (type_parameter (identifier_name)))
      (type_parameter_constraints_clause
       (identifier_name)
       (type_parameter_constraint (type_constraint (identifier_name)))

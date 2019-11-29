@@ -133,7 +133,7 @@ class Z {
         (identifier_name)
         (equals_value_clause (character_literal (escape_sequence))))))
   (delegate_declaration (void_keyword) (identifier_name)
-    (type_parameter_list (identifier_name))
+    (type_parameter_list (type_parameter (identifier_name)))
     (parameter_list)
     (type_parameter_constraints_clause (identifier_name) (type_parameter_constraint)))
   (delegate_declaration (void_keyword) (identifier_name)

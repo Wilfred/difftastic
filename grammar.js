@@ -40,7 +40,7 @@ module.exports = grammar({
     [$.qualified_name, $.explicit_interface_specifier],
 
     [$._identifier_or_global, $.enum_member_declaration],
-    [$._identifier_or_global, $.type_parameter_list],
+    [$._identifier_or_global, $.type_parameter],
     [$._identifier_or_global, $.generic_name],
 
     [$._expression, $.parameter],
@@ -358,7 +358,13 @@ module.exports = grammar({
 
     explicit_interface_specifier: $ => prec(PREC.DOT, seq($._name, '.')),
 
-    type_parameter_list: $ => seq('<', commaSep1($.identifier_name), '>'),
+    type_parameter_list: $ => seq('<', commaSep1($.type_parameter), '>'),
+
+    type_parameter: $ => seq(
+      optional($.attribute_list),
+      optional(choice('in', 'out')),
+      $.identifier_name
+    ),
 
     type_parameter_constraints_clause: $ => seq(
       'where', $._identifier_or_global, ':', commaSep1($.type_parameter_constraint)
