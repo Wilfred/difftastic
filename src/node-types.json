@@ -16321,6 +16321,25 @@
     }
   },
   {
+    "type": "type_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute_list",
+          "named": true
+        },
+        {
+          "type": "identifier_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type_parameter_constraint",
     "named": true,
     "fields": {},
@@ -16367,7 +16386,7 @@
       "required": true,
       "types": [
         {
-          "type": "identifier_name",
+          "type": "type_parameter",
           "named": true
         }
       ]

@@ -573,7 +573,9 @@ class A {
       (method_declaration (void_keyword) (identifier_name) (parameter_list)
       (block
         (local_function_statement (modifier) (void_keyword) (identifier_name)
-          (type_parameter_list (identifier_name) (identifier_name))
+          (type_parameter_list 
+            (type_parameter (identifier_name))
+            (type_parameter (identifier_name)))
           (parameter_list
             (parameter (identifier_name) (identifier_name))
             (parameter (identifier_name) (identifier_name)))
@@ -603,7 +605,9 @@ class A {
       (parameter_list)
       (block
         (local_function_statement (void_keyword) (identifier_name)
-          (type_parameter_list (identifier_name) (identifier_name))
+          (type_parameter_list
+            (type_parameter (identifier_name))
+            (type_parameter (identifier_name)))
           (parameter_list
             (parameter (identifier_name) (identifier_name))
             (parameter (identifier_name) (identifier_name)))

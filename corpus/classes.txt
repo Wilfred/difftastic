@@ -70,7 +70,7 @@ class F<T> {}
 (compilation_unit
   (class_declaration
     (identifier_name)
-     (type_parameter_list (identifier_name))
+     (type_parameter_list (type_parameter (identifier_name)))
      (class_body)))
 
 =====================================
@@ -86,8 +86,25 @@ internal class F<T1, T2> {}
    (modifier)
    (identifier_name)
     (type_parameter_list
-      (identifier_name)
-      (identifier_name))
+      (type_parameter (identifier_name))
+      (type_parameter (identifier_name)))
+    (class_body)))
+
+=====================================
+Class with co-variant and contra-variant type parameters
+=====================================
+
+internal class F<in T1, out T2> {}
+
+---
+
+(compilation_unit
+ (class_declaration
+   (modifier)
+   (identifier_name)
+    (type_parameter_list
+      (type_parameter (identifier_name))
+      (type_parameter (identifier_name)))
     (class_body)))
 
 =====================================
@@ -102,7 +119,7 @@ public class F<T> where T:struct {}
   (class_declaration
     (modifier)
     (identifier_name)
-    (type_parameter_list (identifier_name))
+    (type_parameter_list (type_parameter (identifier_name)))
     (type_parameter_constraints_clause
       (identifier_name) (type_parameter_constraint))
     (class_body)))
@@ -119,7 +136,7 @@ public class F<T> where T:class {}
   (class_declaration
     (modifier)
     (identifier_name)
-    (type_parameter_list (identifier_name))
+    (type_parameter_list (type_parameter (identifier_name)))
     (type_parameter_constraints_clause
       (identifier_name) (type_parameter_constraint))
     (class_body)))
@@ -136,7 +153,7 @@ public class F<T> where T: new() {}
   (class_declaration
     (modifier)
     (identifier_name)
-    (type_parameter_list (identifier_name))
+    (type_parameter_list (type_parameter (identifier_name)))
     (type_parameter_constraints_clause
       (identifier_name)
       (type_parameter_constraint (constructor_constraint)))
@@ -154,7 +171,7 @@ public class F<T> where T: I {}
   (class_declaration
     (modifier)
     (identifier_name)
-    (type_parameter_list (identifier_name))
+    (type_parameter_list (type_parameter (identifier_name)))
     (type_parameter_constraints_clause
       (identifier_name)
       (type_parameter_constraint (type_constraint (identifier_name))))
@@ -172,7 +189,7 @@ public class F<T> where T: I, new() {}
   (class_declaration
     (modifier)
     (identifier_name)
-    (type_parameter_list (identifier_name))
+    (type_parameter_list (type_parameter (identifier_name)))
     (type_parameter_constraints_clause
       (identifier_name)
       (type_parameter_constraint
@@ -193,8 +210,8 @@ private class F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
     (modifier)
     (identifier_name)
     (type_parameter_list
-      (identifier_name)
-      (identifier_name))
+      (type_parameter (identifier_name))
+      (type_parameter (identifier_name)))
     (type_parameter_constraints_clause
       (identifier_name)
       (type_parameter_constraint (type_constraint (identifier_name)))
