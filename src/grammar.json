@@ -7173,7 +7173,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\*[^\\/]"
+                      "value": "\\*[^/]"
                     }
                   ]
                 }
@@ -7298,7 +7298,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "\\s+"
+      "value": "[\\s\\u00A0]+"
     },
     {
       "type": "SYMBOL",

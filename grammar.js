@@ -25,7 +25,7 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /\s+/,
+    /[\s\u00A0]+/,
     $.preprocessor_directive
   ],
 
