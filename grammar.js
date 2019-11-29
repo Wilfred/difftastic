@@ -1015,6 +1015,7 @@ module.exports = grammar({
     ),
 
     interpolated_string_text: $ => choice(
+      '{{',
       token.immediate(prec(1, /[^{"\\\n]+/)),
       $.escape_sequence
     ),
