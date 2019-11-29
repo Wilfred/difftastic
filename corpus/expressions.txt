@@ -225,6 +225,10 @@ void b() {
   {
     Foo = bar,
   };
+
+  b = new E(1);
+
+  c = new E(1) { };
 }
 
 ---
@@ -248,7 +252,23 @@ void b() {
           (object_creation_expression
             (identifier_name)
             (initializer_expression
-              (assignment_expression (identifier_name) (assignment_operator) (identifier_name)))))))))
+              (assignment_expression
+                (identifier_name) (assignment_operator) (identifier_name))))))
+      (expression_statement
+        (assignment_expression
+          (identifier_name)
+          (assignment_operator)
+          (object_creation_expression
+            (identifier_name)
+            (argument_list (argument (integer_literal))))))
+      (expression_statement
+        (assignment_expression
+          (identifier_name)
+          (assignment_operator)
+          (object_creation_expression
+            (identifier_name)
+            (argument_list (argument (integer_literal)))
+            (initializer_expression)))))))
 
 ============================
 Anonymous method expressions
