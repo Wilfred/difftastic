@@ -55,6 +55,7 @@ module.exports = grammar({
     [$._type, $.attribute],
 
     [$.element_access_expression, $.enum_member_declaration],
+    [$.block, $.initializer_expression],
 
     [$.modifier, $.object_creation_expression],
     [$.event_declaration, $.variable_declarator],
@@ -477,6 +478,7 @@ module.exports = grammar({
       optional($.base_list),
       '{',
       commaSep($.enum_member_declaration),
+      optional(','),
       '}',
       optional(';')
     ),
@@ -907,8 +909,7 @@ module.exports = grammar({
 
     initializer_expression: $ => seq(
       '{',
-      $._expression,
-      repeat(seq(',', $._expression)),
+      commaSep($._expression),
       optional(','),
       '}'
     ),
