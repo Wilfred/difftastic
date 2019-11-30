@@ -4,8 +4,10 @@ integer literals
 
 const int dec = 1_2;
 const long hex = 0xf_1l;
+const long hex2 = 0Xffff;
 const UInt64 dec = 1uL;
 const UInt16 bin = 0b0100_100;
+const UInt16 bin2 = 0B01010__10;
 ---
 
 (compilation_unit
@@ -18,6 +20,16 @@ const UInt16 bin = 0b0100_100;
     (modifier)
     (variable_declaration
       (predefined_type)
+      (variable_declarator (identifier_name) (equals_value_clause (integer_literal)))))
+  (field_declaration
+    (modifier)
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier_name) (equals_value_clause (integer_literal)))))
+  (field_declaration
+    (modifier)
+    (variable_declaration
+      (identifier_name)
       (variable_declarator (identifier_name) (equals_value_clause (integer_literal)))))
   (field_declaration
     (modifier)

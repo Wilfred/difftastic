@@ -30,36 +30,28 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$._expression, $.generic_name],
+    [$.block, $.initializer_expression],
+
+    [$.element_access_expression, $.enum_member_declaration],
+
+    [$.event_declaration, $.variable_declarator],
+
+    [$._expression, $.declaration_pattern],
     [$._expression, $._identifier_or_global],
     [$._expression, $._identifier_or_global, $.generic_name],
     [$._expression, $._identifier_or_global, $.parameter],
 
     [$.from_clause, $._reserved_identifier],
 
-    [$.qualified_name, $.explicit_interface_specifier],
-
     [$._identifier_or_global, $.enum_member_declaration],
     [$._identifier_or_global, $.type_parameter],
     [$._identifier_or_global, $.generic_name],
 
-    [$._expression, $.parameter],
-    [$._expression, $.attribute],
-    [$._expression, $.parameter, $._identifier_or_global],
-    [$._expression, $.declaration_pattern],
-    [$.argument, $.parameter_modifier],
-    [$.modifier, $.array_creation_expression, $.object_creation_expression],
+    [$.qualified_name, $.explicit_interface_specifier],
 
     [$._type, $.array_creation_expression],
     [$._type, $.stack_alloc_array_creation_expression],
     [$._type, $.attribute],
-
-    [$.element_access_expression, $.enum_member_declaration],
-    [$.block, $.initializer_expression],
-
-    [$.modifier, $.object_creation_expression],
-    [$.event_declaration, $.variable_declarator],
-    [$.is_pattern_expression, $.binary_expression],
 
     [$.switch_section]
   ],
@@ -74,33 +66,28 @@ module.exports = grammar({
     // Intentionally deviates from spec so that we can syntax highlight fragments of code
     compilation_unit: $ => repeat(
       choice(
-        $._declaration
-      )
+        $.global_attribute_list,
+        $.class_declaration,
+        $.constructor_declaration,
+        $.conversion_operator_declaration,
+        $.delegate_declaration,
+        $.destructor_declaration,
+        $.enum_declaration,
+        $.event_declaration,
+        $.extern_alias_directive,
+        $._base_field_declaration,
+        $.indexer_declaration,
+        $.interface_declaration,
+        $.method_declaration,
+        $.namespace_declaration,
+        $.operator_declaration,
+        $.property_declaration,
+        $.struct_declaration,
+        $.using_directive,
+        )
     ),
 
     extern_alias_directive: $ => seq('extern', 'alias', $.identifier_name, ';'),
-
-    _declaration: $ => choice(
-      $.global_attribute_list,
-      $.class_declaration,
-      $.delegate_declaration,
-      $.destructor_declaration,
-      $.enum_declaration,
-      $.event_declaration,
-      $.extern_alias_directive,
-      $._base_field_declaration,
-      $.indexer_declaration,
-      $.interface_declaration,
-      $.method_declaration,
-      $.namespace_declaration,
-      $.operator_declaration,
-      $.conversion_operator_declaration,
-      $.constructor_declaration,
-      $.destructor_declaration,
-      $.property_declaration,
-      $.struct_declaration,
-      $.using_directive,
-    ),
 
     using_directive: $ => seq(
       'using',
@@ -180,7 +167,6 @@ module.exports = grammar({
       $._base_type_declaration,
       $.delegate_declaration,
       $.enum_member_declaration,
-      // TODO: Consider adding incomplete_member and global_statement...
       $.namespace_declaration,
     ),
 
@@ -274,7 +260,7 @@ module.exports = grammar({
       $._function_body
     ),
 
-    // Params varies quite a lot from the Roslyn syntax in grammar.txt as that handles neither 'out' nor 'params' or arrays...
+    // Params varies quite a lot from grammar.txt as that handles neither 'out' nor 'params' or arrays...
 
     parameter_list: $ => seq(
       '(',
@@ -295,7 +281,7 @@ module.exports = grammar({
       optional($.equals_value_clause)
     ),
 
-    parameter_modifier: $ => prec.right(choice('ref', 'out', 'this')),
+    parameter_modifier: $ => prec.right(choice('ref', 'out', 'this', 'in')),
 
     parameter_array: $ => seq(
       repeat($.attribute_list),
@@ -371,14 +357,11 @@ module.exports = grammar({
     ),
 
     type_parameter_constraint: $ => choice(
-      $._class_or_struct_constraint,
+      'class',
+      'struct',
+      'unmanaged',
       $.constructor_constraint,
       $.type_constraint
-    ),
-
-    _class_or_struct_constraint: $ => choice(
-      'class',
-      'struct'
     ),
 
     constructor_constraint: $ => seq('new', '(', ')'),
@@ -466,7 +449,7 @@ module.exports = grammar({
       optional($.explicit_interface_specifier),
       $.identifier_name,
       choice(
-        seq($._accessor_list, optional(seq('=', $._expression, ';'))), // Roslyn deviation or does not allow bodyless properties.
+        seq($._accessor_list, optional(seq('=', $._expression, ';'))), // grammar.txt does not allow bodyless properties.
         seq($.arrow_expression_clause, ';')
       ),
     ),
@@ -577,15 +560,15 @@ module.exports = grammar({
       $.pointer_type,
       $.predefined_type,
       // $.ref_type,    // TODO: Conflicts with 'ref' modifier...
-      // $.tuple_type,  // TODO: Conflicts
+      // $.tuple_type,  // TODO: Conflicts with everything
     ),
 
     implicit_type: $ => 'var',
 
     array_type: $ => prec(PREC.POSTFIX, seq($._type, $.array_rank_specifier)),
 
-    // Roslyn marks this non-optional and includes omitted_array_size_expression in
-    // expression but we can't match an empty rule everywhere.
+    // grammar.txt marks this non-optional and includes omitted_array_size_expression in
+    // expression but we can't match empty rules.
     array_rank_specifier: $ => seq('[', commaSep(optional($._expression)), ']'),
 
     nullable_type: $ => prec(1, seq($._type, '?')),
@@ -682,7 +665,7 @@ module.exports = grammar({
       $._statement
     ),
 
-    // Combines for_each_statement and for_each_variable_statement from Roslyn
+    // Combines for_each_statement and for_each_variable_statement from grammar.txt
     for_each_statement: $ => seq(
       optional('await'),
       'foreach',
@@ -697,7 +680,7 @@ module.exports = grammar({
       $._statement
     ),
 
-    // Roslyn one doesn't seem to make sense so we do this instead
+    // grammar.txt one doesn't seem to make sense so we do this instead
     goto_statement: $ => seq(
       'goto',
       choice(
@@ -802,8 +785,8 @@ module.exports = grammar({
 
     discard_pattern: $ => '_',
 
-    // TODO: Matches everything as optional... this won't work.  Figure out what combinations
-    // are valid with at least one item to remove ambiguity.
+    // TODO: Matches everything as optional which won't work.
+    // Figure out valid combinations with at least one item to remove ambiguity.
     recursive_pattern: $ => seq(
       optional($._type),
       optional($.positional_pattern_clause),
@@ -869,7 +852,7 @@ module.exports = grammar({
 
     yield_statement: $ => seq(
       'yield',
-      choice( // Roslyn incorrectly allows "break expression", we do not.
+      choice( // grammar.txt incorrectly allows "break expression", we do not.
         seq('return', $._expression),
         'break'
       ),
@@ -980,9 +963,6 @@ module.exports = grammar({
       $.initializer_expression
     ),
 
-    // TODO: Conflicts with element_binding_expression as same pattern.
-    implicit_element_access: $ => $.bracketed_argument_list,
-
     implicit_stack_alloc_array_creation_expression: $ => seq(
       'stackalloc',
       '[',
@@ -1047,7 +1027,6 @@ module.exports = grammar({
 
     _literal_expression: $ => choice(
       '__arglist',
-//      'default',  // TODO: Causes conflict with switch 'default'
       $.null_literal,
       $.boolean_literal,
       $.character_literal,
@@ -1116,7 +1095,7 @@ module.exports = grammar({
     ),
 
     _query_body: $ => prec.right(seq(
-      repeat($._query_clause), // Grammar.txt is incorrect with '+'
+      repeat($._query_clause), // grammar.txt is incorrect with '+'
       $._select_or_group_clause,
       optional($.query_continuation)
     )),
@@ -1264,7 +1243,6 @@ module.exports = grammar({
       $.element_access_expression,
       $.element_binding_expression,
       $.implicit_array_creation_expression,
-      //$.implicit_element_access,
       $.implicit_stack_alloc_array_creation_expression,
       $.initializer_expression,
       $._instance_expression,
@@ -1349,8 +1327,8 @@ module.exports = grammar({
     integer_literal: $ => seq(
       choice(
         (/[0-9_]+/), // Decimal
-        (/0x[0-9a-fA-F_]+/), // Hex
-        (/0b[01_]+/) // Binary
+        (/0[xX][0-9a-fA-F_]+/), // Hex
+        (/0[bB][01_]+/) // Binary
       ),
       optional($._integer_type_suffix)
     ),

@@ -153,6 +153,28 @@ class A {
         (block)))))
 
 =======================================
+Class method with in parameter
+=======================================
+
+class A {
+  void HasAnOut(in int a) {
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (method_declaration
+        (void_keyword)
+        (identifier_name)
+        (parameter_list
+          (parameter (parameter_modifier) (predefined_type) (identifier_name)))
+        (block)))))
+
+=======================================
 Class method with ref parameter
 =======================================
 
