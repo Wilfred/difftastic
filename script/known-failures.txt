@@ -1,8 +1,5 @@
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1725.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/SerializationErrorHandlingTests.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestFixtureBase.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Utilities/LateboundReflectionDelegateFactoryTests.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonReader.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JToken.cs
+examples/nunit/src/CommonAssemblyInfo.cs
 examples/nunit/src/NUnitFramework/tests/Assertions/CollectionAssertTest.cs
-examples/nunit/src/NUnitFramework/tests/Internal/RuntimeFrameworkTests.cs
