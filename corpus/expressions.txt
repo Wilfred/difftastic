@@ -1218,3 +1218,42 @@ var c = s is "test";
             (identifier_name)
               (constant_pattern
                 (string_literal))))))))
+
+=====================================
+Discard pattern
+=====================================
+
+void Do() {
+  DateTime.TryParse(dateString, out _);
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier_name)
+    (parameter_list)
+      (block
+        (expression_statement
+          (invocation_expression
+            (member_access_expression (identifier_name) (identifier_name))
+            (argument_list (argument (identifier_name)) (argument (identifier_name))))))))
+
+=====================================
+Null-forgiving operator
+=====================================
+
+var x = name!.Length;
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier_name)
+        (equals_value_clause
+          (member_access_expression (postfix_unary_expression (identifier_name))
+          (identifier_name)))))))

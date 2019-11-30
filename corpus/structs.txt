@@ -89,3 +89,33 @@ private struct F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
       (identifier_name)
       (type_parameter_constraint (type_constraint (identifier_name))))
     (class_body)))
+
+=====================================
+Struct with readonly modifier
+=====================================
+
+readonly struct Test {
+}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (modifier)
+    (identifier_name)
+    (class_body)))
+
+=====================================
+Struct with ref modifier
+=====================================
+
+ref struct Test {
+}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (modifier)
+    (identifier_name)
+    (class_body)))
