@@ -103,3 +103,47 @@ class A {
           (pointer_type (identifier_name))
           (variable_declarator (identifier_name)))))))
 
+=======================================
+Ref readonly
+=======================================
+
+class A {
+  ref readonly Point Origin => ref origin;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (property_declaration
+        (modifier)
+        (modifier)
+        (identifier_name)
+        (identifier_name)
+          (arrow_expression_clause (ref_expression (identifier_name)))))))
+
+=======================================
+Nullable reference types
+=======================================
+
+class A {
+  string? a;
+  A? a;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (field_declaration
+        (variable_declaration
+          (nullable_type (predefined_type))
+          (variable_declarator (identifier_name))))
+      (field_declaration
+        (variable_declaration
+          (nullable_type (identifier_name))
+          (variable_declarator (identifier_name)))))))

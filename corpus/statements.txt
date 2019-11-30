@@ -553,13 +553,17 @@ class A {
                 (integer_literal))))))))))
 
 =====================================
-Method with local function block
+Method with static local function block
 =====================================
 
 class A {
   void Sample() {
     private void A<T1, T2>(T1 a, T2 b) where T1:I1 {
       return a + b;
+    }
+
+    private static int X() {
+      return 1;
     }
   }
 }
@@ -582,7 +586,10 @@ class A {
           (type_parameter_constraints_clause (identifier_name)
             (type_parameter_constraint (type_constraint (identifier_name))))
           (block
-            (return_statement (binary_expression (identifier_name) (identifier_name))))))))))
+            (return_statement (binary_expression (identifier_name) (identifier_name)))))
+        (local_function_statement (modifier) (modifier) (predefined_type) (identifier_name) (parameter_list)
+          (block
+            (return_statement (integer_literal)))))))))
 
 =====================================
 Method with local expression bodied function

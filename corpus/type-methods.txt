@@ -272,3 +272,26 @@ class A : ISomething {
           (parameter (predefined_type) (identifier_name)))
         (block
           (return_statement (identifier_name)))))))
+
+
+=======================================
+Class method with readonly method
+=======================================
+
+class A {
+  public readonly double Add => x + y;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier_name)
+    (class_body
+      (property_declaration
+        (modifier)
+        (modifier)
+        (predefined_type)
+        (identifier_name)
+        (arrow_expression_clause
+          (binary_expression (identifier_name) (identifier_name)))))))
