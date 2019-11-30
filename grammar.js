@@ -1433,14 +1433,12 @@ module.exports = grammar({
     // Will need to understand how structured_trivia is implemented.
     preprocessor_directive: $ => token(
       seq(
-        // TODO: Only match start of line ignoring whitespace
+        // TODO: Nothing should come before the # on a line except whitespace
         '#',
         choice(
           'if',
-          'else',
-          'elif',
-          'endif',
           'define',
+          'endif',
           'undef',
           'warning',
           'error',
@@ -1449,11 +1447,19 @@ module.exports = grammar({
           'endregion',
           'pragma warning',
           'pragma checksum',
-          'nullable'
+          'nullable',
+          // Individiual code can be broken up by #if #else #elif etc. Parsing all the code ignoring the tokens can cause
+          // syntax errors.  What we do instead is always parse the #if block but then completely ignore the #else and #elif blocks.
+          // It's not perfect as sometimes only valid combinations of names would compile or the defined names might be re-used.
+          seq(
+            choice('else', seq('elif', /.*/)),
+            repeat(choice(/[^#]/, /#[\s\u00A0]*(else|elif|define|undef|warning|error|line|region|endregion|pragma|nullable)/)), // Consume "disabled" code
+            /#[\s\u00A0]*endif/
+          ),
         ),
         /.*/
       )
-    )
+    ),
   }
 })
 

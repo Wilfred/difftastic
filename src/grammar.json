@@ -7173,7 +7173,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\*[^/]"
+                      "value": "\\*[^\\/]"
                     }
                   ]
                 }
@@ -7231,19 +7231,11 @@
               },
               {
                 "type": "STRING",
-                "value": "else"
-              },
-              {
-                "type": "STRING",
-                "value": "elif"
+                "value": "define"
               },
               {
                 "type": "STRING",
                 "value": "endif"
-              },
-              {
-                "type": "STRING",
-                "value": "define"
               },
               {
                 "type": "STRING",
@@ -7280,6 +7272,53 @@
               {
                 "type": "STRING",
                 "value": "nullable"
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "else"
+                      },
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "elif"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": ".*"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "PATTERN",
+                          "value": "[^#]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "#[\\s\\u00A0]*(else|elif|define|undef|warning|error|line|region|endregion|pragma|nullable)"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "#[\\s\\u00A0]*endif"
+                  }
+                ]
               }
             ]
           },

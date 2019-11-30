@@ -1,30 +1,127 @@
 ===================================
-If, elif and else directives
+If and endif directives
 ===================================
 
-namespace foo {
-
+string a = 
 #if WIN32
-
-class win32 {}
-
-#elif MACOSX
-
-class macosx {}
-
+  "Win32"
 #endif
-
-}
+  ;
 
 ---
 
 (compilation_unit
-  (namespace_declaration (identifier_name)
-    (preprocessor_directive)
-    (class_declaration (identifier_name) (class_body))
-    (preprocessor_directive)
-    (class_declaration (identifier_name) (class_body))
-    (preprocessor_directive)))
+  (field_declaration
+    (variable_declaration
+     (predefined_type)
+     (variable_declarator
+      (identifier_name)
+      (equals_value_clause
+        (preprocessor_directive)
+        (string_literal))))
+  (preprocessor_directive)))
+
+===================================
+If and elif directives
+===================================
+
+string a = 
+#if WIN32
+  "Win32"
+#elif MACOS
+  "MacOS"
+#endif
+  ;
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+     (predefined_type)
+     (variable_declarator
+      (identifier_name)
+      (equals_value_clause
+        (preprocessor_directive)
+        (string_literal))))
+  (preprocessor_directive)))
+
+===================================
+If and else directives
+===================================
+
+string a = 
+#if WIN32
+  "Win32"
+#else
+  "Unknown"
+#endif
+  ;
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+     (predefined_type)
+     (variable_declarator
+      (identifier_name)
+      (equals_value_clause
+        (preprocessor_directive)
+        (string_literal))))
+  (preprocessor_directive)))
+
+===================================
+If, elif and else directives
+===================================
+
+string a = 
+#if WIN32
+  "Win32"
+#elif MACOS
+  "MacOS"
+#else
+  "Unknown"
+#endif
+  ;
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+     (predefined_type)
+     (variable_declarator
+      (identifier_name)
+      (equals_value_clause
+        (preprocessor_directive)
+        (string_literal))))
+  (preprocessor_directive)))
+
+===================================
+If and error directives
+===================================
+
+string a = 
+#if WIN32
+  "Win32"
+#else
+#error Compilation will now stop.
+#endif
+  ;
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+     (predefined_type)
+     (variable_declarator
+      (identifier_name)
+      (equals_value_clause
+        (preprocessor_directive)
+        (string_literal))))
+  (preprocessor_directive)))
 
 ===========================
 Region directives
