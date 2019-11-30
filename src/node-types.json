@@ -18531,6 +18531,10 @@
     "named": false
   },
   {
+    "type": "unmanaged",
+    "named": false
+  },
+  {
     "type": "unsafe",
     "named": false
   },

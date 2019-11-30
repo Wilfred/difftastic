@@ -1,5 +1,3 @@
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Issues/Issue1725.cs
-examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Utilities/LateboundReflectionDelegateFactoryTests.cs
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JToken.cs
 examples/nunit/src/CommonAssemblyInfo.cs
 examples/nunit/src/NUnitFramework/tests/Assertions/CollectionAssertTest.cs

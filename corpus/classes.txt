@@ -125,6 +125,23 @@ public class F<T> where T:struct {}
     (class_body)))
 
 =====================================
+Class with a type parameter unmanaged constraint
+=====================================
+
+public class F<T> where T:unmanaged {}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (modifier)
+    (identifier_name)
+    (type_parameter_list (type_parameter (identifier_name)))
+    (type_parameter_constraints_clause
+      (identifier_name) (type_parameter_constraint))
+    (class_body)))
+
+=====================================
 Class with a type parameter class constraint
 =====================================
 
