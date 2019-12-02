@@ -12,18 +12,18 @@ using static J.K;
 
 (compilation_unit
   (using_directive
-    (identifier_name))
+    (identifier))
   (using_directive
-    (qualified_name (identifier_name) (identifier_name)))
+    (qualified_name (identifier) (identifier)))
   (using_directive
     (qualified_name
-      (alias_qualified_name (identifier_name))
-      (identifier_name)))
+      (alias_qualified_name (global) (identifier))
+      (identifier)))
   (using_directive
-    (name_equals (identifier_name))
-    (qualified_name (identifier_name) (identifier_name)))
+    (name_equals (identifier))
+    (qualified_name (identifier) (identifier)))
   (using_directive
-    (qualified_name (identifier_name) (identifier_name))))
+    (qualified_name (identifier) (identifier))))
 
 =====================================
 Nested using directives
@@ -37,9 +37,10 @@ namespace Foo {
 
 (compilation_unit
   (namespace_declaration
-    (identifier_name)
-    (using_directive
-      (identifier_name))))
+    (identifier)
+    (declaration_list
+      (using_directive
+        (identifier)))))
 
 =====================================
 Comments
@@ -71,11 +72,16 @@ namespace A {
 
 (compilation_unit
   (namespace_declaration
-    (identifier_name)
-    (namespace_declaration
-      (qualified_name (qualified_name (identifier_name) (identifier_name)) (identifier_name)))
-    (namespace_declaration
-      (qualified_name (identifier_name) (identifier_name)))))
+    (identifier)
+    (declaration_list
+      (namespace_declaration
+        (qualified_name
+          (qualified_name (identifier) (identifier))
+          (identifier))
+        (declaration_list))
+      (namespace_declaration
+        (qualified_name (identifier) (identifier))
+        (declaration_list)))))
 
 =====================================
 Interfaces
@@ -89,8 +95,8 @@ public interface IFoo {
 (compilation_unit
   (interface_declaration
     (modifier)
-    (identifier_name)
-    (class_body)))
+    (identifier)
+    (declaration_list)))
 
 =====================================
 Externs
@@ -102,7 +108,7 @@ extern alias A;
 
 (compilation_unit
   (extern_alias_directive
-    (identifier_name)))
+    (identifier)))
 
 
 =====================================
@@ -125,22 +131,22 @@ class Z {
   (delegate_declaration
     (modifier)
     (predefined_type)
-    (identifier_name)
+    (identifier)
     (parameter_list
       (parameter
         (parameter_modifier)
         (predefined_type)
-        (identifier_name)
+        (identifier)
         (equals_value_clause (character_literal (escape_sequence))))))
-  (delegate_declaration (void_keyword) (identifier_name)
-    (type_parameter_list (type_parameter (identifier_name)))
+  (delegate_declaration (void_keyword) (identifier)
+    (type_parameter_list (type_parameter (identifier)))
     (parameter_list)
-    (type_parameter_constraints_clause (identifier_name) (type_parameter_constraint)))
-  (delegate_declaration (void_keyword) (identifier_name)
-    (parameter_list (parameter_array (array_type (predefined_type) (array_rank_specifier)) (identifier_name))))
-  (class_declaration (identifier_name) (class_body
-    (delegate_declaration (void_keyword) (identifier_name) (parameter_list)))))
-    
+    (type_parameter_constraints_clause (identifier) (type_parameter_constraint)))
+  (delegate_declaration (void_keyword) (identifier)
+    (parameter_list (parameter_array (array_type (predefined_type) (array_rank_specifier)) (identifier))))
+  (class_declaration (identifier) (declaration_list
+    (delegate_declaration (void_keyword) (identifier) (parameter_list)))))
+
 =====================================
 Var declared equal to integer literal
 =====================================
@@ -151,6 +157,5 @@ var a = 1;
 (compilation_unit
   (field_declaration
     (variable_declaration (implicit_type)
-      (variable_declarator (identifier_name)
+      (variable_declarator (identifier)
         (equals_value_clause (integer_literal))))))
-

@@ -13,23 +13,23 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (property_declaration
         (predefined_type)
-        (identifier_name)
+        (identifier)
         (accessor_declaration))
       (property_declaration
         (predefined_type)
-        (identifier_name)
+        (identifier)
         (accessor_declaration))
       (property_declaration
         (predefined_type)
-        (identifier_name)
+        (identifier)
         (accessor_declaration) (accessor_declaration))
       (property_declaration
         (predefined_type)
-        (identifier_name)
+        (identifier)
         (accessor_declaration) (accessor_declaration)))))
 
 =====================================
@@ -45,24 +45,24 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (property_declaration
         (predefined_type)
-        (identifier_name)
+        (identifier)
         (accessor_declaration
           (block
             (return_statement (integer_literal)))))
       (property_declaration
         (predefined_type)
-        (identifier_name)
+        (identifier)
         (accessor_declaration
           (block
             (expression_statement
               (assignment_expression
-                (identifier_name)
+                (identifier)
                 (assignment_operator)
-                (identifier_name)))))))))
+                (identifier)))))))))
 
 =====================================
 Class with double-accessor property bodies
@@ -83,34 +83,34 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (property_declaration
         (predefined_type)
-        (identifier_name)
+        (identifier)
         (accessor_declaration
           (block
-            (return_statement (identifier_name))))
+            (return_statement (identifier))))
         (accessor_declaration
           (block
             (expression_statement
               (assignment_expression
-                (identifier_name)
+                (identifier)
                 (assignment_operator)
-                (identifier_name))))))
+                (identifier))))))
       (property_declaration
         (predefined_type)
-        (identifier_name)
+        (identifier)
         (accessor_declaration
           (block
             (expression_statement
               (assignment_expression
-                (identifier_name)
+                (identifier)
                 (assignment_operator)
-                (identifier_name)))))
+                (identifier)))))
         (accessor_declaration
           (block
-            (return_statement (identifier_name))))))))
+            (return_statement (identifier))))))))
 
 =====================================
 Class with bodyless properties and initializers
@@ -126,21 +126,21 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (property_declaration
         (predefined_type)
-        (identifier_name)
+        (identifier)
         (accessor_declaration)
         (integer_literal))
       (property_declaration
         (predefined_type)
-        (identifier_name)
+        (identifier)
         (accessor_declaration) (accessor_declaration)
         (integer_literal))
       (property_declaration
         (predefined_type)
-        (identifier_name)
+        (identifier)
         (accessor_declaration) (accessor_declaration)
         (integer_literal)))))
 
@@ -156,11 +156,11 @@ class Foo: IFoo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (base_list (identifier_name))
-    (class_body
+    (identifier)
+    (base_list (identifier))
+    (declaration_list
       (property_declaration
         (predefined_type)
-        (explicit_interface_specifier (identifier_name))
-        (identifier_name)
+        (explicit_interface_specifier (identifier))
+        (identifier)
         (accessor_declaration)))))

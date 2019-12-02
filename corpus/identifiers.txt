@@ -10,7 +10,7 @@ int x = y;
   (field_declaration
     (variable_declaration
       (predefined_type)
-      (variable_declarator (identifier_name) (equals_value_clause (identifier_name))))))
+      (variable_declarator (identifier) (equals_value_clause (identifier))))))
 
 =======================================
 indentifiers with keyword names
@@ -24,4 +24,4 @@ int @var = @const;
   (field_declaration
     (variable_declaration
       (predefined_type)
-      (variable_declarator (identifier_name) (equals_value_clause (identifier_name))))))
+      (variable_declarator (identifier) (equals_value_clause (identifier))))))

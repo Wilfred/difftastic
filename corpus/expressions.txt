@@ -12,16 +12,16 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (method_declaration
         (void_keyword)
-        (identifier_name)
+        (identifier)
         (parameter_list)
         (block
         (expression_statement
           (conditional_expression
-            (identifier_name)
+            (identifier)
             (string_literal)
             (string_literal))))))))
 
@@ -40,17 +40,17 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (method_declaration
         (void_keyword)
-        (identifier_name)
+        (identifier)
         (parameter_list)
         (block
         (expression_statement
           (binary_expression
-            (identifier_name)
-            (identifier_name)))
+            (identifier)
+            (identifier)))
         (expression_statement
           (binary_expression
             (integer_literal)
@@ -71,19 +71,19 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (method_declaration
         (void_keyword)
-        (identifier_name)
+        (identifier)
         (parameter_list)
         (block
         (expression_statement
           (prefix_unary_expression
-            (identifier_name)))
+            (identifier)))
         (expression_statement
           (prefix_unary_expression
-            (identifier_name))))))))
+            (identifier))))))))
 
 =====================================
 Cast expressions
@@ -98,15 +98,15 @@ void Test() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (expression_statement (assignment_expression
-        (identifier_name)
+        (identifier)
         (assignment_operator)
         (binary_expression
-          (cast_expression (identifier_name) (identifier_name))
-          (cast_expression (identifier_name) (identifier_name))))))))
+          (cast_expression (identifier) (identifier))
+          (cast_expression (identifier) (identifier))))))))
 
 ============================
 Anonymous object creation with empty body
@@ -122,14 +122,14 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-          (identifier_name)
+          (identifier)
             (equals_value_clause
               (anonymous_object_creation_expression))))))))
 
@@ -148,16 +148,16 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-          (identifier_name)
+          (identifier)
             (equals_value_clause
-              (anonymous_object_creation_expression (identifier_name)))))))))
+              (anonymous_object_creation_expression (identifier)))))))))
 
 ============================
 Anonymous object creation with single named
@@ -174,18 +174,18 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-          (identifier_name)
+          (identifier)
             (equals_value_clause
               (anonymous_object_creation_expression
                 (name_equals
-                  (identifier_name))
+                  (identifier))
                 (string_literal)))))))))
 
 ============================
@@ -201,14 +201,14 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (checked_expression
                 (binary_expression
@@ -236,37 +236,37 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (expression_statement
         (object_creation_expression
-          (qualified_name (identifier_name) (identifier_name))
+          (qualified_name (identifier) (identifier))
           (argument_list
             (argument (integer_literal))
             (argument (string_literal)))))
       (expression_statement
         (assignment_expression
-          (identifier_name)
+          (identifier)
           (assignment_operator)
           (object_creation_expression
-            (identifier_name)
+            (identifier)
             (initializer_expression
               (assignment_expression
-                (identifier_name) (assignment_operator) (identifier_name))))))
+                (identifier) (assignment_operator) (identifier))))))
       (expression_statement
         (assignment_expression
-          (identifier_name)
+          (identifier)
           (assignment_operator)
           (object_creation_expression
-            (identifier_name)
+            (identifier)
             (argument_list (argument (integer_literal))))))
       (expression_statement
         (assignment_expression
-          (identifier_name)
+          (identifier)
           (assignment_operator)
           (object_creation_expression
-            (identifier_name)
+            (identifier)
             (argument_list (argument (integer_literal)))
             (initializer_expression)))))))
 
@@ -285,14 +285,14 @@ void a() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (expression_statement
         (anonymous_method_expression
-          (parameter_list (parameter (predefined_type) (identifier_name)))
+          (parameter_list (parameter (predefined_type) (identifier)))
           (block
-            (return_statement (identifier_name))))))))
+            (return_statement (identifier))))))))
 
 ============================
 Lambda expressions
@@ -308,22 +308,22 @@ void a() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (expression_statement
         (lambda_expression
-          (identifier_name)
-          (binary_expression (identifier_name) (integer_literal))))
+          (identifier)
+          (binary_expression (identifier) (integer_literal))))
       (expression_statement
         (lambda_expression
           (parameter_list
-            (parameter (identifier_name) (identifier_name))
-            (parameter (identifier_name) (identifier_name)))
+            (parameter (identifier) (identifier))
+            (parameter (identifier) (identifier)))
           (block (return_statement
             (invocation_expression
-              (member_access_expression (identifier_name) (identifier_name))
-              (argument_list (argument (identifier_name)))))))))))
+              (member_access_expression (identifier) (identifier))
+              (argument_list (argument (identifier)))))))))))
 
 ============================
 Invocation expressions
@@ -337,18 +337,18 @@ void a() {
 
 (compilation_unit (method_declaration
   (void_keyword)
-  (identifier_name)
+  (identifier)
   (parameter_list)
   (block
     (expression_statement
       (invocation_expression
-        (identifier_name)
+        (identifier)
         (argument_list
-          (argument (identifier_name))
-          (argument (identifier_name))
-          (argument (identifier_name))
-          (argument (identifier_name))
-          (argument (implicit_type) (identifier_name))))))))
+          (argument (identifier))
+          (argument (identifier))
+          (argument (identifier))
+          (argument (identifier))
+          (argument (implicit_type) (identifier))))))))
 
 ============================
 Tuple expressions
@@ -363,16 +363,16 @@ void a() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (expression_statement (assignment_expression
-        (identifier_name)
+        (identifier)
         (assignment_operator)
         (tuple_expression
-          (argument (identifier_name))
+          (argument (identifier))
           (argument
-            (name_colon (identifier_name))
+            (name_colon (identifier))
             (string_literal))))))))
 
 ============================
@@ -388,14 +388,14 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (implicit_array_creation_expression
                 (initializer_expression
@@ -416,14 +416,14 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (implicit_array_creation_expression
                 (initializer_expression
@@ -450,14 +450,14 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (implicit_stack_alloc_array_creation_expression
                 (initializer_expression
@@ -478,14 +478,14 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (stack_alloc_array_creation_expression
                 (array_type (predefined_type) (array_rank_specifier))
@@ -508,14 +508,14 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (array_creation_expression
                 (array_type
@@ -529,7 +529,7 @@ void b() {
           (variable_declaration
             (implicit_type)
             (variable_declarator
-              (identifier_name)
+              (identifier)
               (equals_value_clause
                 (array_creation_expression
                   (array_type
@@ -556,14 +556,14 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (array_creation_expression
                 (array_type
@@ -595,17 +595,17 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (make_ref_expression
-                (identifier_name)))))))))
+                (identifier)))))))))
 
 ============================
 Postfix unary
@@ -622,19 +622,19 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
-      (expression_statement (postfix_unary_expression (identifier_name)))
-      (expression_statement (postfix_unary_expression (identifier_name)))
+      (expression_statement (postfix_unary_expression (identifier)))
+      (expression_statement (postfix_unary_expression (identifier)))
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (postfix_unary_expression
-                (identifier_name)))))))))
+                (identifier)))))))))
 
 ============================
 __reftype
@@ -649,17 +649,17 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (ref_type_expression
-                (identifier_name)))))))))
+                (identifier)))))))))
 
 ============================
 __refvalue
@@ -674,17 +674,17 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (ref_value_expression
-                (identifier_name)
+                (identifier)
                 (predefined_type)))))))))
 
 ============================
@@ -700,14 +700,14 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (size_of_expression
                 (predefined_type)))))))))
@@ -725,14 +725,14 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (type_of_expression
                 (predefined_type)))))))))
@@ -754,17 +754,17 @@ void b() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (local_declaration_statement
         (variable_declaration
           (implicit_type)
           (variable_declarator
-            (identifier_name)
+            (identifier)
             (equals_value_clause
               (switch_expression
-                (identifier_name)
+                (identifier)
                 (switch_expression_arm
                   (constant_pattern (integer_literal))
                   (string_literal))
@@ -772,7 +772,7 @@ void b() {
                   (constant_pattern (integer_literal))
                   (string_literal))
                 (switch_expression_arm
-                  (discard_pattern)
+                  (discard)
                   (string_literal))))))))))
 
 =====================================
@@ -789,16 +789,16 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (method_declaration
         (void_keyword)
-        (identifier_name)
+        (identifier)
         (parameter_list)
         (block
         (expression_statement
           (await_expression
-            (identifier_name))))))))
+            (identifier))))))))
 
 =====================================
 throw expression
@@ -814,20 +814,20 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (method_declaration
         (void_keyword)
-        (identifier_name)
+        (identifier)
         (parameter_list)
         (block
           (expression_statement
             (assignment_expression
-              (identifier_name)
+              (identifier)
               (assignment_operator)
               (binary_expression
-                (identifier_name)
-                (throw_expression (identifier_name))))))))))
+                (identifier)
+                (throw_expression (identifier))))))))))
 
 =====================================
 range expressions full
@@ -844,21 +844,21 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (method_declaration
         (void_keyword)
-        (identifier_name)
+        (identifier)
         (parameter_list)
         (block
           (local_declaration_statement
             (variable_declaration
               (implicit_type)
               (variable_declarator
-                (identifier_name)
+                (identifier)
                 (equals_value_clause
                   (element_access_expression
-                    (identifier_name)
+                    (identifier)
                     (bracketed_argument_list
                       (argument
                         (range_expression
@@ -868,7 +868,7 @@ class Foo {
               (variable_declaration
                 (implicit_type)
                   (variable_declarator
-                    (identifier_name)
+                    (identifier)
                     (equals_value_clause
                       (range_expression
                         (integer_literal)
@@ -890,21 +890,21 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (method_declaration
         (void_keyword)
-        (identifier_name)
+        (identifier)
         (parameter_list)
         (block
           (local_declaration_statement
             (variable_declaration
               (implicit_type)
               (variable_declarator
-                (identifier_name)
+                (identifier)
                 (equals_value_clause
                   (element_access_expression
-                    (identifier_name)
+                    (identifier)
                     (bracketed_argument_list
                       (argument
                         (range_expression
@@ -913,7 +913,7 @@ class Foo {
               (variable_declaration
                 (implicit_type)
                   (variable_declarator
-                    (identifier_name)
+                    (identifier)
                     (equals_value_clause
                       (range_expression
                         (prefix_unary_expression (integer_literal)))))))
@@ -921,10 +921,10 @@ class Foo {
                 (variable_declaration
                   (implicit_type)
                   (variable_declarator
-                    (identifier_name)
+                    (identifier)
                     (equals_value_clause
                       (element_access_expression
-                        (identifier_name)
+                        (identifier)
                         (bracketed_argument_list (argument (range_expression)))))))))))))
 
 =====================================
@@ -942,28 +942,28 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (method_declaration
         (void_keyword)
-        (identifier_name)
+        (identifier)
         (parameter_list)
         (block
           (local_declaration_statement
             (variable_declaration
               (implicit_type)
               (variable_declarator
-                (identifier_name)
+                (identifier)
                 (equals_value_clause
                   (conditional_access_expression
-                    (identifier_name)
+                    (identifier)
                     (member_binding_expression
-                    (identifier_name)))))))
+                    (identifier)))))))
           (expression_statement
             (invocation_expression
               (member_access_expression
-                (identifier_name)
-                (identifier_name))
+                (identifier)
+                (identifier))
               (argument_list))))))))
 
 =====================================
@@ -980,18 +980,18 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (method_declaration
         (void_keyword)
-        (identifier_name)
+        (identifier)
         (parameter_list)
         (block
           (expression_statement
             (assignment_expression
-              (identifier_name)
+              (identifier)
               (assignment_operator)
-              (cast_expression (predefined_type) (identifier_name)))))))))
+              (cast_expression (predefined_type) (identifier)))))))))
 
 =====================================
 Generic type name no type args
@@ -1007,21 +1007,21 @@ var t = typeof(Tuple<,,,>);
     (variable_declaration
       (implicit_type)
       (variable_declarator
-        (identifier_name)
+        (identifier)
         (equals_value_clause
           (type_of_expression
             (generic_name
-              (identifier_name)
+              (identifier)
               (type_argument_list)))))))
   (field_declaration
     (variable_declaration
       (implicit_type)
       (variable_declarator
-        (identifier_name)
+        (identifier)
         (equals_value_clause
           (type_of_expression
             (generic_name
-              (identifier_name)
+              (identifier)
               (type_argument_list))))))))
 
 =====================================
@@ -1037,7 +1037,7 @@ int b = default;
     (variable_declaration
       (implicit_type)
       (variable_declarator
-        (identifier_name)
+        (identifier)
         (equals_value_clause
           (default_expression
             (predefined_type))))))
@@ -1045,7 +1045,7 @@ int b = default;
     (variable_declaration
       (predefined_type)
       (variable_declarator
-        (identifier_name)
+        (identifier)
         (equals_value_clause
           (default_expression))))))
 
@@ -1062,22 +1062,22 @@ ref var elementRef = ref arr[0];
   (field_declaration
     (modifier)
     (variable_declaration
-      (identifier_name)
+      (identifier)
       (variable_declarator
-        (identifier_name)
+        (identifier)
         (equals_value_clause
           (ref_expression
-            (identifier_name))))))
+            (identifier))))))
   (field_declaration
     (modifier)
     (variable_declaration
       (implicit_type)
       (variable_declarator
-        (identifier_name)
+        (identifier)
         (equals_value_clause
           (ref_expression
             (element_access_expression
-              (identifier_name)
+              (identifier)
               (bracketed_argument_list
                 (argument
                   (integer_literal))))))))))
@@ -1095,11 +1095,11 @@ var x = new Dictionary<string,int> { ["a"] = 65 };
     (variable_declaration
       (implicit_type)
       (variable_declarator
-        (identifier_name)
+        (identifier)
         (equals_value_clause
           (object_creation_expression
             (generic_name
-              (identifier_name)
+              (identifier)
               (type_argument_list (predefined_type) (predefined_type)))
             (initializer_expression
               (assignment_expression
@@ -1121,10 +1121,10 @@ var x = dict?["a"];
     (variable_declaration
       (implicit_type)
       (variable_declarator
-        (identifier_name)
+        (identifier)
         (equals_value_clause
           (conditional_access_expression
-            (identifier_name)
+            (identifier)
               (element_binding_expression
                 (bracketed_argument_list (argument (string_literal))))))))))
 
@@ -1143,29 +1143,29 @@ void Test(){
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
     (block
       (expression_statement
         (invocation_expression
           (member_access_expression
-            (identifier_name)
-            (identifier_name))
+            (identifier)
+            (identifier))
           (argument_list
             (argument
-              (identifier_name)))))
+              (identifier)))))
       (expression_statement
         (invocation_expression
           (member_access_expression
             (predefined_type)
-            (identifier_name))
+            (identifier))
           (argument_list
             (argument
-              (identifier_name)))))
+              (identifier)))))
       (expression_statement
         (member_access_expression
           (predefined_type)
-          (identifier_name))))))
+          (identifier))))))
 
 =====================================
 is expression
@@ -1180,10 +1180,10 @@ var b = s is string;
     (variable_declaration
       (implicit_type)
       (variable_declarator
-        (identifier_name)
+        (identifier)
         (equals_value_clause
           (binary_expression
-            (identifier_name)
+            (identifier)
             (predefined_type)))))))
 
 =====================================
@@ -1200,22 +1200,21 @@ var c = s is "test";
     (variable_declaration
       (implicit_type)
       (variable_declarator
-        (identifier_name)
+        (identifier)
         (equals_value_clause
           (is_pattern_expression
-            (identifier_name)
+            (identifier)
             (declaration_pattern
               (predefined_type)
-              (single_variable_designation
-                (identifier_name))))))))
+              (identifier)))))))
   (field_declaration
     (variable_declaration
       (implicit_type)
       (variable_declarator
-        (identifier_name)
+        (identifier)
         (equals_value_clause
           (is_pattern_expression
-            (identifier_name)
+            (identifier)
               (constant_pattern
                 (string_literal))))))))
 
@@ -1232,13 +1231,13 @@ void Do() {
 (compilation_unit
   (method_declaration
     (void_keyword)
-    (identifier_name)
+    (identifier)
     (parameter_list)
       (block
         (expression_statement
           (invocation_expression
-            (member_access_expression (identifier_name) (identifier_name))
-            (argument_list (argument (identifier_name)) (argument (identifier_name))))))))
+            (member_access_expression (identifier) (identifier))
+            (argument_list (argument (identifier)) (argument (identifier))))))))
 
 =====================================
 Null-forgiving operator
@@ -1253,7 +1252,7 @@ var x = name!.Length;
     (variable_declaration
       (implicit_type)
       (variable_declarator
-        (identifier_name)
+        (identifier)
         (equals_value_clause
-          (member_access_expression (postfix_unary_expression (identifier_name))
-          (identifier_name)))))))
+          (member_access_expression (postfix_unary_expression (identifier))
+          (identifier)))))))

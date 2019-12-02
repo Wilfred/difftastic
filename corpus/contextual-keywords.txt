@@ -11,8 +11,8 @@ var a = Assert.Range(from, to);
     (variable_declaration
       (implicit_type)
       (variable_declarator
-        (identifier_name)
+        (identifier)
         (equals_value_clause
           (invocation_expression
-            (member_access_expression (identifier_name) (identifier_name))
-            (argument_list (argument (identifier_name)) (argument (identifier_name))))))))) 
+            (member_access_expression (identifier) (identifier))
+            (argument_list (argument (identifier)) (argument (identifier))))))))) 
