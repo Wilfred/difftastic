@@ -882,6 +882,7 @@ module.exports = grammar({
       'new',
       '{',
       commaSep($._anonymous_object_member_declarator),
+      optional(','),
       '}'
     ),
 
