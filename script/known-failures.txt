@@ -1,3 +1,5 @@
 examples/Newtonsoft.Json/Src/Newtonsoft.Json/Linq/JToken.cs
 examples/nunit/src/CommonAssemblyInfo.cs
 examples/nunit/src/NUnitFramework/tests/Assertions/CollectionAssertTest.cs
+examples/orchard/src/Orchard.Web/Modules/Orchard.Projections/Drivers/NavigationQueryPartDriver.cs
+examples/orchard/src/Orchard/Mvc/Routes/RoutePublisher.cs
