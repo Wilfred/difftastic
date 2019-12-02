@@ -16,8 +16,8 @@ const PREC = {
   shift: 15,
   plus: 16,
   times: 17,
-  power: 18,
-  unary: 19,
+  unary: 18,
+  power: 19,
   call: 20,
 }
 
@@ -527,29 +527,27 @@ module.exports = grammar({
 
     binary_operator: $ => {
       const table = [
-        ['+', PREC.plus],
-        ['-', PREC.plus],
-        ['*', PREC.times],
-        ['@', PREC.times],
-        ['/', PREC.times],
-        ['%', PREC.times],
-        ['//', PREC.times],
-        ['**', PREC.power],
-        ['|', PREC.bitwise_or],
-        ['&', PREC.bitwise_and],
-        ['^', PREC.xor],
-        ['<<', PREC.shift],
-        ['>>', PREC.shift],
+        [prec.left, '+', PREC.plus],
+        [prec.left, '-', PREC.plus],
+        [prec.left, '*', PREC.times],
+        [prec.left, '@', PREC.times],
+        [prec.left, '/', PREC.times],
+        [prec.left, '%', PREC.times],
+        [prec.left, '//', PREC.times],
+        [prec.right, '**', PREC.power],
+        [prec.left, '|', PREC.bitwise_or],
+        [prec.left, '&', PREC.bitwise_and],
+        [prec.left, '^', PREC.xor],
+        [prec.left, '<<', PREC.shift],
+        [prec.left, '>>', PREC.shift],
       ];
 
-      return choice(...table.map(([operator, precedence]) =>
-        prec.left(precedence, seq(
-          field('left', $._primary_expression),
-          field('operator', operator),
-          field('right', $._primary_expression)
-        ))
-      ));
-    },
+      return choice(...table.map(([fn, operator, precedence]) => fn(precedence, seq(
+        field('left', $._primary_expression),
+        field('operator', operator),
+        field('right', $._primary_expression)
+      ))));
+    },      
 
     unary_operator: $ => prec(PREC.unary, seq(
       field('operator', choice('+', '-', '~')),

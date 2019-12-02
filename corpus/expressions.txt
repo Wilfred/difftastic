@@ -318,6 +318,28 @@ Binary Addition / Subtraction With Floats
     (binary_operator (integer) (float))))
 
 =====================================
+Power Operator Precedence
+=====================================
+
+2**2**3
+-2**2
+
+---
+
+(module
+  (expression_statement
+    (binary_operator
+      (integer)
+      (binary_operator
+        (integer)
+        (integer))))
+  (expression_statement
+    (unary_operator
+      (binary_operator
+        (integer)
+        (integer)))))
+
+=====================================
 Bitwise operators
 =====================================
 

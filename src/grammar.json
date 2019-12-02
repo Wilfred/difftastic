@@ -2548,8 +2548,8 @@
           }
         },
         {
-          "type": "PREC_LEFT",
-          "value": 18,
+          "type": "PREC_RIGHT",
+          "value": 19,
           "content": {
             "type": "SEQ",
             "members": [
@@ -2749,7 +2749,7 @@
     },
     "unary_operator": {
       "type": "PREC",
-      "value": 19,
+      "value": 18,
       "content": {
         "type": "SEQ",
         "members": [
@@ -4618,7 +4618,7 @@
     },
     "await": {
       "type": "PREC",
-      "value": 19,
+      "value": 18,
       "content": {
         "type": "SEQ",
         "members": [
