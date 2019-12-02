@@ -16,26 +16,26 @@ class A
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (operator_declaration
-        (attribute_list (attribute (identifier_name)))
+        (attribute_list (attribute (identifier)))
         (modifier) (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier_name) (identifier_name)))
+          (parameter (identifier) (identifier)))
         (block (return_statement (integer_literal))))
       (operator_declaration
         (modifier) (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier_name) (identifier_name))
-          (parameter (identifier_name) (identifier_name)))
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
         (block (return_statement (integer_literal))))
       (operator_declaration
         (predefined_type)
         (parameter_list
-          (parameter (identifier_name) (identifier_name)))
+          (parameter (identifier) (identifier)))
         (block (return_statement (integer_literal)))))))
 
 =======================================
@@ -52,18 +52,18 @@ class A
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (operator_declaration
         (modifier) (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier_name) (identifier_name)))
+          (parameter (identifier) (identifier)))
         (block (return_statement (boolean_literal))))
       (operator_declaration
         (predefined_type)
         (parameter_list
-          (parameter (identifier_name) (identifier_name)))
+          (parameter (identifier) (identifier)))
         (block (return_statement (boolean_literal)))))))
 
 =======================================
@@ -80,16 +80,16 @@ class A
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (conversion_operator_declaration
         (modifier) (modifier)
         (predefined_type)
-        (parameter_list (parameter (identifier_name) (identifier_name)))
+        (parameter_list (parameter (identifier) (identifier)))
         (block (return_statement (integer_literal))))
       (conversion_operator_declaration
         (predefined_type)
-        (parameter_list (parameter (identifier_name) (identifier_name)))
+        (parameter_list (parameter (identifier) (identifier)))
         (block (return_statement (integer_literal)))))))
 
 =======================================
@@ -105,12 +105,12 @@ class A
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (conversion_operator_declaration
         (modifier) (modifier)
         (predefined_type)
-        (parameter_list (parameter (identifier_name) (identifier_name)))
+        (parameter_list (parameter (identifier) (identifier)))
         (arrow_expression_clause (integer_literal))))))
 
 =======================================
@@ -128,23 +128,23 @@ class A
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (operator_declaration
         (modifier) (modifier) (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier_name) (identifier_name))))
+          (parameter (identifier) (identifier))))
       (operator_declaration
         (modifier) (modifier) (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier_name) (identifier_name))
-          (parameter (identifier_name) (identifier_name))))
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier))))
       (conversion_operator_declaration
         (modifier) (modifier)
         (predefined_type)
-        (parameter_list (parameter (identifier_name) (identifier_name)))))))
+        (parameter_list (parameter (identifier) (identifier)))))))
 
 =======================================
 Class conversion operators with expression body
@@ -161,24 +161,24 @@ class A
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (operator_declaration
         (modifier) (modifier) (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier_name) (identifier_name)))
+          (parameter (identifier) (identifier)))
         (arrow_expression_clause (integer_literal)))
       (operator_declaration
         (modifier) (modifier) (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier_name) (identifier_name))
-          (parameter (identifier_name) (identifier_name)))
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
         (arrow_expression_clause (boolean_literal)))
       (conversion_operator_declaration
         (modifier) (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier_name) (identifier_name)))
+          (parameter (identifier) (identifier)))
         (arrow_expression_clause (integer_literal))))))

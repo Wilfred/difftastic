@@ -12,24 +12,24 @@ class A {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (field_declaration
         (modifier) (modifier)
         (variable_declaration
           (predefined_type)
-          (variable_declarator (identifier_name))))
+          (variable_declarator (identifier))))
       (field_declaration
         (variable_declaration
-          (identifier_name)
-          (variable_declarator (identifier_name))
-          (variable_declarator (identifier_name))))
+          (identifier)
+          (variable_declarator (identifier))
+          (variable_declarator (identifier))))
       (field_declaration
         (variable_declaration
-          (generic_name (identifier_name) (type_argument_list
+          (generic_name (identifier) (type_argument_list
             (predefined_type)
-            (generic_name (identifier_name) (type_argument_list (predefined_type)))))
-          (variable_declarator (identifier_name)))))))
+            (generic_name (identifier) (type_argument_list (predefined_type)))))
+          (variable_declarator (identifier)))))))
 
 =======================================
 Struct field declarations
@@ -43,13 +43,13 @@ struct A {
 
 (compilation_unit
   (struct_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (field_declaration
         (modifier) (modifier)
         (variable_declaration
           (predefined_type)
-          (variable_declarator (identifier_name)))))))
+          (variable_declarator (identifier)))))))
 
 =======================================
 Class field nullable type
@@ -64,18 +64,18 @@ class A {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (field_declaration
         (modifier) (modifier)
         (variable_declaration
           (nullable_type (predefined_type))
-          (variable_declarator (identifier_name))))
+          (variable_declarator (identifier))))
       (field_declaration
         (modifier)
         (variable_declaration
-          (nullable_type (identifier_name))
-          (variable_declarator (identifier_name)))))))
+          (nullable_type (identifier))
+          (variable_declarator (identifier)))))))
 
 =======================================
 Class field pointer type
@@ -90,18 +90,18 @@ class A {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (field_declaration
         (modifier) (modifier)
         (variable_declaration
           (pointer_type (predefined_type))
-          (variable_declarator (identifier_name))))
+          (variable_declarator (identifier))))
       (field_declaration
         (modifier)
         (variable_declaration
-          (pointer_type (identifier_name))
-          (variable_declarator (identifier_name)))))))
+          (pointer_type (identifier))
+          (variable_declarator (identifier)))))))
 
 =======================================
 Ref readonly
@@ -115,14 +115,14 @@ class A {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (property_declaration
         (modifier)
         (modifier)
-        (identifier_name)
-        (identifier_name)
-          (arrow_expression_clause (ref_expression (identifier_name)))))))
+        (identifier)
+        (identifier)
+          (arrow_expression_clause (ref_expression (identifier)))))))
 
 =======================================
 Nullable reference types
@@ -137,13 +137,13 @@ class A {
 
 (compilation_unit
   (class_declaration
-    (identifier_name)
-    (class_body
+    (identifier)
+    (declaration_list
       (field_declaration
         (variable_declaration
           (nullable_type (predefined_type))
-          (variable_declarator (identifier_name))))
+          (variable_declarator (identifier))))
       (field_declaration
         (variable_declaration
-          (nullable_type (identifier_name))
-          (variable_declarator (identifier_name)))))))
+          (nullable_type (identifier))
+          (variable_declarator (identifier)))))))

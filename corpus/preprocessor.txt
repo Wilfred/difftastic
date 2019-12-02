@@ -15,7 +15,7 @@ string a =
     (variable_declaration
      (predefined_type)
      (variable_declarator
-      (identifier_name)
+      (identifier)
       (equals_value_clause
         (preprocessor_directive)
         (string_literal))))
@@ -40,7 +40,7 @@ string a =
     (variable_declaration
      (predefined_type)
      (variable_declarator
-      (identifier_name)
+      (identifier)
       (equals_value_clause
         (preprocessor_directive)
         (string_literal))))
@@ -65,7 +65,7 @@ string a =
     (variable_declaration
      (predefined_type)
      (variable_declarator
-      (identifier_name)
+      (identifier)
       (equals_value_clause
         (preprocessor_directive)
         (string_literal))))
@@ -92,7 +92,7 @@ string a =
     (variable_declaration
      (predefined_type)
      (variable_declarator
-      (identifier_name)
+      (identifier)
       (equals_value_clause
         (preprocessor_directive)
         (string_literal))))
@@ -117,7 +117,7 @@ string a =
     (variable_declaration
      (predefined_type)
      (variable_declarator
-      (identifier_name)
+      (identifier)
       (equals_value_clause
         (preprocessor_directive)
         (string_literal))))
@@ -154,7 +154,7 @@ class A {}
 (compilation_unit
   (preprocessor_directive)
   (preprocessor_directive)
-  (class_declaration (identifier_name) (class_body)))
+  (class_declaration (identifier) (declaration_list)))
 
 ===================================
 Warning and error directives
@@ -168,8 +168,8 @@ class Of1879 {
 ---
 
 (compilation_unit
-  (class_declaration (identifier_name)
-    (class_body
+  (class_declaration (identifier)
+    (declaration_list
       (preprocessor_directive)
       (preprocessor_directive))))
 
@@ -188,9 +188,9 @@ class Of1879 {
 ---
 
 (compilation_unit
-  (class_declaration (identifier_name)
-    (class_body
-      (method_declaration (void_keyword) (identifier_name) (parameter_list)
+  (class_declaration (identifier)
+    (declaration_list
+      (method_declaration (void_keyword) (identifier) (parameter_list)
         (block
           (preprocessor_directive)
           (preprocessor_directive)

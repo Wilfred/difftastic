@@ -16,10 +16,10 @@ using_directive
   ;
 
 name_equals
-  : identifier_name '='
+  : identifier '='
   ;
 
-identifier_name
+identifier
   : 'global'
   | identifier_token
   ;
@@ -31,12 +31,12 @@ name
   ;
 
 alias_qualified_name
-  : identifier_name '::' simple_name
+  : identifier '::' simple_name
   ;
 
 simple_name
   : generic_name
-  | identifier_name
+  | identifier
   ;
 
 generic_name
@@ -72,7 +72,7 @@ attribute_argument
   ;
 
 name_colon
-  : identifier_name ':'
+  : identifier ':'
   ;
 
 member_declaration
@@ -203,7 +203,7 @@ type_parameter
   ;
 
 type_parameter_constraint_clause
-  : 'where' identifier_name ':' type_parameter_constraint (',' type_parameter_constraint)*
+  : 'where' identifier ':' type_parameter_constraint (',' type_parameter_constraint)*
   ;
 
 type_parameter_constraint
@@ -452,10 +452,10 @@ fixed_statement
 for_statement
   : 'for'
     '('
-     (variable_declaration? | (expression (',' expression)*)?) 
+     (variable_declaration? | (expression (',' expression)*)?)
      ';'
-     expression? 
-     ';' 
+     expression?
+     ';'
      (expression (',' expression)*)?
      ')'
      statement
@@ -1061,7 +1061,7 @@ type_cref
   ;
 
 xml_name_attribute
-  : xml_name '=' ('\'' | '"') identifier_name ('\'' | '"')
+  : xml_name '=' ('\'' | '"') identifier ('\'' | '"')
   ;
 
 xml_text_attribute
