@@ -1,23 +1,21 @@
 #!/bin/bash
 
-set -e
+set -eu
 
-known_failures=$(cat script/known-failures.txt)
+example_files="$(find examples -name '*.cs')"
+known_failures="$(cat script/known-failures.txt)"
 
-example_files=$(find examples -name '*.cs')
+examples_to_parse=()
+while read -r example; do
+  if [[ ! $known_failures == *$example* ]]; then
+    examples_to_parse+=("${example}")
+  fi
+done <<< "$example_files"
 
-examples_to_parse=$(
-  for example in $example_files; do
-    if [[ ! $known_failures == *$example* ]]; then
-      echo $example
-    fi
-  done
-)
+printf "%s\0" "${examples_to_parse[@]}" | xargs -0 -n 2000 tree-sitter parse -q
 
-tree-sitter parse $examples_to_parse -q
-
-skipped=$(echo $known_failures | wc -w)
-parsed=$(echo $examples_to_parse | wc -w)
+skipped=$(echo "$known_failures" | wc -l)
+parsed=$(printf "%s\n" "${examples_to_parse[@]}" | wc -l)
 total=$((parsed+skipped))
 percent=$(bc -l <<< "100*$parsed/$total")
 
