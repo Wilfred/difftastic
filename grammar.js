@@ -26,7 +26,11 @@ module.exports = grammar({
   extras: $ => [
     $.comment,
     /[\s\u00A0]+/,
-    $.preprocessor_directive
+    $.preprocessor_call
+  ],
+
+  externals: $ => [
+    $._preproc_directive_end,
   ],
 
   conflicts: $ => [
@@ -101,9 +105,6 @@ module.exports = grammar({
 
     name_equals: $ => prec(1, seq($._identifier_or_global, '=')),
 
-    identifier: $ => token(seq(optional('@'), /[a-zA-Z_][a-zA-Z_0-9]*/)), // identifier_token in Roslyn
-    global: $ => 'global',
-    _identifier_or_global: $ => choice($.global, $.identifier),
 
     _name: $ => choice(
       $.alias_qualified_name,
@@ -161,13 +162,13 @@ module.exports = grammar({
 
     name_colon: $ => seq($._identifier_or_global, ':'),
 
-    event_field_declaration: $ => seq(
+    event_field_declaration: $ => prec.dynamic(1, seq(
       repeat($.attribute_list),
       repeat($.modifier),
       'event',
       $.variable_declaration,
       ';'
-    ),
+    )),
 
     modifier: $ => prec.right(choice(
       'abstract',
@@ -535,7 +536,7 @@ module.exports = grammar({
 
     pointer_type: $ => prec(1, seq($._type, '*')),
 
-    predefined_type: $ => choice(
+    predefined_type: $ => token(choice(
       'bool',
       'byte',
       'char',
@@ -552,7 +553,7 @@ module.exports = grammar({
       'ulong',
       'ushort',
       // void is handled in return_type for better matching
-    ),
+    )),
 
     ref_type: $ => seq(
       'ref',
@@ -1207,15 +1208,7 @@ module.exports = grammar({
 
       $.identifier,
       alias($._reserved_identifier, $.identifier),
-
-      // Literals
-      $.null_literal,
-      $.boolean_literal,
-      $.character_literal,
-      $.real_literal, // Don't combine real and integer literals together
-      $.integer_literal,
-      $.string_literal, // Or strings and verbatim strings
-      $.verbatim_string_literal
+      $._literal
     ),
 
     binary_expression: $ => choice(
@@ -1247,7 +1240,23 @@ module.exports = grammar({
       )
     ),
 
+    identifier: $ => token(seq(optional('@'), /[a-zA-Z_][a-zA-Z_0-9]*/)), // identifier_token in Roslyn
+    global: $ => 'global',
+    _identifier_or_global: $ => choice($.global, $.identifier),
+
     // Literals - grammar.txt is useless here as it just refs to lexical specification
+
+    _literal: $ => choice(
+      $.null_literal,
+      $.boolean_literal,
+      $.character_literal,
+      // Don't combine real and integer literals together
+      $.real_literal,
+      $.integer_literal,
+      // Or strings and verbatim strings
+      $.string_literal,
+      $.verbatim_string_literal
+    ),
 
     boolean_literal: $ => choice(
       'true',
@@ -1348,37 +1357,17 @@ module.exports = grammar({
     return_type: $ => choice($._type, $.void_keyword),
     void_keyword: $ => 'void',
 
-    // We could line this up with grammar.txt *_trivia at some point.
-    // Will need to understand how structured_trivia is implemented.
-    preprocessor_directive: $ => token(
-      seq(
-        // TODO: Nothing should come before the # on a line except whitespace
-        '#',
-        choice(
-          'if',
-          'define',
-          'endif',
-          'undef',
-          'warning',
-          'error',
-          'line',
-          'region',
-          'endregion',
-          'pragma warning',
-          'pragma checksum',
-          'nullable',
-          // Individiual code can be broken up by #if #else #elif etc. Parsing all the code ignoring the tokens can cause
-          // syntax errors.  What we do instead is always parse the #if block but then completely ignore the #else and #elif blocks.
-          // It's not perfect as sometimes only valid combinations of names would compile or the defined names might be re-used.
-          seq(
-            choice('else', seq('elif', /.*/)),
-            repeat(choice(/[^#]/, /#[\s\u00A0]*(else|elif|define|undef|warning|error|line|region|endregion|pragma|nullable)/)), // Consume "disabled" code
-            /#[\s\u00A0]*endif/
-          ),
-        ),
-        /.*/
-      )
+    preprocessor_call: $ => seq(
+      $.preprocessor_directive,
+      repeat(choice(
+        $.identifier,
+        $._literal,
+        token(prec(-1, /[^\s]+/))
+      )),
+      $._preproc_directive_end
     ),
+
+    preprocessor_directive: $ => /#[a-z]\w*/,
   }
 })
 

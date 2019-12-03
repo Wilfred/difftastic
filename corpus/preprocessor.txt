@@ -1,127 +1,34 @@
 ===================================
-If and endif directives
-===================================
-
-string a = 
-#if WIN32
-  "Win32"
-#endif
-  ;
-
----
-
-(compilation_unit
-  (field_declaration
-    (variable_declaration
-     (predefined_type)
-     (variable_declarator
-      (identifier)
-      (equals_value_clause
-        (preprocessor_directive)
-        (string_literal))))
-  (preprocessor_directive)))
-
-===================================
-If and elif directives
-===================================
-
-string a = 
-#if WIN32
-  "Win32"
-#elif MACOS
-  "MacOS"
-#endif
-  ;
-
----
-
-(compilation_unit
-  (field_declaration
-    (variable_declaration
-     (predefined_type)
-     (variable_declarator
-      (identifier)
-      (equals_value_clause
-        (preprocessor_directive)
-        (string_literal))))
-  (preprocessor_directive)))
-
-===================================
-If and else directives
-===================================
-
-string a = 
-#if WIN32
-  "Win32"
-#else
-  "Unknown"
-#endif
-  ;
-
----
-
-(compilation_unit
-  (field_declaration
-    (variable_declaration
-     (predefined_type)
-     (variable_declarator
-      (identifier)
-      (equals_value_clause
-        (preprocessor_directive)
-        (string_literal))))
-  (preprocessor_directive)))
-
-===================================
 If, elif and else directives
 ===================================
 
-string a = 
 #if WIN32
-  "Win32"
+  string os = "Win32";
 #elif MACOS
-  "MacOS"
+  string os = "MacOS";
 #else
-  "Unknown"
+  string os = "Unknown";
 #endif
-  ;
 
 ---
 
 (compilation_unit
+  (preprocessor_call (preprocessor_directive) (identifier))
   (field_declaration
     (variable_declaration
-     (predefined_type)
-     (variable_declarator
-      (identifier)
-      (equals_value_clause
-        (preprocessor_directive)
-        (string_literal))))
-  (preprocessor_directive)))
-
-===================================
-If and error directives
-===================================
-
-string a = 
-#if WIN32
-  "Win32"
-#else
-#error Compilation will now stop.
-#endif
-  ;
-
----
-
-(compilation_unit
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (string_literal)))))
+  (preprocessor_call (preprocessor_directive) (identifier))
   (field_declaration
     (variable_declaration
-     (predefined_type)
-     (variable_declarator
-      (identifier)
-      (equals_value_clause
-        (preprocessor_directive)
-        (string_literal))))
-  (preprocessor_directive)))
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (string_literal)))))
+  (preprocessor_call (preprocessor_directive))
+  (field_declaration
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (string_literal)))))
+  (preprocessor_call (preprocessor_directive)))
 
 ===========================
 Region directives
@@ -136,9 +43,13 @@ Region directives
 ---
 
 (compilation_unit
-  (preprocessor_directive)
+  (preprocessor_call
+    (preprocessor_directive)
+    (identifier)
+    (identifier)
+    (identifier))
   (comment)
-  (preprocessor_directive))
+  (preprocessor_call (preprocessor_directive)))
 
 ===================================
 Define and undefine directives
@@ -147,14 +58,11 @@ Define and undefine directives
 #define SOMETHING
 #undef BAD
 
-class A {}
-
 ---
 
 (compilation_unit
-  (preprocessor_directive)
-  (preprocessor_directive)
-  (class_declaration (identifier) (declaration_list)))
+  (preprocessor_call (preprocessor_directive) (identifier))
+  (preprocessor_call (preprocessor_directive) (identifier)))
 
 ===================================
 Warning and error directives
@@ -168,10 +76,9 @@ class Of1879 {
 ---
 
 (compilation_unit
-  (class_declaration (identifier)
-    (declaration_list
-      (preprocessor_directive)
-      (preprocessor_directive))))
+  (class_declaration (identifier) (declaration_list
+    (preprocessor_call (preprocessor_directive) (identifier) (identifier) (identifier) (identifier))
+    (preprocessor_call (preprocessor_directive) (identifier) (identifier) (identifier)))))
 
 ===================================
 Line directives
@@ -187,12 +94,14 @@ class Of1879 {
 
 ---
 
-(compilation_unit
-  (class_declaration (identifier)
-    (declaration_list
-      (method_declaration (void_keyword) (identifier) (parameter_list)
-        (block
-          (preprocessor_directive)
-          (preprocessor_directive)
-          (preprocessor_directive))))))
-  
+(compilation_unit (class_declaration
+  (identifier)
+  (declaration_list
+    (method_declaration
+      (void_keyword)
+      (identifier)
+      (parameter_list)
+      (block
+        (preprocessor_call (preprocessor_directive) (integer_literal) (string_literal))
+        (preprocessor_call (preprocessor_directive) (identifier))
+        (preprocessor_call (preprocessor_directive) (identifier))))))) 

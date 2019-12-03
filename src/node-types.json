@@ -12749,11 +12749,6 @@
     }
   },
   {
-    "type": "predefined_type",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "prefix_unary_expression",
     "named": true,
     "fields": {},
@@ -18428,10 +18423,6 @@
     "named": false
   },
   {
-    "type": "bool",
-    "named": false
-  },
-  {
     "type": "break",
     "named": false
   },
@@ -18440,19 +18431,11 @@
     "named": false
   },
   {
-    "type": "byte",
-    "named": false
-  },
-  {
     "type": "case",
     "named": false
   },
   {
     "type": "catch",
-    "named": false
-  },
-  {
-    "type": "char",
     "named": false
   },
   {
@@ -18469,10 +18452,6 @@
   },
   {
     "type": "continue",
-    "named": false
-  },
-  {
-    "type": "decimal",
     "named": false
   },
   {
@@ -18493,10 +18472,6 @@
   },
   {
     "type": "do",
-    "named": false
-  },
-  {
-    "type": "double",
     "named": false
   },
   {
@@ -18544,10 +18519,6 @@
     "named": false
   },
   {
-    "type": "float",
-    "named": false
-  },
-  {
     "type": "for",
     "named": false
   },
@@ -18592,10 +18563,6 @@
     "named": false
   },
   {
-    "type": "int",
-    "named": false
-  },
-  {
     "type": "integer_literal",
     "named": true
   },
@@ -18632,10 +18599,6 @@
     "named": false
   },
   {
-    "type": "long",
-    "named": false
-  },
-  {
     "type": "method",
     "named": false
   },
@@ -18654,10 +18617,6 @@
   {
     "type": "null_literal",
     "named": true
-  },
-  {
-    "type": "object",
-    "named": false
   },
   {
     "type": "on",
@@ -18690,6 +18649,14 @@
   {
     "type": "partial",
     "named": false
+  },
+  {
+    "type": "predefined_type",
+    "named": true
+  },
+  {
+    "type": "preprocessor_directive",
+    "named": true
   },
   {
     "type": "private",
@@ -18728,10 +18695,6 @@
     "named": false
   },
   {
-    "type": "sbyte",
-    "named": false
-  },
-  {
     "type": "sealed",
     "named": false
   },
@@ -18744,10 +18707,6 @@
     "named": false
   },
   {
-    "type": "short",
-    "named": false
-  },
-  {
     "type": "sizeof",
     "named": false
   },
@@ -18757,10 +18716,6 @@
   },
   {
     "type": "static",
-    "named": false
-  },
-  {
-    "type": "string",
     "named": false
   },
   {
@@ -18796,14 +18751,6 @@
     "named": false
   },
   {
-    "type": "uint",
-    "named": false
-  },
-  {
-    "type": "ulong",
-    "named": false
-  },
-  {
     "type": "unchecked",
     "named": false
   },
@@ -18813,10 +18760,6 @@
   },
   {
     "type": "unsafe",
-    "named": false
-  },
-  {
-    "type": "ushort",
     "named": false
   },
   {
