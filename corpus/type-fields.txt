@@ -147,3 +147,33 @@ class A {
         (variable_declaration
           (nullable_type (identifier))
           (variable_declarator (identifier)))))))
+
+=======================================
+Tuple types
+=======================================
+
+class A {
+  (int, string str) a;
+  (B b, C c, D d) a;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (field_declaration
+        (variable_declaration
+          (tuple_type
+            (tuple_element (predefined_type))
+            (tuple_element (predefined_type) (identifier)))
+          (variable_declarator (identifier))))
+      (field_declaration
+        (variable_declaration
+          (tuple_type
+            (tuple_element (identifier) (identifier))
+            (tuple_element (identifier) (identifier))
+            (tuple_element (identifier) (identifier)))
+          (variable_declarator (identifier)))))))
+

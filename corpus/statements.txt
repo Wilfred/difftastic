@@ -1014,3 +1014,58 @@ class A {
       (block
         (for_statement
           (block)))))))
+
+=====================================
+Deconstruction
+=====================================
+
+class A {
+  void Sample() {
+    (var a, var b) = c;
+    var (a, b) = c;
+    (a, b) = c;
+    var (a, _) = c;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (method_declaration
+        (void_keyword)
+        (identifier)
+        (parameter_list)
+        (block
+          (expression_statement
+            (assignment_expression
+              (tuple_type
+                (tuple_element (implicit_type) (identifier))
+                (tuple_element (implicit_type) (identifier)))
+              (assignment_operator)
+              (identifier)))
+          (expression_statement
+            (assignment_expression
+              (invocation_expression
+                (implicit_type)
+                (argument_list
+                  (argument (identifier))
+                  (argument (identifier))))
+              (assignment_operator)
+              (identifier)))
+          (expression_statement
+            (assignment_expression
+              (tuple_expression
+                (argument (identifier))
+                (argument (identifier)))
+              (assignment_operator)
+              (identifier)))
+          (expression_statement
+            (assignment_expression
+              (invocation_expression
+                (implicit_type)
+                (argument_list (argument (identifier)) (argument (identifier))))
+              (assignment_operator)
+              (identifier))))))))

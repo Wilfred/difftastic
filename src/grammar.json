@@ -2575,6 +2575,10 @@
         {
           "type": "SYMBOL",
           "name": "predefined_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tuple_type"
         }
       ]
     },
@@ -2810,7 +2814,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "argument"
+                "name": "tuple_element"
               }
             ]
           }
@@ -7020,7 +7024,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\*[^\\/]"
+                      "value": "\\*[^/]"
                     }
                   ]
                 }
@@ -7181,6 +7185,22 @@
     [
       "_type",
       "attribute"
+    ],
+    [
+      "parameter_modifier",
+      "this_expression"
+    ],
+    [
+      "tuple_element",
+      "_expression"
+    ],
+    [
+      "tuple_element",
+      "parameter"
+    ],
+    [
+      "tuple_element",
+      "variable_declarator"
     ]
   ],
   "externals": [
