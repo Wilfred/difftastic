@@ -32,19 +32,19 @@ interface IOne {
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration))
+        (accessor_list (accessor_declaration)))
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration))
+        (accessor_list (accessor_declaration)))
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration) (accessor_declaration))
+        (accessor_list (accessor_declaration) (accessor_declaration)))
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration) (accessor_declaration)))))
+        (accessor_list (accessor_declaration) (accessor_declaration))))))
 
 =====================================
 Interface with methods
@@ -230,8 +230,9 @@ interface A {
       (indexer_declaration
         (predefined_type)
         (bracketed_parameter_list (parameter (predefined_type) (identifier)))
-        (accessor_declaration)
-        (accessor_declaration)))))
+        (accessor_list
+          (accessor_declaration)
+          (accessor_declaration))))))
 
 =====================================
 Interface with default method

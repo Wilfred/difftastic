@@ -12,18 +12,18 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier)
-    (declaration_list
+    name: (identifier)
+    body: (declaration_list
       (method_declaration
-        (void_keyword)
-        (identifier)
-        (parameter_list)
-        (block
-        (expression_statement
-          (conditional_expression
-            (identifier)
-            (string_literal)
-            (string_literal))))))))
+        type: (void_keyword)
+        name: (identifier)
+        parameters: (parameter_list)
+        body: (block
+          (expression_statement
+            (conditional_expression
+              condition: (identifier)
+              consequence: (string_literal)
+              alternative: (string_literal))))))))
 
 =====================================
 Binary Expressions
@@ -40,21 +40,21 @@ class Foo {
 
 (compilation_unit
   (class_declaration
-    (identifier)
-    (declaration_list
+    name: (identifier)
+    body: (declaration_list
       (method_declaration
-        (void_keyword)
-        (identifier)
-        (parameter_list)
-        (block
-        (expression_statement
-          (binary_expression
-            (identifier)
-            (identifier)))
-        (expression_statement
-          (binary_expression
-            (integer_literal)
-            (integer_literal))))))))
+        type: (void_keyword)
+        name: (identifier)
+        parameters: (parameter_list)
+        body: (block
+          (expression_statement
+            (binary_expression
+              left: (identifier)
+              right: (identifier)))
+          (expression_statement
+            (binary_expression
+              left: (integer_literal)
+              right: (integer_literal))))))))
 
 =====================================
 Ternary expressions vs nullable types

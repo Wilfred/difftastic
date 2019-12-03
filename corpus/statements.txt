@@ -199,14 +199,15 @@ class A {
 
 (compilation_unit
   (class_declaration
-    (identifier)
-    (declaration_list (method_declaration
-      (predefined_type)
-      (identifier)
-      (parameter_list)
-      (block
-        (if_statement (boolean_literal)
-          (return_statement (integer_literal))))))))
+    name: (identifier)
+    body: (declaration_list (method_declaration
+      type: (predefined_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (block
+        (if_statement
+          condition: (boolean_literal)
+          consequence: (return_statement (integer_literal))))))))
 
 =====================================
 If Else statement
@@ -223,16 +224,16 @@ class A {
 
 (compilation_unit
   (class_declaration
-    (identifier)
-    (declaration_list (method_declaration
-      (predefined_type)
-      (identifier)
-      (parameter_list)
-      (block
-        (if_statement (boolean_literal)
-          (return_statement (integer_literal))
-          (else_clause
-            (return_statement (integer_literal)))))))))
+    name: (identifier)
+    body: (declaration_list (method_declaration
+      type: (predefined_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (block
+        (if_statement
+          condition: (boolean_literal)
+          consequence: (return_statement (integer_literal))
+          alternative: (return_statement (integer_literal))))))))
 
 =====================================
 Switch statement
@@ -255,22 +256,26 @@ class A {
 
 (compilation_unit
   (class_declaration
-    (identifier)
-    (declaration_list (method_declaration
-      (predefined_type)
-      (identifier)
-      (parameter_list
-        (parameter (predefined_type) (identifier)))
-      (block
-        (switch_statement (identifier)
-          (switch_section
-            (case_switch_label (integer_literal))
-            (case_switch_label (integer_literal))
-            (return_statement (integer_literal)))
-          (switch_section
-            (default_switch_label)
-            (block
-              (return_statement (integer_literal))))))))))
+    name: (identifier)
+    body: (declaration_list (method_declaration
+      type: (predefined_type)
+      name: (identifier)
+      parameters: (parameter_list
+        (parameter
+          type: (predefined_type)
+          name: (identifier)))
+      body: (block
+        (switch_statement
+          value: (identifier)
+          body: (switch_body
+            (switch_section
+              (case_switch_label (integer_literal))
+              (case_switch_label (integer_literal))
+              (return_statement (integer_literal)))
+            (switch_section
+              (default_switch_label)
+              (block
+                (return_statement (integer_literal)))))))))))
 
 =====================================
 Try finally statement

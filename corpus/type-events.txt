@@ -17,8 +17,9 @@ class A {
         (generic_name (identifier)
           (type_argument_list (identifier)))
         (identifier)
-        (accessor_declaration (block))
-        (accessor_declaration (block))))))
+        (accessor_list
+          (accessor_declaration (block))
+          (accessor_declaration (block)))))))
 
 =======================================
 Struct event declarations
@@ -39,8 +40,9 @@ struct A {
         (generic_name (identifier)
           (type_argument_list (identifier)))
         (identifier)
-        (accessor_declaration (block))
-        (accessor_declaration (block))))))
+        (accessor_list
+          (accessor_declaration (block))
+          (accessor_declaration (block)))))))
 
 =======================================
 Class event declarations with expression bodies
@@ -60,6 +62,6 @@ class A {
         (modifier)
         (identifier)
         (identifier)
-        (accessor_declaration (arrow_expression_clause (invocation_expression (identifier) (argument_list))))
-        (accessor_declaration (arrow_expression_clause (invocation_expression (identifier) (argument_list))))))))
-
+        (accessor_list
+          (accessor_declaration (arrow_expression_clause (invocation_expression (identifier) (argument_list))))
+          (accessor_declaration (arrow_expression_clause (invocation_expression (identifier) (argument_list)))))))))
