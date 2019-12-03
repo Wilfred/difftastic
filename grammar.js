@@ -56,6 +56,11 @@ module.exports = grammar({
     [$._type, $.array_creation_expression],
     [$._type, $.stack_alloc_array_creation_expression],
     [$._type, $.attribute],
+
+    [$.parameter_modifier, $.this_expression],
+    [$.tuple_element, $._expression],
+    [$.tuple_element, $.parameter],
+    [$.tuple_element, $.variable_declarator],
   ],
 
   inline: $ => [
@@ -521,7 +526,7 @@ module.exports = grammar({
       $.pointer_type,
       $.predefined_type,
       // $.ref_type,    // TODO: Conflicts with 'ref' modifier...
-      // $.tuple_type,  // TODO: Conflicts with everything
+      $.tuple_type,  // TODO: Conflicts with everything
     ),
 
     implicit_type: $ => 'var',
@@ -566,7 +571,7 @@ module.exports = grammar({
       $.tuple_element,
       repeat1(seq(
         ',',
-        $.argument,
+        $.tuple_element,
       )),
       ')'
     ),
