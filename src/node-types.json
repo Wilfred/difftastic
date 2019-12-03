@@ -5,7 +5,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "attribute_name",
@@ -33,7 +33,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "doctype",
@@ -77,15 +77,25 @@
   {
     "type": "end_tag",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "tag_name",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "erroneous_end_tag",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "erroneous_end_tag_name",
@@ -132,7 +142,17 @@
   {
     "type": "quoted_attribute_value",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute_value",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "script_element",
@@ -140,7 +160,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "end_tag",
@@ -163,10 +183,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "attribute",
+          "named": true
+        },
+        {
+          "type": "tag_name",
           "named": true
         }
       ]
@@ -178,10 +202,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "attribute",
+          "named": true
+        },
+        {
+          "type": "tag_name",
           "named": true
         }
       ]
@@ -193,7 +221,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "end_tag",
@@ -211,11 +239,15 @@
     }
   },
   {
-    "type": "<!",
+    "type": "\"",
     "named": false
   },
   {
-    "type": ">",
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "/>",
     "named": false
   },
   {
@@ -223,7 +255,7 @@
     "named": false
   },
   {
-    "type": "/>",
+    "type": "<!",
     "named": false
   },
   {
@@ -235,20 +267,16 @@
     "named": false
   },
   {
+    "type": ">",
+    "named": false
+  },
+  {
     "type": "attribute_name",
     "named": true
   },
   {
     "type": "attribute_value",
     "named": true
-  },
-  {
-    "type": "'",
-    "named": false
-  },
-  {
-    "type": "\"",
-    "named": false
   },
   {
     "type": "text",
