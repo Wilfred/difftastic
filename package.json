@@ -13,7 +13,7 @@
     "nan": "^2.11.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.15.6"
+    "tree-sitter-cli": "^0.15.14"
   },
   "scripts": {
     "test": "tree-sitter test && tree-sitter parse examples/*.css --quiet --time",
