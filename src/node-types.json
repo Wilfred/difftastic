@@ -5,7 +5,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "adjacent_sibling_selector",
@@ -71,6 +71,14 @@
       "required": false,
       "types": [
         {
+          "type": "adjacent_sibling_selector",
+          "named": true
+        },
+        {
+          "type": "attribute_selector",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -79,7 +87,19 @@
           "named": true
         },
         {
+          "type": "child_selector",
+          "named": true
+        },
+        {
+          "type": "class_selector",
+          "named": true
+        },
+        {
           "type": "color_value",
+          "named": true
+        },
+        {
+          "type": "descendant_selector",
           "named": true
         },
         {
@@ -87,7 +107,15 @@
           "named": true
         },
         {
+          "type": "id_selector",
+          "named": true
+        },
+        {
           "type": "integer_value",
+          "named": true
+        },
+        {
+          "type": "nesting_selector",
           "named": true
         },
         {
@@ -99,7 +127,27 @@
           "named": true
         },
         {
+          "type": "pseudo_class_selector",
+          "named": true
+        },
+        {
+          "type": "pseudo_element_selector",
+          "named": true
+        },
+        {
+          "type": "sibling_selector",
+          "named": true
+        },
+        {
           "type": "string_value",
+          "named": true
+        },
+        {
+          "type": "tag_name",
+          "named": true
+        },
+        {
+          "type": "universal_selector",
           "named": true
         }
       ]
@@ -111,7 +159,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "at_keyword",
@@ -154,7 +202,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "adjacent_sibling_selector",
@@ -249,7 +297,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -292,7 +340,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_query",
@@ -374,7 +422,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "arguments",
@@ -392,8 +440,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -436,7 +484,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "adjacent_sibling_selector",
@@ -499,7 +547,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "adjacent_sibling_selector",
@@ -571,7 +619,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -622,7 +670,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "adjacent_sibling_selector",
@@ -685,7 +733,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -731,7 +779,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
@@ -747,7 +795,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "adjacent_sibling_selector",
@@ -814,7 +862,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -880,7 +928,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
@@ -896,7 +944,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "block",
@@ -938,8 +986,12 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "at_keyword",
+          "named": true
+        },
         {
           "type": "keyframe_block_list",
           "named": true
@@ -957,7 +1009,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_query",
@@ -996,7 +1048,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "call_expression",
@@ -1018,8 +1070,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "binary_query",
@@ -1053,8 +1105,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -1097,7 +1149,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "adjacent_sibling_selector",
@@ -1168,7 +1220,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "adjacent_sibling_selector",
@@ -1231,7 +1283,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "block",
@@ -1249,8 +1301,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "adjacent_sibling_selector",
@@ -1313,7 +1365,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "adjacent_sibling_selector",
@@ -1376,7 +1428,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "adjacent_sibling_selector",
@@ -1486,7 +1538,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_query",
@@ -1524,8 +1576,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "binary_query",
@@ -1560,119 +1612,11 @@
     "fields": {}
   },
   {
-    "type": "@import",
-    "named": false
-  },
-  {
-    "type": ",",
-    "named": false
-  },
-  {
-    "type": ";",
-    "named": false
-  },
-  {
-    "type": "@media",
-    "named": false
-  },
-  {
-    "type": "@charset",
-    "named": false
-  },
-  {
-    "type": "@namespace",
-    "named": false
-  },
-  {
-    "type": "@keyframes",
-    "named": false
-  },
-  {
-    "type": "{",
-    "named": false
-  },
-  {
-    "type": "}",
-    "named": false
-  },
-  {
-    "type": "from",
-    "named": true
-  },
-  {
-    "type": "to",
-    "named": true
-  },
-  {
-    "type": "@supports",
-    "named": false
-  },
-  {
-    "type": "nesting_selector",
-    "named": true
-  },
-  {
-    "type": "*",
-    "named": false
-  },
-  {
-    "type": ".",
-    "named": false
-  },
-  {
-    "type": ":",
-    "named": false
-  },
-  {
-    "type": "::",
-    "named": false
-  },
-  {
     "type": "#",
     "named": false
   },
   {
-    "type": "[",
-    "named": false
-  },
-  {
-    "type": "=",
-    "named": false
-  },
-  {
-    "type": "~=",
-    "named": false
-  },
-  {
-    "type": "^=",
-    "named": false
-  },
-  {
-    "type": "|=",
-    "named": false
-  },
-  {
-    "type": "*=",
-    "named": false
-  },
-  {
     "type": "$=",
-    "named": false
-  },
-  {
-    "type": "]",
-    "named": false
-  },
-  {
-    "type": ">",
-    "named": false
-  },
-  {
-    "type": "~",
-    "named": false
-  },
-  {
-    "type": "+",
     "named": false
   },
   {
@@ -1684,11 +1628,87 @@
     "named": false
   },
   {
-    "type": "important",
-    "named": true
+    "type": "*",
+    "named": false
   },
   {
-    "type": "(",
+    "type": "*=",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "::",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "@charset",
+    "named": false
+  },
+  {
+    "type": "@import",
+    "named": false
+  },
+  {
+    "type": "@keyframes",
+    "named": false
+  },
+  {
+    "type": "@media",
+    "named": false
+  },
+  {
+    "type": "@namespace",
+    "named": false
+  },
+  {
+    "type": "@supports",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "^=",
     "named": false
   },
   {
@@ -1696,8 +1716,52 @@
     "named": false
   },
   {
-    "type": "or",
-    "named": false
+    "type": "at_keyword",
+    "named": true
+  },
+  {
+    "type": "attribute_name",
+    "named": true
+  },
+  {
+    "type": "class_name",
+    "named": true
+  },
+  {
+    "type": "feature_name",
+    "named": true
+  },
+  {
+    "type": "from",
+    "named": true
+  },
+  {
+    "type": "function_name",
+    "named": true
+  },
+  {
+    "type": "id_name",
+    "named": true
+  },
+  {
+    "type": "important",
+    "named": true
+  },
+  {
+    "type": "keyframes_name",
+    "named": true
+  },
+  {
+    "type": "keyword_query",
+    "named": true
+  },
+  {
+    "type": "namespace_name",
+    "named": true
+  },
+  {
+    "type": "nesting_selector",
+    "named": true
   },
   {
     "type": "not",
@@ -1708,6 +1772,18 @@
     "named": false
   },
   {
+    "type": "or",
+    "named": false
+  },
+  {
+    "type": "plain_value",
+    "named": true
+  },
+  {
+    "type": "property_name",
+    "named": true
+  },
+  {
     "type": "selector",
     "named": false
   },
@@ -1716,31 +1792,35 @@
     "named": true
   },
   {
+    "type": "tag_name",
+    "named": true
+  },
+  {
+    "type": "to",
+    "named": true
+  },
+  {
     "type": "unit",
     "named": true
   },
   {
-    "type": "-",
+    "type": "{",
     "named": false
   },
   {
-    "type": "/",
+    "type": "|=",
     "named": false
   },
   {
-    "type": "identifier",
-    "named": true
+    "type": "}",
+    "named": false
   },
   {
-    "type": "at_keyword",
-    "named": true
+    "type": "~",
+    "named": false
   },
   {
-    "type": "comment",
-    "named": true
-  },
-  {
-    "type": "plain_value",
-    "named": true
+    "type": "~=",
+    "named": false
   }
 ]
