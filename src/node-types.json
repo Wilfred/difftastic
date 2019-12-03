@@ -81,10 +81,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -94,10 +90,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -170,10 +162,6 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "implicit_type",
           "named": true
         },
         {
@@ -221,10 +209,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -233,23 +217,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -305,10 +277,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -328,10 +296,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -341,10 +305,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -388,6 +348,10 @@
           "named": true
         },
         {
+          "type": "declaration_expression",
+          "named": true
+        },
+        {
           "type": "default_expression",
           "named": true
         },
@@ -417,10 +381,6 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "implicit_type",
           "named": true
         },
         {
@@ -468,10 +428,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -480,23 +436,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -549,10 +493,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -609,10 +549,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -622,10 +558,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -701,10 +633,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -745,10 +673,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -757,23 +681,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -826,10 +738,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -911,10 +819,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -924,10 +828,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -1003,10 +903,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -1047,10 +943,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -1059,23 +951,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -1131,10 +1011,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -1154,10 +1030,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -1167,10 +1039,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -1250,10 +1118,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -1294,10 +1158,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -1306,23 +1166,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -1375,10 +1223,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -1441,10 +1285,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -1454,10 +1294,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -1533,10 +1369,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -1585,10 +1417,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -1597,23 +1425,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -1666,10 +1482,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -1731,10 +1543,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -1744,10 +1552,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -1823,10 +1627,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -1867,10 +1667,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -1879,23 +1675,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -1948,10 +1732,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -2455,10 +2235,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -2468,10 +2244,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -2547,10 +2319,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -2591,10 +2359,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -2603,23 +2367,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -2672,10 +2424,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -3019,10 +2767,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -3032,10 +2776,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -3111,10 +2851,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -3155,10 +2891,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -3167,23 +2899,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -3236,10 +2956,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -3277,10 +2993,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -3290,10 +3002,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -3369,10 +3077,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -3413,10 +3117,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -3425,23 +3125,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -3494,10 +3182,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -3661,10 +3345,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -3674,10 +3354,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -3753,10 +3429,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -3797,10 +3469,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -3809,23 +3477,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -3878,10 +3534,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -3904,10 +3556,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -3917,10 +3565,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -3996,10 +3640,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -4040,10 +3680,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -4052,23 +3688,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -4121,10 +3745,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -4147,10 +3767,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -4160,10 +3776,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -4239,10 +3851,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -4283,10 +3891,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -4295,23 +3899,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -4364,10 +3956,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -4499,6 +4087,61 @@
         },
         {
           "type": "parameter_list",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declaration_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "generic_name",
+          "named": true
+        },
+        {
+          "type": "global",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "implicit_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -4849,10 +4492,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -4862,10 +4501,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -4989,10 +4624,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -5049,10 +4680,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -5061,23 +4688,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -5149,10 +4764,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -5188,10 +4799,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -5201,10 +4808,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -5284,10 +4887,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -5328,10 +4927,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -5340,23 +4935,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -5409,10 +4992,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -5593,10 +5172,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -5606,10 +5181,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -5689,10 +5260,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -5733,10 +5300,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -5745,23 +5308,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -5817,10 +5368,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -5855,10 +5402,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -5868,10 +5411,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -5947,10 +5486,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -5991,10 +5526,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -6003,23 +5534,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -6072,10 +5591,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -6223,10 +5738,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -6236,10 +5747,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -6315,10 +5822,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -6359,10 +5862,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -6371,23 +5870,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -6440,10 +5927,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -6969,10 +6452,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -6982,10 +6461,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -7109,10 +6584,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -7169,10 +6640,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -7181,23 +6648,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -7266,10 +6721,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -7589,10 +7040,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -7602,10 +7049,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -7678,10 +7121,6 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "implicit_type",
           "named": true
         },
         {
@@ -7729,10 +7168,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -7741,23 +7176,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -7813,10 +7236,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -7836,10 +7255,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -7849,10 +7264,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -7928,10 +7339,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -7972,10 +7379,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -7984,23 +7387,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -8056,10 +7447,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -8079,10 +7466,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -8092,10 +7475,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -8223,10 +7602,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -8283,10 +7658,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -8295,23 +7666,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -8380,10 +7739,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -8536,10 +7891,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -8549,10 +7900,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -8628,10 +7975,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -8672,10 +8015,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -8684,23 +8023,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -8753,10 +8080,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -8861,10 +8184,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -8874,10 +8193,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -8950,10 +8265,6 @@
         },
         {
           "type": "implicit_stack_alloc_array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "implicit_type",
           "named": true
         },
         {
@@ -9005,10 +8316,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -9017,23 +8324,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -9089,10 +8384,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -9112,10 +8403,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -9125,10 +8412,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -9204,10 +8487,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -9248,10 +8527,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -9260,23 +8535,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -9329,10 +8592,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -9360,10 +8619,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -9377,10 +8632,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -9456,10 +8707,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -9500,10 +8747,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -9512,23 +8755,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -9584,10 +8815,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -9607,10 +8834,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -9620,10 +8843,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -9711,10 +8930,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -9755,10 +8970,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -9767,23 +8978,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -9836,10 +9035,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -10239,10 +9434,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -10252,10 +9443,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -10335,10 +9522,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -10379,10 +9562,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -10395,23 +9574,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -10467,10 +9634,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -10490,10 +9653,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -10503,10 +9662,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -10582,10 +9737,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -10626,10 +9777,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -10638,23 +9785,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -10707,10 +9842,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -10835,10 +9966,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -10848,10 +9975,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -10975,10 +10098,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -11035,10 +10154,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -11047,23 +10162,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -11135,10 +10238,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -11174,10 +10273,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -11187,10 +10282,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -11266,10 +10357,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -11310,10 +10397,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -11322,23 +10405,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -11391,10 +10462,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -12045,10 +11112,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -12058,10 +11121,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -12137,10 +11196,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -12181,10 +11236,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -12193,23 +11244,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -12262,10 +11301,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -12402,10 +11437,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -12415,10 +11446,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -12494,10 +11521,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -12538,10 +11561,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -12550,23 +11569,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -12619,10 +11626,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -12738,10 +11741,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -12751,10 +11750,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -12830,10 +11825,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -12874,10 +11865,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -12886,23 +11873,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -12955,10 +11930,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -12981,10 +11952,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -12994,10 +11961,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -13073,10 +12036,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -13117,10 +12076,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -13129,23 +12084,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -13198,10 +12141,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -13623,10 +12562,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -13636,10 +12571,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -13715,10 +12646,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -13759,10 +12686,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -13771,23 +12694,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -13840,10 +12751,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -13866,10 +12773,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -13879,10 +12782,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -13958,10 +12857,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -14002,10 +12897,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -14014,23 +12905,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -14083,10 +12962,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -14109,10 +12984,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -14122,10 +12993,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -14201,10 +13068,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -14245,10 +13108,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -14257,23 +13116,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -14326,10 +13173,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -14595,10 +13438,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -14608,10 +13447,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -14687,10 +13522,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -14731,10 +13562,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -14743,23 +13570,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -14812,10 +13627,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -14838,10 +13649,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -14851,10 +13658,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -14930,10 +13733,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -14974,10 +13773,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -14986,23 +13781,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -15055,10 +13838,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -15240,10 +14019,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -15253,10 +14028,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -15332,10 +14103,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -15376,10 +14143,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -15388,23 +14151,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -15464,10 +14215,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -15487,10 +14234,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -15500,10 +14243,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -15591,10 +14330,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -15635,10 +14370,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -15647,23 +14378,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -15716,10 +14435,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -15869,10 +14584,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -15882,10 +14593,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -15961,10 +14668,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -16005,10 +14708,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -16017,23 +14716,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -16093,10 +14780,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -16121,10 +14804,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -16134,10 +14813,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -16213,10 +14888,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -16257,10 +14928,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -16269,23 +14936,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -16338,10 +14993,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -16364,10 +15015,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -16377,10 +15024,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -16456,10 +15099,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -16500,10 +15139,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -16512,23 +15147,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -16581,10 +15204,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -16686,6 +15305,25 @@
       "types": [
         {
           "type": "argument",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tuple_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "discard",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -17006,10 +15644,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -17019,10 +15653,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -17146,10 +15776,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -17206,10 +15832,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -17218,23 +15840,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -17303,10 +15913,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -17441,6 +16047,10 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "tuple_pattern",
+          "named": true
         }
       ]
     }
@@ -17454,10 +16064,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -17467,10 +16073,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -17546,10 +16148,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -17590,10 +16188,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -17602,23 +16196,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -17671,10 +16253,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {
@@ -17697,10 +16275,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -17710,10 +16284,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -17789,10 +16359,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -17833,10 +16399,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -17845,23 +16407,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -17917,10 +16467,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -17940,10 +16486,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -17953,10 +16495,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -18080,10 +16618,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -18140,10 +16674,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -18152,23 +16682,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -18240,10 +16758,6 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
           "type": "type_of_expression",
           "named": true
         },
@@ -18279,10 +16793,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias_qualified_name",
-          "named": true
-        },
-        {
           "type": "anonymous_method_expression",
           "named": true
         },
@@ -18292,10 +16802,6 @@
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -18371,10 +16877,6 @@
           "named": true
         },
         {
-          "type": "implicit_type",
-          "named": true
-        },
-        {
           "type": "initializer_expression",
           "named": true
         },
@@ -18415,10 +16917,6 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "object_creation_expression",
           "named": true
         },
@@ -18427,23 +16925,11 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "postfix_unary_expression",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "prefix_unary_expression",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         },
         {
@@ -18496,10 +16982,6 @@
         },
         {
           "type": "tuple_expression",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
           "named": true
         },
         {

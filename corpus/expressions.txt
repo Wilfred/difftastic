@@ -57,6 +57,46 @@ class Foo {
             (integer_literal))))))))
 
 =====================================
+Ternary expressions vs nullable types
+=====================================
+
+class Foo {
+  void Test() {
+    x is int?;
+    x is int
+      ? a
+      : b;
+    x is int?
+      ? a
+      : b;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (method_declaration
+        (void_keyword)
+        (identifier)
+        (parameter_list)
+        (block
+          (expression_statement
+            (binary_expression (identifier) (nullable_type (predefined_type))))
+          (expression_statement
+            (conditional_expression
+              (binary_expression (identifier) (predefined_type))
+              (identifier)
+              (identifier)))
+          (expression_statement
+            (conditional_expression
+              (binary_expression (identifier) (nullable_type (predefined_type)))
+              (identifier)
+              (identifier))))))))
+
+=====================================
 Prefix-Unary Expressions
 =====================================
 
@@ -348,7 +388,7 @@ void a() {
           (argument (identifier))
           (argument (identifier))
           (argument (identifier))
-          (argument (implicit_type) (identifier))))))))
+          (argument (declaration_expression (implicit_type) (identifier)))))))))
 
 ============================
 Tuple expressions
