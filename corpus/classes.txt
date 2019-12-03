@@ -9,8 +9,8 @@ public class F {}
 (compilation_unit
   (class_declaration
     (modifier)
-    (identifier)
-    (declaration_list)))
+    name: (identifier)
+    body: (declaration_list)))
 
 =====================================
 Class base is dynamic
@@ -23,9 +23,9 @@ public class F : dynamic { }
 (compilation_unit
   (class_declaration
     (modifier)
-    (identifier)
-    (base_list (identifier))
-    (declaration_list)))
+    name: (identifier)
+    bases: (base_list (identifier))
+    body: (declaration_list)))
 
 =====================================
 Class base is object with interfaces
@@ -38,12 +38,12 @@ public class F : object, IAlpha, IOmega { }
 (compilation_unit
   (class_declaration
     (modifier)
-    (identifier)
-    (base_list
+    name: (identifier)
+    bases: (base_list
       (predefined_type)
       (identifier)
       (identifier))
-    (declaration_list)))
+    body: (declaration_list)))
 
 =====================================
 Partial class
@@ -406,10 +406,11 @@ class Foo {
         (modifier)
         (predefined_type)
         (bracketed_parameter_list (parameter (predefined_type) (identifier)))
-        (accessor_declaration
-          (block (return_statement (identifier))))
-        (accessor_declaration
-          (block (expression_statement (assignment_expression (identifier) (assignment_operator) (identifier)))))))))
+        (accessor_list
+          (accessor_declaration
+            (block (return_statement (identifier))))
+          (accessor_declaration
+            (block (expression_statement (assignment_expression (identifier) (assignment_operator) (identifier))))))))))
 
 =====================================
 Class with expression bodied indexer
@@ -455,16 +456,17 @@ class Foo {
         (modifier)
         (predefined_type)
         (bracketed_parameter_list (parameter (predefined_type) (identifier)))
-        (accessor_declaration
-          (arrow_expression_clause
-            (element_access_expression (identifier)
-              (bracketed_argument_list (argument (identifier))))))
-        (accessor_declaration
-          (arrow_expression_clause
-            (assignment_expression 
+        (accessor_list
+          (accessor_declaration
+            (arrow_expression_clause
               (element_access_expression (identifier)
-                (bracketed_argument_list (argument (identifier))))
-                (assignment_operator) (identifier))))))))
+                (bracketed_argument_list (argument (identifier))))))
+          (accessor_declaration
+            (arrow_expression_clause
+              (assignment_expression
+                (element_access_expression (identifier)
+                  (bracketed_argument_list (argument (identifier))))
+                  (assignment_operator) (identifier)))))))))
 
 =================================
 Method with qualified return type
@@ -479,11 +481,12 @@ class A {
 ---
 
 (compilation_unit
-  (class_declaration (identifier)
-    (declaration_list
+  (class_declaration
+    name: (identifier)
+    body: (declaration_list
       (method_declaration
-        (qualified_name (identifier) (identifier))
-        (identifier)
-        (parameter_list)
-        (block
+        type: (qualified_name (identifier) (identifier))
+        name: (identifier)
+        parameters: (parameter_list)
+        body: (block
           (return_statement (null_literal)))))))

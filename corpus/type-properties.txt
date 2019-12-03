@@ -18,19 +18,23 @@ class Foo {
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration))
+        (accessor_list
+          (accessor_declaration)))
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration))
+        (accessor_list
+          (accessor_declaration)))
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration) (accessor_declaration))
+        (accessor_list
+          (accessor_declaration) (accessor_declaration)))
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration) (accessor_declaration)))))
+        (accessor_list
+          (accessor_declaration) (accessor_declaration))))))
 
 =====================================
 Class with single-accessor property bodies
@@ -50,19 +54,21 @@ class Foo {
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration
-          (block
-            (return_statement (integer_literal)))))
+        (accessor_list
+          (accessor_declaration
+            (block
+              (return_statement (integer_literal))))))
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration
-          (block
-            (expression_statement
-              (assignment_expression
-                (identifier)
-                (assignment_operator)
-                (identifier)))))))))
+        (accessor_list
+          (accessor_declaration
+            (block
+              (expression_statement
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (identifier))))))))))
 
 =====================================
 Class with double-accessor property bodies
@@ -88,29 +94,31 @@ class Foo {
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration
-          (block
-            (return_statement (identifier))))
-        (accessor_declaration
-          (block
-            (expression_statement
-              (assignment_expression
-                (identifier)
-                (assignment_operator)
-                (identifier))))))
+        (accessor_list
+          (accessor_declaration
+            (block
+              (return_statement (identifier))))
+          (accessor_declaration
+            (block
+              (expression_statement
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (identifier)))))))
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration
-          (block
-            (expression_statement
-              (assignment_expression
-                (identifier)
-                (assignment_operator)
-                (identifier)))))
-        (accessor_declaration
-          (block
-            (return_statement (identifier))))))))
+        (accessor_list
+          (accessor_declaration
+            (block
+              (expression_statement
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (identifier)))))
+          (accessor_declaration
+            (block
+              (return_statement (identifier)))))))))
 
 =====================================
 Class with bodyless properties and initializers
@@ -131,17 +139,17 @@ class Foo {
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration)
+        (accessor_list (accessor_declaration))
         (integer_literal))
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration) (accessor_declaration)
+        (accessor_list (accessor_declaration) (accessor_declaration))
         (integer_literal))
       (property_declaration
         (predefined_type)
         (identifier)
-        (accessor_declaration) (accessor_declaration)
+        (accessor_list (accessor_declaration) (accessor_declaration))
         (integer_literal)))))
 
 =====================================
@@ -163,4 +171,4 @@ class Foo: IFoo {
         (predefined_type)
         (explicit_interface_specifier (identifier))
         (identifier)
-        (accessor_declaration)))))
+        (accessor_list (accessor_declaration))))))
