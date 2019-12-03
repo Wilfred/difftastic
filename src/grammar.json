@@ -7020,7 +7020,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\*[^\\/]"
+                      "value": "\\*[^/]"
                     }
                   ]
                 }
@@ -7112,7 +7112,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "[\\s\\u00A0]+"
+      "value": "[\\s\\u00A0\\uFEFF\\u3000]+"
     },
     {
       "type": "SYMBOL",
