@@ -40,26 +40,24 @@ module.exports = grammar({
 
     [$.event_declaration, $.variable_declarator],
 
-    [$._expression, $.declaration_pattern],
-    [$._expression, $._simple_name],
-    [$._expression, $._simple_name, $.generic_name],
-    [$._expression, $._simple_name, $.parameter],
+    [$.nullable_type, $.binary_expression],
+
+    [$._name, $._expression],
+    [$._simple_name, $.type_parameter],
+    [$._simple_name, $.generic_name],
+    [$._simple_name, $.constructor_declaration],
+
+    [$.qualified_name, $.explicit_interface_specifier],
+    [$.qualified_name, $.member_access_expression],
 
     [$.from_clause, $._reserved_identifier],
 
-    [$._simple_name, $.enum_member_declaration],
-    [$._simple_name, $.type_parameter],
-    [$._simple_name, $.generic_name],
-
-    [$.qualified_name, $.explicit_interface_specifier],
-
     [$._type, $.array_creation_expression],
     [$._type, $.stack_alloc_array_creation_expression],
-    [$._type, $.attribute],
 
     [$.parameter_modifier, $.this_expression],
-    [$.tuple_element, $._expression],
-    [$.tuple_element, $.parameter],
+    [$.parameter, $._simple_name],
+    [$.parameter, $.tuple_element, $.declaration_expression],
     [$.tuple_element, $.variable_declarator],
   ],
 
@@ -200,7 +198,7 @@ module.exports = grammar({
     variable_declaration: $ => seq($._type, commaSep1($.variable_declarator)),
 
     variable_declarator: $ => seq(
-      $.identifier,
+      choice($.identifier, $.tuple_pattern),
       optional($.bracketed_argument_list),
       optional($.equals_value_clause)
     ),
@@ -211,18 +209,18 @@ module.exports = grammar({
       ']'
     ),
 
+    tuple_pattern: $ => seq(
+      '(',
+      commaSep1(choice($.identifier, $.discard)),
+      ')'
+    ),
+
     argument: $ => prec(1, seq(
       optional($.name_colon),
+      optional(choice('ref', 'out', 'in')),
       choice(
-        seq(
-          optional(choice('ref','out', 'in')),
-          $._expression
-        ),
-        seq(
-          'out',
-          $._type,
-          $.identifier
-        )
+        $._expression,
+        $.declaration_expression
       )
     )),
 
@@ -525,7 +523,6 @@ module.exports = grammar({
       $.nullable_type,
       $.pointer_type,
       $.predefined_type,
-      // $.ref_type,    // TODO: Conflicts with 'ref' modifier...
       $.tuple_type,  // TODO: Conflicts with everything
     ),
 
@@ -537,9 +534,17 @@ module.exports = grammar({
     // expression but we can't match empty rules.
     array_rank_specifier: $ => seq('[', commaSep(optional($._expression)), ']'),
 
-    nullable_type: $ => prec(1, seq($._type, '?')),
+    // When used in a nullable type, the '?' operator binds tighter than the
+    // binary operators `as` and `is`. But in a conditional expression, the `?`
+    // binds *looser*. This weird double precedence is required in order to
+    // preserve the conflict, so that `?` can be used in both ways, depending
+    // on what follows.
+    nullable_type: $ => choice(
+      prec(PREC.EQUAL + 1, seq($._type, '?')),
+      prec(PREC.COND - 1, seq($._type, '?'))
+    ),
 
-    pointer_type: $ => prec(1, seq($._type, '*')),
+    pointer_type: $ => prec(PREC.POSTFIX, seq($._type, '*')),
 
     predefined_type: $ => token(choice(
       'bool',
@@ -896,7 +901,7 @@ module.exports = grammar({
 
     declaration_expression: $ => seq(
       $._type,
-      $._variable_designation
+      $.identifier
     ),
 
     default_expression: $ => prec.right(seq(
@@ -987,7 +992,7 @@ module.exports = grammar({
     ),
 
     member_access_expression: $ => prec(PREC.DOT, seq(
-      $._expression,
+      choice($._expression, $._type, $._name),
       choice('.', '->'),
       $._simple_name
     )),
@@ -1179,7 +1184,6 @@ module.exports = grammar({
       $.checked_expression,
       $.conditional_access_expression,
       $.conditional_expression,
-      // $.declaration_expression,
       $.default_expression,
       $.element_access_expression,
       $.element_binding_expression,
@@ -1209,9 +1213,8 @@ module.exports = grammar({
       $.throw_expression,
       $.tuple_expression,
       $.type_of_expression,
-      $._type,
 
-      $.identifier,
+      $._simple_name,
       alias($._reserved_identifier, $.identifier),
       $._literal
     ),
@@ -1237,11 +1240,11 @@ module.exports = grammar({
         ['>=', PREC.REL],
         ['>', PREC.REL],
         ['??', PREC.EQUAL],
-        ['as', PREC.EQUAL],
       ].map(([operator, precedence]) =>
         prec.left(precedence, seq($._expression, operator, $._expression))
       ).concat(
-        prec.left(PREC.EQUAL, seq($._expression, 'is', $._type))
+        prec.left(PREC.EQUAL, seq($._expression, 'is', $._type)),
+        prec.left(PREC.EQUAL, seq($._expression, 'as', $._type))
       )
     ),
 

@@ -577,7 +577,7 @@ class A {
       (method_declaration (void_keyword) (identifier) (parameter_list)
       (block
         (local_function_statement (modifier) (void_keyword) (identifier)
-          (type_parameter_list 
+          (type_parameter_list
             (type_parameter (identifier))
             (type_parameter (identifier)))
           (parameter_list
@@ -1041,31 +1041,23 @@ class A {
         (block
           (expression_statement
             (assignment_expression
-              (tuple_type
-                (tuple_element (implicit_type) (identifier))
-                (tuple_element (implicit_type) (identifier)))
-              (assignment_operator)
-              (identifier)))
-          (expression_statement
-            (assignment_expression
-              (invocation_expression
-                (implicit_type)
-                (argument_list
-                  (argument (identifier))
-                  (argument (identifier))))
-              (assignment_operator)
-              (identifier)))
-          (expression_statement
-            (assignment_expression
               (tuple_expression
-                (argument (identifier))
-                (argument (identifier)))
+                (argument (declaration_expression (implicit_type) (identifier)))
+                (argument (declaration_expression (implicit_type) (identifier))))
               (assignment_operator)
               (identifier)))
+          (local_declaration_statement (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (tuple_pattern (identifier) (identifier))
+              (equals_value_clause (identifier)))))
           (expression_statement
             (assignment_expression
-              (invocation_expression
-                (implicit_type)
-                (argument_list (argument (identifier)) (argument (identifier))))
+              (tuple_expression (argument (identifier)) (argument (identifier)))
               (assignment_operator)
-              (identifier))))))))
+              (identifier)))
+          (local_declaration_statement (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (tuple_pattern (identifier) (discard))
+              (equals_value_clause (identifier))))))))))
