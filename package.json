@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-javascript",
-  "version": "0.15.1",
+  "version": "0.15.2",
   "description": "Javascript grammar for node-tree-sitter",
   "main": "index.js",
   "keywords": [
