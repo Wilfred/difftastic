@@ -9,6 +9,9 @@ examples/lablgtk/src/introspection/stubs/stubs_Pango.ml
 examples/lwt/src/unix/lwt_unix.cppo.ml
 examples/lwt/src/unix/lwt_unix.cppo.mli
 examples/lwt/test/unix/test_lwt_unix.cppo.ml
+examples/merlin/tests/completion/parenthesize.ml
+examples/merlin/tests/errors/test.ml
+examples/merlin/tests/errors/typing-after-parsing/test.ml
 examples/merlin/tests/locate/context-detection/label.ml
 examples/ocaml/testsuite/tests/backtrace/backtrace_or_exception.ml
 examples/ocaml/testsuite/tests/lexing/escape.ml

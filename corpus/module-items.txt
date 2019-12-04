@@ -192,6 +192,8 @@ module M : T = M
 module M (M : T) = M
 module rec M = N and N = M
 
+module _ (_ : T) = M
+
 ---
 
 (compilation_unit
@@ -235,6 +237,11 @@ module rec M = N and N = M
       (module_name))
     (module_binding
       (module_name)
+      (module_name)))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_parameter (module_name) (module_type_path (module_type_name)))
       (module_name))))
 
 ==============================
