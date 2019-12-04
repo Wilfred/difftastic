@@ -76,4 +76,4 @@ Comprehensive support for C# exists with the following exceptions:
 
 * [Official C# 6 Language Spec](https://github.com/dotnet/csharplang/blob/master/spec/) provides chapters that formally define the language grammar.
 * [Roslyn C# language grammar export](https://github.com/dotnet/roslyn/blob/master/src/Compilers/CSharp/Portable/Generated/CSharp.Generated.g4)
-* [SharpLap](https://sharplab.io) (web-based syntax tree playground)
+* [SharpLab](https://sharplab.io) (web-based syntax tree playground based on Roslyn)
