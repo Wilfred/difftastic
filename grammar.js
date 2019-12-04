@@ -297,7 +297,7 @@ module.exports = grammar({
     ),
 
     module_binding: $ => seq(
-      $._module_name,
+      choice($._module_name, alias('_', $.module_name)),
       repeat($.module_parameter),
       optional(seq(':', $._module_type)),
       optional(seq('=', $._simple_module_expression)),
@@ -305,7 +305,7 @@ module.exports = grammar({
     ),
 
     module_parameter: $ => parenthesize(optional(seq(
-      choice($._module_name, alias('_', $._module_name)),
+      choice($._module_name, alias('_', $.module_name)),
       ':',
       $._module_type
     ))),
@@ -1464,7 +1464,7 @@ module.exports = grammar({
     package_pattern: $ => parenthesize(seq(
       'module',
       optional($._extension_attribute),
-      $._module_name,
+      choice($._module_name, alias('_', $.module_name)),
       optional(seq(':', $._module_type))
     )),
 

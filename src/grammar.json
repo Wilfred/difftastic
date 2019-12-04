@@ -1527,8 +1527,22 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_module_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_module_name"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": "_"
+              },
+              "named": true,
+              "value": "module_name"
+            }
+          ]
         },
         {
           "type": "REPEAT",
@@ -1615,7 +1629,7 @@
                         "value": "_"
                       },
                       "named": true,
-                      "value": "_module_name"
+                      "value": "module_name"
                     }
                   ]
                 },
@@ -7653,8 +7667,22 @@
               ]
             },
             {
-              "type": "SYMBOL",
-              "name": "_module_name"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_module_name"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": "_"
+                  },
+                  "named": true,
+                  "value": "module_name"
+                }
+              ]
             },
             {
               "type": "CHOICE",
@@ -8323,7 +8351,7 @@
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[!$%&*+\\-.\\/:<>?@^|~]"
+                        "value": "[!$%&*+\\-./:<>?@^|~]"
                       },
                       {
                         "type": "BLANK"
@@ -8335,13 +8363,13 @@
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                        "value": "[!$%&*+\\-./:<=>?@^|~]"
                       },
                       {
                         "type": "REPEAT1",
                         "content": {
                           "type": "PATTERN",
-                          "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                          "value": "[!$%&*+\\-./:<=>?@^|~]"
                         }
                       }
                     ]
@@ -8361,7 +8389,7 @@
                 "type": "REPEAT1",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                  "value": "[!$%&*+\\-./:<=>?@^|~]"
                 }
               }
             ]
@@ -8433,7 +8461,7 @@
     },
     "_hash_operator": {
       "type": "PATTERN",
-      "value": "#[#!$%&*+\\-.\\/:<=>?@^|~]+"
+      "value": "#[#!$%&*+\\-./:<=>?@^|~]+"
     },
     "_pow_operator": {
       "type": "CHOICE",
@@ -8451,7 +8479,7 @@
                 "type": "REPEAT",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                  "value": "[!$%&*+\\-./:<=>?@^|~]"
                 }
               }
             ]
@@ -8481,13 +8509,13 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[*\\/%]"
+                "value": "[*/%]"
               },
               {
                 "type": "REPEAT",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                  "value": "[!$%&*+\\-./:<=>?@^|~]"
                 }
               }
             ]
@@ -8527,7 +8555,7 @@
                 "type": "REPEAT",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                  "value": "[!$%&*+\\-./:<=>?@^|~]"
                 }
               }
             ]
@@ -8547,7 +8575,7 @@
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[!$%&*+\\-.\\/:<=?@^|~]"
+                        "value": "[!$%&*+\\-./:<=?@^|~]"
                       },
                       {
                         "type": "BLANK"
@@ -8559,13 +8587,13 @@
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                        "value": "[!$%&*+\\-./:<=>?@^|~]"
                       },
                       {
                         "type": "REPEAT1",
                         "content": {
                           "type": "PATTERN",
-                          "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                          "value": "[!$%&*+\\-./:<=>?@^|~]"
                         }
                       }
                     ]
@@ -8590,7 +8618,7 @@
             "type": "REPEAT",
             "content": {
               "type": "PATTERN",
-              "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+              "value": "[!$%&*+\\-./:<=>?@^|~]"
             }
           }
         ]
@@ -8612,7 +8640,7 @@
                 "type": "REPEAT",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                  "value": "[!$%&*+\\-./:<=>?@^|~]"
                 }
               }
             ]
@@ -8632,7 +8660,7 @@
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[!$%&*+.\\/:<=>?@^|~]"
+                        "value": "[!$%&*+./:<=>?@^|~]"
                       },
                       {
                         "type": "BLANK"
@@ -8644,13 +8672,13 @@
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                        "value": "[!$%&*+\\-./:<=>?@^|~]"
                       },
                       {
                         "type": "REPEAT1",
                         "content": {
                           "type": "PATTERN",
-                          "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                          "value": "[!$%&*+\\-./:<=>?@^|~]"
                         }
                       }
                     ]
@@ -8671,20 +8699,20 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[!$%*+\\-.\\/:<=>?@^|~]"
+                    "value": "[!$%*+\\-./:<=>?@^|~]"
                   },
                   {
                     "type": "SEQ",
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                        "value": "[!$%&*+\\-./:<=>?@^|~]"
                       },
                       {
                         "type": "REPEAT1",
                         "content": {
                           "type": "PATTERN",
-                          "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                          "value": "[!$%&*+\\-./:<=>?@^|~]"
                         }
                       }
                     ]
@@ -8705,20 +8733,20 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[!$%&*+\\-.\\/:<=>?@^~]"
+                    "value": "[!$%&*+\\-./:<=>?@^~]"
                   },
                   {
                     "type": "SEQ",
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                        "value": "[!$%&*+\\-./:<=>?@^|~]"
                       },
                       {
                         "type": "REPEAT1",
                         "content": {
                           "type": "PATTERN",
-                          "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+                          "value": "[!$%&*+\\-./:<=>?@^|~]"
                         }
                       }
                     ]
@@ -8776,13 +8804,13 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "[!$%&*+\\-\\/:=>?@^|]"
+            "value": "[!$%&*+\\-/:=>?@^|]"
           },
           {
             "type": "REPEAT",
             "content": {
               "type": "PATTERN",
-              "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+              "value": "[!$%&*+\\-./:<=>?@^|~]"
             }
           }
         ]
@@ -8825,13 +8853,13 @@
           },
           {
             "type": "PATTERN",
-            "value": "[$&*+\\-\\/<=>@^|]"
+            "value": "[$&*+\\-/<=>@^|]"
           },
           {
             "type": "REPEAT",
             "content": {
               "type": "PATTERN",
-              "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+              "value": "[!$%&*+\\-./:<=>?@^|~]"
             }
           }
         ]
@@ -8848,13 +8876,13 @@
           },
           {
             "type": "PATTERN",
-            "value": "[$&*+\\-\\/<=>@^|]"
+            "value": "[$&*+\\-/<=>@^|]"
           },
           {
             "type": "REPEAT",
             "content": {
               "type": "PATTERN",
-              "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+              "value": "[!$%&*+\\-./:<=>?@^|~]"
             }
           }
         ]
@@ -8871,13 +8899,13 @@
           },
           {
             "type": "PATTERN",
-            "value": "[$&*+\\-\\/<=>@^|]"
+            "value": "[$&*+\\-/<=>@^|]"
           },
           {
             "type": "REPEAT",
             "content": {
               "type": "PATTERN",
-              "value": "[!$%&*+\\-.\\/:<=>?@^|~]"
+              "value": "[!$%&*+\\-./:<=>?@^|~]"
             }
           }
         ]
