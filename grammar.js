@@ -525,9 +525,9 @@ module.exports = grammar({
       $.pair
     ),
 
-    splat_argument: $ => seq($._splat_star, $._arg),
+    splat_argument: $ => seq(alias($._splat_star, '*'), $._arg),
     hash_splat_argument: $ => seq('**', $._arg),
-    block_argument: $ => seq($._block_ampersand, $._arg),
+    block_argument: $ => seq(alias($._block_ampersand, '&'), $._arg),
 
     do_block: $ => seq(
       'do',
@@ -707,7 +707,7 @@ module.exports = grammar({
           /=e[^n]/,
           /=en[^d]/
         )),
-        /=end\r?\n/
+        /=end/
       )
     ))),
 
