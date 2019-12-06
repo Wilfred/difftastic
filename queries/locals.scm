@@ -17,3 +17,6 @@
 (identifier) @local.reference
 
 (assignment left:(identifier) @local.definition)
+(left_assignment_list (identifier) @local.definition)
+(rest_assignment (identifier) @local.definition)
+(destructured_left_assignment (identifier) @local.definition)

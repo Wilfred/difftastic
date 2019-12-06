@@ -16,6 +16,7 @@
 "if" @keyword
 "in" @keyword
 "module" @keyword
+"next" @keyword
 "or" @keyword
 "rescue" @keyword
 "retry" @keyword
@@ -32,19 +33,22 @@
 
 ; Function calls
 
-"defined?" @function.builtin
+((identifier) @function.method.builtin
+ (eq? @function.method.builtin "require"))
+
+"defined?" @function.method.builtin
 
 (call
-  method: (identifier) @function)
+  method: (identifier) @function.method)
 (method_call
-  method: (identifier) @function)
+  method: (identifier) @function.method)
 
 ; Function definitions
 
-(alias (identifier) @function)
-(setter (identifier) @function)
-(method name: (identifier) @function)
-(singleton_method name: (identifier) @function)
+(alias (identifier) @function.method)
+(setter (identifier) @function.method)
+(method name: (identifier) @function.method)
+(singleton_method name: (identifier) @function.method)
 
 ; Identifiers
 
@@ -72,7 +76,7 @@
 (block_parameter (identifier) @variable.parameter)
 (keyword_parameter (identifier) @variable.parameter)
 
-((identifier) @function
+((identifier) @function.method
  (is-not? local))
 (identifier) @variable
 
@@ -80,12 +84,15 @@
 
 (string) @string
 (bare_string) @string
+(bare_symbol) @string.special.symbol
 (subshell) @string
 (heredoc_beginning) @string
 (heredoc_body) @string
-(symbol) @string.special
-(regex) @string.special
+(symbol) @string.special.symbol
+(regex) @string.special.regex
 (escape_sequence) @escape
+(integer) @number
+(float) @number
 
 (nil) @constant.builtin
 (true) @constant.builtin
@@ -114,4 +121,4 @@
 "{" @punctuation.bracket
 "}" @punctuation.bracket
 "%w(" @punctuation.bracket
-  "%i(" @punctuation.bracket
+"%i(" @punctuation.bracket
