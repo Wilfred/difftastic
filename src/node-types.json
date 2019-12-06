@@ -418,6 +418,10 @@
           "named": true
         },
         {
+          "type": "command_call",
+          "named": true
+        },
+        {
           "type": "hash_splat_argument",
           "named": true
         },
@@ -523,6 +527,14 @@
           },
           {
             "type": "return",
+            "named": true
+          },
+          {
+            "type": "right_assignment_list",
+            "named": true
+          },
+          {
+            "type": "splat_argument",
             "named": true
           },
           {
@@ -642,11 +654,103 @@
         "required": true,
         "types": [
           {
+            "type": "!=",
+            "named": false
+          },
+          {
+            "type": "!~",
+            "named": false
+          },
+          {
+            "type": "%",
+            "named": false
+          },
+          {
+            "type": "&",
+            "named": false
+          },
+          {
+            "type": "&&",
+            "named": false
+          },
+          {
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "**",
+            "named": false
+          },
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": "/",
+            "named": false
+          },
+          {
+            "type": "<",
+            "named": false
+          },
+          {
+            "type": "<<",
+            "named": false
+          },
+          {
+            "type": "<=",
+            "named": false
+          },
+          {
+            "type": "<=>",
+            "named": false
+          },
+          {
+            "type": "==",
+            "named": false
+          },
+          {
+            "type": "===",
+            "named": false
+          },
+          {
+            "type": "=~",
+            "named": false
+          },
+          {
+            "type": ">",
+            "named": false
+          },
+          {
+            "type": ">=",
+            "named": false
+          },
+          {
+            "type": ">>",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
             "type": "and",
             "named": false
           },
           {
             "type": "or",
+            "named": false
+          },
+          {
+            "type": "|",
+            "named": false
+          },
+          {
+            "type": "||",
             "named": false
           }
         ]
@@ -1696,7 +1800,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "block_parameter",
@@ -1862,7 +1966,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "block_parameter",
@@ -1973,7 +2077,28 @@
   {
     "type": "operator_assignment",
     "named": true,
-    "fields": {},
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_lhs",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_arg",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -2713,11 +2838,19 @@
       "required": true,
       "types": [
         {
+          "type": "_arg",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "parenthesized_statements",
           "named": true
         }
       ]
@@ -3481,10 +3614,6 @@
   },
   {
     "type": "super",
-    "named": true
-  },
-  {
-    "type": "symbol",
     "named": true
   },
   {
