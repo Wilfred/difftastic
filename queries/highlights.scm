@@ -22,51 +22,51 @@
 ;--------------------------------
 
 (function
-  name: (identifier) @function.definition)
+  name: (identifier) @function)
 (function_declaration
-  name: (identifier) @function.definition)
+  name: (identifier) @function)
 (method_definition
-  name: (property_identifier) @function.method.definition)
+  name: (property_identifier) @function.method)
 
 (pair
-  key: (property_identifier) @function.method.definition
+  key: (property_identifier) @function.method
   value: (function))
 (pair
-  key: (property_identifier) @function.method.definition
+  key: (property_identifier) @function.method
   value: (arrow_function))
 
 (assignment_expression
   left: (member_expression
-    property: (property_identifier) @function.method.definition)
+    property: (property_identifier) @function.method)
   right: (arrow_function))
 (assignment_expression
   left: (member_expression
-    property: (property_identifier) @function.method.definition)
+    property: (property_identifier) @function.method)
   right: (function))
 
 (variable_declarator
-  name: (identifier) @function.definition
+  name: (identifier) @function
   value: (arrow_function))
 (variable_declarator
-  name: (identifier) @function.definition
+  name: (identifier) @function
   value: (function))
 
 (assignment_expression
-  left: (identifier) @function.definition
+  left: (identifier) @function
   right: (arrow_function))
 (assignment_expression
-  left: (identifier) @function.definition
+  left: (identifier) @function
   right: (function))
 
 ; Function and method calls
 ;--------------------------
 
 (call_expression
-  function: (identifier) @function.call)
+  function: (identifier) @function)
 
 (call_expression
   function: (member_expression
-    property: (property_identifier) @function.method.call))
+    property: (property_identifier) @function.method))
 
 ; Variables
 ;----------
@@ -144,6 +144,7 @@
 "debugger" @keyword
 "default" @keyword
 "delete" @keyword
+"do" @keyword
 "else" @keyword
 "export" @keyword
 "extends" @keyword
