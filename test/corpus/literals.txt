@@ -721,7 +721,8 @@ end
 ---
 
 (program (method (identifier)
-  (method_call (identifier) (argument_list (heredoc_beginning) (heredoc_body (heredoc_end))))))
+  (method_call (identifier) (argument_list (heredoc_beginning)))
+  (heredoc_body (heredoc_end))))
 
 ========================================
 heredocs with method continuation
@@ -738,7 +739,8 @@ SQL
   (call
     (method_call
       (identifier)
-      (argument_list (heredoc_beginning) (heredoc_body (heredoc_end))))
+      (argument_list (heredoc_beginning)))
+    (heredoc_body (heredoc_end))
     (identifier))
   (argument_list)))
 
@@ -755,7 +757,10 @@ where("a")
 
 (program
   (method_call
-    (call (method_call (identifier) (argument_list (heredoc_beginning))) (heredoc_body (heredoc_end)) (identifier))
+    (call
+      (method_call (identifier) (argument_list (heredoc_beginning)))
+      (heredoc_body (heredoc_end))
+      (identifier))
     (argument_list (string))))
 
 ========================================
@@ -882,10 +887,10 @@ foo(<<-STR.strip_heredoc.tr()
     (argument_list
       (method_call
         (call (call (heredoc_beginning) (identifier)) (identifier))
-        (argument_list
-          (heredoc_body
-            (interpolation (call (method_call (identifier) (argument_list)) (identifier)))
-            (heredoc_end)))))))
+        (argument_list))
+      (heredoc_body
+        (interpolation (call (method_call (identifier) (argument_list)) (identifier)))
+        (heredoc_end)))))
 
 ========================================
 multiple heredocs
@@ -904,8 +909,9 @@ TWO
     (identifier)
     (argument_list
       (call (heredoc_beginning) (identifier))
-      (call (heredoc_beginning) (identifier))
-      (heredoc_body (heredoc_end)) (heredoc_body (heredoc_end)))))
+      (call (heredoc_beginning) (identifier))))
+  (heredoc_body (heredoc_end))
+  (heredoc_body (heredoc_end)))
 
 ========================================
 heredoc content that starts with a dot
@@ -919,7 +925,12 @@ heredoc content that starts with a dot
 
 ---
 
-(program (lambda (block (method_call (identifier) (argument_list (heredoc_beginning) (heredoc_body (heredoc_end)))))))
+(program
+  (lambda (block
+    (method_call
+      (identifier)
+      (argument_list (heredoc_beginning)))
+    (heredoc_body (heredoc_end)))))
 
 ========================================
 un-terminated heredocs
