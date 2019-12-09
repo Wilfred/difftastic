@@ -13,14 +13,9 @@
     "nan": "^2.12.1"
   },
   "devDependencies": {
-    "acorn": "^2.6.4",
-    "babylon": "^6.3.26",
-    "esprima": "^2.7.1",
-    "tree-sitter-cli": "^0.15.7",
-    "tree-sitter-highlight-schema": "0.1.1"
+    "tree-sitter-cli": "^0.16.1"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
   },

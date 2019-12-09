@@ -644,6 +644,10 @@
           {
             "type": "arguments",
             "named": true
+          },
+          {
+            "type": "template_string",
+            "named": true
           }
         ]
       },
@@ -652,11 +656,23 @@
         "required": true,
         "types": [
           {
+            "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "function",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
           {
             "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "super",
             "named": true
           }
         ]
@@ -1701,11 +1717,19 @@
         "required": true,
         "types": [
           {
+            "type": "_expression",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
           {
             "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "super",
             "named": true
           }
         ]
