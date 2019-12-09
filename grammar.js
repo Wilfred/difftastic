@@ -65,6 +65,7 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
+    $.heredoc_body,
     /\s|\\\n/
   ],
 
@@ -466,7 +467,6 @@ module.exports = grammar({
     call: $ => prec.left(PREC.CALL, seq(
       field('receiver', $._primary),
       choice('.', '&.'),
-      repeat($.heredoc_body),
       field('method', choice($.identifier, $.operator, $.constant, $.argument_list))
     )),
 
@@ -497,24 +497,19 @@ module.exports = grammar({
     },
 
     command_argument_list: $ => choice(
-      prec.right(seq(
-        sep1($._argument, seq(',', optional($.heredoc_body))),
-        repeat($.heredoc_body)
-      )),
+      commaSep1($._argument),
       $.command_call,
     ),
 
     argument_list: $ => prec.right(seq(
       token.immediate('('),
       optional($._argument_list_with_trailing_comma),
-      ')',
-      repeat($.heredoc_body)
+      ')'
     )),
 
     _argument_list_with_trailing_comma: $ => prec.right(seq(
-      sep1($._argument, seq(',', optional($.heredoc_body))),
-      optional(','),
-      optional($.heredoc_body)
+      commaSep1($._argument),
+      optional(',')
     )),
 
     _argument: $ => choice(
@@ -806,14 +801,11 @@ module.exports = grammar({
 
     hash: $ => seq(
       '{',
-      optional($._hash_items),
-      optional($.heredoc_body),
+      optional(seq(
+        commaSep1(choice($.pair, $.hash_splat_argument)),
+        optional(',')
+      )),
       '}'
-    ),
-
-    _hash_items: $ => seq(
-      choice($.pair, $.hash_splat_argument),
-      optional(prec.right(seq(',', optional($.heredoc_body), optional($._hash_items))))
     ),
 
     pair: $ => choice(
@@ -847,7 +839,6 @@ module.exports = grammar({
 
     _terminator: $ => choice(
       $._line_break,
-      $.heredoc_body,
       ';'
     ),
   }
