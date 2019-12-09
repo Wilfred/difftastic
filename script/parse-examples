@@ -23,23 +23,17 @@ checkout_at "examples/ruby_spec" "ruby/spec" "c3e6b9017926f44a76e2b966c4dd35fa84
 #   - [ ] defined as local var, e.g. `defn.send(@method, defined)`
 #   - [ ] Unicode character in symbols, variables, etc, e.g. `:êad`
 #   - [ ] Unicode characters in constants, e.g. `CS_CONSTλ = :const_unicode`
-known_failures=$(cat script/known_failures.txt)
-examples_to_parse=$(
-  # Just parse language and core specs
-  for d in language core; do
-    for example in $(find examples/ruby_spec/$d -name '*.rb'); do
-      if [[ ! $known_failures == *$example* ]]; then
-        echo $example
-      fi
-    done
-  done
-)
+known_failures="$(cat script/known_failures.txt)"
 
-echo $examples_to_parse | xargs -n 5000 tree-sitter parse -q
+tree-sitter parse -q \
+  'examples/**/*.rb' \
+  $(for file in $known_failures; do echo "!${file}"; done)
 
-skipped=$( echo $known_failures | wc -w )
-parsed=$( echo $examples_to_parse | wc -w )
-total=$((parsed+skipped))
-percent=$(bc -l <<< "100*$parsed/$total")
+example_count=$(find examples -name '*.rb' | wc -l)
+failure_count=$(wc -w <<< "$known_failures")
+success_count=$(( $example_count - $failure_count ))
+success_percent=$(bc -l <<< "100*${success_count}/${example_count}")
 
-printf "Successfully parsed %.2f%% of the examples in ruby_spec (language, core) (%d of %d files)\n" $percent $parsed $total
+printf \
+  "Successfully parsed %d of %d example files (%.1f%%)\n" \
+  $success_count $example_count $success_percent
