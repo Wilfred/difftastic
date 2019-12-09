@@ -18,22 +18,20 @@ function checkout_at() {
 checkout_at "examples/go" "golang/go" "870e12d7bfaea70fb0d743842f5864eb059cb939"
 checkout_at "examples/moby" "moby/moby" "f57f260b49b6142366e6bc1274204ee0a1205945"
 
-all_examples=$(find examples -name '*.go' | egrep -v 'go/test|testdata')
-known_failures=$(cat script/known-failures.txt | egrep -v '^#')
+known_failures="$(cat script/known-failures.txt | egrep -v '^#')"
 
-examples_to_parse=$(
-  for example in $all_examples; do
-    if [[ ! $known_failures == *$example* ]]; then
-      echo $example
-    fi
-  done
-)
+echo -q  \
+  'examples/**/*.go'  \
+  '!**/testdata/**/*' \
+  '!**/go/test/**/*'  \
+  $(for failure in $known_failures; do echo "!${failure}"; done)
 
-echo $examples_to_parse | xargs -n 1000 tree-sitter parse -q
+exit
+example_count=$(find examples -name '*.go' | egrep -v 'go/test|testdata' | wc -l)
+failure_count=$(wc -w <<< "$known_failures")
+success_count=$(( $example_count - $failure_count ))
+success_percent=$(bc -l <<< "100*${success_count}/${example_count}")
 
-skipped=$( echo $known_failures | wc -w )
-parsed=$( echo $examples_to_parse | wc -w )
-total=$((parsed+skipped))
-percent=$(bc -l <<< "100*$parsed/$total")
-
-printf "Successfully parsed %d of %d files (%.2f%%)\n" $parsed $total $percent
+printf \
+  "Successfully parsed %d of %d example files (%.1f%%)\n" \
+  $success_count $example_count $success_percent
