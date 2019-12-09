@@ -1393,7 +1393,7 @@ static const char *ts_field_names[] = {
   [field_value] = "value",
 };
 
-static const TSFieldMapSlice ts_field_map_slices[] = {
+static const TSFieldMapSlice ts_field_map_slices[93] = {
   [2] = {.index = 0, .length = 1},
   [3] = {.index = 1, .length = 1},
   [4] = {.index = 2, .length = 1},
