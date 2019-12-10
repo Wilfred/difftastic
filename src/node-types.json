@@ -1390,11 +1390,35 @@
       "required": true,
       "types": [
         {
-          "type": "dereferencable_expression",
+          "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "cast_expression",
+          "named": true
+        },
+        {
+          "type": "function_call_expression",
+          "named": true
+        },
+        {
+          "type": "heredoc",
+          "named": true
+        },
+        {
+          "type": "member_access_expression",
+          "named": true
+        },
+        {
+          "type": "member_call_expression",
           "named": true
         },
         {
           "type": "name",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
           "named": true
         },
         {
@@ -1403,6 +1427,30 @@
         },
         {
           "type": "relative_scope",
+          "named": true
+        },
+        {
+          "type": "scoped_call_expression",
+          "named": true
+        },
+        {
+          "type": "scoped_property_access_expression",
+          "named": true
+        },
+        {
+          "type": "simple_variable",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subscript_expression",
+          "named": true
+        },
+        {
+          "type": "variable_name",
           "named": true
         }
       ]
@@ -2535,169 +2583,6 @@
         },
         {
           "type": "while_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "dereferencable_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "anonymous_function_creation_expression",
-          "named": true
-        },
-        {
-          "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "augmented_assignment_expression",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "cast_expression",
-          "named": true
-        },
-        {
-          "type": "class_constant_access_expression",
-          "named": true
-        },
-        {
-          "type": "clone_expression",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "empty_intrinsic",
-          "named": true
-        },
-        {
-          "type": "eval_intrinsic",
-          "named": true
-        },
-        {
-          "type": "exit_intrinsic",
-          "named": true
-        },
-        {
-          "type": "exponentiation_expression",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "function_call_expression",
-          "named": true
-        },
-        {
-          "type": "heredoc",
-          "named": true
-        },
-        {
-          "type": "include_expression",
-          "named": true
-        },
-        {
-          "type": "include_once_expression",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "isset_intrinsic",
-          "named": true
-        },
-        {
-          "type": "member_access_expression",
-          "named": true
-        },
-        {
-          "type": "member_call_expression",
-          "named": true
-        },
-        {
-          "type": "object_creation_expression",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "print_intrinsic",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "require_expression",
-          "named": true
-        },
-        {
-          "type": "require_once_expression",
-          "named": true
-        },
-        {
-          "type": "scoped_call_expression",
-          "named": true
-        },
-        {
-          "type": "scoped_property_access_expression",
-          "named": true
-        },
-        {
-          "type": "shell_command_expression",
-          "named": true
-        },
-        {
-          "type": "simple_variable",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript_expression",
-          "named": true
-        },
-        {
-          "type": "unary_op_expression",
-          "named": true
-        },
-        {
-          "type": "update_expression",
-          "named": true
-        },
-        {
-          "type": "variable_name",
-          "named": true
-        },
-        {
-          "type": "yield_expression",
           "named": true
         }
       ]
@@ -4934,63 +4819,11 @@
       "required": true,
       "types": [
         {
-          "type": "anonymous_function_creation_expression",
-          "named": true
-        },
-        {
           "type": "arguments",
           "named": true
         },
         {
           "type": "array_creation_expression",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "augmented_assignment_expression",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "cast_expression",
-          "named": true
-        },
-        {
-          "type": "class_constant_access_expression",
-          "named": true
-        },
-        {
-          "type": "clone_expression",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "empty_intrinsic",
-          "named": true
-        },
-        {
-          "type": "eval_intrinsic",
-          "named": true
-        },
-        {
-          "type": "exit_intrinsic",
-          "named": true
-        },
-        {
-          "type": "exponentiation_expression",
-          "named": true
-        },
-        {
-          "type": "float",
           "named": true
         },
         {
@@ -5002,31 +4835,7 @@
           "named": true
         },
         {
-          "type": "include_expression",
-          "named": true
-        },
-        {
-          "type": "include_once_expression",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "isset_intrinsic",
-          "named": true
-        },
-        {
-          "type": "member_access_expression",
-          "named": true
-        },
-        {
           "type": "member_call_expression",
-          "named": true
-        },
-        {
-          "type": "object_creation_expression",
           "named": true
         },
         {
@@ -5034,31 +4843,11 @@
           "named": true
         },
         {
-          "type": "print_intrinsic",
-          "named": true
-        },
-        {
           "type": "qualified_name",
           "named": true
         },
         {
-          "type": "require_expression",
-          "named": true
-        },
-        {
-          "type": "require_once_expression",
-          "named": true
-        },
-        {
           "type": "scoped_call_expression",
-          "named": true
-        },
-        {
-          "type": "scoped_property_access_expression",
-          "named": true
-        },
-        {
-          "type": "shell_command_expression",
           "named": true
         },
         {
@@ -5074,19 +4863,7 @@
           "named": true
         },
         {
-          "type": "unary_op_expression",
-          "named": true
-        },
-        {
-          "type": "update_expression",
-          "named": true
-        },
-        {
           "type": "variable_name",
-          "named": true
-        },
-        {
-          "type": "yield_expression",
           "named": true
         }
       ]
@@ -6074,10 +5851,6 @@
           "named": true
         },
         {
-          "type": "dereferencable_expression",
-          "named": true
-        },
-        {
           "type": "empty_intrinsic",
           "named": true
         },
@@ -6246,10 +6019,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dereferencable_expression",
           "named": true
         },
         {
@@ -8235,10 +8004,6 @@
           "named": true
         },
         {
-          "type": "dereferencable_expression",
-          "named": true
-        },
-        {
           "type": "empty_intrinsic",
           "named": true
         },
@@ -8374,7 +8139,31 @@
       "required": true,
       "types": [
         {
-          "type": "dereferencable_expression",
+          "type": "array_creation_expression",
+          "named": true
+        },
+        {
+          "type": "cast_expression",
+          "named": true
+        },
+        {
+          "type": "function_call_expression",
+          "named": true
+        },
+        {
+          "type": "heredoc",
+          "named": true
+        },
+        {
+          "type": "member_access_expression",
+          "named": true
+        },
+        {
+          "type": "member_call_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
           "named": true
         },
         {
@@ -8386,7 +8175,23 @@
           "named": true
         },
         {
+          "type": "scoped_call_expression",
+          "named": true
+        },
+        {
+          "type": "scoped_property_access_expression",
+          "named": true
+        },
+        {
           "type": "simple_variable",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subscript_expression",
           "named": true
         },
         {
@@ -8959,10 +8764,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dereferencable_expression",
           "named": true
         },
         {
