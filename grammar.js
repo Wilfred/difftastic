@@ -468,12 +468,12 @@ module.exports = grammar({
       const octal = /0[0-7]*/
       const hex = /0[xX][0-9a-fA-F]+/
       const binary = /0[bB][01]+/
-      return choice(
+      return token(choice(
         decimal,
         octal,
         hex,
         binary
-      )
+      ))
   },
 
     return_statement: $ => seq(
