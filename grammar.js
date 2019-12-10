@@ -784,7 +784,7 @@ module.exports = grammar({
     ),
 
     member_access_expression: $ => prec(PREC.MEMBER, seq(
-      $.dereferencable_expression, '->', $._member_name
+      $._dereferencable_expression, '->', $._member_name
     )),
 
     scoped_property_access_expression: $ => prec(PREC.MEMBER, seq(
@@ -816,10 +816,12 @@ module.exports = grammar({
 
     _callable_expression: $ => choice(
       $._callable_variable,
-      seq('(', $._expression, ')'),
+      $.parenthesized_expression,
       $.array_creation_expression,
       $._string
     ),
+
+    parenthesized_expression: $ => seq('(', $._expression, ')'),
 
     scoped_call_expression: $ => prec(PREC.CALL, seq(
       $._scope_resolution_qualifier, '::', $._member_name, $.arguments
@@ -828,7 +830,7 @@ module.exports = grammar({
     _scope_resolution_qualifier: $ => choice(
       $.relative_scope,
       $.qualified_name,
-      $.dereferencable_expression
+      $._dereferencable_expression
     ),
 
     relative_scope: $ => prec(PREC.SCOPE, choice(
@@ -844,7 +846,7 @@ module.exports = grammar({
     ),
 
     member_call_expression: $ => prec(PREC.CALL, seq(
-      $.dereferencable_expression,
+      $._dereferencable_expression,
       '->',
       $._member_name,
       $.arguments
@@ -860,16 +862,16 @@ module.exports = grammar({
     ),
 
     subscript_expression: $ => seq(
-      $.dereferencable_expression,
+      $._dereferencable_expression,
       choice(
         seq('[', optional($._expression), ']'),
         seq('{', $._expression, '}')
       )
     ),
 
-    dereferencable_expression: $ => prec(PREC.DEREF, choice(
+    _dereferencable_expression: $ => prec(PREC.DEREF, choice(
       $._variable,
-      seq('(', $._expression, ')'),
+      $.parenthesized_expression,
       $.array_creation_expression,
       $._string
     )),

@@ -15,8 +15,12 @@ for ($i=0; $i<$argc; $i++) {
 ---
 
 (program
-	(expression_statement (assignment_expression (variable_name (name)) (subscript_expression (dereferencable_expression (variable_name (name))) (string))))
-	(expression_statement (assignment_expression (variable_name (name)) (subscript_expression (dereferencable_expression (variable_name (name))) (string))))
+	(expression_statement (assignment_expression
+		(variable_name (name))
+		(subscript_expression (variable_name (name)) (string))))
+	(expression_statement (assignment_expression
+		(variable_name (name))
+		(subscript_expression (variable_name (name)) (string))))
 	(for_statement
 		(assignment_expression (variable_name (name)) (integer))
 		(binary_expression (variable_name (name)) (variable_name (name)))
@@ -26,5 +30,5 @@ for ($i=0; $i<$argc; $i++) {
 				(binary_expression
 					(binary_expression
 						(string)
-							(subscript_expression (dereferencable_expression (variable_name (name))) (variable_name (name))))
+						(subscript_expression (variable_name (name)) (variable_name (name))))
 					(string))))))
