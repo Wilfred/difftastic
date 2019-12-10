@@ -56,7 +56,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -131,7 +131,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -206,7 +206,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -329,7 +329,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -384,7 +384,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -450,8 +450,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -502,7 +502,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "c_style_for_statement",
@@ -762,6 +762,10 @@
           "named": true
         },
         {
+          "type": "variable_name",
+          "named": true
+        },
+        {
           "type": "word",
           "named": true
         }
@@ -857,7 +861,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "c_style_for_statement",
@@ -1023,7 +1027,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -1090,7 +1094,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -1145,7 +1149,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -1188,6 +1192,10 @@
           "named": true
         },
         {
+          "type": "variable_name",
+          "named": true
+        },
+        {
           "type": "word",
           "named": true
         }
@@ -1200,7 +1208,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "compound_statement",
@@ -1241,8 +1249,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "heredoc_start",
@@ -1256,8 +1264,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -1308,7 +1316,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "c_style_for_statement",
@@ -1399,7 +1407,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "c_style_for_statement",
@@ -1477,8 +1485,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "command",
@@ -1500,8 +1508,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -1568,7 +1576,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "c_style_for_statement",
@@ -1646,8 +1654,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -1714,7 +1722,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "c_style_for_statement",
@@ -1880,7 +1888,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "c_style_for_statement",
@@ -1970,11 +1978,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "special_variable_name",
+          "named": true
+        },
+        {
+          "type": "variable_name",
           "named": true
         }
       ]
@@ -2008,8 +2020,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "raw_string",
@@ -2028,7 +2040,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -2083,7 +2095,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "c_style_for_statement",
@@ -2165,8 +2177,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -2233,7 +2245,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -2343,6 +2355,10 @@
           "named": true
         },
         {
+          "type": "variable_name",
+          "named": true
+        },
+        {
           "type": "word",
           "named": true
         }
@@ -2355,7 +2371,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "ansii_c_string",
@@ -2418,7 +2434,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "c_style_for_statement",
@@ -2500,179 +2516,43 @@
     "named": false
   },
   {
-    "type": "for",
-    "named": false
-  },
-  {
-    "type": "in",
-    "named": false
-  },
-  {
-    "type": "((",
-    "named": false
-  },
-  {
-    "type": "))",
-    "named": false
-  },
-  {
-    "type": ";",
-    "named": false
-  },
-  {
-    "type": "while",
-    "named": false
-  },
-  {
-    "type": "do",
-    "named": false
-  },
-  {
-    "type": "done",
-    "named": false
-  },
-  {
-    "type": "if",
-    "named": false
-  },
-  {
-    "type": "then",
-    "named": false
-  },
-  {
-    "type": "fi",
-    "named": false
-  },
-  {
-    "type": "elif",
-    "named": false
-  },
-  {
-    "type": "else",
-    "named": false
-  },
-  {
-    "type": "case",
-    "named": false
-  },
-  {
-    "type": "esac",
-    "named": false
-  },
-  {
-    "type": "|",
-    "named": false
-  },
-  {
-    "type": ")",
-    "named": false
-  },
-  {
-    "type": ";;",
-    "named": false
-  },
-  {
-    "type": "function",
-    "named": false
-  },
-  {
-    "type": "(",
-    "named": false
-  },
-  {
-    "type": "{",
-    "named": false
-  },
-  {
-    "type": "}",
-    "named": false
-  },
-  {
-    "type": "|&",
-    "named": false
-  },
-  {
-    "type": "&&",
-    "named": false
-  },
-  {
-    "type": "||",
-    "named": false
-  },
-  {
     "type": "!",
     "named": false
   },
   {
-    "type": "[",
+    "type": "!=",
     "named": false
   },
   {
-    "type": "]",
+    "type": "\"",
     "named": false
   },
   {
-    "type": "[[",
+    "type": "#",
     "named": false
   },
   {
-    "type": "]]",
+    "type": "$",
     "named": false
   },
   {
-    "type": "declare",
+    "type": "$(",
     "named": false
   },
   {
-    "type": "typeset",
+    "type": "${",
     "named": false
   },
   {
-    "type": "export",
+    "type": "%",
     "named": false
   },
   {
-    "type": "readonly",
+    "type": "&",
     "named": false
   },
   {
-    "type": "local",
-    "named": false
-  },
-  {
-    "type": "unset",
-    "named": false
-  },
-  {
-    "type": "unsetenv",
-    "named": false
-  },
-  {
-    "type": "=~",
-    "named": false
-  },
-  {
-    "type": "==",
-    "named": false
-  },
-  {
-    "type": "=",
-    "named": false
-  },
-  {
-    "type": "+=",
-    "named": false
-  },
-  {
-    "type": "<",
-    "named": false
-  },
-  {
-    "type": ">",
-    "named": false
-  },
-  {
-    "type": ">>",
+    "type": "&&",
     "named": false
   },
   {
@@ -2684,11 +2564,79 @@
     "named": false
   },
   {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": "((",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "))",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": "++",
+    "named": false
+  },
+  {
+    "type": "+=",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "--",
+    "named": false
+  },
+  {
+    "type": "-=",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": ":-",
+    "named": false
+  },
+  {
+    "type": ":?",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": ";;",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
     "type": "<&",
     "named": false
   },
   {
-    "type": ">&",
+    "type": "<(",
     "named": false
   },
   {
@@ -2704,91 +2652,27 @@
     "named": false
   },
   {
-    "type": "!=",
-    "named": false
-  },
-  {
-    "type": "+",
-    "named": false
-  },
-  {
-    "type": "-",
-    "named": false
-  },
-  {
-    "type": "-=",
-    "named": false
-  },
-  {
     "type": "<=",
     "named": false
   },
   {
-    "type": ">=",
+    "type": "=",
     "named": false
   },
   {
-    "type": "++",
+    "type": "==",
     "named": false
   },
   {
-    "type": "--",
+    "type": "=~",
     "named": false
   },
   {
-    "type": "$",
+    "type": ">",
     "named": false
   },
   {
-    "type": "\"",
-    "named": false
-  },
-  {
-    "type": "raw_string",
-    "named": true
-  },
-  {
-    "type": "ansii_c_string",
-    "named": true
-  },
-  {
-    "type": "#",
-    "named": false
-  },
-  {
-    "type": "${",
-    "named": false
-  },
-  {
-    "type": "/",
-    "named": false
-  },
-  {
-    "type": ":",
-    "named": false
-  },
-  {
-    "type": ":?",
-    "named": false
-  },
-  {
-    "type": ":-",
-    "named": false
-  },
-  {
-    "type": "%",
-    "named": false
-  },
-  {
-    "type": "$(",
-    "named": false
-  },
-  {
-    "type": "`",
-    "named": false
-  },
-  {
-    "type": "<(",
+    "type": ">&",
     "named": false
   },
   {
@@ -2796,31 +2680,103 @@
     "named": false
   },
   {
-    "type": "comment",
+    "type": ">=",
+    "named": false
+  },
+  {
+    "type": ">>",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "[[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "]]",
+    "named": false
+  },
+  {
+    "type": "`",
+    "named": false
+  },
+  {
+    "type": "ansii_c_string",
     "named": true
   },
   {
-    "type": "*",
+    "type": "case",
     "named": false
   },
   {
-    "type": "@",
+    "type": "declare",
     "named": false
   },
   {
-    "type": "?",
+    "type": "do",
     "named": false
   },
   {
-    "type": "0",
+    "type": "done",
     "named": false
   },
   {
-    "type": "_",
+    "type": "elif",
     "named": false
   },
   {
-    "type": "word",
+    "type": "else",
+    "named": false
+  },
+  {
+    "type": "esac",
+    "named": false
+  },
+  {
+    "type": "export",
+    "named": false
+  },
+  {
+    "type": "fi",
+    "named": false
+  },
+  {
+    "type": "for",
+    "named": false
+  },
+  {
+    "type": "function",
+    "named": false
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "in",
+    "named": false
+  },
+  {
+    "type": "local",
+    "named": false
+  },
+  {
+    "type": "raw_string",
+    "named": true
+  },
+  {
+    "type": "readonly",
+    "named": false
+  },
+  {
+    "type": "special_variable_name",
     "named": true
   },
   {
@@ -2828,7 +2784,51 @@
     "named": true
   },
   {
-    "type": "&",
+    "type": "then",
+    "named": false
+  },
+  {
+    "type": "typeset",
+    "named": false
+  },
+  {
+    "type": "unset",
+    "named": false
+  },
+  {
+    "type": "unsetenv",
+    "named": false
+  },
+  {
+    "type": "variable_name",
+    "named": true
+  },
+  {
+    "type": "while",
+    "named": false
+  },
+  {
+    "type": "word",
+    "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "|&",
+    "named": false
+  },
+  {
+    "type": "||",
+    "named": false
+  },
+  {
+    "type": "}",
     "named": false
   }
 ]

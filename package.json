@@ -10,28 +10,19 @@
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.10.0",
+    "nan": "^2.14.0",
     "prebuild-install": "^5.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.3",
     "prebuild": "^7.6.1",
-    "tree-sitter-cli": "^0.15.3"
+    "tree-sitter-cli": "^0.16.1"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
     "install": "prebuild-install || node-gyp rebuild",
     "pre-build": "prebuild --all --strip --verbose",
     "pre-build:upload": "prebuild --upload-all",
     "test": "tree-sitter test && script/parse-examples.sh",
-    "test:watch": "nodemon --exec 'npm run build && npm run test' --ext js,txt,sh",
     "test-windows": "tree-sitter test"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "build/",
-      "src/"
-    ]
   },
   "repository": "https://github.com/tree-sitter/tree-sitter-bash"
 }
