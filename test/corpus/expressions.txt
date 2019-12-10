@@ -588,6 +588,24 @@ print("hello")
     method: (identifier)
     arguments: (argument_list (string))))
 
+====================================
+nested unparenthesized method calls
+====================================
+
+puts get_name self, true
+
+---
+
+(program
+  (method_call
+    method: (identifier)
+    arguments: (argument_list
+      (method_call
+        method: (identifier)
+        arguments: (argument_list
+          (self)
+          (true))))))
+
 ===============================
 method call with arguments on multiple lines
 ===============================
