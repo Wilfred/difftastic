@@ -4,21 +4,17 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-all_examples=$(find "examples" -name '*.rs')
-known_failures=$(cat script/known_failures.txt)
-examples_to_parse=$(
-  for example in $all_examples; do
-    if [[ ! $known_failures == *$example* ]]; then
-      echo $example
-    fi
-  done
-)
+known_failures="$(cat script/known_failures.txt)"
 
-echo $examples_to_parse | xargs -n 5000 tree-sitter parse -q
+tree-sitter parse -q \
+  'examples/**/*.rs' \
+  $(for file in $known_failures; do echo "!${file}"; done)
 
-skipped=$( echo $known_failures | wc -w )
-parsed=$( echo $examples_to_parse | wc -w )
-total=$((parsed+skipped))
-percent=$(bc -l <<< "100*$parsed/$total")
+example_count=$(find examples -name '*.rs' | wc -l)
+failure_count=$(wc -w <<< "$known_failures")
+success_count=$(( $example_count - $failure_count ))
+success_percent=$(bc -l <<< "100*${success_count}/${example_count}")
 
-printf "Successfully parsed %d of %d files (%.2f%%)\n" $parsed $total $percent
+printf \
+  "Successfully parsed %d of %d example files (%.1f%%)\n" \
+  $success_count $example_count $success_percent
