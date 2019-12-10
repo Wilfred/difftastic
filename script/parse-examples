@@ -1,0 +1,42 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+function clone_repo {
+  owner=$1
+  name=$2
+  sha=$3
+
+  path=examples/$name
+  if [ ! -d "$path" ]; then
+    echo "Cloning $owner/$name"
+    git clone "https://github.com/$owner/$name" "$path"
+  fi
+
+  pushd "$path" > /dev/null
+  if [ "$(git rev-parse head)" != "$sha"  ]; then
+    echo "Updating $owner/$name to $sha"
+    git fetch
+    git reset --hard $sha
+  fi
+  popd > /dev/null
+}
+
+clone_repo desktop desktop d1324f56d02dd9afca5d2e9da545905a7d41d671
+
+known_failures="$(cat script/known_failures.txt)"
+
+tree-sitter parse -q \
+  'examples/**/*.ts*' \
+  $(for failure in $known_failures; do echo "!${failure}"; done)
+
+example_count=$(find examples -name '*.ts*' | wc -l)
+failure_count=$(wc -w <<< "$known_failures")
+success_count=$(( $example_count - $failure_count ))
+success_percent=$(bc -l <<< "100*${success_count}/${example_count}")
+
+printf \
+  "Successfully parsed %d of %d example files (%.1f%%)\n" \
+  $success_count $example_count $success_percent
