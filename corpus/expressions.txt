@@ -101,7 +101,7 @@ $foo = new static($this->current());
 
 ---
 
-(program (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments (member_call_expression (dereferencable_expression (variable_name (name))) (name) (arguments)))))))
+(program (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments (member_call_expression (variable_name (name)) (name) (arguments)))))))
 
 
 ==========
