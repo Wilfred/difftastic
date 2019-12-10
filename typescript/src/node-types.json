@@ -1104,6 +1104,10 @@
           {
             "type": "arguments",
             "named": true
+          },
+          {
+            "type": "template_string",
+            "named": true
           }
         ]
       },
@@ -1112,11 +1116,33 @@
         "required": true,
         "types": [
           {
+            "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "function",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
           {
             "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "super",
+            "named": true
+          }
+        ]
+      },
+      "type_arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_arguments",
             "named": true
           }
         ]
@@ -3379,6 +3405,10 @@
         {
           "type": "true",
           "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
         }
       ]
     }
@@ -3574,11 +3604,19 @@
         "required": true,
         "types": [
           {
+            "type": "_expression",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
           {
             "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "super",
             "named": true
           }
         ]
@@ -6098,11 +6136,11 @@
   },
   {
     "type": "number",
-    "named": false
+    "named": true
   },
   {
     "type": "number",
-    "named": true
+    "named": false
   },
   {
     "type": "of",
