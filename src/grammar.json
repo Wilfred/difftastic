@@ -3788,6 +3788,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "this"
+        },
+        {
+          "type": "SYMBOL",
           "name": "raw_string_literal"
         }
       ]
@@ -8609,6 +8613,10 @@
           }
         ]
       }
+    },
+    "this": {
+      "type": "STRING",
+      "value": "this"
     },
     "nullptr": {
       "type": "STRING",
