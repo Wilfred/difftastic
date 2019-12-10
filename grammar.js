@@ -604,6 +604,7 @@ module.exports = grammar(C, {
       $.lambda_expression,
       $.parameter_pack_expansion,
       $.nullptr,
+      $.this,
       $.raw_string_literal
     ),
 
@@ -773,6 +774,7 @@ module.exports = grammar(C, {
       )
     )),
 
+    this: $ => 'this',
     nullptr: $ => 'nullptr',
 
     _namespace_identifier: $ => alias($.identifier, $.namespace_identifier),

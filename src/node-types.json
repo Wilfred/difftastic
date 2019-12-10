@@ -184,6 +184,10 @@
         "named": true
       },
       {
+        "type": "this",
+        "named": true
+      },
+      {
         "type": "true",
         "named": true
       },
@@ -4993,6 +4997,10 @@
   {
     "type": "template",
     "named": false
+  },
+  {
+    "type": "this",
+    "named": true
   },
   {
     "type": "throw",
