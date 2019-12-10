@@ -38,13 +38,8 @@ module.exports = grammar({
   word: $ => $.name,
 
   conflicts: $ => [
-    [$.declare_statement, $._semicolon],
-    [$.while_statement, $._semicolon],
-    [$.for_statement, $._semicolon],
-    [$.foreach_statement, $._semicolon],
     [$.simple_parameter, $.name],
     [$.variadic_parameter, $.name],
-    [$.property_modifier, $._method_modifier],
 
     // Do we need these?
     [$.qualified_name, $.namespace_name],
@@ -54,8 +49,10 @@ module.exports = grammar({
     [$.namespace_name_as_prefix],
     [$.namespace_use_declaration, $.namespace_name_as_prefix]
   ],
+
   inline: $ => [
     $._statement,
+    $._semicolon,
     $._member_name,
     $._variable,
     $._callable_variable,
@@ -257,13 +254,16 @@ module.exports = grammar({
     ),
 
     property_declaration: $ => seq(
-      $.property_modifier, commaSep1($.property_element), $._semicolon
+      repeat1($._modifier),
+      commaSep1($.property_element),
+      $._semicolon
     ),
 
-    property_modifier: $ => choice(
-      'var',
-      seq($.visibility_modifier, optional($.static_modifier)),
-      seq($.static_modifier, optional($.visibility_modifier))
+    _modifier: $ => choice(
+      $.var_modifier,
+      $.visibility_modifier,
+      $.static_modifier,
+      $.class_modifier
     ),
 
     property_element: $ => seq(
@@ -274,25 +274,23 @@ module.exports = grammar({
       '=', $._expression
     ),
 
-    method_declaration: $ => choice(
-      seq(repeat($._method_modifier), $.function_definition),
-      seq(repeat1($._method_modifier), $._function_definition_header, $._semicolon)
+    method_declaration: $ => seq(
+      repeat($._modifier),
+      choice(
+        $.function_definition,
+        seq($._function_definition_header, $._semicolon)
+      )
     ),
 
     constructor_declaration: $ => seq(
-      repeat1($._method_modifier), 'function', optional('&'), '__construct', $.formal_parameters, $.compound_statement
+      repeat1($._modifier), 'function', optional('&'), '__construct', $.formal_parameters, $.compound_statement
     ),
 
     destructor_declaration: $ => seq(
-      repeat1($._method_modifier), 'function', optional('&'), '__destruct', '(', ')', $.compound_statement
+      repeat1($._modifier), 'function', optional('&'), '__destruct', '(', ')', $.compound_statement
     ),
 
-    _method_modifier: $ => choice(
-      $.visibility_modifier,
-      $.class_modifier,
-      $.static_modifier
-    ),
-
+    var_modifier: $ => 'var',
     static_modifier: $ => 'static',
 
     trait_use_clause: $ => seq(
