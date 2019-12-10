@@ -632,7 +632,7 @@ class Person {
       (compound_statement
         (expression_statement (call_expression
           (field_expression
-            (identifier)
+            (this)
             (template_method
               (field_identifier)
               (template_argument_list (type_descriptor (primitive_type)))))
