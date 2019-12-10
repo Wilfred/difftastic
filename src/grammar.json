@@ -208,7 +208,7 @@
             "type": "IMMEDIATE_TOKEN",
             "content": {
               "type": "PATTERN",
-              "value": "[^\\\\\"\\n]"
+              "value": "[^\\\\\"\\n]+"
             }
           },
           {
