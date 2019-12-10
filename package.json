@@ -13,15 +13,15 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.15.12",
+    "tree-sitter-cli": "^0.16.1",
     "tree-sitter-javascript": "tree-sitter/tree-sitter-javascript"
   },
   "scripts": {
     "build": "npm run build-typescript && npm run build-tsx",
     "build-typescript": "cd typescript && tree-sitter generate",
     "build-tsx": "cd tsx && tree-sitter generate",
-    "test": "npm run test-typescript && npm run test-tsx",
-    "test-typescript": "cd typescript && tree-sitter test && script/parse-examples",
+    "test": "npm run test-typescript && npm run test-tsx && script/parse-examples",
+    "test-typescript": "cd typescript && tree-sitter test",
     "test-tsx": "cd tsx && tree-sitter test",
     "test-windows": "pushd typescript && tree-sitter test && popd && pushd tsx && tree-sitter test"
   },
