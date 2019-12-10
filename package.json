@@ -24,7 +24,8 @@
     {
       "scope": "source.c",
       "file-types": [
-        "c"
+        "c",
+        "h"
       ]
     }
   ]

@@ -21,10 +21,11 @@ int main(const char string[SIZE]) {
 //                   ^ variable
 //                         ^ constant
 
-  return foo.bar;
+  return foo.bar + foo.baz();
   // ^ keyword
   //     ^ variable
   //         ^ property
+  //                   ^ function
 
 error:
   // <- label
