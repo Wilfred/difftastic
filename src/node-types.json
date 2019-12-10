@@ -53,165 +53,464 @@
   {
     "type": "binary_expression",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "ansii_c_string",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "command_substitution",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "expansion",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
-          "named": true
-        },
-        {
-          "type": "process_substitution",
-          "named": true
-        },
-        {
-          "type": "raw_string",
-          "named": true
-        },
-        {
-          "type": "regex",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "string_expansion",
-          "named": true
-        },
-        {
-          "type": "test_operator",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "word",
-          "named": true
-        }
-      ]
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ansii_c_string",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "postfix_expression",
+            "named": true
+          },
+          {
+            "type": "process_substitution",
+            "named": true
+          },
+          {
+            "type": "raw_string",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "string_expansion",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "!=",
+            "named": false
+          },
+          {
+            "type": "&&",
+            "named": false
+          },
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "+=",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": "-=",
+            "named": false
+          },
+          {
+            "type": "<",
+            "named": false
+          },
+          {
+            "type": "<=",
+            "named": false
+          },
+          {
+            "type": "=",
+            "named": false
+          },
+          {
+            "type": "==",
+            "named": false
+          },
+          {
+            "type": "=~",
+            "named": false
+          },
+          {
+            "type": ">",
+            "named": false
+          },
+          {
+            "type": ">=",
+            "named": false
+          },
+          {
+            "type": "test_operator",
+            "named": true
+          },
+          {
+            "type": "||",
+            "named": false
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ansii_c_string",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "postfix_expression",
+            "named": true
+          },
+          {
+            "type": "process_substitution",
+            "named": true
+          },
+          {
+            "type": "raw_string",
+            "named": true
+          },
+          {
+            "type": "regex",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "string_expansion",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "c_style_for_statement",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "ansii_c_string",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "command_substitution",
-          "named": true
-        },
-        {
-          "type": "compound_statement",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "do_group",
-          "named": true
-        },
-        {
-          "type": "expansion",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
-          "named": true
-        },
-        {
-          "type": "process_substitution",
-          "named": true
-        },
-        {
-          "type": "raw_string",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "string_expansion",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "word",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "compound_statement",
+            "named": true
+          },
+          {
+            "type": "do_group",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ansii_c_string",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "postfix_expression",
+            "named": true
+          },
+          {
+            "type": "process_substitution",
+            "named": true
+          },
+          {
+            "type": "raw_string",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "string_expansion",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "initializer": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ansii_c_string",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "postfix_expression",
+            "named": true
+          },
+          {
+            "type": "process_substitution",
+            "named": true
+          },
+          {
+            "type": "raw_string",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "string_expansion",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "update": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ansii_c_string",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "postfix_expression",
+            "named": true
+          },
+          {
+            "type": "process_substitution",
+            "named": true
+          },
+          {
+            "type": "raw_string",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "string_expansion",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "case_item",
     "named": true,
-    "fields": {},
+    "fields": {
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "ansii_c_string",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "process_substitution",
+            "named": true
+          },
+          {
+            "type": "raw_string",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "string_expansion",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
-        {
-          "type": "ansii_c_string",
-          "named": true
-        },
         {
           "type": "c_style_for_statement",
           "named": true
@@ -225,23 +524,11 @@
           "named": true
         },
         {
-          "type": "command_substitution",
-          "named": true
-        },
-        {
           "type": "compound_statement",
           "named": true
         },
         {
-          "type": "concatenation",
-          "named": true
-        },
-        {
           "type": "declaration_command",
-          "named": true
-        },
-        {
-          "type": "expansion",
           "named": true
         },
         {
@@ -273,27 +560,7 @@
           "named": true
         },
         {
-          "type": "process_substitution",
-          "named": true
-        },
-        {
-          "type": "raw_string",
-          "named": true
-        },
-        {
           "type": "redirected_statement",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "string_expansion",
           "named": true
         },
         {
@@ -315,10 +582,6 @@
         {
           "type": "while_statement",
           "named": true
-        },
-        {
-          "type": "word",
-          "named": true
         }
       ]
     }
@@ -326,53 +589,60 @@
   {
     "type": "case_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ansii_c_string",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "process_substitution",
+            "named": true
+          },
+          {
+            "type": "raw_string",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "string_expansion",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "ansii_c_string",
-          "named": true
-        },
-        {
           "type": "case_item",
-          "named": true
-        },
-        {
-          "type": "command_substitution",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "expansion",
-          "named": true
-        },
-        {
-          "type": "process_substitution",
-          "named": true
-        },
-        {
-          "type": "raw_string",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "string_expansion",
-          "named": true
-        },
-        {
-          "type": "word",
           "named": true
         }
       ]
@@ -381,65 +651,86 @@
   {
     "type": "command",
     "named": true,
-    "fields": {},
+    "fields": {
+      "argument": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "==",
+            "named": false
+          },
+          {
+            "type": "=~",
+            "named": false
+          },
+          {
+            "type": "ansii_c_string",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "process_substitution",
+            "named": true
+          },
+          {
+            "type": "raw_string",
+            "named": true
+          },
+          {
+            "type": "regex",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "string_expansion",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
-        {
-          "type": "ansii_c_string",
-          "named": true
-        },
-        {
-          "type": "command_name",
-          "named": true
-        },
-        {
-          "type": "command_substitution",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "expansion",
-          "named": true
-        },
         {
           "type": "file_redirect",
           "named": true
         },
         {
-          "type": "process_substitution",
-          "named": true
-        },
-        {
-          "type": "raw_string",
-          "named": true
-        },
-        {
-          "type": "regex",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "string_expansion",
-          "named": true
-        },
-        {
           "type": "variable_assignment",
-          "named": true
-        },
-        {
-          "type": "word",
           "named": true
         }
       ]
@@ -1091,134 +1382,161 @@
   {
     "type": "file_redirect",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "ansii_c_string",
-          "named": true
-        },
-        {
-          "type": "command_substitution",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "expansion",
-          "named": true
-        },
-        {
-          "type": "file_descriptor",
-          "named": true
-        },
-        {
-          "type": "process_substitution",
-          "named": true
-        },
-        {
-          "type": "raw_string",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "string_expansion",
-          "named": true
-        },
-        {
-          "type": "word",
-          "named": true
-        }
-      ]
+    "fields": {
+      "descriptor": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "file_descriptor",
+            "named": true
+          }
+        ]
+      },
+      "destination": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ansii_c_string",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "process_substitution",
+            "named": true
+          },
+          {
+            "type": "raw_string",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "string_expansion",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "for_statement",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "ansii_c_string",
-          "named": true
-        },
-        {
-          "type": "command_substitution",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "do_group",
-          "named": true
-        },
-        {
-          "type": "expansion",
-          "named": true
-        },
-        {
-          "type": "process_substitution",
-          "named": true
-        },
-        {
-          "type": "raw_string",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "string_expansion",
-          "named": true
-        },
-        {
-          "type": "variable_name",
-          "named": true
-        },
-        {
-          "type": "word",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "do_group",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ansii_c_string",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "process_substitution",
+            "named": true
+          },
+          {
+            "type": "raw_string",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "string_expansion",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "variable": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable_name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "function_definition",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "compound_statement",
-          "named": true
-        },
-        {
-          "type": "word",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "compound_statement",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1313,10 +1631,101 @@
   {
     "type": "if_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\n",
+            "named": false
+          },
+          {
+            "type": "&",
+            "named": false
+          },
+          {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": ";;",
+            "named": false
+          },
+          {
+            "type": "c_style_for_statement",
+            "named": true
+          },
+          {
+            "type": "case_statement",
+            "named": true
+          },
+          {
+            "type": "command",
+            "named": true
+          },
+          {
+            "type": "compound_statement",
+            "named": true
+          },
+          {
+            "type": "declaration_command",
+            "named": true
+          },
+          {
+            "type": "for_statement",
+            "named": true
+          },
+          {
+            "type": "function_definition",
+            "named": true
+          },
+          {
+            "type": "if_statement",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "negated_command",
+            "named": true
+          },
+          {
+            "type": "pipeline",
+            "named": true
+          },
+          {
+            "type": "redirected_statement",
+            "named": true
+          },
+          {
+            "type": "subshell",
+            "named": true
+          },
+          {
+            "type": "test_command",
+            "named": true
+          },
+          {
+            "type": "unset_command",
+            "named": true
+          },
+          {
+            "type": "variable_assignment",
+            "named": true
+          },
+          {
+            "type": "while_statement",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "c_style_for_statement",
@@ -1885,92 +2294,99 @@
   {
     "type": "redirected_statement",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "c_style_for_statement",
-          "named": true
-        },
-        {
-          "type": "case_statement",
-          "named": true
-        },
-        {
-          "type": "command",
-          "named": true
-        },
-        {
-          "type": "compound_statement",
-          "named": true
-        },
-        {
-          "type": "declaration_command",
-          "named": true
-        },
-        {
-          "type": "file_redirect",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "heredoc_redirect",
-          "named": true
-        },
-        {
-          "type": "herestring_redirect",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "negated_command",
-          "named": true
-        },
-        {
-          "type": "pipeline",
-          "named": true
-        },
-        {
-          "type": "redirected_statement",
-          "named": true
-        },
-        {
-          "type": "subshell",
-          "named": true
-        },
-        {
-          "type": "test_command",
-          "named": true
-        },
-        {
-          "type": "unset_command",
-          "named": true
-        },
-        {
-          "type": "variable_assignment",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "c_style_for_statement",
+            "named": true
+          },
+          {
+            "type": "case_statement",
+            "named": true
+          },
+          {
+            "type": "command",
+            "named": true
+          },
+          {
+            "type": "compound_statement",
+            "named": true
+          },
+          {
+            "type": "declaration_command",
+            "named": true
+          },
+          {
+            "type": "for_statement",
+            "named": true
+          },
+          {
+            "type": "function_definition",
+            "named": true
+          },
+          {
+            "type": "if_statement",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "negated_command",
+            "named": true
+          },
+          {
+            "type": "pipeline",
+            "named": true
+          },
+          {
+            "type": "redirected_statement",
+            "named": true
+          },
+          {
+            "type": "subshell",
+            "named": true
+          },
+          {
+            "type": "test_command",
+            "named": true
+          },
+          {
+            "type": "unset_command",
+            "named": true
+          },
+          {
+            "type": "variable_assignment",
+            "named": true
+          },
+          {
+            "type": "while_statement",
+            "named": true
+          }
+        ]
+      },
+      "redirect": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "file_redirect",
+            "named": true
+          },
+          {
+            "type": "heredoc_redirect",
+            "named": true
+          },
+          {
+            "type": "herestring_redirect",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2037,56 +2453,63 @@
   {
     "type": "subscript",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "ansii_c_string",
-          "named": true
-        },
-        {
-          "type": "command_substitution",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "expansion",
-          "named": true
-        },
-        {
-          "type": "process_substitution",
-          "named": true
-        },
-        {
-          "type": "raw_string",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "string_expansion",
-          "named": true
-        },
-        {
-          "type": "variable_name",
-          "named": true
-        },
-        {
-          "type": "word",
-          "named": true
-        }
-      ]
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ansii_c_string",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "process_substitution",
+            "named": true
+          },
+          {
+            "type": "raw_string",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "string_expansion",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable_name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2368,147 +2791,177 @@
   {
     "type": "variable_assignment",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "ansii_c_string",
-          "named": true
-        },
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "command_substitution",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "expansion",
-          "named": true
-        },
-        {
-          "type": "process_substitution",
-          "named": true
-        },
-        {
-          "type": "raw_string",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "string_expansion",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "variable_name",
-          "named": true
-        },
-        {
-          "type": "word",
-          "named": true
-        }
-      ]
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "variable_name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ansii_c_string",
+            "named": true
+          },
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "process_substitution",
+            "named": true
+          },
+          {
+            "type": "raw_string",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "string_expansion",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "while_statement",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "c_style_for_statement",
-          "named": true
-        },
-        {
-          "type": "case_statement",
-          "named": true
-        },
-        {
-          "type": "command",
-          "named": true
-        },
-        {
-          "type": "compound_statement",
-          "named": true
-        },
-        {
-          "type": "declaration_command",
-          "named": true
-        },
-        {
-          "type": "do_group",
-          "named": true
-        },
-        {
-          "type": "for_statement",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "negated_command",
-          "named": true
-        },
-        {
-          "type": "pipeline",
-          "named": true
-        },
-        {
-          "type": "redirected_statement",
-          "named": true
-        },
-        {
-          "type": "subshell",
-          "named": true
-        },
-        {
-          "type": "test_command",
-          "named": true
-        },
-        {
-          "type": "unset_command",
-          "named": true
-        },
-        {
-          "type": "variable_assignment",
-          "named": true
-        },
-        {
-          "type": "while_statement",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "do_group",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\n",
+            "named": false
+          },
+          {
+            "type": "&",
+            "named": false
+          },
+          {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": ";;",
+            "named": false
+          },
+          {
+            "type": "c_style_for_statement",
+            "named": true
+          },
+          {
+            "type": "case_statement",
+            "named": true
+          },
+          {
+            "type": "command",
+            "named": true
+          },
+          {
+            "type": "compound_statement",
+            "named": true
+          },
+          {
+            "type": "declaration_command",
+            "named": true
+          },
+          {
+            "type": "for_statement",
+            "named": true
+          },
+          {
+            "type": "function_definition",
+            "named": true
+          },
+          {
+            "type": "if_statement",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "negated_command",
+            "named": true
+          },
+          {
+            "type": "pipeline",
+            "named": true
+          },
+          {
+            "type": "redirected_statement",
+            "named": true
+          },
+          {
+            "type": "subshell",
+            "named": true
+          },
+          {
+            "type": "test_command",
+            "named": true
+          },
+          {
+            "type": "unset_command",
+            "named": true
+          },
+          {
+            "type": "variable_assignment",
+            "named": true
+          },
+          {
+            "type": "while_statement",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
