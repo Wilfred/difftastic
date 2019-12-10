@@ -418,11 +418,11 @@
           "named": true
         },
         {
-          "type": "command_call",
+          "type": "hash_splat_argument",
           "named": true
         },
         {
-          "type": "hash_splat_argument",
+          "type": "method_call",
           "named": true
         },
         {
@@ -1022,54 +1022,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "command_call",
-    "named": true,
-    "fields": {
-      "arguments": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "argument_list",
-            "named": true
-          }
-        ]
-      },
-      "block": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "do_block",
-            "named": true
-          }
-        ]
-      },
-      "method": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_variable",
-            "named": true
-          },
-          {
-            "type": "call",
-            "named": true
-          },
-          {
-            "type": "scope_resolution",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {

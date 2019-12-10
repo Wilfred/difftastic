@@ -498,7 +498,7 @@ module.exports = grammar({
 
     command_argument_list: $ => choice(
       commaSep1($._argument),
-      $.command_call,
+      alias($.command_call, $.method_call)
     ),
 
     argument_list: $ => prec.right(seq(

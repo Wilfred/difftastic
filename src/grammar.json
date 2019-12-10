@@ -2849,8 +2849,13 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "command_call"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "command_call"
+          },
+          "named": true,
+          "value": "method_call"
         }
       ]
     },
