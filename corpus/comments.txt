@@ -68,3 +68,20 @@ x
   (comment)
   (comment)
   (value_path (value_name)))
+
+==============================
+Quoted strings and comments
+==============================
+
+(* {|*)|} *)
+(* {%id |*)|} *)
+{|(**)|};;
+{|(*|};;
+
+---
+
+(compilation_unit
+  (comment)
+  (comment)
+  (quoted_string)
+  (quoted_string))

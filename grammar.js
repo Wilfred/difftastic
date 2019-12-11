@@ -33,10 +33,16 @@ const COMMENT = $ => seq(
     alias($._comment, $.comment),
     /'([^'\\]|\\[\\"'ntbr ]|\\[0-9][0-9][0-9]|\\x[0-9A-Fa-f][0-9A-Fa-f]|\\o[0-3][0-7][0-7])'/,
     /"([^\\"]|\\(.|\n))*"/,
-    $._quoted_string,
+    seq(
+      token(seq('{', optional(seq(/%%?/, sep1('.', /[A-Za-z_][a-zA-Z0-9_']*/), /\s*/)))),
+      optional(seq(
+        $._quoted_string,
+        '}'
+      ))
+    ),
     /[A-Za-z_][a-zA-Z0-9_']*/,
     /[^('"{*A-Za-z_]+/,
-    '(', "'", '{', '*'
+    '(', "'", '*',
   )),
   '*)'
 )
@@ -122,7 +128,7 @@ module.exports = grammar({
       $.class_definition,
       $.class_type_definition,
       $.floating_attribute,
-      $.item_extension
+      $._item_extension
     ),
 
     value_specification: $ => seq(
@@ -394,7 +400,7 @@ module.exports = grammar({
         $.module_type_of,
         $.functor_type,
         $.parenthesized_module_type,
-        $.extension
+        $._extension
       ),
       repeat($.attribute)
     )),
@@ -458,7 +464,7 @@ module.exports = grammar({
         $.submodule,
         $.typed_module_expression,
         $.parenthesized_module_expression,
-        $.extension
+        $._extension
       ),
       repeat($.attribute)
     ))),
@@ -516,7 +522,7 @@ module.exports = grammar({
         $.instantiated_class_type,
         $.class_body_type,
         $.let_open_class_type,
-        $.extension
+        $._extension
       ),
       repeat($.attribute)
     )),
@@ -553,7 +559,7 @@ module.exports = grammar({
         $.instance_variable_specification,
         $.method_specification,
         $.type_parameter_constraint,
-        $.item_extension
+        $._item_extension
       ),
       repeat($.item_attribute)
     ),
@@ -625,7 +631,7 @@ module.exports = grammar({
         $.class_application,
         $.let_class_expression,
         $.let_open_class_expression,
-        $.extension
+        $._extension
       ),
       repeat($.attribute)
     )),
@@ -669,7 +675,7 @@ module.exports = grammar({
         $.method_definition,
         $.type_parameter_constraint,
         $.class_initializer,
-        $.item_extension
+        $._item_extension
       ),
       repeat($.item_attribute)
     ),
@@ -742,7 +748,7 @@ module.exports = grammar({
       $.hash_type,
       $.object_type,
       $.parenthesized_type,
-      $.extension
+      $._extension
     ),
 
     _simple_or_tuple_type: $ => prec(1, choice(
@@ -884,7 +890,7 @@ module.exports = grammar({
       $.method_invocation,
       $.parenthesized_expression,
       $.ocamlyacc_value,
-      $.extension
+      $._extension
     ),
 
     _expression: $ => prec.right(seq(
@@ -1319,7 +1325,7 @@ module.exports = grammar({
       $.local_open_pattern,
       $.package_pattern,
       $.parenthesized_pattern,
-      $.extension
+      $._extension
     ),
 
     _pattern: $ => prec.right(seq(
@@ -1504,9 +1510,23 @@ module.exports = grammar({
       seq('?', $._pattern, optional(seq('when', $._seq_expression)))
     ),
 
+    _extension: $ => choice(
+      $.extension,
+      $.quoted_extension
+    ),
+
     extension: $ => seq('[%', $.attribute_id, optional($.attribute_payload), ']'),
 
+    quoted_extension: $ => seq('{%', $.attribute_id, optional(/\s+/), $._quoted_string, '}'),
+
+    _item_extension: $ => choice(
+      $.item_extension,
+      $.quoted_item_extension
+    ),
+
     item_extension: $ => seq('[%%', $.attribute_id, optional($.attribute_payload), ']'),
+
+    quoted_item_extension: $ => seq('{%%', $.attribute_id, optional(/\s+/), $._quoted_string, '}'),
 
     _extension_attribute: $ => prec.right(choice(
       seq('%', $.attribute_id),
@@ -1525,7 +1545,7 @@ module.exports = grammar({
       $.number,
       $.character,
       $.string,
-      alias($._quoted_string, $.quoted_string),
+      $.quoted_string,
       $.boolean,
       $.unit
     ),
@@ -1555,6 +1575,12 @@ module.exports = grammar({
         $.pretty_printing_indication
       )),
       '"'
+    ),
+
+    quoted_string: $ => seq(
+      '{',
+      $._quoted_string,
+      '}'
     ),
 
     escape_sequence: $ => choice(
