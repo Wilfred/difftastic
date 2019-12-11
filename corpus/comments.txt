@@ -25,19 +25,21 @@ Nested comments
 
 ---
 
-(compilation_unit (comment))
+(compilation_unit (comment (comment)))
 
 ==============================
 Strings and comments
 ==============================
 
 (* "*)" *)
-"(**)"
+"(**)";;
+"(*";;
 
 ---
 
 (compilation_unit
   (comment)
+  (string)
   (string))
 
 ==============================
