@@ -8041,8 +8041,13 @@
           "name": "string"
         },
         {
-          "type": "SYMBOL",
-          "name": "quoted_string"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_quoted_string"
+          },
+          "named": true,
+          "value": "quoted_string"
         },
         {
           "type": "SYMBOL",
@@ -8158,6 +8163,13 @@
           "content": {
             "type": "CHOICE",
             "members": [
+              {
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "STRING",
+                  "value": "(*"
+                }
+              },
               {
                 "type": "PATTERN",
                 "value": "[^\\\\\"%@]+|%|@"
@@ -9599,6 +9611,138 @@
           }
         }
       ]
+    },
+    "_comment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "(*"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_comment"
+                },
+                "named": true,
+                "value": "comment"
+              },
+              {
+                "type": "PATTERN",
+                "value": "'([^'\\\\]|\\\\[\\\\\"'ntbr ]|\\\\[0-9][0-9][0-9]|\\\\x[0-9A-Fa-f][0-9A-Fa-f]|\\\\o[0-3][0-7][0-7])'"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\"([^\\\\\"]|\\\\(.|\\n))*\""
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_quoted_string"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[A-Za-z_][a-zA-Z0-9_']*"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[^('\"{*A-Za-z_]+"
+              },
+              {
+                "type": "STRING",
+                "value": "("
+              },
+              {
+                "type": "STRING",
+                "value": "'"
+              },
+              {
+                "type": "STRING",
+                "value": "{"
+              },
+              {
+                "type": "STRING",
+                "value": "*"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "*)"
+        }
+      ]
+    },
+    "comment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "(*"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_comment"
+                },
+                "named": true,
+                "value": "comment"
+              },
+              {
+                "type": "PATTERN",
+                "value": "'([^'\\\\]|\\\\[\\\\\"'ntbr ]|\\\\[0-9][0-9][0-9]|\\\\x[0-9A-Fa-f][0-9A-Fa-f]|\\\\o[0-3][0-7][0-7])'"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\"([^\\\\\"]|\\\\(.|\\n))*\""
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_quoted_string"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[A-Za-z_][a-zA-Z0-9_']*"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[^('\"{*A-Za-z_]+"
+              },
+              {
+                "type": "STRING",
+                "value": "("
+              },
+              {
+                "type": "STRING",
+                "value": "'"
+              },
+              {
+                "type": "STRING",
+                "value": "{"
+              },
+              {
+                "type": "STRING",
+                "value": "*"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "*)"
+        }
+      ]
     }
   },
   "extras": [
@@ -9632,15 +9776,7 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "comment"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "quoted_string"
-    },
-    {
-      "type": "STRING",
-      "value": "\""
+      "name": "_quoted_string"
     },
     {
       "type": "SYMBOL",

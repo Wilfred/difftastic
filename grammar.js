@@ -27,6 +27,20 @@ const NUMBER = token(choice(
   /0[bB][01][01_]*[g-zG-Z]?/
 ))
 
+const COMMENT = $ => seq(
+  '(*',
+  repeat(choice(
+    alias($._comment, $.comment),
+    /'([^'\\]|\\[\\"'ntbr ]|\\[0-9][0-9][0-9]|\\x[0-9A-Fa-f][0-9A-Fa-f]|\\o[0-3][0-7][0-7])'/,
+    /"([^\\"]|\\(.|\n))*"/,
+    $._quoted_string,
+    /[A-Za-z_][a-zA-Z0-9_']*/,
+    /[^('"{*A-Za-z_]+/,
+    '(', "'", '{', '*'
+  )),
+  '*)'
+)
+
 module.exports = grammar({
   name: 'ocaml',
 
@@ -1511,7 +1525,7 @@ module.exports = grammar({
       $.number,
       $.character,
       $.string,
-      $.quoted_string,
+      alias($._quoted_string, $.quoted_string),
       $.boolean,
       $.unit
     ),
@@ -1532,6 +1546,7 @@ module.exports = grammar({
     string: $ => seq(
       '"',
       repeat(choice(
+        token.immediate('(*'),
         /[^\\"%@]+|%|@/,
         $.escape_sequence,
         alias(/\\u\{[0-9A-Fa-f]+\}/, $.escape_sequence),
@@ -1736,7 +1751,13 @@ module.exports = grammar({
     directive: $ => seq('#', choice($._identifier, $._capitalized_identifier)),
     type_variable: $ => seq("'", choice($._identifier, $._capitalized_identifier)),
     tag: $ => seq('`', choice($._identifier, $._capitalized_identifier)),
-    attribute_id: $ => sep1('.', choice($._identifier, $._capitalized_identifier))
+    attribute_id: $ => sep1('.', choice($._identifier, $._capitalized_identifier)),
+
+    // Comments
+
+    _comment: COMMENT,
+
+    comment: COMMENT
   },
 
   conflicts: $ => [
@@ -1746,9 +1767,7 @@ module.exports = grammar({
   ],
 
   externals: $ => [
-    $.comment,
-    $.quoted_string,
-    '"',
+    $._quoted_string,
     $.line_number_directive
   ]
 })
