@@ -31,6 +31,11 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
+    if (valid_symbols[QUOTED_STRING]) {
+      lexer->result_symbol = QUOTED_STRING;
+      return scan_quoted_string(lexer);
+    }
+
     while (iswspace(lexer->lookahead)) {
       skip(lexer);
     }
@@ -53,12 +58,6 @@ struct Scanner {
 
       lexer->result_symbol = LINE_NUMBER_DIRECTIVE;
       return true;
-    }
-
-    if (valid_symbols[QUOTED_STRING] && lexer->lookahead == '{') {
-      advance(lexer);
-      lexer->result_symbol = QUOTED_STRING;
-      return scan_quoted_string(lexer);
     }
 
     return false;
@@ -84,10 +83,7 @@ struct Scanner {
             if (lexer->lookahead != id[i]) break;
             advance(lexer);
           }
-          if (i == id.size() && lexer->lookahead == '}') {
-            advance(lexer);
-            return true;
-          }
+          if (i == id.size() && lexer->lookahead == '}') return true;
           break;
         case '\0':
           if (is_eof(lexer)) return false;

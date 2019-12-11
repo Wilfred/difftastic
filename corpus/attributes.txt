@@ -121,12 +121,16 @@ x ;%id x
 Item extension
 ===========================
 
-[%%id]
+[%%id];;
+{%%M.id|payload|};;
+{%%id ab|payload|ab};;
 
 ---
 
 (compilation_unit
-  (item_extension (attribute_id)))
+  (item_extension (attribute_id))
+  (quoted_item_extension (attribute_id))
+  (quoted_item_extension (attribute_id)))
 
 ===========================
 Extension
@@ -136,6 +140,8 @@ module type T = [%id]
 module M = [%id]
 type t = [%id]
 let x = [%id]
+let x = {%id|payload|}
+let x = {%id ab|payload|ab};;
 
 ---
 
@@ -154,4 +160,12 @@ let x = [%id]
   (value_definition
     (let_binding
       (value_name)
-      (extension (attribute_id)))))
+      (extension (attribute_id))))
+  (value_definition
+    (let_binding
+      (value_name)
+      (quoted_extension (attribute_id))))
+  (value_definition
+    (let_binding
+      (value_name)
+      (quoted_extension (attribute_id)))))
