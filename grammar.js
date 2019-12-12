@@ -322,7 +322,7 @@ module.exports = grammar({
     if: $ => seq(
       'if',
       field('condition', $._statement),
-      field('consequence', choice($._terminator, $.then)),
+      choice($._terminator, field('consequence', $.then)),
       field('alternative', optional(choice($.else, $.elsif))),
       'end'
     ),
@@ -330,7 +330,7 @@ module.exports = grammar({
     unless: $ => seq(
       'unless',
       field('condition', $._statement),
-      field('consequence', choice($._terminator, $.then)),
+      choice($._terminator, field('consequence', $.then)),
       field('alternative', optional(choice($.else, $.elsif))),
       'end'
     ),
@@ -338,7 +338,7 @@ module.exports = grammar({
     elsif: $ => seq(
       'elsif',
       field('condition', $._statement),
-      field('consequence', choice($._terminator, $.then)),
+      choice($._terminator, field('consequence', $.then)),
       field('alternative', optional(choice($.else, $.elsif)))
     ),
 
@@ -565,9 +565,9 @@ module.exports = grammar({
     )),
 
     command_operator_assignment: $ => prec.right(PREC.ASSIGN, seq(
-      $._lhs,
+      field('left', $._lhs),
       choice('+=', '-=', '*=', '**=', '/=', '||=', '|=', '&&=', '&=', '%=', '>>=', '<<=', '^='),
-      $._expression
+      field('right', $._expression)
     )),
 
     conditional: $ => prec.right(PREC.CONDITIONAL, seq(

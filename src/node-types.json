@@ -1297,12 +1297,8 @@
       },
       "consequence": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "then",
             "named": true
@@ -1520,12 +1516,8 @@
       },
       "consequence": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "then",
             "named": true
@@ -1966,55 +1958,41 @@
           {
             "type": "_arg",
             "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "break",
+            "named": true
+          },
+          {
+            "type": "method_call",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "operator_assignment",
+            "named": true
+          },
+          {
+            "type": "return",
+            "named": true
+          },
+          {
+            "type": "yield",
+            "named": true
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_arg",
-          "named": true
-        },
-        {
-          "type": "_lhs",
-          "named": true
-        },
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "binary",
-          "named": true
-        },
-        {
-          "type": "break",
-          "named": true
-        },
-        {
-          "type": "method_call",
-          "named": true
-        },
-        {
-          "type": "next",
-          "named": true
-        },
-        {
-          "type": "operator_assignment",
-          "named": true
-        },
-        {
-          "type": "return",
-          "named": true
-        },
-        {
-          "type": "yield",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2737,12 +2715,8 @@
       },
       "consequence": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "then",
             "named": true
