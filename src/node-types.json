@@ -1161,6 +1161,25 @@
     }
   },
   {
+    "type": "do",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_statement",
+          "named": true
+        },
+        {
+          "type": "empty_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "do_block",
     "named": true,
     "fields": {},
@@ -1388,14 +1407,20 @@
     "type": "for",
     "named": true,
     "fields": {
-      "pattern": {
+      "body": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
+            "type": "do",
+            "named": true
+          }
+        ]
+      },
+      "pattern": {
+        "multiple": true,
+        "required": true,
+        "types": [
           {
             "type": "_lhs",
             "named": true
@@ -1420,20 +1445,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "_statement",
-          "named": true
-        },
-        {
-          "type": "empty_statement",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2787,6 +2798,16 @@
     "type": "until",
     "named": true,
     "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "do",
+            "named": true
+          }
+        ]
+      },
       "condition": {
         "multiple": false,
         "required": true,
@@ -2797,20 +2818,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "_statement",
-          "named": true
-        },
-        {
-          "type": "empty_statement",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2905,6 +2912,16 @@
     "type": "while",
     "named": true,
     "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "do",
+            "named": true
+          }
+        ]
+      },
       "condition": {
         "multiple": false,
         "required": true,
@@ -2915,20 +2932,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "_statement",
-          "named": true
-        },
-        {
-          "type": "empty_statement",
-          "named": true
-        }
-      ]
     }
   },
   {
