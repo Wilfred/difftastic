@@ -658,16 +658,6 @@ module.exports = grammar({
       $.constant
     )),
 
-    constant: $ => token(seq(/[A-Z]/, IDENTIFIER_CHARS, /(\?|\!)?/)),
-
-    identifier: $ => token(seq(LOWER_ALPHA_CHAR, IDENTIFIER_CHARS, /(\?|\!)?/)),
-
-    instance_variable: $ => token(seq('@', ALPHA_CHAR, IDENTIFIER_CHARS)),
-
-    class_variable: $ => token(seq('@@', ALPHA_CHAR, IDENTIFIER_CHARS)),
-
-    global_variable: $ => /\$-?(([!@&`'+~=/\\,;.<>*$?:"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))/,
-
     operator: $ => choice(
       '..', '|', '^', '&', '<=>', '==', '===', '=~', '>', '>=', '<', '<=', '+',
       '-', '*', '/', '%', '!', '!~', '**', '<<', '>>', '~', '+@', '-@', '[]', '[]=', '`'
@@ -712,10 +702,17 @@ module.exports = grammar({
     complex: $ => /(\d+)?(\+|-)?(\d+)i/,
     rational: $ => seq($.integer, 'r'),
     super: $ => 'super',
-    true: $ => choice('true', 'TRUE'),
-    false: $ => choice('false', 'FALSE'),
     self: $ => 'self',
-    nil: $ => choice('nil', 'NIL'),
+    true: $ => token(choice('true', 'TRUE')),
+    false: $ => token(choice('false', 'FALSE')),
+    nil: $ => token(choice('nil', 'NIL')),
+
+    constant: $ => token(seq(/[A-Z]/, IDENTIFIER_CHARS, /(\?|\!)?/)),
+    identifier: $ => token(seq(LOWER_ALPHA_CHAR, IDENTIFIER_CHARS, /(\?|\!)?/)),
+    instance_variable: $ => token(seq('@', ALPHA_CHAR, IDENTIFIER_CHARS)),
+    class_variable: $ => token(seq('@@', ALPHA_CHAR, IDENTIFIER_CHARS)),
+
+    global_variable: $ => /\$-?(([!@&`'+~=/\\,;.<>*$?:"])|([0-9]*)|([a-zA-Z_][a-zA-Z0-9_]*))/,
 
     chained_string: $ => seq($.string, repeat1($.string)),
 
