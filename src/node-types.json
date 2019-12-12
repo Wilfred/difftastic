@@ -538,6 +538,44 @@
     }
   },
   {
+    "type": "bare_string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "bare_symbol",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "begin",
     "named": true,
     "fields": {},
@@ -1351,11 +1389,6 @@
     }
   },
   {
-    "type": "false",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "for",
     "named": true,
     "fields": {
@@ -1906,11 +1939,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "nil",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "operator",
@@ -2638,11 +2666,6 @@
     }
   },
   {
-    "type": "true",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "unary",
     "named": true,
     "fields": {},
@@ -3020,6 +3043,10 @@
     "named": false
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "#{",
     "named": false
   },
@@ -3029,6 +3056,14 @@
   },
   {
     "type": "%=",
+    "named": false
+  },
+  {
+    "type": "%i(",
+    "named": false
+  },
+  {
+    "type": "%w(",
     "named": false
   },
   {
@@ -3132,6 +3167,10 @@
     "named": false
   },
   {
+    "type": ":\"",
+    "named": false
+  },
+  {
     "type": "::",
     "named": false
   },
@@ -3205,18 +3244,6 @@
   },
   {
     "type": "END",
-    "named": false
-  },
-  {
-    "type": "FALSE",
-    "named": false
-  },
-  {
-    "type": "NIL",
-    "named": false
-  },
-  {
-    "type": "TRUE",
     "named": false
   },
   {
@@ -3325,7 +3352,7 @@
   },
   {
     "type": "false",
-    "named": false
+    "named": true
   },
   {
     "type": "float",
@@ -3337,6 +3364,14 @@
   },
   {
     "type": "global_variable",
+    "named": true
+  },
+  {
+    "type": "heredoc_beginning",
+    "named": true
+  },
+  {
+    "type": "heredoc_end",
     "named": true
   },
   {
@@ -3369,7 +3404,7 @@
   },
   {
     "type": "nil",
-    "named": false
+    "named": true
   },
   {
     "type": "not",
@@ -3413,7 +3448,7 @@
   },
   {
     "type": "true",
-    "named": false
+    "named": true
   },
   {
     "type": "undef",
