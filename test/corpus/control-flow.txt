@@ -8,7 +8,8 @@ end
 ---
 
 (program (while
-  condition: (identifier)))
+  condition: (identifier)
+  body: (do)))
 
 ================
 while without do
@@ -19,7 +20,9 @@ end
 
 ---
 
-(program (while (identifier)))
+(program (while
+  condition: (identifier)
+  body: (do)))
 
 =========================
 while statement with body
@@ -31,7 +34,9 @@ end
 
 ---
 
-(program (while (identifier) (identifier)))
+(program (while
+  condition: (identifier)
+  body: (do (identifier))))
 
 =====================
 empty until statement
@@ -42,7 +47,9 @@ end
 
 ---
 
-(program (until (identifier)))
+(program (until
+  condition: (identifier)
+  body: (do)))
 
 =========================
 until statement with body
@@ -54,7 +61,9 @@ end
 
 ---
 
-(program (until (identifier) (identifier)))
+(program (until
+  (identifier)
+  (do (identifier))))
 
 ==================
 empty if statement
@@ -65,7 +74,8 @@ end
 
 ---
 
-(program (if (identifier)))
+(program (if
+  condition: (identifier)))
 
 =======================
 empty if/else statement
@@ -189,7 +199,7 @@ for x in y do
 	f
 end
 
-for x, y in z do
+for x, *y in z do
 	f
 end
 
@@ -199,12 +209,12 @@ end
   (for
     pattern: (identifier)
     value: (in (identifier))
-    (identifier))
+    body: (do (identifier)))
   (for
     pattern: (identifier)
-    pattern: (identifier)
+    pattern: (rest_assignment (identifier))
     value: (in (identifier))
-    (identifier)))
+    body: (do (identifier))))
 
 ==============
 for without do
@@ -216,7 +226,10 @@ end
 
 ---
 
-(program (for (identifier) (in (identifier)) (identifier)))
+(program (for
+  pattern: (identifier)
+  value: (in (identifier))
+  body: (do (identifier))))
 
 ==============
 next
@@ -228,7 +241,7 @@ end
 
 ---
 
-(program (for (identifier) (in (identifier)) (next)))
+(program (for (identifier) (in (identifier)) (do (next))))
 
 ==============
 retry
@@ -240,7 +253,10 @@ end
 
 ---
 
-(program (for (identifier) (in (identifier)) (retry)))
+(program (for
+  pattern: (identifier)
+  value: (in (identifier))
+  body: (do (retry))))
 
 ==============
 break
@@ -252,7 +268,7 @@ end
 
 ---
 
-(program (while (identifier) (break)))
+(program (while (identifier) (do (break))))
 
 ==============
 redo
@@ -264,7 +280,8 @@ end
 
 ---
 
-(program (while (identifier) (redo)))
+
+(program (while (identifier) (do (redo))))
 
 ===========
 empty begin

@@ -276,30 +276,32 @@ module.exports = grammar({
     while: $ => seq(
       'while',
       field('condition', $._arg),
-      $._do,
-      optional($._statements),
-      'end'
+      field('body', $.do)
     ),
 
     until: $ => seq(
       'until',
       field('condition', $._arg),
-      $._do,
-      optional($._statements),
-      'end'
+      field('body', $.do)
     ),
 
     for: $ => seq(
       'for',
-      field('pattern', $._mlhs),
+      commaSep1(field('pattern', choice(
+        $._lhs,
+        $.rest_assignment,
+        $.destructured_left_assignment
+      ))),
       field('value', $.in),
-      $._do,
-      optional($._statements),
-      'end'
+      field('body', $.do)
     ),
 
     in: $ => seq('in', $._arg),
-    _do: $ => choice('do', $._terminator),
+    do: $ => seq(
+      choice('do', $._terminator),
+      optional($._statements),
+      'end'
+    ),
 
     case: $ => seq(
       'case',

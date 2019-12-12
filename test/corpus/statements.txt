@@ -31,7 +31,9 @@ foo while bar
 
 ---
 
-(program (while_modifier (identifier) (identifier)))
+(program (while_modifier
+  body: (identifier)
+  condition: (identifier)))
 
 ===============
 unless modifier
@@ -41,7 +43,9 @@ foo unless bar
 
 ---
 
-(program (unless_modifier (identifier) (identifier)))
+(program (unless_modifier
+  body: (identifier)
+  condition: (identifier)))
 
 ==============
 until modifier
