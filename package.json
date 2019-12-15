@@ -16,6 +16,6 @@
     "tree-sitter-cli": "^0.16.0"
   },
   "scripts": {
-    "test": "tree-sitter test"
+    "test": "tree-sitter test && node test.js"
   }
 }

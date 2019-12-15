@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "ts_language_c_sharp_binding",
+      "target_name": "tree_sitter_c_sharp_binding",
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
         "src"
