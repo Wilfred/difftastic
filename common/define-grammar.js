@@ -513,9 +513,18 @@ module.exports = function defineGrammar(dialect) {
         $._type,
       )),
 
-      literal_type: $ => choice(alias($._number, $.unary_expression), $.number, $.string, $.true, $.false),
+      literal_type: $ => choice(
+        alias($._number, $.unary_expression),
+        $.number,
+        $.string,
+        $.true,
+        $.false
+      ),
 
-      _number: $ => prec.left(PREC.NEG, seq(choice('-', '+'), $.number)),
+      _number: $ => prec.left(PREC.NEG, seq(
+        field('operator', choice('-', '+')),
+        field('argument', $.number)
+      )),
 
       existential_type: $ => '*',
 

@@ -5504,17 +5504,21 @@
     "fields": {
       "argument": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "number",
             "named": true
           }
         ]
       },
       "operator": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "!",
@@ -5546,16 +5550,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "number",
-          "named": true
-        }
-      ]
     }
   },
   {
