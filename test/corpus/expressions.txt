@@ -118,6 +118,9 @@ int main() {
   "b" "c" "d";
   "\"hi\"";
   L"bonjour";
+  u"guten morgen";
+  U"buenos dias";
+  u8"buongiorno";
 }
 
 ---
@@ -130,6 +133,9 @@ int main() {
       (expression_statement (string_literal))
       (expression_statement (concatenated_string (string_literal) (string_literal) (string_literal)))
       (expression_statement (string_literal (escape_sequence) (escape_sequence)))
+      (expression_statement (string_literal))
+      (expression_statement (string_literal))
+      (expression_statement (string_literal))
       (expression_statement (string_literal)))))
 
 ============================================
@@ -142,6 +148,9 @@ int main() {
   '\t';
   '\'';
   L'b';
+  u'c';
+  U'\xa1';
+  u8'\x1A';
 }
 
 ---
@@ -155,7 +164,10 @@ int main() {
       (expression_statement (char_literal (escape_sequence)))
       (expression_statement (char_literal (escape_sequence)))
       (expression_statement (char_literal (escape_sequence)))
-      (expression_statement (char_literal)))))
+      (expression_statement (char_literal))
+      (expression_statement (char_literal))
+      (expression_statement (char_literal (escape_sequence)))
+      (expression_statement (char_literal (escape_sequence))))))
 
 ============================================
 Field access
