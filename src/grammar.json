@@ -4907,6 +4907,18 @@
             },
             {
               "type": "STRING",
+              "value": "u'"
+            },
+            {
+              "type": "STRING",
+              "value": "U'"
+            },
+            {
+              "type": "STRING",
+              "value": "u8'"
+            },
+            {
+              "type": "STRING",
               "value": "'"
             }
           ]
@@ -4958,6 +4970,18 @@
             {
               "type": "STRING",
               "value": "L\""
+            },
+            {
+              "type": "STRING",
+              "value": "u\""
+            },
+            {
+              "type": "STRING",
+              "value": "U\""
+            },
+            {
+              "type": "STRING",
+              "value": "u8\""
             },
             {
               "type": "STRING",
