@@ -107,7 +107,7 @@ int b;
       name: (identifier)
       value: (preproc_arg))
     alternative: (preproc_elif
-      condition: (preproc_arg)
+      condition: (preproc_defined (identifier))
       alternative: (preproc_else
         (declaration
           type: (primitive_type)
@@ -140,14 +140,24 @@ General if blocks
 ---
 
 (translation_unit
-  (preproc_if (preproc_arg)
-    (preproc_def (identifier) (preproc_arg))
-    (preproc_elif (preproc_arg)
-      (preproc_def (identifier))
-      (preproc_elif (preproc_arg)
-        (preproc_def (identifier))
-        (preproc_else
-          (preproc_include (system_lib_string)))))))
+  (preproc_if
+    condition: (binary_expression
+      left: (preproc_defined (identifier))
+      right: (preproc_defined (identifier)))
+    (preproc_def
+      name: (identifier)
+      value: (preproc_arg))
+    alternative: (preproc_elif
+      condition: (preproc_defined (identifier))
+      (preproc_def
+        name: (identifier))
+      alternative: (preproc_elif
+        condition: (unary_expression
+          argument: (preproc_defined (identifier)))
+        (preproc_def
+          name: (identifier))
+        alternative: (preproc_else
+          (preproc_include path: (system_lib_string)))))))
 
 ============================================
 Preprocessor conditionals in functions
@@ -179,15 +189,18 @@ int main() {
     (function_declarator (identifier) (parameter_list))
     (compound_statement
       (preproc_if
-        (preproc_arg)
+        (identifier)
         (expression_statement (call_expression (identifier) (argument_list (string_literal))))
         (preproc_else
           (expression_statement (call_expression (identifier) (argument_list (string_literal))))))
-      (preproc_if (preproc_arg)
+      (preproc_if
+        (identifier)
         (return_statement (number_literal))
-        (preproc_elif (preproc_arg)
+        (preproc_elif
+          (identifier)
           (return_statement (number_literal))
-          (preproc_elif (preproc_arg)
+          (preproc_elif
+            (identifier)
             (return_statement (number_literal))
             (preproc_else
               (return_statement (number_literal)))))))))
@@ -224,3 +237,24 @@ Unknown preprocessor directives
 (translation_unit (preproc_call
   directive: (preproc_directive)
   argument: (preproc_arg)))
+
+======================================
+Preprocessor expressions
+======================================
+
+#if A(B || C) && \
+    !D(F)
+
+uint32_t a;
+
+#endif
+
+---
+
+(translation_unit
+  (preproc_if
+    (binary_expression
+      (call_expression (identifier) (argument_list (binary_expression (identifier) (identifier))))
+      (unary_expression
+        (call_expression (identifier) (argument_list (identifier)))))
+    (declaration (primitive_type) (identifier))))
