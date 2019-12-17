@@ -19,8 +19,26 @@ struct Scanner {
 
     lexer->result_symbol = RAW_STRING_LITERAL;
 
+    // Raw string literals can start with: R, LR, uR, UR, u8R
     // Consume 'R'
-    if (lexer->lookahead != 'R') return false;
+    if (lexer->lookahead == 'L' || lexer->lookahead == 'U') {
+      lexer->advance(lexer, false);
+      if (lexer->lookahead != 'R') {
+        return false;
+      }
+    } else if (lexer->lookahead == 'u') {
+      lexer->advance(lexer, false);
+      if (lexer->lookahead == '8') {
+        lexer->advance(lexer, false);
+        if (lexer->lookahead != 'R') {
+          return false;
+        }
+      } else if (lexer->lookahead != 'R') {
+        return false;
+      }
+    } else if (lexer->lookahead != 'R') {
+      return false;
+    }
     lexer->advance(lexer, false);
 
     // Consume '"'
