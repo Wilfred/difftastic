@@ -348,6 +348,10 @@
         "named": true
       },
       {
+        "type": "decltype",
+        "named": true
+      },
+      {
         "type": "dependent_type",
         "named": true
       },
@@ -1526,6 +1530,21 @@
         },
         {
           "type": "using_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "decltype",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
           "named": true
         }
       ]
@@ -5099,6 +5118,10 @@
   },
   {
     "type": "continue",
+    "named": false
+  },
+  {
+    "type": "decltype",
     "named": false
   },
   {
