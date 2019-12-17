@@ -1644,13 +1644,9 @@
     "named": true,
     "fields": {
       "base": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "scoped_type_identifier",
             "named": true
@@ -1681,6 +1677,10 @@
         "types": [
           {
             "type": "scoped_type_identifier",
+            "named": true
+          },
+          {
+            "type": "template_type",
             "named": true
           },
           {

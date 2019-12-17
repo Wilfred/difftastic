@@ -2997,66 +2997,70 @@
       ]
     },
     "_type_specifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "struct_specifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "union_specifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "enum_specifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "macro_type_specifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "sized_type_specifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "primitive_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_type_identifier"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "class_specifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "scoped_type_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "template_type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "auto"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "dependent_type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "decltype"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "struct_specifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "union_specifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "enum_specifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "macro_type_specifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "sized_type_specifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "primitive_type"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_type_identifier"
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "class_specifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "scoped_type_identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "template_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "auto"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "dependent_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "decltype"
+          }
+        ]
+      }
     },
     "sized_type_specifier": {
       "type": "SEQ",
@@ -3257,72 +3261,37 @@
                     "type": "FIELD",
                     "name": "name",
                     "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "scoped_type_identifier"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "_type_identifier"
-                        }
-                      ]
+                      "type": "SYMBOL",
+                      "name": "_class_name"
                     }
                   },
                   {
-                    "type": "FIELD",
-                    "name": "base",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SEQ",
-                          "members": [
-                            {
-                              "type": "STRING",
-                              "value": ":"
-                            },
-                            {
-                              "type": "CHOICE",
-                              "members": [
-                                {
-                                  "type": "SYMBOL",
-                                  "name": "scoped_type_identifier"
-                                },
-                                {
-                                  "type": "SYMBOL",
-                                  "name": "_type_identifier"
-                                },
-                                {
-                                  "type": "SYMBOL",
-                                  "name": "sized_type_specifier"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
-                    }
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_enum_base_clause"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   },
                   {
-                    "type": "FIELD",
-                    "name": "body",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "FIELD",
+                        "name": "body",
+                        "content": {
                           "type": "SYMBOL",
                           "name": "enumerator_list"
-                        },
-                        {
-                          "type": "BLANK"
                         }
-                      ]
-                    }
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   }
                 ]
               },
@@ -7041,21 +7010,25 @@
       }
     },
     "_class_name": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_type_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "scoped_type_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "template_type"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_type_identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "scoped_type_identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "template_type"
+          }
+        ]
+      }
     },
     "virtual_specifier": {
       "type": "CHOICE",
@@ -7230,6 +7203,40 @@
           ]
         }
       ]
+    },
+    "_enum_base_clause": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "FIELD",
+            "name": "base",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "scoped_type_identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_type_identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "sized_type_specifier"
+                }
+              ]
+            }
+          }
+        ]
+      }
     },
     "auto": {
       "type": "STRING",
@@ -9732,10 +9739,6 @@
       "field_expression"
     ],
     [
-      "_type_specifier",
-      "template_type"
-    ],
-    [
       "scoped_type_identifier",
       "scoped_identifier"
     ],
@@ -9746,10 +9749,6 @@
     [
       "comma_expression",
       "initializer_list"
-    ],
-    [
-      "_type_specifier",
-      "optional_type_parameter_declaration"
     ],
     [
       "_expression",
@@ -9783,8 +9782,7 @@
     "_statement_identifier",
     "_non_case_statement",
     "_assignment_left_expression",
-    "_namespace_identifier",
-    "_class_name"
+    "_namespace_identifier"
   ],
   "supertypes": [
     "_expression",
