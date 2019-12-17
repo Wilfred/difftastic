@@ -46,6 +46,11 @@ module.exports = grammar(C, {
       alias($.constructor_or_destructor_definition, $.function_definition)
     ),
 
+    call_expression: $ => prec(PREC.CALL, seq(
+      field('function', choice($._expression, $.primitive_type)),
+      field('arguments', $.argument_list)
+    )),
+
     // Types
 
     decltype: $ => seq(

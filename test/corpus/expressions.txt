@@ -610,3 +610,30 @@ R"(a)" R"(b)" R"(c)";
   (expression_statement (concatenated_string (string_literal) (string_literal) (string_literal)))
   (expression_statement (concatenated_string (raw_string_literal) (raw_string_literal) (raw_string_literal)))
   (expression_statement (concatenated_string (string_literal) (raw_string_literal) (string_literal) (raw_string_literal))))
+
+====================================================
+Primitive types ctor
+====================================================
+
+x = int(1);
+x = new int(1);
+x = (int(1) + float(2));
+
+---
+
+(translation_unit
+  (expression_statement
+    (assignment_expression
+      (identifier)
+      (call_expression (primitive_type) (argument_list (number_literal)))))
+  (expression_statement
+    (assignment_expression
+      (identifier)
+      (new_expression (primitive_type) (argument_list (number_literal)))))
+  (expression_statement
+    (assignment_expression
+      (identifier)
+      (parenthesized_expression
+        (binary_expression
+          (call_expression (primitive_type) (argument_list (number_literal)))
+          (call_expression (primitive_type) (argument_list (number_literal))))))))
