@@ -22,6 +22,11 @@ Object-like macro definitions
   e : \
   f
 #define FOUR (mno * pq)
+#define FIVE(a,b) x \
+                  + y
+#define SIX(a,   \
+            b) x \
+               + y
 
 ---
 
@@ -29,7 +34,9 @@ Object-like macro definitions
   (preproc_def name: (identifier))
   (preproc_def name: (identifier) value: (preproc_arg))
   (preproc_def name: (identifier) value: (preproc_arg))
-  (preproc_def name: (identifier) value: (preproc_arg)))
+  (preproc_def name: (identifier) value: (preproc_arg))
+  (preproc_function_def name: (identifier) parameters: (preproc_params (identifier) (identifier)) value: (preproc_arg))
+  (preproc_function_def name: (identifier) parameters: (preproc_params (identifier) (identifier)) value: (preproc_arg)))
 
 ============================================
 Function-like macro definitions
