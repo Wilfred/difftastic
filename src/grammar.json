@@ -8616,8 +8616,21 @@
                   "type": "FIELD",
                   "name": "message",
                   "content": {
-                    "type": "SYMBOL",
-                    "name": "string_literal"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "string_literal"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "raw_string_literal"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "concatenated_string"
+                      }
+                    ]
                   }
                 }
               ]

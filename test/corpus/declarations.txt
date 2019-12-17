@@ -943,6 +943,8 @@ static_assert declarations
 class A { static_assert(true, "message"); };
 void f() { static_assert(false); }
 static_assert(std::is_constructible<A>::value);
+static_assert(true, "string1" "string2");
+static_assert(true, R"FOO(string)FOO");
 
 ---
 
@@ -970,4 +972,10 @@ static_assert(std::is_constructible<A>::value);
       arguments: (template_argument_list
       (type_descriptor
         type: (type_identifier))))
-    name: (identifier))))
+    name: (identifier)))
+  (static_assert_declaration
+    condition: (true)
+    message: (concatenated_string (string_literal) (string_literal)))
+  (static_assert_declaration
+    condition: (true)
+    message: (raw_string_literal)))
