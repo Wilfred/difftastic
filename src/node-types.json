@@ -360,10 +360,6 @@
         "named": true
       },
       {
-        "type": "macro_type_specifier",
-        "named": true
-      },
-      {
         "type": "primitive_type",
         "named": true
       },
@@ -2611,11 +2607,6 @@
         ]
       }
     }
-  },
-  {
-    "type": "macro_type_specifier",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "namespace_definition",
