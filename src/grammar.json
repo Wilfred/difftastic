@@ -4066,6 +4066,35 @@
         ]
       }
     },
+    "_assignment_left_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "call_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "field_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pointer_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "subscript_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parenthesized_expression"
+        }
+      ]
+    },
     "assignment_expression": {
       "type": "PREC_RIGHT",
       "value": -1,
@@ -4076,33 +4105,8 @@
             "type": "FIELD",
             "name": "left",
             "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "identifier"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "call_expression"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "field_expression"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "pointer_expression"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "subscript_expression"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "parenthesized_expression"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_assignment_left_expression"
             }
           },
           {
@@ -6154,7 +6158,8 @@
     "_type_identifier",
     "_field_identifier",
     "_statement_identifier",
-    "_non_case_statement"
+    "_non_case_statement",
+    "_assignment_left_expression"
   ],
   "supertypes": [
     "_expression",
