@@ -532,7 +532,11 @@ module.exports = grammar(C, {
       field('condition', $._expression),
       optional(seq(
         ',',
-        field('message', $.string_literal)
+        field('message', choice(
+          $.string_literal,
+          $.raw_string_literal,
+          $.concatenated_string,
+        ))
       )),
       ')',
       ';'
