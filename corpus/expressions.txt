@@ -1,6 +1,6 @@
-==========
+==========================
 Exponentiation
-==========
+==========================
 
 <?php
 $foo = 2 ** 2;
@@ -9,9 +9,9 @@ $foo = 2 ** 2;
 
 (program (expression_statement (assignment_expression (variable_name (name)) (exponentiation_expression (integer) (integer)))))
 
-==========
+==========================
 Reserved Identifiers as Names
-==========
+==========================
 
 <?php
 $foo = new self();
@@ -20,9 +20,9 @@ $foo = new self();
 
 (program (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))))
 
-==========
+==========================
 Unary op with assignment expressions
-==========
+==========================
 
 <?php
 
@@ -32,9 +32,9 @@ if (!$foo = $bar) {
 ---
 (program (if_statement (unary_op_expression (assignment_expression (variable_name (name)) (variable_name (name)))) (compound_statement)))
 
-==========
+==========================
 Trait use clauses
-==========
+==========================
 
 <?php
 
@@ -49,9 +49,9 @@ trait AbstractTrait
 
 (program (trait_declaration (name) (trait_use_clause (qualified_name (name))) (trait_use_clause (qualified_name (name)) (qualified_name (name)) (trait_use_specification)) (trait_use_clause (qualified_name (name)) (qualified_name (name)))))
 
-==========
+==========================
 Heredocs
-==========
+==========================
 
 <?php
 
@@ -78,11 +78,17 @@ foo #{bar}
 HERE;
 
 ---
-(program (expression_statement (heredoc)) (expression_statement (heredoc)) (text_interpolation) (expression_statement (heredoc)) (expression_statement (heredoc)) (expression_statement (heredoc)))
+(program
+  (expression_statement (heredoc))
+  (expression_statement (heredoc))
+  (text_interpolation)
+  (expression_statement (heredoc))
+  (expression_statement (heredoc))
+  (expression_statement (heredoc)))
 
-==========
+==========================
 Cast expressions in assignments
-==========
+==========================
 
 <?php
 
@@ -92,9 +98,9 @@ Cast expressions in assignments
 
 (program (expression_statement (assignment_expression (cast_expression (cast_type) (variable_name (name))) (cast_expression (cast_type) (variable_name (name))))))
 
-==========
+==========================
 Reserved words as function calls
-==========
+==========================
 
 <?php
 $foo = new static($this->current());
@@ -104,9 +110,9 @@ $foo = new static($this->current());
 (program (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments (member_call_expression (variable_name (name)) (name) (arguments)))))))
 
 
-==========
+==========================
 Trait use clauses
-==========
+==========================
 
 <?php
 class AbstractCache
@@ -123,9 +129,9 @@ class AbstractCache
 
 (program (class_declaration (name) (trait_use_clause (qualified_name (name)) (trait_use_specification (trait_alias_as_clause (name) (visibility_modifier)) (trait_alias_as_clause (class_constant_access_expression (qualified_name (name)) (name)) (name)) (trait_alias_as_clause (class_constant_access_expression (qualified_name (name)) (name)) (name))))))
 
-==========
+==========================
 Floats
-==========
+==========================
 
 <?php
 
@@ -140,9 +146,9 @@ Floats
 
 (program (expression_statement (float)) (expression_statement (float)) (expression_statement (float)) (expression_statement (float)) (expression_statement (float)))
 
-==========
+==========================
 Nowdocs
-==========
+==========================
 
 <?php
 
@@ -156,9 +162,9 @@ PHP
 
 (program (expression_statement (heredoc)))
 
-==========
+==========================
 Scoped self call expressions
-==========
+==========================
 
 <?php
 
@@ -168,9 +174,9 @@ m::self();
 
 (program (expression_statement (scoped_call_expression (qualified_name (name)) (name) (arguments))))
 
-==========
+==========================
 Namespace names in namespaces
-==========
+==========================
 
 <?php
 
@@ -183,21 +189,21 @@ namespace Be \ ta {
 
 (program (namespace_definition (namespace_name (name) (name)) (compound_statement (class_declaration (name)) (class_declaration (name)))))
 
-==========
+==========================
 Destructuring
-==========
+==========================
 
 <?php
 [$error, $canonicalized] = Json::canonicalize($actual);
 
 ---
 
-(program (expression_statement (assignment_expression (array_creation_expression (array_element_initializer (variable_name (name))) (array_element_initializer (variable_name (name)))) (scoped_call_expression (qualified_name (name)) (name) (arguments (variable_name (name))))))) 
+(program (expression_statement (assignment_expression (array_creation_expression (array_element_initializer (variable_name (name))) (array_element_initializer (variable_name (name)))) (scoped_call_expression (qualified_name (name)) (name) (arguments (variable_name (name)))))))
 
 
-================================================
+================================================================
 Precedence of assignment, `or`, `xor`, and `and`
-================================================
+================================================================
 
 <?php
 $x = true and false;
@@ -208,8 +214,7 @@ $x = true and true or true xor true and true;
 
 ---
 
-(program
-  (expression_statement
+(program (expression_statement
     (binary_expression
       (assignment_expression
         (variable_name
@@ -256,9 +261,9 @@ $x = true and true or true xor true and true;
             (name)))))))
 
 
-============================
+============================================
 Associativity of conditional
-============================
+============================================
 
 <?php
 true ? false : true ? "a" : "b";
@@ -266,8 +271,7 @@ true ? false : true ? "a" : "b";
 
 ---
 
-(program
-  (expression_statement
+(program (expression_statement
     (conditional_expression
       (conditional_expression
         (qualified_name
@@ -280,9 +284,9 @@ true ? false : true ? "a" : "b";
       (string))))
 
 
-=================================
+=================================================
 Associativity of null-coalescence
-=================================
+=================================================
 
 <?php
 NULL ?? NULL ?? 1;
@@ -290,8 +294,7 @@ NULL ?? NULL ?? 1;
 
 ---
 
-(program
-  (expression_statement
+(program (expression_statement
     (binary_expression
       (qualified_name
         (name))
@@ -301,9 +304,9 @@ NULL ?? NULL ?? 1;
         (integer)))))
 
 
-=========================
+=========================================
 Associativity of negation
-=========================
+=========================================
 
 <?php
 -1 * -1;
@@ -312,8 +315,7 @@ Associativity of negation
 
 ---
 
-(program
-  (expression_statement
+(program (expression_statement
     (binary_expression
       (unary_op_expression
         (integer))
@@ -328,9 +330,9 @@ Associativity of negation
           (name))))))
 
 
-====================
+====================================
 Augmented assignment
-====================
+====================================
 
 <?php
 $i .= $j = "a";
@@ -341,8 +343,7 @@ $i .= "a" . "b";
 
 ---
 
-(program
-  (expression_statement
+(program (expression_statement
     (augmented_assignment_expression
       (variable_name
         (name))
@@ -374,9 +375,9 @@ $i .= "a" . "b";
         (string)))))
 
 
-===============================
+===============================================
 All binary op precedence levels
-===============================
+===============================================
 
 <?php
 1 or 2 xor 3 and $i .= 4 ?? 5 || 6 && 7 | 8 ^ 9 & 10 == 11 > 12 << 13 + 14 * (int) 15 instanceof foo;
@@ -385,8 +386,7 @@ All binary op precedence levels
 
 ---
 
-(program
-  (expression_statement
+(program (expression_statement
     (binary_expression
       (integer)
       (binary_expression

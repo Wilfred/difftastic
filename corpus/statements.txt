@@ -1,0 +1,2475 @@
+==============================
+Simple If condition test
+==============================
+
+<?php $a=1; if($a>0) { echo "Yes"; } ?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (integer))) (if_statement (binary_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (string)))))
+
+==============================
+Simple While Loop Test
+==============================
+
+<?php
+$a=1;
+while ($a<10) {
+	echo $a;
+	$a++;
+}
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (integer))) (while_statement (binary_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (variable_name (name))) (expression_statement (update_expression (variable_name (name)))))))
+
+==============================
+Simple Switch Test
+==============================
+
+<?php
+$a=1;
+switch($a) {
+	case 0:
+		echo "bad";
+		break;
+	case 1:
+		echo "good";
+		break;
+	default:
+		echo "bad";
+		break;
+}
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (integer))) (switch_statement (variable_name (name)) (case_statement (integer) (echo_statement (string)) (break_statement)) (case_statement (integer) (echo_statement (string)) (break_statement)) (default_statement (echo_statement (string)) (break_statement))))
+
+==============================
+Simple If/Else Test
+==============================
+
+<?php
+$a=1;
+if($a==0) {
+	echo "bad";
+} else {
+	echo "good";
+}
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (integer))) (if_statement (binary_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (string))) (else_clause (compound_statement (echo_statement (string))))))
+
+==============================
+Simple If/ElseIf/Else Test
+==============================
+
+<?php
+$a=1;
+
+if($a==0) {
+	echo "bad";
+} elseif($a==3) {
+	echo "bad";
+} else {
+	echo "good";
+}
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (integer))) (if_statement (binary_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (string))) (else_if_clause (binary_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (string)))) (else_clause (compound_statement (echo_statement (string))))))
+
+==============================
+Nested If/ElseIf/Else Test
+==============================
+
+<?php
+$a=1;
+$b=2;
+
+if($a==0) {
+	echo "bad";
+} elseif($a==3) {
+	echo "bad";
+} else {
+	if($b==1) {
+		echo "bad";
+	} elseif($b==2) {
+		echo "good";
+	} else {
+		echo "bad";
+	}
+}
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (integer))) (if_statement (binary_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (string))) (else_if_clause (binary_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (string)))) (else_clause (compound_statement (if_statement (binary_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (string))) (else_if_clause (binary_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (string)))) (else_clause (compound_statement (echo_statement (string)))))))))
+
+==============================
+Function call with global and static variables
+==============================
+
+<?php
+error_reporting(0);
+$a = 10;
+
+function Test()
+{
+	static $a=1;
+	global $b;
+	$c = 1;
+	$b = 5;
+	echo "$a $b ";
+	$a++;
+	$c++;
+	echo "$a $c ";
+}
+
+Test();
+echo "$a $b $c ";
+Test();
+echo "$a $b $c ";
+Test();
+?>
+
+---
+
+(program (expression_statement (function_call_expression (qualified_name (name)) (arguments (integer)))) (expression_statement (assignment_expression (variable_name (name)) (integer))) (function_definition (name) (formal_parameters) (compound_statement (function_static_declaration (static_variable_declaration (variable_name (name)) (integer))) (global_declaration (variable_name (name))) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (integer))) (echo_statement (string)) (expression_statement (update_expression (variable_name (name)))) (expression_statement (update_expression (variable_name (name)))) (echo_statement (string)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))))
+
+==============================
+Testing recursive function
+==============================
+
+<?php
+
+function Test()
+{
+	static $a=1;
+	echo "$a ";
+	$a++;
+	if($a<10): Test(); endif;
+}
+
+Test();
+
+?>
+
+---
+
+(program (function_definition (name) (formal_parameters) (compound_statement (function_static_declaration (static_variable_declaration (variable_name (name)) (integer))) (echo_statement (string)) (expression_statement (update_expression (variable_name (name)))) (if_statement (binary_expression (variable_name (name)) (integer)) (expression_statement (function_call_expression (qualified_name (name)) (arguments)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))))
+
+==============================
+Testing function parameter passing
+==============================
+
+<?php
+function test ($a,$b) {
+	echo $a+$b;
+}
+test(1,2);
+?>
+
+---
+
+(program (function_definition (name) (formal_parameters (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name)))) (compound_statement (echo_statement (binary_expression (variable_name (name)) (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (integer) (integer)))))
+
+==============================
+Testing function parameter passing with a return value
+==============================
+
+<?php
+function test ($b) {
+	$b++;
+	return($b);
+}
+$a = test(1);
+echo $a;
+?>
+
+---
+
+ (program (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (expression_statement (update_expression (variable_name (name)))) (return_statement (parenthesized_expression (variable_name (name)))))) (expression_statement (assignment_expression (variable_name (name)) (function_call_expression (qualified_name (name)) (arguments (integer))))) (echo_statement (variable_name (name))))
+
+==============================
+Testing nested functions
+==============================
+
+<?php
+function F()
+{
+	$a = "Hello ";
+	return($a);
+}
+
+function G()
+{
+  static $myvar = 4;
+
+  echo "$myvar ";
+  echo F();
+  echo "$myvar";
+}
+
+G();
+?>
+
+---
+
+(program (function_definition (name) (formal_parameters) (compound_statement (expression_statement (assignment_expression (variable_name (name)) (string))) (return_statement (parenthesized_expression (variable_name (name)))))) (function_definition (name) (formal_parameters) (compound_statement (function_static_declaration (static_variable_declaration (variable_name (name)) (integer))) (echo_statement (string)) (echo_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))))
+
+==============================
+Testing stack after early function return
+==============================
+
+<?php
+function F () {
+	if(1) {
+		return("Hello");
+	}
+}
+
+$i=0;
+while ($i<2) {
+	echo F();
+	$i++;
+}
+?>
+
+---
+
+(program (function_definition (name) (formal_parameters) (compound_statement (if_statement (integer) (compound_statement (return_statement (parenthesized_expression (string))))))) (expression_statement (assignment_expression (variable_name (name)) (integer))) (while_statement (binary_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (update_expression (variable_name (name)))))))
+
+==============================
+Testing eval function
+==============================
+
+<?php
+error_reporting(0);
+$a="echo \"Hello\";";
+eval($a);
+?>
+
+---
+
+(program (expression_statement (function_call_expression (qualified_name (name)) (arguments (integer)))) (expression_statement (assignment_expression (variable_name (name)) (string))) (expression_statement (eval_intrinsic (variable_name (name)))))
+
+==============================
+Testing eval function inside user-defined function
+==============================
+
+<?php
+function F ($a) {
+	eval($a);
+}
+
+error_reporting(0);
+F("echo \"Hello\";");
+?>
+
+---
+
+(program (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (expression_statement (eval_intrinsic (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (integer)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))))
+
+==============================
+Testing include
+==============================
+
+<?php
+include "015.inc";
+?>
+
+---
+
+(program (expression_statement (include_expression (string))))
+
+==============================
+Testing user-defined function in included file
+==============================
+
+<?php
+include "016.inc";
+MyFunc("Hello");
+?>
+
+---
+
+(program (expression_statement (include_expression (string))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))))
+
+==============================
+Testing user-defined function falling out of an If into another
+==============================
+
+<?php
+$a = 1;
+function Test ($a) {
+	if ($a<3) {
+		return(3);
+	}
+}
+
+if ($a < Test($a)) {
+	echo "$a\n";
+	$a++;
+}
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (integer))) (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (if_statement (binary_expression (variable_name (name)) (integer)) (compound_statement (return_statement (parenthesized_expression (integer))))))) (if_statement (binary_expression (variable_name (name)) (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (compound_statement (echo_statement (string)) (expression_statement (update_expression (variable_name (name)))))))
+
+==============================
+eval() test
+==============================
+
+<?php
+
+error_reporting(0);
+
+$message = "echo \"hey\n\";";
+
+for ($i=0; $i<10; $i++) {
+  eval($message);
+  echo $i."\n";
+}
+
+---
+
+(program (expression_statement (function_call_expression (qualified_name (name)) (arguments (integer)))) (expression_statement (assignment_expression (variable_name (name)) (string))) (for_statement (assignment_expression (variable_name (name)) (integer)) (binary_expression (variable_name (name)) (integer)) (update_expression (variable_name (name))) (compound_statement (expression_statement (eval_intrinsic (variable_name (name)))) (echo_statement (binary_expression (variable_name (name)) (string))))))
+
+==============================
+Switch test 1
+==============================
+
+<?php
+
+$i="abc";
+
+for ($j=0; $j<10; $j++) {
+switch (1) {
+  case 1:
+  	echo "In branch 1\n";
+  	switch ($i) {
+  		case "ab":
+  			echo "This doesn't work... :(\n";
+  			break;
+  		case "abcd":
+  			echo "This works!\n";
+  			break;
+  		case "blah":
+  			echo "Hmmm, no worki\n";
+  			break;
+  		default:
+  			echo "Inner default...\n";
+  	}
+  	for ($blah=0; $blah<200; $blah++) {
+  	  if ($blah==100) {
+  	    echo "blah=$blah\n";
+  	  }
+  	}
+  	break;
+  case 2:
+  	echo "In branch 2\n";
+  	break;
+  case $i:
+  	echo "In branch \$i\n";
+  	break;
+  case 4:
+  	echo "In branch 4\n";
+  	break;
+  default:
+  	echo "Hi, I'm default\n";
+  	break;
+ }
+}
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (string))) (for_statement (assignment_expression (variable_name (name)) (integer)) (binary_expression (variable_name (name)) (integer)) (update_expression (variable_name (name))) (compound_statement (switch_statement (integer) (case_statement (integer) (echo_statement (string)) (switch_statement (variable_name (name)) (case_statement (string) (echo_statement (string)) (break_statement)) (case_statement (string) (echo_statement (string)) (break_statement)) (case_statement (string) (echo_statement (string)) (break_statement)) (default_statement (echo_statement (string)))) (for_statement (assignment_expression (variable_name (name)) (integer)) (binary_expression (variable_name (name)) (integer)) (update_expression (variable_name (name))) (compound_statement (if_statement (binary_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (string)))))) (break_statement)) (case_statement (integer) (echo_statement (string)) (break_statement)) (case_statement (variable_name (name)) (echo_statement (string)) (break_statement)) (case_statement (integer) (echo_statement (string)) (break_statement)) (default_statement (echo_statement (string)) (break_statement))))))
+
+==============================
+Switch test 2
+==============================
+
+<?php
+
+for ($i=0; $i<=5; $i++)
+{
+  echo "i=$i\n";
+
+  switch($i) {
+    case 0:
+      echo "In branch 0\n";
+      break;
+    case 1:
+      echo "In branch 1\n";
+      break;
+    case 2:
+      echo "In branch 2\n";
+      break;
+    case 3:
+      echo "In branch 3\n";
+      break 2;
+    case 4:
+      echo "In branch 4\n";
+      break;
+    default:
+      echo "In default\n";
+      break;
+  }
+}
+echo "hi\n";
+?>
+
+---
+
+(program (for_statement (assignment_expression (variable_name (name)) (integer)) (binary_expression (variable_name (name)) (integer)) (update_expression (variable_name (name))) (compound_statement (echo_statement (string)) (switch_statement (variable_name (name)) (case_statement (integer) (echo_statement (string)) (break_statement)) (case_statement (integer) (echo_statement (string)) (break_statement)) (case_statement (integer) (echo_statement (string)) (break_statement)) (case_statement (integer) (echo_statement (string)) (break_statement (integer))) (case_statement (integer) (echo_statement (string)) (break_statement)) (default_statement (echo_statement (string)) (break_statement))))) (echo_statement (string)))
+
+==============================
+Switch test 3
+==============================
+
+<?php
+
+function switchtest ($i, $j)
+{
+	switch ($i) {
+		case 0:
+				switch($j) {
+					case 0:
+						echo "zero";
+						break;
+					case 1:
+						echo "one";
+						break;
+					default:
+						echo $j;
+						break;
+				}
+				echo "\n";
+				break;
+		default:
+				echo "Default taken\n";
+	}
+}
+for ($i=0; $i<3; $i++) {
+  for ($k=0; $k<10; $k++) {
+    switchtest (0,$k);
+  }
+}
+?>
+
+---
+
+(program (function_definition (name) (formal_parameters (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name)))) (compound_statement (switch_statement (variable_name (name)) (case_statement (integer) (switch_statement (variable_name (name)) (case_statement (integer) (echo_statement (string)) (break_statement)) (case_statement (integer) (echo_statement (string)) (break_statement)) (default_statement (echo_statement (variable_name (name))) (break_statement))) (echo_statement (string)) (break_statement)) (default_statement (echo_statement (string)))))) (for_statement (assignment_expression (variable_name (name)) (integer)) (binary_expression (variable_name (name)) (integer)) (update_expression (variable_name (name))) (compound_statement (for_statement (assignment_expression (variable_name (name)) (integer)) (binary_expression (variable_name (name)) (integer)) (update_expression (variable_name (name))) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments (integer) (variable_name (name))))))))))
+
+==============================
+Regression test
+==============================
+
+PHP Regression Test
+
+<?php
+
+include("023-1.inc");
+
+$wedding_timestamp = mktime(20,0,0,8,31,1997);
+$time_left=$wedding_timestamp-time();
+
+if ($time_left>0) {
+  $days = $time_left/(24*3600);
+  $time_left -= $days*24*3600;
+  $hours = $time_left/3600;
+  $time_left -= $hours*3600;
+  $minutes = $time_left/60;
+  echo "Limor Ullmann is getting married on ".($wedding_date=date("l, F dS, Y",$wedding_timestamp)).",\nwhich is $days days, $hours hours and $minutes minutes from now.\n";
+  echo "Her hashed wedding date is $wedding_date.\n";
+} else {
+  echo "Limor Ullmann is now Limor Baruch :I\n";
+}
+?>
+
+---
+
+ (program
+ 	(text)
+	(expression_statement (include_expression (parenthesized_expression (string))))
+	(expression_statement (assignment_expression (variable_name (name)) (function_call_expression (qualified_name (name)) (arguments (integer) (integer) (integer) (integer) (integer) (integer)))))
+	(expression_statement (assignment_expression (variable_name (name)) (binary_expression (variable_name (name)) (function_call_expression (qualified_name (name)) (arguments)))))
+	(if_statement
+		(binary_expression (variable_name (name)) (integer))
+		(compound_statement
+			(expression_statement (assignment_expression (variable_name (name)) (binary_expression (variable_name (name)) (parenthesized_expression (binary_expression (integer) (integer))))))
+			(expression_statement (augmented_assignment_expression (variable_name (name)) (binary_expression (binary_expression (variable_name (name)) (integer)) (integer))))
+			(expression_statement (assignment_expression (variable_name (name)) (binary_expression (variable_name (name)) (integer))))
+			(expression_statement (augmented_assignment_expression (variable_name (name)) (binary_expression (variable_name (name)) (integer))))
+			(expression_statement (assignment_expression (variable_name (name)) (binary_expression (variable_name (name)) (integer))))
+			(echo_statement (binary_expression (binary_expression (string) (parenthesized_expression (assignment_expression (variable_name (name)) (function_call_expression (qualified_name (name)) (arguments (string) (variable_name (name))))))) (string)))
+			(echo_statement (string)))
+		(else_clause (compound_statement (echo_statement (string))))))
+
+==============================
+Mean recursion test
+==============================
+
+<?php
+function RekTest ($nr) {
+	echo " $nr ";
+	$j=$nr+1;
+	while ($j < 10) {
+	  echo " a ";
+	  RekTest($j);
+	  $j++;
+	  echo " b $j ";
+	}
+	echo "\n";
+}
+
+RekTest(0);
+?>
+
+---
+
+(program (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (binary_expression (variable_name (name)) (integer)))) (while_statement (binary_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (update_expression (variable_name (name)))) (echo_statement (string)))) (echo_statement (string)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (integer)))))
+
+==============================
+Testing string scanner confirmance
+==============================
+
+<?php echo "\"\t\\'" . '\n\\\'a\\\b\\' ?>
+
+---
+
+(program (echo_statement (binary_expression (string) (string))))
+
+==============================
+Testing do-while loop
+==============================
+
+<?php
+$i=3;
+do {
+	echo $i;
+	$i--;
+} while($i>0);
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (integer))) (do_statement (compound_statement (echo_statement (variable_name (name))) (expression_statement (update_expression (variable_name (name))))) (binary_expression (variable_name (name)) (integer))))
+
+==============================
+Testing calling user-level functions from C
+==============================
+
+<?php
+
+error_reporting(1023);
+
+function print_stuff($stuff)
+{
+	print $stuff;
+}
+
+
+function still_working()
+{
+	return "I'm still alive";
+}
+
+function dafna()
+{
+	static $foo = 0;
+
+	print "Dafna!\n";
+	print call_user_func("still_working")."\n";
+	$foo++;
+	return (string) $foo;
+}
+
+
+class dafna_class {
+	function __construct() {
+		$this->myname = "Dafna";
+	}
+	function GetMyName() {
+		return $this->myname;
+	}
+	function SetMyName($name) {
+		$this->myname = $name;
+	}
+};
+
+for ($i=0; $i<200; $i++):
+	print "$i\n";
+	call_user_func("dafna");
+	call_user_func("print_stuff","Hey there!!\n");
+	print "$i\n";
+endfor;
+
+
+$dafna = new dafna_class();
+
+print $name=call_user_func(array(&$dafna,"GetMyName"));
+print "\n";
+
+?>
+
+---
+
+(program (expression_statement (function_call_expression (qualified_name (name)) (arguments (integer)))) (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (expression_statement (print_intrinsic (variable_name (name)))))) (function_definition (name) (formal_parameters) (compound_statement (return_statement (string)))) (function_definition (name) (formal_parameters) (compound_statement (function_static_declaration (static_variable_declaration (variable_name (name)) (integer))) (expression_statement (print_intrinsic (string))) (expression_statement (print_intrinsic (binary_expression (function_call_expression (qualified_name (name)) (arguments (string))) (string)))) (expression_statement (update_expression (variable_name (name)))) (return_statement (cast_expression (cast_type) (variable_name (name)))))) (class_declaration (name) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (expression_statement (assignment_expression (member_access_expression (variable_name (name)) (name)) (string)))))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (return_statement (member_access_expression (variable_name (name)) (name)))))) (method_declaration (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (expression_statement (assignment_expression (member_access_expression (variable_name (name)) (name)) (variable_name (name)))))))) (for_statement (assignment_expression (variable_name (name)) (integer)) (binary_expression (variable_name (name)) (integer)) (update_expression (variable_name (name))) (expression_statement (print_intrinsic (string))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string) (string)))) (expression_statement (print_intrinsic (string)))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (print_intrinsic (assignment_expression (variable_name (name)) (function_call_expression (qualified_name (name)) (arguments (array_creation_expression (array_element_initializer (variable_name (name))) (array_element_initializer (string)))))))) (expression_statement (print_intrinsic (string))))
+
+==============================
+$this in constructor test
+==============================
+
+<?php
+class foo {
+	function __construct($name) {
+     	$GLOBALS['List']= &$this;
+     	$this->Name = $name;
+		$GLOBALS['List']->echoName();
+	}
+
+	function echoName() {
+     	$GLOBALS['names'][]=$this->Name;
+	}
+}
+
+function &foo2(&$foo) {
+	return $foo;
+}
+
+
+$bar1 =new foo('constructor');
+$bar1->Name = 'outside';
+$bar1->echoName();
+$List->echoName();
+
+$foo = new foo('constructor');
+$bar1 =& foo2($foo);
+$bar1->Name = 'outside';
+$bar1->echoName();
+
+$List->echoName();
+
+print ($names==array('constructor','outside','outside','constructor','outside','outside')) ? 'success':'failure';
+?>
+
+---
+
+(program (class_declaration
+		(name)
+		(method_declaration (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement
+			(expression_statement (assignment_expression (subscript_expression (variable_name (name)) (string)) (variable_name (name))))
+			(expression_statement (assignment_expression (member_access_expression (variable_name (name)) (name)) (variable_name (name))))
+			(expression_statement (member_call_expression (subscript_expression (variable_name (name)) (string)) (name) (arguments))))))
+		(method_declaration (function_definition (name) (formal_parameters) (compound_statement
+			(expression_statement (assignment_expression (subscript_expression (subscript_expression (variable_name (name)) (string))) (member_access_expression (variable_name (name)) (name))))))))
+	(function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (return_statement (variable_name (name)))))
+	(expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments (string)))))
+	(expression_statement (assignment_expression (member_access_expression (variable_name (name)) (name)) (string)))
+	(expression_statement (member_call_expression (variable_name (name)) (name) (arguments)))
+	(expression_statement (member_call_expression (variable_name (name)) (name) (arguments)))
+	(expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments (string)))))
+	(expression_statement (assignment_expression (variable_name (name)) (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))
+	(expression_statement (assignment_expression (member_access_expression (variable_name (name)) (name)) (string)))
+	(expression_statement (member_call_expression (variable_name (name)) (name) (arguments)))
+	(expression_statement (member_call_expression (variable_name (name)) (name) (arguments)))
+	(expression_statement (print_intrinsic (conditional_expression (parenthesized_expression (binary_expression (variable_name (name)) (array_creation_expression (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string))))) (string) (string)))))
+
+==============================
+Class method registration
+==============================
+
+<?php
+class A {
+	function foo() {}
+}
+
+class B extends A {
+	function foo() {}
+}
+
+class C extends B {
+	function foo() {}
+}
+
+class D extends A {
+}
+
+class F extends D {
+	function foo() {}
+}
+
+// Following class definition should fail, but cannot test
+/*
+class X {
+	function foo() {}
+	function foo() {}
+}
+*/
+
+echo "OK\n";
+?>
+
+---
+
+(program (class_declaration (name) (method_declaration (function_definition (name) (formal_parameters) (compound_statement)))) (class_declaration (name) (class_base_clause (qualified_name (name))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement)))) (class_declaration (name) (class_base_clause (qualified_name (name))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement)))) (class_declaration (name) (class_base_clause (qualified_name (name)))) (class_declaration (name) (class_base_clause (qualified_name (name))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement)))) (comment) (comment) (echo_statement (string)))
+
+==============================
+Alternative syntaxes test
+==============================
+
+<?php
+$a = 1;
+
+echo "If: ";
+if ($a) echo 1; else echo 0;
+if ($a):
+	echo 1;
+else:
+	echo 0;
+endif;
+
+echo "\nWhile: ";
+while ($a<5) echo $a++;
+while ($a<9):
+	echo ++$a;
+endwhile;
+
+echo "\nFor: ";
+for($a=0;$a<5;$a++) echo $a;
+for($a=0;$a<5;$a++):
+	echo $a;
+endfor;
+
+echo "\nSwitch: ";
+switch ($a):
+	case 0;
+		echo 0;
+		break;
+	case 5:
+		echo 1;
+		break;
+	default;
+		echo 0;
+		break;
+endswitch;
+?>
+
+===DONE===
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (integer))) (echo_statement (string)) (if_statement (variable_name (name)) (echo_statement (integer)) (else_clause (echo_statement (integer)))) (if_statement (variable_name (name)) (echo_statement (integer)) (else_clause (echo_statement (integer)))) (echo_statement (string)) (while_statement (binary_expression (variable_name (name)) (integer)) (echo_statement (update_expression (variable_name (name))))) (while_statement (binary_expression (variable_name (name)) (integer)) (echo_statement (update_expression (variable_name (name))))) (echo_statement (string)) (for_statement (assignment_expression (variable_name (name)) (integer)) (binary_expression (variable_name (name)) (integer)) (update_expression (variable_name (name))) (echo_statement (variable_name (name)))) (for_statement (assignment_expression (variable_name (name)) (integer)) (binary_expression (variable_name (name)) (integer)) (update_expression (variable_name (name))) (echo_statement (variable_name (name)))) (echo_statement (string)) (switch_statement (variable_name (name)) (case_statement (integer) (echo_statement (integer)) (break_statement)) (case_statement (integer) (echo_statement (integer)) (break_statement)) (default_statement (echo_statement (integer)) (break_statement))) (text))
+==============================
+Bug #12647 (Locale settings affecting float parsing)
+==============================
+
+<?php
+# activate the german locale
+setlocale(LC_NUMERIC, "de_DE.UTF-8", "de_DE", "de", "german", "ge", "de_DE.ISO-8859-1");
+
+echo (integer)"3.14", "\n";
+?>
+
+---
+
+(program (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (qualified_name (name)) (string) (string) (string) (string) (string) (string)))) (echo_statement (sequence_expression (cast_expression (cast_type) (string)) (string))))
+
+==============================
+ZE2: set_exception_handler()
+==============================
+
+<?php
+class MyException extends Exception {
+	function __construct($_error) {
+		$this->error = $_error;
+	}
+
+	function getException()
+	{
+		return $this->error;
+	}
+}
+
+function ThrowException()
+{
+	throw new MyException("'This is an exception!'");
+}
+
+
+try {
+} catch (MyException $exception) {
+	print "There shouldn't be an exception: " . $exception->getException();
+	print "\n";
+}
+
+try {
+	ThrowException();
+} catch (MyException $exception) {
+	print "There was an exception: " . $exception->getException();
+	print "\n";
+}
+?>
+
+---
+
+(program (class_declaration (name) (class_base_clause (qualified_name (name))) (method_declaration (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (expression_statement (assignment_expression (member_access_expression (variable_name (name)) (name)) (variable_name (name))))))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (return_statement (member_access_expression (variable_name (name)) (name))))))) (function_definition (name) (formal_parameters) (compound_statement (throw_statement (object_creation_expression (qualified_name (name)) (arguments (string)))))) (try_statement (compound_statement) (catch_clause (qualified_name (name)) (variable_name (name)) (compound_statement (expression_statement (print_intrinsic (binary_expression (string) (member_call_expression (variable_name (name)) (name) (arguments))))) (expression_statement (print_intrinsic (string)))))) (try_statement (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments)))) (catch_clause (qualified_name (name)) (variable_name (name)) (compound_statement (expression_statement (print_intrinsic (binary_expression (string) (member_call_expression (variable_name (name)) (name) (arguments))))) (expression_statement (print_intrinsic (string)))))))
+
+==============================
+Child public element should not override parent private element in parent methods
+==============================
+
+<?php
+class par {
+	private $id = "foo";
+
+	function displayMe()
+	{
+		print $this->id;
+	}
+};
+
+class chld extends par {
+	public $id = "bar";
+	function displayHim()
+	{
+		parent::displayMe();
+	}
+};
+
+
+$obj = new chld();
+$obj->displayHim();
+?>
+
+---
+
+(program (class_declaration (name) (property_declaration (visibility_modifier) (property_element (variable_name (name)) (property_initializer (string)))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (expression_statement (print_intrinsic (member_access_expression (variable_name (name)) (name)))))))) (class_declaration (name) (class_base_clause (qualified_name (name))) (property_declaration (visibility_modifier) (property_element (variable_name (name)) (property_initializer (string)))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (expression_statement (scoped_call_expression (relative_scope) (name) (arguments))))))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))))
+
+==============================
+'Static' binding for private variables
+==============================
+
+<?php
+
+class par {
+	private $id="foo";
+
+	function displayMe()
+	{
+		$this->displayChild();
+	}
+};
+
+class chld extends par {
+	private $id = "bar";
+
+	function displayChild()
+	{
+		print $this->id;
+	}
+};
+
+
+$obj = new chld();
+$obj->displayMe();
+
+?>
+
+---
+
+(program (class_declaration (name) (property_declaration (visibility_modifier) (property_element (variable_name (name)) (property_initializer (string)))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))))))) (class_declaration (name) (class_base_clause (qualified_name (name))) (property_declaration (visibility_modifier) (property_element (variable_name (name)) (property_initializer (string)))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (expression_statement (print_intrinsic (member_access_expression (variable_name (name)) (name)))))))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))))
+
+==============================
+foreach into array
+==============================
+
+<?php
+$a = array(0,1);
+$b[0]=2;
+foreach($a as $b[0]) {
+  echo $b[0]."\n";
+}
+?>
+===DONE===
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (array_creation_expression (array_element_initializer (integer)) (array_element_initializer (integer))))) (expression_statement (assignment_expression (subscript_expression (variable_name (name)) (integer)) (integer))) (foreach_statement (variable_name (name)) (subscript_expression (variable_name (name)) (integer)) (compound_statement (echo_statement (binary_expression (subscript_expression (variable_name (name)) (integer)) (string))))) (text))
+==============================
+Square bracket array shortcut test
+==============================
+
+<?php
+print_r([1, 2, 3]);
+?>
+
+---
+
+(program (expression_statement (function_call_expression (qualified_name (name)) (arguments (array_creation_expression (array_element_initializer (integer)) (array_element_initializer (integer)) (array_element_initializer (integer)))))))
+
+==============================
+Square bracket associative array shortcut test
+==============================
+
+<?php
+print_r(["foo" => "orange", "bar" => "apple", "baz" => "lemon"]);
+?>
+
+---
+
+(program (expression_statement (function_call_expression (qualified_name (name)) (arguments (array_creation_expression (array_element_initializer (string) (string)) (array_element_initializer (string) (string)) (array_element_initializer (string) (string)))))))
+
+==============================
+Testing array shortcut and bracket operator
+==============================
+
+<?php
+$a = [1, 2, 3, 4, 5];
+print_r([$a[1], $a[3]]);
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (array_creation_expression (array_element_initializer (integer)) (array_element_initializer (integer)) (array_element_initializer (integer)) (array_element_initializer (integer)) (array_element_initializer (integer))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (array_creation_expression (array_element_initializer (subscript_expression (variable_name (name)) (integer))) (array_element_initializer (subscript_expression (variable_name (name)) (integer))))))))
+
+==============================
+Testing nested array shortcut
+==============================
+
+<?php
+print_r([1, 2, 3, ["foo" => "orange", "bar" => "apple", "baz" => "lemon"]]);
+?>
+
+---
+
+(program (expression_statement (function_call_expression (qualified_name (name)) (arguments (array_creation_expression (array_element_initializer (integer)) (array_element_initializer (integer)) (array_element_initializer (integer)) (array_element_initializer (array_creation_expression (array_element_initializer (string) (string)) (array_element_initializer (string) (string)) (array_element_initializer (string) (string)))))))))
+
+==============================
+Bison weirdness
+==============================
+
+<?php
+error_reporting(E_ALL & ~E_NOTICE);
+echo "blah-$foo\n";
+?>
+
+---
+
+(program (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (qualified_name (name)) (unary_op_expression (qualified_name (name))))))) (echo_statement (string)))
+
+==============================
+Bug #18872 (class constant used as default parameter)
+==============================
+
+<?php
+class FooBar {
+	const BIFF = 3;
+}
+
+function foo($biff = FooBar::BIFF) {
+	echo $biff . "\n";
+}
+
+foo();
+foo();
+?>
+
+---
+
+(program (class_declaration (name) (class_const_declaration (const_element (name) (integer)))) (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)) (default_argument_specifier (class_constant_access_expression (qualified_name (name)) (name))))) (compound_statement (echo_statement (binary_expression (variable_name (name)) (string))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))))
+
+==============================
+Bug #21849 (self::constant doesn't work as method's default parameter)
+==============================
+
+<?php
+class foo {
+	const bar = "fubar\n";
+
+	function __construct($arg = self::bar) {
+		echo $arg;
+	}
+}
+
+new foo();
+?>
+
+---
+
+(program (class_declaration (name) (class_const_declaration (const_element (name) (string))) (method_declaration (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)) (default_argument_specifier (class_constant_access_expression (relative_scope) (name))))) (compound_statement (echo_statement (variable_name (name))))))) (expression_statement (object_creation_expression (qualified_name (name)) (arguments))))
+
+==============================
+Bug #22592 (cascading assignments to strings with curly braces broken)
+==============================
+
+<?php
+function error_hdlr($errno, $errstr) {
+	echo "[$errstr]\n";
+}
+
+set_error_handler('error_hdlr');
+
+$i = 4;
+$s = "string";
+
+$result = "* *-*";
+var_dump($result);
+$result[6] = '*';
+var_dump($result);
+$result[1] = $i;
+var_dump($result);
+$result[3] = $s;
+var_dump($result);
+$result[7] = 0;
+var_dump($result);
+$a = $result[1] = $result[3] = '-';
+var_dump($result);
+$b = $result[3] = $result[5] = $s;
+var_dump($result);
+$c = $result[0] = $result[2] = $result[4] = $i;
+var_dump($result);
+$d = $result[6] = $result[8] = 5;
+var_dump($result);
+$e = $result[1] = $result[6];
+var_dump($result);
+var_dump($a, $b, $c, $d, $e);
+$result[0] = $result[-4] = $result[-1] = 'a';
+var_dump($result);
+?>
+
+---
+
+(program (function_definition (name) (formal_parameters (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name)))) (compound_statement (echo_statement (string)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (string))) (expression_statement (assignment_expression (variable_name (name)) (string))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (assignment_expression (subscript_expression (variable_name (name)) (integer)) (string))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (assignment_expression (subscript_expression (variable_name (name)) (integer)) (variable_name (name)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (assignment_expression (subscript_expression (variable_name (name)) (integer)) (variable_name (name)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (assignment_expression (subscript_expression (variable_name (name)) (integer)) (integer))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (assignment_expression (variable_name (name)) (assignment_expression (subscript_expression (variable_name (name)) (integer)) (assignment_expression (subscript_expression (variable_name (name)) (integer)) (string))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (assignment_expression (variable_name (name)) (assignment_expression (subscript_expression (variable_name (name)) (integer)) (assignment_expression (subscript_expression (variable_name (name)) (integer)) (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (assignment_expression (variable_name (name)) (assignment_expression (subscript_expression (variable_name (name)) (integer)) (assignment_expression (subscript_expression (variable_name (name)) (integer)) (assignment_expression (subscript_expression (variable_name (name)) (integer)) (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (assignment_expression (variable_name (name)) (assignment_expression (subscript_expression (variable_name (name)) (integer)) (assignment_expression (subscript_expression (variable_name (name)) (integer)) (integer))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (assignment_expression (variable_name (name)) (assignment_expression (subscript_expression (variable_name (name)) (integer)) (subscript_expression (variable_name (name)) (integer))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name)) (variable_name (name)) (variable_name (name)) (variable_name (name)) (variable_name (name))))) (expression_statement (assignment_expression (subscript_expression (variable_name (name)) (integer)) (assignment_expression (subscript_expression (variable_name (name)) (unary_op_expression (integer))) (assignment_expression (subscript_expression (variable_name (name)) (unary_op_expression (integer))) (string))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))
+
+==============================
+Bug #23279 (exception handler stops after first function call)
+==============================
+
+<?php
+ob_start();
+set_exception_handler('redirect_on_error');
+echo "Hello World\n";
+throw new Exception;
+
+function redirect_on_error($e) {
+    ob_end_clean();
+    echo "Goodbye Cruel World\n";
+}
+?>
+
+---
+
+(program (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (echo_statement (string)) (throw_statement (object_creation_expression (qualified_name (name)))) (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)))))
+==============================
+Bug #23489 (ob_start() is broken with method callbacks)
+==============================
+
+<?php
+class Test {
+  function __construct() {
+    ob_start(
+      array(
+        $this, 'transform'
+      )
+    );
+  }
+
+  function transform($buffer) {
+    return 'success';
+  }
+}
+
+$t = new Test;
+?>
+failure
+
+---
+
+(program (class_declaration (name) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments (array_creation_expression (array_element_initializer (variable_name (name))) (array_element_initializer (string))))))))) (method_declaration (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (return_statement (string)))))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name))))) (text))
+==============================
+Bug #23524 (Improper handling of constants in array indices)
+==============================
+
+<?php
+  echo "Begin\n";
+  define("THE_CONST",123);
+  function f($a=array(THE_CONST=>THE_CONST)) {
+    print_r($a);
+  }
+  f();
+  f();
+  f();
+  echo "Done";
+?>
+
+---
+
+(program (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string) (integer)))) (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)) (default_argument_specifier (array_creation_expression (array_element_initializer (qualified_name (name)) (qualified_name (name))))))) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)))
+
+==============================
+Bug #23624 (foreach leaves current array key as null)
+==============================
+
+<?php
+    $arr = array ('one', 'two', 'three');
+    var_dump(current($arr));
+    foreach($arr as $key => $value);
+    var_dump(current($arr));
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (array_creation_expression (array_element_initializer (string)) (array_element_initializer (string)) (array_element_initializer (string))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))) (foreach_statement (variable_name (name)) (pair (variable_name (name)) (variable_name (name)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))))
+
+==============================
+Bug #24396 (global $$variable broken)
+==============================
+
+<?php
+
+$arr = array('a' => 1, 'b' => 2, 'c' => 3);
+
+foreach($arr as $k=>$v)  {
+    global $$k; // comment this out and it works in PHP 7 too..
+
+    echo "($k => $v)\n";
+
+    $$k = $v;
+}
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (array_creation_expression (array_element_initializer (string) (integer)) (array_element_initializer (string) (integer)) (array_element_initializer (string) (integer))))) (foreach_statement (variable_name (name)) (pair (variable_name (name)) (variable_name (name))) (compound_statement (global_declaration (simple_variable (variable_name (name)))) (comment) (echo_statement (string)) (expression_statement (assignment_expression (simple_variable (variable_name (name))) (variable_name (name)))))))
+
+==============================
+Bug #24436 (isset() and empty() produce errors with non-existent variables in objects)
+==============================
+
+<?php
+class test {
+	function __construct() {
+		if (empty($this->test[0][0])) { print "test1";}
+		if (!isset($this->test[0][0])) { print "test2";}
+	}
+}
+
+$test1 = new test();
+?>
+
+---
+
+(program (class_declaration
+		(name)
+		(method_declaration (function_definition (name) (formal_parameters) (compound_statement
+			(if_statement (empty_intrinsic (subscript_expression (subscript_expression (member_access_expression (variable_name (name)) (name)) (integer)) (integer))) (compound_statement (expression_statement (print_intrinsic (string)))))
+			(if_statement (unary_op_expression (isset_intrinsic (subscript_expression (subscript_expression (member_access_expression (variable_name (name)) (name)) (integer)) (integer)))) (compound_statement (expression_statement (print_intrinsic (string)))))))))
+	(expression_statement (assignment_expression
+		(variable_name (name))
+		(object_creation_expression (qualified_name (name)) (arguments)))))
+
+==============================
+Bug #24499 (bogus handling of a public property as a private one)
+==============================
+
+<?php
+class Id {
+        private $id="priv";
+
+        public function tester($obj)
+        {
+	        	$obj->id = "bar";
+        }
+}
+
+$id = new Id();
+@$obj->foo = "bar";
+$id->tester($obj);
+print_r($obj);
+?>
+
+---
+
+(program (class_declaration (name) (property_declaration (visibility_modifier) (property_element (variable_name (name)) (property_initializer (string)))) (method_declaration (visibility_modifier) (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (expression_statement (assignment_expression (member_access_expression (variable_name (name)) (name)) (string))))))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (unary_op_expression (assignment_expression (member_access_expression (variable_name (name)) (name)) (string)))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments (variable_name (name))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))
+
+==============================
+Bug #24640 (var_export and var_dump can't output large float)
+==============================
+
+<?php
+function test($v)
+{
+	echo var_export($v, true) . "\n";
+	var_dump($v);
+	echo "$v\n";
+	print_r($v);
+	echo "\n------\n";
+}
+
+test(1.7e+300);
+test(1.7e-300);
+test(1.7e+79);
+test(1.7e-79);
+test(1.7e+80);
+test(1.7e-80);
+test(1.7e+81);
+test(1.7e-81);
+test(1.7e+319);
+test(1.7e-319);
+test(1.7e+320);
+test(1.7e-320);
+test(1.7e+321);
+test(1.7e-321);
+test(1.7e+324);
+test(1.7e-324);
+test(1.7e+1000);
+test(1.7e-1000);
+
+?>
+===DONE===
+<?php exit(0); ?>
+
+---
+
+(program (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (echo_statement (binary_expression (function_call_expression (qualified_name (name)) (arguments (variable_name (name)) (qualified_name (name)))) (string))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (echo_statement (string)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (float)))) (text_interpolation) (expression_statement (exit_intrinsic (integer))))
+
+==============================
+Bug #24652 (broken array_flip())
+
+==============================
+
+<?php
+  /* This works */
+  $f = array('7' => 0);
+  var_dump($f);
+  var_dump(array_key_exists(7, $f));
+  var_dump(array_key_exists('7', $f));
+
+  print "----------\n";
+  /* This doesn't */
+  $f = array_flip(array('7'));
+  var_dump($f);
+  var_dump(array_key_exists(7, $f));
+  var_dump(array_key_exists('7', $f));
+?>
+
+---
+
+(program (comment) (expression_statement (assignment_expression (variable_name (name)) (array_creation_expression (array_element_initializer (string) (integer))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments (integer) (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments (string) (variable_name (name))))))) (expression_statement (print_intrinsic (string))) (comment) (expression_statement (assignment_expression (variable_name (name)) (function_call_expression (qualified_name (name)) (arguments (array_creation_expression (array_element_initializer (string))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments (integer) (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments (string) (variable_name (name))))))))
+
+==============================
+Bug #24908 (super-globals can not be used in __destruct())
+
+==============================
+
+<?php
+class test {
+	function __construct() {
+		if (count($_SERVER)) echo "O";
+	}
+	function __destruct() {
+		if (count($_SERVER)) echo "K\n";
+	}
+}
+$test = new test();
+?>
+
+---
+
+(program (class_declaration (name) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (if_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name)))) (echo_statement (string)))))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (if_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name)))) (echo_statement (string))))))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))))
+
+==============================
+Bug #24951 (ob_flush() destroys output handler)
+==============================
+
+<?php
+function test($s, $mode)
+{
+	return (($mode & PHP_OUTPUT_HANDLER_START)?"[":"") . $s . (($mode & PHP_OUTPUT_HANDLER_END)?"]\n":"");
+}
+function t1()
+{
+	ob_start("test");
+	echo "Hello from t1 1 ";
+        echo "Hello from t1 2 ";
+        ob_end_flush();
+}
+function t2()
+{
+	ob_start("test");
+	echo "Hello from t2 1 ";
+        ob_flush();
+        echo "Hello from t2 2 ";
+        ob_end_flush();
+}
+function t3()
+{
+	ob_start("test");
+        echo "Hello from t3 1 ";
+        ob_clean();
+        echo "Hello from t3 2 ";
+        ob_end_flush();
+}
+
+t1(); echo "\n";
+t2(); echo "\n";
+t3(); echo "\n";
+?>
+
+---
+
+(program (function_definition (name) (formal_parameters (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name)))) (compound_statement (return_statement (binary_expression (binary_expression (parenthesized_expression (conditional_expression (parenthesized_expression (binary_expression (variable_name (name)) (qualified_name (name)))) (string) (string))) (variable_name (name))) (parenthesized_expression (conditional_expression (parenthesized_expression (binary_expression (variable_name (name)) (qualified_name (name)))) (string) (string))))))) (function_definition (name) (formal_parameters) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (echo_statement (string)) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))))) (function_definition (name) (formal_parameters) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))))) (function_definition (name) (formal_parameters) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)))
+
+==============================
+Bug #25145 (SEGV on recpt of form input with name like "123[]")
+==============================
+
+<?php
+
+var_dump($_REQUEST);
+echo "Done\n";
+
+?>
+
+---
+
+(program (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (echo_statement (string)))
+
+==============================
+Bug #25547 (error_handler and array index with function call)
+==============================
+
+<?php
+
+function handler($errno, $errstr, $errfile, $errline, $context)
+{
+	echo __FUNCTION__ . "($errstr)\n";
+}
+
+set_error_handler('handler');
+
+function foo($x) {
+	return "foo";
+}
+
+$output = array();
+++$output[foo("bar")];
+
+print_r($output);
+
+echo "Done";
+?>
+
+---
+
+(program (function_definition (name) (formal_parameters (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name)))) (compound_statement (echo_statement (binary_expression (qualified_name (name)) (string))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (return_statement (string)))) (expression_statement (assignment_expression (variable_name (name)) (array_creation_expression))) (expression_statement (update_expression (subscript_expression (variable_name (name)) (function_call_expression (qualified_name (name)) (arguments (string)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (echo_statement (string)))
+
+==============================
+Bug #25652 (Calling Global functions dynamically fails from Class scope)
+==============================
+
+<?php
+
+	function testfunc ($var) {
+		echo "testfunc $var\n";
+	}
+
+	class foo {
+		public $arr = array('testfunc');
+		function bar () {
+			$this->arr[0]('testvalue');
+		}
+	}
+
+	$a = new foo ();
+	$a->bar ();
+
+?>
+
+---
+
+(program (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (echo_statement (string)))) (class_declaration (name) (property_declaration (visibility_modifier) (property_element (variable_name (name)) (property_initializer (array_creation_expression (array_element_initializer (string)))))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (expression_statement (function_call_expression (subscript_expression (member_access_expression (variable_name (name)) (name)) (integer)) (arguments (string)))))))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))))
+
+==============================
+Bug #25922 (SEGV in error_handler when context is destroyed)
+==============================
+
+<?php
+function my_error_handler($error, $errmsg='', $errfile='', $errline=0, $errcontext='')
+{
+	echo "$errmsg\n";
+	$errcontext = '';
+}
+
+set_error_handler('my_error_handler');
+
+function test()
+{
+	echo "Undefined index here: '{$data['HTTP_HEADER']}'\n";
+}
+test();
+?>
+
+---
+
+(program (function_definition (name) (formal_parameters (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name)) (default_argument_specifier (string))) (simple_parameter (variable_name (name)) (default_argument_specifier (string))) (simple_parameter (variable_name (name)) (default_argument_specifier (integer))) (simple_parameter (variable_name (name)) (default_argument_specifier (string)))) (compound_statement (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (string))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (function_definition (name) (formal_parameters) (compound_statement (echo_statement (string)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))))
+
+==============================
+Bug #26182 (Object properties created redundantly)
+==============================
+
+<?php
+
+class A {
+    function NotAConstructor ()
+    {
+        if (isset($this->x)) {
+            //just for demo
+        }
+    }
+}
+
+$t = new A ();
+
+print_r($t);
+
+?>
+
+---
+
+(program (class_declaration (name) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (if_statement (isset_intrinsic (member_access_expression (variable_name (name)) (name))) (compound_statement (comment))))))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))
+
+==============================
+Bug #26696 (string index in a switch() crashes with multiple matches)
+==============================
+
+<?php
+
+$str = 'asdd/?';
+$len = strlen($str);
+for ($i = 0; $i < $len; $i++) {
+	switch ($str[$i]) {
+		case '?':
+			echo "OK\n";
+			break;
+	}
+}
+
+$str = '*';
+switch ($str[0]) {
+	case '*';
+		echo "OK\n";
+		break;
+	default:
+		echo 'Default RAN!';
+}
+
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (string))) (expression_statement (assignment_expression (variable_name (name)) (function_call_expression (qualified_name (name)) (arguments (variable_name (name)))))) (for_statement (assignment_expression (variable_name (name)) (integer)) (binary_expression (variable_name (name)) (variable_name (name))) (update_expression (variable_name (name))) (compound_statement (switch_statement (subscript_expression (variable_name (name)) (variable_name (name))) (case_statement (string) (echo_statement (string)) (break_statement))))) (expression_statement (assignment_expression (variable_name (name)) (string))) (switch_statement (subscript_expression (variable_name (name)) (integer)) (case_statement (string) (echo_statement (string)) (break_statement)) (default_statement (echo_statement (string)))))
+
+==============================
+Bug #26866 (segfault when exception raised in __get)
+==============================
+
+<?php
+class bar {
+	function get_name() {
+		return 'bar';
+	}
+}
+class foo {
+	function __get($sName) {
+		throw new Exception('Exception!');
+		return new bar();
+	}
+}
+$foo = new foo();
+try {
+	echo $foo->bar->get_name();
+}
+catch (Exception $E) {
+	echo "Exception raised!\n";
+}
+?>
+
+---
+
+(program (class_declaration (name) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (return_statement (string)))))) (class_declaration (name) (method_declaration (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (throw_statement (object_creation_expression (qualified_name (name)) (arguments (string)))) (return_statement (object_creation_expression (qualified_name (name)) (arguments))))))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (try_statement (compound_statement (echo_statement (member_call_expression (member_access_expression (variable_name (name)) (name)) (name) (arguments)))) (catch_clause (qualified_name (name)) (variable_name (name)) (compound_statement (echo_statement (string))))))
+
+==============================
+Bug #26869 (constant as the key of static array)
+==============================
+
+<?php
+	define("A", "1");
+	static $a=array(A => 1);
+	var_dump($a);
+	var_dump(isset($a[A]));
+?>
+
+---
+
+(program (expression_statement (function_call_expression (qualified_name (name)) (arguments (string) (string)))) (function_static_declaration (static_variable_declaration (variable_name (name)) (array_creation_expression (array_element_initializer (qualified_name (name)) (integer))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (isset_intrinsic (subscript_expression (variable_name (name)) (qualified_name (name))))))))
+
+==============================
+Bug #27443 (defined() returns wrong type)
+==============================
+
+<?php
+echo gettype(defined('test'));
+?>
+
+---
+
+(program (echo_statement (function_call_expression (qualified_name (name)) (arguments (function_call_expression (qualified_name (name)) (arguments (string)))))))
+
+==============================
+Bug #27535 (Objects pointing to each other cause Apache to crash)
+==============================
+
+<?php
+
+class Class1
+{
+	public $_Class2_obj;
+}
+
+class Class2
+{
+	public $storage = '';
+
+	function __construct()
+	{
+		$this->storage = new Class1();
+
+		$this->storage->_Class2_obj = $this;
+	}
+}
+
+$foo = new Class2();
+
+?>
+Alive!
+
+---
+
+(program (class_declaration (name) (property_declaration (visibility_modifier) (property_element (variable_name (name))))) (class_declaration (name) (property_declaration (visibility_modifier) (property_element (variable_name (name)) (property_initializer (string)))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (expression_statement (assignment_expression (member_access_expression (variable_name (name)) (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (assignment_expression (member_access_expression (member_access_expression (variable_name (name)) (name)) (name)) (variable_name (name)))))))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (text))
+==============================
+Bug #29944 (function defined in switch crashes PHP)
+==============================
+
+<?PHP
+$a = 1;
+$b = "1";
+switch ($a) {
+	case 1:
+		function foo($bar) {
+			if (preg_match('/\d/', $bar)) return true;
+			return false;
+		}
+		echo foo($b);
+}
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (string))) (switch_statement (variable_name (name)) (case_statement (integer) (function_definition (name) (formal_parameters (simple_parameter (variable_name (name)))) (compound_statement (if_statement (function_call_expression (qualified_name (name)) (arguments (string) (variable_name (name)))) (return_statement (qualified_name (name)))) (return_statement (qualified_name (name))))) (echo_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))))
+
+==============================
+Bug #30578 (Output buffers flushed before calling __desctruct functions)
+==============================
+
+<?php
+
+error_reporting(E_ALL);
+
+class Example
+{
+    function __construct()
+    {
+        ob_start();
+        echo "This should be displayed last.\n";
+    }
+
+    function __destruct()
+    {
+        $buffered_data = ob_get_contents();
+        ob_end_clean();
+
+        echo "This should be displayed first.\n";
+        echo "Buffered data: $buffered_data";
+    }
+}
+
+$obj = new Example;
+
+?>
+
+---
+
+(program (expression_statement (function_call_expression (qualified_name (name)) (arguments (qualified_name (name))))) (class_declaration (name) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string))))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (expression_statement (assignment_expression (variable_name (name)) (function_call_expression (qualified_name (name)) (arguments)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (echo_statement (string)))))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name))))))
+
+==============================
+Bug #30638 (localeconv returns wrong LC_NUMERIC settings) (ok to fail on MacOS X)
+==============================
+
+<?php
+# activate the german locale
+setlocale(LC_NUMERIC, "de_DE.UTF-8", "de_DE", "de", "german", "ge", "de_DE.ISO-8859-1");
+
+$lc = localeconv();
+printf("decimal_point: %s\n", $lc['decimal_point']);
+printf("thousands_sep: %s\n", $lc['thousands_sep']);
+?>
+
+---
+
+(program (comment) (expression_statement (function_call_expression (qualified_name (name)) (arguments (qualified_name (name)) (string) (string) (string) (string) (string) (string)))) (expression_statement (assignment_expression (variable_name (name)) (function_call_expression (qualified_name (name)) (arguments)))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string) (subscript_expression (variable_name (name)) (string))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string) (subscript_expression (variable_name (name)) (string))))))
+
+==============================
+Bug #30726 (-.1 like numbers are not being handled correctly)
+==============================
+
+<?php
+echo (int) is_float('-.1' * 2), "\n";
+?>
+
+---
+
+(program (echo_statement (sequence_expression (cast_expression (cast_type) (function_call_expression (qualified_name (name)) (arguments (binary_expression (string) (integer))))) (string))))
+
+==============================
+Bug #30862 (Static array with boolean indexes)
+==============================
+
+<?php
+class T {
+	static $a = array(false=>"false", true=>"true");
+}
+print_r(T::$a);
+?>
+
+<?php
+define("X",0);
+define("Y",1);
+class T2 {
+	static $a = array(X=>"false", Y=>"true");
+}
+print_r(T2::$a);
+?>
+
+---
+
+(program
+	(class_declaration (name) (property_declaration (static_modifier) (property_element (variable_name (name)) (property_initializer (array_creation_expression (array_element_initializer (qualified_name (name)) (string)) (array_element_initializer (qualified_name (name)) (string)))))))
+	(expression_statement (function_call_expression (qualified_name (name)) (arguments (scoped_property_access_expression (qualified_name (name)) (variable_name (name))))))
+	(text_interpolation)
+	(expression_statement (function_call_expression (qualified_name (name)) (arguments (string) (integer))))
+	(expression_statement (function_call_expression (qualified_name (name)) (arguments (string) (integer))))
+	(class_declaration (name) (property_declaration (static_modifier) (property_element (variable_name (name)) (property_initializer (array_creation_expression (array_element_initializer (qualified_name (name)) (string)) (array_element_initializer (qualified_name (name)) (string)))))))
+	(expression_statement (function_call_expression (qualified_name (name)) (arguments (scoped_property_access_expression (qualified_name (name)) (variable_name (name)))))))
+
+==============================
+Bug #32924 (prepend does not add file to included files)
+==============================
+
+<?php
+include_once(dirname(__FILE__).'/inc.inc');
+require_once(dirname(__FILE__).'/inc.inc');
+?>
+END
+
+---
+
+(program (expression_statement (include_once_expression (parenthesized_expression (binary_expression (function_call_expression (qualified_name (name)) (arguments (qualified_name (name)))) (string))))) (expression_statement (require_once_expression (parenthesized_expression (binary_expression (function_call_expression (qualified_name (name)) (arguments (qualified_name (name)))) (string))))) (text))
+==============================
+Bug #38579 (include_once() may include the same file twice)
+==============================
+
+<?php
+$file = dirname(__FILE__)."/bug38579.inc";
+include_once(strtolower($file));
+include_once(strtoupper($file));
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (binary_expression (function_call_expression (qualified_name (name)) (arguments (qualified_name (name)))) (string)))) (expression_statement (include_once_expression (parenthesized_expression (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))) (expression_statement (include_once_expression (parenthesized_expression (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))))
+
+==============================
+Bug #55754 (Only variables should be passed by reference for ZEND_SEND_PREFER_REF params)
+==============================
+
+<?php
+
+current($arr = array(0 => "a"));
+current(array(0 => "a"));
+current($arr);
+
+echo "DONE";
+
+?>
+
+---
+
+(program (expression_statement (function_call_expression (qualified_name (name)) (arguments (assignment_expression (variable_name (name)) (array_creation_expression (array_element_initializer (integer) (string))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (array_creation_expression (array_element_initializer (integer) (string)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (echo_statement (string)))
+
+==============================
+#-style comments
+==============================
+
+#teste
+#teste2
+<?php
+
+#ahahah
+#ahhfhf
+
+echo '#ola'; //?
+echo "\n";
+echo 'uhm # ah'; #ah?
+echo "\n";
+echo "e este, # hein?";
+echo "\n";
+
+?>
+
+---
+
+(program
+	(text)
+	(comment) (comment)
+	(echo_statement (string))
+	(comment)
+	(echo_statement (string))
+	(echo_statement (string))
+	(comment)
+	(echo_statement (string))
+	(echo_statement (string))
+	(echo_statement (string)))
+
+==============================
+#-style comments (part 2)
+==============================
+
+<?php
+if (1) {
+?>
+#<?php }
+
+---
+
+(program
+	(if_statement
+		(integer)
+		(compound_statement (text_interpolation))))
+
+==============================
+Test standard 'compare' object handler
+==============================
+
+
+<?php
+
+echo "Simple test for standard compare object handler\n";
+
+class class1{}
+
+class class2{}
+
+class class3{
+	public $aaa;
+	private $bbb;
+	protected $ccc;
+}
+
+class class4 extends class3{
+}
+
+class class5 extends class3{
+	public $ddd;
+	private $eee;
+}
+
+// Define a bunch of objects all of which will use standard compare object handler
+$obj1 = new class1();
+$obj2 = new class2();
+$obj3 = new class3();
+$obj4 = new class4();
+$obj5 = new class5();
+
+echo "\n-- The following compare should return TRUE --\n";
+var_dump($obj1 == $obj1);
+
+echo "\n-- All the following compares should return FALSE --\n";
+var_dump($obj1 == $obj2);
+var_dump($obj1 == $obj3);
+var_dump($obj1 == $obj4);
+var_dump($obj1 == $obj5);
+var_dump($obj4 == $obj3);
+var_dump($obj5 == $obj3);
+
+?>
+===DONE===
+
+---
+
+(program (echo_statement (string)) (class_declaration (name)) (class_declaration (name)) (class_declaration (name) (property_declaration (visibility_modifier) (property_element (variable_name (name)))) (property_declaration (visibility_modifier) (property_element (variable_name (name)))) (property_declaration (visibility_modifier) (property_element (variable_name (name))))) (class_declaration (name) (class_base_clause (qualified_name (name)))) (class_declaration (name) (class_base_clause (qualified_name (name))) (property_declaration (visibility_modifier) (property_element (variable_name (name)))) (property_declaration (visibility_modifier) (property_element (variable_name (name))))) (comment) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (variable_name (name)) (variable_name (name)))))) (echo_statement (string)) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (variable_name (name)) (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (variable_name (name)) (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (variable_name (name)) (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (variable_name (name)) (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (variable_name (name)) (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (binary_expression (variable_name (name)) (variable_name (name)))))) (text))
+==============================
+empty() on array elements
+==============================
+
+<?php
+$a=array('0','empty'=>'0');
+var_dump(empty($a['empty']));
+var_dump(empty($a[0]));
+$b='0';
+var_dump(empty($b));
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (array_creation_expression (array_element_initializer (string)) (array_element_initializer (string) (string))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (empty_intrinsic (subscript_expression (variable_name (name)) (string)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (empty_intrinsic (subscript_expression (variable_name (name)) (integer)))))) (expression_statement (assignment_expression (variable_name (name)) (string))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (empty_intrinsic (variable_name (name)))))))
+
+==============================
+ZE2 errors caught as exceptions
+==============================
+
+<?php
+
+class MyException extends Exception {
+	function __construct($_errno, $_errmsg) {
+		$this->errno = $_errno;
+		$this->errmsg = $_errmsg;
+	}
+
+	function getErrno() {
+		return $this->errno;
+	}
+
+	function getErrmsg() {
+		return $this->errmsg;
+	}
+}
+
+function ErrorsToExceptions($errno, $errmsg) {
+	throw new MyException($errno, $errmsg);
+}
+
+set_error_handler("ErrorsToExceptions");
+
+// make sure it isn't catching exceptions that weren't
+// thrown...
+
+try {
+} catch (MyException $exception) {
+	echo "There was an exception: " . $exception->getErrno() . ", '" . $exception->getErrmsg() . "'\n";
+}
+
+try {
+	trigger_error("I will become an exception", E_USER_ERROR);
+} catch (MyException $exception) {
+	echo "There was an exception: " . $exception->getErrno() . ", '" . $exception->getErrmsg() . "'\n";
+}
+
+?>
+
+---
+
+(program (class_declaration (name) (class_base_clause (qualified_name (name))) (method_declaration (function_definition (name) (formal_parameters (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name)))) (compound_statement (expression_statement (assignment_expression (member_access_expression (variable_name (name)) (name)) (variable_name (name)))) (expression_statement (assignment_expression (member_access_expression (variable_name (name)) (name)) (variable_name (name))))))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (return_statement (member_access_expression (variable_name (name)) (name)))))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (return_statement (member_access_expression (variable_name (name)) (name))))))) (function_definition (name) (formal_parameters (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name)))) (compound_statement (throw_statement (object_creation_expression (qualified_name (name)) (arguments (variable_name (name)) (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (string)))) (comment) (comment) (try_statement (compound_statement) (catch_clause (qualified_name (name)) (variable_name (name)) (compound_statement (echo_statement (binary_expression (binary_expression (binary_expression (binary_expression (string) (member_call_expression (variable_name (name)) (name) (arguments))) (string)) (member_call_expression (variable_name (name)) (name) (arguments))) (string)))))) (try_statement (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments (string) (qualified_name (name)))))) (catch_clause (qualified_name (name)) (variable_name (name)) (compound_statement (echo_statement (binary_expression (binary_expression (binary_expression (binary_expression (string) (member_call_expression (variable_name (name)) (name) (arguments))) (string)) (member_call_expression (variable_name (name)) (name) (arguments))) (string)))))))
+
+==============================
+Execution order of variables
+==============================
+
+<?php
+
+/* strings and concat */
+
+class strclass {
+   var $str = "bad";
+   static $statstr = "bad";
+}
+
+$a = "bad";
+$b = "good";
+echo "1)";
+$c = $a.($a=$b);
+echo $c;
+echo "\r\n";
+
+$a = "bad";
+$b = "good";
+$c = ($a=$b).$a;
+echo "2)";
+echo $c;
+echo "\r\n";
+
+
+$str = new strclass();
+$c = $str->str.($str->str="good");
+echo "3)";
+echo $c;
+echo "\r\n";
+
+$str->str = "bad";
+
+$c = ($str->str="good").$str->str;
+echo "4)";
+echo $c;
+echo "\r\n";
+
+$c = strclass::$statstr.(strclass::$statstr="good");
+echo "5)";
+echo $c;
+echo "\r\n";
+
+strclass::$statstr = "bad";
+
+$c = (strclass::$statstr="good").strclass::$statstr;
+echo "6)";
+echo $c;
+echo "\r\n";
+
+
+function foo() {
+   global $a;
+   $a = "good";
+   return $a;
+}
+
+
+$a = "bad";
+echo "7)";
+echo foo() . $a;
+echo "\r\n";
+
+$a = "bad";
+echo "8)";
+echo $a . foo();
+echo "\r\n";
+
+/* other operators */
+
+$x = 1;
+$z = $x - ($x++);
+echo "9)";
+echo $z;
+echo "\r\n";
+
+$x = 1;
+$z = ($x++) - $x;
+echo "10)";
+echo $z;
+echo "\r\n";
+
+$x = 1;
+$z = $x - (++$x);
+echo "11)";
+echo $z;
+echo "\r\n";
+
+$x = 1;
+$z = (++$x) - $x;
+echo "12)";
+echo $z;
+echo "\r\n";
+
+
+$x = 1;
+$y = 3;
+$z = $x - ($x=$y);
+echo "13)";
+echo $z;
+echo "\r\n";
+
+$x = 1;
+$y = 3;
+$z = ($x=$y) - $x;
+echo "14)";
+echo $z;
+echo "\r\n";
+
+
+$a = 100;
+$b = 200;
+echo "15)";
+echo $a + ($a=$b);
+echo "\r\n";
+
+$a = 100;
+$b = 200;
+echo "16)";
+echo ($a=$b) + $a;
+echo "\r\n";
+
+
+$a = array(100,200);
+$i = 0;
+
+echo "17)";
+echo $a[$i++] + $a[$i++];
+echo "\r\n";
+
+$i = -1;
+echo "18)";
+echo $a[++$i] + $a[++$i];
+echo "\r\n";
+
+$i = 0;
+echo "19)";
+echo $a[$i] + ($a[$i]=400);
+echo "\r\n";
+
+
+$a[0] = 100;
+echo "20)";
+echo ($a[$i]=400) + $a[$i];
+echo "\r\n";
+
+
+class c {
+   var $val = 10;
+   static $stat = 20;
+}
+
+echo "21)";
+echo c::$stat + (c::$stat=200);
+echo "\r\n";
+
+echo "22)";
+echo (c::$stat=300) + c::$stat;
+echo "\r\n";
+
+$c = new c();
+
+echo "23)";
+echo $c->val + ($c->val=200);
+echo "\r\n";
+
+echo "24)";
+echo ($c->val=300) + $c->val;
+echo "\r\n";
+
+?>
+
+---
+
+(program (comment) (class_declaration (name) (property_declaration (var_modifier) (property_element (variable_name (name)) (property_initializer (string)))) (property_declaration (static_modifier) (property_element (variable_name (name)) (property_initializer (string))))) (expression_statement (assignment_expression (variable_name (name)) (string))) (expression_statement (assignment_expression (variable_name (name)) (string))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (binary_expression (variable_name (name)) (parenthesized_expression (assignment_expression (variable_name (name)) (variable_name (name))))))) (echo_statement (variable_name (name))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (string))) (expression_statement (assignment_expression (variable_name (name)) (string))) (expression_statement (assignment_expression (variable_name (name)) (binary_expression (parenthesized_expression (assignment_expression (variable_name (name)) (variable_name (name)))) (variable_name (name))))) (echo_statement (string)) (echo_statement (variable_name (name))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (assignment_expression (variable_name (name)) (binary_expression (member_access_expression (variable_name (name)) (name)) (parenthesized_expression (assignment_expression (member_access_expression (variable_name (name)) (name)) (string)))))) (echo_statement (string)) (echo_statement (variable_name (name))) (echo_statement (string)) (expression_statement (assignment_expression (member_access_expression (variable_name (name)) (name)) (string))) (expression_statement (assignment_expression (variable_name (name)) (binary_expression (parenthesized_expression (assignment_expression (member_access_expression (variable_name (name)) (name)) (string))) (member_access_expression (variable_name (name)) (name))))) (echo_statement (string)) (echo_statement (variable_name (name))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (binary_expression (scoped_property_access_expression (qualified_name (name)) (variable_name (name))) (parenthesized_expression (assignment_expression (scoped_property_access_expression (qualified_name (name)) (variable_name (name))) (string)))))) (echo_statement (string)) (echo_statement (variable_name (name))) (echo_statement (string)) (expression_statement (assignment_expression (scoped_property_access_expression (qualified_name (name)) (variable_name (name))) (string))) (expression_statement (assignment_expression (variable_name (name)) (binary_expression (parenthesized_expression (assignment_expression (scoped_property_access_expression (qualified_name (name)) (variable_name (name))) (string))) (scoped_property_access_expression (qualified_name (name)) (variable_name (name)))))) (echo_statement (string)) (echo_statement (variable_name (name))) (echo_statement (string)) (function_definition (name) (formal_parameters) (compound_statement (global_declaration (variable_name (name))) (expression_statement (assignment_expression (variable_name (name)) (string))) (return_statement (variable_name (name))))) (expression_statement (assignment_expression (variable_name (name)) (string))) (echo_statement (string)) (echo_statement (binary_expression (function_call_expression (qualified_name (name)) (arguments)) (variable_name (name)))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (string))) (echo_statement (string)) (echo_statement (binary_expression (variable_name (name)) (function_call_expression (qualified_name (name)) (arguments)))) (echo_statement (string)) (comment) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (binary_expression (variable_name (name)) (parenthesized_expression (update_expression (variable_name (name))))))) (echo_statement (string)) (echo_statement (variable_name (name))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (binary_expression (parenthesized_expression (update_expression (variable_name (name)))) (variable_name (name))))) (echo_statement (string)) (echo_statement (variable_name (name))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (binary_expression (variable_name (name)) (parenthesized_expression (update_expression (variable_name (name))))))) (echo_statement (string)) (echo_statement (variable_name (name))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (binary_expression (parenthesized_expression (update_expression (variable_name (name)))) (variable_name (name))))) (echo_statement (string)) (echo_statement (variable_name (name))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (binary_expression (variable_name (name)) (parenthesized_expression (assignment_expression (variable_name (name)) (variable_name (name))))))) (echo_statement (string)) (echo_statement (variable_name (name))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (binary_expression (parenthesized_expression (assignment_expression (variable_name (name)) (variable_name (name)))) (variable_name (name))))) (echo_statement (string)) (echo_statement (variable_name (name))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (integer))) (echo_statement (string)) (echo_statement (binary_expression (variable_name (name)) (parenthesized_expression (assignment_expression (variable_name (name)) (variable_name (name)))))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (integer))) (echo_statement (string)) (echo_statement (binary_expression (parenthesized_expression (assignment_expression (variable_name (name)) (variable_name (name)))) (variable_name (name)))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (array_creation_expression (array_element_initializer (integer)) (array_element_initializer (integer))))) (expression_statement (assignment_expression (variable_name (name)) (integer))) (echo_statement (string)) (echo_statement (binary_expression (subscript_expression (variable_name (name)) (update_expression (variable_name (name)))) (subscript_expression (variable_name (name)) (update_expression (variable_name (name)))))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (unary_op_expression (integer)))) (echo_statement (string)) (echo_statement (binary_expression (subscript_expression (variable_name (name)) (update_expression (variable_name (name)))) (subscript_expression (variable_name (name)) (update_expression (variable_name (name)))))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (integer))) (echo_statement (string)) (echo_statement (binary_expression (subscript_expression (variable_name (name)) (variable_name (name))) (parenthesized_expression (assignment_expression (subscript_expression (variable_name (name)) (variable_name (name))) (integer))))) (echo_statement (string)) (expression_statement (assignment_expression (subscript_expression (variable_name (name)) (integer)) (integer))) (echo_statement (string)) (echo_statement (binary_expression (parenthesized_expression (assignment_expression (subscript_expression (variable_name (name)) (variable_name (name))) (integer))) (subscript_expression (variable_name (name)) (variable_name (name))))) (echo_statement (string)) (class_declaration (name) (property_declaration (var_modifier) (property_element (variable_name (name)) (property_initializer (integer)))) (property_declaration (static_modifier) (property_element (variable_name (name)) (property_initializer (integer))))) (echo_statement (string)) (echo_statement (binary_expression (scoped_property_access_expression (qualified_name (name)) (variable_name (name))) (parenthesized_expression (assignment_expression (scoped_property_access_expression (qualified_name (name)) (variable_name (name))) (integer))))) (echo_statement (string)) (echo_statement (string)) (echo_statement (binary_expression (parenthesized_expression (assignment_expression (scoped_property_access_expression (qualified_name (name)) (variable_name (name))) (integer))) (scoped_property_access_expression (qualified_name (name)) (variable_name (name))))) (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (echo_statement (string)) (echo_statement (binary_expression (member_access_expression (variable_name (name)) (name)) (parenthesized_expression (assignment_expression (member_access_expression (variable_name (name)) (name)) (integer))))) (echo_statement (string)) (echo_statement (string)) (echo_statement (binary_expression (parenthesized_expression (assignment_expression (member_access_expression (variable_name (name)) (name)) (integer))) (member_access_expression (variable_name (name)) (name)))) (echo_statement (string)))
+
+==============================
+Simple foreach loop
+==============================
+
+
+<?php
+
+$a = array("a","b","c");
+
+foreach ($a as $v) {
+	var_dump($v);
+}
+
+?>
+---
+(program (expression_statement
+    (assignment_expression
+      (variable_name
+        (name))
+      (array_creation_expression
+        (array_element_initializer
+          (string))
+        (array_element_initializer
+          (string))
+        (array_element_initializer
+          (string)))))
+  (foreach_statement
+    (variable_name
+      (name))
+    (variable_name
+      (name))
+    (compound_statement
+      (expression_statement
+        (function_call_expression
+          (qualified_name
+            (name))
+          (arguments
+            (variable_name
+              (name))))))))
+
+==============================
+foreach() with foreach($o->mthd()->arr)
+==============================
+
+<?php
+class Test {
+   public $a = array(1,2,3,4,5); // removed, crash too
+   function c() {
+      return new Test();
+   }
+
+}
+$obj = new Test();
+foreach ($obj->c()->a as $value) {
+    print "$value\n";
+}
+
+?>
+===DONE===
+
+---
+
+(program (class_declaration
+    (name)
+    (property_declaration (visibility_modifier) (property_element (variable_name (name)) (property_initializer (array_creation_expression (array_element_initializer (integer)) (array_element_initializer (integer)) (array_element_initializer (integer)) (array_element_initializer (integer)) (array_element_initializer (integer))))))
+    (comment)
+    (method_declaration (function_definition (name) (formal_parameters) (compound_statement (return_statement (object_creation_expression (qualified_name (name)) (arguments)))))))
+  (expression_statement (assignment_expression
+    (variable_name (name))
+    (object_creation_expression (qualified_name (name)) (arguments))))
+  (foreach_statement
+    (member_access_expression (member_call_expression (variable_name (name)) (name) (arguments)) (name))
+    (variable_name (name))
+    (compound_statement (expression_statement (print_intrinsic (string)))))
+  (text))
+==============================
+foreach() with references
+==============================
+
+<?php
+
+$arr = array(1 => "one", 2 => "two", 3 => "three");
+
+foreach($arr as $key => $val) {
+	$val = $key;
+}
+
+print_r($arr);
+
+foreach($arr as $key => &$val) {
+	$val = $key;
+}
+
+print_r($arr);
+
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (array_creation_expression (array_element_initializer (integer) (string)) (array_element_initializer (integer) (string)) (array_element_initializer (integer) (string))))) (foreach_statement (variable_name (name)) (pair (variable_name (name)) (variable_name (name))) (compound_statement (expression_statement (assignment_expression (variable_name (name)) (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (foreach_statement (variable_name (name)) (pair (variable_name (name)) (variable_name (name))) (compound_statement (expression_statement (assignment_expression (variable_name (name)) (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))
+
+==============================
+include() a file from the current script directory
+==============================
+
+<?php
+include("inc.inc");
+?>
+
+---
+
+(program (expression_statement (include_expression (parenthesized_expression (string)))))
+
+==============================
+Including a file in the current script directory from an included function
+==============================
+
+<?php
+require_once 'include_files/function.inc';
+test();
+?>
+
+---
+
+(program (expression_statement (require_once_expression (string))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))))
+
+==============================
+Including a file in the current script directory from eval'd code
+==============================
+
+<?php
+require_once 'include_files/eval.inc';
+?>
+
+---
+
+(program (expression_statement (require_once_expression (string))))
+
+==============================
+passing of function parameters by reference
+==============================
+
+<?php
+function f($arg1, &$arg2)
+{
+	var_dump($arg1++);
+	var_dump($arg2++);
+}
+
+function g (&$arg1, &$arg2)
+{
+	var_dump($arg1);
+	var_dump($arg2);
+}
+$a = 7;
+$b = 15;
+
+f($a, $b);
+
+var_dump($a);
+var_dump($b);
+
+$c=array(1);
+g($c,$c[0]);
+
+?>
+
+---
+
+(program (function_definition (name) (formal_parameters (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name)))) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments (update_expression (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (update_expression (variable_name (name)))))))) (function_definition (name) (formal_parameters (simple_parameter (variable_name (name))) (simple_parameter (variable_name (name)))) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name)) (variable_name (name))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (expression_statement (assignment_expression (variable_name (name)) (array_creation_expression (array_element_initializer (integer))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name)) (subscript_expression (variable_name (name)) (integer))))))
+
+==============================
+Returning a reference from a function
+==============================
+
+<?php
+
+function &returnByRef(&$arg1)
+{
+	return $arg1;
+}
+
+$a = 7;
+$b =& returnByRef($a);
+var_dump($b);
+$a++;
+var_dump($b);
+
+?>
+
+---
+
+(program (function_definition
+    (name)
+    (formal_parameters
+      (simple_parameter
+        (variable_name
+          (name))))
+    (compound_statement
+      (return_statement
+        (variable_name
+          (name)))))
+  (expression_statement
+    (assignment_expression
+      (variable_name
+        (name))
+      (integer)))
+  (expression_statement
+    (assignment_expression
+      (variable_name
+        (name))
+      (function_call_expression
+        (qualified_name
+          (name))
+        (arguments
+          (variable_name
+            (name))))))
+  (expression_statement
+    (function_call_expression
+      (qualified_name
+        (name))
+      (arguments
+        (variable_name
+          (name)))))
+  (expression_statement
+    (update_expression
+      (variable_name
+        (name))))
+  (expression_statement
+    (function_call_expression
+      (qualified_name
+        (name))
+      (arguments
+        (variable_name
+          (name))))))
+
+==============================
+Static keyword - basic tests
+==============================
+
+<?php
+
+echo "\nSame variable used as static and non static.\n";
+function staticNonStatic() {
+	echo "---------\n";
+	$a=0;
+	echo "$a\n";
+	static $a=10;
+	echo "$a\n";
+	$a++;
+}
+staticNonStatic();
+staticNonStatic();
+staticNonStatic();
+
+echo "\nLots of initialisations in the same statement.\n";
+function manyInits() {
+	static $counter=0;
+	echo "------------- Call $counter --------------\n";
+	static $a, $b=10, $c=20, $d, $e=30;
+	echo "Unitialised      : $a\n";
+	echo "Initialised to 10: $b\n";
+	echo "Initialised to 20: $c\n";
+	echo "Unitialised      : $d\n";
+	echo "Initialised to 30: $e\n";
+	$a++;
+	$b++;
+	$c++;
+	$d++;
+	$e++;
+	$counter++;
+}
+manyInits();
+manyInits();
+manyInits();
+
+echo "\nUsing static keyword at global scope\n";
+for ($i=0; $i<3; $i++) {
+   static $s, $k=10;
+   echo "$s $k\n";
+   $s++;
+   $k++;
+}
+?>
+
+---
+
+(program (echo_statement (string)) (function_definition (name) (formal_parameters) (compound_statement (echo_statement (string)) (expression_statement (assignment_expression (variable_name (name)) (integer))) (echo_statement (string)) (function_static_declaration (static_variable_declaration (variable_name (name)) (integer))) (echo_statement (string)) (expression_statement (update_expression (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (function_definition (name) (formal_parameters) (compound_statement (function_static_declaration (static_variable_declaration (variable_name (name)) (integer))) (echo_statement (string)) (function_static_declaration (static_variable_declaration (variable_name (name))) (static_variable_declaration (variable_name (name)) (integer)) (static_variable_declaration (variable_name (name)) (integer)) (static_variable_declaration (variable_name (name))) (static_variable_declaration (variable_name (name)) (integer))) (echo_statement (string)) (echo_statement (string)) (echo_statement (string)) (echo_statement (string)) (echo_statement (string)) (expression_statement (update_expression (variable_name (name)))) (expression_statement (update_expression (variable_name (name)))) (expression_statement (update_expression (variable_name (name)))) (expression_statement (update_expression (variable_name (name)))) (expression_statement (update_expression (variable_name (name)))) (expression_statement (update_expression (variable_name (name)))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))) (echo_statement (string)) (for_statement (assignment_expression (variable_name (name)) (integer)) (binary_expression (variable_name (name)) (integer)) (update_expression (variable_name (name))) (compound_statement (function_static_declaration (static_variable_declaration (variable_name (name))) (static_variable_declaration (variable_name (name)) (integer))) (echo_statement (string)) (expression_statement (update_expression (variable_name (name)))) (expression_statement (update_expression (variable_name (name)))))))
+
+==============================
+Multiple declarations of the same static variable
+==============================
+
+<?php
+
+$a = 5;
+
+var_dump($a);
+
+static $a = 10;
+static $a = 11;
+
+var_dump($a);
+
+function foo() {
+	static $a = 13;
+	static $a = 14;
+
+	var_dump($a);
+}
+
+foo();
+
+?>
+
+---
+
+(program (expression_statement (assignment_expression (variable_name (name)) (integer))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (function_static_declaration (static_variable_declaration (variable_name (name)) (integer))) (function_static_declaration (static_variable_declaration (variable_name (name)) (integer))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (function_definition (name) (formal_parameters) (compound_statement (function_static_declaration (static_variable_declaration (variable_name (name)) (integer))) (function_static_declaration (static_variable_declaration (variable_name (name)) (integer))) (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))))) (expression_statement (function_call_expression (qualified_name (name)) (arguments))))
+
+==============================
+Test to catch early assignment of $this
+==============================
+
+<?php
+class first {
+
+   function me() { echo "first"; }
+
+   function who() {
+     global $a,$b;
+     $this->me();
+     $a->me();
+     $b->me();
+     $b = new second();
+     $this->me();
+     $a->me();
+     $b->me();
+   }
+}
+
+class second {
+
+   function who() {
+      global $a,$b;
+      $this->me();
+      $a->me();
+      $b->me();
+   }
+   function me() { echo "second"; }
+}
+
+$a = new first();
+$b = &$a;
+
+$a->who();
+$b->who();
+
+echo "\n";
+?>
+===DONE===
+
+---
+
+(program (class_declaration (name) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (echo_statement (string))))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (global_declaration (variable_name (name)) (variable_name (name))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))))))) (class_declaration (name) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (global_declaration (variable_name (name)) (variable_name (name))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments)))))) (method_declaration (function_definition (name) (formal_parameters) (compound_statement (echo_statement (string)))))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (assignment_expression (variable_name (name)) (variable_name (name)))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))) (echo_statement (string)) (text))
+==============================
+Catching an exception thrown from an included file
+==============================
+
+<?php
+
+try {
+	include "inc_throw.inc";
+} catch (Exception $e) {
+	echo "caught exception\n";
+}
+
+?>
+
+---
+
+(program (try_statement (compound_statement (expression_statement (include_expression (string)))) (catch_clause (qualified_name (name)) (variable_name (name)) (compound_statement (echo_statement (string))))))
+
+==============================
+ZE2 type hinting
+==============================
+
+<?php
+class P { }
+class T {
+	function f(P $p = NULL) {
+		var_dump($p);
+		echo "-\n";
+	}
+}
+
+$o=new T();
+$o->f(new P);
+$o->f();
+$o->f(NULL);
+?>
+
+---
+
+(program (class_declaration (name)) (class_declaration (name) (method_declaration (function_definition (name) (formal_parameters (simple_parameter (type_declaration (base_type_declaration (qualified_name (name)))) (variable_name (name)) (default_argument_specifier (qualified_name (name))))) (compound_statement (expression_statement (function_call_expression (qualified_name (name)) (arguments (variable_name (name))))) (echo_statement (string)))))) (expression_statement (assignment_expression (variable_name (name)) (object_creation_expression (qualified_name (name)) (arguments)))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments (object_creation_expression (qualified_name (name)))))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments))) (expression_statement (member_call_expression (variable_name (name)) (name) (arguments (qualified_name (name))))))
