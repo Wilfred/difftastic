@@ -596,3 +596,17 @@ void wrap(Args&&... args) {
                     arguments: (template_argument_list
                       (type_descriptor type: (type_identifier))))
                   arguments: (argument_list (identifier)))))))))))
+
+============================================
+Concatenated string literals
+============================================
+
+"a" "b" "c";
+R"(a)" R"(b)" R"(c)";
+"a" R"(b)" L"c" R"FOO(d)FOO";
+---
+
+(translation_unit
+  (expression_statement (concatenated_string (string_literal) (string_literal) (string_literal)))
+  (expression_statement (concatenated_string (raw_string_literal) (raw_string_literal) (raw_string_literal)))
+  (expression_statement (concatenated_string (string_literal) (raw_string_literal) (string_literal) (raw_string_literal))))
