@@ -3055,6 +3055,10 @@
         {
           "type": "SYMBOL",
           "name": "dependent_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "decltype"
         }
       ]
     },
@@ -6930,6 +6934,27 @@
           }
         ]
       }
+    },
+    "decltype": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "decltype"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
     },
     "class_specifier": {
       "type": "PREC_RIGHT",

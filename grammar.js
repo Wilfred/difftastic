@@ -48,13 +48,21 @@ module.exports = grammar(C, {
 
     // Types
 
+    decltype: $ => seq(
+      'decltype',
+      '(',
+      $._expression,
+      ')',
+    ),
+
     _type_specifier: ($, original) => choice(
       original,
       $.class_specifier,
       $.scoped_type_identifier,
       $.template_type,
       $.auto,
-      $.dependent_type
+      $.dependent_type,
+      $.decltype,
     ),
 
     type_qualifier: ($, original) => choice(
