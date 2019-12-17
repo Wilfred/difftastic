@@ -17,11 +17,9 @@ module.exports = grammar(C, {
     [$.template_function, $.template_type, $._expression],
     [$.template_function, $._expression],
     [$.template_method, $.template_type, $.field_expression],
-    [$._type_specifier, $.template_type],
     [$.scoped_type_identifier, $.scoped_identifier],
     [$.scoped_type_identifier, $.scoped_field_identifier],
     [$.comma_expression, $.initializer_list],
-    [$._type_specifier, $.optional_type_parameter_declaration],
     [$._expression, $._declarator],
     [$._expression, $.structured_binding_declarator],
     [$._expression, $._declarator, $._type_specifier],
@@ -30,7 +28,6 @@ module.exports = grammar(C, {
 
   inline: ($, original) => original.concat([
     $._namespace_identifier,
-    $._class_name,
   ]),
 
   rules: {
@@ -60,7 +57,7 @@ module.exports = grammar(C, {
       ')',
     ),
 
-    _type_specifier: ($, original) => choice(
+    _type_specifier: ($, original) => prec.right(choice(
       original,
       $.class_specifier,
       $.scoped_type_identifier,
@@ -68,7 +65,7 @@ module.exports = grammar(C, {
       $.auto,
       $.dependent_type,
       $.decltype,
-    ),
+    )),
 
     type_qualifier: ($, original) => choice(
       original,
@@ -118,11 +115,11 @@ module.exports = grammar(C, {
       )
     )),
 
-    _class_name: $ => choice(
+    _class_name: $ => prec.right(choice(
       $._type_identifier,
       $.scoped_type_identifier,
       $.template_type
-    ),
+    )),
 
     virtual_specifier: $ => choice(
       'final', // the only legal value here for classes
@@ -154,18 +151,20 @@ module.exports = grammar(C, {
 
     enum_specifier: $ => prec.left(seq(
       'enum',
-      optional(choice(
-        'class',
-        'struct',
-      )),
+      optional(choice('class', 'struct')),
       choice(
         seq(
-          field('name', choice($.scoped_type_identifier, $._type_identifier)),
-          field('base', optional(seq(':', choice($.scoped_type_identifier, $._type_identifier, $.sized_type_specifier)))),
-          field('body', optional($.enumerator_list))
+          field('name', $._class_name),
+          optional($._enum_base_clause),
+          optional(field('body', $.enumerator_list))
         ),
         field('body', $.enumerator_list)
       )
+    )),
+
+    _enum_base_clause: $ => prec.left(seq(
+      ':',
+      field('base', choice($.scoped_type_identifier, $._type_identifier, $.sized_type_specifier))
     )),
 
     // The `auto` storage class is removed in C++0x in order to allow for the `auto` type.
