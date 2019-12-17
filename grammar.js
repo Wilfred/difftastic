@@ -24,6 +24,7 @@ module.exports = grammar(C, {
     [$._expression, $.structured_binding_declarator],
     [$._expression, $._declarator, $._type_specifier],
     [$.parameter_list, $.argument_list],
+    [$._type_specifier, $.call_expression],
   ]),
 
   inline: ($, original) => original.concat([
@@ -43,11 +44,6 @@ module.exports = grammar(C, {
       alias($.constructor_or_destructor_definition, $.function_definition)
     ),
 
-    call_expression: $ => prec(PREC.CALL, seq(
-      field('function', choice($._expression, $.primitive_type)),
-      field('arguments', $.argument_list)
-    )),
-
     // Types
 
     decltype: $ => seq(
@@ -57,15 +53,22 @@ module.exports = grammar(C, {
       ')',
     ),
 
-    _type_specifier: ($, original) => prec.right(choice(
-      original,
+    _type_specifier: $ => choice(
+      $.struct_specifier,
+      $.union_specifier,
+      $.enum_specifier,
       $.class_specifier,
-      $.scoped_type_identifier,
+      $.sized_type_specifier,
+      $.primitive_type,
       $.template_type,
       $.auto,
       $.dependent_type,
       $.decltype,
-    )),
+      prec.right(choice(
+        $.scoped_type_identifier,
+        $._type_identifier
+      ))
+    ),
 
     type_qualifier: ($, original) => choice(
       original,
@@ -459,7 +462,7 @@ module.exports = grammar(C, {
       repeat(choice(
         $.type_qualifier,
         $.noexcept,
-        $.throw_specifier,
+        $.throw_specifier
       )),
       optional($.trailing_return_type)
     )),
@@ -676,6 +679,11 @@ module.exports = grammar(C, {
       $.raw_string_literal
     ),
 
+    call_expression: ($, original) => choice(original, seq(
+      field('function', $.primitive_type),
+      field('arguments', $.argument_list)
+    )),
+
     new_expression: $ => prec.right(PREC.NEW, seq(
       optional('::'),
       'new',
@@ -856,9 +864,7 @@ module.exports = grammar(C, {
       repeat1(choice($.raw_string_literal, $.string_literal))
     ),
 
-    _namespace_identifier: $ => alias($.identifier, $.namespace_identifier),
-
-    macro_type_specifier: $ => choice(),
+    _namespace_identifier: $ => alias($.identifier, $.namespace_identifier)
   }
 });
 

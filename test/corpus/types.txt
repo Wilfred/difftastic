@@ -71,6 +71,35 @@ use_future_t<> use_future;
 (translation_unit
   (declaration (template_type (type_identifier) (template_argument_list)) (identifier)))
 
+================================
+Function types as template arguments
+================================
+
+typedef std::function<T(int)> MyFunc;
+typedef std::function<void(int)> b;
+
+---
+
+(translation_unit
+  (type_definition
+    (template_type
+      (scoped_type_identifier (namespace_identifier) (type_identifier))
+      (template_argument_list
+        (type_descriptor
+          (type_identifier)
+          (abstract_function_declarator (parameter_list
+            (parameter_declaration (primitive_type)))))))
+    (type_identifier))
+  (type_definition
+    (template_type
+      (scoped_type_identifier (namespace_identifier) (type_identifier))
+      (template_argument_list
+        (type_descriptor
+          (primitive_type)
+          (abstract_function_declarator (parameter_list
+            (parameter_declaration (primitive_type)))))))
+    (type_identifier)))
+
 ====================================================
 Decltype
 ====================================================
