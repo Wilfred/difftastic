@@ -73,7 +73,6 @@ module.exports = grammar(C, {
     type_qualifier: ($, original) => choice(
       original,
       'mutable',
-      'explicit',
       'constexpr'
     ),
 
@@ -132,6 +131,16 @@ module.exports = grammar(C, {
 
     virtual_function_specifier: $ => choice(
       'virtual'
+    ),
+
+    explicit_function_specifier: $ => choice(
+      'explicit',
+      prec(PREC.CALL, seq(
+        'explicit',
+        '(',
+        $._expression,
+        ')'
+      ))
     ),
 
     base_class_clause: $ => seq(
@@ -357,7 +366,7 @@ module.exports = grammar(C, {
         $.attribute_specifier
       )),
       prec(1, seq(
-        optional($.virtual_function_specifier),
+        optional(choice($.virtual_function_specifier, $.explicit_function_specifier)),
         field('declarator', $.function_declarator),
         optional($.field_initializer_list)
       )),
@@ -369,7 +378,7 @@ module.exports = grammar(C, {
     ),
 
     constructor_or_destructor_declaration: $ => seq(
-      optional($.virtual_function_specifier),
+      optional(choice($.virtual_function_specifier, $.explicit_function_specifier)),
       field('declarator', $.function_declarator),
       ';'
     ),
