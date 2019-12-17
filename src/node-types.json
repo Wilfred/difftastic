@@ -1442,6 +1442,10 @@
           "named": true
         },
         {
+          "type": "explicit_function_specifier",
+          "named": true
+        },
+        {
           "type": "storage_class_specifier",
           "named": true
         },
@@ -1723,6 +1727,21 @@
       "types": [
         {
           "type": "enumerator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "explicit_function_specifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
           "named": true
         }
       ]
@@ -2253,6 +2272,10 @@
         },
         {
           "type": "delete_method_clause",
+          "named": true
+        },
+        {
+          "type": "explicit_function_specifier",
           "named": true
         },
         {

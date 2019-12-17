@@ -68,7 +68,7 @@ class C {
     (type_identifier)
     (field_declaration_list
       (function_definition
-        (type_qualifier)
+        (explicit_function_specifier)
         (function_declarator
           (identifier)
           (parameter_list (parameter_declaration (primitive_type) (identifier))))
@@ -77,6 +77,28 @@ class C {
         (compound_statement))
       (access_specifier)
         (field_declaration (primitive_type) (field_identifier)))))
+
+=====================================
+Explicit constructor declaration
+=====================================
+
+class C {
+  explicit C(int f);
+  explicit(true) C(long f);
+};
+
+---
+
+(translation_unit
+  (class_specifier
+    (type_identifier)
+    (field_declaration_list
+      (declaration
+        (explicit_function_specifier)
+        (function_declarator (identifier) (parameter_list (parameter_declaration (primitive_type) (identifier)))))
+      (declaration
+        (explicit_function_specifier (true))
+        (function_declarator (identifier) (parameter_list (parameter_declaration (sized_type_specifier) (identifier))))))))
 
 =====================================
 Default and deleted methods

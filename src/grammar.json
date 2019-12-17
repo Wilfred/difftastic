@@ -2992,10 +2992,6 @@
         },
         {
           "type": "STRING",
-          "value": "explicit"
-        },
-        {
-          "type": "STRING",
           "value": "constexpr"
         }
       ]
@@ -7083,6 +7079,40 @@
         }
       ]
     },
+    "explicit_function_specifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "explicit"
+        },
+        {
+          "type": "PREC",
+          "value": 14,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "explicit"
+              },
+              {
+                "type": "STRING",
+                "value": "("
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              },
+              {
+                "type": "STRING",
+                "value": ")"
+              }
+            ]
+          }
+        }
+      ]
+    },
     "base_class_clause": {
       "type": "SEQ",
       "members": [
@@ -7840,8 +7870,17 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "virtual_function_specifier"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "virtual_function_specifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "explicit_function_specifier"
+                      }
+                    ]
                   },
                   {
                     "type": "BLANK"
@@ -7901,8 +7940,17 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "virtual_function_specifier"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "virtual_function_specifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "explicit_function_specifier"
+                }
+              ]
             },
             {
               "type": "BLANK"
