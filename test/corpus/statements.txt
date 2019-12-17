@@ -219,3 +219,19 @@ void foo() throw(float) { }
     (function_declarator (identifier) (parameter_list)
       (throw_specifier (type_descriptor (primitive_type))))
       (compound_statement)))
+
+===========================================
+Assignment
+===========================================
+
+a::b::c = 1;
+
+---
+
+(translation_unit
+  (expression_statement
+    (assignment_expression
+      (scoped_namespace_identifier
+        (scoped_namespace_identifier (namespace_identifier) (namespace_identifier))
+        (namespace_identifier))
+      (number_literal))))
