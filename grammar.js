@@ -636,6 +636,7 @@ module.exports = grammar(C, {
     ),
 
     new_expression: $ => prec.right(PREC.NEW, seq(
+      optional('::'),
       'new',
       field('placement', optional($.argument_list)),
       field('type', $._type_specifier),

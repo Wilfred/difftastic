@@ -79,6 +79,7 @@ int main() {
   d = new(2, f) T;
   delete a;
   ::delete[] c;
+  ::new (foo(x)) T(this, x);
 }
 
 ---
@@ -130,7 +131,11 @@ int main() {
           (argument_list (number_literal) (identifier))
           (type_identifier))))
       (expression_statement (delete_expression (identifier)))
-      (expression_statement (delete_expression (identifier))))))
+      (expression_statement (delete_expression (identifier)))
+      (expression_statement (new_expression
+        (argument_list (call_expression (identifier) (argument_list (identifier))))
+        (type_identifier) (argument_list (this) (identifier)))))))
+
 
 ====================================================
 Initializer lists as arguments
