@@ -90,16 +90,64 @@ T f() {
       parameters: (parameter_list))
     body: (compound_statement
       (if_statement
-        condition: (parenthesized_expression
-          (template_function
+        condition: (condition_clause
+          value: (template_function
             name: (scoped_identifier
               namespace: (namespace_identifier)
               name: (identifier))
-          arguments: (template_argument_list
-            (type_descriptor type: (type_identifier)))))
+            arguments: (template_argument_list
+              (type_descriptor type: (type_identifier)))))
         consequence: (return_statement
           (pointer_expression argument: (identifier)))
         alternative: (return_statement (identifier))))))
+
+=====================================
+If statements with declarations
+====================================
+
+void f() {
+  if (const int x = foo()) { }
+  if (const int x { foo() }) { }
+  if (const int x = foo(); x != 0) { }
+}
+
+---
+
+(translation_unit
+  (function_definition
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list))
+    body: (compound_statement
+      (if_statement
+        condition: (condition_clause
+          value: (declaration
+            (type_qualifier)
+            type: (primitive_type)
+            declarator: (identifier)
+            value: (call_expression
+              function: (identifier)
+              arguments: (argument_list))))
+        consequence: (compound_statement))
+      (if_statement
+        condition: (condition_clause
+          value: (declaration
+            (type_qualifier)
+            type: (primitive_type)
+            declarator: (identifier)
+          value: (initializer_list (call_expression function: (identifier) arguments: (argument_list)))))
+        consequence: (compound_statement))
+      (if_statement
+        condition: (condition_clause
+          initializer: (declaration
+            (type_qualifier)
+            type: (primitive_type)
+            declarator: (init_declarator
+              declarator: (identifier)
+              value: (call_expression function: (identifier) arguments: (argument_list))))
+          value: (binary_expression left: (identifier) right: (number_literal)))
+        consequence: (compound_statement)))))
 
 ===========================================
 Try/catch statements

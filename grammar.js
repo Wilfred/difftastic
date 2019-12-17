@@ -565,16 +565,58 @@ module.exports = grammar(C, {
       $.throw_statement,
     ),
 
+    switch_statement: $ => seq(
+      'switch',
+      field('condition', $.condition_clause),
+      field('body', $.compound_statement)
+    ),
+
+    while_statement: $ => seq(
+      'while',
+      field('condition', $.condition_clause),
+      field('body', $._statement)
+    ),
+
     if_statement: $ => prec.right(seq(
       'if',
       optional('constexpr'),
-      field('condition', $.parenthesized_expression),
+      field('condition', $.condition_clause),
       field('consequence', $._statement),
       optional(seq(
         'else',
         field('alternative', $._statement)
       ))
     )),
+
+    condition_clause: $ => seq(
+      '(',
+      choice(
+        seq(
+          field('initializer', optional(choice(
+            $.declaration,
+            $.expression_statement
+          ))),
+          field('value', choice(
+            $._expression,
+            $.comma_expression
+          )),
+        ),
+        field('value', alias($.condition_declaration, $.declaration))
+      ),
+      ')',
+    ),
+
+    condition_declaration: $ => seq(
+      $._declaration_specifiers,
+      field('declarator', $._declarator),
+      choice(
+        seq(
+          '=',
+          field('value', $._expression),
+        ),
+        field('value', $.initializer_list),
+      )
+    ),
 
     for_range_loop: $ => seq(
       'for',

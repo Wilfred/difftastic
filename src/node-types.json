@@ -1356,6 +1356,44 @@
     }
   },
   {
+    "type": "condition_clause",
+    "named": true,
+    "fields": {
+      "initializer": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "declaration",
+            "named": true
+          },
+          {
+            "type": "expression_statement",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "comma_expression",
+            "named": true
+          },
+          {
+            "type": "declaration",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "conditional_expression",
     "named": true,
     "fields": {
@@ -1424,6 +1462,20 @@
         "types": [
           {
             "type": "_type_specifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "initializer_list",
             "named": true
           }
         ]
@@ -2332,7 +2384,7 @@
         "required": true,
         "types": [
           {
-            "type": "parenthesized_expression",
+            "type": "condition_clause",
             "named": true
           }
         ]
@@ -4077,7 +4129,7 @@
         "required": true,
         "types": [
           {
-            "type": "parenthesized_expression",
+            "type": "condition_clause",
             "named": true
           }
         ]
@@ -4880,7 +4932,7 @@
         "required": true,
         "types": [
           {
-            "type": "parenthesized_expression",
+            "type": "condition_clause",
             "named": true
           }
         ]
