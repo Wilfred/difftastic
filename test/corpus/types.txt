@@ -70,3 +70,57 @@ use_future_t<> use_future;
 
 (translation_unit
   (declaration (template_type (type_identifier) (template_argument_list)) (identifier)))
+
+====================================================
+Decltype
+====================================================
+
+decltype(A) x;
+decltype(B) foo(void x, decltype(C) y);
+template<typename T, typename U> auto add(T t, U u) -> decltype(t + u);
+
+---
+
+(translation_unit
+  (declaration
+    (decltype (identifier))
+    (identifier))
+  (declaration
+    (decltype (identifier))
+    (function_declarator (identifier)
+      (parameter_list
+        (parameter_declaration (primitive_type) (identifier))
+        (parameter_declaration (decltype (identifier)) (identifier)))))
+  (template_declaration
+    (template_parameter_list
+      (type_parameter_declaration (type_identifier)) (type_parameter_declaration (type_identifier)))
+    (declaration
+      (auto)
+      (function_declarator
+        (identifier)
+        (parameter_list
+          (parameter_declaration (type_identifier) (identifier))
+          (parameter_declaration (type_identifier) (identifier)))
+        (trailing_return_type
+          (decltype (binary_expression (identifier) (identifier))))))))
+
+====================================================
+Trailing return type
+====================================================
+
+auto a::foo() const -> const A<B>& {}
+
+---
+
+(translation_unit
+  (function_definition
+    (auto)
+    (function_declarator
+      (scoped_identifier (namespace_identifier) (identifier))
+      (parameter_list)
+      (type_qualifier)
+      (trailing_return_type
+        (type_qualifier)
+        (template_type (type_identifier) (template_argument_list (type_descriptor (type_identifier))))
+        (abstract_reference_declarator)))
+      (compound_statement)))
