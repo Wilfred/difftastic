@@ -36,6 +36,7 @@ module.exports = grammar({
     $._field_identifier,
     $._statement_identifier,
     $._non_case_statement,
+    $._assignment_left_expression,
   ],
 
   conflicts: $ => [
@@ -663,15 +664,17 @@ module.exports = grammar({
       field('alternative', $._expression)
     )),
 
+    _assignment_left_expression: $ => choice(
+      $.identifier,
+      $.call_expression,
+      $.field_expression,
+      $.pointer_expression,
+      $.subscript_expression,
+      $.parenthesized_expression
+    ),
+
     assignment_expression: $ => prec.right(PREC.ASSIGNMENT, seq(
-      field('left', choice(
-        $.identifier,
-        $.call_expression,
-        $.field_expression,
-        $.pointer_expression,
-        $.subscript_expression,
-        $.parenthesized_expression
-      )),
+      field('left', $._assignment_left_expression),
       choice(
         '=',
         '*=',
