@@ -782,6 +782,11 @@ module.exports = grammar(C, {
     this: $ => 'this',
     nullptr: $ => 'nullptr',
 
+    concatenated_string: $ => seq(
+      choice($.raw_string_literal, $.string_literal),
+      repeat1(choice($.raw_string_literal, $.string_literal))
+    ),
+
     _namespace_identifier: $ => alias($.identifier, $.namespace_identifier),
 
     macro_type_specifier: $ => choice(),
