@@ -4,12 +4,19 @@ Include directives
 
 #include "some/path.h"
 #include <stdint.h>
+#include MACRO
+#include MACRO(arg1, arg2)
 
 ---
 
 (translation_unit
   (preproc_include path: (string_literal))
-  (preproc_include path: (system_lib_string)))
+  (preproc_include path: (system_lib_string))
+  (preproc_include path: (identifier))
+  (preproc_include path:
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list (identifier) (identifier)))))
 
 ============================================
 Object-like macro definitions

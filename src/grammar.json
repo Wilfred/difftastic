@@ -87,9 +87,26 @@
               {
                 "type": "SYMBOL",
                 "name": "system_lib_string"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "preproc_call_expression"
+                },
+                "named": true,
+                "value": "call_expression"
               }
             ]
           }
+        },
+        {
+          "type": "STRING",
+          "value": "\n"
         }
       ]
     },
