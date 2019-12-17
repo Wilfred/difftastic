@@ -2,4 +2,4 @@ language: node_js
 
 sudo: false
 
-node_js: "10
+node_js: 10
