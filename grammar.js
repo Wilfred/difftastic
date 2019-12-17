@@ -453,6 +453,7 @@ module.exports = grammar(C, {
 
     trailing_return_type: $ => prec.right(seq(
       '->',
+      optional($.type_qualifier),
       $._type_specifier,
       optional($._abstract_declarator)
     )),

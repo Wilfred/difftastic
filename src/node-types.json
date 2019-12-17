@@ -4370,6 +4370,10 @@
         {
           "type": "_type_specifier",
           "named": true
+        },
+        {
+          "type": "type_qualifier",
+          "named": true
         }
       ]
     }

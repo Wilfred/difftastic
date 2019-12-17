@@ -610,36 +610,3 @@ R"(a)" R"(b)" R"(c)";
   (expression_statement (concatenated_string (string_literal) (string_literal) (string_literal)))
   (expression_statement (concatenated_string (raw_string_literal) (raw_string_literal) (raw_string_literal)))
   (expression_statement (concatenated_string (string_literal) (raw_string_literal) (string_literal) (raw_string_literal))))
-
-====================================================
-Decltype
-====================================================
-
-decltype(A) x;
-decltype(B) foo(void x, decltype(C) y);
-template<typename T, typename U> auto add(T t, U u) -> decltype(t + u);
-
----
-
-(translation_unit
-  (declaration
-    (decltype (identifier))
-    (identifier))
-  (declaration
-    (decltype (identifier))
-    (function_declarator (identifier)
-      (parameter_list
-        (parameter_declaration (primitive_type) (identifier))
-        (parameter_declaration (decltype (identifier)) (identifier)))))
-  (template_declaration
-    (template_parameter_list
-      (type_parameter_declaration (type_identifier)) (type_parameter_declaration (type_identifier)))
-    (declaration
-      (auto)
-      (function_declarator
-        (identifier)
-        (parameter_list
-          (parameter_declaration (type_identifier) (identifier))
-          (parameter_declaration (type_identifier) (identifier)))
-        (trailing_return_type
-          (decltype (binary_expression (identifier) (identifier))))))))
