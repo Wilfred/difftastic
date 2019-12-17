@@ -370,7 +370,7 @@ int main() {
   (compound_statement
     (comment)
     (if_statement
-      (parenthesized_expression
+      (condition_clause
         (call_expression
           (template_function
             (identifier)
@@ -379,7 +379,7 @@ int main() {
       (compound_statement))
     (comment)
     (if_statement
-      (parenthesized_expression
+      (condition_clause
         (binary_expression
           (binary_expression (identifier) (identifier))
           (binary_expression (identifier) (identifier))))
