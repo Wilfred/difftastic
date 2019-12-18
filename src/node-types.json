@@ -509,10 +509,6 @@
         {
           "type": "_statement",
           "named": true
-        },
-        {
-          "type": "labeled_statement",
-          "named": true
         }
       ]
     }
@@ -552,10 +548,6 @@
         "types": [
           {
             "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "identifier",
             "named": true
           }
         ]
@@ -603,10 +595,6 @@
       "types": [
         {
           "type": "_statement",
-          "named": true
-        },
-        {
-          "type": "labeled_statement",
           "named": true
         }
       ]
@@ -758,10 +746,6 @@
         {
           "type": "_statement",
           "named": true
-        },
-        {
-          "type": "labeled_statement",
-          "named": true
         }
       ]
     }
@@ -831,10 +815,6 @@
       "types": [
         {
           "type": "_statement",
-          "named": true
-        },
-        {
-          "type": "labeled_statement",
           "named": true
         }
       ]
@@ -2105,10 +2085,6 @@
       "types": [
         {
           "type": "_statement",
-          "named": true
-        },
-        {
-          "type": "labeled_statement",
           "named": true
         }
       ]
