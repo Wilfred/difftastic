@@ -449,6 +449,8 @@ bool A::operator!=(const A &other) const;
 
 bool A::operator ==(const A &other) const;
 
+void * A::operator new(size_t s);
+
 ---
 
 (translation_unit
@@ -473,7 +475,13 @@ bool A::operator ==(const A &other) const;
       (scoped_identifier (namespace_identifier) (operator_name))
       (parameter_list
         (parameter_declaration (type_qualifier) (type_identifier) (reference_declarator (identifier))))
-      (type_qualifier))))
+      (type_qualifier)))
+   (declaration
+     (primitive_type)
+     (pointer_declarator
+       (function_declarator
+         (scoped_identifier (namespace_identifier) (operator_name))
+         (parameter_list (parameter_declaration (primitive_type) (identifier)))))))
 
 =========================================
 Template declarations
