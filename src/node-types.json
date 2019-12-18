@@ -494,14 +494,6 @@
             "named": true
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
             "type": "break",
             "named": true
           },
@@ -511,10 +503,6 @@
           },
           {
             "type": "next",
-            "named": true
-          },
-          {
-            "type": "operator_assignment",
             "named": true
           },
           {
@@ -638,14 +626,6 @@
             "named": true
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
             "type": "break",
             "named": true
           },
@@ -655,10 +635,6 @@
           },
           {
             "type": "next",
-            "named": true
-          },
-          {
-            "type": "operator_assignment",
             "named": true
           },
           {
@@ -786,14 +762,6 @@
             "named": true
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
             "type": "break",
             "named": true
           },
@@ -803,10 +771,6 @@
           },
           {
             "type": "next",
-            "named": true
-          },
-          {
-            "type": "operator_assignment",
             "named": true
           },
           {
@@ -1560,14 +1524,6 @@
             "named": true
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
             "type": "break",
             "named": true
           },
@@ -1577,10 +1533,6 @@
           },
           {
             "type": "next",
-            "named": true
-          },
-          {
-            "type": "operator_assignment",
             "named": true
           },
           {
@@ -1971,14 +1923,6 @@
             "named": true
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
             "type": "break",
             "named": true
           },
@@ -1988,10 +1932,6 @@
           },
           {
             "type": "next",
-            "named": true
-          },
-          {
-            "type": "operator_assignment",
             "named": true
           },
           {
@@ -2250,14 +2190,6 @@
             "named": true
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
             "type": "break",
             "named": true
           },
@@ -2267,10 +2199,6 @@
           },
           {
             "type": "next",
-            "named": true
-          },
-          {
-            "type": "operator_assignment",
             "named": true
           },
           {
@@ -2759,14 +2687,6 @@
             "named": true
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
             "type": "break",
             "named": true
           },
@@ -2776,10 +2696,6 @@
           },
           {
             "type": "next",
-            "named": true
-          },
-          {
-            "type": "operator_assignment",
             "named": true
           },
           {
@@ -2843,14 +2759,6 @@
             "named": true
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
             "type": "break",
             "named": true
           },
@@ -2860,10 +2768,6 @@
           },
           {
             "type": "next",
-            "named": true
-          },
-          {
-            "type": "operator_assignment",
             "named": true
           },
           {
@@ -2957,14 +2861,6 @@
             "named": true
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
             "type": "break",
             "named": true
           },
@@ -2974,10 +2870,6 @@
           },
           {
             "type": "next",
-            "named": true
-          },
-          {
-            "type": "operator_assignment",
             "named": true
           },
           {
