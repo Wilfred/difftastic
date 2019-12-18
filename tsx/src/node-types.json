@@ -802,14 +802,6 @@
           "named": true
         },
         {
-          "type": "template_string",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
           "type": "tuple_type",
           "named": true
         },
@@ -1125,22 +1117,6 @@
         "types": [
           {
             "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           }
         ]
@@ -3666,18 +3642,6 @@
           {
             "type": "_expression",
             "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "super",
-            "named": true
           }
         ]
       },
@@ -4733,10 +4697,6 @@
           {
             "type": "_expression",
             "named": true
-          },
-          {
-            "type": "super",
-            "named": true
           }
         ]
       }
@@ -5508,10 +5468,6 @@
         "types": [
           {
             "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "number",
             "named": true
           }
         ]
