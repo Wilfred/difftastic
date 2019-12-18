@@ -447,6 +447,8 @@ ostream &operator<<(ostream &, const A &a);
 
 bool A::operator!=(const A &other) const;
 
+bool A::operator ==(const A &other) const;
+
 ---
 
 (translation_unit
@@ -458,6 +460,13 @@ bool A::operator!=(const A &other) const;
         (parameter_list
           (parameter_declaration (type_identifier) (abstract_reference_declarator))
           (parameter_declaration (type_qualifier) (type_identifier) (reference_declarator (identifier)))))))
+  (declaration
+    (primitive_type)
+    (function_declarator
+      (scoped_identifier (namespace_identifier) (operator_name))
+      (parameter_list
+        (parameter_declaration (type_qualifier) (type_identifier) (reference_declarator (identifier))))
+      (type_qualifier)))
   (declaration
     (primitive_type)
     (function_declarator
