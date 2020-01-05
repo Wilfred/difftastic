@@ -3008,6 +3008,10 @@
     "named": true
   },
   {
+    "type": "close_quote",
+    "named": true
+  },
+  {
     "type": "colon",
     "named": true
   },
@@ -3041,6 +3045,10 @@
   },
   {
     "type": "glsl_begin",
+    "named": true
+  },
+  {
+    "type": "glsl_content",
     "named": true
   },
   {
@@ -3093,6 +3101,10 @@
   },
   {
     "type": "of",
+    "named": true
+  },
+  {
+    "type": "open_quote",
     "named": true
   },
   {
