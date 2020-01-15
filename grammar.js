@@ -461,7 +461,11 @@ module.exports = grammar({
     ),
 
     do_statement: $ => seq(
-      'do', $._statement, 'while', '(', $._expression, ')', ';'
+      'do',
+      field('body', $._statement),
+      'while',
+      field('condition', $.parenthesized_expression),
+      ';'
     ),
 
     break_statement: $ => seq('break', optional($.identifier), ';'),
@@ -474,7 +478,11 @@ module.exports = grammar({
       ';'
     ),
 
-    synchronized_statement: $ => seq('synchronized', '(', $._expression, ')', $.block),
+    synchronized_statement: $ => seq(
+      'synchronized',
+      $.parenthesized_expression,
+      field('body', $.block)
+    ),
 
     throw_statement: $ => seq('throw', $._expression, ';'),
 
