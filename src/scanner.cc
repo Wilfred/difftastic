@@ -11,6 +11,7 @@ using std::string;
 enum TokenType {
   AUTOMATIC_SEMICOLON,
   HEREDOC,
+  EOF_TOKEN,
 };
 
 struct Heredoc {
@@ -186,6 +187,11 @@ struct Scanner {
     lexer->mark_end(lexer);
 
     if (!scan_whitespace(lexer)) return false;
+
+    if (valid_symbols[EOF_TOKEN] && lexer->eof(lexer)) {
+      lexer->result_symbol = EOF_TOKEN;
+      return true;
+    }
 
     if (valid_symbols[HEREDOC]) {
       if (lexer->lookahead == '<') {

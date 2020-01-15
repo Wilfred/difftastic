@@ -1,0 +1,140 @@
+========================
+Booleans
+========================
+
+<?php
+True;
+true;
+TRUE;
+false;
+False;
+FALSE;
+?>
+
+---
+
+(program
+  (php_tag)
+  (expression_statement (boolean))
+  (expression_statement (boolean))
+  (expression_statement (boolean))
+  (expression_statement (boolean))
+  (expression_statement (boolean))
+  (expression_statement (boolean))
+  (text_interpolation))
+
+==========================
+Floats
+==========================
+
+<?php
+
+1.0;
+1E432;
+1.0E-3432;
+1423.0E3432;
+.5;
+
+---
+
+(program
+  (php_tag)
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (float)))
+
+============================
+Testing string scanner confirmance
+==============================
+
+<?php echo "\"\t\\'" . '\n\\\'a\\\b\\' ?>
+
+---
+
+(program
+  (php_tag)
+  (echo_statement (binary_expression (string) (string)))
+  (text_interpolation))
+
+==========================
+Heredocs
+==========================
+
+<?php
+
+<<<HERE
+foo #{bar} HERE;
+
+<<<HERE
+foo #{bar}
+HERE;
+
+?>
+
+<?php
+
+<<<HERE
+foo #{bar} HERE;
+
+<<<HERE
+foo #{bar}
+HERE;
+
+<<<  HERE
+foo #{bar}
+HERE;
+
+---
+(program
+  (php_tag)
+  (expression_statement (heredoc))
+  (expression_statement (heredoc))
+  (text_interpolation (php_tag))
+  (expression_statement (heredoc))
+  (expression_statement (heredoc))
+  (expression_statement (heredoc)))
+
+==========================
+Nowdocs
+==========================
+
+<?php
+
+<<<'PHP'
+<?php echo phpversion().PHP_SAPI;
+PHP
+
+?>
+
+---
+
+(program
+  (php_tag)
+  (expression_statement (heredoc))
+  (text_interpolation))
+
+==============================
+Unicode escape sequences
+==============================
+
+<?php
+
+"\u{61}"; // ASCII "a" - characters below U+007F just encode as ASCII, as it's UTF-8
+"\u{FF}"; // y with diaeresis
+"\u{ff}"; // case-insensitive
+"\u{2603}"; // Unicode snowman
+"\u{1F602}"; // FACE WITH TEARS OF JOY emoji
+"\u{0000001F602}"; // Leading zeroes permitted
+
+---
+
+(program
+  (php_tag)
+  (expression_statement (string)) (comment)
+  (expression_statement (string)) (comment)
+  (expression_statement (string)) (comment)
+  (expression_statement (string)) (comment)
+  (expression_statement (string)) (comment)
+  (expression_statement (string)) (comment))

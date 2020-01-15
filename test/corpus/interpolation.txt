@@ -6,7 +6,9 @@ no interpolated text
 echo "hi";
 ---
 
-(program (echo_statement (string)))
+(program
+  (php_tag)
+  (echo_statement (string)))
 
 ===============================
 interpolated text at beginning
@@ -19,6 +21,7 @@ echo "hi";
 
 (program
   (text)
+  (php_tag)
   (echo_statement (string)))
 
 ===============================
@@ -34,8 +37,9 @@ echo "hi";
 ---
 
 (program
+  (php_tag)
   (echo_statement (string))
-  (text))
+  (text_interpolation (text)))
 
 ===============================
 interpolated text in middle
@@ -53,9 +57,14 @@ echo "bye";
 
 ---
 
-(program (echo_statement (string))
-  (text_interpolation)
-  (echo_statement (string)))
+(program
+  (php_tag)
+  (echo_statement (string))
+  (text_interpolation
+    (text)
+    (php_tag))
+  (echo_statement (string))
+  (text_interpolation))
 
 ==============================
 short open tag: On
@@ -68,34 +77,45 @@ Finished
 
 ---
 
-(program (text))
+(program
+  (php_tag)
+  (echo_statement (string))
+  (text_interpolation (text)))
 
 ==============================
 short open tag: Off
 ==============================
 
-<%= 'so should this' %>
+<div>one</div>
 
 <?php
 $a = 'This gets echoed twice';
 ?>
 
-<?= $a?>
+<?= $a ?>
 
-<%= $a%>
+<div>two</div>
 
 <? $b=3; ?>
 
 <?php
    echo "{$b}";
 ?>
-<?= "{$b}"?>
+
+<?= "{$b}" ?>
 
 ---
 
 (program
   (text)
+  (php_tag)
   (expression_statement (assignment_expression (variable_name (name)) (string)))
-  (text_interpolation)
+  (text_interpolation (php_tag))
   (expression_statement (variable_name (name)))
-  (text))
+  (text_interpolation (text) (php_tag))
+  (expression_statement (assignment_expression (variable_name (name)) (integer)))
+  (text_interpolation (php_tag))
+  (echo_statement (string))
+  (text_interpolation (php_tag))
+  (expression_statement (string))
+  (text_interpolation))

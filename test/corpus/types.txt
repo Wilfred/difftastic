@@ -1,0 +1,68 @@
+=========================
+Type names
+=========================
+
+<?php
+function a(): A {}
+function b(): A\B {}
+
+---
+
+(program
+  (php_tag)
+  (function_definition
+    (name) (formal_parameters)
+    (type_name (name))
+    (compound_statement))
+  (function_definition
+    (name) (formal_parameters)
+    (type_name (namespace_name_as_prefix (namespace_name (name))) (name))
+    (compound_statement)))
+
+=========================
+Primitive types
+=========================
+
+<?php
+function a(): int {}
+function b(): callable {}
+function c(): iterable {}
+
+---
+
+(program
+  (php_tag)
+  (function_definition
+    (name) (formal_parameters)
+    (primitive_type)
+    (compound_statement))
+  (function_definition
+    (name) (formal_parameters)
+    (primitive_type)
+    (compound_statement))
+  (function_definition
+    (name) (formal_parameters)
+    (primitive_type)
+    (compound_statement)))
+
+=======================
+Optional types
+=======================
+
+<?php
+
+function a(): ?array {}
+function b(): ?Something {}
+
+---
+
+(program
+  (php_tag)
+  (function_definition
+    (name) (formal_parameters)
+    (optional_type (primitive_type))
+    (compound_statement))
+  (function_definition
+    (name) (formal_parameters)
+    (optional_type (type_name (name)))
+    (compound_statement)))
