@@ -21,10 +21,20 @@
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test"
+    "test": "tree-sitter test && script/parse-examples",
+    "test-windows": "tree-sitter test"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tree-sitter/tree-sitter-php.git"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.php",
+      "file-types": [
+        "php"
+      ],
+      "highlights": "queries/highlights.scm"
+    }
+  ]
 }

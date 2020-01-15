@@ -1,0 +1,248 @@
+=========================================
+Interface declarations
+=========================================
+
+<?php
+
+interface ThrowableInterface {
+	public function getMessage();
+}
+
+class Exception_foo implements ThrowableInterface {
+	public $foo = "foo";
+
+	public function getMessage() {
+		return $this->foo;
+	}
+}
+
+---
+
+(program
+	(php_tag)
+  (interface_declaration
+    name: (name)
+    body: (declaration_list
+      (method_declaration
+        (visibility_modifier)
+        name: (name)
+        parameters: (formal_parameters))))
+  (class_declaration
+    name: (name)
+    (class_interface_clause (qualified_name (name)))
+    body: (declaration_list
+      (property_declaration
+        (visibility_modifier)
+        (property_element (variable_name (name)) (property_initializer (string))))
+      (method_declaration
+        (visibility_modifier)
+        name: (name)
+        parameters: (formal_parameters)
+        body: (compound_statement
+          (return_statement (member_access_expression
+            object: (variable_name (name))
+            name: (name))))))))
+
+==========================
+Use declarations
+==========================
+
+<?php
+
+trait AbstractTrait
+{
+    use LoggerAwareTrait;
+    use LoggerAwareTrait, OtherTrait {}
+    use LoggerAwareTrait, OtherTrait;
+}
+
+class AbstractCache
+{
+    use AbstractTrait {
+        deleteItems as private;
+        AbstractTrait::deleteItem as delete;
+        AbstractTrait::hasItem as has;
+    }
+}
+
+---
+
+(program
+	(php_tag)
+  (trait_declaration
+    (name)
+    (declaration_list
+      (use_declaration (qualified_name (name)))
+      (use_declaration (qualified_name (name)) (qualified_name (name)) (use_list))
+      (use_declaration (qualified_name (name)) (qualified_name (name)))))
+  (class_declaration
+    (name)
+    (declaration_list
+      (use_declaration
+        (qualified_name (name))
+        (use_list
+          (use_as_clause (name) (visibility_modifier))
+          (use_as_clause (class_constant_access_expression (qualified_name (name)) (name)) (name))
+          (use_as_clause (class_constant_access_expression (qualified_name (name)) (name)) (name)))))))
+
+==========================
+Namespace names in namespaces
+==========================
+
+<?php
+
+namespace Be \ ta {
+    class A {}
+    class B {}
+}
+
+---
+
+(program
+	(php_tag)
+  (namespace_definition
+    name: (namespace_name (name) (name))
+    body: (compound_statement
+      (class_declaration
+        name: (name)
+        body: (declaration_list))
+      (class_declaration
+        name: (name)
+        body: (declaration_list)))))
+
+==============================
+Class declarations
+==============================
+
+<?php
+class foo {
+  function __construct($name) {
+    $GLOBALS['List']= &$this;
+    $this->Name = $name;
+    $GLOBALS['List']->echoName();
+  }
+
+  function echoName() {
+    $GLOBALS['names'][]=$this->Name;
+  }
+}
+
+---
+
+(program
+	(php_tag)
+  (class_declaration
+  name: (name)
+	body: (declaration_list
+	  (method_declaration
+	    name: (name)
+	    parameters: (formal_parameters
+				(simple_parameter
+					name: (variable_name (name))))
+	    body: (compound_statement
+				(expression_statement (assignment_expression
+	        left: (subscript_expression (variable_name (name)) (string))
+	        right: (variable_name (name))))
+				(expression_statement (assignment_expression
+	        left: (member_access_expression
+						object: (variable_name (name))
+						name: (name))
+	        right: (variable_name (name))))
+				(expression_statement (member_call_expression
+	        object: (subscript_expression (variable_name (name)) (string))
+	        name: (name)
+	        arguments: (arguments)))))
+	  (method_declaration
+	    name: (name)
+	    parameters: (formal_parameters)
+	    body: (compound_statement
+	      (expression_statement (assignment_expression
+	        left: (subscript_expression (subscript_expression (variable_name (name)) (string)))
+	        right: (member_access_expression
+						object: (variable_name (name))
+						name: (name)))))))))
+
+========================================
+Class declarations with base classes
+========================================
+
+<?php
+class A extends B {
+
+}
+
+---
+
+(program
+	(php_tag)
+	(class_declaration
+		name: (name)
+		(class_base_clause (qualified_name (name)))
+		body: (declaration_list)))
+
+==========================
+Function parameters
+==========================
+
+<?php
+function test(int $a, string ...$b)
+{
+}
+
+---
+
+(program
+	(php_tag)
+	(function_definition
+		name: (name)
+		parameters: (formal_parameters
+			(simple_parameter
+				type: (primitive_type)
+				name: (variable_name (name)))
+			(variadic_parameter
+				type: (primitive_type)
+				name: (variable_name (name))))
+		body: (compound_statement)))
+
+====================================
+Functions with default parameters
+====================================
+
+<?php
+function a($arg = self::bar) {
+	echo $arg;
+}
+
+---
+
+(program
+	(php_tag)
+	(function_definition
+		(name)
+		(formal_parameters
+			(simple_parameter
+				(variable_name (name))
+				(class_constant_access_expression (relative_scope) (name))))
+		(compound_statement (echo_statement (variable_name (name))))))
+
+========================================================================
+Static variables in functions
+========================================================================
+
+<?php
+function blah()
+{
+  static $hey=0, $yo=0;
+}
+
+---
+
+(program
+	(php_tag)
+	(function_definition
+		(name)
+		(formal_parameters)
+		(compound_statement
+			(function_static_declaration
+				(static_variable_declaration (variable_name (name)) (integer))
+				(static_variable_declaration (variable_name (name)) (integer))))))
