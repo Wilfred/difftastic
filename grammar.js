@@ -419,7 +419,7 @@ module.exports = grammar({
       $.continue_statement,
       $.return_statement,
       $.synchronized_statement,
-      $.local_variable_declaration_statement,
+      $.local_variable_declaration,
       $.throw_statement,
       $.try_statement,
       $.try_with_resources_statement
@@ -544,15 +544,16 @@ module.exports = grammar({
 
     for_statement: $ => seq(
       'for', '(',
-      optional($.for_init), ';',
-      optional($._expression), ';',
-      commaSep($._expression), ')',
-      $._statement
-    ),
-
-    for_init: $ => choice(
-      commaSep1($._expression),
-      $.local_variable_declaration,
+      choice(
+        field('init', $.local_variable_declaration),
+        seq(
+          commaSep(field('init', $._expression)),
+          ';'
+        )
+      ),
+      field('condition', optional($._expression)), ';',
+      commaSep(field('update', $._expression)), ')',
+      field('body', $._statement)
     ),
 
     enhanced_for_statement: $ => seq(
@@ -1053,15 +1054,11 @@ module.exports = grammar({
       'throws', commaSep1($._type)
     ),
 
-    local_variable_declaration_statement: $ => seq(
-      $.local_variable_declaration,
-      ';'
-    ),
-
     local_variable_declaration: $ => seq(
       optional($.modifiers),
       field('type', $._unannotated_type),
-      $._variable_declarator_list
+      $._variable_declarator_list,
+      ';'
     ),
 
     method_declaration: $ => seq(
