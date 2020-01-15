@@ -20,12 +20,11 @@ class A {
         name: (identifier)
         parameters: (formal_parameters)
         body: (block
-          (local_variable_declaration_statement
-            (local_variable_declaration
-              type: (integral_type)
-              declarator: (variable_declarator
-                name: (identifier)
-                value: (decimal_integer_literal)))))))))
+          (local_variable_declaration
+            type: (integral_type)
+            declarator: (variable_declarator
+              name: (identifier)
+              value: (decimal_integer_literal))))))))
 
 =====================
 local array variable
@@ -37,7 +36,7 @@ Integer[][] inputArrays = new Integer[0x100][];
 ---
 
 (program
-  (local_variable_declaration_statement (local_variable_declaration
+  (local_variable_declaration
     type: (array_type
       element: (type_identifier)
       dimensions: (dimensions))
@@ -48,8 +47,8 @@ Integer[][] inputArrays = new Integer[0x100][];
           name: (identifier)
           arguments: (argument_list))
         name: (identifier)
-        arguments: (argument_list)))))
-  (local_variable_declaration_statement (local_variable_declaration
+        arguments: (argument_list))))
+  (local_variable_declaration
     type: (array_type
       element: (type_identifier)
       dimensions: (dimensions))
@@ -58,7 +57,7 @@ Integer[][] inputArrays = new Integer[0x100][];
       value: (array_creation_expression
         type: (type_identifier)
         dimensions: (dimensions_expr (hex_integer_literal))
-        dimensions: (dimensions))))))
+        dimensions: (dimensions)))))
 
 ==========
 module
@@ -543,11 +542,10 @@ class JayZ {
         (identifier)
         (formal_parameters)
         (block
-          (local_variable_declaration_statement
-            (local_variable_declaration
-              (integral_type)
-              (variable_declarator
-                (identifier)))))))))
+          (local_variable_declaration
+            (integral_type)
+            (variable_declarator
+              (identifier))))))))
 
 =================
 enum declaration

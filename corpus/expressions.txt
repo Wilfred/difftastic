@@ -209,28 +209,40 @@ for (j.init(i); j.check(); j.update()) {
 
 (program
   (for_statement
-    (for_init
-      (local_variable_declaration
-        (integral_type)
-        (variable_declarator
-          (identifier)
-          (decimal_integer_literal))))
-    (binary_expression (identifier) (decimal_integer_literal))
-    (update_expression (identifier))
-    (block
+    init: (local_variable_declaration
+      type: (integral_type)
+      declarator: (variable_declarator
+        name: (identifier)
+        value: (decimal_integer_literal)))
+    condition: (binary_expression
+      left: (identifier)
+      right: (decimal_integer_literal))
+    update: (update_expression (identifier))
+    body: (block
       (expression_statement (method_invocation
-        (scoped_identifier (identifier) (identifier))
-        (identifier)
-        (argument_list (binary_expression (string_literal) (identifier)))))))
+        object: (scoped_identifier (identifier) (identifier))
+        name: (identifier)
+        arguments: (argument_list (binary_expression
+          left: (string_literal)
+          right: (identifier)))))))
   (for_statement
-    (for_init (method_invocation (identifier) (identifier) (argument_list (identifier))))
-    (method_invocation (identifier) (identifier) (argument_list))
-    (method_invocation (identifier) (identifier) (argument_list))
-    (block
+    init: (method_invocation
+      object: (identifier)
+      name: (identifier)
+      arguments: (argument_list (identifier)))
+    condition: (method_invocation
+      object: (identifier)
+      name: (identifier)
+      arguments: (argument_list))
+    update: (method_invocation
+      object: (identifier)
+      name: (identifier)
+      arguments: (argument_list))
+    body: (block
       (expression_statement (method_invocation
-        (scoped_identifier (identifier) (identifier))
-        (identifier)
-        (argument_list (identifier)))))))
+        object: (scoped_identifier (identifier) (identifier))
+        name: (identifier)
+        arguments: (argument_list (identifier)))))))
 
 ================================
 Enhanced for statements
@@ -283,12 +295,11 @@ class WhileDemo {
               dimensions: (dimensions))
             name: (identifier)))
         body: (block
-          (local_variable_declaration_statement
-            (local_variable_declaration
-              type: (integral_type)
-              declarator: (variable_declarator
-                name: (identifier)
-                value: (decimal_integer_literal))))
+          (local_variable_declaration
+            type: (integral_type)
+            declarator: (variable_declarator
+              name: (identifier)
+              value: (decimal_integer_literal)))
           (while_statement
             condition: (parenthesized_expression
               (binary_expression
@@ -322,15 +333,14 @@ try (FileInputStream input = new FileInputStream("file.txt")) {
           type: (type_identifier)
           arguments: (argument_list (string_literal)))))
     body: (block
-      (local_variable_declaration_statement
-        (local_variable_declaration
-          type: (integral_type)
-          declarator: (variable_declarator
+      (local_variable_declaration
+        type: (integral_type)
+        declarator: (variable_declarator
+          name: (identifier)
+          value: (method_invocation
+            object: (identifier)
             name: (identifier)
-            value: (method_invocation
-              object: (identifier)
-              name: (identifier)
-              arguments: (argument_list))))))))
+            arguments: (argument_list)))))))
 
 ==================================
 return statement
@@ -494,43 +504,41 @@ public class SwitchDemo {
               dimensions: (dimensions))
             name: (identifier)))
         body: (block
-          (local_variable_declaration_statement
-            (local_variable_declaration
-              type: (integral_type)
-              declarator: (variable_declarator
-                name: (identifier)
-                value: (decimal_integer_literal))))
-            (local_variable_declaration_statement
-              (local_variable_declaration
-                type: (type_identifier)
-                declarator: (variable_declarator name: (identifier))))
-            (switch_statement
-              condition: (parenthesized_expression (identifier))
-              body: (switch_block
-                (switch_label (decimal_integer_literal))
-                (expression_statement (assignment_expression
-                  left: (identifier)
-                  right: (string_literal)))
-                (break_statement)
-                (switch_label (decimal_integer_literal))
-                (expression_statement (assignment_expression
-                  left: (identifier)
-                  right: (string_literal)))
-                (break_statement)
-                (switch_label (decimal_integer_literal))
-                (expression_statement (assignment_expression
-                  left: (identifier)
-                  right: (string_literal)))
-                (break_statement)
-                (switch_label)
-                (expression_statement (assignment_expression
-                  left: (identifier)
-                  right: (string_literal)))
-                (break_statement)))
-            (expression_statement (method_invocation
-              object: (scoped_identifier (identifier) (identifier))
+          (local_variable_declaration
+            type: (integral_type)
+            declarator: (variable_declarator
               name: (identifier)
-              arguments: (argument_list (identifier)))))))))
+              value: (decimal_integer_literal)))
+          (local_variable_declaration
+            type: (type_identifier)
+            declarator: (variable_declarator name: (identifier)))
+          (switch_statement
+            condition: (parenthesized_expression (identifier))
+            body: (switch_block
+              (switch_label (decimal_integer_literal))
+              (expression_statement (assignment_expression
+                left: (identifier)
+                right: (string_literal)))
+              (break_statement)
+              (switch_label (decimal_integer_literal))
+              (expression_statement (assignment_expression
+                left: (identifier)
+                right: (string_literal)))
+              (break_statement)
+              (switch_label (decimal_integer_literal))
+              (expression_statement (assignment_expression
+                left: (identifier)
+                right: (string_literal)))
+              (break_statement)
+              (switch_label)
+              (expression_statement (assignment_expression
+                left: (identifier)
+                right: (string_literal)))
+              (break_statement)))
+          (expression_statement (method_invocation
+            object: (scoped_identifier (identifier) (identifier))
+            name: (identifier)
+            arguments: (argument_list (identifier)))))))))
 
 ==================================
 type arguments
@@ -620,18 +628,17 @@ class someClass <T> {
             (identifier)
             (formal_parameters)
             (block
-              (local_variable_declaration_statement
-                (local_variable_declaration
-                  (generic_type
-                    (type_identifier)
-                    (type_arguments (type_identifier)))
-                  (variable_declarator
+              (local_variable_declaration
+                (generic_type
+                  (type_identifier)
+                  (type_arguments (type_identifier)))
+                (variable_declarator
+                  (identifier)
+                  (method_invocation
                     (identifier)
-                    (method_invocation
-                      (identifier)
-                      (type_arguments (type_identifier))
-                      (identifier)
-                      (argument_list)))))
+                    (type_arguments (type_identifier))
+                    (identifier)
+                    (argument_list))))
               (return_statement (identifier))))
         (method_declaration
           (modifiers)
@@ -645,18 +652,17 @@ class someClass <T> {
                 (type_identifier)
                 (identifier)))
             (block
-              (local_variable_declaration_statement
-                (local_variable_declaration
-                  (generic_type
-                    (type_identifier)
-                    (type_arguments (type_identifier)))
-                  (variable_declarator
+              (local_variable_declaration
+                (generic_type
+                  (type_identifier)
+                  (type_arguments (type_identifier)))
+                (variable_declarator
+                  (identifier)
+                  (method_invocation
                     (identifier)
-                    (method_invocation
-                      (identifier)
-                      (type_arguments (type_identifier))
-                      (identifier)
-                      (argument_list))))))))))
+                    (type_arguments (type_identifier))
+                    (identifier)
+                    (argument_list)))))))))
 
 ==================================
 empty type arguments
@@ -667,13 +673,13 @@ Box<Integer> integerBox = new Box<>();
 ---
 
 (program
-  (local_variable_declaration_statement (local_variable_declaration
+  (local_variable_declaration
     (generic_type (type_identifier) (type_arguments (type_identifier)))
     (variable_declarator
       (identifier)
       (object_creation_expression
         (generic_type (type_identifier) (type_arguments))
-        (argument_list))))))
+        (argument_list)))))
 
 =================
 method references

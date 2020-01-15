@@ -266,7 +266,7 @@
         "named": true
       },
       {
-        "type": "local_variable_declaration_statement",
+        "type": "local_variable_declaration",
         "named": true
       },
       {
@@ -1862,45 +1862,53 @@
     "fields": {}
   },
   {
-    "type": "for_init",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "local_variable_declaration",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "for_statement",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "_statement",
-          "named": true
-        },
-        {
-          "type": "for_init",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_statement",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "init": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "local_variable_declaration",
+            "named": true
+          }
+        ]
+      },
+      "update": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2284,21 +2292,6 @@
       "types": [
         {
           "type": "modifiers",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "local_variable_declaration_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "local_variable_declaration",
           "named": true
         }
       ]

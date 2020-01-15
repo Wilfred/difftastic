@@ -23,27 +23,21 @@ class Beyonce {
         (identifier)
         (formal_parameters)
         (block
-          (local_variable_declaration_statement
-            (local_variable_declaration
-              (integral_type)
-                (variable_declarator (identifier))))
-          (local_variable_declaration_statement
-            (local_variable_declaration
-              (integral_type)
-                (variable_declarator (identifier))))
-          (local_variable_declaration_statement
-            (local_variable_declaration
-              (integral_type)
-                (variable_declarator (identifier))))
-          (local_variable_declaration_statement
-            (local_variable_declaration
-              (integral_type)
-                (variable_declarator (identifier))))
-          (local_variable_declaration_statement
-            (local_variable_declaration
-              (integral_type)
-                (variable_declarator (identifier)))))))))
-
+          (local_variable_declaration
+            (integral_type)
+              (variable_declarator (identifier)))
+          (local_variable_declaration
+            (integral_type)
+              (variable_declarator (identifier)))
+          (local_variable_declaration
+            (integral_type)
+              (variable_declarator (identifier)))
+          (local_variable_declaration
+            (integral_type)
+              (variable_declarator (identifier)))
+          (local_variable_declaration
+            (integral_type)
+              (variable_declarator (identifier))))))))
 
 =====================
 floating point types
@@ -67,11 +61,9 @@ class Beyonce {
         (identifier)
         (formal_parameters)
         (block
-          (local_variable_declaration_statement
-            (local_variable_declaration
-              (floating_point_type)
-              (variable_declarator (identifier))))
-          (local_variable_declaration_statement
-            (local_variable_declaration
-              (floating_point_type)
-              (variable_declarator (identifier)))))))))
+          (local_variable_declaration
+            (floating_point_type)
+            (variable_declarator (identifier)))
+          (local_variable_declaration
+            (floating_point_type)
+            (variable_declarator (identifier))))))))
