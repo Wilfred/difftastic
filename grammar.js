@@ -463,7 +463,8 @@ module.exports = grammar({
       $.integer,
       $.float,
       $._string,
-      $.boolean
+      $.boolean,
+      $.null
     ),
 
     float: $ => /\d*((\.\d*)?([eE][\+-]?\d+)|(\.\d*)([eE][\+-]?\d+)?)/,
@@ -992,6 +993,8 @@ module.exports = grammar({
     },
 
     boolean: $ => /[Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]/,
+
+    null: $ => /[Nn][Uu][Ll][Ll]/,
 
     _string: $ => choice($.string, $.heredoc),
 

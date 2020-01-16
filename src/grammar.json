@@ -298,7 +298,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_simple_variable"
+              "name": "_variable_name"
             },
             {
               "type": "REPEAT",
@@ -311,7 +311,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_simple_variable"
+                    "name": "_variable_name"
                   }
                 ]
               }
@@ -1999,6 +1999,10 @@
         {
           "type": "SYMBOL",
           "name": "boolean"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "null"
         }
       ]
     },
@@ -3599,7 +3603,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_simple_variable"
+          "name": "_variable_name"
         },
         {
           "type": "SEQ",
@@ -3681,7 +3685,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_simple_variable"
+              "name": "_variable_name"
             }
           ]
         },
@@ -3698,7 +3702,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_simple_variable"
+              "name": "_variable_name"
             }
           ]
         },
@@ -3715,7 +3719,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_simple_variable"
+              "name": "_variable_name"
             }
           ]
         }
@@ -4230,7 +4234,7 @@
             "name": "name",
             "content": {
               "type": "SYMBOL",
-              "name": "_simple_variable"
+              "name": "_variable_name"
             }
           }
         ]
@@ -4387,7 +4391,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_simple_variable"
+          "name": "_variable_name"
         },
         {
           "type": "SYMBOL",
@@ -4669,7 +4673,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_simple_variable"
+          "name": "_variable_name"
         },
         {
           "type": "SEQ",
@@ -5072,6 +5076,10 @@
       "type": "PATTERN",
       "value": "[Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]"
     },
+    "null": {
+      "type": "PATTERN",
+      "value": "[Nn][Uu][Ll][Ll]"
+    },
     "_string": {
       "type": "CHOICE",
       "members": [
@@ -5085,7 +5093,7 @@
         }
       ]
     },
-    "simple_variable": {
+    "dynamic_variable_name": {
       "type": "CHOICE",
       "members": [
         {
@@ -5097,7 +5105,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_simple_variable"
+              "name": "_variable_name"
             }
           ]
         },
@@ -5124,12 +5132,12 @@
         }
       ]
     },
-    "_simple_variable": {
+    "_variable_name": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "simple_variable"
+          "name": "dynamic_variable_name"
         },
         {
           "type": "SYMBOL",
@@ -6282,15 +6290,15 @@
                 "type": "REPEAT",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[^?\\n]|\\?[^>\\n]"
+                  "value": "[^?\\r?\\n]|\\?[^>\\r\\n]"
                 }
               },
               {
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": "?"
+                    "type": "PATTERN",
+                    "value": "\\?\\r?\\n"
                   },
                   {
                     "type": "BLANK"
@@ -6402,7 +6410,7 @@
     "_literal",
     "ReferenceError",
     "_class_type_designator",
-    "_simple_variable",
+    "_variable_name",
     "_type_name"
   ],
   "supertypes": [
