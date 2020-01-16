@@ -119,3 +119,25 @@ $a = 'This gets echoed twice';
   (text_interpolation (php_tag))
   (expression_statement (string))
   (text_interpolation))
+
+======================
+Single line php comment
+======================
+
+<ul class="foo"><?php // this is a comment ?></ul>
+
+<?php
+// foo?
+// foo? bar?
+echo "hi";
+
+---
+
+(program
+  (text)
+  (php_tag)
+  (comment)
+  (text_interpolation (text) (php_tag))
+  (comment)
+  (comment)
+  (echo_statement (string)))

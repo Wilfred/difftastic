@@ -72,7 +72,7 @@ module.exports = grammar({
     $._literal,
     $._intrinsic,
     $._class_type_designator,
-    $._simple_variable,
+    $._variable_name,
     $._type_name,
   ],
 
@@ -144,7 +144,7 @@ module.exports = grammar({
     ),
 
     global_declaration: $ => seq(
-      'global', commaSep1($._simple_variable), $._semicolon
+      'global', commaSep1($._variable_name), $._semicolon
     ),
 
     namespace_definition: $ => seq(
@@ -792,13 +792,13 @@ module.exports = grammar({
     ),
 
     new_variable: $ => choice(
-      $._simple_variable,
+      $._variable_name,
       seq($.new_variable, '[', optional($._expression), ']'),
       seq($.new_variable, '{', $._expression, '}'),
       seq($.new_variable, '->', $._member_name),
-      seq($.qualified_name, '::', $._simple_variable),
-      seq($.relative_scope, '::', $._simple_variable),
-      seq($.new_variable, '::', $._simple_variable)
+      seq($.qualified_name, '::', $._variable_name),
+      seq($.relative_scope, '::', $._variable_name),
+      seq($.new_variable, '::', $._variable_name)
     ),
 
     update_expression: $ => prec.left(PREC.INC, choice(
@@ -876,7 +876,7 @@ module.exports = grammar({
     scoped_property_access_expression: $ => prec(PREC.MEMBER, seq(
       field('scope', $._scope_resolution_qualifier),
       '::',
-      field('name', $._simple_variable)
+      field('name', $._variable_name)
     )),
 
     list_literal: $ => seq(
@@ -890,7 +890,7 @@ module.exports = grammar({
     ),
 
     _callable_variable: $ => choice(
-      $._simple_variable,
+      $._variable_name,
       $.subscript_expression,
       $.member_call_expression,
       $.scoped_call_expression,
@@ -948,7 +948,7 @@ module.exports = grammar({
     _member_name: $ => choice(
       alias($._reserved_identifier, $.name),
       $.name,
-      $._simple_variable,
+      $._variable_name,
       seq('{', $._expression, '}')
     ),
 
@@ -995,12 +995,12 @@ module.exports = grammar({
 
     _string: $ => choice($.string, $.heredoc),
 
-    simple_variable: $ => choice(
-      seq('$', $._simple_variable),
+    dynamic_variable_name: $ => choice(
+      seq('$', $._variable_name),
       seq('$', '{', $._expression, '}')
     ),
 
-    _simple_variable: $ => choice($.simple_variable, $.variable_name),
+    _variable_name: $ => choice($.dynamic_variable_name, $.variable_name),
 
     variable_name: $ => seq('$', $.name),
 
@@ -1087,7 +1087,11 @@ module.exports = grammar({
     ),
 
     comment: $ => token(choice(
-      seq(choice('//', '#'), repeat(/[^?\n]|\?[^>\n]/), optional('?')),
+      seq(
+        choice('//', '#'),
+        repeat(/[^?\r?\n]|\?[^>\r\n]/),
+        optional(/\?\r?\n/)
+      ),
       seq(
         '/*',
         /[^*]*\*+([^/*][^*]*\*+)*/,
