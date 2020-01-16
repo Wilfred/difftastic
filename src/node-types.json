@@ -82,6 +82,10 @@
         "named": true
       },
       {
+        "type": "null",
+        "named": true
+      },
+      {
         "type": "string",
         "named": true
       }
@@ -109,6 +113,10 @@
       },
       {
         "type": "class_constant_access_expression",
+        "named": true
+      },
+      {
+        "type": "dynamic_variable_name",
         "named": true
       },
       {
@@ -149,10 +157,6 @@
       },
       {
         "type": "shell_command_expression",
-        "named": true
-      },
-      {
-        "type": "simple_variable",
         "named": true
       },
       {
@@ -432,6 +436,10 @@
             "named": true
           },
           {
+            "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
             "type": "function_call_expression",
             "named": true
           },
@@ -453,10 +461,6 @@
           },
           {
             "type": "scoped_property_access_expression",
-            "named": true
-          },
-          {
-            "type": "simple_variable",
             "named": true
           },
           {
@@ -494,6 +498,10 @@
             "named": true
           },
           {
+            "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
             "type": "function_call_expression",
             "named": true
           },
@@ -511,10 +519,6 @@
           },
           {
             "type": "scoped_property_access_expression",
-            "named": true
-          },
-          {
-            "type": "simple_variable",
             "named": true
           },
           {
@@ -907,6 +911,10 @@
           "named": true
         },
         {
+          "type": "dynamic_variable_name",
+          "named": true
+        },
+        {
           "type": "function_call_expression",
           "named": true
         },
@@ -944,10 +952,6 @@
         },
         {
           "type": "scoped_property_access_expression",
-          "named": true
-        },
-        {
-          "type": "simple_variable",
           "named": true
         },
         {
@@ -1266,6 +1270,29 @@
     }
   },
   {
+    "type": "dynamic_variable_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "dynamic_variable_name",
+          "named": true
+        },
+        {
+          "type": "variable_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "echo_statement",
     "named": true,
     "fields": {},
@@ -1496,6 +1523,10 @@
             "named": true
           },
           {
+            "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
             "type": "function_call_expression",
             "named": true
           },
@@ -1517,10 +1548,6 @@
           },
           {
             "type": "scoped_call_expression",
-            "named": true
-          },
-          {
-            "type": "simple_variable",
             "named": true
           },
           {
@@ -1609,7 +1636,7 @@
       "required": true,
       "types": [
         {
-          "type": "simple_variable",
+          "type": "dynamic_variable_name",
           "named": true
         },
         {
@@ -1772,6 +1799,10 @@
           "named": true
         },
         {
+          "type": "dynamic_variable_name",
+          "named": true
+        },
+        {
           "type": "function_call_expression",
           "named": true
         },
@@ -1793,10 +1824,6 @@
         },
         {
           "type": "scoped_property_access_expression",
-          "named": true
-        },
-        {
-          "type": "simple_variable",
           "named": true
         },
         {
@@ -1823,11 +1850,11 @@
             "named": true
           },
           {
-            "type": "name",
+            "type": "dynamic_variable_name",
             "named": true
           },
           {
-            "type": "simple_variable",
+            "type": "name",
             "named": true
           },
           {
@@ -1861,6 +1888,10 @@
             "named": true
           },
           {
+            "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
             "type": "function_call_expression",
             "named": true
           },
@@ -1886,10 +1917,6 @@
           },
           {
             "type": "scoped_property_access_expression",
-            "named": true
-          },
-          {
-            "type": "simple_variable",
             "named": true
           },
           {
@@ -1931,11 +1958,11 @@
             "named": true
           },
           {
-            "type": "name",
+            "type": "dynamic_variable_name",
             "named": true
           },
           {
-            "type": "simple_variable",
+            "type": "name",
             "named": true
           },
           {
@@ -1969,6 +1996,10 @@
             "named": true
           },
           {
+            "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
             "type": "function_call_expression",
             "named": true
           },
@@ -1994,10 +2025,6 @@
           },
           {
             "type": "scoped_property_access_expression",
-            "named": true
-          },
-          {
-            "type": "simple_variable",
             "named": true
           },
           {
@@ -2277,6 +2304,10 @@
           "named": true
         },
         {
+          "type": "dynamic_variable_name",
+          "named": true
+        },
+        {
           "type": "name",
           "named": true
         },
@@ -2290,10 +2321,6 @@
         },
         {
           "type": "relative_scope",
-          "named": true
-        },
-        {
-          "type": "simple_variable",
           "named": true
         },
         {
@@ -2591,11 +2618,11 @@
             "named": true
           },
           {
-            "type": "name",
+            "type": "dynamic_variable_name",
             "named": true
           },
           {
-            "type": "simple_variable",
+            "type": "name",
             "named": true
           },
           {
@@ -2629,6 +2656,10 @@
             "named": true
           },
           {
+            "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
             "type": "function_call_expression",
             "named": true
           },
@@ -2662,10 +2693,6 @@
           },
           {
             "type": "scoped_property_access_expression",
-            "named": true
-          },
-          {
-            "type": "simple_variable",
             "named": true
           },
           {
@@ -2693,7 +2720,7 @@
         "required": true,
         "types": [
           {
-            "type": "simple_variable",
+            "type": "dynamic_variable_name",
             "named": true
           },
           {
@@ -2716,6 +2743,10 @@
           },
           {
             "type": "class_constant_access_expression",
+            "named": true
+          },
+          {
+            "type": "dynamic_variable_name",
             "named": true
           },
           {
@@ -2752,10 +2783,6 @@
           },
           {
             "type": "scoped_property_access_expression",
-            "named": true
-          },
-          {
-            "type": "simple_variable",
             "named": true
           },
           {
@@ -2830,29 +2857,6 @@
     }
   },
   {
-    "type": "simple_variable",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "simple_variable",
-          "named": true
-        },
-        {
-          "type": "variable_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "static_modifier",
     "named": true,
     "fields": {}
@@ -2904,6 +2908,10 @@
           "named": true
         },
         {
+          "type": "dynamic_variable_name",
+          "named": true
+        },
+        {
           "type": "function_call_expression",
           "named": true
         },
@@ -2929,10 +2937,6 @@
         },
         {
           "type": "scoped_property_access_expression",
-          "named": true
-        },
-        {
-          "type": "simple_variable",
           "named": true
         },
         {
@@ -3118,6 +3122,10 @@
           "named": true
         },
         {
+          "type": "dynamic_variable_name",
+          "named": true
+        },
+        {
           "type": "function_call_expression",
           "named": true
         },
@@ -3135,10 +3143,6 @@
         },
         {
           "type": "scoped_property_access_expression",
-          "named": true
-        },
-        {
-          "type": "simple_variable",
           "named": true
         },
         {
@@ -3165,6 +3169,10 @@
           "named": true
         },
         {
+          "type": "dynamic_variable_name",
+          "named": true
+        },
+        {
           "type": "function_call_expression",
           "named": true
         },
@@ -3182,10 +3190,6 @@
         },
         {
           "type": "scoped_property_access_expression",
-          "named": true
-        },
-        {
-          "type": "simple_variable",
           "named": true
         },
         {
@@ -3739,11 +3743,11 @@
   },
   {
     "type": "float",
-    "named": true
+    "named": false
   },
   {
     "type": "float",
-    "named": false
+    "named": true
   },
   {
     "type": "for",
@@ -3828,6 +3832,10 @@
   {
     "type": "new",
     "named": false
+  },
+  {
+    "type": "null",
+    "named": true
   },
   {
     "type": "object",
