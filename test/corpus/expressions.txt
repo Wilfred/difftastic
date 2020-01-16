@@ -10,7 +10,7 @@ $$k = $v;
 (program
   (php_tag)
   (expression_statement (assignment_expression
-    (simple_variable (variable_name (name)))
+    (dynamic_variable_name (variable_name (name)))
     (variable_name (name)))))
 
 ==========================
@@ -80,7 +80,7 @@ a() OR b() XOR C();
       (function_call_expression (qualified_name (name)) (arguments))
       (binary_expression
         (function_call_expression (qualified_name (name)) (arguments))
-        (function_call_expression (qualified_name (name)) (arguments)))))) 
+        (function_call_expression (qualified_name (name)) (arguments))))))
 
 =================================
 Cast expressions in assignments
