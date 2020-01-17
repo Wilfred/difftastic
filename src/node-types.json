@@ -1154,10 +1154,6 @@
           {
             "type": "_expression",
             "named": true
-          },
-          {
-            "type": "lambda",
-            "named": true
           }
         ]
       }
@@ -1533,10 +1529,6 @@
         "types": [
           {
             "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "lambda",
             "named": true
           }
         ]
@@ -2285,6 +2277,10 @@
   },
   {
     "type": "!=",
+    "named": false
+  },
+  {
+    "type": "\"",
     "named": false
   },
   {
