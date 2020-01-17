@@ -3,13 +3,14 @@
 
 (call_expression
   (identifier) @injection.language
-  (template_string) @injection.content) @injection.site
+  (template_string) @injection.content)
 
 (call_expression
   (member_expression
     (property_identifier) @injection.language)
-  (template_string) @injection.content) @injection.site
+  (template_string) @injection.content)
 
-((regex
-  (regex_pattern) @injection.content) @injection.site
+; Parse regex syntax within regex literals
+
+((regex_pattern) @injection.content
  (set! injection.language "regex"))
