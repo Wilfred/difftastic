@@ -47,5 +47,13 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tree-sitter/tree-sitter-java.git"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.java",
+      "file-types": [
+        "java"
+      ]
+    }
+  ]
 }
