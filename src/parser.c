@@ -12,7 +12,7 @@
 #define ALIAS_COUNT 1
 #define TOKEN_COUNT 123
 #define EXTERNAL_TOKEN_COUNT 0
-#define FIELD_COUNT 30
+#define FIELD_COUNT 29
 #define MAX_ALIAS_SEQUENCE_LENGTH 11
 
 enum {
@@ -1978,10 +1978,9 @@ enum {
   field_superclass = 24,
   field_type = 25,
   field_type_arguments = 26,
-  field_type_paramaters = 27,
-  field_type_parameters = 28,
-  field_update = 29,
-  field_value = 30,
+  field_type_parameters = 27,
+  field_update = 28,
+  field_value = 29,
 };
 
 static const char *ts_field_names[] = {
@@ -2012,7 +2011,6 @@ static const char *ts_field_names[] = {
   [field_superclass] = "superclass",
   [field_type] = "type",
   [field_type_arguments] = "type_arguments",
-  [field_type_paramaters] = "type_paramaters",
   [field_type_parameters] = "type_parameters",
   [field_update] = "update",
   [field_value] = "value",
@@ -2323,7 +2321,7 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
     {field_body, 1},
     {field_name, 0, .inherited = true},
     {field_parameters, 0, .inherited = true},
-    {field_type_paramaters, 0, .inherited = true},
+    {field_type_parameters, 0, .inherited = true},
   [103] =
     {field_dimensions, 1, .inherited = true},
     {field_name, 1, .inherited = true},
@@ -2407,7 +2405,7 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
     {field_body, 2},
     {field_name, 1, .inherited = true},
     {field_parameters, 1, .inherited = true},
-    {field_type_paramaters, 1, .inherited = true},
+    {field_type_parameters, 1, .inherited = true},
   [167] =
     {field_dimensions, 1, .inherited = true},
     {field_name, 1, .inherited = true},
@@ -2424,7 +2422,7 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
   [178] =
     {field_name, 1},
     {field_parameters, 2},
-    {field_type_paramaters, 0},
+    {field_type_parameters, 0},
   [181] =
     {field_dimensions, 2, .inherited = true},
     {field_name, 2, .inherited = true},
@@ -2484,7 +2482,7 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
     {field_body, 3},
     {field_name, 1, .inherited = true},
     {field_parameters, 1, .inherited = true},
-    {field_type_paramaters, 1, .inherited = true},
+    {field_type_parameters, 1, .inherited = true},
   [227] =
     {field_dimensions, 3, .inherited = true},
     {field_name, 3, .inherited = true},
