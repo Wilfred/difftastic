@@ -5392,7 +5392,7 @@
       "members": [
         {
           "type": "FIELD",
-          "name": "type_paramaters",
+          "name": "type_parameters",
           "content": {
             "type": "CHOICE",
             "members": [

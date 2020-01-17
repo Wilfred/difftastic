@@ -786,7 +786,7 @@ module.exports = grammar({
     ),
 
     _constructor_declarator: $ => seq(
-      field('type_paramaters', optional($.type_parameters)),
+      field('type_parameters', optional($.type_parameters)),
       field('name', $.identifier),
       field('parameters', $.formal_parameters)
     ),

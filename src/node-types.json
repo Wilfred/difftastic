@@ -1274,7 +1274,7 @@
           }
         ]
       },
-      "type_paramaters": {
+      "type_parameters": {
         "multiple": false,
         "required": false,
         "types": [
