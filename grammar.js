@@ -101,7 +101,7 @@ module.exports = grammar({
 
     text: $ => repeat1(choice(
       token(prec(-1, /</)),
-      /[^\s<]+/
+      /[^\s<][^<]*/
     )),
 
     _statement: $ => choice(
