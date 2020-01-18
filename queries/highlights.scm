@@ -21,6 +21,12 @@
   name: (identifier) @type)
 (class_declaration
   name: (identifier) @type)
+(enum_declaration
+  name: (identifier) @type)
+
+((scoped_identifier
+  scope: (identifier) @type)
+ (match? @type "^[A-Z]"))
 
 (constructor_declaration
   name: (identifier) @type)

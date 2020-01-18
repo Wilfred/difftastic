@@ -220,7 +220,9 @@ for (j.init(i); j.check(); j.update()) {
     update: (update_expression (identifier))
     body: (block
       (expression_statement (method_invocation
-        object: (scoped_identifier (identifier) (identifier))
+        object: (scoped_identifier
+          scope: (identifier)
+          name: (identifier))
         name: (identifier)
         arguments: (argument_list (binary_expression
           left: (string_literal)
@@ -240,7 +242,9 @@ for (j.init(i); j.check(); j.update()) {
       arguments: (argument_list))
     body: (block
       (expression_statement (method_invocation
-        object: (scoped_identifier (identifier) (identifier))
+        object: (scoped_identifier
+          scope: (identifier)
+          name: (identifier))
         name: (identifier)
         arguments: (argument_list (identifier)))))))
 
@@ -307,7 +311,9 @@ class WhileDemo {
                 right: (decimal_integer_literal)))
             body: (block
               (expression_statement (method_invocation
-                object: (scoped_identifier (identifier) (identifier))
+                object: (scoped_identifier
+                  scope: (identifier)
+                  name: (identifier))
                 name: (identifier)
                 arguments: (argument_list
                   (binary_expression left: (string_literal) right: (identifier)))))
@@ -536,7 +542,9 @@ public class SwitchDemo {
                 right: (string_literal)))
               (break_statement)))
           (expression_statement (method_invocation
-            object: (scoped_identifier (identifier) (identifier))
+            object: (scoped_identifier
+              scope: (identifier)
+              name: (identifier))
             name: (identifier)
             arguments: (argument_list (identifier)))))))))
 
