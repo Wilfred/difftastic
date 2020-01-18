@@ -822,9 +822,9 @@ module.exports = grammar({
     ),
 
     scoped_identifier: $ => seq(
-      choice($.identifier, $._reserved_identifier, $.scoped_identifier),
+      field('scope', choice($.identifier, $._reserved_identifier, $.scoped_identifier)),
       '.',
-      $.identifier
+      field('name', $.identifier)
     ),
 
     _class_member_declaration: $ => choice(
