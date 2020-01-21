@@ -24,7 +24,7 @@ static bool is_num_char(int32_t c) {
 
 bool tree_sitter_rust_external_scanner_scan(void *payload, TSLexer *lexer,
                                             const bool *valid_symbols) {
-  if (valid_symbols[STRING_CONTENT]) {
+  if (valid_symbols[STRING_CONTENT] && !valid_symbols[FLOAT_LITERAL]) {
     bool has_content = false;
     for (;;) {
       if (lexer->lookahead == '\"' || lexer->lookahead == '\\') {
