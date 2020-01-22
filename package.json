@@ -8,6 +8,11 @@
     "grammar"
   ],
   "main": "index.js",
+  "homepage": "https://github.com/victorhqc/tree-sitter-prisma#readme",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/victorhqc/tree-sitter-prisma.git"
+  },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
     "generate": "tree-sitter generate",
