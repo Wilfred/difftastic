@@ -800,7 +800,7 @@ module.exports = grammar({
     interpreted_string_literal: $ => seq(
       '"',
       repeat(choice(
-        token.immediate(prec(1, /[^"\n\\]/)),
+        token.immediate(prec(1, /[^"\n\\]+/)),
         $.escape_sequence
       )),
       '"'
