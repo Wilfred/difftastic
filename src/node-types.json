@@ -584,6 +584,10 @@
             "named": false
           },
           {
+            "type": "??",
+            "named": false
+          },
+          {
             "type": "^",
             "named": false
           },
@@ -657,18 +661,6 @@
         "types": [
           {
             "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "member_expression",
             "named": true
           },
           {
@@ -939,6 +931,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "export_specifier",
+    "named": true,
+    "fields": {
+      "alias": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1390,6 +1408,32 @@
     }
   },
   {
+    "type": "import_specifier",
+    "named": true,
+    "fields": {
+      "alias": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "import_statement",
     "named": true,
     "fields": {
@@ -1718,14 +1762,6 @@
         "types": [
           {
             "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "member_expression",
             "named": true
           },
           {
@@ -2906,6 +2942,10 @@
   },
   {
     "type": "?",
+    "named": false
+  },
+  {
+    "type": "??",
     "named": false
   },
   {

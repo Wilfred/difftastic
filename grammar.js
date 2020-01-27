@@ -753,6 +753,7 @@ module.exports = grammar({
         ['!==', PREC.REL],
         ['>=', PREC.REL],
         ['>', PREC.REL],
+        ['??', PREC.TERNARY],
         ['instanceof', PREC.REL],
         ['in', PREC.REL],
       ].map(([operator, precedence]) =>
