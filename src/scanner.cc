@@ -265,7 +265,7 @@ struct Scanner
             {
                 advance(lexer);
                 auto lookahead = lexer->lookahead;
-                if (lookahead >= 'a' && lookahead <= 'z' || lookahead == '(')
+                if ((lookahead >= 'a' && lookahead <= 'z') || (lookahead >= 'A' && lookahead <= 'Z') || lookahead == '(')
                 {
                     lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
                     lexer->mark_end(lexer);
@@ -332,7 +332,6 @@ struct Scanner
             }
         }
 
-
         // Handle block comments if we're not in a string
         if (in_string == 0 && valid_symbols[BLOCK_COMMENT])
         {
@@ -354,7 +353,6 @@ struct Scanner
             return scan_quote(lexer, CLOSE_QUOTE, CLOSE_QUOTE_MULTILINE, true);
         }
 
-
         if (in_string == 0 && valid_symbols[GLSL_CONTENT])
         {
             lexer->result_symbol = GLSL_CONTENT;
@@ -365,7 +363,8 @@ struct Scanner
                 case '|':
                     lexer->mark_end(lexer);
                     advance(lexer);
-                    if(lexer->lookahead == ']'){
+                    if (lexer->lookahead == ']')
+                    {
                         advance(lexer);
                         return true;
                     }
@@ -377,7 +376,6 @@ struct Scanner
                     advance(lexer);
                 }
             }
-
         }
 
         return false;
