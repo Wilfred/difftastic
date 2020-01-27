@@ -836,6 +836,22 @@ i && j;
       (unary_expression (identifier))))))
 
 ============================================
+The null-coalescing operator
+============================================
+
+x = b ?? c();
+
+---
+
+(program
+  (expression_statement
+    (assignment_expression
+      (identifier)
+      (binary_expression
+        (identifier)
+        (call_expression (identifier) (arguments))))))
+
+============================================
 Bitwise operators
 ============================================
 
