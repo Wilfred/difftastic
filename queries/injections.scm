@@ -14,3 +14,8 @@
 
 ((regex_pattern) @injection.content
  (set! injection.language "regex"))
+
+ ; Parse JSDoc annotations in comments
+
+((comment) @injection.content
+ (set! injection.language "jsdoc"))
