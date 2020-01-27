@@ -265,7 +265,7 @@ struct Scanner
             {
                 advance(lexer);
                 auto lookahead = lexer->lookahead;
-                if ((lookahead >= 'a' && lookahead <= 'z') || lookahead == '(')
+                if ((lookahead >= 'a' && lookahead <= 'z') || (lookahead >= 'A' && lookahead <= 'Z') || lookahead == '(')
                 {
                     lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
                     lexer->mark_end(lexer);
