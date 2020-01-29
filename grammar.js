@@ -351,8 +351,7 @@ module.exports = grammar({
           field('object', choice(
             $._ambiguous_name,
             $._primary,
-            $.super,
-            $._ambiguous_name
+            $.super
           )),
           '.',
           field('type_arguments', optional($.type_arguments)),
