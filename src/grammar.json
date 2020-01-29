@@ -2820,10 +2820,6 @@
                       {
                         "type": "SYMBOL",
                         "name": "super"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_ambiguous_name"
                       }
                     ]
                   }
@@ -6882,7 +6878,7 @@
                 },
                 {
                   "type": "PATTERN",
-                  "value": "[^*]*\\*+([^\\/*][^*]*\\*+)*"
+                  "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
                 },
                 {
                   "type": "STRING",
