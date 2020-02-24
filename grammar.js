@@ -511,11 +511,19 @@ module.exports = grammar({
         $.metavariable,
         $._type_identifier,
         $.constrained_type_parameter,
-        $.optional_type_parameter
+        $.optional_type_parameter,
+        $.const_parameter,
       )),
       optional(','),
       '>'
     )),
+
+    const_parameter: $ => seq(
+      'const',
+      field('name', $.identifier),
+      ':',
+      field('type', $._type_identifier),
+    ),
 
     constrained_type_parameter: $ => seq(
       field('left', choice($.lifetime, $._type_identifier)),
@@ -700,13 +708,17 @@ module.exports = grammar({
 
     function_type: $ => seq(
       optional($.for_lifetimes),
-      optional($.function_modifiers),
       prec(PREC.call, seq(
-        field('trait', choice(
-          $._type_identifier,
-          $.scoped_type_identifier,
-          'fn'
-        )),
+        choice(
+          field('trait', choice(
+            $._type_identifier,
+            $.scoped_type_identifier
+          )),
+          seq(
+            optional($.function_modifiers),
+            'fn'
+          )
+        ),
         field('parameters', $.parameters)
       )),
       optional(seq('->', field('return_type', $._type)))
@@ -759,7 +771,8 @@ module.exports = grammar({
       sepBy1(',', choice(
         $._type,
         $.type_binding,
-        $.lifetime
+        $.lifetime,
+        $._literal,
       )),
       optional(','),
       '>'
