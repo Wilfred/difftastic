@@ -594,13 +594,25 @@ Generic functions
 ============================================
 
 std::sizeof::<u32>();
+foo::<8>();
 
 ---
 
 (source_file
   (call_expression
-    (generic_function (scoped_identifier (identifier) (identifier)) (type_arguments (primitive_type)))
-    (arguments)))
+    function: (generic_function
+      function: (scoped_identifier
+        path: (identifier)
+        name: (identifier))
+      type_arguments: (type_arguments
+        (primitive_type)))
+    arguments: (arguments))
+  (call_expression
+    function: (generic_function
+      function: (identifier)
+      type_arguments: (type_arguments
+        (integer_literal)))
+    arguments: (arguments)))
 
 ===========================================
 Closures
