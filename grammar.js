@@ -75,6 +75,14 @@ const SYM_MISSING =
 //        aliases in the current namespace. In a namespace where x is aliased 
 //        to example, ::x/foo resolves to :example/foo.
 
+// extra:
+//
+//   :/ is a legal keyword:
+//
+//   alexmiller: @gfredericks :/ is "open for the language to start
+//   interpreting" and not an invalid keyword so should be ok to generate.
+//   and cljs should fix it's weirdness. (#clojure-dev 2019-06-07)
+
 // XXX: start w/ num ok? repl says yes
 const KWD_AFTER_COLON_START =
       /[^\/:\s]/;
@@ -201,7 +209,6 @@ module.exports = grammar({
                choice(/[0-9a-ce-fA-CE-F][0-9a-fA-F]{3}/,
                       /[dD][0-7][0-9a-fA-F]{2}/))),
 
-    // not documented at reader page, but in the source
     _octal_char: $ =>
       token(seq('\\o',
                 choice(OCTAL_DIGIT,
@@ -475,6 +482,7 @@ module.exports = grammar({
       seq('#?@',
           $._inner_reader_conditional),
 
+    // XXX: illegal(?) keywords that end in ## sometimes partially parse as symbolic values
     // at repl: ##Inf == ## Inf
     symbolic_value: $ =>
       seq('##',
