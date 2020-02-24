@@ -54,7 +54,7 @@ const DOT =
 const COLON =
       ':';                              // partially 8
 const SYM_OTHER =
-      /[*+!\-_'?<>=]/;                  // 2
+      /[*+!\-_'?<>=#]/;                 // 2
 const SYM_MISSING =
       /[&$%]/;                          // 9
 
@@ -156,8 +156,7 @@ module.exports = grammar({
 
     _non_discard: $ =>
       choice($._literal,
-             $._reader_macro,
-             $.gensym),
+             $._reader_macro),
 
     // at repl: #_ 1 2 != # _ 1 2
     discard: $ =>
@@ -510,25 +509,5 @@ module.exports = grammar({
       seq("#'",
           choice($.symbol,
                  $.unquote)),
-
-    // at repl: `a# != `a #
-    // at repl: `/# does not work, so the definition of simple_symbol
-    //          is not reused in whole below (left out the '/' part)
-    gensym: $ =>
-      prec(2,
-           // XXX: if simple_symbol's def changes, it might be good to
-           //      consider whether this needs to be changed
-           token(seq(SYM_START,
-                     optional(seq(repeat(choice(ALPHA_NUM,
-                                                SYM_OTHER,
-                                                DOT,
-                                                COLON, // XXX
-                                                SYM_MISSING)),
-                                  choice(ALPHA_NUM,
-                                         SYM_OTHER,
-                                         DOT, // XXX: is this really ok here?
-                                         SYM_MISSING))),
-                     '#'))),
-
   }
 });
