@@ -435,8 +435,9 @@ module.exports = grammar({
       seq('@',
           $._form),
 
+    // older code uses #^
     metadata: $ =>
-      seq('^', // XXX: #^ is deprecated(?), not supporting atm
+      seq(choice('^', '#^'),
           choice($.keyword,
                  $.map,
                  $.symbol,
