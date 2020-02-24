@@ -195,8 +195,9 @@ module.exports = grammar({
              $._unicode_char,
              $._octal_char),
 
+    // '\ ' is permitted and people seem to use it
     _any_char: $ =>
-      /\\[^\s]/,
+      /\\./,
 
     // only six
     _special_char: $ =>
