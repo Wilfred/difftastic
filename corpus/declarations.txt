@@ -250,6 +250,7 @@ pub use self::greetings::hello;
 use sayings::english::{self, greetings as en_greetings, farewells as en_farewells};
 use three::{ dot::{one, four} };
 use my::{ some::* };
+use my::{*};
 
 ---
 
@@ -323,7 +324,12 @@ use my::{ some::* };
       path: (identifier)
       list: (use_list
         (use_wildcard
-          (identifier))))))
+          (identifier)))))
+  (use_declaration
+    argument: (scoped_use_list
+      path: (identifier)
+      list: (use_list
+        (use_wildcard)))))
 
 ============================================
 Variable bindings
