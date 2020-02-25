@@ -590,7 +590,10 @@ module.exports = grammar({
       field('alias', $.identifier)
     ),
 
-    use_wildcard: $ => seq($._path, '::', '*'),
+    use_wildcard: $ => seq(
+      optional(seq($._path, '::')),
+      '*'
+    ),
 
     parameters: $ => seq(
       '(',
