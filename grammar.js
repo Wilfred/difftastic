@@ -1,17 +1,32 @@
 // NOTES
+// - strict grammar (like linting?) and not-as-strict grammar may be useful
+// - loosening ideas:
+//   - allow metadata in more locations
+//   - allow ##Other (not just ##Inf, -##Inf, ##NaN)
+//   - allow # in keywords
+//   - allow ::/
+//   - allow \uD800 through \uDFFF
+//   - allow things like seq('#{', ... to be specified as seq('#', '{', ...
+// - metadata -- where exactly is this allowed other than in front of symbols,
+//   collection literals, and other metadata?
+// - prevent repeated colons within symbols
+// - review symbol and keyword specs and definitions
+// - is there any point in trying to distinguish between symbols and
+//   special forms (e.g. new vs +)
+// - can strings have unicode escapes in them?
 // - "surface" distinctions between things like _simple_symbol and
 //   _qualified_symbol?
-// - prevent repeated colons within symbols
-// - (comment ) form
-// - what exactly is the conflict thing doing
-// - review symbol and keyword specs and definitions
+// - any special support for (comment ) form?
 // - consider using fields
+// - what exactly is the conflicts stuff doing?
+// - someone used ^ as a symbol -- which you can do via the symbol function,
+//   but this seems to contradict the reader page
 
 // symbolPat from LispReader.java (for keywords and symbols?)
 //   "[:]?([\\D&&[^/]].*/)?(/|[\\D&&[^/]][^/]*)"
 //
 // https://clojure.org/reference/reader#_symbols
-//   1. Symbols begin with a non-numeric char -- XXX: even for example, cyrillic?
+//   1. Symbols begin with a non-numeric char -- XXX: see 2 for limits?
 //   2. Can contain alphanumeric chars and *, +, !, -, _, ', ?, <, > and =
 //   3. / can be used once in the middle of a symbol (sep the ns from the name)
 //   4. / by itself names the division function
@@ -27,6 +42,7 @@
 //
 // undocumented
 //   -1a can be made a symbol, but reader will reject?  repl rejects
+//     => number parsing takes priority?
 //   'a can be made a symbol, but reader will reject?  repl -> quote
 //
 // implied?
@@ -43,6 +59,44 @@
 //   doesn't start with ( )
 //   doesn't start with { }
 //   doesn't start with [ ]
+//
+// extra:
+//
+//   is my-ns// valid?
+//
+//     foo// should be valid.
+//
+//     2014-09-16 clojure-dev google group alex miller
+//
+//     https://groups.google.com/d/msg/clojure-dev/b09WvRR90Zc/c3zzMFqDsRYJ
+//
+//     CLJ-1238 Allow EdnReader to read foo// (matches LispReader behavior)
+//
+//     changelog for clojure 1.6
+//
+//   is # allowed as a constituent character in keywords?
+//
+//     bug in reader or repl? reading keyword :#abc
+//
+//     Symbols begin with a non-numeric character and can contain
+//     alphanumeric characters and . * + ! - _ ? $ % & =. If -, + or
+//     . are the first character, the second character must be
+//     non-numeric. Additionally, : # are allowed as constituent
+//     characters in symbols other than as the first character.
+//
+//     2013-05-02 clojure google group colin jones (fwd by dave sann)
+//
+//     https://groups.google.com/d/msg/clojure/lK7juHxsPCc/TeYjxoW_3csJ
+//
+//     Keywords are identifiers that typically designate
+//     themselves. They are semantically akin to enumeration
+//     values. Keywords follow the rules of symbols, except they can
+//     (and must) begin with :, e.g. :fred or :my/fred. If the target
+//     platform does not have a keyword type distinct from a symbol
+//     type, the same type can be used without conflict, since the
+//     mandatory leading : of keywords is disallowed for symbols.
+//
+//     https://github.com/edn-format/edn#symbols
 //
 // repl accepts other things, but that doesn't necssarily mean this code should
 const SYM_START =
@@ -65,7 +119,7 @@ const SYM_MISSING =
 // https://clojure.org/reference/reader#_literals
 //   0. Keywords are like symbols, except:
 //   1. They can and must begin with a colon, e.g. :fred.
-//   2. They cannot contain '.' in the name part, or name classes.
+//   ~~2. They cannot contain '.' in the name part, or name classes.~~
 //   3. They can contain a namespace, :person/name, which may contain '.'s.
 //   4. A keyword that begins with two colons is auto-resolved in the current 
 //      namespace to a qualified keyword:
@@ -79,9 +133,59 @@ const SYM_MISSING =
 //
 //   :/ is a legal keyword:
 //
-//   alexmiller: @gfredericks :/ is "open for the language to start
-//   interpreting" and not an invalid keyword so should be ok to generate.
-//   and cljs should fix it's weirdness. (#clojure-dev 2019-06-07)
+//     alexmiller: @gfredericks :/ is "open for the language to start
+//     interpreting" and not an invalid keyword so should be ok to generate.
+//     and cljs should fix it's weirdness. (#clojure-dev 2019-06-07)
+//
+//   . CAN be in the name part:
+//
+//     I think you've both misread "they cannot name classes" to be - "They
+//     cannot contain class names".
+//
+//     The symbol String can name a class but the keyword :String can't,
+//     that's all I meant there.
+//
+//     As far as '.', that restriction has been relaxed. I'll try to touch
+//     up the docs for the next release.
+//
+//     2008-11-25 clojure google group rich hickey
+//
+//     https://groups.google.com/d/msg/clojure/CCuIp_bZ-ZM/THea7NF91Z4J
+//
+//   Whether keywords can start with numbers:
+//
+//     we currently allow keywords starting with numbers and seem to have
+//     decided this is ok. I would like to get Rich to approve a change to
+//     the page and do so.
+//
+//     2014-04-25 clojure google group alex miller
+//
+//     https://groups.google.com/forum/#!msg/clojure/XP1XAaDdKLY/kodfZTk8eeoJ
+//
+//     From a discussion in #clojure, it emerged that while :foo/1 is
+//     currently not allowed, ::1 is.
+//
+//     2014-12-10 nicola mometto
+//
+//     https://clojure.atlassian.net/browse/CLJ-1286
+//
+//     clarify and align valid symbol and keyword rules for Clojure (and edn)
+//
+//     https://clojure.atlassian.net/browse/CLJ-1527
+//
+//     consistency of symbols between different readers/edn
+//
+//     https://groups.google.com/forum/#!topic/clojure-dev/b09WvRR90Zc
+//
+//   Whether # is allowed in a keyword:
+//
+//     clarification on # as valid symbol character
+//
+//     this works now, but is not guaranteed to always be valid
+//
+//     2016-11-08 clojure google group alex miller
+//
+//     https://groups.google.com/forum/#!topic/clojure/CwZHu1Eszbk
 
 // XXX: start w/ num ok? repl says yes
 const KWD_AFTER_COLON_START =
@@ -113,7 +217,7 @@ const RADIX =
              '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
              '31', '32', '33', '34', '35', '36');
 
-// https://clojure.org/reference/reader#_litersals
+// https://clojure.org/reference/reader#_literals
 //   1. Integers can be indefinitely long and will be read as Longs when
 //      in range and clojure.lang.BigInts otherwise. 
 //   2. Integers with an N suffix are always read as BigInts.
@@ -196,6 +300,7 @@ module.exports = grammar({
              $._octal_char),
 
     // '\ ' is permitted and people seem to use it
+    // '\' followed by a newline appears in some source
     _any_char: $ =>
       /\\./,
 
