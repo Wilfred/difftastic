@@ -363,6 +363,7 @@ module.exports = grammar({
                                                SYM_MISSING)),
                                  choice(ALPHA_NUM,
                                         SYM_OTHER,
+                                        DOT, // XXX: test.check and repl favor
                                         SYM_MISSING)))),
                 '/',
                 choice('/',
