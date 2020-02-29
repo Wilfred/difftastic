@@ -387,15 +387,18 @@ module.exports = grammar({
 
     // XXX: probably needs more work
     _simple_keyword: $ =>
-      token(seq(/(:|::)/,
-                seq(KWD_AFTER_COLON_START,
-                    optional(seq(repeat(choice(ALPHA_NUM,
+      token(choice(':/',
+                   seq(/(:|::)/,
+                       seq(KWD_AFTER_COLON_START,
+                           optional(seq(repeat(choice(ALPHA_NUM,
+                                                      SYM_OTHER,
+                                                      DOT,
+                                                      COLON, // XXX
+                                                      SYM_MISSING)),
+                                        choice(ALPHA_NUM,
                                                SYM_OTHER,
-                                               COLON, // XXX
-                                               SYM_MISSING)),
-                                 choice(ALPHA_NUM,
-                                        SYM_OTHER,
-                                        SYM_MISSING)))))),
+                                               DOT,
+                                               SYM_MISSING))))))),
 
     simple_keyword: $ =>
       $._simple_keyword,
@@ -412,15 +415,18 @@ module.exports = grammar({
                                                SYM_MISSING)),
                                  choice(ALPHA_NUM,
                                         SYM_OTHER,
+                                        DOT,
                                         SYM_MISSING)))),
                 '/',
                 seq(SYM_START,
                     optional(seq(repeat(choice(ALPHA_NUM,
                                                SYM_OTHER,
                                                COLON, // XXX
+                                               DOT,
                                                SYM_MISSING)),
                                  choice(ALPHA_NUM,
                                         SYM_OTHER,
+                                        DOT,
                                         SYM_MISSING)))))),
 
     qualified_keyword: $ =>
