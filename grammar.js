@@ -64,19 +64,21 @@
 //
 //   is my-ns// valid?
 //
+//     "Consistency of symbols between different readers/edn"
+//
 //     foo// should be valid.
 //
 //     2014-09-16 clojure-dev google group alex miller
 //
 //     https://groups.google.com/d/msg/clojure-dev/b09WvRR90Zc/c3zzMFqDsRYJ
 //
-//     CLJ-1238 Allow EdnReader to read foo// (matches LispReader behavior)
+//     "CLJ-1238 Allow EdnReader to read foo// (matches LispReader behavior)"
 //
 //     changelog for clojure 1.6
 //
 //   is # allowed as a constituent character in keywords?
 //
-//     bug in reader or repl? reading keyword :#abc
+//     "Bug in reader or repl? reading keyword :#abc"
 //
 //     Symbols begin with a non-numeric character and can contain
 //     alphanumeric characters and . * + ! - _ ? $ % & =. If -, + or
@@ -139,6 +141,8 @@ const SYM_MISSING =
 //
 //   . CAN be in the name part:
 //
+//     "[Bug?] Keyword constraints not enforced"
+//
 //     I think you've both misread "they cannot name classes" to be - "They
 //     cannot contain class names".
 //
@@ -153,6 +157,8 @@ const SYM_MISSING =
 //     https://groups.google.com/d/msg/clojure/CCuIp_bZ-ZM/THea7NF91Z4J
 //
 //   Whether keywords can start with numbers:
+//
+//     "puzzled by RuntimeException"
 //
 //     we currently allow keywords starting with numbers and seem to have
 //     decided this is ok. I would like to get Rich to approve a change to
@@ -169,7 +175,7 @@ const SYM_MISSING =
 //
 //     https://clojure.atlassian.net/browse/CLJ-1286
 //
-//     clarify and align valid symbol and keyword rules for Clojure (and edn)
+//     "Clarify and align valid symbol and keyword rules for Clojure (and edn)"
 //
 //     https://clojure.atlassian.net/browse/CLJ-1527
 //
@@ -179,7 +185,7 @@ const SYM_MISSING =
 //
 //   Whether # is allowed in a keyword:
 //
-//     clarification on # as valid symbol character
+//     "Clarification on # as valid symbol character"
 //
 //     this works now, but is not guaranteed to always be valid
 //
@@ -202,7 +208,7 @@ const STRING_CONTENT =
       repeat(choice(/[^\\"]/,
                     /\\(.|\n)/));
 
-// XXX: consider elimintation of regexes?
+// XXX: consider elimination of regexes?
 const DIGIT =
       /[0-9]/;
 const POSITIVE_DIGIT =
