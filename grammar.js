@@ -302,7 +302,7 @@ module.exports = grammar({
     // '\ ' is permitted and people seem to use it
     // '\' followed by a newline appears in some source
     _any_char: $ =>
-      /\\./,
+      /\\(.|\n)/,
 
     // only six
     _special_char: $ =>
