@@ -570,8 +570,7 @@ module.exports = grammar({
 
     _inner_reader_conditional: $ =>
       seq('(',
-          repeat(seq($.simple_keyword,
-                     optional($.metadata),
+          repeat(seq($.keyword,
                      $._form)),
           ')'),
 
