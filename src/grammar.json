@@ -2061,10 +2061,32 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
+            "name": "command_call_with_block"
+          },
+          "named": true,
+          "value": "method_call"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
             "name": "command_call"
           },
           "named": true,
           "value": "method_call"
+        },
+        {
+          "type": "PREC_LEFT",
+          "value": 0,
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "chained_command_call"
+            },
+            "named": true,
+            "value": "call"
+          }
         },
         {
           "type": "ALIAS",
@@ -2484,47 +2506,56 @@
       }
     },
     "command_call": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "method",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_variable"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "scope_resolution"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "call"
-                  }
-                ]
-              }
-            },
-            {
-              "type": "FIELD",
-              "name": "arguments",
-              "content": {
+          "type": "FIELD",
+          "name": "method",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_variable"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "scope_resolution"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "call"
+              },
+              {
                 "type": "ALIAS",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "command_argument_list"
+                  "name": "chained_command_call"
                 },
                 "named": true,
-                "value": "argument_list"
+                "value": "call"
               }
-            }
-          ]
+            ]
+          }
         },
+        {
+          "type": "FIELD",
+          "name": "arguments",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "command_argument_list"
+            },
+            "named": true,
+            "value": "argument_list"
+          }
+        }
+      ]
+    },
+    "command_call_with_block": {
+      "type": "CHOICE",
+      "members": [
         {
           "type": "SEQ",
           "members": [
@@ -2636,6 +2667,62 @@
               }
             }
           ]
+        }
+      ]
+    },
+    "chained_command_call": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "receiver",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "command_call_with_block"
+            },
+            "named": true,
+            "value": "method_call"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "."
+            },
+            {
+              "type": "STRING",
+              "value": "&."
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "method",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "operator"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "constant"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "argument_list"
+              }
+            ]
+          }
         }
       ]
     },
@@ -2889,6 +2976,15 @@
           "content": {
             "type": "SYMBOL",
             "name": "command_call"
+          },
+          "named": true,
+          "value": "method_call"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "command_call_with_block"
           },
           "named": true,
           "value": "method_call"

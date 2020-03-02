@@ -292,6 +292,10 @@
         "named": true
       },
       {
+        "type": "call",
+        "named": true
+      },
+      {
         "type": "end_block",
         "named": true
       },
@@ -498,6 +502,10 @@
             "named": true
           },
           {
+            "type": "call",
+            "named": true
+          },
+          {
             "type": "method_call",
             "named": true
           },
@@ -627,6 +635,10 @@
           },
           {
             "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
             "named": true
           },
           {
@@ -763,6 +775,10 @@
           },
           {
             "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
             "named": true
           },
           {
@@ -925,6 +941,10 @@
         "types": [
           {
             "type": "_primary",
+            "named": true
+          },
+          {
+            "type": "method_call",
             "named": true
           }
         ]
@@ -1528,6 +1548,10 @@
             "named": true
           },
           {
+            "type": "call",
+            "named": true
+          },
+          {
             "type": "method_call",
             "named": true
           },
@@ -1927,6 +1951,10 @@
             "named": true
           },
           {
+            "type": "call",
+            "named": true
+          },
+          {
             "type": "method_call",
             "named": true
           },
@@ -2191,6 +2219,10 @@
           },
           {
             "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
             "named": true
           },
           {
@@ -2691,6 +2723,10 @@
             "named": true
           },
           {
+            "type": "call",
+            "named": true
+          },
+          {
             "type": "method_call",
             "named": true
           },
@@ -2760,6 +2796,10 @@
           },
           {
             "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
             "named": true
           },
           {
@@ -2862,6 +2902,10 @@
           },
           {
             "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
             "named": true
           },
           {

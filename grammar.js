@@ -386,11 +386,28 @@ module.exports = grammar({
       'end'
     ),
 
+    // Method calls without parentheses (aka "command calls") are only allowed
+    // in certain positions, like the top-level of a statement, the condition
+    // of a postfix control-flow operator like `if`, or as the value of a
+    // control-flow statement like `return`. In many other places, they're not
+    // allowed.
+    //
+    // Because of this distinction, a lot of rules have two variants: the
+    // normal variant, which can appear anywhere that an expression is valid,
+    // and the "command" varaint, which is only valid in a more limited set of
+    // positions, because it can contain "command calls".
+    //
+    // The `_expression` rule can appear in relatively few places, but can
+    // contain command calls. The `_arg` rule can appear in many more places,
+    // but cannot contain command calls (unless they are wrapped in parens).
+    // This naming convention is based on Ruby's standard grammar.
     _expression: $ => choice(
       alias($.command_binary, $.binary),
       alias($.command_assignment, $.assignment),
       alias($.command_operator_assignment, $.operator_assignment),
       alias($.command_call, $.method_call),
+      alias($.command_call_with_block, $.method_call),
+      prec.left(alias($.chained_command_call, $.call)),
       alias($.return_command, $.return),
       alias($.yield_command, $.yield),
       alias($.break_command, $.break),
@@ -472,20 +489,39 @@ module.exports = grammar({
       field('method', choice($.identifier, $.operator, $.constant, $.argument_list))
     )),
 
-    command_call: $ => {
+    command_call: $ => seq(
+      field('method', choice(
+        $._variable,
+        $.scope_resolution,
+        $.call,
+        alias($.chained_command_call, $.call)
+      )),
+      field('arguments', alias($.command_argument_list, $.argument_list))
+    ),
+
+    command_call_with_block: $ => {
       const receiver = field('method', choice($._variable, $.scope_resolution, $.call))
       const arguments = field('arguments', alias($.command_argument_list, $.argument_list))
       const block = field('block', $.block)
       const doBlock = field('block', $.do_block)
       return choice(
-        seq(receiver, arguments),
         seq(receiver, prec(PREC.CURLY_BLOCK, seq(arguments, block))),
         seq(receiver, prec(PREC.DO_BLOCK, seq(arguments, doBlock))),
       )
     },
 
+    chained_command_call: $ => seq(
+      field('receiver', alias($.command_call_with_block, $.method_call)),
+      choice('.', '&.'),
+      field('method', choice($.identifier, $.operator, $.constant, $.argument_list))
+    ),
+
     method_call: $ => {
-      const receiver = field('method', choice($._variable, $.scope_resolution, $.call))
+      const receiver = field('method', choice(
+        $._variable,
+        $.scope_resolution,
+        $.call
+      ))
       const arguments = field('arguments', $.argument_list)
       const block = field('block', $.block)
       const doBlock = field('block', $.do_block)
@@ -500,7 +536,8 @@ module.exports = grammar({
 
     command_argument_list: $ => choice(
       commaSep1($._argument),
-      alias($.command_call, $.method_call)
+      alias($.command_call, $.method_call),
+      alias($.command_call_with_block, $.method_call)
     ),
 
     argument_list: $ => prec.right(seq(
