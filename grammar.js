@@ -245,21 +245,11 @@ const RADIX =
 // floatPat
 //   "([-+]?[0-9]+(\\.[0-9]*)?([eE][-+]?[0-9]+)?)(M)?"
 
-const COMMA_OR_WHITESPACE =
-      choice(',', /\s/);
-
 module.exports = grammar({
   name: 'clojure',
 
   extras: $ =>
-    // XXX: eliminate regex here too?
     [/[\s,]/, $.comment],
-    //[COMMA_OR_WHITESPACE, $.comment],
-
-  // XXX: added to get the grammar to compile...
-  conflicts: $ => [
-    [$._reader_macro, $._inner_reader_conditional]
-  ],
 
   rules: {
     source_file: $ =>
