@@ -488,10 +488,13 @@ module.exports = grammar({
                             '/',
                             repeat1(DIGIT))))),
 
-    list: $ =>
+    _list: $ =>
       seq('(',
           repeat($._form),
           ')'),
+
+    list: $ =>
+      $._list,
 
     vector: $ =>
       seq('[',
@@ -566,16 +569,10 @@ module.exports = grammar({
       seq("'",
           $._form),
 
-    _inner_reader_conditional: $ =>
-      seq('(',
-          repeat(seq($.keyword,
-                     $._form)),
-          ')'),
-
     // at repl: #?() 1 == #? () 1
     reader_conditional: $ =>
       seq('#?',
-          $._inner_reader_conditional),
+          $._list),
 
     // at repl: #"." != # "."
     regular_expression: $ =>
@@ -591,7 +588,7 @@ module.exports = grammar({
 
     splicing_reader_conditional: $ =>
       seq('#?@',
-          $._inner_reader_conditional),
+          $._list),
 
     // XXX: illegal(?) keywords that end in ## sometimes partially parse as
     //      symbolic values
