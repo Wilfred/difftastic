@@ -62084,6 +62084,9 @@ static TSParseActionEntry ts_parse_actions[] = {
   [3469] = {.count = 1, .reusable = true}, SHIFT(64),
 };
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifdef _WIN32
 #define extern __declspec(dllexport)
 #endif
@@ -62116,3 +62119,6 @@ extern const TSLanguage *tree_sitter_c(void) {
   };
   return &language;
 }
+#ifdef __cplusplus
+}
+#endif
