@@ -50675,6 +50675,9 @@ static TSParseActionEntry ts_parse_actions[] = {
   [2956] = {.count = 1, .reusable = true}, SHIFT(899),
 };
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 void *tree_sitter_javascript_external_scanner_create(void);
 void tree_sitter_javascript_external_scanner_destroy(void *);
 bool tree_sitter_javascript_external_scanner_scan(void *, TSLexer *, const bool *);
@@ -50722,3 +50725,6 @@ extern const TSLanguage *tree_sitter_javascript(void) {
   };
   return &language;
 }
+#ifdef __cplusplus
+}
+#endif
