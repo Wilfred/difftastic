@@ -1,15 +1,11 @@
 // NOTES
 // - strict grammar (like linting?) and not-as-strict grammar may be useful
 // - loosening ideas:
-//   - allow metadata in more locations
 //   - allow ##Other (not just ##Inf, -##Inf, ##NaN)
 //   - allow # in keywords
 //   - allow ::/
-//   - allow \uD800 through \uDFFF
-//   - allow things like seq('#{', ... to be specified as seq('#', '{', ...
 // - metadata -- where exactly is this allowed other than in front of symbols,
 //   collection literals, and other metadata?
-// - prevent repeated colons within symbols
 // - review symbol and keyword specs and definitions
 // - is there any point in trying to distinguish between symbols and
 //   special forms (e.g. new vs +)
