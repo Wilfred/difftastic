@@ -950,6 +950,45 @@ end
     (argument_list (symbol) (lambda (lambda_parameters (identifier)) (block (integer))))
     (do_block)))
 
+===============================================
+chained method calls with blocks but no parens
+===============================================
+
+a.b c, *d do |e|
+  f
+end.g h { |i|
+  i
+}.j do
+  k
+end
+
+---
+
+(program
+  (method_call
+    method: (call
+      receiver: (method_call
+        method: (call
+          receiver: (identifier)
+          method: (identifier))
+        arguments: (argument_list
+          (identifier)
+          (splat_argument (identifier)))
+        block: (do_block
+          (block_parameters (identifier))
+          (identifier)))
+      method: (identifier))
+    arguments: (argument_list
+      (method_call
+        method: (call
+          receiver: (method_call
+            method: (identifier)
+            block: (block
+              (block_parameters (identifier))
+              (identifier)))
+          method: (identifier))
+        block: (do_block (identifier))))))
+
 ===============================
 method calls in binary expression
 ===============================
