@@ -237,7 +237,7 @@ const RADIX =
 // intPat
 //   "([-+]?)(?:(0)|([1-9][0-9]*)|0[xX]([0-9A-Fa-f]+)|0([0-7]+)|([1-9][0-9]?)[rR]([0-9A-Za-z]+)|0[0-9]+)(N)?"
 
-// XXX: what is this part => 0[0-9]+
+// 0[0-9]+ is for better errors -- thanks seancorfield and andyfingerhut
 
 // ratioPat
 //   "([-+]?[0-9]+)/([0-9]+)"
@@ -289,7 +289,7 @@ module.exports = grammar({
              $.list,
              $.map,
              $.nil,
-	     $.number,             
+             $.number,
              $.string,
              $.symbol,
              $.vector),
@@ -310,7 +310,6 @@ module.exports = grammar({
     _any_char: $ =>
       /\\(.|\n)/,
 
-    // only six
     _special_char: $ =>
       /\\(backspace|formfeed|newline|return|space|tab)/,
 
