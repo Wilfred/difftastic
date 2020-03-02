@@ -279,6 +279,22 @@
     "named": true
   },
   {
+    "type": "doctype",
+    "named": false
+  },
+  {
+    "type": "erroneous_end_tag_name",
+    "named": true
+  },
+  {
+    "type": "raw_text",
+    "named": true
+  },
+  {
+    "type": "tag_name",
+    "named": true
+  },
+  {
     "type": "text",
     "named": true
   }
