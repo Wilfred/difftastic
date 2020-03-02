@@ -47252,6 +47252,9 @@ static TSParseActionEntry ts_parse_actions[] = {
   [2279] = {.count = 1, .reusable = true}, SHIFT(62),
 };
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 void *tree_sitter_python_external_scanner_create(void);
 void tree_sitter_python_external_scanner_destroy(void *);
 bool tree_sitter_python_external_scanner_scan(void *, TSLexer *, const bool *);
@@ -47299,3 +47302,6 @@ extern const TSLanguage *tree_sitter_python(void) {
   };
   return &language;
 }
+#ifdef __cplusplus
+}
+#endif
