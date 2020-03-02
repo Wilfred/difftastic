@@ -522,12 +522,15 @@ module.exports = grammar({
     // https://clojure.org/reference/reader#map_namespace_syntax
     // https://cljs.github.io/api/syntax/ns-map-alias
     //
-    // #:{}
-    // #::{}
-    // #:clojure.string{}
-    // #::cs{}
+    // XXX: #:{} not valid at repl
+    // at repl: #::{} == #:: {}
+    // at repl: #::{} != #: :{}
+    // at repl: #:clojure.string{} == #:clojure.string {}
+    // at repl: #:clojure.string{} != #: clojure.string{}
+    // at repl: #::cs{} == #::cs {}
+    // at repl: #::cs{} != #:: cs{}
     _namespaced_map: $ =>
-      seq(/#(:|::)/,
+      seq(/#(:|::)/, // XXX: #:{} not valid
           optional($._simple_symbol),
           // XXX: reuse _simple_map innards here?
           '{',
@@ -580,6 +583,7 @@ module.exports = grammar({
                      $._form)),
           ')'),
 
+    // at repl: #?() 1 == #? () 1
     reader_conditional: $ =>
       seq('#?',
           $._inner_reader_conditional),
@@ -600,7 +604,8 @@ module.exports = grammar({
       seq('#?@',
           $._inner_reader_conditional),
 
-    // XXX: illegal(?) keywords that end in ## sometimes partially parse as symbolic values
+    // XXX: illegal(?) keywords that end in ## sometimes partially parse as
+    //      symbolic values
     // at repl: ##Inf == ## Inf
     symbolic_value: $ =>
       seq('##',
@@ -608,6 +613,7 @@ module.exports = grammar({
                  'Inf',
                  'NaN')),
 
+    // at repl: `a == ` a
     syntax_quote: $ =>
       seq('`',
           $._form),
