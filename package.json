@@ -11,10 +11,10 @@
   "license": "MIT",
   "dependencies": {
     "nan": "^2.14.0",
-    "prebuild-install": "^5.0.0"
+    "prebuild-install": "^5.3.3"
   },
   "devDependencies": {
-    "prebuild": "^7.6.1",
+    "prebuild": "^10.0.0",
     "tree-sitter-cli": "^0.16.1"
   },
   "scripts": {
