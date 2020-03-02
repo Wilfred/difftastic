@@ -209,14 +209,18 @@ const STRING_CONTENT =
                     /\\(.|\n)/));
 
 // XXX: consider elimination of regexes?
+const SIGN =
+      optional(choice('-', '+'));
 const DIGIT =
       /[0-9]/;
 const POSITIVE_DIGIT =
       /[1-9]/;
 const HEX_DIGIT =
       /[0-9a-fA-F]/;
-const OCTAL_DIGIT =
-      /[0-7]/;
+const HEX_QUAD =
+      /[0-9a-fA-F]{4}/;
+const OCTAL_NUMBER =
+      /[0-7]+/;
 const RADIX =
       choice('2', '3', '4', '5', '6', '7', '8', '9', '10',
              '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
@@ -303,21 +307,15 @@ module.exports = grammar({
     _special_char: $ =>
       /\\(backspace|formfeed|newline|return|space|tab)/,
 
-    // XXX: rewrite to not use regexes?
-    // everything other than \uD800 through \uDFFF inclusive is ok
+    // everything other than \uD800 through \uDFFF inclusive is ok, but
+    // not worth trying to be precise
     _unicode_char: $ =>
       token(seq('\\u',
-               choice(/[0-9a-ce-fA-CE-F][0-9a-fA-F]{3}/,
-                      /[dD][0-7][0-9a-fA-F]{2}/))),
+                HEX_QUAD)),
 
     _octal_char: $ =>
       token(seq('\\o',
-                choice(OCTAL_DIGIT,
-                       seq(OCTAL_DIGIT,
-                           OCTAL_DIGIT),
-                       seq(choice('0', '1', '2', '3'),
-                           OCTAL_DIGIT,
-                           OCTAL_DIGIT)))),
+                OCTAL_NUMBER)),
     
     nil: $ =>
       'nil',
@@ -446,44 +444,44 @@ module.exports = grammar({
     // interpreting stuff that looked like numbers as symbols -- they may
     // also affect preference among the numbers too
     _int: $ =>
-      token(prec(2, seq(optional(choice('-', '+')),
+      token(prec(2, seq(SIGN,
                         choice('0',
                                seq(POSITIVE_DIGIT,
                                    repeat(DIGIT))),
                         optional('N')))),
 
     _hex: $ =>
-      token(prec(2, seq(optional(choice('-', '+')),
+      token(prec(2, seq(SIGN,
                         seq('0',
                             choice('x', 'X'),
                             repeat1(HEX_DIGIT)),
                         optional('N')))),
 
     _octal: $ =>
-      token(prec(2, seq(optional(choice('-', '+')),
+      token(prec(2, seq(SIGN,
                         seq('0',
-                            repeat1(OCTAL_DIGIT)),
-                        optional('N')))),
+                            OCTAL_NUMBER,
+                            optional('N'))))),
 
     _radix: $ =>
-      token(prec(2, seq(optional(choice('-', '+')),
+      token(prec(2, seq(SIGN,
                         seq(RADIX,
                             choice('r', 'R'),
                             repeat1(ALPHA_NUM)),
                         optional('N')))),
 
     _float: $ =>
-      token(prec(2, seq(optional(choice('-', '+')),
+      token(prec(2, seq(SIGN,
                         seq(repeat1(DIGIT),
                             optional(seq('.',
                                          repeat(DIGIT))),
                             optional(seq(choice('e', 'E'),
-                                         optional(choice('-', '+')),
+                                         SIGN,
                                          repeat1(DIGIT)))),
                         optional('M')))),
 
     _ratio: $ =>
-      token(prec(2, seq(optional(choice('-', '+')),
+      token(prec(2, seq(SIGN,
                         seq(repeat1(DIGIT),
                             '/',
                             repeat1(DIGIT))))),
