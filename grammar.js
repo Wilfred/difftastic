@@ -470,15 +470,21 @@ module.exports = grammar({
     list: $ =>
       $._list,
 
-    vector: $ =>
+    _vector: $ =>
       seq('[',
           repeat($._form),
           ']'),
+
+    vector: $ =>
+      $._vector,
 
     // https://clojure.org/reference/reader#_maps
     map: $ =>
       choice($._simple_map,
              $._namespaced_map),
+
+    _map: $ =>
+      $.map,
 
     _simple_map: $ =>
       seq('{',
@@ -555,10 +561,13 @@ module.exports = grammar({
                 '"')),
 
     // at repl: #{:a} != # {:a}
-    set: $ =>
+    _set: $ =>
       seq('#{',
           repeat($._form),
           '}'),
+
+    set: $ =>
+      $._set,
 
     splicing_reader_conditional: $ =>
       seq('#?@',
