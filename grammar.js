@@ -254,6 +254,41 @@ const RADIX =
 // floatPat
 //   "([-+]?[0-9]+(\\.[0-9]*)?([eE][-+]?[0-9]+)?)(M)?"
 
+const NON_SLASH_SIMPLE_SYMBOL =
+      token(seq(SYM_START,
+                optional(seq(repeat(choice(ALPHA_NUM,
+                                           SYM_OTHER,
+                                           DOT,
+                                           COLON, // XXX
+                                           SYM_MISSING)),
+                             choice(ALPHA_NUM,
+                                    SYM_OTHER,
+                                    // XXX: test.check / repl favor
+                                    //      in ns part of qualified sym
+                                    DOT,
+                                    SYM_MISSING)))));
+
+const SIMPLE_SYMBOL =
+      token(choice('/',
+                   NON_SLASH_SIMPLE_SYMBOL));
+
+const NON_SLASH_SIMPLE_KEYWORD =
+      token(seq(KWD_AFTER_COLON_START,
+                optional(seq(repeat(choice(ALPHA_NUM,
+                                           SYM_OTHER,
+                                           DOT,
+                                           COLON, // XXX
+                                           SYM_MISSING)),
+                             choice(ALPHA_NUM,
+                                    SYM_OTHER,
+                                    DOT,
+                                    SYM_MISSING)))));
+
+const SIMPLE_KEYWORD =
+      token(choice(':/',
+                   seq(/(:|::)/,
+                       NON_SLASH_SIMPLE_KEYWORD)));
+
 module.exports = grammar({
   name: 'clojure',
 
@@ -335,48 +370,15 @@ module.exports = grammar({
     symbol: $ =>
       choice($._simple_symbol,
              $._qualified_symbol),
- 
-    // XXX: might need some work
+
     _simple_symbol: $ =>
-      token(choice('/',
-                   seq(SYM_START,
-                       optional(seq(repeat(choice(ALPHA_NUM,
-                                                  SYM_OTHER,
-                                                  DOT,
-                                                  COLON, // XXX
-                                                  SYM_MISSING)),
-                                    choice(ALPHA_NUM,
-                                           SYM_OTHER,
-                                           DOT,
-                                           SYM_MISSING)))))),
+      SIMPLE_SYMBOL,
 
-    simple_symbol: $ =>
-      $._simple_symbol,
-
-    // XXX: might need some work
     _qualified_symbol: $ =>
-      token(seq(seq(SYM_START,
-                    optional(seq(repeat(choice(ALPHA_NUM,
-                                               SYM_OTHER,
-                                               DOT,
-                                               COLON, // XXX
-                                               SYM_MISSING)),
-                                 choice(ALPHA_NUM,
-                                        SYM_OTHER,
-                                        DOT, // XXX: test.check and repl favor
-                                        SYM_MISSING)))),
+      token(seq(NON_SLASH_SIMPLE_SYMBOL,
                 '/',
-                choice('/',
-                       seq(SYM_START,
-                           optional(seq(repeat(choice(ALPHA_NUM,
-                                                      SYM_OTHER,
-                                                      DOT,
-                                                      COLON, // XXX
-                                                      SYM_MISSING)),
-                                        choice(ALPHA_NUM,
-                                               SYM_OTHER,
-                                               DOT,
-                                               SYM_MISSING))))))),
+                // cuz things like clojure.core// is allowed
+                SIMPLE_SYMBOL)),
 
     qualified_symbol: $ =>
       $._qualified_symbol,
@@ -385,49 +387,16 @@ module.exports = grammar({
       choice($._simple_keyword,
              $._qualified_keyword),
 
-    // XXX: probably needs more work
     _simple_keyword: $ =>
-      token(choice(':/',
-                   seq(/(:|::)/,
-                       seq(KWD_AFTER_COLON_START,
-                           optional(seq(repeat(choice(ALPHA_NUM,
-                                                      SYM_OTHER,
-                                                      DOT,
-                                                      COLON, // XXX
-                                                      SYM_MISSING)),
-                                        choice(ALPHA_NUM,
-                                               SYM_OTHER,
-                                               DOT,
-                                               SYM_MISSING))))))),
+      SIMPLE_KEYWORD,
 
-    simple_keyword: $ =>
-      $._simple_keyword,
-
-    // XXX: probably needs more work
     // XXX: consider separating out auto-resolved stuff?
     _qualified_keyword: $ =>
       token(seq(/(:|::)/,
-                seq(KWD_AFTER_COLON_START,
-                    optional(seq(repeat(choice(ALPHA_NUM,
-                                               SYM_OTHER,
-                                               DOT,
-                                               COLON, // XXX
-                                               SYM_MISSING)),
-                                 choice(ALPHA_NUM,
-                                        SYM_OTHER,
-                                        DOT,
-                                        SYM_MISSING)))),
+                NON_SLASH_SIMPLE_KEYWORD,
                 '/',
-                seq(SYM_START,
-                    optional(seq(repeat(choice(ALPHA_NUM,
-                                               SYM_OTHER,
-                                               COLON, // XXX
-                                               DOT,
-                                               SYM_MISSING)),
-                                 choice(ALPHA_NUM,
-                                        SYM_OTHER,
-                                        DOT,
-                                        SYM_MISSING)))))),
+                // at repl: :user/8 => Invalid token
+                NON_SLASH_SIMPLE_SYMBOL)),
 
     qualified_keyword: $ =>
       $._qualified_keyword,
