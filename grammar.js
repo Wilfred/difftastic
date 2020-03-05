@@ -1,11 +1,20 @@
 // NOTES
 // - strict grammar (like linting?) and not-as-strict grammar may be useful
+// - test clj, cljc, cljs, and edn too?
 // - loosening ideas:
 //   - allow ##Other (not just ##Inf, -##Inf, ##NaN)
 //   - allow # in keywords
 //   - allow ::/
-// - metadata -- where exactly is this allowed other than in front of symbols,
-//   collection literals, and other metadata?
+// - metadata -- where exactly is this allowed other than in front of:
+//     symbols,
+//     collection literals,
+//     other metadata,
+//     reader conditionals (both types?),
+//     tagged literals,
+//     #(),
+//     #?(),
+//     ~@,
+//     '[] -- quote?
 // - review symbol and keyword specs and definitions
 // - is there any point in trying to distinguish between symbols and
 //   special forms (e.g. new vs +)
@@ -303,12 +312,14 @@ module.exports = grammar({
     _special_char: $ =>
       /\\(backspace|formfeed|newline|return|space|tab)/,
 
-    // everything other than \uD800 through \uDFFF inclusive is ok, but
-    // not worth trying to be precise
+    // \uD800 through \uDFFF inclusive is not ok
+    // however, not worth trying to be precise
     _unicode_char: $ =>
       token(seq('\\u',
                 HEX_QUAD)),
 
+    // like with _unicode_char, there are more restrictions
+    // however, not worth trying to be precise
     _octal_char: $ =>
       token(seq('\\o',
                 OCTAL_NUMBER)),
