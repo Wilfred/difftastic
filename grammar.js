@@ -547,7 +547,7 @@ module.exports = grammar({
         field('operator', operator),
         field('right', $._primary_expression)
       ))));
-    },      
+    },
 
     unary_operator: $ => prec(PREC.unary, seq(
       field('operator', choice('+', '-', '~')),
@@ -624,11 +624,11 @@ module.exports = grammar({
       )
     ),
 
-    attribute: $ => seq(
+    attribute: $ => prec(PREC.call, seq(
       field('object', $._primary_expression),
       '.',
       field('attribute', $.identifier)
-    ),
+    )),
 
     subscript: $ => seq(
       field('value', $._primary_expression),
