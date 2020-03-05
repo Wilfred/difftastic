@@ -293,7 +293,14 @@ module.exports = grammar({
   name: 'clojure',
 
   extras: $ =>
-    [/[\s,]/, $.comment],
+    [/\s/, ',', $.comment, $.tag, $.metadata_non_map, $.metadata_map],
+
+  conflicts: $ => [
+  ],
+
+  externals: $ => [
+    $.metadata_map,
+  ],
 
   rules: {
     source_file: $ =>
@@ -512,7 +519,6 @@ module.exports = grammar({
     _reader_macro: $ =>
       choice($.anonymous_function,
              $.deref,
-             $.metadata,
              $.quote,
              $.reader_conditional,
              $.regular_expression,
@@ -520,7 +526,6 @@ module.exports = grammar({
              $.splicing_reader_conditional,
              $.symbolic_value,
              $.syntax_quote,
-             $.tag,
              $.unquote,
              $.unquote_splicing,
              $.var_quote),
@@ -537,12 +542,30 @@ module.exports = grammar({
           $._form),
 
     // older code uses #^
-    metadata: $ =>
-      seq(choice('^', '#^'),
-          choice($.keyword,
-                 $.map,
-                 $.symbol,
-                 $.string)),
+    metadata_non_map: $ =>
+      token(seq(choice('^', '#^'),
+                optional(/\s+/), // ^String (.toString 1) == ^ String (.toString 1)
+                choice(// definition of keyword
+                       choice(SIMPLE_KEYWORD,
+                              seq(/(:|::)/,
+                                  NON_SLASH_SIMPLE_KEYWORD,
+                                  '/',
+                                  // at repl: :user/8 => Invalid token
+                                  NON_SLASH_SIMPLE_SYMBOL)),
+                       // definition of map
+                       // XXX: map handled as member of externals because regex not up to task?
+                       ///{[^}]+}/,
+                       // definition of symbol
+                       choice(SIMPLE_SYMBOL,
+                              // $._qualified_symbol
+                              seq(NON_SLASH_SIMPLE_SYMBOL,
+                                  '/',
+                                  // because clojure.core// is allowed
+                                  SIMPLE_SYMBOL)),
+                       // definition of string
+                       seq('"',
+                           STRING_CONTENT,
+                           '"')))),
 
     // at repl: 'a == ' a
     quote: $ =>
@@ -590,9 +613,15 @@ module.exports = grammar({
     // at repl:
     //   #uuid "40fff7cc-2e57-42dd-b737-533820ed53e9" ==
     //   # uuid "40fff7cc-2e57-42dd-b737-533820ed53e9"
+    // XXX: repeated because don't know how to reuse certain things within a token
     tag: $ =>
-      seq('#',
-          $.symbol),
+      token(seq('#',
+                choice(SIMPLE_SYMBOL,
+                       // $._qualified_symbol
+                       seq(NON_SLASH_SIMPLE_SYMBOL,
+                           '/',
+                           // because clojure.core// is allowed
+                           SIMPLE_SYMBOL)))),
 
     // at repl: `~a == `~ a == ` ~ a
     unquote: $ =>
