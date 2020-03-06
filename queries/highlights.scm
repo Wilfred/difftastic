@@ -61,7 +61,7 @@
 (class_variable) @property
 (instance_variable) @property
 
-((constant) @constant.builtin
+((identifier) @constant.builtin
  (match? @constant.builtin "^__(FILE|LINE|ENCODING)__$"))
 
 ((constant) @constant

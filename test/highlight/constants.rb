@@ -18,3 +18,7 @@ class MyClass
     #                                ^ function.method
   end
 end
+
+if __FILE__ == $0
+  # ^ constant.builtin
+end
