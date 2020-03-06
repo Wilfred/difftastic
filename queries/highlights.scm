@@ -42,13 +42,19 @@
   method: (identifier) @function.method)
 (method_call
   method: (identifier) @function.method)
+(call
+  method: (constant) @function.method)
+(method_call
+  method: (constant) @function.method)
 
 ; Function definitions
 
 (alias (identifier) @function.method)
 (setter (identifier) @function.method)
 (method name: (identifier) @function.method)
+(method name: (constant) @function.method)
 (singleton_method name: (identifier) @function.method)
+(singleton_method name: (constant) @function.method)
 
 ; Identifiers
 
@@ -59,7 +65,7 @@
  (match? @constant.builtin "^__(FILE|LINE|ENCODING)__$"))
 
 ((constant) @constant
- (match? @constant "^[A-Z_]+$"))
+ (match? @constant "^[A-Z\d_]+$"))
 
 (constant) @constructor
 
