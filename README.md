@@ -2,8 +2,8 @@
 
 ## Prerequisites
 
-* [emsdk](https://emscripten.org/docs/getting_started/downloads.html#installation-instructions)
-* node >= 12 (nvm recommended) -- recently tested 12.9.1
+* [emsdk](https://emscripten.org/docs/getting_started/downloads.html#installation-instructions) -- emscripten via homebrew seems to work for macos
+* node >= 12 (nvm recommended) -- recently tested 12.9.1, 12,16,1
 
 ## Initial Setup
 
