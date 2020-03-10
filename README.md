@@ -5,7 +5,11 @@
 * [emsdk](https://emscripten.org/docs/getting_started/downloads.html#installation-instructions) -- emscripten via homebrew seems to work for macos
 * node >= 12 (nvm recommended) -- recently tested 12.9.1, 12,16,1
 
-N.B. The instructions below assume emsdk has been installed, but `emcc` is not necessarily on one's `PATH`.  If an appropriate `emcc` is on one's `PATH`, the emsdk steps (e.g. `source ~/src/emsdk/emsdk_env.sh`) below may be ignored.
+## Fine Print
+
+* The instructions below assume emsdk has been installed, but `emcc` (tool that can be used to compile to wasm) is not necessarily on one's `PATH`.  If an appropriate `emcc` is on one's `PATH` (e.g. emscripten installed via homebrew), the emsdk steps (e.g. `source ~/src/emsdk/emsdk_env.sh`) below may be ignored.
+
+* `node-gyp` (tool for compiling native addon modules for Node.js) may fail on machines upgraded to macos Catalina. [This document](https://github.com/nodejs/node-gyp/blob/master/macOS_Catalina.md) may help cope with such a situation.
 
 ## Initial Setup
 
