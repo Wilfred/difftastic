@@ -130,13 +130,8 @@ module.exports = grammar({
     comment: $ =>
       /;.*/,
 
-    // adapted idea from Tavistock's grammar, ty!
     _form: $ =>
-      choice($._non_discard,
-             $.discard_form),
-
-    _non_discard: $ =>
-      // inspired by oakmac's grammar and PEZ's calva tokenizer, ty!
+      // inspired by oakmac's grammar and mseddon + PEZ calva tokenizer, ty!
       seq(repeat($._sigil),
           choice(// literals-ish, kinda
                  $.boolean,
@@ -156,11 +151,6 @@ module.exports = grammar({
                  $.set,
                  $.splicing_reader_conditional,
                  $.symbolic_value)),
-
-    discard_form: $ =>
-      seq($._discard,
-          optional($.discard_form),
-          $._non_discard),
 
     // literals-ish, kinda
 
@@ -358,14 +348,15 @@ module.exports = grammar({
 
     // _discard is not here intentionally, though it is defined below
     _sigil: $ =>
-         choice($.deref,
-                $.metadata,
-                $.quote,
-                $.syntax_quote,
-                $.tag,
-                $.unquote,
-                $.unquote_splicing,
-                $.var_quote),
+      choice($.deref,
+             $.discard,
+             $.metadata,
+             $.quote,
+             $.syntax_quote,
+             $.tag,
+             $.unquote,
+             $.unquote_splicing,
+             $.var_quote),
 
     // at repl: @a == @ a
     deref: $ =>
@@ -416,7 +407,7 @@ module.exports = grammar({
                            SIMPLE_SYMBOL)))),
 
     // at repl: #_ 1 2 != # _ 1 2
-    _discard: $ =>
+    discard: $ =>
       // this prec used to 'win' over tag
       token(prec(5, '#_')),
   }
