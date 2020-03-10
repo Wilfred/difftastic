@@ -11,16 +11,19 @@
   "license": "ISC",
   "dependencies": {
     "nan": "2.14.0",
-    "web-tree-sitter": "0.16.0"
+    "web-tree-sitter": "0.16.2"
   },
   "devDependencies": {
-    "tree-sitter-cli": "0.16.4"
+    "tree-sitter-cli": "0.16.5"
   },
   "tree-sitter": [
     {
       "scope": "source.clojure",
       "file-types": [
-        "bb", "clj", "cljc", "cljs"
+        "bb",
+        "clj",
+        "cljc",
+        "cljs"
       ]
     }
   ]
