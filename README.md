@@ -5,6 +5,8 @@
 * [emsdk](https://emscripten.org/docs/getting_started/downloads.html#installation-instructions) -- emscripten via homebrew seems to work for macos
 * node >= 12 (nvm recommended) -- recently tested 12.9.1, 12,16,1
 
+N.B. The instructions below assume emsdk has been installed, but `emcc` is not necessarily on one's `PATH`.  If an appropriate `emcc` is on one's `PATH`, the emsdk steps (e.g. `source ~/src/emsdk/emsdk_env.sh`) below may be ignored.
+
 ## Initial Setup
 
 Suppose typical development sources are stored under `~/src`.
