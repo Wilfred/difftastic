@@ -2,3 +2,5 @@ node_modules
 bin
 build
 *.log
+src
+binding.gyp
