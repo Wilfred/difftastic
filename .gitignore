@@ -3,3 +3,4 @@ bin
 build
 *.log
 src
+binding.gyp
