@@ -4767,8 +4767,16 @@
     "named": false
   },
   {
+    "type": "lifetime",
+    "named": false
+  },
+  {
     "type": "line_comment",
     "named": true
+  },
+  {
+    "type": "literal",
+    "named": false
   },
   {
     "type": "loop",
@@ -4888,6 +4896,10 @@
   },
   {
     "type": "use",
+    "named": false
+  },
+  {
+    "type": "vis",
     "named": false
   },
   {
