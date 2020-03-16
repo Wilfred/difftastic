@@ -167,7 +167,8 @@ module.exports = grammar({
     ),
 
     fragment_specifier: $ => choice(
-      'ident', 'path', 'expr', 'ty', 'pat', 'stmt', 'block', 'item', 'meta', 'tt'
+      'block', 'expr', 'ident', 'item', 'lifetime', 'literal', 'meta', 'pat',
+      'path', 'stmt', 'tt', 'ty', 'vis'
     ),
 
     _tokens: $ => choice(

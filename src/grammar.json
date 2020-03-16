@@ -457,11 +457,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "ident"
-        },
-        {
-          "type": "STRING",
-          "value": "path"
+          "value": "block"
         },
         {
           "type": "STRING",
@@ -469,19 +465,7 @@
         },
         {
           "type": "STRING",
-          "value": "ty"
-        },
-        {
-          "type": "STRING",
-          "value": "pat"
-        },
-        {
-          "type": "STRING",
-          "value": "stmt"
-        },
-        {
-          "type": "STRING",
-          "value": "block"
+          "value": "ident"
         },
         {
           "type": "STRING",
@@ -489,11 +473,39 @@
         },
         {
           "type": "STRING",
+          "value": "lifetime"
+        },
+        {
+          "type": "STRING",
+          "value": "literal"
+        },
+        {
+          "type": "STRING",
           "value": "meta"
         },
         {
           "type": "STRING",
+          "value": "pat"
+        },
+        {
+          "type": "STRING",
+          "value": "path"
+        },
+        {
+          "type": "STRING",
+          "value": "stmt"
+        },
+        {
+          "type": "STRING",
           "value": "tt"
+        },
+        {
+          "type": "STRING",
+          "value": "ty"
+        },
+        {
+          "type": "STRING",
+          "value": "vis"
         }
       ]
     },
@@ -743,7 +755,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "[\\/_\\-=->,;:::!=?.@*=\\/='&=#%=^=+<>|~]+"
+          "value": "[/_\\-=->,;:::!=?.@*=/='&=#%=^=+<>|~]+"
         },
         {
           "type": "STRING",
