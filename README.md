@@ -88,6 +88,12 @@ source ~/src/emsdk/emsdk_env.sh
 npx tree-sitter build-wasm
 ```
 
+## Users
+
+* [analyze-reify](https://github.com/borkdude/analyze-reify)
+* [vscode-clojure-colorizer](https://github.com/sogaiu/vscode-clojure-colorizer)
+* [vscode-clojure-defs](https://github.com/sogaiu/vscode-clojure-defs)
+
 ## Resources
 
 * [Guide to your first Tree-sitter grammar](https://gist.github.com/Aerijo/df27228d70c633e088b0591b8857eeef)
