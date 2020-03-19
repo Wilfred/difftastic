@@ -416,6 +416,8 @@ void wrap(Args&&... args) {
     f(forward<Args>(args)...);
 }
 
+void f(T...) {}
+
 ---
 
 (translation_unit
@@ -600,7 +602,16 @@ void wrap(Args&&... args) {
                     name: (identifier)
                     arguments: (template_argument_list
                       (type_descriptor type: (type_identifier))))
-                  arguments: (argument_list (identifier)))))))))))
+                  arguments: (argument_list (identifier))))))))))
+  (function_definition
+      type: (primitive_type)
+      declarator: (function_declarator
+        declarator: (identifier)
+        parameters: (parameter_list
+          (variadic_parameter_declaration
+            type: (type_identifier)
+            declarator: (variadic_declarator))))
+      body: (compound_statement)))
 
 ============================================
 Concatenated string literals

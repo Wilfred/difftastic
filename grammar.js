@@ -291,7 +291,7 @@ module.exports = grammar(C, {
 
     variadic_declarator: $ => seq(
       '...',
-      $.identifier
+      optional($.identifier)
     ),
 
     variadic_reference_declarator: $ => seq(
