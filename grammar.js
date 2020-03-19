@@ -41,7 +41,9 @@ module.exports = grammar(C, {
       $.template_declaration,
       $.template_instantiation,
       // $.structured_binding_declaration,
-      alias($.constructor_or_destructor_definition, $.function_definition)
+      alias($.constructor_or_destructor_definition, $.function_definition),
+      alias($.operator_cast_definition, $.function_definition),
+      alias($.operator_cast_declaration, $._declaration),
     ),
 
     // Types
@@ -204,6 +206,7 @@ module.exports = grammar(C, {
         $.template_declaration,
         $.function_definition,
         alias($.constructor_or_destructor_definition, $.function_definition),
+        alias($.operator_cast_definition, $.function_definition),
       )
     ),
 
@@ -307,6 +310,20 @@ module.exports = grammar(C, {
       )
     ),
 
+    operator_cast: $ => prec(1, seq(
+      optional(seq(
+        field('namespace', optional(choice(
+          $._namespace_identifier,
+          $.template_type,
+          $.scoped_namespace_identifier
+        ))),
+        '::',
+      )),
+      'operator',
+      $._declaration_specifiers,
+      field('declarator', $._abstract_declarator),
+    )),
+
     // Avoid ambiguity between compound statement and initializer list in a construct like:
     //   A b {};
     compound_statement: ($, original) => prec(-1, original),
@@ -328,6 +345,8 @@ module.exports = grammar(C, {
       alias($.inline_method_definition, $.function_definition),
       alias($.constructor_or_destructor_definition, $.function_definition),
       alias($.constructor_or_destructor_declaration, $.declaration),
+      alias($.operator_cast_definition, $.function_definition),
+      alias($.operator_cast_declaration, $.declaration),
       $.friend_declaration,
       $.access_specifier,
       $.alias_declaration,
@@ -359,6 +378,30 @@ module.exports = grammar(C, {
         $.default_method_clause,
         $.delete_method_clause
       )
+    ),
+
+    operator_cast_definition: $ => seq(
+      repeat(choice(
+        $.storage_class_specifier,
+        $.type_qualifier,
+        $.attribute_specifier
+      )),
+      prec(1, seq(
+        optional(choice($.virtual_function_specifier, $.explicit_function_specifier)),
+        field('declarator', $.operator_cast),
+      )),
+      choice(
+        field('body', $.compound_statement),
+        $.default_method_clause,
+        $.delete_method_clause
+      )
+    ),
+
+    operator_cast_declaration: $ => seq(
+      optional(choice($.virtual_function_specifier, $.explicit_function_specifier)),
+      field('declarator', $.operator_cast),
+      optional(seq('=', field('default_value', $._expression))),
+      ';'
     ),
 
     constructor_or_destructor_definition: $ => seq(
