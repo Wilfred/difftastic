@@ -211,3 +211,27 @@ type c = A<&dyn Fn(&B) -> C>;
       (type_arguments
         (reference_type
           (dynamic_type (function_type (type_identifier) (parameters (reference_type (type_identifier))) (type_identifier))))))))
+
+====================================
+Type cast expressions with generics
+====================================
+
+a as B<C>;
+d as *mut E<<F as E>::G>;
+
+---
+
+(source_file
+  (type_cast_expression
+    (identifier)
+    (generic_type (type_identifier) (type_arguments (type_identifier))))
+  (type_cast_expression
+    (identifier)
+    (pointer_type
+      (mutable_specifier)
+      (generic_type
+        (type_identifier)
+        (type_arguments
+          (scoped_type_identifier
+            (bracketed_type (qualified_type (type_identifier) (type_identifier)))
+          (type_identifier)))))))
