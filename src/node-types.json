@@ -390,6 +390,46 @@
     ]
   },
   {
+    "type": "_declaration",
+    "named": true,
+    "fields": {
+      "declarator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "operator_cast",
+            "named": true
+          }
+        ]
+      },
+      "default_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "explicit_function_specifier",
+          "named": true
+        },
+        {
+          "type": "virtual_function_specifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "abstract_array_declarator",
     "named": true,
     "fields": {
@@ -1170,6 +1210,10 @@
       "required": false,
       "types": [
         {
+          "type": "_declaration",
+          "named": true
+        },
+        {
           "type": "_statement",
           "named": true
         },
@@ -1357,6 +1401,20 @@
           {
             "type": "init_declarator",
             "named": true
+          },
+          {
+            "type": "operator_cast",
+            "named": true
+          }
+        ]
+      },
+      "default_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
           }
         ]
       },
@@ -1424,6 +1482,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "_declaration",
+          "named": true
+        },
         {
           "type": "_statement",
           "named": true
@@ -2192,6 +2254,10 @@
           {
             "type": "_field_declarator",
             "named": true
+          },
+          {
+            "type": "operator_cast",
+            "named": true
           }
         ]
       },
@@ -2630,6 +2696,68 @@
     }
   },
   {
+    "type": "operator_cast",
+    "named": true,
+    "fields": {
+      "declarator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_abstract_declarator",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "namespace_identifier",
+            "named": true
+          },
+          {
+            "type": "scoped_namespace_identifier",
+            "named": true
+          },
+          {
+            "type": "template_type",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_type_specifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute_specifier",
+          "named": true
+        },
+        {
+          "type": "storage_class_specifier",
+          "named": true
+        },
+        {
+          "type": "type_qualifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "optional_parameter_declaration",
     "named": true,
     "fields": {
@@ -3043,6 +3171,10 @@
       "required": false,
       "types": [
         {
+          "type": "_declaration",
+          "named": true
+        },
+        {
           "type": "_statement",
           "named": true
         },
@@ -3137,6 +3269,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "_declaration",
+          "named": true
+        },
         {
           "type": "_statement",
           "named": true
@@ -3322,6 +3458,10 @@
       "required": false,
       "types": [
         {
+          "type": "_declaration",
+          "named": true
+        },
+        {
           "type": "_statement",
           "named": true
         },
@@ -3441,6 +3581,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "_declaration",
+          "named": true
+        },
         {
           "type": "_statement",
           "named": true
@@ -4325,6 +4469,10 @@
       "required": false,
       "types": [
         {
+          "type": "_declaration",
+          "named": true
+        },
+        {
           "type": "_statement",
           "named": true
         },
@@ -5153,6 +5301,10 @@
   {
     "type": "number_literal",
     "named": true
+  },
+  {
+    "type": "operator",
+    "named": false
   },
   {
     "type": "operator_name",
