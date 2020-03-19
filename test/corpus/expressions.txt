@@ -653,3 +653,20 @@ x = (int(1) + float(2));
         (binary_expression
           (call_expression (primitive_type) (argument_list (number_literal)))
           (call_expression (primitive_type) (argument_list (number_literal))))))))
+
+============================================
+Array assignment expression
+============================================
+
+array_[i] = s[i];
+
+---
+(translation_unit
+  (expression_statement
+    (assignment_expression
+      (subscript_expression
+        (identifier)
+        (identifier))
+      (subscript_expression
+        (identifier)
+        (identifier)))))

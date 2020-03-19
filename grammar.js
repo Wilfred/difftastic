@@ -3,6 +3,7 @@ const C = require("tree-sitter-c/grammar")
 const PREC = Object.assign(C.PREC, {
   LAMBDA: 18,
   NEW: C.PREC.CALL + 1,
+  STRUCTURED_BINDING: -1,
 })
 
 module.exports = grammar(C, {
@@ -40,7 +41,6 @@ module.exports = grammar(C, {
       $.static_assert_declaration,
       $.template_declaration,
       $.template_instantiation,
-      // $.structured_binding_declaration,
       alias($.constructor_or_destructor_definition, $.function_definition),
       alias($.operator_cast_definition, $.function_definition),
       alias($.operator_cast_declaration, $._declaration),
@@ -475,8 +475,9 @@ module.exports = grammar(C, {
     reference_field_declarator: $ => prec.dynamic(1, prec.right(seq(choice('&', '&&'), $._field_declarator))),
     abstract_reference_declarator: $ => prec.right(seq(choice('&', '&&'), optional($._abstract_declarator))),
 
-    // structured_binding_reference_declarator: $ => seq(choice('&', '&&'), $.structured_binding_declarator),
-    structured_binding_declarator: $ => seq('[', commaSep1($.identifier), ']'),
+    structured_binding_declarator: $ => prec.dynamic(PREC.STRUCTURED_BINDING, seq(
+      '[', commaSep1($.identifier), ']'
+    )),
 
     function_declarator: ($, original) => seq(
       original,
