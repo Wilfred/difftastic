@@ -606,7 +606,7 @@ module.exports = grammar({
           $.variadic_parameter,
           '_',
           $._type
-      ))),
+        ))),
       optional(','),
       ')'
     ),
@@ -652,7 +652,7 @@ module.exports = grammar({
             ')'
           )),
         ),
-    )),
+      )),
 
     // Section - Types
 
@@ -705,7 +705,7 @@ module.exports = grammar({
     for_lifetimes: $ => seq(
       'for',
       '<',
-      sepBy1(',', $.lifetime,),
+      sepBy1(',', $.lifetime),
       optional(','),
       '>'
     ),
@@ -771,7 +771,7 @@ module.exports = grammar({
     )),
 
     type_arguments: $ => seq(
-      '<',
+      token(prec(1, '<')),
       sepBy1(',', choice(
         $._type,
         $.type_binding,
@@ -943,7 +943,7 @@ module.exports = grammar({
         [PREC.bitand, '&'],
         [PREC.bitor, '|'],
         [PREC.bitxor, '^'],
-        [PREC.comparative,  choice('==', '!=', '<', '<=', '>', '>=')],
+        [PREC.comparative, choice('==', '!=', '<', '<=', '>', '>=')],
         [PREC.shift, choice('<<', '>>')],
         [PREC.additive, choice('+', '-')],
         [PREC.multiplicative, choice('*', '/', '%')],
