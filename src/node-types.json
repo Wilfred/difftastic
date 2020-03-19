@@ -2305,6 +2305,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "scoped_identifier",
+            "named": true
           }
         ]
       }

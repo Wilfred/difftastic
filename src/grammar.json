@@ -755,7 +755,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "[/_\\-=->,;:::!=?.@*=/='&=#%=^=+<>|~]+"
+          "value": "[\\/_\\-=->,;:::!=?.@*=\\/='&=#%=^=+<>|~]+"
         },
         {
           "type": "STRING",
@@ -4829,8 +4829,17 @@
           "type": "FIELD",
           "name": "macro",
           "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "scoped_identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              }
+            ]
           }
         },
         {
