@@ -875,6 +875,9 @@ class TT {
 
   template <typename...>
   void func3() {}
+
+  template <std::size_t...>
+  void func4() {}
 };
 
 ---
@@ -906,6 +909,19 @@ class TT {
           (compound_statement))
         (template_declaration
           (template_parameter_list (variadic_type_parameter_declaration))
+          (function_definition
+            (primitive_type)
+            (function_declarator
+              (identifier)
+              (parameter_list))
+            (compound_statement)))
+        (template_declaration
+          (template_parameter_list
+            (variadic_parameter_declaration
+              (scoped_type_identifier
+                (namespace_identifier)
+                (type_identifier))
+              (variadic_declarator)))
           (function_definition
             (primitive_type)
             (function_declarator

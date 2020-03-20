@@ -4345,6 +4345,10 @@
           "named": true
         },
         {
+          "type": "variadic_parameter_declaration",
+          "named": true
+        },
+        {
           "type": "variadic_type_parameter_declaration",
           "named": true
         }

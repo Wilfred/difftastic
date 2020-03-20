@@ -7460,6 +7460,10 @@
                     },
                     {
                       "type": "SYMBOL",
+                      "name": "variadic_parameter_declaration"
+                    },
+                    {
+                      "type": "SYMBOL",
                       "name": "variadic_type_parameter_declaration"
                     },
                     {
@@ -7495,6 +7499,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "type_parameter_declaration"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "variadic_parameter_declaration"
                           },
                           {
                             "type": "SYMBOL",
