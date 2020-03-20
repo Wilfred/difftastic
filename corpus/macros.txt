@@ -25,6 +25,9 @@ a!(* a *);
 a!(& a &);
 a!(- a -);
 a!(b + c + +);
+a!('a'..='z');
+a!('\u{0}'..='\u{2}');
+a!('lifetime)
 
 ----
 
@@ -40,7 +43,16 @@ a!(b + c + +);
     (token_tree (identifier)))
   (macro_invocation
     (identifier)
-    (token_tree (identifier) (identifier))))
+    (token_tree (identifier) (identifier)))
+  (macro_invocation
+    (identifier)
+    (token_tree (char_literal) (char_literal)))
+  (macro_invocation
+    (identifier)
+    (token_tree (char_literal) (char_literal)))
+  (macro_invocation
+    (identifier)
+    (token_tree (identifier))))
 
 ============================================
 Macro definition
