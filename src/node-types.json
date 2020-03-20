@@ -2151,15 +2151,23 @@
       "required": true,
       "types": [
         {
-          "type": "class_specifier",
-          "named": true
-        },
-        {
           "type": "declaration",
           "named": true
         },
         {
           "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "scoped_type_identifier",
+          "named": true
+        },
+        {
+          "type": "template_type",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]
