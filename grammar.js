@@ -436,7 +436,14 @@ module.exports = grammar(C, {
       choice(
         $.declaration,
         $.function_definition,
-        seq($.class_specifier, ';')
+        seq(
+          optional(choice(
+            'class',
+            'struct',
+            'union'
+          )),
+          $._class_name, ';'
+        )
       )
     ),
 

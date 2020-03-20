@@ -8347,8 +8347,33 @@
               "type": "SEQ",
               "members": [
                 {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "class"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "struct"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "union"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
                   "type": "SYMBOL",
-                  "name": "class_specifier"
+                  "name": "_class_name"
                 },
                 {
                   "type": "STRING",

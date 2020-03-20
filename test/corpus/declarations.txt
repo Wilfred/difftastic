@@ -327,6 +327,7 @@ Friend declarations
 
 struct C {
   friend class D;
+  friend D;
   friend int f(C &);
 };
 
@@ -334,7 +335,8 @@ struct C {
 
 (translation_unit
   (struct_specifier (type_identifier) (field_declaration_list
-    (friend_declaration (class_specifier (type_identifier)))
+    (friend_declaration (type_identifier))
+    (friend_declaration (type_identifier))
     (friend_declaration (declaration (primitive_type) (function_declarator
       (identifier)
       (parameter_list (parameter_declaration (type_identifier) (abstract_reference_declarator)))))))))
