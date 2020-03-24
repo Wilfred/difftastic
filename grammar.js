@@ -466,7 +466,7 @@ module.exports = grammar({
       field('close_tag', $.jsx_closing_element)
     ),
 
-    jsx_fragment: $ => seq('<', '>', repeat($._jsx_child), '<','/','>'),
+    jsx_fragment: $ => seq('<', '>', repeat($._jsx_child), '<', '/', '>'),
 
     jsx_text: $ => /[^{}<>]+/,
 
@@ -888,7 +888,7 @@ module.exports = grammar({
       )
 
       const decimal_digits = /\d(_?\d)*/
-      const signed_integer = seq(optional(choice('-','+')), decimal_digits)
+      const signed_integer = seq(optional(choice('-', '+')), decimal_digits)
       const exponent_part = seq(choice('e', 'E'), signed_integer)
 
       const binary_literal = seq(choice('0b', '0B'), /[0-1](_?[0-1])*/)
@@ -919,10 +919,9 @@ module.exports = grammar({
     },
 
     identifier: $ => {
-      const alpha = /[^\s0-9:;`"'@#.,|^&<=>+\-*/\\%?!~()\[\]{}\uFEFF\u2060\u200B\u00A0]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/
-      const alpha_numeric = /[^\s:;`"'@#.,|^&<=>+\-*/\\%?!~()\[\]{}\uFEFF\u2060\u200B\u00A0]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/
-
-      return token(seq(alpha, repeat(alpha_numeric)))
+      const alpha = /[^\x00-\x1F\s0-9:;`"'@#.,|^&<=>+\-*/\\%?!~()\[\]{}\uFEFF\u2060\u200B\u00A0]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/
+      const alphanumeric = /[^\x00-\x1F\s:;`"'@#.,|^&<=>+\-*/\\%?!~()\[\]{}\uFEFF\u2060\u200B\u00A0]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/
+      return token(seq(alpha, repeat(alphanumeric)))
     },
 
     meta_property: $ => seq('new', '.', 'target'),
@@ -1058,10 +1057,10 @@ module.exports = grammar({
   }
 });
 
-function commaSep1 (rule) {
+function commaSep1(rule) {
   return seq(rule, repeat(seq(',', rule)));
 }
 
-function commaSep (rule) {
+function commaSep(rule) {
   return optional(commaSep1(rule));
 }
