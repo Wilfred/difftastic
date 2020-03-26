@@ -344,9 +344,8 @@ module.exports = grammar({
                  'NaN')),
 
     // the "potentially multiple sigils in front of nearly everything"
-    // approach seems to be a good overall trafe-off
+    // approach seems to be a good overall trade-off
 
-    // _discard is not here intentionally, though it is defined below
     _sigil: $ =>
       choice($.deref,
              $.discard,
