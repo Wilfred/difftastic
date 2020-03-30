@@ -227,9 +227,6 @@ module.exports = grammar({
       token(seq('\\o',
                 OCTAL_NUMBER)),
 
-    nil: $ =>
-      'nil',
-
     keyword: $ =>
       choice(SIMPLE_KEYWORD,
              $._qualified_keyword),
@@ -240,6 +237,9 @@ module.exports = grammar({
                 '/',
                 // at repl: :user/8 => Invalid token
                 NON_SLASH_SIMPLE_SYMBOL)),
+
+    nil: $ =>
+      'nil',
 
     number: $ =>
       choice($._int,
