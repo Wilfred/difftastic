@@ -1,5 +1,8 @@
 // for additional details, see notes.txt
 
+// XXX: since now using fields, put ns prefix in one field and name
+//      in another field for symbols and keywords?
+
 // current considerations
 //
 // - repl accepts some things that are not officially "supported"
@@ -119,40 +122,79 @@ module.exports = grammar({
     [/\s/, ',', $.comment],
 
   // XXX: for convenience when tweaking
-  // conflicts: $ => [
-  // ],
+  // XXX: figure out which are really necessary and why
+  conflicts: $ => [
+    [$.discard_form,
+     $.deref_form,
+     $.quote_form,
+     $.syntax_quote_form,
+     $.unquote_form,
+     $.unquote_splicing_form,
+     $.var_quote_form,
+     $.anonymous_function,
+     $.list,
+     $.map,
+     $.reader_conditional,
+     $.set,
+     $.symbol,
+     $.vector],
+    [$.metadata,
+     $.map,
+     $.reader_conditional,
+     $.symbol],
+    [$.tagged_literal]
+  ],
 
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
     source_file: $ =>
-      repeat($._form),
+      repeat($._maybe_empty_form),
+
+    _maybe_empty_form: $ =>
+      prec(15,
+           choice($._non_discard_form,
+                  $.discard_form)), // #_ 1
 
     comment: $ =>
-      /;.*/,
+      /(;.*|#!.*)/,
 
-    _form: $ =>
-      // inspired by oakmac's grammar and mseddon + PEZ calva tokenizer, ty!
-      seq(repeat($._sigil),
-          choice(// literals-ish, kinda
-                 $.boolean,
-                 $.character,
-                 $.keyword,
-                 $.list, // not really a literal
-                 $.map,
-                 $.nil,
-                 $.number,
-                 $.string,
-                 $.symbol,
-                 $.vector,
-                 // reader macro-related, kinda
-                 $.anonymous_function,
-                 $.reader_conditional,
-                 $.regular_expression,
-                 $.set,
-                 $.splicing_reader_conditional,
-                 $.symbolic_value)),
+    // inspired by Tavistock's grammar, ty!
+    discard_form: $ =>
+      prec(5,
+           seq("#_",
+               repeat($.discard_form),
+               field('non_discard', $._non_discard_form))),
 
-    // literals-ish, kinda
+    _non_discard_form: $ =>
+      choice($.boolean,
+             $.character,
+             $.keyword,
+             $.nil,
+             $.number,
+             $.string,
+             $.regular_expression,
+             $.splicing_reader_conditional,
+             //
+             $.symbol,
+             $.symbolic_value,
+             //
+             $.deref_form,
+             $.quote_form,
+             $.syntax_quote_form,
+             $.unquote_form,
+             $.unquote_splicing_form,
+             $.var_quote_form,
+             //
+             $.tagged_literal,
+             //
+             $.anonymous_function,
+             $.list,
+             $.map,
+             $.reader_conditional,
+             $.set,
+             $.vector),
+
+    // simplest things, unadorned with metadata, etc.
 
     boolean: $ =>
       choice('false',
@@ -187,21 +229,6 @@ module.exports = grammar({
 
     nil: $ =>
       'nil',
-
-    string: $ =>
-      token(seq('"',
-                STRING_CONTENT,
-                '"')),
-
-    symbol: $ =>
-      choice(SIMPLE_SYMBOL,
-             $._qualified_symbol),
-
-    _qualified_symbol: $ =>
-      token(seq(NON_SLASH_SIMPLE_SYMBOL,
-                '/',
-                // cuz things like clojure.core// is allowed
-                SIMPLE_SYMBOL)),
 
     keyword: $ =>
       choice(SIMPLE_KEYWORD,
@@ -265,23 +292,172 @@ module.exports = grammar({
                             '/',
                             repeat1(DIGIT))))),
 
+    string: $ =>
+      token(seq('"',
+                STRING_CONTENT,
+                '"')),
+
+    // unadorned, but have a 'sigil'
+    
+    // at repl: #"." != # "."
+    regular_expression: $ =>
+      token(seq('#"',
+                STRING_CONTENT,
+                '"')),
+
+    splicing_reader_conditional: $ =>
+      seq('#?@',
+          $.bare_list),
+
+    // things start to get complicated by metadata and discard...
+
+    bare_symbol: $ =>
+      choice(SIMPLE_SYMBOL,
+             $._qualified_symbol),
+
+    // XXX: oh, how i wanted to do this...but because it can
+    //      match the empty string, it is not allowed apparently...
+    //      unfortunately, this means A LOT of repetition :(
+    // _meta_my_discard: $ =>
+    //   repeat(choice(field('metadata', $.metadata),
+    //                 $.discard_form)),
+
+    symbol: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          field('name', $.bare_symbol)),
+
+    _qualified_symbol: $ =>
+      token(seq(NON_SLASH_SIMPLE_SYMBOL,
+                '/',
+                // cuz things like clojure.core// is allowed
+                SIMPLE_SYMBOL)),
+
+    symbolic_symbol: $ =>
+      choice('-Inf',
+             'Inf',
+             'NaN'),
+
+    // XXX: illegal(?) keywords that end in ## sometimes partially parse as
+    //      symbolic values -- verify still true?
+    // at repl: ##Inf == ## Inf
+    // ## #_ 1 Inf
+    symbolic_value: $ =>
+      seq('##',
+          repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          field('symbol', $.symbolic_symbol)),
+
+    // prefixy things
+    
+    // XXX: following works at repl: @ ^:a a -- where (def a (atom 1))
+    // ^:a @b
+    // ^:c #_ 1 @hoy    
+    deref_form: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          "@",
+          $._non_discard_form),
+
+    // ' ^:a a
+    // ^:a '()
+    // ^:a #_ 1 '()
+    quote_form: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          "'",
+          $._non_discard_form),
+
+    // ` ^:a a
+    // ^:a `()
+    // ^:a #_ 1 `()
+    syntax_quote_form: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          "`",
+          $._non_discard_form),
+
+    // ` ~ ^:a a
+    // ` ^:a #_ 1 ~a
+    unquote_form: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          "~",
+          field('form', $._non_discard_form)),
+
+    // XXX: not handling the following atm:
+    // (defn ^#?(:clj String :cljs js/String) yuck [] "hi")
+    metadata: $ =>
+      seq(choice("^", "#^"),
+          repeat($.discard_form), // ^ #_ 1 #_ 2 {:a 1} [1 2]
+          choice($.keyword, $.map, $.reader_conditional, $.string, $.symbol)),
+
+    // ` [~@ ^:a a]
+    // ` [^:a ~@a]
+    // ` [^:a #_ 1 ~@a]
+    unquote_splicing_form: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          "~@",
+          field('form', $._non_discard_form)),
+
+    // #' ^:a a
+    // #' ^:a b
+    // #' ^:a #_ 1 @b
+    var_quote_form: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          "#'",
+          $._non_discard_form),
+
+    // more complicated prefixy thing
+    
+    tag: $ =>
+      seq("#",
+          repeat($.discard_form), // # #_ 1 #_ 2 uuid "..."
+          $.bare_symbol),
+
+    // XXX: are metadata and discard handled?
+    // #my-tag ^:a [1 2]
+    tagged_literal: $ =>
+      seq(field('tags', repeat1($.tag)),
+          field('form', $._non_discard_form)),
+
+    // collection-ish things w/ metadata and discard
+
+    // at repl: #(+) != # (+)
+    // (Thread. ^Runnable #(spinner options)
+    anonymous_function: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          '#(',
+          repeat($._maybe_empty_form),
+          ')'),
+
     // shared w/ list and reader conditionals
-    _list: $ =>
+    bare_list: $ =>
       seq('(',
-          repeat($._form),
+          repeat($._maybe_empty_form),
           ')'),
 
     list: $ =>
-      $._list,
+      seq(repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          field('list', $.bare_list)),
 
     // https://clojure.org/reference/reader#_maps
-    map: $ =>
+    bare_map: $ =>
       choice($._simple_map,
              $._namespaced_map),
 
+    map: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          field('map', $.bare_map)),
+
     _simple_map: $ =>
       seq('{',
-          repeat($._form),
+          repeat($._maybe_empty_form),
           '}'),
 
     // https://clojure.org/reference/reader#map_namespace_syntax
@@ -299,116 +475,36 @@ module.exports = grammar({
                  seq('#::',
                      optional(SIMPLE_SYMBOL))),
           $._simple_map),
-
-    vector: $ =>
-      seq('[',
-          repeat($._form),
-          ']'),
-
-    // reader-conditional-ish things
-
-    // at repl: #(+) != # (+)
-    anonymous_function: $ =>
-      seq('#(',
-          repeat($._form),
-          ')'),
-
+    
     // at repl: #?() 1 == #? () 1
+    // ^:a #?(:clj []
     reader_conditional: $ =>
-      seq('#?',
-          $._list),
-
-    // at repl: #"." != # "."
-    regular_expression: $ =>
-      token(seq('#"',
-                STRING_CONTENT,
-                '"')),
+      seq(repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          '#?',
+          $.bare_list),
 
     // at repl: #{:a} != # {:a}
-    set: $ =>
+    bare_set: $ =>
       seq('#{',
-          repeat($._form),
+          repeat($._maybe_empty_form),
           '}'),
 
-    splicing_reader_conditional: $ =>
-      seq('#?@',
-          $._list),
+    set: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          field('set', $.bare_set)),
 
-    // XXX: illegal(?) keywords that end in ## sometimes partially parse as
-    //      symbolic values -- verify still true?
-    // at repl: ##Inf == ## Inf
-    symbolic_value: $ =>
-      seq('##',
-          choice('-Inf',
-                 'Inf',
-                 'NaN')),
+    bare_vector: $ =>
+      seq('[',
+          repeat($._maybe_empty_form),
+          ']'),
 
-    // the "potentially multiple sigils in front of nearly everything"
-    // approach seems to be a good overall trade-off
+    vector: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        $.discard_form)),
+          field('vector', $.bare_vector)),
 
-    _sigil: $ =>
-      choice($.deref,
-             $.discard,
-             $.metadata,
-             $.quote,
-             $.syntax_quote,
-             $.tag,
-             $.unquote,
-             $.unquote_splicing,
-             $.var_quote),
-
-    // at repl: @a == @ a
-    deref: $ =>
-      '@',
-
-    metadata: $ =>
-      choice('^', '#^'),
-
-    // at repl: 'a == ' a
-    quote: $ =>
-      "'",
-
-    // at repl: `a == ` a
-    syntax_quote: $ =>
-      '`',
-
-    // at repl: `~a == `~ a == ` ~ a
-    unquote: $ =>
-      '~',
-
-    // at repl: `(~@a) != `(~ @a)
-    // at repl: `(~@a) == `(~@ a)
-    unquote_splicing: $ =>
-      '~@',
-
-    // at repl: #' #some-tag [1] can work depending on #some-tag
-    // at repl: #'a != # 'a
-    // at repl: #'a == #' a
-    var_quote: $ =>
-      "#'",
-
-    // _discard and tag potentially conflict
-    // e.g. #_hello is a tag, not #_ + symbol named hello
-
-    // at repl:
-    //   #uuid "40fff7cc-2e57-42dd-b737-533820ed53e9" ==
-    //   # uuid "40fff7cc-2e57-42dd-b737-533820ed53e9"
-    // XXX: repeating expanded out version of symbol below because
-    //      don't know how to reuse certain things within a token
-    tag: $ =>
-      token(seq('#',
-                repeat(choice(/\s/, ',')), // XXX: non-regexp better?
-                choice(SIMPLE_SYMBOL,
-                       // $._qualified_symbol
-                       seq(NON_SLASH_SIMPLE_SYMBOL,
-                           '/',
-                           // because clojure.core// is allowed
-                           SIMPLE_SYMBOL)))),
-
-    // at repl: #_ 1 2 != # _ 1 2
-    discard: $ =>
-      // this prec used to 'win' over tag
-      token(prec(5, '#_')),
   }
 });
 
