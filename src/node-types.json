@@ -1002,6 +1002,10 @@
           "named": true
         },
         {
+          "type": "ms_declspec_modifier",
+          "named": true
+        },
+        {
           "type": "storage_class_specifier",
           "named": true
         },
@@ -1218,6 +1222,10 @@
         },
         {
           "type": "bitfield_clause",
+          "named": true
+        },
+        {
+          "type": "ms_declspec_modifier",
           "named": true
         },
         {
@@ -1450,6 +1458,14 @@
       "types": [
         {
           "type": "attribute_specifier",
+          "named": true
+        },
+        {
+          "type": "ms_call_modifier",
+          "named": true
+        },
+        {
+          "type": "ms_declspec_modifier",
           "named": true
         },
         {
@@ -1689,6 +1705,73 @@
     }
   },
   {
+    "type": "ms_based_modifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ms_call_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "ms_declspec_modifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ms_pointer_modifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ms_restrict_modifier",
+          "named": true
+        },
+        {
+          "type": "ms_signed_ptr_modifier",
+          "named": true
+        },
+        {
+          "type": "ms_unaligned_ptr_modifier",
+          "named": true
+        },
+        {
+          "type": "ms_unsigned_ptr_modifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ms_unaligned_ptr_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "parameter_declaration",
     "named": true,
     "fields": {
@@ -1723,6 +1806,10 @@
       "types": [
         {
           "type": "attribute_specifier",
+          "named": true
+        },
+        {
+          "type": "ms_declspec_modifier",
           "named": true
         },
         {
@@ -1824,6 +1911,14 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "ms_based_modifier",
+          "named": true
+        },
+        {
+          "type": "ms_pointer_modifier",
+          "named": true
+        },
         {
           "type": "type_qualifier",
           "named": true
@@ -2499,6 +2594,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "ms_declspec_modifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2770,6 +2875,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "ms_declspec_modifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3057,6 +3172,46 @@
     "named": false
   },
   {
+    "type": "__based",
+    "named": false
+  },
+  {
+    "type": "__cdecl",
+    "named": false
+  },
+  {
+    "type": "__clrcall",
+    "named": false
+  },
+  {
+    "type": "__declspec",
+    "named": false
+  },
+  {
+    "type": "__fastcall",
+    "named": false
+  },
+  {
+    "type": "__stdcall",
+    "named": false
+  },
+  {
+    "type": "__thiscall",
+    "named": false
+  },
+  {
+    "type": "__unaligned",
+    "named": false
+  },
+  {
+    "type": "__vectorcall",
+    "named": false
+  },
+  {
+    "type": "_unaligned",
+    "named": false
+  },
+  {
     "type": "auto",
     "named": false
   },
@@ -3135,6 +3290,18 @@
   {
     "type": "long",
     "named": false
+  },
+  {
+    "type": "ms_restrict_modifier",
+    "named": true
+  },
+  {
+    "type": "ms_signed_ptr_modifier",
+    "named": true
+  },
+  {
+    "type": "ms_unsigned_ptr_modifier",
+    "named": true
   },
   {
     "type": "null",

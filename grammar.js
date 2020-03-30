@@ -184,6 +184,7 @@ module.exports = grammar({
     // Main Grammar
 
     function_definition: $ => seq(
+      optional($.ms_call_modifier),
       $._declaration_specifiers,
       field('declarator', $._declarator),
       field('body', $.compound_statement)
@@ -210,13 +211,15 @@ module.exports = grammar({
       repeat(choice(
         $.storage_class_specifier,
         $.type_qualifier,
-        $.attribute_specifier
+        $.attribute_specifier,
+        $.ms_declspec_modifier
       )),
       field('type', $._type_specifier),
       repeat(choice(
         $.storage_class_specifier,
         $.type_qualifier,
-        $.attribute_specifier
+        $.attribute_specifier,
+        $.ms_declspec_modifier
       ))
     ),
 
@@ -235,6 +238,42 @@ module.exports = grammar({
       '(',
       $.argument_list,
       ')'
+    ),
+
+    ms_declspec_modifier: $ => seq(
+      '__declspec',
+      '(',
+      $.identifier,
+      ')',
+    ),
+
+    ms_based_modifier: $ => seq(
+      '__based',
+      $.argument_list,
+    ),
+
+    ms_call_modifier: $ => choice(
+      '__cdecl',
+      '__clrcall',
+      '__stdcall',
+      '__fastcall',
+      '__thiscall',
+      '__vectorcall'
+    ),
+
+    ms_restrict_modifier: $ => '__restrict',
+
+    ms_unsigned_ptr_modifier: $ => '__uptr',
+
+    ms_signed_ptr_modifier: $ => '__sptr',
+
+    ms_unaligned_ptr_modifier: $ => choice('_unaligned', '__unaligned'),
+
+    ms_pointer_modifier: $ => choice(
+      $.ms_unaligned_ptr_modifier,
+      $.ms_restrict_modifier,
+      $.ms_unsigned_ptr_modifier,
+      $.ms_signed_ptr_modifier,
     ),
 
     declaration_list: $ => seq(
@@ -295,18 +334,26 @@ module.exports = grammar({
       ')'
     )),
 
+
+
     pointer_declarator: $ => prec.dynamic(1, prec.right(seq(
+      optional($.ms_based_modifier),
       '*',
+      repeat($.ms_pointer_modifier),
       repeat($.type_qualifier),
       field('declarator', $._declarator)
     ))),
     pointer_field_declarator: $ => prec.dynamic(1, prec.right(seq(
+      optional($.ms_based_modifier),
       '*',
+      repeat($.ms_pointer_modifier),
       repeat($.type_qualifier),
       field('declarator', $._field_declarator)
     ))),
     pointer_type_declarator: $ => prec.dynamic(1, prec.right(seq(
+      optional($.ms_based_modifier),
       '*',
+      repeat($.ms_pointer_modifier),
       repeat($.type_qualifier),
       field('declarator', $._type_declarator)
     ))),
@@ -315,11 +362,12 @@ module.exports = grammar({
       field('declarator', optional($._abstract_declarator))
     ))),
 
-    function_declarator: $ => prec(1, seq(
-      field('declarator', $._declarator),
-      field('parameters', $.parameter_list),
-      repeat($.attribute_specifier)
-    )),
+    function_declarator: $ => prec(1,
+      seq(
+        field('declarator', $._declarator),
+        field('parameters', $.parameter_list),
+        repeat($.attribute_specifier),
+      )),
     function_field_declarator: $ => prec(1, seq(
       field('declarator', $._field_declarator),
       field('parameters', $.parameter_list)
@@ -449,6 +497,7 @@ module.exports = grammar({
 
     struct_specifier: $ => seq(
       'struct',
+      optional($.ms_declspec_modifier),
       choice(
         seq(
           field('name', $._type_identifier),
@@ -460,6 +509,7 @@ module.exports = grammar({
 
     union_specifier: $ => seq(
       'union',
+      optional($.ms_declspec_modifier),
       choice(
         seq(
           field('name', $._type_identifier),
