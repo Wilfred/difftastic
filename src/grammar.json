@@ -1634,6 +1634,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "ms_call_modifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "_declaration_specifiers"
         },
@@ -1799,6 +1811,10 @@
               {
                 "type": "SYMBOL",
                 "name": "attribute_specifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ms_declspec_modifier"
               }
             ]
           }
@@ -1827,6 +1843,10 @@
               {
                 "type": "SYMBOL",
                 "name": "attribute_specifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ms_declspec_modifier"
               }
             ]
           }
@@ -1889,6 +1909,115 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "ms_declspec_modifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "__declspec"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ms_based_modifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "__based"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "argument_list"
+        }
+      ]
+    },
+    "ms_call_modifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "__cdecl"
+        },
+        {
+          "type": "STRING",
+          "value": "__clrcall"
+        },
+        {
+          "type": "STRING",
+          "value": "__stdcall"
+        },
+        {
+          "type": "STRING",
+          "value": "__fastcall"
+        },
+        {
+          "type": "STRING",
+          "value": "__thiscall"
+        },
+        {
+          "type": "STRING",
+          "value": "__vectorcall"
+        }
+      ]
+    },
+    "ms_restrict_modifier": {
+      "type": "STRING",
+      "value": "__restrict"
+    },
+    "ms_unsigned_ptr_modifier": {
+      "type": "STRING",
+      "value": "__uptr"
+    },
+    "ms_signed_ptr_modifier": {
+      "type": "STRING",
+      "value": "__sptr"
+    },
+    "ms_unaligned_ptr_modifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "_unaligned"
+        },
+        {
+          "type": "STRING",
+          "value": "__unaligned"
+        }
+      ]
+    },
+    "ms_pointer_modifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "ms_unaligned_ptr_modifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ms_restrict_modifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ms_unsigned_ptr_modifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ms_signed_ptr_modifier"
         }
       ]
     },
@@ -2142,8 +2271,27 @@
           "type": "SEQ",
           "members": [
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "ms_based_modifier"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
               "type": "STRING",
               "value": "*"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "ms_pointer_modifier"
+              }
             },
             {
               "type": "REPEAT",
@@ -2174,8 +2322,27 @@
           "type": "SEQ",
           "members": [
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "ms_based_modifier"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
               "type": "STRING",
               "value": "*"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "ms_pointer_modifier"
+              }
             },
             {
               "type": "REPEAT",
@@ -2206,8 +2373,27 @@
           "type": "SEQ",
           "members": [
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "ms_based_modifier"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
               "type": "STRING",
               "value": "*"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "ms_pointer_modifier"
+              }
             },
             {
               "type": "REPEAT",
@@ -3030,6 +3216,18 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "SYMBOL",
+              "name": "ms_declspec_modifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "SEQ",
               "members": [
                 {
@@ -3076,6 +3274,18 @@
         {
           "type": "STRING",
           "value": "union"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "ms_declspec_modifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
