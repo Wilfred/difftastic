@@ -121,7 +121,6 @@ module.exports = grammar({
   extras: $ =>
     [/\s/, ',', $.comment],
 
-  // XXX: for convenience when tweaking
   // XXX: figure out which are really necessary and why
   conflicts: $ => [
     [$.discard_form,
@@ -131,6 +130,7 @@ module.exports = grammar({
      $.unquote_form,
      $.unquote_splicing_form,
      $.var_quote_form,
+     $.tag,
      $.anonymous_function,
      $.list,
      $.map,
@@ -145,15 +145,25 @@ module.exports = grammar({
     [$.tagged_literal]
   ],
 
+  inline: $ => [
+    $.bare_list,
+    $.bare_map,
+    $.bare_set,
+    $.bare_symbol,
+    $.bare_vector,
+    $.symbolic_value
+  ],
+
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
     source_file: $ =>
       repeat($._maybe_empty_form),
 
+    // #_ 1
     _maybe_empty_form: $ =>
       prec(15,
-           choice($._non_discard_form,
-                  $.discard_form)), // #_ 1
+           choice(field('value', $._non_discard_form),
+                  field('discard_form', $.discard_form))),
 
     comment: $ =>
       /(;.*|#!.*)/,
@@ -162,8 +172,8 @@ module.exports = grammar({
     discard_form: $ =>
       prec(5,
            seq("#_",
-               repeat($.discard_form),
-               field('non_discard', $._non_discard_form))),
+               field('discard_form', repeat($.discard_form)),
+               field('value', $._non_discard_form))),
 
     _non_discard_form: $ =>
       choice($.boolean,
@@ -307,7 +317,7 @@ module.exports = grammar({
 
     splicing_reader_conditional: $ =>
       seq('#?@',
-          $.bare_list),
+          field('value', $.bare_list)),
 
     // things start to get complicated by metadata and discard...
 
@@ -320,12 +330,12 @@ module.exports = grammar({
     //      unfortunately, this means A LOT of repetition :(
     // _meta_my_discard: $ =>
     //   repeat(choice(field('metadata', $.metadata),
-    //                 $.discard_form)),
+    //                 field('discard_form', $.discard_form))),
 
     symbol: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
-          field('name', $.bare_symbol)),
+                        field('discard_form', $.discard_form))),
+          field('value', $.bare_symbol)),
 
     _qualified_symbol: $ =>
       token(seq(NON_SLASH_SIMPLE_SYMBOL,
@@ -338,90 +348,97 @@ module.exports = grammar({
              'Inf',
              'NaN'),
 
-    // XXX: illegal(?) keywords that end in ## sometimes partially parse as
-    //      symbolic values -- verify still true?
     // at repl: ##Inf == ## Inf
     // ## #_ 1 Inf
     symbolic_value: $ =>
       seq('##',
           repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
-          field('symbol', $.symbolic_symbol)),
+                        field('discard_form', $.discard_form))),
+          field('value', $.symbolic_symbol)),
 
     // prefixy things
     
-    // XXX: following works at repl: @ ^:a a -- where (def a (atom 1))
+    // at repl: @ ^:a a -- where (def a (atom 1))
     // ^:a @b
     // ^:c #_ 1 @hoy    
     deref_form: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
+                        field('discard_form', $.discard_form))),
           "@",
-          $._non_discard_form),
+          field('value', $._non_discard_form)),
 
     // ' ^:a a
     // ^:a '()
     // ^:a #_ 1 '()
     quote_form: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
+                        field('discard_form', $.discard_form))),
           "'",
-          $._non_discard_form),
+          field('value', $._non_discard_form)),
 
     // ` ^:a a
     // ^:a `()
     // ^:a #_ 1 `()
     syntax_quote_form: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
+                        field('discard_form', $.discard_form))),
           "`",
-          $._non_discard_form),
+          field('value', $._non_discard_form)),
 
     // ` ~ ^:a a
     // ` ^:a #_ 1 ~a
     unquote_form: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
+                        field('discard_form', $.discard_form))),
           "~",
-          field('form', $._non_discard_form)),
+          field('value', $._non_discard_form)),
 
-    // XXX: not handling the following atm:
-    // (defn ^#?(:clj String :cljs js/String) yuck [] "hi")
+    // ^ #_ 1 #_ 2 {:a 1} [1 2]
+    // (defn ^#?(:clj String :cljs js/String) string-maker [] "hi")
     metadata: $ =>
       seq(choice("^", "#^"),
-          repeat($.discard_form), // ^ #_ 1 #_ 2 {:a 1} [1 2]
-          choice($.keyword, $.map, $.reader_conditional, $.string, $.symbol)),
+          repeat(field('discard_form', $.discard_form)),
+          field('value', choice($.keyword,
+                                $.map,
+                                $.reader_conditional,
+                                $.string,
+                                $.symbol))),
 
     // ` [~@ ^:a a]
     // ` [^:a ~@a]
     // ` [^:a #_ 1 ~@a]
     unquote_splicing_form: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
+                        field('discard_form', $.discard_form))),
           "~@",
-          field('form', $._non_discard_form)),
+          field('value', $._non_discard_form)),
 
     // #' ^:a a
     // #' ^:a b
     // #' ^:a #_ 1 @b
     var_quote_form: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
+                        field('discard_form', $.discard_form))),
           "#'",
-          $._non_discard_form),
+          field('value', $._non_discard_form)),
 
     // more complicated prefixy thing
     
+    // ^:a #_ 1 #my-tag :fun can work depending on #my-tag
+    // # #_ 1 #_ 2 uuid "..."
     tag: $ =>
-      seq("#",
-          repeat($.discard_form), // # #_ 1 #_ 2 uuid "..."
-          $.bare_symbol),
+      seq(repeat(choice(field('metadata', $.metadata),
+                        field('discard_form', $.discard_form))),
+          "#",
+          // XXX: should repeat be leftmost here?
+          field('discard_form_post_hash', repeat($.discard_form)),
+          field('value', $.bare_symbol)),
 
-    // XXX: are metadata and discard handled?
+    // XXX: would nesting be better?
     // #my-tag ^:a [1 2]
     tagged_literal: $ =>
-      seq(field('tags', repeat1($.tag)),
-          field('form', $._non_discard_form)),
+      seq(field('tag', repeat1($.tag)),
+          field('value', $._non_discard_form)),
 
     // collection-ish things w/ metadata and discard
 
@@ -429,9 +446,9 @@ module.exports = grammar({
     // (Thread. ^Runnable #(spinner options)
     anonymous_function: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
+                        field('discard_form', $.discard_form))),
           '#(',
-          repeat($._maybe_empty_form),
+          field('value', repeat($._maybe_empty_form)),
           ')'),
 
     // shared w/ list and reader conditionals
@@ -442,8 +459,8 @@ module.exports = grammar({
 
     list: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
-          field('list', $.bare_list)),
+                        field('discard_form', $.discard_form))),
+          field('value', $.bare_list)),
 
     // https://clojure.org/reference/reader#_maps
     bare_map: $ =>
@@ -452,8 +469,8 @@ module.exports = grammar({
 
     map: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
-          field('map', $.bare_map)),
+                        field('discard_form', $.discard_form))),
+          field('value', $.bare_map)),
 
     _simple_map: $ =>
       seq('{',
@@ -480,9 +497,9 @@ module.exports = grammar({
     // ^:a #?(:clj []
     reader_conditional: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
+                        field('discard_form', $.discard_form))),
           '#?',
-          $.bare_list),
+          field('value', $.bare_list)),
 
     // at repl: #{:a} != # {:a}
     bare_set: $ =>
@@ -492,8 +509,8 @@ module.exports = grammar({
 
     set: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
-          field('set', $.bare_set)),
+                        field('discard_form', $.discard_form))),
+          field('value', $.bare_set)),
 
     bare_vector: $ =>
       seq('[',
@@ -502,8 +519,8 @@ module.exports = grammar({
 
     vector: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        $.discard_form)),
-          field('vector', $.bare_vector)),
+                        field('discard_form', $.discard_form))),
+          field('value', $.bare_vector)),
 
   }
 });
