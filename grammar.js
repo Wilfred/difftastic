@@ -317,7 +317,7 @@ module.exports = grammar({
 
     splicing_reader_conditional: $ =>
       seq('#?@',
-          field('value', $.bare_list)),
+          $.bare_list),
 
     // things start to get complicated by metadata and discard...
 
@@ -454,13 +454,13 @@ module.exports = grammar({
     // shared w/ list and reader conditionals
     bare_list: $ =>
       seq('(',
-          repeat($._maybe_empty_form),
+          field('value', repeat($._maybe_empty_form)),
           ')'),
 
     list: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
                         field('discard_form', $.discard_form))),
-          field('value', $.bare_list)),
+          $.bare_list),
 
     // https://clojure.org/reference/reader#_maps
     bare_map: $ =>
@@ -470,11 +470,11 @@ module.exports = grammar({
     map: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
                         field('discard_form', $.discard_form))),
-          field('value', $.bare_map)),
+          $.bare_map),
 
     _simple_map: $ =>
       seq('{',
-          repeat($._maybe_empty_form),
+          field('value', repeat($._maybe_empty_form)),
           '}'),
 
     // https://clojure.org/reference/reader#map_namespace_syntax
@@ -499,28 +499,28 @@ module.exports = grammar({
       seq(repeat(choice(field('metadata', $.metadata),
                         field('discard_form', $.discard_form))),
           '#?',
-          field('value', $.bare_list)),
+          $.bare_list),
 
     // at repl: #{:a} != # {:a}
     bare_set: $ =>
       seq('#{',
-          repeat($._maybe_empty_form),
+          field('value', repeat($._maybe_empty_form)),
           '}'),
 
     set: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
                         field('discard_form', $.discard_form))),
-          field('value', $.bare_set)),
+          $.bare_set),
 
     bare_vector: $ =>
       seq('[',
-          repeat($._maybe_empty_form),
+          field('value', repeat($._maybe_empty_form)),
           ']'),
 
     vector: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
                         field('discard_form', $.discard_form))),
-          field('value', $.bare_vector)),
+          $.bare_vector),
 
   }
 });
