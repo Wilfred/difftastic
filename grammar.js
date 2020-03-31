@@ -1,8 +1,5 @@
 // for additional details, see notes.txt
 
-// XXX: since now using fields, put ns prefix in one field and name
-//      in another field for symbols and keywords?
-
 // current considerations
 //
 // - repl accepts some things that are not officially "supported"
