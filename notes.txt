@@ -10,6 +10,14 @@
 //     - "port" hand-written tests by oakmac, Tavistock, tonsky
 //     - generative testing for token testing
 //     - look for parsing errors across large sample (e.g. clojars)
+// - use of fields
+//   - helpful when navigating within a node
+//   - there is a performance cost -- when no fields are used,
+//     clojure.core takes on average slightly less than 20 ms to parse.
+//     when fields are used extensively, the same file takes typically a
+//     bit more than 30 ms.
+//   - expose distinctions between things like _simple_symbol and
+//     _qualified_symbol via fields?
 // - consider support for things like #= (which is not officially supported)
 // - loosening ideas:
 //   - allow ##Other (not just ##Inf, -##Inf, ##NaN)
@@ -19,8 +27,6 @@
 //     portions of keywords (currently unimplemented anyway)
 //   - allow any one or two digit number for RADIX
 // - can strings have unicode escapes in them?
-// - "surface" distinctions between things like _simple_symbol and
-//   _qualified_symbol?
 // - someone used ^ as a symbol -- which you can do via the symbol function,
 //   but this seems to contradict the reader page
 
