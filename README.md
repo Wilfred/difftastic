@@ -1,5 +1,9 @@
 # tree-sitter-clojure
 
+## Status
+
+Subject to change, grammar still evolving.
+
 ## Prerequisites
 
 * [emsdk](https://emscripten.org/docs/getting_started/downloads.html#installation-instructions) -- emscripten via homebrew seems to work for macos
@@ -109,7 +113,8 @@ npx tree-sitter build-wasm
 ## Acknowledgments
 
 * Aerijo - Guide to your first Tree-sitter grammar
-* borkdude - babashka, clj-kondo, edamame, and more
+* borkdude - analyze-reify, babashka, clj-kondo, edamame, and more
+* clojars - including everyone who has uploaded there
 * CoenraadS - Bracket-Pair-Colorizer-2
 * EvegeniyPeshkov - syntax-highlighter
 * georgewfraser - vscode-tree-sitter
@@ -125,4 +130,5 @@ npx tree-sitter build-wasm
 * SergeevPavel - tree-sitter-clojure.SergeevPavel (fork of tree-sitter-clojure.Tavistock with further work)
 * SevereOverfl0w - tree-sitter and vim info
 * Tavistock - tree-sitter-clojure.Tavistock
+* tobias - clojars work
 * tonsky - sublime-clojure work with test data
