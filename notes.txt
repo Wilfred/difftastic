@@ -2,13 +2,22 @@
 // - consider base clojure and other specialized grammars
 //   - support def, if, and other "primitives" in a specialized grammar
 //   - clojurescript-specific things in a separate grammar?
-// - test clj, cljc, cljs, and edn too?
+// - testing
+//   - clj, cljc, cljs
+//   - what about edn?
+//   - possibly project.clj?
+//   - approaches
+//     - "port" hand-written tests by oakmac, Tavistock, tonsky
+//     - generative testing for token testing
+//     - look for parsing errors across large sample (e.g. clojars)
+// - consider support for things like #= (which is not officially supported)
 // - loosening ideas:
 //   - allow ##Other (not just ##Inf, -##Inf, ##NaN)
 //   - allow # in keywords
 //   - allow ::/
 //   - don't handle "no repeating colons" in symbols and in non-leading
-//     portions of keywords
+//     portions of keywords (currently unimplemented anyway)
+//   - allow any one or two digit number for RADIX
 // - can strings have unicode escapes in them?
 // - "surface" distinctions between things like _simple_symbol and
 //   _qualified_symbol?
