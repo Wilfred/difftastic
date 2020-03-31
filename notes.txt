@@ -36,7 +36,7 @@
 //     _qualified_symbol via fields, e.g. by having one field for ns prefix
 //     and a separate field for the symbol's name
 //
-// - additional things
+// - potential things
 //   - support for #= (which is not officially supported)
 //   - support for {{}} template constructs
 //
@@ -52,8 +52,8 @@
 //
 // - tree-sitter
 //   - parse subcommand
-//     - parse from stdin?
-//     - recursively traverse directory structure (globbing exists)
+//     - parse from stdin
+//     - recursively traverse multiple directories (globbing exists)
 //     - parsing within zips/jars
 //     - more flexible file type specification
 //     - custom parsing / processing per "file"
@@ -61,7 +61,15 @@
 //     - didn't work when grammar used externals
 //     - file browsing + loading better than copy-paste
 //     - indiciate error via color
+//     - jump to error
 //     - somehow searching for error doesn't seem to work sometimes
+//   - ~/.tree-sitter
+//     - bin
+//       - contains shared libraries for each grammar
+//       - parse command seems to install stuff here
+//     - config.json
+//       - parser-directories used to customize "scan" for grammars
+//       - theme used for highlight subcommand
 
 // symbolPat from LispReader.java (for keywords and symbols?)
 //   "[:]?([\\D&&[^/]].*/)?(/|[\\D&&[^/]][^/]*)"
