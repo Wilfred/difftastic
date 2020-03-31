@@ -113,12 +113,15 @@ npx tree-sitter build-wasm
 ## Acknowledgments
 
 * Aerijo - Guide to your first Tree-sitter grammar
+* alexmiller - clojure-related inquiries and docs
 * borkdude - analyze-reify, babashka, clj-kondo, edamame, and more
 * clojars - including everyone who has uploaded there
 * CoenraadS - Bracket-Pair-Colorizer-2
 * EvegeniyPeshkov - syntax-highlighter
 * georgewfraser - vscode-tree-sitter
+* gfredericks - test.check generators
 * hitode909 - vscode-perl-outline
+* jafingerhut - clojure-related inquiries and haironfire research
 * kolja - tree-sitter question concerning Clojure on StackOverflow
 * mauricioszabo - clover and repl-tooling
 * maxbrunsfeld - tree-sitter and related
@@ -127,6 +130,7 @@ npx tree-sitter build-wasm
 * PEZ - calva, vscode tips, and general discussion
 * rewinfrey - helpful bits from tree-sitter-haskell
 * Saikyun - discussion
+* seancorfield - clojure-related inquiries 
 * SergeevPavel - tree-sitter-clojure.SergeevPavel (fork of tree-sitter-clojure.Tavistock with further work)
 * SevereOverfl0w - tree-sitter and vim info
 * Tavistock - tree-sitter-clojure.Tavistock
