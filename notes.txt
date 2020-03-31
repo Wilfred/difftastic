@@ -1,11 +1,7 @@
 // NOTES
-// - consider base clojure and other grammars for handling separately:
-//   - deref and contents (what deref applies to)
-//   - var_quote and contents (what var_quote applies to)
-//   - quote and contents (what quote applies to)
-//   - syntax quote and contents (what syntax quote applies to)
-//   - metadata
-// - strict grammar (like linting?) and not-as-strict grammar may be useful
+// - consider base clojure and other specialized grammars
+//   - support def, if, and other "primitives" in a specialized grammar
+//   - clojurescript-specific things in a separate grammar?
 // - test clj, cljc, cljs, and edn too?
 // - loosening ideas:
 //   - allow ##Other (not just ##Inf, -##Inf, ##NaN)
@@ -13,22 +9,9 @@
 //   - allow ::/
 //   - don't handle "no repeating colons" in symbols and in non-leading
 //     portions of keywords
-// - metadata -- where exactly is this allowed other than in front of:
-//     symbols,
-//     collection literals,
-//     other metadata,
-//     reader conditionals (both types?),
-//     tagged literals,
-//     #(),
-//     #?(),
-//     ~@,
-//     '[] -- quote?
-// - review symbol and keyword specs and definitions
 // - can strings have unicode escapes in them?
 // - "surface" distinctions between things like _simple_symbol and
 //   _qualified_symbol?
-// - any special support for (comment ) form?
-// - consider using fields
 // - someone used ^ as a symbol -- which you can do via the symbol function,
 //   but this seems to contradict the reader page
 
