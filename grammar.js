@@ -26,6 +26,7 @@ module.exports = grammar(C, {
     [$._expression, $._declarator, $._type_specifier],
     [$.parameter_list, $.argument_list],
     [$._type_specifier, $.call_expression],
+    [$._declaration_specifiers, $.operator_cast_definition, $.constructor_or_destructor_definition],
   ]),
 
   inline: ($, original) => original.concat([
@@ -83,6 +84,7 @@ module.exports = grammar(C, {
     // with an associativity.
     class_specifier: $ => prec.right(seq(
       'class',
+      optional($.ms_declspec_modifier),
       choice(
         field('name', $._class_name),
         seq(
@@ -96,6 +98,7 @@ module.exports = grammar(C, {
 
     union_specifier: $ => prec.right(seq(
       'union',
+      optional($.ms_declspec_modifier),
       choice(
         field('name', $._class_name),
         seq(
@@ -109,6 +112,7 @@ module.exports = grammar(C, {
 
     struct_specifier: $ => prec.right(seq(
       'struct',
+      optional($.ms_declspec_modifier),
       choice(
         field('name', $._class_name),
         seq(
