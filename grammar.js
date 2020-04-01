@@ -322,6 +322,12 @@ module.exports = grammar({
       choice(SIMPLE_SYMBOL,
              $._qualified_symbol),
 
+    _qualified_symbol: $ =>
+      token(seq(NON_SLASH_SIMPLE_SYMBOL,
+                '/',
+                // cuz things like clojure.core// is allowed
+                SIMPLE_SYMBOL)),
+
     // XXX: oh, how i wanted to do this...but because it can
     //      match the empty string, it is not allowed apparently...
     //      unfortunately, this means A LOT of repetition :(
@@ -334,11 +340,16 @@ module.exports = grammar({
                         field('discard_form', $.discard_form))),
           field('value', $.bare_symbol)),
 
-    _qualified_symbol: $ =>
-      token(seq(NON_SLASH_SIMPLE_SYMBOL,
-                '/',
-                // cuz things like clojure.core// is allowed
-                SIMPLE_SYMBOL)),
+    // ^ #_ 1 #_ 2 {:a 1} [1 2]
+    // (defn ^#?(:clj String :cljs js/String) string-maker [] "hi")
+    metadata: $ =>
+      seq(choice("^", "#^"),
+          repeat(field('discard_form', $.discard_form)),
+          field('value', choice($.keyword,
+                                $.map,
+                                $.reader_conditional,
+                                $.string,
+                                $.symbol))),
 
     symbolic_symbol: $ =>
       choice('-Inf',
@@ -390,17 +401,6 @@ module.exports = grammar({
                         field('discard_form', $.discard_form))),
           "~",
           field('value', $._non_discard_form)),
-
-    // ^ #_ 1 #_ 2 {:a 1} [1 2]
-    // (defn ^#?(:clj String :cljs js/String) string-maker [] "hi")
-    metadata: $ =>
-      seq(choice("^", "#^"),
-          repeat(field('discard_form', $.discard_form)),
-          field('value', choice($.keyword,
-                                $.map,
-                                $.reader_conditional,
-                                $.string,
-                                $.symbol))),
 
     // ` [~@ ^:a a]
     // ` [^:a ~@a]
@@ -521,4 +521,3 @@ module.exports = grammar({
 
   }
 });
-
