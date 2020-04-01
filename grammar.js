@@ -347,6 +347,7 @@ module.exports = grammar({
 
     // at repl: ##Inf == ## Inf
     // ## #_ 1 Inf
+    // ## ^:a Inf
     symbolic_value: $ =>
       seq('##',
           repeat(choice(field('metadata', $.metadata),
@@ -410,7 +411,6 @@ module.exports = grammar({
           "~@",
           field('value', $._non_discard_form)),
 
-    // #' ^:a a
     // #' ^:a b
     // #' ^:a #_ 1 @b
     var_quote_form: $ =>
@@ -440,7 +440,7 @@ module.exports = grammar({
     // collection-ish things w/ metadata and discard
 
     // at repl: #(+) != # (+)
-    // (Thread. ^Runnable #(spinner options)
+    // (Thread. ^Runnable #(spinner options) ...
     anonymous_function: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
                         field('discard_form', $.discard_form))),
