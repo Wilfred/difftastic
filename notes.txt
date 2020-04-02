@@ -1,6 +1,8 @@
 // NOTES
 //
 // - consider base clojure and other specialized grammars
+//   - grammar with no fields
+//   - grammar that discards comments and discard forms
 //   - support def, if, and other "primitives" in a specialized grammar?
 //   - clojurescript-specific things in a separate grammar?
 //   - can clojure clr's pipe-stuff be supported?
