@@ -148,7 +148,7 @@ module.exports = grammar({
     $.bare_set,
     $.bare_symbol,
     $.bare_vector,
-    $.symbolic_value
+    $.symbolic_symbol
   ],
 
   rules: {
