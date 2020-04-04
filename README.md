@@ -30,8 +30,10 @@ npm install
 
 # create `src` and populate with tree-sitter .c goodness
 npx tree-sitter generate
+
 # create `build` and populate with 
 npx node-gyp configure
+
 # create `build/Release` and build `tree_sitter_clojure_binding.node`
 npx node-gyp rebuild
 ```
@@ -122,7 +124,7 @@ npx tree-sitter build-wasm
 * gfredericks - test.check generators
 * hitode909 - vscode-perl-outline
 * jafingerhut - clojure-related inquiries and haironfire research
-* kolja - tree-sitter question concerning Clojure on StackOverflow
+* kolja - nrepl-alliance and tree-sitter question concerning Clojure on StackOverflow
 * mauricioszabo - clover and repl-tooling
 * maxbrunsfeld - tree-sitter and related
 * oakmac - tree-sitter-clojure.oakmac, conj 2018 unsession, advice, etc.
