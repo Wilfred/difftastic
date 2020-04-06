@@ -755,7 +755,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "[\\/_\\-=->,;:::!=?.@*=\\/=&=#%=^=+<>|~]+"
+          "value": "[/_\\-=->,;:::!=?.@*=/=&=#%=^=+<>|~]+"
         },
         {
           "type": "STRING",
@@ -2975,7 +2975,7 @@
           "name": "type",
           "content": {
             "type": "SYMBOL",
-            "name": "_type_identifier"
+            "name": "_type"
           }
         }
       ]
@@ -4345,6 +4345,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "_literal"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "block"
                 }
               ]
             },
@@ -4375,6 +4379,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "_literal"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "block"
                       }
                     ]
                   }

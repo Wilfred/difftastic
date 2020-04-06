@@ -524,7 +524,7 @@ module.exports = grammar({
       'const',
       field('name', $.identifier),
       ':',
-      field('type', $._type_identifier),
+      field('type', $._type),
     ),
 
     constrained_type_parameter: $ => seq(
@@ -778,6 +778,7 @@ module.exports = grammar({
         $.type_binding,
         $.lifetime,
         $._literal,
+        $.block,
       )),
       optional(','),
       '>'
