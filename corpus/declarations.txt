@@ -68,6 +68,8 @@ fn foo(x: impl FnOnce() -> result::Result<T, E>) {}
 
 fn foo(#[attr] x: i32, #[attr] x: i64) {}
 
+fn accumulate(self) -> Machine<{State::Accumulate}> {}
+
 ---
 
 (source_file
@@ -162,6 +164,19 @@ fn foo(#[attr] x: i32, #[attr] x: i64) {}
       (parameter
         pattern: (identifier)
         type: (primitive_type)))
+    body: (block))
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (self_parameter
+        (self)))
+    return_type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments
+        (block
+          (scoped_identifier
+            path: (identifier)
+            name: (identifier)))))
     body: (block)))
 
 ============================================
@@ -445,7 +460,7 @@ struct D<const SIZE: usize> {}
     type_parameters: (type_parameters
       (const_parameter
         name: (identifier)
-        type: (type_identifier)))
+        type: (primitive_type)))
     body: (field_declaration_list)))
 
 ============================================
@@ -562,7 +577,7 @@ pub fn uninit_array<const LEN: usize>() -> [Self; LEN] {}
     type_parameters: (type_parameters
       (const_parameter
         name: (identifier)
-        type: (type_identifier)))
+        type: (primitive_type)))
     parameters: (parameters)
     return_type: (array_type
       element: (type_identifier)
@@ -854,15 +869,55 @@ impl Person {
   fn talk_mut(&'a mut self) {}
 }
 
+impl Machine<{State::Init}> {}
+
 ---
 
 (source_file
-  (impl_item (type_identifier) (declaration_list
-    (const_item (identifier) (primitive_type) (integer_literal))
-    (function_item (identifier) (parameters (self_parameter (self))) (block))
-    (function_item (identifier) (parameters (self_parameter (mutable_specifier) (self))) (block))
-    (function_item (identifier) (parameters (self_parameter (self))) (block))
-    (function_item (identifier) (parameters (self_parameter (lifetime (identifier)) (mutable_specifier) (self))) (block)))))
+  (impl_item
+    type: (type_identifier)
+    body: (declaration_list
+      (const_item
+        name: (identifier)
+        type: (primitive_type)
+        value: (integer_literal))
+      (function_item
+        name: (identifier)
+        parameters: (parameters
+          (self_parameter
+            (self)))
+        body: (block))
+      (function_item
+        name: (identifier)
+        parameters: (parameters
+          (self_parameter
+            (mutable_specifier)
+            (self)))
+        body: (block))
+      (function_item
+        name: (identifier)
+        parameters: (parameters
+          (self_parameter
+            (self)))
+        body: (block))
+      (function_item
+        name: (identifier)
+        parameters: (parameters
+          (self_parameter
+            (lifetime
+              (identifier))
+            (mutable_specifier)
+            (self)))
+        body: (block))))
+  (impl_item
+    type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments
+        (block
+          (scoped_identifier
+            path: (identifier)
+            name: (identifier)))))
+    body: (declaration_list)))
 
 ===========================================
 Trait impls

@@ -1076,7 +1076,7 @@
         "required": true,
         "types": [
           {
-            "type": "type_identifier",
+            "type": "_type",
             "named": true
           }
         ]
@@ -3833,6 +3833,10 @@
         },
         {
           "type": "_type",
+          "named": true
+        },
+        {
+          "type": "block",
           "named": true
         },
         {
