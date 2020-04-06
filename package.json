@@ -8,7 +8,7 @@
     "test": "npx tree-sitter test"
   },
   "author": "",
-  "license": "ISC",
+  "license": "",
   "dependencies": {
     "nan": "2.14.0",
     "web-tree-sitter": "0.16.2"
