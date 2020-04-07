@@ -451,7 +451,7 @@ bool A::operator ==(const A &other) const;
 
 void * A::operator new(size_t s);
 
-void * A::operator delete[](void * p);
+void * A::operator delete   [](void * p);
 
 ---
 
