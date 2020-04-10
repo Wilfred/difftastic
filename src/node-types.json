@@ -880,7 +880,18 @@
   {
     "type": "break_statement",
     "named": true,
-    "fields": {}
+    "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "call_expression",
@@ -916,6 +927,16 @@
     "type": "case_statement",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": false,
         "required": false,
@@ -1412,12 +1433,33 @@
   {
     "type": "continue_statement",
     "named": true,
-    "fields": {}
+    "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "declaration",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "declarator": {
         "multiple": true,
         "required": true,
@@ -1475,10 +1517,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "attribute",
-          "named": true
-        },
         {
           "type": "attribute_specifier",
           "named": true
@@ -1663,6 +1701,16 @@
     "type": "do_statement",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "body": {
         "multiple": false,
         "required": true,
@@ -1796,7 +1844,18 @@
   {
     "type": "expression_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": false,
@@ -1816,6 +1875,16 @@
     "type": "field_declaration",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "declarator": {
         "multiple": true,
         "required": false,
@@ -1855,10 +1924,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "attribute",
-          "named": true
-        },
         {
           "type": "attribute_specifier",
           "named": true
@@ -2052,6 +2117,16 @@
     "type": "for_range_loop",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "body": {
         "multiple": false,
         "required": true,
@@ -2124,6 +2199,16 @@
     "type": "for_statement",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "condition": {
         "multiple": false,
         "required": false,
@@ -2277,6 +2362,16 @@
     "type": "function_definition",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "body": {
         "multiple": false,
         "required": false,
@@ -2320,10 +2415,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "attribute",
-          "named": true
-        },
         {
           "type": "attribute_specifier",
           "named": true
@@ -2371,6 +2462,16 @@
     "type": "goto_statement",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "label": {
         "multiple": false,
         "required": true,
@@ -2393,6 +2494,16 @@
         "types": [
           {
             "type": "_statement",
+            "named": true
+          }
+        ]
+      },
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
             "named": true
           }
         ]
@@ -2514,6 +2625,16 @@
     "type": "labeled_statement",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "label": {
         "multiple": false,
         "required": true,
@@ -2991,6 +3112,16 @@
     "type": "parameter_declaration",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "declarator": {
         "multiple": false,
         "required": false,
@@ -3020,10 +3151,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "attribute",
-          "named": true
-        },
         {
           "type": "attribute_specifier",
           "named": true
@@ -3887,7 +4014,18 @@
   {
     "type": "return_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": false,
@@ -4271,6 +4409,16 @@
     "type": "switch_statement",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "body": {
         "multiple": false,
         "required": true,
@@ -5058,6 +5206,16 @@
     "type": "while_statement",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "body": {
         "multiple": false,
         "required": true,
