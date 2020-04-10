@@ -31,7 +31,8 @@ module.exports = grammar({
   conflicts: $ => [
     [$._prefix],
     [$._expression, $._variable_declarator],
-    [$._expression, $.function_call_statement]
+    [$._expression, $.function_call_statement],
+	[$.function_name, $.function_name_field]
   ],
 
   externals: $ => [
@@ -40,7 +41,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => repeat($._statement),
+    program: $ => seq(repeat($._statement), optional($.return_statement)),
 
     // Return statement
     return_statement: $ => seq(
@@ -90,8 +91,10 @@ module.exports = grammar({
     _variable_declarator: $ => choice(
       $.identifier,
       seq($._prefix, '[', $._expression, ']'),
-      seq($._prefix, '.', alias($.identifier, $.property_identifier))
+		$.field_expression
     ),
+
+	field_expression: $ => seq($._prefix, '.', alias($.identifier, $.property_identifier)),
 
     _local_variable_declarator: $ => sequence($.identifier),
 
@@ -222,10 +225,16 @@ module.exports = grammar({
     ),
 
     function_name: $ => seq(
-      $.identifier,
-      repeat(seq('.', alias($.identifier, $.property_identifier))),
+		choice($.identifier,
+			$.function_name_field
+		),
       optional(seq(':', alias($.identifier, $.method)))
     ),
+
+	function_name_field: $ => seq(
+      field("object", $.identifier),
+      repeat(seq('.', alias($.identifier, $.property_identifier))),
+	),
 
     parameters: $ => seq(
       '(',

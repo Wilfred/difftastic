@@ -18,9 +18,10 @@ a.b.f = function(self, test, ...) return 10 end
     (function_definition (parameters)
       (return_statement (false))))
 
-  (variable_declaration (variable_declarator (identifier) (property_identifier) (property_identifier))
-    (function_definition (parameters)
-      (return_statement (true))))
+  (variable_declaration (variable_declarator
+    (field_expression (field_expression (identifier) (property_identifier)) (property_identifier)))
+      (function_definition (parameters)
+        (return_statement (true))))
 
   (local_variable_declaration (variable_declarator (identifier)))
 
@@ -28,7 +29,8 @@ a.b.f = function(self, test, ...) return 10 end
     (function_definition (parameters)
       (return_statement (string))))
 
-  (variable_declaration (variable_declarator (identifier) (property_identifier) (property_identifier))
+  (variable_declaration (variable_declarator
+    (field_expression (field_expression (identifier) (property_identifier)) (property_identifier)))
     (function_definition (parameters (self) (identifier) (spread))
       (return_statement (number)))))
 
@@ -46,8 +48,6 @@ function t.a.b.c.f()
   return true
 end
 
-t.a.b.c.f = function() return true end
-
 ---
 
 (program
@@ -58,11 +58,8 @@ t.a.b.c.f = function() return true end
     (function_definition (parameters)
       (return_statement (false))))
 
-  (function (function_name (identifier) (property_identifier) (property_identifier) (property_identifier) (property_identifier)) (parameters)
-    (return_statement (true)))
-
-  (variable_declaration (variable_declarator (identifier) (property_identifier) (property_identifier) (property_identifier) (property_identifier)) (function_definition (parameters)
-    (return_statement (true)))))
+  (function (function_name (function_name_field (identifier) (property_identifier) (property_identifier) (property_identifier) (property_identifier))) (parameters)
+    (return_statement (true))))
 
 
 ============================================
