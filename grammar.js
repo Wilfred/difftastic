@@ -576,8 +576,22 @@ module.exports = grammar(C, {
 
     namespace_definition: $ => seq(
       'namespace',
-      field('name', optional($.identifier)),
+      field('name', optional(
+        choice(
+          $.identifier,
+          $.namespace_definition_name,
+        ))),
       field('body', $.declaration_list)
+    ),
+
+    namespace_definition_name: $ => seq(
+      choice(
+        $.identifier,
+        $.namespace_definition_name,
+      ),
+      '::',
+      optional('inline'),
+      $.identifier,
     ),
 
     using_declaration: $ => seq(

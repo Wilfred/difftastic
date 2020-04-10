@@ -8,6 +8,9 @@ int x;
 
 }  // namespace std
 
+namespace A::B { }
+namespace A::B::inline C::D { }
+
 ---
 
 (translation_unit
@@ -17,7 +20,17 @@ int x;
       (declaration
         type: (primitive_type)
         declarator: (identifier))))
-  (comment))
+  (comment)
+  (namespace_definition
+    name: (namespace_definition_name (identifier) (identifier))
+    body: (declaration_list))
+  (namespace_definition
+    name: (namespace_definition_name
+      (namespace_definition_name
+        (namespace_definition_name (identifier) (identifier))
+        (identifier))
+      (identifier))
+    body: (declaration_list)))
 
 =========================================
 Using declarations
