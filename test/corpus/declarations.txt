@@ -415,6 +415,9 @@ int f([[a::b(c), d]] int x) {}
 [[gnu::always_inline]] [[gnu::hot]] [[gnu::const]] [[nodiscard]]
 inline int g();
 
+[[aaa]]
+int f() { }
+
 ---
 
 (translation_unit
@@ -437,7 +440,10 @@ inline int g();
     (attribute (identifier))
     (storage_class_specifier)
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))))
+    (function_declarator (identifier) (parameter_list)))
+  (function_definition
+    (attribute (identifier))
+    (primitive_type) (function_declarator (identifier) (parameter_list)) (compound_statement)))
 
 =========================================
 Operator overload declarations
