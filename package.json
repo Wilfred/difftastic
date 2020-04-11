@@ -1,0 +1,28 @@
+{
+  "name": "tree-sitter-janet",
+  "version": "0.0.1",
+  "description": "Janet grammar for tree-sitter",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tree-sitter generate && npx node-gyp build",
+    "fresh-build": "npx tree-sitter generate && npx node-gyp configure && npx node-gyp rebuild",
+    "install": "npx tree-sitter generate && npx node-gyp configure && npx node-gyp rebuild"
+  },
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "nan": "2.14.0",
+    "web-tree-sitter": "0.16.2"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "0.16.5"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.janet",
+      "file-types": [
+        "janet"
+      ]
+    }
+  ]
+}
