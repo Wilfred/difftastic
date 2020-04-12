@@ -7,3 +7,8 @@ try {
     throw error
   }
 }
+
+try {
+  module.exports.nodeTypeInfo = require("./src/node-types.json");
+} catch (_) {}
+
