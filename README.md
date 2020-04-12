@@ -2,7 +2,9 @@
 
 ## Status
 
-Subject to change, grammar still evolving.
+~Subject to change, grammar still evolving.~
+
+Coincidentally, it appears [another effort by GrayJack](https://github.com/GrayJack/tree-sitter-janet/) was started at about the same time, and that effort looks to be pretty decent.  So this effort will be put on hold.
 
 ## Prerequisites
 
@@ -103,4 +105,5 @@ npx tree-sitter build-wasm
 
 * Aerijo - Guide to your first Tree-sitter grammar
 * bakpakin - janet
+* GrayJack - a better-looking attempt at tree-sitter-janet
 * maxbrunsfeld - tree-sitter and related
