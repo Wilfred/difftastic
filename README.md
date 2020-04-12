@@ -122,6 +122,7 @@ npx tree-sitter build-wasm
 * EvegeniyPeshkov - syntax-highlighter
 * georgewfraser - vscode-tree-sitter
 * gfredericks - test.check generators
+* GrayJack - discussion and tree-sitter-janet
 * hitode909 - vscode-perl-outline
 * jafingerhut - clojure-related inquiries and haironfire research
 * kolja - nrepl-alliance and tree-sitter question concerning Clojure on StackOverflow
