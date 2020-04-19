@@ -1,0 +1,29 @@
+========================================
+dart if statements
+========================================
+
+if (z) return n;
+
+---
+
+(program
+(if_statement
+      (parenthesized_expression (identifier))
+      (return_statement (identifier))))
+
+========================================
+collection literals
+========================================
+
+var aMapOfStringsToInts = {
+  'one': 1,
+  'two': 2,
+  'three': 3,
+};
+
+---
+
+(local_variable_declaration
+            (integral_type)
+            (variable_declarator
+              (identifier)))
