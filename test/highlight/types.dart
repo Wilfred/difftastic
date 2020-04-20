@@ -15,7 +15,6 @@ class Person {
     //                ^ type
     //                       ^ type
   }
-
   string getName() {
     // <- type
     //    ^ function.method

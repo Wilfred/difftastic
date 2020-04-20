@@ -11,19 +11,19 @@ if (z) return n;
       (parenthesized_expression (identifier))
       (return_statement (identifier))))
 
-========================================
-collection literals
-========================================
+=========================================
+dart string literals
+=========================================
 
-var aMapOfStringsToInts = {
-  'one': 1,
-  'two': 2,
-  'three': 3,
-};
+"";
+"\"";
+"This' is a string";
+'Also a string';
 
 ---
 
-(local_variable_declaration
-            (integral_type)
-            (variable_declarator
-              (identifier)))
+(program
+  (expression_statement (string_literal))
+  (expression_statement (string_literal (escape_sequence)))
+  (expression_statement (string_literal))
+  (expression_statement (string_literal)))

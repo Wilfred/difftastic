@@ -108,33 +108,6 @@ false;
   (expression_statement (true))
   (expression_statement (false)))
 
-===================
-character literals
-===================
-
-'a';
-'%';
-'\t';
-'\\';
-'\'';
-'\u03a9';
-'\uFFFF';
-'\177';
-'™';
-
----
-
-(program
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal)))
-
 ===============
 string literals
 ===============
@@ -148,7 +121,7 @@ string literals
 
 (program
   (expression_statement (string_literal))
-  (expression_statement (string_literal))
+  (expression_statement (string_literal (escape_sequence)))
   (expression_statement (string_literal))
   (expression_statement (string_literal)))
 
@@ -163,122 +136,3 @@ null;
 (program
   (expression_statement (null_literal)))
 
-=========================================
-char escapes
-=========================================
-
-'\b';
-'\t';
-'\n';
-'\f';
-'\r';
-'\"';
-'\'';
-'\\' + 'a';
-
----
-
-(program
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (binary_expression (character_literal) (character_literal))))
-
-=========================================
-octal escapes
-=========================================
-
-'\7';
-
----
-
-(program
-  (expression_statement (character_literal)))
-
-=========================================
-unicode escapes
-=========================================
-
-'\\u2122=\u2122';
-
----
-
-(program
-  (expression_statement (character_literal)))
-
-=================
-ascii escapes
-=================
-
-'\NUL';
-'\SOH';
-'\STX';
-'\ETX';
-'\EOT';
-'\ENQ';
-'\ACK';
-'\BEL';
-'\BS';
-'\TAB';
-'\LF';
-'\VT';
-'\FF';
-'\CR';
-'\SO';
-'\SI';
-'\DLE';
-'\DC1';
-'\DC2';
-'\DC3';
-'\DC4';
-'\NAK';
-'\SYN';
-'\ETB';
-'\CAN';
-'\EM';
-'\SUB';
-'\ESC';
-'\FS';
-'\GS';
-'\RS';
-'\US';
-
----
-
-(program
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal))
-  (expression_statement (character_literal)))
