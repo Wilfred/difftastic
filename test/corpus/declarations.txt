@@ -11,201 +11,20 @@ class A {
 ---
 
 (program
-  (class_declaration
+  (class_definition
     name: (identifier)
     body: (class_body
-      (method_declaration
-        type: (integral_type)
-        name: (identifier)
-        parameters: (formal_parameters)
-        body: (block
+      (method_signature (function_signature
+         (integral_type)
+         (identifier)
+         (formal_parameter_list))
+        )
+        (function_body (block
           (local_variable_declaration
             type: (integral_type)
             declarator: (variable_declarator
               name: (identifier)
               value: (decimal_integer_literal))))))))
-
-=====================
-local array variable
-=====================
-
-String[] nodeNames = internalCluster().getNodeNames();
-Integer[][] inputArrays = new Integer[0x100][];
-
----
-
-(program
-  (local_variable_declaration
-    type: (array_type
-      element: (type_identifier)
-      dimensions: (dimensions))
-    declarator: (variable_declarator
-      name: (identifier)
-      value: (method_invocation
-        object: (method_invocation
-          name: (identifier)
-          arguments: (argument_list))
-        name: (identifier)
-        arguments: (argument_list))))
-  (local_variable_declaration
-    type: (array_type
-      element: (type_identifier)
-      dimensions: (dimensions))
-    declarator: (variable_declarator
-      name: (identifier)
-      value: (array_creation_expression
-        type: (type_identifier)
-        dimensions: (dimensions_expr (hex_integer_literal))
-        dimensions: (dimensions)))))
-
-==========
-module
-==========
-
-module com.foo { }
-open module com.foo { }
-
----
-
-(program
-  (module_declaration
-    (scoped_identifier (identifier) (identifier)))
-  (module_declaration
-    (scoped_identifier (identifier) (identifier))))
-
-==============================
-module with normal annotation
-==============================
-
-@RequestForEnhancement(
-    id       = 2868724,
-    synopsis = "Provide time-travel functionality",
-    engineer = "Mr. Peabody",
-    date     = "4/1/2004"
-)
-module com.foo { }
-
----
-
-(program
-  (module_declaration
-    (annotation
-      (identifier)
-      (annotation_argument_list
-        (element_value_pair (identifier) (decimal_integer_literal))
-        (element_value_pair (identifier) (string_literal))
-        (element_value_pair (identifier) (string_literal))
-        (element_value_pair (identifier) (string_literal))))
-    (scoped_identifier (identifier) (identifier))))
-
-==============================
-module with marker annotation
-==============================
-
-@Preliminary module com.foo { }
-@Preliminary open module com.foo { }
-
----
-
-(program
-  (module_declaration (marker_annotation (identifier)) (scoped_identifier (identifier) (identifier)))
-  (module_declaration (marker_annotation (identifier)) (scoped_identifier (identifier) (identifier))))
-
-======================================
-module with single element annotation
-======================================
-
-@Copyright("a") module com.foo { }
-
----
-
-(program
-  (module_declaration
-    (annotation
-      (identifier)
-      (annotation_argument_list (string_literal)))
-    (scoped_identifier
-      (identifier)
-      (identifier))))
-
-====================
-package_declaration
-====================
-
-package myVector;
-
----
-
- (program (package_declaration (identifier)))
-
-=================
-module directive
-=================
-
-module com.example.foo {
-    requires com.example.foo.http;
-}
-
----
-
-(program
-  (module_declaration
-  (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier))
-  (module_directive
-    (module_name
-      (module_name
-        (module_name
-          (module_name (identifier)) (identifier)) (identifier)) (identifier)))))
-
-==================================================================
-module directive with requires, exports, opens, uses and provides
-==================================================================
-
-module com.example.foo {
-    requires com.example.foo.http;
-    requires java.logging;
-
-    requires transitive com.example.foo.network;
-
-    exports com.example.foo.bar;
-    exports com.example.foo.internal to com.example.foo.probe;
-
-    opens com.example.foo.quux;
-    opens com.example.foo.internal to com.example.foo.network,
-                                      com.example.foo.probe;
-
-    uses com.example.foo.spi.Intf;
-    provides com.example.foo.spi.Intf with com.example.foo.Impl;
-}
-
----
-
-(program
-  (module_declaration
-    (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier))
-    (module_directive
-      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (module_name (module_name (identifier)) (identifier)))
-    (module_directive
-      (requires_modifier)
-      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier))
-      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier))
-      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier))
-      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (scoped_identifier (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (scoped_identifier (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)) (identifier))
-      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)))))
 
 ===============================
 single type import declaration
@@ -257,7 +76,7 @@ class Point {
 ---
 
 (program
-  (class_declaration
+  (class_definition
     (identifier)
       (class_body)))
 
@@ -265,10 +84,10 @@ class Point {
 class declaration involving public, private, abstract and superclass
 =====================================================================
 
-public class Point {
+class Point {
 }
 
-private class Point {
+class Point {
 }
 
 abstract class ColoredPoint extends Point {
@@ -277,30 +96,31 @@ abstract class ColoredPoint extends Point {
 ---
 
 (program
-  (class_declaration (modifiers) (identifier) (class_body))
-  (class_declaration (modifiers) (identifier) (class_body))
-  (class_declaration (modifiers) (identifier) (superclass (type_identifier)) (class_body)))
+  (class_definition  (identifier) (class_body))
+  (class_definition  (identifier) (class_body))
+  (class_definition (identifier) (superclass (type_identifier)) (class_body)))
 
 ==================================
 class declaration with implements
 ==================================
 
-public class Dog implements ISpeak {
+ class Dog implements ISpeak {
 }
 
 ---
 
 (program
-  (class_declaration
-     (modifiers) (identifier)
-     (super_interfaces (interface_type_list (type_identifier))) (class_body)))
+  (class_definition
+     (identifier)
+     (super_interfaces (type_identifier)) (class_body)))
 
 ============================
 class declaration with body
 ============================
 
 class Point {
-  int x;
+  var x;
+  var s = 'g';
 
   void bar() {
     x = 2;
@@ -310,16 +130,23 @@ class Point {
 ---
 
 (program
-  (class_declaration
+  (class_definition
     (identifier)
     (class_body
-      (field_declaration
-        (integral_type)
-        (variable_declarator (identifier)))
-      (method_declaration
+      (declaration
+        (inferred_type)
+        (initialized_identifier_list (initialized_identifier (identifier))))
+       (declaration
+        (inferred_type)
+        (initialized_identifier_list
+        (initialized_identifier
+                (identifier)
+                (string_literal))))
+      (method_signature (function_signature
         (void_type)
         (identifier)
-        (formal_parameters)
+        (formal_parameter_list)))
+        (function_body
         (block
           (expression_statement
             (assignment_expression (identifier) (decimal_integer_literal))))))))
@@ -383,17 +210,19 @@ class Beyonce {
 ---
 
 (program
-  (class_declaration
+  (class_definition
     (identifier)
     (class_body
-      (method_declaration
+      (method_signature (function_signature
         (void_type)
         (identifier)
-        (formal_parameters
+        (formal_parameter_list
           (formal_parameter (floating_point_type) (identifier))
           (formal_parameter (integral_type) (identifier))
           (formal_parameter (floating_point_type) (identifier))
-          (formal_parameter (floating_point_type) (identifier)))
+          (formal_parameter (floating_point_type) (identifier))))
+        )
+        (function_body
         (block (comment))))))
 
 ========================
@@ -407,32 +236,36 @@ class Point {
     this.y = y;
   }
 
-  Point() {
+  Point.json() {
     this(0, 0);
   }
+  Point.json(this.x, this.y);
 }
 
 ---
 
 (program
-  (class_declaration
+  (class_definition
     name: (identifier)
     body: (class_body
-      (field_declaration
-        type: (integral_type)
-        declarator: (variable_declarator name: (identifier))
-        declarator: (variable_declarator name: (identifier)))
-      (constructor_declaration
+      (declaration
+        (integral_type)
+        (initialized_identifier_list
+        (initialized_identifier (identifier))
+        (initialized_identifier (identifier))
+        )
+        )
+      (method_signature (constructor_signature
         name: (identifier)
-        parameters: (formal_parameters
+        parameters: (formal_parameter_list
           (formal_parameter
             type: (integral_type)
             name: (identifier))
           (formal_parameter
             type: (integral_type)
-            name: (identifier)))
-        body: (constructor_body
-          (expression_statement (assignment_expression
+            name: (identifier)))))
+        (function_body
+          (block (expression_statement (assignment_expression
             left: (field_access
               object: (this)
               field: (identifier))
@@ -442,56 +275,40 @@ class Point {
               object: (this)
               field: (identifier))
             right: (identifier)))))
-      (constructor_declaration
+      (method_signature (constructor_signature
         name: (identifier)
-        parameters: (formal_parameters)
-        body: (constructor_body
-          (explicit_constructor_invocation
-            constructor: (this)
-            arguments: (argument_list
-              (decimal_integer_literal)
-              (decimal_integer_literal))))))))
-
-=======
-throws
-=======
-
-class Beyonce {
-  BufferedReader newReader() throws FileNotFoundException {
-    new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
-  }
-}
-
----
-
-(program
-  (class_declaration
-    (identifier)
-      (class_body
-        (method_declaration
-          (type_identifier)
-          (identifier)
-          (formal_parameters)
-          (throws (type_identifier))
-          (block
-            (expression_statement
-              (object_creation_expression
-                (type_identifier)
-                (argument_list
-                  (object_creation_expression
-                    (type_identifier)
-                    (argument_list
-                      (object_creation_expression
-                        (type_identifier)
-                        (argument_list (identifier)))
-                      (identifier)))))))))))
+        name: (identifier)
+        parameters: (formal_parameter_list)))
+        (function_body
+            (block
+                (expression_statement
+                    (method_invocation
+                        name: (this)
+                        arguments: (argument_list
+                            (decimal_integer_literal)
+                            (decimal_integer_literal)
+                            )
+                    )
+                )
+            )
+         )
+      (declaration
+      (constructor_signature
+        name: (identifier)
+        name: (identifier)
+        parameters: (formal_parameter_list
+        (constructor_param (identifier))
+        (constructor_param (identifier))
+        ))))
+              )
+              )
 
 ======================
 object instantiation
 ======================
 
 class Point {
-  public double Foo() {
+  double Foo() {
     new BufferedWriter();
     Foo.new BufferedWriter();
   }
@@ -500,15 +317,15 @@ class Point {
 ---
 
 (program
-  (class_declaration
+  (class_definition
     (identifier)
     (class_body
-      (method_declaration
-        (modifiers)
+      (method_signature (function_signature
         (floating_point_type)
         (identifier)
-        (formal_parameters)
-        (block
+        (formal_parameter_list))
+        )
+        (function_body (block
           (expression_statement
             (object_creation_expression
               (type_identifier)
@@ -524,22 +341,22 @@ variable declaration
 =====================
 
 class JayZ {
-  public void Beyonce() {
+  void Beyonce() {
     int blue_ivy_carter;
-  };
+  }
 }
 
 ---
 
 (program
-  (class_declaration
+  (class_definition
     (identifier)
     (class_body
-      (method_declaration
-        (modifiers)
+      (method_signature (function_signature
         (void_type)
         (identifier)
-        (formal_parameters)
+        (formal_parameter_list)))
+        (function_body
         (block
           (local_variable_declaration
             (integral_type)

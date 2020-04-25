@@ -17,7 +17,9 @@ dart string literals
 
 "";
 "\"";
-"This' is a string";
+"This' is a string $mystring";
+'''This" is a
+string ${mystring}''';
 'Also a string';
 
 ---
@@ -25,5 +27,144 @@ dart string literals
 (program
   (expression_statement (string_literal))
   (expression_statement (string_literal (escape_sequence)))
-  (expression_statement (string_literal))
+  (expression_statement (string_literal (template_substitution (identifier))))
+    (expression_statement (string_literal (template_substitution (identifier))))
   (expression_statement (string_literal)))
+
+=========================================
+dart string literals 2
+=========================================
+
+"";
+"\"";
+"""This' is a string $mystring""";
+'''This" is a $
+string mystring''';
+'''Also a string''';
+
+---
+
+(program
+  (expression_statement (string_literal))
+  (expression_statement (string_literal (escape_sequence)))
+  (expression_statement (string_literal (template_substitution (identifier))))
+    (expression_statement (string_literal))
+  (expression_statement (string_literal)))
+=========================================
+dart string literals raw
+=========================================
+
+"";
+r"\"";
+"""This' is a string $mystring""";
+'''This" is a $
+string mystring''';
+r'''Also a string''';
+
+---
+
+(program
+  (expression_statement (string_literal))
+  (expression_statement (string_literal))
+  (expression_statement (string_literal (template_substitution (identifier))))
+    (expression_statement (string_literal))
+  (expression_statement (string_literal)))
+
+==================================================
+dart set literals
+==================================================
+
+class A {
+  int b() {
+    var c = {vala};
+    var c = {vala: 'g'};
+  }
+}
+
+---
+
+(program
+  (class_definition
+    name: (identifier)
+    body: (class_body
+      (method_signature (function_signature
+        (integral_type)
+         (identifier)
+        (formal_parameter_list)))
+        (function_body (block
+          (local_variable_declaration
+            type: (inferred_type)
+            declarator: (variable_declarator
+              name: (identifier)
+              value: (set_or_map_literal (identifier))))
+           (local_variable_declaration
+             type: (inferred_type)
+             declarator: (variable_declarator
+              name: (identifier)
+              value: (set_or_map_literal (pair key: (identifier) value: (string_literal))))))
+              ))))
+
+==================================================
+embedded control flow for collections
+==================================================
+
+class A {
+  int b() {
+    var c = {if (z) vala};
+    var c = {vala: 'g'};
+  }
+}
+
+---
+
+(program
+  (class_definition
+    name: (identifier)
+    body: (class_body
+      (method_signature (function_signature
+        (integral_type)
+        (identifier)
+        (formal_parameter_list)))
+        (function_body (block
+          (local_variable_declaration
+            type: (inferred_type)
+            declarator: (variable_declarator
+              name: (identifier)
+              value: (set_or_map_literal (if_element
+              condition: (parenthesized_expression (identifier))
+              consequence: (identifier)
+              ))))
+           (local_variable_declaration
+             type: (inferred_type)
+             declarator: (variable_declarator
+              name: (identifier)
+              value: (set_or_map_literal (pair key: (identifier) value: (string_literal))))))
+              )
+              )))
+===================
+Positional Parameters
+===================
+
+class Beyonce {
+  void calculateAnswer(double wingSpan, int numberOfEngines,
+                       [double length, double grossTons]) {
+      //do the calculation here
+  }
+}
+
+---
+
+(program
+  (class_definition
+    (identifier)
+    (class_body
+      (method_signature (function_signature
+        (void_type)
+        (identifier)
+        (formal_parameter_list
+          (formal_parameter (floating_point_type) (identifier))
+          (formal_parameter (integral_type) (identifier))
+          (positional_parameters
+          (formal_parameter (floating_point_type) (identifier))
+          (formal_parameter (floating_point_type) (identifier))))))
+        (function_body (block (comment))))))

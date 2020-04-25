@@ -15,29 +15,40 @@ class Beyonce {
 ---
 
 (program
-  (class_declaration
+  (class_definition
     (identifier)
     (class_body
-      (method_declaration
+      (method_signature
+        (function_signature
         (integral_type)
         (identifier)
-        (formal_parameters)
-        (block
-          (local_variable_declaration
-            (integral_type)
-              (variable_declarator (identifier)))
-          (local_variable_declaration
-            (integral_type)
-              (variable_declarator (identifier)))
-          (local_variable_declaration
-            (integral_type)
-              (variable_declarator (identifier)))
-          (local_variable_declaration
-            (integral_type)
-              (variable_declarator (identifier)))
-          (local_variable_declaration
-            (integral_type)
-              (variable_declarator (identifier))))))))
+
+                (formal_parameter_list)
+        )
+        )
+          (function_body
+            (block
+              (local_variable_declaration
+                (integral_type)
+                  (variable_declarator (identifier)))
+              (local_variable_declaration
+                (integral_type)
+                  (variable_declarator (identifier)))
+              (local_variable_declaration
+                (integral_type)
+                  (variable_declarator (identifier)))
+              (local_variable_declaration
+                (integral_type)
+                  (variable_declarator (identifier)))
+              (local_variable_declaration
+                (integral_type)
+                  (variable_declarator (identifier)))
+              )
+           )
+
+      )
+    )
+  )
 
 =====================
 floating point types
@@ -53,17 +64,22 @@ class Beyonce {
 ---
 
 (program
-  (class_declaration
+  (class_definition
     (identifier)
     (class_body
-      (method_declaration
+      (method_signature
+        (function_signature
         (integral_type)
         (identifier)
-        (formal_parameters)
+                        (formal_parameter_list)
+        )
+        )
+        (function_body
         (block
           (local_variable_declaration
             (floating_point_type)
             (variable_declarator (identifier)))
           (local_variable_declaration
             (floating_point_type)
-            (variable_declarator (identifier))))))))
+            (variable_declarator (identifier)))))
+            )))

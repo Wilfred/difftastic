@@ -4,7 +4,9 @@
 enum TokenType {
   AUTOMATIC_SEMICOLON,
   TEMPLATE_CHARS_SINGLE,
-  TEMPLATE_CHARS_DOUBLE
+  TEMPLATE_CHARS_DOUBLE,
+    TEMPLATE_CHARS_SINGLE_SINGLE,
+    TEMPLATE_CHARS_DOUBLE_SINGLE
 };
 
 void *tree_sitter_dart_external_scanner_create() { return NULL; }
@@ -53,26 +55,37 @@ static bool scan_whitespace_and_comments(TSLexer *lexer) {
 
 bool tree_sitter_dart_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
-  if (valid_symbols[TEMPLATE_CHARS_DOUBLE] || valid_symbols[TEMPLATE_CHARS_SINGLE]) {
+  if (valid_symbols[TEMPLATE_CHARS_DOUBLE] ||
+  valid_symbols[TEMPLATE_CHARS_SINGLE] ||
+  valid_symbols[TEMPLATE_CHARS_DOUBLE_SINGLE] ||
+  valid_symbols[TEMPLATE_CHARS_SINGLE_SINGLE]) {
              if (valid_symbols[AUTOMATIC_SEMICOLON]) return false;
              if(valid_symbols[TEMPLATE_CHARS_DOUBLE]) {
                           lexer->result_symbol = TEMPLATE_CHARS_DOUBLE;
-             } else {
+             } else if (valid_symbols[TEMPLATE_CHARS_SINGLE]) {
                           lexer->result_symbol = TEMPLATE_CHARS_SINGLE;
+             } else if (valid_symbols[TEMPLATE_CHARS_SINGLE_SINGLE]) {
+                          lexer->result_symbol = TEMPLATE_CHARS_SINGLE_SINGLE;
+             } else {
+                          lexer->result_symbol = TEMPLATE_CHARS_DOUBLE_SINGLE;
              }
              for (bool has_content = false;; has_content = true) {
                lexer->mark_end(lexer);
                switch (lexer->lookahead) {
                  case '\'':
-                   return has_content;
                  case '"':
                    return has_content;
+                 case '\n':
+                    if (valid_symbols[TEMPLATE_CHARS_DOUBLE_SINGLE] || valid_symbols[TEMPLATE_CHARS_SINGLE_SINGLE]) return false;
+                    advance(lexer);
+                    break;
                  case '\0':
                    return false;
                  case '$':
-                   advance(lexer);
-                   if (lexer->lookahead == '{') return has_content;
-                   break;
+//                   advance(lexer);
+//                   if (lexer->lookahead == '{') return has_content;
+//                   break;
+                    return has_content;
                  case '\\':
                    return has_content;
                  default:
