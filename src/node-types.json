@@ -3797,11 +3797,35 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "_type",
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "boolean_type",
+          "named": true
+        },
+        {
+          "type": "floating_point_type",
+          "named": true
+        },
+        {
+          "type": "generic_type",
+          "named": true
+        },
+        {
+          "type": "integral_type",
+          "named": true
+        },
+        {
+          "type": "scoped_type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]

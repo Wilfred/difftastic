@@ -34,7 +34,7 @@ import java.util.Vector;
 
 ---
 
-(program (import_declaration (identifier) (identifier) (identifier)))
+(program (import_specification (identifier) (identifier) (identifier)))
 
 ===========================
 type_import_on_declaraction
@@ -44,7 +44,7 @@ import java.util.*;
 
 ---
 
-(program (import_declaration (identifier) (identifier) (asterisk)))
+(program (import_specification (identifier) (identifier) (asterisk)))
 
 =================================
 single static import declaration
@@ -54,7 +54,7 @@ import static java.util.Vector;
 
 ---
 
-(program (import_declaration (identifier) (identifier) (identifier)))
+(program (import_specification (identifier) (identifier) (identifier)))
 
 ===================================
 static import on demand declaration
@@ -64,7 +64,7 @@ import static java.util.*;
 
 ---
 
-(program (import_declaration (identifier) (identifier) (asterisk)))
+(program (import_specification (identifier) (identifier) (asterisk)))
 
 =================
 class declaration
@@ -284,7 +284,7 @@ class Point {
                 (expression_statement
                     (method_invocation
                         name: (this)
-                        arguments: (argument_list
+                        arguments: (arguments
                             (decimal_integer_literal)
                             (decimal_integer_literal)
                             )
@@ -329,12 +329,12 @@ class Point {
           (expression_statement
             (object_creation_expression
               (type_identifier)
-              (argument_list)))
+              (arguments)))
           (expression_statement
             (object_creation_expression
               (identifier)
               (type_identifier)
-              (argument_list))))))))
+              (arguments))))))))
 
 =====================
 variable declaration

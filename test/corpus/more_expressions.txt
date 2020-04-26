@@ -50,7 +50,7 @@ class WhileDemo {
                   scope: (identifier)
                   name: (identifier))
                 name: (identifier)
-                arguments: (argument_list
+                arguments: (arguments
                   (binary_expression left: (string_literal) right: (identifier)))))
               (expression_statement (update_expression (identifier))))
               )
@@ -76,7 +76,7 @@ try (FileInputStream input = new FileInputStream("file.txt")) {
         name: (identifier)
         value: (object_creation_expression
           type: (type_identifier)
-          arguments: (argument_list (string_literal)))))
+          arguments: (arguments (string_literal)))))
     body: (block
       (local_variable_declaration
         type: (integral_type)
@@ -85,7 +85,7 @@ try (FileInputStream input = new FileInputStream("file.txt")) {
           value: (method_invocation
             object: (identifier)
             name: (identifier)
-            arguments: (argument_list)))))))
+            arguments: (arguments)))))))
 
 ==================================
 return statement
@@ -102,7 +102,7 @@ return fire(x);
   (return_statement (identifier))
   (return_statement (binary_expression (identifier) (identifier)))
   (return_statement (binary_expression (identifier) (decimal_integer_literal)))
-  (return_statement (method_invocation (identifier) (argument_list (identifier)))))
+  (return_statement (method_invocation (identifier) (arguments (identifier)))))
 
 ==================================
 annotation
@@ -120,13 +120,13 @@ class Duck {
   (class_definition
       (annotation
         (identifier)
-        (annotation_argument_list
+        (annotation_arguments
           (element_value_pair
             (identifier)
             (string_literal))))
       (annotation
         (identifier)
-        (annotation_argument_list
+        (annotation_arguments
           (element_value_pair
             (identifier)
             (true)
@@ -183,8 +183,8 @@ class Quack {
 
 (program
   (class_definition
-      (annotation (identifier) (annotation_argument_list (scoped_identifier (identifier) (identifier))))
-      (annotation (identifier) (annotation_argument_list (string_literal)))
+      (annotation (identifier) (annotation_arguments (scoped_identifier (identifier) (identifier))))
+      (annotation (identifier) (annotation_arguments (string_literal)))
     (identifier)
     (class_body)))
 
@@ -307,7 +307,7 @@ class SwitchDemo {
               scope: (identifier)
               name: (identifier))
             name: (identifier)
-            arguments: (argument_list (identifier))))))
+            arguments: (arguments (identifier))))))
             )))
 
 ==================================
@@ -373,11 +373,11 @@ type arguments with generic types
 
 class someClass <T> {
   List<T> someMethod() {
-     List< T > list = Collections.< T >emptyList();
+     List< T > list = Collections.<S>emptyList();
      return list;
   }
-  final <S> void anotherMethod(S arg) {
-     List< S > list = Collections.< S >emptyList();
+  void anotherMethod<T>(S arg) {
+     List< S > list = Collections.<T>emptyList();
   }
 }
 
@@ -405,16 +405,16 @@ class someClass <T> {
                   (identifier)
                   (method_invocation
                     (identifier)
-                    (type_arguments (type_identifier))
                     (identifier)
-                    (argument_list))))
+                     (type_arguments (type_identifier))
+                    (arguments))))
               (return_statement (identifier))))
-        (method_signature (function_signature (modifiers)
+        (method_signature (function_signature
+                  (void_type)
+                    (identifier)
           (type_parameters
             (type_parameter
               (identifier)))
-          (void_type)
-            (identifier)
             (formal_parameter_list
               (formal_parameter
                 (type_identifier)
@@ -431,7 +431,7 @@ class someClass <T> {
                     (identifier)
                     (type_arguments (type_identifier))
                     (identifier)
-                    (argument_list)))))))
+                    (arguments)))))))))
 
 ==================================
 empty type arguments
@@ -448,7 +448,7 @@ Box<Integer> integerBox = new Box<>();
       (identifier)
       (object_creation_expression
         (generic_type (type_identifier) (type_arguments))
-        (argument_list)))))
+        (arguments)))))
 
 =================
 method references

@@ -172,8 +172,8 @@ if (a)
     (parenthesized_expression (identifier))
     (if_statement
       (parenthesized_expression (identifier))
-      (expression_statement (method_invocation (identifier) (argument_list)))
-      (expression_statement (method_invocation (identifier) (argument_list))))))
+      (expression_statement (method_invocation (identifier) (arguments)))
+      (expression_statement (method_invocation (identifier) (arguments))))))
 
 ==================================
 ternary expressions
@@ -224,29 +224,29 @@ for (j.init(i); j.check(); j.update()) {
           scope: (identifier)
           name: (identifier))
         name: (identifier)
-        arguments: (argument_list (binary_expression
+        arguments: (arguments (binary_expression
           left: (string_literal)
           right: (identifier)))))))
   (for_statement
     init: (method_invocation
       object: (identifier)
       name: (identifier)
-      arguments: (argument_list (identifier)))
+      arguments: (arguments (identifier)))
     condition: (method_invocation
       object: (identifier)
       name: (identifier)
-      arguments: (argument_list))
+      arguments: (arguments))
     update: (method_invocation
       object: (identifier)
       name: (identifier)
-      arguments: (argument_list))
+      arguments: (arguments))
     body: (block
       (expression_statement (method_invocation
         object: (scoped_identifier
           scope: (identifier)
           name: (identifier))
         name: (identifier)
-        arguments: (argument_list (identifier)))))))
+        arguments: (arguments (identifier)))))))
 
 ================================
 Enhanced for statements
@@ -266,5 +266,5 @@ for (A b in c) {
     (block
       (expression_statement (method_invocation
         (identifier)
-        (argument_list (identifier)))))))
+        (arguments (identifier)))))))
 
