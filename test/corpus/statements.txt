@@ -620,6 +620,42 @@ def h(*a):
            (identifier)
            arguments: (argument_list (parenthesized_expression (parenthesized_expression (list_splat (identifier))))))))))
 
+
+==================================
+Empty blocks
+==================================
+
+# These are not actually valid python; blocks
+# must contain at least one statement. But we
+# allow them because error recovery for empty
+# blocks doesn't work very well otherwise.
+def a(b, c):
+
+if d:
+  print e
+  while f():
+
+---
+
+(module
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (function_definition
+    name: (identifier)
+    parameters: (parameters (identifier) (identifier))
+    body: (block))
+  (if_statement
+    condition: (identifier)
+    consequence: (block
+      (print_statement argument: (identifier))
+      (while_statement
+        condition: (call
+          function: (identifier)
+          arguments: (argument_list))
+        body: (block)))))
+
 ====================================================
 Class definitions
 ====================================================
