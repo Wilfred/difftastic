@@ -282,10 +282,7 @@ module.exports = grammar({
       field('name', $._type_identifier),
       field('type_parameters', optional($.type_parameters)),
       optional($.where_clause),
-      choice(
-        field('body', $.field_declaration_list),
-        ';'
-      )
+      field('body', $.field_declaration_list),
     ),
 
     enum_item: $ => seq(
