@@ -13,6 +13,26 @@ fn main() {
     (identifier))))
 
 ============================================
+Raw identifiers
+============================================
+
+fn main() {
+  (r#abc as r#Def).r#ghi;
+}
+
+---
+
+(source_file
+  (function_item
+    (identifier)
+    (parameters)
+    (block
+      (field_expression
+        (parenthesized_expression
+          (type_cast_expression (identifier) (type_identifier)))
+        (field_identifier)))))
+
+============================================
 Unary operator expressions
 ============================================
 
