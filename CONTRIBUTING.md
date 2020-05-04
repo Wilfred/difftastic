@@ -52,7 +52,7 @@ The recommendation is to be comprehensive in adding tests. If it's a visible nod
 Three of the "most popular" Java repositories have been cloned into the project under the `/examples` directory (where popularity is defined by repositories that are most starred and have highest number of active contributers within the last month). Parsing these repos allows us to gauge how well our grammar performs at parsing "real world" Java.
 
 _To test:_
-- `./script/parse-examples.rb` runs the tests and outputs them to `known-errors.txt`, representing the files that have any errors or `MISSING ;` flags.
+- `./script/parse-examples` runs the tests and outputs them to `known-errors.txt`, representing the files that have any errors or `MISSING ;` flags.
 - The goal is to drive down the errors in `known-errors.txt` to 0.
 - `known-errors.txt` allows you to find erroring files and parse them individually to diagnose and debug errors.
 

@@ -17,7 +17,7 @@ function clone_repo {
   fi
 
   pushd "$path" > /dev/null
-  if [ "$(git rev-parse head)" != "$sha"  ]; then
+  if [ "$(git rev-parse HEAD)" != "$sha"  ]; then
     echo "Updating $owner/$name to $sha"
     git fetch
     git reset --hard $sha
