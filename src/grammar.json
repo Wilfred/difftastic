@@ -755,7 +755,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "[/_\\-=->,;:::!=?.@*=/=&=#%=^=+<>|~]+"
+          "value": "[\\/_\\-=->,;:::!=?.@*=\\/=&=#%=^=+<>|~]+"
         },
         {
           "type": "STRING",
@@ -1308,21 +1308,12 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "body",
-              "content": {
-                "type": "SYMBOL",
-                "name": "field_declaration_list"
-              }
-            },
-            {
-              "type": "STRING",
-              "value": ";"
-            }
-          ]
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "field_declaration_list"
+          }
         }
       ]
     },
