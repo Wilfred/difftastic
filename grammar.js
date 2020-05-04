@@ -1416,7 +1416,7 @@ module.exports = grammar({
       $.scoped_identifier
     ),
 
-    identifier: $ => /[a-zA-Zα-ωΑ-Ωµ_][a-zA-Zα-ωΑ-Ωµ\d_]*/,
+    identifier: $ => /(r#)?[a-zA-Zα-ωΑ-Ωµ_][a-zA-Zα-ωΑ-Ωµ\d_]*/,
 
     _reserved_identifier: $ => alias(choice(
       'default',
