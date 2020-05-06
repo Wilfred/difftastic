@@ -19,17 +19,17 @@ Based on an export of the Roslyn grammar export with various changes in order to
 
 Comprehensive support for C# exists with the following exceptions:
 
-- [ ] [Non-ASCII identifiers](#37)
-- [ ] [Contextual keywords](#47)
-- [ ] [Global statements](#12)
+- [ ] [Non-ASCII identifiers](https://github.com/tree-sitter/tree-sitter-c-sharp/issues/37)
+- [ ] [Contextual keywords](https://github.com/tree-sitter/tree-sitter-c-sharp/issues/47)
+- [ ] [Global statements](https://github.com/tree-sitter/tree-sitter-c-sharp/issues/12)
 
 #### C# 7.0
 
-- [ ] [Tuples](#15)
+- [x] Tuples
 - [x] Discards
 - [x] Basic pattern matching
-- [ ] [Recursive pattern matching](#19)
-- [ ] [Ref locals and return](#14)
+- [x] [Recursive pattern matching](https://github.com/tree-sitter/tree-sitter-c-sharp/issues/19)
+- [x] Ref locals and return
 - [x] Local function statements
 - [x] Expression bodied constructors
 - [x] Expression bodied destructors/finalizers
