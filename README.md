@@ -3,8 +3,6 @@ tree-sitter-gdscript
 
 GDScript grammar for [tree-sitter][].
 
-NOTE: Not ready for use. @see Todo.
-
 ### Todo
 
 - [ ] Format Specifiers
