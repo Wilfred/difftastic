@@ -500,12 +500,17 @@ signal x
 signal x()
 signal x(a, b)
 
+signal x(a,)
+signal x(,)
+
 ---
 
 (source
   (signal_statement (name))
-  (signal_statement (name))
-  (signal_statement (name) (identifier_list (identifier) (identifier))))
+  (signal_statement (name) (signal_argument_list))
+  (signal_statement (name) (signal_argument_list (identifier) (identifier)))
+  (signal_statement (name) (signal_argument_list (identifier)))
+  (signal_statement (name) (signal_argument_list (ERROR))))
 
 =====================================
 Class Name

@@ -272,13 +272,15 @@ module.exports = grammar({
     continue_statement: $ => prec.left('continue'),
     tool_statement: $ => 'tool',
 
-    identifier_list: $ => commaSep1($.identifier, ','),
+    signal_argument_list: $ => seq(
+      '(',
+      optional(trailCommaSep1($.identifier, ',')),
+      ')'
+    ),
     signal_statement: $ => seq(
       'signal',
       $.name,
-      optional(seq(
-        '(', optional($.identifier_list), ')'
-      ))
+      optional($.signal_argument_list)
     ),
 
     class_name_icon_path: $ => $.string,

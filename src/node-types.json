@@ -2056,21 +2056,6 @@
     "fields": {}
   },
   {
-    "type": "identifier_list",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "if_statement",
     "named": true,
     "fields": {},
@@ -3203,6 +3188,21 @@
     "fields": {}
   },
   {
+    "type": "signal_argument_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "signal_statement",
     "named": true,
     "fields": {},
@@ -3211,11 +3211,11 @@
       "required": true,
       "types": [
         {
-          "type": "identifier_list",
+          "type": "name",
           "named": true
         },
         {
-          "type": "name",
+          "type": "signal_argument_list",
           "named": true
         }
       ]
