@@ -364,7 +364,7 @@ module.exports = grammar({
 
     enumerator_list: $ => seq(
       '{',
-      commaSep1($.enumerator),
+      trailCommaSep1($.enumerator),
       '}'
     ),
 

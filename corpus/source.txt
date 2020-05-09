@@ -591,6 +591,10 @@ enum {
   val3
 }
 
+enum A {
+  val1 = 1,
+}
+
 ---
 
 (source
@@ -603,4 +607,7 @@ enum {
     (enumerator_list
       (enumerator (identifier))
       (enumerator (identifier) (integer))
-      (enumerator (identifier)))))
+      (enumerator (identifier))))
+  (enum_definition (name)
+    (enumerator_list
+      (enumerator (identifier) (integer)))))
