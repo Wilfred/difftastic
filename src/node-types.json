@@ -1633,11 +1633,35 @@
       "required": true,
       "types": [
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
+          "type": "binary_operator",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        },
+        {
+          "type": "unary_operator",
           "named": true
         }
       ]

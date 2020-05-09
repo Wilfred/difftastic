@@ -1559,6 +1559,43 @@
         }
       ]
     },
+    "_enumerator_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "integer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "binary_operator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unary_operator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "attribute"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "subscript"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "call"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parenthesized_expression"
+        }
+      ]
+    },
     "enumerator": {
       "type": "SEQ",
       "members": [
@@ -1578,7 +1615,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "integer"
+                  "name": "_enumerator_expression"
                 }
               ]
             },

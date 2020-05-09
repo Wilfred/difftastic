@@ -367,9 +367,20 @@ module.exports = grammar({
       '}'
     ),
 
+    _enumerator_expression: $ => choice(
+      $.integer,
+      $.binary_operator,
+      $.identifier,
+      $.unary_operator,
+      $.attribute,
+      $.subscript,
+      $.call,
+      $.parenthesized_expression
+    ),
+
     enumerator: $ => seq(
       $.identifier,
-      optional(seq('=', $.integer))
+      optional(seq('=', $._enumerator_expression))
     ),
 
 // -----------------------------------------------------------------------------

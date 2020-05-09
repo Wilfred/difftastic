@@ -669,3 +669,28 @@ enum A {
   (enum_definition (name)
     (enumerator_list
       (enumerator (identifier) (integer)))))
+
+============================================
+Enumerator Expressions
+============================================
+
+enum {
+  A = 1 + 1,
+  B = Hello.World,
+  C = (Hello.World | 0xDEADBEEF),
+  D = int(true),
+  E = const_arr[0],
+  F = {one = 1},
+}
+
+---
+
+(source
+  (enum_definition
+    (enumerator_list
+      (enumerator (identifier) (binary_operator (integer) (integer)))
+      (enumerator (identifier) (attribute (identifier) (identifier)))
+      (enumerator (identifier) (parenthesized_expression (binary_operator (attribute (identifier) (identifier)) (integer))))
+      (enumerator (identifier) (call (identifier) (argument_list (true))))
+      (enumerator (identifier) (subscript (identifier) (integer)))
+      (enumerator (identifier)) (ERROR (dictionary (pair (identifier) (integer)))))))
