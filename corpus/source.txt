@@ -18,6 +18,37 @@ Math Expressions
       (binary_operator (identifier) (float))))))
 
 =====================================
+Boolean Operators
+=====================================
+
+x and (x && true)
+x or (x || true)
+not x and (!x)
+
+---
+
+(source
+  (expression_statement
+    (binary_operator
+      (identifier)
+      (parenthesized_expression
+        (binary_operator
+          (identifier)
+          (true)))))
+  (expression_statement
+    (binary_operator
+      (identifier)
+      (parenthesized_expression
+        (binary_operator
+          (identifier)
+          (true)))))
+  (expression_statement
+    (binary_operator
+      (unary_operator (identifier))
+      (parenthesized_expression
+        (unary_operator (identifier))))))
+
+=====================================
 Is Operator
 =====================================
 

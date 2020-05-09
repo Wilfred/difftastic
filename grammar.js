@@ -3,23 +3,22 @@ const PREC = {
   conditional: -1,
 
   parenthesized_expression: 1,
-  not: 1,
   compare: 2,
-  or: 10,
-  and: 11,
-  bitwise_or: 12,
-  bitwise_and: 13,
-  xor: 14,
-  shift: 15,
-  plus: 16,
-  times: 17,
-  power: 18,
-  unary: 19,
-  is: 20,
-  as: 20,
-  call: 21,
-  attribute: 22,
-  attribute_expression: 23
+  or: 3,
+  and: 4,
+  bitwise_or: 5,
+  bitwise_and: 6,
+  xor: 7,
+  shift: 8,
+  plus: 9,
+  times: 10,
+  power: 11,
+  unary: 12,
+  is: 13,
+  as: 14,
+  call: 15,
+  attribute: 16,
+  attribute_expression: 17
 }
 
 module.exports = grammar({
@@ -451,8 +450,6 @@ module.exports = grammar({
 
     _expression: $ => choice(
       $.comparison_operator,
-      $.not_operator,
-      $.boolean_operator,
       $._primary_expression,
       $.conditional_expression
     ),
@@ -501,14 +498,10 @@ module.exports = grammar({
     )),
 
     // -- Operators
-    not_operator: $ => prec(PREC.not, seq('not', $._expression)),
-
-    boolean_operator: $ => choice(
-      prec.left(PREC.and, seq($._expression, 'and', $._expression)),
-      prec.left(PREC.or, seq($._expression, 'or', $._expression))
-    ),
 
     binary_operator: $ => choice(
+      prec.left(PREC.and, seq($._primary_expression, choice('and', '&&'), $._primary_expression)),
+      prec.left(PREC.or, seq($._primary_expression, choice('or', '||'), $._primary_expression)),
       prec.left(PREC.plus, seq($._primary_expression, '+', $._primary_expression)),
       prec.left(PREC.plus, seq($._primary_expression, '-', $._primary_expression)),
       prec.left(PREC.times, seq($._primary_expression, '*', $._primary_expression)),
@@ -524,6 +517,7 @@ module.exports = grammar({
     ),
 
     unary_operator: $ => choice(
+      prec(PREC.unary, seq( choice('not', '!'), $._primary_expression)),
       prec(PREC.unary, seq('-', $._primary_expression)),
       prec(PREC.unary, seq('+', $._primary_expression)),
       prec(PREC.unary, seq('~', $._primary_expression))
@@ -711,16 +705,6 @@ module.exports = grammar({
       $._primary_expression,
       $.argument_list
     )),
-
-
-
-
-
-
-
-
-
-
 
   } // end rules
 
