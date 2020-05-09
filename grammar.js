@@ -608,8 +608,7 @@ module.exports = grammar({
 
     dictionary: $ => seq(
       '{',
-      optional(commaSep1($.pair)),
-      optional(','),
+      optional(trailCommaSep1($.pair)),
       '}'
     ),
 

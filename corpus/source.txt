@@ -49,7 +49,7 @@ x() as Y
   (expression_statement (binary_operator (call (identifier) (argument_list)) (identifier))))
 
 =====================================
-Array List
+Array
 =====================================
 
 [1]
@@ -69,6 +69,42 @@ Array List
   (expression_statement (array (integer)))
   (expression_statement (array (ERROR)))
   )
+
+=====================================
+Dictionary
+=====================================
+
+{a = 0.1, c:1, "e":$hello}
+{a = 0xBEEF, c:1 + 1, "e":f,}
+{(1 + 1) : "a"}
+{(1 + 1) = "a"}
+{,}
+
+---
+
+(source
+  (expression_statement
+    (dictionary
+      (pair (identifier) (float))
+      (pair (identifier) (integer))
+      (pair (string) (get_node))))
+  (expression_statement
+    (dictionary
+      (pair (identifier) (integer))
+      (pair (identifier) (binary_operator (integer) (integer)))
+      (pair (string) (identifier))))
+  (expression_statement
+    (dictionary
+      (pair
+        (parenthesized_expression (binary_operator (integer) (integer)))
+        (string))))
+  (expression_statement
+    (dictionary
+      (ERROR
+        (parenthesized_expression (binary_operator (integer) (integer)))
+        (string))))
+  (expression_statement
+    (dictionary (ERROR))))
 
 =====================================
 NodePath
