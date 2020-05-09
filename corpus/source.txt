@@ -165,17 +165,22 @@ export(Type) remote var a
 export(Type, Param) var a
 export(Type, "Param") var a = "a"
 
+export(Type,) var a
+export(,) var a
+
 ---
 
 (source
   (export_variable_statement (name))
   (export_variable_statement (name) (string))
   (export_variable_statement (remote_keyword) (name))
-  (export_variable_statement (argument_list (identifier)) (name))
-  (export_variable_statement (argument_list (identifier)) (name) (string))
-  (export_variable_statement (argument_list (identifier)) (remote_keyword) (name))
-  (export_variable_statement (argument_list (identifier) (identifier)) (name))
-  (export_variable_statement (argument_list (identifier) (string)) (name) (string)))
+  (export_variable_statement (export_argument_list (identifier)) (name))
+  (export_variable_statement (export_argument_list (identifier)) (name) (string))
+  (export_variable_statement (export_argument_list (identifier)) (remote_keyword) (name))
+  (export_variable_statement (export_argument_list (identifier) (identifier)) (name))
+  (export_variable_statement (export_argument_list (identifier) (string)) (name) (string))
+  (export_variable_statement (export_argument_list (identifier)) (name))
+  (export_variable_statement (export_argument_list (ERROR)) (name)))
 
 =====================================
 SetGet Variables

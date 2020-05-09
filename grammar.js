@@ -233,9 +233,15 @@ module.exports = grammar({
       $._variable_statement,
     ),
 
+    export_argument_list: $ => seq(
+      '(',
+      optional(trailCommaSep1($._expression)),
+      ')'
+    ),
+
     export_variable_statement: $ => seq(
       'export',
-      optional($.argument_list),
+      optional($.export_argument_list),
       optional($.remote_keyword),
       $._variable_statement
     ),
@@ -710,14 +716,14 @@ module.exports = grammar({
 
 })
 
-function commaSep(rule) {
-  return repeat()
+function sep1(rule, separator) {
+  return seq(rule, repeat(seq(separator, rule)))
 }
 
 function commaSep1(rule) {
   return sep1(rule, ',')
 }
 
-function sep1(rule, separator) {
-  return seq(rule, repeat(seq(separator, rule)))
+function trailCommaSep1(rule) {
+  return seq(sep1(rule, ','), optional(','))
 }
