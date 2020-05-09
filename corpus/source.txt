@@ -49,6 +49,28 @@ x() as Y
   (expression_statement (binary_operator (call (identifier) (argument_list)) (identifier))))
 
 =====================================
+Array List
+=====================================
+
+[1]
+[1, 2]
+[1, "a", 2]
+[
+	1,
+]
+[,]
+
+---
+
+(source
+  (expression_statement (array (integer)))
+  (expression_statement (array (integer) (integer)))
+  (expression_statement (array (integer) (string) (integer)))
+  (expression_statement (array (integer)))
+  (expression_statement (array (ERROR)))
+  )
+
+=====================================
 NodePath
 =====================================
 

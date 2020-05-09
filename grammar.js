@@ -463,7 +463,7 @@ module.exports = grammar({
       $.subscript,
       $.base_call,
       $.call,
-      $.list,
+      $.array,
       $.dictionary,
       $.parenthesized_expression
     ),
@@ -485,7 +485,7 @@ module.exports = grammar({
       $.subscript,
       $.base_call,
       $.call,
-      $.list,
+      $.array,
       $.dictionary,
       $.parenthesized_expression
     )),
@@ -613,10 +613,9 @@ module.exports = grammar({
       '}'
     ),
 
-    list: $ => seq(
+    array: $ => seq(
       '[',
-      optional(commaSep1($._expression)),
-      optional(','),
+      optional(trailCommaSep1($._expression)),
       ']'
     ),
 
