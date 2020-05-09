@@ -189,7 +189,6 @@ module.exports = grammar({
 
     expression_statement: $ => choice(
       $._expression,
-      seq(commaSep1($._expression), optional(',')),
       $.assignment,
       $.augmented_assignment,
     ),
