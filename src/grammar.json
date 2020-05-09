@@ -434,7 +434,7 @@
           },
           {
             "type": "PATTERN",
-            "value": "[0-9a-zA-Z_\\/\\- ]*"
+            "value": "[0-9a-zA-Z_/\\- ]*"
           },
           {
             "type": "CHOICE",
@@ -482,7 +482,7 @@
                   },
                   {
                     "type": "PATTERN",
-                    "value": "[0-9a-zA-Z_\\/\\- ]*"
+                    "value": "[0-9a-zA-Z_/\\- ]*"
                   },
                   {
                     "type": "CHOICE",
@@ -501,7 +501,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[a-zA-Z_][a-zA-Z_\\/0-9]*"
+                "value": "[a-zA-Z_][a-zA-Z_/0-9]*"
               }
             ]
           }

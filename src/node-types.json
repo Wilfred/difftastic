@@ -3768,131 +3768,23 @@
     }
   },
   {
-    "type": "comment",
-    "named": true
-  },
-  {
-    "type": "true",
-    "named": true
-  },
-  {
-    "type": "false",
-    "named": true
-  },
-  {
-    "type": "null",
-    "named": true
-  },
-  {
-    "type": "underscore",
-    "named": true
-  },
-  {
-    "type": "static_keyword",
-    "named": true
-  },
-  {
-    "type": "remote",
+    "type": "!=",
     "named": false
   },
   {
-    "type": "master",
+    "type": "%",
     "named": false
   },
   {
-    "type": "puppet",
+    "type": "%=",
     "named": false
   },
   {
-    "type": "remotesync",
+    "type": "&",
     "named": false
   },
   {
-    "type": "mastersync",
-    "named": false
-  },
-  {
-    "type": "puppetsync",
-    "named": false
-  },
-  {
-    "type": "escape_sequence",
-    "named": true
-  },
-  {
-    "type": "float",
-    "named": true
-  },
-  {
-    "type": "integer",
-    "named": true
-  },
-  {
-    "type": "node_path",
-    "named": true
-  },
-  {
-    "type": "get_node",
-    "named": true
-  },
-  {
-    "type": ",",
-    "named": false
-  },
-  {
-    "type": ":",
-    "named": false
-  },
-  {
-    "type": "=",
-    "named": false
-  },
-  {
-    "type": "setget",
-    "named": false
-  },
-  {
-    "type": "var",
-    "named": false
-  },
-  {
-    "type": "export",
-    "named": false
-  },
-  {
-    "type": "onready",
-    "named": false
-  },
-  {
-    "type": "const",
-    "named": false
-  },
-  {
-    "type": "return",
-    "named": false
-  },
-  {
-    "type": "pass",
-    "named": false
-  },
-  {
-    "type": "break",
-    "named": false
-  },
-  {
-    "type": "breakpoint_statement",
-    "named": true
-  },
-  {
-    "type": "continue",
-    "named": false
-  },
-  {
-    "type": "tool_statement",
-    "named": true
-  },
-  {
-    "type": "signal",
+    "type": "&=",
     "named": false
   },
   {
@@ -3904,7 +3796,35 @@
     "named": false
   },
   {
-    "type": "class_name",
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "*=",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": "+=",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "-=",
+    "named": false
+  },
+  {
+    "type": "->",
     "named": false
   },
   {
@@ -3912,11 +3832,107 @@
     "named": false
   },
   {
-    "type": "extends",
+    "type": "/",
     "named": false
   },
   {
-    "type": "if",
+    "type": "/=",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<<",
+    "named": false
+  },
+  {
+    "type": "<<=",
+    "named": false
+  },
+  {
+    "type": "<=",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "==",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
+    "named": false
+  },
+  {
+    "type": ">>",
+    "named": false
+  },
+  {
+    "type": ">>=",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "^=",
+    "named": false
+  },
+  {
+    "type": "_init",
+    "named": false
+  },
+  {
+    "type": "and",
+    "named": false
+  },
+  {
+    "type": "as",
+    "named": false
+  },
+  {
+    "type": "break",
+    "named": false
+  },
+  {
+    "type": "breakpoint_statement",
+    "named": true
+  },
+  {
+    "type": "class",
+    "named": false
+  },
+  {
+    "type": "class_name",
+    "named": false
+  },
+  {
+    "type": "const",
+    "named": false
+  },
+  {
+    "type": "continue",
     "named": false
   },
   {
@@ -3928,179 +3944,31 @@
     "named": false
   },
   {
-    "type": "for",
-    "named": false
-  },
-  {
-    "type": "in",
-    "named": false
-  },
-  {
-    "type": "while",
-    "named": false
-  },
-  {
-    "type": "class",
-    "named": false
-  },
-  {
     "type": "enum",
     "named": false
   },
   {
-    "type": "{",
-    "named": false
-  },
-  {
-    "type": "}",
-    "named": false
-  },
-  {
-    "type": "match",
-    "named": false
-  },
-  {
-    "type": "pattern_open_ending",
+    "type": "escape_sequence",
     "named": true
   },
   {
-    "type": "[",
+    "type": "export",
     "named": false
   },
   {
-    "type": "]",
+    "type": "extends",
     "named": false
   },
   {
-    "type": "not",
-    "named": false
+    "type": "false",
+    "named": true
   },
   {
-    "type": "and",
-    "named": false
+    "type": "float",
+    "named": true
   },
   {
-    "type": "or",
-    "named": false
-  },
-  {
-    "type": "+",
-    "named": false
-  },
-  {
-    "type": "-",
-    "named": false
-  },
-  {
-    "type": "*",
-    "named": false
-  },
-  {
-    "type": "/",
-    "named": false
-  },
-  {
-    "type": "%",
-    "named": false
-  },
-  {
-    "type": "|",
-    "named": false
-  },
-  {
-    "type": "&",
-    "named": false
-  },
-  {
-    "type": "^",
-    "named": false
-  },
-  {
-    "type": "<<",
-    "named": false
-  },
-  {
-    "type": ">>",
-    "named": false
-  },
-  {
-    "type": "is",
-    "named": false
-  },
-  {
-    "type": "as",
-    "named": false
-  },
-  {
-    "type": "~",
-    "named": false
-  },
-  {
-    "type": "<",
-    "named": false
-  },
-  {
-    "type": "<=",
-    "named": false
-  },
-  {
-    "type": "==",
-    "named": false
-  },
-  {
-    "type": "!=",
-    "named": false
-  },
-  {
-    "type": ">=",
-    "named": false
-  },
-  {
-    "type": ">",
-    "named": false
-  },
-  {
-    "type": "+=",
-    "named": false
-  },
-  {
-    "type": "-=",
-    "named": false
-  },
-  {
-    "type": "*=",
-    "named": false
-  },
-  {
-    "type": "/=",
-    "named": false
-  },
-  {
-    "type": "%=",
-    "named": false
-  },
-  {
-    "type": ">>=",
-    "named": false
-  },
-  {
-    "type": "<<=",
-    "named": false
-  },
-  {
-    "type": "&=",
-    "named": false
-  },
-  {
-    "type": "^=",
-    "named": false
-  },
-  {
-    "type": "|=",
-    "named": false
-  },
-  {
-    "type": "->",
+    "type": "for",
     "named": false
   },
   {
@@ -4108,7 +3976,135 @@
     "named": false
   },
   {
-    "type": "_init",
+    "type": "get_node",
+    "named": true
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "in",
+    "named": false
+  },
+  {
+    "type": "integer",
+    "named": true
+  },
+  {
+    "type": "is",
+    "named": false
+  },
+  {
+    "type": "master",
+    "named": false
+  },
+  {
+    "type": "mastersync",
+    "named": false
+  },
+  {
+    "type": "match",
+    "named": false
+  },
+  {
+    "type": "node_path",
+    "named": true
+  },
+  {
+    "type": "not",
+    "named": false
+  },
+  {
+    "type": "null",
+    "named": true
+  },
+  {
+    "type": "onready",
+    "named": false
+  },
+  {
+    "type": "or",
+    "named": false
+  },
+  {
+    "type": "pass",
+    "named": false
+  },
+  {
+    "type": "pattern_open_ending",
+    "named": true
+  },
+  {
+    "type": "puppet",
+    "named": false
+  },
+  {
+    "type": "puppetsync",
+    "named": false
+  },
+  {
+    "type": "remote",
+    "named": false
+  },
+  {
+    "type": "remotesync",
+    "named": false
+  },
+  {
+    "type": "return",
+    "named": false
+  },
+  {
+    "type": "setget",
+    "named": false
+  },
+  {
+    "type": "signal",
+    "named": false
+  },
+  {
+    "type": "static_keyword",
+    "named": true
+  },
+  {
+    "type": "tool_statement",
+    "named": true
+  },
+  {
+    "type": "true",
+    "named": true
+  },
+  {
+    "type": "underscore",
+    "named": true
+  },
+  {
+    "type": "var",
+    "named": false
+  },
+  {
+    "type": "while",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "|=",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
     "named": false
   }
 ]
