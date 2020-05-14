@@ -44,7 +44,7 @@ module.exports = grammar(C, {
       $.template_instantiation,
       alias($.constructor_or_destructor_definition, $.function_definition),
       alias($.operator_cast_definition, $.function_definition),
-      alias($.operator_cast_declaration, $._declaration),
+      alias($.operator_cast_declaration, $.declaration),
     ),
 
     // Types
