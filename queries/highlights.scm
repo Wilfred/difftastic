@@ -2,20 +2,20 @@
 
 ; Assume all-caps names are constants
 ((identifier) @constant
- (match? @constant "^[A-Z][A-Z\\d_]+$'"))
+ (#match? @constant "^[A-Z][A-Z\\d_]+$'"))
 
 ; Assume that uppercase names in paths are types
 ((scoped_identifier
   path: (identifier) @type)
- (match? @type "^[A-Z]"))
+ (#match? @type "^[A-Z]"))
 ((scoped_identifier
   path: (scoped_identifier
     name: (identifier) @type))
- (match? @type "^[A-Z]"))
+ (#match? @type "^[A-Z]"))
 
 ; Assume other uppercase names are enum constructors
 ((identifier) @constructor
- (match? @constructor "^[A-Z]"))
+ (#match? @constructor "^[A-Z]"))
 
 ; Function calls
 
