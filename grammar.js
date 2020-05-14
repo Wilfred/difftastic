@@ -47,6 +47,12 @@ module.exports = grammar({
     /\\?\s/,
   ],
 
+  supertypes: $ => [
+    $._statement,
+    $._expression,
+    $._primary_expression,
+  ],
+
   word: $ => $.word,
 
   rules: {

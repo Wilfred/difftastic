@@ -2505,6 +2505,10 @@
     "_simple_variable_name",
     "_special_variable_name"
   ],
-  "supertypes": []
+  "supertypes": [
+    "_statement",
+    "_expression",
+    "_primary_expression"
+  ]
 }
 
