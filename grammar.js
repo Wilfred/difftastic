@@ -29,6 +29,13 @@ module.exports = grammar({
     $.preprocessor_call
   ],
 
+  supertypes: $ => [
+    $._declaration,
+    $._expression,
+    $._statement,
+    $._type,
+  ],
+
   externals: $ => [
     $._preproc_directive_end,
   ],
@@ -137,11 +144,16 @@ module.exports = grammar({
     qualified_name: $ => prec(PREC.DOT, seq($._name, '.', $._simple_name)),
 
     attribute_list: $ => seq('[', optional($.attribute_target_specifier), commaSep1($.attribute), ']'),
+
     attribute_target_specifier: $ => seq(
       choice('field', 'event', 'method', 'param', 'property', 'return', 'type'),
       ':'
     ),
-    attribute: $ => seq($._name, optional($.attribute_argument_list)),
+
+    attribute: $ => seq(
+      field('name', $._name),
+      optional($.attribute_argument_list)
+    ),
 
     attribute_argument_list: $ => seq(
       '(',
@@ -238,8 +250,8 @@ module.exports = grammar({
     constructor_declaration: $ => seq(
       repeat($.attribute_list),
       repeat($.modifier),
-      $.identifier,
-      $.parameter_list,
+      field('name', $.identifier),
+      field('parameters', $.parameter_list),
       optional($.constructor_initializer),
       $._function_body
     ),
@@ -707,10 +719,10 @@ module.exports = grammar({
 
     local_function_statement: $ => seq(
       repeat($.modifier),
-      $.return_type,
-      $.identifier,
-      optional($.type_parameter_list),
-      $.parameter_list,
+      field('type', $.return_type),
+      field('name', $.identifier),
+      field('type_parameters', optional($.type_parameter_list)),
+      field('parameters', $.parameter_list),
       repeat($.type_parameter_constraints_clause),
       $._function_body
     ),
@@ -843,7 +855,7 @@ module.exports = grammar({
       '(',
       choice($.variable_declaration, $._expression),
       ')',
-      $._statement
+      field('body', $._statement)
     ),
 
     while_statement: $ => seq('while', '(', $._expression, ')', $._statement),
@@ -868,7 +880,7 @@ module.exports = grammar({
       optional('async'),
       choice($.parameter_list, $.identifier),
       '=>',
-      choice($.block, $._expression)
+      field('body', choice($.block, $._expression))
     )),
 
     anonymous_object_creation_expression: $ => seq(
@@ -898,9 +910,9 @@ module.exports = grammar({
     ),
 
     assignment_expression: $ => prec.right(seq(
-      $._expression,
+      field('left', $._expression),
       $.assignment_operator,
-      $._expression
+      field('right', $._expression)
     )),
 
     assignment_operator: $ => choice('=', '+=', '-=', '*=', '/=', '%=', '&=', '^=', '|=', '<<=', '>>=', '??='),
@@ -920,9 +932,9 @@ module.exports = grammar({
     ),
 
     conditional_access_expression: $ => prec.right(seq(
-      $._expression,
+      field('condition', $._expression),
       '?',
-      $._expression
+      field('value', $._expression)
     )),
 
     conditional_expression: $ => prec.right(PREC.COND, seq(
@@ -947,7 +959,10 @@ module.exports = grammar({
       ))
     )),
 
-    element_access_expression: $ => seq($._expression, $.bracketed_argument_list),
+    element_access_expression: $ => seq(
+      field('expression', $._expression),
+      field('subscript', $.bracketed_argument_list)
+    ),
 
     element_binding_expression: $ => $.bracketed_argument_list,
 
@@ -1006,14 +1021,14 @@ module.exports = grammar({
     interpolation_format_clause: $ => seq(':', /[^}"]+/),
 
     invocation_expression: $ => seq(
-      $._expression,
-      $.argument_list
+      field('function', $._expression),
+      field('arguments', $.argument_list)
     ),
 
     is_pattern_expression: $ => prec.left(PREC.EQUAL, seq(
-      $._expression,
+      field('expression', $._expression),
       'is',
-      $._pattern
+      field('pattern', $._pattern)
     )),
 
     make_ref_expression: $ => seq(
