@@ -2965,6 +2965,11 @@
     }
   },
   {
+    "type": "word",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "\n",
     "named": false
   },
@@ -3201,12 +3206,20 @@
     "named": false
   },
   {
+    "type": "file_descriptor",
+    "named": true
+  },
+  {
     "type": "for",
     "named": false
   },
   {
     "type": "function",
     "named": false
+  },
+  {
+    "type": "heredoc_start",
+    "named": true
   },
   {
     "type": "if",
@@ -3227,6 +3240,10 @@
   {
     "type": "readonly",
     "named": false
+  },
+  {
+    "type": "regex",
+    "named": true
   },
   {
     "type": "special_variable_name",
@@ -3259,10 +3276,6 @@
   {
     "type": "while",
     "named": false
-  },
-  {
-    "type": "word",
-    "named": true
   },
   {
     "type": "{",
