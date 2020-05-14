@@ -2,21 +2,21 @@
 ;--------------------
 
 ((identifier) @constant
- (match? @constant "^[A-Z][A-Z_]+$"))
+ (#match? @constant "^[A-Z][A-Z_]+$"))
 
 ((shorthand_property_identifier) @constant
- (match? @constant "^[A-Z][A-Z_]+$"))
+ (#match? @constant "^[A-Z][A-Z_]+$"))
 
 ((identifier) @constructor
- (match? @constructor "^[A-Z]"))
+ (#match? @constructor "^[A-Z]"))
 
 ((identifier) @variable.builtin
- (match? @variable.builtin "^(arguments|module|console|window|document)$")
- (is-not? local))
+ (#match? @variable.builtin "^(arguments|module|console|window|document)$")
+ (#is-not? local))
 
 ((identifier) @function.builtin
- (eq? @function.builtin "require")
- (is-not? local))
+ (#eq? @function.builtin "require")
+ (#is-not? local))
 
 ; Function and method definitions
 ;--------------------------------
