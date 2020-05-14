@@ -390,46 +390,6 @@
     ]
   },
   {
-    "type": "_declaration",
-    "named": true,
-    "fields": {
-      "declarator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "operator_cast",
-            "named": true
-          }
-        ]
-      },
-      "default_value": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "explicit_function_specifier",
-          "named": true
-        },
-        {
-          "type": "virtual_function_specifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "abstract_array_declarator",
     "named": true,
     "fields": {
@@ -1214,10 +1174,6 @@
       "required": false,
       "types": [
         {
-          "type": "_declaration",
-          "named": true
-        },
-        {
           "type": "_statement",
           "named": true
         },
@@ -1434,7 +1390,7 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "_expression",
@@ -1490,10 +1446,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "_declaration",
-          "named": true
-        },
         {
           "type": "_statement",
           "named": true
@@ -3290,10 +3242,6 @@
       "required": false,
       "types": [
         {
-          "type": "_declaration",
-          "named": true
-        },
-        {
           "type": "_statement",
           "named": true
         },
@@ -3388,10 +3336,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "_declaration",
-          "named": true
-        },
         {
           "type": "_statement",
           "named": true
@@ -3577,10 +3521,6 @@
       "required": false,
       "types": [
         {
-          "type": "_declaration",
-          "named": true
-        },
-        {
           "type": "_statement",
           "named": true
         },
@@ -3700,10 +3640,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "_declaration",
-          "named": true
-        },
         {
           "type": "_statement",
           "named": true
@@ -4599,10 +4535,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "_declaration",
-          "named": true
-        },
         {
           "type": "_statement",
           "named": true
