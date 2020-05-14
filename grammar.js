@@ -320,7 +320,7 @@ module.exports = grammar({
 
     file_redirect: $ => prec.left(seq(
       field('descriptor', optional($.file_descriptor)),
-      choice('<', '>', '>>', '&>', '&>>', '<&', '>&'),
+      choice('<', '>', '>>', '&>', '&>>', '<&', '>&', '>|'),
       field('destination', $._literal)
     )),
 
