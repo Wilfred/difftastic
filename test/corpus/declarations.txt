@@ -1013,30 +1013,30 @@ A::B::operator C();
 ---
 
 (translation_unit
-  (_declaration
+  (declaration
     (operator_cast
       (primitive_type)
       (abstract_function_declarator (parameter_list) (type_qualifier))))
-  (_declaration
+  (declaration
     (explicit_function_specifier)
     (operator_cast
       (primitive_type)
       (abstract_pointer_declarator (abstract_function_declarator (parameter_list) (type_qualifier)))))
-  (_declaration
+  (declaration
     (operator_cast
       (type_identifier)
       (abstract_pointer_declarator (abstract_function_declarator (parameter_list)))))
-  (_declaration (operator_cast
+  (declaration (operator_cast
     (type_identifier)
     (abstract_reference_declarator (abstract_function_declarator (parameter_list)))))
-  (_declaration
+  (declaration
     (operator_cast
       (auto)
       (abstract_function_declarator (parameter_list) (type_qualifier))))
-  (_declaration
+  (declaration
     (virtual_function_specifier)
     (operator_cast (type_identifier) (abstract_function_declarator (parameter_list))) (number_literal))
-  (_declaration
+  (declaration
     (operator_cast
       (scoped_namespace_identifier (namespace_identifier) (namespace_identifier))
       (type_identifier) (abstract_function_declarator (parameter_list)))))
