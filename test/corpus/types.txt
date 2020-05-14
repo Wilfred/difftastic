@@ -20,7 +20,7 @@ class Beyonce {
     (class_body
       (method_signature
         (function_signature
-        (integral_type)
+        (type_identifier)
         (identifier)
 
                 (formal_parameter_list)
@@ -29,20 +29,33 @@ class Beyonce {
           (function_body
             (block
               (local_variable_declaration
-                (integral_type)
-                  (variable_declarator (identifier)))
+              (initialized_variable_definition
+              (type_identifier)
+                  (identifier)))
               (local_variable_declaration
-                (integral_type)
-                  (variable_declarator (identifier)))
+              (initialized_variable_definition
+
+                (type_identifier)
+                  (identifier)
+                  ))
               (local_variable_declaration
-                (integral_type)
-                  (variable_declarator (identifier)))
+              (initialized_variable_definition
+
+                (type_identifier)
+                  (identifier)
+                  ))
               (local_variable_declaration
-                (integral_type)
-                  (variable_declarator (identifier)))
+              (initialized_variable_definition
+
+                (type_identifier)
+                  (identifier)
+                  ))
               (local_variable_declaration
-                (integral_type)
-                  (variable_declarator (identifier)))
+              (initialized_variable_definition
+
+                (type_identifier)
+                  (identifier)
+                  ))
               )
            )
 
@@ -69,7 +82,7 @@ class Beyonce {
     (class_body
       (method_signature
         (function_signature
-        (integral_type)
+        (type_identifier)
         (identifier)
                         (formal_parameter_list)
         )
@@ -77,9 +90,15 @@ class Beyonce {
         (function_body
         (block
           (local_variable_declaration
-            (floating_point_type)
-            (variable_declarator (identifier)))
+          (initialized_variable_definition
+
+            (type_identifier)
+            (identifier)
+          ))
           (local_variable_declaration
-            (floating_point_type)
-            (variable_declarator (identifier)))))
+          (initialized_variable_definition
+
+            (type_identifier)
+            (identifier)
+          ))))
             )))

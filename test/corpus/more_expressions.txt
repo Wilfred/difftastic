@@ -3,7 +3,7 @@ while statement
 ==================================
 
 class WhileDemo {
-    void main(String[] args){
+    void main(String args){
         int count = 1;
         while (count < 11) {
             System.out.println("Count is: " + count);
@@ -24,9 +24,7 @@ class WhileDemo {
         (identifier)
         (formal_parameter_list
           (formal_parameter
-            type: (array_type
-              element: (type_identifier)
-              dimensions: (dimensions))
+             (type_identifier)
             name: (identifier)))
 
             )
@@ -34,58 +32,110 @@ class WhileDemo {
 
         (function_body
         (block
-          (local_variable_declaration
-            type: (integral_type)
-            declarator: (variable_declarator
+          (local_variable_declaration (initialized_variable_definition
+              (type_identifier)
               name: (identifier)
               value: (decimal_integer_literal)))
           (while_statement
             condition: (parenthesized_expression
-              (binary_expression
-                left: (identifier)
-                right: (decimal_integer_literal)))
+              (relational_expression
+                 (identifier)
+                (relational_operator)
+                 (decimal_integer_literal)))
             body: (block
-              (expression_statement (method_invocation
-                object: (scoped_identifier
-                  scope: (identifier)
-                  name: (identifier))
-                name: (identifier)
-                arguments: (arguments
-                  (binary_expression left: (string_literal) right: (identifier)))))
-              (expression_statement (update_expression (identifier))))
+                (expression_statement
+                    (identifier)
+                    (selector
+                      (assignable_selector
+                          (unconditional_assignable_selector (identifier))
+                      )
+                    )
+                    (selector
+                      (assignable_selector
+                          (unconditional_assignable_selector (identifier))
+                      )
+                    )
+                    (selector
+                      (argument_part (arguments
+                        (additive_expression
+                            (string_literal)
+                            (additive_operator)
+                            (identifier)
+                        )
+                      ))
+                    )
+                )
+              (expression_statement
+                (postfix_expression (assignable_expression (identifier)) (postfix_operator (increment_operator)))
               )
-              ))
-              )
-              ))
+            )
+          )
+        )
+      )
+    )
+  )
+)
 
 ==================================
 try-with-resources statements
 ==================================
 
-try (FileInputStream input = new FileInputStream("file.txt")) {
-  int data = input.read();
+
+get a {
+var a;
+    try {
+          int data = input.read();
+    } on Exception catch (e) {
+        a();
+    }
 }
 
 ---
 
-(program
-  (try_with_resources_statement
-    resources: (resource_specification
-      (resource
-        type: (type_identifier)
-        name: (identifier)
-        value: (object_creation_expression
-          type: (type_identifier)
-          arguments: (arguments (string_literal)))))
-    body: (block
-      (local_variable_declaration
-        type: (integral_type)
-        declarator: (variable_declarator
-          name: (identifier)
-          value: (method_invocation
-            object: (identifier)
-            name: (identifier)
-            arguments: (arguments)))))))
+(program (identifier)
+    (function_body
+         (block
+            (local_variable_declaration (initialized_variable_definition (inferred_type) name: (identifier)))
+              (try_statement
+                body: (block
+                  (local_variable_declaration
+                   (initialized_variable_definition
+                      (type_identifier)
+                      name: (identifier)
+                      value: (identifier)
+                      value:
+                            (selector
+                                (assignable_selector
+                                    (unconditional_assignable_selector (identifier))
+                                )
+                            )
+                      value:
+                      (selector
+                            (argument_part
+                                (arguments)
+                            )
+                      )
+                   )
+                )
+              )
+               (type_identifier)
+              (catch_clause
+                (identifier))
+                 (block
+                    (expression_statement
+                        (identifier)
+                        (selector
+                            (argument_part
+                                (arguments)
+                            )
+                        )
+                    )
+                 )
+              )
+
+        )
+    )
+)
 
 ==================================
 return statement
@@ -100,9 +150,9 @@ return fire(x);
 
 (program
   (return_statement (identifier))
-  (return_statement (binary_expression (identifier) (identifier)))
-  (return_statement (binary_expression (identifier) (decimal_integer_literal)))
-  (return_statement (method_invocation (identifier) (arguments (identifier)))))
+  (return_statement (multiplicative_expression (identifier) (multiplicative_operator) (identifier)))
+  (return_statement (additive_expression (identifier) (additive_operator) (decimal_integer_literal)))
+  (return_statement (identifier) (selector (argument_part (arguments (identifier))))))
 
 ==================================
 annotation
@@ -120,20 +170,12 @@ class Duck {
   (class_definition
       (annotation
         (identifier)
-        (annotation_arguments
-          (element_value_pair
-            (identifier)
-            (string_literal))))
+            (arguments (assignment_expression (assignable_expression (identifier)) (string_literal)))
+        )
       (annotation
         (identifier)
-        (annotation_arguments
-          (element_value_pair
-            (identifier)
-            (true)
-            )
-          )
+            (arguments (assignment_expression (assignable_expression (identifier)) (true)))
         )
-
     (identifier)
     (class_body)
   )
@@ -183,8 +225,10 @@ class Quack {
 
 (program
   (class_definition
-      (annotation (identifier) (annotation_arguments (scoped_identifier (identifier) (identifier))))
-      (annotation (identifier) (annotation_arguments (string_literal)))
+      (annotation (identifier)
+      (arguments (identifier) (selector (assignable_selector (unconditional_assignable_selector (identifier)))))
+      )
+      (annotation (identifier) (arguments (string_literal)))
     (identifier)
     (class_body)))
 
@@ -194,8 +238,8 @@ lambda expression
 
 class LambdaTest {
   void singleton() {
-    (Str version) => create;
-    (Str a) {
+    var b = (Str version) => create;
+    var d = (Str a) {
      int destinysChild = 2;
      };
   }
@@ -213,30 +257,39 @@ class LambdaTest {
         (formal_parameter_list)))
         (function_body
         (block
-          (expression_statement (lambda_expression
-            (formal_parameter_list (formal_parameter (type_identifier) (identifier)))
-            (function_expression_body (identifier))))
-          (expression_statement (lambda_expression
-            (formal_parameter_list (formal_parameter (type_identifier) (identifier)) )
-            (function_expression_body
-            (block
-                      (local_variable_declaration
-                         (integral_type)
-                         (variable_declarator
-                           (identifier)
-                           (decimal_integer_literal)))
-            )))
-            )))
+          (local_variable_declaration
+                (initialized_variable_definition (inferred_type) (identifier)
+                    (function_expression
+                        (formal_parameter_list (formal_parameter (type_identifier) (identifier)))
+                        (function_expression_body (identifier))
+                     )
+            )
+          )
+          (local_variable_declaration
+              (initialized_variable_definition
+              (inferred_type) (identifier) (function_expression
+                (formal_parameter_list (formal_parameter (type_identifier) (identifier)) )
+                (function_expression_body
+                (block
+                          (local_variable_declaration
+                            (initialized_variable_definition
+                             (type_identifier)
+
+                               (identifier)
+                               (decimal_integer_literal)))
+                )))
+                )
+            ))
 
 
-      )))
+      ))))
 
 ==================================
 switch statement
 ==================================
 
 class SwitchDemo {
-  static void main(String[] args) {
+  static void main(String args) {
     int destinysChild = 2;
     String destinysChildString;
     switch (destinysChild) {
@@ -264,51 +317,70 @@ class SwitchDemo {
         (identifier)
         (formal_parameter_list
           (formal_parameter
-            type: (array_type
-              element: (type_identifier)
-              dimensions: (dimensions))
-            name: (identifier)))
+            (type_identifier)
+            name: (identifier)
+          )
+        )
 
             ))
         (function_body (block
           (local_variable_declaration
-            type: (integral_type)
-            declarator: (variable_declarator
+            (initialized_variable_definition
+            (type_identifier)
               name: (identifier)
-              value: (decimal_integer_literal)))
+              value: (decimal_integer_literal)
+            )
+          )
           (local_variable_declaration
-            type: (type_identifier)
-            declarator: (variable_declarator name: (identifier)))
+            (initialized_variable_definition
+                (type_identifier)
+                name: (identifier)
+            )
+          )
           (switch_statement
             condition: (parenthesized_expression (identifier))
             body: (switch_block
               (switch_label (decimal_integer_literal))
               (expression_statement (assignment_expression
-                left: (identifier)
+                left: (assignable_expression (identifier))
                 right: (string_literal)))
               (break_statement)
               (switch_label (decimal_integer_literal))
               (expression_statement (assignment_expression
-                left: (identifier)
+                left: (assignable_expression (identifier))
                 right: (string_literal)))
               (break_statement)
               (switch_label (decimal_integer_literal))
               (expression_statement (assignment_expression
-                left: (identifier)
+                left: (assignable_expression (identifier))
                 right: (string_literal)))
               (break_statement)
               (switch_label)
               (expression_statement (assignment_expression
-                left: (identifier)
+                left: (assignable_expression (identifier))
                 right: (string_literal)))
               (break_statement)))
-          (expression_statement (method_invocation
-            object: (scoped_identifier
-              scope: (identifier)
-              name: (identifier))
-            name: (identifier)
-            arguments: (arguments (identifier))))))
-            )))
+          (expression_statement
+              (identifier)
+              (selector
+                (assignable_selector
+                    (unconditional_assignable_selector (identifier))
+                )
+              )
+              (selector
+                (assignable_selector
+                    (unconditional_assignable_selector (identifier))
+                )
+              )
+              (selector
+                (argument_part (arguments (identifier)))
+              )
+          )
+        )
+      )
+    )
+  )
+)
 
 ==================================
 type arguments
@@ -341,7 +413,7 @@ class Box <T> {
             (identifier)))))
         (function_body
           (block (expression_statement (assignment_expression
-            (identifier)
+            (assignable_expression (identifier))
               (identifier)))))
       (comment))))
 
@@ -350,7 +422,7 @@ wildcard
 ==================================
 
 class WildcardDemo {
-  List<? extends B> a;
+  List<B> a;
 }
 
 ---
@@ -360,10 +432,10 @@ class WildcardDemo {
     (identifier)
       (class_body
         (declaration
-          (generic_type
+
             (type_identifier)
             (type_arguments
-              (wildcard (type_identifier))))
+              (type_identifier))
           (initialized_identifier_list (initialized_identifier (identifier)))
           ))))
 
@@ -373,11 +445,12 @@ type arguments with generic types
 
 class someClass <T> {
   List<T> someMethod() {
-     List< T > list = Collections.<S>emptyList();
+     List< T > list = Collections.emptyList<S>();
+     emptyList<S, H>(g);
      return list;
   }
   void anotherMethod<T>(S arg) {
-     List< S > list = Collections.<T>emptyList();
+     List< S > list = Collections.emptyList<S>();
   }
 }
 
@@ -390,24 +463,46 @@ class someClass <T> {
       (type_parameter
         (identifier)))
       (class_body
-        (method_signature (function_signature (generic_type
+        (method_signature (function_signature
               (type_identifier)
-              (type_arguments (type_identifier)))
+              (type_arguments (type_identifier))
             (identifier)
             (formal_parameter_list)
             ))
             (function_body (block
               (local_variable_declaration
-                (generic_type
+              (initialized_variable_definition
                   (type_identifier)
-                  (type_arguments (type_identifier)))
-                (variable_declarator
+                  (type_arguments (type_identifier))
                   (identifier)
-                  (method_invocation
                     (identifier)
+                    (selector
+                        (assignable_selector
+                            (unconditional_assignable_selector (identifier))
+                        )
+                    )
+                    (selector
+                        (argument_part
+                            (type_arguments
+                                (type_identifier)
+                            )
+                            (arguments)
+                        )
+                    )
+                  )
+              )
+              (expression_statement
                     (identifier)
-                     (type_arguments (type_identifier))
-                    (arguments))))
+                    (selector
+                        (argument_part
+                            (type_arguments
+                                (type_identifier)
+                                (type_identifier)
+                            )
+                            (arguments (identifier))
+                        )
+                    )
+              )
               (return_statement (identifier))))
         (method_signature (function_signature
                   (void_type)
@@ -422,16 +517,33 @@ class someClass <T> {
             ))
             (function_body (block
               (local_variable_declaration
-                (generic_type
-                  (type_identifier)
-                  (type_arguments (type_identifier)))
-                (variable_declarator
-                  (identifier)
-                  (method_invocation
-                    (identifier)
+                (initialized_variable_definition
+                    (type_identifier)
                     (type_arguments (type_identifier))
                     (identifier)
-                    (arguments)))))))))
+                    (identifier)
+                    (selector
+                        (assignable_selector
+                            (unconditional_assignable_selector
+                                (identifier)
+                            )
+                        )
+                    )
+                    (selector
+                        (argument_part
+                            (type_arguments
+                                (type_identifier)
+                            ) (arguments)
+                        )
+                    )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+
 
 ==================================
 empty type arguments
@@ -443,28 +555,13 @@ Box<Integer> integerBox = new Box<>();
 
 (program
   (local_variable_declaration
-    (generic_type (type_identifier) (type_arguments (type_identifier)))
-    (variable_declarator
+  (initialized_variable_definition
+
+    (type_identifier) (type_arguments (type_identifier))
       (identifier)
-      (object_creation_expression
-        (generic_type (type_identifier) (type_arguments))
-        (arguments)))))
+      (new_expression
+        (type_identifier) (type_arguments)
+        (arguments))
+  )
+  ))
 
-=================
-method references
-=================
-
-action = bar::method;
-foo.bar::method;
-String[]::new;
-Foo<T>::apply;
-super::something;
-
----
-
-(program
-  (expression_statement (assignment_expression (identifier) (method_reference (identifier) (identifier))))
-  (expression_statement (method_reference (scoped_identifier (identifier) (identifier)) (identifier)))
-  (expression_statement (method_reference (array_type (type_identifier) (dimensions))))
-  (expression_statement (method_reference (generic_type (type_identifier) (type_arguments (type_identifier))) (identifier)))
-  (expression_statement (method_reference (super) (identifier))))

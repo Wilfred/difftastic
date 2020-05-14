@@ -15,14 +15,13 @@ class A {
     name: (identifier)
     body: (class_body
       (method_signature (function_signature
-         (integral_type)
+         (type_identifier)
          (identifier)
          (formal_parameter_list))
         )
         (function_body (block
-          (local_variable_declaration
-            type: (integral_type)
-            declarator: (variable_declarator
+          (local_variable_declaration (initialized_variable_definition
+          (type_identifier)
               name: (identifier)
               value: (decimal_integer_literal))))))))
 
@@ -30,41 +29,41 @@ class A {
 single type import declaration
 ===============================
 
-import java.util.Vector;
+import 'package:dektor/catalog.dart';
 
 ---
 
-(program (import_specification (identifier) (identifier) (identifier)))
+(program (import_or_export (library_import (import_specification  (configurable_uri (uri (string_literal)))))))
 
 ===========================
 type_import_on_declaraction
 ===========================
 
-import java.util.*;
+import 'package:dektor/catalog.dart';
 
 ---
 
-(program (import_specification (identifier) (identifier) (asterisk)))
+(program (import_or_export (library_import (import_specification  (configurable_uri (uri (string_literal)))))))
 
 =================================
 single static import declaration
 =================================
 
-import static java.util.Vector;
+import 'package:dektor/catalog.dart';
 
 ---
 
-(program (import_specification (identifier) (identifier) (identifier)))
+(program (import_or_export (library_import (import_specification (configurable_uri (uri (string_literal)))))))
 
 ===================================
 static import on demand declaration
 ===================================
 
-import static java.util.*;
+import 'package:dektor/catalog.dart';
 
 ---
 
-(program (import_specification (identifier) (identifier) (asterisk)))
+(program (import_or_export (library_import (import_specification  (configurable_uri (uri (string_literal)))))))
 
 =================
 class declaration
@@ -112,7 +111,7 @@ class declaration with implements
 (program
   (class_definition
      (identifier)
-     (super_interfaces (type_identifier)) (class_body)))
+     (interfaces (type_identifier)) (class_body)))
 
 ============================
 class declaration with body
@@ -149,52 +148,7 @@ class Point {
         (function_body
         (block
           (expression_statement
-            (assignment_expression (identifier) (decimal_integer_literal))))))))
-
-======================
-interface declaration
-======================
-
-interface Top {
-}
-
----
-
-(program
-  (interface_declaration
-    (identifier)
-    (interface_body)))
-
-===================================
-interface declaration with extends
-===================================
-
-interface Left extends Top {
-}
-
-interface Bottom extends Left, Right {}
-
----
-
-(program
-  (interface_declaration
-    (identifier)
-    (extends_interfaces (interface_type_list (type_identifier)))
-    (interface_body))
-  (interface_declaration
-    (identifier)
-    (extends_interfaces (interface_type_list (type_identifier) (type_identifier))) (interface_body)))
-
-===========================================
-interface with annotation type declaration
-===========================================
-
-@interface SelfRef {}
-
----
-
-(program
-  (annotation_type_declaration (identifier) (annotation_type_body)))
+            (assignment_expression (assignable_expression (identifier)) (decimal_integer_literal))))))))
 
 ===================
 method declaration
@@ -217,10 +171,10 @@ class Beyonce {
         (void_type)
         (identifier)
         (formal_parameter_list
-          (formal_parameter (floating_point_type) (identifier))
-          (formal_parameter (integral_type) (identifier))
-          (formal_parameter (floating_point_type) (identifier))
-          (formal_parameter (floating_point_type) (identifier))))
+          (formal_parameter (type_identifier) (identifier))
+          (formal_parameter (type_identifier) (identifier))
+          (formal_parameter (type_identifier) (identifier))
+          (formal_parameter (type_identifier) (identifier))))
         )
         (function_body
         (block (comment))))))
@@ -249,7 +203,7 @@ class Point {
     name: (identifier)
     body: (class_body
       (declaration
-        (integral_type)
+        (type_identifier)
         (initialized_identifier_list
         (initialized_identifier (identifier))
         (initialized_identifier (identifier))
@@ -259,22 +213,35 @@ class Point {
         name: (identifier)
         parameters: (formal_parameter_list
           (formal_parameter
-            type: (integral_type)
+             (type_identifier)
             name: (identifier))
           (formal_parameter
-            type: (integral_type)
+             (type_identifier)
             name: (identifier)))))
         (function_body
           (block (expression_statement (assignment_expression
-            left: (field_access
-              object: (this)
-              field: (identifier))
-            right: (identifier)))
+            left: (assignable_expression
+                    (this)
+                (assignable_selector_part
+                    (assignable_selector
+                        (unconditional_assignable_selector (identifier))
+                    )
+                )
+             )
+            right: (identifier))
+            )
           (expression_statement (assignment_expression
-            left: (field_access
-              object: (this)
-              field: (identifier))
-            right: (identifier)))))
+              left: (assignable_expression
+                      (this)
+                  (assignable_selector_part
+                      (assignable_selector
+                          (unconditional_assignable_selector (identifier))
+                      )
+                  )
+               )
+              right: (identifier))
+          )
+            ))
       (method_signature (constructor_signature
         name: (identifier)
         name: (identifier)
@@ -282,26 +249,32 @@ class Point {
         (function_body
             (block
                 (expression_statement
-                    (method_invocation
-                        name: (this)
-                        arguments: (arguments
-                            (decimal_integer_literal)
-                            (decimal_integer_literal)
+                      (this)
+                      (selector
+                            (argument_part
+                                    (arguments
+                                        (decimal_integer_literal)
+                                        (decimal_integer_literal)
+                                    )
                             )
-                    )
+                      )
+
                 )
             )
          )
       (declaration
-      (constructor_signature
-        name: (identifier)
-        name: (identifier)
-        parameters: (formal_parameter_list
-        (constructor_param (identifier))
-        (constructor_param (identifier))
-        ))))
-              )
-              )
+          (constructor_signature
+            name: (identifier)
+            name: (identifier)
+            parameters: (formal_parameter_list
+                (formal_parameter (constructor_param (this) (identifier)))
+                (formal_parameter (constructor_param (this) (identifier)))
+            )
+          )
+      )
+    )
+  )
+)
 
 ======================
 object instantiation
@@ -310,7 +283,6 @@ object instantiation
 class Point {
   double Foo() {
     new BufferedWriter();
-    Foo.new BufferedWriter();
   }
 }
 
@@ -321,20 +293,16 @@ class Point {
     (identifier)
     (class_body
       (method_signature (function_signature
-        (floating_point_type)
+        (type_identifier)
         (identifier)
         (formal_parameter_list))
         )
         (function_body (block
           (expression_statement
-            (object_creation_expression
+            (new_expression
               (type_identifier)
               (arguments)))
-          (expression_statement
-            (object_creation_expression
-              (identifier)
-              (type_identifier)
-              (arguments))))))))
+          )))))
 
 =====================
 variable declaration
@@ -358,9 +326,8 @@ class JayZ {
         (formal_parameter_list)))
         (function_body
         (block
-          (local_variable_declaration
-            (integral_type)
-            (variable_declarator
+          (local_variable_declaration (initialized_variable_definition
+             (type_identifier)
               (identifier))))))))
 
 =================

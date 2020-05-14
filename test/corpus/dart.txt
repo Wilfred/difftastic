@@ -15,60 +15,60 @@ if (z) return n;
 dart string literals
 =========================================
 
-"";
-"\"";
-"This' is a string $mystring";
-'''This" is a
+get a => "";
+get a => "\"";
+get a => "This' is a string $mystring";
+get a => '''This" is a
 string ${mystring}''';
-'Also a string';
+get a => 'Also a string';
 
 ---
 
 (program
-  (expression_statement (string_literal))
-  (expression_statement (string_literal (escape_sequence)))
-  (expression_statement (string_literal (template_substitution (identifier))))
-    (expression_statement (string_literal (template_substitution (identifier))))
-  (expression_statement (string_literal)))
+  (identifier) (function_body (string_literal))
+  (identifier) (function_body (string_literal (escape_sequence)))
+  (identifier) (function_body (string_literal (template_substitution (identifier))))
+  (identifier) (function_body (string_literal (template_substitution (identifier))))
+  (identifier) (function_body (string_literal)))
 
 =========================================
 dart string literals 2
 =========================================
 
-"";
-"\"";
-"""This' is a string $mystring""";
-'''This" is a $
+get a => "";
+get a => "\"";
+get a => """This' is a string $mystring""";
+get a => '''This" is a $
 string mystring''';
-'''Also a string''';
+get a => '''Also a string''';
 
 ---
 
 (program
-  (expression_statement (string_literal))
-  (expression_statement (string_literal (escape_sequence)))
-  (expression_statement (string_literal (template_substitution (identifier))))
-    (expression_statement (string_literal))
-  (expression_statement (string_literal)))
+  (identifier) (function_body (string_literal))
+  (identifier) (function_body (string_literal (escape_sequence)))
+  (identifier) (function_body (string_literal (template_substitution (identifier))))
+    (identifier) (function_body (string_literal))
+  (identifier) (function_body (string_literal)))
 =========================================
 dart string literals raw
 =========================================
 
-"";
-r"\"";
-"""This' is a string $mystring""";
-'''This" is a $
+get a => "";
+get a => r"\"";
+get a => """This' is a string $mystring""";
+get a => '''This" is a $
 string mystring''';
-r'''Also a string''';
+get a => r'''Also a string''';
 
 ---
 
 (program
-  (expression_statement (string_literal))
-  (expression_statement (string_literal))
-  (expression_statement (string_literal (template_substitution (identifier))))
-    (expression_statement (string_literal))
-  (expression_statement (string_literal)))
+ (identifier) (function_body  (string_literal))
+  (identifier) (function_body (string_literal))
+  (identifier) (function_body (string_literal (template_substitution (identifier))))
+    (identifier) (function_body (string_literal))
+  (identifier) (function_body (string_literal)))
 
 ==================================================
 dart set literals
@@ -88,20 +88,26 @@ class A {
     name: (identifier)
     body: (class_body
       (method_signature (function_signature
-        (integral_type)
+        (type_identifier)
          (identifier)
         (formal_parameter_list)))
         (function_body (block
           (local_variable_declaration
-            type: (inferred_type)
-            declarator: (variable_declarator
+          (initialized_variable_definition
+
+            (inferred_type)
+
               name: (identifier)
-              value: (set_or_map_literal (identifier))))
+              value: (set_or_map_literal (identifier))
+              ))
            (local_variable_declaration
-             type: (inferred_type)
-             declarator: (variable_declarator
+           (initialized_variable_definition
+
+              (inferred_type)
               name: (identifier)
-              value: (set_or_map_literal (pair key: (identifier) value: (string_literal))))))
+              value: (set_or_map_literal (pair key: (identifier) value: (string_literal)))
+           )
+           ))
               ))))
 
 ==================================================
@@ -122,23 +128,27 @@ class A {
     name: (identifier)
     body: (class_body
       (method_signature (function_signature
-        (integral_type)
+        (type_identifier)
         (identifier)
         (formal_parameter_list)))
         (function_body (block
           (local_variable_declaration
-            type: (inferred_type)
-            declarator: (variable_declarator
-              name: (identifier)
-              value: (set_or_map_literal (if_element
-              condition: (parenthesized_expression (identifier))
-              consequence: (identifier)
-              ))))
+          (initialized_variable_definition
+                      (inferred_type)
+                        name: (identifier)
+                        value: (set_or_map_literal (if_element
+                        condition: (parenthesized_expression (identifier))
+                        consequence: (identifier)
+                        ))
+          )
+              )
            (local_variable_declaration
-             type: (inferred_type)
-             declarator: (variable_declarator
-              name: (identifier)
-              value: (set_or_map_literal (pair key: (identifier) value: (string_literal))))))
+           (initialized_variable_definition
+                        (inferred_type)
+                         name: (identifier)
+                         value: (set_or_map_literal (pair key: (identifier) value: (string_literal)))
+           )
+              ))
               )
               )))
 ===================
@@ -162,9 +172,9 @@ class Beyonce {
         (void_type)
         (identifier)
         (formal_parameter_list
-          (formal_parameter (floating_point_type) (identifier))
-          (formal_parameter (integral_type) (identifier))
-          (positional_parameters
-          (formal_parameter (floating_point_type) (identifier))
-          (formal_parameter (floating_point_type) (identifier))))))
+          (formal_parameter (type_identifier) (identifier))
+          (formal_parameter (type_identifier) (identifier))
+          (optional_formal_parameters
+          (formal_parameter (type_identifier) (identifier))
+          (formal_parameter (type_identifier) (identifier))))))
         (function_body (block (comment))))))
