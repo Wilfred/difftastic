@@ -23,5 +23,13 @@ int main() {
 
 class C : D{
   A();
-  // <- function  
+  // <- function
+
+  void efg() {
+    // ^ function
+  }
+}
+
+void A::b() {
+  //    ^ function
 }
