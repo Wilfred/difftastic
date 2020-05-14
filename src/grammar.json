@@ -114,7 +114,7 @@
             "name": "operator_cast_declaration"
           },
           "named": true,
-          "value": "_declaration"
+          "value": "declaration"
         }
       ]
     },
