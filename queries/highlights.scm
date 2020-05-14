@@ -14,12 +14,21 @@
   name: (scoped_identifier
     name: (identifier) @function))
 
-(destructor_name (identifier) @function)
+(function_declarator
+  declarator: (scoped_identifier
+    name: (identifier) @function))
+
+(function_declarator
+  declarator: (scoped_identifier
+    name: (identifier) @function))
+
+(function_declarator
+  declarator: (field_identifier) @function)
 
 ; Types
 
 ((namespace_identifier) @type
- (match? @type "^[A-Z]"))
+ (#match? @type "^[A-Z]"))
 
 (auto) @type
 
