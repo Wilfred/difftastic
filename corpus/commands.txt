@@ -101,6 +101,23 @@ cat a b > /dev/null
     (command_name (word))))
 
 ===============================
+File redirects (noclobber override)
+===============================
+
+whoami >| /dev/null
+cat a b >| /dev/null
+
+---
+
+(program
+  (redirected_statement
+    (command (command_name (word)))
+    (file_redirect (word)))
+  (redirected_statement
+    (command (command_name (word)) (word) (word))
+    (file_redirect (word))))
+
+===============================
 Heredoc redirects
 ===============================
 
