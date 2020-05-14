@@ -37,9 +37,9 @@
 (function_name) @function
 
 ((property_name) @variable
- (match? @variable "^--"))
+ (#match? @variable "^--"))
 ((plain_value) @variable
- (match? @variable "^--"))
+ (#match? @variable "^--"))
 
 "@media" @keyword
 "@import" @keyword
