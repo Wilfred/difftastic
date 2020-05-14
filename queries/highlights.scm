@@ -29,12 +29,12 @@
 "yield" @keyword
 
 ((identifier) @keyword
- (match? @keyword "^(private|protected|public)$"))
+ (#match? @keyword "^(private|protected|public)$"))
 
 ; Function calls
 
 ((identifier) @function.method.builtin
- (eq? @function.method.builtin "require"))
+ (#eq? @function.method.builtin "require"))
 
 "defined?" @function.method.builtin
 
@@ -62,10 +62,10 @@
 (instance_variable) @property
 
 ((identifier) @constant.builtin
- (match? @constant.builtin "^__(FILE|LINE|ENCODING)__$"))
+ (#match? @constant.builtin "^__(FILE|LINE|ENCODING)__$"))
 
 ((constant) @constant
- (match? @constant "^[A-Z\\d_]+$"))
+ (#match? @constant "^[A-Z\\d_]+$"))
 
 (constant) @constructor
 
@@ -83,7 +83,7 @@
 (keyword_parameter (identifier) @variable.parameter)
 
 ((identifier) @function.method
- (is-not? local))
+ (#is-not? local))
 (identifier) @variable
 
 ; Literals

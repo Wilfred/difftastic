@@ -1,5 +1,5 @@
 ((method) @local.scope
- (set! local.scope-inherits false))
+ (#set! local.scope-inherits false))
 
 (block) @local.scope
 (do_block) @local.scope
