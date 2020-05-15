@@ -365,6 +365,12 @@ do_something() {
   echo ok
 }
 
+run_subshell_command() (
+  true
+)
+
+run_test_command() [[ -e foo ]]
+
 function do_something_else() {
   a | xargs -I{} find xml/{} -type f
 }
@@ -379,6 +385,12 @@ function do_yet_another_thing {
   (function_definition
     (word)
     (compound_statement (command (command_name (word)) (word))))
+  (function_definition
+      (word)
+      (subshell (command (command_name (word)))))
+  (function_definition
+      (word)
+      (test_command (unary_expression (test_operator) (word))))
   (function_definition
     (word)
     (compound_statement

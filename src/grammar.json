@@ -839,8 +839,21 @@
           "type": "FIELD",
           "name": "body",
           "content": {
-            "type": "SYMBOL",
-            "name": "compound_statement"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "compound_statement"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "subshell"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "test_command"
+              }
+            ]
           }
         }
       ]

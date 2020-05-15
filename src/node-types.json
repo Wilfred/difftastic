@@ -714,6 +714,14 @@
           {
             "type": "compound_statement",
             "named": true
+          },
+          {
+            "type": "subshell",
+            "named": true
+          },
+          {
+            "type": "test_command",
+            "named": true
           }
         ]
       },
