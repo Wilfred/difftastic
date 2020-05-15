@@ -414,25 +414,77 @@ let msg = match x {
 ---
 
 (source_file
-  (match_expression (identifier) (match_block
-    (match_arm (match_pattern (integer_literal)) (block (string_literal)))
-    (match_arm (match_pattern (integer_literal)) (string_literal))
-    (match_arm (match_pattern (negative_literal (integer_literal))) (integer_literal))
-    (match_arm (match_pattern (negative_literal (float_literal))) (integer_literal))
-    (match_arm
-      (attribute_item (meta_item (identifier)))
-      (match_pattern (integer_literal)) (string_literal))
-    (match_arm
-      (macro_invocation (identifier) (token_tree (integer_literal)))
-      (string_literal))
-    (match_arm (match_pattern) (string_literal))))
-  (let_declaration (identifier) (match_expression (identifier) (match_block
-    (match_arm (match_pattern (integer_literal) (integer_literal) (integer_literal)) (string_literal))
-    (match_arm (match_pattern (identifier) (binary_expression (identifier) (integer_literal))) (string_literal))
-    (match_arm
-      (match_pattern (identifier) (binary_expression (identifier) (integer_literal)))
-      (if_expression (identifier) (block (string_literal))))
-    (match_arm (match_pattern) (string_literal))))))
+  (match_expression
+    value: (identifier)
+    body: (match_block
+      (match_arm
+        pattern: (match_pattern
+          (integer_literal))
+        value: (block
+          (string_literal)))
+      (match_arm
+        pattern: (match_pattern
+          (integer_literal))
+        value: (string_literal))
+      (match_arm
+        pattern: (match_pattern
+          (negative_literal
+            (integer_literal)))
+        value: (integer_literal))
+      (match_arm
+        pattern: (match_pattern
+          (negative_literal
+            (float_literal)))
+        value: (integer_literal))
+      (match_arm
+        (attribute_item
+          (meta_item
+            (identifier)))
+        pattern: (match_pattern
+          (integer_literal))
+        value: (string_literal))
+      (match_arm
+        pattern: (macro_invocation
+          macro: (identifier)
+          (token_tree
+            (integer_literal)))
+        value: (string_literal))
+      (match_arm
+        pattern: (match_pattern)
+        value: (string_literal))))
+  (let_declaration
+    pattern: (identifier)
+    value: (match_expression
+      value: (identifier)
+      body: (match_block
+        (match_arm
+          pattern: (match_pattern
+            (or_pattern
+              (or_pattern
+                (integer_literal)
+                (integer_literal))
+              (integer_literal)))
+          value: (string_literal))
+        (match_arm
+          pattern: (match_pattern
+            (identifier)
+            condition: (binary_expression
+              left: (identifier)
+              right: (integer_literal)))
+          value: (string_literal))
+        (match_arm
+          pattern: (match_pattern
+            (identifier)
+            condition: (binary_expression
+              left: (identifier)
+              right: (integer_literal)))
+          value: (if_expression
+            condition: (identifier)
+            consequence: (block
+              (string_literal))))
+        (match_arm
+          pattern: (match_pattern)
+          value: (string_literal))))))
 
 ============================================
 While expressions
