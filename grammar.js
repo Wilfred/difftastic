@@ -213,7 +213,13 @@ module.exports = grammar({
           '(', ')'
         )
       ),
-      field('body', $.compound_statement)
+      field(
+        'body',
+        choice(
+          $.compound_statement,
+          $.subshell,
+          $.test_command)
+      )
     ),
 
     compound_statement: $ => seq(
