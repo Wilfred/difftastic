@@ -353,6 +353,7 @@ module.exports = grammar({
     _expression: $ => choice(
       $._literal,
       $.unary_expression,
+      $.ternary_expression,
       $.binary_expression,
       $.postfix_expression,
       $.parenthesized_expression
@@ -376,6 +377,16 @@ module.exports = grammar({
         field('right', $.regex)
       )
     )),
+
+    ternary_expression: $ => prec.left(
+      seq(
+        field('condition', $._expression),
+        '?',
+        field('consequence', $._expression),
+        ':',
+        field('alternative', $._expression),
+      )
+    ),
 
     unary_expression: $ => prec.right(seq(
       choice('!', $.test_operator),
