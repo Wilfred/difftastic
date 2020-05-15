@@ -336,6 +336,10 @@
         "named": true
       },
       {
+        "type": "or_pattern",
+        "named": true
+      },
+      {
         "type": "range_pattern",
         "named": true
       },
@@ -2447,7 +2451,7 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -2634,6 +2638,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "or_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_pattern",
+          "named": true
+        }
+      ]
     }
   },
   {
