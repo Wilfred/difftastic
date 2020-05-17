@@ -48,7 +48,9 @@ examples_to_parse=$(
   done
 )
 
+start=`date +%s.%N`
 tree_sitter_report=$(echo $examples_to_parse | xargs -n 1000 npx tree-sitter parse -q)
+end=`date +%s.%N`
 
 ret_code=$?
 
@@ -61,7 +63,8 @@ tried_to_parse=$( echo "$examples_to_parse" | wc -w )
 parsed=$(bc -l <<< "$tried_to_parse-$errors")
 total=$((tried_to_parse+skipped))
 percent=$(bc -l <<< "100*$parsed/$total")
+runtime=$( echo "$end - $start" | bc -l )
 
-printf "Successfully parsed %d of %d files (%.2f%%)\nSkipped: %d Failed: %d\n" $parsed $total $percent $skipped $errors
+printf "Successfully parsed %d of %d files (%.2f%%)\nSkipped: %d Failed: %d\nTook: %s\n" $parsed $total $percent $skipped $errors $runtime
 
 exit $ret_code
