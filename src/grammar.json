@@ -1215,8 +1215,13 @@
             "value": "dot"
           },
           {
-            "type": "SYMBOL",
-            "name": "lower_case_identifier"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_lower_case_identifier_without_leading_whitespace"
+            },
+            "named": true,
+            "value": "lower_case_identifier"
           }
         ]
       }
