@@ -1,3 +1,10 @@
+const ABC = 1
+//     ^ constant
+const AB_C1 = 2
+//    ^ constant
+const {AB_C2_D3} = x
+//      ^ constant
+
 module.exports = function(one, two) {
   // <- variable.builtin
   //                      ^ variable.parameter

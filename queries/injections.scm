@@ -3,12 +3,12 @@
 
 (call_expression
   function: (identifier) @injection.language
-  (template_string) @injection.content)
+  arguments: (template_string) @injection.content)
 
 (call_expression
   function: (member_expression
     property: (property_identifier) @injection.language)
-  (template_string) @injection.content)
+  arguments: (template_string) @injection.content)
 
 ; Parse regex syntax within regex literals
 
