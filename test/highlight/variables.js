@@ -1,3 +1,5 @@
+class A {}
+//    ^ constructor
 const ABC = 1
 //     ^ constant
 const AB_C1 = 2
