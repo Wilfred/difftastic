@@ -5950,6 +5950,10 @@
     "_definition",
     "_statement"
   ],
-  "supertypes": []
+  "supertypes": [
+    "_expression",
+    "_statement",
+    "_definition"
+  ]
 }
 
