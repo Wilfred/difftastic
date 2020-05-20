@@ -95,6 +95,12 @@ grammar({
     [$.named_field, $.optional_parameter],
   ],
 
+  supertypes: $ => [
+    $._expression,
+    $._statement,
+    $._definition,
+  ],
+
   extras: $ => [
     /\s/,
     $.comment,
