@@ -343,7 +343,7 @@ Power Operator Precedence
 Operator precedence
 =====================================
 
-a() + b * c.d.e
+a() + b[c] * c.d.e
 
 ---
 
@@ -354,7 +354,9 @@ a() + b * c.d.e
         function: (identifier)
         arguments: (argument_list))
       right: (binary_operator
-        left: (identifier)
+        left: (subscript
+          value: (identifier)
+          subscript: (identifier))
         right: (attribute
           object: (attribute
             object: (identifier)
