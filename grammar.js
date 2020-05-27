@@ -631,13 +631,13 @@ module.exports = grammar({
       field('attribute', $.identifier)
     )),
 
-    subscript: $ => seq(
+    subscript: $ => prec(PREC.call, seq(
       field('value', $._primary_expression),
       '[',
       field('subscript', commaSep1(choice($._expression, $.slice))),
       optional(','),
       ']'
-    ),
+    )),
 
     slice: $ => seq(
       optional($._expression),
