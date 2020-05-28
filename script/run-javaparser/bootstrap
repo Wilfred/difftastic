@@ -1,0 +1,5 @@
+#!/bin/bash
+
+brew install maven
+brew install jq
+mvn install

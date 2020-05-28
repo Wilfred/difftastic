@@ -1,0 +1,12 @@
+#!/bin/bash
+
+filename=$1
+if [[ ! "$filename" = /* ]]; then
+  filename=${PWD}/$filename
+fi
+
+cd $(dirname $0)
+java -cp \
+  ~/.m2/repository/com/github/javaparser/javaparser-core/3.5.9/javaparser-core-3.5.9.jar:target/run-javaparser-1.0-SNAPSHOT.jar \
+  RunJavaParser \
+  $filename | jq .
