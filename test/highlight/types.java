@@ -1,6 +1,7 @@
 enum Material {
   //  ^ type
   DENIM,
+  // ^ constant
   CANVAS
 }
 
@@ -11,6 +12,7 @@ class Person {
     // <- type
     //    ^ type
     this.name = name;
+    //            ^ variable
     this.pants = new Pants<Pocket>();
     //                ^ type
     //                       ^ type
@@ -19,9 +21,13 @@ class Person {
   string getName() {
     // <- type
     //    ^ function.method
-    return this.name;
-
-    return Material.DENIM;
+    a = this.name;
+    b = new one.two.Three();
     //      ^ type
+    //          ^ type
+    //              ^ type
+    c = Material.DENIM;
+    //      ^ type
+    //            ^ constant
   }
 }

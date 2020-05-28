@@ -44,13 +44,9 @@ module.exports = grammar({
   ],
 
   inline: $ => [
-    $._numeric_type,
-    $._ambiguous_name,
+    $._name,
     $._simple_type,
     $._reserved_identifier,
-    $._class_member_declaration,
-    $._interface_member_declaration,
-    $._annotation_type_member_declaration,
     $._class_body_declaration,
     $._variable_initializer
   ],
@@ -58,15 +54,12 @@ module.exports = grammar({
   conflicts: $ => [
     [$.modifiers, $.annotated_type, $.receiver_parameter],
     [$.modifiers, $.annotated_type, $.module_declaration, $.package_declaration],
-    [$._variable_declarator_id],
-    [$._unannotated_type, $._expression],
-    [$._unannotated_type, $._expression, $.inferred_parameters],
-    [$._unannotated_type, $.class_literal],
-    [$._unannotated_type, $.class_literal, $.array_access],
-    [$._unannotated_type, $.method_reference],
+    [$._unannotated_type, $._primary, $.inferred_parameters],
+    [$._unannotated_type, $._primary],
+    [$._unannotated_type, $._primary, $.scoped_type_identifier],
+    [$._unannotated_type, $.scoped_type_identifier],
     [$._unannotated_type, $.generic_type],
-    [$._expression, $.generic_type],
-    [$.scoped_identifier, $.scoped_type_identifier],
+    [$.generic_type, $._primary],
   ],
 
   word: $ => $.identifier,
@@ -165,7 +158,6 @@ module.exports = grammar({
       $.lambda_expression,
       $.ternary_expression,
       $.update_expression,
-      prec.dynamic(1, $._ambiguous_name),
       $._primary,
       $.unary_expression,
       $.cast_expression
@@ -180,7 +172,8 @@ module.exports = grammar({
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
       field('left', choice(
-        $._ambiguous_name,
+        $.identifier,
+        $._reserved_identifier,
         $.field_access,
         $.array_access
       )),
@@ -268,6 +261,8 @@ module.exports = grammar({
       $._literal,
       $.class_literal,
       $.this,
+      $.identifier,
+      $._reserved_identifier,
       $.parenthesized_expression,
       $.object_creation_expression,
       $.field_access,
@@ -296,16 +291,10 @@ module.exports = grammar({
 
     parenthesized_expression: $ => seq('(', $._expression, ')'),
 
-    class_literal: $ => choice(
-      seq($._ambiguous_name, repeat(seq('[', ']')), '.', 'class'),
-      seq($._numeric_type, repeat(seq('[', ']')), '.', 'class'),
-      seq($.boolean_type, repeat(seq('[', ']')), '.', 'class'),
-      seq($.void_type, '.', 'class')
-    ),
+    class_literal: $ => seq($._unannotated_type, '.', 'class'),
 
     object_creation_expression: $ => choice(
       $._unqualified_object_creation_expression,
-      seq($._ambiguous_name, '.', $._unqualified_object_creation_expression),
       seq($._primary, '.', $._unqualified_object_creation_expression)
     ),
 
@@ -317,28 +306,18 @@ module.exports = grammar({
       optional($.class_body)
     )),
 
-    field_access: $ => choice(
-      seq(
-        field('object', $._ambiguous_name),
+    field_access: $ => seq(
+      field('object', choice($._primary, $.super)),
+      optional(seq(
         '.',
-        field('field', $.this)
-      ),
-      seq(
-        field('object', choice($._primary, $.super)),
-        '.',
-        field('field', $.identifier)
-      ),
-      seq(
-        field('object', $._ambiguous_name),
-        '.',
-        $.super,
-        '.',
-        field('field', $.identifier)
-      )
+        $.super
+      )),
+      '.',
+      field('field', choice($.identifier, $._reserved_identifier, $.this))
     ),
 
     array_access: $ => seq(
-      field('array', choice($._ambiguous_name, $._primary)),
+      field('array', $._primary),
       '[',
       field('index', $._expression),
       ']',
@@ -348,22 +327,14 @@ module.exports = grammar({
       choice(
         field('name', choice($.identifier, $._reserved_identifier)),
         seq(
-          field('object', choice(
-            $._ambiguous_name,
-            $._primary,
-            $.super
+          field('object', choice($._primary, $.super)),
+          '.',
+          optional(seq(
+            $.super,
+            '.'
           )),
-          '.',
           field('type_arguments', optional($.type_arguments)),
-          field('name', $.identifier),
-        ),
-        seq(
-          field('object', $._ambiguous_name),
-          '.',
-          $.super,
-          '.',
-          field('type_arguments', optional($.type_arguments)),
-          field('name', $.identifier),
+          field('name', choice($.identifier, $._reserved_identifier)),
         )
       ),
       field('arguments', $.argument_list)
@@ -372,7 +343,7 @@ module.exports = grammar({
     argument_list: $ => seq('(', commaSep($._expression), ')'),
 
     method_reference: $ => seq(
-      choice($._type, $._ambiguous_name, $._primary, $.super),
+      choice($._type, $._primary, $.super),
       '::',
       optional($.type_arguments),
       choice('new', $.identifier)
@@ -532,7 +503,7 @@ module.exports = grammar({
         '=',
         field('value', $._expression)
       ),
-      $._ambiguous_name,
+      $.identifier,
       $.field_access
     ),
 
@@ -584,12 +555,12 @@ module.exports = grammar({
 
     marker_annotation: $ => seq(
       '@',
-      field('name', choice($.identifier, $.scoped_identifier))
+      field('name', $._name)
     ),
 
     annotation: $ => seq(
       '@',
-      field('name', choice($.identifier, $.scoped_identifier)),
+      field('name', $._name),
       field('arguments', $.annotation_argument_list)
     ),
 
@@ -637,18 +608,22 @@ module.exports = grammar({
       repeat($._annotation),
       optional('open'),
       'module',
-      $._ambiguous_name,
+      field('name', $._name),
+      field('body', $.module_body)
+    ),
+
+    module_body: $ => seq(
       '{',
       repeat($.module_directive),
       '}'
     ),
 
     module_directive: $ => seq(choice(
-      seq('requires', repeat($.requires_modifier), $.module_name),
-      seq('exports', $._ambiguous_name, optional('to'), optional($.module_name), repeat(seq(',', $.module_name))),
-      seq('opens', $._ambiguous_name, optional('to'), optional($.module_name), repeat(seq(',', $.module_name))),
-      seq('uses', $._ambiguous_name),
-      seq('provides', $._ambiguous_name, 'with', $._ambiguous_name, repeat(seq(',', $._ambiguous_name)))
+      seq('requires', repeat($.requires_modifier), $._name),
+      seq('exports', $._name, optional('to'), optional($._name), repeat(seq(',', $._name))),
+      seq('opens', $._name, optional('to'), optional($._name), repeat(seq(',', $._name))),
+      seq('uses', $._name),
+      seq('provides', $._name, 'with', $._name, repeat(seq(',', $._name)))
     ), ';'),
 
     requires_modifier: $ => choice(
@@ -656,22 +631,17 @@ module.exports = grammar({
       'static'
     ),
 
-    module_name: $ => choice(
-      $.identifier,
-      seq($.module_name, '.', $.identifier)
-    ),
-
     package_declaration: $ => seq(
       repeat($._annotation),
       'package',
-      $._ambiguous_name,
+      $._name,
       ';'
     ),
 
     import_declaration: $ => seq(
       'import',
       optional('static'),
-      sep1($.identifier, '.'),
+      $._name,
       optional(seq('.', $.asterisk)),
       ';'
     ),
@@ -766,10 +736,16 @@ module.exports = grammar({
     ),
 
     _class_body_declaration: $ => choice(
-      $._class_member_declaration,
+      $.field_declaration,
+      $.method_declaration,
+      $.class_declaration,
+      $.interface_declaration,
+      $.annotation_type_declaration,
+      $.enum_declaration,
       $.block,
       $.static_initializer,
-      $.constructor_declaration
+      $.constructor_declaration,
+      ';'
     ),
 
     static_initializer: $ => seq(
@@ -804,7 +780,7 @@ module.exports = grammar({
           field('constructor', choice($.this, $.super)),
         ),
         seq(
-          field('object', choice($._ambiguous_name, $._primary)),
+          field('object', choice($._primary)),
           '.',
           field('type_arguments', optional($.type_arguments)),
           field('constructor', $.super),
@@ -814,26 +790,16 @@ module.exports = grammar({
       ';'
     ),
 
-    _ambiguous_name: $ => choice(
+    _name: $ => choice(
       $.identifier,
       $._reserved_identifier,
       $.scoped_identifier
     ),
 
     scoped_identifier: $ => seq(
-      field('scope', choice($.identifier, $._reserved_identifier, $.scoped_identifier)),
+      field('scope', $._name),
       '.',
       field('name', $.identifier)
-    ),
-
-    _class_member_declaration: $ => choice(
-      $.field_declaration,
-      $.method_declaration,
-      $.class_declaration,
-      $.interface_declaration,
-      $.annotation_type_declaration,
-      $.enum_declaration,
-      ';'
     ),
 
     field_declaration: $ => seq(
@@ -851,15 +817,14 @@ module.exports = grammar({
     ),
 
     annotation_type_body: $ => seq(
-      '{', repeat($._annotation_type_member_declaration), '}'
-    ),
-
-    _annotation_type_member_declaration: $ => choice(
-      $.annotation_type_element_declaration,
-      $.constant_declaration,
-      $.class_declaration,
-      $.interface_declaration,
-      $.annotation_type_declaration
+      '{', repeat(choice(
+        $.annotation_type_element_declaration,
+        $.constant_declaration,
+        $.class_declaration,
+        $.interface_declaration,
+        $.annotation_type_declaration
+      )),
+      '}'
     ),
 
     annotation_type_element_declaration: $ => seq(
@@ -893,18 +858,16 @@ module.exports = grammar({
 
     interface_body: $ => seq(
       '{',
-      repeat($._interface_member_declaration),
+      repeat(choice(
+        $.constant_declaration,
+        $.enum_declaration,
+        $.method_declaration,
+        $.class_declaration,
+        $.interface_declaration,
+        $.annotation_type_declaration,
+        ';'
+      )),
       '}'
-    ),
-
-    _interface_member_declaration: $ => choice(
-      $.constant_declaration,
-      $.enum_declaration,
-      $.method_declaration,
-      $.class_declaration,
-      $.interface_declaration,
-      $.annotation_type_declaration,
-      ';'
     ),
 
     constant_declaration: $ => seq(
@@ -954,7 +917,8 @@ module.exports = grammar({
 
     _simple_type: $ => choice(
       $.void_type,
-      $._numeric_type,
+      $.integral_type,
+      $.floating_point_type,
       $.boolean_type,
       alias($.identifier, $.type_identifier),
       $.scoped_type_identifier,
@@ -988,11 +952,6 @@ module.exports = grammar({
     array_type: $ => seq(
       field('element', $._unannotated_type),
       field('dimensions', $.dimensions)
-    ),
-
-    _numeric_type: $ => choice(
-      $.integral_type,
-      $.floating_point_type
     ),
 
     integral_type: $ => choice(
@@ -1031,9 +990,7 @@ module.exports = grammar({
     formal_parameters: $ => seq(
       '(',
       optional($.receiver_parameter),
-      commaSep($.formal_parameter),
-      optional(','),
-      optional($.spread_parameter),
+      commaSep(choice($.formal_parameter, $.spread_parameter)),
       ')'
     ),
 
