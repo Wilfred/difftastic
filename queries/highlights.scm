@@ -79,6 +79,7 @@
 ">>" @operator
 "|" @operator
 "~" @operator
+"->" @operator
 "and" @operator
 "in" @operator
 "is" @operator
