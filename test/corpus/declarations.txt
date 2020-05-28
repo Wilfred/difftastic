@@ -70,9 +70,15 @@ open module com.foo { }
 
 (program
   (module_declaration
-    (scoped_identifier (identifier) (identifier)))
+    name: (scoped_identifier
+      scope: (identifier)
+      name: (identifier))
+    body: (module_body))
   (module_declaration
-    (scoped_identifier (identifier) (identifier))))
+    name: (scoped_identifier
+      scope: (identifier)
+      name: (identifier))
+    body: (module_body)))
 
 ==============================
 module with normal annotation
@@ -97,7 +103,8 @@ module com.foo { }
         (element_value_pair (identifier) (string_literal))
         (element_value_pair (identifier) (string_literal))
         (element_value_pair (identifier) (string_literal))))
-    (scoped_identifier (identifier) (identifier))))
+    (scoped_identifier (identifier) (identifier))
+    (module_body)))
 
 ==============================
 module with marker annotation
@@ -109,14 +116,21 @@ module with marker annotation
 ---
 
 (program
-  (module_declaration (marker_annotation (identifier)) (scoped_identifier (identifier) (identifier)))
-  (module_declaration (marker_annotation (identifier)) (scoped_identifier (identifier) (identifier))))
+  (module_declaration
+    (marker_annotation (identifier))
+    (scoped_identifier (identifier) (identifier))
+    (module_body))
+  (module_declaration
+    (marker_annotation (identifier))
+    (scoped_identifier (identifier) (identifier))
+    (module_body)))
 
 ======================================
 module with single element annotation
 ======================================
 
-@Copyright("a") module com.foo { }
+@Copyright("a")
+module com.foo {}
 
 ---
 
@@ -127,7 +141,8 @@ module with single element annotation
       (annotation_argument_list (string_literal)))
     (scoped_identifier
       (identifier)
-      (identifier))))
+      (identifier))
+    (module_body)))
 
 ====================
 package_declaration
@@ -151,32 +166,39 @@ module com.example.foo {
 
 (program
   (module_declaration
-  (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier))
-  (module_directive
-    (module_name
-      (module_name
-        (module_name
-          (module_name (identifier)) (identifier)) (identifier)) (identifier)))))
+    name: (scoped_identifier
+      scope: (scoped_identifier
+        scope: (identifier)
+        name: (identifier))
+      name: (identifier))
+    body: (module_body
+      (module_directive
+        (scoped_identifier
+          scope: (scoped_identifier
+            scope: (scoped_identifier
+              scope: (identifier)
+              name: (identifier))
+            name: (identifier))
+          name: (identifier))))))
 
 ==================================================================
 module directive with requires, exports, opens, uses and provides
 ==================================================================
 
 module com.example.foo {
-    requires com.example.foo.http;
+    requires com.example.http;
     requires java.logging;
 
-    requires transitive com.example.foo.network;
+    requires transitive com.example.network;
 
-    exports com.example.foo.bar;
-    exports com.example.foo.internal to com.example.foo.probe;
+    exports com.example.bar;
+    exports com.example.internal to com.example.probe;
 
-    opens com.example.foo.quux;
-    opens com.example.foo.internal to com.example.foo.network,
-                                      com.example.foo.probe;
+    opens com.example.quux;
+    opens com.example.internal to com.example.network, com.example.probe;
 
-    uses com.example.foo.spi.Intf;
-    provides com.example.foo.spi.Intf with com.example.foo.Impl;
+    uses com.example.Intf;
+    provides com.example.Intf with com.example.Impl;
 }
 
 ---
@@ -184,29 +206,30 @@ module com.example.foo {
 (program
   (module_declaration
     (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier))
-    (module_directive
-      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (module_name (module_name (identifier)) (identifier)))
-    (module_directive
-      (requires_modifier)
-      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier))
-      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier))
-      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier))
-      (module_name (module_name (module_name (module_name (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (scoped_identifier (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)) (identifier)))
-    (module_directive
-      (scoped_identifier (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)) (identifier))
-      (scoped_identifier (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (identifier)))))
+    (module_body
+      (module_directive
+        (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)))
+      (module_directive
+        (scoped_identifier (identifier) (identifier)))
+      (module_directive
+        (requires_modifier)
+        (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)))
+      (module_directive
+        (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)))
+      (module_directive
+        (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier))
+        (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)))
+      (module_directive
+        (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)))
+      (module_directive
+        (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier))
+        (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier))
+        (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)))
+      (module_directive
+        (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)))
+      (module_directive
+        (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier))
+        (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier))))))
 
 ===============================
 single type import declaration
@@ -216,7 +239,8 @@ import java.util.Vector;
 
 ---
 
-(program (import_declaration (identifier) (identifier) (identifier)))
+(program (import_declaration
+  (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier))))
 
 ===========================
 type_import_on_declaraction
@@ -226,7 +250,8 @@ import java.util.*;
 
 ---
 
-(program (import_declaration (identifier) (identifier) (asterisk)))
+(program (import_declaration
+  (scoped_identifier (identifier) (identifier)) (asterisk)))
 
 =================================
 single static import declaration
@@ -236,7 +261,10 @@ import static java.util.Vector;
 
 ---
 
-(program (import_declaration (identifier) (identifier) (identifier)))
+(program (import_declaration
+  (scoped_identifier
+    (scoped_identifier (identifier) (identifier))
+    (identifier))))
 
 ===================================
 static import on demand declaration
@@ -246,7 +274,9 @@ import static java.util.*;
 
 ---
 
-(program (import_declaration (identifier) (identifier) (asterisk)))
+(program (import_declaration
+  (scoped_identifier (identifier) (identifier))
+  (asterisk)))
 
 =================
 class declaration

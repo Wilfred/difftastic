@@ -54,19 +54,11 @@
         "named": true
       },
       {
-        "type": "identifier",
-        "named": true
-      },
-      {
         "type": "instanceof_expression",
         "named": true
       },
       {
         "type": "lambda_expression",
-        "named": true
-      },
-      {
-        "type": "scoped_identifier",
         "named": true
       },
       {
@@ -155,6 +147,10 @@
       },
       {
         "type": "field_access",
+        "named": true
+      },
+      {
+        "type": "identifier",
         "named": true
       },
       {
@@ -572,14 +568,6 @@
           {
             "type": "_primary",
             "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "scoped_identifier",
-            "named": true
           }
         ]
       },
@@ -713,10 +701,6 @@
           },
           {
             "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "scoped_identifier",
             "named": true
           }
         ]
@@ -1159,27 +1143,7 @@
       "required": true,
       "types": [
         {
-          "type": "boolean_type",
-          "named": true
-        },
-        {
-          "type": "floating_point_type",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integral_type",
-          "named": true
-        },
-        {
-          "type": "scoped_identifier",
-          "named": true
-        },
-        {
-          "type": "void_type",
+          "type": "_unannotated_type",
           "named": true
         }
       ]
@@ -1707,14 +1671,6 @@
           {
             "type": "_primary",
             "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "scoped_identifier",
-            "named": true
           }
         ]
       },
@@ -1784,14 +1740,6 @@
         "types": [
           {
             "type": "_primary",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "scoped_identifier",
             "named": true
           },
           {
@@ -2060,6 +2008,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "scoped_identifier",
           "named": true
         }
       ]
@@ -2445,14 +2397,6 @@
             "named": true
           },
           {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "scoped_identifier",
-            "named": true
-          },
-          {
             "type": "super",
             "named": true
           }
@@ -2497,14 +2441,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "scoped_identifier",
-          "named": true
-        },
-        {
           "type": "super",
           "named": true
         },
@@ -2535,31 +2471,59 @@
     }
   },
   {
-    "type": "module_declaration",
+    "type": "module_body",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
+      "types": [
+        {
+          "type": "module_directive",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "module_declaration",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "module_body",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "scoped_identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
       "types": [
         {
           "type": "annotation",
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "marker_annotation",
-          "named": true
-        },
-        {
-          "type": "module_directive",
-          "named": true
-        },
-        {
-          "type": "scoped_identifier",
           "named": true
         }
       ]
@@ -2578,34 +2542,11 @@
           "named": true
         },
         {
-          "type": "module_name",
-          "named": true
-        },
-        {
           "type": "requires_modifier",
           "named": true
         },
         {
           "type": "scoped_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "module_name",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "module_name",
           "named": true
         }
       ]
@@ -2656,14 +2597,6 @@
         },
         {
           "type": "class_body",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "scoped_identifier",
           "named": true
         }
       ]
@@ -2821,10 +2754,6 @@
         },
         {
           "type": "modifiers",
-          "named": true
-        },
-        {
-          "type": "scoped_identifier",
           "named": true
         }
       ]

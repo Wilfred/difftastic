@@ -220,9 +220,9 @@ for (j.init(i); j.check(); j.update()) {
     update: (update_expression (identifier))
     body: (block
       (expression_statement (method_invocation
-        object: (scoped_identifier
-          scope: (identifier)
-          name: (identifier))
+        object: (field_access
+          object: (identifier)
+          field: (identifier))
         name: (identifier)
         arguments: (argument_list (binary_expression
           left: (string_literal)
@@ -242,9 +242,9 @@ for (j.init(i); j.check(); j.update()) {
       arguments: (argument_list))
     body: (block
       (expression_statement (method_invocation
-        object: (scoped_identifier
-          scope: (identifier)
-          name: (identifier))
+        object: (field_access
+          object: (identifier)
+          field: (identifier))
         name: (identifier)
         arguments: (argument_list (identifier)))))))
 
@@ -311,9 +311,9 @@ class WhileDemo {
                 right: (decimal_integer_literal)))
             body: (block
               (expression_statement (method_invocation
-                object: (scoped_identifier
-                  scope: (identifier)
-                  name: (identifier))
+                object: (field_access
+                  object: (identifier)
+                  field: (identifier))
                 name: (identifier)
                 arguments: (argument_list
                   (binary_expression left: (string_literal) right: (identifier)))))
@@ -436,7 +436,7 @@ class Quack {
 (program
   (class_declaration
     (modifiers
-      (annotation (identifier) (annotation_argument_list (scoped_identifier (identifier) (identifier))))
+      (annotation (identifier) (annotation_argument_list (field_access (identifier) (identifier))))
       (annotation (identifier) (annotation_argument_list (string_literal))))
     (identifier)
     (class_body)))
@@ -542,9 +542,9 @@ public class SwitchDemo {
                 right: (string_literal)))
               (break_statement)))
           (expression_statement (method_invocation
-            object: (scoped_identifier
-              scope: (identifier)
-              name: (identifier))
+            object: (field_access
+              object: (identifier)
+              field: (identifier))
             name: (identifier)
             arguments: (argument_list (identifier)))))))))
 
@@ -703,7 +703,7 @@ super::something;
 
 (program
   (expression_statement (assignment_expression (identifier) (method_reference (identifier) (identifier))))
-  (expression_statement (method_reference (scoped_identifier (identifier) (identifier)) (identifier)))
+  (expression_statement (method_reference (field_access (identifier) (identifier)) (identifier)))
   (expression_statement (method_reference (array_type (type_identifier) (dimensions))))
   (expression_statement (method_reference (generic_type (type_identifier) (type_arguments (type_identifier))) (identifier)))
   (expression_statement (method_reference (super) (identifier))))

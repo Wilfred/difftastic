@@ -24,6 +24,9 @@
 (enum_declaration
   name: (identifier) @type)
 
+((field_access
+  object: (identifier) @type)
+ (#match? @type "^[A-Z]"))
 ((scoped_identifier
   scope: (identifier) @type)
  (#match? @type "^[A-Z]"))
@@ -42,6 +45,8 @@
 
 ((identifier) @constant
  (#match? @constant "^_*[A-Z][A-Z\d_]+"))
+
+(identifier) @variable
 
 (this) @variable.builtin
 
