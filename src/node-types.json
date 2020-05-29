@@ -322,6 +322,30 @@
     "type": "case_item",
     "named": true,
     "fields": {
+      "fallthrough": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": ";&",
+            "named": false
+          },
+          {
+            "type": ";;&",
+            "named": false
+          }
+        ]
+      },
+      "termination": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": ";;",
+            "named": false
+          }
+        ]
+      },
       "value": {
         "multiple": true,
         "required": true,
@@ -1404,7 +1428,15 @@
     "named": false
   },
   {
+    "type": ";&",
+    "named": false
+  },
+  {
     "type": ";;",
+    "named": false
+  },
+  {
+    "type": ";;&",
     "named": false
   },
   {

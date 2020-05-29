@@ -217,7 +217,11 @@ case "opt" in
     ;;
 
   b)
-    echo b;;
+    echo b
+    ;&
+
+  c)
+    echo c;;
 esac
 
 case "$Z" in
@@ -234,6 +238,8 @@ esac
 
 (program
   (case_statement (string)
+    (case_item (word)
+      (command (command_name (word)) (word)))
     (case_item (word)
       (command (command_name (word)) (word)))
     (case_item (word)
