@@ -190,7 +190,10 @@ module.exports = grammar({
       repeat(seq('|', field('value', $._literal))),
       ')',
       optional($._statements),
-      prec(1, ';;')
+      prec(1, choice(
+        field('termination', ';;'),
+        field('fallthrough', choice(';&', ';;&'))
+      ))
     ),
 
     last_case_item: $ => seq(
