@@ -197,7 +197,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "escape_sequence",
@@ -253,27 +253,23 @@
     }
   },
   {
-    "type": "comment",
-    "named": true
-  },
-  {
-    "type": "[",
+    "type": "\"",
     "named": false
   },
   {
-    "type": "]",
+    "type": "\"\"\"",
     "named": false
   },
   {
-    "type": "[[",
+    "type": "'",
     "named": false
   },
   {
-    "type": "]]",
+    "type": "'''",
     "named": false
   },
   {
-    "type": "=",
+    "type": ",",
     "named": false
   },
   {
@@ -281,39 +277,23 @@
     "named": false
   },
   {
-    "type": "\"",
+    "type": "=",
     "named": false
   },
   {
-    "type": "\"",
+    "type": "[",
     "named": false
   },
   {
-    "type": "\"\"\"",
+    "type": "[[",
     "named": false
   },
   {
-    "type": "\"\"\"",
+    "type": "]",
     "named": false
   },
   {
-    "type": "escape_sequence",
-    "named": true
-  },
-  {
-    "type": "'",
-    "named": false
-  },
-  {
-    "type": "'",
-    "named": false
-  },
-  {
-    "type": "'''",
-    "named": false
-  },
-  {
-    "type": "'''",
+    "type": "]]",
     "named": false
   },
   {
@@ -321,11 +301,7 @@
     "named": true
   },
   {
-    "type": "offset_date_time",
-    "named": true
-  },
-  {
-    "type": "local_date_time",
+    "type": "escape_sequence",
     "named": true
   },
   {
@@ -333,12 +309,16 @@
     "named": true
   },
   {
+    "type": "local_date_time",
+    "named": true
+  },
+  {
     "type": "local_time",
     "named": true
   },
   {
-    "type": ",",
-    "named": false
+    "type": "offset_date_time",
+    "named": true
   },
   {
     "type": "{",
