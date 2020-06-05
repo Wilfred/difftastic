@@ -734,11 +734,27 @@
             "named": true
           },
           {
-            "type": "new_variable",
+            "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
+            "type": "member_access_expression",
             "named": true
           },
           {
             "type": "qualified_name",
+            "named": true
+          },
+          {
+            "type": "scoped_property_access_expression",
+            "named": true
+          },
+          {
+            "type": "subscript_expression",
+            "named": true
+          },
+          {
+            "type": "variable_name",
             "named": true
           }
         ]
@@ -1860,14 +1876,6 @@
           {
             "type": "variable_name",
             "named": true
-          },
-          {
-            "type": "{",
-            "named": false
-          },
-          {
-            "type": "}",
-            "named": false
           }
         ]
       },
@@ -1968,14 +1976,6 @@
           {
             "type": "variable_name",
             "named": true
-          },
-          {
-            "type": "{",
-            "named": false
-          },
-          {
-            "type": "}",
-            "named": false
           }
         ]
       },
@@ -2292,45 +2292,6 @@
     }
   },
   {
-    "type": "new_variable",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "dynamic_variable_name",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "new_variable",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
-          "named": true
-        },
-        {
-          "type": "relative_scope",
-          "named": true
-        },
-        {
-          "type": "variable_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "object_creation_expression",
     "named": true,
     "fields": {},
@@ -2355,11 +2316,27 @@
           "named": true
         },
         {
-          "type": "new_variable",
+          "type": "dynamic_variable_name",
+          "named": true
+        },
+        {
+          "type": "member_access_expression",
           "named": true
         },
         {
           "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "scoped_property_access_expression",
+          "named": true
+        },
+        {
+          "type": "subscript_expression",
+          "named": true
+        },
+        {
+          "type": "variable_name",
           "named": true
         }
       ]
@@ -2628,14 +2605,6 @@
           {
             "type": "variable_name",
             "named": true
-          },
-          {
-            "type": "{",
-            "named": false
-          },
-          {
-            "type": "}",
-            "named": false
           }
         ]
       },
@@ -3635,11 +3604,11 @@
   },
   {
     "type": "boolean",
-    "named": false
+    "named": true
   },
   {
     "type": "boolean",
-    "named": true
+    "named": false
   },
   {
     "type": "break",
