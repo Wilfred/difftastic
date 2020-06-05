@@ -789,17 +789,10 @@ module.exports = grammar({
 
     _class_type_designator: $ => choice(
       $.qualified_name,
-      $.new_variable
-    ),
-
-    new_variable: $ => choice(
-      $._variable_name,
-      seq($.new_variable, '[', optional($._expression), ']'),
-      seq($.new_variable, '{', $._expression, '}'),
-      seq($.new_variable, '->', $._member_name),
-      seq($.qualified_name, '::', $._variable_name),
-      seq($.relative_scope, '::', $._variable_name),
-      seq($.new_variable, '::', $._variable_name)
+      $.subscript_expression,
+      $.member_access_expression,
+      $.scoped_property_access_expression,
+      $._variable_name
     ),
 
     update_expression: $ => prec.left(PREC.INC, choice(
@@ -871,7 +864,7 @@ module.exports = grammar({
     member_access_expression: $ => prec(PREC.MEMBER, seq(
       field('object', $._dereferencable_expression),
       '->',
-      field('name', $._member_name)
+      $._member_name
     )),
 
     scoped_property_access_expression: $ => prec(PREC.MEMBER, seq(
@@ -915,7 +908,7 @@ module.exports = grammar({
     scoped_call_expression: $ => prec(PREC.CALL, seq(
       field('scope', $._scope_resolution_qualifier),
       '::',
-      field('name', $._member_name),
+      $._member_name,
       field('arguments', $.arguments)
     )),
 
@@ -940,17 +933,23 @@ module.exports = grammar({
     member_call_expression: $ => prec(PREC.CALL, seq(
       field('object', $._dereferencable_expression),
       '->',
-      field('name', $._member_name),
+      $._member_name,
       field('arguments', $.arguments)
     )),
 
     variadic_unpacking: $ => seq('...', $._expression),
 
     _member_name: $ => choice(
-      alias($._reserved_identifier, $.name),
-      $.name,
-      $._variable_name,
-      seq('{', $._expression, '}')
+      field('name', choice(
+        alias($._reserved_identifier, $.name),
+        $.name,
+        $._variable_name,
+      )),
+      seq(
+        '{',
+        field('name', $._expression),
+        '}'
+      )
     ),
 
     subscript_expression: $ => seq(
