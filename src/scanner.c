@@ -1,5 +1,10 @@
 #include <tree_sitter/parser.h>
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+
 enum TokenType {
   LINE_ENDING_OR_EOF
 };
@@ -33,3 +38,7 @@ bool tree_sitter_toml_external_scanner_scan(
 
   return false;
 }
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
