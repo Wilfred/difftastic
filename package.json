@@ -11,11 +11,11 @@
   "license": "MIT",
   "dependencies": {
     "nan": "^2.14.1",
-    "prebuild-install": "^5.3.3"
+    "prebuild-install": "^5.3.4"
   },
   "devDependencies": {
     "prebuild": "^10.0.0",
-    "tree-sitter-cli": "^0.16.7"
+    "tree-sitter-cli": "^0.16.8"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build --debug",
