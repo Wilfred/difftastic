@@ -4,9 +4,9 @@
   (comment)* @doc
   [
     (method
-      name: (*) @name) @method
+      name: (_) @name) @method
     (singleton_method
-      name: (*) @name) @method
+      name: (_) @name) @method
   ]
   (#strip! @doc "^#\\s*")
   (#select-adjacent! @doc @method)
@@ -20,7 +20,7 @@
     name: [
       (constant) @name
       (scope_resolution
-        name: (*) @name)
+        name: (_) @name)
     ]) @class
   (#strip! @doc "^#\\s*")
   (#select-adjacent! @doc @class)
