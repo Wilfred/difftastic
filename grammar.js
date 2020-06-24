@@ -254,7 +254,11 @@ module.exports = grammar({
     ),
 
     _type_param: $ => seq(
-      optional(choice('+', '-')),
+      optional(choice(
+        seq('+', optional('!')),
+        seq('-', optional('!')),
+        seq('!', optional(choice('+', '-'))),
+      )),
       choice($.type_variable, alias('_', $.type_variable))
     ),
 
@@ -364,7 +368,7 @@ module.exports = grammar({
       optional('virtual'),
       optional(seq(
         '[',
-        sep1(',', $.type_variable),
+        sep1(',', $._type_param),
         ']'
       )),
       $._class_name,
@@ -383,7 +387,7 @@ module.exports = grammar({
       optional('virtual'),
       optional(seq(
         '[',
-        sep1(',', $.type_variable),
+        sep1(',', $._type_param),
         ']'
       )),
       $._class_name,
@@ -892,7 +896,7 @@ module.exports = grammar({
         parenthesize(sep1(',', field('argument', $._type_ext)))
       )),
       '#',
-      $.class_path
+      $.class_type_path
     )),
 
     parenthesized_type: $ => parenthesize($._type_ext),
