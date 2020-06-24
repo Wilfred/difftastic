@@ -43,8 +43,9 @@ let+ x = a and+ y = b
   (value_definition
     (let_binding
       (value_name)
-      (polymorphic_types (type_variable))
-      (constructed_type (type_variable) (type_constructor_path (type_constructor)))
+      (polymorphic_type
+        (type_variable)
+        (constructed_type (type_variable) (type_constructor_path (type_constructor))))
       (value_path (value_name))))
   (value_definition
     (let_binding
@@ -63,7 +64,7 @@ let+ x = a and+ y = b
   (value_definition
     (let_binding
       (value_name)
-      (parameter (abstract_type (type_constructor)))
+      (abstract_type (type_constructor))
       (parameter (value_name))
       (type_constructor_path (type_constructor))
       (value_path (value_name))))
@@ -109,11 +110,11 @@ type t = |
   (type_definition (type_binding (type_constructor)))
   (type_definition
     (type_binding
-      (type_params (type_variable))
+      (type_variable)
       (type_constructor)
       (type_constructor_path (type_constructor)))
     (type_binding
-      (type_params (type_variable) (type_variable))
+      (type_variable) (type_variable)
       (type_constructor)
       (type_constructor_path (type_constructor))))
   (type_definition (type_binding (type_constructor) (type_constructor_path (type_constructor))))
@@ -124,28 +125,25 @@ type t = |
         (constructor_declaration (constructor_name))
         (constructor_declaration
           (constructor_name)
-          (constructor_argument
-            (type_constructor_path (type_constructor))))
+          (type_constructor_path (type_constructor)))
         (constructor_declaration
           (constructor_name)
-          (constructor_argument
-            (type_constructor_path (type_constructor))
-            (type_constructor_path (type_constructor))))
+          (type_constructor_path (type_constructor))
+          (type_constructor_path (type_constructor)))
         (constructor_declaration
           (constructor_name)
-          (constructor_argument
-            (record_declaration
-              (field_declaration
-                (field_name)
-                (type_constructor_path (type_constructor)))))))))
+          (record_declaration
+            (field_declaration
+              (field_name)
+              (type_constructor_path (type_constructor))))))))
   (type_definition
     (type_binding
-      (type_params (type_variable))
+      (type_variable)
       (type_constructor)
       (variant_declaration
         (constructor_declaration
           (constructor_name)
-          (constructor_argument (type_variable))
+          (type_variable)
           (constructed_type (type_variable) (type_constructor_path (type_constructor)))))))
   (type_definition
     (type_binding
@@ -176,7 +174,7 @@ exception E of t
   (exception_definition
     (constructor_declaration
       (constructor_name)
-      (constructor_argument (type_constructor_path (type_constructor))))))
+      (type_constructor_path (type_constructor)))))
 
 ==============================
 Module definition
@@ -283,27 +281,27 @@ include M(M(M)).M(M).t
   (open_statement (module_name))
   (open_statement (module_name))
   (open_statement (module_name))
-  (include_statement (module_name))
   (include_statement (module_type_path (module_type_name)))
-  (include_statement (submodule (module_name) (module_name)))
-  (include_statement (module_type_path (module_name) (module_type_name)))
-  (include_statement
-    (submodule
-      (submodule (module_name) (module_name))
-      (module_name)))
+  (include_statement (module_type_path (module_type_name)))
+  (include_statement (module_type_path (module_name) (module_type_path (module_type_name))))
+  (include_statement (module_type_path (module_name) (module_type_path (module_type_name))))
   (include_statement
     (module_type_path
-      (submodule (module_name) (module_name))
-      (module_type_name)))
+      (module_name)
+      (module_type_path (module_name) (module_type_path (module_type_name)))))
+  (include_statement
+    (module_type_path
+      (module_name)
+      (module_type_path (module_name) (module_type_path (module_type_name)))))
   (include_statement (module_application (module_name) (module_name)))
   (include_statement
-    (submodule
-      (module_application (module_name) (module_name))
-      (module_name)))
+    (module_type_path
+      (module_name)
+      (module_path (module_name)) (module_type_path (module_type_name))))
   (include_statement
     (module_type_path
-      (module_application (module_name) (module_name))
-      (module_type_name)))
+      (module_name)
+      (module_path (module_name)) (module_type_path (module_type_name))))
   (include_statement
     (submodule
       (module_application
@@ -311,18 +309,18 @@ include M(M(M)).M(M).t
         (module_application (module_name) (module_name)))
       (module_application (module_name) (module_name))))
   (include_statement
-    (submodule
-      (submodule
-        (module_application
-          (module_name)
-          (module_application (module_name) (module_name)))
-        (module_application (module_name) (module_name)))
-      (module_name)))
+    (module_type_path
+      (module_name)
+      (module_path (module_name) (module_path (module_name)))
+      (module_type_path
+        (module_name)
+        (module_path (module_name))
+        (module_type_path (module_type_name)))))
   (include_statement
     (module_type_path
-      (submodule
-        (module_application
-          (module_name)
-          (module_application (module_name) (module_name)))
-        (module_application (module_name) (module_name)))
-      (module_type_name))))
+      (module_name)
+      (module_path (module_name) (module_path (module_name)))
+      (module_type_path
+        (module_name)
+        (module_path (module_name))
+        (module_type_path (module_type_name))))))

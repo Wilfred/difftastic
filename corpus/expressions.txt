@@ -10,14 +10,17 @@ M.( + );;
 ---
 
 (compilation_unit
-  (value_path (value_name))
-  (value_path
-    (module_name)
-    (value_path (value_name)))
-  (value_path (value_name (infix_operator)))
-  (value_path
-    (module_name)
-    (value_path (value_name (infix_operator)))))
+  (expression_item (value_path (value_name)))
+  (expression_item
+    (value_path
+      (module_name)
+      (value_path (value_name))))
+  (expression_item
+    (value_path (value_name (infix_operator))))
+  (expression_item
+    (value_path
+      (module_name)
+      (value_path (value_name (infix_operator))))))
 
 ===========================
 Constants
@@ -56,29 +59,38 @@ true;;
 ---
 
 (compilation_unit
-  (number) (number) (number) (number)
-  (number) (number) (number) (number)
-  (character)
-  (character (escape_sequence))
-  (character (escape_sequence))
-  (character (escape_sequence))
-  (character (escape_sequence))
-  (character (escape_sequence))
-  (character)
-  (string)
-  (string (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence))
-  (string (escape_sequence))
-  (string (conversion_specification) (conversion_specification))
-  (string
+  (expression_item (number))
+  (expression_item (number))
+  (expression_item (number))
+  (expression_item (number))
+  (expression_item (number))
+  (expression_item (number))
+  (expression_item (number))
+  (expression_item (number))
+  (expression_item (character))
+  (expression_item (character (escape_sequence)))
+  (expression_item (character (escape_sequence)))
+  (expression_item (character (escape_sequence)))
+  (expression_item (character (escape_sequence)))
+  (expression_item (character (escape_sequence)))
+  (expression_item (character))
+  (expression_item (string))
+  (expression_item (string (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence)))
+  (expression_item (string (escape_sequence)))
+  (expression_item (string (conversion_specification) (conversion_specification)))
+  (expression_item (string
     (pretty_printing_indication)
     (conversion_specification)
     (pretty_printing_indication)
     (conversion_specification)
     (pretty_printing_indication)
-    (pretty_printing_indication))
-  (string)
-  (quoted_string) (quoted_string) (quoted_string)
-  (boolean) (unit))
+    (pretty_printing_indication)))
+  (expression_item (string))
+  (expression_item (quoted_string))
+  (expression_item (quoted_string))
+  (expression_item (quoted_string))
+  (expression_item (boolean))
+  (expression_item (unit)))
 
 ===========================
 Typed expression
@@ -89,9 +101,10 @@ Typed expression
 ---
 
 (compilation_unit
-  (typed_expression
-    (value_path (value_name))
-    (type_constructor_path (type_constructor))))
+  (expression_item
+    (typed_expression
+      (value_path (value_name))
+      (type_constructor_path (type_constructor)))))
 
 ===========================
 Lists, arrays and records
@@ -107,27 +120,31 @@ x :: x :: xs;;
 ---
 
 (compilation_unit
-  (list_expression)
-  (list_expression
-    (value_path (value_name))
-    (value_path (value_name))
-    (value_path (value_name)))
-  (cons_expression
-    (value_path (value_name))
-    (cons_expression
+  (expression_item (list_expression))
+  (expression_item
+    (list_expression
+      (value_path (value_name))
       (value_path (value_name))
       (value_path (value_name))))
-  (array_expression)
-  (array_expression
-    (value_path (value_name))
-    (value_path (value_name))
-    (value_path (value_name)))
-  (record_expression
-    (field_expression
-      (field_path (field_name))
-      (value_path (value_name)))
-    (field_expression
-      (field_path (field_name)))))
+  (expression_item
+    (cons_expression
+      (value_path (value_name))
+      (cons_expression
+        (value_path (value_name))
+        (value_path (value_name)))))
+  (expression_item (array_expression))
+  (expression_item
+    (array_expression
+      (value_path (value_name))
+      (value_path (value_name))
+      (value_path (value_name))))
+  (expression_item
+    (record_expression
+      (field_expression
+        (field_path (field_name))
+        (value_path (value_name)))
+      (field_expression
+        (field_path (field_name))))))
 
 ===========================
 Get and set expressions
@@ -141,42 +158,46 @@ x.%(0).M.%(0) <- x;;
 ---
 
 (compilation_unit
-  (set_expression
-    (field_get_expression
+  (expression_item
+    (set_expression
       (field_get_expression
-        (value_path (value_name))
+        (field_get_expression
+          (value_path (value_name))
+          (field_path (field_name)))
         (field_path (field_name)))
-      (field_path (field_name)))
-    (value_path (value_name)))
-  (set_expression
-    (bigarray_get_expression
-      (string_get_expression
+      (value_path (value_name))))
+  (expression_item
+    (set_expression
+      (bigarray_get_expression
+        (string_get_expression
+          (array_get_expression
+            (value_path (value_name))
+            (number))
+          (number))
+        (product_expression
+          (number)
+          (number)))
+      (value_path (value_name))))
+  (expression_item
+    (set_expression
+      (array_get_expression
         (array_get_expression
           (value_path (value_name))
+          (indexing_operator_path (indexing_operator))
           (number))
+        (indexing_operator_path
+          (module_name)
+          (indexing_operator_path (indexing_operator)))
         (number))
-      (product_expression
-        (number)
-        (number)))
-    (value_path (value_name)))
-  (set_expression
-    (array_get_expression
+      (value_path (value_name))))
+  (expression_item
+    (infix_expression
+      (number)
+      (infix_operator)
       (array_get_expression
         (value_path (value_name))
         (indexing_operator_path (indexing_operator))
-        (number))
-      (indexing_operator_path
-        (module_name)
-        (indexing_operator_path (indexing_operator)))
-      (number))
-    (value_path (value_name)))
-  (infix_expression
-    (number)
-    (infix_operator)
-    (array_get_expression
-      (value_path (value_name))
-      (indexing_operator_path (indexing_operator))
-      (number))))
+        (number)))))
 
 ===========================
 Coercions
@@ -188,13 +209,15 @@ Coercions
 ---
 
 (compilation_unit
-  (coercion_expression
-    (value_path (value_name))
-    (type_constructor_path (type_constructor)))
-  (coercion_expression
-    (value_path (value_name))
-    (type_constructor_path (type_constructor))
-    (type_constructor_path (type_constructor))))
+  (expression_item
+    (coercion_expression
+      (value_path (value_name))
+      (type_constructor_path (type_constructor))))
+  (expression_item
+    (coercion_expression
+      (value_path (value_name))
+      (type_constructor_path (type_constructor))
+      (type_constructor_path (type_constructor)))))
 
 ===========================
 Local opens
@@ -206,14 +229,16 @@ M.[x; x];;
 ---
 
 (compilation_unit
-  (local_open_expression
-    (module_name)
-    (value_path (value_name)))
-  (local_open_expression
-    (module_name)
-    (list_expression
-      (value_path (value_name))
-      (value_path (value_name)))))
+  (expression_item
+    (local_open_expression
+      (module_name)
+      (value_path (value_name))))
+  (expression_item
+    (local_open_expression
+      (module_name)
+      (list_expression
+        (value_path (value_name))
+        (value_path (value_name))))))
 
 ===========================
 Package expressions
@@ -225,11 +250,13 @@ Package expressions
 ---
 
 (compilation_unit
-  (package_expression
-    (module_name))
-  (package_expression
-    (module_name)
-    (module_type_path (module_type_name))))
+  (expression_item
+    (package_expression
+      (module_name)))
+  (expression_item
+    (package_expression
+      (module_name)
+      (module_type_path (module_type_name)))))
 
 ===========================
 Product expressions
@@ -241,15 +268,17 @@ x, y, z;;
 ---
 
 (compilation_unit
-  (product_expression
+  (expression_item
     (product_expression
-      (value_path (value_name))
-      (value_path (value_name)))
-    (value_path (value_name)))
-  (parenthesized_expression
-    (product_expression
-      (value_path (value_name))
-      (value_path (value_name)))))
+      (product_expression
+        (value_path (value_name))
+        (value_path (value_name)))
+      (value_path (value_name))))
+  (expression_item
+    (parenthesized_expression
+      (product_expression
+        (value_path (value_name))
+        (value_path (value_name))))))
 
 ===========================
 Constructors
@@ -263,19 +292,23 @@ A x;;
 ---
 
 (compilation_unit
-  (constructor_path (constructor_name))
-  (constructor_path
-    (module_name)
+  (expression_item
     (constructor_path (constructor_name)))
-  (application_expression
-    (constructor_path (constructor_name))
-    (value_path (value_name)))
-  (application_expression
-    (constructor_path (constructor_name))
-    (parenthesized_expression
-      (product_expression
-        (value_path (value_name))
-        (value_path (value_name))))))
+  (expression_item
+    (constructor_path
+      (module_name)
+      (constructor_path (constructor_name))))
+  (expression_item
+    (application_expression
+      (constructor_path (constructor_name))
+      (value_path (value_name))))
+  (expression_item
+    (application_expression
+      (constructor_path (constructor_name))
+      (parenthesized_expression
+        (product_expression
+          (value_path (value_name))
+          (value_path (value_name)))))))
 
 ===========================
 Tags
@@ -287,10 +320,11 @@ Tags
 ---
 
 (compilation_unit
-  (tag)
-  (application_expression
-    (tag)
-    (value_path (value_name))))
+  (expression_item (tag))
+  (expression_item
+    (application_expression
+      (tag)
+      (value_path (value_name)))))
 
 ===========================
 Function application
@@ -303,19 +337,22 @@ f ~x ?x:x;;
 ---
 
 (compilation_unit
-  (application_expression
-    (value_path (value_name))
-    (value_path (value_name)))
-  (application_expression
-    (value_path (value_name))
-    (value_path (value_name))
-    (value_path (value_name)))
-  (application_expression
-    (value_path (value_name))
-    (label (label_name))
-    (labeled_argument
+  (expression_item
+    (application_expression
+      (value_path (value_name))
+      (value_path (value_name))))
+  (expression_item
+    (application_expression
+      (value_path (value_name))
+      (value_path (value_name))
+      (value_path (value_name))))
+  (expression_item
+    (application_expression
+      (value_path (value_name))
       (label (label_name))
-      (value_path (value_name)))))
+      (labeled_argument
+        (label (label_name))
+        (value_path (value_name))))))
 
 ===========================
 Operators
@@ -330,23 +367,28 @@ x lsl 1;;
 ---
 
 (compilation_unit
-  (prefix_expression
-    (prefix_operator)
-    (value_path (value_name)))
-  (prefix_expression
-    (prefix_operator)
-    (value_path (value_name)))
-  (prefix_expression
-    (prefix_operator)
-    (value_path (value_name)))
-  (infix_expression
-    (value_path (value_name))
-    (infix_operator)
-    (value_path (value_name)))
-  (infix_expression
-    (value_path (value_name))
-    (infix_operator)
-    (number)))
+  (expression_item
+    (prefix_expression
+      (prefix_operator)
+      (value_path (value_name))))
+  (expression_item
+    (prefix_expression
+      (prefix_operator)
+      (value_path (value_name))))
+  (expression_item
+    (prefix_expression
+      (prefix_operator)
+      (value_path (value_name))))
+  (expression_item
+    (infix_expression
+      (value_path (value_name))
+      (infix_operator)
+      (value_path (value_name))))
+  (expression_item
+    (infix_expression
+      (value_path (value_name))
+      (infix_operator)
+      (number))))
 
 ===========================
 If, while and for
@@ -360,21 +402,25 @@ for i = 1 to n do x done;;
 ---
 
 (compilation_unit
-  (if_expression
-    (value_path (value_name))
-    (then_clause (value_path (value_name))))
-  (if_expression
-    (value_path (value_name))
-    (then_clause (value_path (value_name)))
-    (else_clause (value_path (value_name))))
-  (while_expression
-    (value_path (value_name))
-    (do_clause (value_path (value_name))))
-  (for_expression
-    (value_name)
-    (number)
-    (value_path (value_name))
-    (do_clause (value_path (value_name)))))
+  (expression_item
+    (if_expression
+      (value_path (value_name))
+      (then_clause (value_path (value_name)))))
+  (expression_item
+    (if_expression
+      (value_path (value_name))
+      (then_clause (value_path (value_name)))
+      (else_clause (value_path (value_name)))))
+  (expression_item
+    (while_expression
+      (value_path (value_name))
+      (do_clause (value_path (value_name)))))
+  (expression_item
+    (for_expression
+      (value_name)
+      (number)
+      (value_path (value_name))
+      (do_clause (value_path (value_name))))))
 
 ===========================
 Sequence expressions
@@ -385,11 +431,12 @@ x; y; z;;
 ---
 
 (compilation_unit
-  (sequence_expression
-    (value_path (value_name))
+  (expression_item
     (sequence_expression
       (value_path (value_name))
-      (value_path (value_name)))))
+      (sequence_expression
+        (value_path (value_name))
+        (value_path (value_name))))))
 
 ===========================
 Match expressions
@@ -405,27 +452,29 @@ match+ x with x -> x;;
 ---
 
 (compilation_unit
-  (match_expression
-    (value_path (value_name))
-    (match_case
-      (value_name)
-      (value_path (value_name)))
-    (match_case
-      (value_name)
+  (expression_item
+    (match_expression
       (value_path (value_name))
-      (value_path (value_name)))
-    (match_case
-      (or_pattern (value_name) (value_name))
-      (value_path (value_name)))
-    (match_case
-      (exception_pattern (value_name))
-      (value_path (value_name))))
-  (match_expression
-    (match_operator)
-    (value_path (value_name))
-    (match_case
-      (value_name)
-      (value_path (value_name)))))
+      (match_case
+        (value_name)
+        (value_path (value_name)))
+      (match_case
+        (value_name)
+        (guard (value_path (value_name)))
+        (value_path (value_name)))
+      (match_case
+        (or_pattern (value_name) (value_name))
+        (value_path (value_name)))
+      (match_case
+        (exception_pattern (value_name))
+        (value_path (value_name)))))
+  (expression_item
+    (match_expression
+      (match_operator)
+      (value_path (value_name))
+      (match_case
+        (value_name)
+        (value_path (value_name))))))
 
 ===========================
 Function expressions
@@ -436,13 +485,14 @@ function 0 -> 0 | x -> 1
 ---
 
 (compilation_unit
-  (function_expression
-    (match_case
-      (number)
-      (number))
-    (match_case
-      (value_name)
-      (number))))
+  (expression_item
+    (function_expression
+      (match_case
+        (number)
+        (number))
+      (match_case
+        (value_name)
+        (number)))))
 
 ===========================
 Try expressions
@@ -453,11 +503,12 @@ try x with Exception -> ()
 ---
 
 (compilation_unit
-  (try_expression
-    (value_path (value_name))
-    (match_case
-      (constructor_path (constructor_name))
-      (unit))))
+  (expression_item
+    (try_expression
+      (value_path (value_name))
+      (match_case
+        (constructor_path (constructor_name))
+        (unit)))))
 
 ===========================
 Let expressions
@@ -469,21 +520,23 @@ let rec x = y and y = x in x;;
 ---
 
 (compilation_unit
-  (let_expression
-    (value_definition
-      (let_binding
-        (value_name)
-        (number)))
-    (value_path (value_name)))
-  (let_expression
-    (value_definition
-      (let_binding
-        (value_name)
-        (value_path (value_name)))
-      (let_binding
-        (value_name)
-        (value_path (value_name))))
-    (value_path (value_name))))
+  (expression_item
+    (let_expression
+      (value_definition
+        (let_binding
+          (value_name)
+          (number)))
+      (value_path (value_name))))
+  (expression_item
+    (let_expression
+      (value_definition
+        (let_binding
+          (value_name)
+          (value_path (value_name)))
+        (let_binding
+          (value_name)
+          (value_path (value_name))))
+      (value_path (value_name)))))
 
 ===========================
 Assert expressions
@@ -493,7 +546,9 @@ assert x
 
 ---
 
-(compilation_unit (assert_expression (value_path (value_name))))
+(compilation_unit
+  (expression_item
+    (assert_expression (value_path (value_name)))))
 
 ===========================
 Lazy expressions
@@ -503,7 +558,9 @@ lazy x
 
 ---
 
-(compilation_unit (lazy_expression (value_path (value_name))))
+(compilation_unit
+  (expression_item
+    (lazy_expression (value_path (value_name)))))
 
 ===========================
 Let module, open, exception
@@ -516,19 +573,22 @@ let exception E in x;;
 ---
 
 (compilation_unit
-  (let_module_expression
-    (module_definition
-      (module_binding
-        (module_name)
-        (module_name)))
-    (value_path (value_name)))
-  (let_open_expression
-    (open_statement (module_name))
-    (value_path (value_name)))
-  (let_exception_expression
-    (exception_definition
-      (constructor_declaration (constructor_name)))
-    (value_path (value_name))))
+  (expression_item
+    (let_module_expression
+      (module_definition
+        (module_binding
+          (module_name)
+          (module_name)))
+      (value_path (value_name))))
+  (expression_item
+    (let_open_expression
+      (open_statement (module_name))
+      (value_path (value_name))))
+  (expression_item
+    (let_exception_expression
+      (exception_definition
+        (constructor_declaration (constructor_name)))
+      (value_path (value_name)))))
 
 ===========================
 Parenthesized expressions
@@ -553,81 +613,82 @@ let x = x in if x then x <- x := ! x . x ## x x x lsl x ** x * x mod x + x - x :
 ---
 
 (compilation_unit
-  (let_expression
-    (value_definition
-      (let_binding
-        (value_name)
-        (value_path (value_name))))
-    (sequence_expression
-      (if_expression
-        (value_path (value_name))
-        (then_clause
-          (set_expression
-            (instance_variable_name)
-            (infix_expression
-              (value_path (value_name))
-              (infix_operator)
-              (product_expression
+  (expression_item
+    (let_expression
+      (value_definition
+        (let_binding
+          (value_name)
+          (value_path (value_name))))
+      (sequence_expression
+        (if_expression
+          (value_path (value_name))
+          (then_clause
+            (set_expression
+              (instance_variable_name)
+              (infix_expression
+                (value_path (value_name))
+                (infix_operator)
                 (product_expression
-                  (infix_expression
+                  (product_expression
                     (infix_expression
                       (infix_expression
                         (infix_expression
                           (infix_expression
-                            (cons_expression
-                              (infix_expression
+                            (infix_expression
+                              (cons_expression
                                 (infix_expression
                                   (infix_expression
                                     (infix_expression
                                       (infix_expression
-                                        (application_expression
-                                          (infix_expression
-                                            (field_get_expression
-                                              (prefix_expression
-                                                (prefix_operator)
-                                                (value_path (value_name)))
-                                              (field_path (field_name)))
-                                            (infix_operator)
-                                            (value_path (value_name)))
-                                          (value_path (value_name))
-                                          (value_path (value_name)))
-                                        (infix_operator)
                                         (infix_expression
-                                          (value_path (value_name))
+                                          (application_expression
+                                            (infix_expression
+                                              (field_get_expression
+                                                (prefix_expression
+                                                  (prefix_operator)
+                                                  (value_path (value_name)))
+                                                (field_path (field_name)))
+                                              (infix_operator)
+                                              (value_path (value_name)))
+                                            (value_path (value_name))
+                                            (value_path (value_name)))
                                           (infix_operator)
-                                          (value_path (value_name))))
+                                          (infix_expression
+                                            (value_path (value_name))
+                                            (infix_operator)
+                                            (value_path (value_name))))
+                                        (infix_operator)
+                                        (value_path (value_name)))
                                       (infix_operator)
                                       (value_path (value_name)))
                                     (infix_operator)
                                     (value_path (value_name)))
                                   (infix_operator)
                                   (value_path (value_name)))
-                                (infix_operator)
-                                (value_path (value_name)))
-                              (cons_expression
+                                (cons_expression
+                                  (value_path (value_name))
+                                  (value_path (value_name))))
+                              (infix_operator)
+                              (infix_expression
                                 (value_path (value_name))
+                                (infix_operator)
                                 (value_path (value_name))))
                             (infix_operator)
-                            (infix_expression
-                              (value_path (value_name))
-                              (infix_operator)
-                              (value_path (value_name))))
+                            (value_path (value_name)))
                           (infix_operator)
                           (value_path (value_name)))
                         (infix_operator)
-                        (value_path (value_name)))
+                        (infix_expression
+                          (value_path (value_name))
+                          (infix_operator)
+                          (value_path (value_name))))
                       (infix_operator)
                       (infix_expression
                         (value_path (value_name))
                         (infix_operator)
                         (value_path (value_name))))
-                    (infix_operator)
-                    (infix_expression
-                      (value_path (value_name))
-                      (infix_operator)
-                      (value_path (value_name))))
-                  (value_path (value_name)))
-                (value_path (value_name)))))))
-      (sequence_expression
-        (value_path (value_name))
-        (value_path (value_name))))))
+                    (value_path (value_name)))
+                  (value_path (value_name)))))))
+        (sequence_expression
+          (value_path (value_name))
+          (value_path (value_name)))))))
