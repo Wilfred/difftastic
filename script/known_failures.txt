@@ -37,9 +37,7 @@ examples/ocaml/testsuite/tests/parsing/pr6604.ml
 examples/ocaml/testsuite/tests/tool-toplevel/error_highlighting_use2.ml
 examples/ocaml/testsuite/tests/tool-toplevel/error_highlighting_use3.ml
 examples/ocaml/testsuite/tests/tool-toplevel/error_highlighting.ml
-examples/ocaml/testsuite/tests/typing-misc/injectivity.ml
 examples/ocaml/testsuite/tests/typing-misc/typecore_errors.ml
-examples/ocaml/testsuite/tests/typing-objects/Tests.ml
 examples/ocaml/testsuite/tests/typing-sigsubst/sig_local_aliases_syntax_errors.ml
 examples/ocaml/testsuite/tests/typing-sigsubst/sig_local_aliases.ml
 examples/ocaml/testsuite/tests/typing-warnings/pr7261.ml

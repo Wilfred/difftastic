@@ -2506,7 +2506,7 @@
       "required": true,
       "types": [
         {
-          "type": "class_path",
+          "type": "class_type_path",
           "named": true
         }
       ]

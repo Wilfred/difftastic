@@ -3,10 +3,35 @@ Type variables
 ===========================
 
 type 'a t = 'a
+type ('a, 'b) t = 'a
+type +'a t = 'a
+type !+'a t = 'a
+type +!'a t = 'a
 
 ---
 
 (compilation_unit
+  (type_definition
+    (type_binding
+      (type_variable)
+      (type_constructor)
+      (type_variable)))
+  (type_definition
+    (type_binding
+      (type_variable)
+      (type_variable)
+      (type_constructor)
+      (type_variable)))
+  (type_definition
+    (type_binding
+      (type_variable)
+      (type_constructor)
+      (type_variable)))
+  (type_definition
+    (type_binding
+      (type_variable)
+      (type_constructor)
+      (type_variable)))
   (type_definition
     (type_binding
       (type_variable)
