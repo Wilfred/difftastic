@@ -9,7 +9,7 @@ type 'a t = 'a
 (compilation_unit
   (type_definition
     (type_binding
-      (type_params (type_variable))
+      (type_variable)
       (type_constructor)
       (type_variable))))
 
@@ -152,11 +152,13 @@ type t = l:t -> ?l:t -> t
     (type_binding
       (type_constructor)
       (function_type
-        (label_name)
-        (type_constructor_path (type_constructor))
-        (function_type
+        (typed_label
           (label_name)
-          (type_constructor_path (type_constructor))
+          (type_constructor_path (type_constructor)))
+        (function_type
+          (typed_label
+            (label_name)
+            (type_constructor_path (type_constructor)))
           (type_constructor_path (type_constructor)))))))
 
 ===========================

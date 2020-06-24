@@ -15,7 +15,7 @@ module M : M.T
   (module_definition
     (module_binding
       (module_name)
-      (module_type_path (module_name) (module_type_name)))))
+      (module_type_path (module_name) (module_type_path (module_type_name))))))
 
 ==============================
 Signatures
@@ -50,10 +50,12 @@ module M : T with type t = t and module M := M
       (module_name)
       (module_type_constraint
         (module_type_path (module_type_name))
-        (type_constructor_path (type_constructor))
-        (type_constructor_path (type_constructor))
-        (module_name)
-        (module_name)))))
+        (constrain_type
+          (type_constructor_path (type_constructor))
+          (type_constructor_path (type_constructor)))
+        (constrain_module
+          (module_name)
+          (module_name))))))
 
 ==============================
 Module type of
