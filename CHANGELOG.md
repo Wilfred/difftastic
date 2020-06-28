@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [0.3.0](https://github.com/ikatyang/tree-sitter-toml/compare/v0.2.0...v0.3.0) (2020-06-28)
+
+
+### Features
+
+* upgrade to TOML spec v1.0.0-rc.1 ([#11](https://github.com/ikatyang/tree-sitter-toml/issues/11)) ([7df9880](https://github.com/ikatyang/tree-sitter-toml/commit/7df9880))
+
+
+
 ## [0.2.0](https://github.com/ikatyang/tree-sitter-toml/compare/v0.1.3...v0.2.0) (2019-08-31)
 
 
