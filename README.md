@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/v/tree-sitter-toml.svg)](https://www.npmjs.com/package/tree-sitter-toml)
 [![build](https://img.shields.io/travis/com/ikatyang/tree-sitter-toml/master.svg)](https://travis-ci.com/ikatyang/tree-sitter-toml/builds)
 
-TOML ([TOML Spec v0.5.0](https://github.com/toml-lang/toml/blob/master/versions/en/toml-v0.5.0.md)) grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter)
+TOML ([TOML Spec v1.0.0-rc.1](https://github.com/toml-lang/toml/blob/v1.0.0-rc.1/versions/en/toml-v1.0.0-rc.1.md)) grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter)
 
 [Changelog](https://github.com/ikatyang/tree-sitter-toml/blob/master/CHANGELOG.md)
 
