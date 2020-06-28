@@ -7,11 +7,12 @@ const control_chars = new Charset([0x0, 0x1f], 0x7f);
 const newline = /\r?\n/;
 
 const decimal_integer = /[+-]?(0|[1-9](_?[0-9])*)/;
+const decimal_integer_in_float_exponent_part = /[+-]?[0-9](_?[0-9])*/; // allow leading zeros
 const hexadecimal_integer = /0x[0-9a-fA-F](_?[0-9a-fA-F])*/;
 const octal_integer = /0o[0-7](_?[0-7])*/;
 const binary_integer = /0b[01](_?[01])*/;
 const float_fractional_part = /[.][0-9](_?[0-9])*/;
-const float_exponent_part = seq(/[eE]/, decimal_integer);
+const float_exponent_part = seq(/[eE]/, decimal_integer_in_float_exponent_part);
 
 const rfc3339_date = /([0-9]+)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])/;
 const rfc3339_delimiter = /[ tT]/;
@@ -21,7 +22,13 @@ const rfc3339_offset = /([zZ])|([+-]([01][0-9]|2[0-3]):[0-5][0-9])/;
 module.exports = grammar({
   name: "toml",
 
-  externals: $ => [$._line_ending_or_eof],
+  externals: $ => [
+    $._line_ending_or_eof,
+    $._multiline_basic_string_content,
+    $._multiline_basic_string_end,
+    $._multiline_literal_string_content,
+    $._multiline_literal_string_end,
+  ],
 
   extras: $ => [$.comment, /[ \t]/],
 
@@ -32,7 +39,8 @@ module.exports = grammar({
         repeat(choice($.table, $.table_array_element)),
       ),
 
-    comment: $ => /#.*/,
+    comment: $ =>
+      token(seq("#", repeat(getInverseRegex(control_chars.subtract("\t"))))),
 
     table: $ =>
       seq(
@@ -87,7 +95,9 @@ module.exports = grammar({
         repeat(
           choice(
             token.immediate(
-              repeat1(getInverseRegex(control_chars.union('"', "\\"))),
+              repeat1(
+                getInverseRegex(control_chars.subtract("\t").union('"', "\\")),
+              ),
             ),
             $.escape_sequence,
           ),
@@ -100,15 +110,17 @@ module.exports = grammar({
         repeat(
           choice(
             token.immediate(
-              repeat1(getInverseRegex(control_chars.union('"', "\\"))),
+              repeat1(
+                getInverseRegex(control_chars.subtract("\t").union('"', "\\")),
+              ),
             ),
-            token.immediate(/"{1,2}/),
+            $._multiline_basic_string_content,
             token.immediate(newline),
             $.escape_sequence,
             alias($._escape_line_ending, $.escape_sequence),
           ),
         ),
-        token.immediate('"""'),
+        $._multiline_basic_string_end,
       ),
     escape_sequence: $ =>
       token.immediate(/\\([btnfr"\\]|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8})/),
@@ -131,11 +143,11 @@ module.exports = grammar({
             token.immediate(
               repeat1(getInverseRegex(control_chars.union("'").subtract("\t"))),
             ),
-            token.immediate(/'{1,2}/),
+            $._multiline_literal_string_content,
             token.immediate(newline),
           ),
         ),
-        token.immediate("'''"),
+        $._multiline_literal_string_end,
       ),
 
     integer: $ =>

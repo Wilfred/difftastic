@@ -41,6 +41,24 @@ key = # INVALID
     (comment)))
 
 ================================================================================
+INVALID - key/value pair - no newline between pairs
+================================================================================
+
+first = "Tom" last = "Preston-Werner" # INVALID
+
+--------------------------------------------------------------------------------
+
+(document
+  (pair
+    (key)
+    (string)
+    (MISSING _line_ending_or_eof))
+  (pair
+    (key)
+    (string)
+    (comment)))
+
+================================================================================
 VALID - keys - bare keys
 ================================================================================
 
@@ -173,19 +191,24 @@ name = "Pradyun"
 VALID - keys - directly defined nested keys
 ================================================================================
 
-a.b.c = 1
-a.d = 2
+# This makes the key "fruit" into a table.
+fruit.apple.smooth = true
+
+# So then you can add to the table "fruit" like so:
+fruit.orange = 2
 
 --------------------------------------------------------------------------------
 
 (document
+  (comment)
   (pair
     (dotted_key
       (dotted_key
         (key)
         (key))
       (key))
-    (integer))
+    (boolean))
+  (comment)
   (pair
     (dotted_key
       (key)
@@ -196,9 +219,59 @@ a.d = 2
 VALID - keys - overlapped keys (semantically INVALID)
 ================================================================================
 
-# THIS IS INVALID
-a.b = 1
-a.b.c = 2
+# THE FOLLOWING IS INVALID
+
+# This defines the value of fruit.apple to be an integer.
+fruit.apple = 1
+
+# But then this treats fruit.apple like it's a table.
+# You can't turn an integer into a table.
+fruit.apple.smooth = true
+
+--------------------------------------------------------------------------------
+
+(document
+  (comment)
+  (comment)
+  (pair
+    (dotted_key
+      (key)
+      (key))
+    (integer))
+  (comment)
+  (comment)
+  (pair
+    (dotted_key
+      (dotted_key
+        (key)
+        (key))
+      (key))
+    (boolean)))
+
+================================================================================
+VALID - keys - order
+================================================================================
+
+# VALID BUT DISCOURAGED
+
+apple.type = "fruit"
+orange.type = "fruit"
+
+apple.skin = "thin"
+orange.skin = "thick"
+
+apple.color = "red"
+orange.color = "orange"
+
+# RECOMMENDED
+
+apple.type = "fruit"
+apple.skin = "thin"
+apple.color = "red"
+
+orange.type = "fruit"
+orange.skin = "thick"
+orange.color = "orange"
 
 --------------------------------------------------------------------------------
 
@@ -208,14 +281,63 @@ a.b.c = 2
     (dotted_key
       (key)
       (key))
-    (integer))
+    (string))
   (pair
     (dotted_key
-      (dotted_key
-        (key)
-        (key))
+      (key)
       (key))
-    (integer)))
+    (string))
+  (pair
+    (dotted_key
+      (key)
+      (key))
+    (string))
+  (pair
+    (dotted_key
+      (key)
+      (key))
+    (string))
+  (pair
+    (dotted_key
+      (key)
+      (key))
+    (string))
+  (pair
+    (dotted_key
+      (key)
+      (key))
+    (string))
+  (comment)
+  (pair
+    (dotted_key
+      (key)
+      (key))
+    (string))
+  (pair
+    (dotted_key
+      (key)
+      (key))
+    (string))
+  (pair
+    (dotted_key
+      (key)
+      (key))
+    (string))
+  (pair
+    (dotted_key
+      (key)
+      (key))
+    (string))
+  (pair
+    (dotted_key
+      (key)
+      (key))
+    (string))
+  (pair
+    (dotted_key
+      (key)
+      (key))
+    (string)))
 
 ================================================================================
 VALID - string - basic strings
@@ -292,6 +414,42 @@ str3 = """\
       (escape_sequence))))
 
 ================================================================================
+VALID - string - multi-line basic strings with double quotes
+================================================================================
+
+str4 = """Here are two quotation marks: "". Simple enough."""
+# str5 = """Here are three quotation marks: """."""  # INVALID
+str5 = """Here are three quotation marks: ""\"."""
+str6 = """Here are fifteen quotation marks: ""\"""\"""\"""\"""\"."""
+
+# "This," she said, "is just a pointless statement."
+str7 = """"This," she said, "is just a pointless statement.""""
+
+--------------------------------------------------------------------------------
+
+(document
+  (pair
+    (key)
+    (string))
+  (comment)
+  (pair
+    (key)
+    (string
+      (escape_sequence)))
+  (pair
+    (key)
+    (string
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)))
+  (comment)
+  (pair
+    (key)
+    (string)))
+
+================================================================================
 VALID - string - literal strings
 ================================================================================
 
@@ -336,6 +494,33 @@ trimmed in raw strings.
   (pair
     (key)
     (string))
+  (pair
+    (key)
+    (string)))
+
+================================================================================
+VALID - string - multi-line literal strings with single quotes
+================================================================================
+
+quot15 = '''Here are fifteen quotation marks: """""""""""""""'''
+
+# apos15 = '''Here are fifteen apostrophes: ''''''''''''''''''  # INVALID
+apos15 = "Here are fifteen apostrophes: '''''''''''''''"
+
+# 'That's still pointless', she said.
+str = ''''That's still pointless', she said.'''
+
+--------------------------------------------------------------------------------
+
+(document
+  (pair
+    (key)
+    (string))
+  (comment)
+  (pair
+    (key)
+    (string))
+  (comment)
   (pair
     (key)
     (string)))
@@ -440,7 +625,7 @@ flt3 = -0.01
 
 # exponent
 flt4 = 5e+22
-flt5 = 1e6
+flt5 = 1e06
 flt6 = -2E-2
 
 # both
@@ -478,7 +663,7 @@ flt7 = 6.626e-34
 VALID - float - float with underscores
 ================================================================================
 
-flt8 = 9_224_617.445_991_228_313
+flt8 = 224_617.445_991_228
 
 --------------------------------------------------------------------------------
 
@@ -630,16 +815,21 @@ lt2 = 00:32:00.999999
     (local_time)))
 
 ================================================================================
-VALID - array - basic (semantically INVALID for children with mixed types)
+VALID - array - basic
 ================================================================================
 
-arr1 = [ 1, 2, 3 ]
-arr2 = [ "red", "yellow", "green" ]
-arr3 = [ [ 1, 2 ], [3, 4, 5] ]
-arr4 = [ "all", 'strings', """are the same""", '''type''']
-arr5 = [ [ 1, 2 ], ["a", "b", "c"] ]
+integers = [ 1, 2, 3 ]
+colors = [ "red", "yellow", "green" ]
+nested_array_of_int = [ [ 1, 2 ], [3, 4, 5] ]
+nested_mixed_array = [ [ 1, 2 ], ["a", "b", "c"] ]
+string_array = [ "all", 'strings', """are the same""", '''type''' ]
 
-arr6 = [ 1, 2.0 ] # INVALID
+# Mixed-type arrays are allowed
+numbers = [ 0.1, 0.2, 0.5, 1, 2, 5 ]
+contributors = [
+  "Foo Bar <foo@example.com>",
+  { name = "Baz Qux", email = "bazqux@example.com", url = "https://example.com/bazqux" }
+]
 
 --------------------------------------------------------------------------------
 
@@ -669,13 +859,6 @@ arr6 = [ 1, 2.0 ] # INVALID
   (pair
     (key)
     (array
-      (string)
-      (string)
-      (string)
-      (string)))
-  (pair
-    (key)
-    (array
       (array
         (integer)
         (integer))
@@ -686,19 +869,44 @@ arr6 = [ 1, 2.0 ] # INVALID
   (pair
     (key)
     (array
+      (string)
+      (string)
+      (string)
+      (string)))
+  (comment)
+  (pair
+    (key)
+    (array
+      (float)
+      (float)
+      (float)
       (integer)
-      (float))
-    (comment)))
+      (integer)
+      (integer)))
+  (pair
+    (key)
+    (array
+      (string)
+      (inline_table
+        (pair
+          (key)
+          (string))
+        (pair
+          (key)
+          (string))
+        (pair
+          (key)
+          (string))))))
 
 ================================================================================
 VALID - array - allow newlines
 ================================================================================
 
-arr7 = [
+integers2 = [
   1, 2, 3
 ]
 
-arr8 = [
+integers3 = [
   1,
   2, # this is ok
 ]
@@ -833,6 +1041,8 @@ VALID - table - directly defined nested header key
 # [x.y.z] need these
 [x.y.z.w] # for this to work
 
+[x] # defining a super-table afterwards is ok
+
 --------------------------------------------------------------------------------
 
 (document
@@ -847,6 +1057,9 @@ VALID - table - directly defined nested header key
           (key))
         (key))
       (key))
+    (comment))
+  (table
+    (key)
     (comment)))
 
 ================================================================================
@@ -855,11 +1068,11 @@ VALID - table - duplicate header key (semantically INVALID)
 
 # DO NOT DO THIS
 
-[a]
-b = 1
+[fruit]
+apple = "red"
 
-[a]
-c = 2
+[fruit]
+orange = "orange"
 
 --------------------------------------------------------------------------------
 
@@ -869,12 +1082,12 @@ c = 2
     (key)
     (pair
       (key)
-      (integer)))
+      (string)))
   (table
     (key)
     (pair
       (key)
-      (integer))))
+      (string))))
 
 ================================================================================
 VALID - table - overlapped header key (semantically INVALID)
@@ -882,11 +1095,11 @@ VALID - table - overlapped header key (semantically INVALID)
 
 # DO NOT DO THIS EITHER
 
-[a]
-b = 1
+[fruit]
+apple = "red"
 
-[a.b]
-c = 2
+[fruit.apple]
+texture = "smooth"
 
 --------------------------------------------------------------------------------
 
@@ -896,14 +1109,98 @@ c = 2
     (key)
     (pair
       (key)
-      (integer)))
+      (string)))
   (table
     (dotted_key
       (key)
       (key))
     (pair
       (key)
-      (integer))))
+      (string))))
+
+================================================================================
+VALID - table - order
+================================================================================
+
+# VALID BUT DISCOURAGED
+[fruit.apple]
+[animal]
+[fruit.orange]
+
+# RECOMMENDED
+[fruit.apple]
+[fruit.orange]
+[animal]
+
+--------------------------------------------------------------------------------
+
+(document
+  (comment)
+  (table
+    (dotted_key
+      (key)
+      (key)))
+  (table
+    (key))
+  (table
+    (dotted_key
+      (key)
+      (key))
+    (comment))
+  (table
+    (dotted_key
+      (key)
+      (key)))
+  (table
+    (dotted_key
+      (key)
+      (key)))
+  (table
+    (key)))
+
+================================================================================
+VALID - table - sub-table
+================================================================================
+
+[fruit]
+apple.color = "red"
+apple.taste.sweet = true
+
+# [fruit.apple]  # INVALID
+# [fruit.apple.taste]  # INVALID
+
+[fruit.apple.texture]  # you can add sub-tables
+smooth = true
+
+--------------------------------------------------------------------------------
+
+(document
+  (table
+    (key)
+    (pair
+      (dotted_key
+        (key)
+        (key))
+      (string))
+    (pair
+      (dotted_key
+        (dotted_key
+          (key)
+          (key))
+        (key))
+      (boolean))
+    (comment)
+    (comment))
+  (table
+    (dotted_key
+      (dotted_key
+        (key)
+        (key))
+      (key))
+    (comment)
+    (pair
+      (key)
+      (boolean))))
 
 ================================================================================
 VALID - inline table - basic
@@ -944,6 +1241,39 @@ animal = { type.name = "pug" }
         (string)))))
 
 ================================================================================
+VALID - inline table - overlapped key (semantically INVALID)
+================================================================================
+
+[product]
+type = { name = "Nail" }
+# type.edible = false  # INVALID
+
+[product]
+type.name = "Nail"
+# type = { edible = false }  # INVALID
+
+--------------------------------------------------------------------------------
+
+(document
+  (table
+    (key)
+    (pair
+      (key)
+      (inline_table
+        (pair
+          (key)
+          (string))))
+    (comment))
+  (table
+    (key)
+    (pair
+      (dotted_key
+        (key)
+        (key))
+      (string))
+    (comment)))
+
+================================================================================
 VALID - array of tables - basic
 ================================================================================
 
@@ -956,6 +1286,7 @@ sku = 738594937
 [[products]]
 name = "Nail"
 sku = 284758393
+
 color = "gray"
 
 --------------------------------------------------------------------------------
@@ -990,11 +1321,11 @@ VALID - array of tables - nested arrays of tables
 [[fruit]]
   name = "apple"
 
-  [fruit.physical]
+  [fruit.physical]  # subtable
     color = "red"
     shape = "round"
 
-  [[fruit.variety]]
+  [[fruit.variety]]  # nested array of tables
     name = "red delicious"
 
   [[fruit.variety]]
@@ -1018,6 +1349,7 @@ VALID - array of tables - nested arrays of tables
     (dotted_key
       (key)
       (key))
+    (comment)
     (pair
       (key)
       (string))
@@ -1028,6 +1360,7 @@ VALID - array of tables - nested arrays of tables
     (dotted_key
       (key)
       (key))
+    (comment)
     (pair
       (key)
       (string)))
@@ -1047,6 +1380,42 @@ VALID - array of tables - nested arrays of tables
     (dotted_key
       (key)
       (key))
+    (pair
+      (key)
+      (string))))
+
+================================================================================
+VALID - array of tables - append to array in undefined table (semantically INVALID)
+================================================================================
+
+# INVALID TOML DOC
+[fruit.physical]  # subtable, but to which parent element should it belong?
+  color = "red"
+  shape = "round"
+
+[[fruit]]  # parser must throw an error upon discovering that "fruit" is
+           # an array rather than a table
+  name = "apple"
+
+--------------------------------------------------------------------------------
+
+(document
+  (comment)
+  (table
+    (dotted_key
+      (key)
+      (key))
+    (comment)
+    (pair
+      (key)
+      (string))
+    (pair
+      (key)
+      (string)))
+  (table_array_element
+    (key)
+    (comment)
+    (comment)
     (pair
       (key)
       (string))))
@@ -1082,9 +1451,17 @@ VALID - array of tables - append to table (semantically INVALID)
   [[fruit.variety]]
     name = "red delicious"
 
-  # This table conflicts with the previous table
+  # INVALID: This table conflicts with the previous array of tables
   [fruit.variety]
     name = "granny smith"
+
+  [fruit.physical]
+    color = "red"
+    shape = "round"
+
+  # INVALID: This array of tables conflicts with the previous table
+  [[fruit.physical]]
+    color = "green"
 
 --------------------------------------------------------------------------------
 
@@ -1104,6 +1481,24 @@ VALID - array of tables - append to table (semantically INVALID)
       (string))
     (comment))
   (table
+    (dotted_key
+      (key)
+      (key))
+    (pair
+      (key)
+      (string)))
+  (table
+    (dotted_key
+      (key)
+      (key))
+    (pair
+      (key)
+      (string))
+    (pair
+      (key)
+      (string))
+    (comment))
+  (table_array_element
     (dotted_key
       (key)
       (key))
