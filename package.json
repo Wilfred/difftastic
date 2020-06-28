@@ -18,8 +18,14 @@
   "scripts": {
     "test": "yarn tree-sitter test",
     "prepack": "yarn tree-sitter generate",
-    "release": "standard-version",
+    "release": "standard-version --commit-all",
     "tree-sitter": "./tree-sitter/target/release/tree-sitter"
+  },
+  "standard-version": {
+    "preset": "angular",
+    "scripts": {
+      "postbump": "rm -r docs && node scripts/generate-playground.js && git add docs"
+    }
   },
   "dependencies": {
     "nan": "^2.14.0"
