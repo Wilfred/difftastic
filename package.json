@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-toml",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "TOML grammar for tree-sitter",
   "keywords": [
     "parser",
