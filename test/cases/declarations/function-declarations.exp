@@ -1,0 +1,6 @@
+(script
+  (function_declaration
+    name: (identifier)
+    parameters: (parameters)
+    return_type: (primitive_type)
+    body: (compound_statement)))
