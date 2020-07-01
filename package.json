@@ -1,0 +1,29 @@
+{
+  "name": "tree-sitter-hack",
+  "version": "0.0.1",
+  "description": "Hack grammar for tree-sitter",
+  "main": "index.js",
+  "scripts": {
+    "test": "tree-sitter test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antoniodejesusochoasolano/tree-sitter-hack.git"
+  },
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "author": "Antonio de Jesus Ochoa Solano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antoniodejesusochoasolano/tree-sitter-hack/issues"
+  },
+  "homepage": "https://github.com/antoniodejesusochoasolano/tree-sitter-hack#readme",
+  "dependencies": {
+    "nan": "^2.14.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.16.8"
+  }
+}
