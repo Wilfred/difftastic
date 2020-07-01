@@ -7,3 +7,6 @@ build
 src
 !src/scanner.cc
 !src/scanner.c
+
+# Source test files in test/cases. We can ignore test/corpus.
+test/corpus
