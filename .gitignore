@@ -2,3 +2,8 @@ node_modules
 build
 *.log
 .DS_Store
+
+# Do we need to track `src` if it's all generated?
+src
+!src/scanner.cc
+!src/scanner.c
