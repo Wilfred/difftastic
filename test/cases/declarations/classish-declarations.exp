@@ -1,0 +1,62 @@
+(script
+  (classish_declaration
+    type: (type_identifier)
+    name: (identifier)
+    body: (declaration_list))
+  (classish_declaration
+    type: (type_identifier)
+    name: (identifier)
+    body: (declaration_list))
+  (classish_declaration
+    type: (type_identifier)
+    name: (identifier)
+    body: (declaration_list))
+  (classish_declaration
+    (class_modifier)
+    (class_modifier)
+    type: (type_identifier)
+    name: (identifier)
+    (extends_clause
+      (identifier))
+    (implements_clause
+      (identifier))
+    body: (declaration_list))
+  (classish_declaration
+    (class_modifier)
+    (class_modifier)
+    type: (type_identifier)
+    name: (identifier)
+    (extends_clause
+      (identifier))
+    (implements_clause
+      (identifier))
+    body: (declaration_list))
+  (classish_declaration
+    (class_modifier)
+    type: (type_identifier)
+    name: (identifier)
+    (extends_clause
+      (identifier))
+    (implements_clause
+      (identifier))
+    body: (declaration_list
+      (method_declaration
+        name: (identifier)
+        parameters: (parameters)
+        body: (compound_statement))
+      (method_declaration
+        (class_modifier)
+        name: (identifier)
+        parameters: (parameters)
+        return_type: (primitive_type)
+        body: (compound_statement))
+      (method_declaration
+        (class_modifier)
+        name: (identifier)
+        parameters: (parameters))
+      (method_declaration
+        (class_modifier)
+        (class_modifier)
+        name: (identifier)
+        parameters: (parameters)
+        return_type: (primitive_type)))))

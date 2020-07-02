@@ -71,11 +71,13 @@ module.exports = grammar({
         'noreturn',
       ),
 
+    class_modifier: $ => choice('abstract', 'final'),
+
     _statement: $ => choice($._declaration, $.compound_statement),
 
     compound_statement: $ => cur(repeat($._statement)),
 
-    _declaration: $ => choice($.function_declaration),
+    _declaration: $ => choice($.function_declaration, $.classish_declaration),
 
     function_declaration: $ =>
       seq($._function_declaration_header, fi.body($.compound_statement)),
@@ -91,5 +93,32 @@ module.exports = grammar({
     parameters: $ => par(op(com($.parameter, op(',')))),
 
     parameter: $ => seq(op(fi.type($.primitive_type)), fi.name($.variable)),
+
+    classish_declaration: $ =>
+      seq(
+        op($.class_modifier),
+        op($.class_modifier),
+        fi.type(
+          alias(choice('class', 'interface', 'trait'), $.type_identifier),
+        ),
+        fi.name($.identifier),
+        op($.extends_clause),
+        op($.implements_clause),
+        fi.body($.declaration_list),
+      ),
+
+    declaration_list: $ => cur(repeat(choice($.method_declaration))),
+
+    extends_clause: $ => seq('extends', com($.identifier)),
+
+    implements_clause: $ => seq('implements', com($.identifier)),
+
+    method_declaration: $ =>
+      seq(
+        op($.class_modifier),
+        op($.class_modifier),
+        $._function_declaration_header,
+        choice(fi.body($.compound_statement), ';'),
+      ),
   },
 });
