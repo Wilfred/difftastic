@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+  --force)
+    FORCE="--force"
+    shift
+    ;;
+
+  *)
+    break
+    ;;
+  esac
+done
+
+bin/generate-parser $FORCE &&
+  bin/generate-corpus $FORCE &&
+  npx tree-sitter test
