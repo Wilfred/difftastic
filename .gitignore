@@ -10,3 +10,6 @@ src
 
 # Source test files in test/cases. We can ignore test/corpus.
 test/corpus
+
+# Store sha256sum for grammar.js
+grammar.js.sha
