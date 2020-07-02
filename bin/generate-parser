@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+  --force)
+    FORCE=1
+    shift
+    ;;
+
+  *)
+    break
+    ;;
+  esac
+done
+
+CACHED_SHA=$(cat 'grammar.js.sha' 2>/dev/null)
+GRAMMAR_SHA=$(sha256sum 'grammar.js' | cut -d' ' -f1)
+
+# Exit if grammar.js hasn't changed since last time we generated parser.
+if [[ ! $FORCE -eq 1 && "$CACHED_SHA" == "$GRAMMAR_SHA" ]]; then
+  exit 0
+fi
+
+printf "Generating parser...\n"
+
+npx tree-sitter generate
+
+if [[ $? -eq 0 ]]; then
+  printf "$GRAMMAR_SHA\n" >'grammar.js.sha'
+fi
