@@ -3,4 +3,45 @@
     name: (identifier)
     parameters: (parameters)
     return_type: (primitive_type)
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    parameters: (parameters)
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        name: (variable
+          (identifier))))
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        type: (primitive_type)
+        name: (variable
+          (identifier))))
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        type: (primitive_type)
+        name: (variable
+          (identifier))))
+    return_type: (primitive_type)
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        type: (primitive_type)
+        name: (variable
+          (identifier)))
+      (parameter
+        type: (primitive_type)
+        name: (variable
+          (identifier))))
+    return_type: (primitive_type)
     body: (compound_statement)))
