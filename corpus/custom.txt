@@ -27,12 +27,22 @@ key
 --------------------------------------------------------------------------------
 
 (document
+  (ERROR
+    (quoted_key)
+    (bare_key)
+    (bare_key)
+    (bare_key))
   (pair
-    (key)
+    (bare_key)
     (ERROR)
     (boolean))
+  (ERROR
+    (quoted_key)
+    (bare_key)
+    (bare_key)
+    (bare_key))
   (pair
-    (key)
+    (bare_key)
     (ERROR)
     (boolean)))
 
@@ -48,8 +58,18 @@ invalid_both = 1 .0 e 2
 
 (document
   (ERROR
-    (key)
-    (integer)))
+    (bare_key)
+    (integer)
+    (bare_key)
+    (bare_key)
+    (bare_key)
+    (bare_key)
+    (bare_key)
+    (bare_key)
+    (bare_key)
+    (bare_key)
+    (bare_key)
+    (bare_key)))
 
 ================================================================================
 INVALID - offset date time - whitespaces between its components are not allowed
@@ -62,10 +82,15 @@ invalid2 = 1979-05-27 T 07:32:00 Z
 
 (document
   (ERROR
-    (key)
+    (bare_key)
     (local_date)
     (local_time)
-    (local_time)))
+    (bare_key)
+    (bare_key)
+    (bare_key)
+    (bare_key)
+    (local_time)
+    (bare_key)))
 
 ================================================================================
 INVALID - local date time - whitespaces between its components are not allowed
@@ -78,9 +103,12 @@ invalid2 = 1979-05-27 T 07:32:00
 
 (document
   (ERROR
-    (key)
+    (bare_key)
     (local_date)
     (local_time)
+    (bare_key)
+    (bare_key)
+    (bare_key)
     (local_time)))
 
 ================================================================================
@@ -93,7 +121,7 @@ valid = 1979-05-27
 
 (document
   (pair
-    (key)
+    (bare_key)
     (local_date)))
 
 ================================================================================
@@ -118,10 +146,20 @@ key
 
 (document
   (table
-    (key)
+    (ERROR
+      (quoted_key)
+      (bare_key)
+      (bare_key)
+      (bare_key))
+    (bare_key)
     (ERROR))
   (table
-    (key)
+    (ERROR
+      (quoted_key)
+      (bare_key)
+      (bare_key)
+      (bare_key))
+    (bare_key)
     (ERROR)))
 
 ================================================================================
@@ -136,11 +174,11 @@ key = {
 
 (document
   (pair
-    (key)
+    (bare_key)
     (inline_table
       (ERROR)
       (pair
-        (key)
+        (bare_key)
         (boolean))
       (ERROR))))
 
@@ -166,7 +204,16 @@ key
 
 (document
   (ERROR
-    (key)))
+    (ERROR
+      (quoted_key)
+      (bare_key)
+      (bare_key)
+      (bare_key)
+      (bare_key)
+      (bare_key)
+      (bare_key)
+      (bare_key))
+    (bare_key)))
 
 ================================================================================
 VALID - table - empty content separated by comments
@@ -180,7 +227,7 @@ VALID - table - empty content separated by comments
 
 (document
   (table
-    (key)
+    (bare_key)
     (comment)))
 
 ================================================================================
@@ -195,7 +242,7 @@ VALID - array of tables - empty content separated by comments
 
 (document
   (table_array_element
-    (key)
+    (bare_key)
     (comment)))
 
 ================================================================================
@@ -214,13 +261,13 @@ b = 2
 
 (document
   (table
-    (key)
+    (bare_key)
     (pair
-      (key)
+      (bare_key)
       (integer))
     (comment)
     (pair
-      (key)
+      (bare_key)
       (integer))))
 
 ================================================================================
@@ -239,11 +286,11 @@ b = 2
 
 (document
   (table_array_element
-    (key)
+    (bare_key)
     (pair
-      (key)
+      (bare_key)
       (integer))
     (comment)
     (pair
-      (key)
+      (bare_key)
       (integer))))

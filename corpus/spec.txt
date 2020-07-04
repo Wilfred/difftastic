@@ -10,7 +10,7 @@ key = "value" # This is a comment at the end of a line
 (document
   (comment)
   (pair
-    (key)
+    (bare_key)
     (string)
     (comment)))
 
@@ -24,7 +24,7 @@ key = "value"
 
 (document
   (pair
-    (key)
+    (bare_key)
     (string)))
 
 ================================================================================
@@ -37,7 +37,7 @@ key = # INVALID
 
 (document
   (ERROR
-    (key)
+    (bare_key)
     (comment)))
 
 ================================================================================
@@ -50,11 +50,11 @@ first = "Tom" last = "Preston-Werner" # INVALID
 
 (document
   (pair
-    (key)
+    (bare_key)
     (string)
     (MISSING _line_ending_or_eof))
   (pair
-    (key)
+    (bare_key)
     (string)
     (comment)))
 
@@ -71,16 +71,16 @@ bare-key = "value"
 
 (document
   (pair
-    (key)
+    (bare_key)
     (string))
   (pair
-    (key)
+    (bare_key)
     (string))
   (pair
-    (key)
+    (bare_key)
     (string))
   (pair
-    (key)
+    (bare_key)
     (string)))
 
 ================================================================================
@@ -97,19 +97,19 @@ VALID - keys - quoted keys
 
 (document
   (pair
-    (key)
+    (quoted_key)
     (string))
   (pair
-    (key)
+    (quoted_key)
     (string))
   (pair
-    (key)
+    (quoted_key)
     (string))
   (pair
-    (key)
+    (quoted_key)
     (string))
   (pair
-    (key)
+    (quoted_key)
     (string)))
 
 ================================================================================
@@ -123,17 +123,15 @@ INVALID - keys - empty bare key
 --------------------------------------------------------------------------------
 
 (document
+  (ERROR)
   (pair
-    (key
-      (MISSING _bare_key))
+    (quoted_key)
+    (comment)
+    (ERROR)
     (string)
     (comment))
   (pair
-    (key)
-    (string)
-    (comment))
-  (pair
-    (key)
+    (quoted_key)
     (string)
     (comment)))
 
@@ -150,22 +148,22 @@ site."google.com" = true
 
 (document
   (pair
-    (key)
+    (bare_key)
     (string))
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string))
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string))
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (quoted_key))
     (boolean)))
 
 ================================================================================
@@ -181,10 +179,10 @@ name = "Pradyun"
 (document
   (comment)
   (pair
-    (key)
+    (bare_key)
     (string))
   (pair
-    (key)
+    (bare_key)
     (string)))
 
 ================================================================================
@@ -204,15 +202,15 @@ fruit.orange = 2
   (pair
     (dotted_key
       (dotted_key
-        (key)
-        (key))
-      (key))
+        (bare_key)
+        (bare_key))
+      (bare_key))
     (boolean))
   (comment)
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (integer)))
 
 ================================================================================
@@ -235,17 +233,17 @@ fruit.apple.smooth = true
   (comment)
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (integer))
   (comment)
   (comment)
   (pair
     (dotted_key
       (dotted_key
-        (key)
-        (key))
-      (key))
+        (bare_key)
+        (bare_key))
+      (bare_key))
     (boolean)))
 
 ================================================================================
@@ -279,64 +277,64 @@ orange.color = "orange"
   (comment)
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string))
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string))
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string))
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string))
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string))
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string))
   (comment)
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string))
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string))
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string))
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string))
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string))
   (pair
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (string)))
 
 ================================================================================
@@ -349,7 +347,7 @@ str = "I'm a string. \"You can quote me\". Name\tJos\u00E9\nLocation\tSF."
 
 (document
   (pair
-    (key)
+    (bare_key)
     (string
       (escape_sequence)
       (escape_sequence)
@@ -370,7 +368,7 @@ Violets are blue"""
 
 (document
   (pair
-    (key)
+    (bare_key)
     (string)))
 
 ================================================================================
@@ -398,15 +396,15 @@ str3 = """\
 (document
   (comment)
   (pair
-    (key)
+    (bare_key)
     (string))
   (pair
-    (key)
+    (bare_key)
     (string
       (escape_sequence)
       (escape_sequence)))
   (pair
-    (key)
+    (bare_key)
     (string
       (escape_sequence)
       (escape_sequence)
@@ -429,15 +427,15 @@ str7 = """"This," she said, "is just a pointless statement.""""
 
 (document
   (pair
-    (key)
+    (bare_key)
     (string))
   (comment)
   (pair
-    (key)
+    (bare_key)
     (string
       (escape_sequence)))
   (pair
-    (key)
+    (bare_key)
     (string
       (escape_sequence)
       (escape_sequence)
@@ -446,7 +444,7 @@ str7 = """"This," she said, "is just a pointless statement.""""
       (escape_sequence)))
   (comment)
   (pair
-    (key)
+    (bare_key)
     (string)))
 
 ================================================================================
@@ -464,16 +462,16 @@ regex    = '<\i\c*\s*>'
 (document
   (comment)
   (pair
-    (key)
+    (bare_key)
     (string))
   (pair
-    (key)
+    (bare_key)
     (string))
   (pair
-    (key)
+    (bare_key)
     (string))
   (pair
-    (key)
+    (bare_key)
     (string)))
 
 ================================================================================
@@ -492,10 +490,10 @@ trimmed in raw strings.
 
 (document
   (pair
-    (key)
+    (bare_key)
     (string))
   (pair
-    (key)
+    (bare_key)
     (string)))
 
 ================================================================================
@@ -514,15 +512,15 @@ str = ''''That's still pointless', she said.'''
 
 (document
   (pair
-    (key)
+    (bare_key)
     (string))
   (comment)
   (pair
-    (key)
+    (bare_key)
     (string))
   (comment)
   (pair
-    (key)
+    (bare_key)
     (string)))
 
 ================================================================================
@@ -538,16 +536,16 @@ int4 = -17
 
 (document
   (pair
-    (key)
+    (bare_key)
     (integer))
   (pair
-    (key)
+    (bare_key)
     (integer))
   (pair
-    (key)
+    (bare_key)
     (integer))
   (pair
-    (key)
+    (bare_key)
     (integer)))
 
 ================================================================================
@@ -562,13 +560,13 @@ int7 = 1_2_3_4_5     # VALID but discouraged
 
 (document
   (pair
-    (key)
+    (bare_key)
     (integer))
   (pair
-    (key)
+    (bare_key)
     (integer))
   (pair
-    (key)
+    (bare_key)
     (integer)
     (comment)))
 
@@ -593,25 +591,25 @@ bin1 = 0b11010110
 (document
   (comment)
   (pair
-    (key)
+    (bare_key)
     (integer))
   (pair
-    (key)
+    (bare_key)
     (integer))
   (pair
-    (key)
+    (bare_key)
     (integer))
   (comment)
   (pair
-    (key)
+    (bare_key)
     (integer))
   (pair
-    (key)
+    (bare_key)
     (integer)
     (comment))
   (comment)
   (pair
-    (key)
+    (bare_key)
     (integer)))
 
 ================================================================================
@@ -636,27 +634,27 @@ flt7 = 6.626e-34
 (document
   (comment)
   (pair
-    (key)
+    (bare_key)
     (float))
   (pair
-    (key)
+    (bare_key)
     (float))
   (pair
-    (key)
-    (float))
-  (comment)
-  (pair
-    (key)
-    (float))
-  (pair
-    (key)
-    (float))
-  (pair
-    (key)
+    (bare_key)
     (float))
   (comment)
   (pair
-    (key)
+    (bare_key)
+    (float))
+  (pair
+    (bare_key)
+    (float))
+  (pair
+    (bare_key)
+    (float))
+  (comment)
+  (pair
+    (bare_key)
     (float)))
 
 ================================================================================
@@ -669,7 +667,7 @@ flt8 = 224_617.445_991_228
 
 (document
   (pair
-    (key)
+    (bare_key)
     (float)))
 
 ================================================================================
@@ -691,28 +689,28 @@ sf6 = -nan # valid, actual encoding is implementation specific
 (document
   (comment)
   (pair
-    (key)
+    (bare_key)
     (float)
     (comment))
   (pair
-    (key)
+    (bare_key)
     (float)
     (comment))
   (pair
-    (key)
+    (bare_key)
     (float)
     (comment))
   (comment)
   (pair
-    (key)
+    (bare_key)
     (float)
     (comment))
   (pair
-    (key)
+    (bare_key)
     (float)
     (comment))
   (pair
-    (key)
+    (bare_key)
     (float)
     (comment)))
 
@@ -727,10 +725,10 @@ bool2 = false
 
 (document
   (pair
-    (key)
+    (bare_key)
     (boolean))
   (pair
-    (key)
+    (bare_key)
     (boolean)))
 
 ================================================================================
@@ -745,13 +743,13 @@ odt3 = 1979-05-27T00:32:00.999999-07:00
 
 (document
   (pair
-    (key)
+    (bare_key)
     (offset_date_time))
   (pair
-    (key)
+    (bare_key)
     (offset_date_time))
   (pair
-    (key)
+    (bare_key)
     (offset_date_time)))
 
 ================================================================================
@@ -764,7 +762,7 @@ odt4 = 1979-05-27 07:32:00Z
 
 (document
   (pair
-    (key)
+    (bare_key)
     (offset_date_time)))
 
 ================================================================================
@@ -778,10 +776,10 @@ ldt2 = 1979-05-27T00:32:00.999999
 
 (document
   (pair
-    (key)
+    (bare_key)
     (local_date_time))
   (pair
-    (key)
+    (bare_key)
     (local_date_time)))
 
 ================================================================================
@@ -794,7 +792,7 @@ ld1 = 1979-05-27
 
 (document
   (pair
-    (key)
+    (bare_key)
     (local_date)))
 
 ================================================================================
@@ -808,10 +806,10 @@ lt2 = 00:32:00.999999
 
 (document
   (pair
-    (key)
+    (bare_key)
     (local_time))
   (pair
-    (key)
+    (bare_key)
     (local_time)))
 
 ================================================================================
@@ -835,19 +833,19 @@ contributors = [
 
 (document
   (pair
-    (key)
+    (bare_key)
     (array
       (integer)
       (integer)
       (integer)))
   (pair
-    (key)
+    (bare_key)
     (array
       (string)
       (string)
       (string)))
   (pair
-    (key)
+    (bare_key)
     (array
       (array
         (integer)
@@ -857,7 +855,7 @@ contributors = [
         (integer)
         (integer))))
   (pair
-    (key)
+    (bare_key)
     (array
       (array
         (integer)
@@ -867,7 +865,7 @@ contributors = [
         (string)
         (string))))
   (pair
-    (key)
+    (bare_key)
     (array
       (string)
       (string)
@@ -875,7 +873,7 @@ contributors = [
       (string)))
   (comment)
   (pair
-    (key)
+    (bare_key)
     (array
       (float)
       (float)
@@ -884,18 +882,18 @@ contributors = [
       (integer)
       (integer)))
   (pair
-    (key)
+    (bare_key)
     (array
       (string)
       (inline_table
         (pair
-          (key)
+          (bare_key)
           (string))
         (pair
-          (key)
+          (bare_key)
           (string))
         (pair
-          (key)
+          (bare_key)
           (string))))))
 
 ================================================================================
@@ -915,13 +913,13 @@ integers3 = [
 
 (document
   (pair
-    (key)
+    (bare_key)
     (array
       (integer)
       (integer)
       (integer)))
   (pair
-    (key)
+    (bare_key)
     (array
       (integer)
       (integer)
@@ -937,7 +935,7 @@ VALID - table - header
 
 (document
   (table
-    (key)))
+    (bare_key)))
 
 ================================================================================
 VALID - table - basic
@@ -955,20 +953,20 @@ key2 = 456
 
 (document
   (table
-    (key)
+    (bare_key)
     (pair
-      (key)
+      (bare_key)
       (string))
     (pair
-      (key)
+      (bare_key)
       (integer)))
   (table
-    (key)
+    (bare_key)
     (pair
-      (key)
+      (bare_key)
       (string))
     (pair
-      (key)
+      (bare_key)
       (integer))))
 
 ================================================================================
@@ -983,12 +981,12 @@ type.name = "pug"
 (document
   (table
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (quoted_key))
     (pair
       (dotted_key
-        (key)
-        (key))
+        (bare_key)
+        (bare_key))
       (string))))
 
 ================================================================================
@@ -1006,30 +1004,30 @@ VALID - table- header with whitespaces
   (table
     (dotted_key
       (dotted_key
-        (key)
-        (key))
-      (key))
+        (bare_key)
+        (bare_key))
+      (bare_key))
     (comment))
   (table
     (dotted_key
       (dotted_key
-        (key)
-        (key))
-      (key))
+        (bare_key)
+        (bare_key))
+      (bare_key))
     (comment))
   (table
     (dotted_key
       (dotted_key
-        (key)
-        (key))
-      (key))
+        (bare_key)
+        (bare_key))
+      (bare_key))
     (comment))
   (table
     (dotted_key
       (dotted_key
-        (key)
-        (key))
-      (key))
+        (bare_key)
+        (quoted_key))
+      (quoted_key))
     (comment)))
 
 ================================================================================
@@ -1053,13 +1051,13 @@ VALID - table - directly defined nested header key
     (dotted_key
       (dotted_key
         (dotted_key
-          (key)
-          (key))
-        (key))
-      (key))
+          (bare_key)
+          (bare_key))
+        (bare_key))
+      (bare_key))
     (comment))
   (table
-    (key)
+    (bare_key)
     (comment)))
 
 ================================================================================
@@ -1079,14 +1077,14 @@ orange = "orange"
 (document
   (comment)
   (table
-    (key)
+    (bare_key)
     (pair
-      (key)
+      (bare_key)
       (string)))
   (table
-    (key)
+    (bare_key)
     (pair
-      (key)
+      (bare_key)
       (string))))
 
 ================================================================================
@@ -1106,16 +1104,16 @@ texture = "smooth"
 (document
   (comment)
   (table
-    (key)
+    (bare_key)
     (pair
-      (key)
+      (bare_key)
       (string)))
   (table
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (pair
-      (key)
+      (bare_key)
       (string))))
 
 ================================================================================
@@ -1138,25 +1136,25 @@ VALID - table - order
   (comment)
   (table
     (dotted_key
-      (key)
-      (key)))
+      (bare_key)
+      (bare_key)))
   (table
-    (key))
+    (bare_key))
   (table
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (comment))
   (table
     (dotted_key
-      (key)
-      (key)))
+      (bare_key)
+      (bare_key)))
   (table
     (dotted_key
-      (key)
-      (key)))
+      (bare_key)
+      (bare_key)))
   (table
-    (key)))
+    (bare_key)))
 
 ================================================================================
 VALID - table - sub-table
@@ -1176,30 +1174,30 @@ smooth = true
 
 (document
   (table
-    (key)
+    (bare_key)
     (pair
       (dotted_key
-        (key)
-        (key))
+        (bare_key)
+        (bare_key))
       (string))
     (pair
       (dotted_key
         (dotted_key
-          (key)
-          (key))
-        (key))
+          (bare_key)
+          (bare_key))
+        (bare_key))
       (boolean))
     (comment)
     (comment))
   (table
     (dotted_key
       (dotted_key
-        (key)
-        (key))
-      (key))
+        (bare_key)
+        (bare_key))
+      (bare_key))
     (comment)
     (pair
-      (key)
+      (bare_key)
       (boolean))))
 
 ================================================================================
@@ -1214,30 +1212,30 @@ animal = { type.name = "pug" }
 
 (document
   (pair
-    (key)
+    (bare_key)
     (inline_table
       (pair
-        (key)
+        (bare_key)
         (string))
       (pair
-        (key)
+        (bare_key)
         (string))))
   (pair
-    (key)
+    (bare_key)
     (inline_table
       (pair
-        (key)
+        (bare_key)
         (integer))
       (pair
-        (key)
+        (bare_key)
         (integer))))
   (pair
-    (key)
+    (bare_key)
     (inline_table
       (pair
         (dotted_key
-          (key)
-          (key))
+          (bare_key)
+          (bare_key))
         (string)))))
 
 ================================================================================
@@ -1256,20 +1254,20 @@ type.name = "Nail"
 
 (document
   (table
-    (key)
+    (bare_key)
     (pair
-      (key)
+      (bare_key)
       (inline_table
         (pair
-          (key)
+          (bare_key)
           (string))))
     (comment))
   (table
-    (key)
+    (bare_key)
     (pair
       (dotted_key
-        (key)
-        (key))
+        (bare_key)
+        (bare_key))
       (string))
     (comment)))
 
@@ -1293,25 +1291,25 @@ color = "gray"
 
 (document
   (table_array_element
-    (key)
+    (bare_key)
     (pair
-      (key)
+      (bare_key)
       (string))
     (pair
-      (key)
+      (bare_key)
       (integer)))
   (table_array_element
-    (key))
+    (bare_key))
   (table_array_element
-    (key)
+    (bare_key)
     (pair
-      (key)
+      (bare_key)
       (string))
     (pair
-      (key)
+      (bare_key)
       (integer))
     (pair
-      (key)
+      (bare_key)
       (string))))
 
 ================================================================================
@@ -1341,47 +1339,47 @@ VALID - array of tables - nested arrays of tables
 
 (document
   (table_array_element
-    (key)
+    (bare_key)
     (pair
-      (key)
+      (bare_key)
       (string)))
   (table
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (comment)
     (pair
-      (key)
+      (bare_key)
       (string))
     (pair
-      (key)
+      (bare_key)
       (string)))
   (table_array_element
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (comment)
     (pair
-      (key)
+      (bare_key)
       (string)))
   (table_array_element
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (pair
-      (key)
+      (bare_key)
       (string)))
   (table_array_element
-    (key)
+    (bare_key)
     (pair
-      (key)
+      (bare_key)
       (string)))
   (table_array_element
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (pair
-      (key)
+      (bare_key)
       (string))))
 
 ================================================================================
@@ -1403,21 +1401,21 @@ VALID - array of tables - append to array in undefined table (semantically INVAL
   (comment)
   (table
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (comment)
     (pair
-      (key)
+      (bare_key)
       (string))
     (pair
-      (key)
+      (bare_key)
       (string)))
   (table_array_element
-    (key)
+    (bare_key)
     (comment)
     (comment)
     (pair
-      (key)
+      (bare_key)
       (string))))
 
 ================================================================================
@@ -1434,10 +1432,10 @@ fruit = []
 (document
   (comment)
   (pair
-    (key)
+    (bare_key)
     (array))
   (table_array_element
-    (key)
+    (bare_key)
     (comment)))
 
 ================================================================================
@@ -1468,40 +1466,40 @@ VALID - array of tables - append to table (semantically INVALID)
 (document
   (comment)
   (table_array_element
-    (key)
+    (bare_key)
     (pair
-      (key)
+      (bare_key)
       (string)))
   (table_array_element
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (pair
-      (key)
+      (bare_key)
       (string))
     (comment))
   (table
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (pair
-      (key)
+      (bare_key)
       (string)))
   (table
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (pair
-      (key)
+      (bare_key)
       (string))
     (pair
-      (key)
+      (bare_key)
       (string))
     (comment))
   (table_array_element
     (dotted_key
-      (key)
-      (key))
+      (bare_key)
+      (bare_key))
     (pair
-      (key)
+      (bare_key)
       (string))))
