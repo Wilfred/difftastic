@@ -24,7 +24,7 @@
 }
 </style>
 
-<h1><a href="https://github.com/ikatyang/tree-sitter-toml">Tree-sitter TOML</a> <span class="version">v0.3.0</span></h1>
+<h1><a href="https://github.com/ikatyang/tree-sitter-toml">Tree-sitter TOML</a> <span class="version">v0.4.0</span></h1>
 
 <div id="playground-container" style="visibility: hidden;">
 
@@ -61,18 +61,24 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.45.0/codemirror.min.js"></script>
 
-<script>LANGUAGE_BASE_URL = "assets/tree-sitter-toml-0.3.0";</script>
+<script>LANGUAGE_BASE_URL = "assets/tree-sitter-toml-0.4.0";</script>
 <script src="assets/web-tree-sitter-0.16.7/tree-sitter.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.js"></script>
 <script src="assets/tree-sitter-playground-0.16.7/playground.js"></script>
 
 <script>
-(codeExample => {
+((codeExample, queryExample) => {
   const handle = setInterval(() => {
     const $codeEditor = document.querySelector('.CodeMirror');
-    if ($codeEditor) {
+    const $queryEditor = document.querySelector('#query-container .CodeMirror');
+    const $queryCheckbox = document.querySelector('#query-checkbox');
+    if ($codeEditor && $queryEditor) {
       $codeEditor.CodeMirror.setValue(codeExample);
+      if (queryExample) {
+        $queryEditor.CodeMirror.setValue(queryExample);
+        if (!$queryCheckbox.checked) $queryCheckbox.click();
+      }
       clearInterval(handle);
     }
   }, 500);
@@ -109,6 +115,39 @@ hosts = [
   "alpha",
   "omega"
 ]
+`, `; Properties
+;-----------
+
+(bare_key) @property
+(quoted_key) @string
+
+; Literals
+;---------
+
+(boolean) @constant.builtin
+(comment) @comment
+(string) @string
+(integer) @number
+(float) @number
+(offset_date_time) @string.special
+(local_date_time) @string.special
+(local_date) @string.special
+(local_time) @string.special
+
+; Punctuation
+;------------
+
+"." @punctuation.delimiter
+"," @punctuation.delimiter
+
+"=" @operator
+
+"[" @punctuation.bracket
+"]" @punctuation.bracket
+"[[" @punctuation.bracket
+"]]" @punctuation.bracket
+"{" @punctuation.bracket
+"}" @punctuation.bracket
 `);
 </script>
 
