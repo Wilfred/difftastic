@@ -45,7 +45,7 @@ module.exports = grammar({
     table: $ =>
       seq(
         "[",
-        choice($.dotted_key, $.key),
+        choice($.dotted_key, $._key),
         "]",
         $._line_ending_or_eof,
         repeat(choice($.pair, newline)),
@@ -54,19 +54,19 @@ module.exports = grammar({
     table_array_element: $ =>
       seq(
         "[[",
-        choice($.dotted_key, $.key),
+        choice($.dotted_key, $._key),
         "]]",
         $._line_ending_or_eof,
         repeat(choice($.pair, newline)),
       ),
 
     pair: $ => seq($._inline_pair, $._line_ending_or_eof),
-    _inline_pair: $ => seq(choice($.dotted_key, $.key), "=", $._inline_value),
+    _inline_pair: $ => seq(choice($.dotted_key, $._key), "=", $._inline_value),
 
-    key: $ => choice($._bare_key, $._quoted_key),
-    dotted_key: $ => seq(choice($.dotted_key, $.key), ".", $.key),
-    _bare_key: $ => /[A-Za-z0-9_-]+/,
-    _quoted_key: $ => choice($._basic_string, $._literal_string),
+    _key: $ => choice($.bare_key, $.quoted_key),
+    dotted_key: $ => seq(choice($.dotted_key, $._key), ".", $._key),
+    bare_key: $ => /[A-Za-z0-9_-]+/,
+    quoted_key: $ => choice($._basic_string, $._literal_string),
 
     _inline_value: $ =>
       choice(

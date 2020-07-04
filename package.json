@@ -36,8 +36,21 @@
   },
   "files": [
     "/src/",
+    "/queries/",
     "/binding.gyp",
     "/grammar.js",
     "/index.js"
+  ],
+  "tree-sitter": [
+    {
+      "scope": "source.toml",
+      "file-types": [
+        "toml"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ],
+      "injection-regex": "^toml$"
+    }
   ]
 }

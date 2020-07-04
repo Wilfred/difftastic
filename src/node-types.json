@@ -82,11 +82,15 @@
       "required": true,
       "types": [
         {
+          "type": "bare_key",
+          "named": true
+        },
+        {
           "type": "dotted_key",
           "named": true
         },
         {
-          "type": "key",
+          "type": "quoted_key",
           "named": true
         }
       ]
@@ -118,21 +122,6 @@
     "fields": {}
   },
   {
-    "type": "key",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "escape_sequence",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "pair",
     "named": true,
     "fields": {},
@@ -142,6 +131,10 @@
       "types": [
         {
           "type": "array",
+          "named": true
+        },
+        {
+          "type": "bare_key",
           "named": true
         },
         {
@@ -165,10 +158,6 @@
           "named": true
         },
         {
-          "type": "key",
-          "named": true
-        },
-        {
           "type": "local_date",
           "named": true
         },
@@ -185,7 +174,26 @@
           "named": true
         },
         {
+          "type": "quoted_key",
+          "named": true
+        },
+        {
           "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "quoted_key",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
           "named": true
         }
       ]
@@ -215,15 +223,19 @@
       "required": true,
       "types": [
         {
+          "type": "bare_key",
+          "named": true
+        },
+        {
           "type": "dotted_key",
           "named": true
         },
         {
-          "type": "key",
+          "type": "pair",
           "named": true
         },
         {
-          "type": "pair",
+          "type": "quoted_key",
           "named": true
         }
       ]
@@ -238,15 +250,19 @@
       "required": true,
       "types": [
         {
+          "type": "bare_key",
+          "named": true
+        },
+        {
           "type": "dotted_key",
           "named": true
         },
         {
-          "type": "key",
+          "type": "pair",
           "named": true
         },
         {
-          "type": "pair",
+          "type": "quoted_key",
           "named": true
         }
       ]
@@ -295,6 +311,10 @@
   {
     "type": "]]",
     "named": false
+  },
+  {
+    "type": "bare_key",
+    "named": true
   },
   {
     "type": "boolean",
