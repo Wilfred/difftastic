@@ -16,7 +16,7 @@ class A {
     body: (class_body
       (method_signature (function_signature
          (type_identifier)
-         (identifier)
+         name: (identifier)
          (formal_parameter_list))
         )
         (function_body (block

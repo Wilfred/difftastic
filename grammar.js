@@ -27,23 +27,23 @@ const HEX_DIGITS = token(sep1(/[A-Fa-f0-9]+/, '_'))
 
 const DART_PREC = {
     TYPE_IDENTIFIER: 17, //was: 17
-   DOT_IDENTIFIER: 18, //was: 18
-UNARY_POSTFIX: 16,
-UNARY_PREFIX: 15,
-Multiplicative: 14, // *, /, ˜/, % Left
-Additive: 13, // +, - Left
-Shift: 12, // <<, >>, >>> Left
-Bitwise_AND: 11, // & Left
-Bitwise_XOR: 10, // ˆ Left
-Bitwise_Or: 9 , // | Left
-Relational: 8, // <, >, <=, >=, as, is, is! None 8
-Equality: 7, // ==, != None 7
-Logical_AND: 6 , // AND && Left
-Logical_OR: 5 , // Or || Left
-If: 4 , //-null ?? Left
-Conditional: 3, // e1?e2:e3 Right 3
-Cascade: 2 , // .. Left
-Assignment: 1, // =, *=, /=, +=, -=, &=, ˆ=, etc. Right
+    DOT_IDENTIFIER: 18, //was: 18
+    UNARY_POSTFIX: 16,
+    UNARY_PREFIX: 15,
+    Multiplicative: 14, // *, /, ˜/, % Left
+    Additive: 13, // +, - Left
+    Shift: 12, // <<, >>, >>> Left
+    Bitwise_AND: 11, // & Left
+    Bitwise_XOR: 10, // ˆ Left
+    Bitwise_Or: 9, // | Left
+    Relational: 8, // <, >, <=, >=, as, is, is! None 8
+    Equality: 7, // ==, != None 7
+    Logical_AND: 6, // AND && Left
+    Logical_OR: 5, // Or || Left
+    If: 4, //-null ?? Left
+    Conditional: 3, // e1?e2:e3 Right 3
+    Cascade: 2, // .. Left
+    Assignment: 1, // =, *=, /=, +=, -=, &=, ˆ=, etc. Right
     BUILTIN: 0,
 
     TYPE_ARGUMENTS: 12,
@@ -116,13 +116,13 @@ Assignment: 1, // =, *=, /=, +=, -=, &=, ˆ=, etc. Right
 module.exports = grammar({
     name: 'dart',
 
-  externals: $ => [
-      $._automatic_semicolon,
-      $._template_chars_double,
-      $._template_chars_single,
-      $._template_chars_double_single,
-      $._template_chars_single_single,
-  ],
+    externals: $ => [
+        $._automatic_semicolon,
+        $._template_chars_double,
+        $._template_chars_single,
+        $._template_chars_double_single,
+        $._template_chars_single_single,
+    ],
 
     extras: $ => [
         $.comment,
@@ -196,9 +196,9 @@ module.exports = grammar({
         [$._primary, $.function_signature],
         [$._primary, $.function_signature, $._type_name],
         [$._primary, $._type_name],
-        [$.postfix_expression, $.assignable_expression,],
-        [$.variable_declaration, $.initialized_variable_definition,],
-        [$._final_const_var_or_type, $.function_signature,],
+        [$.postfix_expression, $.assignable_expression, ],
+        [$.variable_declaration, $.initialized_variable_definition, ],
+        [$._final_const_var_or_type, $.function_signature, ],
         [$._primary, $._function_formal_parameter],
         [$._primary, $._simple_formal_parameter],
         [$._primary, $._type_name, $._function_formal_parameter],
@@ -214,7 +214,7 @@ module.exports = grammar({
         [$.equality_expression],
         [$.relational_expression],
         [$._argument_list],
-        [$.variable_declaration, $.initialized_identifier,],
+        [$.variable_declaration, $.initialized_identifier, ],
         [$.declaration, $._external_and_static],
         [$.method_signature, $._static_or_covariant],
         [$.constructor_signature, $._formal_parameter_part],
@@ -290,7 +290,7 @@ module.exports = grammar({
             //     $.lambda_expression,
             //     $._semicolon
             // ),
-        //    type get
+            //    type get
             seq(
                 optional($._type),
                 $._get,
@@ -304,20 +304,20 @@ module.exports = grammar({
                 $.formal_parameter_list,
                 $.function_body
             ),
-        //    type set
-        //    final or const static final declaration list
+            //    type set
+            //    final or const static final declaration list
             seq(
-              choice(
-                  $._final_builtin,
-                  $._const_builtin
-              ),
+                choice(
+                    $._final_builtin,
+                    $._const_builtin
+                ),
                 $._type,
                 $.static_final_declaration_list
             ),
-           seq(
-               $.variable_declaration,
-               $._semicolon
-           )
+            seq(
+                $.variable_declaration,
+                $._semicolon
+            )
         ),
 
         // Literalss
@@ -386,14 +386,14 @@ module.exports = grammar({
         )),
 
         true: $ => prec(
-DART_PREC.BUILTIN,
-'true',
-),
+            DART_PREC.BUILTIN,
+            'true',
+        ),
 
         false: $ => prec(
-DART_PREC.BUILTIN,
-'false',
-),
+            DART_PREC.BUILTIN,
+            'false',
+        ),
 
         // character_literal: $ => token(seq(
         //     "'",
@@ -405,26 +405,26 @@ DART_PREC.BUILTIN,
         //     "'"
         // )),
 
-      _unused_escape_sequence: $ => token.immediate(seq(
-          '\\',
-          choice(
-              /[^xu0-7]/,
-              /[0-7]{1,3}/,
-              /x[0-9a-fA-F]{2}/,
-              /u[0-9a-fA-F]{4}/,
-              /u{[0-9a-fA-F]+}/
-          )
-      )),
+        _unused_escape_sequence: $ => token.immediate(seq(
+            '\\',
+            choice(
+                /[^xu0-7]/,
+                /[0-7]{1,3}/,
+                /x[0-9a-fA-F]{2}/,
+                /u[0-9a-fA-F]{4}/,
+                /u{[0-9a-fA-F]+}/
+            )
+        )),
         escape_sequence: $ => $._unused_escape_sequence,
-      template_substitution: $ => seq(
-          '$',
-          choice(
-          seq('{',
-          $._expression,
-          '}'),
-              $.identifier
-          )
-      ),
+        template_substitution: $ => seq(
+            '$',
+            choice(
+                seq('{',
+                    $._expression,
+                    '}'),
+                $.identifier
+            )
+        ),
 
         // string: $ => choice(
         //     $._simple_string,
@@ -455,42 +455,42 @@ DART_PREC.BUILTIN,
 
         _double_quote_string_literal: $ => seq(
             '"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),
-      string_literal: $ => choice(
-          $._string_literal_double_quotes,
-          $._string_literal_single_quotes,
-          $._string_literal_double_quotes_multiple,
-          $._string_literal_single_quotes_multiple,
-          //raw, separate later
-          $._raw_string_literal_double_quotes,
-          $._raw_string_literal_single_quotes,
-          $._raw_string_literal_double_quotes_multiple,
-          $._raw_string_literal_single_quotes_multiple
-      ),
+        string_literal: $ => choice(
+            $._string_literal_double_quotes,
+            $._string_literal_single_quotes,
+            $._string_literal_double_quotes_multiple,
+            $._string_literal_single_quotes_multiple,
+            //raw, separate later
+            $._raw_string_literal_double_quotes,
+            $._raw_string_literal_single_quotes,
+            $._raw_string_literal_double_quotes_multiple,
+            $._raw_string_literal_single_quotes_multiple
+        ),
 
-      _string_literal_double_quotes: $ => seq(
-          '"',
-          repeat(
-              choice(
-              $._template_chars_double_single,
-              '\'',
-              $.escape_sequence,
-              $._sub_string_test,
-              $.template_substitution
-            )
-          ),
-          '"'
-      ),
-      _string_literal_single_quotes: $ => seq(
-          '\'',
-          repeat(choice(
-              $._template_chars_single_single,
-              '"',
-              $.escape_sequence,
-              $._sub_string_test,
-              $.template_substitution
-          )),
-          '\''
-      ),
+        _string_literal_double_quotes: $ => seq(
+            '"',
+            repeat(
+                choice(
+                    $._template_chars_double_single,
+                    '\'',
+                    $.escape_sequence,
+                    $._sub_string_test,
+                    $.template_substitution
+                )
+            ),
+            '"'
+        ),
+        _string_literal_single_quotes: $ => seq(
+            '\'',
+            repeat(choice(
+                $._template_chars_single_single,
+                '"',
+                $.escape_sequence,
+                $._sub_string_test,
+                $.template_substitution
+            )),
+            '\''
+        ),
         _string_literal_double_quotes_multiple: $ => seq(
             '"""',
             repeat(choice(
@@ -561,9 +561,9 @@ DART_PREC.BUILTIN,
             )),
             '\'\'\''
         ),
-        _sub_string_test: $ => seq('$',/[^a-zA-Z_{]/),
+        _sub_string_test: $ => seq('$', /[^a-zA-Z_{]/),
         _string_interp: $ => /\$((\w+)|\{([^{}]+)\})/, // represents $word or ${word} for now
-      // _double_quote_string_literal_multiline: $ => seq(
+        // _double_quote_string_literal_multiline: $ => seq(
         //     '"', seq(
         //         repeat(
         //             choice(/[^\\"\n]/, /\\(.|\n)/)
@@ -584,7 +584,7 @@ DART_PREC.BUILTIN,
             '{',
             commaSep(
                 $._element
-                ),
+            ),
             '}'
         ),
         // set_literal: $ => seq(
@@ -613,7 +613,7 @@ DART_PREC.BUILTIN,
         //         )
         //     )
         // ),
-        
+
         _element: $ => choice(
             $._expression,
             $.pair,
@@ -624,9 +624,9 @@ DART_PREC.BUILTIN,
 
 
         null_literal: $ => prec(
-DART_PREC.BUILTIN,
-'null',
-),
+            DART_PREC.BUILTIN,
+            'null',
+        ),
 
         // Expressions
 
@@ -644,16 +644,16 @@ DART_PREC.BUILTIN,
             //dart literals
             // $.list_literal,
             // $.set_or_map_literal,
-        //dart operators
-        //     $.if_null_expression,
-        //    dart cascade
+            //dart operators
+            //     $.if_null_expression,
+            //    dart cascade
             $.throw_expression,
             // prec.right(
-                seq(
-                    // $.conditional_expression,
-                    $._real_expression,
-                    repeat($.cascade_section)
-                )
+            seq(
+                // $.conditional_expression,
+                $._real_expression,
+                repeat($.cascade_section)
+            )
             // )
         ),
         _expression_without_cascade: $ => choice(
@@ -694,7 +694,7 @@ DART_PREC.BUILTIN,
         ),
 
         _below_relational_expression: $ => choice(
-        //    UNARY_POSTFIX: 16,
+            //    UNARY_POSTFIX: 16,
             // UNARY_PREFIX: 15,
             // Multiplicative: 14, // *, /, ˜/, % Left
             // Additive: 13, // +, - Left
@@ -746,15 +746,15 @@ DART_PREC.BUILTIN,
             seq($.constructor_invocation, repeat1($.assignable_selector_part), $.identifier)
         ),
         assignable_selector_part: $ => seq(
-          repeat($.argument_part),
+            repeat($.argument_part),
             $.assignable_selector
         ),
 
         _assignment_operator: $ => prec(
             DART_PREC.BUILTIN,
             seq(
- //todo: use the op names in place of these.
-                    choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>=', '??=')
+                //todo: use the op names in place of these.
+                choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>=', '??=')
 
             )
         ),
@@ -871,9 +871,9 @@ DART_PREC.BUILTIN,
                     //
                     // )
 
-                        $.equality_operator,
-                        $._real_expression
-                        // $.relational_expression
+                    $.equality_operator,
+                    $._real_expression
+                    // $.relational_expression
 
                 ),
                 seq(
@@ -885,12 +885,12 @@ DART_PREC.BUILTIN,
             )
         ),
 
-        equality_operator: $ =>  token(
-                choice(
-                    '==',
-                    '!='
-                )
-            ),
+        equality_operator: $ => token(
+            choice(
+                '==',
+                '!='
+            )
+        ),
 
         relational_expression: $ => prec( // neither
             DART_PREC.Relational,
@@ -898,14 +898,14 @@ DART_PREC.BUILTIN,
                 seq(
                     // $.bitwise_or_expression,
                     $._below_relational_expression,
-                        choice(
-                            seq(
-                                $.relational_operator,
-                                $._below_relational_expression
-                            ),
-                            $.type_test,
-                            $.type_cast,
+                    choice(
+                        seq(
+                            $.relational_operator,
+                            $._below_relational_expression
                         ),
+                        $.type_test,
+                        $.type_cast,
+                    ),
                 ),
                 seq(
                     $.super,
@@ -931,9 +931,9 @@ DART_PREC.BUILTIN,
         multiplicative_expression: $ => binaryRunLeft($._real_expression, $.multiplicative_operator, $.super, DART_PREC.Multiplicative),
 
         bitwise_operator: $ => choice(
-          '&',
-          '^',
-          '|'
+            '&',
+            '^',
+            '|'
         ),
 
         shift_operator: $ => choice(
@@ -980,7 +980,7 @@ DART_PREC.BUILTIN,
             )
         ),
 
-        _postfix_expression: $ =>             choice(
+        _postfix_expression: $ => choice(
             seq(
                 $._primary,
                 repeat($.selector)
@@ -1052,17 +1052,17 @@ DART_PREC.BUILTIN,
         ),
 
         as_operator: $ => prec(
-DART_PREC.BUILTIN,
-'as',
-),
+            DART_PREC.BUILTIN,
+            'as',
+        ),
 
         new_expression: $ => seq(
-          $._new_builtin,
-          $._type_not_void,
-          optional(
-              $._dot_identifier
-          ),
-          $.arguments
+            $._new_builtin,
+            $._type_not_void,
+            optional(
+                $._dot_identifier
+            ),
+            $.arguments
         ),
 
         _dot_identifier: $ => prec.dynamic(
@@ -1159,9 +1159,9 @@ DART_PREC.BUILTIN,
             )
         ),
 
-            // prec.left(
-            // DART_PREC.Cascade,
-            // ),
+        // prec.left(
+        // DART_PREC.Cascade,
+        // ),
         _cascade_subsection: $ => seq(
             $.assignable_selector,
             repeat($.argument_part)
@@ -1176,8 +1176,8 @@ DART_PREC.BUILTIN,
         ),
         argument_part: $ => choice(
             seq(
-              $.type_arguments,
-              $.arguments
+                $.type_arguments,
+                $.arguments
             ),
             $.arguments
         ),
@@ -1188,8 +1188,8 @@ DART_PREC.BUILTIN,
         ),
 
         assignable_selector: $ => choice(
-          $.unconditional_assignable_selector,
-          seq('?.', $.identifier)
+            $.unconditional_assignable_selector,
+            seq('?.', $.identifier)
         ),
 
         // method_reference: $ => seq(
@@ -1266,8 +1266,8 @@ DART_PREC.BUILTIN,
         ),
 
         assert_statement: $ => $.assertion,
-        
-        assertion: $ => seq('assert','(', $._expression, optional(seq(
+
+        assertion: $ => seq('assert', '(', $._expression, optional(seq(
             ',',
             $._expression,
             optional(',')
@@ -1328,16 +1328,16 @@ DART_PREC.BUILTIN,
             )
         ),
         _on_part: $ => choice(
-          seq(
-              $.catch_clause,
-              $.block
-          ),
-          seq(
-              'on',
-              $._type_not_void,
-              optional($.catch_clause),
-              $.block
-          )
+            seq(
+                $.catch_clause,
+                $.block
+            ),
+            seq(
+                'on',
+                $._type_not_void,
+                optional($.catch_clause),
+                $.block
+            )
         ),
         _try_head: $ => seq(
             'try',
@@ -1555,8 +1555,8 @@ DART_PREC.BUILTIN,
         ),
 
         library_import: $ => seq(
-          optional($._metadata),
-          $.import_specification
+            optional($._metadata),
+            $.import_specification
         ),
 
         library_export: $ => seq(
@@ -1594,8 +1594,8 @@ DART_PREC.BUILTIN,
         uri: $ => $.string_literal,
 
         configurable_uri: $ => seq(
-          $.uri,
-          repeat($.configuration_uri)
+            $.uri,
+            repeat($.configuration_uri)
         ),
 
         configuration_uri: $ => seq(
@@ -1627,7 +1627,7 @@ DART_PREC.BUILTIN,
 
         enum_declaration: $ => seq(
             optional(
-              $._metadata
+                $._metadata
             ),
             'enum',
             field('name', $.identifier),
@@ -1666,7 +1666,7 @@ DART_PREC.BUILTIN,
                 optional($._metadata),
                 optional('abstract'),
                 'class',
-               $.mixin_application_class
+                $.mixin_application_class
             )
         ),
 
@@ -1710,7 +1710,7 @@ DART_PREC.BUILTIN,
         ),
 
         mixins: $ => seq(
-          'with',
+            'with',
             $._type_not_void_list
         ),
 
@@ -1740,8 +1740,8 @@ DART_PREC.BUILTIN,
             $.class_body
         ),
         interfaces: $ => seq(
-          $._implements,
-          $._type_not_void_list
+            $._implements,
+            $._type_not_void_list
         ),
 
         interface_type_list: $ => seq(
@@ -1754,7 +1754,7 @@ DART_PREC.BUILTIN,
             repeat(
                 seq(
                     optional($._metadata),
-                $._class_member_definition
+                    $._class_member_definition
                 )
             ),
             '}'
@@ -1763,8 +1763,8 @@ DART_PREC.BUILTIN,
         _class_member_definition: $ => choice(
             seq($.declaration, $._semicolon),
             seq(
-              $.method_signature,
-               $.function_body
+                $.method_signature,
+                $.function_body
             ),
             // $._class_member_declaration,
             // $.block,
@@ -1783,17 +1783,17 @@ DART_PREC.BUILTIN,
             $.identifier
         ),
         method_signature: $ => choice(
-           seq($.constructor_signature, optional($.initializers)),
-           $.factory_constructor_signature,
+            seq($.constructor_signature, optional($.initializers)),
+            $.factory_constructor_signature,
             seq(
                 optional($._static),
                 choice(
-                   $.function_signature,
-                   $.getter_signature,
-                   $.setter_signature
+                    $.function_signature,
+                    $.getter_signature,
+                    $.setter_signature
                 )
             ),
-           $.operator_signature
+            $.operator_signature
         ),
 
         declaration: $ => choice(
@@ -1801,32 +1801,32 @@ DART_PREC.BUILTIN,
             seq($.constructor_signature, optional(choice($.redirection, $.initializers))),
             seq($._external,
                 $.constant_constructor_signature
-                ),
+            ),
             seq($._external,
                 $.constructor_signature
             ),
             seq(
                 optional($._external_and_static),
-                   $.getter_signature
+                $.getter_signature
             ),
             seq(
                 optional($._external_and_static),
-                   $.setter_signature
+                $.setter_signature
 
             ),
             seq(
                 optional($._external),
-                   $.operator_signature
+                $.operator_signature
             ),
             seq(
                 optional($._external_and_static),
-                   $.function_signature
+                $.function_signature
             ),
             seq(
                 $._static,
                 $._final_or_const,
                 $._type,
-               $.static_final_declaration_list
+                $.static_final_declaration_list
             ),
             seq(
                 $._final_builtin,
@@ -1854,7 +1854,7 @@ DART_PREC.BUILTIN,
         ),
         static_final_declaration_list: $ => commaSep1(
             $.static_final_declaration
-),
+        ),
         binary_operator: $ => choice(
             $.multiplicative_operator,
             $.additive_operator,
@@ -1875,9 +1875,9 @@ DART_PREC.BUILTIN,
             $.formal_parameter_list
         ),
         static_final_declaration: $ => seq(
-          $.identifier,
-          '=',
-          $._expression
+            $.identifier,
+            '=',
+            $._expression
         ),
 
         _external_and_static: $ => seq(
@@ -1905,13 +1905,13 @@ DART_PREC.BUILTIN,
             seq('super',
                 //$.arguements
                 $.arguments
-                ),
+            ),
             seq('super',
                 //$.arguements
                 $.arguments
             ),
             $.field_initializer,
-           $.assertion
+            $.assertion
         ),
 
         field_initializer: $ => seq(
@@ -1925,14 +1925,14 @@ DART_PREC.BUILTIN,
             )
         ),
 
-       // constructor_signature: $ => seq(
-       //      $._constructor_declarator,
-       //      // optional($.throws),
-       //      // field('body', choice(
-       //      //     $.constructor_body,
-       //      //     $._semicolon
-       //      // ))
-       //  ),
+        // constructor_signature: $ => seq(
+        //      $._constructor_declarator,
+        //      // optional($.throws),
+        //      // field('body', choice(
+        //      //     $.constructor_body,
+        //      //     $._semicolon
+        //      // ))
+        //  ),
 
         factory_constructor_signature: $ => seq(
             $._factory,
@@ -1946,7 +1946,7 @@ DART_PREC.BUILTIN,
             sep1($.identifier, ','),
             $.formal_parameter_list,
             '=',
-           $._type_not_void,
+            $._type_not_void,
             optional(seq('.', $.identifier))
         ),
 
@@ -2125,7 +2125,7 @@ DART_PREC.BUILTIN,
             optional(seq(
                 prec(DART_PREC.BUILTIN, '='),
                 field('value', $._expression)
-                )),
+            )),
             repeat(seq(',', $.initialized_identifier))
         ),
         // initialized_identifier: $ => seq(
@@ -2150,10 +2150,10 @@ DART_PREC.BUILTIN,
         // Types
 
         _final_const_var_or_type: $ => choice(
-          seq($._final_builtin, $._type),
-          seq($._const_builtin, $._type),
-          $.inferred_type,
-          $._type
+            seq($._final_builtin, $._type),
+            seq($._const_builtin, $._type),
+            $.inferred_type,
+            $._type
         ),
 
         _type: $ => choice(
@@ -2179,7 +2179,7 @@ DART_PREC.BUILTIN,
                 $._function_builtin_identifier
             )
         ),
-        
+
         function_type: $ => prec.right(
             choice(
                 $._function_type_tails,
@@ -2197,7 +2197,7 @@ DART_PREC.BUILTIN,
         //     ),
         //     $._function_type_tail
         // ),
-        
+
         _function_type_tail: $ => seq(
             $._function_builtin_identifier,
             optional($.type_parameters),
@@ -2219,8 +2219,8 @@ DART_PREC.BUILTIN,
         ),
 
         normal_parameter_type: $ => choice(
-          $.typed_identifier,
-          $._type
+            $.typed_identifier,
+            $._type
         ),
 
         optional_parameter_types: $ => choice(
@@ -2229,9 +2229,9 @@ DART_PREC.BUILTIN,
         ),
 
         optional_positional_parameter_types: $ => seq(
-          '[',
-          commaSep1($.normal_parameter_type),
-          ']'
+            '[',
+            commaSep1($.normal_parameter_type),
+            ']'
         ),
         named_parameter_types: $ => seq(
             '{',
@@ -2341,19 +2341,19 @@ DART_PREC.BUILTIN,
         ),
         //TODO: change boolean to bool here and everywhere to bool
         boolean_type: $ => prec(
-DART_PREC.BUILTIN,
-'bool',
-),
+            DART_PREC.BUILTIN,
+            'bool',
+        ),
 
         void_type: $ => prec(
-DART_PREC.BUILTIN,
-'void',
-),
+            DART_PREC.BUILTIN,
+            'void',
+        ),
 
         inferred_type: $ => prec(
-DART_PREC.BUILTIN,
-'var',
-),
+            DART_PREC.BUILTIN,
+            'var',
+        ),
 
         _method_header: $ => seq(
             optional(seq(
@@ -2388,24 +2388,24 @@ DART_PREC.BUILTIN,
             )
         ),
         function_expression_body: $ => choice(
-                seq(
-                    optional('async'),
-                    '=>',
-                    $._expression
-                ),
-                seq(
-                    optional(choice(
-                        'async',
-                        'async*',
-                        'sync*',
-                    )),
-                    $.block
-                )
+            seq(
+                optional('async'),
+                '=>',
+                $._expression
             ),
+            seq(
+                optional(choice(
+                    'async',
+                    'async*',
+                    'sync*',
+                )),
+                $.block
+            )
+        ),
         function_signature: $ => seq(
             // optional($._metadata),
             optional($._type),
-            $.identifier,
+            field('name', $.identifier),
             $._formal_parameter_part
         ),
 
@@ -2539,7 +2539,7 @@ DART_PREC.BUILTIN,
         _default_named_parameter: $ => choice(
             seq(
                 optional(
-                  'required'
+                    'required'
                 ),
                 $.formal_parameter,
                 optional(
@@ -2587,13 +2587,13 @@ DART_PREC.BUILTIN,
         ),
 
         _simple_formal_parameter: $ => choice(
-          $._declared_identifier,
-          seq(
-              optional(
-                  $._covariant
-              ),
-              $.identifier
-          )
+            $._declared_identifier,
+            seq(
+                optional(
+                    $._covariant
+                ),
+                $.identifier
+            )
         ),
         //constructor param = field formal parameter
         constructor_param: $ => seq(
@@ -2626,11 +2626,11 @@ DART_PREC.BUILTIN,
             $.initialized_variable_definition,
             $._semicolon
         ),
-        
+
         script_tag: $ => seq('#!', '\n', '\n'),
-        
+
         library_name: $ => seq($._metadata, 'library', $.dotted_identifier_list),
-        
+
         dotted_identifier_list: $ => sep1($.identifier, '.'),
 
         // method_signature: $ => seq(
@@ -2648,94 +2648,94 @@ DART_PREC.BUILTIN,
         // Built in identifier tokens:
         //abstract
         _as: $ => prec(
-DART_PREC.BUILTIN,
-'as',
-),
+            DART_PREC.BUILTIN,
+            'as',
+        ),
         _covariant: $ => prec(
-DART_PREC.BUILTIN,
-'covariant',
-),
+            DART_PREC.BUILTIN,
+            'covariant',
+        ),
         _deferred: $ => prec(
-DART_PREC.BUILTIN,
-'deferred',
-),
+            DART_PREC.BUILTIN,
+            'deferred',
+        ),
         _dynamic: $ => prec(
-DART_PREC.BUILTIN,
-'dynamic',
-),
+            DART_PREC.BUILTIN,
+            'dynamic',
+        ),
         _export: $ => prec(
-DART_PREC.BUILTIN,
-'export',
-),
+            DART_PREC.BUILTIN,
+            'export',
+        ),
         _external: $ => $._external_builtin,
         _factory: $ => prec(
-DART_PREC.BUILTIN,
-'factory',
-),
+            DART_PREC.BUILTIN,
+            'factory',
+        ),
         _function_builtin_identifier: $ => prec(
-DART_PREC.BUILTIN,
-'Function',
-),
+            DART_PREC.BUILTIN,
+            'Function',
+        ),
         _get: $ => prec(
-DART_PREC.BUILTIN,
-'get',
-),
+            DART_PREC.BUILTIN,
+            'get',
+        ),
         _implements: $ => prec(
-DART_PREC.BUILTIN,
-'implements',
-),
+            DART_PREC.BUILTIN,
+            'implements',
+        ),
         _import: $ => prec(
-DART_PREC.BUILTIN,
-'import',
-),
+            DART_PREC.BUILTIN,
+            'import',
+        ),
         _interface: $ => prec(
-DART_PREC.BUILTIN,
-'interface',
-),
+            DART_PREC.BUILTIN,
+            'interface',
+        ),
         _library: $ => prec(
-DART_PREC.BUILTIN,
-'library',
-),
+            DART_PREC.BUILTIN,
+            'library',
+        ),
         _operator: $ => prec(
-DART_PREC.BUILTIN,
-'operator',
-),
+            DART_PREC.BUILTIN,
+            'operator',
+        ),
         _mixin: $ => prec(
-DART_PREC.BUILTIN,
-'mixin',
-),
+            DART_PREC.BUILTIN,
+            'mixin',
+        ),
         _part: $ => prec(
-DART_PREC.BUILTIN,
-'part',
-),
+            DART_PREC.BUILTIN,
+            'part',
+        ),
         _set: $ => prec(
-DART_PREC.BUILTIN,
-'set',
-),
+            DART_PREC.BUILTIN,
+            'set',
+        ),
         _static: $ => prec(
-DART_PREC.BUILTIN,
-'static',
-),
+            DART_PREC.BUILTIN,
+            'static',
+        ),
         _typedef: $ => prec(
-DART_PREC.BUILTIN,
-'typedef',
-),
+            DART_PREC.BUILTIN,
+            'typedef',
+        ),
         _new_builtin: $ => prec(
-DART_PREC.BUILTIN,
-'new',
-),
+            DART_PREC.BUILTIN,
+            'new',
+        ),
         _const_builtin: $ => prec(
-DART_PREC.BUILTIN,
-'const',
-),
+            DART_PREC.BUILTIN,
+            'const',
+        ),
         _final_builtin: $ => prec(
-DART_PREC.BUILTIN,
-'final',
-),
+            DART_PREC.BUILTIN,
+            'final',
+        ),
         _external_builtin: $ => prec(
-DART_PREC.BUILTIN,
-'external',
-),
+            DART_PREC.BUILTIN,
+            'external',
+        ),
         // _try: $ => prec(
         //     DART_PREC.TRY,
         //     token.immediate('try')
@@ -2756,17 +2756,17 @@ DART_PREC.BUILTIN,
         //     token('=')
         // ),
         this: $ => prec(
-DART_PREC.BUILTIN,
-'this',
-),
+            DART_PREC.BUILTIN,
+            'this',
+        ),
 
         super: $ => prec(
-DART_PREC.BUILTIN,
-'super',
-),
+            DART_PREC.BUILTIN,
+            'super',
+        ),
 
         label: $ => seq($.identifier, ':'),
-        
+
         _semicolon: $ => seq(';', optional($._automatic_semicolon)),
 
         identifier: $ => /[a-zA-Z_]\w*/,
@@ -2787,6 +2787,7 @@ DART_PREC.BUILTIN,
 function sep1(rule, separator) {
     return seq(rule, repeat(seq(separator, rule)));
 }
+
 function sep2(rule, separator) {
     return seq(rule, repeat1(seq(separator, rule)));
 }
@@ -2798,6 +2799,7 @@ function commaSep1(rule) {
 function commaSep(rule) {
     return optional(commaSep1(rule))
 }
+
 function binaryRunLeft(rule, separator, superItem, precedence) {
     return prec.left( //left
         precedence,

@@ -21,7 +21,7 @@ class WhileDemo {
       (method_signature
         (function_signature
         (void_type)
-        (identifier)
+        name: (identifier)
         (formal_parameter_list
           (formal_parameter
              (type_identifier)
@@ -314,7 +314,7 @@ class SwitchDemo {
     body: (class_body
       (method_signature (function_signature
         (void_type)
-        (identifier)
+        name: (identifier)
         (formal_parameter_list
           (formal_parameter
             (type_identifier)
