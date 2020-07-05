@@ -218,6 +218,20 @@
 //
 //     https://groups.google.com/forum/#!topic/clojure-dev/b09WvRR90Zc
 //
+//     :1 is accepted because it once accidentally worked and they
+//     don't like breaking existing code
+//
+//     it was never meant to
+//
+//     2020-06-14 ish noisesmith on #clojure (slack)
+//
+//     There are libraries out there that assume :1 works.  They changed
+//     Clojure at one point in an alpha to disallow such keywords and it broke
+//     code so they decided to continue allowing them (even tho' they are
+//     not "legal").
+//
+//     2020-06-14 ish seancorfield on #clojure (slack)
+//
 //   Whether # is allowed in a keyword:
 //
 //     "Clarification on # as valid symbol character"
