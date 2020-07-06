@@ -6,8 +6,9 @@ enum Material {
 
 class Person {
   //   ^ type
+  String name;
 
-  Person(string name) {
+  Person(String name) {
     // <- type
     //    ^ type
     this.name = name;
@@ -15,26 +16,28 @@ class Person {
     //                ^ type
     //                       ^ type
   }
-  string getName() {
+  String getName() {
     // <- type
     //    ^ function.method
     return this.name;
 
     return Material.DENIM;
-    //      ^ type
   }
 }
+
 class Collections {
   static List<T> emptyList<T>() {
     return [];
   }
 }
-class someClass <T> {
+
+class someClass<T> {
   List<T> someMethod() {
-    List< T > list = Collections.emptyList<T>();
+    List<T> list = Collections.emptyList<T>();
     return list;
   }
+
   void anotherMethod<S>(S arg) {
-  List< S > list = Collections.emptyList<S>();
+    List<S> list = Collections.emptyList<S>();
   }
 }
