@@ -598,6 +598,21 @@
     }
   },
   {
+    "type": "base_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "qualified_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "binary_expression",
     "named": true,
     "fields": {
@@ -892,21 +907,6 @@
     }
   },
   {
-    "type": "class_base_clause",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "qualified_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "class_constant_access_expression",
     "named": true,
     "fields": {},
@@ -1015,7 +1015,7 @@
       "required": false,
       "types": [
         {
-          "type": "class_base_clause",
+          "type": "base_clause",
           "named": true
         },
         {
@@ -1752,21 +1752,6 @@
     }
   },
   {
-    "type": "interface_base_clause",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "qualified_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "interface_declaration",
     "named": true,
     "fields": {
@@ -1796,7 +1781,7 @@
       "required": false,
       "types": [
         {
-          "type": "interface_base_clause",
+          "type": "base_clause",
           "named": true
         }
       ]
@@ -2173,11 +2158,6 @@
     }
   },
   {
-    "type": "namespace_function_or_const",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "namespace_name",
     "named": true,
     "fields": {},
@@ -2235,10 +2215,6 @@
       "required": true,
       "types": [
         {
-          "type": "namespace_function_or_const",
-          "named": true
-        },
-        {
           "type": "namespace_name",
           "named": true
         },
@@ -2281,10 +2257,6 @@
           "named": true
         },
         {
-          "type": "namespace_function_or_const",
-          "named": true
-        },
-        {
           "type": "namespace_name",
           "named": true
         }
@@ -2304,7 +2276,7 @@
           "named": true
         },
         {
-          "type": "class_base_clause",
+          "type": "base_clause",
           "named": true
         },
         {
@@ -3604,11 +3576,11 @@
   },
   {
     "type": "boolean",
-    "named": true
+    "named": false
   },
   {
     "type": "boolean",
-    "named": false
+    "named": true
   },
   {
     "type": "break",

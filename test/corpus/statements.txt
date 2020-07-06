@@ -371,3 +371,38 @@ throw new Exception(__METHOD__);
     (object_creation_expression
       (qualified_name (name))
       (arguments (qualified_name (name))))))
+
+=================================
+Case insensitive keywords
+=================================
+
+<?php
+
+FOREACH ($a AS $b) {
+  DO {
+    if ($c) {
+      d();
+    } else {
+      e();
+    }
+  } while ($f);
+}
+
+---
+
+(program
+  (php_tag)
+  (foreach_statement
+    (variable_name (name))
+    (variable_name (name))
+    (compound_statement
+      (do_statement
+        (compound_statement
+          (if_statement
+            (parenthesized_expression (variable_name (name)))
+            (compound_statement
+              (expression_statement (function_call_expression (qualified_name (name)) (arguments))))
+              (else_clause
+                (compound_statement
+                  (expression_statement (function_call_expression (qualified_name (name)) (arguments)))))))
+        (parenthesized_expression (variable_name (name)))))))

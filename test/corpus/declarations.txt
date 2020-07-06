@@ -177,7 +177,7 @@ class A extends B {
 	(php_tag)
 	(class_declaration
 		name: (name)
-		(class_base_clause (qualified_name (name)))
+		(base_clause (qualified_name (name)))
 		body: (declaration_list)))
 
 ==========================
