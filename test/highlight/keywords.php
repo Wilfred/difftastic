@@ -7,6 +7,9 @@ if ($a) {}
 while ($b) {}
 // <- keyword
 
+WHILE ($b) {}
+// <- keyword
+
 do { } while ($c);
 // <- keyword
 //     ^ keyword
