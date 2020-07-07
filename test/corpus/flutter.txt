@@ -1,0 +1,28 @@
+========================================
+simple flutter example
+========================================
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+---
+
+(program 
+(import_or_export 
+  (library_import (import_specification (configurable_uri (uri (string_literal)))))) 
+  (lambda_expression (function_signature (void_type) (identifier) (formal_parameter_list)) 
+    (function_body (block 
+      (expression_statement (identifier) (selector (argument_part (arguments (identifier) (selector (argument_part (arguments)))))))))) 
+
