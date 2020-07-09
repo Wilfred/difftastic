@@ -1963,7 +1963,7 @@
       "required": false,
       "types": [
         {
-          "type": "const_declaration",
+          "type": "_statement",
           "named": true
         },
         {
@@ -1980,14 +1980,6 @@
         },
         {
           "type": "package_clause",
-          "named": true
-        },
-        {
-          "type": "type_declaration",
-          "named": true
-        },
-        {
-          "type": "var_declaration",
           "named": true
         }
       ]

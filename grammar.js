@@ -73,6 +73,7 @@ module.exports = grammar({
     $._type_identifier,
     $._field_identifier,
     $._package_identifier,
+    $._top_level_declaration,
     $._string_literal,
   ],
 
@@ -95,16 +96,17 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => repeat(seq(
-      choice(
-        $.package_clause,
-        $.function_declaration,
-        $.method_declaration,
-        $.import_declaration,
-        $._declaration
-      ),
-      optional(terminator)
+    source_file: $ => repeat(choice(
+      seq($._statement, terminator),
+      seq($._top_level_declaration, optional(terminator)),
     )),
+
+    _top_level_declaration: $ => choice(
+      $.package_clause,
+      $.function_declaration,
+      $.method_declaration,
+      $.import_declaration
+    ),
 
     package_clause: $ => seq(
       'package',
@@ -189,7 +191,7 @@ module.exports = grammar({
       )
     ),
 
-    function_declaration: $ => prec.right(seq(
+    function_declaration: $ => prec.right(1, seq(
       'func',
       field('name', $.identifier),
       field('parameters', $.parameter_list),
@@ -197,7 +199,7 @@ module.exports = grammar({
       field('body', optional($.block))
     )),
 
-    method_declaration: $ => prec.right(seq(
+    method_declaration: $ => prec.right(1, seq(
       'func',
       field('receiver', $.parameter_list),
       field('name', $._field_identifier),

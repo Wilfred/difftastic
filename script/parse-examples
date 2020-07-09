@@ -20,13 +20,12 @@ checkout_at "examples/moby" "moby/moby" "f57f260b49b6142366e6bc1274204ee0a120594
 
 known_failures="$(cat script/known-failures.txt | egrep -v '^#')"
 
-echo -q  \
+tree-sitter parse -q \
   'examples/**/*.go'  \
   '!**/testdata/**/*' \
   '!**/go/test/**/*'  \
   $(for failure in $known_failures; do echo "!${failure}"; done)
 
-exit
 example_count=$(find examples -name '*.go' | egrep -v 'go/test|testdata' | wc -l)
 failure_count=$(wc -w <<< "$known_failures")
 success_count=$(( $example_count - $failure_count ))
