@@ -224,6 +224,9 @@ module.exports = grammar({
         [$._real_expression, $._below_relational_expression],
         [$._postfix_expression, $.assignable_expression],
         [$._postfix_expression],
+        [$._top_level_definition, $.getter_signature],
+        [$._top_level_definition, $.setter_signature],
+        [$._top_level_definition, $.lambda_expression]
         // [$._expression_without_cascade, $._real_expression]
         // [$.constructor_signature, $._formal_parameter_part],
         // [$._unannotated_type, $.type_parameter],
@@ -267,57 +270,63 @@ module.exports = grammar({
 
         // _library_definition: $ => ,
 
-        _top_level_definition: $ => choice(
-            $.class_definition,
-            $.enum_declaration,
-            // $.type_alias,
-            seq(
-                optional($._external_builtin),
-                $.function_signature,
-                $._semicolon
-            ),
-            seq(
-                optional($._external_builtin),
-                $.getter_signature,
-                $._semicolon
-            ),
-            seq(
-                optional($._external_builtin),
-                $.setter_signature,
-                $._semicolon
-            ),
-            // seq(
-            //     $.lambda_expression,
-            //     $._semicolon
-            // ),
-            //    type get
-            seq(
-                optional($._type),
-                $._get,
-                $.identifier,
-                $.function_body
-            ),
-            seq(
-                optional($._type),
-                $._set,
-                $.identifier,
-                $.formal_parameter_list,
-                $.function_body
-            ),
-            //    type set
-            //    final or const static final declaration list
-            seq(
-                choice(
-                    $._final_builtin,
-                    $._const_builtin
+        _top_level_definition: $ => prec.left(
+            choice(
+                $.class_definition,
+                $.enum_declaration,
+                // $.type_alias,
+                seq(
+                    optional($._external_builtin),
+                    $.function_signature,
+                    $._semicolon
                 ),
-                $._type,
-                $.static_final_declaration_list
+                seq(
+                    optional($._external_builtin),
+                    $.getter_signature,
+                    $._semicolon
+                ),
+                seq(
+                    optional($._external_builtin),
+                    $.setter_signature,
+                    $._semicolon
+                ),
+                // seq(
+                //     $.lambda_expression,
+                //     $._semicolon
+                // ),
+                //    type get
+                seq(
+                    $.function_signature,
+                    $.function_body
+                ),
+                seq(
+                    optional($._type),
+                    $._get,
+                    $.identifier,
+                    $.function_body
+                ),
+                seq(
+                    optional($._type),
+                    $._set,
+                    $.identifier,
+                    $.formal_parameter_list,
+                    $.function_body
+                ),
+                //    type set
+                //    final or const static final declaration list
+                seq(
+                    choice(
+                        $._final_builtin,
+                        $._const_builtin
+                    ),
+                    $._type,
+                    $.static_final_declaration_list
+                ),
+                seq(
+                    $.variable_declaration,
+                    $._semicolon
+                )
             ),
-            seq(
-                $.variable_declaration,
-                $._semicolon
-            )
         ),
 
         // Literalss
