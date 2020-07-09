@@ -622,3 +622,21 @@ func main() {
                       (interpreted_string_literal)
                       (index_expression (identifier) (identifier))))))))
           (argument_list)))))))
+
+============================================
+Top-level statements
+============================================
+
+foo(5)
+x := T { a: b }
+
+---
+
+(source_file
+  (call_expression (identifier) (argument_list (int_literal)))
+  (short_var_declaration
+    (expression_list (identifier))
+    (expression_list
+      (composite_literal
+        (type_identifier)
+        (literal_value (keyed_element (field_identifier) (identifier)))))))
