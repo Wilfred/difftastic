@@ -11,7 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "nan": "^2.14.1",
-    "prebuild-install": "^5.3.4"
+    "prebuild-install": "^5.3.5"
   },
   "devDependencies": {
     "prebuild": "^10.0.0",
