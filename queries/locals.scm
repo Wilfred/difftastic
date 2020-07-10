@@ -1,29 +1,28 @@
 ; Scopes
 ;-------
 
-(statement_block) @local.scope
-(function) @local.scope
-(arrow_function) @local.scope
-(function_declaration) @local.scope
-(method_definition) @local.scope
+[
+  (statement_block)
+  (function)
+  (arrow_function)
+  (function_declaration)
+  (method_definition)
+] @local.scope
 
 ; Definitions
 ;------------
 
 (formal_parameters
-  (identifier) @local.definition)
-
-(formal_parameters
-  (object_pattern
-    (identifier) @local.definition))
-
-(formal_parameters
-  (object_pattern
-    (shorthand_property_identifier) @local.definition))
-
-(formal_parameters
-  (array_pattern
-    (identifier) @local.definition))
+  [
+    (identifier) @local.definition
+    (array_pattern
+      (identifier) @local.definition)
+    (object_pattern
+      [
+        (pair value: (identifier) @local.definition)
+        (shorthand_property_identifier) @local.definition
+      ])
+  ])
 
 (variable_declarator
   name: (identifier) @local.definition)

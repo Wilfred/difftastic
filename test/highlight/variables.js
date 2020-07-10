@@ -35,3 +35,14 @@ console.log(module, one, two);
 //            ^ variable.builtin
 //                   ^ variable
 //                        ^ variable
+
+function one({two: three}, [four]) {
+  //          ^ property
+  //               ^ variable.parameter
+  //                         ^ variable.parameter
+
+  console.log(two, three, four)
+  //           ^ variable
+  //                ^ variable.parameter
+  //                       ^ variable.parameter
+}
