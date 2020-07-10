@@ -30,33 +30,20 @@
 
 (pair
   key: (property_identifier) @function.method
-  value: (function))
-(pair
-  key: (property_identifier) @function.method
-  value: (arrow_function))
+  value: [(function) (arrow_function)])
 
 (assignment_expression
   left: (member_expression
     property: (property_identifier) @function.method)
-  right: (arrow_function))
-(assignment_expression
-  left: (member_expression
-    property: (property_identifier) @function.method)
-  right: (function))
+  right: [(function) (arrow_function)])
 
 (variable_declarator
   name: (identifier) @function
-  value: (arrow_function))
-(variable_declarator
-  name: (identifier) @function
-  value: (function))
+  value: [(function) (arrow_function)])
 
 (assignment_expression
   left: (identifier) @function
-  right: (arrow_function))
-(assignment_expression
-  left: (identifier) @function
-  right: (function))
+  right: [(function) (arrow_function)])
 
 ; Function and method calls
 ;--------------------------
@@ -71,7 +58,18 @@
 ; Variables
 ;----------
 
-(formal_parameters (identifier) @variable.parameter)
+(formal_parameters
+  [
+    (identifier) @variable.parameter
+    (array_pattern
+      (identifier) @variable.parameter)
+    (object_pattern
+      [
+        (pair value: (identifier) @variable.parameter)
+        (shorthand_property_identifier) @variable.parameter
+      ])
+  ]
+)
 
 (identifier) @variable
 
@@ -86,90 +84,104 @@
 (this) @variable.builtin
 (super) @variable.builtin
 
-(true) @constant.builtin
-(false) @constant.builtin
+[
+  (true)
+  (false)
+  (null)
+  (undefined)
+] @constant.builtin
+
 (comment) @comment
-(string) @string
+
+[
+  (string)
+  (template_string)
+] @string
+
 (regex) @string.special
-(template_string) @string
 (number) @number
 
-; Punctuation
-;------------
+; Tokens
+;-------
 
 (template_substitution
   "${" @punctuation.special
   "}" @punctuation.special) @embedded
 
-";" @punctuation.delimiter
-"." @punctuation.delimiter
-"," @punctuation.delimiter
+[
+  ";"
+  "."
+  ","
+] @punctuation.delimiter
 
-"--" @operator
-"-" @operator
-"-=" @operator
-"&&" @operator
-"+" @operator
-"++" @operator
-"+=" @operator
-"<" @operator
-"<<" @operator
-"=" @operator
-"==" @operator
-"===" @operator
-"=>" @operator
-">" @operator
-">>" @operator
-"||" @operator
+[
+  "--"
+  "-"
+  "-="
+  "&&"
+  "+"
+  "++"
+  "+="
+  "<"
+  "<<"
+  "="
+  "=="
+  "==="
+  "=>"
+  ">"
+  ">>"
+  "||"
+] @operator
 
-"(" @punctuation.bracket
-")" @punctuation.bracket
-"[" @punctuation.bracket
-"]" @punctuation.bracket
-"{" @punctuation.bracket
-"}" @punctuation.bracket
+[
+  "("
+  ")"
+  "["
+  "]"
+  "{"
+  "}"
+]  @punctuation.bracket
 
-; Keywords
-;----------
-
-"as" @keyword
-"async" @keyword
-"await" @keyword
-"break" @keyword
-"case" @keyword
-"catch" @keyword
-"class" @keyword
-"const" @keyword
-"continue" @keyword
-"debugger" @keyword
-"default" @keyword
-"delete" @keyword
-"do" @keyword
-"else" @keyword
-"export" @keyword
-"extends" @keyword
-"finally" @keyword
-"for" @keyword
-"from" @keyword
-"function" @keyword
-"get" @keyword
-"if" @keyword
-"import" @keyword
-"in" @keyword
-"instanceof" @keyword
-"let" @keyword
-"new" @keyword
-"of" @keyword
-"return" @keyword
-"set" @keyword
-"static" @keyword
-"switch" @keyword
-"target" @keyword
-"throw" @keyword
-"try" @keyword
-"typeof" @keyword
-"var" @keyword
-"void" @keyword
-"while" @keyword
-"with" @keyword
-"yield" @keyword
+[
+  "as"
+  "async"
+  "await"
+  "break"
+  "case"
+  "catch"
+  "class"
+  "const"
+  "continue"
+  "debugger"
+  "default"
+  "delete"
+  "do"
+  "else"
+  "export"
+  "extends"
+  "finally"
+  "for"
+  "from"
+  "function"
+  "get"
+  "if"
+  "import"
+  "in"
+  "instanceof"
+  "let"
+  "new"
+  "of"
+  "return"
+  "set"
+  "static"
+  "switch"
+  "target"
+  "throw"
+  "try"
+  "typeof"
+  "var"
+  "void"
+  "while"
+  "with"
+  "yield"
+] @keyword
