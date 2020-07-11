@@ -695,7 +695,6 @@ module.exports = grammar({
             $.additive_expression,
             $.multiplicative_expression,
             $.relational_expression,
-            $.await_expression,
             $.equality_expression,
             $.logical_and_expression,
             $.bitwise_and_expression,
@@ -1043,7 +1042,7 @@ module.exports = grammar({
 
         await_expression: $ => seq(
             'await',
-            $.unary_expression
+            $._unary_expression
         ),
 
         type_test: $ => seq(

@@ -2067,10 +2067,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "await_expression"
-        },
-        {
-          "type": "SYMBOL",
           "name": "equality_expression"
         },
         {
@@ -3377,7 +3373,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "unary_expression"
+          "name": "_unary_expression"
         }
       ]
     },
