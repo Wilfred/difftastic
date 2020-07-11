@@ -1,4 +1,4 @@
-# Tree Sitter Lua
+# tree-sitter-lua
 
 [![Build Status](https://travis-ci.org/Azganoth/tree-sitter-lua.svg?branch=master)](https://travis-ci.org/Azganoth/tree-sitter-lua)
 [![Build status](https://ci.appveyor.com/api/projects/status/8rnu3n839orxosys/branch/master?svg=true)](https://ci.appveyor.com/project/Azganoth/tree-sitter-lua/branch/master)
