@@ -227,6 +227,9 @@ module.exports = grammar({
         [$._top_level_definition, $.getter_signature],
         [$._top_level_definition, $.setter_signature],
         [$._top_level_definition, $.lambda_expression],
+        [$._top_level_definition, $.const_object_expression, $._final_const_var_or_type],
+        [$._final_const_var_or_type, $.const_object_expression],
+        [$._final_const_var_or_type],
         // [$._expression_without_cascade, $._real_expression]
         // [$.constructor_signature, $._formal_parameter_part],
         // [$._unannotated_type, $.type_parameter],
@@ -2159,8 +2162,8 @@ module.exports = grammar({
         // Types
 
         _final_const_var_or_type: $ => choice(
-            prec.left(seq($._final_builtin, optional($._type))),
-            prec.left(seq($._const_builtin, optional($._type))),
+            seq($._final_builtin, optional($._type)),
+            seq($._const_builtin, optional($._type)),
             $.inferred_type,
             $._type
         ),
