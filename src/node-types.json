@@ -170,10 +170,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -343,10 +339,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -486,10 +478,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -606,10 +594,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -846,10 +830,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -1046,10 +1026,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -1154,11 +1130,111 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
+          "type": "_literal",
+          "named": true
+        },
+        {
+          "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "assignment_expression",
+          "named": true
+        },
+        {
+          "type": "bitwise_and_expression",
+          "named": true
+        },
+        {
+          "type": "bitwise_or_expression",
+          "named": true
+        },
+        {
+          "type": "bitwise_xor_expression",
+          "named": true
+        },
+        {
+          "type": "cascade_section",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "equality_expression",
+          "named": true
+        },
+        {
+          "type": "function_expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if_null_expression",
+          "named": true
+        },
+        {
+          "type": "logical_and_expression",
+          "named": true
+        },
+        {
+          "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "multiplicative_expression",
+          "named": true
+        },
+        {
+          "type": "new_expression",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
+          "named": true
+        },
+        {
+          "type": "relational_expression",
+          "named": true
+        },
+        {
+          "type": "selector",
+          "named": true
+        },
+        {
+          "type": "shift_expression",
+          "named": true
+        },
+        {
+          "type": "super",
+          "named": true
+        },
+        {
+          "type": "this",
+          "named": true
+        },
+        {
+          "type": "throw_expression",
+          "named": true
+        },
+        {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unconditional_assignable_selector",
           "named": true
         }
       ]
@@ -1213,10 +1289,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -1340,10 +1412,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -1456,10 +1524,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -1620,10 +1684,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -1744,10 +1804,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -2013,10 +2069,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -2143,10 +2195,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -2259,10 +2307,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -2808,10 +2852,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -2968,10 +3008,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -3099,10 +3135,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -3245,10 +3277,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -3387,10 +3415,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -3525,10 +3549,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -3644,10 +3664,6 @@
           },
           {
             "type": "assignment_expression",
-            "named": true
-          },
-          {
-            "type": "await_expression",
             "named": true
           },
           {
@@ -3783,10 +3799,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -3902,10 +3914,6 @@
           },
           {
             "type": "assignment_expression",
-            "named": true
-          },
-          {
-            "type": "await_expression",
             "named": true
           },
           {
@@ -4085,10 +4093,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -4204,10 +4208,6 @@
           },
           {
             "type": "assignment_expression",
-            "named": true
-          },
-          {
-            "type": "await_expression",
             "named": true
           },
           {
@@ -4343,10 +4343,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -4462,10 +4458,6 @@
           },
           {
             "type": "assignment_expression",
-            "named": true
-          },
-          {
-            "type": "await_expression",
             "named": true
           },
           {
@@ -4712,10 +4704,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -4862,10 +4850,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -5108,10 +5092,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -5256,10 +5236,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -5400,10 +5376,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -5519,10 +5491,6 @@
           },
           {
             "type": "assignment_expression",
-            "named": true
-          },
-          {
-            "type": "await_expression",
             "named": true
           },
           {
@@ -5729,10 +5697,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -5878,10 +5842,6 @@
           },
           {
             "type": "assignment_expression",
-            "named": true
-          },
-          {
-            "type": "await_expression",
             "named": true
           },
           {
@@ -6223,10 +6183,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -6327,6 +6283,10 @@
           "named": true
         },
         {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         },
@@ -6370,10 +6330,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -6489,10 +6445,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -6771,10 +6723,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -6896,10 +6844,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -7152,10 +7096,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -7317,10 +7257,6 @@
             "named": true
           },
           {
-            "type": "await_expression",
-            "named": true
-          },
-          {
             "type": "bitwise_and_expression",
             "named": true
           },
@@ -7436,10 +7372,6 @@
           },
           {
             "type": "assignment_expression",
-            "named": true
-          },
-          {
-            "type": "await_expression",
             "named": true
           },
           {
@@ -7575,10 +7507,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -7887,10 +7815,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -8020,10 +7944,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -8196,10 +8116,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -8300,6 +8216,10 @@
           "named": true
         },
         {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         },
@@ -8363,10 +8283,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -8494,10 +8410,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -8610,10 +8522,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -8817,10 +8725,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -8977,10 +8881,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -9101,10 +9001,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -9221,10 +9117,6 @@
         },
         {
           "type": "assignment_expression_without_cascade",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {
@@ -9662,10 +9554,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -9904,10 +9792,6 @@
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -10020,10 +9904,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
           "named": true
         },
         {

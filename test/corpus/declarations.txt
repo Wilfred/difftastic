@@ -347,3 +347,23 @@ enum HandSign {
       (enum_constant name: (identifier))
       (enum_constant name: (identifier))
       (enum_constant name: (identifier)))))
+
+
+=================
+variable inferred type declaration
+=================
+
+var x = 0;
+final y = 1.0;
+final double y1 = 1.0;
+const z = "100";
+const String z1 = "100";
+
+---
+
+(program 
+  (local_variable_declaration (initialized_variable_definition (inferred_type) (identifier) (decimal_integer_literal))) 
+  (local_variable_declaration (initialized_variable_definition (identifier) (decimal_floating_point_literal))) 
+  (local_variable_declaration (initialized_variable_definition (type_identifier) (identifier) (decimal_floating_point_literal))) 
+  (local_variable_declaration (initialized_variable_definition (identifier) (string_literal))) 
+  (local_variable_declaration (initialized_variable_definition (type_identifier) (identifier) (string_literal))))

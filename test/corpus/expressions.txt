@@ -295,7 +295,7 @@ for (j.init(i); j.check(); j.update()) {
 )
 
 ================================
-Enhanced for statements
+enhanced for statements
 ================================
 
 for (A b in c) {
@@ -312,3 +312,21 @@ for (A b in c) {
     (block
       (expression_statement (identifier) (selector (argument_part (arguments (identifier))))))))
 
+
+================================
+await expressions
+================================
+
+void main() async {
+  final id = await Future.delayed(const Duration(seconds: 100));
+}
+
+---
+
+(program (function_signature (void_type) (identifier) (formal_parameter_list)) 
+  (function_body (block 
+    (local_variable_declaration (initialized_variable_definition (identifier) (unary_expression 
+      (await_expression (identifier) (selector (assignable_selector (unconditional_assignable_selector (identifier)))) 
+        (selector (argument_part (arguments 
+          (const_object_expression (type_identifier) 
+            (arguments (named_argument (label (identifier)) (decimal_integer_literal))))))))))))))
