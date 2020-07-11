@@ -6283,6 +6283,10 @@
           "named": true
         },
         {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         },
@@ -8209,6 +8213,10 @@
         },
         {
           "type": "throw_expression",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
           "named": true
         },
         {

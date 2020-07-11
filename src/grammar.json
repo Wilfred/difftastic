@@ -1822,6 +1822,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_arguments"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "["
         },
@@ -1879,6 +1891,18 @@
     "set_or_map_literal": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_arguments"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "{"
@@ -9383,6 +9407,10 @@
     ],
     [
       "_final_const_var_or_type"
+    ],
+    [
+      "type_parameter",
+      "_type_name"
     ]
   ],
   "externals": [
