@@ -230,6 +230,7 @@ module.exports = grammar({
         [$._top_level_definition, $.const_object_expression, $._final_const_var_or_type],
         [$._final_const_var_or_type, $.const_object_expression],
         [$._final_const_var_or_type],
+        [$.type_parameter, $._type_name],
         // [$._expression_without_cascade, $._real_expression]
         // [$.constructor_signature, $._formal_parameter_part],
         // [$._unannotated_type, $.type_parameter],
@@ -588,12 +589,12 @@ module.exports = grammar({
         // ),
 
         list_literal: $ => seq(
-            '[',
+            optional($.type_arguments), '[',
             commaSepTrailingComma($._element),
             ']'
         ),
         set_or_map_literal: $ => seq(
-            '{',
+            optional($.type_arguments), '{',
             commaSepTrailingComma(
                 $._element
             ),
