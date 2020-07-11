@@ -41,17 +41,15 @@
   "scripts": {
     "build_init": "tree-sitter generate && node-gyp configure && node-gyp build",
     "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test && script/parse-examples",
+    "test": "tree-sitter test",
     "build-test": "tree-sitter generate && node-gyp build && tree-sitter test",
     "watch-test": "npm-watch test",
     "watch-grammar": "npm-watch build-test"
   },
-  "tree-sitter": [
-    {
-      "scope": "source.dart",
-      "file-types": [
-        "dart"
-      ]
-    }
-  ]
+  "tree-sitter": [{
+    "scope": "source.dart",
+    "file-types": [
+      "dart"
+    ]
+  }]
 }

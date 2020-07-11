@@ -1850,6 +1850,18 @@
                       }
                     ]
                   }
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 }
               ]
             },
@@ -1896,6 +1908,18 @@
                       }
                     ]
                   }
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 }
               ]
             },
@@ -7914,8 +7938,21 @@
       "type": "PREC",
       "value": 0,
       "content": {
-        "type": "STRING",
-        "value": "var"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "var"
+          },
+          {
+            "type": "STRING",
+            "value": "final"
+          },
+          {
+            "type": "STRING",
+            "value": "const"
+          }
+        ]
       }
     },
     "_method_header": {
@@ -9335,6 +9372,18 @@
     [
       "_top_level_definition",
       "lambda_expression"
+    ],
+    [
+      "inferred_type",
+      "_final_builtin"
+    ],
+    [
+      "inferred_type",
+      "_const_builtin"
+    ],
+    [
+      "declaration",
+      "_static_or_covariant"
     ]
   ],
   "externals": [
