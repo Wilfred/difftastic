@@ -32,7 +32,7 @@ module.exports = grammar({
     [$._prefix],
     [$._expression, $._variable_declarator],
     [$._expression, $.function_call_statement],
-	[$.function_name, $.function_name_field]
+    [$.function_name, $.function_name_field]
   ],
 
   externals: $ => [
@@ -46,7 +46,7 @@ module.exports = grammar({
     // Return statement
     return_statement: $ => seq(
       'return',
-      optional(sequence($._expression)),
+      optional(commaSeq($._expression)),
       optional($._empty_statement)
     ),
 
@@ -77,26 +77,26 @@ module.exports = grammar({
 
     // Statements: Variable eclarations
     variable_declaration: $ => seq(
-      sequence(alias($._variable_declarator, $.variable_declarator)),
+      commaSeq(alias($._variable_declarator, $.variable_declarator)),
       '=',
-      sequence($._expression)
+      commaSeq($._expression)
     ),
 
     local_variable_declaration: $ => seq(
       'local',
       alias($._local_variable_declarator, $.variable_declarator),
-      optional(seq('=', sequence($._expression)))
+      optional(seq('=', commaSeq($._expression)))
     ),
 
     _variable_declarator: $ => choice(
       $.identifier,
       seq($._prefix, '[', $._expression, ']'),
-		$.field_expression
+      $.field_expression
     ),
 
-	field_expression: $ => seq($._prefix, '.', alias($.identifier, $.property_identifier)),
+    field_expression: $ => seq($._prefix, '.', alias($.identifier, $.property_identifier)),
 
-    _local_variable_declarator: $ => sequence($.identifier),
+    _local_variable_declarator: $ => commaSeq($.identifier),
 
     // Statements: Control statements
     do_statement: $ => seq(
@@ -177,9 +177,9 @@ module.exports = grammar({
     ),
 
     _in_loop_expression: $ => seq(
-      sequence($.identifier),
+      commaSeq($.identifier),
       'in',
-      sequence($._expression),
+      commaSeq($._expression),
     ),
 
     // Statements: Simple statements
@@ -219,22 +219,22 @@ module.exports = grammar({
     )),
 
     arguments: $ => choice(
-      seq('(', optional(sequence($._expression)), ')'),
+      seq('(', optional(commaSeq($._expression)), ')'),
       $.table,
       $.string
     ),
 
     function_name: $ => seq(
-		choice($.identifier,
-			$.function_name_field
-		),
+      choice($.identifier,
+        $.function_name_field
+      ),
       optional(seq(':', alias($.identifier, $.method)))
     ),
 
-	function_name_field: $ => seq(
+    function_name_field: $ => seq(
       field("object", $.identifier),
       repeat(seq('.', alias($.identifier, $.property_identifier))),
-	),
+    ),
 
     parameters: $ => seq(
       '(',
@@ -363,31 +363,30 @@ module.exports = grammar({
 
     // Expressions: Primitives
     number: $ => {
-      const
-        decimal_digits = /[0-9]+/
-        signed_integer = seq(optional(choice('-', '+')), decimal_digits)
-        decimal_exponent_part = seq(choice('e', 'E'), signed_integer)
+      const decimal_digits = /[0-9]+/
+      const signed_integer = seq(optional(choice('-', '+')), decimal_digits)
+      const decimal_exponent_part = seq(choice('e', 'E'), signed_integer)
 
-        decimal_integer_literal = choice(
-          '0',
-          seq(optional('0'), /[1-9]/, optional(decimal_digits))
-        )
+      const decimal_integer_literal = choice(
+        '0',
+        seq(optional('0'), /[1-9]/, optional(decimal_digits))
+      )
 
-        hex_digits = /[a-fA-F0-9]+/
-        hex_exponent_part = seq(choice('p', 'P'), signed_integer)
+      const hex_digits = /[a-fA-F0-9]+/
+      const hex_exponent_part = seq(choice('p', 'P'), signed_integer)
 
-        decimal_literal = choice(
-          seq(decimal_integer_literal, '.', optional(decimal_digits), optional(decimal_exponent_part)),
-          seq('.', decimal_digits, optional(decimal_exponent_part)),
-          seq(decimal_integer_literal, optional(decimal_exponent_part))
-        )
+      const decimal_literal = choice(
+        seq(decimal_integer_literal, '.', optional(decimal_digits), optional(decimal_exponent_part)),
+        seq('.', decimal_digits, optional(decimal_exponent_part)),
+        seq(decimal_integer_literal, optional(decimal_exponent_part))
+      )
 
-        hex_literal = seq(
-          choice('0x', '0X'),
-          hex_digits,
-          optional(seq('.', hex_digits)),
-          optional(hex_exponent_part)
-        )
+      const hex_literal = seq(
+        choice('0x', '0X'),
+        hex_digits,
+        optional(seq('.', hex_digits)),
+        optional(hex_exponent_part)
+      )
 
       return token(choice(
         decimal_literal,
@@ -404,6 +403,6 @@ module.exports = grammar({
   }
 })
 
-function sequence(rule) {
+function commaSeq(rule) {
   return seq(rule, repeat(seq(',', rule)))
 }
