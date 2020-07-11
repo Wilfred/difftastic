@@ -178,3 +178,33 @@ class Beyonce {
           (formal_parameter (type_identifier) (identifier))
           (formal_parameter (type_identifier) (identifier))))))
         (function_body (block (comment))))))
+
+==================================================
+collection trailing commas
+==================================================
+
+final map = {"hello": "world",};
+final set = {"hello", "world"};
+
+---
+
+(program 
+  (local_variable_declaration (initialized_variable_definition (identifier) 
+    (set_or_map_literal (pair (string_literal) (string_literal))))) 
+  (local_variable_declaration (initialized_variable_definition (identifier) 
+    (set_or_map_literal (string_literal) (string_literal)))))
+
+==================================================
+collection literal type parameters
+==================================================
+
+final dynamic opts = <dynamic, dynamic>{
+  'transports': ['websocket'],
+  'forceNew': true,
+};
+
+---
+
+(program (local_variable_declaration (initialized_variable_definition (type_identifier) (identifier) 
+  (set_or_map_literal (type_arguments (type_identifier) (type_identifier)) (pair (string_literal) 
+    (list_literal (string_literal))) (pair (string_literal) (true))))))

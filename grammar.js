@@ -100,7 +100,7 @@ const DART_PREC = {
 //todo: ?? operator
 // todo: cascade notation: dot dot accesses each object
 //todo: conditional member access: blah?.foo
-
+//todo: rethrow keyword
 //todo: override operator notations
 //todo: add mixins via 'with' keyword
 //todo: add the 'mixin' keyword
@@ -226,7 +226,11 @@ module.exports = grammar({
         [$._postfix_expression],
         [$._top_level_definition, $.getter_signature],
         [$._top_level_definition, $.setter_signature],
-        [$._top_level_definition, $.lambda_expression]
+        [$._top_level_definition, $.lambda_expression],
+        [$._top_level_definition, $.const_object_expression, $._final_const_var_or_type],
+        [$._final_const_var_or_type, $.const_object_expression],
+        [$._final_const_var_or_type],
+        [$.type_parameter, $._type_name],
         // [$._expression_without_cascade, $._real_expression]
         // [$.constructor_signature, $._formal_parameter_part],
         // [$._unannotated_type, $.type_parameter],
@@ -585,13 +589,13 @@ module.exports = grammar({
         // ),
 
         list_literal: $ => seq(
-            '[',
-            commaSep($._element),
+            optional($.type_arguments), '[',
+            commaSepTrailingComma($._element),
             ']'
         ),
         set_or_map_literal: $ => seq(
-            '{',
-            commaSep(
+            optional($.type_arguments), '{',
+            commaSepTrailingComma(
                 $._element
             ),
             '}'
@@ -692,7 +696,6 @@ module.exports = grammar({
             $.additive_expression,
             $.multiplicative_expression,
             $.relational_expression,
-            $.await_expression,
             $.equality_expression,
             $.logical_and_expression,
             $.bitwise_and_expression,
@@ -1040,7 +1043,7 @@ module.exports = grammar({
 
         await_expression: $ => seq(
             'await',
-            $.unary_expression
+            $._unary_expression
         ),
 
         type_test: $ => seq(
@@ -2159,8 +2162,8 @@ module.exports = grammar({
         // Types
 
         _final_const_var_or_type: $ => choice(
-            seq($._final_builtin, $._type),
-            seq($._const_builtin, $._type),
+            seq($._final_builtin, optional($._type)),
+            seq($._const_builtin, optional($._type)),
             $.inferred_type,
             $._type
         ),
@@ -2807,6 +2810,14 @@ function commaSep1(rule) {
 
 function commaSep(rule) {
     return optional(commaSep1(rule))
+}
+
+function commaSep1TrailingComma(rule) {
+    return seq(rule, repeat(seq(',', rule)), optional(','))
+}
+
+function commaSepTrailingComma(rule) {
+    return optional(commaSep1TrailingComma(rule))
 }
 
 function binaryRunLeft(rule, separator, superItem, precedence) {
