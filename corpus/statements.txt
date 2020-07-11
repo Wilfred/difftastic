@@ -61,13 +61,13 @@ end
       (function_call (identifier)
         (arguments (string)))
     (elseif (condition_expression (binary_operation (identifier) (string)))
-      (function_call (identifier) (property_identifier)
+      (function_call (field_expression (identifier) (property_identifier))
         (arguments (string))))
     (else
       (variable_declaration (variable_declarator (identifier)) (number))
 
       (local_variable_declaration (variable_declarator (identifier))
-        (function_call (identifier) (property_identifier)
+        (function_call (field_expression (identifier) (property_identifier))
           (arguments)))
 
       (function_call (identifier)
