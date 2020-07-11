@@ -100,7 +100,7 @@ const DART_PREC = {
 //todo: ?? operator
 // todo: cascade notation: dot dot accesses each object
 //todo: conditional member access: blah?.foo
-
+//todo: rethrow keyword
 //todo: override operator notations
 //todo: add mixins via 'with' keyword
 //todo: add the 'mixin' keyword
@@ -226,7 +226,10 @@ module.exports = grammar({
         [$._postfix_expression],
         [$._top_level_definition, $.getter_signature],
         [$._top_level_definition, $.setter_signature],
-        [$._top_level_definition, $.lambda_expression]
+        [$._top_level_definition, $.lambda_expression],
+        [$.inferred_type, $._final_builtin],
+        [$.inferred_type, $._const_builtin],
+        [$.declaration, $._static_or_covariant],
         // [$._expression_without_cascade, $._real_expression]
         // [$.constructor_signature, $._formal_parameter_part],
         // [$._unannotated_type, $.type_parameter],
@@ -586,12 +589,12 @@ module.exports = grammar({
 
         list_literal: $ => seq(
             '[',
-            commaSep($._element),
+            commaSepTrailingComma($._element),
             ']'
         ),
         set_or_map_literal: $ => seq(
             '{',
-            commaSep(
+            commaSepTrailingComma(
                 $._element
             ),
             '}'
@@ -2361,7 +2364,11 @@ module.exports = grammar({
 
         inferred_type: $ => prec(
             DART_PREC.BUILTIN,
-            'var',
+            choice(
+                'var',
+                'final',
+                'const'
+            ),
         ),
 
         _method_header: $ => seq(
@@ -2807,6 +2814,14 @@ function commaSep1(rule) {
 
 function commaSep(rule) {
     return optional(commaSep1(rule))
+}
+
+function commaSep1TrailingComma(rule) {
+    return seq(rule, repeat(seq(',', rule)), optional(','))
+}
+
+function commaSepTrailingComma(rule) {
+    return optional(commaSep1TrailingComma(rule))
 }
 
 function binaryRunLeft(rule, separator, superItem, precedence) {
