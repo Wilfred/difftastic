@@ -91,10 +91,7 @@ const DART_PREC = {
 // TODO: general things to add
 // both string types
 // adjacent strings implicitly concatenated
-// var, final, const
-// list, set and map literals
 //get protocols in classes?
-// positional parameters: cased in [] at end of type params.
 // todo: type test operators: as, is, and is!
 //todo: assignment operators: ??=, and ~/=
 //todo: ?? operator
@@ -103,8 +100,6 @@ const DART_PREC = {
 //todo: rethrow keyword
 //todo: override operator notations
 //todo: add mixins via 'with' keyword
-//todo: add the 'mixin' keyword
-//todo: add collection parameters to list/map literals
 //todo: correct import statements to be strings
 //todo: sync* and async* functions, plus yields
 //
@@ -213,7 +208,7 @@ module.exports = grammar({
             $.enum_declaration,
             $.extension_declaration,
             $.mixin_declaration,
-            // $.type_alias,
+            $.type_alias,
             seq(
                 optional($._external_builtin),
                 $.function_signature,
@@ -1605,6 +1600,17 @@ module.exports = grammar({
             field('name', $.identifier),
             // field('v', optional($.class_body))
         )),
+
+        type_alias: $ => choice(
+            seq($._typedef, 
+                $._type_name, 
+                optional($.type_parameters), 
+                '=', $.function_type, ';'),
+            seq($._typedef, 
+                optional($._type_name), 
+                $._type_name, 
+                $._formal_parameter_part, ';'),
+        ),
 
         class_definition: $ => choice(
             seq(
