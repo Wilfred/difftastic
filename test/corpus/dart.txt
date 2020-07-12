@@ -189,9 +189,9 @@ final set = {"hello", "world"};
 ---
 
 (program 
-  (local_variable_declaration (initialized_variable_definition (identifier) 
+  (static_final_declaration_list (static_final_declaration (identifier) 
     (set_or_map_literal (pair (string_literal) (string_literal))))) 
-  (local_variable_declaration (initialized_variable_definition (identifier) 
+  (static_final_declaration_list (static_final_declaration (identifier) 
     (set_or_map_literal (string_literal) (string_literal)))))
 
 ==================================================
@@ -205,6 +205,6 @@ final dynamic opts = <dynamic, dynamic>{
 
 ---
 
-(program (local_variable_declaration (initialized_variable_definition (type_identifier) (identifier) 
+(program (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) 
   (set_or_map_literal (type_arguments (type_identifier) (type_identifier)) (pair (string_literal) 
     (list_literal (string_literal))) (pair (string_literal) (true))))))
