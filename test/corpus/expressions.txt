@@ -330,3 +330,32 @@ void main() async {
         (selector (argument_part (arguments 
           (const_object_expression (type_identifier) 
             (arguments (named_argument (label (identifier)) (decimal_integer_literal))))))))))))))
+
+================================
+unary negation expression
+================================
+
+void main() {
+  final remote = false;
+  if (!remote) {
+    server = localUrl;
+  }
+}
+
+---
+
+(program (function_signature (void_type) (identifier) (formal_parameter_list)) 
+  (function_body (block 
+    (local_variable_declaration (initialized_variable_definition (identifier) (false))) 
+    (if_statement (parenthesized_expression (unary_expression (prefix_operator (negation_operator)) (identifier))) 
+      (block (expression_statement (assignment_expression (assignable_expression (identifier)) (identifier))))))))
+
+================================
+assert statement
+================================
+
+assert(x != null);
+
+---
+(program 
+  (assert_statement (assertion (equality_expression (identifier) (equality_operator) (null_literal))))) 
