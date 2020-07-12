@@ -1470,7 +1470,7 @@ module.exports = grammar({
 
         requires_modifier: $ => choice(
             'transitive',
-            'static'
+            $._static
         ),
 
         module_name: $ => choice(
@@ -1810,7 +1810,7 @@ module.exports = grammar({
             seq(
                 $._static,
                 $._final_or_const,
-                $._type,
+                optional($._type),
                 $.static_final_declaration_list
             ),
             seq(
@@ -1826,6 +1826,12 @@ module.exports = grammar({
                 ),
                 $.initialized_identifier_list
             )
+        //    TODO: add in the 'late' keyword from the informal draft spec:
+        //    |static late final〈type〉?〈initializedIdentifierList〉
+        //    |static late?〈varOrType〉 〈initializedIdentifierList〉
+        //    |covariant late?〈varOrType〉 〈initializedIdentifierList〉
+        //    |late?final〈type〉?〈initializedIdentifierList〉
+        //    |late?〈varOrType〉 〈initializedIdentifierList〉
         ),
         initialized_identifier_list: $ => commaSep1(
             $.initialized_identifier
