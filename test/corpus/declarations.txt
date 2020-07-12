@@ -403,3 +403,19 @@ final $y$ = 0;
 (program 
   (static_final_declaration_list (static_final_declaration (identifier) (decimal_integer_literal))))
 
+
+=================
+typedefs
+=================
+
+typedef CreateCallback = void Function(String);
+typedef void EndCallback(String endValue);
+
+---
+
+(program 
+  (type_alias (type_identifier) 
+    (function_type (void_type) 
+      (parameter_type_list (normal_parameter_type (type_identifier))))) 
+  (type_alias (type_identifier) (type_identifier) 
+    (formal_parameter_list (formal_parameter (type_identifier) (identifier)))))
