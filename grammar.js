@@ -184,6 +184,8 @@ module.exports = grammar({
         [$._final_const_var_or_type],
         [$.type_parameter, $._type_name],
         [$.class_definition],
+        [$._normal_formal_parameter],
+        [$.library_name, $.dotted_identifier_list],
     ],
 
     word: $ => $.identifier,
@@ -210,6 +212,7 @@ module.exports = grammar({
             $.class_definition,
             $.enum_declaration,
             $.extension_declaration,
+            $.mixin_declaration,
             // $.type_alias,
             seq(
                 optional($._external_builtin),
@@ -1206,7 +1209,7 @@ module.exports = grammar({
             $.identifier, ':', $._statement
         ),
 
-        assert_statement: $ => $.assertion,
+        assert_statement: $ => seq($.assertion, ';'),
 
         assertion: $ => seq('assert', '(', $._expression, optional(seq(
             ',',
@@ -1632,7 +1635,7 @@ module.exports = grammar({
             ),
         ),
 
-        _metadata: $ => repeat1($._annotation),
+        _metadata: $ => prec.right(repeat1($._annotation)),
 
         // modifiers: $ => repeat1(choice(
         //     $._annotation,
@@ -1690,7 +1693,6 @@ module.exports = grammar({
             optional($.interfaces)
         ),
         mixin_declaration: $ => seq(
-            optional($._metadata),
             $._mixin,
             $.identifier,
             optional($.type_parameters),
@@ -1760,6 +1762,7 @@ module.exports = grammar({
         method_signature: $ => choice(
             seq($.constructor_signature, optional($.initializers)),
             $.factory_constructor_signature,
+           
             seq(
                 optional($._static),
                 choice(
@@ -1777,6 +1780,7 @@ module.exports = grammar({
             seq($._external,
                 $.constant_constructor_signature
             ),
+            $.redirecting_factory_constructor_signature,
             seq($._external,
                 $.constructor_signature
             ),
@@ -1878,6 +1882,7 @@ module.exports = grammar({
         ),
         initializer_list_entry: $ => choice(
             seq('super',
+                optional(seq('.', $.qualified)),
                 //$.arguements
                 $.arguments
             ),
@@ -1911,18 +1916,18 @@ module.exports = grammar({
 
         factory_constructor_signature: $ => seq(
             $._factory,
-            sep1($.identifier, ','),
-            $.formal_parameter_list
+            sep1($.identifier, '.'),
+            $.formal_parameter_list,
         ),
 
         redirecting_factory_constructor_signature: $ => seq(
             optional($._const_builtin),
             $._factory,
-            sep1($.identifier, ','),
+            sep1($.identifier, '.'),
             $.formal_parameter_list,
             '=',
             $._type_not_void,
-            optional(seq('.', $.identifier))
+            optional(seq('.', $.identifier)),
         ),
 
         redirection: $ => seq(
@@ -2475,7 +2480,7 @@ module.exports = grammar({
         ),
         _optional_postional_formal_parameters: $ => seq(
             '[',
-            commaSep1(
+            commaSep1TrailingComma(
                 $._default_formal_parameter
                 // choice(
                 //     $.formal_parameter,
@@ -2488,7 +2493,7 @@ module.exports = grammar({
         ),
         _named_formal_parameters: $ => seq(
             '{',
-            commaSep1(
+            commaSep1TrailingComma(
                 $._default_named_parameter
                 // choice(
                 //     $.formal_parameter,
@@ -2604,7 +2609,7 @@ module.exports = grammar({
 
         script_tag: $ => seq('#!', '\n', '\n'),
 
-        library_name: $ => seq($._metadata, 'library', $.dotted_identifier_list),
+        library_name: $ => seq(optional($._metadata), 'library', $.dotted_identifier_list, $._semicolon),
 
         dotted_identifier_list: $ => sep1($.identifier, '.'),
 
@@ -2744,7 +2749,7 @@ module.exports = grammar({
 
         _semicolon: $ => seq(';', optional($._automatic_semicolon)),
 
-        identifier: $ => /[a-zA-Z_]\w*/,
+        identifier: $ => /[a-zA-Z_$][\w$]*/,
         //TODO: add support for triple-slash comments as a special category.
 
         // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890

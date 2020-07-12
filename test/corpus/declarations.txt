@@ -390,3 +390,16 @@ const String z1 = "100";
   (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) (decimal_floating_point_literal))) 
   (static_final_declaration_list (static_final_declaration (identifier) (string_literal))) 
   (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) (string_literal))))
+
+
+=================
+identifier with dollar signs
+=================
+
+final $y$ = 0;
+
+---
+
+(program 
+  (static_final_declaration_list (static_final_declaration (identifier) (decimal_integer_literal))))
+
