@@ -2815,20 +2815,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "annotation",
-          "named": true
-        },
-        {
-          "type": "marker_annotation",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -3230,6 +3216,79 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "extension_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "function_body",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
+          "named": true
+        },
+        {
+          "type": "method_signature",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "extension_declaration",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "extension_body",
+            "named": true
+          }
+        ]
+      },
+      "class": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type_parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_parameters",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -7476,7 +7535,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "normal_parameter_type",
@@ -7605,6 +7664,52 @@
     }
   },
   {
+    "type": "part_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "part_of_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "postfix_expression",
     "named": true,
     "fields": {},
@@ -7682,11 +7787,19 @@
           "named": true
         },
         {
+          "type": "annotation",
+          "named": true
+        },
+        {
           "type": "class_definition",
           "named": true
         },
         {
           "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "extension_declaration",
           "named": true
         },
         {
@@ -7718,7 +7831,19 @@
           "named": true
         },
         {
+          "type": "marker_annotation",
+          "named": true
+        },
+        {
           "type": "parameter_type_list",
+          "named": true
+        },
+        {
+          "type": "part_directive",
+          "named": true
+        },
+        {
+          "type": "part_of_directive",
           "named": true
         },
         {
@@ -10426,6 +10551,10 @@
     "named": false
   },
   {
+    "type": "extension",
+    "named": false
+  },
+  {
     "type": "external",
     "named": false
   },
@@ -10534,7 +10663,23 @@
     "named": false
   },
   {
-    "type": "r",
+    "type": "part of",
+    "named": false
+  },
+  {
+    "type": "r\"",
+    "named": false
+  },
+  {
+    "type": "r\"\"\"",
+    "named": false
+  },
+  {
+    "type": "r'",
+    "named": false
+  },
+  {
+    "type": "r'''",
     "named": false
   },
   {

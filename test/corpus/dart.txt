@@ -70,6 +70,18 @@ get a => r'''Also a string''';
     (identifier) (function_body (string_literal))
   (identifier) (function_body (string_literal)))
 
+
+==================================================
+dart identifier name r (used to conflict/error with raw string literal)
+==================================================
+
+String hello(r) => 'hello';
+
+---
+(program 
+  (function_signature (type_identifier) (identifier) 
+    (formal_parameter_list (formal_parameter (identifier)))) (function_body (string_literal))) 
+
 ==================================================
 dart set literals
 ==================================================
@@ -225,3 +237,38 @@ void main() {
     (await_expression (identifier) (selector (assignable_selector (unconditional_assignable_selector (identifier)))) (selector (argument_part 
     (arguments (decimal_integer_literal) (selector (assignable_selector (unconditional_assignable_selector (identifier)))) 
       (function_expression (formal_parameter_list) (function_expression_body (block))))))))))))
+
+
+==================================================
+part directive
+==================================================
+
+part 'hello.dart';
+
+---
+
+(program (part_directive (uri (string_literal))))
+
+==================================================
+part of directive
+==================================================
+
+part of 'hello.dart';
+
+---
+
+(program (part_of_directive (uri (string_literal))))
+
+==================================================
+extension methods
+==================================================
+
+extension Hello on String {
+  String get hello => 'hello';
+}
+
+---
+
+(program 
+  (extension_declaration (identifier) (identifier) (extension_body 
+    (method_signature (getter_signature (type_identifier) (identifier))) (function_body (string_literal)))))
