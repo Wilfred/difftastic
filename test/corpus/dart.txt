@@ -272,3 +272,46 @@ extension Hello on String {
 (program 
   (extension_declaration (identifier) (identifier) (extension_body 
     (method_signature (getter_signature (type_identifier) (identifier))) (function_body (string_literal)))))
+
+==================================================
+library directive
+==================================================
+
+library myLibrary;
+
+---
+
+(program (library_name (dotted_identifier_list (identifier))))
+
+==================================================
+scoped library directive
+==================================================
+
+library myLibrary.a.cool.library;
+
+---
+
+(program (library_name (dotted_identifier_list (identifier) (identifier) (identifier) (identifier))))
+
+
+==================================================
+redirecting factories
+==================================================
+@freezed
+abstract class MyDataClass implements _$MyDataClass {
+  const factory MyDataClass.initialize({@Default(false) bool debug}) =  _MyDataClassInitialize;
+  factory MyDataClass.debug() => MyDataClass.initialize(debug: true);
+}
+
+---
+
+(program 
+  (marker_annotation (identifier)) 
+  (class_definition (identifier) (interfaces (type_identifier)) 
+    (class_body 
+      (declaration (redirecting_factory_constructor_signature (identifier) (identifier) (formal_parameter_list 
+        (optional_formal_parameters (formal_parameter 
+          (annotation (identifier) (arguments (false))) (type_identifier) (identifier)))) (type_identifier))) 
+      (method_signature (factory_constructor_signature (identifier) (identifier) (formal_parameter_list))) 
+        (function_body (identifier) (selector (assignable_selector (unconditional_assignable_selector (identifier)))) 
+          (selector (argument_part (arguments (named_argument (label (identifier)) (true)))))))))

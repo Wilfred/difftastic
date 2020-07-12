@@ -349,3 +349,13 @@ void main() {
     (local_variable_declaration (initialized_variable_definition (identifier) (false))) 
     (if_statement (parenthesized_expression (unary_expression (prefix_operator (negation_operator)) (identifier))) 
       (block (expression_statement (assignment_expression (assignable_expression (identifier)) (identifier))))))))
+
+================================
+assert statement
+================================
+
+assert(x != null);
+
+---
+(program 
+  (assert_statement (assertion (equality_expression (identifier) (equality_operator) (null_literal))))) 

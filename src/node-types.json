@@ -2656,6 +2656,10 @@
           "named": true
         },
         {
+          "type": "redirecting_factory_constructor_signature",
+          "named": true
+        },
+        {
           "type": "redirection",
           "named": true
         },
@@ -6046,7 +6050,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -6059,6 +6063,10 @@
         },
         {
           "type": "field_initializer",
+          "named": true
+        },
+        {
+          "type": "qualified",
           "named": true
         }
       ]
@@ -6710,6 +6718,45 @@
         },
         {
           "type": "mixin_application",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "mixin_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "class_body",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "interfaces",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         },
         {
@@ -7835,6 +7882,10 @@
           "named": true
         },
         {
+          "type": "mixin_declaration",
+          "named": true
+        },
+        {
           "type": "parameter_type_list",
           "named": true
         },
@@ -7891,6 +7942,37 @@
       "types": [
         {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "redirecting_factory_constructor_signature",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "formal_parameter_list",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]
