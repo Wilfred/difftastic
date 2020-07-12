@@ -146,53 +146,7 @@ module.exports = grammar({
     ],
 
     conflicts: $ => [
-        // [$._metadata, $.annotated_type, $.receiver_parameter],
-        // [$._metadata, $.annotated_type],
-        // [$._variable_declarator_id],
-        // [$._unannotated_type,$._expression],
-        // [$._unannotated_type,$._expression, $.inferred_parameters],
-        // [$._unannotated_type,$.method_reference],
-        // [$._unannotated_type,$.generic_type],
-        // [$._primary, $._unannotated_type],
-        // [$._primary, $.generic_type],
-        // [$._statement, $._primary],
-        // [$.function_signature, $._primary,],
-        // [$._type_name, $._primary,],
-        // [$._simple_formal_parameter, $._primary,],
-        // [$._function_formal_parameter, $._primary,],
-        // [$._type_name, $._function_formal_parameter, $._primary],
-        // [$._type_name, $._simple_formal_parameter],
-        // [$.selector, $.assignable_selector_part],
-        // [$._final_const_var_or_type, $._function_formal_parameter],
-        // [$._final_const_var_or_type, $.function_signature],
-        // [$.variable_declaration, $.initialized_identifier,],
-        // [$.declaration, $._external_and_static],
-        // [$._compound_access, $.scoped_identifier],
-        // [$.explicit_constructor_invocation, $._compound_access],
-        // [$._expression, $.pair],
-        // [$._expression, $.labeled_statement],
         [$.block, $.set_or_map_literal],
-        // [$.relational_expression],
-        // [$.equality_expression],
-        // [$._static_or_covariant, $.method_signature],
-        // [$._expression],
-        // [$.constructor_signature, $.function_signature],
-        // [$.assignable_expression, $.postfix_expression],
-        // [$.initialized_identifier, $._variable_declarator_id],
-        // [$._expression, $._expression_without_cascade],
-        // [$._type_name, $.function_signature],
-        // [$._type_name, $._function_formal_parameter],
-        // [$.postfix_expression, $.assignable_expression],
-        // [$._simple_formal_parameter, $._primary,],
-        // [ $._type_name, $._function_formal_parameter, $._primary,],
-        // [$._type_not_void_not_function, $._function_type_tail],
-        // [$._dot_identifier, $._type_name],
-        // [$._expression],
-        // [$._function_type_tails],
-        // [$._type_not_void_not_function],
-        // [$.cascade_section],
-        // [$.assignable_expression],
-        // [$._argument_list],
         [$._primary, $.function_signature],
         [$._primary, $.function_signature, $._type_name],
         [$._primary, $._type_name],
@@ -224,35 +178,12 @@ module.exports = grammar({
         [$._real_expression, $._below_relational_expression],
         [$._postfix_expression, $.assignable_expression],
         [$._postfix_expression],
-        [$._top_level_definition, $.getter_signature],
-        [$._top_level_definition, $.setter_signature],
         [$._top_level_definition, $.lambda_expression],
         [$._top_level_definition, $.const_object_expression, $._final_const_var_or_type],
         [$._final_const_var_or_type, $.const_object_expression],
         [$._final_const_var_or_type],
         [$.type_parameter, $._type_name],
-        // [$._expression_without_cascade, $._real_expression]
-        // [$.constructor_signature, $._formal_parameter_part],
-        // [$._unannotated_type, $.type_parameter],
-        // [$.lambda_expression, $._expression],
-        //     [$._primary, $.method_invocation],
-        // [$.postfix_expression],
-        // [$._primary, $.assignable_expression,],
-        // [$.declaration, $._external_and_static],//
-        //for testing only!
-        //
-        // [$._primary, $.labeled_statement],
-        // [$.relational_expression],
-        // [$.additive_expression],
-        // [$.cascade_section],
-        // [$._type_not_function, $._type_not_void],
-        // [$._cascade_subsection],
-        // [$._primary, $.generic_type],
-        // [$._primary, $.generic_type, $._function_formal_parameter],
-        // [$._unannotated_type, $._simple_formal_parameter],
-        // [$._final_const_var_or_type, $._function_formal_parameter],
-        // [$._primary, $._function_formal_parameter],
-        // [$.typed_identifier, $._function_formal_parameter]
+        [$.class_definition],
     ],
 
     word: $ => $.identifier,
@@ -264,8 +195,9 @@ module.exports = grammar({
             optional($.script_tag),
             optional($.library_name),
             repeat($.import_or_export),
-            // repeat($.part_directive)
-            repeat($._top_level_definition),
+            repeat($.part_directive),
+            repeat($.part_of_directive),
+            prec.dynamic(20, repeat(prec.dynamic(20, seq(optional($._metadata), $._top_level_definition)))),
             //for testing:
             repeat($._statement)
         ),
@@ -274,65 +206,65 @@ module.exports = grammar({
 
         // _library_definition: $ => ,
 
-        _top_level_definition: $ => prec.left(
-            choice(
-                $.class_definition,
-                $.enum_declaration,
-                // $.type_alias,
-                seq(
-                    optional($._external_builtin),
-                    $.function_signature,
-                    $._semicolon
-                ),
-                seq(
-                    optional($._external_builtin),
-                    $.getter_signature,
-                    $._semicolon
-                ),
-                seq(
-                    optional($._external_builtin),
-                    $.setter_signature,
-                    $._semicolon
-                ),
-                // seq(
-                //     $.lambda_expression,
-                //     $._semicolon
-                // ),
-                //    type get
-                seq(
-                    $.function_signature,
-                    $.function_body
-                ),
-                seq(
-                    optional($._type),
-                    $._get,
-                    $.identifier,
-                    $.function_body
-                ),
-                seq(
-                    optional($._type),
-                    $._set,
-                    $.identifier,
-                    $.formal_parameter_list,
-                    $.function_body
-                ),
-                //    type set
-                //    final or const static final declaration list
-                seq(
-                    choice(
-                        $._final_builtin,
-                        $._const_builtin
-                    ),
-                    optional($._type),
-                    $.static_final_declaration_list,
-                    $._semicolon
-                ),
-                seq(
-                    $.variable_declaration,
-                    $._semicolon
-                )
+        _top_level_definition: $ => prec.dynamic(20, choice(
+            $.class_definition,
+            $.enum_declaration,
+            $.extension_declaration,
+            // $.type_alias,
+            seq(
+                optional($._external_builtin),
+                $.function_signature,
+                $._semicolon
             ),
-        ),
+            seq(
+                optional($._external_builtin),
+                $.getter_signature,
+                $._semicolon
+            ),
+            seq(
+                optional($._external_builtin),
+                $.setter_signature,
+                $._semicolon
+            ),
+            // seq(
+            //     $.lambda_expression,
+            //     $._semicolon
+            // ),
+            //    type get
+            seq(
+                $.function_signature,
+                $.function_body
+            ),
+            seq(
+                optional($._type),
+                $._get,
+                $.identifier,
+                $.function_body
+            ),
+            seq(
+                optional($._type),
+                $._set,
+                $.identifier,
+                $.formal_parameter_list,
+                $.function_body
+            ),
+            //    type set
+            //    final or const static final declaration list
+            seq(
+                choice(
+                    $._final_builtin,
+                    $._const_builtin
+                ),
+                optional($._type),
+                $.static_final_declaration_list,
+                $._semicolon
+            ),
+            seq(
+                $.variable_declaration,
+                $._semicolon
+            )
+        ),),
+        
 
         // Literalss
 
@@ -528,8 +460,7 @@ module.exports = grammar({
             '\'\'\''
         ),
         _raw_string_literal_double_quotes: $ => seq(
-            'r',
-            '"',
+            'r"',
             repeat(choice(
                 $._template_chars_double_single,
                 '\'',
@@ -540,8 +471,7 @@ module.exports = grammar({
             '"'
         ),
         _raw_string_literal_single_quotes: $ => seq(
-            'r',
-            '\'',
+            'r\'',
             repeat(choice(
                 $._template_chars_single_single,
                 '"',
@@ -552,8 +482,7 @@ module.exports = grammar({
             '\''
         ),
         _raw_string_literal_double_quotes_multiple: $ => seq(
-            'r',
-            '"""',
+            'r"""',
             repeat(choice(
                 $._template_chars_double,
                 '\'',
@@ -564,8 +493,7 @@ module.exports = grammar({
             '"""'
         ),
         _raw_string_literal_single_quotes_multiple: $ => seq(
-            'r',
-            '\'\'\'',
+            'r\'\'\'',
             repeat(choice(
                 $._template_chars_single,
                 '"',
@@ -1604,6 +1532,20 @@ module.exports = grammar({
             )
         ),
 
+        part_directive: $ => seq(
+            optional($._metadata),
+            'part',
+            $.uri,
+            $._semicolon
+        ),
+
+        part_of_directive: $ => seq(
+            optional($._metadata),
+            'part of',
+            $.uri,
+            $._semicolon
+        ),
+
         uri: $ => $.string_literal,
 
         configurable_uri: $ => seq(
@@ -1639,9 +1581,6 @@ module.exports = grammar({
         asterisk: $ => '*',
 
         enum_declaration: $ => seq(
-            optional(
-                $._metadata
-            ),
             'enum',
             field('name', $.identifier),
             field('body', $.enum_body)
@@ -1666,7 +1605,6 @@ module.exports = grammar({
 
         class_definition: $ => choice(
             seq(
-                optional($._metadata),
                 optional('abstract'),
                 'class',
                 field('name', $.identifier),
@@ -1681,6 +1619,17 @@ module.exports = grammar({
                 'class',
                 $.mixin_application_class
             )
+        ),
+
+        extension_declaration: $ => choice(
+            seq(
+                'extension',
+                optional(field('name', $.identifier)),
+                'on',
+                field('class', $.identifier),
+                optional(field('type_parameters', $.type_parameters)),
+                field('body', $.extension_body)
+            ),
         ),
 
         _metadata: $ => repeat1($._annotation),
@@ -1768,6 +1717,19 @@ module.exports = grammar({
                 seq(
                     optional($._metadata),
                     $._class_member_definition
+                )
+            ),
+            '}'
+        ),
+        extension_body: $ => seq(
+            '{',
+            repeat(
+                seq(
+                    optional($._metadata),
+                    seq(
+                        $.method_signature,
+                        $.function_body
+                    ),
                 )
             ),
             '}'
@@ -2219,7 +2181,7 @@ module.exports = grammar({
 
         parameter_type_list: $ => seq(
             '(',
-            choice(
+            optional(choice(
                 commaSep1($.normal_parameter_type),
                 seq(
                     commaSep1($.normal_parameter_type),
@@ -2227,7 +2189,7 @@ module.exports = grammar({
                     $.optional_parameter_types,
                 ),
                 $.optional_parameter_types
-            ),
+            ),),
             ')'
         ),
 
