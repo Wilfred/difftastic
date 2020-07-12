@@ -3204,7 +3204,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "_unary_expression"
               }
             ]
           },

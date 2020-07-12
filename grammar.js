@@ -976,7 +976,7 @@ module.exports = grammar({
             DART_PREC.UNARY_PREFIX,
             choice(
 
-                seq($.prefix_operator, $._expression),
+                seq($.prefix_operator, $._unary_expression),
                 $.await_expression,
                 // prec(DART_PREC.UNARY_POSTFIX, $._postfix_expression),
                 seq(
