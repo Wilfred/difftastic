@@ -233,12 +233,24 @@
                 ]
               },
               {
-                "type": "SYMBOL",
-                "name": "_type"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_type"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
               },
               {
                 "type": "SYMBOL",
                 "name": "static_final_declaration_list"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_semicolon"
               }
             ]
           },
@@ -3192,7 +3204,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "unary_expression"
+                "name": "_expression"
               }
             ]
           },

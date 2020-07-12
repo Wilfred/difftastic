@@ -323,8 +323,9 @@ module.exports = grammar({
                         $._final_builtin,
                         $._const_builtin
                     ),
-                    $._type,
-                    $.static_final_declaration_list
+                    optional($._type),
+                    $.static_final_declaration_list,
+                    $._semicolon
                 ),
                 seq(
                     $.variable_declaration,
@@ -975,7 +976,7 @@ module.exports = grammar({
             DART_PREC.UNARY_PREFIX,
             choice(
 
-                seq($.prefix_operator, $.unary_expression),
+                seq($.prefix_operator, $._expression),
                 $.await_expression,
                 // prec(DART_PREC.UNARY_POSTFIX, $._postfix_expression),
                 seq(
