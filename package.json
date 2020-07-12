@@ -46,10 +46,12 @@
     "watch-test": "npm-watch test",
     "watch-grammar": "npm-watch build-test"
   },
-  "tree-sitter": [{
-    "scope": "source.dart",
-    "file-types": [
-      "dart"
-    ]
-  }]
+  "tree-sitter": [
+    {
+      "scope": "source.dart",
+      "file-types": [
+        "dart"
+      ]
+    }
+  ]
 }

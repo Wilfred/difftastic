@@ -5295,8 +5295,8 @@
           "value": "transitive"
         },
         {
-          "type": "STRING",
-          "value": "static"
+          "type": "SYMBOL",
+          "name": "_static"
         }
       ]
     },
@@ -6756,8 +6756,16 @@
               "name": "_final_or_const"
             },
             {
-              "type": "SYMBOL",
-              "name": "_type"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_type"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             },
             {
               "type": "SYMBOL",
