@@ -2,6 +2,7 @@ node_modules
 build
 *.log
 .DS_Store
+.vscode/settings.json
 
 # Do we need to track `src` if it's all generated?
 src
