@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+paths="$(bin/get-src-path $@)"
+
+hh_parse --show-file-name --full-fidelity-errors-all $paths |
+  grep -v 'A \.php file must begin with' |
+  bin/hh-errors
+
+npx tree-sitter parse -q $paths |
+  cut -f1 |
+  xargs npx tree-sitter parse |
+  bin/ts-errors

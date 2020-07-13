@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+for arg in $@; do
+  case $arg in
+  --open-in-vscode)
+    OPEN_IN_VSCODE=1
+    SAVE=1
+    shift
+    ;;
+  --save)
+    SAVE=1
+    shift
+    ;;
+  *)
+    break
+    ;;
+  esac
+done
+
+parser=$1
+path=$2
+
+in="$(bin/get-src-path $path)"
+
+if [[ "$SAVE" -eq 1 ]]; then
+  out="${path%.*}.exp"
+else
+  out="/dev/stdout"
+fi
+
+case $parser in
+tree)
+  npx tree-sitter parse $in >$out
+  ;;
+query)
+  npx tree-sitter parse $in | sed -e 's/ \[.*\]//' >$out
+  ;;
+hack)
+  hh_parse --full-fidelity-s-expression $in >$out
+  ;;
+esac
+
+if [[ "$OPEN_IN_VSCODE" -eq 1 ]]; then
+  code -r $out
+fi
