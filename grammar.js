@@ -1775,7 +1775,8 @@ module.exports = grammar({
         setter_signature: $ => seq(
             optional($._type),
             $._set,
-            $.identifier
+            field('name', $.identifier),
+            $._formal_parameter_part
         ),
         method_signature: $ => choice(
             seq($.constructor_signature, optional($.initializers)),

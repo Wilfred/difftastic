@@ -6550,8 +6550,16 @@
           "name": "_set"
         },
         {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "_formal_parameter_part"
         }
       ]
     },
