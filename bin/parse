@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-for arg in $@; do
-  case $arg in
+while [[ $# -gt 0 ]]; do
+  case $1 in
   --open-in-vscode)
     OPEN_IN_VSCODE=1
     SAVE=1
