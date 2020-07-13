@@ -33,18 +33,53 @@ const com = (...rules) => {
 module.exports = grammar({
   name: 'hack',
 
-  supertypes: $ => [$._statement, $._declaration],
+  supertypes: $ => [$._statement, $._declaration, $._expression, $._literal],
 
-  inline: $ => [$._statement, $._declaration],
+  inline: $ => [$._statement, $._declaration, $._literal],
 
   word: $ => $.identifier,
 
   rules: {
     script: $ => repeat($._statement),
 
+    _statement: $ =>
+      choice($._declaration, $.compound_statement, $.expression_statement),
+
+    expression_statement: $ => seq($._expression, ';'),
+
+    _expression: $ =>
+      choice($.varray, $.darray, $.vec, $.keyset, $.dict, $.tuple, $._literal),
+
     identifier: $ => /[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*/,
 
     variable: $ => seq('$', $.identifier),
+
+    // Literals
+
+    _literal: $ => choice($.integer, $.float, $.true, $.false, $.null),
+
+    float: $ => /\d+\.\d*|\d*\.\d+/,
+
+    integer: $ => /\d+/,
+
+    // Tree-sitter confuses boolean /(true|false)/ with identifier. Don't know why.
+    true: $ => choice('true', 'True', 'TRUE'),
+    false: $ => choice('false', 'False', 'FALSE'),
+
+    null: $ => choice('null', 'Null', 'NULL'),
+
+    // Types
+
+    _type: $ =>
+      choice(
+        $.primitive_type,
+        $.varray_type,
+        $.darray_type,
+        $.vec_type,
+        $.dict_type,
+        $.keyset_type,
+        $.array_type,
+      ),
 
     primitive_type: $ =>
       choice(
@@ -61,9 +96,41 @@ module.exports = grammar({
         'noreturn',
       ),
 
-    class_modifier: $ => choice('abstract', 'final'),
+    type_arguments: $ => seq('<', com($._type, op(',')), '>'),
 
-    _statement: $ => choice($._declaration, $.compound_statement),
+    varray_type: $ => seq('varray', op($.type_arguments)),
+
+    darray_type: $ => seq('darray', op($.type_arguments)),
+
+    vec_type: $ => seq('vec', op($.type_arguments)),
+
+    keyset_type: $ => seq('keyset', op($.type_arguments)),
+
+    dict_type: $ => seq('dict', op($.type_arguments)),
+
+    array_type: $ => seq('array', op($.type_arguments)),
+
+    // Collections
+
+    element_initializer: $ => seq($._expression, '=>', $._expression),
+
+    varray: $ => seq($.varray_type, '[', op(com($._expression, op(','))), ']'),
+
+    darray: $ =>
+      seq($.darray_type, '[', op(com($.element_initializer, op(','))), ']'),
+
+    vec: $ => seq($.vec_type, '[', op(com($._expression, op(','))), ']'),
+
+    dict: $ =>
+      seq($.dict_type, '[', op(com($.element_initializer, op(','))), ']'),
+
+    keyset: $ => seq($.keyset_type, '[', op(com($._expression, op(','))), ']'),
+
+    tuple: $ => seq('tuple', '(', op(com($._expression, op(','))), ')'),
+
+    // Classes and Functions
+
+    class_modifier: $ => choice('abstract', 'final'),
 
     compound_statement: $ => seq('{', repeat($._statement), '}'),
 
