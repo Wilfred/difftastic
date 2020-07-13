@@ -1,13 +1,3 @@
-const sur = (L, R) =>
-  new Proxy(() => {}, {
-    get: (_, name) => (...rules) => seq(name, L, ...rules, R),
-    apply: (_, __, rules) => seq(L, ...rules, R),
-  });
-
-const par = sur('(', ')');
-const bra = sur('[', ']');
-const cur = sur('{', '}');
-
 // Return field with name declared as by calling a method on `fi` instead of passing
 // a parameter. I.e. fi.name(rule) vs field('name', rule)
 const fi = new Proxy(
@@ -75,7 +65,7 @@ module.exports = grammar({
 
     _statement: $ => choice($._declaration, $.compound_statement),
 
-    compound_statement: $ => cur(repeat($._statement)),
+    compound_statement: $ => seq('{', repeat($._statement), '}'),
 
     _declaration: $ => choice($.function_declaration, $.classish_declaration),
 
@@ -90,7 +80,7 @@ module.exports = grammar({
         op(seq(':', fi.return_type($.primitive_type))),
       ),
 
-    parameters: $ => par(op(com($.parameter, op(',')))),
+    parameters: $ => seq('(', op(com($.parameter, op(','))), ')'),
 
     parameter: $ => seq(op(fi.type($.primitive_type)), fi.name($.variable)),
 
@@ -107,7 +97,7 @@ module.exports = grammar({
         fi.body($.declaration_list),
       ),
 
-    declaration_list: $ => cur(repeat(choice($.method_declaration))),
+    declaration_list: $ => seq('{', repeat(choice($.method_declaration)), '}'),
 
     extends_clause: $ => seq('extends', com($.identifier)),
 
