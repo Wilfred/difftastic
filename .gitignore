@@ -10,3 +10,6 @@ package-lock.json
 /parser.obj
 /scanner.obj
 /.idea/
+.dart_tool
+.packages
+pubspec.lock
