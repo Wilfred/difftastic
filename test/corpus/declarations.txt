@@ -420,7 +420,6 @@ typedef void EndCallback(String endValue);
   (type_alias (type_identifier) (type_identifier) 
     (formal_parameter_list (formal_parameter (type_identifier) (identifier)))))
 
-
 =================
 script tag
 =================

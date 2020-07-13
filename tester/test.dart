@@ -22,7 +22,7 @@ void main(List<String> args) {
   });
   var lines = 0;
   final sectionSize = 100;
-  final maxPrint = 100;
+  final maxPrint = 300;
   var linesPrinted = 0;
   var errorLines = 0;
   for (var i = 0; i < files.length; i += sectionSize) {

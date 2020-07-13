@@ -2212,7 +2212,7 @@ module.exports = grammar({
         parameter_type_list: $ => seq(
             '(',
             optional(choice(
-                commaSep1($.normal_parameter_type),
+                commaSep1TrailingComma($.normal_parameter_type),
                 seq(
                     commaSep1($.normal_parameter_type),
                     ',',
@@ -2235,12 +2235,12 @@ module.exports = grammar({
 
         optional_positional_parameter_types: $ => seq(
             '[',
-            commaSep1($.normal_parameter_type),
+            commaSep1TrailingComma($.normal_parameter_type),
             ']'
         ),
         named_parameter_types: $ => seq(
             '{',
-            commaSep1($.typed_identifier),
+            commaSep1TrailingComma($.typed_identifier),
             '}'
         ),
 
