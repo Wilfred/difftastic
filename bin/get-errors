@@ -1,12 +1,37 @@
 #!/usr/bin/env bash
 
+while [[ $# -gt 0 ]]; do
+  case $1 in
+  tree)
+    TREE=1
+    shift
+    ;;
+  hack)
+    HACK=1
+    shift
+    ;;
+  *)
+    break
+    ;;
+  esac
+done
+
+if [[ "$HACK" -eq 0 && "$TREE" -eq 0 ]]; then
+  HACK=1
+  TREE=1
+fi
+
 paths="$(bin/get-src-path $@)"
 
-hh_parse --show-file-name --full-fidelity-errors-all $paths |
-  grep -v 'A \.php file must begin with' |
-  bin/hh-errors
+if [[ "$HACK" -eq 1 ]]; then
+  hh_parse --show-file-name --full-fidelity-errors-all $paths |
+    grep -v 'A \.php file must begin with' |
+    bin/hh-errors
+fi
 
-npx tree-sitter parse -q $paths |
-  cut -f1 |
-  xargs npx tree-sitter parse |
-  bin/ts-errors
+if [[ "$TREE" -eq 1 ]]; then
+  npx tree-sitter parse -q $paths |
+    cut -f1 |
+    xargs npx tree-sitter parse |
+    bin/ts-errors
+fi
