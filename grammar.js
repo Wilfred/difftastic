@@ -435,27 +435,33 @@ module.exports = grammar({
             )),
             '\''
         ),
-        _string_literal_double_quotes_multiple: $ => seq(
-            '"""',
-            repeat(choice(
-                $._template_chars_double,
-                '\'',
-                $.escape_sequence,
-                $._sub_string_test,
-                $.template_substitution
-            )),
-            '"""'
+        _string_literal_double_quotes_multiple: $ => prec.left(
+            seq(
+                '"""',
+                repeat(choice(
+                    $._template_chars_double,
+                    '\'',
+                    '\"',
+                    $.escape_sequence,
+                    $._sub_string_test,
+                    $.template_substitution
+                )),
+                '"""'
+            ),
         ),
-        _string_literal_single_quotes_multiple: $ => seq(
-            '\'\'\'',
-            repeat(choice(
-                $._template_chars_single,
-                '"',
-                $.escape_sequence,
-                $._sub_string_test,
-                $.template_substitution
-            )),
-            '\'\'\''
+        _string_literal_single_quotes_multiple: $ => prec.left(
+            seq(
+                '\'\'\'',
+                repeat(choice(
+                    $._template_chars_single,
+                    '"',
+                    '\'',
+                    $.escape_sequence,
+                    $._sub_string_test,
+                    $.template_substitution
+                )),
+                '\'\'\''
+            ),
         ),
         _raw_string_literal_double_quotes: $ => seq(
             'r"',
@@ -479,27 +485,33 @@ module.exports = grammar({
             )),
             '\''
         ),
-        _raw_string_literal_double_quotes_multiple: $ => seq(
-            'r"""',
-            repeat(choice(
-                $._template_chars_double,
-                '\'',
-                $._unused_escape_sequence,
-                $._sub_string_test,
-                '$'
-            )),
-            '"""'
+        _raw_string_literal_double_quotes_multiple: $ => prec.left(
+            seq(
+                'r"""',
+                repeat(choice(
+                    $._template_chars_double,
+                    '\'',
+                    '"',
+                    $._unused_escape_sequence,
+                    $._sub_string_test,
+                    '$'
+                )),
+                '"""'
+            ),
         ),
-        _raw_string_literal_single_quotes_multiple: $ => seq(
-            'r\'\'\'',
-            repeat(choice(
-                $._template_chars_single,
-                '"',
-                $._unused_escape_sequence,
-                $._sub_string_test,
-                '$'
-            )),
-            '\'\'\''
+        _raw_string_literal_single_quotes_multiple: $ => prec.left(
+            seq(
+                'r\'\'\'',
+                repeat(choice(
+                    $._template_chars_single,
+                    '"',
+                    '\'',
+                    $._unused_escape_sequence,
+                    $._sub_string_test,
+                    '$'
+                )),
+                '\'\'\''
+            ),
         ),
         _sub_string_test: $ => seq('$', /[^a-zA-Z_{]/),
         _string_interp: $ => /\$((\w+)|\{([^{}]+)\})/, // represents $word or ${word} for now
@@ -2619,7 +2631,7 @@ module.exports = grammar({
             $._semicolon
         ),
 
-        script_tag: $ => seq('#!', '\n', '\n'),
+        script_tag: $ => seq('#!', /.+/, '\n'),
 
         library_name: $ => seq(optional($._metadata), 'library', $.dotted_identifier_list, $._semicolon),
 
