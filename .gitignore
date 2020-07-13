@@ -3,6 +3,7 @@ build
 *.log
 .DS_Store
 .vscode/settings.json
+examples
 
 # Do we need to track `src` if it's all generated?
 src

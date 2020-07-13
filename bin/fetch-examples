@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Taken from https://git.io/JJOXZ
+
+function fetch() {
+  path="examples/$1"
+  url=$2
+  sha=$3
+
+  if [ ! -d "$path" ]; then
+    git clone "https://github.com/$url" "$path"
+  fi
+
+  pushd "$path"
+  git fetch && git reset --hard "$sha"
+  popd
+}
+
+mkdir -p examples
+
+fetch "hack-sql-fake" "slackhq/hack-sql-fake" "v4.0.5"
+fetch "hack-json-schema" "slackhq/hack-json-schema" "v4.27.1"
