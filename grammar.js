@@ -528,12 +528,12 @@ module.exports = grammar({
         // ),
 
         list_literal: $ => seq(
-            optional($.type_arguments), '[',
+            optional($._const_builtin), optional($.type_arguments), '[',
             commaSepTrailingComma($._element),
             ']'
         ),
         set_or_map_literal: $ => seq(
-            optional($.type_arguments), '{',
+            optional($._const_builtin), optional($.type_arguments), '{',
             commaSepTrailingComma(
                 $._element
             ),

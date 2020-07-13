@@ -185,3 +185,40 @@ class CatalogThumbnailUI extends StatelessWidget {
                                                                         (argument_part (arguments (identifier) (true))))))))
                                                         (spread_element (identifier))))))))))))
                     )))))
+
+
+======================
+Const list constructors
+======================
+
+import 'package:flutter/material.dart';
+
+class AWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+            children: const [
+              Flexible(child: ColoredBox(color: Colors.white)),
+              Flexible(child: ColoredBox(color: Colors.blue))
+            ],
+          );
+  }
+}
+
+---
+
+(program 
+  (import_or_export (library_import (import_specification (configurable_uri (uri (string_literal)))))) 
+  (class_definition (identifier) (superclass (type_identifier)) 
+    (class_body (marker_annotation (identifier)) 
+      (method_signature (function_signature (type_identifier) (identifier) (formal_parameter_list (formal_parameter (type_identifier) (identifier))))) 
+        (function_body (block 
+          (return_statement (identifier) 
+            (selector (argument_part (arguments (named_argument (label (identifier)) 
+              (list_literal (identifier) 
+                (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
+                  (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
+                  (selector (assignable_selector (unconditional_assignable_selector (identifier)))))))))))) (identifier) 
+                (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
+                  (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
+                  (selector (assignable_selector (unconditional_assignable_selector (identifier)))))))))))))))))))))))
