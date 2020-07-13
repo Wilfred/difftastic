@@ -12,26 +12,17 @@
     name: (identifier)
     body: (declaration_list))
   (classish_declaration
-    (class_modifier)
-    (class_modifier)
     type: (type_identifier)
     name: (identifier)
-    (extends_clause
-      (identifier))
+    body: (declaration_list))
+  (classish_declaration
+    type: (type_identifier)
+    name: (identifier)
     (implements_clause
       (identifier))
     body: (declaration_list))
   (classish_declaration
     (class_modifier)
-    (class_modifier)
-    type: (type_identifier)
-    name: (identifier)
-    (extends_clause
-      (identifier))
-    (implements_clause
-      (identifier))
-    body: (declaration_list))
-  (classish_declaration
     (class_modifier)
     type: (type_identifier)
     name: (identifier)
@@ -55,7 +46,6 @@
         name: (identifier)
         parameters: (parameters))
       (method_declaration
-        (class_modifier)
         (class_modifier)
         name: (identifier)
         parameters: (parameters)
