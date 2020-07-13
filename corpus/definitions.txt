@@ -151,7 +151,7 @@ class A(b: B) extends C(b || ok) {
 Class definitions with parameters
 =======================================
 
-class Point(val x: Int, val y: Int)
+class Point(val x: Int, val y: Int)(implicit coord: Coord)
 
 ---
 
@@ -160,6 +160,8 @@ class Point(val x: Int, val y: Int)
     (identifier)
     (class_parameters
       (class_parameter (identifier) (type_identifier))
+      (class_parameter (identifier) (type_identifier)))
+    (class_parameters
       (class_parameter (identifier) (type_identifier)))))
 
 =======================================
@@ -187,6 +189,10 @@ implicit final sealed class Point {
 Trait definitions
 =======================================
 
+trait A extends B
+
+trait A extends B with C
+
 trait T[U] {
 }
 
@@ -196,6 +202,12 @@ trait T[U] extends V.W[U] {
 ---
 
 (compilation_unit
+  (trait_definition
+    (identifier)
+    (extends_clause (type_identifier)))
+  (trait_definition
+    (identifier)
+    (extends_clause (compound_type (type_identifier) (type_identifier))))
   (trait_definition
     (identifier)
     (type_parameters (identifier))
@@ -347,6 +359,7 @@ class A {
   def g[H](i) {
     j
   }
+  def h(x: T)(implicit ev: Reads[T])
 }
 
 ---
@@ -365,7 +378,31 @@ class A {
         (identifier)
         (type_parameters (identifier))
         (parameters (parameter (identifier)))
-        (block (identifier))))))
+        (block (identifier)))
+      (function_declaration
+        (identifier)
+        (parameters (parameter (identifier) (type_identifier)))
+        (parameters (parameter (identifier) (generic_type (type_identifier) (type_arguments (type_identifier)))))))))
+
+=======================================
+Initialization expressions
+=======================================
+
+class A(val x: Int, val y: Int) {
+  assert(x != 0)
+}
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (class_parameters
+      (class_parameter (identifier) (type_identifier))
+      (class_parameter (identifier) (type_identifier)))
+    (template_body
+      (call_expression (identifier)
+        (arguments (infix_expression (identifier) (operator_identifier) (number)))))))
 
 =======================================
 Optional parameters

@@ -161,9 +161,15 @@ Match expressions
 ===============================
 
 def matchTest(x: Int): String = x match {
+  case 0 =>
   case 1 => "one"; "uno"
   case 2 => "two"
-  case _ => "many"
+  case 3 => {
+    "3"
+  }
+  case _ =>
+    val x = "many"
+    "more"
 }
 
 ---
@@ -174,9 +180,11 @@ def matchTest(x: Int): String = x match {
     (parameters (parameter (identifier) (type_identifier)))
     (type_identifier)
     (match_expression (identifier) (case_block
+      (case_clause (number))
       (case_clause (number) (string) (string))
       (case_clause (number) (string))
-      (case_clause (wildcard) (string))))))
+      (case_clause (number) (block (string)))
+      (case_clause (wildcard) (val_definition (identifier) (string)) (string))))))
 
 ===============================
 Field expressions
