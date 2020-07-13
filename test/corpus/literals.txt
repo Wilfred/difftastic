@@ -136,3 +136,14 @@ null;
 (program
   (expression_statement (null_literal)))
 
+=============
+multiline string literals with single quotes of same type inside
+=============
+
+''' 
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+''';
+
+---
+
+(program (expression_statement (string_literal)))

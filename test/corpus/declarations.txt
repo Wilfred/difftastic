@@ -419,3 +419,18 @@ typedef void EndCallback(String endValue);
       (parameter_type_list (normal_parameter_type (type_identifier))))) 
   (type_alias (type_identifier) (type_identifier) 
     (formal_parameter_list (formal_parameter (type_identifier) (identifier)))))
+
+
+=================
+script tag
+=================
+
+#! /usr/bin/env dshell
+
+import 'package:dshell/dshell.dart';
+
+---
+
+(program 
+  (script_tag) 
+  (import_or_export (library_import (import_specification (configurable_uri (uri (string_literal)))))))
