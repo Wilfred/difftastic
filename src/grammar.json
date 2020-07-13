@@ -1897,6 +1897,18 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "_const_builtin"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
               "name": "type_arguments"
             },
             {
@@ -1962,6 +1974,18 @@
     "set_or_map_literal": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_const_builtin"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "CHOICE",
           "members": [
