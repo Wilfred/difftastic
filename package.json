@@ -6,20 +6,14 @@
   "scripts": {
     "test": "tree-sitter test"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/antoniodejesusochoasolano/tree-sitter-hack.git"
-  },
   "keywords": [
     "parser",
-    "lexer"
+    "lexer",
+    "hacklang",
+    "php"
   ],
   "author": "Antonio de Jesus Ochoa Solano",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/antoniodejesusochoasolano/tree-sitter-hack/issues"
-  },
-  "homepage": "https://github.com/antoniodejesusochoasolano/tree-sitter-hack#readme",
   "dependencies": {
     "nan": "^2.14.1"
   },
