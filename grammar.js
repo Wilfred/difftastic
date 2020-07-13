@@ -3,6 +3,7 @@ const PREC = {
   infix: 2,
   new: 3,
   prefix: 3,
+  compound: 3,
   call: 4,
   field: 4,
 }
@@ -13,6 +14,12 @@ module.exports = grammar({
   extras: $ => [
     /\s/,
     $.comment
+  ],
+
+  supertypes: $ => [
+    $._expression,
+    $._definition,
+    $._pattern,
   ],
 
   externals: $ => [
@@ -32,6 +39,11 @@ module.exports = grammar({
     $._semicolon,
     $._definition,
     $._type_identifier,
+    $._param_type,
+  ],
+
+  conflicts: $ => [
+    [$.tuple_type, $.parameter_types],
   ],
 
   word: $ => $.identifier,
@@ -119,12 +131,13 @@ module.exports = grammar({
     ),
 
     class_definition: $ => seq(
+      repeat($.annotation),
       optional($.modifiers),
       optional('case'),
       'class',
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameters)),
-      field('class_parameters', optional($.class_parameters)),
+      field('class_parameters', repeat($.class_parameters)),
       field('extend', optional($.extends_clause)),
       field('body', optional($.template_body))
     ),
@@ -134,7 +147,7 @@ module.exports = grammar({
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameters)),
       field('extend', optional($.extends_clause)),
-      field('body', $.template_body)
+      field('body', optional($.template_body))
     ),
 
     // The EBNF makes a distinction between function type parameters and other
@@ -148,6 +161,7 @@ module.exports = grammar({
     ),
 
     _variant_type_parameter: $ => seq(
+      repeat($.annotation),
       choice(
         $.covariant_type_parameter,
         $.contravariant_type_parameter,
@@ -184,11 +198,19 @@ module.exports = grammar({
 
     template_body: $ => seq(
       '{',
-      repeat($._definition),
+      // TODO: self type
+      optional($._block),
       '}'
     ),
 
+    annotation: $ => prec.right(seq(
+      '@',
+      field('name', $._simple_type),
+      field('arguments', repeat($.arguments)),
+    )),
+
     val_definition: $ => seq(
+      repeat($.annotation),
       optional($.modifiers),
       'val',
       field('pattern', $._pattern),
@@ -198,6 +220,7 @@ module.exports = grammar({
     ),
 
     val_declaration: $ => seq(
+      repeat($.annotation),
       optional($.modifiers),
       'val',
       commaSep1(field('name', $.identifier)),
@@ -206,6 +229,7 @@ module.exports = grammar({
     ),
 
     var_declaration: $ => seq(
+      repeat($.annotation),
       optional($.modifiers),
       'var',
       commaSep1(field('name', $.identifier)),
@@ -214,6 +238,7 @@ module.exports = grammar({
     ),
 
     var_definition: $ => seq(
+      repeat($.annotation),
       optional($.modifiers),
       'var',
       field('pattern', $._pattern),
@@ -223,6 +248,7 @@ module.exports = grammar({
     ),
 
     type_definition: $ => seq(
+      repeat($.annotation),
       optional($.modifiers),
       'type',
       field('name', $._type_identifier),
@@ -232,11 +258,12 @@ module.exports = grammar({
     ),
 
     function_definition: $ => seq(
+      repeat($.annotation),
       optional($.modifiers),
       'def',
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameters)),
-      field('parameters', optional($.parameters)),
+      field('parameters', repeat($.parameters)),
       optional(seq(':', field('return_type', $._type))),
       choice(
         seq('=', field('body', $._expression)),
@@ -245,11 +272,12 @@ module.exports = grammar({
     ),
 
     function_declaration: $ => seq(
+      repeat($.annotation),
       optional($.modifiers),
       'def',
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameters)),
-      field('parameters', optional($.parameters)),
+      field('parameters', repeat($.parameters)),
       optional(seq(':', field('return_type', $._type)))
     ),
 
@@ -270,19 +298,24 @@ module.exports = grammar({
       optional($.arguments)
     ),
 
+    // TODO: Allow only the last parameter list to be implicit.
     class_parameters: $ => seq(
       '(',
+      optional('implicit'),
       commaSep($.class_parameter),
       ')'
     ),
 
+    // TODO: Allow only the last parameter list to be implicit.
     parameters: $ => seq(
       '(',
+      optional('implicit'),
       commaSep($.parameter),
       ')'
     ),
 
     class_parameter: $ => seq(
+      repeat($.annotation),
       optional(choice('val', 'var')),
       field('name', $.identifier),
       optional(seq(':', field('type', $._type))),
@@ -290,50 +323,67 @@ module.exports = grammar({
     ),
 
     parameter: $ => seq(
+      repeat($.annotation),
       field('name', $.identifier),
-      optional(seq(':', field('type', choice($.lazy_parameter_type, $._type)))),
+      optional(seq(':', field('type', $._param_type))),
       optional(seq('=', field('default_value', $._expression)))
     ),
 
-    lazy_parameter_type: $ => seq(
-      '=>',
-      field('type', $._type)
-    ),
+    _block: $ => prec.left(seq(
+      sep1($._semicolon, choice(
+        $._expression,
+        $._definition
+      )),
+      optional($._semicolon),
+    )),
 
     block: $ => seq(
       '{',
-      optional(seq(
-        sep1($._semicolon, choice(
-          $._expression,
-          $._definition
-        )),
-        optional($._semicolon),
-      )),
+      optional($._block),
       '}'
     ),
 
+    // ---------------------------------------------------------------
     // Types
 
     _type: $ => choice(
       $.function_type,
-      $.generic_type,
       $.compound_type,
       $.infix_type,
-      $.stable_type_identifier,
-      $._type_identifier
+      $._annotated_type,
     ),
 
-    compound_type: $ => prec.left(PREC.infix, seq(
-      field('base', $._type),
-      'with',
-      field('refinement', $._type)
+    // TODO: Make this a visible type, so that _type can be a supertype.
+    _annotated_type: $ => prec.right(seq(
+      $._simple_type,
+      repeat($.annotation),
+    )),
+
+    _simple_type: $ => choice(
+      $.generic_type,
+      $.projected_type,
+      $.tuple_type,
+      $.stable_type_identifier,
+      $._type_identifier,
+    ),
+
+    compound_type: $ => prec(PREC.compound, seq(
+      field('base', $._annotated_type),
+      repeat1(seq('with', field('extra', $._annotated_type))),
+      // TODO: Refinement.
     )),
 
     infix_type: $ => prec.left(PREC.infix, seq(
-      field('left', $._type),
+      field('left', choice($.compound_type, $.infix_type, $._annotated_type)),
       field('operator', choice($.identifier, $.operator_identifier)),
-      field('right', $._type)
+      field('right', choice($.compound_type, $.infix_type, $._annotated_type))
     )),
+
+    tuple_type: $ => seq(
+      '(',
+      commaSep1($._type),
+      ')',
+    ),
 
     stable_type_identifier: $ => seq(
       choice($.identifier, $.stable_identifier),
@@ -348,27 +398,50 @@ module.exports = grammar({
     ),
 
     generic_type: $ => seq(
-      field('type', choice(
-        $._type_identifier,
-        $.stable_type_identifier
-      )),
+      field('type', $._simple_type),
       field('type_arguments', $.type_arguments)
     ),
 
-    function_type: $ => seq(
-      $.parameter_types,
-      '=>',
-      field('return_type', $._type)
+    projected_type: $ => seq(
+      field('type', $._simple_type),
+      '#',
+      field('selector', $._type_identifier),
     ),
 
-    parameter_types: $ => seq(
-      '(',
-      commaSep($._type),
-      ')'
+    function_type: $ => prec.right(seq(
+      field('parameter_types', $.parameter_types),
+      '=>',
+      field('return_type', $._type)
+    )),
+
+    // Deprioritize against typed_pattern._type.
+    parameter_types: $ => prec(-1, choice(
+      $._annotated_type,
+      // Prioritize a parenthesized param list over a single tuple_type.
+      prec.dynamic(1, seq('(', commaSep($._param_type), ')' )),
+      $.compound_type,
+      $.infix_type,
+    )),
+
+    _param_type: $ => choice(
+      $._type,
+      $.lazy_parameter_type,
+      $.repeated_parameter_type,
+    ),
+
+    lazy_parameter_type: $ => seq(
+      '=>',
+      field('type', $._type)
+    ),
+
+    repeated_parameter_type: $ => seq(
+      field('type', $._type),
+      '*',
     ),
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
 
+    // ---------------------------------------------------------------
     // Patterns
 
     _pattern: $ => choice(
@@ -376,7 +449,7 @@ module.exports = grammar({
       $.capture_pattern,
       $.tuple_pattern,
       $.case_class_pattern,
-      $.parenthesized_pattern,
+      $.infix_pattern,
       $.alternative_pattern,
       $.typed_pattern,
       $.number,
@@ -391,22 +464,29 @@ module.exports = grammar({
       ')'
     ),
 
-    capture_pattern: $ => prec(PREC.infix, seq(
+    infix_pattern: $ => prec.left(PREC.infix, seq(
+      field('left', $._pattern),
+      field('operator', choice($.identifier, $.operator_identifier)),
+      field('right', $._pattern),
+    )),
+
+    capture_pattern: $ => prec(PREC.assign, seq(
       field('name', $.identifier),
       '@',
       field('pattern', $._pattern)
-    )),
-
-    alternative_pattern: $ => prec.left(seq(
-      $._pattern,
-      '|',
-      $._pattern
     )),
 
     typed_pattern: $ => prec(-1, seq(
       field('pattern', $._pattern),
       ':',
       field('type', $._type)
+    )),
+
+    // TODO: Flatten this.
+    alternative_pattern: $ => prec.left(-2, seq(
+      $._pattern,
+      '|',
+      $._pattern
     )),
 
     tuple_pattern: $ => seq(
@@ -416,12 +496,7 @@ module.exports = grammar({
       ')'
     ),
 
-    parenthesized_pattern: $ => seq(
-      '(',
-      $._pattern,
-      ')'
-    ),
-
+    // ---------------------------------------------------------------
     // Expressions
 
     _expression: $ => choice(
@@ -435,6 +510,7 @@ module.exports = grammar({
       $.string_transform_expression,
       $.field_expression,
       $.instance_expression,
+      // TODO: postfix and ascription
       $.infix_expression,
       $.prefix_expression,
       $.tuple_expression,
@@ -477,13 +553,13 @@ module.exports = grammar({
       seq('{', repeat1($.case_clause), '}')
     ),
 
-    case_clause: $ => seq(
+    case_clause: $ => prec.left(seq(
       'case',
       field('pattern', $._pattern),
       optional($.guard),
       '=>',
-      field('body', sep(';', $._expression))
-    ),
+      field('body', optional($._block)),
+    )),
 
     guard: $ => seq(
       'if',
@@ -554,11 +630,12 @@ module.exports = grammar({
       ')'
     ),
 
+    // TODO: Include operators.
     identifier: $ => /[a-zA-Z_]\w*/,
 
     wildcard: $ => '_',
 
-    operator_identifier: $ => /[^\s\w\(\)\[\]'"`.;,]+/,
+    operator_identifier: $ => /[^\s\w\(\)\[\]\{\}'"`\.;,]+/,
 
     number: $ => /[\d\.]+/,
 
