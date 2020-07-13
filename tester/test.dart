@@ -42,7 +42,7 @@ void main(List<String> args) {
       }
     }
   }
-  print('Processed $lines lines of dart code');
+  print('Processed $lines lines of tree-sitter output');
   print('Error lines $errorLines');
   print('Error percentage ${errorLines * 100 / lines}%');
 }
