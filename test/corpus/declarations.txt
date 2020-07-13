@@ -357,7 +357,7 @@ var x = 0;
 ---
 
 (program 
-   (local_variable_declaration (initialized_variable_definition (inferred_type) (identifier) (decimal_integer_literal))))
+  (initialized_identifier_list (initialized_identifier (identifier) (decimal_integer_literal))))
 
 
 =================
@@ -433,3 +433,20 @@ import 'package:dshell/dshell.dart';
 (program 
   (script_tag) 
   (import_or_export (library_import (import_specification (configurable_uri (uri (string_literal)))))))
+
+
+================================================================
+non final and final declarations
+================================================================
+
+List<String> animations = ['1', '2', '3', '4', 'Default'];
+final String assetFile = "assets/myasset.flr";
+class MyClass {
+  
+}
+
+---
+
+(program 
+  (local_variable_declaration (initialized_variable_definition (type_identifier) (type_arguments (type_identifier)) (identifier) (list_literal (string_literal) (string_literal) (string_literal) (string_literal) (string_literal)))) (local_variable_declaration (initialized_variable_definition (type_identifier) (identifier) (string_literal))))
+ 

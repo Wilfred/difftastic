@@ -181,6 +181,7 @@ module.exports = grammar({
         [$.class_definition],
         [$._normal_formal_parameter],
         [$.library_name, $.dotted_identifier_list],
+        [$._top_level_definition, $.inferred_type],
     ],
 
     word: $ => $.identifier,
@@ -229,6 +230,7 @@ module.exports = grammar({
             //     $._semicolon
             // ),
             //    type get
+            
             seq(
                 $.function_signature,
                 $.function_body
@@ -248,17 +250,20 @@ module.exports = grammar({
             ),
             //    type set
             //    final or const static final declaration list
-            seq(
-                choice(
-                    $._final_builtin,
-                    $._const_builtin
+            prec.right(
+                seq(
+                    choice(
+                        $._final_builtin,
+                        $._const_builtin
+                    ),
+                    optional($._type),
+                    $.static_final_declaration_list,
+                    $._semicolon
                 ),
-                optional($._type),
-                $.static_final_declaration_list,
-                $._semicolon
             ),
             seq(
-                $.variable_declaration,
+                choice($._type_name, 'var'),
+                $.initialized_identifier_list,
                 $._semicolon
             )
         ),),
