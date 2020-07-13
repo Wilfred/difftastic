@@ -1,4 +1,4 @@
-// Return field with name declared as by calling a method on `fi` instead of passing
+// Return field with name declared by calling a method on `fi` instead of passing
 // a parameter. I.e. fi.name(rule) vs field('name', rule)
 const fi = new Proxy(
   {},
@@ -15,7 +15,8 @@ const op = (...rules) =>
   rules.length > 1
     ? optional(seq(...rules))
     : rules[0] == ','
-    ? optionalComma
+    ? // Return a constant so we can compare in `com`.
+      optionalComma
     : optional(rules[0]);
 
 // Comma separated rules. If the last rule is equal to optionalComma, include an

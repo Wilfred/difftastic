@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Find errors in `tree-sitter parse` output and print it an a format easily consumable
+# Find errors in `tree-sitter parse` output and print it a format easily consumable
 # by VSCode. The Hacklang parser already has an error format easily consumable by VSCode
 # so we match that format.
 #
