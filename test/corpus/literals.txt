@@ -154,10 +154,16 @@ adjacent string concatentation
 
 final str = 'a string'
             'another string';
+final mixedStr = r'''(["'])((?:\\{2})*|(?:.*?[^\\](?:\\{2})*))\2|''' // with quotes.
+        r'([^ ]+))';
 
 ---
 
-(program (static_final_declaration_list (static_final_declaration (identifier) (string_literal)))) 
+(program 
+  (static_final_declaration_list (static_final_declaration (identifier) (string_literal))) 
+  (static_final_declaration_list (static_final_declaration (identifier) (string_literal (comment)))))
+
+
 
 =============
 complex string interpolation
