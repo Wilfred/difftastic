@@ -554,14 +554,8 @@ Box<Integer> integerBox = new Box<>();
 ---
 
 (program
-  (local_variable_declaration
-  (initialized_variable_definition
-
-    (type_identifier) (type_arguments (type_identifier))
-      (identifier)
-      (new_expression
-        (type_identifier) (type_arguments)
-        (arguments))
-  )
-  ))
+  (type_identifier) (type_arguments (type_identifier)) 
+  (initialized_identifier_list 
+    (initialized_identifier (identifier) 
+      (new_expression (type_identifier) (type_arguments) (arguments)))))
 

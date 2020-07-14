@@ -182,6 +182,7 @@ module.exports = grammar({
         [$._normal_formal_parameter],
         [$.library_name, $.dotted_identifier_list],
         [$._top_level_definition, $.inferred_type],
+        [$._final_const_var_or_type, $._top_level_definition, $.function_signature],
     ],
 
     word: $ => $.identifier,
@@ -195,7 +196,7 @@ module.exports = grammar({
             repeat($.import_or_export),
             repeat($.part_directive),
             repeat($.part_of_directive),
-            prec.dynamic(20, repeat(prec.dynamic(20, seq(optional($._metadata), $._top_level_definition)))),
+            prec.dynamic(40, repeat(prec.dynamic(20, seq(optional($._metadata), $._top_level_definition)))),
             //for testing:
             repeat($._statement)
         ),
@@ -204,7 +205,7 @@ module.exports = grammar({
 
         // _library_definition: $ => ,
 
-        _top_level_definition: $ => prec.dynamic(20, choice(
+        _top_level_definition: $ => prec.dynamic(40, choice(
             $.class_definition,
             $.enum_declaration,
             $.extension_declaration,
@@ -250,19 +251,19 @@ module.exports = grammar({
             ),
             //    type set
             //    final or const static final declaration list
-            prec.right(
-                seq(
-                    choice(
-                        $._final_builtin,
-                        $._const_builtin
-                    ),
-                    optional($._type),
-                    $.static_final_declaration_list,
-                    $._semicolon
-                ),
-            ),
+            
             seq(
-                choice($._type_name, 'var'),
+                choice(
+                    $._final_builtin,
+                    $._const_builtin
+                ),
+                optional($._type),
+                $.static_final_declaration_list,
+                $._semicolon
+            ),
+            
+            seq(
+                choice($._type, 'var'),
                 $.initialized_identifier_list,
                 $._semicolon
             )
