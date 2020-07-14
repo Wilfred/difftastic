@@ -406,16 +406,18 @@ module.exports = grammar({
 
         _double_quote_string_literal: $ => seq(
             '"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),
-        string_literal: $ => choice(
-            repeat1($._string_literal_double_quotes),
-            repeat1($._string_literal_single_quotes),
-            repeat1($._string_literal_double_quotes_multiple),
-            repeat1($._string_literal_single_quotes_multiple),
-            //raw, separate later
-            repeat1($._raw_string_literal_double_quotes),
-            repeat1($._raw_string_literal_single_quotes),
-            repeat1($._raw_string_literal_double_quotes_multiple),
-            repeat1($._raw_string_literal_single_quotes_multiple),
+        string_literal: $ => repeat1(
+            choice(
+                $._string_literal_double_quotes,
+                $._string_literal_single_quotes,
+                $._string_literal_double_quotes_multiple,
+                $._string_literal_single_quotes_multiple,
+                //raw, separate later
+                $._raw_string_literal_double_quotes,
+                $._raw_string_literal_single_quotes,
+                $._raw_string_literal_double_quotes_multiple,
+                $._raw_string_literal_single_quotes_multiple,
+            ),
         ),
 
         _string_literal_double_quotes: $ => seq(
