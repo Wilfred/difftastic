@@ -196,7 +196,7 @@ module.exports = grammar({
             repeat($.import_or_export),
             repeat($.part_directive),
             repeat($.part_of_directive),
-            prec.dynamic(40, repeat(prec.dynamic(20, seq(optional($._metadata), $._top_level_definition)))),
+            repeat(prec.dynamic(20, seq(optional($._metadata), $._top_level_definition))),
             //for testing:
             repeat($._statement)
         ),
@@ -205,7 +205,7 @@ module.exports = grammar({
 
         // _library_definition: $ => ,
 
-        _top_level_definition: $ => prec.dynamic(40, choice(
+        _top_level_definition: $ => choice(
             $.class_definition,
             $.enum_declaration,
             $.extension_declaration,
@@ -267,7 +267,7 @@ module.exports = grammar({
                 $.initialized_identifier_list,
                 $._semicolon
             )
-        ),),
+        ),
         
 
         // Literalss
