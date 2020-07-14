@@ -27,8 +27,8 @@ get a => 'Also a string';
 (program
   (identifier) (function_body (string_literal))
   (identifier) (function_body (string_literal (escape_sequence)))
-  (identifier) (function_body (string_literal (template_substitution (identifier))))
-  (identifier) (function_body (string_literal (template_substitution (identifier))))
+  (identifier) (function_body (string_literal (template_substitution (identifier_dollar_escaped))))
+  (identifier) (function_body (string_literal (template_substitution (identifier_dollar_escaped))))
   (identifier) (function_body (string_literal)))
 
 =========================================
@@ -47,7 +47,7 @@ get a => '''Also a string''';
 (program
   (identifier) (function_body (string_literal))
   (identifier) (function_body (string_literal (escape_sequence)))
-  (identifier) (function_body (string_literal (template_substitution (identifier))))
+  (identifier) (function_body (string_literal (template_substitution (identifier_dollar_escaped))))
     (identifier) (function_body (string_literal))
   (identifier) (function_body (string_literal)))
 =========================================
@@ -66,7 +66,7 @@ get a => r'''Also a string''';
 (program
  (identifier) (function_body  (string_literal))
   (identifier) (function_body (string_literal))
-  (identifier) (function_body (string_literal (template_substitution (identifier))))
+  (identifier) (function_body (string_literal (template_substitution (identifier_dollar_escaped))))
     (identifier) (function_body (string_literal))
   (identifier) (function_body (string_literal)))
 

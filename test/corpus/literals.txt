@@ -147,3 +147,30 @@ multiline string literals with single quotes of same type inside
 ---
 
 (program (expression_statement (string_literal)))
+
+=============
+adjacent string concatentation
+=============
+
+final str = 'a string'
+            'another string';
+
+---
+
+(program (static_final_declaration_list (static_final_declaration (identifier) (string_literal)))) 
+
+=============
+complex string interpolation
+=============
+
+'ERROR: $error${'\n$stackTrace' ?? ''}';
+
+---
+
+(program 
+  (expression_statement (string_literal 
+    (template_substitution (identifier_dollar_escaped)) 
+    (template_substitution 
+      (if_null_expression 
+        (string_literal (escape_sequence) (template_substitution (identifier_dollar_escaped))) 
+        (string_literal)))))

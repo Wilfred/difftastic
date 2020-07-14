@@ -9139,6 +9139,10 @@
           "named": true
         },
         {
+          "type": "identifier_dollar_escaped",
+          "named": true
+        },
+        {
           "type": "if_null_expression",
           "named": true
         },
@@ -10666,6 +10670,10 @@
   },
   {
     "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "identifier_dollar_escaped",
     "named": true
   },
   {

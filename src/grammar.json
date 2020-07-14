@@ -1432,7 +1432,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "identifier_dollar_escaped"
             }
           ]
         }
@@ -1484,36 +1484,60 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_string_literal_double_quotes"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_string_literal_double_quotes"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "_string_literal_single_quotes"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_string_literal_single_quotes"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "_string_literal_double_quotes_multiple"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_string_literal_double_quotes_multiple"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "_string_literal_single_quotes_multiple"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_string_literal_single_quotes_multiple"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "_raw_string_literal_double_quotes"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_raw_string_literal_double_quotes"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "_raw_string_literal_single_quotes"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_raw_string_literal_single_quotes"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "_raw_string_literal_double_quotes_multiple"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_raw_string_literal_double_quotes_multiple"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "_raw_string_literal_single_quotes_multiple"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_raw_string_literal_single_quotes_multiple"
+          }
         }
       ]
     },
@@ -9656,6 +9680,10 @@
     "identifier": {
       "type": "PATTERN",
       "value": "[a-zA-Z_$][\\w$]*"
+    },
+    "identifier_dollar_escaped": {
+      "type": "PATTERN",
+      "value": "([a-zA-Z_]|(\\\\\\$))([\\w]\\\\\\$)*"
     },
     "comment": {
       "type": "TOKEN",

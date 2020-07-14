@@ -359,3 +359,14 @@ assert(x != null);
 ---
 (program 
   (assert_statement (assertion (equality_expression (identifier) (equality_operator) (null_literal))))) 
+
+
+===========================
+Type case in if statement
+===========================
+
+if (data['frame_count'] as int < 5) {
+
+}
+
+---

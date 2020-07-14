@@ -373,7 +373,7 @@ module.exports = grammar({
                 seq('{',
                     $._expression,
                     '}'),
-                $.identifier
+                $.identifier_dollar_escaped
             )
         ),
 
@@ -407,15 +407,15 @@ module.exports = grammar({
         _double_quote_string_literal: $ => seq(
             '"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),
         string_literal: $ => choice(
-            $._string_literal_double_quotes,
-            $._string_literal_single_quotes,
-            $._string_literal_double_quotes_multiple,
-            $._string_literal_single_quotes_multiple,
+            repeat1($._string_literal_double_quotes),
+            repeat1($._string_literal_single_quotes),
+            repeat1($._string_literal_double_quotes_multiple),
+            repeat1($._string_literal_single_quotes_multiple),
             //raw, separate later
-            $._raw_string_literal_double_quotes,
-            $._raw_string_literal_single_quotes,
-            $._raw_string_literal_double_quotes_multiple,
-            $._raw_string_literal_single_quotes_multiple
+            repeat1($._raw_string_literal_double_quotes),
+            repeat1($._raw_string_literal_single_quotes),
+            repeat1($._raw_string_literal_double_quotes_multiple),
+            repeat1($._raw_string_literal_single_quotes_multiple),
         ),
 
         _string_literal_double_quotes: $ => seq(
@@ -914,7 +914,7 @@ module.exports = grammar({
 
         _unary_expression: $ => choice(
             $._postfix_expression,
-            $.unary_expression
+            $.unary_expression,
         ),
 
         unary_expression: $ => prec( //neither
@@ -2782,6 +2782,7 @@ module.exports = grammar({
         _semicolon: $ => seq(';', optional($._automatic_semicolon)),
 
         identifier: $ => /[a-zA-Z_$][\w$]*/,
+        identifier_dollar_escaped: $ => /([a-zA-Z_]|(\\\$))([\w]\\\$)*/,
         //TODO: add support for triple-slash comments as a special category.
 
         // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
