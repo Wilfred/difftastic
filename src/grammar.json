@@ -1721,6 +1721,10 @@
                 "value": "'"
               },
               {
+                "type": "STRING",
+                "value": "\\"
+              },
+              {
                 "type": "SYMBOL",
                 "name": "_unused_escape_sequence"
               },
@@ -1760,6 +1764,10 @@
               {
                 "type": "STRING",
                 "value": "\""
+              },
+              {
+                "type": "STRING",
+                "value": "\\"
               },
               {
                 "type": "SYMBOL",
@@ -1804,6 +1812,10 @@
                 {
                   "type": "STRING",
                   "value": "'"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\"
                 },
                 {
                   "type": "STRING",
@@ -1857,6 +1869,10 @@
                 {
                   "type": "STRING",
                   "value": "'"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\"
                 },
                 {
                   "type": "SYMBOL",
