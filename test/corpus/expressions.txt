@@ -362,7 +362,7 @@ assert(x != null);
 
 
 ===========================
-Type case in if statement
+Type cast in if statement
 ===========================
 
 if (data['frame_count'] as int < 5) {
