@@ -448,5 +448,7 @@ class MyClass {
 ---
 
 (program 
-  (local_variable_declaration (initialized_variable_definition (type_identifier) (type_arguments (type_identifier)) (identifier) (list_literal (string_literal) (string_literal) (string_literal) (string_literal) (string_literal)))) (local_variable_declaration (initialized_variable_definition (type_identifier) (identifier) (string_literal))))
- 
+  (type_identifier) (type_arguments (type_identifier)) 
+  (initialized_identifier_list (initialized_identifier (identifier) (list_literal (string_literal) (string_literal) (string_literal) (string_literal) (string_literal)))) 
+  (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) (string_literal))) 
+  (class_definition (identifier) (class_body)))
