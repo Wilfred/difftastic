@@ -59,9 +59,21 @@ module.exports = grammar({
 
     _literal: $ => choice($.integer, $.float, $.true, $.false, $.null),
 
-    float: $ => /\d+\.\d*|\d*\.\d+/,
+    float: $ => /(\d+\.\d*|\d*\.\d+)([eE][+-]?\d+)?/,
 
-    integer: $ => /\d+/,
+    integer: $ =>
+      token(
+        choice(
+          // Integer
+          /[1-9]\d*/,
+          // Octal - Hack seems to accept non octal literals like 09. Intentional?
+          /0[0-7]*/,
+          // Hex
+          /0[xX][0-9a-fA-F]+/,
+          // Binary
+          /0[bB][01]+/,
+        ),
+      ),
 
     // Tree-sitter confuses boolean /(true|false)/ with identifier. Don't know why.
     true: $ => choice('true', 'True', 'TRUE'),
