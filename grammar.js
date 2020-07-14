@@ -196,6 +196,7 @@ module.exports = grammar({
             repeat($.import_or_export),
             repeat($.part_directive),
             repeat($.part_of_directive),
+            // The precedence here is to make sure that this rule is matched before any of the _statement rules are matched for testing.
             repeat(prec.dynamic(20, seq(optional($._metadata), $._top_level_definition))),
             //for testing:
             repeat($._statement)
