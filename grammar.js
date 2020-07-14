@@ -477,6 +477,7 @@ module.exports = grammar({
             repeat(choice(
                 $._template_chars_double_single,
                 '\'',
+                '\\',
                 $._unused_escape_sequence,
                 $._sub_string_test,
                 '$'
@@ -488,6 +489,7 @@ module.exports = grammar({
             repeat(choice(
                 $._template_chars_single_single,
                 '"',
+                '\\',
                 $._unused_escape_sequence,
                 $._sub_string_test,
                 '$'
@@ -500,6 +502,7 @@ module.exports = grammar({
                 repeat(choice(
                     $._template_chars_double,
                     '\'',
+                    '\\',
                     '"',
                     $._unused_escape_sequence,
                     $._sub_string_test,
@@ -515,6 +518,7 @@ module.exports = grammar({
                     $._template_chars_single,
                     '"',
                     '\'',
+                    '\\',
                     $._unused_escape_sequence,
                     $._sub_string_test,
                     '$'

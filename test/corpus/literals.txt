@@ -180,3 +180,15 @@ complex string interpolation
       (if_null_expression 
         (string_literal (escape_sequence) (template_substitution (identifier_dollar_escaped))) 
         (string_literal))))))
+
+
+=============
+raw strings with backslashes
+=============
+
+r'\';
+r'''\''';
+r"\";
+r"""\""";
+
+---
