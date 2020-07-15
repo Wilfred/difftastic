@@ -28,6 +28,8 @@ else
   out="/dev/stdout"
 fi
 
+bin/generate-parser
+
 case $parser in
 tree)
   npx tree-sitter parse $in >$out

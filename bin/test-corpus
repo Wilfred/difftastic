@@ -2,23 +2,10 @@
 
 set -e
 
-while [[ $# -gt 0 ]]; do
-  case $1 in
-  --force)
-    FORCE="--force"
-    shift
-    ;;
-
-  *)
-    break
-    ;;
-  esac
-done
+bin/generate-parser
+bin/generate-corpus
 
 printf "\033[1mRunning Tree-sitter tests...\033[0m\n"
-
-bin/generate-parser $FORCE
-bin/generate-corpus $FORCE
 
 npx tree-sitter test
 

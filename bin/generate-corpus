@@ -5,36 +5,10 @@
 #
 # [0] https://tree-sitter.github.io/tree-sitter/creating-parsers#:~:text=Return%20statements
 
-while [[ $# -gt 0 ]]; do
-  case $1 in
-  --force)
-    FORCE=1
-    shift
-    ;;
-
-  *)
-    break
-    ;;
-  esac
-done
-
-# Exit if there are no git changes for `test/cases` unless forced.
-if [[ ! $FORCE -eq 1 ]] && git diff-index --quiet HEAD test/cases; then
-  exit 0
-fi
-
-printf "Generating corpus...\n"
-
 for cases_path in test/cases/*; do
   corpus_name=$(basename $cases_path)
   corpus_path="test/corpus/$corpus_name.txt"
 
-  if [[ ! $FORCE -eq 1 ]] && git diff-index --quiet HEAD $cases_path; then
-    # No files changed for this case path. Skip.
-    continue
-  fi
-
-  # If a single test is changed we have to generate the entire corpus again.
   cases="$(ls -d $cases_path/* | rg '^[^.]*\.exp$' | gsed -re 's/.exp$//' | sort -bu)"
 
   printf "" >$corpus_path
