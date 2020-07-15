@@ -57,7 +57,8 @@ module.exports = grammar({
 
     // Literals
 
-    _literal: $ => choice($.integer, $.float, $.true, $.false, $.null),
+    _literal: $ =>
+      choice($.string, $.integer, $.float, $.true, $.false, $.null),
 
     float: $ => /(\d+\.\d*|\d*\.\d+)([eE][+-]?\d+)?/,
 
@@ -80,6 +81,15 @@ module.exports = grammar({
     false: $ => choice('false', 'False', 'FALSE'),
 
     null: $ => choice('null', 'Null', 'NULL'),
+
+    // prettier-ignore
+    string: $ =>
+      token(
+        choice(
+          /(re|b)?'(\\'|\\\\|\\?[^'\\])*'/,
+          /(re|b)?"(\\"|\\\\|\\?[^"\\])*"/
+        ),
+      ),
 
     // Types
 
