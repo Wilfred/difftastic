@@ -157,7 +157,6 @@ module.exports = grammar({
         [$.assignable_expression],
         [$.assignable_selector_part, $.selector],
         [$.postfix_expression],
-        [$._top_level_definition, $._final_const_var_or_type],
         [$.assignable_expression, $._primary],
         [$._declared_identifier],
         [$.equality_expression],
@@ -174,6 +173,7 @@ module.exports = grammar({
         [$._postfix_expression, $.assignable_expression],
         [$._postfix_expression],
         [$._top_level_definition, $.lambda_expression],
+        [$._top_level_definition, $._final_const_var_or_type],
         [$._top_level_definition, $.const_object_expression, $._final_const_var_or_type],
         [$._final_const_var_or_type, $.const_object_expression],
         [$._final_const_var_or_type],
@@ -1843,12 +1843,13 @@ module.exports = grammar({
                 $.static_final_declaration_list
             ),
             seq(
-                $._final_builtin,
+                optional($._late_builtin), $._final_builtin,
                 optional($._type),
                 $.initialized_identifier_list
             ),
             seq(
                 optional($._static_or_covariant),
+                optional($._late_builtin),
                 choice(
                     $._type,
                     $.inferred_type
@@ -2173,6 +2174,7 @@ module.exports = grammar({
         _final_const_var_or_type: $ => choice(
             seq($._final_builtin, optional($._type)),
             seq($._const_builtin, optional($._type)),
+            seq($._late_builtin, optional($._final_builtin), optional($._type)),
             $.inferred_type,
             $._type
         ),
@@ -2195,7 +2197,9 @@ module.exports = grammar({
             choice(
                 seq(
                     $._type_name,
-                    optional($.type_arguments)
+                    optional($._nullable_type),
+                    optional($.type_arguments),
+                    optional($._nullable_type)
                 ),
                 $._function_builtin_identifier
             )
@@ -2757,6 +2761,10 @@ module.exports = grammar({
         _final_builtin: $ => prec(
             DART_PREC.BUILTIN,
             'final',
+        ),
+        _late_builtin: $ => prec(
+            DART_PREC.BUILTIN,
+            'late',
         ),
         _external_builtin: $ => prec(
             DART_PREC.BUILTIN,
