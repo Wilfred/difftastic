@@ -183,6 +183,7 @@ module.exports = grammar({
         [$.library_name, $.dotted_identifier_list],
         [$._top_level_definition, $.inferred_type],
         [$._final_const_var_or_type, $._top_level_definition, $.function_signature],
+        [$._function_type_tail]
     ],
 
     word: $ => $.identifier,
@@ -1164,17 +1165,19 @@ module.exports = grammar({
         // ),
 
         type_arguments: $ => $._type_args,
-        _type_args: $ => choice(
+        _type_args: $ => prec.right(choice(
             seq(
                 '<',
-                '>'
+                '>',
+                optional($._nullable_type)
             ),
             seq(
                 '<',
                 commaSep1($._type),
-                '>'
+                '>', 
+                optional($._nullable_type)
             )
-        ),
+        ),),
 
         wildcard: $ => seq(
             optional($._metadata),
@@ -1564,8 +1567,8 @@ module.exports = grammar({
 
         part_of_directive: $ => seq(
             optional($._metadata),
-            'part of',
-            $.uri,
+            'part','of',
+            choice($.dotted_identifier_list, $.uri),
             $._semicolon
         ),
 
@@ -2219,7 +2222,9 @@ module.exports = grammar({
         _function_type_tail: $ => seq(
             $._function_builtin_identifier,
             optional($.type_parameters),
-            $.parameter_type_list
+            optional($._nullable_type),
+            $.parameter_type_list,
+            optional($._nullable_type),
         ),
 
         parameter_type_list: $ => seq(
@@ -2333,7 +2338,8 @@ module.exports = grammar({
                 ),
                 optional(
                     $._type_dot_identifier
-                )
+                ),
+                optional($._nullable_type),
             )
         ),
 
@@ -2352,6 +2358,8 @@ module.exports = grammar({
             $._type,
             $.identifier
         ),
+
+        _nullable_type: $ => prec(DART_PREC.BUILTIN, '?'),
 
         floating_point_type: $ => choice(
             'float',

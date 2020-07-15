@@ -452,3 +452,26 @@ class MyClass {
   (initialized_identifier_list (initialized_identifier (identifier) (list_literal (string_literal) (string_literal) (string_literal) (string_literal) (string_literal)))) 
   (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) (string_literal))) 
   (class_definition (identifier) (class_body)))
+
+==================================
+Nullable Function Parameter
+==================================
+
+void callback(Future<void> Function(String?) handler) {
+}
+
+---
+
+(program 
+  (function_signature (void_type) (identifier) 
+    (formal_parameter_list (formal_parameter (type_identifier) (type_arguments (void_type)) 
+      (parameter_type_list (normal_parameter_type (type_identifier))) (identifier)))) 
+      (function_body (block)))
+
+==================================
+Type with Library Prefix
+==================================
+
+const my.MyType newMyType = my.MyType();
+
+---

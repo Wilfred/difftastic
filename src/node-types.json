@@ -7746,6 +7746,10 @@
           "named": true
         },
         {
+          "type": "dotted_identifier_list",
+          "named": true
+        },
+        {
           "type": "marker_annotation",
           "named": true
         },
@@ -10729,6 +10733,10 @@
     "named": true
   },
   {
+    "type": "of",
+    "named": false
+  },
+  {
     "type": "on",
     "named": false
   },
@@ -10738,10 +10746,6 @@
   },
   {
     "type": "part",
-    "named": false
-  },
-  {
-    "type": "part of",
     "named": false
   },
   {
