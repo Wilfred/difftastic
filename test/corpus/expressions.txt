@@ -381,3 +381,12 @@ Simple non-null assertion
 my!.size = 1;
 
 ---
+
+
+============================
+Complex type cast in function call
+============================
+
+printStream(args['json'] as bool ? '' : 'hi');
+
+---

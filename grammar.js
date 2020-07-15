@@ -863,20 +863,23 @@ module.exports = grammar({
                 seq(
                     // $.bitwise_or_expression,
                     $._below_relational_expression,
-                    choice(
-                        seq(
-                            $.relational_operator,
-                            $._below_relational_expression
+                    // TODO: The spec says optional but it breaks tests, and I'm not sure in a good way.
+                    // optional( 
+                        choice(
+                            seq(
+                                $.relational_operator,
+                                $._below_relational_expression
+                            ),
+                            $.type_test,
+                            $.type_cast,
                         ),
-                        $.type_test,
-                        $.type_cast,
-                    ),
+                    // ),
                 ),
                 seq(
                     $.super,
                     $.relational_operator,
                     $._below_relational_expression
-                )
+                ),
             )
         ),
 
