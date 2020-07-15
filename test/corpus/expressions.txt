@@ -370,3 +370,14 @@ if (data['frame_count'] as int < 5) {
 }
 
 ---
+
+(program )
+
+
+==========================
+Simple non-null assertion
+==========================
+
+my!.size = 1;
+
+---
