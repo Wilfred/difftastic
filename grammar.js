@@ -409,7 +409,12 @@ module.exports = grammar({
         escape_sequence: $ => $._unused_escape_sequence,
        
         
-        // Page 93 of the spec
+/**************************************************************************************************
+*********************************Collection Literals***********************************************
+***************************************************************************************************
+****These are the collection literals from section 16.9 (Page 92-108) of the dart specification****
+***************************************************************************************************
+***************************************************************************************************/
         list_literal: $ => seq(
             optional($._const_builtin), optional($.type_arguments), '[',
             commaSepTrailingComma($._element),
@@ -446,58 +451,30 @@ module.exports = grammar({
             $.for_element
         ),
 
-
+/****This is the null literal from section 16.4 (Page 84) of the dart specification****/
         null_literal: $ => prec(
             DART_PREC.BUILTIN,
             'null',
         ),
 
-        // Expressions
+/**************************************************************************************************
+*********************************Expressions*******************************************************
+***************************************************************************************************
+****These are the expressions from section 16.9 (Page 110-166) of the dart specification***********
+***************************************************************************************************
+***************************************************************************************************/
         _expression: $ => choice(
             $.assignment_expression,
-            // $.binary_expression,
-            // $.instanceof_expression,
-            // $.lambda_expression,
-            // $.conditional_expression,
-            // $.update_expression,
-            // prec.dynamic(1, $._ambiguous_name),
-            // $._primary,
-            // $.unary_expression,
-            // $.cast_expression,
-            //dart literals
-            // $.list_literal,
-            // $.set_or_map_literal,
-            //dart operators
-            //     $.if_null_expression,
-            //    dart cascade
             $.throw_expression,
-            // prec.right(
             seq(
-                // $.conditional_expression,
                 $._real_expression,
                 repeat($.cascade_section)
             )
-            // )
         ),
         _expression_without_cascade: $ => choice(
             $.assignment_expression_without_cascade,
-            // $.conditional_expression,
             $._real_expression,
             $.throw_expression_without_cascade
-            // $.binary_expression,
-            // $.instanceof_expression,
-            // $.lambda_expression,
-            // $.conditional_expression,
-            // $.update_expression,
-            // prec.dynamic(1, $._ambiguous_name),
-            // $._primary,
-            // $.unary_expression,
-            // $.cast_expression,
-            // //dart literals
-            // $.list_literal,
-            // $.set_or_map_literal,
-            // //dart operators
-            // $.if_null_expression
         ),
         _real_expression: $ => choice(
             $.conditional_expression,
@@ -516,7 +493,7 @@ module.exports = grammar({
         ),
 
         _below_relational_expression: $ => choice(
-            //    UNARY_POSTFIX: 16,
+            // UNARY_POSTFIX: 16,
             // UNARY_PREFIX: 15,
             // Multiplicative: 14, // *, /, ˜/, % Left
             // Additive: 13, // +, - Left
