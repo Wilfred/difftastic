@@ -1,0 +1,42 @@
+(script
+  (expression_statement
+    (ternary_expression
+      condition: (variable
+        (identifier))
+      body: (true)
+      alternative: (false)))
+  (expression_statement
+    (ternary_expression
+      condition: (variable
+        (identifier))
+      alternative: (false)))
+  (expression_statement
+    (ternary_expression
+      condition: (ternary_expression
+        condition: (binary_expression
+          left: (variable
+            (identifier))
+          right: (integer))
+        body: (ternary_expression
+          condition: (variable
+            (identifier))
+          alternative: (integer))
+        alternative: (binary_expression
+          left: (variable
+            (identifier))
+          right: (integer)))
+      body: (integer)
+      alternative: (integer)))
+  (expression_statement
+    (ternary_expression
+      condition: (ternary_expression
+        condition: (binary_expression
+          left: (variable
+            (identifier))
+          right: (integer))
+        alternative: (binary_expression
+          left: (variable
+            (identifier))
+          right: (integer)))
+      body: (integer)
+      alternative: (integer))))

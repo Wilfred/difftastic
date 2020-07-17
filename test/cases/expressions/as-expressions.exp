@@ -1,0 +1,11 @@
+(script
+  (expression_statement
+    (as_expression
+      left: (variable
+        (identifier))
+      right: (primitive_type)))
+  (expression_statement
+    (as_expression
+      left: (variable
+        (identifier))
+      right: (primitive_type))))
