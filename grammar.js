@@ -199,8 +199,13 @@ module.exports = grammar({
             )
         ),
         
+/**************************************************************************************************
+*********************************Literals**********************************************************
+***************************************************************************************************
+****These are the Literals from section 16.4-9 (Page 84-110) of the dart specification*************
+***************************************************************************************************
+***************************************************************************************************/
 
-        // Pages 77 - 110 Various Literals
         _literal: $ => choice(
             $.decimal_integer_literal,
             $.hex_integer_literal,
@@ -214,19 +219,24 @@ module.exports = grammar({
             $.set_or_map_literal
         ),
 
-        // Page 91
+/****This is the symbol literals from section 16.8 (Page 99) of the dart specification****************/
         symbol_literal: $ => seq('#', $.identifier),
         //symbol literal can also be an operator?
         
-        // Page 84
+/**************************************************************************************************
+*********************************Numeric Literals**************************************************
+***************************************************************************************************
+****These are the Numeric Literals from section 16.5 (Page 84-85) of the dart specification********
+***************************************************************************************************
+***************************************************************************************************/
+
         decimal_integer_literal: $ => token(DIGITS),
 
-        // Page 84
         hex_integer_literal: $ => token(seq(
             choice('0x', '0X'),
             HEX_DIGITS
         )),
-
+        
         decimal_floating_point_literal: $ => token(choice(
             seq(DIGITS, '.', DIGITS, optional(seq((/[eE]/), optional(choice('-', '+')), DIGITS))),
             seq('.', DIGITS, optional(seq((/[eE]/), optional(choice('-', '+')), DIGITS))),
@@ -234,6 +244,12 @@ module.exports = grammar({
             seq(DIGITS, optional(seq((/[eE]/), optional(choice('-', '+')), DIGITS)))
         )),
 
+/**************************************************************************************************
+*********************************Boolean Literals**************************************************
+***************************************************************************************************
+****These are the boolean from section 16.6 (Page 86) of the dart specification********************
+***************************************************************************************************
+***************************************************************************************************/
         true: $ => prec(
             DART_PREC.BUILTIN,
             'true',
@@ -244,31 +260,12 @@ module.exports = grammar({
             'false',
         ),
 
-        _unused_escape_sequence: $ => token.immediate(seq(
-            '\\',
-            choice(
-                /[^xu0-7]/,
-                /[0-7]{1,3}/,
-                /x[0-9a-fA-F]{2}/,
-                /u[0-9a-fA-F]{4}/,
-                /u{[0-9a-fA-F]+}/
-            )
-        )),
-        escape_sequence: $ => $._unused_escape_sequence,
-        template_substitution: $ => seq(
-            '$',
-            choice(
-                seq('{',
-                    $._expression,
-                    '}'),
-                $.identifier_dollar_escaped
-            )
-        ),
-
-        var_substitution: $ => seq('$', $.identifier),
-
-        _double_quote_string_literal: $ => seq(
-            '"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),
+/**************************************************************************************************
+*********************************String Parts******************************************************
+***************************************************************************************************
+****These are the parts of String from section 16.7 (Page 86-92) of the dart specification*********
+***************************************************************************************************
+***************************************************************************************************/
         string_literal: $ => repeat1(
             choice(
                 $._string_literal_double_quotes,
@@ -282,7 +279,6 @@ module.exports = grammar({
                 $._raw_string_literal_single_quotes_multiple,
             ),
         ),
-
         _string_literal_double_quotes: $ => seq(
             '"',
             repeat(
@@ -389,9 +385,30 @@ module.exports = grammar({
                 '\'\'\''
             ),
         ),
+        template_substitution: $ => seq(
+            '$',
+            choice(
+                seq('{',
+                    $._expression,
+                    '}'),
+                $.identifier_dollar_escaped
+            )
+        ),
         _sub_string_test: $ => seq('$', /[^a-zA-Z_{]/),
         _string_interp: $ => /\$((\w+)|\{([^{}]+)\})/, // represents $word or ${word} for now
-     
+        _unused_escape_sequence: $ => token.immediate(seq(
+            '\\',
+            choice(
+                /[^xu0-7]/,
+                /[0-7]{1,3}/,
+                /x[0-9a-fA-F]{2}/,
+                /u[0-9a-fA-F]{4}/,
+                /u{[0-9a-fA-F]+}/
+            )
+        )),
+        escape_sequence: $ => $._unused_escape_sequence,
+       
+        
         // Page 93 of the spec
         list_literal: $ => seq(
             optional($._const_builtin), optional($.type_arguments), '[',
