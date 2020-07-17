@@ -1,0 +1,144 @@
+(script
+  (expression_statement
+    (augmented_assignment_expression
+      left: (variable
+        (identifier))
+      right: (integer)))
+  (expression_statement
+    (augmented_assignment_expression
+      left: (subscript_expression
+        (variable
+          (identifier)))
+      right: (string)))
+  (expression_statement
+    (augmented_assignment_expression
+      left: (subscript_expression
+        (variable
+          (identifier))
+        (integer))
+      right: (integer)))
+  (expression_statement
+    (augmented_assignment_expression
+      left: (subscript_expression
+        (variable
+          (identifier))
+        (string))
+      right: (integer)))
+  (expression_statement
+    (augmented_assignment_expression
+      left: (subscript_expression
+        (variable
+          (identifier))
+        (subscript_expression
+          (variable
+            (identifier))
+          (string)))
+      right: (integer)))
+  (expression_statement
+    (augmented_assignment_expression
+      left: (subscript_expression
+        (subscript_expression
+          (variable
+            (identifier))
+          (subscript_expression
+            (variable
+              (identifier))
+            (string))))
+      right: (integer)))
+  (expression_statement
+    (augmented_assignment_expression
+      left: (subscript_expression
+        (subscript_expression
+          (variable
+            (identifier)))
+        (subscript_expression
+          (variable
+            (identifier))
+          (string)))
+      right: (integer)))
+  (expression_statement
+    (augmented_assignment_expression
+      left: (list_expression
+        (variable
+          (identifier))
+        (variable
+          (identifier)))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (augmented_assignment_expression
+      left: (list_expression
+        (subscript_expression
+          (variable
+            (identifier)))
+        (variable
+          (identifier)))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (augmented_assignment_expression
+      left: (list_expression
+        (subscript_expression
+          (variable
+            (identifier))
+          (integer))
+        (subscript_expression
+          (variable
+            (identifier))))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (augmented_assignment_expression
+      left: (list_expression
+        (subscript_expression
+          (variable
+            (identifier))
+          (string))
+        (subscript_expression
+          (variable
+            (identifier))
+          (integer)))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (augmented_assignment_expression
+      left: (list_expression
+        (subscript_expression
+          (variable
+            (identifier))
+          (subscript_expression
+            (variable
+              (identifier))
+            (string)))
+        (subscript_expression
+          (variable
+            (identifier))
+          (string)))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (augmented_assignment_expression
+      left: (list_expression
+        (subscript_expression
+          (subscript_expression
+            (variable
+              (identifier))
+            (subscript_expression
+              (variable
+                (identifier))
+              (string))))
+        (subscript_expression
+          (variable
+            (identifier))
+          (subscript_expression
+            (variable
+              (identifier))
+            (string))))
+      right: (tuple
+        (integer)
+        (integer)))))

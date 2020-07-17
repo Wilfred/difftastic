@@ -37,6 +37,7 @@ const precMap = {};
 
 // Precence based on order.
 [
+  [prec.left, 'SUBSCRIPT'],
   [prec.right, '**'],
   [prec.right, 'UNARY'],
   [prec.left, '*', '/', '%'],
@@ -50,6 +51,7 @@ const precMap = {};
   [prec.left, '&'],
   [prec.left, '|'],
   [prec.right, '??'],
+  [prec.right, 'ASSIGNMENT'],
 ]
   .reverse()
   .forEach(([prec, ...names], index) =>
@@ -65,7 +67,7 @@ module.exports = grammar({
 
   supertypes: $ => [$._statement, $._declaration, $._expression, $._literal],
 
-  inline: $ => [$._statement, $._declaration, $._literal],
+  inline: $ => [$._statement, $._declaration, $._literal, $._variablish],
 
   word: $ => $.identifier,
 
@@ -88,13 +90,19 @@ module.exports = grammar({
         $.dict,
         $.tuple,
         $._literal,
+        $._variablish,
         $.binary_expression,
         $.unary_expression,
+        $.assignment_expression,
+        $.augmented_assignment_expression,
       ),
 
     identifier: $ => /[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*/,
 
     variable: $ => seq('$', $.identifier),
+
+    _variablish: $ =>
+      choice($.variable, $.list_expression, $.subscript_expression),
 
     // Literals
 
@@ -131,6 +139,8 @@ module.exports = grammar({
           /(re|b)?"(\\"|\\\\|\\?[^"\\])*"/
         ),
       ),
+
+    list_expression: $ => seq('list', '(', com($._variablish, op(',')), ')'),
 
     // Types
 
@@ -289,6 +299,37 @@ module.exports = grammar({
           seq(fi.operator('~'), fi.operand($._expression)),
           seq(fi.operator('-'), fi.operand($._expression)),
           seq(fi.operator('+'), fi.operand($._expression)),
+        ),
+      ),
+
+    subscript_expression: $ =>
+      precMap.SUBSCRIPT(seq($._expression, '[', op($._expression), ']')),
+
+    assignment_expression: $ =>
+      precMap.ASSIGNMENT(
+        seq(fi.left($._variablish), '=', fi.right($._expression)),
+      ),
+
+    augmented_assignment_expression: $ =>
+      precMap.ASSIGNMENT(
+        seq(
+          fi.left($._variablish),
+          fi.operator(
+            '??=',
+            '.=',
+            '|=',
+            '^=',
+            '&=',
+            '<<=',
+            '>>=',
+            '+=',
+            '-=',
+            '*=',
+            '/=',
+            '%=',
+            '**=',
+          ),
+          fi.right($._expression),
         ),
       ),
   },
