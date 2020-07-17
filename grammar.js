@@ -71,7 +71,7 @@ const PREC = {};
 module.exports = grammar({
   name: 'hack',
 
-  extras: $ => [/\s/],
+  extras: $ => [/\s/, $.comment],
 
   supertypes: $ => [
     $._statement,
@@ -397,6 +397,16 @@ module.exports = grammar({
         fi.body(op($._expression)),
         ':',
         fi.alternative($._expression),
+      ),
+
+    // https://github.com/tree-sitter/tree-sitter-javascript/blob/7303aff134ad1cc785ae816ef50b067d34d64b26/grammar.js#L835
+    comment: $ =>
+      token(
+        choice(
+          seq('#', /.*/),
+          seq('//', /.*/),
+          seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/'),
+        ),
       ),
   },
 });
