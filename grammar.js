@@ -217,9 +217,21 @@ module.exports = grammar({
             alias('-', $.contravariant_modifier),
           ),
         ),
-        $.identifier,
-        fi.type_constraint(op('as', $._type)),
+        fi.name($.identifier),
+        fi.type_constraint(
+          op(
+            choice(
+              $.subtype_constraint,
+              $.supertype_constraint,
+              $.equivalent_constraint,
+            ),
+          ),
+        ),
       ),
+
+    subtype_constraint: $ => seq('as', $._type),
+    supertype_constraint: $ => seq('super', $._type),
+    equivalent_constraint: $ => seq('=', $._type),
 
     varray_type: $ => seq('varray', op($.type_arguments)),
 
@@ -291,10 +303,12 @@ module.exports = grammar({
 
     _function_declaration_header: $ =>
       seq(
+        op(alias('async', $.async_modifier)),
         'function',
         fi.name($.identifier),
+        fi.type_parameters(op($.type_parameters)),
         fi.parameters($.parameters),
-        op(seq(':', fi.return_type($.primitive_type))),
+        op(seq(':', fi.return_type($._type))),
       ),
 
     parameters: $ => seq('(', op(com($.parameter, op(','))), ')'),

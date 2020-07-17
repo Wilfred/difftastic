@@ -1,0 +1,21 @@
+(script
+  (function_declaration
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (identifier))
+      (type_parameter
+        name: (identifier)
+        type_constraint: (subtype_constraint
+          (primitive_type)))
+      (type_parameter
+        name: (identifier)
+        type_constraint: (equivalent_constraint
+          (primitive_type)))
+      (type_parameter
+        name: (identifier)
+        type_constraint: (supertype_constraint
+          (primitive_type))))
+    parameters: (parameters)
+    return_type: (primitive_type)
+    body: (compound_statement)))
