@@ -38,7 +38,6 @@ const PREC = {};
 // Precence based on order.
 [
   [prec.left, 'SUBSCRIPT'],
-  [prec.left, 'PAREN'],
   [prec, 'CLONE'],
   [prec.right, 'AWAIT', 'INCP'],
   [prec.right, '**', 'CAST', 'ERROR', 'PINC'],
@@ -85,7 +84,12 @@ module.exports = grammar({
 
   word: $ => $.identifier,
 
-  conflicts: $ => [[$.binary_expression]],
+  conflicts: $ => [
+    [$.binary_expression],
+    [$._expression, $.parameter],
+    [$._expression, $.primitive_type],
+    [$.shape, $.shape_type],
+  ],
 
   rules: {
     script: $ => seq(op(/<\?[hH][hH]/), repeat($._statement)),
@@ -106,6 +110,7 @@ module.exports = grammar({
         $.shape,
         $._literal,
         $._variablish,
+        $.parenthesized_expression,
         $.binary_expression,
         $.unary_expression,
         $.assignment_expression,
@@ -120,6 +125,7 @@ module.exports = grammar({
         $.print_expression,
         $.update_expression,
         $.ternary_expression,
+        $.lambda_expression,
       ),
 
     identifier: $ => /[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*/,
@@ -196,7 +202,7 @@ module.exports = grammar({
         'arraykey',
         'void',
         'nonnull',
-        'null',
+        $.null,
         'mixed',
         'dynamic',
         'noreturn',
@@ -313,7 +319,7 @@ module.exports = grammar({
 
     parameters: $ => seq('(', op(com($.parameter, op(','))), ')'),
 
-    parameter: $ => seq(op(fi.type($.primitive_type)), fi.name($.variable)),
+    parameter: $ => seq(op(fi.type($._type)), fi.name($.variable)),
 
     classish_declaration: $ =>
       seq(
@@ -442,7 +448,7 @@ module.exports = grammar({
 
     error_control_expression: $ => PREC.ERROR('@', $._expression),
 
-    parenthesized_expression: $ => PREC.PAREN('(', $._expression, ')'),
+    parenthesized_expression: $ => seq('(', $._expression, ')'),
 
     update_expression: $ =>
       choice(
@@ -451,10 +457,7 @@ module.exports = grammar({
       ),
 
     cast_expression: $ =>
-      PREC.CAST(
-        fi.type('(', choice('int', 'float', 'string'), ')'),
-        fi.value($._expression),
-      ),
+      PREC.CAST('(', fi.type($.primitive_type), ')', fi.value($._expression)),
 
     ternary_expression: $ =>
       PREC.TERNARY(
@@ -464,6 +467,19 @@ module.exports = grammar({
         ':',
         fi.alternative($._expression),
       ),
+
+    lambda_expression: $ =>
+      seq(
+        op(alias('async', $.async_modifier)),
+        choice(
+          fi.parameters($.variable),
+          seq(fi.parameters($.parameters), op($.return_type)),
+        ),
+        '==>',
+        fi.body($._expression, $.compound_statement),
+      ),
+
+    return_type: $ => seq(':', fi.return_type($._type)),
 
     // Declarations
 
