@@ -1,16 +1,13 @@
 (script
   (expression_statement
     (cast_expression
-      value: (cast_expression
-        value: (cast_expression
-          value: (string)))))
+      type: (primitive_type)
+      value: (string)))
   (expression_statement
     (cast_expression
-      value: (cast_expression
-        value: (cast_expression
-          value: (string)))))
+      type: (primitive_type)
+      value: (string)))
   (expression_statement
     (cast_expression
-      value: (cast_expression
-        value: (cast_expression
-          value: (string))))))
+      type: (primitive_type)
+      value: (string))))
