@@ -1,8 +1,10 @@
 ((method) @local.scope
  (#set! local.scope-inherits false))
 
-(block) @local.scope
-(do_block) @local.scope
+[
+  (block)
+  (do_block)
+] @local.scope
 
 (method_parameters (identifier) @local.definition)
 (lambda_parameters (identifier) @local.definition)
