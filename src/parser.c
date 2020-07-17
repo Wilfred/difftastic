@@ -2170,6 +2170,21 @@ static TSSymbol ts_alias_sequences[107][MAX_ALIAS_SEQUENCE_LENGTH] = {
   },
 };
 
+static inline bool sym_identifier_character_set_1(int32_t lookahead) {
+  return
+    lookahead == 0 ||
+    (0 <= lookahead && lookahead <= '#') ||
+    ('%' <= lookahead && lookahead <= '/') ||
+    (':' <= lookahead && lookahead <= '@') ||
+    ('[' <= lookahead && lookahead <= '^') ||
+    lookahead == '`' ||
+    ('{' <= lookahead && lookahead <= '~') ||
+    lookahead == 160 ||
+    lookahead == 8203 ||
+    lookahead == 8288 ||
+    lookahead == 65279;
+}
+
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
   START_LEXER();
   eof = lexer->eof(lexer);
@@ -3320,17 +3335,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
     case 161:
       ACCEPT_TOKEN(sym_escape_sequence);
       if (lookahead == '\\') ADVANCE(27);
-      if (lookahead != 0 &&
-          (lookahead < 0 || '#' < lookahead) &&
-          (lookahead < '%' || '/' < lookahead) &&
-          (lookahead < ':' || '@' < lookahead) &&
-          (lookahead < '[' || '^' < lookahead) &&
-          lookahead != '`' &&
-          (lookahead < '{' || '~' < lookahead) &&
-          lookahead != 160 &&
-          lookahead != 8203 &&
-          lookahead != 8288 &&
-          lookahead != 65279) ADVANCE(185);
+      if (!sym_identifier_character_set_1(lookahead)) ADVANCE(185);
       END_STATE();
     case 162:
       ACCEPT_TOKEN(sym_escape_sequence);
@@ -3514,17 +3519,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
     case 185:
       ACCEPT_TOKEN(sym_identifier);
       if (lookahead == '\\') ADVANCE(27);
-      if (lookahead != 0 &&
-          (lookahead < 0 || '#' < lookahead) &&
-          (lookahead < '%' || '/' < lookahead) &&
-          (lookahead < ':' || '@' < lookahead) &&
-          (lookahead < '[' || '^' < lookahead) &&
-          lookahead != '`' &&
-          (lookahead < '{' || '~' < lookahead) &&
-          lookahead != 160 &&
-          lookahead != 8203 &&
-          lookahead != 8288 &&
-          lookahead != 65279) ADVANCE(185);
+      if (!sym_identifier_character_set_1(lookahead)) ADVANCE(185);
       END_STATE();
     case 186:
       ACCEPT_TOKEN(anon_sym_AT);
