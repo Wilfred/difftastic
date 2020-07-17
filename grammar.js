@@ -31,14 +31,18 @@ const com = (...rules) => {
   }
 };
 
-const precMap = {};
+const PREC = {};
 // https://docs.hhvm.com/hack/expressions-and-operators/operator-precedence
 // https://github.com/hhvm/user-documentation/commit/6d1f94161af68b225d0b5369998de9727cb6e2fc
 
 // Precence based on order.
 [
   [prec.left, 'SUBSCRIPT'],
-  [prec.right, '**'],
+  [prec.left, 'PAREN'],
+  [prec, 'CLONE'],
+  [prec.right, 'AWAIT', 'INCP'],
+  [prec.right, '**', 'CAST', 'ERROR', 'PINC'],
+  [prec.left, 'IS', 'AS'],
   [prec.right, 'UNARY'],
   [prec.left, '*', '/', '%'],
   [prec.left, '+', '-', '.'],
@@ -51,12 +55,16 @@ const precMap = {};
   [prec.left, '&'],
   [prec.left, '|'],
   [prec.right, '??'],
+  [prec.left, 'TERNARY'],
   [prec.right, 'ASSIGNMENT'],
+  [prec.right, 'PRINT'],
+  [prec, 'TYPE'],
 ]
   .reverse()
   .forEach(([prec, ...names], index) =>
     names.forEach(name => {
-      precMap[name] = rule => prec(index, rule);
+      PREC[name] = (rule1, ...rules) =>
+        prec(index, rules.length ? seq(rule1, ...rules) : rule1);
     }),
   );
 
@@ -65,7 +73,13 @@ module.exports = grammar({
 
   extras: $ => [/\s/],
 
-  supertypes: $ => [$._statement, $._declaration, $._expression, $._literal],
+  supertypes: $ => [
+    $._statement,
+    $._declaration,
+    $._expression,
+    $._literal,
+    $._type,
+  ],
 
   inline: $ => [$._statement, $._declaration, $._literal, $._variablish],
 
@@ -95,6 +109,16 @@ module.exports = grammar({
         $.unary_expression,
         $.assignment_expression,
         $.augmented_assignment_expression,
+        $.is_expression,
+        $.as_expression,
+        $.fun_expression,
+        $.await_expression,
+        $.error_control_expression,
+        $.clone_expression,
+        $.cast_expression,
+        $.print_expression,
+        $.update_expression,
+        $.ternary_expression,
       ),
 
     identifier: $ => /[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*/,
@@ -170,7 +194,7 @@ module.exports = grammar({
         'noreturn',
       ),
 
-    type_arguments: $ => seq('<', com($._type, op(',')), '>'),
+    type_arguments: $ => seq(token(PREC.TYPE('<')), com($._type, op(',')), '>'),
 
     varray_type: $ => seq('varray', op($.type_arguments)),
 
@@ -282,18 +306,16 @@ module.exports = grammar({
           '%',
           '**',
         ].map(operator =>
-          precMap[operator](
-            seq(
-              fi.left($._expression),
-              fi.operator(operator),
-              fi.right($._expression),
-            ),
+          PREC[operator](
+            fi.left($._expression),
+            fi.operator(operator),
+            fi.right($._expression),
           ),
         ),
       ),
 
     unary_expression: $ =>
-      precMap.UNARY(
+      PREC.UNARY(
         choice(
           seq(fi.operator('!'), fi.operand($._expression)),
           seq(fi.operator('~'), fi.operand($._expression)),
@@ -303,34 +325,78 @@ module.exports = grammar({
       ),
 
     subscript_expression: $ =>
-      precMap.SUBSCRIPT(seq($._expression, '[', op($._expression), ']')),
+      PREC.SUBSCRIPT($._expression, '[', op($._expression), ']'),
 
     assignment_expression: $ =>
-      precMap.ASSIGNMENT(
-        seq(fi.left($._variablish), '=', fi.right($._expression)),
-      ),
+      PREC.ASSIGNMENT(fi.left($._variablish), '=', fi.right($._expression)),
 
     augmented_assignment_expression: $ =>
-      precMap.ASSIGNMENT(
-        seq(
-          fi.left($._variablish),
-          fi.operator(
-            '??=',
-            '.=',
-            '|=',
-            '^=',
-            '&=',
-            '<<=',
-            '>>=',
-            '+=',
-            '-=',
-            '*=',
-            '/=',
-            '%=',
-            '**=',
-          ),
-          fi.right($._expression),
+      PREC.ASSIGNMENT(
+        fi.left($._variablish),
+        fi.operator(
+          '??=',
+          '.=',
+          '|=',
+          '^=',
+          '&=',
+          '<<=',
+          '>>=',
+          '+=',
+          '-=',
+          '*=',
+          '/=',
+          '%=',
+          '**=',
         ),
+        fi.right($._expression),
+      ),
+
+    fun_expression: $ =>
+      seq(
+        'fun',
+        '(',
+        choice(
+          seq("'", fi.name($.identifier), "'"),
+          seq('"', fi.name($.identifier), '"'),
+        ),
+        ')',
+      ),
+
+    is_expression: $ =>
+      PREC.IS(fi.left($._expression), 'is', fi.right($._type)),
+
+    as_expression: $ =>
+      PREC.AS(fi.left($._expression), choice('as', '?as'), fi.right($._type)),
+
+    print_expression: $ => PREC.PRINT('print', $._expression),
+
+    clone_expression: $ => PREC.CLONE('clone', $._expression),
+
+    await_expression: $ => PREC.AWAIT('await', $._expression),
+
+    error_control_expression: $ => PREC.ERROR('@', $._expression),
+
+    parenthesized_expression: $ => PREC.PAREN('(', $._expression, ')'),
+
+    update_expression: $ =>
+      choice(
+        PREC.INCP($._expression, choice('++', '--')),
+        PREC.PINC(choice('++', '--'), $._expression),
+      ),
+
+    cast_expression: $ =>
+      PREC.CAST(
+        fi.type('(', choice('int', 'float', 'string'), ')'),
+        fi.value($._expression),
+      ),
+
+    ternary_expression: $ =>
+      PREC.TERNARY(
+        fi.condition($._expression),
+        '?',
+        fi.body(op($._expression)),
+        ':',
+        fi.alternative($._expression),
       ),
   },
 });

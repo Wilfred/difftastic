@@ -1,0 +1,17 @@
+(script
+  (expression_statement
+    (update_expression
+      (variable
+        (identifier))))
+  (expression_statement
+    (update_expression
+      (variable
+        (identifier))))
+  (expression_statement
+    (update_expression
+      (variable
+        (identifier))))
+  (expression_statement
+    (update_expression
+      (variable
+        (identifier)))))

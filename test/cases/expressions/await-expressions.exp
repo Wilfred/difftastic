@@ -1,0 +1,4 @@
+(script
+  (expression_statement
+    (await_expression
+      (string))))
