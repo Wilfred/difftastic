@@ -31,14 +31,45 @@ const com = (...rules) => {
   }
 };
 
+const precMap = {};
+// https://docs.hhvm.com/hack/expressions-and-operators/operator-precedence
+// https://github.com/hhvm/user-documentation/commit/6d1f94161af68b225d0b5369998de9727cb6e2fc
+
+// Precence based on order.
+[
+  [prec.right, '**'],
+  [prec.right, 'UNARY'],
+  [prec.left, '*', '/', '%'],
+  [prec.left, '+', '-', '.'],
+  [prec.left, '<<', '>>'],
+  [prec, '<', '>', '<=', '>=', '<=>'],
+  [prec, '==', '!=', '===', '!=='],
+  [prec.left, '&&'],
+  [prec.left, '^'],
+  [prec.left, '||'],
+  [prec.left, '&'],
+  [prec.left, '|'],
+  [prec.right, '??'],
+]
+  .reverse()
+  .forEach(([prec, ...names], index) =>
+    names.forEach(name => {
+      precMap[name] = rule => prec(index, rule);
+    }),
+  );
+
 module.exports = grammar({
   name: 'hack',
+
+  extras: $ => [/\s/],
 
   supertypes: $ => [$._statement, $._declaration, $._expression, $._literal],
 
   inline: $ => [$._statement, $._declaration, $._literal],
 
   word: $ => $.identifier,
+
+  conflicts: $ => [[$.binary_expression]],
 
   rules: {
     script: $ => repeat($._statement),
@@ -49,7 +80,17 @@ module.exports = grammar({
     expression_statement: $ => seq($._expression, ';'),
 
     _expression: $ =>
-      choice($.varray, $.darray, $.vec, $.keyset, $.dict, $.tuple, $._literal),
+      choice(
+        $.varray,
+        $.darray,
+        $.vec,
+        $.keyset,
+        $.dict,
+        $.tuple,
+        $._literal,
+        $.binary_expression,
+        $.unary_expression,
+      ),
 
     identifier: $ => /[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*/,
 
@@ -199,6 +240,56 @@ module.exports = grammar({
         op($.class_modifier),
         $._function_declaration_header,
         choice(fi.body($.compound_statement), ';'),
+      ),
+
+    // Expressions
+
+    binary_expression: $ =>
+      choice(
+        ...[
+          '??',
+          '||',
+          '&&',
+          '|',
+          '^',
+          '&',
+          '==',
+          '!=',
+          '===',
+          '!==',
+          '<',
+          '>',
+          '<=',
+          '>=',
+          '<=>',
+          '<<',
+          '>>',
+          '+',
+          '-',
+          '.',
+          '*',
+          '/',
+          '%',
+          '**',
+        ].map(operator =>
+          precMap[operator](
+            seq(
+              fi.left($._expression),
+              fi.operator(operator),
+              fi.right($._expression),
+            ),
+          ),
+        ),
+      ),
+
+    unary_expression: $ =>
+      precMap.UNARY(
+        choice(
+          seq(fi.operator('!'), fi.operand($._expression)),
+          seq(fi.operator('~'), fi.operand($._expression)),
+          seq(fi.operator('-'), fi.operand($._expression)),
+          seq(fi.operator('+'), fi.operand($._expression)),
+        ),
       ),
   },
 });
