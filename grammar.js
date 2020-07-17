@@ -88,7 +88,7 @@ module.exports = grammar({
   conflicts: $ => [[$.binary_expression]],
 
   rules: {
-    script: $ => repeat($._statement),
+    script: $ => seq(op(/<\?[hH][hH]/), repeat($._statement)),
 
     _statement: $ =>
       choice($._declaration, $.compound_statement, $.expression_statement),
