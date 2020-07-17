@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # This script creates corpus *.txt files expected by `tree-sitter test` in the format
 # expected [0] based on *.php and *.exp files in test/cases.
 #

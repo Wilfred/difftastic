@@ -1,0 +1,17 @@
+(script
+  (alias_declaration
+    (identifier)
+    (shape_type
+      (field
+        (optional_modifier)
+        (string)
+        (primitive_type))
+      (field
+        (string)
+        (shape_type
+          (field
+            (string)
+            (nullable_type
+              (primitive_type)))
+          (open_modifier)))
+      (open_modifier))))

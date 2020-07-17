@@ -103,6 +103,7 @@ module.exports = grammar({
         $.keyset,
         $.dict,
         $.tuple,
+        $.shape,
         $._literal,
         $._variablish,
         $.binary_expression,
@@ -122,6 +123,11 @@ module.exports = grammar({
       ),
 
     identifier: $ => /[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*/,
+
+    qualified_identifier: $ =>
+      seq(op('\\'), repeat(seq($.identifier, '\\')), $.identifier),
+
+    scoped_identifier: $ => seq($.qualified_identifier, '::', $.identifier),
 
     variable: $ => seq('$', $.identifier),
 
@@ -170,6 +176,7 @@ module.exports = grammar({
 
     _type: $ =>
       choice(
+        $.nullable_type,
         $.primitive_type,
         $.varray_type,
         $.darray_type,
@@ -177,6 +184,7 @@ module.exports = grammar({
         $.dict_type,
         $.keyset_type,
         $.array_type,
+        $.shape_type,
       ),
 
     primitive_type: $ =>
@@ -194,7 +202,24 @@ module.exports = grammar({
         'noreturn',
       ),
 
+    nullable_type: $ => seq('?', $._type),
+
     type_arguments: $ => seq(token(PREC.TYPE('<')), com($._type, op(',')), '>'),
+
+    type_parameters: $ =>
+      seq(token(PREC.TYPE('<')), com($.type_parameter, op(',')), '>'),
+
+    type_parameter: $ =>
+      seq(
+        op(
+          choice(
+            alias('+', $.covariant_modifier),
+            alias('-', $.contravariant_modifier),
+          ),
+        ),
+        $.identifier,
+        fi.type_constraint(op('as', $._type)),
+      ),
 
     varray_type: $ => seq('varray', op($.type_arguments)),
 
@@ -207,6 +232,30 @@ module.exports = grammar({
     dict_type: $ => seq('dict', op($.type_arguments)),
 
     array_type: $ => seq('array', op($.type_arguments)),
+
+    shape_type: $ =>
+      seq(
+        'shape',
+        '(',
+        op(
+          choice(
+            seq(
+              com($.field),
+              op(',', op(alias('...', $.open_modifier), op(','))),
+            ),
+            seq(alias('...', $.open_modifier), op(',')),
+          ),
+        ),
+        ')',
+      ),
+
+    field: $ =>
+      seq(
+        op(alias('?', $.optional_modifier)),
+        choice($.string, $.scoped_identifier),
+        '=>',
+        $._type,
+      ),
 
     // Collections
 
@@ -226,13 +275,16 @@ module.exports = grammar({
 
     tuple: $ => seq('tuple', '(', op(com($._expression, op(','))), ')'),
 
+    field_initializer: $ =>
+      seq(choice($.string, $.scoped_identifier), '=>', $._expression),
+
+    shape: $ => seq('shape', '(', op(com($.field_initializer, op(','))), ')'),
+
     // Classes and Functions
 
     class_modifier: $ => choice('abstract', 'final'),
 
     compound_statement: $ => seq('{', repeat($._statement), '}'),
-
-    _declaration: $ => choice($.function_declaration, $.classish_declaration),
 
     function_declaration: $ =>
       seq($._function_declaration_header, fi.body($.compound_statement)),
@@ -356,8 +408,8 @@ module.exports = grammar({
         'fun',
         '(',
         choice(
-          seq("'", fi.name($.identifier), "'"),
-          seq('"', fi.name($.identifier), '"'),
+          seq("'", fi.name($.qualified_identifier), "'"),
+          seq('"', fi.name($.qualified_identifier), '"'),
         ),
         ')',
       ),
@@ -397,6 +449,25 @@ module.exports = grammar({
         fi.body(op($._expression)),
         ':',
         fi.alternative($._expression),
+      ),
+
+    // Declarations
+
+    _declaration: $ =>
+      choice(
+        $.function_declaration,
+        $.classish_declaration,
+        $.alias_declaration,
+      ),
+
+    alias_declaration: $ =>
+      seq(
+        choice('type', 'newtype'),
+        $.identifier,
+        op($.type_parameters),
+        '=',
+        $._type,
+        ';',
       ),
 
     // https://github.com/tree-sitter/tree-sitter-javascript/blob/7303aff134ad1cc785ae816ef50b067d34d64b26/grammar.js#L835

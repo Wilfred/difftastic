@@ -1,4 +1,5 @@
 (script
   (expression_statement
     (fun_expression
-      name: (identifier))))
+      name: (qualified_identifier
+        (identifier)))))
