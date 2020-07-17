@@ -3,8 +3,8 @@ decimal integer literals
 ========================
 
 123;
-4l;
-50L;
+4;
+50;
 
 ---
 
@@ -19,7 +19,7 @@ hex integer literals
 
 0xa_bcd_ef0;
 0Xa_bcd_ef0;
-0X8000L;
+0X8000;
 
 ---
 
@@ -27,36 +27,6 @@ hex integer literals
   (expression_statement (hex_integer_literal))
   (expression_statement (hex_integer_literal))
   (expression_statement (hex_integer_literal)))
-
-======================
-octal integer literals
-======================
-
-0o123;
-0O123;
-
----
-
-(program
-  (expression_statement (octal_integer_literal))
-  (expression_statement (octal_integer_literal)))
-
-=======================
-binary integer literal
-=======================
-
-0b001;
-0B001;
-0b10;
-0B1000;
-
----
-
-(program
-  (expression_statement (binary_integer_literal))
-  (expression_statement (binary_integer_literal))
-  (expression_statement (binary_integer_literal))
-  (expression_statement (binary_integer_literal)))
 
 ===============================
 floating point literals
@@ -74,8 +44,8 @@ floating point literals
 0.2e-2;
 0.0e-4;
 .2e-2;
-0x5.4;
-0x5.4e-10;
+5.4;
+5.4e-10;
 
 ---
 
@@ -92,8 +62,8 @@ floating point literals
   (expression_statement (decimal_floating_point_literal))
   (expression_statement (decimal_floating_point_literal))
   (expression_statement (decimal_floating_point_literal))
-  (expression_statement (hex_floating_point_literal))
-  (expression_statement (hex_floating_point_literal)))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal)))
 
 ================
 boolean literals

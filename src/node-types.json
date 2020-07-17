@@ -22,10 +22,6 @@
     "named": true,
     "subtypes": [
       {
-        "type": "binary_integer_literal",
-        "named": true
-      },
-      {
         "type": "decimal_floating_point_literal",
         "named": true
       },
@@ -38,10 +34,6 @@
         "named": true
       },
       {
-        "type": "hex_floating_point_literal",
-        "named": true
-      },
-      {
         "type": "hex_integer_literal",
         "named": true
       },
@@ -51,10 +43,6 @@
       },
       {
         "type": "null_literal",
-        "named": true
-      },
-      {
-        "type": "octal_integer_literal",
         "named": true
       },
       {
@@ -10545,10 +10533,6 @@
     "named": false
   },
   {
-    "type": "binary_integer_literal",
-    "named": true
-  },
-  {
     "type": "bool",
     "named": false
   },
@@ -10601,10 +10585,6 @@
     "named": false
   },
   {
-    "type": "double",
-    "named": false
-  },
-  {
     "type": "dynamic",
     "named": false
   },
@@ -10653,20 +10633,12 @@
     "named": false
   },
   {
-    "type": "float",
-    "named": false
-  },
-  {
     "type": "for",
     "named": false
   },
   {
     "type": "get",
     "named": false
-  },
-  {
-    "type": "hex_floating_point_literal",
-    "named": true
   },
   {
     "type": "hex_integer_literal",
@@ -10731,10 +10703,6 @@
   {
     "type": "null",
     "named": false
-  },
-  {
-    "type": "octal_integer_literal",
-    "named": true
   },
   {
     "type": "of",
