@@ -89,6 +89,7 @@ module.exports = grammar({
     [$.binary_expression],
     [$._expression, $.parameter],
     [$._expression, $.primitive_type],
+    [$._expression, $.function_call_expression],
     [$.shape, $.shape_type],
   ],
 
@@ -96,7 +97,12 @@ module.exports = grammar({
     script: $ => seq(op(/<\?[hH][hH]/), repeat($._statement)),
 
     _statement: $ =>
-      choice($._declaration, $.compound_statement, $.expression_statement),
+      choice(
+        $._declaration,
+        $.compound_statement,
+        $.expression_statement,
+        $.return_statement,
+      ),
 
     expression_statement: $ => seq($._expression, ';'),
 
@@ -127,6 +133,7 @@ module.exports = grammar({
         $.update_expression,
         $.ternary_expression,
         $.lambda_expression,
+        $.function_call_expression,
       ),
 
     identifier: $ => /[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*/,
@@ -310,13 +317,40 @@ module.exports = grammar({
         'function',
         field('name', $.identifier),
         op($.type_parameters),
-        field('parameters', $.parameters),
+        $.parameters,
         seq.op(':', field('return_type', $._type)),
       ),
 
+    parameter: $ => seq(field.op('type', $._type), field('name', $.variable)),
+
     parameters: $ => seq('(', com.op($.parameter, op(',')), ')'),
 
-    parameter: $ => seq(field.op('type', $._type), field('name', $.variable)),
+    argument: $ =>
+      seq(
+        choice.op(
+          alias('inout', $.inout_modifier),
+          alias('...', $.variadic_modifier),
+        ),
+        $._expression,
+      ),
+
+    arguments: $ => seq('(', com.op($.argument, op(',')), ')'),
+
+    function_call_expression: $ =>
+      seq(
+        field(
+          'function',
+          choice(
+            seq($.qualified_identifier, op($.type_arguments)),
+            $.subscript_expression,
+            $.variable,
+            $.parenthesized_expression,
+            $.lambda_expression,
+            $.function_call_expression,
+          ),
+        ),
+        $.arguments,
+      ),
 
     trait_declaration: $ =>
       seq(
@@ -502,11 +536,8 @@ module.exports = grammar({
       seq(
         alias.op('async', $.async_modifier),
         choice(
-          field('parameters', $.variable),
-          seq(
-            field('parameters', $.parameters),
-            seq.op(':', field('return_type', $._type)),
-          ),
+          alias($.variable, $.parameters),
+          seq($.parameters, seq.op(':', field('return_type', $._type))),
         ),
         '==>',
         field('body', choice($._expression, $.compound_statement)),
@@ -532,6 +563,10 @@ module.exports = grammar({
         $._type,
         ';',
       ),
+
+    // Statements
+
+    return_statement: $ => seq('return', op($._expression), ';'),
 
     // https://github.com/tree-sitter/tree-sitter-javascript/blob/7303aff134ad1cc785ae816ef50b067d34d64b26/grammar.js#L835
     comment: $ =>

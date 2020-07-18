@@ -1,23 +1,23 @@
 (script
   (function_declaration
     name: (identifier)
-    parameters: (parameters)
+    (parameters)
     return_type: (primitive_type)
     body: (compound_statement))
   (function_declaration
     name: (identifier)
-    parameters: (parameters)
+    (parameters)
     body: (compound_statement))
   (function_declaration
     name: (identifier)
-    parameters: (parameters
+    (parameters
       (parameter
         name: (variable
           (identifier))))
     body: (compound_statement))
   (function_declaration
     name: (identifier)
-    parameters: (parameters
+    (parameters
       (parameter
         type: (primitive_type)
         name: (variable
@@ -25,7 +25,7 @@
     body: (compound_statement))
   (function_declaration
     name: (identifier)
-    parameters: (parameters
+    (parameters
       (parameter
         type: (primitive_type)
         name: (variable
@@ -34,7 +34,7 @@
     body: (compound_statement))
   (function_declaration
     name: (identifier)
-    parameters: (parameters
+    (parameters
       (parameter
         type: (primitive_type)
         name: (variable

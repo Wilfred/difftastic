@@ -12,6 +12,6 @@
         name: (identifier)
         type_constraint: (supertype_constraint
           (primitive_type))))
-    parameters: (parameters)
+    (parameters)
     return_type: (primitive_type)
     body: (compound_statement)))

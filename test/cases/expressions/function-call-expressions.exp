@@ -1,0 +1,69 @@
+(script
+  (expression_statement
+    (function_call_expression
+      function: (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (function_call_expression
+      function: (qualified_identifier
+        (identifier))
+      function: (type_arguments
+        (primitive_type))
+      (arguments
+        (argument
+          (integer))
+        (argument
+          (inout_modifier)
+          (variable
+            (identifier)))
+        (argument
+          (variadic_modifier)
+          (null)))))
+  (expression_statement
+    (function_call_expression
+      function: (subscript_expression
+        (variable
+          (identifier))
+        (function_call_expression
+          function: (qualified_identifier
+            (identifier))
+          (arguments)))
+      (arguments)))
+  (expression_statement
+    (function_call_expression
+      function: (lambda_expression
+        (parameters
+          (identifier))
+        body: (compound_statement
+          (return_statement
+            (variable
+              (identifier)))))
+      (arguments
+        (argument
+          (integer))
+        (argument
+          (variadic_modifier)
+          (vec
+            (vec_type)
+            (integer)
+            (integer)
+            (integer))))))
+  (expression_statement
+    (function_call_expression
+      function: (parenthesized_expression
+        (lambda_expression
+          (parameters
+            (identifier))
+          body: (variable
+            (identifier))))
+      (arguments
+        (argument
+          (function_call_expression
+            function: (qualified_identifier
+              (identifier))
+            (arguments)))
+        (argument
+          (inout_modifier)
+          (variable
+            (identifier)))))))
