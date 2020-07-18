@@ -1,1 +1,1 @@
-function func<Ta, Tb as int, Tc = int, Td super int>(): void {}
+function func<Ta, Tb as int, Td super int>(): void {}

@@ -10,10 +10,6 @@
           (primitive_type)))
       (type_parameter
         name: (identifier)
-        type_constraint: (equivalent_constraint
-          (primitive_type)))
-      (type_parameter
-        name: (identifier)
         type_constraint: (supertype_constraint
           (primitive_type))))
     parameters: (parameters)
