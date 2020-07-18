@@ -6,8 +6,7 @@
           type: (primitive_type)
           name: (variable
             (identifier))))
-      (return_type
-        return_type: (primitive_type))
+      return_type: (primitive_type)
       body: (binary_expression
         left: (variable
           (identifier))

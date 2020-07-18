@@ -1,13 +1,7 @@
 const optionalComma = optional(',');
 
-// Optional rules auto-wrapped in a sequence rule.
-const op = (...rules) =>
-  rules.length > 1
-    ? optional(seq(...rules))
-    : rules[0] == ','
-    ? // Return a constant so we can compare in `com`.
-      optionalComma
-    : optional(rules[0]);
+// Return a constant so we can compare in `com`.
+const op = rule => (rule == ',' ? optionalComma : optional(rule));
 
 // Comma separated rules. If the last rule is equal to optionalComma, include an
 // optional trailing comma for the list of given rules.
@@ -20,6 +14,17 @@ const com = (...rules) => {
     return seq(...rules, repeat(seq(',', ...rules)));
   }
 };
+
+// prettier-ignore
+[
+  field,
+  seq,
+  choice,
+  alias,
+  com,
+].forEach(func => {
+  func.op = (...args) => op(func(...args));
+});
 
 const PREC = {};
 // https://docs.hhvm.com/hack/expressions-and-operators/operator-precedence
@@ -219,16 +224,14 @@ module.exports = grammar({
 
     type_parameter: $ =>
       seq(
-        op(
-          choice(
-            alias('+', $.covariant_modifier),
-            alias('-', $.contravariant_modifier),
-          ),
+        choice.op(
+          alias('+', $.covariant_modifier),
+          alias('-', $.contravariant_modifier),
         ),
         field('name', $.identifier),
-        field(
+        field.op(
           'type_constraint',
-          op(choice($.subtype_constraint, $.supertype_constraint)),
+          choice($.subtype_constraint, $.supertype_constraint),
         ),
       ),
 
@@ -251,21 +254,19 @@ module.exports = grammar({
       seq(
         'shape',
         '(',
-        op(
-          choice(
-            seq(
-              com($.field),
-              op(',', op(alias('...', $.open_modifier), op(','))),
-            ),
-            seq(alias('...', $.open_modifier), op(',')),
+        choice.op(
+          seq(
+            com($.field),
+            seq.op(',', seq.op(alias('...', $.open_modifier), op(','))),
           ),
+          seq(alias('...', $.open_modifier), op(',')),
         ),
         ')',
       ),
 
     field: $ =>
       seq(
-        op(alias('?', $.optional_modifier)),
+        alias.op('?', $.optional_modifier),
         choice($.string, $.scoped_identifier),
         '=>',
         $._type,
@@ -275,24 +276,24 @@ module.exports = grammar({
 
     element_initializer: $ => seq($._expression, '=>', $._expression),
 
-    varray: $ => seq($.varray_type, '[', op(com($._expression, op(','))), ']'),
+    varray: $ => seq($.varray_type, '[', com.op($._expression, op(',')), ']'),
 
     darray: $ =>
-      seq($.darray_type, '[', op(com($.element_initializer, op(','))), ']'),
+      seq($.darray_type, '[', com.op($.element_initializer, op(',')), ']'),
 
-    vec: $ => seq($.vec_type, '[', op(com($._expression, op(','))), ']'),
+    vec: $ => seq($.vec_type, '[', com.op($._expression, op(',')), ']'),
 
     dict: $ =>
-      seq($.dict_type, '[', op(com($.element_initializer, op(','))), ']'),
+      seq($.dict_type, '[', com.op($.element_initializer, op(',')), ']'),
 
-    keyset: $ => seq($.keyset_type, '[', op(com($._expression, op(','))), ']'),
+    keyset: $ => seq($.keyset_type, '[', com.op($._expression, op(',')), ']'),
 
-    tuple: $ => seq('tuple', '(', op(com($._expression, op(','))), ')'),
+    tuple: $ => seq('tuple', '(', com.op($._expression, op(',')), ')'),
 
     field_initializer: $ =>
       seq(choice($.string, $.scoped_identifier), '=>', $._expression),
 
-    shape: $ => seq('shape', '(', op(com($.field_initializer, op(','))), ')'),
+    shape: $ => seq('shape', '(', com.op($.field_initializer, op(',')), ')'),
 
     // Classes and Functions
 
@@ -305,17 +306,17 @@ module.exports = grammar({
 
     _function_declaration_header: $ =>
       seq(
-        op(alias('async', $.async_modifier)),
+        alias.op('async', $.async_modifier),
         'function',
         field('name', $.identifier),
         op($.type_parameters),
         field('parameters', $.parameters),
-        op(':', field('return_type', $._type)),
+        seq.op(':', field('return_type', $._type)),
       ),
 
-    parameters: $ => seq('(', op(com($.parameter, op(','))), ')'),
+    parameters: $ => seq('(', com.op($.parameter, op(',')), ')'),
 
-    parameter: $ => seq(op(field('type', $._type)), field('name', $.variable)),
+    parameter: $ => seq(field.op('type', $._type), field('name', $.variable)),
 
     trait_declaration: $ =>
       seq(
@@ -499,16 +500,17 @@ module.exports = grammar({
 
     lambda_expression: $ =>
       seq(
-        op(alias('async', $.async_modifier)),
+        alias.op('async', $.async_modifier),
         choice(
           field('parameters', $.variable),
-          seq(field('parameters', $.parameters), op($.return_type)),
+          seq(
+            field('parameters', $.parameters),
+            seq.op(':', field('return_type', $._type)),
+          ),
         ),
         '==>',
-        field('body', $._expression, $.compound_statement),
+        field('body', choice($._expression, $.compound_statement)),
       ),
-
-    return_type: $ => seq(':', field('return_type', $._type)),
 
     // Declarations
 
