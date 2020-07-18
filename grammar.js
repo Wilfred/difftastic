@@ -27,12 +27,12 @@ const PREC = {};
 
 // Precence based on order.
 [
-  [prec.left, 'SUBSCRIPT'],
-  [prec, 'CLONE'],
-  [prec.right, 'AWAIT', 'INCP'],
-  [prec.right, '**', 'CAST', 'ERROR', 'PINC'],
-  [prec.left, 'IS', 'AS'],
-  [prec.right, 'UNARY'],
+  [prec.left, 'subscript'],
+  [prec, 'clone'],
+  [prec.right, 'await', 'incp'],
+  [prec.right, '**', 'cast', 'error', 'pinc'],
+  [prec.left, 'is', 'as'],
+  [prec.right, 'unary'],
   [prec.left, '*', '/', '%'],
   [prec.left, '+', '-', '.'],
   [prec.left, '<<', '>>'],
@@ -44,10 +44,10 @@ const PREC = {};
   [prec.left, '&'],
   [prec.left, '|'],
   [prec.right, '??'],
-  [prec.left, 'TERNARY'],
-  [prec.right, 'ASSIGNMENT'],
-  [prec.right, 'PRINT'],
-  [prec, 'TYPE'],
+  [prec.left, 'ternary'],
+  [prec.right, 'assignment'],
+  [prec.right, 'print'],
+  [prec, 'type'],
 ]
   .reverse()
   .forEach(([prec, ...names], index) =>
@@ -200,10 +200,10 @@ module.exports = grammar({
 
     nullable_type: $ => seq('?', $._type),
 
-    type_arguments: $ => seq(token(PREC.TYPE('<')), com($._type, op(',')), '>'),
+    type_arguments: $ => seq(token(PREC.type('<')), com($._type, op(',')), '>'),
 
     type_parameters: $ =>
-      seq(token(PREC.TYPE('<')), com($.type_parameter, op(',')), '>'),
+      seq(token(PREC.type('<')), com($.type_parameter, op(',')), '>'),
 
     type_parameter: $ =>
       seq(
@@ -379,7 +379,7 @@ module.exports = grammar({
       ),
 
     unary_expression: $ =>
-      PREC.UNARY(
+      PREC.unary(
         choice(
           seq(field('operator', '!'), field('operand', $._expression)),
           seq(field('operator', '~'), field('operand', $._expression)),
@@ -389,17 +389,17 @@ module.exports = grammar({
       ),
 
     subscript_expression: $ =>
-      PREC.SUBSCRIPT($._expression, '[', op($._expression), ']'),
+      PREC.subscript($._expression, '[', op($._expression), ']'),
 
     assignment_expression: $ =>
-      PREC.ASSIGNMENT(
+      PREC.assignment(
         field('left', $._variablish),
         '=',
         field('right', $._expression),
       ),
 
     augmented_assignment_expression: $ =>
-      PREC.ASSIGNMENT(
+      PREC.assignment(
         field('left', $._variablish),
         field(
           'operator',
@@ -434,33 +434,33 @@ module.exports = grammar({
       ),
 
     is_expression: $ =>
-      PREC.IS(field('left', $._expression), 'is', field('right', $._type)),
+      PREC.is(field('left', $._expression), 'is', field('right', $._type)),
 
     as_expression: $ =>
-      PREC.AS(
+      PREC.as(
         field('left', $._expression),
         choice('as', '?as'),
         field('right', $._type),
       ),
 
-    print_expression: $ => PREC.PRINT('print', $._expression),
+    print_expression: $ => PREC.print('print', $._expression),
 
-    clone_expression: $ => PREC.CLONE('clone', $._expression),
+    clone_expression: $ => PREC.clone('clone', $._expression),
 
-    await_expression: $ => PREC.AWAIT('await', $._expression),
+    await_expression: $ => PREC.await('await', $._expression),
 
-    error_control_expression: $ => PREC.ERROR('@', $._expression),
+    error_control_expression: $ => PREC.error('@', $._expression),
 
     parenthesized_expression: $ => seq('(', $._expression, ')'),
 
     update_expression: $ =>
       choice(
-        PREC.INCP($._expression, choice('++', '--')),
-        PREC.PINC(choice('++', '--'), $._expression),
+        PREC.incp($._expression, choice('++', '--')),
+        PREC.pinc(choice('++', '--'), $._expression),
       ),
 
     cast_expression: $ =>
-      PREC.CAST(
+      PREC.cast(
         '(',
         field('type', $.primitive_type),
         ')',
@@ -468,7 +468,7 @@ module.exports = grammar({
       ),
 
     ternary_expression: $ =>
-      PREC.TERNARY(
+      PREC.ternary(
         field('condition', $._expression),
         '?',
         field('body', op($._expression)),
