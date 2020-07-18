@@ -305,7 +305,7 @@ module.exports = grammar({
         field('name', $.identifier),
         field('type_parameters', op($.type_parameters)),
         field('parameters', $.parameters),
-        op(seq(':', field('return_type', $._type))),
+        op(':', field('return_type', $._type)),
       ),
 
     parameters: $ => seq('(', op(com($.parameter, op(','))), ')'),
