@@ -29,4 +29,4 @@ Very very big thanks goes out to @klazuka and the people of [intellij-elm](https
 ## Want to help?
 
 Help writing some tests or simply find valid elm files, that fail parsing.
-Test are located in the `corpus` folder.
+Test are located in the `test` folder and separated in parser tests and highlighting tests.
