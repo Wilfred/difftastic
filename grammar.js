@@ -70,7 +70,13 @@ module.exports = grammar({
     $._type,
   ],
 
-  inline: $ => [$._statement, $._declaration, $._literal, $._variablish],
+  inline: $ => [
+    $._statement,
+    $._declaration,
+    $._literal,
+    $._variablish,
+    $.type_identifier,
+  ],
 
   word: $ => $.identifier,
 
@@ -172,6 +178,8 @@ module.exports = grammar({
 
     _type: $ =>
       choice(
+        $.type_identifier,
+        $.generic_type,
         $.nullable_type,
         $.primitive_type,
         $.varray_type,
@@ -182,6 +190,12 @@ module.exports = grammar({
         $.array_type,
         $.shape_type,
       ),
+
+    type_identifier: $ => alias($.qualified_identifier, $.type_identifier),
+
+    generic_type: $ => seq($.type_identifier, $.type_arguments),
+
+    nullable_type: $ => seq('?', $._type),
 
     primitive_type: $ =>
       choice(
@@ -197,8 +211,6 @@ module.exports = grammar({
         'dynamic',
         'noreturn',
       ),
-
-    nullable_type: $ => seq('?', $._type),
 
     type_arguments: $ => seq(token(PREC.type('<')), com($._type, op(',')), '>'),
 
@@ -216,19 +228,12 @@ module.exports = grammar({
         field('name', $.identifier),
         field(
           'type_constraint',
-          op(
-            choice(
-              $.subtype_constraint,
-              $.supertype_constraint,
-              $.equivalent_constraint,
-            ),
-          ),
+          op(choice($.subtype_constraint, $.supertype_constraint)),
         ),
       ),
 
     subtype_constraint: $ => seq('as', $._type),
     supertype_constraint: $ => seq('super', $._type),
-    equivalent_constraint: $ => seq('=', $._type),
 
     varray_type: $ => seq('varray', op($.type_arguments)),
 
@@ -303,7 +308,7 @@ module.exports = grammar({
         op(alias('async', $.async_modifier)),
         'function',
         field('name', $.identifier),
-        field('type_parameters', op($.type_parameters)),
+        op($.type_parameters),
         field('parameters', $.parameters),
         op(':', field('return_type', $._type)),
       ),
@@ -312,15 +317,31 @@ module.exports = grammar({
 
     parameter: $ => seq(op(field('type', $._type)), field('name', $.variable)),
 
-    classish_declaration: $ =>
+    trait_declaration: $ =>
+      seq(
+        'trait',
+        field('name', $.identifier),
+        op($.type_parameters),
+        op($.implements_clause),
+        field('body', $.declaration_list),
+      ),
+
+    interface_declaration: $ =>
+      seq(
+        'interface',
+        field('name', $.identifier),
+        op($.type_parameters),
+        op($.extends_clause),
+        field('body', $.declaration_list),
+      ),
+
+    class_declaration: $ =>
       seq(
         op($.class_modifier),
         op($.class_modifier),
-        field(
-          'type',
-          alias(choice('class', 'interface', 'trait'), $.type_identifier),
-        ),
+        'class',
         field('name', $.identifier),
+        op($.type_parameters),
         op($.extends_clause),
         op($.implements_clause),
         field('body', $.declaration_list),
@@ -328,9 +349,9 @@ module.exports = grammar({
 
     declaration_list: $ => seq('{', repeat(choice($.method_declaration)), '}'),
 
-    extends_clause: $ => seq('extends', com($.identifier)),
+    extends_clause: $ => seq('extends', com($._type)),
 
-    implements_clause: $ => seq('implements', com($.identifier)),
+    implements_clause: $ => seq('implements', com($._type)),
 
     method_declaration: $ =>
       seq(
@@ -494,7 +515,9 @@ module.exports = grammar({
     _declaration: $ =>
       choice(
         $.function_declaration,
-        $.classish_declaration,
+        $.class_declaration,
+        $.interface_declaration,
+        $.trait_declaration,
         $.alias_declaration,
       ),
 

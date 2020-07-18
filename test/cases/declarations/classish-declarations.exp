@@ -1,35 +1,40 @@
 (script
-  (classish_declaration
-    type: (type_identifier)
+  (class_declaration
     name: (identifier)
     body: (declaration_list))
-  (classish_declaration
-    type: (type_identifier)
+  (interface_declaration
     name: (identifier)
     body: (declaration_list))
-  (classish_declaration
-    type: (type_identifier)
+  (trait_declaration
     name: (identifier)
     body: (declaration_list))
-  (classish_declaration
-    type: (type_identifier)
-    name: (identifier)
-    body: (declaration_list))
-  (classish_declaration
-    type: (type_identifier)
-    name: (identifier)
-    (implements_clause
-      (identifier))
-    body: (declaration_list))
-  (classish_declaration
-    (class_modifier)
-    (class_modifier)
-    type: (type_identifier)
+  (interface_declaration
     name: (identifier)
     (extends_clause
-      (identifier))
+      (type_identifier
+        (identifier))
+      (type_identifier
+        (identifier)))
+    body: (declaration_list))
+  (trait_declaration
+    name: (identifier)
     (implements_clause
-      (identifier))
+      (type_identifier
+        (identifier)))
+    body: (declaration_list))
+  (class_declaration
+    (class_modifier)
+    (class_modifier)
+    name: (identifier)
+    (extends_clause
+      (type_identifier
+        (identifier)))
+    (implements_clause
+      (type_identifier
+        (identifier)
+        (identifier))
+      (type_identifier
+        (identifier)))
     body: (declaration_list
       (method_declaration
         name: (identifier)
