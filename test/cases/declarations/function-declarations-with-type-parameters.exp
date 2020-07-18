@@ -1,7 +1,7 @@
 (script
   (function_declaration
     name: (identifier)
-    type_parameters: (type_parameters
+    (type_parameters
       (type_parameter
         name: (identifier))
       (type_parameter

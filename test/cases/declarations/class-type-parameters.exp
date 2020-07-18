@@ -1,0 +1,56 @@
+(script
+  (class_declaration
+    (class_modifier)
+    (class_modifier)
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        type_constraint: (subtype_constraint
+          (type_identifier
+            (identifier))))
+      (type_parameter
+        name: (identifier)
+        type_constraint: (supertype_constraint
+          (generic_type
+            (type_identifier
+              (identifier))
+            (type_arguments
+              (type_identifier
+                (identifier))
+              (type_identifier
+                (identifier)))))))
+    (extends_clause
+      (type_identifier
+        (identifier)))
+    (implements_clause
+      (generic_type
+        (type_identifier
+          (identifier)
+          (identifier))
+        (type_arguments
+          (type_identifier
+            (identifier))
+          (type_identifier
+            (identifier))))
+      (type_identifier
+        (identifier)
+        (identifier)))
+    body: (declaration_list
+      (method_declaration
+        name: (identifier)
+        (type_parameters
+          (type_parameter
+            name: (identifier)
+            type_constraint: (subtype_constraint
+              (type_identifier
+                (identifier))))
+          (type_parameter
+            name: (identifier)
+            type_constraint: (supertype_constraint
+              (type_identifier
+                (identifier)))))
+        parameters: (parameters)
+        return_type: (type_identifier
+          (identifier))
+        body: (compound_statement)))))
