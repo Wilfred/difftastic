@@ -244,31 +244,6 @@
         }
       ]
     },
-    "type_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_type_expression_inner"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "arrow"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_type_expression_inner"
-              }
-            ]
-          }
-        }
-      ]
-    },
     "exposed_union_constructors": {
       "type": "SEQ",
       "members": [
@@ -705,6 +680,31 @@
         {
           "type": "SYMBOL",
           "name": "type_expression"
+        }
+      ]
+    },
+    "type_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_type_expression_inner"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "arrow"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_type_expression_inner"
+              }
+            ]
+          }
         }
       ]
     },

@@ -1,6 +1,5 @@
 .vscode
-corpus
-corpus_failing
+test
 elm-stuff
 examples
 examples-full

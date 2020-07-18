@@ -28,5 +28,13 @@
     "test-windows": "tree-sitter test",
     "tests-only": "tree-sitter test"
   },
-  "repository": "https://github.com/razzeee/tree-sitter-elm"
+  "repository": "https://github.com/razzeee/tree-sitter-elm",
+  "tree-sitter": [
+    {
+      "scope": "source.elm",
+      "file-types": [
+        "elm"
+      ]
+    }
+  ]
 }
