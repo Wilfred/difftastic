@@ -1,13 +1,3 @@
-// Return field with name declared by calling a method on `fi` instead of passing
-// a parameter. I.e. fi.name(rule) vs field('name', rule)
-const fi = new Proxy(
-  {},
-  {
-    get: (_, name) => (rule1, ...rules) =>
-      field(name, rules.length ? choice(rule1, ...rules) : rule1),
-  },
-);
-
 const optionalComma = optional(',');
 
 // Optional rules auto-wrapped in a sequence rule.
@@ -223,8 +213,9 @@ module.exports = grammar({
             alias('-', $.contravariant_modifier),
           ),
         ),
-        fi.name($.identifier),
-        fi.type_constraint(
+        field('name', $.identifier),
+        field(
+          'type_constraint',
           op(
             choice(
               $.subtype_constraint,
@@ -305,33 +296,34 @@ module.exports = grammar({
     compound_statement: $ => seq('{', repeat($._statement), '}'),
 
     function_declaration: $ =>
-      seq($._function_declaration_header, fi.body($.compound_statement)),
+      seq($._function_declaration_header, field('body', $.compound_statement)),
 
     _function_declaration_header: $ =>
       seq(
         op(alias('async', $.async_modifier)),
         'function',
-        fi.name($.identifier),
-        fi.type_parameters(op($.type_parameters)),
-        fi.parameters($.parameters),
-        op(seq(':', fi.return_type($._type))),
+        field('name', $.identifier),
+        field('type_parameters', op($.type_parameters)),
+        field('parameters', $.parameters),
+        op(seq(':', field('return_type', $._type))),
       ),
 
     parameters: $ => seq('(', op(com($.parameter, op(','))), ')'),
 
-    parameter: $ => seq(op(fi.type($._type)), fi.name($.variable)),
+    parameter: $ => seq(op(field('type', $._type)), field('name', $.variable)),
 
     classish_declaration: $ =>
       seq(
         op($.class_modifier),
         op($.class_modifier),
-        fi.type(
+        field(
+          'type',
           alias(choice('class', 'interface', 'trait'), $.type_identifier),
         ),
-        fi.name($.identifier),
+        field('name', $.identifier),
         op($.extends_clause),
         op($.implements_clause),
-        fi.body($.declaration_list),
+        field('body', $.declaration_list),
       ),
 
     declaration_list: $ => seq('{', repeat(choice($.method_declaration)), '}'),
@@ -345,7 +337,7 @@ module.exports = grammar({
         op($.class_modifier),
         op($.class_modifier),
         $._function_declaration_header,
-        choice(fi.body($.compound_statement), ';'),
+        choice(field('body', $.compound_statement), ';'),
       ),
 
     // Expressions
@@ -379,9 +371,9 @@ module.exports = grammar({
           '**',
         ].map(operator =>
           PREC[operator](
-            fi.left($._expression),
-            fi.operator(operator),
-            fi.right($._expression),
+            field('left', $._expression),
+            field('operator', operator),
+            field('right', $._expression),
           ),
         ),
       ),
@@ -389,10 +381,10 @@ module.exports = grammar({
     unary_expression: $ =>
       PREC.UNARY(
         choice(
-          seq(fi.operator('!'), fi.operand($._expression)),
-          seq(fi.operator('~'), fi.operand($._expression)),
-          seq(fi.operator('-'), fi.operand($._expression)),
-          seq(fi.operator('+'), fi.operand($._expression)),
+          seq(field('operator', '!'), field('operand', $._expression)),
+          seq(field('operator', '~'), field('operand', $._expression)),
+          seq(field('operator', '-'), field('operand', $._expression)),
+          seq(field('operator', '+'), field('operand', $._expression)),
         ),
       ),
 
@@ -400,27 +392,34 @@ module.exports = grammar({
       PREC.SUBSCRIPT($._expression, '[', op($._expression), ']'),
 
     assignment_expression: $ =>
-      PREC.ASSIGNMENT(fi.left($._variablish), '=', fi.right($._expression)),
+      PREC.ASSIGNMENT(
+        field('left', $._variablish),
+        '=',
+        field('right', $._expression),
+      ),
 
     augmented_assignment_expression: $ =>
       PREC.ASSIGNMENT(
-        fi.left($._variablish),
-        fi.operator(
-          '??=',
-          '.=',
-          '|=',
-          '^=',
-          '&=',
-          '<<=',
-          '>>=',
-          '+=',
-          '-=',
-          '*=',
-          '/=',
-          '%=',
-          '**=',
+        field('left', $._variablish),
+        field(
+          'operator',
+          choice(
+            '??=',
+            '.=',
+            '|=',
+            '^=',
+            '&=',
+            '<<=',
+            '>>=',
+            '+=',
+            '-=',
+            '*=',
+            '/=',
+            '%=',
+            '**=',
+          ),
         ),
-        fi.right($._expression),
+        field('right', $._expression),
       ),
 
     fun_expression: $ =>
@@ -428,17 +427,21 @@ module.exports = grammar({
         'fun',
         '(',
         choice(
-          seq("'", fi.name($.qualified_identifier), "'"),
-          seq('"', fi.name($.qualified_identifier), '"'),
+          seq("'", field('name', $.qualified_identifier), "'"),
+          seq('"', field('name', $.qualified_identifier), '"'),
         ),
         ')',
       ),
 
     is_expression: $ =>
-      PREC.IS(fi.left($._expression), 'is', fi.right($._type)),
+      PREC.IS(field('left', $._expression), 'is', field('right', $._type)),
 
     as_expression: $ =>
-      PREC.AS(fi.left($._expression), choice('as', '?as'), fi.right($._type)),
+      PREC.AS(
+        field('left', $._expression),
+        choice('as', '?as'),
+        field('right', $._type),
+      ),
 
     print_expression: $ => PREC.PRINT('print', $._expression),
 
@@ -457,29 +460,34 @@ module.exports = grammar({
       ),
 
     cast_expression: $ =>
-      PREC.CAST('(', fi.type($.primitive_type), ')', fi.value($._expression)),
+      PREC.CAST(
+        '(',
+        field('type', $.primitive_type),
+        ')',
+        field('value', $._expression),
+      ),
 
     ternary_expression: $ =>
       PREC.TERNARY(
-        fi.condition($._expression),
+        field('condition', $._expression),
         '?',
-        fi.body(op($._expression)),
+        field('body', op($._expression)),
         ':',
-        fi.alternative($._expression),
+        field('alternative', $._expression),
       ),
 
     lambda_expression: $ =>
       seq(
         op(alias('async', $.async_modifier)),
         choice(
-          fi.parameters($.variable),
-          seq(fi.parameters($.parameters), op($.return_type)),
+          field('parameters', $.variable),
+          seq(field('parameters', $.parameters), op($.return_type)),
         ),
         '==>',
-        fi.body($._expression, $.compound_statement),
+        field('body', $._expression, $.compound_statement),
       ),
 
-    return_type: $ => seq(':', fi.return_type($._type)),
+    return_type: $ => seq(':', field('return_type', $._type)),
 
     // Declarations
 
