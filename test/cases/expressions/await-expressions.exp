@@ -1,4 +1,9 @@
 (script
-  (expression_statement
-    (await_expression
-      (string))))
+  (function_declaration
+    name: (identifier)
+    parameters: (parameters)
+    return_type: (primitive_type)
+    body: (compound_statement
+      (expression_statement
+        (await_expression
+          (string))))))

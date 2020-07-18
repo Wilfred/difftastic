@@ -2,13 +2,15 @@
 
 set -e
 
+. bin/util.sh
+
 bin/generate-parser
 bin/generate-corpus
 
 printf "\033[1mRunning Tree-sitter tests...\033[0m\n"
-
 npx tree-sitter test
 
-printf "\033[1mGetting Hacklang errors...\033[0m\n"
+printf "\n"
 
-bin/get-errors hack test/cases/**/*.php
+printf "\033[1mGetting Hacklang errors...\033[0m\n"
+bin/get-errors hack test/cases/**/*.{php,hack}

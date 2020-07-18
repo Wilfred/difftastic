@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 
-nullglob=$(shopt -p nullglob) ; shopt -s nullglob
-globstar=$(shopt -p globstar) ; shopt -s globstar
+. bin/util.sh
 
 bin/get-errors examples/**/*.{php,hack} |
   # Display only file paths since there is a lot of errors right now. Maybe remove later?
   grep -E '(php|hack)$'
-
-$nullglob ; unset nullglob
-$globstar ; unset globstar

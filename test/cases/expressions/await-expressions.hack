@@ -1,1 +1,3 @@
-await 'await';
+function func(): void {
+  await 'await';
+}
