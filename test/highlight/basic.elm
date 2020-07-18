@@ -11,11 +11,7 @@ import Html.Events exposing (onClick)
 
 
 main =
--- <- local.definition
     Browser.sandbox { init = 0, update = update, view = view }
---      ^ local.reference
---              ^ local.reference
---                                          ^ local.reference
 
 
 type Msg
@@ -29,9 +25,7 @@ type Msg
 update : Msg -> Model
 -- <- entity.name.function.elm
 --     ^ keyword.other.elm
---        ^ local.reference
 --            ^ keyword.operator.arrow.elm
---                ^ local.reference
 
 update msg model =
     case msg of
@@ -46,8 +40,6 @@ update msg model =
             --      ^ constant.numeric.elm
 
 view model =
--- ^ local.definition
---     ^ local.definition
     --     ^ keyword.operator.assignment.elm
     div []
         [ button [ onClick Decrement ] [ text "-" ]
