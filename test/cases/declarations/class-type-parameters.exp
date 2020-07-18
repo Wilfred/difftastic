@@ -50,7 +50,7 @@
             type_constraint: (supertype_constraint
               (type_identifier
                 (identifier)))))
-        parameters: (parameters)
+        (parameters)
         return_type: (type_identifier
           (identifier))
         body: (compound_statement)))))

@@ -38,20 +38,20 @@
     body: (declaration_list
       (method_declaration
         name: (identifier)
-        parameters: (parameters)
+        (parameters)
         body: (compound_statement))
       (method_declaration
         (class_modifier)
         name: (identifier)
-        parameters: (parameters)
+        (parameters)
         return_type: (primitive_type)
         body: (compound_statement))
       (method_declaration
         (class_modifier)
         name: (identifier)
-        parameters: (parameters))
+        (parameters))
       (method_declaration
         (class_modifier)
         name: (identifier)
-        parameters: (parameters)
+        (parameters)
         return_type: (primitive_type)))))

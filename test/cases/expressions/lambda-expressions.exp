@@ -1,7 +1,7 @@
 (script
   (expression_statement
     (lambda_expression
-      parameters: (parameters
+      (parameters
         (parameter
           type: (primitive_type)
           name: (variable
@@ -13,7 +13,7 @@
         right: (integer))))
   (expression_statement
     (lambda_expression
-      parameters: (parameters
+      (parameters
         (parameter
           type: (primitive_type)
           name: (variable
@@ -24,7 +24,7 @@
         right: (integer))))
   (expression_statement
     (lambda_expression
-      parameters: (parameters
+      (parameters
         (parameter
           name: (variable
             (identifier))))
@@ -34,7 +34,7 @@
         right: (integer))))
   (expression_statement
     (lambda_expression
-      parameters: (variable
+      (parameters
         (identifier))
       body: (binary_expression
         left: (variable

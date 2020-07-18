@@ -2,7 +2,7 @@
   (function_declaration
     (async_modifier)
     name: (identifier)
-    parameters: (parameters)
+    (parameters)
     return_type: (primitive_type)
     body: (compound_statement))
   (function_declaration
@@ -13,12 +13,12 @@
         name: (identifier)
         type_constraint: (subtype_constraint
           (primitive_type))))
-    parameters: (parameters)
+    (parameters)
     body: (compound_statement))
   (expression_statement
     (lambda_expression
       (async_modifier)
-      parameters: (parameters
+      (parameters
         (parameter
           name: (variable
             (identifier))))
