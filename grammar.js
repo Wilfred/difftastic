@@ -27,6 +27,9 @@ const DART_PREC = {
     Assignment: 1, // =, *=, /=, +=, -=, &=, ˆ=, etc. Right
     BUILTIN: 0,
     TRY: 0,
+    // Added by Ben for experimentation.
+    SELECTOR_IN_PRIMARY: 1,
+    SELECTOR_IN_ASSIGNMENT: 0
 };
 
 // TODO: general things to add
@@ -82,7 +85,6 @@ module.exports = grammar({
         [$._primary, $.function_signature],
         [$._primary, $.function_signature, $._type_name],
         [$._primary, $._type_name],
-        [$.postfix_expression, $.assignable_expression, ],
         [$.variable_declaration, $.initialized_variable_definition, ],
         [$._final_const_var_or_type, $.function_signature, ],
         [$._primary, $._function_formal_parameter],
@@ -91,10 +93,7 @@ module.exports = grammar({
         [$._final_const_var_or_type, $._function_formal_parameter],
         [$._primary, $.constructor_param],
         [$._normal_formal_parameters],
-        [$.assignable_expression],
-        [$.assignable_selector_part, $.selector],
         [$.postfix_expression],
-        [$.assignable_expression, $._primary],
         [$._declared_identifier],
         [$.equality_expression],
         [$.relational_expression],
@@ -107,7 +106,6 @@ module.exports = grammar({
         [$._cascade_subsection],
         [$._expression],
         [$._real_expression, $._below_relational_expression],
-        [$._postfix_expression, $.assignable_expression],
         [$._postfix_expression],
         [$._top_level_definition, $.lambda_expression],
         [$._top_level_definition, $._final_const_var_or_type],
@@ -120,6 +118,17 @@ module.exports = grammar({
         [$.library_name, $.dotted_identifier_list],
         [$._top_level_definition, $.inferred_type],
         [$._final_const_var_or_type, $._top_level_definition, $.function_signature],
+        [$.assignable_selector_part, $.selector],
+        [$.assignable_selector_part, $._postfix_expression],
+        [$.assignable_selector_part, $.postfix_expression],
+        [$._primary, $.assignable_expression],
+        [$._simple_formal_parameter, $.assignable_expression],
+        [$.assignable_expression, $._primary, $._type_name],
+        [$.assignable_expression, $.postfix_expression],
+        [$.assignable_expression, $._postfix_expression],
+        [$.assignable_expression, $._type_name],
+        // [$.assignment_expression, $._expression],
+        [$.assignable_expression],
         [$._function_type_tail]
     ],
 
@@ -526,6 +535,13 @@ module.exports = grammar({
         //     ')',
         //     field('value', $._expression)
         // )),
+        /**************************************************************************************************
+         ***********************Assignment Expressions*****************************************************
+         ***************************************************************************************************
+         ****These are the assignment expressions from section 16.34 (Page 159) of the dart DRAFT**********
+         * specification. (Very different from the formal spec in this instance)****************************
+         ***************************************************************************************************
+         ***************************************************************************************************/
 
         assignment_expression: $ => prec.right(DART_PREC.Assignment, seq( //right
             field('left', $.assignable_expression),
@@ -540,23 +556,30 @@ module.exports = grammar({
         )),
 
         assignable_expression: $ => choice(
-            seq($._primary, repeat($.assignable_selector_part)), // dart issue?
+            seq($._primary, $.assignable_selector_part), // dart issue?
             seq($.super, $.unconditional_assignable_selector),
-            seq($.constructor_invocation, repeat1($.assignable_selector_part), $.identifier)
+            seq($.constructor_invocation, $.assignable_selector_part),
+            $.identifier
         ),
         assignable_selector_part: $ => seq(
-            repeat($.argument_part),
+            repeat($.selector),
             $.assignable_selector
         ),
-
-        _assignment_operator: $ => prec(
-            DART_PREC.BUILTIN,
-            seq(
-                //todo: use the op names in place of these.
-                choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>=', '??=')
-
-            )
-        ),
+        //'+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>=', '??='
+        //todo: use the op names in place of these.
+        _assignment_operator: $ => choice(
+                    '=',
+                    seq(
+                        choice(
+                            $._multiplicative_operator,
+                            $._shift_operator,
+                            $._bitwise_operator,
+                            $._additive_operator,
+                            '??'
+                        ),
+                        '='
+                    )
+                ),
 
         // binary_expression: $ => choice(
         //     ...[
@@ -730,25 +753,27 @@ module.exports = grammar({
         shift_expression: $ => binaryRunLeft($._real_expression, $.shift_operator, $.super, DART_PREC.Shift),
         additive_expression: $ => binaryRunLeft($._real_expression, $.additive_operator, $.super, DART_PREC.Additive),
         multiplicative_expression: $ => binaryRunLeft($._real_expression, $.multiplicative_operator, $.super, DART_PREC.Multiplicative),
-
-        bitwise_operator: $ => choice(
+        bitwise_operator: $ => $._bitwise_operator,
+        _bitwise_operator: $ => choice(
             '&',
             '^',
             '|'
         ),
-
-        shift_operator: $ => choice(
+        shift_operator: $ => $._shift_operator,
+        _shift_operator: $ => choice(
             '<<',
             '>>',
             '>>>',
         ),
-
-        additive_operator: $ => choice(
-            '+',
-            '-'
+        additive_operator: $ => $._additive_operator,
+        _additive_operator: $ => token(
+            choice(
+                '+',
+                '-'
+            )
         ),
-
-        multiplicative_operator: $ => choice(
+        multiplicative_operator: $ => $._multiplicative_operator,
+        _multiplicative_operator: $ => choice(
             '*',
             '/',
             '%',
@@ -784,7 +809,9 @@ module.exports = grammar({
         _postfix_expression: $ => choice(
             seq(
                 $._primary,
-                repeat($.selector)
+                repeat(
+                    $.selector
+                )
             ),
             $.postfix_expression
         ),
@@ -796,7 +823,9 @@ module.exports = grammar({
             ),
             seq(
                 $.constructor_invocation,
-                repeat($.selector)
+                repeat(
+                    $.selector
+                )
             )
         ),
 
@@ -815,7 +844,8 @@ module.exports = grammar({
         ),
 
         selector: $ => choice(
-            '!',
+            // '!',
+            $._exclamation_operator,
             $.assignable_selector,
             $.argument_part
         ),
@@ -827,7 +857,8 @@ module.exports = grammar({
         ),
 
         minus_operator: $ => '-',
-        negation_operator: $ => '!',
+        negation_operator: $ => $._exclamation_operator,
+        _exclamation_operator: $ => '!',
         tilde_operator: $ => '~',
 
         await_expression: $ => seq(
@@ -843,7 +874,7 @@ module.exports = grammar({
         is_operator: $ => seq(
             'is',
             optional(
-                '!'
+                $._exclamation_operator
             )
         ),
 
