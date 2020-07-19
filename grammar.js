@@ -96,12 +96,42 @@ module.exports = grammar({
   rules: {
     script: $ => seq(op(/<\?[hH][hH]/), repeat($._statement)),
 
+    // Statements
+
     _statement: $ =>
       choice(
         $._declaration,
         $.compound_statement,
         $.expression_statement,
+        $.if_statement,
         $.return_statement,
+        $.empty_statement,
+      ),
+
+    return_statement: $ => seq('return', op($._expression), ';'),
+
+    empty_statement: $ => ';',
+
+    if_statement: $ =>
+      prec.right(
+        seq(
+          'if',
+          field('this', $.parenthesized_expression),
+          field('then', $._statement),
+          repeat(
+            prec(
+              1,
+              seq(
+                // Match else-if (along with elseif) so long if-statements don't result
+                // in deeply nested nodes. Are there drawbacks?
+                choice('elseif', seq('else', 'if')),
+                field('this', $.parenthesized_expression),
+                field('then', $._statement),
+              ),
+            ),
+          ),
+          field.op('else', seq('else', $._statement)),
+        ),
       ),
 
     expression_statement: $ => seq($._expression, ';'),
@@ -563,10 +593,6 @@ module.exports = grammar({
         $._type,
         ';',
       ),
-
-    // Statements
-
-    return_statement: $ => seq('return', op($._expression), ';'),
 
     // https://github.com/tree-sitter/tree-sitter-javascript/blob/7303aff134ad1cc785ae816ef50b067d34d64b26/grammar.js#L835
     comment: $ =>
