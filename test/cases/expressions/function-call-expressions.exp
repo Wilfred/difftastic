@@ -45,7 +45,6 @@
         (argument
           (variadic_modifier)
           (vec
-            (vec_type)
             (integer)
             (integer)
             (integer))))))

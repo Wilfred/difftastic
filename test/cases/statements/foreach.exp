@@ -1,0 +1,36 @@
+(script
+  (foreach_statement
+    collection: (variable
+      (identifier))
+    value: (variable
+      (identifier))
+    body: (compound_statement))
+  (foreach_statement
+    collection: (varray)
+    key: (variable
+      (identifier))
+    value: (subscript_expression
+      (variable
+        (identifier))
+      (integer))
+    body: (compound_statement))
+  (foreach_statement
+    collection: (darray
+      (type_arguments
+        (primitive_type)
+        (primitive_type)))
+    value: (list_expression
+      (subscript_expression
+        (variable
+          (identifier))
+        (subscript_expression
+          (as_expression
+            left: (vec)
+            right: (primitive_type))
+          (integer)))
+      (variable
+        (identifier)))
+    body: (compound_statement))
+  (comment)
+  (comment)
+  (comment))

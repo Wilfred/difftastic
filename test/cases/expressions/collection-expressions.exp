@@ -1,19 +1,15 @@
 (script
   (expression_statement
-    (varray
-      (varray_type)))
+    (varray))
   (expression_statement
     (varray
-      (varray_type)
       (float)
       (integer)
       (true)))
   (expression_statement
-    (darray
-      (darray_type)))
+    (darray))
   (expression_statement
     (darray
-      (darray_type)
       (element_initializer
         (false)
         (null))
@@ -21,20 +17,16 @@
         (integer)
         (integer))))
   (expression_statement
-    (vec
-      (vec_type)))
+    (vec))
   (expression_statement
     (vec
-      (vec_type)
       (integer)
       (float)
       (true)))
   (expression_statement
-    (dict
-      (dict_type)))
+    (dict))
   (expression_statement
     (dict
-      (dict_type)
       (element_initializer
         (false)
         (null))
@@ -42,11 +34,9 @@
         (float)
         (integer))))
   (expression_statement
-    (keyset
-      (keyset_type)))
+    (keyset))
   (expression_statement
     (keyset
-      (keyset_type)
       (integer)
       (null)
       (float)
