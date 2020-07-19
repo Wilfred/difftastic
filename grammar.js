@@ -43,8 +43,10 @@ const rules = {
       $.expression_statement,
       $.return_statement,
       $.break_statement,
+      $.continue_statement,
       $.if_statement,
       $.switch_statement,
+      $.foreach_statement,
     ),
 
   empty_statement: $ => ';',
@@ -54,6 +56,8 @@ const rules = {
   return_statement: $ => seq('return', opt($._expression), ';'),
 
   break_statement: $ => seq('break', opt($._expression), ';'),
+
+  continue_statement: $ => seq('continue', opt($._expression), ';'),
 
   if_statement: $ =>
     PREC.if(
@@ -83,6 +87,18 @@ const rules = {
     seq('case', field('value', $._expression), ':', rep($._statement)),
 
   switch_default: $ => seq('default', ':', rep($._statement)),
+
+  foreach_statement: $ =>
+    seq(
+      'foreach',
+      '(',
+      field('collection', $._expression),
+      'as',
+      field('key', seq.opt($._variablish, '=>')),
+      field('value', $._variablish),
+      ')',
+      field('body', $._statement),
+    ),
 
   _expression: $ =>
     choice(
@@ -259,16 +275,32 @@ const rules = {
 
   element_initializer: $ => seq($._expression, '=>', $._expression),
 
-  varray: $ => seq($.varray_type, '[', com.opt($._expression, ','), ']'),
+  varray: $ =>
+    seq('varray', opt($.type_arguments), '[', com.opt($._expression, ','), ']'),
+
+  vec: $ =>
+    seq('vec', opt($.type_arguments), '[', com.opt($._expression, ','), ']'),
 
   darray: $ =>
-    seq($.darray_type, '[', com.opt($.element_initializer, ','), ']'),
+    seq(
+      'darray',
+      opt($.type_arguments),
+      '[',
+      com.opt($.element_initializer, ','),
+      ']',
+    ),
 
-  vec: $ => seq($.vec_type, '[', com.opt($._expression, ','), ']'),
+  dict: $ =>
+    seq(
+      'dict',
+      opt($.type_arguments),
+      '[',
+      com.opt($.element_initializer, ','),
+      ']',
+    ),
 
-  dict: $ => seq($.dict_type, '[', com.opt($.element_initializer, ','), ']'),
-
-  keyset: $ => seq($.keyset_type, '[', com.opt($._expression, ','), ']'),
+  keyset: $ =>
+    seq('keyset', opt($.type_arguments), '[', com.opt($._expression, ','), ']'),
 
   tuple: $ => seq('tuple', '(', com.opt($._expression, ','), ')'),
 
@@ -623,5 +655,10 @@ module.exports = grammar({
     [$._expression, $.primitive_type],
     [$._expression, $.function_call_expression],
     [$.shape, $.shape_type],
+    [$.varray, $.varray_type],
+    [$.darray, $.darray_type],
+    [$.vec, $.vec_type],
+    [$.dict, $.dict_type],
+    [$.keyset, $.keyset_type],
   ],
 });
