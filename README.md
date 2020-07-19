@@ -46,3 +46,12 @@ We use `bin/generate-corpus` to generate the `test/corpus/case1.txt` from indivi
 **`bin/test-corpus`**
 
 Run `bin/generate-corpus` and `bin/generate-parser` before running `tree-sitter test`.
+
+## References
+
+There's no published official Hacklang language spec so we have to make do.
+
+- [HHVM Blog](https://hhvm.com/blog/) - Good source of PHP language deprecations and language changes. For example, [goodbye `array()`](<https://hhvm.com/blog/2020/07/06/hhvm-4.65.html#breaking-changes:~:text=array()%20literals%20are%20no%20longer%20supported%20by%20the%20parser>).
+- [Hack Documentation](https://docs.hhvm.com/hack/) - Source at [hhvm/user-documentation](https://github.com/hhvm/user-documentation).
+- [Hack Parser Source](https://github.com/facebook/hhvm/tree/4da98da2f5ddc0989d3d150dddc1b06ee4087440/hphp/hack/src/parser)
+- [Hack Language Specification](https://github.com/facebookarchive/hack-langspec) - Deprecated :(
