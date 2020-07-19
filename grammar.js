@@ -39,15 +39,21 @@ const rules = {
     choice(
       $._declaration,
       $.compound_statement,
-      $.expression_statement,
-      $.if_statement,
-      $.return_statement,
       $.empty_statement,
+      $.expression_statement,
+      $.return_statement,
+      $.break_statement,
+      $.if_statement,
+      $.switch_statement,
     ),
+
+  empty_statement: $ => ';',
+
+  expression_statement: $ => seq($._expression, ';'),
 
   return_statement: $ => seq('return', opt($._expression), ';'),
 
-  empty_statement: $ => ';',
+  break_statement: $ => seq('break', opt($._expression), ';'),
 
   if_statement: $ =>
     PREC.if(
@@ -63,10 +69,20 @@ const rules = {
           field('then', $._statement),
         ),
       ),
-      field.opt('else', seq('else', $._statement)),
+      field('else', seq.opt('else', $._statement)),
     ),
 
-  expression_statement: $ => seq($._expression, ';'),
+  switch_statement: $ =>
+    seq(
+      'switch',
+      field('value', $.parenthesized_expression),
+      seq('{', choice.rep($.switch_case, $.switch_default), '}'),
+    ),
+
+  switch_case: $ =>
+    seq('case', field('value', $._expression), ':', rep($._statement)),
+
+  switch_default: $ => seq('default', ':', rep($._statement)),
 
   _expression: $ =>
     choice(

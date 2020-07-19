@@ -1,0 +1,6 @@
+(script
+  (switch_statement
+    value: (parenthesized_expression
+      (variable
+        (identifier)))
+    (switch_default)))

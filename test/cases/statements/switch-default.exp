@@ -1,0 +1,10 @@
+(script
+  (switch_statement
+    value: (parenthesized_expression
+      (variable
+        (identifier)))
+    (switch_default
+      (break_statement))
+    (switch_case
+      value: (integer)
+      (break_statement))))
