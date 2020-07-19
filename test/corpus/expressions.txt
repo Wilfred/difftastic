@@ -381,6 +381,88 @@ Simple non-null assertion
 my!.size = 1;
 
 ---
+(program
+    (expression_statement
+        (assignment_expression
+            (assignable_expression (identifier)
+                (assignable_selector_part
+                    (selector)
+                    (assignable_selector
+                        (unconditional_assignable_selector (identifier))
+                    )
+                )
+            )
+            (decimal_integer_literal)
+        )
+    )
+)
+
+==========================
+Simple non-null assertion alternative-test
+==========================
+
+my!.size += 1;
+
+---
+(program
+    (expression_statement
+        (assignment_expression
+            (assignable_expression (identifier)
+                (assignable_selector_part
+                    (selector)
+                    (assignable_selector
+                        (unconditional_assignable_selector (identifier))
+                    )
+                )
+            )
+            (decimal_integer_literal)
+        )
+    )
+)
+
+
+==========================
+Additional non-null assertion
+==========================
+
+my.size!.run();
+
+---
+
+(program
+    (expression_statement (identifier)
+        (selector
+            (assignable_selector (unconditional_assignable_selector (identifier)))) (selector)
+        (selector (assignable_selector (unconditional_assignable_selector (identifier))))
+        (selector (argument_part (arguments))))
+    )
+
+
+============================
+Simple assertion w/o nonnull
+============================
+
+my.size.whatever = 1;
+
+---
+(program
+    (expression_statement
+        (assignment_expression
+            (assignable_expression (identifier)
+                (assignable_selector_part
+                    (selector
+                        (assignable_selector
+                            (unconditional_assignable_selector (identifier)))
+                    )
+                    (assignable_selector
+                        (unconditional_assignable_selector  (identifier))
+                    )
+                )
+            )
+            (decimal_integer_literal)
+        )
+    )
+)
 
 
 ============================
