@@ -23,84 +23,95 @@
 
 ; Operators
 
-"--" @operator
-"-" @operator
-"-=" @operator
-":=" @operator
-"!" @operator
-"!=" @operator
-"..." @operator
-"*" @operator
-"*" @operator
-"*=" @operator
-"/" @operator
-"/=" @operator
-"&" @operator
-"&&" @operator
-"&=" @operator
-"%" @operator
-"%=" @operator
-"^" @operator
-"^=" @operator
-"+" @operator
-"++" @operator
-"+=" @operator
-"<-" @operator
-"<" @operator
-"<<" @operator
-"<<=" @operator
-"<=" @operator
-"=" @operator
-"==" @operator
-">" @operator
-">=" @operator
-">>" @operator
-">>=" @operator
-"|" @operator
-"|=" @operator
-"||" @operator
+[
+  "--"
+  "-"
+  "-="
+  ":="
+  "!"
+  "!="
+  "..."
+  "*"
+  "*"
+  "*="
+  "/"
+  "/="
+  "&"
+  "&&"
+  "&="
+  "%"
+  "%="
+  "^"
+  "^="
+  "+"
+  "++"
+  "+="
+  "<-"
+  "<"
+  "<<"
+  "<<="
+  "<="
+  "="
+  "=="
+  ">"
+  ">="
+  ">>"
+  ">>="
+  "|"
+  "|="
+  "||"
+] @operator
 
 ; Keywords
 
-"break" @keyword
-"case" @keyword
-"chan" @keyword
-"const" @keyword
-"continue" @keyword
-"default" @keyword
-"defer" @keyword
-"else" @keyword
-"fallthrough" @keyword
-"for" @keyword
-"func" @keyword
-"go" @keyword
-"goto" @keyword
-"if" @keyword
-"import" @keyword
-"interface" @keyword
-"map" @keyword
-"package" @keyword
-"range" @keyword
-"return" @keyword
-"select" @keyword
-"struct" @keyword
-"switch" @keyword
-"type" @keyword
-"var" @keyword
+[
+  "break"
+  "case"
+  "chan"
+  "const"
+  "continue"
+  "default"
+  "defer"
+  "else"
+  "fallthrough"
+  "for"
+  "func"
+  "go"
+  "goto"
+  "if"
+  "import"
+  "interface"
+  "map"
+  "package"
+  "range"
+  "return"
+  "select"
+  "struct"
+  "switch"
+  "type"
+  "var"
+] @keyword
 
 ; Literals
 
-(interpreted_string_literal) @string
-(raw_string_literal) @string
-(rune_literal) @string
+[
+  (interpreted_string_literal)
+  (raw_string_literal)
+  (rune_literal)
+] @string
+
 (escape_sequence) @escape
 
-(int_literal) @number
-(float_literal) @number
-(imaginary_literal) @number
+[
+  (int_literal)
+  (float_literal)
+  (imaginary_literal)
+] @number
 
-(true) @constant.builtin
-(false) @constant.builtin
-(nil) @constant.builtin
+[
+  (true)
+  (false)
+  (nil)
+] @constant.builtin
 
 (comment) @comment
