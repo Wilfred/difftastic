@@ -560,10 +560,13 @@ void _invoke(void callback()?, Zone? zone) {
 
 
 ==================================
-Get method (not keyword)
+Get and set methods (not keyword)
 ==================================
 
 String get(String hello) => 'A string $hello';
+class MyClass {
+  void set(String name, Object value) {}
+}
 
 ---
 
