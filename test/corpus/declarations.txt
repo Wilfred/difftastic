@@ -475,3 +475,56 @@ Type with Library Prefix
 const my.MyType newMyType = my.MyType();
 
 ---
+
+ (program
+    (type_identifier) (type_identifier)
+            (static_final_declaration_list
+                (static_final_declaration
+                        (identifier)
+                        (identifier) (selector
+                                        (assignable_selector (unconditional_assignable_selector (identifier)))
+                                     )
+                        (selector (argument_part (arguments)))
+                )
+            )
+ )
+
+==================================
+Type with Library Prefix Plus
+==================================
+
+const my.MyType newMyType;
+const my.MyType newMytype;
+
+---
+
+(program
+    (local_variable_declaration (initialized_variable_definition (type_identifier) (type_identifier) (identifier)))
+    (local_variable_declaration (initialized_variable_definition (type_identifier) (type_identifier) (identifier)))
+)
+
+==================================
+Type with Library Prefix Plus Final
+==================================
+
+final my.MyType newMyType = my.MyType();
+final my.MyType newMytype;
+
+if (blah) {
+    const my.myType newMyType = ggg;
+    const mytype = 2;
+}
+
+---
+
+(program
+    (local_variable_declaration (initialized_variable_definition (type_identifier) (type_identifier) (identifier) (identifier) (selector
+        (assignable_selector (unconditional_assignable_selector (identifier)))) (selector (argument_part (arguments)))))
+    (local_variable_declaration (initialized_variable_definition (type_identifier) (type_identifier) (identifier)))
+    (if_statement (parenthesized_expression (identifier))
+        (block
+            (local_variable_declaration (initialized_variable_definition (type_identifier) (type_identifier) (identifier) (identifier)))
+            (local_variable_declaration (initialized_variable_definition (identifier) (decimal_integer_literal)))
+        )
+    )
+)

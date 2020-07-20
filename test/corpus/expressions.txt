@@ -371,7 +371,53 @@ if (data['frame_count'] as int < 5) {
 
 ---
 
-(program )
+(program
+    (if_statement
+        (parenthesized_expression
+            (relational_expression
+                (relational_expression
+                    (identifier) (selector
+                                    (assignable_selector (unconditional_assignable_selector (string_literal)))
+                                 )
+                                 (type_cast (as_operator) (type_identifier))
+                )
+                    (relational_operator)
+                    (decimal_integer_literal)
+            )
+        )
+        (block)
+    )
+)
+
+
+
+===========================
+Type cast in if statement parenthesized
+===========================
+
+if ((data['frame_count'] as int) < 5) {
+
+}
+
+---
+
+(program
+    (if_statement
+        (parenthesized_expression
+            (relational_expression
+                (relational_expression
+                    (identifier) (selector
+                                    (assignable_selector (unconditional_assignable_selector (string_literal)))
+                                 )
+                                 (type_cast (as_operator) (type_identifier))
+                )
+                    (relational_operator)
+                    (decimal_integer_literal)
+            )
+        )
+        (block)
+    )
+)
 
 
 ==========================
@@ -472,3 +518,52 @@ Complex type cast in function call
 printStream(args['json'] as bool ? '' : 'hi');
 
 ---
+
+
+(program
+    (expression_statement
+        (identifier)
+        (selector
+            (argument_part
+                (arguments
+                    (conditional_expression
+                        (relational_expression (identifier)
+                            (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
+                            (type_cast (as_operator) (type_identifier))
+                        )
+                        (string_literal)
+                        (string_literal)
+                    )
+                )
+            )
+        )
+    )
+)
+
+============================
+Complex (parenthesized) type cast in function call
+============================
+
+printStream((args['json'] as bool) ? '' : 'hi');
+
+---
+
+(program
+    (expression_statement
+        (identifier)
+        (selector
+            (argument_part
+                (arguments
+                    (conditional_expression
+                        (relational_expression (identifier)
+                            (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
+                            (type_cast (as_operator) (type_identifier))
+                        )
+                        (string_literal)
+                        (string_literal)
+                    )
+                )
+            )
+        )
+    )
+)

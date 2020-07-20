@@ -153,12 +153,28 @@ complex string interpolation
 
 
 =============
-raw strings with backslashes
+raw strings single
 =============
 
 r'\';
 r'''\''';
+
+---
+(program
+    (expression_statement (string_literal))
+    (expression_statement (string_literal))
+)
+
+=============
+raw strings double
+=============
+
 r"\";
 r"""\""";
 
 ---
+
+(program
+    (expression_statement (string_literal))
+    (expression_statement (string_literal))
+)
