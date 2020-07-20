@@ -160,8 +160,8 @@ const rules = {
   while_statement: $ =>
     seq(
       'while',
-      field('this', $.parenthesized_expression),
-      field('then', $._statement),
+      field('condition', $.parenthesized_expression),
+      field('body', $._statement),
     ),
 
   do_statement: $ =>
