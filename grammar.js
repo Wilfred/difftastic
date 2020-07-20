@@ -1,5 +1,6 @@
 'use strict';
 
+// https://docs.hhvm.com/hack/expressions-and-operators/operator-precedence
 PREC(
   [prec.left, 'subscript'],
   [prec, 'clone'],
@@ -33,7 +34,17 @@ PREC(
 const rules = {
   script: $ => seq(opt(/<\?[hH][hH]/), rep($._statement)),
 
-  // Statements
+  identifier: $ => /[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*/,
+
+  qualified_identifier: $ =>
+    seq(opt('\\'), seq.rep($.identifier, '\\'), $.identifier),
+
+  scoped_identifier: $ => seq($.qualified_identifier, '::', $.identifier),
+
+  variable: $ => seq('$', $.identifier),
+
+  _variablish: $ =>
+    choice($.variable, $.list_expression, $.subscript_expression),
 
   _statement: $ =>
     choice(
@@ -52,9 +63,52 @@ const rules = {
       $.foreach_statement,
     ),
 
+  _declaration: $ =>
+    choice(
+      $.function_declaration,
+      $.class_declaration,
+      $.interface_declaration,
+      $.trait_declaration,
+      $.alias_declaration,
+    ),
+
+  _expression: $ =>
+    choice(
+      $.varray,
+      $.darray,
+      $.vec,
+      $.keyset,
+      $.dict,
+      $.tuple,
+      $.shape,
+      $._literal,
+      $._variablish,
+      $.parenthesized_expression,
+      $.binary_expression,
+      $.unary_expression,
+      $.assignment_expression,
+      $.augmented_assignment_expression,
+      $.is_expression,
+      $.as_expression,
+      $.fun_expression,
+      $.await_expression,
+      $.error_control_expression,
+      $.clone_expression,
+      $.cast_expression,
+      $.print_expression,
+      $.update_expression,
+      $.ternary_expression,
+      $.lambda_expression,
+      $.function_call_expression,
+    ),
+
+  // Statements
+
   empty_statement: $ => ';',
 
   expression_statement: $ => seq($._expression, ';'),
+
+  compound_statement: $ => seq('{', rep($._statement), '}'),
 
   return_statement: $ => seq('return', opt($._expression), ';'),
 
@@ -132,48 +186,6 @@ const rules = {
       field('body', $._statement),
     ),
 
-  _expression: $ =>
-    choice(
-      $.varray,
-      $.darray,
-      $.vec,
-      $.keyset,
-      $.dict,
-      $.tuple,
-      $.shape,
-      $._literal,
-      $._variablish,
-      $.parenthesized_expression,
-      $.binary_expression,
-      $.unary_expression,
-      $.assignment_expression,
-      $.augmented_assignment_expression,
-      $.is_expression,
-      $.as_expression,
-      $.fun_expression,
-      $.await_expression,
-      $.error_control_expression,
-      $.clone_expression,
-      $.cast_expression,
-      $.print_expression,
-      $.update_expression,
-      $.ternary_expression,
-      $.lambda_expression,
-      $.function_call_expression,
-    ),
-
-  identifier: $ => /[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*/,
-
-  qualified_identifier: $ =>
-    seq(opt('\\'), seq.rep($.identifier, '\\'), $.identifier),
-
-  scoped_identifier: $ => seq($.qualified_identifier, '::', $.identifier),
-
-  variable: $ => seq('$', $.identifier),
-
-  _variablish: $ =>
-    choice($.variable, $.list_expression, $.subscript_expression),
-
   // Literals
 
   _literal: $ => choice($.string, $.integer, $.float, $.true, $.false, $.null),
@@ -207,8 +219,6 @@ const rules = {
         /(re|b)?"(\\"|\\\\|\\?[^"\\])*"/,
       ),
     ),
-
-  list_expression: $ => seq('list', '(', com($._variablish, ','), ')'),
 
   // Types
 
@@ -267,6 +277,7 @@ const rules = {
     ),
 
   subtype_constraint: $ => seq('as', $._type),
+
   supertype_constraint: $ => seq('super', $._type),
 
   varray_type: $ => seq('varray', opt($.type_arguments)),
@@ -287,7 +298,7 @@ const rules = {
       '(',
       choice.opt(
         seq(
-          com($.field),
+          com($.field_specifier),
           seq.opt(',', seq.opt(alias('...', $.open_modifier), opt(','))),
         ),
         seq(alias('...', $.open_modifier), opt(',')),
@@ -295,7 +306,7 @@ const rules = {
       ')',
     ),
 
-  field: $ =>
+  field_specifier: $ =>
     seq(
       alias.opt('?', $.optional_modifier),
       choice($.string, $.scoped_identifier),
@@ -336,106 +347,19 @@ const rules = {
 
   tuple: $ => seq('tuple', '(', com.opt($._expression, ','), ')'),
 
+  shape: $ => seq('shape', '(', com.opt($.field_initializer, ','), ')'),
+
   field_initializer: $ =>
     seq(choice($.string, $.scoped_identifier), '=>', $._expression),
 
-  shape: $ => seq('shape', '(', com.opt($.field_initializer, ','), ')'),
-
-  // Classes and Functions
-
-  class_modifier: $ => choice('abstract', 'final'),
-
-  compound_statement: $ => seq('{', rep($._statement), '}'),
-
-  function_declaration: $ =>
-    seq($._function_declaration_header, field('body', $.compound_statement)),
-
-  _function_declaration_header: $ =>
-    seq(
-      alias.opt('async', $.async_modifier),
-      'function',
-      field('name', $.identifier),
-      opt($.type_parameters),
-      $.parameters,
-      seq.opt(':', field('return_type', $._type)),
-    ),
-
-  parameter: $ => seq(field.opt('type', $._type), field('name', $.variable)),
-
-  parameters: $ => seq('(', com.opt($.parameter, ','), ')'),
-
-  argument: $ =>
-    seq(
-      choice.opt(
-        alias('inout', $.inout_modifier),
-        alias('...', $.variadic_modifier),
-      ),
-      $._expression,
-    ),
-
-  arguments: $ => seq('(', com.opt($.argument, ','), ')'),
-
-  function_call_expression: $ =>
-    seq(
-      field(
-        'function',
-        choice(
-          seq($.qualified_identifier, opt($.type_arguments)),
-          $.subscript_expression,
-          $.variable,
-          $.parenthesized_expression,
-          $.lambda_expression,
-          $.function_call_expression,
-        ),
-      ),
-      $.arguments,
-    ),
-
-  trait_declaration: $ =>
-    seq(
-      'trait',
-      field('name', $.identifier),
-      opt($.type_parameters),
-      opt($.implements_clause),
-      field('body', $.declaration_list),
-    ),
-
-  interface_declaration: $ =>
-    seq(
-      'interface',
-      field('name', $.identifier),
-      opt($.type_parameters),
-      opt($.extends_clause),
-      field('body', $.declaration_list),
-    ),
-
-  class_declaration: $ =>
-    seq(
-      opt($.class_modifier),
-      opt($.class_modifier),
-      'class',
-      field('name', $.identifier),
-      opt($.type_parameters),
-      opt($.extends_clause),
-      opt($.implements_clause),
-      field('body', $.declaration_list),
-    ),
-
-  declaration_list: $ => seq('{', choice.rep($.method_declaration), '}'),
-
-  extends_clause: $ => seq('extends', com($._type)),
-
-  implements_clause: $ => seq('implements', com($._type)),
-
-  method_declaration: $ =>
-    seq(
-      opt($.class_modifier),
-      opt($.class_modifier),
-      $._function_declaration_header,
-      choice(field('body', $.compound_statement), ';'),
-    ),
-
   // Expressions
+
+  parenthesized_expression: $ => seq('(', $._expression, ')'),
+
+  subscript_expression: $ =>
+    PREC.subscript($._expression, '[', opt($._expression), ']'),
+
+  list_expression: $ => seq('list', '(', com($._variablish, ','), ')'),
 
   binary_expression: $ =>
     choice(
@@ -482,9 +406,6 @@ const rules = {
         seq(field('operator', '+'), field('operand', $._expression)),
       ),
     ),
-
-  subscript_expression: $ =>
-    PREC.subscript($._expression, '[', opt($._expression), ']'),
 
   assignment_expression: $ =>
     PREC.assignment(
@@ -546,8 +467,6 @@ const rules = {
 
   error_control_expression: $ => PREC.error('@', $._expression),
 
-  parenthesized_expression: $ => seq('(', $._expression, ')'),
-
   update_expression: $ =>
     choice(
       PREC.incp($._expression, choice('++', '--')),
@@ -582,16 +501,34 @@ const rules = {
       field('body', choice($._expression, $.compound_statement)),
     ),
 
-  // Declarations
-
-  _declaration: $ =>
-    choice(
-      $.function_declaration,
-      $.class_declaration,
-      $.interface_declaration,
-      $.trait_declaration,
-      $.alias_declaration,
+  function_call_expression: $ =>
+    seq(
+      field(
+        'function',
+        choice(
+          seq($.qualified_identifier, opt($.type_arguments)),
+          $.subscript_expression,
+          $.variable,
+          $.parenthesized_expression,
+          $.lambda_expression,
+          $.function_call_expression,
+        ),
+      ),
+      $.arguments,
     ),
+
+  arguments: $ => seq('(', com.opt($.argument, ','), ')'),
+
+  argument: $ =>
+    seq(
+      choice.opt(
+        alias('inout', $.inout_modifier),
+        alias('...', $.variadic_modifier),
+      ),
+      $._expression,
+    ),
+
+  // Declarations
 
   alias_declaration: $ =>
     seq(
@@ -603,7 +540,71 @@ const rules = {
       ';',
     ),
 
-  // https://github.com/tree-sitter/tree-sitter-javascript/blob/7303aff134ad1cc785ae816ef50b067d34d64b26/grammar.js#L835
+  function_declaration: $ =>
+    seq($._function_declaration_header, field('body', $.compound_statement)),
+
+  _function_declaration_header: $ =>
+    seq(
+      alias.opt('async', $.async_modifier),
+      'function',
+      field('name', $.identifier),
+      opt($.type_parameters),
+      $.parameters,
+      seq.opt(':', field('return_type', $._type)),
+    ),
+
+  parameters: $ => seq('(', com.opt($.parameter, ','), ')'),
+
+  parameter: $ => seq(field.opt('type', $._type), field('name', $.variable)),
+
+  trait_declaration: $ =>
+    seq(
+      'trait',
+      field('name', $.identifier),
+      opt($.type_parameters),
+      opt($.implements_clause),
+      field('body', $.declaration_list),
+    ),
+
+  interface_declaration: $ =>
+    seq(
+      'interface',
+      field('name', $.identifier),
+      opt($.type_parameters),
+      opt($.extends_clause),
+      field('body', $.declaration_list),
+    ),
+
+  class_declaration: $ =>
+    seq(
+      opt($.class_modifier),
+      opt($.class_modifier),
+      'class',
+      field('name', $.identifier),
+      opt($.type_parameters),
+      opt($.extends_clause),
+      opt($.implements_clause),
+      field('body', $.declaration_list),
+    ),
+
+  declaration_list: $ => seq('{', choice.rep($.method_declaration), '}'),
+
+  class_modifier: $ => choice('abstract', 'final'),
+
+  extends_clause: $ => seq('extends', com($._type)),
+
+  implements_clause: $ => seq('implements', com($._type)),
+
+  method_declaration: $ =>
+    seq(
+      opt($.class_modifier),
+      opt($.class_modifier),
+      $._function_declaration_header,
+      choice(field('body', $.compound_statement), ';'),
+    ),
+
+  // Misc
+
   comment: $ =>
     token(
       choice(
@@ -616,9 +617,6 @@ const rules = {
 
 /**
  * Precence based on order. Indirection overkill but I couldn't help myself.
- *
- * https://docs.hhvm.com/hack/expressions-and-operators/operator-precedence
- * https://github.com/hhvm/user-documentation/commit/6d1f94161af68b225d0b5369998de9727cb6e2fc
  */
 function PREC(...args) {
   args.reverse().forEach(([prec, ...names], index) =>
