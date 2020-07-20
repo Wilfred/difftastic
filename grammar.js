@@ -94,6 +94,7 @@ module.exports = grammar({
         [$._final_const_var_or_type, $.function_signature, ],
         [$._primary, $._function_formal_parameter],
         [$._primary, $._simple_formal_parameter],
+        [$._primary, $.labeled_statement],
         [$._primary, $._type_name, $._function_formal_parameter],
         [$._final_const_var_or_type, $._function_formal_parameter],
         [$._primary, $.constructor_param],
@@ -1085,7 +1086,7 @@ module.exports = grammar({
             $._expression_without_cascade
         ),
         cascade_selector: $ => choice(
-            seq('[', $._expression, ']'),
+            seq(optional($._nullable_type), '[', $._expression, ']'),
             $.identifier
         ),
         argument_part: $ => seq(
@@ -1100,7 +1101,7 @@ module.exports = grammar({
         ),
 
         unconditional_assignable_selector: $ => choice(
-            seq('[', $._expression, ']'),
+            seq(optional($._nullable_type), '[', $._expression, ']'),
             seq('.', $.identifier)
         ),
 
@@ -1159,7 +1160,7 @@ module.exports = grammar({
             $.yield_each_statement,
             $.expression_statement,
             $.assert_statement,
-            // $.labeled_statement,
+            $.labeled_statement,
             $.lambda_expression
         ),
 
@@ -1508,7 +1509,7 @@ module.exports = grammar({
 
         enum_body: $ => seq(
             '{',
-            commaSep1($.enum_constant),
+            commaSep1TrailingComma($.enum_constant),
             '}'
         ),
 
@@ -1522,8 +1523,9 @@ module.exports = grammar({
                 $._type_name, 
                 optional($.type_parameters), 
                 '=', $.function_type, ';'),
+
             seq($._typedef, 
-                optional($._type_name), 
+                optional($._type), 
                 $._type_name, 
                 $._formal_parameter_part, ';'),
         ),
@@ -1976,15 +1978,15 @@ module.exports = grammar({
             $.void_type
         ),
         _type_not_void_not_function: $ => prec.right(
-            choice(
+            // choice(
                 seq(
                     $._type_name,
                     optional($._nullable_type),
                     optional($.type_arguments),
                     optional($._nullable_type)
                 ),
-                $._function_builtin_identifier
-            )
+                // $._function_builtin_identifier
+            // )
         ),
 
         function_type: $ => prec.right(
@@ -2002,7 +2004,7 @@ module.exports = grammar({
             $._function_builtin_identifier,
             optional($.type_parameters),
             optional($._nullable_type),
-            $.parameter_type_list,
+            optional($.parameter_type_list),
             optional($._nullable_type),
         ),
 
