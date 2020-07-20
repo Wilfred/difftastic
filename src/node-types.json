@@ -2608,6 +2608,10 @@
           "named": true
         },
         {
+          "type": "factory_constructor_signature",
+          "named": true
+        },
+        {
           "type": "function_signature",
           "named": true
         },
@@ -3215,6 +3219,10 @@
           "named": true
         },
         {
+          "type": "declaration",
+          "named": true
+        },
+        {
           "type": "function_body",
           "named": true
         },
@@ -3259,6 +3267,16 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "on_type_arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_arguments",
             "named": true
           }
         ]

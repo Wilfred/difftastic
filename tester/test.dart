@@ -13,7 +13,7 @@ import 'package:dshell/dshell.dart';
 ///
  var lines = 0;
   final sectionSize = 100;
-  final maxPrint = 30;
+  final maxPrint = 500;
   var linesPrinted = 0;
   var errorLines = 0;
 void main(List<String> args) async {

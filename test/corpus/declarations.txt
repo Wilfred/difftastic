@@ -554,3 +554,22 @@ Get method (not keyword)
 String get(String hello) => 'A string $hello';
 
 ---
+
+==================================
+external factories
+==================================
+
+class LinkedHashMap {
+  external factory LinkedHashMap();
+
+
+  external factory LinkedHashMap.identity();
+}
+
+---
+
+(program 
+  (class_definition (identifier) 
+    (class_body 
+      (declaration (factory_constructor_signature (identifier) (formal_parameter_list))) 
+      (declaration (factory_constructor_signature (identifier) (identifier) (formal_parameter_list))))))

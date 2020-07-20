@@ -1549,9 +1549,10 @@ module.exports = grammar({
             seq(
                 'extension',
                 optional(field('name', $.identifier)),
+                optional(field('type_parameters', $.type_parameters)),
                 'on',
                 field('class', $.identifier),
-                optional(field('type_parameters', $.type_parameters)),
+                optional(field('on_type_arguments', $.type_arguments)),
                 field('body', $.extension_body)
             ),
         ),
@@ -1632,12 +1633,15 @@ module.exports = grammar({
         extension_body: $ => seq(
             '{',
             repeat(
-                seq(
-                    optional($._metadata),
+                choice(
+                    seq($.declaration, $._semicolon),
                     seq(
-                        $.method_signature,
-                        $.function_body
-                    ),
+                        optional($._metadata),
+                        seq(
+                            $.method_signature,
+                            $.function_body
+                        ),
+                    )
                 )
             ),
             '}'
@@ -1680,6 +1684,9 @@ module.exports = grammar({
         declaration: $ => choice(
             seq($.constant_constructor_signature, optional(choice($.redirection, $.initializers))),
             seq($.constructor_signature, optional(choice($.redirection, $.initializers))),
+            seq($._external,
+                $.factory_constructor_signature
+            ),
             seq($._external,
                 $.constant_constructor_signature
             ),
@@ -2085,7 +2092,7 @@ module.exports = grammar({
         _method_header: $ => seq(
             optional(seq(
                 field('type_parameters', $.type_parameters),
-                optional($._metadata)
+                optional($._metadata),
             )),
             field('type', $._type),
             $._method_declarator,
