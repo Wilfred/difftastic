@@ -2,8 +2,9 @@
 
 (type_identifier) @type
 (predefined_type) @type.builtin
+
 ((identifier) @type
- (match? @type "^[A-Z]"))
+ (#match? @type "^[A-Z]"))
 
 (type_arguments
   "<" @punctuation.bracket
@@ -16,16 +17,18 @@
 
 ; Keywords
 
-"abstract" @keyword
-"declare" @keyword
-"enum" @keyword
-"export" @keyword
-"implements" @keyword
-"interface" @keyword
-"keyof" @keyword
-"namespace" @keyword
-"private" @keyword
-"protected" @keyword
-"public" @keyword
-"type" @keyword
-(readonly) @keyword
+[
+  "abstract"
+  "declare"
+  "enum"
+  "export"
+  "implements"
+  "interface"
+  "keyof"
+  "namespace"
+  "private"
+  "protected"
+  "public"
+  "type"
+  (readonly)
+] @keyword

@@ -13,7 +13,7 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.16.7",
+    "tree-sitter-cli": "^0.16.9",
     "tree-sitter-javascript": "tree-sitter/tree-sitter-javascript"
   },
   "scripts": {
@@ -40,6 +40,9 @@
       "locals": [
         "queries/locals.scm",
         "node_modules/tree-sitter-javascript/queries/locals.scm"
+      ],
+      "tags": [
+        "node_modules/tree-sitter-javascript/queries/tags.scm"
       ],
       "injections": "node_modules/tree-sitter-javascript/queries/injections.scm",
       "injection-regex": "^(ts|typescript)$"
@@ -71,6 +74,9 @@
         "node_modules/tree-sitter-javascript/queries/highlights.scm"
       ],
       "locals": "node_modules/tree-sitter-javascript/queries/locals.scm",
+      "tags": [
+        "node_modules/tree-sitter-javascript/queries/tags.scm"
+      ],
       "injections": "node_modules/tree-sitter-javascript/queries/injections.scm",
       "content-regex": "@flow"
     }
