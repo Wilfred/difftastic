@@ -270,9 +270,9 @@ const rules = {
         alias('-', $.contravariant_modifier),
       ),
       field('name', $.identifier),
-      field.opt(
+      field(
         'type_constraint',
-        choice($.subtype_constraint, $.supertype_constraint),
+        choice.opt($.subtype_constraint, $.supertype_constraint),
       ),
     ),
 
@@ -485,7 +485,7 @@ const rules = {
     PREC.ternary(
       field('condition', $._expression),
       '?',
-      field.opt('body', $._expression),
+      field('body', opt($._expression)),
       ':',
       field('alternative', $._expression),
     ),
@@ -555,7 +555,7 @@ const rules = {
 
   parameters: $ => seq('(', com.opt($.parameter, ','), ')'),
 
-  parameter: $ => seq(field.opt('type', $._type), field('name', $.variable)),
+  parameter: $ => seq(field('type', opt($._type)), field('name', $.variable)),
 
   trait_declaration: $ =>
     seq(
@@ -639,14 +639,7 @@ function com(...rules) {
   }
 }
 
-// prettier-ignore
-[
-  field,
-  seq,
-  choice,
-  alias,
-  com,
-].forEach(func => {
+[seq, choice, alias, com].forEach(func => {
   func.opt = (...args) => optional(func(...args));
   func.rep = (...args) => repeat(func(...args));
 });
