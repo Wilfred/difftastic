@@ -1696,11 +1696,13 @@ module.exports = grammar({
             ),
             seq(
                 optional($._external_and_static),
-                $.getter_signature
+                $.getter_signature,
+                optional($._native),
             ),
             seq(
                 optional($._external_and_static),
-                $.setter_signature
+                $.setter_signature,
+                optional($._native),
 
             ),
             seq(
@@ -1709,7 +1711,8 @@ module.exports = grammar({
             ),
             seq(
                 optional($._external_and_static),
-                $.function_signature
+                $.function_signature,
+                optional($._native),
             ),
             seq(
                 $._static,
@@ -2356,6 +2359,9 @@ module.exports = grammar({
         ),
         _get: $ => token(
             'get',
+        ),
+        _native: $ => token(
+            'native',
         ),
         _implements: $ => prec(
             DART_PREC.BUILTIN,
