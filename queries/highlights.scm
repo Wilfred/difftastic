@@ -35,11 +35,14 @@
   name: (identifier) @type)
 
 (type_identifier) @type
-(boolean_type) @type.builtin
-(integral_type) @type.builtin
-(floating_point_type) @type.builtin
-(floating_point_type) @type.builtin
-(void_type) @type.builtin
+
+[
+  (boolean_type)
+  (integral_type)
+  (floating_point_type)
+  (floating_point_type)
+  (void_type)
+] @type.builtin
 
 ; Variables
 
@@ -52,65 +55,75 @@
 
 ; Literals
 
-(hex_integer_literal) @number
-(decimal_integer_literal) @number
-(octal_integer_literal) @number
-(decimal_floating_point_literal) @number
-(hex_floating_point_literal) @number
-(character_literal) @string
-(string_literal) @string
-(true) @constant.builtin
-(false) @constant.builtin
-(null_literal) @constant.builtin
+[
+  (hex_integer_literal)
+  (decimal_integer_literal)
+  (octal_integer_literal)
+  (decimal_floating_point_literal)
+  (hex_floating_point_literal)
+] @number
+
+[
+  (character_literal)
+  (string_literal)
+] @string
+
+[
+  (true)
+  (false)
+  (null_literal)
+] @constant.builtin
 
 (comment) @comment
 
 ; Keywords
 
-"abstract" @keyword
-"assert" @keyword
-"break" @keyword
-"case" @keyword
-"catch" @keyword
-"class" @keyword
-"continue" @keyword
-"default" @keyword
-"do" @keyword
-"else" @keyword
-"enum" @keyword
-"exports" @keyword
-"extends" @keyword
-"final" @keyword
-"finally" @keyword
-"for" @keyword
-"if" @keyword
-"implements" @keyword
-"import" @keyword
-"instanceof" @keyword
-"interface" @keyword
-"module" @keyword
-"native" @keyword
-"new" @keyword
-"open" @keyword
-"opens" @keyword
-"package" @keyword
-"private" @keyword
-"protected" @keyword
-"provides" @keyword
-"public" @keyword
-"requires" @keyword
-"return" @keyword
-"static" @keyword
-"strictfp" @keyword
-"switch" @keyword
-"synchronized" @keyword
-"throw" @keyword
-"throws" @keyword
-"to" @keyword
-"transient" @keyword
-"transitive" @keyword
-"try" @keyword
-"uses" @keyword
-"volatile" @keyword
-"while" @keyword
-"with" @keyword
+[
+  "abstract"
+  "assert"
+  "break"
+  "case"
+  "catch"
+  "class"
+  "continue"
+  "default"
+  "do"
+  "else"
+  "enum"
+  "exports"
+  "extends"
+  "final"
+  "finally"
+  "for"
+  "if"
+  "implements"
+  "import"
+  "instanceof"
+  "interface"
+  "module"
+  "native"
+  "new"
+  "open"
+  "opens"
+  "package"
+  "private"
+  "protected"
+  "provides"
+  "public"
+  "requires"
+  "return"
+  "static"
+  "strictfp"
+  "switch"
+  "synchronized"
+  "throw"
+  "throws"
+  "to"
+  "transient"
+  "transitive"
+  "try"
+  "uses"
+  "volatile"
+  "while"
+  "with"
+] @keyword
