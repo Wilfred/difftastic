@@ -47,6 +47,7 @@ const rules = {
       $.if_statement,
       $.while_statement,
       $.do_statement,
+      $.for_statement,
       $.switch_statement,
       $.foreach_statement,
     ),
@@ -116,6 +117,19 @@ const rules = {
       'while',
       field('condition', $.parenthesized_expression),
       ';',
+    ),
+
+  for_statement: $ =>
+    seq(
+      'for',
+      '(',
+      com.opt($._expression),
+      ';',
+      com.opt($._expression),
+      ';',
+      com.opt($._expression),
+      ')',
+      field('body', $._statement),
     ),
 
   _expression: $ =>

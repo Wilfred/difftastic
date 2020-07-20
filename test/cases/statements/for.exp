@@ -1,0 +1,46 @@
+(script
+  (for_statement
+    body: (expression_statement
+      (integer)))
+  (for_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (integer))
+    (binary_expression
+      left: (variable
+        (identifier))
+      right: (integer))
+    (update_expression
+      (variable
+        (identifier)))
+    body: (expression_statement
+      (integer)))
+  (for_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (integer))
+    (binary_expression
+      left: (variable
+        (identifier))
+      right: (integer))
+    (update_expression
+      (variable
+        (identifier)))
+    (binary_expression
+      left: (variable
+        (identifier))
+      right: (integer))
+    (update_expression
+      (variable
+        (identifier)))
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (function_call_expression
+        function: (qualified_identifier
+          (identifier))
+        (arguments)))
+    body: (expression_statement
+      (integer))))
