@@ -5784,6 +5784,22 @@
               ]
             },
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "type_parameters",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "type_parameters"
+                  }
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
               "type": "STRING",
               "value": "on"
             },
@@ -5800,10 +5816,10 @@
               "members": [
                 {
                   "type": "FIELD",
-                  "name": "type_parameters",
+                  "name": "on_type_arguments",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "type_parameters"
+                    "name": "type_arguments"
                   }
                 },
                 {
@@ -6170,17 +6186,18 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SEQ",
+            "type": "CHOICE",
             "members": [
               {
-                "type": "CHOICE",
+                "type": "SEQ",
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "_metadata"
+                    "name": "declaration"
                   },
                   {
-                    "type": "BLANK"
+                    "type": "SYMBOL",
+                    "name": "_semicolon"
                   }
                 ]
               },
@@ -6188,12 +6205,29 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "method_signature"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_metadata"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "function_body"
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "method_signature"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "function_body"
+                      }
+                    ]
                   }
                 ]
               }
@@ -6423,6 +6457,19 @@
                   "type": "BLANK"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_external"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "factory_constructor_signature"
             }
           ]
         },
