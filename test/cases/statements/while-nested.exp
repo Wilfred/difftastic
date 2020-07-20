@@ -1,0 +1,19 @@
+(script
+  (while_statement
+    this: (parenthesized_expression
+      (integer))
+    then: (while_statement
+      this: (parenthesized_expression
+        (integer))
+      then: (expression_statement
+        (integer))))
+  (while_statement
+    this: (parenthesized_expression
+      (integer))
+    then: (compound_statement
+      (while_statement
+        this: (parenthesized_expression
+          (integer))
+        then: (compound_statement
+          (expression_statement
+            (integer)))))))

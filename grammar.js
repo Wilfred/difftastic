@@ -45,6 +45,8 @@ const rules = {
       $.break_statement,
       $.continue_statement,
       $.if_statement,
+      $.while_statement,
+      $.do_statement,
       $.switch_statement,
       $.foreach_statement,
     ),
@@ -62,15 +64,15 @@ const rules = {
   if_statement: $ =>
     PREC.if(
       'if',
-      field('this', $.parenthesized_expression),
-      field('then', $._statement),
+      field('condition', $.parenthesized_expression),
+      field('body', $._statement),
       rep(
         PREC.elseif(
           // Match else-if (along with elseif) so long if-statements don't result
           // in deeply nested nodes. Are there drawbacks?
           choice('elseif', seq('else', 'if')),
-          field('this', $.parenthesized_expression),
-          field('then', $._statement),
+          field('condition', $.parenthesized_expression),
+          field('body', $._statement),
         ),
       ),
       field('else', seq.opt('else', $._statement)),
@@ -98,6 +100,22 @@ const rules = {
       field('value', $._variablish),
       ')',
       field('body', $._statement),
+    ),
+
+  while_statement: $ =>
+    seq(
+      'while',
+      field('this', $.parenthesized_expression),
+      field('then', $._statement),
+    ),
+
+  do_statement: $ =>
+    seq(
+      'do',
+      field('body', $._statement),
+      'while',
+      field('condition', $.parenthesized_expression),
+      ';',
     ),
 
   _expression: $ =>
