@@ -551,6 +551,6 @@ void _invoke(void callback()?, Zone? zone) {
 Get method (not keyword)
 ==================================
 
-String get(String hello) => 'A string';
+String get(String hello) => 'A string $hello';
 
 ---

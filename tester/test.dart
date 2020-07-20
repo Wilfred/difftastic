@@ -11,25 +11,37 @@ import 'package:dshell/dshell.dart';
 ///
 /// For details on installing dshell.
 ///
-
-void main(List<String> args) {
+ var lines = 0;
+  final sectionSize = 100;
+  final maxPrint = 30;
+  var linesPrinted = 0;
+  var errorLines = 0;
+void main(List<String> args) async {
   if (args.length < 1) {
     print("Usage: dart test.dart /path/to/directory/for/testing");
   }
-  final files = [];
+  final files = <String>[];
   find('*.dart', root: args[0], includeHidden: false).forEach((file) {
     files.add(file);
   });
-  var lines = 0;
-  final sectionSize = 100;
-  final maxPrint = 300;
-  var linesPrinted = 0;
-  var errorLines = 0;
+ 
+  final results = <Future<void>>[];
   for (var i = 0; i < files.length; i += sectionSize) {
-    final result = Process.runSync('tree-sitter', [
+    final sublist = files.sublist(
+          i, i + sectionSize < files.length ? i + sectionSize : files.length);
+   results.add(runTreeSitter(sublist));
+  }
+  await Future.wait(results);
+  print('Processed $lines lines of tree-sitter output');
+  print('Error lines $errorLines');
+  print('Error percentage ${errorLines * 100 / lines}%');
+}
+
+
+Future<void> runTreeSitter(List<String> files) async {
+   final result = await Process.run('tree-sitter', [
       'parse',
-      ...files.sublist(
-          i, i + sectionSize < files.length ? i + sectionSize : files.length)
+      ...files
     ]);
     for (final line in result.stdout.split('\n')) {
       lines++;
@@ -41,8 +53,4 @@ void main(List<String> args) {
         }
       }
     }
-  }
-  print('Processed $lines lines of tree-sitter output');
-  print('Error lines $errorLines');
-  print('Error percentage ${errorLines * 100 / lines}%');
 }
