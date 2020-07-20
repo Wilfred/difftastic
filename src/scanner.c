@@ -5,8 +5,9 @@ enum TokenType {
   AUTOMATIC_SEMICOLON,
   TEMPLATE_CHARS_SINGLE,
   TEMPLATE_CHARS_DOUBLE,
-    TEMPLATE_CHARS_SINGLE_SINGLE,
-    TEMPLATE_CHARS_DOUBLE_SINGLE
+  TEMPLATE_CHARS_SINGLE_SINGLE,
+  TEMPLATE_CHARS_DOUBLE_SINGLE,
+  TEMPLATE_CHARS_RAW_SLASH
 };
 
 void *tree_sitter_dart_external_scanner_create() { return NULL; }
@@ -87,7 +88,13 @@ bool tree_sitter_dart_external_scanner_scan(void *payload, TSLexer *lexer,
 //                   break;
                     return has_content;
                  case '\\':
-                   return has_content;
+                    if (valid_symbols[TEMPLATE_CHARS_RAW_SLASH]) {
+                        lexer->result_symbol = TEMPLATE_CHARS_RAW_SLASH;
+                        advance(lexer);
+                    } else {
+                        return false;
+                    }
+                    break;
                  default:
                    advance(lexer);
                }

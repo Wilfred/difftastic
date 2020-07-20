@@ -55,7 +55,7 @@ dart string literals raw
 =========================================
 
 get a => "";
-get a => r"\"";
+get a => r"\";
 get a => """This' is a string $mystring""";
 get a => '''This" is a $
 string mystring''';
@@ -335,4 +335,3 @@ class MyClass {
       (formal_parameter_list (formal_parameter (type_identifier) (identifier))))) 
         (function_body (block (expression_statement (assignment_expression (assignable_expression (identifier)) (identifier))))))))
 
-        
