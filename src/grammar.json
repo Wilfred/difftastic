@@ -6521,6 +6521,18 @@
             {
               "type": "SYMBOL",
               "name": "getter_signature"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_native"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           ]
         },
@@ -6542,6 +6554,18 @@
             {
               "type": "SYMBOL",
               "name": "setter_signature"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_native"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           ]
         },
@@ -6584,6 +6608,18 @@
             {
               "type": "SYMBOL",
               "name": "function_signature"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_native"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           ]
         },
@@ -9390,6 +9426,13 @@
       "content": {
         "type": "STRING",
         "value": "get"
+      }
+    },
+    "_native": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "native"
       }
     },
     "_implements": {
