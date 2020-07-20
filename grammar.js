@@ -2259,7 +2259,8 @@ module.exports = grammar({
                 $._type
             ),
             $.identifier,
-            $._formal_parameter_part
+            $._formal_parameter_part,
+            optional($._nullable_type)
         ),
 
         _simple_formal_parameter: $ => choice(
