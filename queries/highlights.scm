@@ -5,6 +5,8 @@
 (attribute_value) @string
 (comment) @comment
 
-"<" @punctuation.bracket
-">" @punctuation.bracket
-"</" @punctuation.bracket
+[
+  "<"
+  ">"
+  "</"
+] @punctuation.bracket
