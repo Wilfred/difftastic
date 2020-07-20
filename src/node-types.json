@@ -8112,6 +8112,11 @@
     }
   },
   {
+    "type": "relational_operator",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "return_statement",
     "named": true,
     "fields": {},
@@ -10359,6 +10364,10 @@
     "named": false
   },
   {
+    "type": "<=",
+    "named": false
+  },
+  {
     "type": "=",
     "named": false
   },
@@ -10372,6 +10381,10 @@
   },
   {
     "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
     "named": false
   },
   {
@@ -10653,10 +10666,6 @@
   {
     "type": "r'''",
     "named": false
-  },
-  {
-    "type": "relational_operator",
-    "named": true
   },
   {
     "type": "required",

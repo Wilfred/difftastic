@@ -528,3 +528,29 @@ if (blah) {
         )
     )
 )
+
+
+==================================
+Null function argument
+==================================
+
+void _invoke(void callback()?, Zone? zone) {
+}
+
+---
+
+(program 
+  (function_signature (void_type) (identifier) 
+    (formal_parameter_list 
+      (formal_parameter (void_type) (identifier) (formal_parameter_list)) 
+      (formal_parameter (type_identifier) (identifier)))) 
+    (function_body (block)))
+
+
+==================================
+Get method (not keyword)
+==================================
+
+String get(String hello) => 'A string';
+
+---
