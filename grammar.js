@@ -137,6 +137,7 @@ module.exports = grammar({
         [$._type_name],
         // [$.assignment_expression, $._expression],
         [$.assignable_expression],
+        [$.method_signature, $.declaration, $._static_or_covariant],
         // [$.type_cast_expression],
         [$._real_expression, $._below_relational_type_cast_expression],
         [$._below_relational_expression, $._below_relational_type_cast_expression],
@@ -1658,13 +1659,15 @@ module.exports = grammar({
         getter_signature: $ => seq(
             optional($._type),
             $._get,
-            $.identifier
+            $.identifier,
+            optional($._native)
         ),
         setter_signature: $ => seq(
             optional($._type),
             $._set,
             field('name', $.identifier),
-            $._formal_parameter_part
+            $._formal_parameter_part,
+            optional($._native)
         ),
         method_signature: $ => choice(
             seq($.constructor_signature, optional($.initializers)),
@@ -1684,8 +1687,12 @@ module.exports = grammar({
         declaration: $ => choice(
             seq($.constant_constructor_signature, optional(choice($.redirection, $.initializers))),
             seq($.constructor_signature, optional(choice($.redirection, $.initializers))),
-            seq($._external,
+            seq($._external,optional($._const_builtin),
                 $.factory_constructor_signature
+            ),
+            seq(
+                optional($._const_builtin),
+                $.factory_constructor_signature, $._native
             ),
             seq($._external,
                 $.constant_constructor_signature
@@ -1697,14 +1704,12 @@ module.exports = grammar({
             seq(
                 optional($._external_and_static),
                 $.getter_signature,
-                optional($._native),
             ),
             seq(
                 optional($._external_and_static),
                 $.setter_signature,
-                optional($._native),
-
             ),
+            
             seq(
                 optional($._external),
                 $.operator_signature
@@ -1712,7 +1717,11 @@ module.exports = grammar({
             seq(
                 optional($._external_and_static),
                 $.function_signature,
-                optional($._native),
+            ),
+            // TODO: This should only work with native?
+            seq(
+                $._static,
+                $.function_signature,
             ),
             seq(
                 $._static,
@@ -2143,7 +2152,8 @@ module.exports = grammar({
             // optional($._metadata),
             optional($._type),
             field('name', $.identifier),
-            $._formal_parameter_part
+            $._formal_parameter_part,
+            optional($._native)
         ),
 
         _formal_parameter_part: $ => seq(
@@ -2360,8 +2370,8 @@ module.exports = grammar({
         _get: $ => token(
             'get',
         ),
-        _native: $ => token(
-            'native',
+        _native: $ => seq(
+            'native', optional($.string_literal)
         ),
         _implements: $ => prec(
             DART_PREC.BUILTIN,

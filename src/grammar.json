@@ -6293,6 +6293,18 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_native"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -6326,6 +6338,18 @@
         {
           "type": "SYMBOL",
           "name": "_formal_parameter_part"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_native"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -6468,8 +6492,45 @@
               "name": "_external"
             },
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_const_builtin"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
               "type": "SYMBOL",
               "name": "factory_constructor_signature"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_const_builtin"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "factory_constructor_signature"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_native"
             }
           ]
         },
@@ -6521,18 +6582,6 @@
             {
               "type": "SYMBOL",
               "name": "getter_signature"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_native"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
             }
           ]
         },
@@ -6554,18 +6603,6 @@
             {
               "type": "SYMBOL",
               "name": "setter_signature"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_native"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
             }
           ]
         },
@@ -6608,18 +6645,19 @@
             {
               "type": "SYMBOL",
               "name": "function_signature"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_static"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_native"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "function_signature"
             }
           ]
         },
@@ -8568,6 +8606,18 @@
         {
           "type": "SYMBOL",
           "name": "_formal_parameter_part"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_native"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -9429,11 +9479,25 @@
       }
     },
     "_native": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "native"
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "native"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "string_literal"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "_implements": {
       "type": "PREC",
@@ -9853,6 +9917,11 @@
     ],
     [
       "assignable_expression"
+    ],
+    [
+      "method_signature",
+      "declaration",
+      "_static_or_covariant"
     ],
     [
       "_real_expression",
