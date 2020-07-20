@@ -1,27 +1,27 @@
 (script
   (if_statement
-    this: (parenthesized_expression
+    condition: (parenthesized_expression
       (integer))
-    then: (expression_statement
+    body: (expression_statement
       (integer))
-    this: (parenthesized_expression
+    condition: (parenthesized_expression
       (integer))
-    then: (expression_statement
+    body: (expression_statement
       (integer))
-    this: (parenthesized_expression
+    condition: (parenthesized_expression
       (integer))
-    then: (expression_statement
+    body: (expression_statement
       (integer))
     else: (expression_statement
       (integer)))
   (if_statement
-    this: (parenthesized_expression
+    condition: (parenthesized_expression
       (integer))
-    then: (compound_statement)
-    this: (parenthesized_expression
+    body: (compound_statement)
+    condition: (parenthesized_expression
       (integer))
-    then: (compound_statement)
-    this: (parenthesized_expression
+    body: (compound_statement)
+    condition: (parenthesized_expression
       (integer))
-    then: (compound_statement)
+    body: (compound_statement)
     else: (compound_statement)))
