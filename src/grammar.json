@@ -9339,8 +9339,7 @@
       }
     },
     "_get": {
-      "type": "PREC",
-      "value": 0,
+      "type": "TOKEN",
       "content": {
         "type": "STRING",
         "value": "get"

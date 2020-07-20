@@ -10564,10 +10564,6 @@
     "named": false
   },
   {
-    "type": "get",
-    "named": false
-  },
-  {
     "type": "hex_integer_literal",
     "named": true
   },

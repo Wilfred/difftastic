@@ -2347,8 +2347,7 @@ module.exports = grammar({
             DART_PREC.BUILTIN,
             'Function',
         ),
-        _get: $ => prec(
-            DART_PREC.BUILTIN,
+        _get: $ => token(
             'get',
         ),
         _implements: $ => prec(
