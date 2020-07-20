@@ -2,14 +2,14 @@
   (alias_declaration
     (identifier)
     (shape_type
-      (field
+      (field_specifier
         (optional_modifier)
         (string)
         (primitive_type))
-      (field
+      (field_specifier
         (string)
         (shape_type
-          (field
+          (field_specifier
             (string)
             (nullable_type
               (primitive_type)))
