@@ -1,11 +1,17 @@
 (class_declaration
- name: (name) @name) @class
+  name: (name) @name) @definition.class
 
 (function_definition
- name: (name) @name) @function
+  name: (name) @name) @definition.function
+
+(method_declaration
+  name: (name) @name) @definition.method
 
 (function_call_expression
- function: (qualified_name (name)) @name) @call
+  function: (qualified_name (name)) @name) @reference.call
 
 (scoped_call_expression
- name: (name) @name) @call
+  name: (name) @name) @reference.call
+
+(member_call_expression
+  name: (name) @name) @reference.call
