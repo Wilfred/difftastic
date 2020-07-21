@@ -123,8 +123,8 @@ const rules = {
       field('body', $._statement),
       rep(
         PREC.elseif(
-          // Match else-if (along with elseif) so long if-statements don't result
-          // in deeply nested nodes. Are there drawbacks?
+          // Match else-if and elseif so long if-statements don't result in deeply nested
+          // nodes. Are there drawbacks?
           choice('elseif', seq('else', 'if')),
           field('condition', $.parenthesized_expression),
           field('body', $._statement),
@@ -494,12 +494,17 @@ const rules = {
     seq(
       alias.opt('async', $.async_modifier),
       choice(
-        alias($.variable, $.parameters),
+        // Make a single-parameter lambda node look like any other lambda node.
+        alias($._single_parameter_parameters, $.parameters),
         seq($.parameters, seq.opt(':', field('return_type', $._type))),
       ),
       '==>',
       field('body', choice($._expression, $.compound_statement)),
     ),
+
+  _single_parameter_parameters: $ => alias($._single_parameter, $.parameter),
+
+  _single_parameter: $ => field('name', $.variable),
 
   function_call_expression: $ =>
     seq(

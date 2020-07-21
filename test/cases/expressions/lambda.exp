@@ -35,7 +35,9 @@
   (expression_statement
     (lambda_expression
       (parameters
-        (identifier))
+        (parameter
+          name: (variable
+            (identifier))))
       body: (binary_expression
         left: (variable
           (identifier))

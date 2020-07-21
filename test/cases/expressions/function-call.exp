@@ -34,7 +34,9 @@
     (function_call_expression
       function: (lambda_expression
         (parameters
-          (identifier))
+          (parameter
+            name: (variable
+              (identifier))))
         body: (compound_statement
           (return_statement
             (variable
@@ -53,7 +55,9 @@
       function: (parenthesized_expression
         (lambda_expression
           (parameters
-            (identifier))
+            (parameter
+              name: (variable
+                (identifier))))
           body: (variable
             (identifier))))
       (arguments
