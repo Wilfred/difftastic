@@ -8,9 +8,9 @@
 #define LANGUAGE_VERSION 11
 #define STATE_COUNT 2634
 #define LARGE_STATE_COUNT 404
-#define SYMBOL_COUNT 433
+#define SYMBOL_COUNT 432
 #define ALIAS_COUNT 1
-#define TOKEN_COUNT 141
+#define TOKEN_COUNT 140
 #define EXTERNAL_TOKEN_COUNT 6
 #define FIELD_COUNT 22
 #define MAX_ALIAS_SEQUENCE_LENGTH 9
@@ -89,366 +89,365 @@ enum {
   anon_sym_continue = 71,
   anon_sym_yield = 72,
   anon_sym_return = 73,
-  anon_sym_synchronized = 74,
-  anon_sym_on = 75,
-  anon_sym_try = 76,
-  anon_sym_catch = 77,
-  anon_sym_finally = 78,
-  anon_sym_if = 79,
-  anon_sym_else = 80,
-  anon_sym_for = 81,
-  anon_sym_in = 82,
-  anon_sym_AT = 83,
-  anon_sym_transitive = 84,
-  anon_sym_part = 85,
-  anon_sym_of = 86,
-  anon_sym_EQ_EQ = 87,
-  anon_sym_show = 88,
-  anon_sym_hide = 89,
-  anon_sym_enum = 90,
-  anon_sym_abstract = 91,
-  anon_sym_class = 92,
-  anon_sym_extension = 93,
-  anon_sym_with = 94,
-  anon_sym_LBRACK_RBRACK = 95,
-  anon_sym_LBRACK_RBRACK_EQ = 96,
-  anon_sym_super = 97,
-  sym_floating_point_type = 98,
-  anon_sym_bool = 99,
-  anon_sym_void = 100,
-  anon_sym_async = 101,
-  anon_sym_EQ_GT = 102,
-  anon_sym_async_STAR = 103,
-  anon_sym_sync_STAR = 104,
-  anon_sym_required = 105,
-  anon_sym_throws = 106,
-  anon_sym_POUND_BANG = 107,
-  aux_sym_script_tag_token1 = 108,
-  anon_sym_LF = 109,
-  anon_sym_library = 110,
-  anon_sym_covariant = 111,
-  anon_sym_deferred = 112,
-  anon_sym_dynamic = 113,
-  anon_sym_export = 114,
-  anon_sym_factory = 115,
-  anon_sym_Function = 116,
-  sym__get = 117,
-  anon_sym_native = 118,
-  anon_sym_implements = 119,
-  anon_sym_import = 120,
-  anon_sym_interface = 121,
-  anon_sym_operator = 122,
-  anon_sym_mixin = 123,
-  anon_sym_set = 124,
-  anon_sym_static = 125,
-  anon_sym_typedef = 126,
-  anon_sym_new = 127,
-  anon_sym_const = 128,
-  anon_sym_final = 129,
-  anon_sym_late = 130,
-  anon_sym_external = 131,
-  anon_sym_this = 132,
-  sym_identifier_dollar_escaped = 133,
-  sym_comment = 134,
-  sym__automatic_semicolon = 135,
-  sym__template_chars_double = 136,
-  sym__template_chars_single = 137,
-  sym__template_chars_double_single = 138,
-  sym__template_chars_single_single = 139,
-  sym__template_chars_raw_slash = 140,
-  sym_program = 141,
-  sym__top_level_definition = 142,
-  sym__literal = 143,
-  sym_symbol_literal = 144,
-  sym_true = 145,
-  sym_false = 146,
-  sym_string_literal = 147,
-  sym__string_literal_double_quotes = 148,
-  sym__string_literal_single_quotes = 149,
-  sym__string_literal_double_quotes_multiple = 150,
-  sym__string_literal_single_quotes_multiple = 151,
-  sym__raw_string_literal_double_quotes = 152,
-  sym__raw_string_literal_single_quotes = 153,
-  sym__raw_string_literal_double_quotes_multiple = 154,
-  sym__raw_string_literal_single_quotes_multiple = 155,
-  sym_template_substitution = 156,
-  sym__sub_string_test = 157,
-  sym_escape_sequence = 158,
-  sym_list_literal = 159,
-  sym_set_or_map_literal = 160,
-  sym_pair = 161,
-  sym__element = 162,
-  sym_null_literal = 163,
-  sym__expression = 164,
-  sym__expression_without_cascade = 165,
-  sym__real_expression = 166,
-  sym__below_relational_type_cast_expression = 167,
-  sym_throw_expression = 168,
-  sym_throw_expression_without_cascade = 169,
-  sym_assignment_expression = 170,
-  sym_assignment_expression_without_cascade = 171,
-  sym_assignable_expression = 172,
-  sym_assignable_selector_part = 173,
-  sym__assignment_operator = 174,
-  sym_lambda_expression = 175,
-  sym_function_expression = 176,
-  sym_if_null_expression = 177,
-  aux_sym__if_null_expression = 178,
-  sym_conditional_expression = 179,
-  sym_logical_or_expression = 180,
-  sym_logical_and_expression = 181,
-  sym_equality_expression = 182,
-  sym_relational_expression = 183,
-  sym_relational_operator = 184,
-  sym_bitwise_or_expression = 185,
-  sym_bitwise_xor_expression = 186,
-  sym_bitwise_and_expression = 187,
-  sym_shift_expression = 188,
-  sym_additive_expression = 189,
-  sym_multiplicative_expression = 190,
-  sym_bitwise_operator = 191,
-  sym__bitwise_operator = 192,
-  sym_shift_operator = 193,
-  sym__shift_operator = 194,
-  sym_additive_operator = 195,
-  sym_multiplicative_operator = 196,
-  sym__multiplicative_operator = 197,
-  sym__unary_expression = 198,
-  sym_unary_expression = 199,
-  sym__postfix_expression = 200,
-  sym_postfix_expression = 201,
-  sym_postfix_operator = 202,
-  sym_spread_element = 203,
-  sym_selector = 204,
-  sym_prefix_operator = 205,
-  sym_negation_operator = 206,
-  sym_tilde_operator = 207,
-  sym_await_expression = 208,
-  sym_type_test = 209,
-  sym_is_operator = 210,
-  sym_type_cast = 211,
-  sym_as_operator = 212,
-  sym_new_expression = 213,
-  sym__dot_identifier = 214,
-  sym_const_object_expression = 215,
-  sym__primary = 216,
-  sym_parenthesized_expression = 217,
-  sym_constructor_invocation = 218,
-  sym_arguments = 219,
-  sym__argument_list = 220,
-  sym_named_argument = 221,
-  sym_cascade_section = 222,
-  sym__cascade_subsection = 223,
-  sym__cascade_assignment_section = 224,
-  sym_cascade_selector = 225,
-  sym_argument_part = 226,
-  sym_unconditional_assignable_selector = 227,
-  sym_assignable_selector = 228,
-  sym_type_arguments = 229,
-  sym__type_args = 230,
-  sym__statement = 231,
-  sym_block = 232,
-  sym_expression_statement = 233,
-  sym_labeled_statement = 234,
-  sym_assert_statement = 235,
-  sym_assertion = 236,
-  sym_switch_statement = 237,
-  sym_switch_block = 238,
-  sym_switch_label = 239,
-  sym_do_statement = 240,
-  sym_break_statement = 241,
-  sym_continue_statement = 242,
-  sym_yield_statement = 243,
-  sym_yield_each_statement = 244,
-  sym_return_statement = 245,
-  sym_try_statement = 246,
-  sym__on_part = 247,
-  sym__try_head = 248,
-  sym_catch_clause = 249,
-  sym_finally_clause = 250,
-  sym_if_element = 251,
-  sym_if_statement = 252,
-  sym_while_statement = 253,
-  sym_for_statement = 254,
-  sym__for_loop_parts = 255,
-  sym_for_element = 256,
-  sym__annotation = 257,
-  sym_marker_annotation = 258,
-  sym_annotation = 259,
-  sym_import_or_export = 260,
-  sym_library_import = 261,
-  sym_library_export = 262,
-  sym_import_specification = 263,
-  sym_part_directive = 264,
-  sym_part_of_directive = 265,
-  sym_uri = 266,
-  sym_configurable_uri = 267,
-  sym_configuration_uri = 268,
-  sym_uri_test = 269,
-  sym_combinator = 270,
-  sym__identifier_list = 271,
-  sym_enum_declaration = 272,
-  sym_enum_body = 273,
-  sym_enum_constant = 274,
-  sym_type_alias = 275,
-  sym_class_definition = 276,
-  sym_extension_declaration = 277,
-  sym__metadata = 278,
-  sym_type_parameters = 279,
-  sym_type_parameter = 280,
-  sym_type_bound = 281,
-  sym_superclass = 282,
-  sym_mixins = 283,
-  sym_mixin_application_class = 284,
-  sym_mixin_application = 285,
-  sym_mixin_declaration = 286,
-  sym_interfaces = 287,
-  sym_class_body = 288,
-  sym_extension_body = 289,
-  sym_getter_signature = 290,
-  sym_setter_signature = 291,
-  sym_method_signature = 292,
-  sym_declaration = 293,
-  sym_initialized_identifier_list = 294,
-  sym_initialized_identifier = 295,
-  sym_static_final_declaration_list = 296,
-  sym_binary_operator = 297,
-  sym_operator_signature = 298,
-  sym_static_final_declaration = 299,
-  sym__external_and_static = 300,
-  sym__static_or_covariant = 301,
-  sym__final_or_const = 302,
-  sym_initializers = 303,
-  sym_initializer_list_entry = 304,
-  sym_field_initializer = 305,
-  sym_factory_constructor_signature = 306,
-  sym_redirecting_factory_constructor_signature = 307,
-  sym_redirection = 308,
-  sym_constructor_signature = 309,
-  sym_constant_constructor_signature = 310,
-  sym_scoped_identifier = 311,
-  sym_initialized_variable_definition = 312,
-  sym__declared_identifier = 313,
-  sym__final_const_var_or_type = 314,
-  sym__type = 315,
-  sym__type_not_function = 316,
-  sym__type_not_void_not_function = 317,
-  sym_function_type = 318,
-  aux_sym__function_type_tails = 319,
-  sym__function_type_tail = 320,
-  sym_parameter_type_list = 321,
-  sym_normal_parameter_type = 322,
-  sym_optional_parameter_types = 323,
-  sym_optional_positional_parameter_types = 324,
-  sym_named_parameter_types = 325,
-  sym__type_not_void = 326,
-  sym__type_not_void_list = 327,
-  sym__type_name = 328,
-  sym__type_dot_identifier = 329,
-  sym_typed_identifier = 330,
-  sym__nullable_type = 331,
-  sym_void_type = 332,
-  sym_inferred_type = 333,
-  sym_function_body = 334,
-  sym_function_expression_body = 335,
-  sym_function_signature = 336,
-  sym__formal_parameter_part = 337,
-  sym_formal_parameter_list = 338,
-  sym__strict_formal_parameter_list = 339,
-  sym__normal_formal_parameters = 340,
-  sym_optional_formal_parameters = 341,
-  sym__optional_postional_formal_parameters = 342,
-  sym__named_formal_parameters = 343,
-  sym_formal_parameter = 344,
-  sym__default_formal_parameter = 345,
-  sym__default_named_parameter = 346,
-  sym__normal_formal_parameter = 347,
-  sym__function_formal_parameter = 348,
-  sym__simple_formal_parameter = 349,
-  sym_constructor_param = 350,
-  sym_local_variable_declaration = 351,
-  sym_script_tag = 352,
-  sym_library_name = 353,
-  sym_dotted_identifier_list = 354,
-  sym_qualified = 355,
-  sym__as = 356,
-  sym__covariant = 357,
-  sym__deferred = 358,
-  sym__export = 359,
-  sym__external = 360,
-  sym__factory = 361,
-  sym__function_builtin_identifier = 362,
-  sym__native = 363,
-  sym__implements = 364,
-  sym__import = 365,
-  sym__operator = 366,
-  sym__mixin = 367,
-  sym__set = 368,
-  sym__static = 369,
-  sym__typedef = 370,
-  sym__new_builtin = 371,
-  sym__const_builtin = 372,
-  sym__final_builtin = 373,
-  sym__late_builtin = 374,
-  sym__external_builtin = 375,
-  sym_this = 376,
-  sym_super = 377,
-  sym_label = 378,
-  sym__semicolon = 379,
-  aux_sym_program_repeat1 = 380,
-  aux_sym_program_repeat2 = 381,
-  aux_sym_program_repeat3 = 382,
-  aux_sym_program_repeat4 = 383,
-  aux_sym_program_repeat5 = 384,
-  aux_sym_string_literal_repeat1 = 385,
-  aux_sym__string_literal_double_quotes_repeat1 = 386,
-  aux_sym__string_literal_single_quotes_repeat1 = 387,
-  aux_sym__string_literal_double_quotes_multiple_repeat1 = 388,
-  aux_sym__string_literal_single_quotes_multiple_repeat1 = 389,
-  aux_sym__raw_string_literal_double_quotes_repeat1 = 390,
-  aux_sym__raw_string_literal_single_quotes_repeat1 = 391,
-  aux_sym__raw_string_literal_double_quotes_multiple_repeat1 = 392,
-  aux_sym__raw_string_literal_single_quotes_multiple_repeat1 = 393,
-  aux_sym_list_literal_repeat1 = 394,
-  aux_sym__expression_repeat1 = 395,
-  aux_sym_assignable_selector_part_repeat1 = 396,
-  aux_sym_inferred_parameters_repeat1 = 397,
-  aux_sym_logical_or_expression_repeat1 = 398,
-  aux_sym_logical_and_expression_repeat1 = 399,
-  aux_sym_bitwise_or_expression_repeat1 = 400,
-  aux_sym_bitwise_xor_expression_repeat1 = 401,
-  aux_sym_bitwise_and_expression_repeat1 = 402,
-  aux_sym_shift_expression_repeat1 = 403,
-  aux_sym_additive_expression_repeat1 = 404,
-  aux_sym_multiplicative_expression_repeat1 = 405,
-  aux_sym__argument_list_repeat1 = 406,
-  aux_sym__argument_list_repeat2 = 407,
-  aux_sym__argument_list_repeat3 = 408,
-  aux_sym_cascade_section_repeat1 = 409,
-  aux_sym_cascade_section_repeat2 = 410,
-  aux_sym__type_args_repeat1 = 411,
-  aux_sym_switch_block_repeat1 = 412,
-  aux_sym_try_statement_repeat1 = 413,
-  aux_sym__for_loop_parts_repeat1 = 414,
-  aux_sym__for_loop_parts_repeat2 = 415,
-  aux_sym_library_export_repeat1 = 416,
-  aux_sym_configurable_uri_repeat1 = 417,
-  aux_sym_enum_body_repeat1 = 418,
-  aux_sym__metadata_repeat1 = 419,
-  aux_sym_type_parameters_repeat1 = 420,
-  aux_sym_class_body_repeat1 = 421,
-  aux_sym_extension_body_repeat1 = 422,
-  aux_sym_initialized_identifier_list_repeat1 = 423,
-  aux_sym_static_final_declaration_list_repeat1 = 424,
-  aux_sym_initializers_repeat1 = 425,
-  aux_sym_factory_constructor_signature_repeat1 = 426,
-  aux_sym_parameter_type_list_repeat1 = 427,
-  aux_sym_named_parameter_types_repeat1 = 428,
-  aux_sym__type_not_void_list_repeat1 = 429,
-  aux_sym__normal_formal_parameters_repeat1 = 430,
-  aux_sym_positional_parameters_repeat1 = 431,
-  aux_sym__named_formal_parameters_repeat1 = 432,
-  alias_sym_type_identifier = 433,
+  anon_sym_on = 74,
+  anon_sym_try = 75,
+  anon_sym_catch = 76,
+  anon_sym_finally = 77,
+  anon_sym_if = 78,
+  anon_sym_else = 79,
+  anon_sym_for = 80,
+  anon_sym_in = 81,
+  anon_sym_AT = 82,
+  anon_sym_transitive = 83,
+  anon_sym_part = 84,
+  anon_sym_of = 85,
+  anon_sym_EQ_EQ = 86,
+  anon_sym_show = 87,
+  anon_sym_hide = 88,
+  anon_sym_enum = 89,
+  anon_sym_abstract = 90,
+  anon_sym_class = 91,
+  anon_sym_extension = 92,
+  anon_sym_with = 93,
+  anon_sym_LBRACK_RBRACK = 94,
+  anon_sym_LBRACK_RBRACK_EQ = 95,
+  anon_sym_super = 96,
+  sym_floating_point_type = 97,
+  anon_sym_bool = 98,
+  anon_sym_void = 99,
+  anon_sym_async = 100,
+  anon_sym_EQ_GT = 101,
+  anon_sym_async_STAR = 102,
+  anon_sym_sync_STAR = 103,
+  anon_sym_required = 104,
+  anon_sym_throws = 105,
+  anon_sym_POUND_BANG = 106,
+  aux_sym_script_tag_token1 = 107,
+  anon_sym_LF = 108,
+  anon_sym_library = 109,
+  anon_sym_covariant = 110,
+  anon_sym_deferred = 111,
+  anon_sym_dynamic = 112,
+  anon_sym_export = 113,
+  anon_sym_factory = 114,
+  anon_sym_Function = 115,
+  sym__get = 116,
+  anon_sym_native = 117,
+  anon_sym_implements = 118,
+  anon_sym_import = 119,
+  anon_sym_interface = 120,
+  anon_sym_operator = 121,
+  anon_sym_mixin = 122,
+  anon_sym_set = 123,
+  anon_sym_static = 124,
+  anon_sym_typedef = 125,
+  anon_sym_new = 126,
+  anon_sym_const = 127,
+  anon_sym_final = 128,
+  anon_sym_late = 129,
+  anon_sym_external = 130,
+  anon_sym_this = 131,
+  sym_identifier_dollar_escaped = 132,
+  sym_comment = 133,
+  sym__automatic_semicolon = 134,
+  sym__template_chars_double = 135,
+  sym__template_chars_single = 136,
+  sym__template_chars_double_single = 137,
+  sym__template_chars_single_single = 138,
+  sym__template_chars_raw_slash = 139,
+  sym_program = 140,
+  sym__top_level_definition = 141,
+  sym__literal = 142,
+  sym_symbol_literal = 143,
+  sym_true = 144,
+  sym_false = 145,
+  sym_string_literal = 146,
+  sym__string_literal_double_quotes = 147,
+  sym__string_literal_single_quotes = 148,
+  sym__string_literal_double_quotes_multiple = 149,
+  sym__string_literal_single_quotes_multiple = 150,
+  sym__raw_string_literal_double_quotes = 151,
+  sym__raw_string_literal_single_quotes = 152,
+  sym__raw_string_literal_double_quotes_multiple = 153,
+  sym__raw_string_literal_single_quotes_multiple = 154,
+  sym_template_substitution = 155,
+  sym__sub_string_test = 156,
+  sym_escape_sequence = 157,
+  sym_list_literal = 158,
+  sym_set_or_map_literal = 159,
+  sym_pair = 160,
+  sym__element = 161,
+  sym_null_literal = 162,
+  sym__expression = 163,
+  sym__expression_without_cascade = 164,
+  sym__real_expression = 165,
+  sym__below_relational_type_cast_expression = 166,
+  sym_throw_expression = 167,
+  sym_throw_expression_without_cascade = 168,
+  sym_assignment_expression = 169,
+  sym_assignment_expression_without_cascade = 170,
+  sym_assignable_expression = 171,
+  sym_assignable_selector_part = 172,
+  sym__assignment_operator = 173,
+  sym_lambda_expression = 174,
+  sym_function_expression = 175,
+  sym_if_null_expression = 176,
+  aux_sym__if_null_expression = 177,
+  sym_conditional_expression = 178,
+  sym_logical_or_expression = 179,
+  sym_logical_and_expression = 180,
+  sym_equality_expression = 181,
+  sym_relational_expression = 182,
+  sym_relational_operator = 183,
+  sym_bitwise_or_expression = 184,
+  sym_bitwise_xor_expression = 185,
+  sym_bitwise_and_expression = 186,
+  sym_shift_expression = 187,
+  sym_additive_expression = 188,
+  sym_multiplicative_expression = 189,
+  sym_bitwise_operator = 190,
+  sym__bitwise_operator = 191,
+  sym_shift_operator = 192,
+  sym__shift_operator = 193,
+  sym_additive_operator = 194,
+  sym_multiplicative_operator = 195,
+  sym__multiplicative_operator = 196,
+  sym__unary_expression = 197,
+  sym_unary_expression = 198,
+  sym__postfix_expression = 199,
+  sym_postfix_expression = 200,
+  sym_postfix_operator = 201,
+  sym_spread_element = 202,
+  sym_selector = 203,
+  sym_prefix_operator = 204,
+  sym_negation_operator = 205,
+  sym_tilde_operator = 206,
+  sym_await_expression = 207,
+  sym_type_test = 208,
+  sym_is_operator = 209,
+  sym_type_cast = 210,
+  sym_as_operator = 211,
+  sym_new_expression = 212,
+  sym__dot_identifier = 213,
+  sym_const_object_expression = 214,
+  sym__primary = 215,
+  sym_parenthesized_expression = 216,
+  sym_constructor_invocation = 217,
+  sym_arguments = 218,
+  sym__argument_list = 219,
+  sym_named_argument = 220,
+  sym_cascade_section = 221,
+  sym__cascade_subsection = 222,
+  sym__cascade_assignment_section = 223,
+  sym_cascade_selector = 224,
+  sym_argument_part = 225,
+  sym_unconditional_assignable_selector = 226,
+  sym_assignable_selector = 227,
+  sym_type_arguments = 228,
+  sym__type_args = 229,
+  sym__statement = 230,
+  sym_block = 231,
+  sym_expression_statement = 232,
+  sym_labeled_statement = 233,
+  sym_assert_statement = 234,
+  sym_assertion = 235,
+  sym_switch_statement = 236,
+  sym_switch_block = 237,
+  sym_switch_label = 238,
+  sym_do_statement = 239,
+  sym_break_statement = 240,
+  sym_continue_statement = 241,
+  sym_yield_statement = 242,
+  sym_yield_each_statement = 243,
+  sym_return_statement = 244,
+  sym_try_statement = 245,
+  sym__on_part = 246,
+  sym__try_head = 247,
+  sym_catch_clause = 248,
+  sym_finally_clause = 249,
+  sym_if_element = 250,
+  sym_if_statement = 251,
+  sym_while_statement = 252,
+  sym_for_statement = 253,
+  sym__for_loop_parts = 254,
+  sym_for_element = 255,
+  sym__annotation = 256,
+  sym_marker_annotation = 257,
+  sym_annotation = 258,
+  sym_import_or_export = 259,
+  sym_library_import = 260,
+  sym_library_export = 261,
+  sym_import_specification = 262,
+  sym_part_directive = 263,
+  sym_part_of_directive = 264,
+  sym_uri = 265,
+  sym_configurable_uri = 266,
+  sym_configuration_uri = 267,
+  sym_uri_test = 268,
+  sym_combinator = 269,
+  sym__identifier_list = 270,
+  sym_enum_declaration = 271,
+  sym_enum_body = 272,
+  sym_enum_constant = 273,
+  sym_type_alias = 274,
+  sym_class_definition = 275,
+  sym_extension_declaration = 276,
+  sym__metadata = 277,
+  sym_type_parameters = 278,
+  sym_type_parameter = 279,
+  sym_type_bound = 280,
+  sym_superclass = 281,
+  sym_mixins = 282,
+  sym_mixin_application_class = 283,
+  sym_mixin_application = 284,
+  sym_mixin_declaration = 285,
+  sym_interfaces = 286,
+  sym_class_body = 287,
+  sym_extension_body = 288,
+  sym_getter_signature = 289,
+  sym_setter_signature = 290,
+  sym_method_signature = 291,
+  sym_declaration = 292,
+  sym_initialized_identifier_list = 293,
+  sym_initialized_identifier = 294,
+  sym_static_final_declaration_list = 295,
+  sym_binary_operator = 296,
+  sym_operator_signature = 297,
+  sym_static_final_declaration = 298,
+  sym__external_and_static = 299,
+  sym__static_or_covariant = 300,
+  sym__final_or_const = 301,
+  sym_initializers = 302,
+  sym_initializer_list_entry = 303,
+  sym_field_initializer = 304,
+  sym_factory_constructor_signature = 305,
+  sym_redirecting_factory_constructor_signature = 306,
+  sym_redirection = 307,
+  sym_constructor_signature = 308,
+  sym_constant_constructor_signature = 309,
+  sym_scoped_identifier = 310,
+  sym_initialized_variable_definition = 311,
+  sym__declared_identifier = 312,
+  sym__final_const_var_or_type = 313,
+  sym__type = 314,
+  sym__type_not_function = 315,
+  sym__type_not_void_not_function = 316,
+  sym_function_type = 317,
+  aux_sym__function_type_tails = 318,
+  sym__function_type_tail = 319,
+  sym_parameter_type_list = 320,
+  sym_normal_parameter_type = 321,
+  sym_optional_parameter_types = 322,
+  sym_optional_positional_parameter_types = 323,
+  sym_named_parameter_types = 324,
+  sym__type_not_void = 325,
+  sym__type_not_void_list = 326,
+  sym__type_name = 327,
+  sym__type_dot_identifier = 328,
+  sym_typed_identifier = 329,
+  sym__nullable_type = 330,
+  sym_void_type = 331,
+  sym_inferred_type = 332,
+  sym_function_body = 333,
+  sym_function_expression_body = 334,
+  sym_function_signature = 335,
+  sym__formal_parameter_part = 336,
+  sym_formal_parameter_list = 337,
+  sym__strict_formal_parameter_list = 338,
+  sym__normal_formal_parameters = 339,
+  sym_optional_formal_parameters = 340,
+  sym__optional_postional_formal_parameters = 341,
+  sym__named_formal_parameters = 342,
+  sym_formal_parameter = 343,
+  sym__default_formal_parameter = 344,
+  sym__default_named_parameter = 345,
+  sym__normal_formal_parameter = 346,
+  sym__function_formal_parameter = 347,
+  sym__simple_formal_parameter = 348,
+  sym_constructor_param = 349,
+  sym_local_variable_declaration = 350,
+  sym_script_tag = 351,
+  sym_library_name = 352,
+  sym_dotted_identifier_list = 353,
+  sym_qualified = 354,
+  sym__as = 355,
+  sym__covariant = 356,
+  sym__deferred = 357,
+  sym__export = 358,
+  sym__external = 359,
+  sym__factory = 360,
+  sym__function_builtin_identifier = 361,
+  sym__native = 362,
+  sym__implements = 363,
+  sym__import = 364,
+  sym__operator = 365,
+  sym__mixin = 366,
+  sym__set = 367,
+  sym__static = 368,
+  sym__typedef = 369,
+  sym__new_builtin = 370,
+  sym__const_builtin = 371,
+  sym__final_builtin = 372,
+  sym__late_builtin = 373,
+  sym__external_builtin = 374,
+  sym_this = 375,
+  sym_super = 376,
+  sym_label = 377,
+  sym__semicolon = 378,
+  aux_sym_program_repeat1 = 379,
+  aux_sym_program_repeat2 = 380,
+  aux_sym_program_repeat3 = 381,
+  aux_sym_program_repeat4 = 382,
+  aux_sym_program_repeat5 = 383,
+  aux_sym_string_literal_repeat1 = 384,
+  aux_sym__string_literal_double_quotes_repeat1 = 385,
+  aux_sym__string_literal_single_quotes_repeat1 = 386,
+  aux_sym__string_literal_double_quotes_multiple_repeat1 = 387,
+  aux_sym__string_literal_single_quotes_multiple_repeat1 = 388,
+  aux_sym__raw_string_literal_double_quotes_repeat1 = 389,
+  aux_sym__raw_string_literal_single_quotes_repeat1 = 390,
+  aux_sym__raw_string_literal_double_quotes_multiple_repeat1 = 391,
+  aux_sym__raw_string_literal_single_quotes_multiple_repeat1 = 392,
+  aux_sym_list_literal_repeat1 = 393,
+  aux_sym__expression_repeat1 = 394,
+  aux_sym_assignable_selector_part_repeat1 = 395,
+  aux_sym_inferred_parameters_repeat1 = 396,
+  aux_sym_logical_or_expression_repeat1 = 397,
+  aux_sym_logical_and_expression_repeat1 = 398,
+  aux_sym_bitwise_or_expression_repeat1 = 399,
+  aux_sym_bitwise_xor_expression_repeat1 = 400,
+  aux_sym_bitwise_and_expression_repeat1 = 401,
+  aux_sym_shift_expression_repeat1 = 402,
+  aux_sym_additive_expression_repeat1 = 403,
+  aux_sym_multiplicative_expression_repeat1 = 404,
+  aux_sym__argument_list_repeat1 = 405,
+  aux_sym__argument_list_repeat2 = 406,
+  aux_sym__argument_list_repeat3 = 407,
+  aux_sym_cascade_section_repeat1 = 408,
+  aux_sym_cascade_section_repeat2 = 409,
+  aux_sym__type_args_repeat1 = 410,
+  aux_sym_switch_block_repeat1 = 411,
+  aux_sym_try_statement_repeat1 = 412,
+  aux_sym__for_loop_parts_repeat1 = 413,
+  aux_sym__for_loop_parts_repeat2 = 414,
+  aux_sym_library_export_repeat1 = 415,
+  aux_sym_configurable_uri_repeat1 = 416,
+  aux_sym_enum_body_repeat1 = 417,
+  aux_sym__metadata_repeat1 = 418,
+  aux_sym_type_parameters_repeat1 = 419,
+  aux_sym_class_body_repeat1 = 420,
+  aux_sym_extension_body_repeat1 = 421,
+  aux_sym_initialized_identifier_list_repeat1 = 422,
+  aux_sym_static_final_declaration_list_repeat1 = 423,
+  aux_sym_initializers_repeat1 = 424,
+  aux_sym_factory_constructor_signature_repeat1 = 425,
+  aux_sym_parameter_type_list_repeat1 = 426,
+  aux_sym_named_parameter_types_repeat1 = 427,
+  aux_sym__type_not_void_list_repeat1 = 428,
+  aux_sym__normal_formal_parameters_repeat1 = 429,
+  aux_sym_positional_parameters_repeat1 = 430,
+  aux_sym__named_formal_parameters_repeat1 = 431,
+  alias_sym_type_identifier = 432,
 };
 
 static const char *ts_symbol_names[] = {
@@ -526,7 +525,6 @@ static const char *ts_symbol_names[] = {
   [anon_sym_continue] = "continue",
   [anon_sym_yield] = "yield",
   [anon_sym_return] = "return",
-  [anon_sym_synchronized] = "synchronized",
   [anon_sym_on] = "on",
   [anon_sym_try] = "try",
   [anon_sym_catch] = "catch",
@@ -963,7 +961,6 @@ static TSSymbol ts_symbol_map[] = {
   [anon_sym_continue] = anon_sym_continue,
   [anon_sym_yield] = anon_sym_yield,
   [anon_sym_return] = anon_sym_return,
-  [anon_sym_synchronized] = anon_sym_synchronized,
   [anon_sym_on] = anon_sym_on,
   [anon_sym_try] = anon_sym_try,
   [anon_sym_catch] = anon_sym_catch,
@@ -1619,10 +1616,6 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = false,
   },
   [anon_sym_return] = {
-    .visible = true,
-    .named = false,
-  },
-  [anon_sym_synchronized] = {
     .visible = true,
     .named = false,
   },
@@ -5208,119 +5201,118 @@ static bool ts_lex_keywords(TSLexer *lexer, TSStateId state) {
       if (lookahead == 't') ADVANCE(59);
       if (lookahead == 'u') ADVANCE(60);
       if (lookahead == 'w') ADVANCE(61);
-      if (lookahead == 'y') ADVANCE(62);
       END_STATE();
     case 18:
-      if (lookahead == 'h') ADVANCE(63);
-      if (lookahead == 'r') ADVANCE(64);
-      if (lookahead == 'y') ADVANCE(65);
+      if (lookahead == 'h') ADVANCE(62);
+      if (lookahead == 'r') ADVANCE(63);
+      if (lookahead == 'y') ADVANCE(64);
       END_STATE();
     case 19:
-      if (lookahead == 'a') ADVANCE(66);
-      if (lookahead == 'o') ADVANCE(67);
+      if (lookahead == 'a') ADVANCE(65);
+      if (lookahead == 'o') ADVANCE(66);
       END_STATE();
     case 20:
-      if (lookahead == 'h') ADVANCE(68);
-      if (lookahead == 'i') ADVANCE(69);
+      if (lookahead == 'h') ADVANCE(67);
+      if (lookahead == 'i') ADVANCE(68);
       END_STATE();
     case 21:
-      if (lookahead == 'i') ADVANCE(70);
+      if (lookahead == 'i') ADVANCE(69);
       END_STATE();
     case 22:
-      if (lookahead == 'n') ADVANCE(71);
+      if (lookahead == 'n') ADVANCE(70);
       END_STATE();
     case 23:
-      if (lookahead == 's') ADVANCE(72);
+      if (lookahead == 's') ADVANCE(71);
       END_STATE();
     case 24:
-      if (lookahead == 's') ADVANCE(73);
+      if (lookahead == 's') ADVANCE(72);
       END_STATE();
     case 25:
-      if (lookahead == 'a') ADVANCE(74);
+      if (lookahead == 'a') ADVANCE(73);
       END_STATE();
     case 26:
-      if (lookahead == 'o') ADVANCE(75);
+      if (lookahead == 'o') ADVANCE(74);
       END_STATE();
     case 27:
-      if (lookahead == 'e') ADVANCE(76);
+      if (lookahead == 'e') ADVANCE(75);
       END_STATE();
     case 28:
-      if (lookahead == 's') ADVANCE(77);
-      if (lookahead == 't') ADVANCE(78);
+      if (lookahead == 's') ADVANCE(76);
+      if (lookahead == 't') ADVANCE(77);
       END_STATE();
     case 29:
-      if (lookahead == 'a') ADVANCE(79);
+      if (lookahead == 'a') ADVANCE(78);
       END_STATE();
     case 30:
-      if (lookahead == 'n') ADVANCE(80);
-      if (lookahead == 'v') ADVANCE(81);
+      if (lookahead == 'n') ADVANCE(79);
+      if (lookahead == 'v') ADVANCE(80);
       END_STATE();
     case 31:
-      if (lookahead == 'f') ADVANCE(82);
+      if (lookahead == 'f') ADVANCE(81);
       END_STATE();
     case 32:
       ACCEPT_TOKEN(anon_sym_do);
-      if (lookahead == 'u') ADVANCE(83);
+      if (lookahead == 'u') ADVANCE(82);
       END_STATE();
     case 33:
-      if (lookahead == 'n') ADVANCE(84);
+      if (lookahead == 'n') ADVANCE(83);
       END_STATE();
     case 34:
-      if (lookahead == 's') ADVANCE(85);
+      if (lookahead == 's') ADVANCE(84);
       END_STATE();
     case 35:
-      if (lookahead == 'u') ADVANCE(86);
+      if (lookahead == 'u') ADVANCE(85);
       END_STATE();
     case 36:
-      if (lookahead == 'p') ADVANCE(87);
-      if (lookahead == 't') ADVANCE(88);
+      if (lookahead == 'p') ADVANCE(86);
+      if (lookahead == 't') ADVANCE(87);
       END_STATE();
     case 37:
-      if (lookahead == 'c') ADVANCE(89);
-      if (lookahead == 'l') ADVANCE(90);
+      if (lookahead == 'c') ADVANCE(88);
+      if (lookahead == 'l') ADVANCE(89);
       END_STATE();
     case 38:
-      if (lookahead == 'n') ADVANCE(91);
+      if (lookahead == 'n') ADVANCE(90);
       END_STATE();
     case 39:
-      if (lookahead == 'r') ADVANCE(92);
+      if (lookahead == 'r') ADVANCE(91);
       END_STATE();
     case 40:
-      if (lookahead == 't') ADVANCE(93);
+      if (lookahead == 't') ADVANCE(92);
       END_STATE();
     case 41:
-      if (lookahead == 'd') ADVANCE(94);
+      if (lookahead == 'd') ADVANCE(93);
       END_STATE();
     case 42:
       ACCEPT_TOKEN(anon_sym_if);
       END_STATE();
     case 43:
-      if (lookahead == 'p') ADVANCE(95);
+      if (lookahead == 'p') ADVANCE(94);
       END_STATE();
     case 44:
       ACCEPT_TOKEN(anon_sym_in);
-      if (lookahead == 't') ADVANCE(96);
+      if (lookahead == 't') ADVANCE(95);
       END_STATE();
     case 45:
       ACCEPT_TOKEN(anon_sym_is);
       END_STATE();
     case 46:
-      if (lookahead == 't') ADVANCE(97);
+      if (lookahead == 't') ADVANCE(96);
       END_STATE();
     case 47:
-      if (lookahead == 'b') ADVANCE(98);
+      if (lookahead == 'b') ADVANCE(97);
       END_STATE();
     case 48:
-      if (lookahead == 'x') ADVANCE(99);
+      if (lookahead == 'x') ADVANCE(98);
       END_STATE();
     case 49:
-      if (lookahead == 't') ADVANCE(100);
+      if (lookahead == 't') ADVANCE(99);
       END_STATE();
     case 50:
-      if (lookahead == 'w') ADVANCE(101);
+      if (lookahead == 'w') ADVANCE(100);
       END_STATE();
     case 51:
-      if (lookahead == 'l') ADVANCE(102);
+      if (lookahead == 'l') ADVANCE(101);
       END_STATE();
     case 52:
       ACCEPT_TOKEN(anon_sym_of);
@@ -5329,708 +5321,675 @@ static bool ts_lex_keywords(TSLexer *lexer, TSStateId state) {
       ACCEPT_TOKEN(anon_sym_on);
       END_STATE();
     case 54:
-      if (lookahead == 'e') ADVANCE(103);
+      if (lookahead == 'e') ADVANCE(102);
       END_STATE();
     case 55:
-      if (lookahead == 'r') ADVANCE(104);
+      if (lookahead == 'r') ADVANCE(103);
       END_STATE();
     case 56:
-      if (lookahead == 'q') ADVANCE(105);
-      if (lookahead == 't') ADVANCE(106);
+      if (lookahead == 'q') ADVANCE(104);
+      if (lookahead == 't') ADVANCE(105);
       END_STATE();
     case 57:
-      if (lookahead == 't') ADVANCE(107);
+      if (lookahead == 't') ADVANCE(106);
       END_STATE();
     case 58:
-      if (lookahead == 'o') ADVANCE(108);
+      if (lookahead == 'o') ADVANCE(107);
       END_STATE();
     case 59:
-      if (lookahead == 'a') ADVANCE(109);
+      if (lookahead == 'a') ADVANCE(108);
       END_STATE();
     case 60:
-      if (lookahead == 'p') ADVANCE(110);
+      if (lookahead == 'p') ADVANCE(109);
       END_STATE();
     case 61:
-      if (lookahead == 'i') ADVANCE(111);
+      if (lookahead == 'i') ADVANCE(110);
       END_STATE();
     case 62:
-      if (lookahead == 'n') ADVANCE(112);
+      if (lookahead == 'i') ADVANCE(111);
+      if (lookahead == 'r') ADVANCE(112);
       END_STATE();
     case 63:
-      if (lookahead == 'i') ADVANCE(113);
-      if (lookahead == 'r') ADVANCE(114);
+      if (lookahead == 'a') ADVANCE(113);
+      if (lookahead == 'u') ADVANCE(114);
+      if (lookahead == 'y') ADVANCE(115);
       END_STATE();
     case 64:
-      if (lookahead == 'a') ADVANCE(115);
-      if (lookahead == 'u') ADVANCE(116);
-      if (lookahead == 'y') ADVANCE(117);
+      if (lookahead == 'p') ADVANCE(116);
       END_STATE();
     case 65:
-      if (lookahead == 'p') ADVANCE(118);
+      if (lookahead == 'r') ADVANCE(117);
       END_STATE();
     case 66:
-      if (lookahead == 'r') ADVANCE(119);
+      if (lookahead == 'i') ADVANCE(118);
       END_STATE();
     case 67:
-      if (lookahead == 'i') ADVANCE(120);
+      if (lookahead == 'i') ADVANCE(119);
       END_STATE();
     case 68:
-      if (lookahead == 'i') ADVANCE(121);
+      if (lookahead == 't') ADVANCE(120);
       END_STATE();
     case 69:
-      if (lookahead == 't') ADVANCE(122);
+      if (lookahead == 'e') ADVANCE(121);
       END_STATE();
     case 70:
-      if (lookahead == 'e') ADVANCE(123);
+      if (lookahead == 'c') ADVANCE(122);
       END_STATE();
     case 71:
-      if (lookahead == 'c') ADVANCE(124);
+      if (lookahead == 't') ADVANCE(123);
       END_STATE();
     case 72:
-      if (lookahead == 't') ADVANCE(125);
+      if (lookahead == 'e') ADVANCE(124);
       END_STATE();
     case 73:
-      if (lookahead == 'e') ADVANCE(126);
+      if (lookahead == 'i') ADVANCE(125);
       END_STATE();
     case 74:
-      if (lookahead == 'i') ADVANCE(127);
+      if (lookahead == 'l') ADVANCE(126);
       END_STATE();
     case 75:
-      if (lookahead == 'l') ADVANCE(128);
+      if (lookahead == 'a') ADVANCE(127);
       END_STATE();
     case 76:
-      if (lookahead == 'a') ADVANCE(129);
+      if (lookahead == 'e') ADVANCE(128);
       END_STATE();
     case 77:
-      if (lookahead == 'e') ADVANCE(130);
+      if (lookahead == 'c') ADVANCE(129);
       END_STATE();
     case 78:
-      if (lookahead == 'c') ADVANCE(131);
+      if (lookahead == 's') ADVANCE(130);
       END_STATE();
     case 79:
-      if (lookahead == 's') ADVANCE(132);
+      if (lookahead == 's') ADVANCE(131);
+      if (lookahead == 't') ADVANCE(132);
       END_STATE();
     case 80:
-      if (lookahead == 's') ADVANCE(133);
-      if (lookahead == 't') ADVANCE(134);
+      if (lookahead == 'a') ADVANCE(133);
       END_STATE();
     case 81:
-      if (lookahead == 'a') ADVANCE(135);
+      if (lookahead == 'a') ADVANCE(134);
+      if (lookahead == 'e') ADVANCE(135);
       END_STATE();
     case 82:
-      if (lookahead == 'a') ADVANCE(136);
-      if (lookahead == 'e') ADVANCE(137);
+      if (lookahead == 'b') ADVANCE(136);
       END_STATE();
     case 83:
-      if (lookahead == 'b') ADVANCE(138);
+      if (lookahead == 'a') ADVANCE(137);
       END_STATE();
     case 84:
-      if (lookahead == 'a') ADVANCE(139);
+      if (lookahead == 'e') ADVANCE(138);
       END_STATE();
     case 85:
-      if (lookahead == 'e') ADVANCE(140);
+      if (lookahead == 'm') ADVANCE(139);
       END_STATE();
     case 86:
-      if (lookahead == 'm') ADVANCE(141);
+      if (lookahead == 'o') ADVANCE(140);
       END_STATE();
     case 87:
-      if (lookahead == 'o') ADVANCE(142);
+      if (lookahead == 'e') ADVANCE(141);
       END_STATE();
     case 88:
-      if (lookahead == 'e') ADVANCE(143);
+      if (lookahead == 't') ADVANCE(142);
       END_STATE();
     case 89:
-      if (lookahead == 't') ADVANCE(144);
+      if (lookahead == 's') ADVANCE(143);
       END_STATE();
     case 90:
-      if (lookahead == 's') ADVANCE(145);
+      if (lookahead == 'a') ADVANCE(144);
       END_STATE();
     case 91:
-      if (lookahead == 'a') ADVANCE(146);
-      END_STATE();
-    case 92:
       ACCEPT_TOKEN(anon_sym_for);
       END_STATE();
-    case 93:
+    case 92:
       ACCEPT_TOKEN(sym__get);
       END_STATE();
+    case 93:
+      if (lookahead == 'e') ADVANCE(145);
+      END_STATE();
     case 94:
-      if (lookahead == 'e') ADVANCE(147);
+      if (lookahead == 'l') ADVANCE(146);
+      if (lookahead == 'o') ADVANCE(147);
       END_STATE();
     case 95:
-      if (lookahead == 'l') ADVANCE(148);
-      if (lookahead == 'o') ADVANCE(149);
+      if (lookahead == 'e') ADVANCE(148);
       END_STATE();
     case 96:
-      if (lookahead == 'e') ADVANCE(150);
+      if (lookahead == 'e') ADVANCE(149);
       END_STATE();
     case 97:
-      if (lookahead == 'e') ADVANCE(151);
+      if (lookahead == 'r') ADVANCE(150);
       END_STATE();
     case 98:
-      if (lookahead == 'r') ADVANCE(152);
+      if (lookahead == 'i') ADVANCE(151);
       END_STATE();
     case 99:
-      if (lookahead == 'i') ADVANCE(153);
+      if (lookahead == 'i') ADVANCE(152);
       END_STATE();
     case 100:
-      if (lookahead == 'i') ADVANCE(154);
-      END_STATE();
-    case 101:
       ACCEPT_TOKEN(anon_sym_new);
       END_STATE();
+    case 101:
+      if (lookahead == 'l') ADVANCE(153);
+      END_STATE();
     case 102:
-      if (lookahead == 'l') ADVANCE(155);
+      if (lookahead == 'r') ADVANCE(154);
       END_STATE();
     case 103:
-      if (lookahead == 'r') ADVANCE(156);
+      if (lookahead == 't') ADVANCE(155);
       END_STATE();
     case 104:
-      if (lookahead == 't') ADVANCE(157);
+      if (lookahead == 'u') ADVANCE(156);
       END_STATE();
     case 105:
-      if (lookahead == 'u') ADVANCE(158);
+      if (lookahead == 'u') ADVANCE(157);
       END_STATE();
     case 106:
-      if (lookahead == 'u') ADVANCE(159);
-      END_STATE();
-    case 107:
       ACCEPT_TOKEN(anon_sym_set);
       END_STATE();
+    case 107:
+      if (lookahead == 'w') ADVANCE(158);
+      END_STATE();
     case 108:
-      if (lookahead == 'w') ADVANCE(160);
+      if (lookahead == 't') ADVANCE(159);
       END_STATE();
     case 109:
-      if (lookahead == 't') ADVANCE(161);
+      if (lookahead == 'e') ADVANCE(160);
       END_STATE();
     case 110:
-      if (lookahead == 'e') ADVANCE(162);
+      if (lookahead == 't') ADVANCE(161);
       END_STATE();
     case 111:
-      if (lookahead == 't') ADVANCE(163);
+      if (lookahead == 's') ADVANCE(162);
       END_STATE();
     case 112:
-      if (lookahead == 'c') ADVANCE(164);
+      if (lookahead == 'o') ADVANCE(163);
       END_STATE();
     case 113:
-      if (lookahead == 's') ADVANCE(165);
+      if (lookahead == 'n') ADVANCE(164);
       END_STATE();
     case 114:
-      if (lookahead == 'o') ADVANCE(166);
+      if (lookahead == 'e') ADVANCE(165);
       END_STATE();
     case 115:
-      if (lookahead == 'n') ADVANCE(167);
-      END_STATE();
-    case 116:
-      if (lookahead == 'e') ADVANCE(168);
-      END_STATE();
-    case 117:
       ACCEPT_TOKEN(anon_sym_try);
       END_STATE();
-    case 118:
-      if (lookahead == 'e') ADVANCE(169);
+    case 116:
+      if (lookahead == 'e') ADVANCE(166);
       END_STATE();
-    case 119:
+    case 117:
       ACCEPT_TOKEN(anon_sym_var);
       END_STATE();
+    case 118:
+      if (lookahead == 'd') ADVANCE(167);
+      END_STATE();
+    case 119:
+      if (lookahead == 'l') ADVANCE(168);
+      END_STATE();
     case 120:
-      if (lookahead == 'd') ADVANCE(170);
+      if (lookahead == 'h') ADVANCE(169);
       END_STATE();
     case 121:
-      if (lookahead == 'l') ADVANCE(171);
+      if (lookahead == 'l') ADVANCE(170);
       END_STATE();
     case 122:
-      if (lookahead == 'h') ADVANCE(172);
+      if (lookahead == 't') ADVANCE(171);
       END_STATE();
     case 123:
-      if (lookahead == 'l') ADVANCE(173);
+      if (lookahead == 'r') ADVANCE(172);
       END_STATE();
     case 124:
-      if (lookahead == 't') ADVANCE(174);
+      if (lookahead == 'r') ADVANCE(173);
       END_STATE();
     case 125:
-      if (lookahead == 'r') ADVANCE(175);
+      if (lookahead == 't') ADVANCE(174);
       END_STATE();
     case 126:
-      if (lookahead == 'r') ADVANCE(176);
-      END_STATE();
-    case 127:
-      if (lookahead == 't') ADVANCE(177);
-      END_STATE();
-    case 128:
       ACCEPT_TOKEN(anon_sym_bool);
       END_STATE();
-    case 129:
-      if (lookahead == 'k') ADVANCE(178);
+    case 127:
+      if (lookahead == 'k') ADVANCE(175);
       END_STATE();
-    case 130:
+    case 128:
       ACCEPT_TOKEN(anon_sym_case);
       END_STATE();
+    case 129:
+      if (lookahead == 'h') ADVANCE(176);
+      END_STATE();
+    case 130:
+      if (lookahead == 's') ADVANCE(177);
+      END_STATE();
     case 131:
-      if (lookahead == 'h') ADVANCE(179);
+      if (lookahead == 't') ADVANCE(178);
       END_STATE();
     case 132:
-      if (lookahead == 's') ADVANCE(180);
+      if (lookahead == 'i') ADVANCE(179);
       END_STATE();
     case 133:
-      if (lookahead == 't') ADVANCE(181);
+      if (lookahead == 'r') ADVANCE(180);
       END_STATE();
     case 134:
-      if (lookahead == 'i') ADVANCE(182);
+      if (lookahead == 'u') ADVANCE(181);
       END_STATE();
     case 135:
-      if (lookahead == 'r') ADVANCE(183);
+      if (lookahead == 'r') ADVANCE(182);
       END_STATE();
     case 136:
-      if (lookahead == 'u') ADVANCE(184);
+      if (lookahead == 'l') ADVANCE(183);
       END_STATE();
     case 137:
-      if (lookahead == 'r') ADVANCE(185);
+      if (lookahead == 'm') ADVANCE(184);
       END_STATE();
     case 138:
-      if (lookahead == 'l') ADVANCE(186);
-      END_STATE();
-    case 139:
-      if (lookahead == 'm') ADVANCE(187);
-      END_STATE();
-    case 140:
       ACCEPT_TOKEN(anon_sym_else);
       END_STATE();
-    case 141:
+    case 139:
       ACCEPT_TOKEN(anon_sym_enum);
       END_STATE();
+    case 140:
+      if (lookahead == 'r') ADVANCE(185);
+      END_STATE();
+    case 141:
+      if (lookahead == 'n') ADVANCE(186);
+      if (lookahead == 'r') ADVANCE(187);
+      END_STATE();
     case 142:
-      if (lookahead == 'r') ADVANCE(188);
+      if (lookahead == 'o') ADVANCE(188);
       END_STATE();
     case 143:
-      if (lookahead == 'n') ADVANCE(189);
-      if (lookahead == 'r') ADVANCE(190);
+      if (lookahead == 'e') ADVANCE(189);
       END_STATE();
     case 144:
-      if (lookahead == 'o') ADVANCE(191);
+      if (lookahead == 'l') ADVANCE(190);
       END_STATE();
     case 145:
-      if (lookahead == 'e') ADVANCE(192);
-      END_STATE();
-    case 146:
-      if (lookahead == 'l') ADVANCE(193);
-      END_STATE();
-    case 147:
       ACCEPT_TOKEN(anon_sym_hide);
       END_STATE();
+    case 146:
+      if (lookahead == 'e') ADVANCE(191);
+      END_STATE();
+    case 147:
+      if (lookahead == 'r') ADVANCE(192);
+      END_STATE();
     case 148:
-      if (lookahead == 'e') ADVANCE(194);
+      if (lookahead == 'r') ADVANCE(193);
       END_STATE();
     case 149:
-      if (lookahead == 'r') ADVANCE(195);
-      END_STATE();
-    case 150:
-      if (lookahead == 'r') ADVANCE(196);
-      END_STATE();
-    case 151:
       ACCEPT_TOKEN(anon_sym_late);
       END_STATE();
+    case 150:
+      if (lookahead == 'a') ADVANCE(194);
+      END_STATE();
+    case 151:
+      if (lookahead == 'n') ADVANCE(195);
+      END_STATE();
     case 152:
-      if (lookahead == 'a') ADVANCE(197);
+      if (lookahead == 'v') ADVANCE(196);
       END_STATE();
     case 153:
-      if (lookahead == 'n') ADVANCE(198);
-      END_STATE();
-    case 154:
-      if (lookahead == 'v') ADVANCE(199);
-      END_STATE();
-    case 155:
       ACCEPT_TOKEN(anon_sym_null);
       END_STATE();
-    case 156:
-      if (lookahead == 'a') ADVANCE(200);
+    case 154:
+      if (lookahead == 'a') ADVANCE(197);
       END_STATE();
-    case 157:
+    case 155:
       ACCEPT_TOKEN(anon_sym_part);
       END_STATE();
+    case 156:
+      if (lookahead == 'i') ADVANCE(198);
+      END_STATE();
+    case 157:
+      if (lookahead == 'r') ADVANCE(199);
+      END_STATE();
     case 158:
-      if (lookahead == 'i') ADVANCE(201);
-      END_STATE();
-    case 159:
-      if (lookahead == 'r') ADVANCE(202);
-      END_STATE();
-    case 160:
       ACCEPT_TOKEN(anon_sym_show);
       END_STATE();
+    case 159:
+      if (lookahead == 'i') ADVANCE(200);
+      END_STATE();
+    case 160:
+      if (lookahead == 'r') ADVANCE(201);
+      END_STATE();
     case 161:
-      if (lookahead == 'i') ADVANCE(203);
+      if (lookahead == 'c') ADVANCE(202);
       END_STATE();
     case 162:
-      if (lookahead == 'r') ADVANCE(204);
-      END_STATE();
-    case 163:
-      if (lookahead == 'c') ADVANCE(205);
-      END_STATE();
-    case 164:
-      if (lookahead == 'h') ADVANCE(206);
-      END_STATE();
-    case 165:
       ACCEPT_TOKEN(anon_sym_this);
       END_STATE();
-    case 166:
-      if (lookahead == 'w') ADVANCE(207);
+    case 163:
+      if (lookahead == 'w') ADVANCE(203);
       END_STATE();
-    case 167:
-      if (lookahead == 's') ADVANCE(208);
+    case 164:
+      if (lookahead == 's') ADVANCE(204);
       END_STATE();
-    case 168:
+    case 165:
       ACCEPT_TOKEN(anon_sym_true);
       END_STATE();
-    case 169:
-      if (lookahead == 'd') ADVANCE(209);
+    case 166:
+      if (lookahead == 'd') ADVANCE(205);
       END_STATE();
-    case 170:
+    case 167:
       ACCEPT_TOKEN(anon_sym_void);
       END_STATE();
-    case 171:
-      if (lookahead == 'e') ADVANCE(210);
+    case 168:
+      if (lookahead == 'e') ADVANCE(206);
       END_STATE();
-    case 172:
+    case 169:
       ACCEPT_TOKEN(anon_sym_with);
       END_STATE();
+    case 170:
+      if (lookahead == 'd') ADVANCE(207);
+      END_STATE();
+    case 171:
+      if (lookahead == 'i') ADVANCE(208);
+      END_STATE();
+    case 172:
+      if (lookahead == 'a') ADVANCE(209);
+      END_STATE();
     case 173:
-      if (lookahead == 'd') ADVANCE(211);
+      if (lookahead == 't') ADVANCE(210);
       END_STATE();
     case 174:
-      if (lookahead == 'i') ADVANCE(212);
-      END_STATE();
-    case 175:
-      if (lookahead == 'a') ADVANCE(213);
-      END_STATE();
-    case 176:
-      if (lookahead == 't') ADVANCE(214);
-      END_STATE();
-    case 177:
       ACCEPT_TOKEN(anon_sym_await);
       END_STATE();
-    case 178:
+    case 175:
       ACCEPT_TOKEN(anon_sym_break);
       END_STATE();
-    case 179:
+    case 176:
       ACCEPT_TOKEN(anon_sym_catch);
       END_STATE();
-    case 180:
+    case 177:
       ACCEPT_TOKEN(anon_sym_class);
       END_STATE();
-    case 181:
+    case 178:
       ACCEPT_TOKEN(anon_sym_const);
       END_STATE();
+    case 179:
+      if (lookahead == 'n') ADVANCE(211);
+      END_STATE();
+    case 180:
+      if (lookahead == 'i') ADVANCE(212);
+      END_STATE();
+    case 181:
+      if (lookahead == 'l') ADVANCE(213);
+      END_STATE();
     case 182:
-      if (lookahead == 'n') ADVANCE(215);
+      if (lookahead == 'r') ADVANCE(214);
       END_STATE();
     case 183:
-      if (lookahead == 'i') ADVANCE(216);
+      if (lookahead == 'e') ADVANCE(215);
       END_STATE();
     case 184:
-      if (lookahead == 'l') ADVANCE(217);
+      if (lookahead == 'i') ADVANCE(216);
       END_STATE();
     case 185:
-      if (lookahead == 'r') ADVANCE(218);
+      if (lookahead == 't') ADVANCE(217);
       END_STATE();
     case 186:
-      if (lookahead == 'e') ADVANCE(219);
+      if (lookahead == 'd') ADVANCE(218);
+      if (lookahead == 's') ADVANCE(219);
       END_STATE();
     case 187:
-      if (lookahead == 'i') ADVANCE(220);
+      if (lookahead == 'n') ADVANCE(220);
       END_STATE();
     case 188:
-      if (lookahead == 't') ADVANCE(221);
+      if (lookahead == 'r') ADVANCE(221);
       END_STATE();
     case 189:
-      if (lookahead == 'd') ADVANCE(222);
-      if (lookahead == 's') ADVANCE(223);
-      END_STATE();
-    case 190:
-      if (lookahead == 'n') ADVANCE(224);
-      END_STATE();
-    case 191:
-      if (lookahead == 'r') ADVANCE(225);
-      END_STATE();
-    case 192:
       ACCEPT_TOKEN(anon_sym_false);
       END_STATE();
-    case 193:
+    case 190:
       ACCEPT_TOKEN(anon_sym_final);
-      if (lookahead == 'l') ADVANCE(226);
+      if (lookahead == 'l') ADVANCE(222);
+      END_STATE();
+    case 191:
+      if (lookahead == 'm') ADVANCE(223);
+      END_STATE();
+    case 192:
+      if (lookahead == 't') ADVANCE(224);
+      END_STATE();
+    case 193:
+      if (lookahead == 'f') ADVANCE(225);
       END_STATE();
     case 194:
-      if (lookahead == 'm') ADVANCE(227);
+      if (lookahead == 'r') ADVANCE(226);
       END_STATE();
     case 195:
-      if (lookahead == 't') ADVANCE(228);
-      END_STATE();
-    case 196:
-      if (lookahead == 'f') ADVANCE(229);
-      END_STATE();
-    case 197:
-      if (lookahead == 'r') ADVANCE(230);
-      END_STATE();
-    case 198:
       ACCEPT_TOKEN(anon_sym_mixin);
       END_STATE();
+    case 196:
+      if (lookahead == 'e') ADVANCE(227);
+      END_STATE();
+    case 197:
+      if (lookahead == 't') ADVANCE(228);
+      END_STATE();
+    case 198:
+      if (lookahead == 'r') ADVANCE(229);
+      END_STATE();
     case 199:
-      if (lookahead == 'e') ADVANCE(231);
+      if (lookahead == 'n') ADVANCE(230);
       END_STATE();
     case 200:
-      if (lookahead == 't') ADVANCE(232);
+      if (lookahead == 'c') ADVANCE(231);
       END_STATE();
     case 201:
-      if (lookahead == 'r') ADVANCE(233);
-      END_STATE();
-    case 202:
-      if (lookahead == 'n') ADVANCE(234);
-      END_STATE();
-    case 203:
-      if (lookahead == 'c') ADVANCE(235);
-      END_STATE();
-    case 204:
       ACCEPT_TOKEN(anon_sym_super);
       END_STATE();
+    case 202:
+      if (lookahead == 'h') ADVANCE(232);
+      END_STATE();
+    case 203:
+      ACCEPT_TOKEN(anon_sym_throw);
+      if (lookahead == 's') ADVANCE(233);
+      END_STATE();
+    case 204:
+      if (lookahead == 'i') ADVANCE(234);
+      END_STATE();
     case 205:
-      if (lookahead == 'h') ADVANCE(236);
+      if (lookahead == 'e') ADVANCE(235);
       END_STATE();
     case 206:
-      if (lookahead == 'r') ADVANCE(237);
-      END_STATE();
-    case 207:
-      ACCEPT_TOKEN(anon_sym_throw);
-      if (lookahead == 's') ADVANCE(238);
-      END_STATE();
-    case 208:
-      if (lookahead == 'i') ADVANCE(239);
-      END_STATE();
-    case 209:
-      if (lookahead == 'e') ADVANCE(240);
-      END_STATE();
-    case 210:
       ACCEPT_TOKEN(anon_sym_while);
       END_STATE();
-    case 211:
+    case 207:
       ACCEPT_TOKEN(anon_sym_yield);
       END_STATE();
-    case 212:
-      if (lookahead == 'o') ADVANCE(241);
+    case 208:
+      if (lookahead == 'o') ADVANCE(236);
       END_STATE();
-    case 213:
-      if (lookahead == 'c') ADVANCE(242);
+    case 209:
+      if (lookahead == 'c') ADVANCE(237);
       END_STATE();
-    case 214:
+    case 210:
       ACCEPT_TOKEN(anon_sym_assert);
       END_STATE();
+    case 211:
+      if (lookahead == 'u') ADVANCE(238);
+      END_STATE();
+    case 212:
+      if (lookahead == 'a') ADVANCE(239);
+      END_STATE();
+    case 213:
+      if (lookahead == 't') ADVANCE(240);
+      END_STATE();
+    case 214:
+      if (lookahead == 'e') ADVANCE(241);
+      END_STATE();
     case 215:
-      if (lookahead == 'u') ADVANCE(243);
-      END_STATE();
-    case 216:
-      if (lookahead == 'a') ADVANCE(244);
-      END_STATE();
-    case 217:
-      if (lookahead == 't') ADVANCE(245);
-      END_STATE();
-    case 218:
-      if (lookahead == 'e') ADVANCE(246);
-      END_STATE();
-    case 219:
       ACCEPT_TOKEN(sym_floating_point_type);
       END_STATE();
-    case 220:
-      if (lookahead == 'c') ADVANCE(247);
+    case 216:
+      if (lookahead == 'c') ADVANCE(242);
       END_STATE();
-    case 221:
+    case 217:
       ACCEPT_TOKEN(anon_sym_export);
       END_STATE();
+    case 218:
+      if (lookahead == 's') ADVANCE(243);
+      END_STATE();
+    case 219:
+      if (lookahead == 'i') ADVANCE(244);
+      END_STATE();
+    case 220:
+      if (lookahead == 'a') ADVANCE(245);
+      END_STATE();
+    case 221:
+      if (lookahead == 'y') ADVANCE(246);
+      END_STATE();
     case 222:
-      if (lookahead == 's') ADVANCE(248);
+      if (lookahead == 'y') ADVANCE(247);
       END_STATE();
     case 223:
-      if (lookahead == 'i') ADVANCE(249);
+      if (lookahead == 'e') ADVANCE(248);
       END_STATE();
     case 224:
-      if (lookahead == 'a') ADVANCE(250);
-      END_STATE();
-    case 225:
-      if (lookahead == 'y') ADVANCE(251);
-      END_STATE();
-    case 226:
-      if (lookahead == 'y') ADVANCE(252);
-      END_STATE();
-    case 227:
-      if (lookahead == 'e') ADVANCE(253);
-      END_STATE();
-    case 228:
       ACCEPT_TOKEN(anon_sym_import);
       END_STATE();
-    case 229:
-      if (lookahead == 'a') ADVANCE(254);
+    case 225:
+      if (lookahead == 'a') ADVANCE(249);
       END_STATE();
-    case 230:
-      if (lookahead == 'y') ADVANCE(255);
+    case 226:
+      if (lookahead == 'y') ADVANCE(250);
       END_STATE();
-    case 231:
+    case 227:
       ACCEPT_TOKEN(anon_sym_native);
       END_STATE();
-    case 232:
-      if (lookahead == 'o') ADVANCE(256);
+    case 228:
+      if (lookahead == 'o') ADVANCE(251);
       END_STATE();
-    case 233:
-      if (lookahead == 'e') ADVANCE(257);
+    case 229:
+      if (lookahead == 'e') ADVANCE(252);
       END_STATE();
-    case 234:
+    case 230:
       ACCEPT_TOKEN(anon_sym_return);
       END_STATE();
-    case 235:
+    case 231:
       ACCEPT_TOKEN(anon_sym_static);
       END_STATE();
-    case 236:
+    case 232:
       ACCEPT_TOKEN(anon_sym_switch);
       END_STATE();
-    case 237:
-      if (lookahead == 'o') ADVANCE(258);
-      END_STATE();
-    case 238:
+    case 233:
       ACCEPT_TOKEN(anon_sym_throws);
       END_STATE();
+    case 234:
+      if (lookahead == 't') ADVANCE(253);
+      END_STATE();
+    case 235:
+      if (lookahead == 'f') ADVANCE(254);
+      END_STATE();
+    case 236:
+      if (lookahead == 'n') ADVANCE(255);
+      END_STATE();
+    case 237:
+      if (lookahead == 't') ADVANCE(256);
+      END_STATE();
+    case 238:
+      if (lookahead == 'e') ADVANCE(257);
+      END_STATE();
     case 239:
-      if (lookahead == 't') ADVANCE(259);
+      if (lookahead == 'n') ADVANCE(258);
       END_STATE();
     case 240:
-      if (lookahead == 'f') ADVANCE(260);
-      END_STATE();
-    case 241:
-      if (lookahead == 'n') ADVANCE(261);
-      END_STATE();
-    case 242:
-      if (lookahead == 't') ADVANCE(262);
-      END_STATE();
-    case 243:
-      if (lookahead == 'e') ADVANCE(263);
-      END_STATE();
-    case 244:
-      if (lookahead == 'n') ADVANCE(264);
-      END_STATE();
-    case 245:
       ACCEPT_TOKEN(anon_sym_default);
       END_STATE();
-    case 246:
-      if (lookahead == 'd') ADVANCE(265);
+    case 241:
+      if (lookahead == 'd') ADVANCE(259);
       END_STATE();
-    case 247:
+    case 242:
       ACCEPT_TOKEN(anon_sym_dynamic);
       END_STATE();
-    case 248:
+    case 243:
       ACCEPT_TOKEN(anon_sym_extends);
       END_STATE();
-    case 249:
-      if (lookahead == 'o') ADVANCE(266);
+    case 244:
+      if (lookahead == 'o') ADVANCE(260);
       END_STATE();
-    case 250:
-      if (lookahead == 'l') ADVANCE(267);
+    case 245:
+      if (lookahead == 'l') ADVANCE(261);
       END_STATE();
-    case 251:
+    case 246:
       ACCEPT_TOKEN(anon_sym_factory);
       END_STATE();
-    case 252:
+    case 247:
       ACCEPT_TOKEN(anon_sym_finally);
       END_STATE();
-    case 253:
-      if (lookahead == 'n') ADVANCE(268);
+    case 248:
+      if (lookahead == 'n') ADVANCE(262);
       END_STATE();
-    case 254:
-      if (lookahead == 'c') ADVANCE(269);
+    case 249:
+      if (lookahead == 'c') ADVANCE(263);
       END_STATE();
-    case 255:
+    case 250:
       ACCEPT_TOKEN(anon_sym_library);
       END_STATE();
-    case 256:
-      if (lookahead == 'r') ADVANCE(270);
+    case 251:
+      if (lookahead == 'r') ADVANCE(264);
       END_STATE();
-    case 257:
-      if (lookahead == 'd') ADVANCE(271);
+    case 252:
+      if (lookahead == 'd') ADVANCE(265);
       END_STATE();
-    case 258:
-      if (lookahead == 'n') ADVANCE(272);
+    case 253:
+      if (lookahead == 'i') ADVANCE(266);
       END_STATE();
-    case 259:
-      if (lookahead == 'i') ADVANCE(273);
-      END_STATE();
-    case 260:
+    case 254:
       ACCEPT_TOKEN(anon_sym_typedef);
       END_STATE();
-    case 261:
+    case 255:
       ACCEPT_TOKEN(anon_sym_Function);
       END_STATE();
-    case 262:
+    case 256:
       ACCEPT_TOKEN(anon_sym_abstract);
       END_STATE();
-    case 263:
+    case 257:
       ACCEPT_TOKEN(anon_sym_continue);
       END_STATE();
-    case 264:
-      if (lookahead == 't') ADVANCE(274);
+    case 258:
+      if (lookahead == 't') ADVANCE(267);
       END_STATE();
-    case 265:
+    case 259:
       ACCEPT_TOKEN(anon_sym_deferred);
       END_STATE();
-    case 266:
-      if (lookahead == 'n') ADVANCE(275);
+    case 260:
+      if (lookahead == 'n') ADVANCE(268);
       END_STATE();
-    case 267:
+    case 261:
       ACCEPT_TOKEN(anon_sym_external);
       END_STATE();
-    case 268:
-      if (lookahead == 't') ADVANCE(276);
+    case 262:
+      if (lookahead == 't') ADVANCE(269);
       END_STATE();
-    case 269:
-      if (lookahead == 'e') ADVANCE(277);
+    case 263:
+      if (lookahead == 'e') ADVANCE(270);
       END_STATE();
-    case 270:
+    case 264:
       ACCEPT_TOKEN(anon_sym_operator);
       END_STATE();
-    case 271:
+    case 265:
       ACCEPT_TOKEN(anon_sym_required);
       END_STATE();
-    case 272:
-      if (lookahead == 'i') ADVANCE(278);
+    case 266:
+      if (lookahead == 'v') ADVANCE(271);
       END_STATE();
-    case 273:
-      if (lookahead == 'v') ADVANCE(279);
-      END_STATE();
-    case 274:
+    case 267:
       ACCEPT_TOKEN(anon_sym_covariant);
       END_STATE();
-    case 275:
+    case 268:
       ACCEPT_TOKEN(anon_sym_extension);
       END_STATE();
-    case 276:
-      if (lookahead == 's') ADVANCE(280);
+    case 269:
+      if (lookahead == 's') ADVANCE(272);
       END_STATE();
-    case 277:
+    case 270:
       ACCEPT_TOKEN(anon_sym_interface);
       END_STATE();
-    case 278:
-      if (lookahead == 'z') ADVANCE(281);
+    case 271:
+      if (lookahead == 'e') ADVANCE(273);
       END_STATE();
-    case 279:
-      if (lookahead == 'e') ADVANCE(282);
-      END_STATE();
-    case 280:
+    case 272:
       ACCEPT_TOKEN(anon_sym_implements);
       END_STATE();
-    case 281:
-      if (lookahead == 'e') ADVANCE(283);
-      END_STATE();
-    case 282:
+    case 273:
       ACCEPT_TOKEN(anon_sym_transitive);
-      END_STATE();
-    case 283:
-      if (lookahead == 'd') ADVANCE(284);
-      END_STATE();
-    case 284:
-      ACCEPT_TOKEN(anon_sym_synchronized);
       END_STATE();
     default:
       return false;
@@ -8804,7 +8763,6 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_continue] = ACTIONS(1),
     [anon_sym_yield] = ACTIONS(1),
     [anon_sym_return] = ACTIONS(1),
-    [anon_sym_synchronized] = ACTIONS(1),
     [anon_sym_on] = ACTIONS(1),
     [anon_sym_try] = ACTIONS(1),
     [anon_sym_catch] = ACTIONS(1),

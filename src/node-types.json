@@ -10769,10 +10769,6 @@
     "named": false
   },
   {
-    "type": "synchronized",
-    "named": false
-  },
-  {
     "type": "this",
     "named": false
   },
