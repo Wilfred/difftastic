@@ -139,7 +139,7 @@ module.exports = grammar({
         // [$.assignment_expression, $._expression],
         [$.assignable_expression],
         [$.method_signature, $.declaration, $._static_or_covariant],
-        // [$.type_cast_expression],
+        // [$.type_expression],
         [$._real_expression, $._below_relational_type_cast_expression],
         [$._below_relational_expression, $._below_relational_type_cast_expression],
         [$._function_type_tail]
@@ -790,6 +790,7 @@ module.exports = grammar({
                     // optional(
                     choice(
                         $.type_test,
+                        // $.type_cast,
                         seq(
                             $.relational_operator,
                             $._below_relational_type_cast_expression
@@ -1222,12 +1223,6 @@ module.exports = grammar({
             'return',
             optional($._expression),
             $._semicolon
-        ),
-
-        synchronized_statement: $ => seq(
-            'synchronized',
-            $.parenthesized_expression,
-            field('body', $.block)
         ),
 
         throw_statement: $ => seq('throw', $._expression, $._semicolon),
@@ -1978,15 +1973,12 @@ module.exports = grammar({
             $.void_type
         ),
         _type_not_void_not_function: $ => prec.right(
-            // choice(
-                seq(
-                    $._type_name,
-                    optional($._nullable_type),
-                    optional($.type_arguments),
-                    optional($._nullable_type)
-                ),
-                // $._function_builtin_identifier
-            // )
+            seq(
+                $._type_name,
+                optional($._nullable_type),
+                optional($.type_arguments),
+                optional($._nullable_type)
+            ),
         ),
 
         function_type: $ => prec.right(
