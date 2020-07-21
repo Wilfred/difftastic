@@ -1,7 +1,7 @@
 (script
   (class_declaration
-    (class_modifier)
-    (class_modifier)
+    (abstract_modifier)
+    (final_modifier)
     name: (identifier)
     (type_parameters
       (type_parameter
