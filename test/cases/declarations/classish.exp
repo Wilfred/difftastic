@@ -23,8 +23,8 @@
         (identifier)))
     body: (declaration_list))
   (class_declaration
-    (class_modifier)
-    (class_modifier)
+    (abstract_modifier)
+    (final_modifier)
     name: (identifier)
     (extends_clause
       (type_identifier
@@ -41,17 +41,17 @@
         (parameters)
         body: (compound_statement))
       (method_declaration
-        (class_modifier)
+        (final_modifier)
         name: (identifier)
         (parameters)
         return_type: (primitive_type)
         body: (compound_statement))
       (method_declaration
-        (class_modifier)
+        (abstract_modifier)
         name: (identifier)
         (parameters))
       (method_declaration
-        (class_modifier)
+        (abstract_modifier)
         name: (identifier)
         (parameters)
         return_type: (primitive_type)))))

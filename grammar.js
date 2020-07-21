@@ -582,8 +582,10 @@ const rules = {
 
   class_declaration: $ =>
     seq(
-      opt($.class_modifier),
-      opt($.class_modifier),
+      choice.opt(
+        seq($.final_modifier, $.abstract_modifier),
+        seq($.abstract_modifier, $.final_modifier),
+      ),
       'class',
       field('name', $.identifier),
       opt($.type_parameters),
@@ -594,7 +596,9 @@ const rules = {
 
   declaration_list: $ => seq('{', choice.rep($.method_declaration), '}'),
 
-  class_modifier: $ => choice('abstract', 'final'),
+  final_modifier: $ => 'final',
+
+  abstract_modifier: $ => 'abstract',
 
   extends_clause: $ => seq('extends', com($._type)),
 
@@ -602,8 +606,7 @@ const rules = {
 
   method_declaration: $ =>
     seq(
-      opt($.class_modifier),
-      opt($.class_modifier),
+      choice.opt($.final_modifier, $.abstract_modifier),
       $._function_declaration_header,
       choice(field('body', $.compound_statement), ';'),
     ),
