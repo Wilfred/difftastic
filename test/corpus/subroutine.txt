@@ -1,0 +1,17 @@
+=================================================
+Subroutine
+=================================================
+
+sub hello {
+  return 'hello';
+}
+
+---
+
+(source_file
+  (function_definition (identifier)
+    (block
+      (return_statement (string))
+    )
+  )
+)
