@@ -1,0 +1,23 @@
+{
+  "name": "tree-sitter-perl",
+  "version": "1.0.0",
+  "description": "a tree-sitter for perl language.",
+  "main": "index.js",
+  "scripts": {
+    "generate": "tree-sitter generate",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "perl",
+    "parser",
+    "nodejs"
+  ],
+  "author": "ganezdragon",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.16.9"
+  }
+}

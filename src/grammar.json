@@ -1,0 +1,20 @@
+{
+  "name": "perl",
+  "rules": {
+    "source_file": {
+      "type": "STRING",
+      "value": "hello.pl"
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "\\s"
+    }
+  ],
+  "conflicts": [],
+  "externals": [],
+  "inline": [],
+  "supertypes": []
+}
+
