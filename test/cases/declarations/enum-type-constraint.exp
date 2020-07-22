@@ -1,0 +1,11 @@
+(script
+  (enum_declaration
+    name: (identifier)
+    type: (primitive_type)
+    type_constraint: (primitive_type)
+    (field_specifier
+      (identifier)
+      (integer))
+    (field_specifier
+      (identifier)
+      (integer))))

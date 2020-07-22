@@ -75,6 +75,7 @@ const rules = {
       $.interface_declaration,
       $.trait_declaration,
       $.alias_declaration,
+      $.enum_declaration,
     ),
 
   _expression: $ =>
@@ -331,7 +332,7 @@ const rules = {
       '(',
       choice.opt(
         seq(
-          com($.field_specifier),
+          com(alias($._shape_field_specifier, $.field_specifier)),
           seq.opt(',', seq.opt(alias('...', $.open_modifier), opt(','))),
         ),
         seq(alias('...', $.open_modifier), opt(',')),
@@ -339,7 +340,7 @@ const rules = {
       ')',
     ),
 
-  field_specifier: $ =>
+  _shape_field_specifier: $ =>
     seq(
       alias.opt('?', $.optional_modifier),
       choice($.string, $.scoped_identifier),
@@ -645,6 +646,21 @@ const rules = {
       $._function_declaration_header,
       choice(field('body', $.compound_statement), ';'),
     ),
+
+  enum_declaration: $ =>
+    seq(
+      'enum',
+      field('name', $.identifier),
+      ':',
+      field('type', $.primitive_type),
+      field('type_constraint', seq.opt('as', $._type)),
+      '{',
+      rep(alias($._enum_field_specifier, $.field_specifier)),
+      '}',
+    ),
+
+  _enum_field_specifier: $ =>
+    seq($.identifier, '=', choice($.string, $.integer, $._variablish), ';'),
 
   // Misc
 
