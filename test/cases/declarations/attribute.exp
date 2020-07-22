@@ -1,0 +1,40 @@
+(script
+  (class_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier))
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (integer))
+        (argument
+          (integer))))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (attribute_modifier
+          (qualified_identifier
+            (identifier))
+          (qualified_identifier
+            (identifier))
+          (arguments
+            (argument
+              (integer))
+            (argument
+              (integer))))
+        name: (identifier)
+        (parameters)
+        body: (compound_statement))))
+  (function_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (integer)))
+      (qualified_identifier
+        (identifier)))
+    name: (identifier)
+    (parameters)
+    body: (compound_statement)))

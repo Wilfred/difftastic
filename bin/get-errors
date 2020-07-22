@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 while [[ $# -gt 0 ]]; do
   case $1 in
   tree)
@@ -31,6 +33,8 @@ if [[ "$HACK" -eq 1 ]]; then
 fi
 
 if [[ "$TREE" -eq 1 ]]; then
+  bin/generate-parser
+
   npx tree-sitter parse -q $paths |
     cut -f1 |
     xargs npx tree-sitter parse |

@@ -214,7 +214,7 @@ const rules = {
     seq(
       'catch',
       '(',
-      field('type', $.type_identifier),
+      field('type', $._type_identifier),
       field('name', $.variable),
       ')',
       field('body', $.compound_statement),
@@ -260,7 +260,7 @@ const rules = {
 
   _type: $ =>
     choice(
-      $.type_identifier,
+      $._type_identifier,
       $.generic_type,
       $.nullable_type,
       $.primitive_type,
@@ -273,9 +273,9 @@ const rules = {
       $.shape_type,
     ),
 
-  type_identifier: $ => alias($.qualified_identifier, $.type_identifier),
+  _type_identifier: $ => alias($.qualified_identifier, $.type_identifier),
 
-  generic_type: $ => seq($.type_identifier, $.type_arguments),
+  generic_type: $ => seq($._type_identifier, $.type_arguments),
 
   nullable_type: $ => seq('?', $._type),
 
@@ -332,12 +332,12 @@ const rules = {
     seq(
       'shape',
       '(',
-      choice.opt(
-        seq(
-          com(alias($._shape_field_specifier, $.field_specifier)),
-          seq.opt(',', seq.opt(alias('...', $.open_modifier), opt(','))),
+      com(
+        choice(
+          alias($._shape_field_specifier, $.field_specifier),
+          alias('...', $.open_modifier),
         ),
-        seq(alias('...', $.open_modifier), opt(',')),
+        ',',
       ),
       ')',
     ),
@@ -584,7 +584,11 @@ const rules = {
     ),
 
   function_declaration: $ =>
-    seq($._function_declaration_header, field('body', $.compound_statement)),
+    seq(
+      opt($.attribute_modifier),
+      $._function_declaration_header,
+      field('body', $.compound_statement),
+    ),
 
   _function_declaration_header: $ =>
     seq(
@@ -620,8 +624,9 @@ const rules = {
 
   class_declaration: $ =>
     seq(
-      choice.opt($.final_modifier, $.abstract_modifier),
-      choice.opt($.final_modifier, $.abstract_modifier),
+      opt($.attribute_modifier),
+      opt($._class_modifier),
+      opt($._class_modifier),
       'class',
       field('name', $.identifier),
       opt($.type_parameters),
@@ -635,14 +640,11 @@ const rules = {
       '{',
       choice.rep(
         $.method_declaration,
+        $.property_declaration,
         alias($._class_const_declaration, $.const_declaration),
       ),
       '}',
     ),
-
-  final_modifier: $ => 'final',
-
-  abstract_modifier: $ => 'abstract',
 
   extends_clause: $ => seq('extends', com($._type)),
 
@@ -650,14 +652,15 @@ const rules = {
 
   method_declaration: $ =>
     seq(
-      choice.opt($.final_modifier, $.abstract_modifier),
+      opt($.attribute_modifier),
+      opt($._member_modifiers),
       $._function_declaration_header,
       choice(field('body', $.compound_statement), ';'),
     ),
 
   _class_const_declaration: $ =>
     seq(
-      opt($.abstract_modifier),
+      opt($._member_modifiers),
       'const',
       field('type', opt($._type)),
       com(alias($._class_const_declarator, $.const_declaration)),
@@ -675,6 +678,17 @@ const rules = {
 
   const_declarator: $ =>
     seq(field('name', $.identifier), field('value', seq('=', $._expression))),
+
+  property_declaration: $ =>
+    seq(
+      opt($._member_modifiers),
+      field('type', opt($._type)),
+      com($.property_declarator),
+      ';',
+    ),
+
+  property_declarator: $ =>
+    seq(field('name', $.variable), field('value', seq.opt('=', $._expression))),
 
   enum_declaration: $ =>
     seq(
@@ -702,6 +716,37 @@ const rules = {
         ),
       ),
     ),
+
+  // Modifiers
+
+  _member_modifiers: $ =>
+    seq(
+      $._member_modifier,
+      opt($._member_modifier),
+      opt($._member_modifier),
+      opt($._member_modifier),
+    ),
+
+  _member_modifier: $ =>
+    choice(
+      $.visibility_modifier,
+      $.static_modifier,
+      $.abstract_modifier,
+      $.final_modifier,
+    ),
+
+  _class_modifier: $ => choice($.abstract_modifier, $.final_modifier),
+
+  final_modifier: $ => 'final',
+
+  abstract_modifier: $ => 'abstract',
+
+  static_modifier: $ => 'static',
+
+  visibility_modifier: $ => choice('public', 'protected', 'private'),
+
+  attribute_modifier: $ =>
+    seq('<<', com($.qualified_identifier, opt($.arguments), ','), '>>'),
 
   // Misc
 
@@ -768,7 +813,10 @@ module.exports = grammar({
     $._declaration,
     $._literal,
     $._variablish,
-    $.type_identifier,
+    $._type_identifier,
+    $._class_modifier,
+    $._member_modifier,
+    $._member_modifiers,
   ],
 
   word: $ => $.identifier,
