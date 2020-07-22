@@ -100,6 +100,10 @@
         "named": true
       },
       {
+        "type": "labeled_statement",
+        "named": true
+      },
+      {
         "type": "lambda_expression",
         "named": true
       },
@@ -2608,6 +2612,10 @@
           "named": true
         },
         {
+          "type": "factory_constructor_signature",
+          "named": true
+        },
+        {
           "type": "function_signature",
           "named": true
         },
@@ -2649,6 +2657,10 @@
         },
         {
           "type": "static_final_declaration_list",
+          "named": true
+        },
+        {
+          "type": "string_literal",
           "named": true
         },
         {
@@ -3215,6 +3227,10 @@
           "named": true
         },
         {
+          "type": "declaration",
+          "named": true
+        },
+        {
           "type": "function_body",
           "named": true
         },
@@ -3259,6 +3275,16 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "on_type_arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_arguments",
             "named": true
           }
         ]
@@ -5022,6 +5048,10 @@
           "named": true
         },
         {
+          "type": "string_literal",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -5085,6 +5115,10 @@
         },
         {
           "type": "parameter_type_list",
+          "named": true
+        },
+        {
+          "type": "string_literal",
           "named": true
         },
         {
@@ -6073,7 +6107,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "function_type",
@@ -6103,6 +6137,25 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "labeled_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_statement",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true
@@ -6747,7 +6800,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "function_type",
@@ -8448,6 +8501,10 @@
           "named": true
         },
         {
+          "type": "string_literal",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -8865,7 +8922,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "function_type",
@@ -9527,11 +9584,23 @@
           "named": true
         },
         {
+          "type": "parameter_type_list",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
           "type": "type_identifier",
           "named": true
         },
         {
           "type": "type_parameters",
+          "named": true
+        },
+        {
+          "type": "void_type",
           "named": true
         }
       ]
@@ -9574,7 +9643,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "function_type",
@@ -10564,10 +10633,6 @@
     "named": false
   },
   {
-    "type": "get",
-    "named": false
-  },
-  {
     "type": "hex_integer_literal",
     "named": true
   },
@@ -10625,6 +10690,10 @@
   },
   {
     "type": "mixin",
+    "named": false
+  },
+  {
+    "type": "native",
     "named": false
   },
   {
@@ -10697,10 +10766,6 @@
   },
   {
     "type": "sync*",
-    "named": false
-  },
-  {
-    "type": "synchronized",
     "named": false
   },
   {

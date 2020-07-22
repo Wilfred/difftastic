@@ -567,3 +567,16 @@ printStream((args['json'] as bool) ? '' : 'hi');
         )
     )
 )
+
+
+=============================
+Non-null assignable selector
+=============================
+
+parameters?["charset"];
+
+---
+
+(program 
+  (expression_statement (identifier) 
+    (selector (assignable_selector (unconditional_assignable_selector (string_literal))))))

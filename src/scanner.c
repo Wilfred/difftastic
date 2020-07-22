@@ -92,7 +92,7 @@ bool tree_sitter_dart_external_scanner_scan(void *payload, TSLexer *lexer,
                         lexer->result_symbol = TEMPLATE_CHARS_RAW_SLASH;
                         advance(lexer);
                     } else {
-                        return false;
+                        return has_content;
                     }
                     break;
                  default:

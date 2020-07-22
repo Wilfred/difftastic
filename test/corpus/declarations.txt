@@ -410,15 +410,27 @@ typedefs
 
 typedef CreateCallback = void Function(String);
 typedef void EndCallback(String endValue);
+typedef Future<String> Handler(String method, Map<String, String> parameters);
+typedef MyFunction<T> = T Function();
 
 ---
 
 (program 
   (type_alias (type_identifier) 
-    (function_type (void_type) 
+    (function_type 
+      (void_type) 
       (parameter_type_list (normal_parameter_type (type_identifier))))) 
-  (type_alias (type_identifier) (type_identifier) 
-    (formal_parameter_list (formal_parameter (type_identifier) (identifier)))))
+  (type_alias 
+    (void_type) 
+    (type_identifier) 
+    (formal_parameter_list (formal_parameter (type_identifier) (identifier))))
+  (type_alias
+    (type_identifier) (type_arguments (type_identifier)) 
+    (type_identifier) 
+    (formal_parameter_list (formal_parameter (type_identifier) (identifier)) (formal_parameter (type_identifier) (type_arguments (type_identifier) (type_identifier)) (identifier)))) 
+  (type_alias 
+    (type_identifier) (type_parameters (type_parameter (identifier))) 
+    (function_type (type_identifier) (parameter_type_list))))
 
 =================
 script tag
@@ -528,3 +540,51 @@ if (blah) {
         )
     )
 )
+
+
+==================================
+Null function argument
+==================================
+
+void _invoke(void callback()?, Zone? zone) {
+}
+
+---
+
+(program 
+  (function_signature (void_type) (identifier) 
+    (formal_parameter_list 
+      (formal_parameter (void_type) (identifier) (formal_parameter_list)) 
+      (formal_parameter (type_identifier) (identifier)))) 
+    (function_body (block)))
+
+
+==================================
+Get and set methods (not keyword)
+==================================
+
+String get(String hello) => 'A string $hello';
+class MyClass {
+  void set(String name, Object value) {}
+}
+
+---
+
+==================================
+external factories
+==================================
+
+class LinkedHashMap {
+  external factory LinkedHashMap();
+
+
+  external factory LinkedHashMap.identity();
+}
+
+---
+
+(program 
+  (class_definition (identifier) 
+    (class_body 
+      (declaration (factory_constructor_signature (identifier) (formal_parameter_list))) 
+      (declaration (factory_constructor_signature (identifier) (identifier) (formal_parameter_list))))))
