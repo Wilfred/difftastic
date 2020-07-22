@@ -77,6 +77,7 @@ const rules = {
       $.alias_declaration,
       $.enum_declaration,
       $.namespace_declaration,
+      $.const_declaration,
     ),
 
   _expression: $ =>
@@ -605,7 +606,7 @@ const rules = {
       field('name', $.identifier),
       opt($.type_parameters),
       opt($.implements_clause),
-      field('body', $.declaration_list),
+      field('body', $.class_body),
     ),
 
   interface_declaration: $ =>
@@ -614,24 +615,30 @@ const rules = {
       field('name', $.identifier),
       opt($.type_parameters),
       opt($.extends_clause),
-      field('body', $.declaration_list),
+      field('body', $.class_body),
     ),
 
   class_declaration: $ =>
     seq(
-      choice.opt(
-        seq($.final_modifier, $.abstract_modifier),
-        seq($.abstract_modifier, $.final_modifier),
-      ),
+      choice.opt($.final_modifier, $.abstract_modifier),
+      choice.opt($.final_modifier, $.abstract_modifier),
       'class',
       field('name', $.identifier),
       opt($.type_parameters),
       opt($.extends_clause),
       opt($.implements_clause),
-      field('body', $.declaration_list),
+      field('body', $.class_body),
     ),
 
-  declaration_list: $ => seq('{', choice.rep($.method_declaration), '}'),
+  class_body: $ =>
+    seq(
+      '{',
+      choice.rep(
+        $.method_declaration,
+        alias($._class_const_declaration, $.const_declaration),
+      ),
+      '}',
+    ),
 
   final_modifier: $ => 'final',
 
@@ -647,6 +654,27 @@ const rules = {
       $._function_declaration_header,
       choice(field('body', $.compound_statement), ';'),
     ),
+
+  _class_const_declaration: $ =>
+    seq(
+      opt($.abstract_modifier),
+      'const',
+      field('type', opt($._type)),
+      com(alias($._class_const_declarator, $.const_declaration)),
+      ';',
+    ),
+
+  _class_const_declarator: $ =>
+    seq(
+      field('name', $.identifier),
+      field('value', seq.opt('=', $._expression)),
+    ),
+
+  const_declaration: $ =>
+    seq('const', field('type', opt($._type)), com($.const_declarator), ';'),
+
+  const_declarator: $ =>
+    seq(field('name', $.identifier), field('value', seq('=', $._expression))),
 
   enum_declaration: $ =>
     seq(
