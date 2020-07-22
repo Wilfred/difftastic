@@ -1,0 +1,21 @@
+(script
+  (expression_statement
+    (async_expression
+      (compound_statement)))
+  (expression_statement
+    (async_expression
+      (compound_statement
+        (concurrent_statement
+          (compound_statement
+            (expression_statement
+              (await_expression
+                (function_call_expression
+                  function: (qualified_identifier
+                    (identifier))
+                  (arguments))))
+            (expression_statement
+              (await_expression
+                (function_call_expression
+                  function: (qualified_identifier
+                    (identifier))
+                  (arguments))))))))))

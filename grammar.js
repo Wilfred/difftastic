@@ -63,6 +63,9 @@ const rules = {
       $.foreach_statement,
       $.try_statement,
       $.throw_statement,
+      $.echo_statement,
+      $.unset_statement,
+      $.concurrent_statement,
     ),
 
   _declaration: $ =>
@@ -94,6 +97,7 @@ const rules = {
       $.as_expression,
       $.fun_expression,
       $.await_expression,
+      $.async_expression,
       $.error_control_expression,
       $.clone_expression,
       $.cast_expression,
@@ -119,6 +123,12 @@ const rules = {
   continue_statement: $ => seq('continue', opt($._expression), ';'),
 
   throw_statement: $ => seq('throw', $._expression, ';'),
+
+  echo_statement: $ => seq('echo', com($._expression), ';'),
+
+  unset_statement: $ => seq('unset', '(', com.opt($._variablish), ')', ';'),
+
+  concurrent_statement: $ => seq('concurrent', $.compound_statement),
 
   if_statement: $ =>
     PREC.if(
@@ -487,6 +497,8 @@ const rules = {
   clone_expression: $ => PREC.clone('clone', $._expression),
 
   await_expression: $ => PREC.await('await', $._expression),
+
+  async_expression: $ => seq('async', $.compound_statement),
 
   error_control_expression: $ => PREC.error('@', $._expression),
 

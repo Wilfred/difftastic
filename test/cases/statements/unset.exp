@@ -1,0 +1,11 @@
+(script
+  (unset_statement)
+  (unset_statement
+    (subscript_expression
+      (variable
+        (identifier))
+      (string))
+    (subscript_expression
+      (variable
+        (identifier))
+      (integer))))
