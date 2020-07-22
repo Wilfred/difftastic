@@ -49,12 +49,19 @@ const rules = {
   _statement: $ =>
     choice(
       $._declaration,
+
       $.compound_statement,
       $.empty_statement,
       $.expression_statement,
+
       $.return_statement,
       $.break_statement,
       $.continue_statement,
+      $.throw_statement,
+      $.echo_statement,
+      $.unset_statement,
+
+      $.use_statement,
       $.if_statement,
       $.while_statement,
       $.do_statement,
@@ -62,9 +69,6 @@ const rules = {
       $.switch_statement,
       $.foreach_statement,
       $.try_statement,
-      $.throw_statement,
-      $.echo_statement,
-      $.unset_statement,
       $.concurrent_statement,
     ),
 
@@ -133,6 +137,28 @@ const rules = {
   unset_statement: $ => seq('unset', '(', com.opt($._variablish), ')', ';'),
 
   concurrent_statement: $ => seq('concurrent', $.compound_statement),
+
+  use_statement: $ =>
+    seq(
+      'use',
+      choice(
+        com(opt($.use_type), $.use_clause),
+        seq(
+          $.use_type,
+          $.qualified_identifier,
+          '\\',
+          '{',
+          com($.use_clause, ','),
+          '}',
+        ),
+      ),
+      ';',
+    ),
+
+  use_type: $ => choice('namespace', 'function', 'type', 'const'),
+
+  use_clause: $ =>
+    seq($.qualified_identifier, field('alias', seq.opt('as', $.identifier))),
 
   if_statement: $ =>
     PREC.if(
@@ -831,6 +857,7 @@ module.exports = grammar({
   word: $ => $.identifier,
 
   conflicts: $ => [
+    [$.qualified_identifier],
     [$.binary_expression],
     [$._expression, $.parameter],
     [$._expression, $.primitive_type],
