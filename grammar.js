@@ -4,8 +4,8 @@
 PREC(
   [prec.left, 'subscript'],
   [prec, 'clone'],
-  [prec.right, 'await', 'incp'],
-  [prec.right, '**', 'cast', 'error', 'pinc'],
+  [prec.right, 'await', 'postfix'],
+  [prec.right, '**', 'cast', 'error', 'prefix'],
   [prec.left, 'is', 'as'],
   [prec.right, 'unary'],
   [prec.left, '*', '/', '%'],
@@ -61,6 +61,8 @@ const rules = {
       $.for_statement,
       $.switch_statement,
       $.foreach_statement,
+      $.try_statement,
+      $.throw_statement,
     ),
 
   _declaration: $ =>
@@ -115,6 +117,8 @@ const rules = {
   break_statement: $ => seq('break', opt($._expression), ';'),
 
   continue_statement: $ => seq('continue', opt($._expression), ';'),
+
+  throw_statement: $ => seq('throw', $._expression, ';'),
 
   if_statement: $ =>
     PREC.if(
@@ -185,6 +189,25 @@ const rules = {
       ')',
       field('body', $._statement),
     ),
+
+  try_statement: $ =>
+    seq(
+      'try',
+      field('body', $.compound_statement),
+      choice.rep1($.catch_clause, $.finally_clause),
+    ),
+
+  catch_clause: $ =>
+    seq(
+      'catch',
+      '(',
+      field('type', $.type_identifier),
+      field('name', $.variable),
+      ')',
+      field('body', $.compound_statement),
+    ),
+
+  finally_clause: $ => seq('finally', field('body', $.compound_statement)),
 
   // Literals
 
@@ -469,8 +492,8 @@ const rules = {
 
   update_expression: $ =>
     choice(
-      PREC.incp($._expression, choice('++', '--')),
-      PREC.pinc(choice('++', '--'), $._expression),
+      PREC.postfix($._expression, choice('++', '--')),
+      PREC.prefix(choice('++', '--'), $._expression),
     ),
 
   cast_expression: $ =>
@@ -650,6 +673,7 @@ function com(...rules) {
 [seq, choice, alias, com].forEach(func => {
   func.opt = (...args) => optional(func(...args));
   func.rep = (...args) => repeat(func(...args));
+  func.rep1 = (...args) => repeat1(func(...args));
 });
 
 const opt = optional;

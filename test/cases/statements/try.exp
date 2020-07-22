@@ -1,0 +1,9 @@
+(script
+  (try_statement
+    body: (compound_statement)
+    (catch_clause
+      type: (type_identifier
+        (identifier))
+      name: (variable
+        (identifier))
+      body: (compound_statement))))
