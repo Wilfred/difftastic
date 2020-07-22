@@ -82,6 +82,7 @@ const rules = {
 
   _expression: $ =>
     choice(
+      $.qualified_identifier,
       $.varray,
       $.darray,
       $.vec,
@@ -825,6 +826,7 @@ module.exports = grammar({
     [$.binary_expression],
     [$._expression, $.parameter],
     [$._expression, $.primitive_type],
+    [$._expression, $._type],
     [$._expression, $.function_call_expression],
     [$.shape, $.shape_type],
     [$.varray, $.varray_type],
