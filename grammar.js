@@ -2,7 +2,9 @@
 
 // https://docs.hhvm.com/hack/expressions-and-operators/operator-precedence
 PREC(
+  [prec.left, 'qualified'],
   [prec.left, 'subscript'],
+  [prec.left, 'select'],
   [prec, 'clone'],
   [prec.right, 'await', 'postfix'],
   [prec.right, '**', 'cast', 'error', 'prefix'],
@@ -37,14 +39,22 @@ const rules = {
   identifier: $ => /[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*/,
 
   qualified_identifier: $ =>
-    seq(opt('\\'), seq.rep($.identifier, '\\'), $.identifier),
+    choice(
+      PREC.qualified(opt($.identifier), repeat1(seq('\\', $.identifier))),
+      $.identifier,
+    ),
 
   scoped_identifier: $ => seq($.qualified_identifier, '::', $.identifier),
 
   variable: $ => seq('$', $.identifier),
 
   _variablish: $ =>
-    choice($.variable, $.list_expression, $.subscript_expression),
+    choice(
+      $.variable,
+      $.list_expression,
+      $.subscript_expression,
+      $.qualified_identifier,
+    ),
 
   _statement: $ =>
     choice(
@@ -114,6 +124,7 @@ const rules = {
       $.ternary_expression,
       $.lambda_expression,
       $.function_call_expression,
+      $.member_expression,
     ),
 
   // Statements
@@ -594,6 +605,15 @@ const rules = {
       $._expression,
     ),
 
+  member_expression: $ =>
+    PREC.select(
+      seq(
+        $._variablish,
+        choice(alias('?->', $.safe_modifier), '->'),
+        field('name', $._variablish),
+      ),
+    ),
+
   // Declarations
 
   alias_declaration: $ =>
@@ -857,7 +877,6 @@ module.exports = grammar({
   word: $ => $.identifier,
 
   conflicts: $ => [
-    [$.qualified_identifier],
     [$.binary_expression],
     [$._expression, $.parameter],
     [$._expression, $.primitive_type],
