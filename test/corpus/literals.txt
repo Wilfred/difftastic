@@ -86,6 +86,7 @@ string literals
 "\"";
 "This is a string";
 "'";
+'\n';
 
 ---
 
@@ -93,7 +94,8 @@ string literals
   (expression_statement (string_literal))
   (expression_statement (string_literal (escape_sequence)))
   (expression_statement (string_literal))
-  (expression_statement (string_literal)))
+  (expression_statement (string_literal))
+  (expression_statement (string_literal (escape_sequence))))
 
 =============
 null literals
@@ -178,3 +180,4 @@ r"""\""";
     (expression_statement (string_literal))
     (expression_statement (string_literal))
 )
+
