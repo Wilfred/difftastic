@@ -1,0 +1,54 @@
+(script
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (property_declaration
+        (static_modifier)
+        (property_declarator
+          name: (variable
+            (identifier))
+          value: (integer)))
+      (property_declaration
+        (visibility_modifier)
+        (property_declarator
+          name: (variable
+            (identifier))
+          value: (integer)))
+      (property_declaration
+        (static_modifier)
+        (visibility_modifier)
+        (property_declarator
+          name: (variable
+            (identifier))
+          value: (integer)))
+      (property_declaration
+        (visibility_modifier)
+        (static_modifier)
+        (property_declarator
+          name: (variable
+            (identifier))
+          value: (integer)))
+      (property_declaration
+        (visibility_modifier)
+        (property_declarator
+          name: (variable
+            (identifier))))
+      (property_declaration
+        (visibility_modifier)
+        (static_modifier)
+        (property_declarator
+          name: (variable
+            (identifier))))
+      (property_declaration
+        (visibility_modifier)
+        type: (primitive_type)
+        (property_declarator
+          name: (variable
+            (identifier))))
+      (property_declaration
+        (visibility_modifier)
+        (static_modifier)
+        type: (primitive_type)
+        (property_declarator
+          name: (variable
+            (identifier)))))))
