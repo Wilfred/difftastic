@@ -32,7 +32,8 @@
         (identifier))
       (arguments
         (argument
-          (integer)))
+          (qualified_identifier
+            (identifier))))
       (qualified_identifier
         (identifier)))
     name: (identifier)

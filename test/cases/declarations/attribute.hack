@@ -4,6 +4,6 @@ class C {
   function method() {}
 }
 
-<<Attribute(1,), Attribute>>
+<<Attribute(C,), Attribute>>
 function func() {
 }
