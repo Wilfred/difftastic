@@ -6,20 +6,18 @@
     (type_parameters
       (type_parameter
         name: (identifier)
-        type_constraint: (subtype_constraint
-          (type_identifier
-            (identifier))))
+        as: (type_identifier
+          (identifier)))
       (type_parameter
         name: (identifier)
-        type_constraint: (supertype_constraint
-          (generic_type
+        super: (generic_type
+          (type_identifier
+            (identifier))
+          (type_arguments
             (type_identifier
               (identifier))
-            (type_arguments
-              (type_identifier
-                (identifier))
-              (type_identifier
-                (identifier)))))))
+            (type_identifier
+              (identifier))))))
     (extends_clause
       (type_identifier
         (identifier)))
@@ -42,14 +40,12 @@
         (type_parameters
           (type_parameter
             name: (identifier)
-            type_constraint: (subtype_constraint
-              (type_identifier
-                (identifier))))
+            as: (type_identifier
+              (identifier)))
           (type_parameter
             name: (identifier)
-            type_constraint: (supertype_constraint
-              (type_identifier
-                (identifier)))))
+            super: (type_identifier
+              (identifier))))
         (parameters)
         return_type: (type_identifier
           (identifier))
