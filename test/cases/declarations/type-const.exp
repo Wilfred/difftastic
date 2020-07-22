@@ -1,0 +1,23 @@
+(script
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (type_const_declaration
+        name: (identifier))
+      (type_const_declaration
+        name: (identifier)
+        type: (primitive_type))
+      (type_const_declaration
+        name: (identifier)
+        as: (primitive_type))
+      (type_const_declaration
+        name: (identifier)
+        as: (primitive_type)
+        type: (primitive_type))
+      (type_const_declaration
+        (abstract_modifier)
+        name: (identifier)
+        as: (nullable_type
+          (primitive_type))
+        type: (nullable_type
+          (primitive_type))))))

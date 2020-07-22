@@ -6,12 +6,10 @@
         name: (identifier))
       (type_parameter
         name: (identifier)
-        type_constraint: (subtype_constraint
-          (primitive_type)))
+        as: (primitive_type))
       (type_parameter
         name: (identifier)
-        type_constraint: (supertype_constraint
-          (primitive_type))))
+        super: (primitive_type)))
     (parameters)
     return_type: (primitive_type)
     body: (compound_statement)))

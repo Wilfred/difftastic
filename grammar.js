@@ -307,15 +307,11 @@ const rules = {
         alias('-', $.contravariant_modifier),
       ),
       field('name', $.identifier),
-      field(
-        'type_constraint',
-        choice.opt($.subtype_constraint, $.supertype_constraint),
+      choice.opt(
+        field('as', seq('as', $._type)),
+        field('super', seq('super', $._type)),
       ),
     ),
-
-  subtype_constraint: $ => seq('as', $._type),
-
-  supertype_constraint: $ => seq('super', $._type),
 
   varray_type: $ => seq('varray', opt($.type_arguments)),
 
@@ -642,6 +638,7 @@ const rules = {
       choice.rep(
         $.method_declaration,
         $.property_declaration,
+        $.type_const_declaration,
         alias($._class_const_declaration, $.const_declaration),
       ),
       '}',
@@ -674,6 +671,17 @@ const rules = {
       field('value', seq.opt('=', $._expression)),
     ),
 
+  type_const_declaration: $ =>
+    seq(
+      opt($._member_modifiers),
+      'const',
+      'type',
+      field('name', $.identifier),
+      field('as', seq.opt('as', $._type)),
+      field('type', seq.opt('=', $._type)),
+      ';',
+    ),
+
   const_declaration: $ =>
     seq('const', field('type', opt($._type)), com($.const_declarator), ';'),
 
@@ -697,7 +705,7 @@ const rules = {
       field('name', $.identifier),
       ':',
       field('type', $.primitive_type),
-      field('type_constraint', seq.opt('as', $._type)),
+      field('as', seq.opt('as', $._type)),
       '{',
       rep(alias($._enum_field_specifier, $.field_specifier)),
       '}',
