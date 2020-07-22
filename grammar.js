@@ -76,6 +76,7 @@ const rules = {
       $.trait_declaration,
       $.alias_declaration,
       $.enum_declaration,
+      $.namespace_declaration,
     ),
 
   _expression: $ =>
@@ -661,6 +662,18 @@ const rules = {
 
   _enum_field_specifier: $ =>
     seq($.identifier, '=', choice($.string, $.integer, $._variablish), ';'),
+
+  namespace_declaration: $ =>
+    seq(
+      'namespace',
+      choice(
+        seq(field('name', $.qualified_identifier), ';'),
+        seq(
+          opt(field('name', $.qualified_identifier)),
+          field('body', $.compound_statement),
+        ),
+      ),
+    ),
 
   // Misc
 
