@@ -30,13 +30,13 @@ else
   out="/dev/stdout"
 fi
 
-bin/generate-parser
-
 case $parser in
 tree)
+  bin/generate-parser
   npx tree-sitter parse $in >$out
   ;;
 query)
+  bin/generate-parser
   npx tree-sitter parse $in | sed -e 's/ \[.*\]//' >$out
   ;;
 hack)

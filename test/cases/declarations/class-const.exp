@@ -1,0 +1,51 @@
+(script
+  (class_declaration
+    (abstract_modifier)
+    name: (identifier)
+    body: (class_body
+      (const_declaration
+        type: (primitive_type)
+        (const_declaration
+          name: (identifier)
+          value: (integer)))
+      (const_declaration
+        type: (primitive_type)
+        (const_declaration
+          name: (identifier)
+          value: (integer))
+        (const_declaration
+          name: (identifier)
+          value: (integer)))
+      (const_declaration
+        (const_declaration
+          name: (identifier)
+          value: (integer)))
+      (const_declaration
+        (const_declaration
+          name: (identifier)
+          value: (integer))
+        (const_declaration
+          name: (identifier)
+          value: (integer)))
+      (const_declaration
+        (abstract_modifier)
+        type: (primitive_type)
+        (const_declaration
+          name: (identifier)))
+      (const_declaration
+        (abstract_modifier)
+        type: (primitive_type)
+        (const_declaration
+          name: (identifier))
+        (const_declaration
+          name: (identifier)))
+      (const_declaration
+        (abstract_modifier)
+        (const_declaration
+          name: (identifier)))
+      (const_declaration
+        (abstract_modifier)
+        (const_declaration
+          name: (identifier))
+        (const_declaration
+          name: (identifier))))))
