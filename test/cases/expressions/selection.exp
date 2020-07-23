@@ -3,19 +3,19 @@
     (selection_expression
       (variable
         (identifier))
-      name: (variable
+      (variable
         (identifier))))
   (expression_statement
     (selection_expression
       (qualified_identifier
         (identifier))
-      name: (variable
+      (variable
         (identifier))))
   (expression_statement
     (selection_expression
       (qualified_identifier
         (identifier))
-      name: (qualified_identifier
+      (qualified_identifier
         (identifier))))
   (expression_statement
     (selection_expression
@@ -24,10 +24,10 @@
           (qualified_identifier
             (identifier)
             (identifier))
-          name: (variable
+          (variable
             (identifier)))
         (integer))
-      name: (qualified_identifier
+      (qualified_identifier
         (identifier))))
   (expression_statement
     (subscript_expression
@@ -36,7 +36,7 @@
           (variable
             (identifier))
           (integer))
-        name: (variable
+        (variable
           (identifier)))
       (integer)))
   (expression_statement
@@ -46,6 +46,6 @@
           (variable
             (identifier))
           (integer))
-        name: (qualified_identifier
+        (qualified_identifier
           (identifier)))
       (integer))))

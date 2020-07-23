@@ -626,7 +626,7 @@ const rules = {
       seq(
         $._variablish,
         choice(alias('?->', $.safe_modifier), '->'),
-        field('name', $._variablish),
+        $._variablish,
       ),
     ),
 

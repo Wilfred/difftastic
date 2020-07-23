@@ -1,0 +1,111 @@
+(script
+  (expression_statement
+    (ternary_expression
+      condition: (binary_expression
+        left: (selection_expression
+          (variable
+            (identifier))
+          (safe_modifier)
+          (variable
+            (identifier)))
+        right: (selection_expression
+          (variable
+            (identifier))
+          (safe_modifier)
+          (variable
+            (identifier))))
+      body: (selection_expression
+        (variable
+          (identifier))
+        (safe_modifier)
+        (variable
+          (identifier)))
+      alternative: (selection_expression
+        (variable
+          (identifier))
+        (safe_modifier)
+        (variable
+          (identifier)))))
+  (expression_statement
+    (ternary_expression
+      condition: (binary_expression
+        left: (subscript_expression
+          (selection_expression
+            (subscript_expression
+              (variable
+                (identifier))
+              (selection_expression
+                (variable
+                  (identifier))
+                (safe_modifier)
+                (variable
+                  (identifier))))
+            (safe_modifier)
+            (variable
+              (identifier)))
+          (selection_expression
+            (variable
+              (identifier))
+            (safe_modifier)
+            (variable
+              (identifier))))
+        right: (subscript_expression
+          (selection_expression
+            (subscript_expression
+              (variable
+                (identifier))
+              (selection_expression
+                (variable
+                  (identifier))
+                (safe_modifier)
+                (variable
+                  (identifier))))
+            (safe_modifier)
+            (variable
+              (identifier)))
+          (selection_expression
+            (variable
+              (identifier))
+            (safe_modifier)
+            (variable
+              (identifier)))))
+      body: (subscript_expression
+        (selection_expression
+          (subscript_expression
+            (variable
+              (identifier))
+            (selection_expression
+              (variable
+                (identifier))
+              (safe_modifier)
+              (variable
+                (identifier))))
+          (safe_modifier)
+          (variable
+            (identifier)))
+        (selection_expression
+          (variable
+            (identifier))
+          (safe_modifier)
+          (variable
+            (identifier))))
+      alternative: (subscript_expression
+        (selection_expression
+          (subscript_expression
+            (variable
+              (identifier))
+            (selection_expression
+              (variable
+                (identifier))
+              (safe_modifier)
+              (variable
+                (identifier))))
+          (safe_modifier)
+          (variable
+            (identifier)))
+        (selection_expression
+          (variable
+            (identifier))
+          (safe_modifier)
+          (variable
+            (identifier)))))))
