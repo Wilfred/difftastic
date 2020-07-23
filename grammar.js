@@ -146,6 +146,7 @@ module.exports = grammar({
         [$._primary, $._type_name, $.assignable_expression, $._function_formal_parameter],
         [$._type_name, $.function_signature],
         // [$.relational_operator, $._shift_operator],
+        [$.declaration, $._external],
         [$.relational_expression],
         [$.factory_constructor_signature, $.redirecting_factory_constructor_signature],
         [$._function_type_tail],
@@ -1334,13 +1335,13 @@ module.exports = grammar({
                 field('value', $._expression),
             ),
             seq(
-                choice(
+                optional(choice(
                     field('init', $.local_variable_declaration),
                     seq(
                         commaSep(field('init', $._expression)),
                         $._semicolon
                     )
-                ),
+                ),),
                 field('condition', optional($._expression)), $._semicolon,
                 commaSep(field('update', $._expression)),
             )
@@ -1703,7 +1704,8 @@ module.exports = grammar({
         declaration: $ => choice(
             seq($.constant_constructor_signature, optional(choice($.redirection, $.initializers))),
             seq($.constructor_signature, optional(choice($.redirection, $.initializers))),
-            seq($._external,optional($._const_builtin),
+            seq($._external,
+                optional($._const_builtin),
                 $.factory_constructor_signature
             ),
             seq(
@@ -1718,7 +1720,8 @@ module.exports = grammar({
                 $.constructor_signature
             ),
             seq(
-                optional($._external_and_static),
+                optional($._external_builtin),
+                optional($._static),
                 $.getter_signature,
             ),
             seq(
@@ -2113,6 +2116,7 @@ module.exports = grammar({
         ),
 
         typed_identifier: $ => seq(
+            optional($._metadata),
             $._type,
             $.identifier
         ),

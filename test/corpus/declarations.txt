@@ -412,6 +412,8 @@ typedef CreateCallback = void Function(String);
 typedef void EndCallback(String endValue);
 typedef Future<String> Handler(String method, Map<String, String> parameters);
 typedef MyFunction<T> = T Function();
+typedef DismissMethod = Future<void> Function(WidgetTester tester, Finder finder, {@required AxisDirection gestureDirection});
+
 
 ---
 
@@ -430,7 +432,12 @@ typedef MyFunction<T> = T Function();
     (formal_parameter_list (formal_parameter (type_identifier) (identifier)) (formal_parameter (type_identifier) (type_arguments (type_identifier) (type_identifier)) (identifier)))) 
   (type_alias 
     (type_identifier) (type_parameters (type_parameter (identifier))) 
-    (function_type (type_identifier) (parameter_type_list))))
+    (function_type (type_identifier) (parameter_type_list))) 
+  (type_alias 
+    (type_identifier) 
+    (function_type (type_identifier) (type_arguments (void_type)) 
+      (parameter_type_list (normal_parameter_type (typed_identifier (type_identifier) (identifier))) (normal_parameter_type (typed_identifier (type_identifier) (identifier))) 
+      (optional_parameter_types (named_parameter_types (typed_identifier (marker_annotation (identifier)) (type_identifier) (identifier))))))))
 
 =================
 script tag
