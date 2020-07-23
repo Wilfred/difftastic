@@ -213,3 +213,28 @@ export a, b, c
 (source_file
   (export_statement (identifier))
   (export_statement (identifier) (identifier) (identifier)))
+
+===============================
+Comments
+===============================
+
+# comment
+#= comment =#
+#=
+comment
+=#
+x = #= comment =# 1
+
+#=
+nested #= comments =# =#
+#==#
+
+---
+
+(source_file
+  (comment)
+  (block_comment)
+  (block_comment)
+  (assignment_expression (identifier) (block_comment) (number))
+  (block_comment)
+  (block_comment))
