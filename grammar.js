@@ -265,12 +265,13 @@ grammar({
     elseif_clause: $ => seq(
       'elseif',
       $._expression,
-      $._expression_list
+      optional($._terminator),
+      optional($._expression_list)
     ),
 
     else_clause: $ => seq(
       'else',
-      $._expression_list
+      optional($._expression_list)
     ),
 
     try_statement: $ => seq(
