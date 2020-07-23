@@ -628,9 +628,12 @@ const rules = {
         'function',
         choice(
           seq($.qualified_identifier, opt($.type_arguments)),
-          $.subscript_expression,
           $.variable,
+          $.pipe_variable,
+          $.subscript_expression,
           $.parenthesized_expression,
+          $.scoped_identifier,
+          $.selection_expression,
           $.lambda_expression,
           $.function_call_expression,
         ),

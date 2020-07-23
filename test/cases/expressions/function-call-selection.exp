@@ -1,0 +1,18 @@
+(script
+  (expression_statement
+    (function_call_expression
+      function: (selection_expression
+        (variable
+          (identifier))
+        (safe_modifier)
+        (variable
+          (identifier)))
+      (arguments)))
+  (expression_statement
+    (function_call_expression
+      function: (selection_expression
+        (qualified_identifier
+          (identifier))
+        (qualified_identifier
+          (identifier)))
+      (arguments))))
