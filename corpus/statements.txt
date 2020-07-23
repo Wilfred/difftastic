@@ -11,6 +11,12 @@ else
   e()
 end
 
+# empty bodies
+if a
+elseif b
+else
+end
+
 ---
 
 (source_file
@@ -22,7 +28,13 @@ end
       (call_expression (identifier) (argument_list))
       (call_expression (identifier) (argument_list)))
     (else_clause
-      (call_expression (identifier) (argument_list)))))
+      (call_expression (identifier) (argument_list))))
+  (comment)
+  (if_statement
+    (identifier)
+    (elseif_clause
+      (identifier))
+    (else_clause)))
 
 ===============================
 For statements
