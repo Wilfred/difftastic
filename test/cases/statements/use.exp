@@ -57,4 +57,9 @@
       (identifier))
     (use_clause
       (qualified_identifier
+        (identifier))))
+  (use_statement
+    (use_type)
+    (use_clause
+      (qualified_identifier
         (identifier)))))
