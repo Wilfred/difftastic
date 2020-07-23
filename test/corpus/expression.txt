@@ -1,0 +1,41 @@
+=================================================
+if block with boolean
+=================================================
+
+if (1) {
+  return true;
+}
+
+---
+
+(source_file
+  (if_statement (number)
+    (block
+      (return_statement (boolean))
+    )
+  )
+)
+
+=================================================
+scalar declartion
+=================================================
+
+my $a;
+
+---
+
+(source_file
+  (scalar_declaration (scope) (scalar_variable))
+)
+
+=================================================
+array declartion
+=================================================
+
+my @array;
+
+---
+
+(source_file
+  (array_declaration (scope) (array_variable))
+)

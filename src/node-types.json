@@ -1,5 +1,58 @@
 [
   {
+    "type": "array_declaration",
+    "named": true,
+    "fields": {
+      "variable_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "scope",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "assignment_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "scalar_declaration",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "block",
     "named": true,
     "fields": {},
@@ -8,7 +61,27 @@
       "required": false,
       "types": [
         {
+          "type": "array_declaration",
+          "named": true
+        },
+        {
+          "type": "assignment_statement",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "if_statement",
+          "named": true
+        },
+        {
           "type": "return_statement",
+          "named": true
+        },
+        {
+          "type": "scalar_declaration",
           "named": true
         }
       ]
@@ -41,6 +114,40 @@
     }
   },
   {
+    "type": "if_statement",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "return_statement",
     "named": true,
     "fields": {},
@@ -49,11 +156,50 @@
       "required": true,
       "types": [
         {
-          "type": "string",
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "scalar_declaration",
+    "named": true,
+    "fields": {
+      "variable_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "scalar_variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "scope",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "scope",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "source_file",
@@ -64,18 +210,66 @@
       "required": false,
       "types": [
         {
+          "type": "array_declaration",
+          "named": true
+        },
+        {
+          "type": "assignment_statement",
+          "named": true
+        },
+        {
           "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "return_statement",
+          "named": true
+        },
+        {
+          "type": "scalar_declaration",
           "named": true
         }
       ]
     }
   },
   {
-    "type": ";",
+    "type": "(",
     "named": false
   },
   {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "array_variable",
+    "named": true
+  },
+  {
+    "type": "boolean",
+    "named": true
+  },
+  {
     "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "my",
+    "named": false
+  },
+  {
+    "type": "number",
     "named": true
   },
   {
@@ -83,7 +277,11 @@
     "named": false
   },
   {
-    "type": "string",
+    "type": "scalar_variable",
+    "named": true
+  },
+  {
+    "type": "string_single_quoted",
     "named": true
   },
   {
