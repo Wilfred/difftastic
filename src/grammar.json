@@ -5647,24 +5647,8 @@
               "name": "class",
               "content": {
                 "type": "SYMBOL",
-                "name": "identifier"
+                "name": "_type"
               }
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "on_type_arguments",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "type_arguments"
-                  }
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
             },
             {
               "type": "FIELD",
@@ -6030,6 +6014,18 @@
               {
                 "type": "SEQ",
                 "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_metadata"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
                   {
                     "type": "SYMBOL",
                     "name": "declaration"
@@ -6778,6 +6774,18 @@
         {
           "type": "SYMBOL",
           "name": "formal_parameter_list"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_native"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

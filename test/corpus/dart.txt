@@ -270,7 +270,7 @@ extension Hello on String {
 ---
 
 (program 
-  (extension_declaration (identifier) (identifier) (extension_body 
+  (extension_declaration (identifier) (type_identifier) (extension_body 
     (method_signature (getter_signature (type_identifier) (identifier))) (function_body (string_literal)))))
 
 ==================================================
