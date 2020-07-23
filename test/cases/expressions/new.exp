@@ -1,0 +1,104 @@
+(script
+  (comment)
+  (expression_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (arguments))))
+  (expression_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (new_expression
+        (selection_expression
+          (variable
+            (identifier))
+          (variable
+            (identifier)))
+        (arguments))))
+  (comment)
+  (comment)
+  (expression_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (new_expression
+        (scoped_identifier
+          (qualified_identifier
+            (identifier))
+          (variable
+            (identifier)))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (new_expression
+        (scoped_identifier
+          (scope_identifier)
+          (variable
+            (identifier)))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (new_expression
+        (variable
+          (identifier))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (type_arguments
+          (primitive_type))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (new_expression
+        (parenthesized_expression
+          (function_call_expression
+            function: (qualified_identifier
+              (identifier))
+            (arguments)))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (binary_expression
+        left: (string)
+        right: (new_expression
+          (pipe_variable)
+          (arguments
+            (argument
+              (integer))))))))

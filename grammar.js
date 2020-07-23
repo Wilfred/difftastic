@@ -6,6 +6,7 @@
   [prec.left, 'qualified'],
   [prec.left, 'subscript'],
   [prec.left, 'select'],
+  [prec, 'new'],
   [prec, 'clone'],
   [prec.right, 'await', 'postfix'],
   [prec.right, '**', 'cast', 'error', 'prefix'],
@@ -73,6 +74,7 @@ const rules = {
       $.parenthesized_expression,
       $.function_call_expression,
       $.scoped_identifier,
+      $.scope_identifier,
       $.selection_expression,
     ),
 
@@ -144,6 +146,7 @@ const rules = {
       $.lambda_expression,
       $.function_call_expression,
       $.selection_expression,
+      $.new_expression,
     ),
 
   // Statements
@@ -625,6 +628,9 @@ const rules = {
       ),
       $.arguments,
     ),
+
+  new_expression: $ =>
+    prec.new(seq('new', $._variablish, opt($.type_arguments), $.arguments)),
 
   arguments: $ => seq('(', com.opt($.argument, ','), ')'),
 
