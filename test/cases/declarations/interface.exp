@@ -1,5 +1,19 @@
 (script
   (interface_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (scoped_identifier
+            (qualified_identifier
+              (identifier))
+            (identifier))))
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (integer))))
     name: (identifier)
     (type_parameters
       (type_parameter
