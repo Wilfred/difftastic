@@ -128,7 +128,7 @@ const rules = {
       $.ternary_expression,
       $.lambda_expression,
       $.function_call_expression,
-      $.member_expression,
+      $.selection_expression,
     ),
 
   // Statements
@@ -621,7 +621,7 @@ const rules = {
       $._expression,
     ),
 
-  member_expression: $ =>
+  selection_expression: $ =>
     prec.select(
       seq(
         $._variablish,
