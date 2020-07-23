@@ -20,7 +20,8 @@
 errors = []
 
 ARGF.each_line do |line|
-  next if line !~ /\((ERROR|MISSING) \[(\d+), (\d+)\] - \[(\d+), (\d+)\]/
+  # file.hack    0 ms    (MISSING ";" [229, 19] - [229, 19])
+  next if line !~ /\((ERROR|MISSING)(?: .*)? \[(\d+), (\d+)\] - \[(\d+), (\d+)\]/
 
   # Increment numbers to match VSCode's 1-indexing. Use Hack error format.
   errors << "(#{$2},#{$3})-(#{$4},#{$5}) #{$1}".gsub(/\d+/) { |_| _.to_i + 1 }
