@@ -1,26 +1,30 @@
 (script
   (expression_statement
     (selection_expression
-      (selection_expression
-        (selection_expression
-          (selection_expression
-            (parenthesized_expression
-              (binary_expression
-                left: (variable
-                  (identifier))
-                right: (variable
-                  (identifier))))
-            (safe_modifier)
-            (qualified_identifier
-              (identifier)))
-          (function_call_expression
-            function: (variable
-              (identifier))
-            (arguments)))
-        (safe_modifier)
-        (scoped_identifier
-          (qualified_identifier
+      (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (identifier))
+      (safe_modifier)
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (selection_expression
+      (parenthesized_expression
+        (binary_expression
+          left: (variable
             (identifier))
-          (identifier)))
+          right: (variable
+            (identifier))))
+      (safe_modifier)
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (selection_expression
+      (function_call_expression
+        function: (variable
+          (identifier))
+        (arguments))
+      (safe_modifier)
       (qualified_identifier
         (identifier)))))
