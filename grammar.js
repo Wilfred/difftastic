@@ -1,7 +1,8 @@
 'use strict';
 
+// Precence based on order. Indirection overkill but I couldn't help myself.
 // https://docs.hhvm.com/hack/expressions-and-operators/operator-precedence
-PREC(
+[
   [prec.left, 'qualified'],
   [prec.left, 'subscript'],
   [prec.left, 'select'],
@@ -24,14 +25,18 @@ PREC(
   [prec.left, 'ternary'],
   [prec.right, 'assignment'],
   [prec.right, 'print'],
-  [prec, 'type'],
-);
 
-// prettier-ignore
-PREC(
+  [prec, 'type'],
+
   [prec, 'elseif'],
   [prec.right, 'if'],
-);
+]
+  .reverse()
+  .forEach(([_prec, ...names], index) =>
+    names.forEach(name => {
+      prec[name] = rule => _prec(index, rule);
+    }),
+  );
 
 const rules = {
   script: $ => seq(opt(/<\?[hH][hH]/), rep($._statement)),
@@ -40,7 +45,7 @@ const rules = {
 
   qualified_identifier: $ =>
     choice(
-      PREC.qualified(opt($.identifier), repeat1(seq('\\', $.identifier))),
+      prec.qualified(seq(opt($.identifier), seq.rep1('\\', $.identifier))),
       $.identifier,
     ),
 
@@ -172,20 +177,24 @@ const rules = {
     seq($.qualified_identifier, field('alias', seq.opt('as', $.identifier))),
 
   if_statement: $ =>
-    PREC.if(
-      'if',
-      field('condition', $.parenthesized_expression),
-      field('body', $._statement),
-      rep(
-        PREC.elseif(
-          // Match else-if and elseif so long if-statements don't result in deeply nested
-          // nodes. Are there drawbacks?
-          choice('elseif', seq('else', 'if')),
-          field('condition', $.parenthesized_expression),
-          field('body', $._statement),
+    prec.if(
+      seq(
+        'if',
+        field('condition', $.parenthesized_expression),
+        field('body', $._statement),
+        rep(
+          prec.elseif(
+            seq(
+              // Match else-if and elseif so long if-statements don't result in deeply nested
+              // nodes. Are there drawbacks?
+              choice('elseif', seq('else', 'if')),
+              field('condition', $.parenthesized_expression),
+              field('body', $._statement),
+            ),
+          ),
         ),
+        field('else', seq.opt('else', $._statement)),
       ),
-      field('else', seq.opt('else', $._statement)),
     ),
 
   switch_statement: $ =>
@@ -332,10 +341,10 @@ const rules = {
       'noreturn',
     ),
 
-  type_arguments: $ => seq(token(PREC.type('<')), com($._type, ','), '>'),
+  type_arguments: $ => seq(token(prec.type('<')), com($._type, ','), '>'),
 
   type_parameters: $ =>
-    seq(token(PREC.type('<')), com($.type_parameter, ','), '>'),
+    seq(token(prec.type('<')), com($.type_parameter, ','), '>'),
 
   type_parameter: $ =>
     seq(
@@ -427,7 +436,7 @@ const rules = {
   parenthesized_expression: $ => seq('(', $._expression, ')'),
 
   subscript_expression: $ =>
-    PREC.subscript($._expression, '[', opt($._expression), ']'),
+    prec.subscript(seq($._expression, '[', opt($._expression), ']')),
 
   list_expression: $ => seq('list', '(', com($._variablish, ','), ')'),
 
@@ -459,16 +468,18 @@ const rules = {
         '%',
         '**',
       ].map(operator =>
-        PREC[operator](
-          field('left', $._expression),
-          field('operator', operator),
-          field('right', $._expression),
+        prec[operator](
+          seq(
+            field('left', $._expression),
+            field('operator', operator),
+            field('right', $._expression),
+          ),
         ),
       ),
     ),
 
   unary_expression: $ =>
-    PREC.unary(
+    prec.unary(
       choice(
         seq(field('operator', '!'), field('operand', $._expression)),
         seq(field('operator', '~'), field('operand', $._expression)),
@@ -478,34 +489,34 @@ const rules = {
     ),
 
   assignment_expression: $ =>
-    PREC.assignment(
-      field('left', $._variablish),
-      '=',
-      field('right', $._expression),
+    prec.assignment(
+      seq(field('left', $._variablish), '=', field('right', $._expression)),
     ),
 
   augmented_assignment_expression: $ =>
-    PREC.assignment(
-      field('left', $._variablish),
-      field(
-        'operator',
-        choice(
-          '??=',
-          '.=',
-          '|=',
-          '^=',
-          '&=',
-          '<<=',
-          '>>=',
-          '+=',
-          '-=',
-          '*=',
-          '/=',
-          '%=',
-          '**=',
+    prec.assignment(
+      seq(
+        field('left', $._variablish),
+        field(
+          'operator',
+          choice(
+            '??=',
+            '.=',
+            '|=',
+            '^=',
+            '&=',
+            '<<=',
+            '>>=',
+            '+=',
+            '-=',
+            '*=',
+            '/=',
+            '%=',
+            '**=',
+          ),
         ),
+        field('right', $._expression),
       ),
-      field('right', $._expression),
     ),
 
   fun_expression: $ =>
@@ -520,46 +531,52 @@ const rules = {
     ),
 
   is_expression: $ =>
-    PREC.is(field('left', $._expression), 'is', field('right', $._type)),
+    prec.is(seq(field('left', $._expression), 'is', field('right', $._type))),
 
   as_expression: $ =>
-    PREC.as(
-      field('left', $._expression),
-      choice('as', '?as'),
-      field('right', $._type),
+    prec.as(
+      seq(
+        field('left', $._expression),
+        choice('as', '?as'),
+        field('right', $._type),
+      ),
     ),
 
-  print_expression: $ => PREC.print('print', $._expression),
+  print_expression: $ => prec.print(seq('print', $._expression)),
 
-  clone_expression: $ => PREC.clone('clone', $._expression),
+  clone_expression: $ => prec.clone(seq('clone', $._expression)),
 
-  await_expression: $ => PREC.await('await', $._expression),
+  await_expression: $ => prec.await(seq('await', $._expression)),
 
   async_expression: $ => seq('async', $.compound_statement),
 
-  error_control_expression: $ => PREC.error('@', $._expression),
+  error_control_expression: $ => prec.error(seq('@', $._expression)),
 
   update_expression: $ =>
     choice(
-      PREC.postfix($._expression, choice('++', '--')),
-      PREC.prefix(choice('++', '--'), $._expression),
+      prec.postfix(seq($._expression, choice('++', '--'))),
+      prec.prefix(seq(choice('++', '--'), $._expression)),
     ),
 
   cast_expression: $ =>
-    PREC.cast(
-      '(',
-      field('type', $.primitive_type),
-      ')',
-      field('value', $._expression),
+    prec.cast(
+      seq(
+        '(',
+        field('type', $.primitive_type),
+        ')',
+        field('value', $._expression),
+      ),
     ),
 
   ternary_expression: $ =>
-    PREC.ternary(
-      field('condition', $._expression),
-      '?',
-      field('body', opt($._expression)),
-      ':',
-      field('alternative', $._expression),
+    prec.ternary(
+      seq(
+        field('condition', $._expression),
+        '?',
+        field('body', opt($._expression)),
+        ':',
+        field('alternative', $._expression),
+      ),
     ),
 
   lambda_expression: $ =>
@@ -606,7 +623,7 @@ const rules = {
     ),
 
   member_expression: $ =>
-    PREC.select(
+    prec.select(
       seq(
         $._variablish,
         choice(alias('?->', $.safe_modifier), '->'),
@@ -753,7 +770,7 @@ const rules = {
       field('type', $.primitive_type),
       field('as', seq.opt('as', $._type)),
       '{',
-      rep(alias($._enum_field_specifier, $.field_specifier)),
+      alias.rep($._enum_field_specifier, $.field_specifier),
       '}',
     ),
 
@@ -814,18 +831,6 @@ const rules = {
       ),
     ),
 };
-
-/**
- * Precence based on order. Indirection overkill but I couldn't help myself.
- */
-function PREC(...args) {
-  args.reverse().forEach(([prec, ...names], index) =>
-    names.forEach(name => {
-      PREC[name] = (rule1, ...rules) =>
-        prec(index, rules.length ? seq(rule1, ...rules) : rule1);
-    }),
-  );
-}
 
 /**
  * Comma separated rules. A ',' as the last argument indicates an optional trailing comma.
