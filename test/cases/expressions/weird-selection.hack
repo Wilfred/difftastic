@@ -1,1 +1,5 @@
-($var + $var)?->c->$func()?->c::c->c;
+c::c?->c;
+
+($var + $var)?->c;
+
+$func()?->c;
