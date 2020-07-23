@@ -71,13 +71,13 @@ c is C;
 ---
  (program
     (expression_statement
-        (relational_expression
+        (type_test_expression
             (identifier)
             (type_test (is_operator) (type_identifier) (type_identifier))
         )
     )
     (expression_statement
-        (relational_expression
+        (type_test_expression
             (identifier)
             (type_test (is_operator) (type_identifier)
                 (type_arguments (type_identifier))
@@ -85,7 +85,7 @@ c is C;
         )
     )
     (expression_statement
-        (relational_expression
+        (type_test_expression
             (identifier)
             (type_test (is_operator) (type_identifier))
         )
@@ -375,7 +375,7 @@ if (data['frame_count'] as int < 5) {
     (if_statement
         (parenthesized_expression
             (relational_expression
-                (relational_expression
+                (type_cast_expression
                     (identifier) (selector
                                     (assignable_selector (unconditional_assignable_selector (string_literal)))
                                  )
@@ -405,7 +405,7 @@ if ((data['frame_count'] as int) < 5) {
     (if_statement
         (parenthesized_expression
             (relational_expression
-                (relational_expression
+                (type_cast_expression
                     (identifier) (selector
                                     (assignable_selector (unconditional_assignable_selector (string_literal)))
                                  )
@@ -527,7 +527,7 @@ printStream(args['json'] as bool ? '' : 'hi');
             (argument_part
                 (arguments
                     (conditional_expression
-                        (relational_expression (identifier)
+                        (type_cast_expression (identifier)
                             (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
                             (type_cast (as_operator) (type_identifier))
                         )
@@ -555,7 +555,7 @@ printStream((args['json'] as bool) ? '' : 'hi');
             (argument_part
                 (arguments
                     (conditional_expression
-                        (relational_expression (identifier)
+                        (type_cast_expression (identifier)
                             (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
                             (type_cast (as_operator) (type_identifier))
                         )
@@ -585,35 +585,37 @@ a as BigB | b as BigB;
 
 ---
 
- (program
-    (expression_statement
-        (relational_expression (relational_expression
-        (identifier)
-                    (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
-                    (type_cast (as_operator) (type_identifier))) (relational_operator) (identifier))
-    )
+(program
     (expression_statement
         (relational_expression
+            (type_cast_expression (identifier)
+                (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
+                (type_cast (as_operator) (type_identifier)))
+            (relational_operator)
+            (identifier)))
+    (expression_statement
         (relational_expression (identifier) (relational_operator)
-
-            (identifier)
-                        (selector (assignable_selector (unconditional_assignable_selector (string_literal))))) (type_cast (as_operator) (type_identifier))
-        ))
-    (expression_statement (equality_expression (identifier) (equality_operator) (relational_expression (identifier) (type_cast (as_operator) (type_identifier)))))
-    (expression_statement (relational_expression (relational_expression (identifier) (type_cast (as_operator) (type_identifier))) (relational_operator) (identifier)))
+            (type_cast_expression (identifier)
+                (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
+                    (type_cast (as_operator) (type_identifier)))))
+    (expression_statement (equality_expression (identifier) (equality_operator) (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier)))))
+    (expression_statement (relational_expression (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier))) (relational_operator) (identifier)))
     (expression_statement (relational_expression (identifier) (relational_operator) (identifier)))
-    (expression_statement (equality_expression (relational_expression (identifier) (type_cast (as_operator) (type_identifier))) (equality_operator) (identifier)))
-    (expression_statement (logical_and_expression (identifier) (relational_expression (identifier) (type_cast (as_operator) (type_identifier)))))
-    (expression_statement (logical_or_expression (relational_expression (identifier) (type_cast (as_operator) (type_identifier))) (relational_expression (identifier) (type_cast (as_operator) (type_identifier)))))
+    (expression_statement (equality_expression (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier))) (equality_operator) (identifier)))
+    (expression_statement (logical_and_expression (identifier) (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier)))))
+    (expression_statement (logical_or_expression (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier))) (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier)))))
     (if_statement
         (parenthesized_expression
-            (relational_expression (identifier)
-                     (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
-                     (type_cast (as_operator) (type_identifier)) (relational_operator)
-                     (relational_expression (identifier) (type_cast (as_operator) (type_identifier))))) (block))
-    (expression_statement (bitwise_or_expression (relational_expression (identifier) (type_cast (as_operator) (type_identifier))) (relational_expression (identifier) (type_cast (as_operator) (type_identifier)))))
- )
-
+            (relational_expression
+                (type_cast_expression (identifier)
+                        (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
+                        (type_cast (as_operator) (type_identifier)))
+                (relational_operator)
+                (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier))))) (block))
+    (expression_statement
+        (bitwise_or_expression
+            (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier)))
+            (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier))))))
 
 
 

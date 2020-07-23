@@ -20,8 +20,9 @@ const DART_PREC = {
     Bitwise_AND: 12, // & Left
     Bitwise_XOR: 11, // ˆ Left
     Bitwise_Or: 10, // | Left
+    RelationalTypeCast: 9, // <, >, <=, >=, as, is, is! None 8
+    RelationalTypeTest: 9,
     Relational: 8, // <, >, <=, >=, as, is, is! None 8
-    RelationalTypeCast: 19, // <, >, <=, >=, as, is, is! None 8
     Equality: 7, // ==, != None 7
     Logical_AND: 6, // AND && Left
     Logical_OR: 5, // Or || Left
@@ -108,10 +109,10 @@ module.exports = grammar({
         [$.declaration, $._external_and_static],
         [$.method_signature, $._static_or_covariant],
         [$.constructor_signature, $._formal_parameter_part],
-        [$._type_not_function, $._type_not_void],
+        // [$._type_not_function, $._type_not_void],
         [$._cascade_subsection],
         [$._expression],
-        [$._real_expression, $._below_relational_expression],
+        // [$._real_expression, $._below_relational_expression],
         [$._postfix_expression],
         [$._top_level_definition, $.lambda_expression],
         [$._top_level_definition, $._final_const_var_or_type],
@@ -129,26 +130,28 @@ module.exports = grammar({
         [$.assignable_selector_part, $.postfix_expression],
         [$._primary, $.assignable_expression],
         [$._simple_formal_parameter, $.assignable_expression],
-        [$._type_name, $._primary, $.assignable_expression],
+        // [$._type_name, $._primary, $.assignable_expression],
         [$.assignable_expression, $.postfix_expression],
         [$.assignable_expression, $._postfix_expression],
-        [$._type_name, $.assignable_expression],
-        [$._type_name, $.function_signature],
+        // [$._type_name, $.assignable_expression],
+        // [$._type_name, $.function_signature],
         [$._type_name, $._function_formal_parameter],
         [$._type_name],
         // [$.assignment_expression, $._expression],
         [$.assignable_expression],
         [$.method_signature, $.declaration, $._static_or_covariant],
-        // [$._type_args],
+        [$.type_arguments],
+        [$._primary, $._type_name, $.assignable_expression],
         [$._primary, $._type_name, $.assignable_expression, $.function_signature],
         [$._primary, $._type_name, $.assignable_expression, $._function_formal_parameter],
-        [$.relational_operator, $._shift_operator],
+        [$._type_name, $.function_signature],
+        // [$.relational_operator, $._shift_operator],
         [$.relational_expression],
-        // [$.type_expression],
-        // [$._real_expression, $._below_relational_type_cast_expression],
-        // [$._below_relational_expression, $._below_relational_type_cast_expression],
         [$.factory_constructor_signature, $.redirecting_factory_constructor_signature],
-        [$._function_type_tail]
+        [$._function_type_tail],
+        [$._type_not_void_not_function, $._function_type_tail],
+        [$._type_not_void],
+        [$._type_not_void_not_function],
     ],
 
     word: $ => $.identifier,
@@ -196,16 +199,18 @@ module.exports = grammar({
                 $.function_body
             ),
             seq(
-                optional($._type),
-                $._get,
-                $.identifier,
+                $.getter_signature,
+                // optional($._type),
+                // $._get,
+                // $.identifier,
                 $.function_body
             ),
             seq(
-                optional($._type),
-                $._set,
-                $.identifier,
-                $.formal_parameter_list,
+                $.setter_signature,
+                // optional($._type),
+                // $._set,
+                // $.identifier,
+                // $.formal_parameter_list,
                 $.function_body
             ),
 
@@ -536,51 +541,52 @@ module.exports = grammar({
             $.bitwise_or_expression,
             $.bitwise_xor_expression,
             $.shift_expression,
-            // $.type_cast_expression,
+            $.type_cast_expression,
+            $.type_test_expression,
             $._unary_expression
         ),
 
-        _below_relational_expression: $ => choice(
-            // UNARY_POSTFIX: 16,
-            // UNARY_PREFIX: 15,
-            // Multiplicative: 14, // *, /, ˜/, % Left
-            // Additive: 13, // +, - Left
-            // Shift: 12, // <<, >>, >>> Left
-            // Bitwise_AND: 11, // & Left
-            // Bitwise_XOR: 10, // ˆ Left
-            // Bitwise_Or: 9 , // | Left
-            // $.type_cast_expression,
-            $._unary_expression,
-            $.multiplicative_expression,
-            $.additive_expression,
-            $.shift_expression,
-            $.bitwise_and_expression,
-            $.bitwise_or_expression,
-            $.bitwise_xor_expression,
-
-        ),
-
-        _below_relational_type_cast_expression: $ => prec(
-            DART_PREC.RelationalTypeCast,
-            choice(
-                // UNARY_POSTFIX: 16,
-                // UNARY_PREFIX: 15,
-                // Multiplicative: 14, // *, /, ˜/, % Left
-                // Additive: 13, // +, - Left
-                // Shift: 12, // <<, >>, >>> Left
-                // Bitwise_AND: 11, // & Left
-                // Bitwise_XOR: 10, // ˆ Left
-                // Bitwise_Or: 9 , // | Left
-                $._unary_expression,
-                $.multiplicative_expression,
-                $.additive_expression,
-                $.shift_expression,
-                $.bitwise_and_expression,
-                $.bitwise_or_expression,
-                $.bitwise_xor_expression,
-
-            )
-        ),
+        // _below_relational_expression: $ => choice(
+        //     // UNARY_POSTFIX: 16,
+        //     // UNARY_PREFIX: 15,
+        //     // Multiplicative: 14, // *, /, ˜/, % Left
+        //     // Additive: 13, // +, - Left
+        //     // Shift: 12, // <<, >>, >>> Left
+        //     // Bitwise_AND: 11, // & Left
+        //     // Bitwise_XOR: 10, // ˆ Left
+        //     // Bitwise_Or: 9 , // | Left
+        //     // $.type_cast_expression,
+        //     $._unary_expression,
+        //     $.multiplicative_expression,
+        //     $.additive_expression,
+        //     $.shift_expression,
+        //     $.bitwise_and_expression,
+        //     $.bitwise_or_expression,
+        //     $.bitwise_xor_expression,
+        //
+        // ),
+        //
+        // _below_relational_type_cast_expression: $ => prec(
+        //     DART_PREC.RelationalTypeCast,
+        //     choice(
+        //         // UNARY_POSTFIX: 16,
+        //         // UNARY_PREFIX: 15,
+        //         // Multiplicative: 14, // *, /, ˜/, % Left
+        //         // Additive: 13, // +, - Left
+        //         // Shift: 12, // <<, >>, >>> Left
+        //         // Bitwise_AND: 11, // & Left
+        //         // Bitwise_XOR: 10, // ˆ Left
+        //         // Bitwise_Or: 9 , // | Left
+        //         $._unary_expression,
+        //         $.multiplicative_expression,
+        //         $.additive_expression,
+        //         $.shift_expression,
+        //         $.bitwise_and_expression,
+        //         $.bitwise_or_expression,
+        //         $.bitwise_xor_expression,
+        //
+        //     )
+        // ),
 
         throw_expression: $ => seq(
             'throw',
@@ -775,21 +781,30 @@ module.exports = grammar({
                 '!='
             )
         ),
-        // type_cast_expression: $ => prec(
-        //     DART_PREC.RelationalTypeCast,
+        type_cast_expression: $ => prec.left(
+            DART_PREC.RelationalTypeCast,
+            seq(
+                // $._below_relational_type_cast_expression,
+                $._real_expression,
+                $.type_cast,
+            )
+        ),
+        type_test_expression: $ => prec(
+            DART_PREC.RelationalTypeTest,
+            seq(
+                // $._below_relational_type_cast_expression,
+                $._real_expression,
+                $.type_test,
+            )
+        ),
+        // _raw_type_cast: $ => prec.right(
         //     seq(
         //         $._below_relational_type_cast_expression,
         //         $.type_cast,
         //     )
         // ),
-        _raw_type_cast: $ => prec.right(
-            seq(
-                $._below_relational_type_cast_expression,
-                $.type_cast,
-            )
-        ),
 
-        relational_expression: $ => prec.right( // neither
+        relational_expression: $ => prec( // neither
             DART_PREC.Relational,
             choice(
                 // $._raw_type_cast,
@@ -801,14 +816,16 @@ module.exports = grammar({
                     // I am not certain this is what designers intended. (see other comments on github)
                     // optional(
                     $._real_expression,
-                    choice(
-                        $.type_test,
-                        $.type_cast,
-                        seq(
-                            $.relational_operator,
-                            $._real_expression
-                        )
-                    )
+                    $.relational_operator,
+                    $._real_expression
+                    // choice(
+                    //     $.type_test,
+                    //     $.type_cast,
+                    //     seq(
+                    //         $.relational_operator,
+                    //         $._real_expression
+                    //     )
+                    // )
                     // ),
                 ),
                 // seq(
@@ -832,20 +849,10 @@ module.exports = grammar({
         ),
 
         relational_operator: $ => choice(
-            prec.dynamic(
-                DART_PREC.RelationalTypeCast,
-                $._open_arrow_builtin
-            ),
-            $._close_arrow_builtin,
-            seq(
-                choice(
-                    prec.dynamic(
-                        DART_PREC.RelationalTypeCast,
-                        $._open_arrow_builtin
-                    ),
-                    $._close_arrow_builtin
-                ),
-                '=')
+            '<',
+            '>',
+            '<=',
+            '>='
         ),
 
         //BITWISE EXPRESSIONS
@@ -863,19 +870,9 @@ module.exports = grammar({
         ),
         shift_operator: $ => $._shift_operator,
         _shift_operator: $ => choice(
-            seq(
-                $._open_arrow_builtin,
-                $._open_arrow_builtin
-            ),
-            seq(
-                $._close_arrow_builtin,
-                $._close_arrow_builtin
-            ),
-            seq(
-                $._close_arrow_builtin,
-                $._close_arrow_builtin,
-                $._close_arrow_builtin
-            ),
+                '<<',
+                '>>',
+                '>>>'
         ),
         additive_operator: $ => $._additive_operator,
         _additive_operator: $ => token(
@@ -1134,27 +1131,17 @@ module.exports = grammar({
             seq('?.', $.identifier)
         ),
 
-        type_arguments: $ => $._type_args,
-        _type_args: $ => prec.left(
-            DART_PREC.TYPE_ARGUMENTS,
-            choice( // was prec.right
-                seq(
-                    prec.dynamic(
-                        DART_PREC.TYPE_ARGS,
-                        $._open_arrow_builtin
-                    ),
-                    $._close_arrow_builtin,
-                    optional($._nullable_type)
-                ),
-                seq(
-                    prec.dynamic(
-                        DART_PREC.TYPE_ARGS,
-                        $._open_arrow_builtin
-                    ),
-                    commaSep1($._type),
-                    $._close_arrow_builtin,
-                    optional($._nullable_type)
-                )
+        type_arguments: $ => choice( // was prec.right
+            // seq(
+            //     '<',
+            //     '>',
+            //     optional($._nullable_type)
+            // ),
+            seq(
+                 '<',
+                commaSep($._type),
+                '>',
+                // optional($._nullable_type)
             )
         ),
 
@@ -1591,7 +1578,7 @@ module.exports = grammar({
 
 
         type_parameters: $ => seq(
-            $._open_arrow_builtin, commaSep1($.type_parameter), $._close_arrow_builtin
+            '<', commaSep1($.type_parameter), '>'
         ),
 
         type_parameter: $ => seq(
@@ -1991,12 +1978,17 @@ module.exports = grammar({
         ),
 
         _type: $ => choice(
-            $._function_type_tails,
             seq(
-                $._type_not_function,
-                $._function_type_tails
+                $.function_type,
+                optional($._nullable_type)
             ),
             $._type_not_function
+            // $._function_type_tails,
+            // seq(
+            //     $._type_not_function,
+            //     $._function_type_tails
+            // ),
+            // $._type_not_function
             // $._unannotated_type,
             // $.annotated_type
         ),
@@ -2004,22 +1996,24 @@ module.exports = grammar({
             $._type_not_void_not_function,
             $.void_type
         ),
-        _type_not_void_not_function: $ => prec.right(
+        _type_not_void_not_function: $ => choice(
             seq(
                 $._type_name,
-                optional($._nullable_type),
                 optional($.type_arguments),
                 optional($._nullable_type)
             ),
+            // rewritten in accordance with the draft spec page 198
+            seq(
+                $._function_builtin_identifier,
+                optional($._nullable_type)
+            )
         ),
 
-        function_type: $ => prec.right(
-            choice(
-                $._function_type_tails,
-                seq(
-                    $._type_not_function,
-                    $._function_type_tails
-                )
+        function_type: $ => choice(
+            $._function_type_tails,
+            seq(
+                $._type_not_function,
+                $._function_type_tails
             )
         ),
         _function_type_tails: $ => repeat1($._function_type_tail),
@@ -2068,7 +2062,11 @@ module.exports = grammar({
         ),
 
         _type_not_void: $ => choice(
-            $.function_type,
+            seq(
+                $.function_type,
+                optional($._nullable_type)
+            ),
+            // $.function_type,
             $._type_not_void_not_function
             // alias($.identifier, $.type_identifier),
             // // $.scoped_type_identifier,
@@ -2087,8 +2085,21 @@ module.exports = grammar({
                 optional(
                     $._type_dot_identifier
                 ),
-                optional($._nullable_type),
+                // optional($._nullable_type),
             ),
+
+        // _type_name: $ => prec.right( // changed from above?
+        //     seq(
+        //         alias(
+        //             $.identifier,
+        //             $.type_identifier
+        //         ),
+        //         optional(
+        //             $._type_dot_identifier
+        //         ),
+        //         optional($._nullable_type),
+        //     )
+        // ),
 
         _type_dot_identifier: $ => prec.right(
             DART_PREC.IMPORT_EXPORT,
@@ -2117,10 +2128,7 @@ module.exports = grammar({
             'bool',
         ),
 
-        void_type: $ => prec(
-            DART_PREC.BUILTIN,
-            'void',
-        ),
+        void_type: $ => token('void'),
 
         inferred_type: $ => prec(
             DART_PREC.BUILTIN,
@@ -2146,10 +2154,7 @@ module.exports = grammar({
         function_body: $ => choice(
             seq(
                 optional('async'),
-                seq(
-                    '=',
-                    $._close_arrow_builtin
-                ),
+                '=>',
                 $._expression,
                 $._semicolon
             ),
@@ -2165,10 +2170,7 @@ module.exports = grammar({
         function_expression_body: $ => choice(
             seq(
                 optional('async'),
-                seq(
-                    '=',
-                    $._close_arrow_builtin
-                ),
+                '=>',
                 $._expression
             ),
             seq(
@@ -2465,12 +2467,12 @@ module.exports = grammar({
             DART_PREC.BUILTIN,
             'external',
         ),
-        _open_arrow_builtin: $ => token(
-            '<'
-        ),
-        _close_arrow_builtin: $ => token(
-            '>'
-        ),
+        // _open_arrow_builtin: $ => token(
+        //     '<'
+        // ),
+        // _close_arrow_builtin: $ => token(
+        //     '>'
+        // ),
         // _try: $ => prec(
         //     DART_PREC.TRY,
         //     token.immediate('try')
