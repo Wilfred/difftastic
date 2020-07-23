@@ -1,3 +1,0 @@
-sub hello {
-  return 'hello';
-}

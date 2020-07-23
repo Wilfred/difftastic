@@ -5,15 +5,145 @@
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "_definitions"
+        "name": "_statement"
       }
     },
-    "_definitions": {
+    "_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "return_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "if_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assignment_statement"
+        }
+      ]
+    },
+    "assignment_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "scalar_declaration"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semi_colon"
+        }
+      ]
+    },
+    "if_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "if"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "block"
+          }
+        }
+      ]
+    },
+    "_declaration": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
           "name": "function_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "scalar_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_declaration"
+        }
+      ]
+    },
+    "array_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "scope"
+        },
+        {
+          "type": "FIELD",
+          "name": "variable_name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "array_variable"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semi_colon"
+        }
+      ]
+    },
+    "scalar_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "scope"
+        },
+        {
+          "type": "FIELD",
+          "name": "variable_name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "scalar_variable"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semi_colon"
+        }
+      ]
+    },
+    "scope": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "my"
         }
       ]
     },
@@ -62,15 +192,6 @@
         }
       ]
     },
-    "_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "return_statement"
-        }
-      ]
-    },
     "return_statement": {
       "type": "SEQ",
       "members": [
@@ -83,8 +204,8 @@
           "name": "_expression"
         },
         {
-          "type": "STRING",
-          "value": ";"
+          "type": "SYMBOL",
+          "name": "_semi_colon"
         }
       ]
     },
@@ -93,7 +214,15 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "string"
+          "name": "string_single_quoted"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "number"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "boolean"
         }
       ]
     },
@@ -101,9 +230,29 @@
       "type": "PATTERN",
       "value": "[a-z]+"
     },
-    "string": {
+    "_semi_colon": {
+      "type": "STRING",
+      "value": ";"
+    },
+    "string_single_quoted": {
       "type": "PATTERN",
-      "value": "'.*'"
+      "value": "\\'.*\\'"
+    },
+    "number": {
+      "type": "PATTERN",
+      "value": "\\d"
+    },
+    "boolean": {
+      "type": "PATTERN",
+      "value": "true|false"
+    },
+    "scalar_variable": {
+      "type": "PATTERN",
+      "value": "\\$[a-z]+"
+    },
+    "array_variable": {
+      "type": "PATTERN",
+      "value": "@[a-z]+"
     }
   },
   "extras": [

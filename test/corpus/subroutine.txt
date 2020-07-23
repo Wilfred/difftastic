@@ -11,7 +11,7 @@ sub hello {
 (source_file
   (function_definition (identifier)
     (block
-      (return_statement (string))
+      (return_statement (string_single_quoted))
     )
   )
 )
