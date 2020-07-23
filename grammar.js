@@ -696,6 +696,7 @@ const rules = {
 
   trait_declaration: $ =>
     seq(
+      opt($.attribute_modifier),
       'trait',
       field('name', $.identifier),
       opt($.type_parameters),
@@ -705,6 +706,7 @@ const rules = {
 
   interface_declaration: $ =>
     seq(
+      opt($.attribute_modifier),
       'interface',
       field('name', $.identifier),
       opt($.type_parameters),
