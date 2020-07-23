@@ -1,0 +1,36 @@
+(script
+  (expression_statement
+    (binary_expression
+      left: (binary_expression
+        left: (vec
+          (integer)
+          (integer))
+        right: (function_call_expression
+          function: (qualified_identifier
+            (identifier)
+            (identifier))
+          (arguments
+            (argument
+              (pipe_variable))
+            (argument
+              (lambda_expression
+                (parameters
+                  (parameter
+                    name: (variable
+                      (identifier))))
+                body: (binary_expression
+                  left: (variable
+                    (identifier))
+                  right: (integer)))))))
+      right: (function_call_expression
+        function: (lambda_expression
+          (parameters
+            (parameter
+              name: (variable
+                (identifier))))
+          body: (compound_statement
+            (return_statement
+              (pipe_variable))))
+        (arguments
+          (argument
+            (pipe_variable)))))))

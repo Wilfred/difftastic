@@ -23,6 +23,7 @@
   [prec.left, '|'],
   [prec.right, '??'],
   [prec.left, 'ternary'],
+  [prec.left, '|>'],
   [prec.right, 'assignment'],
   [prec.right, 'print'],
 
@@ -45,6 +46,8 @@ const rules = {
 
   variable: $ => seq('$', $.identifier),
 
+  pipe_variable: $ => '$$',
+
   qualified_identifier: $ =>
     choice(
       prec.qualified(seq(opt($.identifier), seq.rep1('\\', $.identifier))),
@@ -63,6 +66,7 @@ const rules = {
   _variablish: $ =>
     choice(
       $.variable,
+      $.pipe_variable,
       $.list_expression,
       $.subscript_expression,
       $.qualified_identifier,
@@ -453,6 +457,7 @@ const rules = {
   binary_expression: $ =>
     choice(
       ...[
+        '|>',
         '??',
         '||',
         '&&',
