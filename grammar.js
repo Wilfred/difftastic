@@ -27,6 +27,7 @@
   [prec.left, '|>'],
   [prec.right, 'assignment'],
   [prec.right, 'print'],
+  [prec.left, 'include', 'require'],
 
   [prec, 'type'],
 
@@ -147,6 +148,8 @@ const rules = {
       $.function_call_expression,
       $.selection_expression,
       $.new_expression,
+      $.include_expression,
+      $.require_expression,
     ),
 
   // Statements
@@ -447,6 +450,12 @@ const rules = {
 
   field_initializer: $ =>
     seq(choice($.string, $.scoped_identifier), '=>', $._expression),
+
+  include_expression: $ =>
+    prec.include(seq(choice('include', 'include_once'), $._expression)),
+
+  require_expression: $ =>
+    prec.include(seq(choice('require', 'require_once'), $._expression)),
 
   // Expressions
 
