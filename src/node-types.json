@@ -3404,7 +3404,31 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "?",
+            "named": false
+          },
+          {
+            "type": "Function",
+            "named": false
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "type_arguments",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "void_type",
             "named": true
           }
         ]
@@ -3415,16 +3439,6 @@
         "types": [
           {
             "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "on_type_arguments": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "type_arguments",
             "named": true
           }
         ]
@@ -7492,6 +7506,10 @@
         },
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
           "named": true
         },
         {

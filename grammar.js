@@ -1569,8 +1569,7 @@ module.exports = grammar({
                 optional(field('name', $.identifier)),
                 optional(field('type_parameters', $.type_parameters)),
                 'on',
-                field('class', $.identifier),
-                optional(field('on_type_arguments', $.type_arguments)),
+                field('class', $._type),
                 field('body', $.extension_body)
             ),
         ),
@@ -1652,7 +1651,7 @@ module.exports = grammar({
             '{',
             repeat(
                 choice(
-                    seq($.declaration, $._semicolon),
+                    seq(optional($._metadata), $.declaration, $._semicolon),
                     seq(
                         optional($._metadata),
                         seq(
@@ -1799,7 +1798,8 @@ module.exports = grammar({
                 '[]',
                 '[]='
             ),
-            $.formal_parameter_list
+            $.formal_parameter_list,
+            optional($._native)
         ),
         static_final_declaration: $ => seq(
             $.identifier,
