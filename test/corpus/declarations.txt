@@ -476,8 +476,12 @@ void callback(Future<void> Function(String?) handler) {
 
 (program 
   (function_signature (void_type) (identifier) 
-    (formal_parameter_list (formal_parameter (type_identifier) (type_arguments (void_type)) 
-      (parameter_type_list (normal_parameter_type (type_identifier))) (identifier)))) 
+    (formal_parameter_list
+        (formal_parameter
+            (function_type
+                (type_identifier)
+                            (type_arguments (void_type))
+                            (parameter_type_list (normal_parameter_type (type_identifier)))) (identifier))))
       (function_body (block)))
 
 ==================================
@@ -569,6 +573,49 @@ class MyClass {
 }
 
 ---
+
+
+==================================
+Get and set methods (functional?)
+==================================
+
+String get myGetterName => 'A string hello';
+class MyClass {
+  void set myValue(String name, Object value) {}
+}
+
+---
+    (program
+        (getter_signature (type_identifier) (identifier))
+        (function_body (string_literal))
+
+        (class_definition (identifier)
+            (class_body
+                (method_signature
+                    (setter_signature (void_type) (identifier)
+                        (formal_parameter_list (formal_parameter (type_identifier) (identifier))
+                            (formal_parameter (type_identifier) (identifier)))))
+                (function_body (block)))))
+
+==================================
+void types
+==================================
+
+class MyClass {
+  void mySet(String name, Object value) {}
+}
+
+---
+
+    (program
+        (class_definition (identifier)
+            (class_body
+                (method_signature
+                    (function_signature (void_type) (identifier)
+                        (formal_parameter_list (formal_parameter (type_identifier) (identifier))
+                            (formal_parameter (type_identifier) (identifier)))))
+                (function_body (block)))))
+
 
 ==================================
 external factories
