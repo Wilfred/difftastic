@@ -94,7 +94,8 @@ var a;
 
 (program
 
- (getter_signature (identifier))
+ (getter_signature 
+    name: (identifier))
     (function_body
          (block
             (local_variable_declaration (initialized_variable_definition (inferred_type) name: (identifier)))

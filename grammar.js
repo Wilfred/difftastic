@@ -1675,7 +1675,7 @@ module.exports = grammar({
         getter_signature: $ => seq(
             optional($._type),
             $._get,
-            $.identifier,
+            field('name', $.identifier),
             optional($._native)
         ),
         setter_signature: $ => seq(
@@ -2189,9 +2189,9 @@ module.exports = grammar({
         function_signature: $ => seq(
             // optional($._metadata),
             optional($._type),
-            field('name', $.identifier),
+            field('name', choice($._get, $.identifier)),
             $._formal_parameter_part,
-            optional($._native)
+            optional($._native),
         ),
 
         _formal_parameter_part: $ => seq(
