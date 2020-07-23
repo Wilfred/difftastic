@@ -43,15 +43,22 @@ const rules = {
 
   identifier: $ => /[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*/,
 
+  variable: $ => seq('$', $.identifier),
+
   qualified_identifier: $ =>
     choice(
       prec.qualified(seq(opt($.identifier), seq.rep1('\\', $.identifier))),
       $.identifier,
     ),
 
-  scoped_identifier: $ => seq($.qualified_identifier, '::', $.identifier),
+  scoped_identifier: $ =>
+    seq(
+      choice($.qualified_identifier, $.variable, $.scope_identifier),
+      '::',
+      choice($.identifier, $.variable),
+    ),
 
-  variable: $ => seq('$', $.identifier),
+  scope_identifier: $ => choice('self', 'parent', 'static'),
 
   _variablish: $ =>
     choice(
@@ -59,6 +66,10 @@ const rules = {
       $.list_expression,
       $.subscript_expression,
       $.qualified_identifier,
+      $.parenthesized_expression,
+      $.function_call_expression,
+      $.scoped_identifier,
+      $.selection_expression,
     ),
 
   _statement: $ =>
