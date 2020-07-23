@@ -4,6 +4,10 @@
     "named": true,
     "subtypes": [
       {
+        "type": "abstract_definition",
+        "named": true
+      },
+      {
         "type": "function_definition",
         "named": true
       },
@@ -212,6 +216,29 @@
         "named": true
       }
     ]
+  },
+  {
+    "type": "abstract_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "subtype_clause",
+          "named": true
+        },
+        {
+          "type": "type_parameter_list",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "argument_list",
@@ -1716,6 +1743,10 @@
     "named": false
   },
   {
+    "type": "abstract",
+    "named": false
+  },
+  {
     "type": "begin",
     "named": false
   },
@@ -1837,6 +1868,10 @@
   },
   {
     "type": "try",
+    "named": false
+  },
+  {
+    "type": "type",
     "named": false
   },
   {

@@ -24,6 +24,11 @@ end
 Structs
 =================
 
+# abstract
+abstract type T end
+abstract type T <: S end
+abstract type T{S} <: U end
+
 # empty
 struct NoFields
 end
@@ -54,6 +59,17 @@ end
 ---
 
 (source_file
+  (comment)
+  (abstract_definition
+    (identifier))
+  (abstract_definition
+    (identifier)
+    (subtype_clause (identifier)))
+  (abstract_definition
+    (identifier)
+    (type_parameter_list
+      (identifier))
+    (subtype_clause (identifier)))
   (comment)
   (struct_definition
     (identifier))
