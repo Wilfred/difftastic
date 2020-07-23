@@ -1,0 +1,65 @@
+(script
+  (comment)
+  (comment)
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations
+      (trait_use_clause
+        (qualified_identifier
+          (identifier))
+        (qualified_identifier
+          (identifier))
+        (trait_select_clause
+          (qualified_identifier
+            (identifier))
+          (identifier)
+          (qualified_identifier
+            (identifier))))))
+  (comment)
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations
+      (trait_use_clause
+        (qualified_identifier
+          (identifier))
+        (qualified_identifier
+          (identifier))
+        (trait_select_clause
+          (qualified_identifier
+            (identifier))
+          (identifier)
+          (qualified_identifier
+            (identifier))))
+      (comment)
+      (trait_use_clause
+        (qualified_identifier
+          (identifier))
+        (qualified_identifier
+          (identifier))
+        (trait_select_clause
+          (qualified_identifier
+            (identifier))
+          (identifier)
+          (qualified_identifier
+            (identifier))
+          (qualified_identifier
+            (identifier))))))
+  (comment)
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations
+      (trait_use_clause
+        (qualified_identifier
+          (identifier))
+        (qualified_identifier
+          (identifier))
+        (qualified_identifier
+          (identifier))
+        (trait_select_clause
+          (qualified_identifier
+            (identifier))
+          (identifier)
+          (qualified_identifier
+            (identifier))
+          (qualified_identifier
+            (identifier)))))))

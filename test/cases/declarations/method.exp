@@ -2,7 +2,7 @@
   (class_declaration
     (abstract_modifier)
     name: (identifier)
-    body: (class_body
+    body: (member_declarations
       (method_declaration
         (static_modifier)
         name: (identifier)

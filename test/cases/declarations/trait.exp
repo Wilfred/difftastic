@@ -1,7 +1,5 @@
 (script
-  (class_declaration
-    (abstract_modifier)
-    (final_modifier)
+  (trait_declaration
     name: (identifier)
     (type_parameters
       (type_parameter
@@ -18,9 +16,6 @@
               (identifier))
             (type_identifier
               (identifier))))))
-    (extends_clause
-      (type_identifier
-        (identifier)))
     (implements_clause
       (generic_type
         (type_identifier

@@ -700,7 +700,7 @@ const rules = {
       field('name', $.identifier),
       opt($.type_parameters),
       opt($.implements_clause),
-      field('body', $.class_body),
+      field('body', $.member_declarations),
     ),
 
   interface_declaration: $ =>
@@ -709,7 +709,7 @@ const rules = {
       field('name', $.identifier),
       opt($.type_parameters),
       opt($.extends_clause),
-      field('body', $.class_body),
+      field('body', $.member_declarations),
     ),
 
   class_declaration: $ =>
@@ -722,19 +722,53 @@ const rules = {
       opt($.type_parameters),
       opt($.extends_clause),
       opt($.implements_clause),
-      field('body', $.class_body),
+      field('body', $.member_declarations),
     ),
 
-  class_body: $ =>
+  member_declarations: $ =>
     seq(
       '{',
       choice.rep(
+        alias($._class_const_declaration, $.const_declaration),
         $.method_declaration,
         $.property_declaration,
         $.type_const_declaration,
-        alias($._class_const_declaration, $.const_declaration),
+        $.trait_use_clause,
       ),
       '}',
+    ),
+
+  trait_use_clause: $ =>
+    seq(
+      'use',
+      com($.qualified_identifier),
+      choice(
+        seq(
+          '{',
+          seq.rep(choice($.trait_select_clause, $.trait_alias_clause), ';'),
+          '}',
+        ),
+        ';',
+      ),
+    ),
+
+  trait_select_clause: $ =>
+    seq(
+      $.qualified_identifier,
+      '::',
+      $.identifier,
+      'insteadof',
+      com($.qualified_identifier),
+    ),
+
+  trait_alias_clause: $ =>
+    seq(
+      $.identifier,
+      'as',
+      choice(
+        seq($.visibility_modifier, opt($.identifier)),
+        seq(opt($.visibility_modifier), $.identifier),
+      ),
     ),
 
   extends_clause: $ => seq('extends', com($._type)),

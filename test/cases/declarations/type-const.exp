@@ -1,7 +1,7 @@
 (script
   (class_declaration
     name: (identifier)
-    body: (class_body
+    body: (member_declarations
       (type_const_declaration
         name: (identifier))
       (type_const_declaration
