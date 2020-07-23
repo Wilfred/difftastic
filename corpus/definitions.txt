@@ -24,6 +24,11 @@ end
 Structs
 =================
 
+# primitive
+primitive type T 8 end
+primitive type T <: S 16 end
+primitive type Ptr{T} 32 end
+
 # abstract
 abstract type T end
 abstract type T <: S end
@@ -59,6 +64,19 @@ end
 ---
 
 (source_file
+  (comment)
+  (primitive_definition
+    (identifier)
+    (number))
+  (primitive_definition
+    (identifier)
+    (subtype_clause (identifier))
+    (number))
+  (primitive_definition
+    (identifier)
+    (type_parameter_list
+      (identifier))
+    (number))
   (comment)
   (abstract_definition
     (identifier))

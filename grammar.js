@@ -122,6 +122,7 @@ grammar({
 
     _definition: $ => choice(
       $.abstract_definition,
+      $.primitive_definition,
       $.struct_definition,
       $.module_definition,
       $.function_definition,
@@ -143,6 +144,16 @@ grammar({
       $.identifier,
       optional($.type_parameter_list),
       optional($.subtype_clause),
+      'end'
+    ),
+
+    primitive_definition: $ => seq(
+      'primitive',
+      'type',
+      $.identifier,
+      optional($.type_parameter_list),
+      optional($.subtype_clause),
+      alias(/[1-9][0-9]*/, $.number),
       'end'
     ),
 
