@@ -567,6 +567,54 @@ printStream((args['json'] as bool) ? '' : 'hi');
         )
     )
 )
+==================================
+typecast in expression
+==================================
+
+a['json'] as BigB > b;
+a < b['json'] as BigB;
+a == b as BigB;
+a as BigB >= b;
+a <= b;
+a as BigB != b;
+a && b as BigB;
+a as BigB || b as BigB;
+if (a['json'] as BigB < b as BigB) {
+}
+a as BigB | b as BigB;
+
+---
+
+ (program
+    (expression_statement
+        (relational_expression (relational_expression
+        (identifier)
+                    (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
+                    (type_cast (as_operator) (type_identifier))) (relational_operator) (identifier))
+    )
+    (expression_statement
+        (relational_expression
+        (relational_expression (identifier) (relational_operator)
+
+            (identifier)
+                        (selector (assignable_selector (unconditional_assignable_selector (string_literal))))) (type_cast (as_operator) (type_identifier))
+        ))
+    (expression_statement (equality_expression (identifier) (equality_operator) (relational_expression (identifier) (type_cast (as_operator) (type_identifier)))))
+    (expression_statement (relational_expression (relational_expression (identifier) (type_cast (as_operator) (type_identifier))) (relational_operator) (identifier)))
+    (expression_statement (relational_expression (identifier) (relational_operator) (identifier)))
+    (expression_statement (equality_expression (relational_expression (identifier) (type_cast (as_operator) (type_identifier))) (equality_operator) (identifier)))
+    (expression_statement (logical_and_expression (identifier) (relational_expression (identifier) (type_cast (as_operator) (type_identifier)))))
+    (expression_statement (logical_or_expression (relational_expression (identifier) (type_cast (as_operator) (type_identifier))) (relational_expression (identifier) (type_cast (as_operator) (type_identifier)))))
+    (if_statement
+        (parenthesized_expression
+            (relational_expression (identifier)
+                     (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
+                     (type_cast (as_operator) (type_identifier)) (relational_operator)
+                     (relational_expression (identifier) (type_cast (as_operator) (type_identifier))))) (block))
+    (expression_statement (bitwise_or_expression (relational_expression (identifier) (type_cast (as_operator) (type_identifier))) (relational_expression (identifier) (type_cast (as_operator) (type_identifier)))))
+ )
+
+
 
 
 =============================
