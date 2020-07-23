@@ -5,6 +5,7 @@ build
 .vscode/settings.json
 examples
 package-lock.json
+.npmrc
 
 # Do we need to track `src` if it's all generated?
 src
@@ -16,3 +17,7 @@ test/corpus
 
 # Store sha256sum for grammar.js
 grammar.js.sha
+
+# Scratch file
+scratch.hack
+scratch.exp
