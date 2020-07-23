@@ -160,7 +160,7 @@ const rules = {
         com(opt($.use_type), $.use_clause),
         seq(
           $.use_type,
-          $.qualified_identifier,
+          opt($.qualified_identifier),
           '\\',
           '{',
           com($.use_clause, ','),
