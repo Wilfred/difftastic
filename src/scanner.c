@@ -2,6 +2,7 @@
 #include <wctype.h>
 
 enum TokenType {
+  BLOCK_COMMENT,
   TRIPLE_STRING,
   IMMEDIATE_PAREN,
 };
@@ -21,6 +22,49 @@ bool tree_sitter_julia_external_scanner_scan(
 
   while (iswspace(lexer->lookahead)) {
     lexer->advance(lexer, true);
+  }
+
+  if (lexer->lookahead == '#') {
+    lexer->advance(lexer, false);
+    if (lexer->lookahead != '=') {
+      return false;
+    }
+    lexer->advance(lexer, false);
+
+    bool after_eq = false;
+    unsigned nesting_depth = 1;
+    for (;;) {
+      switch (lexer->lookahead) {
+        case '\0':
+          return false;
+        case '=':
+          lexer->advance(lexer, false);
+          after_eq = true;
+          break;
+        case '#':
+          if (after_eq) {
+            lexer->advance(lexer, false);
+            after_eq = false;
+            nesting_depth--;
+            if (nesting_depth == 0) {
+              lexer->result_symbol = BLOCK_COMMENT;
+              return true;
+            }
+          } else {
+            lexer->advance(lexer, false);
+            after_eq = false;
+            if (lexer->lookahead == '=') {
+              nesting_depth++;
+              lexer->advance(lexer, false);
+            }
+          }
+          break;
+        default:
+          lexer->advance(lexer, false);
+          after_eq = false;
+          break;
+      }
+    }
   }
 
   if (!valid_symbols[TRIPLE_STRING]) return false;

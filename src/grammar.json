@@ -6040,6 +6040,10 @@
     {
       "type": "SYMBOL",
       "name": "comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "block_comment"
     }
   ],
   "conflicts": [
@@ -6070,6 +6074,10 @@
     ]
   ],
   "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "block_comment"
+    },
     {
       "type": "SYMBOL",
       "name": "triple_string"

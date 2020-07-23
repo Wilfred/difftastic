@@ -81,6 +81,7 @@ grammar({
   ],
 
   externals: $ => [
+    $.block_comment,
     $.triple_string,
     $._immediate_paren,
   ],
@@ -104,6 +105,7 @@ grammar({
   extras: $ => [
     /\s/,
     $.comment,
+    $.block_comment,
   ],
 
   rules: {
