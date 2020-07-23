@@ -121,6 +121,7 @@ grammar({
     // Definitions
 
     _definition: $ => choice(
+      $.abstract_definition,
       $.struct_definition,
       $.module_definition,
       $.function_definition,
@@ -133,6 +134,15 @@ grammar({
       optional($.type_parameter_list),
       $.parameter_list,
       optional($._expression_list),
+      'end'
+    ),
+
+    abstract_definition: $ => seq(
+      'abstract',
+      'type',
+      $.identifier,
+      optional($.type_parameter_list),
+      optional($.subtype_clause),
       'end'
     ),
 
