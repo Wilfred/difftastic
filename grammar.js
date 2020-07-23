@@ -101,7 +101,6 @@ const rules = {
 
   _expression: $ =>
     choice(
-      $.qualified_identifier,
       $.varray,
       $.darray,
       $.vec,
