@@ -1,28 +1,5 @@
 (script
   (class_declaration
-    name: (identifier)
-    body: (class_body))
-  (interface_declaration
-    name: (identifier)
-    body: (class_body))
-  (trait_declaration
-    name: (identifier)
-    body: (class_body))
-  (interface_declaration
-    name: (identifier)
-    (extends_clause
-      (type_identifier
-        (identifier))
-      (type_identifier
-        (identifier)))
-    body: (class_body))
-  (trait_declaration
-    name: (identifier)
-    (implements_clause
-      (type_identifier
-        (identifier)))
-    body: (class_body))
-  (class_declaration
     (abstract_modifier)
     (final_modifier)
     name: (identifier)
@@ -35,7 +12,7 @@
         (identifier))
       (type_identifier
         (identifier)))
-    body: (class_body
+    body: (member_declarations
       (method_declaration
         name: (identifier)
         (parameters)

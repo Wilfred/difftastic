@@ -1,7 +1,7 @@
 (script
   (class_declaration
     name: (identifier)
-    body: (class_body
+    body: (member_declarations
       (property_declaration
         (static_modifier)
         (property_declarator

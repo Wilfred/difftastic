@@ -11,7 +11,7 @@
         (argument
           (integer))))
     name: (identifier)
-    body: (class_body
+    body: (member_declarations
       (method_declaration
         (attribute_modifier
           (qualified_identifier
