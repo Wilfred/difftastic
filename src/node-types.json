@@ -4,6 +4,10 @@
     "named": true,
     "subtypes": [
       {
+        "type": "abstract_definition",
+        "named": true
+      },
+      {
         "type": "function_definition",
         "named": true
       },
@@ -13,6 +17,10 @@
       },
       {
         "type": "module_definition",
+        "named": true
+      },
+      {
+        "type": "primitive_definition",
         "named": true
       },
       {
@@ -212,6 +220,29 @@
         "named": true
       }
     ]
+  },
+  {
+    "type": "abstract_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "subtype_clause",
+          "named": true
+        },
+        {
+          "type": "type_parameter_list",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "argument_list",
@@ -533,7 +564,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "_expression",
@@ -1202,6 +1233,33 @@
     }
   },
   {
+    "type": "primitive_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "subtype_clause",
+          "named": true
+        },
+        {
+          "type": "type_parameter_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "quote_expression",
     "named": true,
     "fields": {},
@@ -1716,6 +1774,10 @@
     "named": false
   },
   {
+    "type": "abstract",
+    "named": false
+  },
+  {
     "type": "begin",
     "named": false
   },
@@ -1816,6 +1878,10 @@
     "named": true
   },
   {
+    "type": "primitive",
+    "named": false
+  },
+  {
     "type": "quote",
     "named": false
   },
@@ -1837,6 +1903,10 @@
   },
   {
     "type": "try",
+    "named": false
+  },
+  {
+    "type": "type",
     "named": false
   },
   {
