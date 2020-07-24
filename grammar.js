@@ -81,6 +81,7 @@ grammar({
   ],
 
   externals: $ => [
+    $.block_comment,
     $.triple_string,
     $._immediate_paren,
   ],
@@ -104,6 +105,7 @@ grammar({
   extras: $ => [
     /\s/,
     $.comment,
+    $.block_comment,
   ],
 
   rules: {
@@ -121,6 +123,8 @@ grammar({
     // Definitions
 
     _definition: $ => choice(
+      $.abstract_definition,
+      $.primitive_definition,
       $.struct_definition,
       $.module_definition,
       $.function_definition,
@@ -133,6 +137,25 @@ grammar({
       optional($.type_parameter_list),
       $.parameter_list,
       optional($._expression_list),
+      'end'
+    ),
+
+    abstract_definition: $ => seq(
+      'abstract',
+      'type',
+      $.identifier,
+      optional($.type_parameter_list),
+      optional($.subtype_clause),
+      'end'
+    ),
+
+    primitive_definition: $ => seq(
+      'primitive',
+      'type',
+      $.identifier,
+      optional($.type_parameter_list),
+      optional($.subtype_clause),
+      alias(/[1-9][0-9]*/, $.number),
       'end'
     ),
 
@@ -244,12 +267,13 @@ grammar({
     elseif_clause: $ => seq(
       'elseif',
       $._expression,
-      $._expression_list
+      optional($._terminator),
+      optional($._expression_list)
     ),
 
     else_clause: $ => seq(
       'else',
-      $._expression_list
+      optional($._expression_list)
     ),
 
     try_statement: $ => seq(
