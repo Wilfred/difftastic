@@ -5386,6 +5386,11 @@
     }
   },
   {
+    "type": "identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "if_element",
     "named": true,
     "fields": {
@@ -11329,10 +11334,6 @@
   {
     "type": "hide",
     "named": false
-  },
-  {
-    "type": "identifier",
-    "named": true
   },
   {
     "type": "identifier_dollar_escaped",

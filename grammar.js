@@ -153,6 +153,7 @@ module.exports = grammar({
         [$._type_not_void_not_function, $._function_type_tail],
         [$._type_not_void],
         [$._type_not_void_not_function],
+        [$.function_signature]
     ],
 
     word: $ => $.identifier,
@@ -2189,10 +2190,27 @@ module.exports = grammar({
         function_signature: $ => seq(
             // optional($._metadata),
             optional($._type),
-            field('name', choice($._get, $.identifier)),
+            field('name', choice(
+                alias(
+                    $._get,
+                    $.identifier, // this way the syntax still highlights consistently.
+                ),
+                alias(
+                    $._set,
+                    $.identifier, // this way the syntax still highlights consistently.
+                ),
+                // $._get,
+                // $._set,
+                $.identifier
+            )),
             $._formal_parameter_part,
             optional($._native),
         ),
+
+        // _get_identifier: $ => alias(
+        //         $.identifier, // this way the syntax still highlights consistently.
+        //         $._get
+        //     ),
 
         _formal_parameter_part: $ => seq(
             optional($.type_parameters),

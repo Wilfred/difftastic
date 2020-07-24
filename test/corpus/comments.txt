@@ -5,12 +5,6 @@ comment
 // This is a comment
 /* This is also a comment */
 /* this comment /* // /** ends here: */
-/**
-  * Is [:true:] if this comment is a documentation comment.
-  *
-  * That is, that the comment is either enclosed in [: /** ... */ :] or starts
-  * with [: /// :].
-  */
 
 ---
 
@@ -28,3 +22,19 @@ comments and literals
 (program
   (expression_statement (decimal_integer_literal))
   (comment))
+
+
+======================
+documentation comment
+======================
+
+/**
+  * Is [:true:] if this comment is a documentation comment.
+  *
+  * That is, that the comment is either enclosed in [: /** ... */ :] or starts
+  * with [: /// :].
+  */
+
+---
+
+(program (comment) (comment) (comment))
