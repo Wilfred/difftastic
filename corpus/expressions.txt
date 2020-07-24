@@ -50,6 +50,19 @@ Command strings
   (command_string))
 
 =================
+Prefixed strings
+=================
+
+x = r"foo"
+y = v"1.0"
+
+---
+
+(source_file
+  (assignment_expression (identifier) (string (identifier)))
+  (assignment_expression (identifier) (string (identifier))))
+
+=================
 Characters
 =================
 
@@ -164,6 +177,8 @@ Macro calls
 @assert x == y
 @assert x == y "a message"
 
+@. a
+
 @testset "a" begin
   b = c
 end
@@ -180,6 +195,7 @@ end
     (macro_argument_list
       (binary_expression (identifier) (identifier))
       (string)))
+  (macro_expression (macro_identifier (operator)) (macro_argument_list (identifier)))
   (macro_expression
     (macro_identifier (identifier))
     (macro_argument_list
