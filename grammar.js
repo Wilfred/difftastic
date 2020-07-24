@@ -330,7 +330,13 @@ const rules = {
 
   // Types
 
-  _type: $ => choice($.type_specifier, $.type_constant, $.shape_specifier),
+  _type: $ =>
+    choice(
+      $.type_specifier,
+      $.type_constant,
+      $.shape_type_specifier,
+      $.function_type_specifier,
+    ),
 
   type_specifier: $ =>
     seq(
@@ -344,7 +350,21 @@ const rules = {
       ),
     ),
 
-  shape_specifier: $ =>
+  function_type_specifier: $ =>
+    seq(
+      '(',
+      seq(
+        'function',
+        '(',
+        com.opt($._type, alias.opt('...', $.variadic_modifier)),
+        ')',
+      ),
+      ':',
+      field('return_type', $._type),
+      ')',
+    ),
+
+  shape_type_specifier: $ =>
     seq(
       alias.opt('?', $.nullable_modifier),
       'shape',
