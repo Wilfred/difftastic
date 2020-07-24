@@ -75,9 +75,15 @@ grammar({
 
   inline: $ => [
     $._terminator,
-    $._expression_list,
     $._definition,
     $._statement,
+  ],
+
+  supertypes: $ => [
+    $._statement,
+    $._definition,
+    $._expression,
+    $._primary_expression,
   ],
 
   externals: $ => [
@@ -88,11 +94,11 @@ grammar({
 
   conflicts: $ => [
     // Arrow functions vs tuples
-    [$._expression, $.parameter_list],
-    [$._expression, $.spread_parameter],
-    [$._expression, $.typed_parameter],
-    [$._expression, $.named_field],
-    [$._expression, $.named_field, $.optional_parameter],
+    [$._primary_expression, $.parameter_list],
+    [$._primary_expression, $.spread_parameter],
+    [$._primary_expression, $.typed_parameter],
+    [$._primary_expression, $.named_field],
+    [$._primary_expression, $.named_field, $.optional_parameter],
     [$.named_field, $.optional_parameter],
   ],
 
@@ -133,9 +139,9 @@ grammar({
 
     function_definition: $ => seq(
       'function',
-      $.identifier,
-      optional($.type_parameter_list),
-      $.parameter_list,
+      field('name', $.identifier),
+      field('type_parameters', optional($.type_parameter_list)),
+      field('parametere', $.parameter_list),
       optional($._expression_list),
       'end'
     ),
@@ -143,8 +149,8 @@ grammar({
     abstract_definition: $ => seq(
       'abstract',
       'type',
-      $.identifier,
-      optional($.type_parameter_list),
+      field('name', $.identifier),
+      field('type_parameters', optional($.type_parameter_list)),
       optional($.subtype_clause),
       'end'
     ),
@@ -152,8 +158,8 @@ grammar({
     primitive_definition: $ => seq(
       'primitive',
       'type',
-      $.identifier,
-      optional($.type_parameter_list),
+      field('name', $.identifier),
+      field('type_parameters', optional($.type_parameter_list)),
       optional($.subtype_clause),
       alias(/[1-9][0-9]*/, $.number),
       'end'
@@ -162,8 +168,8 @@ grammar({
     struct_definition: $ => seq(
       optional('mutable'),
       'struct',
-      $.identifier,
-      optional($.type_parameter_list),
+      field('name', $.identifier),
+      field('type_parameters', optional($.type_parameter_list)),
       optional($.subtype_clause),
       optional($._expression_list),
       'end'
@@ -171,15 +177,15 @@ grammar({
 
     module_definition: $ => seq(
       'module',
-      $.identifier,
+      field('name', $.identifier),
       optional($._expression_list),
       'end'
     ),
 
     macro_definition: $ => seq(
       'macro',
-      $.identifier,
-      $.parameter_list,
+      field('name', choice($.identifier, $.operator)),
+      field('parameters', $.parameter_list),
       optional($._expression_list),
       'end'
     ),
@@ -227,9 +233,9 @@ grammar({
     ),
 
     constrained_parameter: $ => seq(
-      $.identifier,
+      field('name', $.identifier),
       '<:',
-      $._expression
+      field('value', $._expression)
     ),
 
     subtype_clause: $ => seq(
@@ -256,17 +262,17 @@ grammar({
 
     if_statement: $ => seq(
       'if',
-      $._expression,
+      field('condition', $._expression),
       optional($._terminator),
       optional($._expression_list),
-      repeat($.elseif_clause),
-      optional($.else_clause),
+      field('alternative', repeat($.elseif_clause)),
+      field('alternative', optional($.else_clause)),
       'end'
     ),
 
     elseif_clause: $ => seq(
       'elseif',
-      $._expression,
+      field('condition', $._expression),
       optional($._terminator),
       optional($._expression_list)
     ),
@@ -299,7 +305,7 @@ grammar({
 
     for_statement: $ => seq(
       'for',
-      $.for_binding,
+      sep1(',', $.for_binding),
       optional($._terminator),
       optional($._expression_list),
       'end'
@@ -307,7 +313,7 @@ grammar({
 
     while_statement: $ => seq(
       'while',
-      $._expression,
+      field('condition', $._expression),
       optional($._terminator),
       optional($._expression_list),
       'end'
@@ -383,37 +389,42 @@ grammar({
     _expression: $ => choice(
       $._statement,
       $._definition,
-      $.parenthesized_expression,
       $.typed_expression,
       $.compound_expression,
       $.pair_expression,
-      $.field_expression,
-      $.subscript_expression,
+      alias(':', $.operator),
       $.macro_expression,
-      $.call_expression,
-      $.broadcast_call_expression,
       $.unary_expression,
       $.binary_expression,
       $.ternary_expression,
-      $.parameterized_identifier,
-      $.array_expression,
-      $.matrix_expression,
-      $.tuple_expression,
       $.generator_expression,
-      $.array_comprehension_expression,
       $.function_expression,
       $.coefficient_expression,
       $.spread_expression,
       $.range_expression,
       $.quote_expression,
       $.interpolation_expression,
+      $.number,
+      $._primary_expression,
+    ),
+
+    _primary_expression: $ => choice(
       $.identifier,
       $.operator,
-      $.number,
       $.string,
       $.command_string,
       $.character,
       $.triple_string,
+      $.array_expression,
+      $.array_comprehension_expression,
+      $.matrix_expression,
+      $.call_expression,
+      $.field_expression,
+      $.parenthesized_expression,
+      $.subscript_expression,
+      $.parameterized_identifier,
+      $.tuple_expression,
+      $.broadcast_call_expression,
     ),
 
     bare_tuple_expression: $ => prec(-1, seq(
@@ -421,37 +432,23 @@ grammar({
       repeat1(prec(-1, seq(',', $._expression)))
     )),
 
-    operator: $ => choice(':', '+', $._plus_operator, $._times_operator, $._power_operator),
+    operator: $ => choice('+', $._plus_operator, $._times_operator, $._power_operator),
 
     parenthesized_expression: $ => prec(1, seq(
       '(', choice($._expression_list, $.spread_expression), ')'
     )),
 
     field_expression: $ => prec(PREC.dot, seq(
-      choice(
-        $.identifier,
-        $.array_expression,
-        $.tuple_expression,
-        $.field_expression,
-        $.call_expression,
-        $.subscript_expression,
-        $.parenthesized_expression
-      ),
+      $._primary_expression,
       '.',
       $.identifier
     )),
 
     subscript_expression: $ => seq(
-      choice(
-        $.identifier,
-        $.array_expression,
-        $.tuple_expression,
-        $.field_expression,
-        $.call_expression,
-        $.parenthesized_expression
-      ),
+      $._primary_expression,
       token.immediate('['),
-      $._expression,
+      sep(',', $._expression),
+      optional(','),
       ']'
     ),
 
@@ -479,25 +476,14 @@ grammar({
     ),
 
     call_expression: $ => prec(PREC.call, seq(
-      choice(
-        $.identifier,
-        $.parameterized_identifier,
-        $.field_expression,
-        $.call_expression,
-        $.parenthesized_expression
-      ),
+      $._primary_expression,
       $._immediate_paren,
       choice($.argument_list, $.generator_expression),
       optional($.do_clause)
     )),
 
     broadcast_call_expression: $ => prec(PREC.call, seq(
-      choice(
-        $.identifier,
-        $.parameterized_identifier,
-        $.field_expression,
-        $.call_expression
-      ),
+      $._primary_expression,
       '.',
       $._immediate_paren,
       choice($.argument_list, $.generator_expression),
@@ -524,6 +510,7 @@ grammar({
         ';',
         sep1(',', alias($.named_field, $.named_argument))
       )),
+      optional(','),
       ')'
     ),
 
@@ -584,6 +571,16 @@ grammar({
       prec.right(PREC.arrow, seq(
         $._expression,
         $._arrow_operator,
+        $._expression
+      )),
+      prec.right(PREC.pipe_left, seq(
+        $._expression,
+        '<|',
+        $._expression
+      )),
+      prec.left(PREC.pipe_right, seq(
+        $._expression,
+        '|>',
         $._expression
       )),
       prec.left(PREC.comparison, seq(
@@ -726,7 +723,11 @@ grammar({
 
     // Tokens
 
-    macro_identifier: $ => seq('@', $.identifier),
+    macro_identifier: $ => seq('@', choice(
+      $.identifier,
+      $.operator,
+      alias('.', $.operator)
+    )),
 
     identifier: $ => {
       const operators = [
@@ -756,7 +757,7 @@ grammar({
 
       // First char: ASCII letter, Greek letter, Extended Latin letter, or ∇
       // Remaining characters: not delimiter, not operator
-      return new RegExp(`[_a-zA-ZͰ-ϿĀ-ſ∇][^\\s\\.\\-\\[\\]${operatorCharacters}]*`)
+      return new RegExp(`[_a-zA-ZͰ-ϿĀ-ſ∇][^"'\\s\\.\\-\\[\\]${operatorCharacters}]*`)
     },
 
     number: $ => {
@@ -772,11 +773,20 @@ grammar({
       ))
     },
 
-    string: $ => token(seq(
-      '"',
-      repeat(choice(/[^"\\\n]/, /\\./)),
-      '"'
-    )),
+    string: $ => seq(
+      choice(
+        '"',
+        seq(
+          field('prefix', $.identifier),
+          token.immediate('"')
+        )
+      ),
+      optional(token.immediate(repeat1(choice(
+        /[^"\\\n]/,
+        /\\./
+      )))),
+      token.immediate('"'),
+    ),
 
     command_string: $ => token(seq(
       '`',
