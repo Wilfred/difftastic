@@ -574,12 +574,26 @@ void _invoke(void callback()?, Zone? zone) {
 Get and set methods (not keyword)
 ==================================
 
+// Interesting issue of conflict between dart grammar itself and actual value of elements?
+
 String get(String hello) => 'A string $hello';
 class MyClass {
   void set(String name, Object value) {}
 }
 
 ---
+
+(program
+    (comment)
+    (function_signature (type_identifier) (identifier) (formal_parameter_list (formal_parameter (type_identifier) (identifier))))
+    (function_body (string_literal (template_substitution (identifier_dollar_escaped))))
+
+    (class_definition (identifier)
+        (class_body
+            (method_signature
+                (function_signature (void_type) (identifier)
+                    (formal_parameter_list (formal_parameter (type_identifier) (identifier)) (formal_parameter (type_identifier) (identifier)))))
+            (function_body (block)))))
 
 
 ==================================
