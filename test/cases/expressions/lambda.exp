@@ -3,10 +3,10 @@
     (lambda_expression
       (parameters
         (parameter
-          type: (primitive_type)
+          type: (type_specifier)
           name: (variable
             (identifier))))
-      return_type: (primitive_type)
+      return_type: (type_specifier)
       body: (binary_expression
         left: (variable
           (identifier))
@@ -15,7 +15,7 @@
     (lambda_expression
       (parameters
         (parameter
-          type: (primitive_type)
+          type: (type_specifier)
           name: (variable
             (identifier))))
       body: (binary_expression

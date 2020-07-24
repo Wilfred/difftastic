@@ -3,7 +3,7 @@
     (async_modifier)
     name: (identifier)
     (parameters)
-    return_type: (primitive_type)
+    return_type: (type_specifier)
     body: (compound_statement))
   (function_declaration
     (async_modifier)
@@ -11,7 +11,7 @@
     (type_parameters
       (type_parameter
         name: (identifier)
-        as: (primitive_type)))
+        as: (type_specifier)))
     (parameters)
     body: (compound_statement))
   (expression_statement

@@ -41,14 +41,14 @@
             (identifier))))
       (property_declaration
         (visibility_modifier)
-        type: (primitive_type)
+        type: (type_specifier)
         (property_declarator
           name: (variable
             (identifier))))
       (property_declaration
         (visibility_modifier)
         (static_modifier)
-        type: (primitive_type)
+        type: (type_specifier)
         (property_declarator
           name: (variable
             (identifier)))))))

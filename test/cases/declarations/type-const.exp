@@ -6,18 +6,18 @@
         name: (identifier))
       (type_const_declaration
         name: (identifier)
-        type: (primitive_type))
+        type: (type_specifier))
       (type_const_declaration
         name: (identifier)
-        as: (primitive_type))
+        as: (type_specifier))
       (type_const_declaration
         name: (identifier)
-        as: (primitive_type)
-        type: (primitive_type))
+        as: (type_specifier)
+        type: (type_specifier))
       (type_const_declaration
         (abstract_modifier)
         name: (identifier)
-        as: (nullable_type
-          (primitive_type))
-        type: (nullable_type
-          (primitive_type))))))
+        as: (type_specifier
+          (nullable_modifier))
+        type: (type_specifier
+          (nullable_modifier))))))

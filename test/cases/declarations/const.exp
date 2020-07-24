@@ -1,11 +1,11 @@
 (script
   (const_declaration
-    type: (primitive_type)
+    type: (type_specifier)
     (const_declarator
       name: (identifier)
       value: (integer)))
   (const_declaration
-    type: (primitive_type)
+    type: (type_specifier)
     (const_declarator
       name: (identifier)
       value: (integer))

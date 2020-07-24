@@ -3,4 +3,4 @@
     (is_expression
       left: (variable
         (identifier))
-      right: (primitive_type))))
+      right: (type_specifier))))

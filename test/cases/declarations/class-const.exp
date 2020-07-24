@@ -4,12 +4,12 @@
     name: (identifier)
     body: (member_declarations
       (const_declaration
-        type: (primitive_type)
+        type: (type_specifier)
         (const_declaration
           name: (identifier)
           value: (integer)))
       (const_declaration
-        type: (primitive_type)
+        type: (type_specifier)
         (const_declaration
           name: (identifier)
           value: (integer))
@@ -29,12 +29,12 @@
           value: (integer)))
       (const_declaration
         (abstract_modifier)
-        type: (primitive_type)
+        type: (type_specifier)
         (const_declaration
           name: (identifier)))
       (const_declaration
         (abstract_modifier)
-        type: (primitive_type)
+        type: (type_specifier)
         (const_declaration
           name: (identifier))
         (const_declaration

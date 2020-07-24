@@ -281,7 +281,7 @@ const rules = {
     seq(
       'catch',
       '(',
-      field('type', $._type_identifier),
+      field('type', $._type),
       field('name', $.variable),
       ')',
       field('body', $.compound_statement),
@@ -325,28 +325,60 @@ const rules = {
 
   // Types
 
-  _type: $ =>
-    choice(
-      $._type_identifier,
-      $.generic_type,
-      $.nullable_type,
-      $.primitive_type,
-      $.varray_type,
-      $.darray_type,
-      $.vec_type,
-      $.dict_type,
-      $.keyset_type,
-      $.array_type,
-      $.shape_type,
+  _type: $ => choice($.type_specifier, $.type_constant, $.shape_specifier),
+
+  type_specifier: $ =>
+    seq(
+      alias.opt('?', $.nullable_modifier),
+      choice(
+        $._primitive_type,
+        seq(
+          choice($.qualified_identifier, $._collection_type),
+          opt($.type_arguments),
+        ),
+      ),
     ),
 
-  _type_identifier: $ => alias($.qualified_identifier, $.type_identifier),
+  shape_specifier: $ =>
+    seq(
+      alias.opt('?', $.nullable_modifier),
+      'shape',
+      '(',
+      com(
+        choice(
+          alias($._shape_field_specifier, $.field_specifier),
+          alias('...', $.open_modifier),
+        ),
+        ',',
+      ),
+      ')',
+    ),
 
-  generic_type: $ => seq($._type_identifier, $.type_arguments),
+  _shape_field_specifier: $ =>
+    seq(
+      alias.opt('?', $.optional_modifier),
+      choice($.string, $.scoped_identifier),
+      '=>',
+      $._type,
+    ),
 
-  nullable_type: $ => seq('?', $._type),
+  type_constant: $ =>
+    seq(
+      alias.opt('?', $.nullable_modifier),
+      alias($._type_constant, $.type_constant),
+    ),
 
-  primitive_type: $ =>
+  _type_constant: $ =>
+    seq(
+      choice($.qualified_identifier, alias($._type_constant, $.type_constant)),
+      '::',
+      $.identifier,
+    ),
+
+  _collection_type: $ =>
+    choice('array', 'varray', 'darray', 'vec', 'dict', 'keyset'),
+
+  _primitive_type: $ =>
     choice(
       'bool',
       'float',
@@ -377,40 +409,6 @@ const rules = {
         field('as', seq('as', $._type)),
         field('super', seq('super', $._type)),
       ),
-    ),
-
-  varray_type: $ => seq('varray', opt($.type_arguments)),
-
-  darray_type: $ => seq('darray', opt($.type_arguments)),
-
-  vec_type: $ => seq('vec', opt($.type_arguments)),
-
-  keyset_type: $ => seq('keyset', opt($.type_arguments)),
-
-  dict_type: $ => seq('dict', opt($.type_arguments)),
-
-  array_type: $ => seq('array', opt($.type_arguments)),
-
-  shape_type: $ =>
-    seq(
-      'shape',
-      '(',
-      com(
-        choice(
-          alias($._shape_field_specifier, $.field_specifier),
-          alias('...', $.open_modifier),
-        ),
-        ',',
-      ),
-      ')',
-    ),
-
-  _shape_field_specifier: $ =>
-    seq(
-      alias.opt('?', $.optional_modifier),
-      choice($.string, $.scoped_identifier),
-      '=>',
-      $._type,
     ),
 
   // Collections
@@ -589,7 +587,7 @@ const rules = {
     prec.cast(
       seq(
         '(',
-        field('type', $.primitive_type),
+        field('type', choice('int', 'float', 'string', 'bool')),
         ')',
         field('value', $._expression),
       ),
@@ -836,7 +834,7 @@ const rules = {
       'enum',
       field('name', $.identifier),
       ':',
-      field('type', $.primitive_type),
+      field('type', $._type),
       field('as', seq.opt('as', $._type)),
       '{',
       alias.rep($._enum_field_specifier, $.field_specifier),
@@ -942,25 +940,28 @@ module.exports = grammar({
     $._declaration,
     $._literal,
     $._variablish,
-    $._type_identifier,
     $._class_modifier,
     $._member_modifier,
     $._member_modifiers,
+    $._type,
+    $._primitive_type,
+    $._collection_type,
   ],
 
   word: $ => $.identifier,
 
   conflicts: $ => [
     [$.binary_expression],
-    [$._expression, $.parameter],
-    [$._expression, $.primitive_type],
-    [$._expression, $._type],
     [$._expression, $.function_call_expression],
-    [$.shape, $.shape_type],
-    [$.varray, $.varray_type],
-    [$.darray, $.darray_type],
-    [$.vec, $.vec_type],
-    [$.dict, $.dict_type],
-    [$.keyset, $.keyset_type],
+    [$._expression, $.parameter],
+    [$._expression, $._type],
+    [$._expression, $.type_specifier],
+    [$.qualified_identifier, $.type_constant],
+    [$.scoped_identifier, $._type_constant],
+    [$.varray, $.type_specifier],
+    [$.darray, $.type_specifier],
+    [$.vec, $.type_specifier],
+    [$.dict, $.type_specifier],
+    [$.keyset, $.type_specifier],
   ],
 });

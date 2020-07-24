@@ -6,47 +6,57 @@
     (type_parameters
       (type_parameter
         name: (identifier)
-        as: (type_identifier
-          (identifier)))
+        as: (type_specifier
+          (qualified_identifier
+            (identifier))))
       (type_parameter
         name: (identifier)
-        super: (generic_type
-          (type_identifier
+        super: (type_specifier
+          (qualified_identifier
             (identifier))
           (type_arguments
-            (type_identifier
-              (identifier))
-            (type_identifier
-              (identifier))))))
+            (type_specifier
+              (qualified_identifier
+                (identifier)))
+            (type_specifier
+              (qualified_identifier
+                (identifier)))))))
     (extends_clause
-      (type_identifier
-        (identifier)))
+      (type_specifier
+        (qualified_identifier
+          (identifier))))
     (implements_clause
-      (generic_type
-        (type_identifier
+      (type_specifier
+        (qualified_identifier
           (identifier)
           (identifier))
         (type_arguments
-          (type_identifier
-            (identifier))
-          (type_identifier
-            (identifier))))
-      (type_identifier
-        (identifier)
-        (identifier)))
+          (type_specifier
+            (qualified_identifier
+              (identifier)))
+          (type_specifier
+            (qualified_identifier
+              (identifier)))))
+      (type_specifier
+        (qualified_identifier
+          (identifier)
+          (identifier))))
     body: (member_declarations
       (method_declaration
         name: (identifier)
         (type_parameters
           (type_parameter
             name: (identifier)
-            as: (type_identifier
-              (identifier)))
+            as: (type_specifier
+              (qualified_identifier
+                (identifier))))
           (type_parameter
             name: (identifier)
-            super: (type_identifier
-              (identifier))))
+            super: (type_specifier
+              (qualified_identifier
+                (identifier)))))
         (parameters)
-        return_type: (type_identifier
-          (identifier))
+        return_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
         body: (compound_statement)))))

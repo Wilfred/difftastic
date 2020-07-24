@@ -17,8 +17,8 @@
   (foreach_statement
     collection: (darray
       (type_arguments
-        (primitive_type)
-        (primitive_type)))
+        (type_specifier)
+        (type_specifier)))
     value: (list_expression
       (subscript_expression
         (variable
@@ -26,7 +26,7 @@
         (subscript_expression
           (as_expression
             left: (vec)
-            right: (primitive_type))
+            right: (type_specifier))
           (integer)))
       (variable
         (identifier)))

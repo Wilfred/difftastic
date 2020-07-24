@@ -1,8 +1,8 @@
 (script
   (enum_declaration
     name: (identifier)
-    type: (primitive_type)
-    as: (primitive_type)
+    type: (type_specifier)
+    as: (type_specifier)
     (field_specifier
       (identifier)
       (integer))
