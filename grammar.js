@@ -52,7 +52,13 @@ const rules = {
 
   qualified_identifier: $ =>
     choice(
-      prec.qualified(seq(opt($.identifier), seq.rep1('\\', $.identifier))),
+      prec.qualified(
+        choice(
+          seq(seq.rep1('\\', $.identifier), opt('\\')),
+          seq(seq.rep1($.identifier, '\\'), opt($.identifier)),
+          '\\',
+        ),
+      ),
       $.identifier,
     ),
 
@@ -180,9 +186,8 @@ const rules = {
       choice(
         com(opt($.use_type), $.use_clause),
         seq(
-          $.use_type,
-          opt($.qualified_identifier),
-          '\\',
+          opt($.use_type),
+          $.qualified_identifier,
           '{',
           com($.use_clause, ','),
           '}',
