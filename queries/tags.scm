@@ -12,6 +12,9 @@
   (#select-adjacent! @doc @definition.method)
 )
 
+(alias
+  name: (_) @name) @definition.method
+
 ; Class definitions
 
 (
@@ -56,6 +59,6 @@
 (call method: (identifier) @name) @reference.call
 
 (
-  (identifier) @name @reference.call
+  [(identifier) (constant)] @name @reference.call
   (#is-not? local)
 )
