@@ -7,18 +7,18 @@
         (static_modifier)
         name: (identifier)
         (parameters)
-        return_type: (primitive_type)
+        return_type: (type_specifier)
         body: (compound_statement))
       (method_declaration
         (visibility_modifier)
         name: (identifier)
         (parameters)
-        return_type: (primitive_type)
+        return_type: (type_specifier)
         body: (compound_statement))
       (method_declaration
         name: (identifier)
         (parameters)
-        return_type: (primitive_type)
+        return_type: (type_specifier)
         body: (compound_statement))
       (method_declaration
         (abstract_modifier)
@@ -32,5 +32,5 @@
         (static_modifier)
         name: (identifier)
         (parameters)
-        return_type: (primitive_type)
+        return_type: (type_specifier)
         body: (compound_statement)))))

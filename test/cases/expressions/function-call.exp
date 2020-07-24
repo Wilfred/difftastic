@@ -9,7 +9,7 @@
       function: (qualified_identifier
         (identifier))
       function: (type_arguments
-        (primitive_type))
+        (type_specifier))
       (arguments
         (argument
           (integer))

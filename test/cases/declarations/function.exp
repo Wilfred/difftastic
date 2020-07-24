@@ -2,7 +2,7 @@
   (function_declaration
     name: (identifier)
     (parameters)
-    return_type: (primitive_type)
+    return_type: (type_specifier)
     body: (compound_statement))
   (function_declaration
     name: (identifier)
@@ -19,7 +19,7 @@
     name: (identifier)
     (parameters
       (parameter
-        type: (primitive_type)
+        type: (type_specifier)
         name: (variable
           (identifier))))
     body: (compound_statement))
@@ -27,21 +27,21 @@
     name: (identifier)
     (parameters
       (parameter
-        type: (primitive_type)
+        type: (type_specifier)
         name: (variable
           (identifier))))
-    return_type: (primitive_type)
+    return_type: (type_specifier)
     body: (compound_statement))
   (function_declaration
     name: (identifier)
     (parameters
       (parameter
-        type: (primitive_type)
+        type: (type_specifier)
         name: (variable
           (identifier)))
       (parameter
-        type: (primitive_type)
+        type: (type_specifier)
         name: (variable
           (identifier))))
-    return_type: (primitive_type)
+    return_type: (type_specifier)
     body: (compound_statement)))

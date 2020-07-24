@@ -1,10 +1,10 @@
 (script
   (enum_declaration
     name: (identifier)
-    type: (primitive_type))
+    type: (type_specifier))
   (enum_declaration
     name: (identifier)
-    type: (primitive_type)
+    type: (type_specifier)
     (field_specifier
       (identifier)
       (integer))

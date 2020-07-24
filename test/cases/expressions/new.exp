@@ -74,7 +74,7 @@
         (qualified_identifier
           (identifier))
         (type_arguments
-          (primitive_type))
+          (type_specifier))
         (arguments
           (argument
             (integer))))))
