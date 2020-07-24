@@ -6,15 +6,16 @@
   (do_block)
 ] @local.scope
 
-(method_parameters (identifier) @local.definition)
-(lambda_parameters (identifier) @local.definition)
+(block_parameter (identifier) @local.definition)
 (block_parameters (identifier) @local.definition)
-(splat_parameter name: (identifier) @local.definition)
-(hash_splat_parameter name: (identifier) @local.definition)
-(optional_parameter name: (identifier) @local.definition)
-(destructured_parameter name: (identifier) @local.definition)
-(block_parameter name: (identifier) @local.definition)
+(destructured_parameter (identifier) @local.definition)
+(hash_splat_parameter (identifier) @local.definition)
+(lambda_parameters (identifier) @local.definition)
+(method_parameters (identifier) @local.definition)
+(splat_parameter (identifier) @local.definition)
+
 (keyword_parameter name: (identifier) @local.definition)
+(optional_parameter name: (identifier) @local.definition)
 
 (identifier) @local.reference
 

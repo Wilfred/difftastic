@@ -16,4 +16,20 @@ def two()
     #        ^ variable (because blocks are closures)
     #               ^ function.method
   end
+
+  four.each do |(a, b), c: d, e = f|
+    #            ^ variable.parameter
+    #               ^ variable.parameter
+    #                   ^ variable.parameter
+    #                      ^ function.method
+    #                         ^ variable.parameter
+    #                             ^ function.method
+    puts a, b, c, d, e, f
+    #    ^ variable.parameter
+    #       ^ variable.parameter
+    #          ^ variable.parameter
+    #             ^ function.method
+    #                ^ variable.parameter
+    #                   ^ function.method
+  end
 end

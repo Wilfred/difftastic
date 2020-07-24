@@ -70,15 +70,16 @@
 (self) @variable.builtin
 (super) @variable.builtin
 
-(method_parameters (identifier) @variable.parameter)
-(lambda_parameters (identifier) @variable.parameter)
-(block_parameters (identifier) @variable.parameter)
-(splat_parameter (identifier) @variable.parameter)
-(hash_splat_parameter (identifier) @variable.parameter)
-(optional_parameter (identifier) @variable.parameter)
-(destructured_parameter (identifier) @variable.parameter)
 (block_parameter (identifier) @variable.parameter)
-(keyword_parameter (identifier) @variable.parameter)
+(block_parameters (identifier) @variable.parameter)
+(destructured_parameter (identifier) @variable.parameter)
+(hash_splat_parameter (identifier) @variable.parameter)
+(lambda_parameters (identifier) @variable.parameter)
+(method_parameters (identifier) @variable.parameter)
+(splat_parameter (identifier) @variable.parameter)
+
+(keyword_parameter name: (identifier) @variable.parameter)
+(optional_parameter name: (identifier) @variable.parameter)
 
 ((identifier) @function.method
  (#is-not? local))
