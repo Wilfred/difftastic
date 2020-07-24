@@ -76,3 +76,5 @@ There's no published official Hacklang language spec so we have to make do.
 - [Hack Parser Source](https://github.com/facebook/hhvm/tree/4da98da2f5ddc0989d3d150dddc1b06ee4087440/hphp/hack/src/parser)
 - [tree-sitter-javascript](https://github.com/tree-sitter/tree-sitter-javascript) and [tree-sitter-php](https://github.com/tree-sitter/tree-sitter-php) - Used to guide writing [`grammar.js`](https://github.com/antoniodejesusochoasolano/tree-sitter-hack/blob/main/grammar.js)
 - Deprecated [Hack Language Specification](https://github.com/facebookarchive/hack-langspec)
+- [PHP Language Specification](https://github.com/php/php-langspec) -
+  Does not apply 100% to Hacklang, but still a good reference.
