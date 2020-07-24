@@ -4,11 +4,6 @@
     (use_clause
       (qualified_identifier
         (identifier)
-        (identifier))))
-  (use_statement
-    (use_type)
-    (use_clause
-      (qualified_identifier
         (identifier)
         (identifier))))
   (use_statement
@@ -16,31 +11,47 @@
     (use_clause
       (qualified_identifier
         (identifier)
-        (identifier))))
+        (identifier)
+        (identifier))
+      alias: (identifier)))
   (use_statement
     (use_type)
     (use_clause
       (qualified_identifier
+        (identifier)
         (identifier)
         (identifier))))
   (use_statement
     (use_type)
     (use_clause
       (qualified_identifier
+        (identifier)
+        (identifier)
+        (identifier))
+      alias: (identifier)))
+  (use_statement
+    (use_type)
+    (use_clause
+      (qualified_identifier
+        (identifier)
         (identifier)
         (identifier)))
     (use_clause
       (qualified_identifier
         (identifier)
-        (identifier)))
+        (identifier)
+        (identifier))
+      alias: (identifier))
     (use_type)
     (use_clause
       (qualified_identifier
+        (identifier)
         (identifier)
         (identifier))))
   (use_statement
     (use_type)
     (qualified_identifier
+      (identifier)
       (identifier)
       (identifier))
     (use_clause
@@ -60,6 +71,7 @@
         (identifier))))
   (use_statement
     (use_type)
+    (qualified_identifier)
     (use_clause
       (qualified_identifier
         (identifier)))))
