@@ -737,6 +737,8 @@ const rules = {
         $.property_declaration,
         $.type_const_declaration,
         $.trait_use_clause,
+        $.require_implements_clause,
+        $.require_extends_clause,
       ),
       '}',
     ),
@@ -777,6 +779,11 @@ const rules = {
   extends_clause: $ => seq('extends', com($._type)),
 
   implements_clause: $ => seq('implements', com($._type)),
+
+  require_extends_clause: $ => seq('require', 'extends', com($._type), ';'),
+
+  require_implements_clause: $ =>
+    seq('require', 'implements', com($._type), ';'),
 
   method_declaration: $ =>
     seq(
