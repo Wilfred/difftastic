@@ -1,3 +1,4 @@
+<<__ConsistentConstruct>>
 class C {
   static $var1 = 1;
   public $var2 = 1;
@@ -8,5 +9,6 @@ class C {
   public static $var6;
 
   public int $var7;
+  <<__LateInit>>
   public static int $var8;
 }

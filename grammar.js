@@ -882,6 +882,7 @@ const rules = {
 
   property_declaration: $ =>
     seq(
+      opt($.attribute_modifier),
       opt($._member_modifiers),
       field('type', opt($._type)),
       com($.property_declarator),
