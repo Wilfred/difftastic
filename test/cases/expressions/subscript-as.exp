@@ -1,0 +1,13 @@
+(script
+  (expression_statement
+    (subscript_expression
+      (as_expression
+        left: (vec)
+        right: (type_specifier))
+      (integer)))
+  (expression_statement
+    (subscript_expression
+      (as_expression
+        left: (integer)
+        right: (type_specifier))
+      (integer))))
