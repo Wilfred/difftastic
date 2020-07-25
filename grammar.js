@@ -729,7 +729,16 @@ const rules = {
 
   parameters: $ => seq('(', com.opt($.parameter, ','), ')'),
 
-  parameter: $ => seq(field('type', opt($._type)), field('name', $.variable)),
+  parameter: $ =>
+    seq(
+      opt($.attribute_modifier),
+      opt($.visibility_modifier),
+      alias.opt('inout', $.inout_modifier),
+      field('type', opt($._type)),
+      alias.opt('...', $.variadic_modifier),
+      field('name', $.variable),
+      seq.opt('=', field('default_value', $._expression)),
+    ),
 
   trait_declaration: $ =>
     seq(
