@@ -1,0 +1,9 @@
+(script
+  (expression_statement
+    (keyset))
+  (expression_statement
+    (keyset
+      (integer)
+      (null)
+      (float)
+      (true))))

@@ -1,0 +1,11 @@
+(script
+  (expression_statement
+    (dict))
+  (expression_statement
+    (dict
+      (element_initializer
+        (false)
+        (null))
+      (element_initializer
+        (float)
+        (integer)))))

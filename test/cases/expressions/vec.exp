@@ -1,0 +1,8 @@
+(script
+  (expression_statement
+    (vec))
+  (expression_statement
+    (vec
+      (integer)
+      (float)
+      (true))))

@@ -1,0 +1,11 @@
+(script
+  (expression_statement
+    (darray))
+  (expression_statement
+    (darray
+      (element_initializer
+        (false)
+        (null))
+      (element_initializer
+        (integer)
+        (integer)))))

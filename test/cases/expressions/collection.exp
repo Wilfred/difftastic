@@ -1,52 +1,27 @@
 (script
   (expression_statement
-    (varray))
+    (collection
+      (identifier)))
   (expression_statement
-    (varray
-      (float)
+    (collection
+      (identifier)
       (integer)
-      (true)))
-  (expression_statement
-    (darray))
-  (expression_statement
-    (darray
-      (element_initializer
-        (false)
-        (null))
-      (element_initializer
-        (integer)
-        (integer))))
-  (expression_statement
-    (vec))
-  (expression_statement
-    (vec
       (integer)
-      (float)
-      (true)))
-  (expression_statement
-    (dict))
-  (expression_statement
-    (dict
-      (element_initializer
-        (false)
-        (null))
-      (element_initializer
-        (float)
-        (integer))))
-  (expression_statement
-    (keyset))
-  (expression_statement
-    (keyset
-      (integer)
-      (null)
-      (float)
-      (true)))
-  (expression_statement
-    (tuple))
-  (expression_statement
-    (tuple
       (integer)))
   (expression_statement
-    (tuple
-      (float)
-      (true))))
+    (collection
+      (identifier)))
+  (expression_statement
+    (collection
+      (identifier)
+      (element_initializer
+        (string)
+        (integer))))
+  (expression_statement
+    (collection
+      (identifier)))
+  (expression_statement
+    (collection
+      (identifier)
+      (string)
+      (string))))

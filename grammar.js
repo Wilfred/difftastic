@@ -127,6 +127,7 @@ const rules = {
       $.dict,
       $.tuple,
       $.shape,
+      $.collection,
       $._literal,
       $._variablish,
       $.parenthesized_expression,
@@ -470,13 +471,21 @@ const rules = {
   field_initializer: $ =>
     seq(choice($.string, $.scoped_identifier), '=>', $._expression),
 
+  collection: $ =>
+    seq(
+      $.identifier,
+      '{',
+      choice.opt(com($._expression), com($.element_initializer)),
+      '}',
+    ),
+
+  // Expressions
+
   include_expression: $ =>
     prec.include(seq(choice('include', 'include_once'), $._expression)),
 
   require_expression: $ =>
     prec.include(seq(choice('require', 'require_once'), $._expression)),
-
-  // Expressions
 
   parenthesized_expression: $ => seq('(', $._expression, ')'),
 
