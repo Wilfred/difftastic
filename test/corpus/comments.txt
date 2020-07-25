@@ -8,7 +8,7 @@ comment
 
 ---
 
-(program (comment) (comment) (comment))
+(program (comment) (multiline_comment) (multiline_comment))
 
 ======================
 comments and literals
@@ -25,7 +25,7 @@ comments and literals
 
 
 ======================
-documentation comment
+documentation comment 1
 ======================
 
 /**
@@ -37,4 +37,29 @@ documentation comment
 
 ---
 
-(program (comment) (comment) (comment))
+
+======================
+documentation comment 2
+======================
+
+/**
+  * Is [:true:] if this comment is a documentation comment.
+  *
+  * That is, that the comment is either enclosed in [: /** ... */ :] or starts
+
+  */
+
+---
+
+======================
+documentation comment 3
+======================
+
+/*
+  * Is [:true:] if this comment is a documentation comment.
+  *
+  * That is, that the comment is either enclosed in /* var ...  */ var or starts
+
+  */
+
+---

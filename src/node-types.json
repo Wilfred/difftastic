@@ -7155,6 +7155,21 @@
     }
   },
   {
+    "type": "multiline_comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "multiline_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "multiplicative_expression",
     "named": true,
     "fields": {},
@@ -8261,6 +8276,10 @@
         },
         {
           "type": "import_or_export",
+          "named": true
+        },
+        {
+          "type": "inferred_type",
           "named": true
         },
         {
@@ -11313,10 +11332,6 @@
   },
   {
     "type": "false",
-    "named": false
-  },
-  {
-    "type": "final",
     "named": false
   },
   {
