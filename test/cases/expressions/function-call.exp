@@ -8,7 +8,7 @@
     (function_call_expression
       function: (qualified_identifier
         (identifier))
-      function: (type_arguments
+      (type_arguments
         (type_specifier))
       (arguments
         (argument

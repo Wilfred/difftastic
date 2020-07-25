@@ -28,11 +28,6 @@
   [prec.right, 'assignment'],
   [prec.right, 'print'],
   [prec.left, 'include', 'require'],
-
-  [prec, 'type'],
-
-  [prec, 'elseif'],
-  [prec.right, 'if'],
 ]
   .reverse()
   .forEach(([_prec, ...names], index) =>
@@ -202,20 +197,19 @@ const rules = {
     seq($.qualified_identifier, field('alias', seq.opt('as', $.identifier))),
 
   if_statement: $ =>
-    prec.if(
+    prec.right(
+      -1,
       seq(
         'if',
         field('condition', $.parenthesized_expression),
         field('body', $._statement),
         rep(
-          prec.elseif(
-            seq(
-              // Match else-if and elseif so long if-statements don't result in deeply nested
-              // nodes. Are there drawbacks?
-              choice('elseif', seq('else', 'if')),
-              field('condition', $.parenthesized_expression),
-              field('body', $._statement),
-            ),
+          seq(
+            // Match else-if and elseif so long if-statements don't result in deeply nested
+            // nodes. Are there drawbacks?
+            choice('elseif', seq('else', 'if')),
+            field('condition', $.parenthesized_expression),
+            field('body', $._statement),
           ),
         ),
         field('else', seq.opt('else', $._statement)),
@@ -343,9 +337,8 @@ const rules = {
     seq(
       alias.opt('?', $.nullable_modifier),
       choice(
-        $._primitive_type,
         seq(
-          choice($.qualified_identifier, $._collection_type),
+          choice($._primitive_type, $.qualified_identifier, $._collection_type),
           opt($.type_arguments),
         ),
       ),
@@ -421,10 +414,9 @@ const rules = {
       'noreturn',
     ),
 
-  type_arguments: $ => seq(token(prec.type('<')), com($._type, ','), '>'),
+  type_arguments: $ => seq('<', com($._type, ','), '>'),
 
-  type_parameters: $ =>
-    seq(token(prec.type('<')), com($.type_parameter, ','), '>'),
+  type_parameters: $ => seq('<', com($.type_parameter, ','), '>'),
 
   type_parameter: $ =>
     seq(
@@ -639,7 +631,13 @@ const rules = {
     ),
 
   _callable_lambda_expression: $ =>
-    seq($._lambda_expression_header, field('body', $.compound_statement)),
+    prec.right(
+      1,
+      seq(
+        $._lambda_expression_header,
+        field('body', choice($.async_expression, $.compound_statement)),
+      ),
+    ),
 
   _lambda_expression_header: $ =>
     seq(
@@ -662,7 +660,7 @@ const rules = {
         'function',
         choice(
           alias($._callable_lambda_expression, $.lambda_expression),
-          seq($.qualified_identifier, opt($.type_arguments)),
+          $.qualified_identifier,
           $.variable,
           $.pipe_variable,
           $.subscript_expression,
@@ -670,8 +668,10 @@ const rules = {
           $.scoped_identifier,
           $.selection_expression,
           $.function_call_expression,
+          $._collection_type,
         ),
       ),
+      opt($.type_arguments),
       $.arguments,
     ),
 
@@ -996,6 +996,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$.binary_expression],
     [$._expression, $.function_call_expression],
+    [$._expression, $.function_call_expression, $.type_specifier],
     [$._expression, $.parameter],
     [$._expression, $._type],
     [$._expression, $.type_specifier],
@@ -1006,5 +1007,6 @@ module.exports = grammar({
     [$.vec, $.type_specifier],
     [$.dict, $.type_specifier],
     [$.keyset, $.type_specifier],
+    [$.type_specifier],
   ],
 });
