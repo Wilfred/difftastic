@@ -3920,8 +3920,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "assert"
+          "type": "SYMBOL",
+          "name": "_assert_builtin"
         },
         {
           "type": "STRING",
@@ -4031,8 +4031,8 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "STRING",
-              "value": "case"
+              "type": "SYMBOL",
+              "name": "_case_builtin"
             },
             {
               "type": "SYMBOL",
@@ -4096,8 +4096,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "break"
+          "type": "SYMBOL",
+          "name": "_break_builtin"
         },
         {
           "type": "CHOICE",
@@ -9330,6 +9330,27 @@
         "value": "as"
       }
     },
+    "_break_builtin": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "break"
+      }
+    },
+    "_assert_builtin": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "assert"
+      }
+    },
+    "_case_builtin": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "case"
+      }
+    },
     "_covariant": {
       "type": "PREC",
       "value": 0,
@@ -9383,7 +9404,8 @@
       }
     },
     "_get": {
-      "type": "TOKEN",
+      "type": "PREC",
+      "value": 0,
       "content": {
         "type": "STRING",
         "value": "get"
@@ -9499,8 +9521,7 @@
       }
     },
     "_const_builtin": {
-      "type": "PREC",
-      "value": 0,
+      "type": "TOKEN",
       "content": {
         "type": "STRING",
         "value": "const"
@@ -9604,6 +9625,23 @@
                 "value": "[^/].*"
               }
             ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "/*"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
+              },
+              {
+                "type": "STRING",
+                "value": "/"
+              }
+            ]
           }
         ]
       }
@@ -9628,53 +9666,6 @@
           }
         ]
       }
-    },
-    "multiline_comment": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_multiline_comment_begin"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_multiline_comment_core"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "multiline_comment"
-              }
-            ]
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_multiline_comment_end"
-        }
-      ]
-    },
-    "_multiline_comment_end": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "*/"
-      }
-    },
-    "_multiline_comment_begin": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "/*"
-      }
-    },
-    "_multiline_comment_core": {
-      "type": "PATTERN",
-      "value": "([^\\/*]*|\\/[^*]|\\*[^\\/])+"
     }
   },
   "extras": [
@@ -9685,10 +9676,6 @@
     {
       "type": "SYMBOL",
       "name": "documentation_comment"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "multiline_comment"
     },
     {
       "type": "PATTERN",
