@@ -356,7 +356,7 @@ var x = 0;
 
 ---
 
-(program 
+(program (inferred_type)
   (initialized_identifier_list (initialized_identifier (identifier) (decimal_integer_literal))))
 
 
@@ -541,7 +541,7 @@ if (blah) {
 ---
 
 (program
-    (local_variable_declaration (initialized_variable_definition (type_identifier) (type_identifier) (identifier) (identifier) (selector
+    (type_identifier) (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) (identifier) (selector
         (assignable_selector (unconditional_assignable_selector (identifier)))) (selector (argument_part (arguments)))))
     (local_variable_declaration (initialized_variable_definition (type_identifier) (type_identifier) (identifier)))
     (if_statement (parenthesized_expression (identifier))

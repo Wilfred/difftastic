@@ -68,6 +68,8 @@ module.exports = grammar({
 
     extras: $ => [
         $.comment,
+        $.documentation_comment,
+        // $.multiline_comment,
         /\s/
     ],
 
@@ -168,7 +170,7 @@ module.exports = grammar({
             repeat($.part_directive),
             repeat($.part_of_directive),
             // The precedence here is to make sure that this rule is matched before any of the _statement rules are matched for testing.
-            repeat(prec.dynamic(20, seq(optional($._metadata), $._top_level_definition))),
+            repeat(prec.dynamic(22, seq(optional($._metadata), $._top_level_definition))),
             //for testing:
             repeat($._statement)
         ),
@@ -235,7 +237,7 @@ module.exports = grammar({
             ),
             seq(
                 optional($._late_builtin),
-                choice($._type, 'var'),
+                choice($._type, $.inferred_type),
                 $.initialized_identifier_list,
                 $._semicolon
             )
@@ -2477,10 +2479,7 @@ module.exports = grammar({
             DART_PREC.BUILTIN,
             'const',
         ),
-        _final_builtin: $ => prec(
-            DART_PREC.BUILTIN,
-            'final',
-        ),
+        _final_builtin: $ => token('final'),
         _late_builtin: $ => prec(
             DART_PREC.BUILTIN,
             'late',
@@ -2531,16 +2530,49 @@ module.exports = grammar({
         identifier: $ => /[a-zA-Z_$][\w$]*/,
         identifier_dollar_escaped: $ => /([a-zA-Z_]|(\\\$))([\w]\\\$)*/,
         //TODO: add support for triple-slash comments as a special category.
-
+        // Trying to add support for nested multiline comments.
         // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
         comment: $ => token(choice(
-            seq('//', /.*/),
-            seq(
-                '/*',
-                /[^*]*\*+([^/*][^*]*\*+)*/,
-                '/'
-            )
+            seq('//', /[^/].*/),
+            // seq(
+            //     '/*',
+            //     /[^*]*\*+([^/*][^*]*\*+)*/,
+            //     '/'
+            // )
         )),
+        //added nesting comments.
+        documentation_comment: $ => token(
+            choice(
+                seq('///', /.*/),
+                // seq(
+                //     '/**',
+                //     repeat(
+                //         choice(
+                //             /[^*]*\*+([^/*][^*]*\*+)*/,
+                //             // $.comment
+                //             // ,
+                //             /.*/,
+                //             $._multiline_comment,
+                //             $.documentation_comment
+                //         )
+                //     ),
+                //     '*/'
+                // )
+            )
+        ),
+        // multiline_comment: $ => seq(
+        //     $._multiline_comment_begin,
+        //     repeat(
+        //         choice(
+        //             $._multiline_comment_core,
+        //             $.multiline_comment
+        //         )
+        //     ),
+        //     $._multiline_comment_end
+        // ),
+        // _multiline_comment_end: $ => token('*/'),
+        // _multiline_comment_begin: $ => token('/*'),
+        // _multiline_comment_core: $ => /([^\/*]*|\/[^*]|\*[^\/])+/,
     }
 });
 
