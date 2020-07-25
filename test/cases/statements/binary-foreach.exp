@@ -1,0 +1,9 @@
+(script
+  (foreach_statement
+    collection: (binary_expression
+      left: (variable
+        (identifier))
+      right: (vec))
+    value: (variable
+      (identifier))
+    body: (compound_statement)))
