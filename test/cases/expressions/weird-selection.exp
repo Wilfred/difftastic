@@ -21,7 +21,7 @@
         (identifier))))
   (expression_statement
     (selection_expression
-      (function_call_expression
+      (call_expression
         function: (variable
           (identifier))
         (arguments))

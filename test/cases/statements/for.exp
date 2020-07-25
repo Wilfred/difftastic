@@ -38,7 +38,7 @@
     (assignment_expression
       left: (variable
         (identifier))
-      right: (function_call_expression
+      right: (call_expression
         function: (qualified_identifier
           (identifier))
         (arguments)))

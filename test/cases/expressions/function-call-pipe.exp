@@ -1,15 +1,15 @@
 (script
   (expression_statement
-    (function_call_expression
+    (call_expression
       function: (pipe_variable)
       (arguments)))
   (expression_statement
     (binary_expression
-      left: (function_call_expression
+      left: (call_expression
         function: (qualified_identifier
           (identifier))
         (arguments))
-      right: (function_call_expression
+      right: (call_expression
         function: (pipe_variable)
         (arguments
           (argument

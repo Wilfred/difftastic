@@ -1,6 +1,6 @@
 (script
   (expression_statement
-    (function_call_expression
+    (call_expression
       function: (selection_expression
         (variable
           (identifier))
@@ -9,7 +9,7 @@
           (identifier)))
       (arguments)))
   (expression_statement
-    (function_call_expression
+    (call_expression
       function: (selection_expression
         (qualified_identifier
           (identifier))

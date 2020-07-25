@@ -1,6 +1,6 @@
 (script
   (expression_statement
-    (function_call_expression
+    (call_expression
       function: (lambda_expression
         (parameters
           (parameter
@@ -20,7 +20,7 @@
             (integer)
             (integer))))))
   (expression_statement
-    (function_call_expression
+    (call_expression
       function: (parenthesized_expression
         (lambda_expression
           (parameters
@@ -31,7 +31,7 @@
             (identifier))))
       (arguments
         (argument
-          (function_call_expression
+          (call_expression
             function: (qualified_identifier
               (identifier))
             (arguments)))

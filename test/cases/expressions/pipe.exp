@@ -5,7 +5,7 @@
         left: (vec
           (integer)
           (integer))
-        right: (function_call_expression
+        right: (call_expression
           function: (qualified_identifier
             (identifier)
             (identifier))
@@ -22,7 +22,7 @@
                   left: (variable
                     (identifier))
                   right: (integer)))))))
-      right: (function_call_expression
+      right: (call_expression
         function: (lambda_expression
           (parameters
             (parameter

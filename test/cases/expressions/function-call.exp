@@ -1,11 +1,11 @@
 (script
   (expression_statement
-    (function_call_expression
+    (call_expression
       function: (qualified_identifier
         (identifier))
       (arguments)))
   (expression_statement
-    (function_call_expression
+    (call_expression
       function: (qualified_identifier
         (identifier))
       (type_arguments
@@ -21,11 +21,11 @@
           (variadic_modifier)
           (null)))))
   (expression_statement
-    (function_call_expression
+    (call_expression
       function: (subscript_expression
         (variable
           (identifier))
-        (function_call_expression
+        (call_expression
           function: (qualified_identifier
             (identifier))
           (arguments)))

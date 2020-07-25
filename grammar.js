@@ -74,7 +74,7 @@ const rules = {
       $.subscript_expression,
       $.qualified_identifier,
       $.parenthesized_expression,
-      $.function_call_expression,
+      $.call_expression,
       $.scoped_identifier,
       $.scope_identifier,
       $.selection_expression,
@@ -146,7 +146,7 @@ const rules = {
       $.update_expression,
       $.ternary_expression,
       $.lambda_expression,
-      $.function_call_expression,
+      $.call_expression,
       $.selection_expression,
       $.new_expression,
       $.include_expression,
@@ -654,7 +654,7 @@ const rules = {
 
   _single_parameter: $ => field('name', $.variable),
 
-  function_call_expression: $ =>
+  call_expression: $ =>
     seq(
       field(
         'function',
@@ -667,7 +667,7 @@ const rules = {
           $.parenthesized_expression,
           $.scoped_identifier,
           $.selection_expression,
-          $.function_call_expression,
+          $.call_expression,
           $._collection_type,
         ),
       ),
@@ -1004,8 +1004,8 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.binary_expression],
-    [$._expression, $.function_call_expression],
-    [$._expression, $.function_call_expression, $.type_specifier],
+    [$._expression, $.call_expression],
+    [$._expression, $.call_expression, $.type_specifier],
     [$._expression, $.parameter],
     [$._expression, $._type],
     [$._expression, $.type_specifier],
