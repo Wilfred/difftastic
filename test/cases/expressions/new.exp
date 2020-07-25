@@ -84,7 +84,7 @@
         (identifier))
       right: (new_expression
         (parenthesized_expression
-          (function_call_expression
+          (call_expression
             function: (qualified_identifier
               (identifier))
             (arguments)))
