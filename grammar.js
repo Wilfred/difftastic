@@ -336,6 +336,7 @@ const rules = {
       $.type_constant,
       $.shape_type_specifier,
       $.function_type_specifier,
+      $.tuple_type_specifier,
     ),
 
   type_specifier: $ =>
@@ -349,6 +350,8 @@ const rules = {
         ),
       ),
     ),
+
+  tuple_type_specifier: $ => seq('(', com($._type, ','), ')'),
 
   function_type_specifier: $ =>
     seq(
