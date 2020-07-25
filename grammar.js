@@ -344,7 +344,8 @@ const rules = {
       ),
     ),
 
-  tuple_type_specifier: $ => seq('(', com($._type, ','), ')'),
+  tuple_type_specifier: $ =>
+    seq(alias.opt('?', $.nullable_modifier), '(', com($._type, ','), ')'),
 
   function_type_specifier: $ =>
     seq(

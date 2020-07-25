@@ -12,6 +12,7 @@
         name: (variable
           (identifier))))
     return_type: (tuple_type_specifier
+      (nullable_modifier)
       (type_specifier)
       (type_specifier
         (qualified_identifier
