@@ -7155,21 +7155,6 @@
     }
   },
   {
-    "type": "multiline_comment",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "multiline_comment",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "multiplicative_expression",
     "named": true,
     "fields": {},
@@ -11227,10 +11212,6 @@
     "named": false
   },
   {
-    "type": "assert",
-    "named": false
-  },
-  {
     "type": "async",
     "named": false
   },
@@ -11247,23 +11228,11 @@
     "named": false
   },
   {
-    "type": "break",
-    "named": false
-  },
-  {
-    "type": "case",
-    "named": false
-  },
-  {
     "type": "catch",
     "named": false
   },
   {
     "type": "class",
-    "named": false
-  },
-  {
-    "type": "const",
     "named": false
   },
   {
@@ -11340,6 +11309,10 @@
   },
   {
     "type": "for",
+    "named": false
+  },
+  {
+    "type": "get",
     "named": false
   },
   {

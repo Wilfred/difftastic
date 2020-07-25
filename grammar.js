@@ -1203,7 +1203,7 @@ module.exports = grammar({
 
         assert_statement: $ => seq($.assertion, ';'),
 
-        assertion: $ => seq('assert', '(', $._expression, optional(seq(
+        assertion: $ => seq($._assert_builtin, '(', $._expression, optional(seq(
             ',',
             $._expression,
             optional(',')
@@ -1222,7 +1222,7 @@ module.exports = grammar({
         ),
 
         switch_label: $ => choice(
-            seq('case', $._expression, ':'),
+            seq($._case_builtin, $._expression, ':'),
             seq('default', ':')
         ),
 
@@ -1234,7 +1234,7 @@ module.exports = grammar({
             $._semicolon
         ),
 
-        break_statement: $ => seq('break', optional($.identifier), $._semicolon),
+        break_statement: $ => seq($._break_builtin, optional($.identifier), $._semicolon),
 
         continue_statement: $ => seq('continue', optional($.identifier), $._semicolon),
 
@@ -2394,12 +2394,46 @@ module.exports = grammar({
             )
         ),
 
-        // Built in identifier tokens:
-        //abstract
+        // Built in identifier tokens: These should be tokenized.
+        //assert,break,case,
+        // catch,
+        // class,
+        // const,
+        // continue,
+        // default,
+        // do,
+        // else,
+        // enum,
+        // extends,
+        // false,
+        // final,
+        // finally,
+        // for,
+        // if,
+        // in,
+        // is,
+        // new,
+        // null,
+        // rethrow,
+        // return,
+        // super,
+        // switch,
+        // this,
+        // throw,
+        // true,
+        // try,
+        // var,
+        // void,
+        // while,
+        // with
+
         _as: $ => prec(
             DART_PREC.BUILTIN,
             'as',
         ),
+        _break_builtin: $ => token('break'),
+        _assert_builtin: $ => token('assert'),
+        _case_builtin: $ => token('case'),
         _covariant: $ => prec(
             DART_PREC.BUILTIN,
             'covariant',
@@ -2425,7 +2459,8 @@ module.exports = grammar({
             DART_PREC.BUILTIN,
             'Function',
         ),
-        _get: $ => token(
+        _get: $ => prec(
+            DART_PREC.BUILTIN,
             'get',
         ),
         _native: $ => seq(
@@ -2475,10 +2510,7 @@ module.exports = grammar({
             DART_PREC.BUILTIN,
             'new',
         ),
-        _const_builtin: $ => prec(
-            DART_PREC.BUILTIN,
-            'const',
-        ),
+        _const_builtin: $ => token('const'),
         _final_builtin: $ => token('final'),
         _late_builtin: $ => prec(
             DART_PREC.BUILTIN,
@@ -2534,11 +2566,11 @@ module.exports = grammar({
         // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
         comment: $ => token(choice(
             seq('//', /[^/].*/),
-            // seq(
-            //     '/*',
-            //     /[^*]*\*+([^/*][^*]*\*+)*/,
-            //     '/'
-            // )
+            seq(
+                '/*',
+                /[^*]*\*+([^/*][^*]*\*+)*/,
+                '/'
+            )
         )),
         //added nesting comments.
         documentation_comment: $ => token(
@@ -2562,17 +2594,46 @@ module.exports = grammar({
         ),
         // multiline_comment: $ => seq(
         //     $._multiline_comment_begin,
-        //     repeat(
-        //         choice(
-        //             $._multiline_comment_core,
-        //             $.multiline_comment
-        //         )
-        //     ),
+        //     $._multiline_comment_core,
+        //     // repeat(
+        //     //     choice(
+        //     //         $._multiline_comment_core,
+        //     //         $.multiline_comment
+        //     //     )
+        //     // ),
         //     $._multiline_comment_end
         // ),
         // _multiline_comment_end: $ => token('*/'),
         // _multiline_comment_begin: $ => token('/*'),
-        // _multiline_comment_core: $ => /([^\/*]*|\/[^*]|\*[^\/])+/,
+        //
+        // _nested_multiline_comment: $ => seq(
+        //     $._multiline_comment_begin,
+        //     repeat(
+        //         choice(
+        //             /([^\/*]*|\/[^*]|\*[^\/])+/,
+        //             $._nested_multiline_comment
+        //             // seq(
+        //             //     $._multiline_comment_begin,
+        //             //     $._multiline_comment_core,
+        //             // )
+        //         )
+        //     ),
+        //     $._multiline_comment_end
+        // ),
+        //
+        // _multiline_comment_core: $ => seq(
+        //     repeat1(
+        //         choice(
+        //             /([^\/*]*|\/[^*]|\*[^\/])+/,
+        //             $._nested_multiline_comment
+        //             // seq(
+        //             //     $._multiline_comment_begin,
+        //             //     $._multiline_comment_core,
+        //             // )
+        //         )
+        //     ),
+        //     // $._multiline_comment_end
+        // ),
     }
 });
 

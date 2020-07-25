@@ -8,7 +8,7 @@ comment
 
 ---
 
-(program (comment) (multiline_comment) (multiline_comment))
+(program (comment) (comment) (comment))
 
 ======================
 comments and literals
