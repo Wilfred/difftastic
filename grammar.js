@@ -239,7 +239,7 @@ const rules = {
       'foreach',
       '(',
       field('collection', $._expression),
-      'as',
+      token(prec(1, 'as')),
       field('key', seq.opt($._variablish, '=>')),
       field('value', $._variablish),
       ')',
@@ -587,7 +587,7 @@ const rules = {
     prec.as(
       seq(
         field('left', $._expression),
-        choice('as', '?as'),
+        choice(token(prec(-1, 'as')), '?as'),
         field('right', $._type),
       ),
     ),
