@@ -1,0 +1,21 @@
+(script
+  (comment)
+  (foreach_statement
+    collection: (parenthesized_expression
+      (subscript_expression
+        (as_expression
+          left: (variable
+            (identifier))
+          right: (type_specifier))))
+    value: (variable
+      (identifier))
+    body: (compound_statement))
+  (comment)
+  (foreach_statement
+    collection: (variable
+      (identifier))
+    (ERROR
+      (vec))
+    value: (variable
+      (identifier))
+    body: (compound_statement)))

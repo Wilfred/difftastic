@@ -631,6 +631,15 @@ const rules = {
 
   lambda_expression: $ =>
     seq(
+      $._lambda_expression_header,
+      field('body', choice($._expression, $.compound_statement)),
+    ),
+
+  _callable_lambda_expression: $ =>
+    seq($._lambda_expression_header, field('body', $.compound_statement)),
+
+  _lambda_expression_header: $ =>
+    seq(
       alias.opt('async', $.async_modifier),
       choice(
         // Make a single-parameter lambda node look like any other lambda node.
@@ -638,7 +647,6 @@ const rules = {
         seq($.parameters, seq.opt(':', field('return_type', $._type))),
       ),
       '==>',
-      field('body', choice($._expression, $.compound_statement)),
     ),
 
   _single_parameter_parameters: $ => alias($._single_parameter, $.parameter),
@@ -650,6 +658,7 @@ const rules = {
       field(
         'function',
         choice(
+          alias($._callable_lambda_expression, $.lambda_expression),
           seq($.qualified_identifier, opt($.type_arguments)),
           $.variable,
           $.pipe_variable,
@@ -657,7 +666,6 @@ const rules = {
           $.parenthesized_expression,
           $.scoped_identifier,
           $.selection_expression,
-          $.lambda_expression,
           $.function_call_expression,
         ),
       ),
