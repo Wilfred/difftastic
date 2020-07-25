@@ -40,7 +40,7 @@ query)
   npx tree-sitter parse $in | sed -e 's/ \[.*\]//' >$out
   ;;
 hack)
-  hh_parse --full-fidelity-s-expression $in >$out
+  hh_parse --full-fidelity-ast-s-expression $in >$out
   ;;
 esac
 

@@ -26,7 +26,7 @@ fi
 paths="$(bin/get-src-path $@)"
 
 if [[ "$HACK" -eq 1 ]]; then
-  hh_parse --show-file-name --full-fidelity-errors $paths |
+  hh_parse --show-file-name --full-fidelity-errors-all $paths |
     grep -v 'A \.php file must begin with' |
     grep -v 'Nested ternary expressions inside ternary expressions are ambiguous' |
     bin/hh-errors
