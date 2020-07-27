@@ -25,7 +25,24 @@ my $a;
 ---
 
 (source_file
-  (scalar_declaration (scope) (scalar_variable))
+  (variable_declaration (scope) (single_var_declaration
+    (scalar_variable)
+  ))
+)
+
+
+=================================================
+scalar declartion with initialization
+=================================================
+
+my $a = 3;
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration
+    (scalar_variable) (number)
+  ))
 )
 
 =================================================
@@ -37,5 +54,7 @@ my @array;
 ---
 
 (source_file
-  (array_declaration (scope) (array_variable))
+  (variable_declaration (scope) (single_var_declaration
+    (array_variable)
+  ))
 )
