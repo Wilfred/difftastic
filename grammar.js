@@ -5,7 +5,10 @@ module.exports = grammar({
     source_file: $ => repeat($._statement),
 
     _statement: $ => choice(
+      $._comments,
+
       $._declaration,
+
       $.return_statement,
 
       // conditional statements
@@ -14,9 +17,13 @@ module.exports = grammar({
       $.assignment_statement,
     ),
 
+    _comments: $ => choice(
+      $.single_line_comment,
+    ),
+
     assignment_statement: $ => seq(
       // optional($.scope),
-      $.scalar_declaration,
+      // $.scalar_declaration,
       '=',
       $._expression,
       $._semi_colon,
@@ -32,23 +39,42 @@ module.exports = grammar({
 
     _declaration: $ => choice(
       $.function_definition,
-      $.scalar_declaration,
-      $.array_declaration,
+      $.variable_declaration,
     ),
 
-    array_declaration: $ => seq(
+    variable_declaration: $ => seq(
       $.scope,
-      field('variable_name', $.array_variable),
+      // multi declaration
+      // or single declaration without brackets
+      choice($.multi_var_declaration, $.single_var_declaration),
       $._semi_colon,
     ),
 
-    scalar_declaration: $ => seq(
-      $.scope,
-      field('variable_name', $.scalar_variable),
-      $._semi_colon,
+    multi_var_declaration: $ => seq(
+      '(',
+      commaSeparated($.variable_declarator),
+      ')',
+    ),
+
+    single_var_declaration: $ => alias($.variable_declarator, 'single_var_declaration'),
+
+    variable_declarator: $ => seq(
+      field('name', choice($.scalar_variable, $.array_variable)),
+      optional($._initializer),
+    ),
+
+    _initializer: $ => seq(
+      '=',
+      // choice between multiple assignments and single assignments
+      choice(
+        seq('(', field('value', commaSeparated($._expression)), ')'),
+        field('value', $._expression),
+      ),
+      
     ),
     
     scope: $ => choice(
+      'our',
       'my',
     ),
 
@@ -90,5 +116,18 @@ module.exports = grammar({
     scalar_variable: $ => /\$[a-z]+/,
 
     array_variable: $ => /@[a-z]+/,
+
+    single_line_comment: $ => /#.*/,
   }
 });
+
+/**
+ * repeats the rule comma separated, like
+ * rule, rule
+ * example: my (a, b);
+ * using it in the above.
+ * @param {*} rule 
+ */
+function commaSeparated(rule) {
+  return seq(rule, repeat(seq(',', rule)));
+}
