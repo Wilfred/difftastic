@@ -8,12 +8,13 @@ package-lock.json
 .npmrc
 
 # Do we need to track `src` if it's all generated?
-src
+src/*
 !src/scanner.cc
 !src/scanner.c
 
 # Source test files in test/cases. We can ignore test/corpus.
-test/corpus
+test/corpus/*
+!test/corpus/.empty
 
 # Store sha256sum for grammar.js
 grammar.js.sha
