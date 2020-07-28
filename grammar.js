@@ -140,7 +140,7 @@ const rules = {
       $.as_expression,
       $.fun_expression,
       $.await_expression,
-      $.async_expression,
+      $.awaitable_expression,
       $.yield_expression,
       $.error_control_expression,
       $.clone_expression,
@@ -606,10 +606,10 @@ const rules = {
 
   await_expression: $ => prec.await(seq('await', $._expression)),
 
+  awaitable_expression: $ => seq('async', $.compound_statement),
+
   yield_expression: $ =>
     prec.right(seq('yield', choice($._expression, $.element_initializer))),
-
-  async_expression: $ => seq('async', $.compound_statement),
 
   error_control_expression: $ => prec.error(seq('@', $._expression)),
 
@@ -651,7 +651,7 @@ const rules = {
       1,
       seq(
         $._lambda_expression_header,
-        field('body', choice($.async_expression, $.compound_statement)),
+        field('body', choice($.awaitable_expression, $.compound_statement)),
       ),
     ),
 
@@ -972,6 +972,7 @@ const rules = {
 
   anonymous_function_expression: $ =>
     seq(
+      alias.opt('async', $.async_modifier),
       'function',
       $.parameters,
       seq.opt(':', field('return_type', $._type)),
