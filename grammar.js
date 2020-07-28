@@ -746,6 +746,7 @@ const rules = {
 
   alias_declaration: $ =>
     seq(
+      opt($.attribute_modifier),
       choice('type', 'newtype'),
       $.identifier,
       field('as', seq.opt('as', $._type)),
