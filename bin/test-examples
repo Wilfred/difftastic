@@ -1,4 +1,26 @@
 #!/usr/bin/env bash
 
+hhvm_failures="examples/hhvm-failures.txt"
+hhvm_tests="$(find -E examples/hhvm/hphp/hack/test -regex '.*\.(hack|php)$' | sort)"
+
+# The HHVM repo has tests that verify intentional errors. We aren't doing that (yet).
+# Filter out intentionally failing Hack files.
+if ! test -f "$hhvm_failures"; then
+  printf "\033[1mGetting known HHVM failures...\033[0m\n"
+
+  echo $hhvm_tests |
+    xargs -n 256 bin/hh-errors 2>/dev/null |
+    grep -E '.*\.(hack|php)$' |
+    sort -u >$hhvm_failures
+
+  echo "$(wc -l <$hhvm_failures) known HHVM failures"
+fi
+
 printf "\033[1mGetting Tree-sitter examples errors...\033[0m\n"
-bin/ts-errors $(find -E examples -regex '.*\.(hack|php)$')
+
+find -E examples -regex '.*\.(hack|php)$' |
+  grep -v 'examples/hhvm' |
+  xargs bin/ts-errors
+
+comm -13 <(sort $hhvm_failures) <(echo $hhvm_tests | xargs -n1) |
+  xargs -n 256 bin/ts-errors
