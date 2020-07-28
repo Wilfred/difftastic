@@ -1,0 +1,12 @@
+(script
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_attribute_declaration
+        (xhp_class_attribute
+          type: (xhp_enum_type
+            (string)
+            (string)
+            (integer))
+          name: (xhp_identifier)
+          default: (integer))))))
