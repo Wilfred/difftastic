@@ -16,6 +16,8 @@ src/*
 test/corpus/*
 !test/corpus/.empty
 
+test/cases/**/*.json
+
 # Store sha256sum for grammar.js
 grammar.js.sha
 
