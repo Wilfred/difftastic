@@ -1,65 +1,50 @@
 (script
-  (comment)
-  (comment)
   (class_declaration
     name: (identifier)
     body: (member_declarations
       (trait_use_clause
-        (qualified_identifier
-          (identifier))
-        (qualified_identifier
-          (identifier))
-        (trait_select_clause
-          (qualified_identifier
-            (identifier))
-          (identifier)
-          (qualified_identifier
-            (identifier))))))
-  (comment)
-  (class_declaration
-    name: (identifier)
-    body: (member_declarations
-      (trait_use_clause
-        (qualified_identifier
-          (identifier))
-        (qualified_identifier
-          (identifier))
-        (trait_select_clause
-          (qualified_identifier
-            (identifier))
-          (identifier)
+        (type_specifier
           (qualified_identifier
             (identifier))))
-      (comment)
       (trait_use_clause
-        (qualified_identifier
-          (identifier))
-        (qualified_identifier
-          (identifier))
+        (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier))))
+      (trait_use_clause
+        (type_specifier
+          (qualified_identifier
+            (identifier)))
+        (type_specifier
+          (qualified_identifier
+            (identifier)))
+        (trait_alias_clause
+          (identifier)
+          (identifier)))
+      (trait_use_clause
+        (type_specifier
+          (qualified_identifier
+            (identifier)))
+        (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier
+              (type_arguments
+                (type_specifier)))))
+        (type_specifier
+          (qualified_identifier
+            (identifier)))
         (trait_select_clause
           (qualified_identifier
             (identifier))
           (identifier)
           (qualified_identifier
-            (identifier))
-          (qualified_identifier
-            (identifier))))))
-  (comment)
-  (class_declaration
-    name: (identifier)
-    body: (member_declarations
-      (trait_use_clause
-        (qualified_identifier
-          (identifier))
-        (qualified_identifier
-          (identifier))
-        (qualified_identifier
-          (identifier))
+            (identifier)))
         (trait_select_clause
           (qualified_identifier
             (identifier))
           (identifier)
-          (qualified_identifier
-            (identifier))
           (qualified_identifier
             (identifier)))))))
