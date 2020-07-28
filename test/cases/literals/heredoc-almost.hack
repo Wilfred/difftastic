@@ -1,0 +1,14 @@
+<<<EOF
+EOFEOF
+EOF;
+
+<<<EOF
+EOFE
+EOF;
+
+<<<EOF
+OFE
+EOF;
+
+
+
