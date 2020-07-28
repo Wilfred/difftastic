@@ -1,0 +1,22 @@
+(script
+  (using_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (arguments)))
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (arguments
+          (argument
+            (string))
+          (argument
+            (string)))))
+    (compound_statement))
+  (empty_statement))

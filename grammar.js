@@ -47,15 +47,17 @@ const rules = {
   pipe_variable: $ => '$$',
 
   qualified_identifier: $ =>
-    choice(
-      prec.qualified(
-        choice(
-          seq(seq.rep1('\\', $.identifier), opt('\\')),
-          seq(seq.rep1($.identifier, '\\'), opt($.identifier)),
-          '\\',
+    prec.left(
+      choice(
+        prec.qualified(
+          choice(
+            seq(seq.rep1('\\', $.identifier), opt('\\')),
+            seq(seq.rep1($.identifier, '\\'), opt($.identifier)),
+            '\\',
+          ),
         ),
+        $.identifier,
       ),
-      $.identifier,
     ),
 
   scoped_identifier: $ =>
@@ -111,6 +113,7 @@ const rules = {
       $.foreach_statement,
       $.try_statement,
       $.concurrent_statement,
+      $.using_statement,
     ),
 
   _declaration: $ =>
@@ -298,6 +301,19 @@ const rules = {
     ),
 
   finally_clause: $ => seq('finally', field('body', $.compound_statement)),
+
+  using_statement: $ =>
+    prec.right(
+      -1,
+      seq(
+        alias.opt('await', $.await_modifier),
+        'using',
+        choice(
+          com($._expression),
+          seq('(', com($._expression), ')', $.compound_statement),
+        ),
+      ),
+    ),
 
   // Literals
 
