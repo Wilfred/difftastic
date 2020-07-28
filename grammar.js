@@ -835,7 +835,7 @@ const rules = {
   trait_use_clause: $ =>
     seq(
       'use',
-      com($.qualified_identifier),
+      com($._type),
       choice(
         seq(
           '{',
