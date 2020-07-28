@@ -1,0 +1,12 @@
+(script
+  (using_statement
+    (parenthesized_expression
+      (integer)))
+  (compound_statement)
+  (empty_statement)
+  (using_statement
+    (await_modifier)
+    (parenthesized_expression
+      (integer)))
+  (compound_statement)
+  (empty_statement))
