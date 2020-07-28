@@ -11,7 +11,7 @@
     (type_parameters
       (type_parameter
         name: (identifier)
-        as: (type_specifier)))
+        constraint_type: (type_specifier)))
     (parameters)
     body: (compound_statement))
   (expression_statement
