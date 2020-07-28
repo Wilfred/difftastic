@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
 
-. bin/util.sh
-
-bin/get-errors examples/**/*.{php,hack} |
-  # Display only file paths since there is a lot of errors right now. Maybe remove later?
-  grep -E '(php|hack)$'
+printf "\033[1mGetting Tree-sitter examples errors...\033[0m\n"
+bin/ts-errors $(find -E examples -regex '.*\.(hack|php)$')

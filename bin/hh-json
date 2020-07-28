@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Parse Hack source and filter noisy node objects.
+
+hh_parse --full-fidelity-text-json $@ |
+  python -m json.tool |
+  jq '.parse_tree' |
+
+  # Remove low-value elements and simplify name tokens.
+  jq "$(
+    cat <<-JQ
+    # Return true if an element is low value.
+    def trivia:
+      (. == [] or . == {}) or
+      type == "object" and
+      (
+        .kind == "whitespace" or
+        .kind == "end_of_file" or
+        .kind == "end_of_line" or
+        .kind == "missing" or
+        (
+          .kind == "token" and
+
+          # Note: parenthesis matter here.
+          (.token.kind | IN(";", ":", ",", "[", "]", "{", "}", "(", ")", "<<", ">>"))
+        )
+      );
+
+    # Replace name token objects with the string name itself.
+    def name:
+      if type == "object" and
+        .kind == "token" and (
+          .token.kind == "name" or
+          .token.kind == .token.text
+        )
+      then
+        .token.text
+      else .
+      end;
+
+    walk(
+      if type == "object" then
+
+        # Remove keys with low-value values.
+        with_entries(select(.value | trivia | not)) | map_values(name)
+
+      elif type == "array" then
+
+        # Remove low-value array elements.
+        map(select(trivia | not))
+
+      else .
+      end
+    )
+JQ
+  )"

@@ -4,7 +4,9 @@
   "description": "Hack grammar for tree-sitter",
   "main": "index.js",
   "scripts": {
-    "test": "bin/test-corpus && bin/test-examples | wc -l | tr -d ' ' | xargs -n1 -I{} echo '{} files with errors'"
+    "test": "bin/test-corpus && bin/test-examples",
+    "test-corpus": "bin/test-corpus",
+    "test-examples": "bin/test-examples"
   },
   "keywords": [
     "parser",
