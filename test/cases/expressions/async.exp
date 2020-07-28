@@ -1,9 +1,9 @@
 (script
   (expression_statement
-    (async_expression
+    (awaitable_expression
       (compound_statement)))
   (expression_statement
-    (async_expression
+    (awaitable_expression
       (compound_statement
         (concurrent_statement
           (compound_statement

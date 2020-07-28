@@ -23,7 +23,7 @@
             (arguments))))
       (expression_statement
         (await_expression
-          (async_expression
+          (awaitable_expression
             (compound_statement
               (expression_statement
                 (await_expression

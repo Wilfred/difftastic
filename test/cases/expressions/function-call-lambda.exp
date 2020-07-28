@@ -6,10 +6,11 @@
           (parameter
             name: (variable
               (identifier))))
-        body: (compound_statement
-          (return_statement
-            (variable
-              (identifier)))))
+        body: (awaitable_expression
+          (compound_statement
+            (return_statement
+              (variable
+                (identifier))))))
       (arguments
         (argument
           (integer))
