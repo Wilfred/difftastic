@@ -1,0 +1,3 @@
+(script
+  (expression_statement
+    (heredoc)))

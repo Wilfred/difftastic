@@ -1,0 +1,3 @@
+<<<EOF
+r$var
+EOF;

@@ -144,8 +144,43 @@ const rules = {
       $.const_declaration,
     ),
 
+  heredoc: $ =>
+    seq(
+      '<<<',
+      $._heredoc_start,
+      choice.rep($._heredoc_body, $.variable, $.embedded_brace_expression),
+      $._heredoc_end,
+    ),
+
+  embedded_brace_expression: $ => seq($._embedded_brace_expression, '}'),
+
+  _embedded_brace_expression: $ =>
+    choice(
+      alias(token(seq('{$', identifier)), $.variable),
+      alias($._embedded_brace_call_expression, $.call_expression),
+      alias($._embedded_brace_subscript_expression, $.subscript_expression),
+      alias($._embedded_brace_selection_expression, $.selection_expression),
+    ),
+
+  _embedded_brace_call_expression: $ =>
+    seq($._embedded_brace_expression, $.arguments),
+
+  _embedded_brace_subscript_expression: $ =>
+    seq($._embedded_brace_expression, '[', opt($._expression), ']'),
+
+  _embedded_brace_selection_expression: $ =>
+    prec(
+      -1,
+      seq(
+        $._embedded_brace_expression,
+        field('selection_operator', choice('?->', '->')),
+        $._variablish,
+      ),
+    ),
+
   _expression: $ =>
     choice(
+      $.heredoc,
       $.array,
       $.tuple,
       $.shape,
@@ -1092,6 +1127,8 @@ module.exports = grammar({
   word: $ => $.identifier,
 
   extras: $ => [/\s/, $.comment],
+
+  externals: $ => [$._heredoc_start, $._heredoc_body, $._heredoc_end],
 
   supertypes: $ => [
     $._statement,

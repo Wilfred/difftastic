@@ -1,0 +1,5 @@
+(script
+  (expression_statement
+    (binary_expression
+      left: (heredoc)
+      right: (heredoc))))
