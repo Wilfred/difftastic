@@ -7,6 +7,7 @@
   [prec.left, 'subscript'],
   [prec.left, 'select'],
   [prec, 'new'],
+  [prec.left, 'paren'],
   [prec, 'clone'],
   [prec.right, 'await', 'postfix'],
   [prec.right, '**', 'cast', 'error', 'prefix'],
@@ -153,6 +154,7 @@ const rules = {
       $.new_expression,
       $.include_expression,
       $.require_expression,
+      $.anonymous_function_expression,
     ),
 
   // Statements
@@ -742,7 +744,7 @@ const rules = {
       seq.opt(':', field('return_type', $._type)),
     ),
 
-  parameters: $ => seq('(', com.opt($.parameter, ','), ')'),
+  parameters: $ => prec.paren(seq('(', com.opt($.parameter, ','), ')')),
 
   parameter: $ =>
     seq(
@@ -965,6 +967,20 @@ const rules = {
         seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/'),
       ),
     ),
+
+  // Future Deprecations
+
+  anonymous_function_expression: $ =>
+    seq(
+      'function',
+      $.parameters,
+      seq.opt(':', field('return_type', $._type)),
+      alias.opt($._anonymous_function_use_clause, $.use_clause),
+      field('body', $.compound_statement),
+    ),
+
+  _anonymous_function_use_clause: $ =>
+    seq('use', '(', com($.variable, ','), ')'),
 };
 
 /**

@@ -1,0 +1,30 @@
+(script
+  (expression_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (anonymous_function_expression
+        (parameters
+          (parameter
+            name: (variable
+              (identifier))))
+        (use_clause
+          (variable
+            (identifier)))
+        body: (compound_statement))))
+  (expression_statement
+    (assignment_expression
+      left: (variable
+        (identifier))
+      right: (anonymous_function_expression
+        (parameters
+          (parameter
+            name: (variable
+              (identifier))))
+        return_type: (type_specifier)
+        (use_clause
+          (variable
+            (identifier))
+          (variable
+            (identifier)))
+        body: (compound_statement)))))
