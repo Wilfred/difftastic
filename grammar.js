@@ -60,7 +60,12 @@ const rules = {
 
   scoped_identifier: $ =>
     seq(
-      choice($.qualified_identifier, $.variable, $.scope_identifier),
+      choice(
+        $.qualified_identifier,
+        $.variable,
+        $.scope_identifier,
+        $.xhp_class_identifier,
+      ),
       '::',
       choice($.identifier, $.variable),
     ),
@@ -79,6 +84,7 @@ const rules = {
       $.scoped_identifier,
       $.scope_identifier,
       $.selection_expression,
+      $.xhp_class_identifier,
     ),
 
   _statement: $ =>
@@ -133,7 +139,7 @@ const rules = {
       $._variablish,
       $.parenthesized_expression,
       $.binary_expression,
-      $.unary_expression,
+      $.prefix_unary_expression,
       $.assignment_expression,
       $.augmented_assignment_expression,
       $.is_expression,
@@ -155,6 +161,7 @@ const rules = {
       $.include_expression,
       $.require_expression,
       $.anonymous_function_expression,
+      $.xhp_expression,
     ),
 
   // Statements
@@ -342,7 +349,12 @@ const rules = {
       alias.opt('?', $.nullable_modifier),
       choice(
         seq(
-          choice($._primitive_type, $.qualified_identifier, $._collection_type),
+          choice(
+            $._primitive_type,
+            $.qualified_identifier,
+            $._collection_type,
+            $.xhp_class_identifier,
+          ),
           opt($.type_arguments),
         ),
       ),
@@ -478,7 +490,7 @@ const rules = {
     seq(
       $.identifier,
       '{',
-      choice.opt(com($._expression), com($.element_initializer)),
+      choice.opt(com($._expression, ','), com($.element_initializer, ',')),
       '}',
     ),
 
@@ -536,7 +548,7 @@ const rules = {
       ),
     ),
 
-  unary_expression: $ =>
+  prefix_unary_expression: $ =>
     prec.unary(
       choice(
         seq(field('operator', '!'), field('operand', $._expression)),
@@ -783,7 +795,7 @@ const rules = {
       opt($._class_modifier),
       opt($._class_modifier),
       'class',
-      field('name', $.identifier),
+      field('name', choice($.identifier, $.xhp_class_identifier)),
       opt($.type_parameters),
       opt($.extends_clause),
       opt($.implements_clause),
@@ -801,6 +813,9 @@ const rules = {
         $.trait_use_clause,
         $.require_implements_clause,
         $.require_extends_clause,
+        $.xhp_attribute_declaration,
+        $.xhp_children_declaration,
+        $.xhp_category_declaration,
       ),
       '}',
     ),
@@ -957,6 +972,92 @@ const rules = {
   attribute_modifier: $ =>
     seq('<<', com($.qualified_identifier, opt($.arguments), ','), '>>'),
 
+  // XHP
+
+  xhp_identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*([-:][a-zA-Z0-9_]+)*/,
+
+  xhp_class_identifier: $ => /:[a-zA-Z_][a-zA-Z0-9_]*([-:][a-zA-Z0-9_]+)*/,
+
+  xhp_category_identifier: $ => /%[a-zA-Z_][a-zA-Z0-9_]*([-:][a-zA-Z0-9_]+)*/,
+
+  xhp_expression: $ =>
+    choice(
+      $.xhp_open_close,
+      seq(
+        $.xhp_open,
+        rep(
+          choice(
+            $.xhp_string,
+            $.xhp_comment,
+            $.xhp_braced_expression,
+            $.xhp_expression,
+          ),
+        ),
+        $.xhp_close,
+      ),
+    ),
+
+  xhp_comment: $ => /<!--(.|[\n\r])*-->/,
+
+  xhp_string: $ => /[^<]+/,
+
+  xhp_open: $ => seq('<', $.xhp_identifier, rep($.xhp_attribute), '>'),
+
+  xhp_open_close: $ => seq('<', $.xhp_identifier, rep($.xhp_attribute), '/>'),
+
+  xhp_close: $ => seq('</', $.xhp_identifier, '>'),
+
+  xhp_attribute: $ =>
+    choice(
+      seq($.xhp_identifier, '=', choice($._literal, $.xhp_braced_expression)),
+      choice($.xhp_braced_expression, $.xhp_spread_expression),
+    ),
+
+  xhp_braced_expression: $ => seq('{', $._expression, '}'),
+
+  xhp_spread_expression: $ => seq('{', '...', $._expression, '}'),
+
+  xhp_attribute_declaration: $ =>
+    seq('attribute', com($.xhp_class_attribute), ';'),
+
+  xhp_class_attribute: $ =>
+    seq(
+      field('type', choice($._type, $.xhp_enum_type)),
+      field('name', opt($.xhp_identifier)),
+      seq.opt('=', field('default', $._expression)),
+      choice.opt('@required', '@lateinit'),
+    ),
+
+  xhp_enum_type: $ =>
+    seq('enum', '{', com(choice($.string, $.integer), ','), '}'),
+
+  xhp_category_declaration: $ =>
+    seq('category', com($.xhp_category_identifier), ';'),
+
+  xhp_children_declaration: $ =>
+    seq('children', com($._xhp_attribute_expression), ';'),
+
+  _xhp_attribute_expression: $ =>
+    choice(
+      $.xhp_identifier,
+      $.xhp_class_identifier,
+      $.xhp_category_identifier,
+      alias($._xhp_binary_expression, $.binary_expression),
+      alias($._xhp_postfix_unary_expression, $.postfix_unary_expression),
+      alias($._xhp_parenthesized_expression, $.parenthesized_expression),
+    ),
+
+  _xhp_binary_expression: $ =>
+    prec.left(
+      seq($._xhp_attribute_expression, '|', $._xhp_attribute_expression),
+    ),
+
+  _xhp_postfix_unary_expression: $ =>
+    prec(1, seq($._xhp_attribute_expression, choice('+', '*', '?'))),
+
+  _xhp_parenthesized_expression: $ =>
+    seq('(', com($._xhp_attribute_expression), ')'),
+
   // Misc
 
   comment: $ =>
@@ -1031,6 +1132,7 @@ module.exports = grammar({
     $._type,
     $._primitive_type,
     $._collection_type,
+    $._xhp_attribute_expression,
   ],
 
   word: $ => $.identifier,

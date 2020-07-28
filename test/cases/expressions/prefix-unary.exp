@@ -1,19 +1,19 @@
 (script
   (expression_statement
-    (unary_expression
+    (prefix_unary_expression
       operand: (integer)))
   (expression_statement
-    (unary_expression
+    (prefix_unary_expression
       operand: (integer)))
   (expression_statement
-    (unary_expression
+    (prefix_unary_expression
       operand: (integer)))
   (expression_statement
-    (unary_expression
+    (prefix_unary_expression
       operand: (integer)))
   (expression_statement
-    (unary_expression
-      operand: (unary_expression
-        operand: (unary_expression
-          operand: (unary_expression
+    (prefix_unary_expression
+      operand: (prefix_unary_expression
+        operand: (prefix_unary_expression
+          operand: (prefix_unary_expression
             operand: (integer)))))))

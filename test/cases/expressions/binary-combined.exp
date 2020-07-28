@@ -11,7 +11,7 @@
         right: (binary_expression
           left: (binary_expression
             left: (integer)
-            right: (unary_expression
+            right: (prefix_unary_expression
               operand: (integer)))
           right: (binary_expression
             left: (binary_expression
@@ -20,7 +20,7 @@
                   left: (integer)
                   right: (integer))
                 right: (integer))
-              right: (unary_expression
+              right: (prefix_unary_expression
                 operand: (integer)))
             right: (binary_expression
               left: (binary_expression
@@ -39,9 +39,9 @@
                 right: (binary_expression
                   left: (binary_expression
                     left: (binary_expression
-                      left: (unary_expression
+                      left: (prefix_unary_expression
                         operand: (integer))
-                      right: (unary_expression
+                      right: (prefix_unary_expression
                         operand: (integer)))
                     right: (integer))
                   right: (binary_expression
