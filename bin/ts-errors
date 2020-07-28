@@ -45,7 +45,7 @@ npx tree-sitter parse --quiet $@ |
 
       puts \$1
 
-      source = File.read(\$1).split("\n")
+      source = File.read(\$1).split("\n") << [''] # In case of trailing newline.
 
       errors.uniq.each do |type, message, line, column, endLine, endColumn|
         # Use source code as the error message for now.

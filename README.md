@@ -22,8 +22,6 @@ $ node_modules/.bin/tree-sitter parse script.hack
 
 ## Note
 
-- I'm using HHVM 4.62 because it's the [last version](https://github.com/facebook/hhvm/commit/747d13f9a65401a3193efeecfd548d8166afebcc) to include the s-expression CST output and I'm using `hh_parse --full-fidelity-s-expression` as a guide for writing `grammar.js`.
-
 - `<?hh` is optional in this grammar unlike standard Hack. The Hack parser requires an `<?hh` tag at the top of `.php` files. Does it really matter?
 
 - `src/` is not commited to the repository. Do we need to? Can't Tree-sitter generate the parser from `grammar.js`?

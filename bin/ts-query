@@ -20,4 +20,6 @@ set -e
 #         body: (expression_statement
 #           (integer))))
 
+bin/generate-parser 1>/dev/null
+
 npx tree-sitter parse $@ | sed -e 's/ \[.*\]//'
