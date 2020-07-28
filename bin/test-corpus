@@ -11,4 +11,4 @@ npx tree-sitter test
 printf "\n"
 
 printf "\033[1mGetting Hacklang corpus errors...\033[0m\n"
-bin/hh-errors "$(find -E examples -regex '.*\.(hack|php)$')"
+bin/hh-errors "$(find -E test/cases -regex '.*\.(hack|php)$')"
