@@ -10,11 +10,11 @@ function fetch() {
   sha=$3
 
   if [ ! -d "$path" ]; then
-    git clone "https://github.com/$url" "$path"
+    git clone --depth 1 --branch "$sha" "https://github.com/$url" "$path"
   fi
 
   pushd "$path"
-  git fetch && git reset --hard "$sha"
+  git fetch --depth 1 origin "$sha" && git reset --hard "$sha"
   popd
 }
 
@@ -22,3 +22,4 @@ mkdir -p examples
 
 fetch "hack-sql-fake" "slackhq/hack-sql-fake" "v4.0.5"
 fetch "hack-json-schema" "slackhq/hack-json-schema" "v4.27.1"
+fetch "hhvm" "facebook/hhvm" "HHVM-4.67.0"

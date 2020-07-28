@@ -60,7 +60,7 @@ npx tree-sitter parse --quiet $@ |
             ].join('\n')[0..90]
           end
         else
-          message = "#{type} #{message.strip}"
+          message = "#{type} #{message&.strip}".strip
         end
 
         # Increment numbers to match VSCode's 1-indexing. Use Hack error format.
