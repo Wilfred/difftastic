@@ -15,5 +15,13 @@
         "trailingComma": "all",
       },
     },
+    {
+      "files": [".vscode/tasks.json"],
+      "options": {
+        "parser": "json",
+        "quoteProps": "preserve",
+        "singleQuote": false,
+      },
+    },
   ],
 }
