@@ -1,0 +1,10 @@
+(script
+  (alias_declaration
+    (identifier)
+    (type_specifier))
+  (alias_declaration
+    (identifier)
+    as: (type_specifier)
+    (type_specifier
+      (qualified_identifier
+        (identifier)))))
