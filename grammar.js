@@ -140,6 +140,7 @@ const rules = {
       $.fun_expression,
       $.await_expression,
       $.async_expression,
+      $.yield_expression,
       $.error_control_expression,
       $.clone_expression,
       $.cast_expression,
@@ -602,6 +603,9 @@ const rules = {
   clone_expression: $ => prec.clone(seq('clone', $._expression)),
 
   await_expression: $ => prec.await(seq('await', $._expression)),
+
+  yield_expression: $ =>
+    prec.right(seq('yield', choice($._expression, $.element_initializer))),
 
   async_expression: $ => seq('async', $.compound_statement),
 
