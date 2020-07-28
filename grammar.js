@@ -448,15 +448,27 @@ const rules = {
 
   type_parameter: $ =>
     seq(
+      opt($.attribute_modifier),
       choice.opt(
         alias('+', $.covariant_modifier),
         alias('-', $.contravariant_modifier),
+        alias('reify', $.reify_modifier),
       ),
       field('name', $.identifier),
-      choice.opt(
-        field('as', seq('as', $._type)),
-        field('super', seq('super', $._type)),
+      seq.opt(
+        field('constraint_operator', choice('as', 'super')),
+        field('constraint_type', $._type),
       ),
+    ),
+
+  where_clause: $ => seq('where', seq.rep1($.where_constraint, opt(','))),
+
+  where_constraint: $ =>
+    seq(
+      // Weird that Hack allows the left operand to be a full on type.
+      field('constraint_left_type', $._type),
+      field('constraint_operator', choice('as', 'super', '=')),
+      field('constraint_right_type', $._type),
     ),
 
   // Collections
@@ -766,6 +778,7 @@ const rules = {
       opt($.type_parameters),
       $.parameters,
       seq.opt(':', field('return_type', $._type)),
+      opt($.where_clause),
     ),
 
   parameters: $ => prec.paren(seq('(', com.opt($.parameter, ','), ')')),
@@ -788,6 +801,7 @@ const rules = {
       field('name', $.identifier),
       opt($.type_parameters),
       opt($.implements_clause),
+      opt($.where_clause),
       field('body', $.member_declarations),
     ),
 
@@ -798,6 +812,7 @@ const rules = {
       field('name', $.identifier),
       opt($.type_parameters),
       opt($.extends_clause),
+      opt($.where_clause),
       field('body', $.member_declarations),
     ),
 
@@ -811,6 +826,7 @@ const rules = {
       opt($.type_parameters),
       opt($.extends_clause),
       opt($.implements_clause),
+      opt($.where_clause),
       field('body', $.member_declarations),
     ),
 

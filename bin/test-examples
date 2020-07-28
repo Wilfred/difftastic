@@ -73,5 +73,7 @@ find-hack examples |
   print-results
 
 comm -13 <(sort $hhvm_failures) <(find-hack $hhvm_tests | grep -E "$filter") |
+  # Looks interesting, but I think too experimental to support yet?
+  grep -v examples/hhvm/hphp/hack/test/pocket_universes |
   xargs -n 256 bin/ts-errors |
   print-results

@@ -6,12 +6,12 @@
     (type_parameters
       (type_parameter
         name: (identifier)
-        as: (type_specifier
+        constraint_type: (type_specifier
           (qualified_identifier
             (identifier))))
       (type_parameter
         name: (identifier)
-        super: (type_specifier
+        constraint_type: (type_specifier
           (qualified_identifier
             (identifier))
           (type_arguments
@@ -47,12 +47,12 @@
         (type_parameters
           (type_parameter
             name: (identifier)
-            as: (type_specifier
+            constraint_type: (type_specifier
               (qualified_identifier
                 (identifier))))
           (type_parameter
             name: (identifier)
-            super: (type_specifier
+            constraint_type: (type_specifier
               (qualified_identifier
                 (identifier)))))
         (parameters)

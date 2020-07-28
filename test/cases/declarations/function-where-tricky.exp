@@ -1,0 +1,57 @@
+(script
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    (parameters)
+    (where_clause
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_right_type: (type_specifier)))
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    (parameters)
+    (where_clause
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (nullable_modifier)
+          (type_arguments
+            (type_specifier
+              (qualified_identifier
+                (identifier)))))
+        constraint_right_type: (type_specifier))
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_right_type: (type_specifier)))
+    body: (compound_statement))
+  (comment)
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    (parameters)
+    (where_clause
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (nullable_modifier)
+          (type_arguments
+            (type_specifier
+              (qualified_identifier
+                (identifier)))))
+        constraint_right_type: (type_specifier))
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_right_type: (type_specifier)))
+    body: (compound_statement)))
