@@ -1,0 +1,20 @@
+(script
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        as: (type_specifier
+          (like_modifier))))
+    (parameters
+      (parameter
+        type: (function_type_specifier
+          (like_modifier)
+          (nullable_modifier)
+          (type_specifier)
+          return_type: (type_specifier))
+        name: (variable
+          (identifier))))
+    return_type: (type_specifier
+      (like_modifier))
+    body: (compound_statement)))

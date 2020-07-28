@@ -362,32 +362,30 @@ const rules = {
 
   type_specifier: $ =>
     seq(
-      alias.opt('?', $.nullable_modifier),
+      rep($._type_modifier),
       choice(
-        seq(
-          choice(
-            $._primitive_type,
-            $.qualified_identifier,
-            $._collection_type,
-            $.xhp_class_identifier,
-          ),
-          opt($.type_arguments),
-        ),
+        $._primitive_type,
+        $.qualified_identifier,
+        $._collection_type,
+        $.xhp_class_identifier,
       ),
+      opt($.type_arguments),
     ),
 
+  _type_modifier: $ =>
+    choice(alias('?', $.nullable_modifier), alias('~', $.like_modifier)),
+
   tuple_type_specifier: $ =>
-    seq(alias.opt('?', $.nullable_modifier), '(', com($._type, ','), ')'),
+    seq(rep($._type_modifier), '(', com($._type, ','), ')'),
 
   function_type_specifier: $ =>
     seq(
+      rep($._type_modifier),
       '(',
-      seq(
-        'function',
-        '(',
-        com.opt($._type, alias.opt('...', $.variadic_modifier)),
-        ')',
-      ),
+      'function',
+      '(',
+      com.opt($._type, alias.opt('...', $.variadic_modifier)),
+      ')',
       ':',
       field('return_type', $._type),
       ')',
@@ -395,7 +393,7 @@ const rules = {
 
   shape_type_specifier: $ =>
     seq(
-      alias.opt('?', $.nullable_modifier),
+      rep($._type_modifier),
       'shape',
       '(',
       com(
@@ -417,10 +415,7 @@ const rules = {
     ),
 
   type_constant: $ =>
-    seq(
-      alias.opt('?', $.nullable_modifier),
-      alias($._type_constant, $.type_constant),
-    ),
+    seq(rep($._type_modifier), alias($._type_constant, $.type_constant)),
 
   _type_constant: $ =>
     seq(
