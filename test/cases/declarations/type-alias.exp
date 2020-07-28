@@ -1,0 +1,4 @@
+(script
+  (alias_declaration
+    (identifier)
+    (type_specifier)))

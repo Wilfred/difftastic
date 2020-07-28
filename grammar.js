@@ -714,6 +714,7 @@ const rules = {
     seq(
       choice('type', 'newtype'),
       $.identifier,
+      field('as', seq.opt('as', $._type)),
       opt($.type_parameters),
       '=',
       $._type,
