@@ -4,7 +4,7 @@
   "description": "Hack grammar for tree-sitter",
   "main": "index.js",
   "scripts": {
-    "test": "bin/test-corpus && bin/test-examples",
+    "test": "bin/test-corpus && bin/test-examples --count",
     "test-corpus": "bin/test-corpus",
     "test-examples": "bin/test-examples"
   },
