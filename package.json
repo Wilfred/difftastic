@@ -3,23 +3,32 @@
   "version": "0.0.1",
   "description": "Hack grammar for tree-sitter",
   "main": "index.js",
-  "scripts": {
-    "test": "bin/test-corpus && bin/test-examples --count",
-    "test-corpus": "bin/test-corpus",
-    "test-examples": "bin/test-examples"
-  },
   "keywords": [
     "parser",
     "lexer",
     "hacklang",
-    "php"
+    "hhvm"
   ],
   "author": "Antonio de Jesus Ochoa Solano",
   "license": "MIT",
+  "homepage": "https://github.com/antoniodejesusochoasolano/tree-sitter-hack#readme",
+  "bugs": {
+    "url": "https://github.com/antoniodejesusochoasolano/tree-sitter-hack/issues"
+  },
   "dependencies": {
     "nan": "^2.14.1"
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.16.9"
+  },
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "test": "bin/test-corpus && bin/test-examples --count",
+    "test-corpus": "bin/test-corpus",
+    "test-examples": "bin/test-examples"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antoniodejesusochoasolano/tree-sitter-hack.git"
   }
 }
