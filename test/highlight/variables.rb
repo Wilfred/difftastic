@@ -32,4 +32,17 @@ def two()
     #                ^ variable.parameter
     #                   ^ function.method
   end
+
+  five ||= 1
+  # ^ variable
+
+  six -> (seven) { eight(seven, five) }
+  # ^ function.method
+  #        ^ variable.parameter
+  #                 ^ function.method
+  #                      ^ variable.parameter
+  #                              ^ variable
+
+  seven
+  # ^ function.method (because the `seven` above was in the scope of the lambda)
 end

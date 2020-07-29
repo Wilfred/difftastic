@@ -2,6 +2,7 @@
  (#set! local.scope-inherits false))
 
 [
+  (lambda)
   (block)
   (do_block)
 ] @local.scope
@@ -19,7 +20,8 @@
 
 (identifier) @local.reference
 
-(assignment left:(identifier) @local.definition)
+(assignment left: (identifier) @local.definition)
+(operator_assignment left: (identifier) @local.definition)
 (left_assignment_list (identifier) @local.definition)
 (rest_assignment (identifier) @local.definition)
 (destructured_left_assignment (identifier) @local.definition)
