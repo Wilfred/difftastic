@@ -618,6 +618,21 @@ class MyClass {
                             (formal_parameter (type_identifier) (identifier)))))
                 (function_body (block)))))
 
+======================================
+Get and set identifiers
+======================================
+class Tree {
+  Set toSet() {
+    Set set = Set();
+    set._count = _count;
+    set._root = _root;
+    return set;
+  }
+}
+
+---
+
+
 ==================================
 void types
 ==================================
