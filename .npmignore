@@ -1,0 +1,12 @@
+test
+build
+bin
+examples
+
+scratch.exp
+scratch.hack
+grammar.js.sha
+.vscode
+.prettierignore
+.prettierrc
+.rubocop.yml
