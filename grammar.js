@@ -658,7 +658,9 @@ const rules = {
     prec.cast(
       seq(
         '(',
-        field('type', choice('int', 'float', 'string', 'bool')),
+        // Only int, float, string, and bool are supported, but this is
+        // checked at typecheck-time.
+        field('type', choice($._collection_type, $._primitive_type)),
         ')',
         field('value', $._expression),
       ),
