@@ -15,6 +15,9 @@
 (alias
   name: (_) @name) @definition.method
 
+(setter
+  (identifier) @ignore)
+
 ; Class definitions
 
 (
