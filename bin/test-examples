@@ -74,6 +74,7 @@ find-hack examples |
 
 comm -13 <(sort $hhvm_failures) <(find-hack $hhvm_tests | grep -E "$filter") |
   # Looks interesting, but I think too experimental to support yet?
-  grep -v examples/hhvm/hphp/hack/test/pocket_universes |
+  grep -v 'examples/hhvm/hphp/hack/test/pocket_universes' |
+  grep -v 'examples/hhvm/hphp/hack/test/typecheck/goto' |
   xargs -n 256 bin/ts-errors |
   print-results
