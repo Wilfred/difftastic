@@ -694,6 +694,7 @@ const rules = {
 
   _lambda_expression_header: $ =>
     seq(
+      opt($.attribute_modifier),
       alias.opt('async', $.async_modifier),
       choice(
         // Make a single-parameter lambda node look like any other lambda node.
