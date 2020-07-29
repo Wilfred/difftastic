@@ -396,7 +396,11 @@ const rules = {
       '(',
       'function',
       '(',
-      com.opt($._type, alias.opt('...', $.variadic_modifier)),
+      com.opt(
+        alias.opt('inout', $.inout_modifier),
+        $._type,
+        alias.opt('...', $.variadic_modifier),
+      ),
       ')',
       ':',
       field('return_type', $._type),

@@ -9,6 +9,7 @@
     (parameters
       (parameter
         type: (function_type_specifier
+          (inout_modifier)
           (type_specifier)
           return_type: (type_specifier))
         name: (variable
