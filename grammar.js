@@ -67,6 +67,7 @@ const rules = {
         $.variable,
         $.scope_identifier,
         $.xhp_class_identifier,
+        $.pipe_variable,
       ),
       '::',
       choice($.identifier, $.variable),
