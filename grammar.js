@@ -319,7 +319,19 @@ const rules = {
 
   _literal: $ => choice($.string, $.integer, $.float, $.true, $.false, $.null),
 
-  float: $ => /(\d+\.\d*|\d*\.\d+)([eE][+-]?\d+)?/,
+  float: $ =>
+    token(
+      choice(
+        // 1., 1.0 , 1.0E1, 1.E1
+        /\d+\.\d*([eE][+-]?\d+)?/,
+
+        // .1, 0.1 , 0.1E1, .1E1
+        /\d*\.\d+([eE][+-]?\d+)?/,
+
+        // 1E1
+        /\d+[eE][+-]?\d+/,
+      ),
+    ),
 
   integer: $ =>
     token(

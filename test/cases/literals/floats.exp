@@ -32,4 +32,12 @@
   (expression_statement
     (float))
   (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
     (float)))
