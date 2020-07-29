@@ -24,8 +24,6 @@ $ node_modules/.bin/tree-sitter parse script.hack
 
 - `<?hh` is optional in this grammar unlike standard Hack. The Hack parser requires an `<?hh` tag at the top of `.php` files. Does it really matter?
 
-- `src/` is not commited to the repository. Do we need to? Can't Tree-sitter generate the parser from `grammar.js`?
-
 ## Questions
 
 ### Inline vs hidden
