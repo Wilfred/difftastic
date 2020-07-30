@@ -11,9 +11,9 @@
   (comment)* @doc
   [
     (class
-      name: (identifier) @name)
+      name: (_) @name)
     (class_declaration
-      name: (identifier) @name)
+      name: (_) @name)
   ] @definition.class
   (#strip! @doc "^[\\s\\*/]+|^[\\s\\*/]$")
   (#select-adjacent! @doc @definition.class)
