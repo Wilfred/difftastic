@@ -2,6 +2,7 @@
   (comment)* @doc
   (method_definition
     name: (property_identifier) @name) @definition.method
+  (#not-eq? @name "constructor")
   (#strip! @doc "^[\\s\\*/]+|^[\\s\\*/]$")
   (#select-adjacent! @doc @definition.method)
 )
@@ -43,6 +44,29 @@
   (#strip! @doc "^[\\s\\*/]+|^[\\s\\*/]$")
   (#select-adjacent! @doc @definition.function)
 )
+
+(
+  (comment)+? @doc
+  (variable_declaration
+    (variable_declarator
+      name: (identifier) @name
+      value: [(arrow_function) (function)]) @definition.function)
+  (#strip! @doc "^[\\s\\*/]+|^[\\s\\*/]$")
+  (#select-adjacent! @doc @definition.function)
+)
+
+(assignment_expression
+  left: [
+    (identifier) @name
+    (member_expression
+      property: (property_identifier) @name)
+  ]
+  right: [(arrow_function) (function)]
+) @definition.function
+
+(pair
+  key: (property_identifier) @name
+  value: [(arrow_function) (function)]) @definition.function
 
 (
   (call_expression
