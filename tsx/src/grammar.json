@@ -3081,7 +3081,7 @@
     },
     "new_expression": {
       "type": "PREC_RIGHT",
-      "value": 13,
+      "value": 12,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3095,6 +3095,22 @@
             "content": {
               "type": "SYMBOL",
               "name": "_constructable_expression"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "type_arguments",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "type_arguments"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           },
           {
@@ -8734,6 +8750,15 @@
     [
       "jsx_opening_element",
       "type_parameter"
+    ],
+    [
+      "jsx_opening_element",
+      "type_parameter",
+      "_primary_type"
+    ],
+    [
+      "jsx_opening_element",
+      "generic_type"
     ],
     [
       "jsx_namespace_name",

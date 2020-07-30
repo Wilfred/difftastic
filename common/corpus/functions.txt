@@ -69,7 +69,7 @@ const lines = new Array<DiffLine>()
   (lexical_declaration
     (variable_declarator
       (identifier)
-      (call_expression (new_expression (identifier)) (type_arguments (type_identifier)) (arguments)))))
+      (new_expression (identifier) (type_arguments (type_identifier)) (arguments)))))
 
 ==================================
 Arrow functions and generators with call signatures

@@ -13,6 +13,7 @@ const PREC = {
   INC: 10,
   NON_NULL: 10,
   FUNCTION_CALL: 11,
+  NEW: 12,
   ARRAY_TYPE: 13,
   MEMBER: 14,
   AS_EXPRESSION: 15,
@@ -56,6 +57,8 @@ module.exports = function defineGrammar(dialect) {
 
       [$._primary_type, $.type_parameter],
       [$.jsx_opening_element, $.type_parameter],
+      [$.jsx_opening_element, $.type_parameter, $._primary_type],
+      [$.jsx_opening_element, $.generic_type],
       [$.jsx_namespace_name, $._primary_type],
 
       [$._expression, $.literal_type],
@@ -92,6 +95,13 @@ module.exports = function defineGrammar(dialect) {
         field('function', choice($._expression, $.super, $.function)),
         field('type_arguments', optional($.type_arguments)),
         field('arguments', choice($.arguments, $.template_string))
+      )),
+
+      new_expression: $ => prec.right(PREC.NEW, seq(
+        'new',
+        field('constructor', $._constructable_expression),
+        field('type_arguments', optional($.type_arguments)),
+        field('arguments', optional($.arguments))
       )),
 
       // If the dialect is regular typescript, we exclude JSX expressions and
