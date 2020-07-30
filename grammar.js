@@ -46,6 +46,17 @@ const rules = {
 
   pipe_variable: $ => '$$',
 
+  // TODO: More types?
+  _keyword: $ =>
+    choice(
+      'type',
+      'newtype',
+      'shape',
+      'tupe',
+      $._primitive_type,
+      $._collection_type,
+    ),
+
   qualified_identifier: $ =>
     prec.left(
       choice(
@@ -929,8 +940,13 @@ const rules = {
 
   _class_const_declarator: $ =>
     seq(
-      field('name', $.identifier),
-      field('value', seq.opt('=', $._expression)),
+      field('name', choice($.identifier, alias($._keyword, $.identifier))),
+      field(
+        'value',
+        // The only reason we need a separate const declarator for classes is that
+        // the assignment expression is optional.
+        seq.opt('=', $._expression),
+      ),
     ),
 
   type_const_declaration: $ =>
@@ -948,7 +964,10 @@ const rules = {
     seq('const', field('type', opt($._type)), com($.const_declarator), ';'),
 
   const_declarator: $ =>
-    seq(field('name', $.identifier), field('value', seq('=', $._expression))),
+    seq(
+      field('name', choice($.identifier, alias($._keyword, $.identifier))),
+      field('value', seq('=', $._expression)),
+    ),
 
   property_declaration: $ =>
     seq(
