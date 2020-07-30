@@ -12,7 +12,7 @@
   name: (identifier) @name) @definition.interface
 
 (interface_type_list
-  (type_identifier) @name) @reference.interface
+  (type_identifier) @name) @reference.implementation
 
 (object_creation_expression
   type: (type_identifier) @name) @reference.class
