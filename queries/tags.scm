@@ -44,8 +44,11 @@
   (#select-adjacent! @doc @definition.function)
 )
 
-(call_expression
-  function: (identifier) @name) @reference.call
+(
+  (call_expression
+    function: (identifier) @name) @reference.call
+  (#not-match? @name "^(require)$")
+)
 
 (call_expression
   function: (member_expression
