@@ -36,7 +36,7 @@
 )
 
 (
-  (comment)+? @doc
+  (comment)* @doc
   (lexical_declaration
     (variable_declarator
       name: (identifier) @name
@@ -46,7 +46,7 @@
 )
 
 (
-  (comment)+? @doc
+  (comment)* @doc
   (variable_declaration
     (variable_declarator
       name: (identifier) @name
