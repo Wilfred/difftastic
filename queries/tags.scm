@@ -15,3 +15,6 @@
 
 (interface_declaration
   name: (type_identifier) @name) @definition.interface
+
+(new_expression
+  constructor: (type_identifier) @name) @reference.class
