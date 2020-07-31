@@ -76,7 +76,8 @@
 
 (call_expression
   function: (member_expression
-    property: (property_identifier) @name)) @reference.call
+    property: (property_identifier) @name)
+  arguments: (_) @reference.call)
 
 (new_expression
   constructor: (identifier) @name) @reference.class
