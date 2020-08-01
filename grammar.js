@@ -97,23 +97,41 @@ module.exports = grammar({
     ),
 
     _expression: $ => choice(
+      // data-types
       $.string_single_quoted,
-      $.number,
+      // TODO: handle escape sequences
+      $.string_double_quoted,
+      $._numeric_literals,
       $.boolean,
     ),
+    
+    _numeric_literals: $ => choice(
+      $.integer,
+      $.floating_point,
+      $.scientific_notation,
+      $.hexadecimal,
+      $.octal,
+    ),
 
-    // TODO: check the perl variable name rules
+    integer: $ => /-?\d+/,
+    floating_point: $ => /-?\d+\.\d+/,
+    // copied shamelessly from https://stackoverflow.com/questions/638565/parsing-scientific-notation-sensibly
+    scientific_notation: $ => /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?/,
+    hexadecimal: $ => /0[xX][0-9a-fA-F]+/,
+    octal: $ => /0[1-7][0-7]*/,
+
     identifier: $ => /[a-z]+/,
 
     _semi_colon: $ => ';',
 
     string_single_quoted: $ => /\'.*\'/,
 
-    number: $ => /\d/,
+    string_double_quoted: $ => /\".*\"/,
 
     boolean: $ => /true|false/,
 
-    scalar_variable: $ => /\$[a-z]+/,
+    //TODO: add check that variable name shouldn't start with numbers
+    scalar_variable: $ => /\$[a-zA-z0-9_]+/,
 
     array_variable: $ => /@[a-z]+/,
 

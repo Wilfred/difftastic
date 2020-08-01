@@ -12,7 +12,27 @@
           "named": true
         },
         {
-          "type": "number",
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
           "named": true
         },
         {
@@ -107,7 +127,27 @@
           "named": true
         },
         {
-          "type": "number",
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
           "named": true
         },
         {
@@ -145,7 +185,27 @@
           "named": true
         },
         {
-          "type": "number",
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
           "named": true
         },
         {
@@ -191,7 +251,27 @@
             "named": true
           },
           {
-            "type": "number",
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
             "named": true
           },
           {
@@ -291,7 +371,27 @@
             "named": true
           },
           {
-            "type": "number",
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
             "named": true
           },
           {
@@ -327,6 +427,14 @@
     "named": true
   },
   {
+    "type": "floating_point",
+    "named": true
+  },
+  {
+    "type": "hexadecimal",
+    "named": true
+  },
+  {
     "type": "identifier",
     "named": true
   },
@@ -335,11 +443,15 @@
     "named": false
   },
   {
+    "type": "integer",
+    "named": true
+  },
+  {
     "type": "my",
     "named": false
   },
   {
-    "type": "number",
+    "type": "octal",
     "named": true
   },
   {
@@ -355,7 +467,15 @@
     "named": true
   },
   {
+    "type": "scientific_notation",
+    "named": true
+  },
+  {
     "type": "single_line_comment",
+    "named": true
+  },
+  {
+    "type": "string_double_quoted",
     "named": true
   },
   {
