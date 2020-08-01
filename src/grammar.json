@@ -356,13 +356,62 @@
         },
         {
           "type": "SYMBOL",
-          "name": "number"
+          "name": "string_double_quoted"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_numeric_literals"
         },
         {
           "type": "SYMBOL",
           "name": "boolean"
         }
       ]
+    },
+    "_numeric_literals": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "integer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "floating_point"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "scientific_notation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hexadecimal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "octal"
+        }
+      ]
+    },
+    "integer": {
+      "type": "PATTERN",
+      "value": "-?\\d+"
+    },
+    "floating_point": {
+      "type": "PATTERN",
+      "value": "-?\\d+\\.\\d+"
+    },
+    "scientific_notation": {
+      "type": "PATTERN",
+      "value": "[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"
+    },
+    "hexadecimal": {
+      "type": "PATTERN",
+      "value": "0[xX][0-9a-fA-F]+"
+    },
+    "octal": {
+      "type": "PATTERN",
+      "value": "0[1-7][0-7]*"
     },
     "identifier": {
       "type": "PATTERN",
@@ -376,9 +425,9 @@
       "type": "PATTERN",
       "value": "\\'.*\\'"
     },
-    "number": {
+    "string_double_quoted": {
       "type": "PATTERN",
-      "value": "\\d"
+      "value": "\\\".*\\\""
     },
     "boolean": {
       "type": "PATTERN",
@@ -386,7 +435,7 @@
     },
     "scalar_variable": {
       "type": "PATTERN",
-      "value": "\\$[a-z]+"
+      "value": "\\$[a-zA-z0-9_]+"
     },
     "array_variable": {
       "type": "PATTERN",

@@ -9,7 +9,7 @@ if (1) {
 ---
 
 (source_file
-  (if_statement (number)
+  (if_statement (integer)
     (block
       (return_statement (boolean))
     )
@@ -17,7 +17,7 @@ if (1) {
 )
 
 =================================================
-scalar declartion
+scalar declaration
 =================================================
 
 my $a;
@@ -32,7 +32,7 @@ my $a;
 
 
 =================================================
-scalar declartion with initialization
+scalar declaration with initialization
 =================================================
 
 my $a = 3;
@@ -41,12 +41,12 @@ my $a = 3;
 
 (source_file
   (variable_declaration (scope) (single_var_declaration
-    (scalar_variable) (number)
+    (scalar_variable) (integer)
   ))
 )
 
 =================================================
-array declartion
+array declaration
 =================================================
 
 my @array;
