@@ -1,5 +1,56 @@
 [
   {
+    "type": "array_ref",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array_ref",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hash_ref",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "assignment_statement",
     "named": true,
     "fields": {},
@@ -8,11 +59,19 @@
       "required": true,
       "types": [
         {
+          "type": "array_ref",
+          "named": true
+        },
+        {
           "type": "boolean",
           "named": true
         },
         {
           "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hash_ref",
           "named": true
         },
         {
@@ -104,6 +163,61 @@
     }
   },
   {
+    "type": "hash_ref",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array_ref",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hash_ref",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "if_statement",
     "named": true,
     "fields": {
@@ -123,11 +237,19 @@
       "required": true,
       "types": [
         {
+          "type": "array_ref",
+          "named": true
+        },
+        {
           "type": "boolean",
           "named": true
         },
         {
           "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hash_ref",
           "named": true
         },
         {
@@ -181,11 +303,19 @@
       "required": true,
       "types": [
         {
+          "type": "array_ref",
+          "named": true
+        },
+        {
           "type": "boolean",
           "named": true
         },
         {
           "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hash_ref",
           "named": true
         },
         {
@@ -247,11 +377,19 @@
             "named": false
           },
           {
+            "type": "array_ref",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
             "named": true
           },
           {
@@ -367,11 +505,19 @@
             "named": false
           },
           {
+            "type": "array_ref",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
             "named": true
           },
           {
@@ -416,6 +562,18 @@
   },
   {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": "=>",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
     "named": false
   },
   {

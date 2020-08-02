@@ -58,3 +58,17 @@ my @array;
     (array_variable)
   ))
 )
+
+=================================================
+array declaration with initialization
+=================================================
+
+my @array = ('meow', 'woof', 'burp');
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration
+    (array_variable) (string_single_quoted)
+  ))
+)
