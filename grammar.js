@@ -103,6 +103,10 @@ module.exports = grammar({
       $.string_double_quoted,
       $._numeric_literals,
       $.boolean,
+
+      // $.array,
+      $.array_ref,
+      $.hash_ref,
     ),
     
     _numeric_literals: $ => choice(
@@ -135,6 +139,31 @@ module.exports = grammar({
 
     array_variable: $ => /@[a-z]+/,
 
+    // array: $ => seq(
+    //   '(',
+    //   commaSeparated($._expression),
+    //   ')',
+    // ),
+
+    array_ref: $ => seq(
+      '[',
+      optional(commaSeparated($._expression)),
+      ']',
+    ),
+    
+    hash_ref: $ => seq(
+      '{',
+      optional(commaSeparated($._key_value_pair)),
+      '}'
+    ),
+
+    // cat => 'meow',
+    _key_value_pair: $ => seq(
+      $.identifier,
+      '=>',
+      $._expression,
+    ),
+
     single_line_comment: $ => /#.*/,
   }
 });
@@ -147,5 +176,9 @@ module.exports = grammar({
  * @param {*} rule 
  */
 function commaSeparated(rule) {
-  return seq(rule, repeat(seq(',', rule)));
+  return seq(
+    rule,
+    repeat(seq(',', rule)),
+    optional(','), // in perl so far you could have this
+  );
 }

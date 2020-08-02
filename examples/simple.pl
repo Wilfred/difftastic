@@ -1,3 +1,4 @@
+# use strict;
 sub hello {
   return 'hello';
 }
@@ -26,11 +27,19 @@ my $hexa_decimal = 0xffff;
 my $octal = 0577;
 
 
+my @array = ('meow', 'woof', 'burp',);
+
+# my @mixed_array = ('meow', 4, 'dog');
+
+
 # multi declarations and initialization
 
-# my ($b, $c) = (1, 2);
+# my ($b, $c) = ();
 
-# print $b, $c;
+my $array_ref = ['string', 123, "double string"];
 
-# my $arrayref = ('13da', 'abc', 'sdf');
+my $hash_ref = {
+  cat => 'meow',
+  life => 9
+};
 
