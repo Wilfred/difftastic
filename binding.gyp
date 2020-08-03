@@ -12,6 +12,7 @@
       ],
       "cflags_c": [
         "-std=c99",
+        "-Wno-trigraphs"
       ],
       "xcode_settings": {
         # Augmented assignment coalesce ??= looks like a C trigraph. Ignore trigraphs.

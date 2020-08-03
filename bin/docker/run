@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+IMAGE_NAME="tree-sitter-hack:ubuntu"
+CONTAINER_NAME="tsh"
+
+case "$1" in
+"")
+  args="/bin/bash"
+  ;;
+
+install)
+  args="npm $@"
+  ;;
+
+build | test*)
+  args="npm run $@"
+  ;;
+
+node-gyp*)
+  args="npx $@"
+  ;;
+
+*)
+  args="$@"
+  ;;
+
+esac
+
+bash -c "docker exec -it $CONTAINER_NAME $args"

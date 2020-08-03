@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+IMAGE_NAME="tree-sitter-hack:ubuntu"
+CONTAINER_NAME="tsh"
+
+docker build --rm $DIR -t $IMAGE_NAME
+
+if docker ps -a --format '{{.Names}}' | grep -Eq "^${CONTAINER_NAME}\$"; then
+  docker stop $CONTAINER_NAME >/dev/null
+  docker rm $CONTAINER_NAME >/dev/null
+fi
+
+docker run -td \
+  --name $CONTAINER_NAME \
+  -v $(realpath .):/tree-sitter-hack:rw \
+  $IMAGE_NAME

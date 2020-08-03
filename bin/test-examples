@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 set -e
 
@@ -28,7 +28,7 @@ function filter-hack() {
 }
 
 function find-hack() {
-  find -E "$1" -regex '.*\.(hack|php)$' | sort -u
+  find "$1" -regex '.*\.\(hack\|php\)$' | sort -u
 }
 
 function print-results() {
