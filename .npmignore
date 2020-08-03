@@ -2,10 +2,8 @@ test
 build
 bin
 examples
+tmp
 
-scratch.exp
-scratch.hack
-grammar.js.sha
 .vscode
 .prettierignore
 .prettierrc
