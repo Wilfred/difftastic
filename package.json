@@ -25,7 +25,8 @@
     "build": "bin/generate-parser --force && node-gyp build",
     "test": "bin/test-corpus && bin/test-examples --count",
     "test-corpus": "bin/test-corpus",
-    "test-examples": "bin/test-examples"
+    "test-examples": "bin/test-examples",
+    "reset": "rm -rf build node_modules package-lock.json tmp/grammar.js.sha"
   },
   "repository": {
     "type": "git",
