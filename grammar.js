@@ -2510,7 +2510,6 @@ module.exports = grammar({
             DART_PREC.BUILTIN,
             'new',
         ),
-        var_builtin: $ => token('var'),
         const_builtin: $ => token('const'),
         final_builtin: $ => token('final'),
         _late_builtin: $ => prec(
