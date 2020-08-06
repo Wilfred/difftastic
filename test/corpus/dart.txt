@@ -201,8 +201,10 @@ final set = {"hello", "world"};
 ---
 
 (program 
+  (final_builtin)
   (static_final_declaration_list (static_final_declaration (identifier) 
     (set_or_map_literal (pair (string_literal) (string_literal))))) 
+  (final_builtin)
   (static_final_declaration_list (static_final_declaration (identifier) 
     (set_or_map_literal (string_literal) (string_literal)))))
 
@@ -217,7 +219,7 @@ final dynamic opts = <dynamic, dynamic>{
 
 ---
 
-(program (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) 
+(program (final_builtin) (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) 
   (set_or_map_literal (type_arguments (type_identifier) (type_identifier)) (pair (string_literal) 
     (list_literal (string_literal))) (pair (string_literal) (true))))))
 
@@ -309,7 +311,7 @@ abstract class MyDataClass implements _$MyDataClass {
   (marker_annotation (identifier)) 
   (class_definition (identifier) (interfaces (type_identifier)) 
     (class_body 
-      (declaration (redirecting_factory_constructor_signature (identifier) (identifier) (formal_parameter_list 
+      (declaration (redirecting_factory_constructor_signature (const_builtin) (identifier) (identifier) (formal_parameter_list 
         (optional_formal_parameters (formal_parameter 
           (annotation (identifier) (arguments (false))) (type_identifier) (identifier)))) (type_identifier))) 
       (method_signature (factory_constructor_signature (identifier) (identifier) (formal_parameter_list))) 
