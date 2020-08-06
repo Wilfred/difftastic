@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   (arguments (identifier) (selector (argument_part (arguments))))))))) 
 (class_definition (identifier) (superclass (type_identifier)) 
   (class_body 
-    (declaration (constant_constructor_signature (qualified (identifier)) 
+    (declaration (constant_constructor_signature (const_builtin) (qualified (identifier)) 
       (formal_parameter_list (optional_formal_parameters (formal_parameter (type_identifier) (identifier))))) 
         (initializers (initializer_list_entry (arguments (named_argument (label (identifier)) (identifier)))))) 
     (marker_annotation (identifier)) 
@@ -79,10 +79,10 @@ class CatalogThumbnailUI extends StatelessWidget {
 (program
     (class_definition (identifier) (superclass (type_identifier))
         (class_body
-            (declaration (static_final_declaration_list (static_final_declaration (identifier) (string_literal))))
+            (declaration (const_builtin) (static_final_declaration_list (static_final_declaration (identifier) (string_literal))))
             (declaration (constructor_signature (identifier)
                 (formal_parameter_list (formal_parameter (constructor_param (this) (identifier))))))
-            (declaration (type_identifier) (initialized_identifier_list (initialized_identifier (identifier))))
+            (declaration (final_builtin) (type_identifier) (initialized_identifier_list (initialized_identifier (identifier))))
             (marker_annotation (identifier))
             (method_signature
                 (function_signature (type_identifier) (identifier)
@@ -215,7 +215,7 @@ class AWidget extends StatelessWidget {
         (function_body (block 
           (return_statement (identifier) 
             (selector (argument_part (arguments (named_argument (label (identifier)) 
-              (list_literal (identifier) 
+              (list_literal (const_builtin) (identifier) 
                 (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
                   (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
                   (selector (assignable_selector (unconditional_assignable_selector (identifier)))))))))))) (identifier) 

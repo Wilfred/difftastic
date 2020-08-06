@@ -371,6 +371,7 @@ final y = 0;
 
 (program 
   (marker_annotation (identifier)) 
+  (final_builtin)
   (static_final_declaration_list (static_final_declaration (identifier) (decimal_integer_literal))))
 
 
@@ -386,9 +387,13 @@ const String z1 = "100";
 ---
 
 (program 
+  (final_builtin)
   (static_final_declaration_list (static_final_declaration (identifier) (decimal_floating_point_literal))) 
+  (final_builtin)
   (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) (decimal_floating_point_literal))) 
+  (const_builtin)
   (static_final_declaration_list (static_final_declaration (identifier) (string_literal))) 
+  (const_builtin)
   (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) (string_literal))))
 
 
@@ -401,6 +406,7 @@ final $y$ = 0;
 ---
 
 (program 
+  (final_builtin)
   (static_final_declaration_list (static_final_declaration (identifier) (decimal_integer_literal))))
 
 
@@ -469,6 +475,7 @@ class MyClass {
 (program 
   (type_identifier) (type_arguments (type_identifier)) 
   (initialized_identifier_list (initialized_identifier (identifier) (list_literal (string_literal) (string_literal) (string_literal) (string_literal) (string_literal)))) 
+  (final_builtin)
   (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) (string_literal))) 
   (class_definition (identifier) (class_body)))
 
@@ -500,6 +507,7 @@ const my.MyType newMyType = my.MyType();
 ---
 
  (program
+    (const_builtin)
     (type_identifier) (type_identifier)
             (static_final_declaration_list
                 (static_final_declaration
@@ -522,8 +530,8 @@ const my.MyType newMytype;
 ---
 
 (program
-    (local_variable_declaration (initialized_variable_definition (type_identifier) (type_identifier) (identifier)))
-    (local_variable_declaration (initialized_variable_definition (type_identifier) (type_identifier) (identifier)))
+    (local_variable_declaration (initialized_variable_definition (const_builtin) (type_identifier) (type_identifier) (identifier)))
+    (local_variable_declaration (initialized_variable_definition (const_builtin) (type_identifier) (type_identifier) (identifier)))
 )
 
 ==================================
@@ -541,13 +549,13 @@ if (blah) {
 ---
 
 (program
-     (local_variable_declaration (initialized_variable_definition (type_identifier) (type_identifier) (identifier) (identifier) (selector
+     (local_variable_declaration (initialized_variable_definition (final_builtin) (type_identifier) (type_identifier) (identifier) (identifier) (selector
         (assignable_selector (unconditional_assignable_selector (identifier)))) (selector (argument_part (arguments)))))
-    (local_variable_declaration (initialized_variable_definition (type_identifier) (type_identifier) (identifier)))
+    (local_variable_declaration (initialized_variable_definition (final_builtin) (type_identifier) (type_identifier) (identifier)))
     (if_statement (parenthesized_expression (identifier))
         (block
-            (local_variable_declaration (initialized_variable_definition (type_identifier) (type_identifier) (identifier) (identifier)))
-            (local_variable_declaration (initialized_variable_definition (identifier) (decimal_integer_literal)))
+            (local_variable_declaration (initialized_variable_definition (const_builtin) (type_identifier) (type_identifier) (identifier) (identifier)))
+            (local_variable_declaration (initialized_variable_definition (const_builtin) (identifier) (decimal_integer_literal)))
         )
     )
 )

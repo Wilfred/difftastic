@@ -132,7 +132,9 @@ final mixedStr = r'''(["'])((?:\\{2})*|(?:.*?[^\\](?:\\{2})*))\2|''' // with quo
 ---
 
 (program 
+  (final_builtin)
   (static_final_declaration_list (static_final_declaration (identifier) (string_literal))) 
+  (final_builtin)
   (static_final_declaration_list (static_final_declaration (identifier) (string_literal (comment)))))
 
 

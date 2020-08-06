@@ -325,10 +325,10 @@ void main() async {
 
 (program (function_signature (void_type) (identifier) (formal_parameter_list)) 
   (function_body (block 
-    (local_variable_declaration (initialized_variable_definition (identifier) (unary_expression 
+    (local_variable_declaration (initialized_variable_definition (final_builtin) (identifier) (unary_expression 
       (await_expression (identifier) (selector (assignable_selector (unconditional_assignable_selector (identifier)))) 
         (selector (argument_part (arguments 
-          (const_object_expression (type_identifier) 
+          (const_object_expression (const_builtin) (type_identifier) 
             (arguments (named_argument (label (identifier)) (decimal_integer_literal))))))))))))))
 
 ================================
@@ -346,7 +346,7 @@ void main() {
 
 (program (function_signature (void_type) (identifier) (formal_parameter_list)) 
   (function_body (block 
-    (local_variable_declaration (initialized_variable_definition (identifier) (false))) 
+    (local_variable_declaration (initialized_variable_definition (final_builtin) (identifier) (false))) 
     (if_statement (parenthesized_expression (unary_expression (prefix_operator (negation_operator)) (identifier))) 
       (block (expression_statement (assignment_expression (assignable_expression (identifier)) (identifier))))))))
 

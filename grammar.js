@@ -221,8 +221,8 @@ module.exports = grammar({
             //    final or const static final declaration list            
             seq(
                 choice(
-                    $._final_builtin,
-                    $._const_builtin
+                    $.final_builtin,
+                    $.const_builtin
                 ),
                 optional($._type),
                 $.static_final_declaration_list,
@@ -230,7 +230,7 @@ module.exports = grammar({
             ),
             seq(
                 $._late_builtin,
-                $._final_builtin,
+                $.final_builtin,
                 optional($._type),
                 $.initialized_identifier_list,
                 $._semicolon
@@ -472,12 +472,12 @@ module.exports = grammar({
 ***************************************************************************************************
 ***************************************************************************************************/
         list_literal: $ => seq(
-            optional($._const_builtin), optional($.type_arguments), '[',
+            optional($.const_builtin), optional($.type_arguments), '[',
             commaSepTrailingComma($._element),
             ']'
         ),
         set_or_map_literal: $ => seq(
-            optional($._const_builtin), optional($.type_arguments), '{',
+            optional($.const_builtin), optional($.type_arguments), '{',
             commaSepTrailingComma(
                 $._element
             ),
@@ -1018,7 +1018,7 @@ module.exports = grammar({
             )
         ),
         const_object_expression: $ => seq(
-            $._const_builtin,
+            $.const_builtin,
             $._type_not_void,
             optional(
                 $._dot_identifier
@@ -1707,11 +1707,11 @@ module.exports = grammar({
             seq($.constant_constructor_signature, optional(choice($.redirection, $.initializers))),
             seq($.constructor_signature, optional(choice($.redirection, $.initializers))),
             seq($._external,
-                optional($._const_builtin),
+                optional($.const_builtin),
                 $.factory_constructor_signature
             ),
             seq(
-                optional($._const_builtin),
+                optional($.const_builtin),
                 $.factory_constructor_signature, $._native
             ),
             seq($._external,
@@ -1751,7 +1751,7 @@ module.exports = grammar({
                 $.static_final_declaration_list
             ),
             seq(
-                optional($._late_builtin), $._final_builtin,
+                optional($._late_builtin), $.final_builtin,
                 optional($._type),
                 $.initialized_identifier_list
             ),
@@ -1818,8 +1818,8 @@ module.exports = grammar({
             $._static
         ),
         _final_or_const: $ => choice(
-            $._final_builtin,
-            $._const_builtin
+            $.final_builtin,
+            $.const_builtin
         ),
 
         static_initializer: $ => seq(
@@ -1872,7 +1872,7 @@ module.exports = grammar({
         ),
 
         redirecting_factory_constructor_signature: $ => seq(
-            optional($._const_builtin),
+            optional($.const_builtin),
             $._factory,
             sep1($.identifier, '.'),
             $.formal_parameter_list,
@@ -1901,7 +1901,7 @@ module.exports = grammar({
             field('parameters', $.formal_parameter_list)
         ),
         constant_constructor_signature: $ => seq(
-            $._const_builtin,
+            $.const_builtin,
             $.qualified,
             $.formal_parameter_list
         ),
@@ -1972,8 +1972,8 @@ module.exports = grammar({
         // Types
 
         _final_const_var_or_type: $ => choice(
-            seq(optional($._late_builtin), $._final_builtin, optional($._type)),
-            seq($._const_builtin, optional(
+            seq(optional($._late_builtin), $.final_builtin, optional($._type)),
+            seq($.const_builtin, optional(
                 $._type
             )),
             seq(optional($._late_builtin),
@@ -2510,8 +2510,9 @@ module.exports = grammar({
             DART_PREC.BUILTIN,
             'new',
         ),
-        _const_builtin: $ => token('const'),
-        _final_builtin: $ => token('final'),
+        var_builtin: $ => token('var'),
+        const_builtin: $ => token('const'),
+        final_builtin: $ => token('final'),
         _late_builtin: $ => prec(
             DART_PREC.BUILTIN,
             'late',
