@@ -9469,6 +9469,10 @@
           "named": true
         },
         {
+          "type": "case_builtin",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
           "named": true
         },
@@ -11302,6 +11306,10 @@
   {
     "type": "bool",
     "named": false
+  },
+  {
+    "type": "case_builtin",
+    "named": true
   },
   {
     "type": "catch",

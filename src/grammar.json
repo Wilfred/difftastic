@@ -4032,7 +4032,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_case_builtin"
+              "name": "case_builtin"
             },
             {
               "type": "SYMBOL",
@@ -9344,7 +9344,7 @@
         "value": "assert"
       }
     },
-    "_case_builtin": {
+    "case_builtin": {
       "type": "TOKEN",
       "content": {
         "type": "STRING",
