@@ -232,11 +232,11 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_final_builtin"
+                  "name": "final_builtin"
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_const_builtin"
+                  "name": "const_builtin"
                 }
               ]
             },
@@ -271,7 +271,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_final_builtin"
+              "name": "final_builtin"
             },
             {
               "type": "CHOICE",
@@ -1447,7 +1447,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_const_builtin"
+              "name": "const_builtin"
             },
             {
               "type": "BLANK"
@@ -1529,7 +1529,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_const_builtin"
+              "name": "const_builtin"
             },
             {
               "type": "BLANK"
@@ -3143,7 +3143,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_const_builtin"
+          "name": "const_builtin"
         },
         {
           "type": "SYMBOL",
@@ -6335,7 +6335,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_const_builtin"
+                  "name": "const_builtin"
                 },
                 {
                   "type": "BLANK"
@@ -6356,7 +6356,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_const_builtin"
+                  "name": "const_builtin"
                 },
                 {
                   "type": "BLANK"
@@ -6558,7 +6558,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_final_builtin"
+              "name": "final_builtin"
             },
             {
               "type": "CHOICE",
@@ -6849,11 +6849,11 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_final_builtin"
+          "name": "final_builtin"
         },
         {
           "type": "SYMBOL",
-          "name": "_const_builtin"
+          "name": "const_builtin"
         }
       ]
     },
@@ -7055,7 +7055,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_const_builtin"
+              "name": "const_builtin"
             },
             {
               "type": "BLANK"
@@ -7216,7 +7216,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_const_builtin"
+          "name": "const_builtin"
         },
         {
           "type": "SYMBOL",
@@ -7583,7 +7583,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_final_builtin"
+              "name": "final_builtin"
             },
             {
               "type": "CHOICE",
@@ -7604,7 +7604,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_const_builtin"
+              "name": "const_builtin"
             },
             {
               "type": "CHOICE",
@@ -9520,14 +9520,14 @@
         "value": "new"
       }
     },
-    "_const_builtin": {
+    "const_builtin": {
       "type": "TOKEN",
       "content": {
         "type": "STRING",
         "value": "const"
       }
     },
-    "_final_builtin": {
+    "final_builtin": {
       "type": "TOKEN",
       "content": {
         "type": "STRING",
