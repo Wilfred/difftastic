@@ -343,17 +343,17 @@ class SwitchDemo {
           (switch_statement
             condition: (parenthesized_expression (identifier))
             body: (switch_block
-              (switch_label (decimal_integer_literal))
+              (switch_label (case_builtin) (decimal_integer_literal))
               (expression_statement (assignment_expression
                 left: (assignable_expression (identifier))
                 right: (string_literal)))
               (break_statement)
-              (switch_label (decimal_integer_literal))
+              (switch_label (case_builtin) (decimal_integer_literal))
               (expression_statement (assignment_expression
                 left: (assignable_expression (identifier))
                 right: (string_literal)))
               (break_statement)
-              (switch_label (decimal_integer_literal))
+              (switch_label (case_builtin) (decimal_integer_literal))
               (expression_statement (assignment_expression
                 left: (assignable_expression (identifier))
                 right: (string_literal)))

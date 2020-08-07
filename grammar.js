@@ -1222,7 +1222,7 @@ module.exports = grammar({
         ),
 
         switch_label: $ => choice(
-            seq($._case_builtin, $._expression, ':'),
+            seq($.case_builtin, $._expression, ':'),
             seq('default', ':')
         ),
 
@@ -2433,7 +2433,7 @@ module.exports = grammar({
         ),
         _break_builtin: $ => token('break'),
         _assert_builtin: $ => token('assert'),
-        _case_builtin: $ => token('case'),
+        case_builtin: $ => token('case'),
         _covariant: $ => prec(
             DART_PREC.BUILTIN,
             'covariant',
