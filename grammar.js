@@ -65,12 +65,7 @@ module.exports = grammar({
 
     _initializer: $ => seq(
       '=',
-      // choice between multiple assignments and single assignments
-      choice(
-        seq('(', field('value', commaSeparated($._expression)), ')'),
-        field('value', $._expression),
-      ),
-      
+      field('value', $._expression),
     ),
     
     scope: $ => choice(
@@ -104,7 +99,7 @@ module.exports = grammar({
       $._numeric_literals,
       $.boolean,
 
-      // $.array,
+      $.array,
       $.array_ref,
       $.hash_ref,
     ),
@@ -137,13 +132,13 @@ module.exports = grammar({
     //TODO: add check that variable name shouldn't start with numbers
     scalar_variable: $ => /\$[a-zA-z0-9_]+/,
 
-    array_variable: $ => /@[a-z]+/,
+    array_variable: $ => /@[a-zA-z0-9_]+/,
 
-    // array: $ => seq(
-    //   '(',
-    //   commaSeparated($._expression),
-    //   ')',
-    // ),
+    array: $ => seq(
+      '(',
+      commaSeparated($._expression),
+      ')',
+    ),
 
     array_ref: $ => seq(
       '[',

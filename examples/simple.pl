@@ -29,7 +29,7 @@ my $octal = 0577;
 
 my @array = ('meow', 'woof', 'burp',);
 
-# my @mixed_array = ('meow', 4, 'dog');
+my @mixed_array = ('meow', 4, 'dog');
 
 
 # multi declarations and initialization
