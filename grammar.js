@@ -59,7 +59,7 @@ module.exports = grammar({
     single_var_declaration: $ => alias($.variable_declarator, 'single_var_declaration'),
 
     variable_declarator: $ => seq(
-      field('name', choice($.scalar_variable, $.array_variable)),
+      field('name', choice($.scalar_variable, $.array_variable, $.hash_variable)),
       optional($._initializer),
     ),
 
@@ -92,6 +92,10 @@ module.exports = grammar({
     ),
 
     _expression: $ => choice(
+      $._primitive_expression,
+    ),
+
+    _primitive_expression: $ => choice(
       // data-types
       $.string_single_quoted,
       // TODO: handle escape sequences
@@ -101,6 +105,8 @@ module.exports = grammar({
 
       $.array,
       $.array_ref,
+
+      $.hash,
       $.hash_ref,
     ),
     
@@ -119,7 +125,7 @@ module.exports = grammar({
     hexadecimal: $ => /0[xX][0-9a-fA-F]+/,
     octal: $ => /0[1-7][0-7]*/,
 
-    identifier: $ => /[a-z]+/,
+    identifier: $ => /[a-zA-z0-9_]+/,
 
     _semi_colon: $ => ';',
 
@@ -134,16 +140,24 @@ module.exports = grammar({
 
     array_variable: $ => /@[a-zA-z0-9_]+/,
 
+    hash_variable: $ => /%[a-zA-z0-9_]+/,
+
     array: $ => seq(
       '(',
-      commaSeparated($._expression),
+      commaSeparated($._primitive_expression),
       ')',
     ),
 
     array_ref: $ => seq(
       '[',
-      optional(commaSeparated($._expression)),
+      optional(commaSeparated($._primitive_expression)),
       ']',
+    ),
+
+    hash: $ => seq(
+      '(',
+      optional(commaSeparated($._key_value_pair)),
+      ')',
     ),
     
     hash_ref: $ => seq(
@@ -156,7 +170,7 @@ module.exports = grammar({
     _key_value_pair: $ => seq(
       $.identifier,
       '=>',
-      $._expression,
+      $._primitive_expression,
     ),
 
     single_line_comment: $ => /#.*/,
