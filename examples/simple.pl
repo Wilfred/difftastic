@@ -43,3 +43,10 @@ my $hash_ref = {
   life => 9
 };
 
+my %hash = (
+  believer => 'i am',
+  at => 'important things',
+  first_things => 1,
+  seconds_things => 2,
+);
+

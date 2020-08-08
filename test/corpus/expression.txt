@@ -69,6 +69,6 @@ my @array = ('meow', 'woof', 'burp');
 
 (source_file
   (variable_declaration (scope) (single_var_declaration
-    (array_variable) (string_single_quoted)
+    (array_variable) (array (string_single_quoted))
   ))
 )

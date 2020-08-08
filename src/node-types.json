@@ -24,6 +24,10 @@
           "named": true
         },
         {
+          "type": "hash",
+          "named": true
+        },
+        {
           "type": "hash_ref",
           "named": true
         },
@@ -79,6 +83,10 @@
           "named": true
         },
         {
+          "type": "hash",
+          "named": true
+        },
+        {
           "type": "hash_ref",
           "named": true
         },
@@ -115,7 +123,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "array",
@@ -131,6 +139,10 @@
         },
         {
           "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hash",
           "named": true
         },
         {
@@ -226,6 +238,69 @@
     }
   },
   {
+    "type": "hash",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_ref",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "hash_ref",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "hash_ref",
     "named": true,
     "fields": {},
@@ -247,6 +322,10 @@
         },
         {
           "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hash",
           "named": true
         },
         {
@@ -301,7 +380,7 @@
     },
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "array",
@@ -317,6 +396,10 @@
         },
         {
           "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hash",
           "named": true
         },
         {
@@ -371,7 +454,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "array",
@@ -387,6 +470,10 @@
         },
         {
           "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hash",
           "named": true
         },
         {
@@ -438,6 +525,10 @@
             "named": true
           },
           {
+            "type": "hash_variable",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           }
@@ -461,6 +552,10 @@
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "hash",
             "named": true
           },
           {
@@ -566,6 +661,10 @@
             "named": true
           },
           {
+            "type": "hash_variable",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           }
@@ -589,6 +688,10 @@
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "hash",
             "named": true
           },
           {
@@ -661,6 +764,10 @@
   },
   {
     "type": "floating_point",
+    "named": true
+  },
+  {
+    "type": "hash_variable",
     "named": true
   },
   {
