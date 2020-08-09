@@ -11,7 +11,7 @@ if (1) {
 (source_file
   (if_statement (parenthesized_expression (integer))
     (block
-      (return_statement (boolean))
+      (return_statement (true))
     )
   )
 )

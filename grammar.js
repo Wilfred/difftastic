@@ -4,13 +4,14 @@ const PRECEDENCE = {
   HASH: 1,
   ARRAY: 2,
   SUB_ARGS: 3,
-
-  SUB_CALL: 1,
-  PRIMITIVE_TYPES: 2,
 };
 
 module.exports = grammar({
   name: 'perl',
+
+  conflicts: $ => [
+    [$._boolean, $.call_expression],
+  ],
 
   rules: {
     source_file: $ => repeat($._statement),
@@ -114,11 +115,11 @@ module.exports = grammar({
       $.call_expression,
     ),
 
-    call_expression: $ => prec(PRECEDENCE.SUB_CALL, seq(
+    call_expression: $ => seq(
       field('function_name', $.identifier),
       field('args', optional(choice($.parenthesized_arguments, $.arguments))),
       $._semi_colon,
-    )),
+    ),
 
     parenthesized_arguments: $ => prec(PRECEDENCE.SUB_ARGS, seq(
       '(',
@@ -128,20 +129,20 @@ module.exports = grammar({
 
     arguments: $ => commaSeparated($._expression),
 
-    _primitive_expression: $ => prec(PRECEDENCE.PRIMITIVE_TYPES, choice(
+    _primitive_expression: $ => choice(
       // data-types
       $.string_single_quoted,
       // TODO: handle escape sequences
       $.string_double_quoted,
       $._numeric_literals,
-      $.boolean,
+      $._boolean,
 
       $.array,
       $.array_ref,
 
       $.hash,
       $.hash_ref,
-    )),
+    ),
     
     _numeric_literals: $ => choice(
       $.integer,
@@ -166,7 +167,12 @@ module.exports = grammar({
 
     string_double_quoted: $ => /\".*\"/,
 
-    boolean: $ => /true|false/,
+    _boolean: $ => choice(
+      $.true,
+      $.false,
+    ),
+    true: $ => 'true',
+    false: $ => 'false',
 
     //TODO: add check that variable name shouldn't start with numbers
     scalar_variable: $ => /\$[a-zA-z0-9_]+/,
