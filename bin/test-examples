@@ -69,12 +69,12 @@ printf "\033[1mGetting Tree-sitter examples errors...\033[0m\n"
 
 find-hack examples |
   grep -v 'examples/hhvm' |
-  xargs bin/ts-errors |
+  xargs -r bin/ts-errors |
   print-results
 
 comm -13 <(sort $hhvm_failures) <(find-hack $hhvm_tests | grep -E "$filter") |
   # Looks interesting, but I think too experimental to support yet?
   grep -v 'examples/hhvm/hphp/hack/test/pocket_universes' |
   grep -v 'examples/hhvm/hphp/hack/test/typecheck/goto' |
-  xargs -n 256 bin/ts-errors |
+  xargs -r -n 256 bin/ts-errors |
   print-results
