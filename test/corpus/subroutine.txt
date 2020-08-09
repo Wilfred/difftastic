@@ -15,3 +15,16 @@ sub hello {
     )
   )
 )
+
+=================================================
+Subroutine call / function call
+=================================================
+
+hello();
+
+---
+
+(source_file
+  (call_expression
+    function_name: (identifier) args: (parenthesized_arguments))
+)

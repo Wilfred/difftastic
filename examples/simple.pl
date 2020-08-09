@@ -31,6 +31,8 @@ my @array = ('meow', 'woof', 'burp',);
 
 my @mixed_array = ('meow', 4, 'dog');
 
+my @empty_array = ();
+
 
 # multi declarations and initialization
 

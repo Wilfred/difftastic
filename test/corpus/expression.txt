@@ -9,7 +9,7 @@ if (1) {
 ---
 
 (source_file
-  (if_statement (integer)
+  (if_statement (parenthesized_expression (integer))
     (block
       (return_statement (boolean))
     )
