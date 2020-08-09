@@ -3,8 +3,8 @@
 set -e
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-IMAGE_NAME="tree-sitter-hack:ubuntu"
-CONTAINER_NAME="tsh"
+IMAGE_NAME="tree-sitter-hack"
+CONTAINER_NAME="tree-sitter-hack"
 
 case "$1" in
 "")
@@ -15,7 +15,7 @@ install)
   args="npm $@"
   ;;
 
-build | test*)
+build | reset | test*)
   args="npm run $@"
   ;;
 

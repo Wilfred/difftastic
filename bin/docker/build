@@ -3,8 +3,8 @@
 set -e
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-IMAGE_NAME="tree-sitter-hack:ubuntu"
-CONTAINER_NAME="tsh"
+IMAGE_NAME="tree-sitter-hack"
+CONTAINER_NAME="tree-sitter-hack"
 
 docker build --rm $DIR -t $IMAGE_NAME
 
@@ -15,5 +15,8 @@ fi
 
 docker run -td \
   --name $CONTAINER_NAME \
-  -v $(realpath .):/tree-sitter-hack:rw \
+  -v $(realpath .):/mnt/tree-sitter-hack:rw \
   $IMAGE_NAME
+
+docker exec -it $CONTAINER_NAME sh -c 'ln -s /mnt/tree-sitter-hack/* /tree-sitter-hack'
+docker exec -it $CONTAINER_NAME sh -c 'rm -f build node_modules package-lock.json'
