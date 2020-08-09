@@ -355,50 +355,46 @@
       ]
     },
     "call_expression": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "function_name",
-            "content": {
-              "type": "SYMBOL",
-              "name": "identifier"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "args",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "parenthesized_arguments"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "arguments"
-                    }
-                  ]
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            }
-          },
-          {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "function_name",
+          "content": {
             "type": "SYMBOL",
-            "name": "_semi_colon"
+            "name": "identifier"
           }
-        ]
-      }
+        },
+        {
+          "type": "FIELD",
+          "name": "args",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "parenthesized_arguments"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "arguments"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semi_colon"
+        }
+      ]
     },
     "parenthesized_arguments": {
       "type": "PREC",
@@ -467,45 +463,41 @@
       ]
     },
     "_primitive_expression": {
-      "type": "PREC",
-      "value": 10,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "string_single_quoted"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "string_double_quoted"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_numeric_literals"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "boolean"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "array"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "array_ref"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "hash"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "hash_ref"
-          }
-        ]
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "string_single_quoted"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_double_quoted"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_numeric_literals"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_boolean"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_ref"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hash"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hash_ref"
+        }
+      ]
     },
     "_numeric_literals": {
       "type": "CHOICE",
@@ -568,9 +560,26 @@
       "type": "PATTERN",
       "value": "\\\".*\\\""
     },
-    "boolean": {
-      "type": "PATTERN",
-      "value": "true|false"
+    "_boolean": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "true"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "false"
+        }
+      ]
+    },
+    "true": {
+      "type": "STRING",
+      "value": "true"
+    },
+    "false": {
+      "type": "STRING",
+      "value": "false"
     },
     "scalar_variable": {
       "type": "PATTERN",
@@ -852,7 +861,12 @@
       "value": "\\s"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "_boolean",
+      "call_expression"
+    ]
+  ],
   "externals": [],
   "inline": [],
   "supertypes": []
