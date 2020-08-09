@@ -26,7 +26,7 @@
     "test": "bin/test-corpus && bin/test-examples --count",
     "test-corpus": "bin/test-corpus",
     "test-examples": "bin/test-examples",
-    "reset": "rm -rf build node_modules package-lock.json tmp/grammar.js.sha"
+    "reset": "rm -rf build node_modules package-lock.json tmp/grammar.js.sha && npm install && npm run build"
   },
   "repository": {
     "type": "git",
