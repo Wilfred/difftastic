@@ -21,7 +21,7 @@ npx tree-sitter parse --quiet $@ |
   cut -f1 |
 
   # Get full errors for failing files.
-  xargs npx tree-sitter parse |
+  xargs -r npx tree-sitter parse |
 
   # Format errors and print file paths first followed by errors.
   ruby -e "
