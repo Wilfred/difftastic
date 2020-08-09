@@ -1,3 +1,14 @@
+// the constant contains the order of precedence.
+// the higher the value, higher the precedence.
+const PRECEDENCE = {
+  HASH: 1,
+  ARRAY: 2,
+  SUB_ARGS: 3,
+
+  SUB_CALL: 1,
+  PRIMITIVE_TYPES: 2,
+};
+
 module.exports = grammar({
   name: 'perl',
 
@@ -6,6 +17,8 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._comments,
+
+      $._expression,
 
       $._declaration,
 
@@ -31,10 +44,8 @@ module.exports = grammar({
 
     if_statement: $ => seq(
       'if',
-      '(',
-      $._expression,
-      ')',
-      field('body', $.block),
+      field('condition', $.parenthesized_expression),
+      field('consequence', $.block),
     ),
 
     _declaration: $ => choice(
@@ -85,17 +96,39 @@ module.exports = grammar({
       '}'
     ),
 
+    parenthesized_expression: $ => seq(
+      '(',
+      $._expression,
+      ')'
+    ),
+
     return_statement: $ => seq(
       'return',
-      $._expression,
+      optional($._expression),
       $._semi_colon,
     ),
 
     _expression: $ => choice(
       $._primitive_expression,
+
+      $.call_expression,
     ),
 
-    _primitive_expression: $ => choice(
+    call_expression: $ => prec(PRECEDENCE.SUB_CALL, seq(
+      field('function_name', $.identifier),
+      field('args', optional(choice($.parenthesized_arguments, $.arguments))),
+      $._semi_colon,
+    )),
+
+    parenthesized_arguments: $ => prec(PRECEDENCE.SUB_ARGS, seq(
+      '(',
+      optional($.arguments),
+      ')',
+    )),
+
+    arguments: $ => commaSeparated($._expression),
+
+    _primitive_expression: $ => prec(PRECEDENCE.PRIMITIVE_TYPES, choice(
       // data-types
       $.string_single_quoted,
       // TODO: handle escape sequences
@@ -108,7 +141,7 @@ module.exports = grammar({
 
       $.hash,
       $.hash_ref,
-    ),
+    )),
     
     _numeric_literals: $ => choice(
       $.integer,
@@ -142,11 +175,11 @@ module.exports = grammar({
 
     hash_variable: $ => /%[a-zA-z0-9_]+/,
 
-    array: $ => seq(
+    array: $ => prec(PRECEDENCE.ARRAY, seq(
       '(',
-      commaSeparated($._primitive_expression),
+      optional(commaSeparated($._primitive_expression)),
       ')',
-    ),
+    )),
 
     array_ref: $ => seq(
       '[',
@@ -154,11 +187,12 @@ module.exports = grammar({
       ']',
     ),
 
-    hash: $ => seq(
+    // TODO: accept ('key', value, 'key2', value2) as hash
+    hash: $ => prec(PRECEDENCE.HASH, seq(
       '(',
       optional(commaSeparated($._key_value_pair)),
       ')',
-    ),
+    )),
     
     hash_ref: $ => seq(
       '{',
