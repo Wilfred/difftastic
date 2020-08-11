@@ -168,11 +168,22 @@
 //
 // extra:
 //
-//   :/ is a legal keyword:
+//   :/ is a legal keyword(?):
 //
 //     alexmiller: @gfredericks :/ is "open for the language to start
 //     interpreting" and not an invalid keyword so should be ok to generate.
 //     and cljs should fix it's weirdness. (#clojure-dev 2019-06-07)
+//
+//     https://clojurians-log.clojureverse.org/clojure-dev/2019-06-07
+//
+//     It is undefined/left for future expansion.
+//
+//     Clojurescript's reading seems weird but given that this is undefined
+//     it's hard to say it's wrong. :)
+//
+//     2020-07-10 (or so) alexmiller
+//
+//     https://ask.clojure.org/index.php/9427/clarify-the-position-of-as-a-keyword
 //
 //   . CAN be in the name part:
 //
