@@ -72,3 +72,27 @@ my @array = ('meow', 'woof', 'burp');
     (array_variable) (array (string_single_quoted))
   ))
 )
+
+=================================================
+use statement
+=================================================
+
+use Data::Dumper;
+
+---
+
+(source_file
+  (use_statement (package_name))
+)
+
+=================================================
+require statement
+=================================================
+
+require Data::Dumper;
+
+---
+
+(source_file
+  (require_statement (package_name))
+)

@@ -17,6 +17,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "use_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "require_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_expression"
         },
         {
@@ -34,6 +42,40 @@
         {
           "type": "SYMBOL",
           "name": "assignment_statement"
+        }
+      ]
+    },
+    "use_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "use"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "package_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semi_colon"
+        }
+      ]
+    },
+    "require_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "require"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "package_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semi_colon"
         }
       ]
     },
@@ -547,6 +589,10 @@
     "identifier": {
       "type": "PATTERN",
       "value": "[a-zA-z0-9_]+"
+    },
+    "package_name": {
+      "type": "PATTERN",
+      "value": "[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*"
     },
     "_semi_colon": {
       "type": "STRING",

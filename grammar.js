@@ -19,6 +19,9 @@ module.exports = grammar({
     _statement: $ => choice(
       $._comments,
 
+      $.use_statement,
+      $.require_statement,
+
       $._expression,
 
       $._declaration,
@@ -29,6 +32,18 @@ module.exports = grammar({
       $.if_statement,
 
       $.assignment_statement,
+    ),
+
+    use_statement: $ => seq(
+      'use',
+      $.package_name,
+      $._semi_colon,
+    ),
+
+    require_statement: $ => seq(
+      'require',
+      $.package_name,
+      $._semi_colon,
     ),
 
     _comments: $ => choice(
@@ -160,6 +175,8 @@ module.exports = grammar({
     octal: $ => /0[1-7][0-7]*/,
 
     identifier: $ => /[a-zA-z0-9_]+/,
+
+    package_name: $ => /[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/,
 
     _semi_colon: $ => ';',
 
