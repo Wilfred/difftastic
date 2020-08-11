@@ -1,4 +1,6 @@
-# use strict;
+use strict;
+use Data::Dumper;
+
 sub hello {
   return 'hello';
 }
