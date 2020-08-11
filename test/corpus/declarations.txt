@@ -365,6 +365,27 @@ end
     (constant)
     (superclass (method_call (call (scope_resolution (constant) (constant)) (identifier)) (argument_list (identifier))))))
 
+=======================================
+unparenthesized call as superclass
+=======================================
+
+class A < B.new \
+  :c,
+  :d
+end
+
+---
+
+(program (class
+  name: (constant)
+  (superclass (method_call
+    method: (call
+      receiver: (constant)
+      method: (identifier))
+    arguments: (argument_list
+      (symbol)
+      (symbol))))))
+
 ===============
 class with body
 ===============

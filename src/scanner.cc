@@ -196,7 +196,6 @@ struct Scanner {
           break;
         case '\n':
           if (heredoc_body_start_is_valid) {
-            skip(lexer);
             lexer->result_symbol = HEREDOC_BODY_START;
             return true;
           } else if (valid_symbols[LINE_BREAK] && !crossed_newline) {
@@ -216,7 +215,7 @@ struct Scanner {
           }
           break;
         default:
-          if (crossed_newline && lexer->lookahead != '.') {
+          if (crossed_newline && lexer->lookahead != '.' && lexer->lookahead != '&') {
             lexer->result_symbol = LINE_BREAK;
           }
           return true;

@@ -654,6 +654,9 @@ if indentation_works?
   heredoc content
   sql
 
+  <<~TEXT
+  TEXT
+
   <<~EOF
     content
   EOF
@@ -671,6 +674,7 @@ heredoc content
   (heredoc_beginning) (heredoc_body (heredoc_end))
   (heredoc_beginning) (heredoc_body (heredoc_end))
   (if (identifier) (then
+    (heredoc_beginning) (heredoc_body (heredoc_end))
     (heredoc_beginning) (heredoc_body (heredoc_end))
     (heredoc_beginning) (heredoc_body (heredoc_end))))
   (heredoc_beginning) (heredoc_body (heredoc_end)))

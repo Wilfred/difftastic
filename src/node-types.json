@@ -324,6 +324,10 @@
         "named": true
       },
       {
+        "type": "unary",
+        "named": true
+      },
+      {
         "type": "undef",
         "named": true
       },
@@ -422,6 +426,14 @@
           "named": true
         },
         {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
           "type": "hash_splat_argument",
           "named": true
         },
@@ -430,11 +442,23 @@
           "named": true
         },
         {
+          "type": "next",
+          "named": true
+        },
+        {
           "type": "pair",
           "named": true
         },
         {
+          "type": "return",
+          "named": true
+        },
+        {
           "type": "splat_argument",
+          "named": true
+        },
+        {
+          "type": "yield",
           "named": true
         }
       ]
@@ -457,7 +481,23 @@
           "named": true
         },
         {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
           "type": "hash_splat_argument",
+          "named": true
+        },
+        {
+          "type": "method_call",
+          "named": true
+        },
+        {
+          "type": "next",
           "named": true
         },
         {
@@ -465,7 +505,15 @@
           "named": true
         },
         {
+          "type": "return",
+          "named": true
+        },
+        {
           "type": "splat_argument",
+          "named": true
+        },
+        {
+          "type": "yield",
           "named": true
         }
       ]
@@ -960,7 +1008,7 @@
         "required": false,
         "types": [
           {
-            "type": "_arg",
+            "type": "_statement",
             "named": true
           }
         ]
@@ -1226,7 +1274,23 @@
           "named": true
         },
         {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
           "type": "hash_splat_argument",
+          "named": true
+        },
+        {
+          "type": "method_call",
+          "named": true
+        },
+        {
+          "type": "next",
           "named": true
         },
         {
@@ -1234,7 +1298,15 @@
           "named": true
         },
         {
+          "type": "return",
+          "named": true
+        },
+        {
           "type": "splat_argument",
+          "named": true
+        },
+        {
+          "type": "yield",
           "named": true
         }
       ]
@@ -2557,6 +2629,30 @@
         {
           "type": "_arg",
           "named": true
+        },
+        {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "method_call",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "yield",
+          "named": true
         }
       ]
     }
@@ -2627,6 +2723,14 @@
           "named": true
         },
         {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -2635,7 +2739,23 @@
           "named": true
         },
         {
+          "type": "method_call",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
           "type": "parenthesized_statements",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "yield",
           "named": true
         }
       ]
@@ -2765,7 +2885,7 @@
         "required": true,
         "types": [
           {
-            "type": "_arg",
+            "type": "_statement",
             "named": true
           }
         ]
@@ -2871,7 +2991,7 @@
         "required": true,
         "types": [
           {
-            "type": "_arg",
+            "type": "_statement",
             "named": true
           }
         ]
