@@ -1,523 +1,474 @@
-// for additional details, see notes.txt
-
-// current considerations
-//
-// - repl accepts some things that are not officially "supported"
-// - (e.g. symbols containing #)
-//
-// - repl does not accept certain things (e.g. symbol with repeated
-//   colons in body -- officially stated as not supported)
-//
-// neither is by itself a sole criteria in determining whether this
-// code will parse something or not because there may be trade-offs
-// in trying to support certain things.
-//
 // one aim is to try to parse what is correct (in the sense of
 // officially supported), but also be looser in parsing additional
 // things.  this is more or less in line with advice from tree-sitter
 // folks.
-//
-// there is the reality of technical feasibility as well as cost of
-// implementation and maintenance burden, however :)
 
-// note on use of regular expressions and literal strings for tokens
-//
-// it turns out that using regexes instead of literal strings seems to
-// make predicting and influencing which tokens have precedence more
-// difficult.  so some portions are deliberately rewritten using
-// literal strings instead of regexes.  there may still be some
-// rewriting to do.
-//
-// the prec stuff for numbers is partly so that numbers are preferred
-// to symbols when lexing, for some reason tree-sitter was
-// interpreting stuff that looked like numbers as symbols -- they may
-// also affect preference among the numbers too
+const WHITESPACE =
+      /[\f\n\r\t, ]/;
 
-// numbers
-const SIGN =
-      optional(choice('-', '+'));
 const DIGIT =
       /[0-9]/;
-const POSITIVE_DIGIT =
-      /[1-9]/;
+
+const ALPHANUMERIC =
+      /[0-9a-zA-Z]/;
+
 const HEX_DIGIT =
       /[0-9a-fA-F]/;
-const HEX_QUAD =
-      /[0-9a-fA-F]{4}/;
+
+const OCTAL_DIGIT =
+      /[0-7]/;
+
+const HEX_NUMBER =
+      seq("0",
+          /[xX]/,
+          repeat1(HEX_DIGIT),
+          optional("N"));
+
 const OCTAL_NUMBER =
-      /[0-7]+/;
-const RADIX =
-      choice('2', '3', '4', '5', '6', '7', '8', '9', '10',
-             '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-             '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
-             '31', '32', '33', '34', '35', '36');
+      seq("0",
+          repeat1(OCTAL_DIGIT),
+          optional(/[MN]/));
 
-// symbols (and keywords use some of this)
-const SYM_START =
-      /[^0-9\/:,'#`@^\\;~"(){}\[\]\s]/; // XXX: lacking \s, nl seen as symbol...
-const ALPHA_NUM =
-      /[a-zA-Z0-9]/;
-const DOT =
-      '.';
-const COLON =
-      ':';
-const SYM_OTHER =
-      /[*+!\-_'?<>=#]/;
-const SYM_MISSING =
-      /[&$%]/;
+// XXX: not constraining number before r/R
+// XXX: not constraining portion after r/R
+const RADIX_NUMBER =
+      seq(repeat1(DIGIT),
+          /[rR]/,
+          repeat1(ALPHANUMERIC));
 
-const NON_SLASH_SIMPLE_SYMBOL =
-      token(seq(SYM_START,
-                optional(seq(repeat(choice(ALPHA_NUM,
-                                           SYM_OTHER,
-                                           DOT,
-                                           COLON, // XXX
-                                           SYM_MISSING)),
-                             choice(ALPHA_NUM,
-                                    SYM_OTHER,
-                                    // XXX: test.check / repl allow
-                                    //      in namespace part of qualified sym
-                                    DOT,
-                                    SYM_MISSING)))));
+// XXX: not accounting for division by zero
+const RATIO =
+      seq(repeat1(DIGIT),
+          "/",
+          repeat1(DIGIT));
 
-const SIMPLE_SYMBOL =
-      token(choice('/',
-                   NON_SLASH_SIMPLE_SYMBOL));
+const DOUBLE =
+      seq(repeat1(DIGIT),
+          optional(seq(".",
+                       repeat(DIGIT))),
+          optional(seq(/[eE]/,
+                       optional(/[+-]/),
+                       repeat1(DIGIT))),
+          optional("M"));
 
-// keywords
-const KWD_AFTER_COLON_START =
-      // starting w/ number ok for simple keyword...
-      // but repl says no for qualified keyword (i.e. :my-ns/1)
-      /[^\/:\s]/;
+const INTEGER =
+      seq(repeat1(DIGIT),
+          optional(/[MN]/));
 
-const NON_SLASH_SIMPLE_KEYWORD =
-      token(seq(KWD_AFTER_COLON_START,
-                optional(seq(repeat(choice(ALPHA_NUM,
-                                           SYM_OTHER,
-                                           DOT,
-                                           COLON, // XXX
-                                           SYM_MISSING)),
-                             choice(ALPHA_NUM,
-                                    SYM_OTHER,
-                                    DOT,
-                                    SYM_MISSING)))));
+const NUMBER =
+      token(seq(optional(/[+-]/),
+                choice(HEX_NUMBER,
+                       OCTAL_NUMBER,
+                       RADIX_NUMBER,
+                       RATIO,
+                       DOUBLE,
+                       INTEGER)));
 
-const SIMPLE_KEYWORD =
-      token(choice(':/',
-                   seq(/(:|::)/,
-                       NON_SLASH_SIMPLE_KEYWORD)));
+const KEYWORD_HEAD =
+      /[^\f\n\r\t ()\[\]{}"@~^;`\\,:/]/;
 
-// shared by strings and regexes
-const STRING_CONTENT =
-      repeat(choice(/[^\\"]/,
-                    /\\(.|\n)/)); // thanks to tree-sitter-haskell
+const KEYWORD_BODY =
+      choice(/[:'/]/,
+             KEYWORD_HEAD);
+
+const KEYWORD =
+      token(seq(":",
+                choice("/",
+                       seq(KEYWORD_HEAD,
+                           repeat(KEYWORD_BODY)))));
+
+const AUTO_RESOLVE_MARKER =
+      token("::");
+
+const AUTO_RESOLVED_KEYWORD =
+      token(seq(AUTO_RESOLVE_MARKER,
+                KEYWORD_HEAD,
+                repeat(KEYWORD_BODY)));
+
+const STRING =
+      token(seq('"',
+                repeat(/[^"\\]/),
+                repeat(seq("\\",
+                           /./,
+                           repeat(/[^"\\]/))),
+                '"'));
+
+// XXX: better to match \o378 as a single item
+const OCTAL_CHAR =
+      seq("o",
+          choice(seq(DIGIT, DIGIT, DIGIT),
+                 seq(DIGIT, DIGIT),
+                 seq(DIGIT)));
+          // choice(seq(/[0-3]/, OCTAL_DIGIT, OCTAL_DIGIT),
+          //        seq(OCTAL_DIGIT, OCTAL_DIGIT),
+          //        seq(OCTAL_DIGIT)));
+
+const NAMED_CHAR =
+      choice("backspace",
+             "formfeed",
+             "newline",
+             "return",
+             "space",
+             "tab");
+
+const UNICODE =
+      seq("u",
+          HEX_DIGIT,
+          HEX_DIGIT,
+          HEX_DIGIT,
+          HEX_DIGIT);
+
+// XXX: actually want a particular set of chars
+const UNICODE_CHAR =
+      /.|\n/;
+
+const CHARACTER =
+      token(seq("\\",
+                choice(OCTAL_CHAR,
+                       NAMED_CHAR,
+                       UNICODE,
+                       UNICODE_CHAR)));
+
+const SYMBOL_HEAD =
+      /[^\f\n\r\t ()\[\]{}"@~^;`\\,:#'0-9]/;
+
+const SYMBOL_BODY =
+      choice(SYMBOL_HEAD,
+             /[:#'0-9]/);
+
+// XXX: no attempt is made to enforce certain complex things, e.g.
+//
+//        Symbols beginning or ending with ':' are reserved by Clojure.
+//        A symbol can contain one or more non-repeating ':'s
+const SYMBOL =
+      token(seq(SYMBOL_HEAD,
+                repeat(SYMBOL_BODY)));
 
 module.exports = grammar({
   name: 'clojure',
 
   extras: $ =>
-    [/\s/, ',', $.comment],
+    [],
 
-  // XXX: figure out which are really necessary and why
+  // XXX: most if not all of these are a result of trying to have pervasive
+  //      metadata within nodes
   conflicts: $ => [
-    [$.discard_form,
+    [
+     $.anon_func,
      $.deref_form,
+     $.discard_expr,
+     $.list,
+     $.map,
+     $.namespaced_map,
      $.quote_form,
+     $.read_cond,
+     $.set,
+     $.symbol,
      $.syntax_quote_form,
+     $.tagged_literal,
      $.unquote_form,
      $.unquote_splicing_form,
      $.var_quote_form,
-     $.tag,
-     $.anonymous_function,
-     $.list,
+     $.vector,
+    ],
+    [
      $.map,
-     $.reader_conditional,
-     $.set,
+     $.metadata,
+     $.read_cond,
      $.symbol,
-     $.vector],
-    [$.metadata,
+    ],
+    [
+     $.eval_form,
+     $.list,
+     $.read_cond,
+     $.symbol,
+    ],
+    [
+     $.symbol,
+     $.tagged_literal,
+    ],
+    [
      $.map,
-     $.reader_conditional,
-     $.symbol],
-    [$.tagged_literal]
-  ],
-
-  inline: $ => [
-    $.bare_list,
-    $.bare_map,
-    $.bare_set,
-    $.bare_symbol,
-    $.bare_vector,
-    $.symbolic_symbol
+     $.old_metadata,
+     $.symbol,
+    ],
+    [
+     $.symbol,
+    ]
   ],
 
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
-    source_file: $ =>
-      repeat($._maybe_empty_form),
+    source: $ =>
+      repeat($._input),
 
-    // #_ 1
-    _maybe_empty_form: $ =>
-      prec(15,
-           choice(field('value', $._non_discard_form),
-                  field('discard_form', $.discard_form))),
+    _input: $ =>
+      // XXX: with prec here, clojure.core time: 75ms -> 30ms
+      prec(15, choice($._form,
+                      $._non_form)),
 
-    comment: $ =>
-      /(;.*|#!.*)/,
+    _non_form: $ =>
+      choice($._whitespace,
+             $._comment,
+             $.discard_expr),
 
-    // inspired by Tavistock's grammar, ty!
-    discard_form: $ =>
-      prec(5,
-           seq("#_",
-               field('discard_form', repeat($.discard_form)),
-               field('value', $._non_discard_form))),
+    _whitespace: $ =>
+      token(repeat1(WHITESPACE)),
 
-    _non_discard_form: $ =>
-      choice($.boolean,
-             $.character,
-             $.keyword,
-             $.nil,
-             $.number,
-             $.string,
-             $.regular_expression,
-             $.splicing_reader_conditional,
-             //
-             $.symbol,
-             $.symbolic_value,
-             //
-             $.deref_form,
-             $.quote_form,
-             $.syntax_quote_form,
-             $.unquote_form,
-             $.unquote_splicing_form,
-             $.var_quote_form,
-             //
-             $.tagged_literal,
-             //
-             $.anonymous_function,
-             $.list,
+    _comment: $ =>
+      token(/(;|(#!)).*/),
+
+    discard_expr: $ =>
+      seq("#_",
+          repeat($._non_form),
+          field('value', $._form)),
+
+    _form: $ =>
+      choice($.list,
              $.map,
-             $.reader_conditional,
+             $.vector,
+             // literals
+             $.number,
+             $.auto_resolved_keyword,
+             $.keyword,
+             $.string,
+             $.character,
+             $.nil,
+             $.boolean,
+             $.symbol,
+             // dispatch reader macros
              $.set,
-             $.vector),
+             $.anon_func,
+             $.regex,
+             $.read_cond,
+             $.read_cond_splicing,
+             $.namespaced_map,
+             $.var_quote_form,
+             $.symbolic_value,
+             $.eval_form,
+             $.tagged_literal,
+             // other reader macros
+             $.syntax_quote_form,
+             $.quote_form,
+             $.unquote_splicing_form,
+             $.unquote_form,
+             $.deref_form),
 
-    // simplest things, unadorned with metadata, etc.
+    list: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          $._bare_list),
+
+    _bare_list: $ =>
+      seq("(",
+          field('value', repeat($._input)),
+          ")"),
+
+    map: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          $._bare_map),
+
+    _bare_map: $ =>
+      seq("{",
+          field('value', repeat($._input)),
+          "}"),
+
+    vector: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          $._bare_vector),
+
+    _bare_vector: $ =>
+      seq("[",
+          field('value', repeat($._input)),
+          "]"),
+
+    metadata: $ =>
+      seq("^",
+          repeat($._non_form),
+          choice($.read_cond,
+                 $.map,
+                 $.string,
+                 $.auto_resolved_keyword,
+                 $.keyword,
+                 $.symbol)),
+
+    old_metadata: $ =>
+      seq("#^",
+          repeat($._non_form),
+          choice($.map,
+                 $.string,
+                 $.auto_resolved_keyword,
+                 $.keyword,
+                 $.symbol)),
+
+    number: $ =>
+      NUMBER,
+
+    auto_resolved_keyword: $ =>
+      AUTO_RESOLVED_KEYWORD,
+
+    keyword: $ =>
+      KEYWORD,
+
+    string: $ =>
+      STRING,
+
+    character: $ =>
+      CHARACTER,
+
+    nil: $ =>
+      'nil',
 
     boolean: $ =>
       choice('false',
              'true'),
 
-    // see LispReader.java's CharacterReader's invoke method
-    character: $ =>
-      choice($._any_char,
-             $._special_char,
-             $._unicode_char,
-             $._octal_char),
-
-    // '\ ' is permitted and people seem to use it
-    // '\' followed by a newline appears in some source
-    _any_char: $ =>
-      /\\(.|\n)/,
-
-    _special_char: $ =>
-      /\\(backspace|formfeed|newline|return|space|tab)/,
-
-    // \uD800 through \uDFFF inclusive is not ok
-    // however, not worth expressing
-    _unicode_char: $ =>
-      token(seq('\\u',
-                HEX_QUAD)),
-
-    // like with _unicode_char, there are more restrictions
-    // however, not worth expressing
-    _octal_char: $ =>
-      token(seq('\\o',
-                OCTAL_NUMBER)),
-
-    keyword: $ =>
-      choice(SIMPLE_KEYWORD,
-             $._qualified_keyword),
-
-    _qualified_keyword: $ =>
-      token(seq(/(:|::)/,
-                NON_SLASH_SIMPLE_KEYWORD,
-                '/',
-                // at repl: :user/8 => Invalid token
-                NON_SLASH_SIMPLE_SYMBOL)),
-
-    nil: $ =>
-      'nil',
-
-    number: $ =>
-      choice($._int,
-             $._hex,
-             $._octal,
-             $._radix,
-             $._float,
-             $._ratio),
-
-    _int: $ =>
-      token(prec(2, seq(SIGN,
-                        choice('0',
-                               seq(POSITIVE_DIGIT,
-                                   repeat(DIGIT))),
-                        optional('N')))),
-
-    _hex: $ =>
-      token(prec(2, seq(SIGN,
-                        seq('0',
-                            choice('x', 'X'),
-                            repeat1(HEX_DIGIT)),
-                        optional('N')))),
-
-    _octal: $ =>
-      token(prec(2, seq(SIGN,
-                        seq('0',
-                            OCTAL_NUMBER,
-                            optional('N'))))),
-
-    _radix: $ =>
-      token(prec(2, seq(SIGN,
-                        seq(RADIX,
-                            choice('r', 'R'),
-                            repeat1(ALPHA_NUM)),
-                        optional('N')))),
-
-    _float: $ =>
-      token(prec(2, seq(SIGN,
-                        seq(repeat1(DIGIT),
-                            optional(seq('.',
-                                         repeat(DIGIT))),
-                            optional(seq(choice('e', 'E'),
-                                         SIGN,
-                                         repeat1(DIGIT)))),
-                        optional('M')))),
-
-    _ratio: $ =>
-      token(prec(2, seq(SIGN,
-                        seq(repeat1(DIGIT),
-                            '/',
-                            repeat1(DIGIT))))),
-
-    string: $ =>
-      token(seq('"',
-                STRING_CONTENT,
-                '"')),
-
-    // unadorned, but have a 'sigil'
-    
-    // at repl: #"." != # "."
-    regular_expression: $ =>
-      token(seq('#"',
-                STRING_CONTENT,
-                '"')),
-
-    splicing_reader_conditional: $ =>
-      seq('#?@',
-          $.bare_list),
-
-    // things start to get complicated by metadata and discard...
-
-    bare_symbol: $ =>
-      choice(SIMPLE_SYMBOL,
-             $._qualified_symbol),
-
-    _qualified_symbol: $ =>
-      token(seq(NON_SLASH_SIMPLE_SYMBOL,
-                '/',
-                // cuz things like clojure.core// is allowed
-                SIMPLE_SYMBOL)),
-
-    // XXX: oh, how i wanted to do this...but because it can
-    //      match the empty string, it is not allowed apparently...
-    //      unfortunately, this means A LOT of repetition :(
-    // _meta_my_discard: $ =>
-    //   repeat(choice(field('metadata', $.metadata),
-    //                 field('discard_form', $.discard_form))),
+    _bare_symbol: $=>
+      SYMBOL,
 
     symbol: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          field('value', $.bare_symbol)),
-
-    // ^ #_ 1 #_ 2 {:a 1} [1 2]
-    // (defn ^#?(:clj String :cljs js/String) string-maker [] "hi")
-    metadata: $ =>
-      seq(choice("^", "#^"),
-          repeat(field('discard_form', $.discard_form)),
-          field('value', choice($.keyword,
-                                $.map,
-                                $.reader_conditional,
-                                $.string,
-                                $.symbol))),
-
-    symbolic_symbol: $ =>
-      choice('-Inf',
-             'Inf',
-             'NaN'),
-
-    // at repl: ##Inf == ## Inf
-    // ## #_ 1 Inf
-    // ## ^:a Inf
-    symbolic_value: $ =>
-      seq('##',
-          repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          field('value', $.symbolic_symbol)),
-
-    // prefixy things
-    
-    // at repl: @ ^:a a -- where (def a (atom 1))
-    // ^:a @b
-    // ^:c #_ 1 @hoy    
-    deref_form: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          "@",
-          field('value', $._non_discard_form)),
-
-    // ' ^:a a
-    // ^:a '()
-    // ^:a #_ 1 '()
-    quote_form: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          "'",
-          field('value', $._non_discard_form)),
-
-    // ` ^:a a
-    // ^:a `()
-    // ^:a #_ 1 `()
-    syntax_quote_form: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          "`",
-          field('value', $._non_discard_form)),
-
-    // ` ~ ^:a a
-    // ` ^:a #_ 1 ~a
-    unquote_form: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          "~",
-          field('value', $._non_discard_form)),
-
-    // ` [~@ ^:a a]
-    // ` [^:a ~@a]
-    // ` [^:a #_ 1 ~@a]
-    unquote_splicing_form: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          "~@",
-          field('value', $._non_discard_form)),
-
-    // #' ^:a b
-    // #' ^:a #_ 1 @b
-    var_quote_form: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          "#'",
-          field('value', $._non_discard_form)),
-
-    // more complicated prefixy thing
-    
-    // ^:a #_ 1 #my-tag :fun can work depending on #my-tag
-    // # #_ 1 #_ 2 uuid "..."
-    tag: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          "#",
-          // XXX: should repeat be leftmost here?
-          field('discard_form_post_hash', repeat($.discard_form)),
-          field('value', $.bare_symbol)),
-
-    // XXX: would nesting be better?
-    // #my-tag ^:a [1 2]
-    tagged_literal: $ =>
-      seq(field('tag', repeat1($.tag)),
-          field('value', $._non_discard_form)),
-
-    // collection-ish things w/ metadata and discard
-
-    // at repl: #(+) != # (+)
-    // (Thread. ^Runnable #(spinner options) ...
-    anonymous_function: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          '#(',
-          field('value', repeat($._maybe_empty_form)),
-          ')'),
-
-    // shared w/ list and reader conditionals
-    bare_list: $ =>
-      seq('(',
-          field('value', repeat($._maybe_empty_form)),
-          ')'),
-
-    list: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          $.bare_list),
-
-    // https://clojure.org/reference/reader#_maps
-    bare_map: $ =>
-      choice($._simple_map,
-             $._namespaced_map),
-
-    map: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          $.bare_map),
-
-    _simple_map: $ =>
-      seq('{',
-          field('value', repeat($._maybe_empty_form)),
-          '}'),
-
-    // https://clojure.org/reference/reader#map_namespace_syntax
-    // https://cljs.github.io/api/syntax/ns-map-alias
-    //
-    // at repl: #::{} == #:: {}
-    // at repl: #::{} != #: :{}
-    // at repl: #:clojure.string{} == #:clojure.string {}
-    // at repl: #:clojure.string{} != #: clojure.string{}
-    // at repl: #::cs{} == #::cs {}
-    // at repl: #::cs{} != #:: cs{}
-    _namespaced_map: $ =>
-      seq(choice(seq('#:',
-                     SIMPLE_SYMBOL), // #:{} invalid, so symbol not optional
-                 seq('#::',
-                     optional(SIMPLE_SYMBOL))),
-          $._simple_map),
-    
-    // at repl: #?() 1 == #? () 1
-    // ^:a #?(:clj []
-    reader_conditional: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          '#?',
-          $.bare_list),
-
-    // at repl: #{:a} != # {:a}
-    bare_set: $ =>
-      seq('#{',
-          field('value', repeat($._maybe_empty_form)),
-          '}'),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          $._bare_symbol),
 
     set: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          $.bare_set),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          "#{",
+          field('value', repeat($._input)),
+          "}"),
 
-    bare_vector: $ =>
-      seq('[',
-          field('value', repeat($._maybe_empty_form)),
-          ']'),
-
-    vector: $ =>
+    anon_func: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
-                        field('discard_form', $.discard_form))),
-          $.bare_vector),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          "#",
+          $._bare_list),
 
+    regex: $ =>
+      seq("#",
+          STRING),
+
+    read_cond: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          "#?",
+          repeat($._whitespace),
+          $._bare_list),
+
+    read_cond_splicing: $ =>
+      seq("#?@",
+          repeat($._whitespace),
+          $._bare_list),
+
+    namespaced_map: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          "#",
+          field('prefix', choice($.auto_resolved_keyword,
+                                 $.auto_resolve_marker,
+                                 $.keyword)),
+          repeat($._non_form),
+          $._bare_map),
+
+    auto_resolve_marker: $ =>
+      AUTO_RESOLVE_MARKER,
+
+    var_quote_form: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          "#'",
+          repeat($._non_form),
+          // XXX: symobl, reader conditional, and tagged literal can work
+          //      any other things?
+          field('value', $._form)),
+
+    symbolic_value: $ =>
+      seq("##",
+          repeat($._non_form),
+          $._bare_symbol),
+
+    eval_form: $ =>
+      seq("#=",
+          repeat($._non_form),
+          field('value', choice($.list,
+                                $.read_cond,
+                                // #= ^:a java.lang.String
+                                $.symbol))),
+
+    // XXX: deftype, defrecod, and constructor calls end up as this
+    //      alternate name ideas:
+    //      - ctor_literal
+    //      - ctor_reader_literal
+    //      - tag_or_ctor_literal
+    //      - ctor_literal (because CtorReader)
+    //      - ctor_or_tagged_literal
+    //      - ctor_tagged_literal
+    //      - ctor_tag_literal
+    tagged_literal: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          "#",
+          // # uuid "00000000-0000-0000-0000-000000000000"
+          // # #_ 1 uuid "00000000-0000-0000-0000-000000000000"
+          // etc.
+          repeat($._non_form),
+          // # ^:a uuid "00000000-0000-0000-0000-000000000000"
+          field('tag', $.symbol),
+          repeat($._non_form),
+          field('value', choice($._form))),
+
+    syntax_quote_form: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          "`",
+          repeat($._non_form),
+          field('value', $._form)),
+
+    quote_form: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          "'",
+          repeat($._non_form),
+          field('value', $._form)),
+
+    unquote_splicing_form: $ =>
+      // XXX: metadata here doesn't seem to make sense, but the repl
+      //      will accept: `(^:x ~@[:a :b :c])
+      seq(repeat(choice(field('metadata', $.metadata),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          "~@",
+          repeat($._non_form),
+          field('value', $._form)),
+
+    unquote_form: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          "~",
+          repeat($._non_form),
+          field('value', $._form)),
+
+    deref_form: $ =>
+      seq(repeat(choice(field('metadata', $.metadata),
+                        field('old_metadata', $.old_metadata),
+                        $._non_form)),
+          "@",
+          repeat($._non_form),
+          field('value', $._form)),
   }
 });
