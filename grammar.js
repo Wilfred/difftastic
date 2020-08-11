@@ -213,7 +213,7 @@ module.exports = grammar({
       $._body_statement
     ),
 
-    superclass: $ => seq('<', $._arg),
+    superclass: $ => seq('<', $._expression),
 
     singleton_class: $ => seq(
       'class',
@@ -275,13 +275,13 @@ module.exports = grammar({
 
     while: $ => seq(
       'while',
-      field('condition', $._arg),
+      field('condition', $._statement),
       field('body', $.do)
     ),
 
     until: $ => seq(
       'until',
-      field('condition', $._arg),
+      field('condition', $._statement),
       field('body', $.do)
     ),
 
@@ -305,7 +305,7 @@ module.exports = grammar({
 
     case: $ => seq(
       'case',
-      field('value', optional($._arg)),
+      field('value', optional($._statement)),
       $._terminator,
       repeat(';'),
       repeat($.when),
@@ -403,6 +403,7 @@ module.exports = grammar({
     // This naming convention is based on Ruby's standard grammar.
     _expression: $ => choice(
       alias($.command_binary, $.binary),
+      alias($.command_unary, $.unary),
       alias($.command_assignment, $.assignment),
       alias($.command_operator_assignment, $.operator_assignment),
       alias($.command_call, $.method_call),
@@ -534,11 +535,7 @@ module.exports = grammar({
       )
     },
 
-    command_argument_list: $ => choice(
-      commaSep1($._argument),
-      alias($.command_call, $.method_call),
-      alias($.command_call_with_block, $.method_call)
-    ),
+    command_argument_list: $ => prec.right(commaSep1($._argument)),
 
     argument_list: $ => prec.right(seq(
       token.immediate('('),
@@ -551,13 +548,13 @@ module.exports = grammar({
       optional(',')
     )),
 
-    _argument: $ => choice(
-      $._arg,
+    _argument: $ => prec.left(choice(
+      $._expression,
       $.splat_argument,
       $.hash_splat_argument,
       $.block_argument,
       $.pair
-    ),
+    )),
 
     splat_argument: $ => seq(alias($._splat_star, '*'), $._arg),
     hash_splat_argument: $ => seq('**', $._arg),
@@ -617,7 +614,11 @@ module.exports = grammar({
       field('alternative', $._arg)
     )),
 
-    range: $ => prec.right(PREC.RANGE, seq($._arg, choice('..', '...'), $._arg)),
+    range: $ => prec.right(PREC.RANGE, choice(
+      seq($._arg, choice('..', '...'), $._arg),
+      seq(choice('..', '...'), $._arg),
+      seq($._arg, choice('..', '...')),
+    )),
 
     binary: $ => {
       const operators = [
@@ -653,6 +654,13 @@ module.exports = grammar({
       prec.right(PREC.NOT, seq('not', $._arg)),
       prec.right(PREC.UNARY_MINUS, seq(choice(alias($._unary_minus, '-'), '+'), $._arg)),
       prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._arg))
+    ),
+
+    command_unary: $ => choice(
+      prec(PREC.DEFINED, seq('defined?', $._expression)),
+      prec.right(PREC.NOT, seq('not', $._expression)),
+      prec.right(PREC.UNARY_MINUS, seq(choice(alias($._unary_minus, '-'), '+'), $._expression)),
+      prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._expression))
     ),
 
     parenthesized_unary: $ => prec(PREC.CALL, seq(

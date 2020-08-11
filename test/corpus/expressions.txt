@@ -593,10 +593,19 @@ nested unparenthesized method calls
 ====================================
 
 puts get_name self, true
+puts(get_name self, true)
 
 ---
 
 (program
+  (method_call
+    method: (identifier)
+    arguments: (argument_list
+      (method_call
+        method: (identifier)
+        arguments: (argument_list
+          (self)
+          (true)))))
   (method_call
     method: (identifier)
     arguments: (argument_list
@@ -1013,6 +1022,22 @@ one two or
       arguments: (argument_list (identifier) (identifier) (identifier)))))
 
 ===============================
+method calls in unary expression
+===============================
+
+!a.b c
+
+---
+
+(program
+  (unary
+    (method_call
+      method: (call
+        receiver: (identifier)
+        method: (identifier))
+      arguments: (argument_list (identifier)))))
+
+===============================
 method calls with splat argument
 ===============================
 
@@ -1052,11 +1077,16 @@ Foo
 Foo \
   .bar
 
+Foo \
+  &.bar
+  &.baz
+
 ---
 
 (program
   (call (call (constant) (identifier)) (identifier))
-  (call (constant) (identifier)))
+  (call (constant) (identifier))
+  (call (call (constant) (identifier)) (identifier)))
 
 ======================================
 method call with block argument do end

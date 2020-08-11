@@ -42,13 +42,15 @@ end
 empty until statement
 =====================
 
-until foo do
+until foo bar do
 end
 
 ---
 
 (program (until
-  condition: (identifier)
+  condition: (method_call
+    method: (identifier)
+    arguments: (argument_list (identifier)))
   body: (do)))
 
 =========================
