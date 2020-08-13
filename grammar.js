@@ -705,7 +705,8 @@ module.exports = grammar({
         $.identifier,
         $.parenthesized_expression,
       )),
-      choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=', '<<=', '**='),
+      choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=',
+             '<<=', '**=', '&&=', '||=', '??='),
       field('right', $._expression)
     )),
 
