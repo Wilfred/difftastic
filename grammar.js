@@ -951,10 +951,12 @@ const rules = {
 
   type_const_declaration: $ =>
     seq(
+      opt($.attribute_modifier),
       opt($._member_modifiers),
       'const',
       'type',
       field('name', $.identifier),
+      opt($.type_parameters),
       field('as', seq.opt('as', $._type)),
       field('type', seq.opt('=', $._type)),
       ';',
