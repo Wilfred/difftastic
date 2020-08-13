@@ -3403,7 +3403,7 @@
     "named": true,
     "fields": {
       "constraint_operator": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -3417,7 +3417,7 @@
         ]
       },
       "constraint_type": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
