@@ -5,7 +5,6 @@ set -e
 # Parse Hack source and filter noisy node objects.
 
 hh_parse --full-fidelity-text-json $@ |
-  python -m json.tool |
   jq '.parse_tree' |
 
   # Remove low-value elements and simplify name tokens.
