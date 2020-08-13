@@ -3353,11 +3353,19 @@
           "named": true
         },
         {
+          "type": "attribute_modifier",
+          "named": true
+        },
+        {
           "type": "final_modifier",
           "named": true
         },
         {
           "type": "static_modifier",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
           "named": true
         },
         {
