@@ -21,3 +21,8 @@
     (selector_expression field: (field_identifier) @name)
     (parenthesized_expression (selector_expression field: (field_identifier) @name))
   ]) @reference.call
+
+(type_spec
+  name: (type_identifier) @name) @definition.type
+
+(type_identifier) @name @reference.type
