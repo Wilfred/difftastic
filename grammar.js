@@ -483,7 +483,7 @@ const rules = {
         alias('reify', $.reify_modifier),
       ),
       field('name', $.identifier),
-      seq.opt(
+      seq.rep(
         field('constraint_operator', choice('as', 'super')),
         field('constraint_type', $._type),
       ),
