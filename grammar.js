@@ -88,10 +88,19 @@ module.exports = grammar({
       seq("@mixin", alias($.identifier, $.name), optional($.parameters), $.block),
 
     include_statement: ($) =>
-      seq("@include", $.identifier, optional($.include_arguments), choice($.block, ";")),
+      seq(
+        "@include",
+        $.identifier,
+        optional(alias($.include_arguments, $.arguments)),
+        choice($.block, ";")
+      ),
 
     include_arguments: ($) =>
-      seq(token.immediate("("), sep1(",", $.include_argument), token.immediate(")")),
+      seq(
+        token.immediate("("),
+        sep1(",", alias($.include_argument, $.argument)),
+        token.immediate(")")
+      ),
 
     include_argument: ($) =>
       seq(

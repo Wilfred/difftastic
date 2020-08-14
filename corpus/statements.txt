@@ -226,9 +226,9 @@ Include statements
     (block
       (include_statement (identifier))
       (include_statement (identifier)
-        (include_arguments
-          (include_argument (argument_value (integer_value (unit))))
-          (include_argument (argument_name) (argument_value (plain_value))))))))
+        (arguments
+          (argument (argument_value (integer_value (unit))))
+          (argument (argument_name) (argument_value (plain_value))))))))
 
 ==============================
 Extend statements

@@ -63,6 +63,25 @@
     }
   },
   {
+    "type": "argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_name",
+          "named": true
+        },
+        {
+          "type": "argument_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "argument_value",
     "named": true,
     "fields": {},
@@ -119,6 +138,10 @@
       "types": [
         {
           "type": "adjacent_sibling_selector",
+          "named": true
+        },
+        {
+          "type": "argument",
           "named": true
         },
         {
@@ -1620,40 +1643,6 @@
     }
   },
   {
-    "type": "include_argument",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "argument_name",
-          "named": true
-        },
-        {
-          "type": "argument_value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "include_arguments",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "include_argument",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "include_statement",
     "named": true,
     "fields": {},
@@ -1662,15 +1651,15 @@
       "required": true,
       "types": [
         {
+          "type": "arguments",
+          "named": true
+        },
+        {
           "type": "block",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "include_arguments",
           "named": true
         }
       ]

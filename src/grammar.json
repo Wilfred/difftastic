@@ -572,8 +572,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "include_arguments"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "include_arguments"
+              },
+              "named": true,
+              "value": "arguments"
             },
             {
               "type": "BLANK"
@@ -609,8 +614,13 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "include_argument"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "include_argument"
+              },
+              "named": true,
+              "value": "argument"
             },
             {
               "type": "REPEAT",
@@ -622,8 +632,13 @@
                     "value": ","
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "include_argument"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "include_argument"
+                    },
+                    "named": true,
+                    "value": "argument"
                   }
                 ]
               }
