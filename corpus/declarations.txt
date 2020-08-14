@@ -301,6 +301,43 @@ Mixins with arguments
     (block (declaration (property_name) (plain_value)))))
 
 =================================
+Mixins with interpolations and content
+=================================
+
+@mixin media($queryString) {
+    @media #{$queryString} {
+      @content;
+    }
+}
+
+---
+
+(stylesheet
+  (mixin_statement
+    (name)
+    (parameters (parameter (variable_name)))
+    (block (media_statement (keyword_query) (block (at_rule (at_keyword)))))))
+
+=================================
+Mixins with at-root
+=================================
+
+@mixin unify-parent($child) {
+  @at-root #{selector.unify(&, $child)} {
+    @content;
+  }
+}
+
+---
+
+(stylesheet
+  (mixin_statement
+    (name)
+    (parameters (parameter (variable_name)))
+    (block
+      (at_root_statement (plain_value) (block (at_rule (at_keyword)))))))
+
+=================================
 Placeholders
 =================================
 

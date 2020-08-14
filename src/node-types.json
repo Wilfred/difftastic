@@ -205,6 +205,57 @@
     }
   },
   {
+    "type": "at_root_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "color_value",
+          "named": true
+        },
+        {
+          "type": "float_value",
+          "named": true
+        },
+        {
+          "type": "integer_value",
+          "named": true
+        },
+        {
+          "type": "parenthesized_value",
+          "named": true
+        },
+        {
+          "type": "plain_value",
+          "named": true
+        },
+        {
+          "type": "string_value",
+          "named": true
+        },
+        {
+          "type": "variable_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "at_rule",
     "named": true,
     "fields": {},
@@ -437,6 +488,10 @@
       "required": false,
       "types": [
         {
+          "type": "at_root_statement",
+          "named": true
+        },
+        {
           "type": "at_rule",
           "named": true
         },
@@ -445,11 +500,19 @@
           "named": true
         },
         {
+          "type": "debug_statement",
+          "named": true
+        },
+        {
           "type": "declaration",
           "named": true
         },
         {
           "type": "each_statement",
+          "named": true
+        },
+        {
+          "type": "error_statement",
           "named": true
         },
         {
@@ -502,6 +565,10 @@
         },
         {
           "type": "supports_statement",
+          "named": true
+        },
+        {
+          "type": "warn_statement",
           "named": true
         },
         {
@@ -714,6 +781,53 @@
   },
   {
     "type": "condition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "color_value",
+          "named": true
+        },
+        {
+          "type": "float_value",
+          "named": true
+        },
+        {
+          "type": "integer_value",
+          "named": true
+        },
+        {
+          "type": "parenthesized_value",
+          "named": true
+        },
+        {
+          "type": "plain_value",
+          "named": true
+        },
+        {
+          "type": "string_value",
+          "named": true
+        },
+        {
+          "type": "variable_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "debug_statement",
     "named": true,
     "fields": {},
     "children": {
@@ -1016,6 +1130,53 @@
         },
         {
           "type": "condition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "error_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "color_value",
+          "named": true
+        },
+        {
+          "type": "float_value",
+          "named": true
+        },
+        {
+          "type": "integer_value",
+          "named": true
+        },
+        {
+          "type": "parenthesized_value",
+          "named": true
+        },
+        {
+          "type": "plain_value",
+          "named": true
+        },
+        {
+          "type": "string_value",
+          "named": true
+        },
+        {
+          "type": "variable_value",
           "named": true
         }
       ]
@@ -2221,11 +2382,19 @@
           "named": true
         },
         {
+          "type": "debug_statement",
+          "named": true
+        },
+        {
           "type": "declaration",
           "named": true
         },
         {
           "type": "each_statement",
+          "named": true
+        },
+        {
+          "type": "error_statement",
           "named": true
         },
         {
@@ -2282,6 +2451,10 @@
         },
         {
           "type": "use_statement",
+          "named": true
+        },
+        {
+          "type": "warn_statement",
           "named": true
         },
         {
@@ -2419,6 +2592,53 @@
   },
   {
     "type": "use_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "color_value",
+          "named": true
+        },
+        {
+          "type": "float_value",
+          "named": true
+        },
+        {
+          "type": "integer_value",
+          "named": true
+        },
+        {
+          "type": "parenthesized_value",
+          "named": true
+        },
+        {
+          "type": "plain_value",
+          "named": true
+        },
+        {
+          "type": "string_value",
+          "named": true
+        },
+        {
+          "type": "variable_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "warn_statement",
     "named": true,
     "fields": {},
     "children": {
@@ -2604,7 +2824,15 @@
     "named": false
   },
   {
+    "type": "@at-root",
+    "named": false
+  },
+  {
     "type": "@charset",
+    "named": false
+  },
+  {
+    "type": "@debug",
     "named": false
   },
   {
@@ -2613,6 +2841,10 @@
   },
   {
     "type": "@else",
+    "named": false
+  },
+  {
+    "type": "@error",
     "named": false
   },
   {
@@ -2669,6 +2901,10 @@
   },
   {
     "type": "@use",
+    "named": false
+  },
+  {
+    "type": "@warn",
     "named": false
   },
   {

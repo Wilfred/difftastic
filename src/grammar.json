@@ -81,6 +81,18 @@
         },
         {
           "type": "SYMBOL",
+          "name": "error_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "warn_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "debug_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "at_rule"
         },
         {
@@ -967,6 +979,74 @@
         }
       ]
     },
+    "at_root_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@at-root"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_value"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        }
+      ]
+    },
+    "error_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@error"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_value"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "warn_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@warn"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_value"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "debug_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@debug"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_value"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
     "rule_set": {
       "type": "SEQ",
       "members": [
@@ -1112,6 +1192,22 @@
         {
           "type": "SYMBOL",
           "name": "return_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "at_root_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "error_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "warn_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "debug_statement"
         },
         {
           "type": "SYMBOL",
@@ -2333,7 +2429,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "((#\\{[a-zA-Z-_\\$][a-zA-Z0-9-_]*\\})|[a-zA-Z-_])([a-zA-Z0-9-_]|(#\\{[a-zA-Z-_\\$][a-zA-Z0-9-_ ]*\\}))*"
+      "value": "((#\\{[a-zA-Z0-9-_,&\\$\\.\\(\\) ]*\\})|[a-zA-Z-_])([a-zA-Z0-9-_]|(#\\{[a-zA-Z0-9-_,&\\$\\.\\(\\) ]*\\}))*"
     },
     "variable_identifier": {
       "type": "PATTERN",

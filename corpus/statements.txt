@@ -485,3 +485,23 @@ Functions
           (binary_expression
             (call_expression (function_name) (arguments (integer_value) (integer_value)))
             (integer_value (unit)))))))
+
+=================================
+Logging statements
+=================================
+
+@mixin foo {
+  @debug "debug";
+  @warn "warn";
+  @error "error";
+}
+
+---
+
+(stylesheet
+  (mixin_statement
+    (name)
+    (block
+      (debug_statement (string_value))
+      (warn_statement (string_value))
+      (error_statement (string_value)))))

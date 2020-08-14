@@ -31,6 +31,9 @@ module.exports = grammar({
         $.for_statement,
         $.while_statement,
         $.function_statement,
+        $.error_statement,
+        $.warn_statement,
+        $.debug_statement,
         $.at_rule,
         $.placeholder
       ),
@@ -136,6 +139,14 @@ module.exports = grammar({
 
     return_statement: ($) => seq("@return", $._value, ";"),
 
+    at_root_statement: ($) => seq("@at-root", $._value, $.block),
+
+    error_statement: ($) => seq("@error", $._value, ";"),
+
+    warn_statement: ($) => seq("@warn", $._value, ";"),
+
+    debug_statement: ($) => seq("@debug", $._value, ";"),
+
     // Rule sets
 
     rule_set: ($) => seq($.selectors, $.block),
@@ -164,6 +175,10 @@ module.exports = grammar({
         $.while_statement,
         $.function_statement,
         $.return_statement,
+        $.at_root_statement,
+        $.error_statement,
+        $.warn_statement,
+        $.debug_statement,
         $.at_rule
       ),
 
@@ -331,7 +346,7 @@ module.exports = grammar({
     arguments: ($) => seq(token.immediate("("), sep(choice(",", ";"), repeat1($._value)), ")"),
 
     identifier: ($) =>
-      /((#\{[a-zA-Z-_\$][a-zA-Z0-9-_]*\})|[a-zA-Z-_])([a-zA-Z0-9-_]|(#\{[a-zA-Z-_\$][a-zA-Z0-9-_ ]*\}))*/,
+      /((#\{[a-zA-Z0-9-_,&\$\.\(\) ]*\})|[a-zA-Z-_])([a-zA-Z0-9-_]|(#\{[a-zA-Z0-9-_,&\$\.\(\) ]*\}))*/,
 
     variable_identifier: ($) => /([a-zA-Z_]+\.)?\$[a-zA-Z-_][a-zA-Z0-9-_]*/,
 

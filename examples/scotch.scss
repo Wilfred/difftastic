@@ -41,6 +41,12 @@
   }
 }
 
+@mixin media($queryString) {
+  @media #{$queryString} {
+    @content;
+  }
+}
+
 @include renderGridStyles($settings);
 
 p {
