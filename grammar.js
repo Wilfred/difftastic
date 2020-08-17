@@ -314,7 +314,7 @@ const rules = {
     prec.right(
       -1,
       seq(
-        alias.opt('await', $.await_modifier),
+        opt($.await_modifier),
         'using',
         choice(
           com($._expression),
@@ -404,11 +404,7 @@ const rules = {
       '(',
       'function',
       '(',
-      com.opt(
-        alias.opt('inout', $.inout_modifier),
-        $._type,
-        alias.opt('...', $.variadic_modifier),
-      ),
+      com.opt(opt($.inout_modifier), $._type, opt($.variadic_modifier)),
       ')',
       ':',
       field('return_type', $._type),
@@ -698,7 +694,7 @@ const rules = {
   _lambda_expression_header: $ =>
     seq(
       opt($.attribute_modifier),
-      alias.opt('async', $.async_modifier),
+      opt($.async_modifier),
       choice(
         // Make a single-parameter lambda node look like any other lambda node.
         alias($._single_parameter_parameters, $.parameters),
@@ -738,13 +734,7 @@ const rules = {
   arguments: $ => seq('(', com.opt($.argument, ','), ')'),
 
   argument: $ =>
-    seq(
-      choice.opt(
-        alias('inout', $.inout_modifier),
-        alias('...', $.variadic_modifier),
-      ),
-      $._expression,
-    ),
+    seq(choice.opt($.inout_modifier, $.variadic_modifier), $._expression),
 
   selection_expression: $ =>
     prec.select(
@@ -778,7 +768,7 @@ const rules = {
 
   _function_declaration_header: $ =>
     seq(
-      alias.opt('async', $.async_modifier),
+      opt($.async_modifier),
       'function',
       field('name', $.identifier),
       opt($.type_parameters),
@@ -793,9 +783,9 @@ const rules = {
     seq(
       opt($.attribute_modifier),
       opt($.visibility_modifier),
-      alias.opt('inout', $.inout_modifier),
+      opt($.inout_modifier),
       field('type', opt($._type)),
-      alias.opt('...', $.variadic_modifier),
+      opt($.variadic_modifier),
       field('name', $.variable),
       seq.opt('=', field('default_value', $._expression)),
     ),
@@ -1015,6 +1005,14 @@ const rules = {
   attribute_modifier: $ =>
     seq('<<', com($.qualified_identifier, opt($.arguments), ','), '>>'),
 
+  inout_modifier: $ => 'inout',
+
+  variadic_modifier: $ => '...',
+
+  async_modifier: $ => 'async',
+
+  await_modifier: $ => 'await',
+
   // XHP
 
   xhp_identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*([-:][a-zA-Z0-9_]+)*/,
@@ -1116,7 +1114,7 @@ const rules = {
 
   anonymous_function_expression: $ =>
     seq(
-      alias.opt('async', $.async_modifier),
+      opt($.async_modifier),
       'function',
       $.parameters,
       seq.opt(':', field('return_type', $._type)),
