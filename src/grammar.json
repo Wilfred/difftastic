@@ -1516,13 +1516,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "ALIAS",
-                "content": {
-                  "type": "STRING",
-                  "value": "await"
-                },
-                "named": true,
-                "value": "await_modifier"
+                "type": "SYMBOL",
+                "name": "await_modifier"
               },
               {
                 "type": "BLANK"
@@ -1930,13 +1925,8 @@
                   "type": "CHOICE",
                   "members": [
                     {
-                      "type": "ALIAS",
-                      "content": {
-                        "type": "STRING",
-                        "value": "inout"
-                      },
-                      "named": true,
-                      "value": "inout_modifier"
+                      "type": "SYMBOL",
+                      "name": "inout_modifier"
                     },
                     {
                       "type": "BLANK"
@@ -1951,13 +1941,8 @@
                   "type": "CHOICE",
                   "members": [
                     {
-                      "type": "ALIAS",
-                      "content": {
-                        "type": "STRING",
-                        "value": "..."
-                      },
-                      "named": true,
-                      "value": "variadic_modifier"
+                      "type": "SYMBOL",
+                      "name": "variadic_modifier"
                     },
                     {
                       "type": "BLANK"
@@ -1977,13 +1962,8 @@
                         "type": "CHOICE",
                         "members": [
                           {
-                            "type": "ALIAS",
-                            "content": {
-                              "type": "STRING",
-                              "value": "inout"
-                            },
-                            "named": true,
-                            "value": "inout_modifier"
+                            "type": "SYMBOL",
+                            "name": "inout_modifier"
                           },
                           {
                             "type": "BLANK"
@@ -1998,13 +1978,8 @@
                         "type": "CHOICE",
                         "members": [
                           {
-                            "type": "ALIAS",
-                            "content": {
-                              "type": "STRING",
-                              "value": "..."
-                            },
-                            "named": true,
-                            "value": "variadic_modifier"
+                            "type": "SYMBOL",
+                            "name": "variadic_modifier"
                           },
                           {
                             "type": "BLANK"
@@ -4574,13 +4549,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": "async"
-              },
-              "named": true,
-              "value": "async_modifier"
+              "type": "SYMBOL",
+              "name": "async_modifier"
             },
             {
               "type": "BLANK"
@@ -4834,22 +4804,12 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "STRING",
-                    "value": "inout"
-                  },
-                  "named": true,
-                  "value": "inout_modifier"
+                  "type": "SYMBOL",
+                  "name": "inout_modifier"
                 },
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "STRING",
-                    "value": "..."
-                  },
-                  "named": true,
-                  "value": "variadic_modifier"
+                  "type": "SYMBOL",
+                  "name": "variadic_modifier"
                 }
               ]
             },
@@ -5018,13 +4978,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": "async"
-              },
-              "named": true,
-              "value": "async_modifier"
+              "type": "SYMBOL",
+              "name": "async_modifier"
             },
             {
               "type": "BLANK"
@@ -5191,13 +5146,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": "inout"
-              },
-              "named": true,
-              "value": "inout_modifier"
+              "type": "SYMBOL",
+              "name": "inout_modifier"
             },
             {
               "type": "BLANK"
@@ -5224,13 +5174,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": "..."
-              },
-              "named": true,
-              "value": "variadic_modifier"
+              "type": "SYMBOL",
+              "name": "variadic_modifier"
             },
             {
               "type": "BLANK"
@@ -6777,6 +6722,22 @@
         }
       ]
     },
+    "inout_modifier": {
+      "type": "STRING",
+      "value": "inout"
+    },
+    "variadic_modifier": {
+      "type": "STRING",
+      "value": "..."
+    },
+    "async_modifier": {
+      "type": "STRING",
+      "value": "async"
+    },
+    "await_modifier": {
+      "type": "STRING",
+      "value": "await"
+    },
     "xhp_identifier": {
       "type": "PATTERN",
       "value": "[a-zA-Z_][a-zA-Z0-9_]*([-:][a-zA-Z0-9_]+)*"
@@ -7451,13 +7412,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": "async"
-              },
-              "named": true,
-              "value": "async_modifier"
+              "type": "SYMBOL",
+              "name": "async_modifier"
             },
             {
               "type": "BLANK"

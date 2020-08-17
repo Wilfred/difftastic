@@ -581,6 +581,11 @@
     }
   },
   {
+    "type": "async_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "attribute_modifier",
     "named": true,
     "fields": {},
@@ -737,6 +742,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "await_modifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "awaitable_expression",
@@ -3599,6 +3609,11 @@
     }
   },
   {
+    "type": "variadic_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "visibility_modifier",
     "named": true,
     "fields": {}
@@ -4269,20 +4284,12 @@
     "named": false
   },
   {
-    "type": "async_modifier",
-    "named": true
-  },
-  {
     "type": "attribute",
     "named": false
   },
   {
     "type": "await",
     "named": false
-  },
-  {
-    "type": "await_modifier",
-    "named": true
   },
   {
     "type": "bool",
@@ -4562,11 +4569,11 @@
   },
   {
     "type": "string",
-    "named": false
+    "named": true
   },
   {
     "type": "string",
-    "named": true
+    "named": false
   },
   {
     "type": "super",
@@ -4615,10 +4622,6 @@
   {
     "type": "using",
     "named": false
-  },
-  {
-    "type": "variadic_modifier",
-    "named": true
   },
   {
     "type": "varray",
