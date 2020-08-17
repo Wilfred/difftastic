@@ -15,7 +15,8 @@
     collection: (variable
       (identifier))
     (ERROR
-      (vec))
+      (array
+        (array_type)))
     value: (variable
       (identifier))
     body: (compound_statement)))

@@ -2,7 +2,8 @@
   (expression_statement
     (subscript_expression
       (as_expression
-        left: (vec)
+        left: (array
+          (array_type))
         right: (type_specifier))
       (integer)))
   (expression_statement

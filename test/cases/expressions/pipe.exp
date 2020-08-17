@@ -2,7 +2,8 @@
   (expression_statement
     (binary_expression
       left: (binary_expression
-        left: (vec
+        left: (array
+          (array_type)
           (integer)
           (integer))
         right: (call_expression

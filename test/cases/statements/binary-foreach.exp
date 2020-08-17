@@ -3,7 +3,8 @@
     collection: (binary_expression
       left: (variable
         (identifier))
-      right: (vec))
+      right: (array
+        (array_type)))
     value: (variable
       (identifier))
     body: (compound_statement)))

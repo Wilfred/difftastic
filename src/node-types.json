@@ -50,6 +50,10 @@
         "named": true
       },
       {
+        "type": "array",
+        "named": true
+      },
+      {
         "type": "as_expression",
         "named": true
       },
@@ -90,14 +94,6 @@
         "named": true
       },
       {
-        "type": "darray",
-        "named": true
-      },
-      {
-        "type": "dict",
-        "named": true
-      },
-      {
         "type": "error_control_expression",
         "named": true
       },
@@ -111,10 +107,6 @@
       },
       {
         "type": "is_expression",
-        "named": true
-      },
-      {
-        "type": "keyset",
         "named": true
       },
       {
@@ -187,14 +179,6 @@
       },
       {
         "type": "variable",
-        "named": true
-      },
-      {
-        "type": "varray",
-        "named": true
-      },
-      {
-        "type": "vec",
         "named": true
       },
       {
@@ -472,6 +456,33 @@
       "types": [
         {
           "type": "argument",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "array",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "element_initializer",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
           "named": true
         }
       ]
@@ -1379,44 +1390,6 @@
     }
   },
   {
-    "type": "darray",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "element_initializer",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "dict",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "element_initializer",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "do_statement",
     "named": true,
     "fields": {
@@ -2076,25 +2049,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "keyset",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -3639,44 +3593,6 @@
       "types": [
         {
           "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "varray",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "vec",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
           "named": true
         }
       ]
