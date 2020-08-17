@@ -470,7 +470,7 @@ const rules = {
       'noreturn',
     ),
 
-  type_arguments: $ => seq('<', com($._type, ','), '>'),
+  type_arguments: $ => seq('<', com.opt($._type, ','), '>'),
 
   type_parameters: $ => seq('<', com($.type_parameter, ','), '>'),
 
