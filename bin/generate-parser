@@ -20,7 +20,7 @@ CACHED_SHA=$(cat 'tmp/grammar.js.sha' 2>/dev/null || true)
 GRAMMAR_SHA=$(sha256sum 'grammar.js' | cut -d' ' -f1)
 
 # Exit if grammar.js hasn't changed since last time we generated parser.
-if [ "$1" != "--force" ] && [ "$CACHED_SHA" = "$GRAMMAR_SHA" ]; then
+if [ "$FORCE" != 1 ] && [ "$CACHED_SHA" = "$GRAMMAR_SHA" ]; then
   exit
 fi
 
