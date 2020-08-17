@@ -1,0 +1,29 @@
+(script
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier))
+      (type_arguments
+        (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier)))
+        (type_specifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier))
+      (type_arguments)
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (type_arguments
+        (type_specifier))
+      (arguments)))
+  (comment)
+  (comment)
+  (comment))
