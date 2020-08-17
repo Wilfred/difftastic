@@ -995,8 +995,7 @@ const rules = {
       '}',
     ),
 
-  _enum_field_specifier: $ =>
-    seq($.identifier, '=', choice($.string, $.integer, $._variablish), ';'),
+  _enum_field_specifier: $ => seq($.identifier, '=', $._expression, ';'),
 
   namespace_declaration: $ =>
     seq(

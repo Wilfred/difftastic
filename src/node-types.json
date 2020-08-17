@@ -1605,11 +1605,11 @@
       "required": true,
       "types": [
         {
-          "type": "_type",
+          "type": "_expression",
           "named": true
         },
         {
-          "type": "call_expression",
+          "type": "_type",
           "named": true
         },
         {
@@ -1617,55 +1617,11 @@
           "named": true
         },
         {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
           "type": "optional_modifier",
           "named": true
         },
         {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "pipe_variable",
-          "named": true
-        },
-        {
-          "type": "qualified_identifier",
-          "named": true
-        },
-        {
-          "type": "scope_identifier",
-          "named": true
-        },
-        {
-          "type": "scoped_identifier",
-          "named": true
-        },
-        {
-          "type": "selection_expression",
-          "named": true
-        },
-        {
           "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript_expression",
-          "named": true
-        },
-        {
-          "type": "variable",
-          "named": true
-        },
-        {
-          "type": "xhp_class_identifier",
           "named": true
         }
       ]

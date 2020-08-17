@@ -10,4 +10,15 @@
       (integer))
     (field_specifier
       (identifier)
-      (integer))))
+      (integer))
+    (field_specifier
+      (identifier)
+      (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (identifier)))
+    (field_specifier
+      (identifier)
+      (binary_expression
+        left: (string)
+        right: (string)))))
