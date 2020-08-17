@@ -16,7 +16,8 @@
           (integer))
         (argument
           (variadic_modifier)
-          (vec
+          (array
+            (array_type)
             (integer)
             (integer)
             (integer))))))

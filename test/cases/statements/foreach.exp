@@ -6,7 +6,8 @@
       (identifier))
     body: (compound_statement))
   (foreach_statement
-    collection: (varray)
+    collection: (array
+      (array_type))
     key: (variable
       (identifier))
     value: (subscript_expression
@@ -15,7 +16,8 @@
       (integer))
     body: (compound_statement))
   (foreach_statement
-    collection: (darray
+    collection: (array
+      (array_type)
       (type_arguments
         (type_specifier)
         (type_specifier)))
@@ -25,7 +27,8 @@
           (identifier))
         (subscript_expression
           (as_expression
-            left: (vec)
+            left: (array
+              (array_type))
             right: (type_specifier))
           (integer)))
       (variable

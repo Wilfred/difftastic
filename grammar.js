@@ -142,11 +142,7 @@ const rules = {
 
   _expression: $ =>
     choice(
-      $.varray,
-      $.darray,
-      $.vec,
-      $.keyset,
-      $.dict,
+      $.array,
       $.tuple,
       $.shape,
       $.collection,
@@ -501,34 +497,19 @@ const rules = {
 
   // Collections
 
+  array: $ =>
+    seq(
+      alias($._collection_type, $.array_type),
+      opt($.type_arguments),
+      '[',
+      com.opt($._element_initializer, ','),
+      ']',
+    ),
+
   element_initializer: $ => seq($._expression, '=>', $._expression),
 
-  varray: $ =>
-    seq('varray', opt($.type_arguments), '[', com.opt($._expression, ','), ']'),
-
-  vec: $ =>
-    seq('vec', opt($.type_arguments), '[', com.opt($._expression, ','), ']'),
-
-  darray: $ =>
-    seq(
-      'darray',
-      opt($.type_arguments),
-      '[',
-      com.opt($.element_initializer, ','),
-      ']',
-    ),
-
-  dict: $ =>
-    seq(
-      'dict',
-      opt($.type_arguments),
-      '[',
-      com.opt($.element_initializer, ','),
-      ']',
-    ),
-
-  keyset: $ =>
-    seq('keyset', opt($.type_arguments), '[', com.opt($._expression, ','), ']'),
+  _element_initializer: $ =>
+    prec.right(choice($._expression, $.element_initializer)),
 
   tuple: $ => seq('tuple', '(', com.opt($._expression, ','), ')'),
 
@@ -538,12 +519,7 @@ const rules = {
     seq(choice($.string, $.scoped_identifier), '=>', $._expression),
 
   collection: $ =>
-    seq(
-      $.identifier,
-      '{',
-      choice.opt(com($._expression, ','), com($.element_initializer, ',')),
-      '}',
-    ),
+    seq($.identifier, '{', com.opt($._element_initializer, ','), '}'),
 
   // Expressions
 
@@ -671,8 +647,7 @@ const rules = {
 
   awaitable_expression: $ => seq('async', $.compound_statement),
 
-  yield_expression: $ =>
-    prec.right(seq('yield', choice($._expression, $.element_initializer))),
+  yield_expression: $ => prec.right(seq('yield', $._element_initializer)),
 
   error_control_expression: $ => prec.error(seq('@', $._expression)),
 
@@ -1201,6 +1176,7 @@ module.exports = grammar({
     $._primitive_type,
     $._collection_type,
     $._xhp_attribute_expression,
+    $._element_initializer,
   ],
 
   word: $ => $.identifier,
@@ -1214,11 +1190,7 @@ module.exports = grammar({
     [$._expression, $.type_specifier],
     [$.qualified_identifier, $.type_constant],
     [$.scoped_identifier, $._type_constant],
-    [$.varray, $.type_specifier],
-    [$.darray, $.type_specifier],
-    [$.vec, $.type_specifier],
-    [$.dict, $.type_specifier],
-    [$.keyset, $.type_specifier],
+    [$.array, $.type_specifier],
     [$.type_specifier],
   ],
 });

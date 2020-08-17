@@ -1,8 +1,10 @@
 (script
   (expression_statement
-    (dict))
+    (array
+      (array_type)))
   (expression_statement
-    (dict
+    (array
+      (array_type)
       (element_initializer
         (false)
         (null))
