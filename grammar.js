@@ -317,8 +317,8 @@ const rules = {
         opt($.await_modifier),
         'using',
         choice(
-          com($._expression),
-          seq('(', com($._expression), ')', $.compound_statement),
+          $.expression_statement,
+          seq('(', com($._expression), ')', choice($.compound_statement, ';')),
         ),
       ),
     ),

@@ -3589,6 +3589,10 @@
         {
           "type": "compound_statement",
           "named": true
+        },
+        {
+          "type": "expression_statement",
+          "named": true
         }
       ]
     }
