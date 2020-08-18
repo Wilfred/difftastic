@@ -28,7 +28,7 @@ function filter-hack() {
 }
 
 function find-hack() {
-  find "$1" -regex '.*\.\(hack\|php\)$' | sort -u
+  find "$@" -regex '.*\.\(hack\|php\)$' | sort -u
 }
 
 function print-results() {
@@ -67,8 +67,7 @@ fi
 
 printf "\033[1mGetting Tree-sitter examples errors...\033[0m\n"
 
-find-hack examples |
-  grep -v 'examples/hhvm' |
+find-hack $(ls -d examples/*/ | grep -v 'examples/hhvm') |
   xargs -r bin/ts-errors |
   print-results
 
