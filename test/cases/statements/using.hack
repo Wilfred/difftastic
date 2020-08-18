@@ -1,3 +1,3 @@
-using (0) {};
+using (0) {}
 
-await using (0) {};
+await using (0) {}
