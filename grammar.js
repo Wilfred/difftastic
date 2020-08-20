@@ -530,7 +530,7 @@ const rules = {
   subscript_expression: $ =>
     prec.subscript(seq($._expression, '[', opt($._expression), ']')),
 
-  list_expression: $ => seq('list', '(', com($._variablish, ','), ')'),
+  list_expression: $ => seq('list', '(', com($._expression, ','), ')'),
 
   binary_expression: $ =>
     choice(
