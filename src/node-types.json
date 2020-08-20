@@ -1246,10 +1246,6 @@
         {
           "type": "element_initializer",
           "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
         }
       ]
     }

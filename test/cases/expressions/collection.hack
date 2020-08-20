@@ -1,7 +1,7 @@
 Vector {};
-Vector {1, 2, 3};
+HH\Vector {1, 2, 3};
 
-Map {};
+\HH\Map {};
 Map {'foo' => 1};
 
 Set {};

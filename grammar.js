@@ -515,7 +515,7 @@ const rules = {
     seq(choice($.string, $.scoped_identifier), '=>', $._expression),
 
   collection: $ =>
-    seq($.identifier, '{', com.opt($._element_initializer, ','), '}'),
+    seq($.qualified_identifier, '{', com.opt($._element_initializer, ','), '}'),
 
   // Expressions
 
