@@ -3002,7 +3002,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_variablish"
+              "name": "_expression"
             },
             {
               "type": "REPEAT",
@@ -3015,7 +3015,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_variablish"
+                    "name": "_expression"
                   }
                 ]
               }
