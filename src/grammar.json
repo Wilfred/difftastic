@@ -432,6 +432,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "prefixed_string"
+        },
+        {
+          "type": "SYMBOL",
           "name": "parenthesized_expression"
         },
         {
@@ -1722,14 +1726,31 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "(re|b)?'(\\\\'|\\\\\\\\|\\\\?[^'\\\\])*'"
+            "value": "'(\\\\'|\\\\\\\\|\\\\?[^'\\\\])*'"
           },
           {
             "type": "PATTERN",
-            "value": "(re|b)?\"(\\\\\"|\\\\\\\\|\\\\?[^\"\\\\])*\""
+            "value": "\"(\\\\\"|\\\\\\\\|\\\\?[^\"\\\\])*\""
           }
         ]
       }
+    },
+    "prefixed_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "prefix",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        }
+      ]
     },
     "_type": {
       "type": "CHOICE",

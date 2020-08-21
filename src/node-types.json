@@ -134,6 +134,10 @@
         "named": true
       },
       {
+        "type": "prefixed_string",
+        "named": true
+      },
+      {
         "type": "print_expression",
         "named": true
       },
@@ -2514,6 +2518,32 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "prefixed_string",
+    "named": true,
+    "fields": {
+      "prefix": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
     }
   },
   {

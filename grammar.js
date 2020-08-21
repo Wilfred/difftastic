@@ -148,6 +148,7 @@ const rules = {
       $.collection,
       $._literal,
       $._variablish,
+      $.prefixed_string,
       $.parenthesized_expression,
       $.binary_expression,
       $.prefix_unary_expression,
@@ -361,13 +362,16 @@ const rules = {
 
   null: $ => choice('null', 'Null', 'NULL'),
 
+  // prettier-ignore
   string: $ =>
     token(
       choice(
-        /(re|b)?'(\\'|\\\\|\\?[^'\\])*'/,
-        /(re|b)?"(\\"|\\\\|\\?[^"\\])*"/,
+        /'(\\'|\\\\|\\?[^'\\])*'/,
+        /"(\\"|\\\\|\\?[^"\\])*"/,
       ),
     ),
+
+  prefixed_string: $ => seq(field('prefix', $.identifier), $.string),
 
   // Types
 

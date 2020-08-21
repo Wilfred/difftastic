@@ -14,6 +14,10 @@
   (expression_statement
     (string))
   (expression_statement
-    (string))
+    (prefixed_string
+      prefix: (identifier)
+      (string)))
   (expression_statement
-    (string)))
+    (prefixed_string
+      prefix: (identifier)
+      (string))))
