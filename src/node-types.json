@@ -344,6 +344,10 @@
           "named": true
         },
         {
+          "type": "unless_statement",
+          "named": true
+        },
+        {
           "type": "use_statement",
           "named": true
         },
@@ -945,6 +949,10 @@
           "named": true
         },
         {
+          "type": "unless_statement",
+          "named": true
+        },
+        {
           "type": "use_statement",
           "named": true
         },
@@ -953,6 +961,52 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "unless_statement",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "alternative_if_consequence": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1194,6 +1248,10 @@
   {
     "type": "true",
     "named": true
+  },
+  {
+    "type": "unless",
+    "named": false
   },
   {
     "type": "use",
