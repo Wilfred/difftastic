@@ -767,7 +767,7 @@ const rules = {
     seq(
       opt($.attribute_modifier),
       $._function_declaration_header,
-      field('body', $.compound_statement),
+      choice(field('body', $.compound_statement), ';'),
     ),
 
   _function_declaration_header: $ =>
@@ -967,13 +967,15 @@ const rules = {
   _enum_field_specifier: $ => seq($.identifier, '=', $._expression, ';'),
 
   namespace_declaration: $ =>
-    seq(
-      'namespace',
-      choice(
-        seq(field('name', $.qualified_identifier), ';'),
-        seq(
-          opt(field('name', $.qualified_identifier)),
-          field('body', $.compound_statement),
+    prec.right(
+      seq(
+        'namespace',
+        choice.opt(
+          seq(field('name', $.qualified_identifier), ';'),
+          seq(
+            opt(field('name', $.qualified_identifier)),
+            field('body', $.compound_statement),
+          ),
         ),
       ),
     ),
