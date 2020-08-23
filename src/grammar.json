@@ -41,6 +41,22 @@
         }
       ]
     },
+    "comments": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "#.*"
+            }
+          ]
+        }
+      }
+    },
     "use_statement": {
       "type": "SEQ",
       "members": [
@@ -74,22 +90,6 @@
           "name": "_semi_colon"
         }
       ]
-    },
-    "_comments": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "#.*"
-            }
-          ]
-        }
-      }
     },
     "assignment_statement": {
       "type": "SEQ",
@@ -963,19 +963,12 @@
           "name": "_primitive_expression"
         }
       ]
-    },
-    "single_line_comment": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": "#.*"
-      }
     }
   },
   "extras": [
     {
       "type": "SYMBOL",
-      "name": "_comments"
+      "name": "comments"
     },
     {
       "type": "PATTERN",
