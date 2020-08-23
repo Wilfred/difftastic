@@ -24,3 +24,16 @@ elsif(1) {
 else {
   print "else print this\n";
 }
+
+unless(0) {
+  print "unless\n";
+}
+elsif(1) {
+  print "meow\n";
+}
+elsif(1) {
+  print "another one\n";
+}
+else {
+  print "else print this\n";
+}

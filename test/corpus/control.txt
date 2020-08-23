@@ -1,0 +1,41 @@
+=================================================
+if block with boolean
+=================================================
+
+if (1) {
+  print "hello";
+}
+
+---
+
+(source_file
+  (if_statement (parenthesized_expression (integer))
+    (block
+      (call_expression (identifier) (arguments (string_double_quoted)))
+    )
+  )
+)
+
+=================================================
+if else block with boolean
+=================================================
+
+if (1) {
+  print "hello";
+}
+else {
+  print "else";
+}
+
+---
+
+(source_file
+  (if_statement (parenthesized_expression (integer))
+    (block
+      (call_expression (identifier) (arguments (string_double_quoted)))
+    )
+    (block
+      (call_expression (identifier) (arguments (string_double_quoted)))
+    )
+  )
+)

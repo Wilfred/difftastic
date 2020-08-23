@@ -1,22 +1,4 @@
 =================================================
-if block with boolean
-=================================================
-
-if (1) {
-  return true;
-}
-
----
-
-(source_file
-  (if_statement (parenthesized_expression (integer))
-    (block
-      (return_statement (true))
-    )
-  )
-)
-
-=================================================
 scalar declaration
 =================================================
 

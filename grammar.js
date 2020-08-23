@@ -35,6 +35,7 @@ module.exports = grammar({
 
       // conditional statements
       $.if_statement,
+      $.unless_statement,
 
       $.assignment_statement,
     ),
@@ -63,8 +64,26 @@ module.exports = grammar({
       $._semi_colon,
     ),
 
+    // TODO: should be a boolean expression and not the current one?
     if_statement: $ => prec.right(seq(
       'if',
+      field('condition', $.parenthesized_expression),
+      field('consequence', $.block),
+      optional(repeat(
+        seq(
+          'elsif',
+          field('condition', $.parenthesized_expression),
+          field('alternative_if_consequence', $.block),
+        ),
+      )),
+      optional(seq(
+        'else',
+        field('alternative', $.block),
+      ))
+    )),
+
+    unless_statement: $ => prec.right(seq(
+      'unless',
       field('condition', $.parenthesized_expression),
       field('consequence', $.block),
       optional(repeat(
