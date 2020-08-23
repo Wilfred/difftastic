@@ -16,7 +16,7 @@ module.exports = grammar({
   ],
 
   extras: $ => [
-    $._comments,
+    $.comments,
     /[\s\uFEFF\u2060\u200B\u00A0]/,
   ],
 
@@ -39,7 +39,7 @@ module.exports = grammar({
       $.assignment_statement,
     ),
 
-    _comments: $ => token(prec(PRECEDENCE.COMMENTS, choice(
+    comments: $ => token(prec(PRECEDENCE.COMMENTS, choice(
       /#.*/, // single line comment
     ))),
 
