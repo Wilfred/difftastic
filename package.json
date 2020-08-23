@@ -6,7 +6,7 @@
   "scripts": {
     "generate": "tree-sitter generate",
     "test": "tree-sitter test",
-    "example": "tree-sitter parse examples/simple.pl"
+    "example": "tree-sitter parse examples/*"
   },
   "keywords": [
     "perl",

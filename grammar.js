@@ -1,6 +1,8 @@
 // the constant contains the order of precedence.
 // the higher the value, higher the precedence.
 const PRECEDENCE = {
+  COMMENTS: 1, // comments over anything
+
   HASH: 1,
   ARRAY: 2,
   SUB_ARGS: 3,
@@ -13,12 +15,15 @@ module.exports = grammar({
     [$._boolean, $.call_expression],
   ],
 
+  extras: $ => [
+    $._comments,
+    /[\s\uFEFF\u2060\u200B\u00A0]/,
+  ],
+
   rules: {
     source_file: $ => repeat($._statement),
 
     _statement: $ => choice(
-      $._comments,
-
       $.use_statement,
       $.require_statement,
 
@@ -34,6 +39,10 @@ module.exports = grammar({
       $.assignment_statement,
     ),
 
+    _comments: $ => token(prec(PRECEDENCE.COMMENTS, choice(
+      /#.*/, // single line comment
+    ))),
+
     use_statement: $ => seq(
       'use',
       $.package_name,
@@ -46,10 +55,6 @@ module.exports = grammar({
       $._semi_colon,
     ),
 
-    _comments: $ => choice(
-      $.single_line_comment,
-    ),
-
     assignment_statement: $ => seq(
       // optional($.scope),
       // $.scalar_declaration,
@@ -58,11 +63,22 @@ module.exports = grammar({
       $._semi_colon,
     ),
 
-    if_statement: $ => seq(
+    if_statement: $ => prec.right(seq(
       'if',
       field('condition', $.parenthesized_expression),
       field('consequence', $.block),
-    ),
+      optional(repeat(
+        seq(
+          'elsif',
+          field('condition', $.parenthesized_expression),
+          field('alternative_if_consequence', $.block),
+        ),
+      )),
+      optional(seq(
+        'else',
+        field('alternative', $.block),
+      ))
+    )),
 
     _declaration: $ => choice(
       $.function_definition,
@@ -230,7 +246,6 @@ module.exports = grammar({
       $._primitive_expression,
     ),
 
-    single_line_comment: $ => /#.*/,
   }
 });
 
