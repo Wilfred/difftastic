@@ -332,10 +332,6 @@
           "named": true
         },
         {
-          "type": "single_line_comment",
-          "named": true
-        },
-        {
           "type": "string_double_quoted",
           "named": true
         },
@@ -552,8 +548,28 @@
     "type": "if_statement",
     "named": true,
     "fields": {
-      "condition": {
+      "alternative": {
         "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "alternative_if_consequence": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -917,10 +933,6 @@
           "named": true
         },
         {
-          "type": "single_line_comment",
-          "named": true
-        },
-        {
           "type": "string_double_quoted",
           "named": true
         },
@@ -1100,6 +1112,14 @@
     "named": true
   },
   {
+    "type": "else",
+    "named": false
+  },
+  {
+    "type": "elsif",
+    "named": false
+  },
+  {
     "type": "false",
     "named": true
   },
@@ -1157,10 +1177,6 @@
   },
   {
     "type": "scientific_notation",
-    "named": true
-  },
-  {
-    "type": "single_line_comment",
     "named": true
   },
   {

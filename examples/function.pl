@@ -1,5 +1,5 @@
 sub simple {
-  my @args = @_;
+  # my @args = @_;
   print "this is simple\n";
   return;
 }
