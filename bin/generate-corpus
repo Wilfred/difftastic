@@ -23,6 +23,8 @@ for cases_path in test/cases/*; do
       code="$case.php"
     elif [[ -f "$case.hack" ]]; then
       code="$case.hack"
+    elif [[ -f "$case.hhi" ]]; then
+      code="$case.hhi"
     else
       printf "Source file not found for $exp\n"
       exit 1
