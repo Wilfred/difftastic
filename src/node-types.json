@@ -1504,6 +1504,10 @@
       "required": false,
       "types": [
         {
+          "type": "attribute_modifier",
+          "named": true
+        },
+        {
           "type": "field_specifier",
           "named": true
         }

@@ -954,6 +954,7 @@ const rules = {
 
   enum_declaration: $ =>
     seq(
+      opt($.attribute_modifier),
       'enum',
       field('name', $.identifier),
       ':',
