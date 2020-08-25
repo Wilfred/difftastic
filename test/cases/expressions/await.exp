@@ -5,5 +5,5 @@
     return_type: (type_specifier)
     body: (compound_statement
       (expression_statement
-        (await_expression
-          (string))))))
+        (prefix_unary_expression
+          operand: (string))))))

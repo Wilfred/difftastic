@@ -1,5 +1,0 @@
-(script
-  (expression_statement
-    (fun_expression
-      name: (qualified_identifier
-        (identifier)))))

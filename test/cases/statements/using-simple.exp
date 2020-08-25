@@ -6,7 +6,7 @@
     body: (compound_statement
       (using_statement
         (expression_statement
-          (assignment_expression
+          (binary_expression
             left: (variable
               (identifier))
             right: (call_expression

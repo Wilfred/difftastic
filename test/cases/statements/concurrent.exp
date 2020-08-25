@@ -2,32 +2,32 @@
   (concurrent_statement
     (compound_statement
       (expression_statement
-        (await_expression
-          (call_expression
+        (prefix_unary_expression
+          operand: (call_expression
             function: (qualified_identifier
               (identifier))
             (arguments))))
       (expression_statement
-        (await_expression
-          (call_expression
+        (prefix_unary_expression
+          operand: (call_expression
             function: (qualified_identifier
               (identifier))
             (arguments))))))
   (concurrent_statement
     (compound_statement
       (expression_statement
-        (await_expression
-          (call_expression
+        (prefix_unary_expression
+          operand: (call_expression
             function: (qualified_identifier
               (identifier))
             (arguments))))
       (expression_statement
-        (await_expression
-          (awaitable_expression
+        (prefix_unary_expression
+          operand: (awaitable_expression
             (compound_statement
               (expression_statement
-                (await_expression
-                  (call_expression
+                (prefix_unary_expression
+                  operand: (call_expression
                     function: (qualified_identifier
                       (identifier))
                     (arguments)))))))))))

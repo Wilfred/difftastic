@@ -16,17 +16,18 @@
   [prec.left, '*', '/', '%'],
   [prec.left, '+', '-', '.'],
   [prec.left, '<<', '>>'],
-  [prec, '<', '>', '<=', '>=', '<=>'],
-  [prec, '==', '!=', '===', '!=='],
+  [prec.left, '<', '>', '<=', '>=', '<=>'],
+  [prec.left, '==', '!=', '===', '!=='],
   [prec.left, '&&'],
   [prec.left, '^'],
   [prec.left, '||'],
   [prec.left, '&'],
   [prec.left, '|'],
   [prec.right, '??'],
-  [prec.left, 'ternary'],
+  [prec.left, 'ternary', '?:'],
   [prec.left, '|>'],
-  [prec.right, 'assignment'],
+  [prec.right,
+    '=', '??=', '.=', '|=', '^=', '&=', '<<=', '>>=', '+=', '-=', '*=', '/=', '%=', '**='],
   [prec.right, 'print'],
   [prec.left, 'include', 'require'],
 ]
@@ -152,19 +153,12 @@ const rules = {
       $.parenthesized_expression,
       $.binary_expression,
       $.prefix_unary_expression,
-      $.assignment_expression,
-      $.augmented_assignment_expression,
+      $.postfix_unary_expression,
       $.is_expression,
       $.as_expression,
-      $.fun_expression,
-      $.await_expression,
       $.awaitable_expression,
       $.yield_expression,
-      $.error_control_expression,
-      $.clone_expression,
       $.cast_expression,
-      $.print_expression,
-      $.update_expression,
       $.ternary_expression,
       $.lambda_expression,
       $.call_expression,
@@ -506,7 +500,7 @@ const rules = {
       ']',
     ),
 
-  element_initializer: $ => seq($._expression, '=>', $._expression),
+  element_initializer: $ => prec.right(seq($._expression, '=>', $._expression)),
 
   _element_initializer: $ =>
     prec.right(choice($._expression, $.element_initializer)),
@@ -564,6 +558,23 @@ const rules = {
         '/',
         '%',
         '**',
+
+        '?:',
+
+        '=',
+        '??=',
+        '.=',
+        '|=',
+        '^=',
+        '&=',
+        '<<=',
+        '>>=',
+        '+=',
+        '-=',
+        '*=',
+        '/=',
+        '%=',
+        '**=',
       ].map(operator =>
         prec[operator](
           seq(
@@ -576,56 +587,25 @@ const rules = {
     ),
 
   prefix_unary_expression: $ =>
-    prec.unary(
-      choice(
-        seq(field('operator', '!'), field('operand', $._expression)),
-        seq(field('operator', '~'), field('operand', $._expression)),
-        seq(field('operator', '-'), field('operand', $._expression)),
-        seq(field('operator', '+'), field('operand', $._expression)),
+    choice(
+      ...[
+        ['!', prec.unary],
+        ['~', prec.unary],
+        ['-', prec.unary],
+        ['+', prec.unary],
+        ['++', prec.prefix],
+        ['--', prec.prefix],
+        ['print', prec.print],
+        ['clone', prec.clone],
+        ['await', prec.await],
+        ['@', prec.error],
+      ].map(([operator, prec]) =>
+        prec(seq(field('operator', operator), field('operand', $._expression))),
       ),
     ),
 
-  assignment_expression: $ =>
-    prec.assignment(
-      seq(field('left', $._variablish), '=', field('right', $._expression)),
-    ),
-
-  augmented_assignment_expression: $ =>
-    prec.assignment(
-      seq(
-        field('left', $._variablish),
-        field(
-          'operator',
-          choice(
-            '??=',
-            '.=',
-            '|=',
-            '^=',
-            '&=',
-            '<<=',
-            '>>=',
-            '+=',
-            '-=',
-            '*=',
-            '/=',
-            '%=',
-            '**=',
-          ),
-        ),
-        field('right', $._expression),
-      ),
-    ),
-
-  fun_expression: $ =>
-    seq(
-      'fun',
-      '(',
-      choice(
-        seq("'", field('name', $.qualified_identifier), "'"),
-        seq('"', field('name', $.qualified_identifier), '"'),
-      ),
-      ')',
-    ),
+  postfix_unary_expression: $ =>
+    prec.postfix(seq($._expression, choice('++', '--'))),
 
   is_expression: $ =>
     prec.is(seq(field('left', $._expression), 'is', field('right', $._type))),
@@ -639,31 +619,15 @@ const rules = {
       ),
     ),
 
-  print_expression: $ => prec.print(seq('print', $._expression)),
-
-  clone_expression: $ => prec.clone(seq('clone', $._expression)),
-
-  await_expression: $ => prec.await(seq('await', $._expression)),
-
   awaitable_expression: $ => seq('async', $.compound_statement),
 
   yield_expression: $ => prec.right(seq('yield', $._element_initializer)),
-
-  error_control_expression: $ => prec.error(seq('@', $._expression)),
-
-  update_expression: $ =>
-    choice(
-      prec.postfix(seq($._expression, choice('++', '--'))),
-      prec.prefix(seq(choice('++', '--'), $._expression)),
-    ),
 
   cast_expression: $ =>
     prec.cast(
       seq(
         '(',
-        // Only int, float, string, and bool are supported, but this is
-        // checked at typecheck-time.
-        field('type', choice($._collection_type, $._primitive_type)),
+        field('type', choice('int', 'float', 'string', 'bool')),
         ')',
         field('value', $._expression),
       ),
@@ -674,28 +638,13 @@ const rules = {
       seq(
         field('condition', $._expression),
         '?',
-        field('body', opt($._expression)),
+        field('consequence', $._expression),
         ':',
         field('alternative', $._expression),
       ),
     ),
 
   lambda_expression: $ =>
-    seq(
-      $._lambda_expression_header,
-      field('body', choice($._expression, $.compound_statement)),
-    ),
-
-  _callable_lambda_expression: $ =>
-    prec.right(
-      1,
-      seq(
-        $._lambda_expression_header,
-        field('body', choice($.awaitable_expression, $.compound_statement)),
-      ),
-    ),
-
-  _lambda_expression_header: $ =>
     seq(
       opt($.attribute_modifier),
       opt($.async_modifier),
@@ -705,6 +654,7 @@ const rules = {
         seq($.parameters, seq.opt(':', field('return_type', $._type))),
       ),
       '==>',
+      field('body', choice($._expression, $.compound_statement)),
     ),
 
   _single_parameter_parameters: $ => alias($._single_parameter, $.parameter),
@@ -712,24 +662,12 @@ const rules = {
   _single_parameter: $ => field('name', $.variable),
 
   call_expression: $ =>
-    seq(
-      field(
-        'function',
-        choice(
-          alias($._callable_lambda_expression, $.lambda_expression),
-          $.qualified_identifier,
-          $.variable,
-          $.pipe_variable,
-          $.subscript_expression,
-          $.parenthesized_expression,
-          $.scoped_identifier,
-          $.selection_expression,
-          $.call_expression,
-          $._collection_type,
-        ),
+    prec.paren(
+      seq(
+        field('function', choice($._expression, $._collection_type)),
+        opt($.type_arguments),
+        $.arguments,
       ),
-      opt($.type_arguments),
-      $.arguments,
     ),
 
   new_expression: $ =>
@@ -893,14 +831,14 @@ const rules = {
   method_declaration: $ =>
     seq(
       opt($.attribute_modifier),
-      opt($._member_modifiers),
+      rep($._member_modifier),
       $._function_declaration_header,
       choice(field('body', $.compound_statement), ';'),
     ),
 
   _class_const_declaration: $ =>
     seq(
-      opt($._member_modifiers),
+      rep($._member_modifier),
       'const',
       field('type', opt($._type)),
       com(alias($._class_const_declarator, $.const_declaration)),
@@ -921,7 +859,7 @@ const rules = {
   type_const_declaration: $ =>
     seq(
       opt($.attribute_modifier),
-      opt($._member_modifiers),
+      rep($._member_modifier),
       'const',
       'type',
       field('name', $.identifier),
@@ -943,7 +881,7 @@ const rules = {
   property_declaration: $ =>
     seq(
       opt($.attribute_modifier),
-      opt($._member_modifiers),
+      rep($._member_modifier),
       field('type', opt($._type)),
       com($.property_declarator),
       ';',
@@ -982,14 +920,6 @@ const rules = {
     ),
 
   // Modifiers
-
-  _member_modifiers: $ =>
-    seq(
-      $._member_modifier,
-      opt($._member_modifier),
-      opt($._member_modifier),
-      opt($._member_modifier),
-    ),
 
   _member_modifier: $ =>
     choice(
@@ -1057,7 +987,7 @@ const rules = {
 
   xhp_attribute: $ =>
     choice(
-      seq($.xhp_identifier, '=', choice($._literal, $.xhp_braced_expression)),
+      seq($.xhp_identifier, '=', choice($.string, $.xhp_braced_expression)),
       choice($.xhp_braced_expression, $.xhp_spread_expression),
     ),
 
@@ -1175,8 +1105,6 @@ module.exports = grammar({
     $._literal,
     $._variablish,
     $._class_modifier,
-    $._member_modifier,
-    $._member_modifiers,
     $._type,
     $._primitive_type,
     $._collection_type,
@@ -1187,15 +1115,12 @@ module.exports = grammar({
   word: $ => $.identifier,
 
   conflicts: $ => [
-    [$.binary_expression],
-    [$._expression, $.call_expression],
-    [$._expression, $.call_expression, $.type_specifier],
+    [$.binary_expression, $.call_expression],
+    [$.binary_expression, $.cast_expression, $.call_expression],
+    [$.binary_expression, $.prefix_unary_expression, $.call_expression],
     [$._expression, $.parameter],
-    [$._expression, $._type],
     [$._expression, $.type_specifier],
-    [$.qualified_identifier, $.type_constant],
     [$.scoped_identifier, $._type_constant],
-    [$.array, $.type_specifier],
     [$.type_specifier],
   ],
 });

@@ -1,7 +1,7 @@
 (script
   (comment)
   (expression_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (new_expression
@@ -9,7 +9,7 @@
           (identifier))
         (arguments))))
   (expression_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (new_expression
@@ -19,7 +19,7 @@
           (argument
             (integer))))))
   (expression_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (new_expression
@@ -32,7 +32,7 @@
   (comment)
   (comment)
   (expression_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (new_expression
@@ -45,7 +45,7 @@
           (argument
             (integer))))))
   (expression_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (new_expression
@@ -57,7 +57,7 @@
           (argument
             (integer))))))
   (expression_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (new_expression
@@ -67,7 +67,7 @@
           (argument
             (integer))))))
   (expression_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (new_expression
@@ -79,7 +79,7 @@
           (argument
             (integer))))))
   (expression_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (new_expression
@@ -92,7 +92,7 @@
           (argument
             (integer))))))
   (expression_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (binary_expression

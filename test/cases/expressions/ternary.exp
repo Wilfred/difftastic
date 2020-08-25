@@ -3,13 +3,13 @@
     (ternary_expression
       condition: (variable
         (identifier))
-      body: (true)
+      consequence: (true)
       alternative: (false)))
   (expression_statement
-    (ternary_expression
-      condition: (variable
+    (binary_expression
+      left: (variable
         (identifier))
-      alternative: (false)))
+      right: (false)))
   (expression_statement
     (ternary_expression
       condition: (ternary_expression
@@ -17,26 +17,26 @@
           left: (variable
             (identifier))
           right: (integer))
-        body: (ternary_expression
-          condition: (variable
+        consequence: (binary_expression
+          left: (variable
             (identifier))
-          alternative: (integer))
+          right: (integer))
         alternative: (binary_expression
           left: (variable
             (identifier))
           right: (integer)))
-      body: (integer)
+      consequence: (integer)
       alternative: (integer)))
   (expression_statement
     (ternary_expression
-      condition: (ternary_expression
-        condition: (binary_expression
+      condition: (binary_expression
+        left: (binary_expression
           left: (variable
             (identifier))
           right: (integer))
-        alternative: (binary_expression
+        right: (binary_expression
           left: (variable
             (identifier))
           right: (integer)))
-      body: (integer)
+      consequence: (integer)
       alternative: (integer))))

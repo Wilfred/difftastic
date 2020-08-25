@@ -1,31 +1,31 @@
 (script
   (expression_statement
-    (augmented_assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (integer)))
   (expression_statement
-    (augmented_assignment_expression
+    (binary_expression
       left: (subscript_expression
         (variable
           (identifier)))
       right: (string)))
   (expression_statement
-    (augmented_assignment_expression
+    (binary_expression
       left: (subscript_expression
         (variable
           (identifier))
         (integer))
       right: (integer)))
   (expression_statement
-    (augmented_assignment_expression
+    (binary_expression
       left: (subscript_expression
         (variable
           (identifier))
         (string))
       right: (integer)))
   (expression_statement
-    (augmented_assignment_expression
+    (binary_expression
       left: (subscript_expression
         (variable
           (identifier))
@@ -35,7 +35,7 @@
           (string)))
       right: (integer)))
   (expression_statement
-    (augmented_assignment_expression
+    (binary_expression
       left: (subscript_expression
         (subscript_expression
           (variable
@@ -46,7 +46,7 @@
             (string))))
       right: (integer)))
   (expression_statement
-    (augmented_assignment_expression
+    (binary_expression
       left: (subscript_expression
         (subscript_expression
           (variable
@@ -57,7 +57,7 @@
           (string)))
       right: (integer)))
   (expression_statement
-    (augmented_assignment_expression
+    (binary_expression
       left: (list_expression
         (variable
           (identifier))
@@ -67,7 +67,7 @@
         (integer)
         (integer))))
   (expression_statement
-    (augmented_assignment_expression
+    (binary_expression
       left: (list_expression
         (subscript_expression
           (variable
@@ -78,7 +78,7 @@
         (integer)
         (integer))))
   (expression_statement
-    (augmented_assignment_expression
+    (binary_expression
       left: (list_expression
         (subscript_expression
           (variable
@@ -91,7 +91,7 @@
         (integer)
         (integer))))
   (expression_statement
-    (augmented_assignment_expression
+    (binary_expression
       left: (list_expression
         (subscript_expression
           (variable
@@ -105,7 +105,7 @@
         (integer)
         (integer))))
   (expression_statement
-    (augmented_assignment_expression
+    (binary_expression
       left: (list_expression
         (subscript_expression
           (variable
@@ -122,7 +122,7 @@
         (integer)
         (integer))))
   (expression_statement
-    (augmented_assignment_expression
+    (binary_expression
       left: (list_expression
         (subscript_expression
           (subscript_expression

@@ -14,7 +14,7 @@
           (safe_modifier)
           (variable
             (identifier))))
-      body: (selection_expression
+      consequence: (selection_expression
         (variable
           (identifier))
         (safe_modifier)
@@ -69,7 +69,7 @@
             (safe_modifier)
             (variable
               (identifier)))))
-      body: (subscript_expression
+      consequence: (subscript_expression
         (selection_expression
           (subscript_expression
             (variable
