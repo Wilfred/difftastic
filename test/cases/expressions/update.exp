@@ -1,17 +1,17 @@
 (script
   (expression_statement
-    (update_expression
+    (prefix_unary_expression
+      operand: (variable
+        (identifier))))
+  (expression_statement
+    (prefix_unary_expression
+      operand: (variable
+        (identifier))))
+  (expression_statement
+    (postfix_unary_expression
       (variable
         (identifier))))
   (expression_statement
-    (update_expression
-      (variable
-        (identifier))))
-  (expression_statement
-    (update_expression
-      (variable
-        (identifier))))
-  (expression_statement
-    (update_expression
+    (postfix_unary_expression
       (variable
         (identifier)))))

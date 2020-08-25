@@ -1,13 +1,13 @@
 (script
   (using_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (new_expression
         (qualified_identifier
           (identifier))
         (arguments)))
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (new_expression
@@ -18,5 +18,4 @@
             (string))
           (argument
             (string)))))
-    (compound_statement))
-  (empty_statement))
+    (compound_statement)))

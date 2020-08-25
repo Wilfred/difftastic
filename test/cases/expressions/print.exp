@@ -1,4 +1,4 @@
 (script
   (expression_statement
-    (print_expression
-      (string))))
+    (prefix_unary_expression
+      operand: (string))))

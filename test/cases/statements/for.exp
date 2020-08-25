@@ -3,7 +3,7 @@
     body: (expression_statement
       (integer)))
   (for_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (integer))
@@ -11,13 +11,13 @@
       left: (variable
         (identifier))
       right: (integer))
-    (update_expression
+    (postfix_unary_expression
       (variable
         (identifier)))
     body: (expression_statement
       (integer)))
   (for_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (integer))
@@ -25,17 +25,17 @@
       left: (variable
         (identifier))
       right: (integer))
-    (update_expression
+    (postfix_unary_expression
       (variable
         (identifier)))
     (binary_expression
       left: (variable
         (identifier))
       right: (integer))
-    (update_expression
+    (postfix_unary_expression
       (variable
         (identifier)))
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (call_expression

@@ -1,6 +1,6 @@
 (script
   (expression_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (anonymous_function_expression
@@ -13,7 +13,7 @@
             (identifier)))
         body: (compound_statement))))
   (expression_statement
-    (assignment_expression
+    (binary_expression
       left: (variable
         (identifier))
       right: (anonymous_function_expression
