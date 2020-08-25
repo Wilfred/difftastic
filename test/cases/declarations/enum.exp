@@ -3,6 +3,9 @@
     name: (identifier)
     type: (type_specifier))
   (enum_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier)))
     name: (identifier)
     type: (type_specifier)
     (field_specifier
