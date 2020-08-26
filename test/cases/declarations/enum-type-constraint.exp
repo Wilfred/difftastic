@@ -3,9 +3,9 @@
     name: (identifier)
     type: (type_specifier)
     as: (type_specifier)
-    (field_specifier
+    (enumerator
       (identifier)
       (integer))
-    (field_specifier
+    (enumerator
       (identifier)
       (integer))))

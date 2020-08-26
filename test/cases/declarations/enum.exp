@@ -8,19 +8,19 @@
         (identifier)))
     name: (identifier)
     type: (type_specifier)
-    (field_specifier
+    (enumerator
       (identifier)
       (integer))
-    (field_specifier
+    (enumerator
       (identifier)
       (integer))
-    (field_specifier
+    (enumerator
       (identifier)
       (scoped_identifier
         (qualified_identifier
           (identifier))
         (identifier)))
-    (field_specifier
+    (enumerator
       (identifier)
       (binary_expression
         left: (string)
