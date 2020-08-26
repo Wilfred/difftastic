@@ -196,7 +196,7 @@ const rules = {
     seq(
       'use',
       choice(
-        com(opt($.use_type), $.use_clause),
+        com($.use_clause),
         seq(
           opt($.use_type),
           $.qualified_identifier,
@@ -211,7 +211,11 @@ const rules = {
   use_type: $ => choice('namespace', 'function', 'type', 'const'),
 
   use_clause: $ =>
-    seq($.qualified_identifier, field('alias', seq.opt('as', $.identifier))),
+    seq(
+      opt($.use_type),
+      $.qualified_identifier,
+      field('alias', seq.opt('as', $.identifier)),
+    ),
 
   if_statement: $ =>
     prec.right(
