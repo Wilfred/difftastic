@@ -13,9 +13,9 @@ function fetch() {
     git clone --depth 1 --branch "$sha" "https://github.com/$url" "$path"
   fi
 
-  pushd "$path"
+  pushd "$path" >/dev/null
   git fetch --depth 1 origin "$sha" && git reset --hard "$sha"
-  popd
+  popd >/dev/null
 }
 
 mkdir -p examples
