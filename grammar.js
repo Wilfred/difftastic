@@ -414,23 +414,12 @@ const rules = {
       rep($._type_modifier),
       'shape',
       '(',
-      com(
-        choice(
-          alias($._shape_field_specifier, $.field_specifier),
-          alias('...', $.open_modifier),
-        ),
-        ',',
-      ),
+      com(choice($.field_specifier, alias('...', $.open_modifier)), ','),
       ')',
     ),
 
-  _shape_field_specifier: $ =>
-    seq(
-      alias.opt('?', $.optional_modifier),
-      choice($.string, $.scoped_identifier),
-      '=>',
-      $._type,
-    ),
+  field_specifier: $ =>
+    seq(alias.opt('?', $.optional_modifier), $._expression, '=>', $._type),
 
   type_constant: $ =>
     seq(rep($._type_modifier), alias($._type_constant, $.type_constant)),
@@ -496,14 +485,11 @@ const rules = {
       alias($._collection_type, $.array_type),
       opt($.type_arguments),
       '[',
-      com.opt($._element_initializer, ','),
+      com.opt(choice($._expression, $.element_initializer), ','),
       ']',
     ),
 
   element_initializer: $ => prec.right(seq($._expression, '=>', $._expression)),
-
-  _element_initializer: $ =>
-    prec.right(choice($._expression, $.element_initializer)),
 
   tuple: $ => seq('tuple', '(', com.opt($._expression, ','), ')'),
 
@@ -513,7 +499,12 @@ const rules = {
     seq(choice($.string, $.scoped_identifier), '=>', $._expression),
 
   collection: $ =>
-    seq($.qualified_identifier, '{', com.opt($._element_initializer, ','), '}'),
+    seq(
+      $.qualified_identifier,
+      '{',
+      com.opt(choice($._expression, $.element_initializer), ','),
+      '}',
+    ),
 
   // Expressions
 
@@ -621,7 +612,8 @@ const rules = {
 
   awaitable_expression: $ => seq('async', $.compound_statement),
 
-  yield_expression: $ => prec.right(seq('yield', $._element_initializer)),
+  yield_expression: $ =>
+    prec.right(seq('yield', choice($._expression, $.element_initializer))),
 
   cast_expression: $ =>
     prec.cast(
@@ -899,11 +891,11 @@ const rules = {
       field('type', $._type),
       field('as', seq.opt('as', $._type)),
       '{',
-      alias.rep($._enum_field_specifier, $.field_specifier),
+      rep($.enumerator),
       '}',
     ),
 
-  _enum_field_specifier: $ => seq($.identifier, '=', $._expression, ';'),
+  enumerator: $ => seq($.identifier, '=', $._expression, ';'),
 
   namespace_declaration: $ =>
     prec.right(
@@ -1109,7 +1101,6 @@ module.exports = grammar({
     $._primitive_type,
     $._collection_type,
     $._xhp_attribute_expression,
-    $._element_initializer,
   ],
 
   word: $ => $.identifier,
@@ -1120,6 +1111,7 @@ module.exports = grammar({
     [$.binary_expression, $.prefix_unary_expression, $.call_expression],
     [$._expression, $.parameter],
     [$._expression, $.type_specifier],
+    [$._expression, $.field_initializer],
     [$.scoped_identifier, $._type_constant],
     [$.type_specifier],
   ],

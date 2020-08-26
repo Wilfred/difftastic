@@ -1236,7 +1236,26 @@
           "named": true
         },
         {
-          "type": "field_specifier",
+          "type": "enumerator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enumerator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -1313,15 +1332,7 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "optional_modifier",
-          "named": true
-        },
-        {
-          "type": "string",
           "named": true
         }
       ]
