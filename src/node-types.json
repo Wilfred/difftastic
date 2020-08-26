@@ -3212,6 +3212,10 @@
           "named": true
         },
         {
+          "type": "use_type",
+          "named": true
+        },
+        {
           "type": "variable",
           "named": true
         }
