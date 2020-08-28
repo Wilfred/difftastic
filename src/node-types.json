@@ -1508,6 +1508,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "await_modifier",
+          "named": true
+        }
+      ]
     }
   },
   {
