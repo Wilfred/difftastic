@@ -254,6 +254,7 @@ const rules = {
       'foreach',
       '(',
       field('collection', $._expression),
+      opt($.await_modifier),
       token(prec.dynamic(1, 'as')),
       field('key', seq.opt($._variablish, '=>')),
       field('value', $._variablish),

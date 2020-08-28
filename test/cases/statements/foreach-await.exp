@@ -1,0 +1,17 @@
+(script
+  (foreach_statement
+    collection: (variable
+      (identifier))
+    (await_modifier)
+    value: (variable
+      (identifier))
+    body: (compound_statement))
+  (foreach_statement
+    collection: (variable
+      (identifier))
+    (await_modifier)
+    key: (variable
+      (identifier))
+    value: (variable
+      (identifier))
+    body: (compound_statement)))
