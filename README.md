@@ -7,8 +7,8 @@ $ git clone https://github.com/antoniodejesusochoasolano/tree-sitter-hack
 $ cd tree-sitter-hack
 $ npm install
 $ echo 'function main(): void { print "wyd, world\\n"; }' > script.hack
-$ node_modules/.bin/tree-sitter generate
-$ node_modules/.bin/tree-sitter parse script.hack
+$ npx tree-sitter generate
+$ npx tree-sitter parse script.hack
 (script [0, 0] - [3, 0]
   (function_declaration [0, 0] - [2, 1]
     name: (identifier [0, 9] - [0, 13])
@@ -22,7 +22,10 @@ $ node_modules/.bin/tree-sitter parse script.hack
 
 ## Note
 
-- `<?hh` is optional in this grammar unlike standard Hack. The Hack parser requires an `<?hh` tag at the top of `.php` files. Does it really matter?
+npm doesn't allow packages with the word "hack" in their registry which is why the repo
+name does not match the package name.
+
+> Unfortunately, the word "hack" triggers our spam detection and can't be used in package names. We recommend choosing other keywords that highlight your package's functionality.
 
 ## Questions
 

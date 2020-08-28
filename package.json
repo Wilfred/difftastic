@@ -1,5 +1,5 @@
 {
-  "name": "tree-sitter-hack",
+  "name": "tree-sitter-hacklang",
   "version": "0.0.1",
   "description": "Hack grammar for tree-sitter",
   "main": "index.js",
