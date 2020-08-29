@@ -95,12 +95,58 @@ module.exports = grammar({
         _statement: $ =>  choice(
             $.pragmaDirective,
             $.import_statement,
+            $.contract_declaration
         ),
 
         // Declarations
         _declaration: $ => choice(
-
+            $.contract_declaration,
+            // TODO:
+            // $.struct_declaration,
+            // $.enum_declaration,
         ),
+
+        // Contract Declarations
+        contract_declaration: $ => seq(
+            optional('abstract'),
+            choice('contract', 'interface', 'library'),
+            field("name", $.identifier),
+            optional($.class_heritage),
+            field('body', $.contract_body),
+        ),
+
+        class_heritage: $ => optional(seq(
+            "is", commaSep1($._inheritance_specifier)
+        )),
+
+        _inheritance_specifier: $ => seq(
+            $._user_defined_type_name,
+            '(',
+            commaSep($._expression),
+            ')',
+        ),
+
+        _user_defined_type_name: $ => seq(
+            $.identifier,
+            repeat(seq(
+                '.',
+                $.identifier,
+            ))
+        ),
+
+        contract_body: $  => seq(
+            "{",
+            repeat(choice(
+                $.method_definition,
+                $.field_definition,
+            )),
+            "}",
+        ),
+
+        // Definitions
+
+        method_definition: $ => seq("function"),
+        field_definition: $ => seq("public"),
 
         // Expressions
         _expression: $ => choice(
