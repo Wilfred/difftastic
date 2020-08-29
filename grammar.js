@@ -115,15 +115,78 @@ module.exports = grammar({
             field('body', $.contract_body),
         ),
 
-        class_heritage: $ => optional(seq(
+        class_heritage: $ => seq(
             "is", commaSep1($._inheritance_specifier)
-        )),
+        ),
 
         _inheritance_specifier: $ => seq(
             $._user_defined_type_name,
             '(',
             commaSep($._expression),
             ')',
+        ),
+
+
+        contract_body: $  => seq(
+            "{",
+            repeat(choice(
+                $.method_definition,
+                $.modifier_definition,
+                $.field_definition,
+                // TODO:
+                // $.event_definition,
+                // $.using_for_definition,
+                // $.struct_declaration,
+                // $.enum_declaration,
+            )),
+            "}",
+        ),
+
+        // Definitions
+        field_definition: $ => seq(
+            $.type_name,
+            $.field_visibility,
+            $.identifier,
+            optional(seq(
+                '=', $._expression
+            )),
+            $._semicolon
+        ),
+
+
+
+        field_visibility: $ => choice(
+            'public',
+            'internal',
+            'private',
+            'constant',
+            'immutable',
+        ),
+
+        override_specifier: $ => seq(
+            'override',
+            optional(seq(
+                '(',
+                commaSep1($._user_defined_type_name),
+                ')',
+            ))
+        ),
+
+        modifier_definition: $ => seq("modifier"),
+        method_definition: $ => seq("function"),
+
+        // Expressions
+        _expression: $ => choice(
+
+        ),
+
+        // Types
+        type_name: $ => choice(
+            $._primitive_type,
+            // $._user_defined_type_name,
+            // $._mapping,
+            // seq($.type_name, '[', optional($._expression), ']'),
+            // $._function_type_name,
         ),
 
         _user_defined_type_name: $ => seq(
@@ -134,26 +197,38 @@ module.exports = grammar({
             ))
         ),
 
-        contract_body: $  => seq(
-            "{",
-            repeat(choice(
-                $.method_definition,
-                $.field_definition,
-            )),
-            "}",
+        _primitive_type: $ => choice(
+            seq('address', optional('payable')),
+            'bool',
+            'string',
+            'var',
+            $._int,
+            $._uint,
+            $._bytes,
+            $._fixed,
+            $._ufixed,
         ),
 
-        // Definitions
-
-        method_definition: $ => seq("function"),
-        field_definition: $ => seq("public"),
-
-        // Expressions
-        _expression: $ => choice(
-
+        _int: $ => choice (
+            'int', 'int8', 'int16', 'int24', 'int32', 'int40', 'int48', 'int56', 'int64', 'int72', 'int80', 'int88', 'int96', 'int104', 'int112', 'int120', 'int128', 'int136', 'int144', 'int152', 'int160', 'int168', 'int176', 'int184', 'int192', 'int200', 'int208', 'int216', 'int224', 'int232', 'int240', 'int248', 'int256'
+        ),
+        _uint: $ => choice (
+            'uint', 'uint8', 'uint16', 'uint24', 'uint32', 'uint40', 'uint48', 'uint56', 'uint64', 'uint72', 'uint80', 'uint88', 'uint96', 'uint104', 'uint112', 'uint120', 'uint128', 'uint136', 'uint144', 'uint152', 'uint160', 'uint168', 'uint176', 'uint184', 'uint192', 'uint200', 'uint208', 'uint216', 'uint224', 'uint232', 'uint240', 'uint248', 'uint256' 
+        ),
+        _bytes: $ => choice (
+            'byte', 'bytes', 'bytes1', 'bytes2', 'bytes3', 'bytes4', 'bytes5', 'bytes6', 'bytes7', 'bytes8', 'bytes9', 'bytes10', 'bytes11', 'bytes12', 'bytes13', 'bytes14', 'bytes15', 'bytes16', 'bytes17', 'bytes18', 'bytes19', 'bytes20', 'bytes21', 'bytes22', 'bytes23', 'bytes24', 'bytes25', 'bytes26', 'bytes27', 'bytes28', 'bytes29', 'bytes30', 'bytes31', 'bytes32'
         ),
 
-        // Types
+        _fixed: $ => choice (
+            'fixed',
+            /fixed([0-9]+)x([0-9]+)/
+        ),
+        _ufixed: $ => choice (
+            'ufixed',
+            /ufixed([0-9]+)x([0-9]+)/
+        ),
+
+
         _type: $ => choice (
             
         ),
@@ -208,6 +283,7 @@ module.exports = grammar({
             )
         ),
     }
+
   }
 );
    
