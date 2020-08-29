@@ -1,0 +1,17 @@
+{
+  "name": "tree-sitter-solidity",
+  "version": "1.0.0",
+  "description": "A tree sitter parser for Solidity",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joran Honig",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.16.9"
+  }
+}

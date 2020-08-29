@@ -1,0 +1,756 @@
+[
+  {
+    "type": "class_heritage",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "contract_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "field_definition",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "modifier_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "contract_declaration",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "contract_body",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "class_heritage",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "field_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "field_visibility",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "field_visibility",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "import_statement",
+    "named": true,
+    "fields": {
+      "source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "method_definition",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "modifier_definition",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "pragmaDirective",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "program",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "contract_declaration",
+          "named": true
+        },
+        {
+          "type": "import_statement",
+          "named": true
+        },
+        {
+          "type": "pragmaDirective",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_name",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<=",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "abstract",
+    "named": false
+  },
+  {
+    "type": "address",
+    "named": false
+  },
+  {
+    "type": "as",
+    "named": false
+  },
+  {
+    "type": "bool",
+    "named": false
+  },
+  {
+    "type": "byte",
+    "named": false
+  },
+  {
+    "type": "bytes",
+    "named": false
+  },
+  {
+    "type": "bytes1",
+    "named": false
+  },
+  {
+    "type": "bytes10",
+    "named": false
+  },
+  {
+    "type": "bytes11",
+    "named": false
+  },
+  {
+    "type": "bytes12",
+    "named": false
+  },
+  {
+    "type": "bytes13",
+    "named": false
+  },
+  {
+    "type": "bytes14",
+    "named": false
+  },
+  {
+    "type": "bytes15",
+    "named": false
+  },
+  {
+    "type": "bytes16",
+    "named": false
+  },
+  {
+    "type": "bytes17",
+    "named": false
+  },
+  {
+    "type": "bytes18",
+    "named": false
+  },
+  {
+    "type": "bytes19",
+    "named": false
+  },
+  {
+    "type": "bytes2",
+    "named": false
+  },
+  {
+    "type": "bytes20",
+    "named": false
+  },
+  {
+    "type": "bytes21",
+    "named": false
+  },
+  {
+    "type": "bytes22",
+    "named": false
+  },
+  {
+    "type": "bytes23",
+    "named": false
+  },
+  {
+    "type": "bytes24",
+    "named": false
+  },
+  {
+    "type": "bytes25",
+    "named": false
+  },
+  {
+    "type": "bytes26",
+    "named": false
+  },
+  {
+    "type": "bytes27",
+    "named": false
+  },
+  {
+    "type": "bytes28",
+    "named": false
+  },
+  {
+    "type": "bytes29",
+    "named": false
+  },
+  {
+    "type": "bytes3",
+    "named": false
+  },
+  {
+    "type": "bytes30",
+    "named": false
+  },
+  {
+    "type": "bytes31",
+    "named": false
+  },
+  {
+    "type": "bytes32",
+    "named": false
+  },
+  {
+    "type": "bytes4",
+    "named": false
+  },
+  {
+    "type": "bytes5",
+    "named": false
+  },
+  {
+    "type": "bytes6",
+    "named": false
+  },
+  {
+    "type": "bytes7",
+    "named": false
+  },
+  {
+    "type": "bytes8",
+    "named": false
+  },
+  {
+    "type": "bytes9",
+    "named": false
+  },
+  {
+    "type": "constant",
+    "named": false
+  },
+  {
+    "type": "contract",
+    "named": false
+  },
+  {
+    "type": "escape_sequence",
+    "named": true
+  },
+  {
+    "type": "fixed",
+    "named": false
+  },
+  {
+    "type": "from",
+    "named": false
+  },
+  {
+    "type": "function",
+    "named": false
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "immutable",
+    "named": false
+  },
+  {
+    "type": "import",
+    "named": false
+  },
+  {
+    "type": "int",
+    "named": false
+  },
+  {
+    "type": "int104",
+    "named": false
+  },
+  {
+    "type": "int112",
+    "named": false
+  },
+  {
+    "type": "int120",
+    "named": false
+  },
+  {
+    "type": "int128",
+    "named": false
+  },
+  {
+    "type": "int136",
+    "named": false
+  },
+  {
+    "type": "int144",
+    "named": false
+  },
+  {
+    "type": "int152",
+    "named": false
+  },
+  {
+    "type": "int16",
+    "named": false
+  },
+  {
+    "type": "int160",
+    "named": false
+  },
+  {
+    "type": "int168",
+    "named": false
+  },
+  {
+    "type": "int176",
+    "named": false
+  },
+  {
+    "type": "int184",
+    "named": false
+  },
+  {
+    "type": "int192",
+    "named": false
+  },
+  {
+    "type": "int200",
+    "named": false
+  },
+  {
+    "type": "int208",
+    "named": false
+  },
+  {
+    "type": "int216",
+    "named": false
+  },
+  {
+    "type": "int224",
+    "named": false
+  },
+  {
+    "type": "int232",
+    "named": false
+  },
+  {
+    "type": "int24",
+    "named": false
+  },
+  {
+    "type": "int240",
+    "named": false
+  },
+  {
+    "type": "int248",
+    "named": false
+  },
+  {
+    "type": "int256",
+    "named": false
+  },
+  {
+    "type": "int32",
+    "named": false
+  },
+  {
+    "type": "int40",
+    "named": false
+  },
+  {
+    "type": "int48",
+    "named": false
+  },
+  {
+    "type": "int56",
+    "named": false
+  },
+  {
+    "type": "int64",
+    "named": false
+  },
+  {
+    "type": "int72",
+    "named": false
+  },
+  {
+    "type": "int8",
+    "named": false
+  },
+  {
+    "type": "int80",
+    "named": false
+  },
+  {
+    "type": "int88",
+    "named": false
+  },
+  {
+    "type": "int96",
+    "named": false
+  },
+  {
+    "type": "interface",
+    "named": false
+  },
+  {
+    "type": "internal",
+    "named": false
+  },
+  {
+    "type": "is",
+    "named": false
+  },
+  {
+    "type": "library",
+    "named": false
+  },
+  {
+    "type": "modifier",
+    "named": false
+  },
+  {
+    "type": "override",
+    "named": false
+  },
+  {
+    "type": "payable",
+    "named": false
+  },
+  {
+    "type": "pragma",
+    "named": false
+  },
+  {
+    "type": "private",
+    "named": false
+  },
+  {
+    "type": "public",
+    "named": false
+  },
+  {
+    "type": "solidity",
+    "named": false
+  },
+  {
+    "type": "string",
+    "named": false
+  },
+  {
+    "type": "ufixed",
+    "named": false
+  },
+  {
+    "type": "uint",
+    "named": false
+  },
+  {
+    "type": "uint104",
+    "named": false
+  },
+  {
+    "type": "uint112",
+    "named": false
+  },
+  {
+    "type": "uint120",
+    "named": false
+  },
+  {
+    "type": "uint128",
+    "named": false
+  },
+  {
+    "type": "uint136",
+    "named": false
+  },
+  {
+    "type": "uint144",
+    "named": false
+  },
+  {
+    "type": "uint152",
+    "named": false
+  },
+  {
+    "type": "uint16",
+    "named": false
+  },
+  {
+    "type": "uint160",
+    "named": false
+  },
+  {
+    "type": "uint168",
+    "named": false
+  },
+  {
+    "type": "uint176",
+    "named": false
+  },
+  {
+    "type": "uint184",
+    "named": false
+  },
+  {
+    "type": "uint192",
+    "named": false
+  },
+  {
+    "type": "uint200",
+    "named": false
+  },
+  {
+    "type": "uint208",
+    "named": false
+  },
+  {
+    "type": "uint216",
+    "named": false
+  },
+  {
+    "type": "uint224",
+    "named": false
+  },
+  {
+    "type": "uint232",
+    "named": false
+  },
+  {
+    "type": "uint24",
+    "named": false
+  },
+  {
+    "type": "uint240",
+    "named": false
+  },
+  {
+    "type": "uint248",
+    "named": false
+  },
+  {
+    "type": "uint256",
+    "named": false
+  },
+  {
+    "type": "uint32",
+    "named": false
+  },
+  {
+    "type": "uint40",
+    "named": false
+  },
+  {
+    "type": "uint48",
+    "named": false
+  },
+  {
+    "type": "uint56",
+    "named": false
+  },
+  {
+    "type": "uint64",
+    "named": false
+  },
+  {
+    "type": "uint72",
+    "named": false
+  },
+  {
+    "type": "uint8",
+    "named": false
+  },
+  {
+    "type": "uint80",
+    "named": false
+  },
+  {
+    "type": "uint88",
+    "named": false
+  },
+  {
+    "type": "uint96",
+    "named": false
+  },
+  {
+    "type": "var",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]
