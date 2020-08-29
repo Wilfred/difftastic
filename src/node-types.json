@@ -183,7 +183,21 @@
   {
     "type": "type_name",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "\"",
@@ -226,11 +240,23 @@
     "named": false
   },
   {
+    "type": "=>",
+    "named": false
+  },
+  {
     "type": ">",
     "named": false
   },
   {
     "type": ">=",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
     "named": false
   },
   {
@@ -571,6 +597,10 @@
   },
   {
     "type": "library",
+    "named": false
+  },
+  {
+    "type": "mapping",
     "named": false
   },
   {

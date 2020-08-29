@@ -199,16 +199,18 @@ module.exports = grammar({
             '(', commaSep1($._nameless_parameter), ')'
         ),
 
-        _nameless_parameter: $ =>  choice(
+        _nameless_parameter: $ =>  seq(
             $.type_name,
             optional($._storage_location),
         ),
 
-        _parameter: $ =>  choice(
+        _parameter: $ =>  seq(
             $.type_name,
             optional($._storage_location),
             optional($.identifier),
         ),
+
+        _storage_location: $ => choice(),
 
         _user_defined_type: $ => seq(
             $.identifier,
