@@ -120,7 +120,7 @@ module.exports = grammar({
         ),
 
         _inheritance_specifier: $ => seq(
-            $._user_defined_type_name,
+            $._user_defined_type,
             '(',
             commaSep($._expression),
             ')',
@@ -153,8 +153,6 @@ module.exports = grammar({
             $._semicolon
         ),
 
-
-
         field_visibility: $ => choice(
             'public',
             'internal',
@@ -167,7 +165,7 @@ module.exports = grammar({
             'override',
             optional(seq(
                 '(',
-                commaSep1($._user_defined_type_name),
+                commaSep1($._user_defined_type),
                 ')',
             ))
         ),
@@ -183,18 +181,50 @@ module.exports = grammar({
         // Types
         type_name: $ => choice(
             $._primitive_type,
-            // $._user_defined_type_name,
-            // $._mapping,
-            // seq($.type_name, '[', optional($._expression), ']'),
-            // $._function_type_name,
+            $._user_defined_type,
+            $._mapping,
+            seq($.type_name, '[', optional($._expression), ']'),
+            $._function_type,
+        ),
+        
+        _function_type: $ => seq(
+            'function', $._parameter_list, optional($._return_parameters),
         ),
 
-        _user_defined_type_name: $ => seq(
+        _parameter_list: $ => seq(
+            '(', commaSep1($._parameter), ')'
+        ),
+
+        _return_parameters: $ => seq(
+            '(', commaSep1($._nameless_parameter), ')'
+        ),
+
+        _nameless_parameter: $ =>  choice(
+            $.type_name,
+            optional($._storage_location),
+        ),
+
+        _parameter: $ =>  choice(
+            $.type_name,
+            optional($._storage_location),
+            optional($.identifier),
+        ),
+
+        _user_defined_type: $ => seq(
             $.identifier,
             repeat(seq(
                 '.',
                 $.identifier,
             ))
+        ),
+
+        _mapping: $ => seq(
+            'mapping', '(', $._mapping_key, '=>', $.type_name, ')',
+        ),
+
+        _mapping_key: $ => choice(
+            $._primitive_type,
+            $._user_defined_type
         ),
 
         _primitive_type: $ => choice(
