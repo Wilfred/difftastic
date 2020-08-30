@@ -74,7 +74,7 @@ module.exports = grammar({
             'for', '(', 
             // TODO: verify
             choice($.variable_declaration_statement, $.expression_statement, $._semicolon),
-            choice($._expression_statement, $._semicolon),
+            choice($.expression_statement, $._semicolon),
             choice($._expression),
             ')', $.block_statement,
         ),
@@ -91,13 +91,18 @@ module.exports = grammar({
         try_statement: $ => seq(
             'try', $._expression, optional(seq('returns', $._parameter_list)), $.block_statement, repeat1($.catch_clause),
         ),
-        
+
         catch_clause: $ => seq(
             'catch', optional(seq(optional($.identifier), $._parameter_list)), $.block_statement,
         ),
 
-        // return_statement: $ => seq(),
-        // emit_statement: $ => seq(),
+        return_statement: $ => seq(
+            'return', optional($._expression), $._semicolon
+        ),
+        emit_statement: $ => seq(
+            'emit',  $._expression, $._call_arguments, $._semicolon
+        ),
+
         // assembly_statement: $ => seq(),
 
 
