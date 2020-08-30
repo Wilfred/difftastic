@@ -32,16 +32,16 @@ module.exports = grammar({
             $.block_statement,
             $.variable_declaration_statement,
             $.expression_statement,
-            // $if_statement,
-            // $for_statement,
-            // $while_statement,
-            // $do_while_statement,
-            // $continue_statement,
-            // $break_statement,
-            // $try_statememnt,
-            // $return_statememnt,
-            // $emit_statement,
-            // $assembly_statement
+            // $.if_statement,
+            // $.for_statement,
+            // $.while_statement,
+            // $.do_while_statement,
+            // $.continue_statement,
+            // $.break_statement,
+            // $.try_statememnt,
+            // $.return_statememnt,
+            // $.emit_statement,
+            // $.assembly_statement
         ),
 
         block_statement: $ => seq('{', repeat($._statement), "}"),
@@ -65,7 +65,17 @@ module.exports = grammar({
         ),
 
         expression_statement: $ => seq($._expression, $._semicolon),
-        // variable_declaration_statement: $ => seq(),
+        if_statement: $ => seq(),
+        // for_statement: $ => seq(),
+        // while_statement: $ => seq(),
+        // do_while_statement: $ => seq(),
+        // continue_statement: $ => seq(),
+        // break_statement: $ => seq(),
+        // try_statement: $ => seq(),
+        // return_statement: $ => seq(),
+        // emit_statement: $ => seq(),
+        // assembly_statement: $ => seq(),
+
 
         //  -- [ Directives ] --  
         // Pragma
