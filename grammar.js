@@ -78,10 +78,16 @@ module.exports = grammar({
             choice($._expression),
             ')', $.block_statement,
         ),
-        // while_statement: $ => seq(),
-        // do_while_statement: $ => seq(),
-        // continue_statement: $ => seq(),
-        // break_statement: $ => seq(),
+
+        while_statement: $ => seq(
+            'while', '(',$._expression, ')', $.block_statement,
+        ),
+        do_while_statement: $ => seq(
+            'do', $.block_statement, 'while', '(',$._expression, ')',
+        ),        
+        continue_statement: $ => seq('continue', $._semicolon),
+        break_statement: $ => seq('break', $._semicolon),
+        
         // try_statement: $ => seq(),
         // return_statement: $ => seq(),
         // emit_statement: $ => seq(),
