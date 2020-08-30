@@ -343,19 +343,25 @@ module.exports = grammar({
             $.binary_expression,
             $.unary_expression,
             $.update_expression,
-            $.member_expression,
             $.subscript_expression,
-
             $.call_expresion,
             // $.function_call_options_expression,
-            // $.function_call_expression,
             $.payable_conversion_expression,
             $.meta_type_expression,
 
+            $.primary_expression,
+        ),
+
+        primary_expression: $ => choice(
+            $.parenthesized_expression,
+            $.identifier,
+            $.member_expression,
+            $._primitive_type,
+            $._user_defined_type,
+            // TODO: add literals
             // $.new_expression,
             // $.tuple_expression,
             // $.inline_array_expression,
-            // $.primary_expression,
         ),
 
         binary_expression: $ => choice(
@@ -455,14 +461,14 @@ module.exports = grammar({
                 '<<=', '**=', '&&=', '||=', '??='),
             field('right', $._expression)
         )),
-
           
         call_expresion: $ => choice(
             seq($.expression, $._call_arguments),
+            // TODO: add named arguments
         ),
+        
         payable_conversion_expression: $ => seq('payable', _call_arguments),
         meta_type_expression: $ => seq('type', '(', $.type_name, ')'),
-
 
         type_name: $ => choice(
             $._primitive_type,
