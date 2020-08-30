@@ -93,8 +93,8 @@ module.exports = grammar({
         //  -- [ Declarations ] --  
         _declaration: $ => choice(
             $.contract_declaration,
-            // $.struct_declaration,
-            // $.enum_declaration,
+            $.struct_declaration,
+            $.enum_declaration,
         ),
 
         // Contract Declarations
@@ -125,9 +125,9 @@ module.exports = grammar({
                 $.field_definition,
                 $.struct_declaration,
                 $.enum_declaration,
+                $.event_definition,
                 // TODO:
                 // $.constructor_definition,
-                // $.event_definition,
                 // $.using_for_definition,
             )),
             "}",
@@ -151,6 +151,10 @@ module.exports = grammar({
             ')',
         ),
         
+        event_definition: $ => seq(
+            'event',  field('name', $.identifier), $._parameter_list,  optional('anonymous'), $._semicolon
+        ),
+
         //  -- [ Definitions ] --  
         // Definitions
         field_definition: $ => seq(
