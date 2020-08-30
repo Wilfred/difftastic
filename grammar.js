@@ -65,7 +65,11 @@ module.exports = grammar({
         ),
 
         expression_statement: $ => seq($._expression, $._semicolon),
-        if_statement: $ => seq(),
+
+        if_statement: $ => seq(
+            'if', '(',$._expression, ')', $.block_statement, optional(seq('else', $.block_statement)),
+        ),
+        
         // for_statement: $ => seq(),
         // while_statement: $ => seq(),
         // do_while_statement: $ => seq(),
