@@ -128,8 +128,7 @@ module.exports = grammar({
                 $.event_definition,
                 $.using_directive,
                 $.constructor_definition,
-                // TODO:
-                // $.fallback_definition,
+                $.fallback_definition,
             )),
             "}",
         ),
@@ -165,7 +164,7 @@ module.exports = grammar({
         field_definition: $ => seq(
             $.type_name,
             // TODO: deal with unordered possibility later
-            $.field_visibility,
+            field('visibility', $.field_visibility),
             optional($._immutable),
             $.identifier,
             optional(seq(
@@ -202,17 +201,25 @@ module.exports = grammar({
             choice($._semicolon, $.function_body)
         ),
 
-        modifier_body: $ => choice(),
-
         constructor_definition: $ => seq(
             'constructor',
             $._parameter_list,
             // TODO: deal with potential unorderedness
             repeat($._modifier_invocation),
             optional('payable'),
-            optional('internal'),
-            optional('public'),
+            optional(choice('internal', 'public')),
             field('body', $.function_body),
+        ),
+
+        fallback_definition: $ => seq(
+            choice('fallback', 'receive'),
+            '(', ')',
+            // TODO: deal with potential unorderedness
+            optional(field('visibility', $.field_visibility)),      
+            repeat($._modifier_invocation),
+            optional('virtual'),
+            optional('override'),      
+            choice($._semicolon, field('body', $.function_body))
         ),
 
         function_definition: $ => seq(
