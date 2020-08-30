@@ -128,7 +128,7 @@ module.exports = grammar({
                 $.event_definition,
                 // TODO:
                 // $.constructor_definition,
-                // $.using_for_definition,
+                // $.using_directive,
             )),
             "}",
         ),
@@ -153,6 +153,10 @@ module.exports = grammar({
         
         event_definition: $ => seq(
             'event',  field('name', $.identifier), $._parameter_list,  optional('anonymous'), $._semicolon
+        ),
+
+        using_directive: $ => seq(
+            'using', $._user_defined_type, 'for', choice('*', $.type_name), $._semicolon
         ),
 
         //  -- [ Definitions ] --  
