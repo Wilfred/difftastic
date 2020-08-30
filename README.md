@@ -21,3 +21,7 @@ grammar.js
 index.js
 binding.gyp
 ```
+
+### References
+-> Ethereum solidity grammar: https://github.com/ethereum/solidity/blob/develop/docs/grammar/Solidity.g4
+-> Tree-sitter javascript grammar: https://github.com/tree-sitter/tree-sitter-javascript/blob/master/grammar.js
