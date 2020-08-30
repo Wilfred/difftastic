@@ -70,7 +70,14 @@ module.exports = grammar({
             'if', '(',$._expression, ')', $.block_statement, optional(seq('else', $.block_statement)),
         ),
         
-        // for_statement: $ => seq(),
+        for_statement: $ => seq(
+            'for', '(', 
+            // TODO: verify
+            choice($.variable_declaration_statement, $.expression_statement, $._semicolon),
+            choice($._expression_statement, $._semicolon),
+            choice($._expression),
+            ')', $.block_statement,
+        ),
         // while_statement: $ => seq(),
         // do_while_statement: $ => seq(),
         // continue_statement: $ => seq(),
