@@ -29,25 +29,15 @@ module.exports = grammar({
         //  -- [ Directives ] --  
         // Pragma
         pragma_directive: $ => seq(
-            "pragma",
-            "solidity",
-            repeat(
-                $._pragma_version_constraint
-            ),
-            $._semicolon,
+            "pragma", "solidity", repeat($._pragma_version_constraint), $._semicolon,
         ),
+
         _pragma_version_constraint: $ => seq(
             optional($._solidity_version_comparison_operator),
             $._solidity_version,
         ),
         _solidity_version: $ => /\d+(.\d+(.\d+)?)?/,
-        _solidity_version_comparison_operator: $ => choice(
-            "<=",
-            "<",
-            "^",
-            ">",
-            ">="
-        ),
+        _solidity_version_comparison_operator: $ => choice("<=", "<", "^", ">", ">=" ),
 
         // Import
         import_directive: $ => seq(
