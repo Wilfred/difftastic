@@ -1,6 +1,27 @@
 const PREC = {
-    STRING: 2,
     COMMENT: 1,
+    STRING: 2,
+    
+    COMMA: -1,
+    OBJECT: -1,
+    DECLARATION: 1,
+    ASSIGN: 0,
+    TERNARY: 1,
+    OR: 2,
+    AND: 3,
+    REL: 4,
+    PLUS: 5,
+    TIMES: 6,
+    EXP: 7,
+    TYPEOF: 8,
+    DELETE: 8,
+    VOID: 8,
+    NOT: 9,
+    NEG: 10,
+    INC: 11,
+    CALL: 12,
+    NEW: 13,
+    MEMBER: 14
 }
 
 module.exports = grammar({
@@ -32,15 +53,15 @@ module.exports = grammar({
             $.block_statement,
             $.variable_declaration_statement,
             $.expression_statement,
-            // $.if_statement,
-            // $.for_statement,
-            // $.while_statement,
-            // $.do_while_statement,
-            // $.continue_statement,
-            // $.break_statement,
-            // $.try_statememnt,
-            // $.return_statememnt,
-            // $.emit_statement,
+            $.if_statement,
+            $.for_statement,
+            $.while_statement,
+            $.do_while_statement,
+            $.continue_statement,
+            $.break_statement,
+            $.try_statement,
+            $.return_statement,
+            $.emit_statement,
             // $.assembly_statement
         ),
 
@@ -319,10 +340,56 @@ module.exports = grammar({
 
         // Expressions
         _expression: $ => choice(
-
+            $.binary_expression,
+            // $.index_access_expression,
+            // $.index_range_access_expression,
+            // $.member_access_expression,
+            // $.function_call_options_expression,
+            // $.function_call_expression,
+            // $.payable_conversion_expression,
+            // $.meta_type_expression,
+            // $.unary_prefix_operation_expression,
+            // $.unary_suffix_operation_expression,
+            // $.order_comparison_expression,
+            // $.assignment_expression,
+            // $.new_expression,
+            // $.tuple_expression,
+            // $.inline_array_expression,
+            // $.primary_expression,
         ),
-        
-        // Types
+
+        binary_expression: $ => choice(
+            ...[
+              ['&&', PREC.AND],
+              ['||', PREC.OR],
+              ['>>', PREC.TIMES],
+              ['>>>', PREC.TIMES],
+              ['<<', PREC.TIMES],
+              ['&', PREC.AND],
+              ['^', PREC.OR],
+              ['|', PREC.OR],
+              ['+', PREC.PLUS],
+              ['-', PREC.PLUS],
+              ['*', PREC.TIMES],
+              ['/', PREC.TIMES],
+              ['%', PREC.TIMES],
+              ['**', PREC.EXP],
+              ['<', PREC.REL],
+              ['<=', PREC.REL],
+              ['==', PREC.REL],
+              ['!=', PREC.REL],
+              ['!==', PREC.REL],
+              ['>=', PREC.REL],
+              ['>', PREC.REL],
+            ].map(([operator, precedence]) =>
+              prec.left(precedence, seq(
+                field('left', $._expression),
+                field('operator', operator),
+                field('right', $._expression)
+              ))
+            )
+          ),
+
         type_name: $ => choice(
             $._primitive_type,
             $._user_defined_type,
