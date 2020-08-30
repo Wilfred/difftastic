@@ -1,5 +1,28 @@
 [
   {
+    "type": "block_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "block_statement",
+          "named": true
+        },
+        {
+          "type": "expression_statement",
+          "named": true
+        },
+        {
+          "type": "variable_declaration_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "class_heritage",
     "named": true,
     "fields": {},
@@ -171,6 +194,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "expression_statement",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "fallback_definition",
@@ -455,6 +483,66 @@
     }
   },
   {
+    "type": "variable_declaration",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "variable_declaration_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "variable_declaration",
+          "named": true
+        },
+        {
+          "type": "variable_declaration_tuple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "variable_declaration_tuple",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "variable_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "\"",
     "named": false
   },
@@ -675,6 +763,10 @@
     "named": false
   },
   {
+    "type": "calldata",
+    "named": false
+  },
+  {
     "type": "constant",
     "named": false
   },
@@ -871,6 +963,10 @@
     "named": false
   },
   {
+    "type": "memory",
+    "named": false
+  },
+  {
     "type": "modifier",
     "named": false
   },
@@ -904,6 +1000,10 @@
   },
   {
     "type": "solidity",
+    "named": false
+  },
+  {
+    "type": "storage",
     "named": false
   },
   {

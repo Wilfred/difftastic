@@ -16,15 +16,56 @@ module.exports = grammar({
     rules: {
         //  -- [ Program ] --  
         program: $ => seq(
-            repeat($._statement),
+            repeat($._source_element),
         ),
 
-        //  -- [ Statements ] --  
-        _statement: $ =>  choice(
+        //  -- [ Source Element ] --  
+        _source_element: $ =>  choice(
             $.pragma_directive,
             $.import_directive,
             $._declaration,
         ),
+
+        // -- [ Statements ] --
+
+        _statement: $ => choice(
+            $.block_statement,
+            $.variable_declaration_statement,
+            $.expression_statement,
+            // $if_statement,
+            // $for_statement,
+            // $while_statement,
+            // $do_while_statement,
+            // $continue_statement,
+            // $break_statement,
+            // $try_statememnt,
+            // $return_statememnt,
+            // $emit_statement,
+            // $assembly_statement
+        ),
+
+        block_statement: $ => seq('{', repeat($._statement), "}"),
+        variable_declaration_statement: $ => seq(
+            choice(
+                // TODO: make sure that this is correct
+                seq($.variable_declaration, optional(seq('=', $._expression))),
+                seq($.variable_declaration_tuple, '=', $._expression),
+            ),
+            $._semicolon
+        ),
+        variable_declaration: $ => seq(
+            $.type_name,
+            optional(choice('memory', 'storage', 'calldata')),
+            field('name', $.identifier)
+        ),
+        variable_declaration_tuple: $ => seq(
+            '(', 
+            commaSep($.variable_declaration),
+            ')'
+        ),
+
+        expression_statement: $ => seq($._expression, $._semicolon),
+        // variable_declaration_statement: $ => seq(),
 
         //  -- [ Directives ] --  
         // Pragma
