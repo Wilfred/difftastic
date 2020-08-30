@@ -126,9 +126,10 @@ module.exports = grammar({
                 $.struct_declaration,
                 $.enum_declaration,
                 $.event_definition,
+                $.using_directive,
+                $.constructor_definition,
                 // TODO:
-                // $.constructor_definition,
-                // $.using_directive,
+                // $.fallback_definition,
             )),
             "}",
         ),
@@ -198,10 +199,21 @@ module.exports = grammar({
             // TODO: deal with potential unorderedness
             optional('virtual'),
             optional('override'),
-            choice($._semicolon, $.modifier_body)
+            choice($._semicolon, $.function_body)
         ),
 
         modifier_body: $ => choice(),
+
+        constructor_definition: $ => seq(
+            'constructor',
+            $._parameter_list,
+            // TODO: deal with potential unorderedness
+            repeat($._modifier_invocation),
+            optional('payable'),
+            optional('internal'),
+            optional('public'),
+            field('body', $.function_body),
+        ),
 
         function_definition: $ => seq(
             "function",
@@ -222,7 +234,7 @@ module.exports = grammar({
         _expression: $ => choice(
 
         ),
-
+        
         // Types
         type_name: $ => choice(
             $._primitive_type,
