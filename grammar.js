@@ -14,12 +14,21 @@ module.exports = grammar({
     word: $ => $.identifier,
 
     rules: {
+        //  -- [ Program ] --  
         program: $ => seq(
             repeat($._statement),
         ),
 
+        //  -- [ Statements ] --  
+        _statement: $ =>  choice(
+            $.pragma_directive,
+            $.import_directive,
+            $._declaration,
+        ),
+
+        //  -- [ Directives ] --  
         // Pragma
-        pragmaDirective: $ => seq(
+        pragma_directive: $ => seq(
             "pragma",
             "solidity",
             repeat(
@@ -41,7 +50,7 @@ module.exports = grammar({
         ),
 
         // Import
-        import_statement: $ => seq(
+        import_directive: $ => seq(
             'import',
             choice(
                 $._source_import,
@@ -91,17 +100,9 @@ module.exports = grammar({
             )
         ),
 
-        // Statements
-        _statement: $ =>  choice(
-            $.pragmaDirective,
-            $.import_statement,
-            $.contract_declaration
-        ),
-
-        // Declarations
+        //  -- [ Declarations ] --  
         _declaration: $ => choice(
             $.contract_declaration,
-            // TODO:
             // $.struct_declaration,
             // $.enum_declaration,
         ),
@@ -109,7 +110,7 @@ module.exports = grammar({
         // Contract Declarations
         contract_declaration: $ => seq(
             optional('abstract'),
-            choice('contract', 'interface', 'library'),
+            'contract',
             field("name", $.identifier),
             optional($.class_heritage),
             field('body', $.contract_body),
@@ -126,26 +127,47 @@ module.exports = grammar({
             ')',
         ),
 
-
         contract_body: $  => seq(
             "{",
             repeat(choice(
-                $.method_definition,
+                $.function_definition,
                 $.modifier_definition,
                 $.field_definition,
+                $.struct_declaration,
+                $.enum_declaration,
                 // TODO:
+                // $.constructor_definition,
                 // $.event_definition,
                 // $.using_for_definition,
-                // $.struct_declaration,
-                // $.enum_declaration,
             )),
             "}",
         ),
+        
+        struct_declaration: $ =>  seq(
+            'struct',
+            $.identifier,
+            '(', 
+            repeat1($.struct_member),
+            ')',
+        ),
 
+        struct_member: $ => seq($.type_name, $.identifier, $._semicolon),
+
+        enum_declaration: $ =>  seq(
+            'enum',
+            $.identifier,
+            '(',
+            commaSep1($.identifier),
+            ')',
+        ),
+        
+        //  -- [ Definitions ] --  
         // Definitions
         field_definition: $ => seq(
             $.type_name,
+            // TODO: deal with unordered possibility later
             $.field_visibility,
+            optional($._immutable),
             $.identifier,
             optional(seq(
                 '=', $._expression
@@ -158,8 +180,9 @@ module.exports = grammar({
             'internal',
             'private',
             'constant',
-            'immutable',
         ),
+        _immutable: $ => 'immutable',
+        _override: $ => 'override',
 
         override_specifier: $ => seq(
             'override',
@@ -170,8 +193,32 @@ module.exports = grammar({
             ))
         ),
 
-        modifier_definition: $ => seq("modifier"),
-        method_definition: $ => seq("function"),
+        modifier_definition: $ => seq(
+            "modifier",
+            $.identifier,
+            $._parameter_list,
+            // TODO: deal with potential unorderedness
+            optional('virtual'),
+            optional('override'),
+            choice($._semicolon, $.modifier_body)
+        ),
+
+        modifier_body: $ => choice(),
+
+        function_definition: $ => seq(
+            "function",
+            choice($.identifier),
+            $._parameter_list,
+            'returns',
+            repeat($._modifier_invocation),
+            $._parameter_list,
+            choice($._semicolon, field('body', $.function_body))
+        ),
+
+        _modifier_invocation: $ => seq($.identifier, $._call_arguments),
+        _call_arguments: $ =>  seq('(', commaSep($._expression),')'),
+
+        function_body: $ => choice(),
 
         // Expressions
         _expression: $ => choice(
@@ -315,10 +362,8 @@ module.exports = grammar({
             )
         ),
     }
-
   }
 );
-   
 
 function commaSep1(rule) {
     return seq(rule, repeat(seq(',', rule)));

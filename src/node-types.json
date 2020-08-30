@@ -23,15 +23,23 @@
       "required": false,
       "types": [
         {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
           "type": "field_definition",
           "named": true
         },
         {
-          "type": "method_definition",
+          "type": "function_definition",
           "named": true
         },
         {
           "type": "modifier_definition",
+          "named": true
+        },
+        {
+          "type": "struct_declaration",
           "named": true
         }
       ]
@@ -74,6 +82,21 @@
     }
   },
   {
+    "type": "enum_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "field_definition",
     "named": true,
     "fields": {},
@@ -102,7 +125,42 @@
     "fields": {}
   },
   {
-    "type": "import_statement",
+    "type": "function_body",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "function_definition",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "function_body",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "import_directive",
     "named": true,
     "fields": {
       "source": {
@@ -128,17 +186,35 @@
     }
   },
   {
-    "type": "method_definition",
+    "type": "modifier_body",
     "named": true,
     "fields": {}
   },
   {
     "type": "modifier_definition",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "modifier_body",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        }
+      ]
+    }
   },
   {
-    "type": "pragmaDirective",
+    "type": "pragma_directive",
     "named": true,
     "fields": {}
   },
@@ -155,11 +231,11 @@
           "named": true
         },
         {
-          "type": "import_statement",
+          "type": "import_directive",
           "named": true
         },
         {
-          "type": "pragmaDirective",
+          "type": "pragma_directive",
           "named": true
         }
       ]
@@ -175,6 +251,44 @@
       "types": [
         {
           "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "struct_member",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_member",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_name",
           "named": true
         }
       ]
@@ -424,6 +538,10 @@
     "named": false
   },
   {
+    "type": "enum",
+    "named": false
+  },
+  {
     "type": "escape_sequence",
     "named": true
   },
@@ -442,10 +560,6 @@
   {
     "type": "identifier",
     "named": true
-  },
-  {
-    "type": "immutable",
-    "named": false
   },
   {
     "type": "import",
@@ -584,19 +698,11 @@
     "named": false
   },
   {
-    "type": "interface",
-    "named": false
-  },
-  {
     "type": "internal",
     "named": false
   },
   {
     "type": "is",
-    "named": false
-  },
-  {
-    "type": "library",
     "named": false
   },
   {
@@ -628,11 +734,19 @@
     "named": false
   },
   {
+    "type": "returns",
+    "named": false
+  },
+  {
     "type": "solidity",
     "named": false
   },
   {
     "type": "string",
+    "named": false
+  },
+  {
+    "type": "struct",
     "named": false
   },
   {
@@ -773,6 +887,10 @@
   },
   {
     "type": "var",
+    "named": false
+  },
+  {
+    "type": "virtual",
     "named": false
   },
   {
