@@ -88,7 +88,14 @@ module.exports = grammar({
         continue_statement: $ => seq('continue', $._semicolon),
         break_statement: $ => seq('break', $._semicolon),
         
-        // try_statement: $ => seq(),
+        try_statement: $ => seq(
+            'try', $._expression, optional(seq('returns', $._parameter_list)), $.block_statement, repeat1($.catch_clause),
+        ),
+        
+        catch_clause: $ => seq(
+            'catch', optional(seq(optional($.identifier), $._parameter_list)), $.block_statement,
+        ),
+
         // return_statement: $ => seq(),
         // emit_statement: $ => seq(),
         // assembly_statement: $ => seq(),
