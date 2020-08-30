@@ -15,6 +15,36 @@
     }
   },
   {
+    "type": "constructor_definition",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "function_body",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "contract_body",
     "named": true,
     "fields": {},
@@ -23,7 +53,19 @@
       "required": false,
       "types": [
         {
+          "type": "constructor_definition",
+          "named": true
+        },
+        {
           "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "event_definition",
+          "named": true
+        },
+        {
+          "type": "fallback_definition",
           "named": true
         },
         {
@@ -40,6 +82,10 @@
         },
         {
           "type": "struct_declaration",
+          "named": true
+        },
+        {
+          "type": "using_directive",
           "named": true
         }
       ]
@@ -97,17 +143,90 @@
     }
   },
   {
+    "type": "event_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fallback_definition",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "function_body",
+            "named": true
+          }
+        ]
+      },
+      "visibility": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "field_visibility",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "field_definition",
     "named": true,
-    "fields": {},
+    "fields": {
+      "visibility": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "field_visibility",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "field_visibility",
-          "named": true
-        },
         {
           "type": "identifier",
           "named": true
@@ -186,11 +305,6 @@
     }
   },
   {
-    "type": "modifier_body",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "modifier_definition",
     "named": true,
     "fields": {},
@@ -199,11 +313,11 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "function_body",
           "named": true
         },
         {
-          "type": "modifier_body",
+          "type": "identifier",
           "named": true
         },
         {
@@ -231,11 +345,19 @@
           "named": true
         },
         {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
           "type": "import_directive",
           "named": true
         },
         {
           "type": "pragma_directive",
+          "named": true
+        },
+        {
+          "type": "struct_declaration",
           "named": true
         }
       ]
@@ -301,6 +423,25 @@
     "children": {
       "multiple": true,
       "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "using_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
       "types": [
         {
           "type": "identifier",
@@ -383,6 +524,10 @@
   },
   {
     "type": "address",
+    "named": false
+  },
+  {
+    "type": "anonymous",
     "named": false
   },
   {
@@ -534,6 +679,10 @@
     "named": false
   },
   {
+    "type": "constructor",
+    "named": false
+  },
+  {
     "type": "contract",
     "named": false
   },
@@ -546,7 +695,19 @@
     "named": true
   },
   {
+    "type": "event",
+    "named": false
+  },
+  {
+    "type": "fallback",
+    "named": false
+  },
+  {
     "type": "fixed",
+    "named": false
+  },
+  {
+    "type": "for",
     "named": false
   },
   {
@@ -734,6 +895,10 @@
     "named": false
   },
   {
+    "type": "receive",
+    "named": false
+  },
+  {
     "type": "returns",
     "named": false
   },
@@ -883,6 +1048,10 @@
   },
   {
     "type": "uint96",
+    "named": false
+  },
+  {
+    "type": "using",
     "named": false
   },
   {
