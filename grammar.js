@@ -341,17 +341,17 @@ module.exports = grammar({
         // Expressions
         _expression: $ => choice(
             $.binary_expression,
-            // $.index_access_expression,
-            // $.index_range_access_expression,
-            // $.member_access_expression,
+            $.unary_expression,
+            $.update_expression,
+            $.member_expression,
+            $.subscript_expression,
+
+            $.call_expresion,
             // $.function_call_options_expression,
             // $.function_call_expression,
-            // $.payable_conversion_expression,
-            // $.meta_type_expression,
-            // $.unary_prefix_operation_expression,
-            // $.unary_suffix_operation_expression,
-            // $.order_comparison_expression,
-            // $.assignment_expression,
+            $.payable_conversion_expression,
+            $.meta_type_expression,
+
             // $.new_expression,
             // $.tuple_expression,
             // $.inline_array_expression,
@@ -360,35 +360,109 @@ module.exports = grammar({
 
         binary_expression: $ => choice(
             ...[
-              ['&&', PREC.AND],
-              ['||', PREC.OR],
-              ['>>', PREC.TIMES],
-              ['>>>', PREC.TIMES],
-              ['<<', PREC.TIMES],
-              ['&', PREC.AND],
-              ['^', PREC.OR],
-              ['|', PREC.OR],
-              ['+', PREC.PLUS],
-              ['-', PREC.PLUS],
-              ['*', PREC.TIMES],
-              ['/', PREC.TIMES],
-              ['%', PREC.TIMES],
-              ['**', PREC.EXP],
-              ['<', PREC.REL],
-              ['<=', PREC.REL],
-              ['==', PREC.REL],
-              ['!=', PREC.REL],
-              ['!==', PREC.REL],
-              ['>=', PREC.REL],
-              ['>', PREC.REL],
+            ['&&', PREC.AND],
+            ['||', PREC.OR],
+            ['>>', PREC.TIMES],
+            ['>>>', PREC.TIMES],
+            ['<<', PREC.TIMES],
+            ['&', PREC.AND],
+            ['^', PREC.OR],
+            ['|', PREC.OR],
+            ['+', PREC.PLUS],
+            ['-', PREC.PLUS],
+            ['*', PREC.TIMES],
+            ['/', PREC.TIMES],
+            ['%', PREC.TIMES],
+            ['**', PREC.EXP],
+            ['<', PREC.REL],
+            ['<=', PREC.REL],
+            ['==', PREC.REL],
+            ['!=', PREC.REL],
+            ['!==', PREC.REL],
+            ['>=', PREC.REL],
+            ['>', PREC.REL],
             ].map(([operator, precedence]) =>
-              prec.left(precedence, seq(
-                field('left', $._expression),
-                field('operator', operator),
-                field('right', $._expression)
-              ))
+                prec.left(precedence, seq(
+                    field('left', $._expression),
+                    field('operator', operator),
+                    field('right', $._expression)
+                ))
             )
-          ),
+        ),
+
+        unary_expression: $ => choice(...[
+                ['!', PREC.NOT],
+                ['~', PREC.NOT],
+                ['-', PREC.NEG],
+                ['+', PREC.NEG],
+                ['delete', PREC.DELETE],
+            ].map(([operator, precedence]) =>
+                prec.left(precedence, seq(
+                    field('operator', operator),
+                    field('argument', $._expression)
+                ))
+        )),
+
+        update_expression: $ => prec.left(PREC.INC, choice(
+            seq(
+                field('argument', $._expression),
+                field('operator', choice('++', '--'))
+            ),
+            seq(
+                field('operator', choice('++', '--')),
+                field('argument', $._expression)
+            ),
+        )),
+
+        member_expression: $ => prec(PREC.MEMBER, seq(
+            field('object', choice(
+                $._expression,
+                $.identifier,
+                $.super,
+                alias($._reserved_identifier, $.identifier)
+            )),
+            '.',
+            field('property', alias($.identifier, $.property_identifier))
+        )),
+
+        subscript_expression: $ => prec.right(PREC.MEMBER, seq(
+            field('object', choice($._expression, $.super)),
+            '[', field('index', $._expressions), ']'
+        )),
+
+        _lhs_expression: $ => choice(
+            $.member_expression,
+            $.subscript_expression,
+            $.identifier,
+            $._destructuring_pattern
+        ),
+        parenthesized_expression: $ => seq('(', $._expression, ')'),
+
+        assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
+            field('left', choice($.parenthesized_expression, $._lhs_expression)),
+            '=',
+            field('right', $._expression)
+        )),
+      
+        augmented_assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
+            field('left', choice(
+                $.member_expression,
+                $.subscript_expression,
+                $.identifier,
+                $.parenthesized_expression,
+            )),
+            choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=',
+                '<<=', '**=', '&&=', '||=', '??='),
+            field('right', $._expression)
+        )),
+
+          
+        call_expresion: $ => choice(
+            seq($.expression, $._call_arguments),
+        ),
+        payable_conversion_expression: $ => seq('payable', _call_arguments),
+        meta_type_expression: $ => seq('type', '(', $.type_name, ')'),
+
 
         type_name: $ => choice(
             $._primitive_type,
