@@ -466,7 +466,7 @@ module.exports = grammar({
             seq($.expression, $._call_arguments),
             // TODO: add named arguments
         ),
-        
+
         payable_conversion_expression: $ => seq('payable', _call_arguments),
         meta_type_expression: $ => seq('type', '(', $.type_name, ')'),
 
@@ -501,7 +501,11 @@ module.exports = grammar({
             optional($.identifier),
         ),
 
-        _storage_location: $ => choice(),
+        _storage_location: $ => choice(
+            'memory',
+            'storage',
+            'calldata'
+        ),
 
         _user_defined_type: $ => seq(
             $.identifier,
@@ -551,18 +555,48 @@ module.exports = grammar({
             /ufixed([0-9]+)x([0-9]+)/
         ),
 
-
-        _type: $ => choice (
-            
-        ),
-
         _semicolon: $ => ';',
 
         identifier: $ => /[a-z]+/,
 
         number: $ => /\d+/,
+        literal: $ => choice(
+            $.string_literal,
+            $.number_literal,
+            $.boolean_literal,
+            $.hex_string_literal,
+            $.unicode_string_literal,
+        ),
 
-        // Primitives 
+        string_literal: $ => repeat1($.string),
+        number_literal: $ => seq(choice($.decimal_number, $hex_number), optional($.number_unit)),
+        decimal_number: $ =>  seq(/\d+(.\d+)?/, optional(/[eE](-)?d+/)),
+        hex_number: $ => seq('0x', $._hex_digits),
+        _hex_digits: $ => /([a-fA-F0-9]{2})+/, 
+        number_unit: $ => choice(
+            'wei', 'gwei', 'ether', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'years'
+        ),
+        boolean_literal: $ => choice('true', 'false'),
+        hex_string_literal: $ => repeat1(seq(
+            'hex',
+            choice(
+                seq('"', $._hex_digits, '"'),
+                seq("'", $._hex_digits, "'"),
+            ))),
+        _escape_sequence: $ => seq('\\', choice(
+            // TODO: it might be allowed to escape non special characters
+            /"'\\bfnrtv\n\r/,
+            /u([a-fA-F0-9]{4})/,
+            /x([a-fA-F0-9]{2})/,
+        )),
+        _single_quoted_unicode_char: $ => choice(/~['\r\n\\]/, $._escape_sequence),
+        _double_quoted_unicode_char: $ => choice(/~["\r\n\\]/, $._escape_sequence),
+        unicode_string_literal: $ => repeat1(seq(
+            'unicode',
+            choice(
+                seq('"', $._double_quoted_unicode_char, '"'),
+                seq("'", $._single_quoted_unicode_char, "'"),
+            ))),
 
         string: $ => choice(
             seq(
