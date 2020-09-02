@@ -1,22 +1,24 @@
 // NOTES
 //
-// - consider base clojure and other specialized grammars
-//   - grammar with no fields
-//   - grammar that discards comments and discard forms
-//   - support def, if, and other "primitives" in a specialized grammar?
-//   - clojurescript-specific things in a separate grammar?
-//   - can clojure clr's pipe-stuff be supported?
+// - possibilities (may be as separate grammars?)
+//   - no fields (but likely that means metadata lives "outside")
+//   - retain whitespace and comments (for round-tripping)
+//   - clojure clr's pipe-escaping:
+//       https://github.com/clojure/clojure-clr/wiki/Specifying-types
+//
+// - probably won't do
+//   - support def, if, and other "primitives"
+//   - support for {{}} template constructs
 //
 // - testing
 //   - clj, cljc, cljs
 //   - what about edn?
-//   - possibly project.clj?
 //   - approaches
 //     - "port" hand-written tests
 //       - oakmac (done)
 //       - Tavistock
 //       - tonsky
-//     - generative testing for token testing (done)
+//     - generative testing for token testing -- revisit
 //     - look for parsing errors across large sample (e.g. clojars) (done)
 //   - how to "package" testing facilities
 //     - currently each approach has its own project directory
@@ -33,14 +35,7 @@
 //   - there is a performance cost -- when no fields are used,
 //     clojure.core takes on average slightly less than 20 ms to parse.
 //     when fields are used extensively, the same file takes typically a
-//     bit more than 30 ms.
-//   - expose distinctions between things like _simple_symbol and
-//     _qualified_symbol via fields, e.g. by having one field for ns prefix
-//     and a separate field for the symbol's name
-//
-// - potential things
-//   - support for #= (which is not officially supported)
-//   - support for {{}} template constructs
+//     bit more than 30 ms.  (info may be outdated here)
 //
 // - loosening ideas:
 //   - allow ##Other (not just ##Inf, -##Inf, ##NaN)
@@ -48,7 +43,6 @@
 //   - allow ::/
 //   - don't handle "no repeating colons" in symbols and in non-leading
 //     portions of keywords (currently unimplemented anyway)
-//   - allow any one or two digit number for RADIX
 //
 // - can strings have unicode escapes in them?
 //
