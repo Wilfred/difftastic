@@ -209,13 +209,13 @@ module.exports = grammar({
 
     _non_form: $ =>
       choice($._whitespace,
-             $._comment,
+             $.comment,
              $.discard_expr),
 
     _whitespace: $ =>
       token(repeat1(WHITESPACE)),
 
-    _comment: $ =>
+    comment: $ =>
       token(/(;|(#!)).*/),
 
     discard_expr: $ =>
