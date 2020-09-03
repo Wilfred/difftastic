@@ -11,10 +11,10 @@
   "license": "",
   "dependencies": {
     "nan": "2.14.0",
-    "web-tree-sitter": "0.16.2"
+    "web-tree-sitter": "0.16.4"
   },
   "devDependencies": {
-    "tree-sitter-cli": "0.16.5"
+    "tree-sitter-cli": "0.16.9"
   },
   "tree-sitter": [
     {
