@@ -9,14 +9,14 @@ view model =
 
 ---
 
-(file 
-    (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier))) 
-    (eq) 
-    (function_call_expr (value_expr (value_qid (lower_case_identifier))) (list_expr (left_square_bracket) (right_square_bracket)) 
-    (list_expr (left_square_bracket) 
-    (value_expr (upper_case_qid (upper_case_identifier))) 
-    (ERROR (dot)) 
-    (right_square_bracket))))) 
+(file
+    (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)))
+    (eq)
+    (function_call_expr (value_expr (value_qid (lower_case_identifier))) (list_expr (left_square_bracket) (right_square_bracket))
+    (list_expr (left_square_bracket)
+    (value_expr (upper_case_qid (upper_case_identifier)))
+    (ERROR (dot))
+    (right_square_bracket)))))
 
 =====================================
 Incomplete model access
@@ -29,11 +29,10 @@ view model =
 
 ---
 
-(file 
-    (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier))) 
+(file
+    (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)))
     (eq)
-    (function_call_expr (value_expr (value_qid (lower_case_identifier))) (list_expr (left_square_bracket) (right_square_bracket)) 
-    (list_expr (left_square_bracket) 
-    (field_access_expr (value_expr (value_qid (lower_case_identifier))) 
-        (field_access_segment (dot) (MISSING lower_case_identifier))) 
+    (function_call_expr (value_expr (value_qid (lower_case_identifier))) (list_expr (left_square_bracket) (right_square_bracket))
+    (list_expr (left_square_bracket)
+    (field_access_expr (value_expr (value_qid (lower_case_identifier))) (dot) (MISSING lower_case_identifier))
     (right_square_bracket)))))

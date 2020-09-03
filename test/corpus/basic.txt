@@ -27,7 +27,8 @@ getFirstMatch state =
                         (case)
                         (field_access_expr
                                 (value_expr (value_qid (lower_case_identifier)))
-                                (field_access_segment (dot) (lower_case_identifier))
+                                (dot)
+                                (lower_case_identifier)
                         )
                         (of)
 
@@ -49,7 +50,8 @@ getFirstMatch state =
                                                 (value_expr
                                                         (value_qid (lower_case_identifier))
                                                 )
-                                                (field_access_segment (dot) (lower_case_identifier))
+                                                (dot)
+                                                (lower_case_identifier)
                                         )
                                 )
                         )
@@ -71,10 +73,8 @@ getFirstMatch state =
                                                 (value_expr
                                                         (value_qid (lower_case_identifier))
                                                 )
-                                                (field_access_segment
-                                                        (dot)
-                                                        (lower_case_identifier)
-                                                )
+                                                (dot)
+                                                (lower_case_identifier)
                                         )
                                 )
                         )
