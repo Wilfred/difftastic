@@ -13,5 +13,6 @@
   "visotype/state-machine",
   "Chadtech/elm-europe-2019-talk",
   "mathiajusth/gravity",
-  "Vynlar/time-tracker"
+  "Vynlar/time-tracker",
+  "xbmc/elm-chorus"
 ]
