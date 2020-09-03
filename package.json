@@ -14,7 +14,7 @@
     "prebuild-install": "^5.3.5"
   },
   "devDependencies": {
-    "prebuild": "^10.0.0",
+    "prebuild": "^10.0.1",
     "tree-sitter-cli": "^0.16.9"
   },
   "scripts": {
