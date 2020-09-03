@@ -850,7 +850,15 @@
       "required": true,
       "types": [
         {
-          "type": "field_access_segment",
+          "type": "dot",
+          "named": true
+        },
+        {
+          "type": "field_access_expr",
+          "named": true
+        },
+        {
+          "type": "lower_case_identifier",
           "named": true
         },
         {
@@ -863,25 +871,6 @@
         },
         {
           "type": "value_expr",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "field_access_segment",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "lower_case_identifier",
           "named": true
         }
       ]

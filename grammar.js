@@ -9,6 +9,7 @@ module.exports = grammar({
     [$.upper_case_qid, $.value_qid],
     [$._more_case_of_branches],
     [$.function_call_expr],
+    [$.field_access_expr],
   ],
 
   externals: ($) => [
@@ -329,12 +330,18 @@ module.exports = grammar({
       ),
 
     field_access_expr: ($) =>
-      prec.left(seq($._field_access_start, repeat1($.field_access_segment))),
+      prec.left(seq($._field_access_start, repeat1($._field_access_segment))),
 
     _field_access_start: ($) =>
-      prec(3, choice($.value_expr, $.parenthesized_expr, $.record_expr)),
+      prec(
+        3,
+        choice(
+          $.field_access_expr,
+          choice($.value_expr, $.parenthesized_expr, $.record_expr)
+        )
+      ),
 
-    field_access_segment: ($) =>
+    _field_access_segment: ($) =>
       prec.left(
         seq(
           alias($._dot_without_leading_whitespace, $.dot),
@@ -626,7 +633,6 @@ module.exports = grammar({
         "|.",
         "|="
       ),
-    infix: ($) => "infix",
     glsl_begin: ($) => "[glsl|",
     glsl_end: ($) => "|]",
 
