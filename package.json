@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-elm",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Tree sitter definitions for elm",
   "main": "index.js",
   "keywords": [
