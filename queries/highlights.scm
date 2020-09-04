@@ -1,11 +1,13 @@
 ; Keywords
-(if) @keyword.control.elm
-(then) @keyword.control.elm
-(else) @keyword.control.elm
+[
+    "if"
+    "then"
+    "else"
+    "let"
+    "in"
+ ] @keyword.control.elm
 (case) @keyword.control.elm
 (of) @keyword.control.elm
-(let) @keyword.control.elm
-(in) @keyword.control.elm
 
 (colon) @keyword.other.elm
 (pipe) @keyword.other.elm

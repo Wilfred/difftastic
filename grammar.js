@@ -166,15 +166,25 @@ module.exports = grammar({
       ),
 
     value_declaration: ($) =>
-      seq($._internal_value_declaration_left, $.eq, $._expression),
+      seq(
+        $._internal_value_declaration_left,
+        $.eq,
+        field("body", $._expression)
+      ),
 
     _internal_value_declaration_left: ($) =>
-      choice($.function_declaration_left, $.pattern),
+      choice(
+        field("functionDeclarationLeft", $.function_declaration_left),
+        field("pattern", $.pattern)
+      ),
 
     function_declaration_left: ($) =>
       prec(
         3,
-        seq($.lower_case_identifier, repeat($._function_declaration_pattern))
+        seq(
+          $.lower_case_identifier,
+          field("pattern", repeat($._function_declaration_pattern))
+        )
       ),
 
     _function_declaration_pattern: ($) =>
@@ -195,10 +205,10 @@ module.exports = grammar({
       prec.left(
         seq(
           $.type,
-          $.upper_case_identifier,
-          repeat($.lower_type_name),
+          field("name", $.upper_case_identifier),
+          field("typeName", repeat($.lower_type_name)),
           $.eq,
-          $.union_variant,
+          field("unionVariant", $.union_variant),
           repeat($._more_union_variants)
         )
       ),
@@ -207,19 +217,23 @@ module.exports = grammar({
 
     union_variant: ($) =>
       prec.left(
-        seq($.upper_case_identifier, repeat($._single_type_expression))
+        seq(
+          field("name", $.upper_case_identifier),
+          repeat($._single_type_expression)
+        )
       ),
 
-    _more_union_variants: ($) => seq($.pipe, $.union_variant),
+    _more_union_variants: ($) =>
+      seq($.pipe, field("unionVariant", $.union_variant)),
 
     type_alias_declaration: ($) =>
       seq(
         $.type,
         $.alias,
-        $.upper_case_identifier,
-        repeat($.lower_type_name),
+        field("name", $.upper_case_identifier),
+        field("typeVariable", repeat($.lower_type_name)),
         $.eq,
-        $.type_expression
+        field("typeExpression", $.type_expression)
       ),
 
     type_expression: ($) => arrowSep1($._type_expression_inner, $.arrow),
@@ -232,11 +246,15 @@ module.exports = grammar({
 
     _single_type_expression: ($) =>
       choice(
-        alias($.type_ref_without_args, $.type_ref),
-        $.type_variable,
-        $.record_type,
-        $.tuple_type,
-        seq($.left_parenthesis, $.type_expression, $.right_parenthesis)
+        field("part", alias($.type_ref_without_args, $.type_ref)),
+        field("part", $.type_variable),
+        field("part", $.record_type),
+        field("part", $.tuple_type),
+        seq(
+          $.left_parenthesis,
+          field("part", $.type_expression),
+          $.right_parenthesis
+        )
       ),
 
     type_ref_without_args: ($) => $.upper_case_qid,
@@ -247,26 +265,38 @@ module.exports = grammar({
       seq(
         $.left_brace,
         optional(
-          seq(optional($._record_base), commaSep1($.field_type, $.comma))
+          seq(
+            optional($._record_base),
+            commaSep1(field("fieldType", $.field_type), $.comma)
+          )
         ),
         $.right_brace
       ),
 
-    field_type: ($) => seq($.lower_case_identifier, $.colon, $.type_expression),
+    field_type: ($) =>
+      seq(
+        field("name", $.lower_case_identifier),
+        $.colon,
+        field("typeExpression", $.type_expression)
+      ),
 
     tuple_type: ($) =>
       choice(
-        $.unit_expr,
+        field("unitExpr", $.unit_expr),
         seq(
           $.left_parenthesis,
-          $.type_expression,
-          repeat1(seq($.comma, $.type_expression)),
+          field("typeExpression", $.type_expression),
+          repeat1(seq($.comma, field("typeExpression", $.type_expression))),
           $.right_parenthesis
         )
       ),
 
     type_annotation: ($) =>
-      seq($.lower_case_identifier, $.colon, $.type_expression),
+      seq(
+        field("name", $.lower_case_identifier),
+        $.colon,
+        field("typeExpression", $.type_expression)
+      ),
 
     port_annotation: ($) =>
       seq($.port, $.lower_case_identifier, $.colon, $.type_expression),
@@ -276,11 +306,14 @@ module.exports = grammar({
     _expression: ($) => choice($.bin_op_expr, $._call_or_atom),
 
     bin_op_expr: ($) =>
-      prec(
-        5,
-        seq(
-          $._call_or_atom,
-          prec.right(repeat1(seq($.operator, $._call_or_atom)))
+      field(
+        "part",
+        prec(
+          5,
+          seq(
+            $._call_or_atom,
+            prec.right(repeat1(seq($.operator, $._call_or_atom)))
+          )
         )
       ),
 
@@ -294,7 +327,13 @@ module.exports = grammar({
     _call_or_atom: ($) => choice($.function_call_expr, $._atom),
 
     function_call_expr: ($) =>
-      prec.dynamic(10, seq($._function_call_target, repeat1($._atom))),
+      prec.dynamic(
+        10,
+        seq(
+          field("target", $._function_call_target),
+          field("arg", repeat1($._atom))
+        )
+      ),
 
     _function_call_target: ($) =>
       prec(
@@ -330,7 +369,12 @@ module.exports = grammar({
       ),
 
     field_access_expr: ($) =>
-      prec.left(seq($._field_access_start, repeat1($._field_access_segment))),
+      prec.left(
+        seq(
+          field("target", $._field_access_start),
+          repeat1($._field_access_segment)
+        )
+      ),
 
     _field_access_start: ($) =>
       prec(
@@ -409,15 +453,20 @@ module.exports = grammar({
     _string_parts_multiline: ($) => repeat1($._string_part_multiline),
 
     anonymous_function_expr: ($) =>
-      seq($.backslash, repeat1($.pattern), $.arrow, $._expression),
+      seq(
+        $.backslash,
+        field("param", repeat1($.pattern)),
+        $.arrow,
+        field("expr", $._expression)
+      ),
 
-    value_expr: ($) => choice($.value_qid, $.upper_case_qid),
+    value_expr: ($) => field("name", choice($.value_qid, $.upper_case_qid)),
 
     tuple_expr: ($) =>
       seq(
         $.left_parenthesis,
-        $._expression,
-        repeat1(seq($.comma, $._expression)),
+        field("expr", $._expression),
+        repeat1(seq($.comma, field("expr", $._expression))),
         $.right_parenthesis
       ),
 
@@ -426,7 +475,7 @@ module.exports = grammar({
     list_expr: ($) =>
       seq(
         $.left_square_bracket,
-        optional(commaSep1($._expression, $.comma)),
+        optional(commaSep1(field("exprList", $._expression), $.comma)),
         $.right_square_bracket
       ),
 
@@ -435,37 +484,54 @@ module.exports = grammar({
 
     record_base_identifier: ($) => $.lower_case_identifier,
 
-    _record_base: ($) => seq($.record_base_identifier, $.pipe),
+    _record_base: ($) =>
+      seq(field("baseRecord", $.record_base_identifier), $.pipe),
 
     _record_inner: ($) => seq(optional($._record_base), $._record_inner_fields),
 
-    _record_inner_fields: ($) => commaSep1($.field, $.comma),
+    _record_inner_fields: ($) => commaSep1(field("field", $.field), $.comma),
 
-    field: ($) => seq($.lower_case_identifier, $.eq, $._expression),
+    field: ($) =>
+      seq(
+        field("name", $.lower_case_identifier),
+        $.eq,
+        field("expression", $._expression)
+      ),
 
     if_else_expr: ($) =>
-      seq($.if, $.then, repeat(prec.left(seq("else", $.if, $.then))), $.else),
+      seq(
+        $._if,
+        $._then,
+        repeat(prec.left(seq("else", $._if, $._then))),
+        $._else
+      ),
 
-    case_of_expr: ($) => seq($.case, $._expression, $._case_of_tail),
+    case_of_expr: ($) =>
+      seq($.case, field("expr", $._expression), $._case_of_tail),
 
     _case_of_tail: ($) => seq($.of, $._case_of_tail2),
 
     _case_of_tail2: ($) =>
       seq(
         $._virtual_open_section,
-        $.case_of_branch,
+        field("branch", $.case_of_branch),
         optional($._more_case_of_branches),
         optional($._virtual_end_section)
       ),
 
     _more_case_of_branches: ($) =>
-      prec.dynamic(6, repeat1(seq($._virtual_end_decl, $.case_of_branch))),
+      prec.dynamic(
+        6,
+        repeat1(seq($._virtual_end_decl, field("branch", $.case_of_branch)))
+      ),
 
-    case_of_branch: ($) => seq($.pattern, $.arrow, $._expression),
+    case_of_branch: ($) =>
+      seq(field("pattern", $.pattern), $.arrow, field("expr", $._expression)),
 
-    let_in_expr: ($) => seq($.let, $.in),
+    let_in_expr: ($) => seq($._let, $._in),
 
-    _inner_declaration: ($) => choice($.value_declaration, $.type_annotation),
+    _inner_declaration: ($) =>
+      choice(field("valueDeclaration", $.value_declaration), $.type_annotation),
 
     _more_inner_declarations: ($) =>
       repeat1(seq($._virtual_end_decl, $._inner_declaration)),
@@ -473,14 +539,20 @@ module.exports = grammar({
     // PATTERNS
 
     pattern: ($) =>
-      seq(choice($.cons_pattern, $._single_pattern), optional($.pattern_as)),
+      seq(
+        choice(field("child", $.cons_pattern), $._single_pattern),
+        optional($._pattern_as)
+      ),
 
-    pattern_as: ($) => seq($.as, $.lower_pattern),
+    _pattern_as: ($) => seq($.as, field("patternAs", $.lower_pattern)),
 
     cons_pattern: ($) =>
-      seq($._single_pattern, repeat1(seq("::", $._single_pattern))),
+      seq(
+        field("part", $._single_pattern_cons),
+        repeat1(seq("::", field("part", $._single_pattern_cons)))
+      ),
 
-    _single_pattern: ($) =>
+    _single_pattern_cons: ($) =>
       choice(
         $._parenthesized_pattern,
         $.anything_pattern,
@@ -493,22 +565,47 @@ module.exports = grammar({
         $._literal_expr_group
       ),
 
+    _single_pattern: ($) =>
+      choice(
+        $._parenthesized_single_pattern,
+        field("child", $.anything_pattern),
+        field("child", $.lower_pattern),
+        field("child", $.union_pattern),
+        field("child", $.tuple_pattern),
+        field("child", $.unit_expr),
+        field("child", $.list_pattern),
+        field("child", $.record_pattern),
+        field("child", $._literal_expr_group)
+      ),
+
+    _parenthesized_single_pattern: ($) =>
+      seq($.left_parenthesis, field("child", $.pattern), $.right_parenthesis),
+
     lower_pattern: ($) => $.lower_case_identifier,
 
     anything_pattern: ($) => $.underscore,
 
     record_pattern: ($) =>
-      seq($.left_brace, commaSep1($.lower_pattern, $.comma), $.right_brace),
+      seq(
+        $.left_brace,
+        commaSep1(field("patternList", $.lower_pattern), $.comma),
+        $.right_brace
+      ),
 
     list_pattern: ($) =>
       seq(
         $.left_square_bracket,
-        optional(commaSep1($.pattern, $.comma)),
+        optional(commaSep1(field("part", $.pattern), $.comma)),
         $.right_square_bracket
       ),
 
     union_pattern: ($) =>
-      prec.left(seq($.upper_case_qid, repeat($._union_argument_pattern))),
+      prec.left(
+        seq(
+          field("constructor", $.upper_case_qid),
+          field("argPattern", repeat($._union_argument_pattern))
+        )
+      ),
 
     _union_argument_pattern: ($) =>
       choice(
@@ -526,9 +623,9 @@ module.exports = grammar({
     tuple_pattern: ($) =>
       seq(
         $.left_parenthesis,
-        $.pattern,
+        field("pattern", $.pattern),
         $.comma,
-        commaSep1($.pattern, $.comma),
+        commaSep1(field("pattern", $.pattern), $.comma),
         $.right_parenthesis
       ),
 
@@ -539,8 +636,11 @@ module.exports = grammar({
     infix_declaration: ($) =>
       seq(
         $.infix,
-        alias(choice("left", "right", "non"), $.lower_case_identifier),
-        $.number_literal,
+        field(
+          "associativity",
+          alias(choice("left", "right", "non"), $.lower_case_identifier)
+        ),
+        field("precedence", $.number_literal),
         $._operator_as_function_inner,
         $.eq,
         $.value_expr
@@ -573,12 +673,12 @@ module.exports = grammar({
     import: ($) => "import",
     as: ($) => "as",
     exposing: ($) => "exposing",
-    if: ($) => seq("if", $._expression),
-    then: ($) => seq("then", $._expression),
-    else: ($) => seq("else", $._expression),
+    _if: ($) => seq("if", field("exprList", $._expression)),
+    _then: ($) => seq("then", field("exprList", $._expression)),
+    _else: ($) => seq("else", field("exprList", $._expression)),
     case: ($) => "case",
     of: ($) => "of",
-    let: ($) =>
+    _let: ($) =>
       seq(
         "let",
         $._virtual_open_section,
@@ -586,7 +686,7 @@ module.exports = grammar({
         optional($._more_inner_declarations),
         $._virtual_end_section
       ),
-    in: ($) => seq("in", $._expression),
+    _in: ($) => seq("in", field("body", $._expression)),
     type: ($) => "type",
     alias: ($) => "alias",
     port: ($) => "port",
