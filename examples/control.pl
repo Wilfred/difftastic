@@ -37,3 +37,19 @@ elsif(1) {
 else {
   print "else print this\n";
 }
+
+
+ 
+# my $num = rand();
+ 
+# given ($num) {
+#    when (1) {
+#        say "is larger than 0.7";
+#    }
+#    when ($_ > 0.4) {
+#        say "$_ is larger than 0.4";
+#    }
+#    default {
+#        say "$_ is something else";
+#    }
+# }
