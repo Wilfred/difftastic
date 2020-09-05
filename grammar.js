@@ -36,6 +36,7 @@ module.exports = grammar({
       // conditional statements
       $.if_statement,
       $.unless_statement,
+      // $.given_statement,
 
       $.assignment_statement,
     ),
@@ -99,6 +100,20 @@ module.exports = grammar({
       ))
     )),
 
+    // given_statement: $ => seq(
+    //   'given',
+    //   '(',
+    //   field('value', choice($.scalar_variable, $._scalar_type)),
+    //   ')',
+    //   field('body', $.given_body),
+    // ),
+
+    // given_body: $ => seq(
+    //   'when',
+    //   $.parenthesized_expression,
+    //   $.block,
+    // ),
+
     _declaration: $ => choice(
       $.function_definition,
       $.variable_declaration,
@@ -153,6 +168,12 @@ module.exports = grammar({
       ')'
     ),
 
+    // TODO: do this
+    // parenthesized_condition: $ => seq(
+    //   '(',
+    //   ')'
+    // ),
+
     return_statement: $ => seq(
       'return',
       optional($._expression),
@@ -181,16 +202,20 @@ module.exports = grammar({
 
     _primitive_expression: $ => choice(
       // data-types
+      $._scalar_type,
+      
+      $._boolean,
+
+      $.array,
+      $.hash,
+    ),
+
+    _scalar_type: $ => choice(
       $.string_single_quoted,
       // TODO: handle escape sequences
       $.string_double_quoted,
       $._numeric_literals,
-      $._boolean,
-
-      $.array,
       $.array_ref,
-
-      $.hash,
       $.hash_ref,
     ),
     

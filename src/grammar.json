@@ -671,6 +671,27 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "_scalar_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_boolean"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hash"
+        }
+      ]
+    },
+    "_scalar_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
           "name": "string_single_quoted"
         },
         {
@@ -683,19 +704,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_boolean"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "array"
-        },
-        {
-          "type": "SYMBOL",
           "name": "array_ref"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "hash"
         },
         {
           "type": "SYMBOL",
