@@ -5139,22 +5139,21 @@
             "name": "_variablish"
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "ALIAS",
-                "content": {
+            "type": "FIELD",
+            "name": "selection_operator",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
                   "type": "STRING",
                   "value": "?->"
                 },
-                "named": true,
-                "value": "safe_modifier"
-              },
-              {
-                "type": "STRING",
-                "value": "->"
-              }
-            ]
+                {
+                  "type": "STRING",
+                  "value": "->"
+                }
+              ]
+            }
           },
           {
             "type": "SYMBOL",

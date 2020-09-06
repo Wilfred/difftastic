@@ -682,7 +682,7 @@ const rules = {
     prec.select(
       seq(
         $._variablish,
-        choice(alias('?->', $.safe_modifier), '->'),
+        field('selection_operator', choice('?->', '->')),
         $._variablish,
       ),
     ),

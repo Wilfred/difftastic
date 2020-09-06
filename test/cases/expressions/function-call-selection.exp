@@ -3,7 +3,6 @@
     (call_expression
       function: (selection_expression
         (variable)
-        (safe_modifier)
         (variable))
       (arguments)))
   (expression_statement
