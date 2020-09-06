@@ -31,17 +31,20 @@
       "value": "[a-zA-Z_\\x80-\\xff][a-zA-Z0-9_\\x80-\\xff]*"
     },
     "variable": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "$"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        }
-      ]
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "$"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[a-zA-Z_\\x80-\\xff][a-zA-Z0-9_\\x80-\\xff]*"
+          }
+        ]
+      }
     },
     "pipe_variable": {
       "type": "STRING",

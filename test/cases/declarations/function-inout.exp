@@ -8,11 +8,9 @@
             (identifier)))
         (inout_modifier)
         type: (type_specifier)
-        name: (variable
-          (identifier)))
+        name: (variable))
       (parameter
         (inout_modifier)
         type: (type_specifier)
-        name: (variable
-          (identifier))))
+        name: (variable)))
     body: (compound_statement)))

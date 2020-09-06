@@ -2,16 +2,14 @@
   (comment)
   (expression_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (new_expression
         (qualified_identifier
           (identifier))
         (arguments))))
   (expression_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (new_expression
         (qualified_identifier
           (identifier))
@@ -20,56 +18,46 @@
             (integer))))))
   (expression_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (new_expression
         (selection_expression
-          (variable
-            (identifier))
-          (variable
-            (identifier)))
+          (variable)
+          (variable))
         (arguments))))
   (comment)
   (comment)
   (expression_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (new_expression
         (scoped_identifier
           (qualified_identifier
             (identifier))
-          (variable
-            (identifier)))
+          (variable))
         (arguments
           (argument
             (integer))))))
   (expression_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (new_expression
         (scoped_identifier
           (scope_identifier)
-          (variable
-            (identifier)))
+          (variable))
         (arguments
           (argument
             (integer))))))
   (expression_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (new_expression
-        (variable
-          (identifier))
+        (variable)
         (arguments
           (argument
             (integer))))))
   (expression_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (new_expression
         (qualified_identifier
           (identifier))
@@ -80,8 +68,7 @@
             (integer))))))
   (expression_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (new_expression
         (parenthesized_expression
           (call_expression
@@ -93,8 +80,7 @@
             (integer))))))
   (expression_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (binary_expression
         left: (string)
         right: (new_expression

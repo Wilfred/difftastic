@@ -17,18 +17,15 @@
               (lambda_expression
                 (parameters
                   (parameter
-                    name: (variable
-                      (identifier))))
+                    name: (variable)))
                 body: (binary_expression
-                  left: (variable
-                    (identifier))
+                  left: (variable)
                   right: (integer)))))))
       right: (call_expression
         function: (lambda_expression
           (parameters
             (parameter
-              name: (variable
-                (identifier))))
+              name: (variable)))
           body: (compound_statement
             (return_statement
               (pipe_variable))))

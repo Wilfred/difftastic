@@ -1,16 +1,13 @@
 (script
   (expression_statement
     (selection_expression
-      (variable
-        (identifier))
-      (variable
-        (identifier))))
+      (variable)
+      (variable)))
   (expression_statement
     (selection_expression
       (qualified_identifier
         (identifier))
-      (variable
-        (identifier))))
+      (variable)))
   (expression_statement
     (selection_expression
       (qualified_identifier
@@ -24,8 +21,7 @@
           (qualified_identifier
             (identifier)
             (identifier))
-          (variable
-            (identifier)))
+          (variable))
         (integer))
       (qualified_identifier
         (identifier))))
@@ -33,18 +29,15 @@
     (subscript_expression
       (selection_expression
         (subscript_expression
-          (variable
-            (identifier))
+          (variable)
           (integer))
-        (variable
-          (identifier)))
+        (variable))
       (integer)))
   (expression_statement
     (subscript_expression
       (selection_expression
         (subscript_expression
-          (variable
-            (identifier))
+          (variable)
           (integer))
         (qualified_identifier
           (identifier)))

@@ -37,8 +37,7 @@
             type: (type_specifier
               (qualified_identifier
                 (identifier)))
-            name: (variable
-              (identifier))))
+            name: (variable)))
         (where_clause
           (where_constraint
             constraint_left_type: (type_specifier

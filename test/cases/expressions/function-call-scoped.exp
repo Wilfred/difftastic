@@ -4,8 +4,7 @@
       function: (scoped_identifier
         (qualified_identifier
           (identifier))
-        (variable
-          (identifier)))
+        (variable))
       (arguments)))
   (expression_statement
     (call_expression

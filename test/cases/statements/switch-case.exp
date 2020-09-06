@@ -1,8 +1,7 @@
 (script
   (switch_statement
     value: (parenthesized_expression
-      (variable
-        (identifier)))
+      (variable))
     (switch_case
       value: (binary_expression
         left: (integer)

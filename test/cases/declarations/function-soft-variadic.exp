@@ -8,6 +8,5 @@
             (identifier)))
         type: (type_specifier)
         (variadic_modifier)
-        name: (variable
-          (identifier))))
+        name: (variable)))
     body: (compound_statement)))

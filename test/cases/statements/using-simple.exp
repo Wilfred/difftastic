@@ -7,8 +7,7 @@
       (using_statement
         (expression_statement
           (binary_expression
-            left: (variable
-              (identifier))
+            left: (variable)
             right: (call_expression
               function: (scoped_identifier
                 (qualified_identifier

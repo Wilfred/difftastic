@@ -12,24 +12,21 @@
     name: (identifier)
     (parameters
       (parameter
-        name: (variable
-          (identifier))))
+        name: (variable)))
     body: (compound_statement))
   (function_declaration
     name: (identifier)
     (parameters
       (parameter
         type: (type_specifier)
-        name: (variable
-          (identifier))))
+        name: (variable)))
     body: (compound_statement))
   (function_declaration
     name: (identifier)
     (parameters
       (parameter
         type: (type_specifier)
-        name: (variable
-          (identifier))))
+        name: (variable)))
     return_type: (type_specifier)
     body: (compound_statement))
   (function_declaration
@@ -37,11 +34,9 @@
     (parameters
       (parameter
         type: (type_specifier)
-        name: (variable
-          (identifier)))
+        name: (variable))
       (parameter
         type: (type_specifier)
-        name: (variable
-          (identifier))))
+        name: (variable)))
     return_type: (type_specifier)
     body: (compound_statement)))

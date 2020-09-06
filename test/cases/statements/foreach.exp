@@ -1,18 +1,14 @@
 (script
   (foreach_statement
-    collection: (variable
-      (identifier))
-    value: (variable
-      (identifier))
+    collection: (variable)
+    value: (variable)
     body: (compound_statement))
   (foreach_statement
     collection: (array
       (array_type))
-    key: (variable
-      (identifier))
+    key: (variable)
     value: (subscript_expression
-      (variable
-        (identifier))
+      (variable)
       (integer))
     body: (compound_statement))
   (foreach_statement
@@ -23,16 +19,14 @@
         (type_specifier)))
     value: (list_expression
       (subscript_expression
-        (variable
-          (identifier))
+        (variable)
         (subscript_expression
           (as_expression
             left: (array
               (array_type))
             right: (type_specifier))
           (integer)))
-      (variable
-        (identifier)))
+      (variable))
     body: (compound_statement))
   (comment)
   (comment)

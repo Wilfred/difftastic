@@ -13,8 +13,7 @@
           (nullable_modifier)
           (type_specifier)
           return_type: (type_specifier))
-        name: (variable
-          (identifier))))
+        name: (variable)))
     return_type: (type_specifier
       (like_modifier))
     body: (compound_statement)))

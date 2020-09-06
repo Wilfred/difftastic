@@ -1,10 +1,8 @@
 (script
   (foreach_statement
     collection: (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (array
         (array_type)))
-    value: (variable
-      (identifier))
+    value: (variable)
     body: (compound_statement)))

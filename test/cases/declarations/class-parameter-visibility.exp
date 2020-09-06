@@ -12,12 +12,10 @@
                 (identifier)))
             (visibility_modifier)
             type: (type_specifier)
-            name: (variable
-              (identifier))
+            name: (variable)
             default_value: (integer))
           (parameter
             type: (type_specifier)
             (variadic_modifier)
-            name: (variable
-              (identifier))))
+            name: (variable)))
         body: (compound_statement)))))

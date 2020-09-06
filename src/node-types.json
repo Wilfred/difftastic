@@ -3288,21 +3288,6 @@
     }
   },
   {
-    "type": "variable",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "variadic_modifier",
     "named": true,
     "fields": {}
@@ -3699,10 +3684,6 @@
   },
   {
     "type": "!==",
-    "named": false
-  },
-  {
-    "type": "$",
     "named": false
   },
   {
@@ -4255,11 +4236,11 @@
   },
   {
     "type": "string",
-    "named": true
+    "named": false
   },
   {
     "type": "string",
-    "named": false
+    "named": true
   },
   {
     "type": "super",
@@ -4308,6 +4289,10 @@
   {
     "type": "using",
     "named": false
+  },
+  {
+    "type": "variable",
+    "named": true
   },
   {
     "type": "varray",

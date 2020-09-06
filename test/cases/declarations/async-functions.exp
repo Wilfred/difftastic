@@ -19,9 +19,7 @@
       (async_modifier)
       (parameters
         (parameter
-          name: (variable
-            (identifier))))
+          name: (variable)))
       body: (binary_expression
-        left: (variable
-          (identifier))
+        left: (variable)
         right: (integer)))))
