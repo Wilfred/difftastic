@@ -1,68 +1,56 @@
 (script
   (expression_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (integer)))
   (expression_statement
     (binary_expression
       left: (subscript_expression
-        (variable
-          (identifier)))
+        (variable))
       right: (integer)))
   (expression_statement
     (binary_expression
       left: (subscript_expression
-        (variable
-          (identifier))
+        (variable)
         (integer))
       right: (integer)))
   (expression_statement
     (binary_expression
       left: (subscript_expression
-        (variable
-          (identifier))
+        (variable)
         (string))
       right: (integer)))
   (expression_statement
     (binary_expression
       left: (subscript_expression
-        (variable
-          (identifier))
+        (variable)
         (subscript_expression
-          (variable
-            (identifier))
+          (variable)
           (string)))
       right: (integer)))
   (expression_statement
     (binary_expression
       left: (subscript_expression
         (subscript_expression
-          (variable
-            (identifier))
+          (variable)
           (subscript_expression
-            (variable
-              (identifier))
+            (variable)
             (string))))
       right: (integer)))
   (expression_statement
     (binary_expression
       left: (subscript_expression
         (subscript_expression
-          (variable
-            (identifier)))
+          (variable))
         (subscript_expression
-          (variable
-            (identifier))
+          (variable)
           (string)))
       right: (integer)))
   (expression_statement
     (binary_expression
       left: (list_expression
-        (variable
-          (identifier))
-        (variable
-          (identifier)))
+        (variable)
+        (variable))
       right: (tuple
         (integer)
         (integer))))
@@ -70,10 +58,8 @@
     (binary_expression
       left: (list_expression
         (subscript_expression
-          (variable
-            (identifier)))
-        (variable
-          (identifier)))
+          (variable))
+        (variable))
       right: (tuple
         (integer)
         (integer))))
@@ -81,12 +67,10 @@
     (binary_expression
       left: (list_expression
         (subscript_expression
-          (variable
-            (identifier))
+          (variable)
           (integer))
         (subscript_expression
-          (variable
-            (identifier))))
+          (variable)))
       right: (tuple
         (integer)
         (integer))))
@@ -94,12 +78,10 @@
     (binary_expression
       left: (list_expression
         (subscript_expression
-          (variable
-            (identifier))
+          (variable)
           (string))
         (subscript_expression
-          (variable
-            (identifier))
+          (variable)
           (integer)))
       right: (tuple
         (integer)
@@ -108,15 +90,12 @@
     (binary_expression
       left: (list_expression
         (subscript_expression
-          (variable
-            (identifier))
+          (variable)
           (subscript_expression
-            (variable
-              (identifier))
+            (variable)
             (string)))
         (subscript_expression
-          (variable
-            (identifier))
+          (variable)
           (string)))
       right: (tuple
         (integer)
@@ -126,18 +105,14 @@
       left: (list_expression
         (subscript_expression
           (subscript_expression
-            (variable
-              (identifier))
+            (variable)
             (subscript_expression
-              (variable
-                (identifier))
+              (variable)
               (string))))
         (subscript_expression
-          (variable
-            (identifier))
+          (variable)
           (subscript_expression
-            (variable
-              (identifier))
+            (variable)
             (string))))
       right: (tuple
         (integer)

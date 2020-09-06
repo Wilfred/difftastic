@@ -12,8 +12,7 @@
           (inout_modifier)
           (type_specifier)
           return_type: (type_specifier))
-        name: (variable
-          (identifier))))
+        name: (variable)))
     return_type: (function_type_specifier
       (type_specifier)
       return_type: (type_specifier))

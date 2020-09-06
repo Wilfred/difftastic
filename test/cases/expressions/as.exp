@@ -1,11 +1,9 @@
 (script
   (expression_statement
     (as_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (type_specifier)))
   (expression_statement
     (as_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (type_specifier))))

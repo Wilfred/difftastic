@@ -5,8 +5,7 @@
       type: (type_specifier
         (qualified_identifier
           (identifier)))
-      name: (variable
-        (identifier))
+      name: (variable)
       body: (compound_statement))
     (finally_clause
       body: (compound_statement))))

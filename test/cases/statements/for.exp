@@ -4,40 +4,31 @@
       (integer)))
   (for_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (integer))
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (integer))
     (postfix_unary_expression
-      (variable
-        (identifier)))
+      (variable))
     body: (expression_statement
       (integer)))
   (for_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (integer))
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (integer))
     (postfix_unary_expression
-      (variable
-        (identifier)))
+      (variable))
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (integer))
     (postfix_unary_expression
-      (variable
-        (identifier)))
+      (variable))
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (call_expression
         function: (qualified_identifier
           (identifier))

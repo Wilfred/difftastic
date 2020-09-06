@@ -1,25 +1,20 @@
 (script
   (expression_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (anonymous_function_expression
         (parameters
           (parameter
-            name: (variable
-              (identifier))))
+            name: (variable)))
         body: (compound_statement))))
   (expression_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (anonymous_function_expression
         (parameters
           (parameter
-            name: (variable
-              (identifier)))
+            name: (variable))
           (parameter
-            name: (variable
-              (identifier))))
+            name: (variable)))
         return_type: (type_specifier)
         body: (compound_statement)))))

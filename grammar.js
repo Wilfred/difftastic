@@ -26,6 +26,7 @@
   [prec.right, '??'],
   [prec.left, 'ternary', '?:'],
   [prec.left, '|>'],
+  // prettier-ignore
   [prec.right,
     '=', '??=', '.=', '|=', '^=', '&=', '<<=', '>>=', '+=', '-=', '*=', '/=', '%=', '**='],
   [prec.right, 'print'],
@@ -38,12 +39,14 @@
     }),
   );
 
+const identifier = /[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*/;
+
 const rules = {
   script: $ => seq(opt(/<\?[hH][hH]/), rep($._statement)),
 
-  identifier: $ => /[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*/,
+  identifier: $ => identifier,
 
-  variable: $ => seq('$', $.identifier),
+  variable: $ => token(seq('$', identifier)),
 
   pipe_variable: $ => '$$',
 
@@ -1086,6 +1089,8 @@ module.exports = grammar({
 
   name: 'hack',
 
+  word: $ => $.identifier,
+
   extras: $ => [/\s/, $.comment],
 
   supertypes: $ => [
@@ -1107,8 +1112,6 @@ module.exports = grammar({
     $._collection_type,
     $._xhp_attribute_expression,
   ],
-
-  word: $ => $.identifier,
 
   conflicts: $ => [
     [$.binary_expression, $.call_expression],

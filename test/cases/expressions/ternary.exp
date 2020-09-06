@@ -1,29 +1,24 @@
 (script
   (expression_statement
     (ternary_expression
-      condition: (variable
-        (identifier))
+      condition: (variable)
       consequence: (true)
       alternative: (false)))
   (expression_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (false)))
   (expression_statement
     (ternary_expression
       condition: (ternary_expression
         condition: (binary_expression
-          left: (variable
-            (identifier))
+          left: (variable)
           right: (integer))
         consequence: (binary_expression
-          left: (variable
-            (identifier))
+          left: (variable)
           right: (integer))
         alternative: (binary_expression
-          left: (variable
-            (identifier))
+          left: (variable)
           right: (integer)))
       consequence: (integer)
       alternative: (integer)))
@@ -31,12 +26,10 @@
     (ternary_expression
       condition: (binary_expression
         left: (binary_expression
-          left: (variable
-            (identifier))
+          left: (variable)
           right: (integer))
         right: (binary_expression
-          left: (variable
-            (identifier))
+          left: (variable)
           right: (integer)))
       consequence: (integer)
       alternative: (integer))))

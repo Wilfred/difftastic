@@ -27,9 +27,7 @@
               body: (lambda_expression
                 (parameters
                   (parameter
-                    name: (variable
-                      (identifier))))
-                body: (variable
-                  (identifier)))))
+                    name: (variable)))
+                body: (variable))))
           (arguments))
         (type_specifier)))))

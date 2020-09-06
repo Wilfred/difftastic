@@ -2,11 +2,9 @@
   (expression_statement
     (call_expression
       function: (selection_expression
-        (variable
-          (identifier))
+        (variable)
         (safe_modifier)
-        (variable
-          (identifier)))
+        (variable))
       (arguments)))
   (expression_statement
     (call_expression

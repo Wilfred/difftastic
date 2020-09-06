@@ -1,15 +1,13 @@
 (script
   (using_statement
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (new_expression
         (qualified_identifier
           (identifier))
         (arguments)))
     (binary_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (new_expression
         (qualified_identifier
           (identifier))

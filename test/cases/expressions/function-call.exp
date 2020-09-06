@@ -15,16 +15,14 @@
           (integer))
         (argument
           (inout_modifier)
-          (variable
-            (identifier)))
+          (variable))
         (argument
           (variadic_modifier)
           (null)))))
   (expression_statement
     (call_expression
       function: (subscript_expression
-        (variable
-          (identifier))
+        (variable)
         (call_expression
           function: (qualified_identifier
             (identifier))

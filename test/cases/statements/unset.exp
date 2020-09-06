@@ -2,10 +2,8 @@
   (unset_statement)
   (unset_statement
     (subscript_expression
-      (variable
-        (identifier))
+      (variable)
       (string))
     (subscript_expression
-      (variable
-        (identifier))
+      (variable)
       (integer))))

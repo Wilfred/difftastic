@@ -1,6 +1,5 @@
 (script
   (expression_statement
     (is_expression
-      left: (variable
-        (identifier))
+      left: (variable)
       right: (type_specifier))))

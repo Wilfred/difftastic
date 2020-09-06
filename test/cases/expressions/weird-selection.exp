@@ -12,18 +12,15 @@
     (selection_expression
       (parenthesized_expression
         (binary_expression
-          left: (variable
-            (identifier))
-          right: (variable
-            (identifier))))
+          left: (variable)
+          right: (variable)))
       (safe_modifier)
       (qualified_identifier
         (identifier))))
   (expression_statement
     (selection_expression
       (call_expression
-        function: (variable
-          (identifier))
+        function: (variable)
         (arguments))
       (safe_modifier)
       (qualified_identifier

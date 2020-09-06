@@ -19,12 +19,10 @@
         (parameters
           (parameter
             type: (type_specifier)
-            name: (variable
-              (identifier))))
+            name: (variable)))
         return_type: (type_specifier)
         body: (binary_expression
-          left: (variable
-            (identifier))
+          left: (variable)
           right: (integer)))))
   (expression_statement
     (parenthesized_expression
@@ -39,6 +37,5 @@
               (integer))))
         (parameters
           (parameter
-            name: (variable
-              (identifier))))
+            name: (variable)))
         body: (compound_statement)))))
