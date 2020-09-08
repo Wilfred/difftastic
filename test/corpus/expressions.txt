@@ -651,6 +651,18 @@ lambda (a,b): (a, b)
       (tuple (identifier) (identifier)))))
 
 =====================================
+Tuples with splats
+=====================================
+
+(foo, *bar, *baz)
+
+---
+
+(module
+  (expression_statement
+    (tuple (identifier) (list_splat (identifier)) (list_splat (identifier)))))
+
+=====================================
 Conditional if expressions
 =====================================
 
