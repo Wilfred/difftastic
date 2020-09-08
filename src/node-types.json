@@ -1575,6 +1575,14 @@
         {
           "type": "list_splat",
           "named": true
+        },
+        {
+          "type": "parenthesized_list_splat",
+          "named": true
+        },
+        {
+          "type": "yield",
+          "named": true
         }
       ]
     }
