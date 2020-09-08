@@ -783,3 +783,23 @@ abstract class Animal {
               object: (identifier)
               property: (property_identifier))
             arguments: (arguments (string)))))))))
+
+==================================
+Index type queries
+==================================
+
+export type Extracted = keyof Pick<Base, "id">
+
+---
+
+(program
+  (export_statement
+    declaration: (type_alias_declaration
+      name: (type_identifier)
+      value: (index_type_query
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier)
+            (literal_type
+              (string))))))))
