@@ -1707,35 +1707,39 @@
       ]
     },
     "parenthesized_list_splat": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "parenthesized_list_splat"
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "parenthesized_list_splat"
+                },
+                "named": true,
+                "value": "parenthesized_expression"
               },
-              "named": true,
-              "value": "parenthesized_expression"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "list_splat"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        }
-      ]
+              {
+                "type": "SYMBOL",
+                "name": "list_splat"
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          }
+        ]
+      }
     },
     "argument_list": {
       "type": "SEQ",
@@ -3874,6 +3878,14 @@
                     {
                       "type": "SYMBOL",
                       "name": "yield"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "list_splat"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "parenthesized_list_splat"
                     }
                   ]
                 },
@@ -3896,6 +3908,14 @@
                           {
                             "type": "SYMBOL",
                             "name": "yield"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "list_splat"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "parenthesized_list_splat"
                           }
                         ]
                       }

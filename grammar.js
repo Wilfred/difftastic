@@ -6,6 +6,7 @@ const PREC = {
   conditional: -1,
 
   parenthesized_expression: 1,
+  parenthesized_list_splat: 1,
   not: 1,
   compare: 2,
   or: 10,
@@ -402,14 +403,14 @@ module.exports = grammar({
       field('body', $._suite)
     ),
 
-    parenthesized_list_splat: $ => seq(
+    parenthesized_list_splat: $ => prec(PREC.parenthesized_list_splat, seq(
       '(',
       choice(
         alias($.parenthesized_list_splat, $.parenthesized_expression),
         $.list_splat,
       ),
       ')',
-    ),
+    )),
 
     argument_list: $ => seq(
       '(',
@@ -740,7 +741,7 @@ module.exports = grammar({
 
     tuple: $ => seq(
       '(',
-      optional(commaSep1(choice($._expression, $.yield))),
+      optional(commaSep1(choice($._expression, $.yield, $.list_splat, $.parenthesized_list_splat))),
       optional(','),
       ')'
     ),
