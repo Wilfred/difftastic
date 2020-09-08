@@ -2938,6 +2938,10 @@
       "required": true,
       "types": [
         {
+          "type": "generic_type",
+          "named": true
+        },
+        {
           "type": "nested_type_identifier",
           "named": true
         },
