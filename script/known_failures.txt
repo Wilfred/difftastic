@@ -32,6 +32,7 @@ examples/ocaml/testsuite/tests/parse-errors/unclosed_struct.ml
 examples/ocaml/testsuite/tests/parsing/anonymous_class_parameter.ml
 examples/ocaml/testsuite/tests/parsing/arrow_ambiguity.ml
 examples/ocaml/testsuite/tests/parsing/constructor_declarations.ml
+examples/ocaml/testsuite/tests/parsing/docstrings.ml
 examples/ocaml/testsuite/tests/parsing/pr6604_2.ml
 examples/ocaml/testsuite/tests/parsing/pr6604.ml
 examples/ocaml/testsuite/tests/tool-toplevel/error_highlighting_use2.ml

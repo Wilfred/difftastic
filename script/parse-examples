@@ -2,42 +2,56 @@
 
 set -e
 
-repos="
-0install/0install
-BinaryAnalysisPlatform/bap
-dbuenzli/cmdliner
-facebook/flow
-facebook/pyre-check
-garrigue/lablgtk
-janestreet/base
-mirage/ocaml-cohttp
-ocaml/dune
-ocaml/merlin
-ocaml/opam
-ocsigen/js_of_ocaml
-ocsigen/lwt
-owlbarn/owl
-ocaml/ocaml
-"
+cd "$(dirname "$0")/.."
 
-failed=0
+function clone_repo {
+  owner=$1
+  name=$2
+  sha=$3
 
-for repo in $repos; do
-  dir=examples/${repo#*/}
-  if [ ! -d "$dir" ]; then
-    git clone --depth 1 https://github.com/$repo $dir
+  path=examples/$name
+  if [ ! -d "$path" ]; then
+    echo "Cloning $owner/$name"
+    git clone "https://github.com/$owner/$name" "$path"
   fi
 
-  examples_to_parse=$(
-    for example in $(find "$dir" -name '*.ml' -o -name '*.mli'); do
-      if ! grep -q $example script/known_failures.txt; then
-        echo $example
-      fi
-    done
-  )
+  pushd "$path" > /dev/null
+  if [ "$(git rev-parse HEAD)" != "$sha"  ]; then
+    echo "Updating $owner/$name to $sha"
+    git fetch
+    git reset --hard $sha
+  fi
+  popd > /dev/null
+}
 
-  echo $examples_to_parse | xargs tree-sitter parse -q
-  echo "Successfully parsed $repo ($( echo $examples_to_parse | wc -w ) files)"
-done
+clone_repo 0install 0install 4f523a158a2d49ad9bcabb136dbefd3659fd1a1e
+clone_repo BinaryAnalysisPlatform bap f2b844e2c099a28536887c6ea20214a68bf1541d
+clone_repo dbuenzli cmdliner db4d02a9eb47b5c43127a67cb121004b03ea3719
+clone_repo facebook flow d55ca1157f082b69b4fdb0ccc8d0f0b903b26e87
+clone_repo facebook pyre-check e954f336b44959f70a8a007be559c7e5bdf1dee1
+clone_repo garrigue lablgtk 034d4fbb1f09431048dd4231bf2ba9c69db59e6a
+clone_repo janestreet base 506657bb5a270ba9e39c6f7d054d62dc510f4bd8
+clone_repo mirage ocaml-cohttp fc74930074afc04db1e9c8ed1b9721b88dbc8b29
+clone_repo ocaml dune 0cee329c12db08daf47cfa9636d2d6c0716b6f6f
+clone_repo ocaml merlin d3a1be0f2988de57257ae096699f6c0ac21257fd
+clone_repo ocaml ocaml 44c053008a8040930893bbb660f283e765ed3bbd
+clone_repo ocaml opam 7803ac4c3ad0697c3607ef3c05572ec3b894dfc0
+clone_repo ocsigen js_of_ocaml d50221f1cf19f7637dfca7407762a85dcd420f46
+clone_repo ocsigen lwt caa5c30c2e92d3aa60e71ed284942b3b46ef87df
+clone_repo owlbarn owl e3519b852d8d22cdc83d1996dcd0460b60f7cad3
 
-exit $failed
+known_failures="$(cat script/known_failures.txt)"
+
+tree-sitter parse -q \
+  'examples/**/*.ml' \
+  'examples/**/*.mli' \
+  $(for failure in $known_failures; do echo "!${failure}"; done)
+
+example_count=$(find examples -name '*.ml' -o -name '*.mli' | wc -l)
+failure_count=$(wc -w <<< "$known_failures")
+success_count=$(( $example_count - $failure_count ))
+success_percent=$(bc -l <<< "100*${success_count}/${example_count}")
+
+printf \
+  "Successfully parsed %d of %d example files (%.1f%%)\n" \
+  $success_count $example_count $success_percent
