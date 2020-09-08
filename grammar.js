@@ -679,8 +679,7 @@ module.exports = grammar({
 
     list: $ => seq(
       '[',
-      optional(commaSep1($._collection_element)),
-      optional(','),
+      optional($._collection_elements),
       ']'
     ),
 
@@ -739,14 +738,16 @@ module.exports = grammar({
       ')'
     )),
 
-    _collection_element: $ => choice(
-      $._expression, $.yield, $.list_splat, $.parenthesized_list_splat
+    _collection_elements: $ => seq(
+      commaSep1(choice(
+        $._expression, $.yield, $.list_splat, $.parenthesized_list_splat
+      )),
+      optional(',')
     ),
 
     tuple: $ => seq(
       '(',
-      optional(commaSep1($._collection_element)),
-      optional(','),
+      optional($._collection_elements),
       ')'
     ),
 
