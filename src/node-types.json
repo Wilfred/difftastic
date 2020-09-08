@@ -1575,6 +1575,14 @@
         {
           "type": "list_splat",
           "named": true
+        },
+        {
+          "type": "parenthesized_list_splat",
+          "named": true
+        },
+        {
+          "type": "yield",
+          "named": true
         }
       ]
     }
@@ -1763,6 +1771,25 @@
         },
         {
           "type": "yield",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parenthesized_list_splat",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "list_splat",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
           "named": true
         }
       ]
@@ -2020,6 +2047,14 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "list_splat",
+          "named": true
+        },
+        {
+          "type": "parenthesized_list_splat",
           "named": true
         },
         {
