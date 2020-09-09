@@ -450,6 +450,7 @@ Function expressions
 x -> x^2
 (x,y,z)->2x+y-z
 ()->3
+function () 3 end
 () -> (sleep(0.1); i += 1; l)
 
 ---
@@ -463,6 +464,9 @@ x -> x^2
     (binary_expression
       (binary_expression (coefficient_expression (number) (identifier)) (identifier))
       (identifier)))
+  (function_expression
+    (parameter_list)
+    (number))
   (function_expression
     (parameter_list)
     (number))

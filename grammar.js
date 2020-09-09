@@ -685,17 +685,27 @@ grammar({
       $._expression
     ),
 
-    function_expression: $ => prec.right(PREC.arrow, seq(
+    function_expression: $ => prec.right(PREC.arrow,
       choice(
-        $.identifier,
-        $.parameter_list,
-      ),
-      '->',
-      choice(
-        $._expression,
-        $.assignment_expression
-      )
-    )),
+        seq(
+          'function',
+          $.parameter_list,
+          choice(
+            $._expression,
+            $.assignment_expression
+          ),
+          'end'
+        ),
+        seq(
+          choice(
+            $.identifier,
+            $.parameter_list,
+          ),
+          '->',
+          choice(
+            $._expression,
+            $.assignment_expression
+          )))),
 
     range_expression: $ => prec.left(PREC.colon_range, seq(
       $._expression,
