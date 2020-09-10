@@ -2,6 +2,7 @@ examples/lablgtk/applications/osiris/osiris.ml
 examples/lablgtk/examples/csview.ml
 examples/lablgtk/tools/introspection/stubs/stubs_Atk.ml
 examples/lablgtk/tools/introspection/stubs/stubs_Pango.ml
+examples/lwt/src/react/lwt_react.cppo.ml
 examples/lwt/src/unix/lwt_unix.cppo.ml
 examples/lwt/src/unix/lwt_unix.cppo.mli
 examples/lwt/test/unix/test_lwt_unix.cppo.ml

@@ -37,7 +37,7 @@ module M = struct ;; end
       (structure
         (value_definition
           (let_binding
-            (value_name)
+            (value_pattern)
             (value_path (value_name)))))))
   (module_definition
     (module_binding

@@ -28,6 +28,7 @@
       "file-types": [
         "ml"
       ],
+      "first-line-regex": "",
       "path": "ocaml",
       "injection-regex": "^(ocaml|ml)$"
     },
