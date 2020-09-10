@@ -19,7 +19,7 @@ Floating attributes
     (attribute_payload
       (value_definition
         (let_binding
-          (value_name)
+          (value_pattern)
           (value_path (value_name))))))
   (floating_attribute
     (attribute_id)
@@ -35,7 +35,7 @@ Floating attributes
     (attribute_payload
       (constructor_pattern
         (constructor_path (constructor_name))
-        (value_name)))))
+        (value_pattern)))))
 
 ===========================
 Item attributes
@@ -53,11 +53,11 @@ module M = M [@@id]
     (item_attribute (attribute_id)))
   (value_definition
     (let_binding
-      (value_name)
+      (value_pattern)
       (value_path (value_name))
       (item_attribute (attribute_id)))
     (let_binding
-      (value_name)
+      (value_pattern)
       (value_path (value_name))
       (item_attribute (attribute_id))))
   (module_definition
@@ -82,11 +82,11 @@ x ;%id x
   (value_definition
     (attribute_id)
     (let_binding
-      (value_name)
+      (value_pattern)
       (value_path (value_name)))
     (attribute (attribute_id))
     (let_binding
-      (value_name)
+      (value_pattern)
       (value_path (value_name))))
   (attribute (attribute_id))
   (type_definition
@@ -159,13 +159,13 @@ let x = {%id ab|payload|ab};;
       (extension (attribute_id))))
   (value_definition
     (let_binding
-      (value_name)
+      (value_pattern)
       (extension (attribute_id))))
   (value_definition
     (let_binding
-      (value_name)
+      (value_pattern)
       (quoted_extension (attribute_id) (quoted_string))))
   (value_definition
     (let_binding
-      (value_name)
+      (value_pattern)
       (quoted_extension (attribute_id) (quoted_string)))))

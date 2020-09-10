@@ -9,7 +9,7 @@ function x -> ()
 (compilation_unit
   (expression_item
     (function_expression
-      (match_case (value_name) (unit)))))
+      (match_case (value_pattern) (unit)))))
 
 ============================
 Constant patterns
@@ -51,7 +51,7 @@ function (x : t) -> ()
     (function_expression
       (match_case
         (typed_pattern
-          (value_name)
+          (value_pattern)
           (type_constructor_path (type_constructor)))
         (unit)))))
 
@@ -72,10 +72,10 @@ function A x | A | `A | `A x -> ()
             (or_pattern
               (constructor_pattern
                 (constructor_path (constructor_name))
-                (value_name))
+                (value_pattern))
               (constructor_path (constructor_name)))
             (tag))
-          (tag_pattern (tag) (value_name)))
+          (tag_pattern (tag) (value_pattern)))
         (unit)))))
 
 ============================
@@ -112,10 +112,10 @@ function {x} | [x] | [|x|] | [|x;y;|] | x :: xs -> ()
               (or_pattern
                 (record_pattern
                   (field_pattern (field_path (field_name))))
-                (list_pattern (value_name)))
-              (array_pattern (value_name)))
-            (array_pattern (value_name) (value_name)))
-          (cons_pattern (value_name) (value_name)))
+                (list_pattern (value_pattern)))
+              (array_pattern (value_pattern)))
+            (array_pattern (value_pattern) (value_pattern)))
+          (cons_pattern (value_pattern) (value_pattern)))
         (unit)))))
 
 ============================
@@ -135,10 +135,10 @@ function M.(A x) | M.[x] -> ()
             (module_path (module_name))
             (constructor_pattern
               (constructor_path (constructor_name))
-              (value_name)))
+              (value_pattern)))
           (local_open_pattern
             (module_path (module_name))
-            (list_pattern (value_name))))
+            (list_pattern (value_pattern))))
         (unit)))))
 
 ============================
@@ -168,7 +168,7 @@ function x as t -> ()
   (expression_item
     (function_expression
       (match_case
-        (alias_pattern (value_name) (value_name))
+        (alias_pattern (value_pattern) (value_pattern))
         (unit)))))
 
 ============================
@@ -185,9 +185,9 @@ function x, x, x -> ()
       (match_case
         (tuple_pattern
           (tuple_pattern
-            (value_name)
-            (value_name))
-          (value_name))
+            (value_pattern)
+            (value_pattern))
+          (value_pattern))
         (unit)))))
 
 ============================
@@ -216,7 +216,7 @@ function lazy x -> ()
 (compilation_unit
   (expression_item
     (function_expression
-      (match_case (lazy_pattern (value_name))
+      (match_case (lazy_pattern (value_pattern))
       (unit)))))
 
 ============================
@@ -231,5 +231,5 @@ function (x) -> ()
   (expression_item
     (function_expression
       (match_case
-        (parenthesized_pattern (value_name))
+        (parenthesized_pattern (value_pattern))
         (unit)))))

@@ -85,7 +85,9 @@ module.exports = grammar({
     $._extension,
     $._item_extension,
     $._constant,
-    $._signed_constant
+    $._signed_constant,
+    $._value_name,
+    $._value_pattern
   ],
 
   rules: {
@@ -173,22 +175,25 @@ module.exports = grammar({
 
     parameter: $ => choice(
       field('pattern', $._simple_pattern_ext),
-      $.label,
       seq(
-        $.label,
+        choice('~', '?'),
+        field('pattern', alias($._identifier, $.value_pattern))
+      ),
+      seq(
+        $._label,
         token.immediate(':'),
         field('pattern', $._simple_pattern_ext)
       ),
       seq(
         choice('~', '?'),
         '(',
-        $._label_name,
+        field('pattern', alias($._identifier, $.value_pattern)),
         optional($._typed),
         optional(seq('=', field('default', $._sequence_expression_ext))),
         ')'
       ),
       seq(
-        $.label,
+        $._label,
         token.immediate(':'),
         '(',
         field('pattern', $._pattern_ext),
@@ -201,7 +206,7 @@ module.exports = grammar({
     external: $ => seq(
       'external',
       optional($._attribute),
-      $.value_name,
+      $._value_pattern,
       $._typed,
       '=',
       repeat1($.string),
@@ -412,7 +417,7 @@ module.exports = grammar({
     value_specification: $ => seq(
       'val',
       optional($._attribute),
-      $.value_name,
+      $._value_name,
       $._typed,
       repeat($.item_attribute)
     ),
@@ -719,7 +724,7 @@ module.exports = grammar({
       'inherit',
       optional('!'),
       field('class', $._class_expression_ext),
-      optional(seq('as', $.value_name)),
+      optional(seq('as', $._value_pattern)),
       repeat($.item_attribute)
     ),
 
@@ -1048,14 +1053,16 @@ module.exports = grammar({
 
     _argument: $ => choice(
       $._simple_expression_ext,
-      $.label,
       $.labeled_argument
     ),
 
-    labeled_argument: $ => seq(
-      $.label,
-      token.immediate(':'),
-      field('argument', $._simple_expression_ext)
+    labeled_argument: $ => choice(
+      $._label,
+      seq(
+        $._label,
+        token.immediate(':'),
+        field('argument', $._simple_expression_ext)
+      )
     ),
 
     prefix_expression: $ => prec(PREC.prefix, seq(
@@ -1206,7 +1213,7 @@ module.exports = grammar({
     for_expression: $ => seq(
       'for',
       optional($._attribute),
-      $.value_name,
+      $._value_pattern,
       '=',
       field('from', $._sequence_expression_ext),
       choice('to', 'downto'),
@@ -1218,7 +1225,7 @@ module.exports = grammar({
       field('left', $._expression_ext),
       ';',
       optional(seq(
-        optional(seq('%', $.attribute_id)),
+        optional($._attribute),
         field('right', $._sequence_expression_ext)
       ))
     )),
@@ -1394,7 +1401,7 @@ module.exports = grammar({
     // Patterns
 
     _simple_pattern: $ => choice(
-      $.value_name,
+      $._value_pattern,
       $._signed_constant,
       $.typed_pattern,
       $.constructor_path,
@@ -1451,13 +1458,13 @@ module.exports = grammar({
     alias_pattern: $ => prec.left(PREC.match, seq(
       field('pattern', $._pattern_ext),
       'as',
-      $.value_name
+      $._value_pattern
     )),
 
     alias_pattern_no_exn: $ => prec.left(PREC.match, seq(
       field('pattern', $._pattern_no_exn_ext),
       'as',
-      $.value_name
+      $._value_pattern
     )),
 
     typed_pattern: $ => seq(
@@ -1825,29 +1832,36 @@ module.exports = grammar({
 
     // Names
 
-    value_name: $ => choice(
-      $._identifier,
-      parenthesize(choice(
-        $.prefix_operator,
-        alias($._sign_operator, $.infix_operator),
-        $.infix_operator,
-        seq(
-          '.',
-          $.indexing_operator,
-          choice(
-            seq('(', optional(seq(';', '..')), ')'),
-            seq('[', optional(seq(';', '..')), ']'),
-            seq('{', optional(seq(';', '..')), '}')
-          ),
-          optional('<-')
-        ),
-        $.let_operator,
-        $.and_operator,
-        $.match_operator
-      ))
+    _value_name: $ => choice(
+      alias($._identifier, $.value_name),
+      $.parenthesized_operator
     ),
 
-    value_path: $ => path($.module_path, $.value_name),
+    _value_pattern: $ => choice(
+      alias($._identifier, $.value_pattern),
+      $.parenthesized_operator
+    ),
+
+    parenthesized_operator: $ => parenthesize(choice(
+      $.prefix_operator,
+      alias($._sign_operator, $.infix_operator),
+      $.infix_operator,
+      seq(
+        '.',
+        $.indexing_operator,
+        choice(
+          seq('(', optional(seq(';', '..')), ')'),
+          seq('[', optional(seq(';', '..')), ']'),
+          seq('{', optional(seq(';', '..')), '}')
+        ),
+        optional('<-')
+      ),
+      $.let_operator,
+      $.and_operator,
+      $.match_operator
+    )),
+
+    value_path: $ => path($.module_path, $._value_name),
 
     module_path: $ => prec(1, path($.module_path, $._module_name)),
 
@@ -1874,7 +1888,7 @@ module.exports = grammar({
     _label_name: $ => alias($._identifier, $.label_name),
     _field_name: $ => alias($._identifier, $.field_name),
     _class_name: $ => alias($._identifier, $.class_name),
-    _class_type_name: $ => alias($._identifier, $.class_name),
+    _class_type_name: $ => alias($._identifier, $.class_type_name),
     _method_name: $ => alias($._identifier, $.method_name),
     _type_constructor: $ => alias($._identifier, $.type_constructor),
     _instance_variable_name: $ => alias($._identifier, $.instance_variable_name),
@@ -1889,7 +1903,7 @@ module.exports = grammar({
     _identifier: $ => /[a-z_][a-zA-Z0-9_']*/,
     _capitalized_identifier: $ => /[A-Z][a-zA-Z0-9_']*/,
 
-    label: $ => seq(choice('~', '?'), $._label_name),
+    _label: $ => seq(choice('~', '?'), $._label_name),
     directive: $ => seq('#', choice($._identifier, $._capitalized_identifier)),
     type_variable: $ => seq("'", choice($._identifier, $._capitalized_identifier)),
     tag: $ => seq('`', choice($._identifier, $._capitalized_identifier)),

@@ -15,7 +15,7 @@ Comments
   (comment)
   (comment)
   (comment)
-  (expression_item (value_path (value_name (infix_operator)))))
+  (expression_item (value_path (parenthesized_operator (infix_operator)))))
 
 ==============================
 Strings and comments
