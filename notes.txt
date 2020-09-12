@@ -178,6 +178,7 @@
 //     2020-07-10 (or so) alexmiller
 //
 //     https://ask.clojure.org/index.php/9427/clarify-the-position-of-as-a-keyword
+//     https://clojure.atlassian.net/browse/TCHECK-155
 //
 //   . CAN be in the name part:
 //
