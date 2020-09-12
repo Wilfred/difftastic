@@ -27,7 +27,7 @@ const HEX_NUMBER =
 const OCTAL_NUMBER =
       seq("0",
           repeat1(OCTAL_DIGIT),
-          optional(/[MN]/));
+          optional("N"));
 
 // XXX: not constraining number before r/R
 // XXX: not constraining portion after r/R
