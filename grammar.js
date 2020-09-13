@@ -111,6 +111,8 @@ const NAMED_CHAR =
              "space",
              "tab");
 
+// XXX: outside of: (c >= '\uD800' && c <= '\uDFFF') - LispReader.java
+//      but not doing this
 const UNICODE =
       seq("u",
           HEX_DIGIT,
