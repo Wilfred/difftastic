@@ -71,19 +71,25 @@ const KEYWORD_BODY =
       choice(/[:'/]/,
              KEYWORD_HEAD);
 
-const KEYWORD =
-      token(seq(":",
-                choice("/",
-                       seq(KEYWORD_HEAD,
-                           repeat(KEYWORD_BODY)))));
+const KEYWORD_NO_SIGIL =
+      seq(KEYWORD_HEAD,
+          repeat(KEYWORD_BODY));
 
 const AUTO_RESOLVE_MARKER =
       token("::");
 
-const AUTO_RESOLVED_KEYWORD =
-      token(seq(AUTO_RESOLVE_MARKER,
-                KEYWORD_HEAD,
-                repeat(KEYWORD_BODY)));
+const KEYWORD =
+      token(choice(// :my-ns/hi
+                   // :a
+                   // :/ is neither invalid nor valid, but repl accepts
+                   seq(":",
+                       choice("/",
+                             KEYWORD_NO_SIGIL)),
+                   // ::my-alias/hi
+                   // ::a
+                   // ::/ is invalid
+                   seq(AUTO_RESOLVE_MARKER,
+                       KEYWORD_NO_SIGIL)));
 
 const STRING =
       token(seq('"',
@@ -233,7 +239,6 @@ module.exports = grammar({
              $.vector,
              // literals
              $.number,
-             $.auto_resolved_keyword,
              $.keyword,
              $.string,
              $.character,
@@ -297,7 +302,6 @@ module.exports = grammar({
           choice($.read_cond,
                  $.map,
                  $.string,
-                 $.auto_resolved_keyword,
                  $.keyword,
                  $.symbol)),
 
@@ -306,15 +310,11 @@ module.exports = grammar({
           repeat($._non_form),
           choice($.map,
                  $.string,
-                 $.auto_resolved_keyword,
                  $.keyword,
                  $.symbol)),
 
     number: $ =>
       NUMBER,
-
-    auto_resolved_keyword: $ =>
-      AUTO_RESOLVED_KEYWORD,
 
     keyword: $ =>
       KEYWORD,
@@ -378,14 +378,10 @@ module.exports = grammar({
                         field('old_metadata', $.old_metadata),
                         $._non_form)),
           "#",
-          field('prefix', choice($.auto_resolved_keyword,
-                                 $.auto_resolve_marker,
+          field('prefix', choice(AUTO_RESOLVE_MARKER,
                                  $.keyword)),
           repeat($._non_form),
           $._bare_map),
-
-    auto_resolve_marker: $ =>
-      AUTO_RESOLVE_MARKER,
 
     var_quote_form: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
