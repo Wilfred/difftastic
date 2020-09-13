@@ -118,8 +118,10 @@ const UNICODE =
           HEX_DIGIT,
           HEX_DIGIT);
 
-// XXX: actually want a particular set of chars
-const UNICODE_CHAR =
+// XXX: not quite sure what this is supposed to be...
+//      return Character.valueOf(token.charAt(0)); -- LispReader.java
+//      java char is 16 bits...what can tree-sitter manage?
+const ANY_CHAR =
       /.|\n/;
 
 const CHARACTER =
@@ -127,7 +129,7 @@ const CHARACTER =
                 choice(OCTAL_CHAR,
                        NAMED_CHAR,
                        UNICODE,
-                       UNICODE_CHAR)));
+                       ANY_CHAR)));
 
 const SYMBOL_HEAD =
       /[^\f\n\r\t ()\[\]{}"@~^;`\\,:#'0-9]/;
