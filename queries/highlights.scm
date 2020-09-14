@@ -72,7 +72,7 @@
 
 (boolean) @constant
 
-(number) @number
+[(number) (signed_number)] @number
 
 [(string) (character)] @string
 
@@ -101,6 +101,7 @@
 (prefix_operator "!" @operator)
 
 (infix_operator ["&" "+" "-" "=" ">" "|" "%"] @operator)
+(signed_number ["+" "-"] @operator)
 
 ["*" "#" "::" "<-"] @operator
 

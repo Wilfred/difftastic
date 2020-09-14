@@ -27,3 +27,7 @@ type pos = {x : int; y : int}
 type x = < x : int >
       (* ^ punctuation.bracket *)
                 (* ^ punctuation.bracket *)
+
+type (-'a, +'b) func = 'a -> 'b
+   (* ^ punctuation.delimiter *)
+        (* ^ punctuation.delimiter *)
