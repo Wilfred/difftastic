@@ -38,6 +38,7 @@
 [(value_name) (type_variable)] @variable
 
 (let_binding pattern: (value_pattern) @variable)
+(let_binding pattern: (tuple_pattern (value_pattern) @variable))
 
 (value_pattern) @variable.parameter
 
@@ -55,7 +56,7 @@
   (#eq? @operator "|>"))
 
 (application_expression
-  function: (value_path (value_name)) @function)
+  function: (value_path (value_name) @function))
 
 (
   (value_name) @function.builtin
