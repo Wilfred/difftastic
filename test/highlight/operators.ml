@@ -5,6 +5,10 @@ let x = (1 + 2) :: 3
         (* ^ operator *)
              (* ^ operator *)
 
+let f = function +1 -> true | -1 -> true | _ -> false
+              (* ^ operator *)
+                           (* ^ operator *)
+
 let ( let* ) x f = f x
    (* ^ operator *)
 
