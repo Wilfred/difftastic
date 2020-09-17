@@ -19,16 +19,16 @@
 ;----------
 
 (let_binding
-  pattern: (value_pattern) @function
+  pattern: (value_name) @function
   (parameter))
 
 (let_binding
-  pattern: (value_pattern) @function
+  pattern: (value_name) @function
   body: [(fun_expression) (function_expression)])
 
 (value_specification (value_name) @function)
 
-(external (value_pattern) @function)
+(external (value_name) @function)
 
 (method_name) @function.method
 
@@ -57,9 +57,6 @@
 ;----------
 
 [(value_name) (type_variable)] @variable
-
-(let_binding pattern: (value_pattern) @variable)
-(let_binding pattern: (tuple_pattern (value_pattern) @variable))
 
 (value_pattern) @variable.parameter
 
