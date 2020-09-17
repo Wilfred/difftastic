@@ -8,7 +8,7 @@ external x : int = "x"
 
 (compilation_unit
   (external
-    (value_pattern)
+    (value_name)
     (type_constructor_path (type_constructor))
     (string)))
 

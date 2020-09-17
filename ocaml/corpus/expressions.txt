@@ -524,17 +524,17 @@ let rec x = y and y = x in x;;
     (let_expression
       (value_definition
         (let_binding
-          (value_pattern)
+          (value_name)
           (number)))
       (value_path (value_name))))
   (expression_item
     (let_expression
       (value_definition
         (let_binding
-          (value_pattern)
+          (value_name)
           (value_path (value_name)))
         (let_binding
-          (value_pattern)
+          (value_name)
           (value_path (value_name))))
       (value_path (value_name)))))
 
@@ -601,7 +601,7 @@ let x = (x)
 (compilation_unit
   (value_definition
     (let_binding
-      (value_pattern)
+      (value_name)
       (parenthesized_expression (value_path (value_name))))))
 
 ===========================
@@ -617,7 +617,7 @@ let x = x in if x then x <- x := ! x . x ## x x x lsl x ** x * x mod x + x - x :
     (let_expression
       (value_definition
         (let_binding
-          (value_pattern)
+          (value_name)
           (value_path (value_name))))
       (sequence_expression
         (if_expression

@@ -31,3 +31,12 @@ let () =
     ignore n;
         (* ^ variable *)
   done
+
+let (x, y) = (x, y)
+  (* ^ variable *)
+     (* ^ variable *)
+           (* ^ variable *)
+              (* ^ variable *)
+
+let {a = x} = assert false
+      (* ^ variable *)

@@ -81,7 +81,7 @@ module.exports = grammar({
     $._argument,
     $._simple_pattern,
     $._pattern,
-    $._pattern_no_exn,
+    $._binding_pattern,
     $._extension,
     $._item_extension,
     $._constant,
@@ -159,7 +159,7 @@ module.exports = grammar({
     ),
 
     let_binding: $ => seq(
-      field('pattern', $._pattern_no_exn_ext),
+      field('pattern', $._binding_pattern_ext),
       repeat($._parameter),
       optional($._polymorphic_typed),
       optional(seq(':>', $._type_ext)),
@@ -206,7 +206,7 @@ module.exports = grammar({
     external: $ => seq(
       'external',
       optional($._attribute),
-      $._value_pattern,
+      $._value_name,
       $._typed,
       '=',
       repeat1($.string),
@@ -1438,20 +1438,31 @@ module.exports = grammar({
       $._extension
     ),
 
-    _pattern_no_exn: $ => choice(
-      $._simple_pattern,
-      alias($.alias_pattern_no_exn, $.alias_pattern),
-      alias($.or_pattern_no_exn, $.or_pattern),
-      $.constructor_pattern,
-      $.tag_pattern,
-      alias($.tuple_pattern_no_exn, $.tuple_pattern),
-      alias($.cons_pattern_no_exn, $.cons_pattern),
+    _binding_pattern: $ => choice(
+      $._value_name,
+      $._signed_constant,
+      alias($.typed_binding_pattern, $.typed_pattern),
+      $.constructor_path,
+      $.tag,
+      $.polymorphic_variant_pattern,
+      alias($.record_binding_pattern, $.record_pattern),
+      alias($.list_binding_pattern, $.list_pattern),
+      alias($.array_binding_pattern, $.array_pattern),
+      alias($.local_open_binding_pattern, $.local_open_pattern),
+      $.package_pattern,
+      alias($.parenthesized_binding_pattern, $.parenthesized_pattern),
+      alias($.alias_binding_pattern, $.alias_pattern),
+      alias($.or_binding_pattern, $.or_pattern),
+      alias($.constructor_binding_pattern, $.constructor_pattern),
+      alias($.tag_binding_pattern, $.tag_pattern),
+      alias($.tuple_binding_pattern, $.tuple_pattern),
+      alias($.cons_binding_pattern, $.cons_pattern),
       $.range_pattern,
-      $.lazy_pattern
+      alias($.lazy_binding_pattern, $.lazy_pattern)
     ),
 
-    _pattern_no_exn_ext: $ => choice(
-      $._pattern_no_exn,
+    _binding_pattern_ext: $ => choice(
+      $._binding_pattern,
       $._extension
     ),
 
@@ -1461,15 +1472,22 @@ module.exports = grammar({
       $._value_pattern
     )),
 
-    alias_pattern_no_exn: $ => prec.left(PREC.match, seq(
-      $._pattern_no_exn_ext,
+    alias_binding_pattern: $ => prec.left(PREC.match, seq(
+      $._binding_pattern_ext,
       'as',
-      $._value_pattern
+      $._value_name
     )),
 
     typed_pattern: $ => seq(
       parenthesize(seq(
         $._pattern_ext,
+        $._typed
+      ))
+    ),
+
+    typed_binding_pattern: $ => seq(
+      parenthesize(seq(
+        field('pattern', $._binding_pattern_ext),
         $._typed
       ))
     ),
@@ -1480,10 +1498,10 @@ module.exports = grammar({
       $._pattern_ext
     )),
 
-    or_pattern_no_exn: $ => prec.left(PREC.seq, seq(
-      $._pattern_no_exn_ext,
+    or_binding_pattern: $ => prec.left(PREC.seq, seq(
+      $._binding_pattern_ext,
       '|',
-      $._pattern_ext
+      $._binding_pattern_ext
     )),
 
     constructor_pattern: $ => prec.right(PREC.app, seq(
@@ -1491,9 +1509,19 @@ module.exports = grammar({
       $._pattern_ext
     )),
 
+    constructor_binding_pattern: $ => prec.right(PREC.app, seq(
+      $.constructor_path,
+      field('pattern', $._binding_pattern_ext)
+    )),
+
     tag_pattern: $ => prec.right(PREC.app, seq(
       $.tag,
       $._pattern_ext
+    )),
+
+    tag_binding_pattern: $ => prec.right(PREC.app, seq(
+      $.tag,
+      field('pattern', $._binding_pattern_ext)
     )),
 
     polymorphic_variant_pattern: $ => seq(
@@ -1507,10 +1535,10 @@ module.exports = grammar({
       $._pattern_ext
     )),
 
-    tuple_pattern_no_exn: $ => prec.left(PREC.prod, seq(
-      $._pattern_no_exn_ext,
+    tuple_binding_pattern: $ => prec.left(PREC.prod, seq(
+      $._binding_pattern_ext,
       ',',
-      $._pattern_ext
+      $._binding_pattern_ext
     )),
 
     record_pattern: $ => prec.left(seq(
@@ -1527,10 +1555,33 @@ module.exports = grammar({
       optional(seq('=', $._pattern_ext))
     ),
 
+    record_binding_pattern: $ => prec.left(seq(
+      '{',
+      sep1(';', alias($.field_binding_pattern, $.field_pattern)),
+      optional(seq(';', '_')),
+      optional(';'),
+      '}'
+    )),
+
+    field_binding_pattern: $ => seq(
+      $.field_path,
+      optional($._typed),
+      optional(seq('=', field('pattern', $._binding_pattern_ext)))
+    ),
+
     list_pattern: $ => prec.left(seq(
       '[',
       optional(seq(
         sep1(';', $._pattern_ext),
+        optional(';')
+      )),
+      ']'
+    )),
+
+    list_binding_pattern: $ => prec.left(seq(
+      '[',
+      optional(seq(
+        sep1(';', $._binding_pattern_ext),
         optional(';')
       )),
       ']'
@@ -1542,16 +1593,25 @@ module.exports = grammar({
       $._pattern_ext
     )),
 
-    cons_pattern_no_exn: $ => prec.right(PREC.cons, seq(
-      $._pattern_no_exn_ext,
+    cons_binding_pattern: $ => prec.right(PREC.cons, seq(
+      $._binding_pattern_ext,
       '::',
-      $._pattern_ext
+      $._binding_pattern_ext
     )),
 
     array_pattern: $ => prec.left(seq(
       '[|',
       optional(seq(
         sep1(';', $._pattern_ext),
+        optional(';')
+      )),
+      '|]'
+    )),
+
+    array_binding_pattern: $ => prec.left(seq(
+      '[|',
+      optional(seq(
+        sep1(';', $._binding_pattern_ext),
         optional(';')
       )),
       '|]'
@@ -1569,6 +1629,12 @@ module.exports = grammar({
       $._pattern_ext
     )),
 
+    lazy_binding_pattern: $ => prec(PREC.hash, seq(
+      'lazy',
+      optional($._attribute),
+      $._binding_pattern_ext
+    )),
+
     local_open_pattern: $ => seq(
       $.module_path,
       '.',
@@ -1580,6 +1646,17 @@ module.exports = grammar({
       )
     ),
 
+    local_open_binding_pattern: $ => seq(
+      $.module_path,
+      '.',
+      choice(
+        parenthesize(optional($._binding_pattern_ext)),
+        $.list_binding_pattern,
+        $.array_binding_pattern,
+        $.record_binding_pattern
+      )
+    ),
+
     package_pattern: $ => parenthesize(seq(
       'module',
       optional($._attribute),
@@ -1588,6 +1665,8 @@ module.exports = grammar({
     )),
 
     parenthesized_pattern: $ => parenthesize($._pattern_ext),
+
+    parenthesized_binding_pattern: $ => parenthesize($._binding_pattern_ext),
 
     exception_pattern: $ => seq(
       'exception',
