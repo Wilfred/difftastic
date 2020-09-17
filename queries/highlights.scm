@@ -32,18 +32,13 @@
 
 (method_name) @function.method
 
-; Variables
-;----------
-
-[(value_name) (type_variable)] @variable
-
-(let_binding pattern: (value_pattern) @variable)
-(let_binding pattern: (tuple_pattern (value_pattern) @variable))
-
-(value_pattern) @variable.parameter
-
 ; Application
 ;------------
+
+(
+  (value_name) @function.builtin
+  (#match? @function.builtin "^(raise(_notrace)?|failwith|invalid_arg)$")
+)
 
 (infix_expression
   left: (value_path (value_name) @function)
@@ -58,10 +53,15 @@
 (application_expression
   function: (value_path (value_name) @function))
 
-(
-  (value_name) @function.builtin
-  (#match? @function.builtin "^(raise(_notrace)?|failwith|invalid_arg)$")
-)
+; Variables
+;----------
+
+[(value_name) (type_variable)] @variable
+
+(let_binding pattern: (value_pattern) @variable)
+(let_binding pattern: (tuple_pattern (value_pattern) @variable))
+
+(value_pattern) @variable.parameter
 
 ; Properties
 ;-----------
