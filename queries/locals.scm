@@ -19,6 +19,6 @@
 (value_pattern) @local.definition
 
 ; References
-;------------
+;-----------
 
-(value_name) @local.reference
+(value_path . (value_name) @local.reference)
