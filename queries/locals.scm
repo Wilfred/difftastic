@@ -7,8 +7,10 @@
   (class_function)
   (method_definition)
   (fun_expression)
-  (match_case)
+  (object_expression)
   (for_expression)
+  (match_case)
+  (attribute_payload)
 ] @local.scope
 
 ; Definitions
