@@ -8596,17 +8596,8 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": "when"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_sequence_expression_ext"
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "guard"
                 },
                 {
                   "type": "BLANK"

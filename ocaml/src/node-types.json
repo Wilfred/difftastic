@@ -1113,10 +1113,6 @@
           "named": true
         },
         {
-          "type": "_sequence_expression",
-          "named": true
-        },
-        {
           "type": "_structure_item",
           "named": true
         },
@@ -1126,6 +1122,10 @@
         },
         {
           "type": "expression_item",
+          "named": true
+        },
+        {
+          "type": "guard",
           "named": true
         },
         {
