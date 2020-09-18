@@ -40,3 +40,8 @@ let (x, y) = (x, y)
 
 let {a = x} = assert false
       (* ^ variable *)
+
+let f x = (M.x, x)
+   (* ^ variable.parameter *)
+          (* ^ variable *)
+             (* ^ variable.parameter *)
