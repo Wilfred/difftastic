@@ -64,11 +64,25 @@
   (comment)? @doc .
   (value_definition
     (let_binding
-      pattern: (parenthesized_operator (_) @name)) @definition.function)
+      pattern: (parenthesized_operator [
+        (prefix_operator)
+        (infix_operator)
+        (indexing_operator)
+        (let_operator)
+        (and_operator)
+        (match_operator)
+      ] @name)) @definition.function)
   (#strip! @doc "^\\(\\*\\*?\\s*|\\s\\*\\)$")
 )
 
-[(prefix_operator) (infix_operator) (indexing_operator) (let_operator) (and_operator) (match_operator)] @name @reference.call
+[
+  (prefix_operator)
+  (infix_operator)
+  (indexing_operator)
+  (let_operator)
+  (and_operator)
+  (match_operator)
+] @name @reference.call
 
 ; Classes
 ;--------
