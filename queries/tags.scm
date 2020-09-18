@@ -28,10 +28,10 @@
   (value_definition
     [
       (let_binding
-        pattern: (value_pattern) @name
+        pattern: (value_name) @name
         (parameter))
       (let_binding
-        pattern: (value_pattern) @name
+        pattern: (value_name) @name
         body: [(fun_expression) (function_expression)])
     ] @definition.function
   )
@@ -40,7 +40,7 @@
 
 (
   (comment)? @doc .
-  (external (value_pattern) @name) @definition.function
+  (external (value_name) @name) @definition.function
   (#strip! @doc "^\\(\\*\\*?\\s*|\\s\\*\\)$")
 )
 
