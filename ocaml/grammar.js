@@ -1703,7 +1703,7 @@ module.exports = grammar({
       seq(
         '?',
         $._pattern_ext,
-        optional(seq('when', $._sequence_expression_ext))
+        optional($.guard)
       )
     ),
 
