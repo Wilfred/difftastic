@@ -30,6 +30,10 @@ module.exports = grammar({
     /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/
   ],
 
+  conflicts: $ => [
+    [$._primary_expression, $.left_hand_side],
+  ],
+
   supertypes: $ => [
     $._simple_statement,
     $._compound_statement,
@@ -591,7 +595,7 @@ module.exports = grammar({
     ),
 
     assignment: $ => seq(
-      field('left', $.expression_list),
+      field('left', $.left_hand_side),
       choice(
         seq('=', field('right', $._right_hand_side)),
         seq(':', field('type', $.type)),
@@ -600,13 +604,24 @@ module.exports = grammar({
     ),
 
     augmented_assignment: $ => seq(
-      field('left', $.expression_list),
+      field('left', $.left_hand_side),
       field('operator', choice(
         '+=', '-=', '*=', '/=', '@=', '//=', '%=', '**=',
         '>>=', '<<=', '&=', '^=', '|='
       )),
       field('right', $._right_hand_side)
     ),
+
+    left_hand_side: $ => prec.right(seq(
+      commaSep1(choice(
+        $.identifier,
+        $.subscript,
+        $.attribute,
+        $.list,
+        $.tuple
+      )),
+      optional(',')
+    )),
 
     _right_hand_side: $ => choice(
       $.expression_list,
