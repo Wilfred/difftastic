@@ -2976,7 +2976,7 @@
           "name": "left",
           "content": {
             "type": "SYMBOL",
-            "name": "expression_list"
+            "name": "left_hand_side"
           }
         },
         {
@@ -3057,7 +3057,7 @@
           "name": "left",
           "content": {
             "type": "SYMBOL",
-            "name": "expression_list"
+            "name": "left_hand_side"
           }
         },
         {
@@ -3130,6 +3130,94 @@
           }
         }
       ]
+    },
+    "left_hand_side": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "subscript"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "attribute"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "list"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "tuple"
+                  }
+                ]
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "identifier"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "subscript"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "attribute"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "list"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "tuple"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "_right_hand_side": {
       "type": "CHOICE",
@@ -4659,7 +4747,12 @@
       "value": "[\\s\\f\\uFEFF\\u2060\\u200B]|\\\\\\r?\\n"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "_primary_expression",
+      "left_hand_side"
+    ]
+  ],
   "externals": [
     {
       "type": "SYMBOL",

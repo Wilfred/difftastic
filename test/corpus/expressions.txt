@@ -8,7 +8,7 @@ Identifiers with Greek letters
 
 (module
   (expression_statement (assignment
-    left: (expression_list (identifier))
+    left: (left_hand_side (identifier))
     right: (expression_list (binary_operator
       left: (identifier)
       right: (identifier))))))
@@ -439,13 +439,13 @@ a[b] = c = d
 (module
   (expression_statement
     (assignment
-      (expression_list
+      (left_hand_side
         (identifier))
       (expression_list
         (integer))))
   (expression_statement
     (assignment
-      (expression_list
+      (left_hand_side
         (identifier)
         (identifier))
       (expression_list
@@ -453,17 +453,17 @@ a[b] = c = d
         (integer))))
   (expression_statement
     (assignment
-      (expression_list
+      (left_hand_side
         (identifier))
       (expression_list
         (integer)
         (integer))))
   (expression_statement
     (assignment
-      (expression_list
+      (left_hand_side
         (subscript (identifier) (identifier)))
       (assignment
-        (expression_list (identifier))
+        (left_hand_side (identifier))
         (expression_list (identifier))))))
 
 ====================================================
@@ -476,7 +476,7 @@ tail_leaves: List[Leaf] = []
 
 (module
   (expression_statement (assignment
-    (expression_list (identifier))
+    (left_hand_side (identifier))
     (type (subscript (identifier) (identifier)))
     (expression_list (list)))))
 
@@ -493,15 +493,15 @@ c //= 1
 (module
   (expression_statement
     (augmented_assignment
-      (expression_list (identifier))
+      (left_hand_side (identifier))
       (expression_list (integer))))
   (expression_statement
     (augmented_assignment
-      (expression_list (identifier))
+      (left_hand_side (identifier))
       (expression_list (integer))))
   (expression_statement
     (augmented_assignment
-      (expression_list (identifier))
+      (left_hand_side (identifier))
       (expression_list (integer)))))
 
 ====================================================
@@ -543,7 +543,7 @@ foo(x := 3, cat='vector')
               (call (identifier) (argument_list (identifier)))))))))
   (expression_statement
     (assignment
-      (expression_list (identifier))
+      (left_hand_side (identifier))
       (expression_list
         (parenthesized_expression
           (named_expression
@@ -601,7 +601,7 @@ def example():
     (expression_statement (yield (expression_list (integer))))
     (expression_statement
       (assignment
-        (expression_list (identifier))
+        (left_hand_side (identifier))
         (yield (expression_list (integer)))))
     (expression_statement (yield (identifier)))
     (expression_statement
@@ -675,7 +675,7 @@ slice(1,1,1) if a else d
 (module
   (expression_statement
     (assignment
-      (expression_list (identifier))
+      (left_hand_side (identifier))
       (expression_list
         (conditional_expression (identifier) (identifier) (identifier)))))
   (expression_statement
