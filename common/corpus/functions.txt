@@ -58,7 +58,7 @@ function foo<T, U>(this: T[]): U[] {
     body: (statement_block (return_statement (array)))))
 
 ==================================
-Function calls with type arguments
+New object with type arguments
 ==================================
 
 const lines = new Array<DiffLine>()
@@ -69,7 +69,25 @@ const lines = new Array<DiffLine>()
   (lexical_declaration
     (variable_declarator
       (identifier)
-      (new_expression (identifier) (type_arguments (type_identifier)) (arguments)))))
+      (new_expression
+        (identifier)
+        (type_arguments (type_identifier))
+        (arguments)))))
+
+==================================
+Function calls with optional chaining and type arguments
+==================================
+
+A?.<B>();
+
+---
+
+(program
+  (expression_statement
+    (call_expression
+      (identifier)
+      (type_arguments (type_identifier))
+      (arguments))))
 
 ==================================
 Arrow functions and generators with call signatures

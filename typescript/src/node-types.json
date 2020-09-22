@@ -3956,6 +3956,10 @@
             "named": true
           },
           {
+            "type": "call_expression",
+            "named": true
+          },
+          {
             "type": "class",
             "named": true
           },
@@ -3988,10 +3992,6 @@
             "named": true
           },
           {
-            "type": "new_expression",
-            "named": true
-          },
-          {
             "type": "null",
             "named": true
           },
@@ -4017,6 +4017,10 @@
           },
           {
             "type": "subscript_expression",
+            "named": true
+          },
+          {
+            "type": "super",
             "named": true
           },
           {
@@ -5817,6 +5821,10 @@
     "named": false
   },
   {
+    "type": "&&=",
+    "named": false
+  },
+  {
     "type": "&=",
     "named": false
   },
@@ -5961,7 +5969,15 @@
     "named": false
   },
   {
+    "type": "?.",
+    "named": false
+  },
+  {
     "type": "??",
+    "named": false
+  },
+  {
+    "type": "??=",
     "named": false
   },
   {
@@ -6170,11 +6186,11 @@
   },
   {
     "type": "number",
-    "named": true
+    "named": false
   },
   {
     "type": "number",
-    "named": false
+    "named": true
   },
   {
     "type": "of",
@@ -6322,6 +6338,10 @@
   },
   {
     "type": "||",
+    "named": false
+  },
+  {
+    "type": "||=",
     "named": false
   },
   {
