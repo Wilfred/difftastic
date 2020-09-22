@@ -20,7 +20,7 @@ const PREC = {
   NEG: 10,
   INC: 11,
   CALL: 12,
-  NEW: 12,
+  NEW: 13,
   MEMBER: 14
 };
 
@@ -46,13 +46,12 @@ module.exports = grammar({
 
   inline: $ => [
     $._call_signature,
-    $._constructable_expression,
+    $._primary_expression,
     $._statement,
     $._expressions,
     $._semicolon,
     $._formal_parameter,
     $._destructuring_pattern,
-    $._identifier_reference,
     $._reserved_identifier,
     $._jsx_attribute,
     $._jsx_element_name,
@@ -75,7 +74,6 @@ module.exports = grammar({
     [$.assignment_pattern, $.assignment_expression],
     [$.computed_property_name, $.array],
     [$._for_header, $._expression],
-    [$.call_expression, $.new_expression],
   ],
 
   word: $ => $.identifier,
@@ -404,10 +402,9 @@ module.exports = grammar({
     ),
 
     _expression: $ => choice(
-      $._constructable_expression,
+      $._primary_expression,
       $._jsx_element,
       $.jsx_fragment,
-
       $.assignment_expression,
       $.augmented_assignment_expression,
       $.await_expression,
@@ -415,8 +412,35 @@ module.exports = grammar({
       $.binary_expression,
       $.ternary_expression,
       $.update_expression,
-      $.call_expression,
+      $.new_expression,
       $.yield_expression,
+    ),
+
+    _primary_expression: $ => choice(
+      $.this,
+      $.super,
+      $.identifier,
+      alias($._reserved_identifier, $.identifier),
+      $.number,
+      $.string,
+      $.template_string,
+      $.regex,
+      $.true,
+      $.false,
+      $.null,
+      $.undefined,
+      $.import,
+      $.object,
+      $.array,
+      $.function,
+      $.arrow_function,
+      $.generator_function,
+      $.class,
+      $.parenthesized_expression,
+      $.subscript_expression,
+      $.member_expression,
+      $.meta_property,
+      $.call_expression,
     ),
 
     yield_expression: $ => prec.right(seq(
@@ -625,44 +649,23 @@ module.exports = grammar({
       field('parameters', $.formal_parameters)
     ),
 
-    call_expression: $ => prec(PREC.CALL, seq(
-      field('function', $._expression),
-      optional('?.'),
-      field('arguments', choice($.arguments, $.template_string))
-    )),
+    call_expression: $ => choice(
+      prec(PREC.CALL, seq(
+        field('function', $._expression),
+        field('arguments', choice($.arguments, $.template_string))
+      )),
+      prec(PREC.MEMBER, seq(
+        field('function', $._primary_expression),
+        '?.',
+        field('arguments', $.arguments)
+      ))
+    ),
 
-    new_expression: $ => prec(PREC.NEW, seq(
+    new_expression: $ => prec.right(PREC.NEW, seq(
       'new',
-      field('constructor', $._expression),
+      field('constructor', $._primary_expression),
       field('arguments', optional(prec.dynamic(1, $.arguments)))
     )),
-
-    _constructable_expression: $ => choice(
-      $.super,
-      $.this,
-      $.identifier,
-      alias($._reserved_identifier, $.identifier),
-      $.number,
-      $.string,
-      $.template_string,
-      $.regex,
-      $.true,
-      $.false,
-      $.null,
-      $.undefined,
-      $.import,
-      $.object,
-      $.array,
-      $.function,
-      $.arrow_function,
-      $.generator_function,
-      $.class,
-      $.parenthesized_expression,
-      $.subscript_expression,
-      $.member_expression,
-      $.meta_property,
-      $.new_expression,
-    ),
 
     await_expression: $ => seq(
       'await',
@@ -670,17 +673,15 @@ module.exports = grammar({
     ),
 
     member_expression: $ => prec(PREC.MEMBER, seq(
-      field('object', $._expression),
+      field('object', choice($._expression, $._primary_expression)),
       choice('.', '?.'),
       field('property', alias($.identifier, $.property_identifier))
     )),
 
     subscript_expression: $ => prec.right(PREC.MEMBER, seq(
-      field('object', $._expression),
+      field('object', choice($._expression, $._primary_expression)),
       optional('?.'),
-      '[',
-      field('index', $._expressions),
-      ']'
+      '[', field('index', $._expressions), ']'
     )),
 
     _lhs_expression: $ => choice(
@@ -947,20 +948,15 @@ module.exports = grammar({
     decorator: $ => seq(
       '@',
       choice(
-        $._identifier_reference,
+        $.identifier,
         alias($.decorator_member_expression, $.member_expression),
         alias($.decorator_call_expression, $.call_expression)
       )
     ),
 
-    _identifier_reference: $ => choice(
-      $.identifier,
-      alias($._reserved_identifier, $.identifier)
-    ),
-
     decorator_member_expression: $ => prec(PREC.MEMBER, seq(
       field('object', choice(
-        $._identifier_reference,
+        $.identifier,
         alias($.decorator_member_expression, $.member_expression)
       )),
       '.',
@@ -969,7 +965,7 @@ module.exports = grammar({
 
     decorator_call_expression: $ => prec(PREC.CALL, seq(
       field('function', choice(
-        $._identifier_reference,
+        $.identifier,
         alias($.decorator_member_expression, $.member_expression)
       )),
       field('arguments', $.arguments)
