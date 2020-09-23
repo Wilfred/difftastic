@@ -225,7 +225,7 @@ module.exports = grammar({
 
     tuple_pattern: $ => seq(
       '(',
-      commaSep1(choice($.identifier, $.discard)),
+      commaSep1(choice($.identifier, $.discard, $.tuple_pattern)),
       ')'
     ),
 
@@ -670,7 +670,7 @@ module.exports = grammar({
       choice(
         seq(
           field('type', $._type),
-          field('left', $.identifier)
+          field('left', choice($.identifier, $.tuple_pattern)),
         ), // for_each_statement
         field('left', $._expression), // for_each_variable_statement
       ),

@@ -824,6 +824,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "discard"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "tuple_pattern"
                 }
               ]
             },
@@ -846,6 +850,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "discard"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "tuple_pattern"
                       }
                     ]
                   }
@@ -3536,8 +3544,17 @@
                   "type": "FIELD",
                   "name": "left",
                   "content": {
-                    "type": "SYMBOL",
-                    "name": "identifier"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "tuple_pattern"
+                      }
+                    ]
                   }
                 }
               ]
