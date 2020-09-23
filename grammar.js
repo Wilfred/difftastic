@@ -353,8 +353,9 @@ module.exports = grammar({
     ),
 
     type_parameter_constraint: $ => choice(
-      'class',
+      seq('class', optional('?')),
       'struct',
+      'notnull',
       'unmanaged',
       $.constructor_constraint,
       $.type_constraint

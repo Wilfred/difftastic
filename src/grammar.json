@@ -1655,12 +1655,33 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "class"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "class"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "?"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
         },
         {
           "type": "STRING",
           "value": "struct"
+        },
+        {
+          "type": "STRING",
+          "value": "notnull"
         },
         {
           "type": "STRING",
