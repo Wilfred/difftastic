@@ -899,6 +899,37 @@ class A {
               (identifier)))))))))
 
 =====================================
+Foreach with tuple pattern
+=====================================
+
+class A {
+  void Sample() {
+    foreach(var (x, y) in z)
+      q += x;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list (method_declaration
+      (void_keyword)
+      (identifier)
+      (parameter_list)
+      (block
+        (for_each_statement
+          (implicit_type)
+          (tuple_pattern (identifier) (identifier))
+          (identifier)
+          (expression_statement
+            (assignment_expression
+              (identifier)
+              (assignment_operator)
+              (identifier)))))))))
+
+=====================================
 Unsafe statement
 =====================================
 
@@ -1030,6 +1061,7 @@ class A {
     var (a, b) = c;
     (a, b) = c;
     var (a, _) = c;
+    var (a, (b, _)) = c;
   }
 }
 
@@ -1065,4 +1097,9 @@ class A {
             (implicit_type)
             (variable_declarator
               (tuple_pattern (identifier) (discard))
+              (equals_value_clause (identifier)))))
+          (local_declaration_statement (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (tuple_pattern (identifier) (tuple_pattern (identifier) (discard)))
               (equals_value_clause (identifier))))))))))
