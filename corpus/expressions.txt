@@ -815,6 +815,44 @@ void b() {
                   (discard)
                   (string_literal))))))))))
 
+============================
+switch expression with trailing comma
+============================
+
+void b() {
+  var r = operation switch {
+      1 => "one",
+      2 => "two",
+      _ => "more",
+  };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (implicit_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+              (switch_expression
+                (identifier)
+                (switch_expression_arm
+                  (constant_pattern (integer_literal))
+                  (string_literal))
+                (switch_expression_arm
+                  (constant_pattern (integer_literal))
+                  (string_literal))
+                (switch_expression_arm
+                  (discard)
+                  (string_literal))))))))))
+
 =====================================
 await Expression
 =====================================
