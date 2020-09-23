@@ -341,13 +341,13 @@ for x, in [(1,), (2,), (3,)]:
 
 (module
   (for_statement
-    left: (variables (identifier) (identifier))
+    left: (left_hand_side (identifier) (identifier))
     right: (expression_list (identifier))
     body: (block
       (print_statement
         argument: (identifier))
       (for_statement
-        left: (variables (identifier) (identifier))
+        left: (left_hand_side (identifier) (identifier))
         right: (expression_list (identifier))
         body: (block
           (print_statement
@@ -357,7 +357,7 @@ for x, in [(1,), (2,), (3,)]:
         (print_statement
           argument: (identifier)))))
   (for_statement
-    left: (variables (identifier))
+    left: (left_hand_side (identifier))
     right: (expression_list (list (tuple (integer)) (tuple (integer)) (tuple (integer))))
     body: (block
       (expression_statement (identifier)))))
@@ -515,8 +515,8 @@ async def d(a:str="default", b=c) -> None:
       (default_parameter
         name: (identifier)
         value: (identifier))
-      (list_splat (identifier))
-      (dictionary_splat (identifier)))
+      (list_splat_pattern (identifier))
+      (dictionary_splat_pattern (identifier)))
     body: (block
       (expression_statement (identifier))))
   (function_definition
@@ -568,20 +568,20 @@ def h(*a):
 (module
   (function_definition
     name: (identifier)
-    parameters: (parameters (tuple (identifier) (identifier)))
+    parameters: (parameters (tuple_pattern (identifier) (identifier)))
     body: (block
       (return_statement (expression_list (tuple (identifier) (identifier))))))
   (function_definition
     name: (identifier)
     parameters: (parameters (typed_parameter
-      (list_splat (identifier))
+      (list_splat_pattern (identifier))
       type: (type (identifier))))
     body: (block
       (pass_statement)))
   (function_definition
     name: (identifier)
     parameters: (parameters (typed_parameter
-      (dictionary_splat (identifier))
+      (dictionary_splat_pattern (identifier))
       type: (type (identifier))))
     body: (block
       (pass_statement)))
@@ -595,10 +595,10 @@ def h(*a):
     parameters: (parameters
       (identifier)
       (identifier)
-      (list_splat)
+      (list_splat_pattern)
       (identifier)
       (default_parameter name: (identifier) value: (integer))
-      (dictionary_splat (identifier)))
+      (dictionary_splat_pattern (identifier)))
     body: (block
       (return_statement (expression_list
         (identifier)
@@ -608,7 +608,7 @@ def h(*a):
         (identifier)))))
    (function_definition
      name: (identifier)
-     parameters: (parameters (list_splat (identifier)))
+     parameters: (parameters (list_splat_pattern (identifier)))
      body: (block
        (expression_statement
          (call function:
