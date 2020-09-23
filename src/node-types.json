@@ -38,44 +38,6 @@
     ]
   },
   {
-    "type": "_expression",
-    "named": true,
-    "subtypes": [
-      {
-        "type": "_primary_expression",
-        "named": true
-      },
-      {
-        "type": "await",
-        "named": true
-      },
-      {
-        "type": "boolean_operator",
-        "named": true
-      },
-      {
-        "type": "comparison_operator",
-        "named": true
-      },
-      {
-        "type": "conditional_expression",
-        "named": true
-      },
-      {
-        "type": "lambda",
-        "named": true
-      },
-      {
-        "type": "named_expression",
-        "named": true
-      },
-      {
-        "type": "not_operator",
-        "named": true
-      }
-    ]
-  },
-  {
     "type": "_parameter",
     "named": true,
     "subtypes": [
@@ -110,7 +72,111 @@
     ]
   },
   {
-    "type": "_primary_expression",
+    "type": "_simple_statement",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "assert_statement",
+        "named": true
+      },
+      {
+        "type": "break_statement",
+        "named": true
+      },
+      {
+        "type": "continue_statement",
+        "named": true
+      },
+      {
+        "type": "delete_statement",
+        "named": true
+      },
+      {
+        "type": "exec_statement",
+        "named": true
+      },
+      {
+        "type": "expression_statement",
+        "named": true
+      },
+      {
+        "type": "future_import_statement",
+        "named": true
+      },
+      {
+        "type": "global_statement",
+        "named": true
+      },
+      {
+        "type": "import_from_statement",
+        "named": true
+      },
+      {
+        "type": "import_statement",
+        "named": true
+      },
+      {
+        "type": "nonlocal_statement",
+        "named": true
+      },
+      {
+        "type": "pass_statement",
+        "named": true
+      },
+      {
+        "type": "print_statement",
+        "named": true
+      },
+      {
+        "type": "raise_statement",
+        "named": true
+      },
+      {
+        "type": "return_statement",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "expression",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "await",
+        "named": true
+      },
+      {
+        "type": "boolean_operator",
+        "named": true
+      },
+      {
+        "type": "comparison_operator",
+        "named": true
+      },
+      {
+        "type": "conditional_expression",
+        "named": true
+      },
+      {
+        "type": "lambda",
+        "named": true
+      },
+      {
+        "type": "named_expression",
+        "named": true
+      },
+      {
+        "type": "not_operator",
+        "named": true
+      },
+      {
+        "type": "primary_expression",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "primary_expression",
     "named": true,
     "subtypes": [
       {
@@ -208,72 +274,6 @@
     ]
   },
   {
-    "type": "_simple_statement",
-    "named": true,
-    "subtypes": [
-      {
-        "type": "assert_statement",
-        "named": true
-      },
-      {
-        "type": "break_statement",
-        "named": true
-      },
-      {
-        "type": "continue_statement",
-        "named": true
-      },
-      {
-        "type": "delete_statement",
-        "named": true
-      },
-      {
-        "type": "exec_statement",
-        "named": true
-      },
-      {
-        "type": "expression_statement",
-        "named": true
-      },
-      {
-        "type": "future_import_statement",
-        "named": true
-      },
-      {
-        "type": "global_statement",
-        "named": true
-      },
-      {
-        "type": "import_from_statement",
-        "named": true
-      },
-      {
-        "type": "import_statement",
-        "named": true
-      },
-      {
-        "type": "nonlocal_statement",
-        "named": true
-      },
-      {
-        "type": "pass_statement",
-        "named": true
-      },
-      {
-        "type": "print_statement",
-        "named": true
-      },
-      {
-        "type": "raise_statement",
-        "named": true
-      },
-      {
-        "type": "return_statement",
-        "named": true
-      }
-    ]
-  },
-  {
     "type": "aliased_import",
     "named": true,
     "fields": {
@@ -308,11 +308,11 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "dictionary_splat",
           "named": true
         },
         {
-          "type": "dictionary_splat",
+          "type": "expression",
           "named": true
         },
         {
@@ -339,7 +339,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -412,7 +412,7 @@
         "required": true,
         "types": [
           {
-            "type": "_primary_expression",
+            "type": "primary_expression",
             "named": true
           }
         ]
@@ -524,7 +524,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -539,7 +539,7 @@
         "required": true,
         "types": [
           {
-            "type": "_primary_expression",
+            "type": "primary_expression",
             "named": true
           }
         ]
@@ -607,7 +607,7 @@
         "required": true,
         "types": [
           {
-            "type": "_primary_expression",
+            "type": "primary_expression",
             "named": true
           }
         ]
@@ -642,7 +642,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -666,7 +666,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -701,7 +701,7 @@
         "required": true,
         "types": [
           {
-            "type": "_primary_expression",
+            "type": "primary_expression",
             "named": true
           }
         ]
@@ -717,7 +717,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -768,7 +768,7 @@
       "required": true,
       "types": [
         {
-          "type": "_primary_expression",
+          "type": "primary_expression",
           "named": true
         }
       ]
@@ -798,7 +798,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -884,7 +884,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -964,7 +964,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -994,7 +994,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1036,11 +1036,11 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "block",
           "named": true
         },
         {
-          "type": "block",
+          "type": "expression",
           "named": true
         }
       ]
@@ -1066,7 +1066,7 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -1081,7 +1081,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -1096,15 +1096,15 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
-          "named": true
-        },
-        {
           "type": "assignment",
           "named": true
         },
         {
           "type": "augmented_assignment",
+          "named": true
+        },
+        {
+          "type": "expression",
           "named": true
         },
         {
@@ -1152,7 +1152,7 @@
             "named": false
           },
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1214,7 +1214,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -1310,7 +1310,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1355,7 +1355,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -1384,7 +1384,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1479,7 +1479,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -1512,7 +1512,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1528,7 +1528,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1600,7 +1600,7 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -1627,7 +1627,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1657,7 +1657,7 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -1701,7 +1701,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1732,7 +1732,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1748,7 +1748,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1758,7 +1758,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1789,7 +1789,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -1840,7 +1840,7 @@
         "required": false,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1866,7 +1866,7 @@
         "required": false,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1926,7 +1926,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -1945,7 +1945,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1975,7 +1975,7 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -2013,7 +2013,7 @@
             "named": false
           },
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           },
           {
@@ -2027,7 +2027,7 @@
         "required": true,
         "types": [
           {
-            "type": "_primary_expression",
+            "type": "primary_expression",
             "named": true
           }
         ]
@@ -2077,7 +2077,7 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -2104,7 +2104,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -2139,7 +2139,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -2189,7 +2189,7 @@
         "required": true,
         "types": [
           {
-            "type": "_primary_expression",
+            "type": "primary_expression",
             "named": true
           }
         ]
@@ -2223,7 +2223,7 @@
       "required": true,
       "types": [
         {
-          "type": "_primary_expression",
+          "type": "primary_expression",
           "named": true
         }
       ]
@@ -2258,7 +2258,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -2279,7 +2279,7 @@
         "required": false,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -2289,7 +2289,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -2331,7 +2331,7 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
