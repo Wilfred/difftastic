@@ -343,8 +343,7 @@ module.exports = grammar({
           $.value_expr,
           $.field_accessor_function_expr,
           $.operator_as_function_expr,
-          $.parenthesized_expr,
-          $.anonymous_function_expr
+          $.parenthesized_expr
         )
       ),
 
