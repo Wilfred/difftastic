@@ -159,6 +159,25 @@ public class F<T> where T:class {}
     (declaration_list)))
 
 =====================================
+Class with a type parameter and nullable constraints
+=====================================
+
+public class F<T> where T:class?, notnull, Mine? {}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list (type_parameter (identifier)))
+    (type_parameter_constraints_clause (identifier)
+      (type_parameter_constraint)
+      (type_parameter_constraint)
+      (type_parameter_constraint (type_constraint (nullable_type (identifier)))))
+    (declaration_list)))
+
+=====================================
 Class with type parameter new constraint
 =====================================
 
