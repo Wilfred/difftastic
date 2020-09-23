@@ -1192,8 +1192,8 @@ module.exports = grammar({
       $._expression,
       'switch',
       '{',
-        commaSep($.switch_expression_arm),
-        optional(','),
+      commaSep($.switch_expression_arm),
+      optional(','),
       '}',
     ),
 
