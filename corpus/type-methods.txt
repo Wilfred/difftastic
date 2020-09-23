@@ -197,6 +197,28 @@ class A {
         (block)))))
 
 =======================================
+Class method with contextually-reserved keyword named parameter
+=======================================
+
+class A {
+  void HasAnOut(int from) {
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (method_declaration
+        (void_keyword)
+        (identifier)
+        (parameter_list
+          (parameter (predefined_type) (identifier)))
+        (block)))))        
+
+=======================================
 Class method with default parameter
 =======================================
 

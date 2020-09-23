@@ -64,6 +64,7 @@ module.exports = grammar({
 
     [$.parameter_modifier, $.this_expression],
     [$.parameter, $._simple_name],
+    [$.parameter, $._expression],
     [$.parameter, $.tuple_element, $.declaration_expression],
     [$.tuple_element, $.variable_declarator],
   ],
@@ -174,7 +175,13 @@ module.exports = grammar({
       ']'
     ),
 
-    name_colon: $ => seq($._identifier_or_global, ':'),
+    name_colon: $ => seq(
+      choice(
+        $._identifier_or_global,
+        alias($._reserved_identifier, $.identifier)
+      ),
+      ':'
+    ),
 
     event_field_declaration: $ => prec.dynamic(1, seq(
       repeat($.attribute_list),
@@ -273,7 +280,7 @@ module.exports = grammar({
       repeat($.attribute_list),
       optional($.parameter_modifier),
       optional(field('type', $._type)),
-      field('name', $.identifier),
+      field('name', choice($.identifier, alias($._reserved_identifier, $.identifier))),
       optional($.equals_value_clause)
     ),
 
