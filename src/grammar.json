@@ -895,7 +895,7 @@
           "name": "left",
           "content": {
             "type": "SYMBOL",
-            "name": "variables"
+            "name": "left_hand_side"
           }
         },
         {
@@ -1216,7 +1216,7 @@
                   "name": "alias",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "expression"
+                    "name": "pattern"
                   }
                 }
               ]
@@ -1339,7 +1339,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_parameter"
+              "name": "parameter"
             },
             {
               "type": "REPEAT",
@@ -1352,7 +1352,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_parameter"
+                    "name": "parameter"
                   }
                 ]
               }
@@ -1373,7 +1373,49 @@
         }
       ]
     },
-    "_parameter": {
+    "_patterns": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "pattern"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "pattern"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "parameter": {
       "type": "CHOICE",
       "members": [
         {
@@ -1383,10 +1425,6 @@
         {
           "type": "SYMBOL",
           "name": "keyword_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "tuple"
         },
         {
           "type": "SYMBOL",
@@ -1401,26 +1439,108 @@
           "name": "typed_default_parameter"
         },
         {
+          "type": "SYMBOL",
+          "name": "list_splat_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tuple_pattern"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "*"
+          },
+          "named": true,
+          "value": "list_splat_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dictionary_splat_pattern"
+        }
+      ]
+    },
+    "pattern": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "keyword_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "subscript"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "attribute"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "list_splat_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tuple_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "list_pattern"
+        }
+      ]
+    },
+    "tuple_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "list_splat"
+              "name": "_patterns"
             },
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": "*"
-              },
-              "named": true,
-              "value": "list_splat"
+              "type": "BLANK"
             }
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "dictionary_splat"
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "list_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_patterns"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "]"
         }
       ]
     },
@@ -1507,6 +1627,66 @@
           }
         ]
       }
+    },
+    "list_splat_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "keyword_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "subscript"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "attribute"
+            }
+          ]
+        }
+      ]
+    },
+    "dictionary_splat_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "**"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "keyword_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "subscript"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "attribute"
+            }
+          ]
+        }
+      ]
     },
     "list_splat": {
       "type": "SEQ",
@@ -1962,48 +2142,6 @@
         {
           "type": "SYMBOL",
           "name": "_dedent"
-        }
-      ]
-    },
-    "variables": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "primary_expression"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "primary_expression"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ","
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
         }
       ]
     },
@@ -3132,92 +3270,8 @@
       ]
     },
     "left_hand_side": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "subscript"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "attribute"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "list"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "tuple"
-                  }
-                ]
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    },
-                    {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "identifier"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "subscript"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "attribute"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "list"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "tuple"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ","
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
-      }
+      "type": "SYMBOL",
+      "name": "_patterns"
     },
     "_right_hand_side": {
       "type": "CHOICE",
@@ -3507,11 +3561,11 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "list_splat"
+                "name": "list_splat_pattern"
               },
               {
                 "type": "SYMBOL",
-                "name": "dictionary_splat"
+                "name": "dictionary_splat_pattern"
               }
             ]
           },
@@ -4042,7 +4096,7 @@
           "name": "left",
           "content": {
             "type": "SYMBOL",
-            "name": "variables"
+            "name": "left_hand_side"
           }
         },
         {
@@ -4750,7 +4804,19 @@
   "conflicts": [
     [
       "primary_expression",
-      "left_hand_side"
+      "pattern"
+    ],
+    [
+      "primary_expression",
+      "list_splat_pattern"
+    ],
+    [
+      "tuple",
+      "tuple_pattern"
+    ],
+    [
+      "list",
+      "list_pattern"
     ]
   ],
   "externals": [
@@ -4782,16 +4848,16 @@
   "inline": [
     "_simple_statement",
     "_compound_statement",
-    "keyword_identifier",
     "_suite",
-    "_parameter"
+    "keyword_identifier"
   ],
   "supertypes": [
     "_simple_statement",
     "_compound_statement",
     "expression",
     "primary_expression",
-    "_parameter"
+    "pattern",
+    "parameter"
   ]
 }
 

@@ -2,13 +2,4 @@ package-lock.json
 node_modules
 build
 *.log
-/examples/numpy
-examples/certbot
-examples/flask
-examples/httpie
-examples/keras
-examples/pytorch
-examples/requests
-examples/scikit-learn
-examples/scrapy
-examples/thealgorithms
+/examples/*/

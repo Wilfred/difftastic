@@ -17,6 +17,8 @@ function checkout() {
 }
 
 checkout examples/numpy numpy/numpy 058851c5cfc98f50f11237b1c13d77cfd1f40475
+checkout examples/django django/django 01974d7f7549b2dca2a729c3c1a1ea7d4585eb3a
+checkout examples/flask pallets/flask de464c03e134127140e5622e230790806a133ff9
 
 known_failures="$(cat script/known_failures.txt)"
 

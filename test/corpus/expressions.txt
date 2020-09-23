@@ -196,11 +196,11 @@ def print():
     (block (expression_statement (identifier))))
   (function_definition
     (identifier)
-    (parameters (list_splat (identifier)))
+    (parameters (list_splat_pattern (identifier)))
     (block (expression_statement (identifier))))
   (function_definition
     (identifier)
-    (parameters (dictionary_splat (identifier)))
+    (parameters (dictionary_splat_pattern (identifier)))
     (block (expression_statement (identifier))))
   (function_definition
     (identifier)
@@ -431,8 +431,10 @@ Assignments
 
 a = 1
 a, b = 1, 2
+a, *c = 1, 2, 3
 a, = 1, 2
 a[b] = c = d
+a, *b.c = d
 
 ---
 
@@ -454,6 +456,15 @@ a[b] = c = d
   (expression_statement
     (assignment
       (left_hand_side
+        (identifier)
+        (list_splat_pattern (identifier)))
+      (expression_list
+        (integer)
+        (integer)
+        (integer))))
+  (expression_statement
+    (assignment
+      (left_hand_side
         (identifier))
       (expression_list
         (integer)
@@ -464,7 +475,13 @@ a[b] = c = d
         (subscript (identifier) (identifier)))
       (assignment
         (left_hand_side (identifier))
-        (expression_list (identifier))))))
+        (expression_list (identifier)))))
+  (expression_statement
+    (assignment
+      (left_hand_side
+        (identifier)
+        (list_splat_pattern (attribute (identifier) (identifier))))
+      (expression_list (identifier)))))
 
 ====================================================
 Assignments with type annotations
@@ -611,7 +628,7 @@ def example():
             (generator_expression
               (identifier)
               (for_in_clause
-              (variables (identifier))
+              (left_hand_side (identifier))
               (call (identifier) (argument_list (integer) (integer))))))))))))
 
 ====================================================
@@ -621,7 +638,7 @@ lambdas
 lambda b, c: d("e" % f)
 lambda: True
 lambda a, b = c, *d, **e: a
-lambda (a,b): (a, b)
+lambda (a, b): (a, b)
 
 ---
 
@@ -642,12 +659,12 @@ lambda (a,b): (a, b)
       (lambda_parameters
         (identifier)
         (default_parameter (identifier) (identifier))
-        (list_splat (identifier))
-        (dictionary_splat (identifier)))
+        (list_splat_pattern (identifier))
+        (dictionary_splat_pattern (identifier)))
       (identifier)))
   (expression_statement
     (lambda
-      (lambda_parameters (tuple (identifier) (identifier)))
+      (lambda_parameters (tuple_pattern (identifier) (identifier)))
       (tuple (identifier) (identifier)))))
 
 =====================================
@@ -700,8 +717,8 @@ async with a as b:
     (with_item (identifier) (identifier))
     (block
       (for_statement
-        (variables (identifier))
+        (left_hand_side (identifier))
         (expression_list (identifier))
         (block
           (expression_statement
-            (list_comprehension (identifier) (for_in_clause (variables (identifier)) (identifier)))))))))
+            (list_comprehension (identifier) (for_in_clause (left_hand_side (identifier)) (identifier)))))))))
