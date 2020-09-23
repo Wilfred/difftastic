@@ -1193,6 +1193,7 @@ module.exports = grammar({
       'switch',
       '{',
       commaSep($.switch_expression_arm),
+      optional(','),
       '}',
     ),
 
