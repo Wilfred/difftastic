@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "npm-watch": "^0.3.0",
-    "tree-sitter-cli": "^0.17.0"
+    "tree-sitter-cli": "^0.17.1"
   },
   "watch": {
     "test": {
