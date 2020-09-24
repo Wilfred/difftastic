@@ -33,11 +33,11 @@ module.exports = grammar({
   ],
 
   supertypes: $ => [
-    $._expression,
-    $._declaration,
-    $._statement,
+    $.expression,
+    $.declaration,
+    $.statement,
+    $.primary_expression,
     $._literal,
-    $._primary,
     $._type,
     $._simple_type,
     $._unannotated_type,
@@ -54,18 +54,18 @@ module.exports = grammar({
   conflicts: $ => [
     [$.modifiers, $.annotated_type, $.receiver_parameter],
     [$.modifiers, $.annotated_type, $.module_declaration, $.package_declaration],
-    [$._unannotated_type, $._primary, $.inferred_parameters],
-    [$._unannotated_type, $._primary],
-    [$._unannotated_type, $._primary, $.scoped_type_identifier],
+    [$._unannotated_type, $.primary_expression, $.inferred_parameters],
+    [$._unannotated_type, $.primary_expression],
+    [$._unannotated_type, $.primary_expression, $.scoped_type_identifier],
     [$._unannotated_type, $.scoped_type_identifier],
     [$._unannotated_type, $.generic_type],
-    [$.generic_type, $._primary],
+    [$.generic_type, $.primary_expression],
   ],
 
   word: $ => $.identifier,
 
   rules: {
-    program: $ => repeat($._statement),
+    program: $ => repeat($.statement),
 
     // Literals
 
@@ -151,14 +151,14 @@ module.exports = grammar({
 
     // Expressions
 
-    _expression: $ => choice(
+    expression: $ => choice(
       $.assignment_expression,
       $.binary_expression,
       $.instanceof_expression,
       $.lambda_expression,
       $.ternary_expression,
       $.update_expression,
-      $._primary,
+      $.primary_expression,
       $.unary_expression,
       $.cast_expression
     ),
@@ -167,7 +167,7 @@ module.exports = grammar({
       '(',
       sep1(field('type', $._type), '&'),
       ')',
-      field('value', $._expression)
+      field('value', $.expression)
     )),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
@@ -178,7 +178,7 @@ module.exports = grammar({
         $.array_access
       )),
       field('operator', choice('=', '+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>=')),
-      field('right', $._expression)
+      field('right', $.expression)
     )),
 
     binary_expression: $ => choice(
@@ -204,14 +204,14 @@ module.exports = grammar({
       ['>>>', PREC.TIMES],
     ].map(([operator, precedence]) =>
       prec.left(precedence, seq(
-        field('left', $._expression),
+        field('left', $.expression),
         field('operator', operator),
-        field('right', $._expression)
+        field('right', $.expression)
       ))
     )),
 
     instanceof_expression: $ => prec(PREC.REL, seq(
-      field('left', $._expression),
+      field('left', $.expression),
       'instanceof',
       field('right', $._type)
     )),
@@ -221,7 +221,7 @@ module.exports = grammar({
         $.identifier, $.formal_parameters, $.inferred_parameters
       )),
       '->',
-      field('body', choice($._expression, $.block))
+      field('body', choice($.expression, $.block))
     ),
 
     inferred_parameters: $ => seq(
@@ -231,11 +231,11 @@ module.exports = grammar({
     ),
 
     ternary_expression: $ => prec.right(PREC.TERNARY, seq(
-      field('condition', $._expression),
+      field('condition', $.expression),
       '?',
-      field('consequence', $._expression),
+      field('consequence', $.expression),
       ':',
-      field('alternative', $._expression)
+      field('alternative', $.expression)
     )),
 
     unary_expression: $ => choice(...[
@@ -246,18 +246,18 @@ module.exports = grammar({
     ].map(([operator, precedence]) =>
       prec.left(precedence, seq(
         field('operator', operator),
-        field('operand', $._expression)
+        field('operand', $.expression)
       ))
     )),
 
     update_expression: $ => prec.left(PREC.INC, choice(
-      seq($._expression, '++'),
-      seq($._expression, '--'),
-      seq('++', $._expression),
-      seq('--', $._expression)
+      seq($.expression, '++'),
+      seq($.expression, '--'),
+      seq('++', $.expression),
+      seq('--', $.expression)
     )),
 
-    _primary: $ => choice(
+    primary_expression: $ => choice(
       $._literal,
       $.class_literal,
       $.this,
@@ -287,15 +287,15 @@ module.exports = grammar({
       )
     )),
 
-    dimensions_expr: $ => seq(repeat($._annotation), '[', $._expression, ']'),
+    dimensions_expr: $ => seq(repeat($._annotation), '[', $.expression, ']'),
 
-    parenthesized_expression: $ => seq('(', $._expression, ')'),
+    parenthesized_expression: $ => seq('(', $.expression, ')'),
 
     class_literal: $ => seq($._unannotated_type, '.', 'class'),
 
     object_creation_expression: $ => choice(
       $._unqualified_object_creation_expression,
-      seq($._primary, '.', $._unqualified_object_creation_expression)
+      seq($.primary_expression, '.', $._unqualified_object_creation_expression)
     ),
 
     _unqualified_object_creation_expression: $ => prec.right(seq(
@@ -307,7 +307,7 @@ module.exports = grammar({
     )),
 
     field_access: $ => seq(
-      field('object', choice($._primary, $.super)),
+      field('object', choice($.primary_expression, $.super)),
       optional(seq(
         '.',
         $.super
@@ -317,9 +317,9 @@ module.exports = grammar({
     ),
 
     array_access: $ => seq(
-      field('array', $._primary),
+      field('array', $.primary_expression),
       '[',
-      field('index', $._expression),
+      field('index', $.expression),
       ']',
     ),
 
@@ -327,7 +327,7 @@ module.exports = grammar({
       choice(
         field('name', choice($.identifier, $._reserved_identifier)),
         seq(
-          field('object', choice($._primary, $.super)),
+          field('object', choice($.primary_expression, $.super)),
           '.',
           optional(seq(
             $.super,
@@ -340,10 +340,10 @@ module.exports = grammar({
       field('arguments', $.argument_list)
     ),
 
-    argument_list: $ => seq('(', commaSep($._expression), ')'),
+    argument_list: $ => seq('(', commaSep($.expression), ')'),
 
     method_reference: $ => seq(
-      choice($._type, $._primary, $.super),
+      choice($._type, $.primary_expression, $.super),
       '::',
       optional($.type_arguments),
       choice('new', $.identifier)
@@ -372,8 +372,8 @@ module.exports = grammar({
 
     // Statements
 
-    _statement: $ => choice(
-      $._declaration,
+    statement: $ => choice(
+      $.declaration,
       $.expression_statement,
       $.labeled_statement,
       $.if_statement,
@@ -396,21 +396,21 @@ module.exports = grammar({
     ),
 
     block: $ => seq(
-      '{', repeat($._statement), '}'
+      '{', repeat($.statement), '}'
     ),
 
     expression_statement: $ => seq(
-      $._expression,
+      $.expression,
       ';'
     ),
 
     labeled_statement: $ => seq(
-      $.identifier, ':', $._statement
+      $.identifier, ':', $.statement
     ),
 
     assert_statement: $ => choice(
-      seq('assert', $._expression, ';'),
-      seq('assert', $._expression, ':', $._expression, ';')
+      seq('assert', $.expression, ';'),
+      seq('assert', $.expression, ':', $.expression, ';')
     ),
 
     switch_statement: $ => seq(
@@ -421,18 +421,18 @@ module.exports = grammar({
 
     switch_block: $ => seq(
       '{',
-      repeat(choice($.switch_label, $._statement)),
+      repeat(choice($.switch_label, $.statement)),
       '}'
     ),
 
     switch_label: $ => choice(
-      seq('case', $._expression, ':'),
+      seq('case', $.expression, ':'),
       seq('default', ':')
     ),
 
     do_statement: $ => seq(
       'do',
-      field('body', $._statement),
+      field('body', $.statement),
       'while',
       field('condition', $.parenthesized_expression),
       ';'
@@ -444,7 +444,7 @@ module.exports = grammar({
 
     return_statement: $ => seq(
       'return',
-      optional($._expression),
+      optional($.expression),
       ';'
     ),
 
@@ -454,7 +454,7 @@ module.exports = grammar({
       field('body', $.block)
     ),
 
-    throw_statement: $ => seq('throw', $._expression, ';'),
+    throw_statement: $ => seq('throw', $.expression, ';'),
 
     try_statement: $ => seq(
       'try',
@@ -501,7 +501,7 @@ module.exports = grammar({
         field('type', $._unannotated_type),
         $._variable_declarator_id,
         '=',
-        field('value', $._expression)
+        field('value', $.expression)
       ),
       $.identifier,
       $.field_access
@@ -510,14 +510,14 @@ module.exports = grammar({
     if_statement: $ => prec.right(seq(
       'if',
       field('condition', $.parenthesized_expression),
-      field('consequence', $._statement),
-      optional(seq('else', field('alternative', $._statement)))
+      field('consequence', $.statement),
+      optional(seq('else', field('alternative', $.statement)))
     )),
 
     while_statement: $ => seq(
       'while',
       field('condition', $.parenthesized_expression),
-      field('body', $._statement)
+      field('body', $.statement)
     ),
 
     for_statement: $ => seq(
@@ -525,13 +525,13 @@ module.exports = grammar({
       choice(
         field('init', $.local_variable_declaration),
         seq(
-          commaSep(field('init', $._expression)),
+          commaSep(field('init', $.expression)),
           ';'
         )
       ),
-      field('condition', optional($._expression)), ';',
-      commaSep(field('update', $._expression)), ')',
-      field('body', $._statement)
+      field('condition', optional($.expression)), ';',
+      commaSep(field('update', $.expression)), ')',
+      field('body', $.statement)
     ),
 
     enhanced_for_statement: $ => seq(
@@ -541,9 +541,9 @@ module.exports = grammar({
       field('type', $._unannotated_type),
       $._variable_declarator_id,
       ':',
-      field('value', $._expression),
+      field('value', $.expression),
       ')',
-      field('body', $._statement)
+      field('body', $.statement)
     ),
 
     // Annotations
@@ -580,7 +580,7 @@ module.exports = grammar({
     ),
 
     _element_value: $ => prec(1, choice(
-      $._expression,
+      $.expression,
       $.element_value_array_initializer,
       $._annotation
     )),
@@ -594,7 +594,7 @@ module.exports = grammar({
 
     // Declarations
 
-    _declaration: $ => prec(1, choice(
+    declaration: $ => prec(1, choice(
       $.module_declaration,
       $.package_declaration,
       $.import_declaration,
@@ -769,7 +769,7 @@ module.exports = grammar({
     constructor_body: $ => seq(
       '{',
       optional($.explicit_constructor_invocation),
-      repeat($._statement),
+      repeat($.statement),
       '}'
     ),
 
@@ -780,7 +780,7 @@ module.exports = grammar({
           field('constructor', choice($.this, $.super)),
         ),
         seq(
-          field('object', choice($._primary)),
+          field('object', choice($.primary_expression)),
           '.',
           field('type_arguments', optional($.type_arguments)),
           field('constructor', $.super),
@@ -892,7 +892,7 @@ module.exports = grammar({
     ),
 
     _variable_initializer: $ => choice(
-      $._expression,
+      $.expression,
       $.array_initializer
     ),
 
