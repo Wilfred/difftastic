@@ -1031,10 +1031,6 @@
         "required": true,
         "types": [
           {
-            "type": "anonymous_function_expr",
-            "named": true
-          },
-          {
             "type": "field_access_expr",
             "named": true
           },
