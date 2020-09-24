@@ -15,10 +15,10 @@ install:
   - npm --version
   - npm install
 
-build: off
-
 test_script:
   - npm run test-windows
+
+build: off
 
 branches:
   only:
