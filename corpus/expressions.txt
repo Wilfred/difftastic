@@ -311,6 +311,79 @@ void b() {
             (initializer_expression)))))))
 
 ============================
+Named parameters in constructors
+============================
+
+void b() {
+  var z = new C(a: 1, b: "hi");
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration (implicit_type)
+          (variable_declarator (identifier)
+            (equals_value_clause
+              (object_creation_expression (identifier)
+                (argument_list
+                  (argument (name_colon (identifier)) (integer_literal))
+                  (argument (name_colon (identifier)) (string_literal)))))))))))
+
+
+============================
+Named parameters in method calls
+============================
+
+void b() {
+  z = A.B(a: 1, b: "hi");
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier)
+    (parameter_list)
+    (block
+      (expression_statement
+        (assignment_expression (identifier) (assignment_operator)     
+          (invocation_expression
+            (member_access_expression (identifier) (identifier))
+            (argument_list
+              (argument (name_colon (identifier)) (integer_literal))
+              (argument (name_colon (identifier)) (string_literal)))))))))
+
+============================
+Named parameters using contextually reserved words
+============================
+
+void b() {
+  resultNode  = B(from: 1, into: "hi");
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier)
+    (parameter_list)
+    (block
+      (expression_statement
+        (assignment_expression (identifier) (assignment_operator)
+          (invocation_expression (identifier)
+            (argument_list
+              (argument (name_colon (identifier)) (integer_literal))
+              (argument (name_colon (identifier)) (string_literal)))))))))
+
+============================
 Anonymous method expressions
 ============================
 

@@ -5005,6 +5005,10 @@
     "named": false
   },
   {
+    "type": "notnull",
+    "named": false
+  },
+  {
     "type": "null_literal",
     "named": true
   },
