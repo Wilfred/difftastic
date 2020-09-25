@@ -353,7 +353,7 @@ void b() {
     (parameter_list)
     (block
       (expression_statement
-        (assignment_expression (identifier) (assignment_operator)     
+        (assignment_expression (identifier) (assignment_operator)
           (invocation_expression
             (member_access_expression (identifier) (identifier))
             (argument_list
@@ -437,6 +437,46 @@ void a() {
             (invocation_expression
               (member_access_expression (identifier) (identifier))
               (argument_list (argument (identifier)))))))))))
+
+============================
+Lambda expression with qualifiers
+============================
+
+void a() {
+  var lam = static x => x + 1;
+  var bda = async x => x + 1;
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (implicit_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+              (lambda_expression
+                (identifier)
+                (binary_expression
+                  (identifier)
+                  (integer_literal)))))))
+      (local_declaration_statement
+        (variable_declaration
+          (implicit_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+              (lambda_expression
+                (identifier)
+                (binary_expression
+                  (identifier)
+                  (integer_literal))))))))))
 
 ============================
 Invocation expressions
@@ -1424,7 +1464,7 @@ var x = name is not null;
       (variable_declarator
         (identifier)
         (equals_value_clause
-          (is_pattern_expression 
+          (is_pattern_expression
             (identifier)
             (negated_pattern
               (constant_pattern (null_literal)))))))))
@@ -1444,7 +1484,7 @@ var x = name is (var a);
       (variable_declarator
         (identifier)
         (equals_value_clause
-          (is_pattern_expression 
+          (is_pattern_expression
             (identifier)
             (parenthesized_pattern
               (var_pattern (identifier)))))))))
@@ -1464,11 +1504,11 @@ var x = c is < '0' or >= 'A' and <= 'Z';
       (variable_declarator
         (identifier)
         (equals_value_clause
-          (is_pattern_expression 
+          (is_pattern_expression
             (identifier)
-            (binary_pattern 
-              (relational_pattern (character_literal)) 
-              (binary_pattern 
+            (binary_pattern
+              (relational_pattern (character_literal))
+              (binary_pattern
                 (relational_pattern (character_literal))
                 (relational_pattern (character_literal))))))))))
 
@@ -1481,15 +1521,15 @@ var x = !this.Call();
 ---
 
 (compilation_unit
-  (field_declaration 
-    (variable_declaration 
-      (implicit_type) 
-      (variable_declarator 
-        (identifier) 
-        (equals_value_clause 
-          (prefix_unary_expression 
-            (invocation_expression 
-              (member_access_expression 
-                (this_expression) 
+  (field_declaration
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier)
+        (equals_value_clause
+          (prefix_unary_expression
+            (invocation_expression
+              (member_access_expression
+                (this_expression)
                 (identifier))
               (argument_list))))))))

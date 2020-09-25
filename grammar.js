@@ -916,6 +916,7 @@ module.exports = grammar({
 
     lambda_expression: $ => prec(-1, seq(
       optional('async'),
+      optional('static'),
       choice($.parameter_list, $.identifier),
       '=>',
       field('body', choice($.block, $._expression))
