@@ -1461,7 +1461,6 @@ module.exports = grammar({
     void_keyword: $ => 'void',
 
     preprocessor_call: $ => seq(
-      '#',
       $.preprocessor_directive,
       repeat(choice(
         $.identifier,
@@ -1471,7 +1470,7 @@ module.exports = grammar({
       $._preproc_directive_end
     ),
 
-    preprocessor_directive: $ => /[a-z]+/,
+    preprocessor_directive: $ => /#[a-z]\w*/,
   }
 })
 
