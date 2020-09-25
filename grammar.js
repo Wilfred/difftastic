@@ -66,6 +66,7 @@ module.exports = grammar({
     [$.parameter, $._simple_name],
     [$.parameter, $._expression],
     [$.parameter, $.tuple_element, $.declaration_expression],
+    [$.parameter, $._variable_designation],
     [$.tuple_element, $.variable_declarator],
   ],
 
@@ -774,7 +775,35 @@ module.exports = grammar({
       $.declaration_pattern,
       $.discard,
 //      $.recursive_pattern,
-      $.var_pattern
+      $.var_pattern,
+      $.negated_pattern,
+      $.parenthesized_pattern,
+      $.relational_pattern,
+      $.binary_pattern
+    ),
+
+    parenthesized_pattern: $ => seq('(', $._pattern, ')'),
+
+    relational_pattern: $ => prec.left(choice(
+      seq('<', $._expression),
+      seq('<=', $._expression),
+      seq('>', $._expression),
+      seq('>=', $._expression)
+    )),
+
+    negated_pattern: $ => seq('not', $._pattern),
+
+    binary_pattern: $ => choice(
+      prec.left(PREC.AND, seq(
+        field('left', $._pattern),
+        field('operator', 'and'),
+        field('right', $._pattern)
+      )),
+      prec.left(PREC.OR, seq(
+        field('left', $._pattern),
+        field('operator', 'or'),
+        field('right', $._pattern)
+      )),
     ),
 
     constant_pattern: $ => prec.right($._expression),
