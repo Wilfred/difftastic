@@ -7,3 +7,4 @@ parser.lib
 parser.obj
 examples
 !examples/.gitkeep
+scanner.obj
