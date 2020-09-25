@@ -8095,6 +8095,10 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "STRING",
+          "value": "#"
+        },
+        {
           "type": "SYMBOL",
           "name": "preprocessor_directive"
         },
@@ -8133,7 +8137,7 @@
     },
     "preprocessor_directive": {
       "type": "PATTERN",
-      "value": "#[a-z]\\w*"
+      "value": "[a-z]+"
     }
   },
   "extras": [
