@@ -509,3 +509,26 @@ class A {
         parameters: (parameter_list)
         body: (block
           (return_statement (null_literal)))))))
+
+=================================
+Class and methods with Unicode identifiers
+=================================
+
+class Ωµ {
+  B.C d() {
+    return null;
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    name: (identifier)
+    body: (declaration_list
+      (method_declaration
+        type: (qualified_name (identifier) (identifier))
+        name: (identifier)
+        parameters: (parameter_list)
+        body: (block
+          (return_statement (null_literal)))))))

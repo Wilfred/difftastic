@@ -1311,7 +1311,7 @@ module.exports = grammar({
       )
     ),
 
-    identifier: $ => token(seq(optional('@'), /[a-zA-Z_][a-zA-Z_0-9]*/)), // identifier_token in Roslyn
+    identifier: $ => token(seq(optional('@'), /[a-zA-Zα-ωΑ-Ωµ_][a-zA-Zα-ωΑ-Ωµ_0-9]*/)), // identifier_token in Roslyn
     global: $ => 'global',
     _identifier_or_global: $ => choice($.global, $.identifier),
 
