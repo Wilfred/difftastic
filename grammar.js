@@ -1025,6 +1025,7 @@ module.exports = grammar({
     interpolated_string_expression: $ => choice(
       seq('$"', repeat($._interpolated_string_content), '"'),
       seq('$@"', repeat($._interpolated_verbatim_string_content), '"'),
+      seq('@$"', repeat($._interpolated_verbatim_string_content), '"'),
     ),
 
     _interpolated_string_content: $ => choice(

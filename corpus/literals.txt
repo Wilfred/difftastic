@@ -377,6 +377,7 @@ interpolated verbatim string literals
 
 class A {
   string s = $@"hello";
+  string s = @$"hello";
 }
 
 ---
@@ -384,6 +385,14 @@ class A {
 (compilation_unit (class_declaration
   (identifier)
   (declaration_list
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_verbatim_string_text))))))
     (field_declaration
       (variable_declaration
         (predefined_type)
