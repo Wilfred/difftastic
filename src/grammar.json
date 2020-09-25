@@ -4927,6 +4927,18 @@
             "type": "CHOICE",
             "members": [
               {
+                "type": "STRING",
+                "value": "static"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
                 "type": "SYMBOL",
                 "name": "parameter_list"
               },
