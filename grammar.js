@@ -1,6 +1,7 @@
 const PREC = {
   DOT: 17,
   SELECT: 16,
+  INVOCATION: 16,
   POSTFIX: 16,
   PREFIX: 15,
   UNARY: 15,
@@ -1058,10 +1059,10 @@ module.exports = grammar({
 
     interpolation_format_clause: $ => seq(':', /[^}"]+/),
 
-    invocation_expression: $ => seq(
+    invocation_expression: $ => prec(PREC.INVOCATION, seq(
       field('function', $._expression),
       field('arguments', $.argument_list)
-    ),
+    )),
 
     is_pattern_expression: $ => prec.left(PREC.EQUAL, seq(
       field('expression', $._expression),

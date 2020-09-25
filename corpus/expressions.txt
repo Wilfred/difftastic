@@ -1416,6 +1416,7 @@ var x = name is not null;
 
 ---
 
+
 (compilation_unit
   (field_declaration
     (variable_declaration
@@ -1470,3 +1471,25 @@ var x = c is < '0' or >= 'A' and <= 'Z';
               (binary_pattern 
                 (relational_pattern (character_literal))
                 (relational_pattern (character_literal))))))))))
+
+=====================================
+Precedence of prefix_unary_expression and invocation_expression
+=====================================
+
+var x = !this.Call();
+
+---
+
+(compilation_unit
+  (field_declaration 
+    (variable_declaration 
+      (implicit_type) 
+      (variable_declarator 
+        (identifier) 
+        (equals_value_clause 
+          (prefix_unary_expression 
+            (invocation_expression 
+              (member_access_expression 
+                (this_expression) 
+                (identifier))
+              (argument_list))))))))
