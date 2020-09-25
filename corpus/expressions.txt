@@ -1407,3 +1407,66 @@ var x = name!.Length;
         (equals_value_clause
           (member_access_expression (postfix_unary_expression (identifier))
           (identifier)))))))
+
+=====================================
+Negated pattern
+=====================================
+
+var x = name is not null;
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier)
+        (equals_value_clause
+          (is_pattern_expression 
+            (identifier)
+            (negated_pattern
+              (constant_pattern (null_literal)))))))))
+
+=====================================
+Parenthesized pattern
+=====================================
+
+var x = name is (var a);
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier)
+        (equals_value_clause
+          (is_pattern_expression 
+            (identifier)
+            (parenthesized_pattern
+              (var_pattern (identifier)))))))))
+
+=====================================
+Pattern Combinators and relational pattern
+=====================================
+
+var x = c is < '0' or >= 'A' and <= 'Z';
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier)
+        (equals_value_clause
+          (is_pattern_expression 
+            (identifier)
+            (binary_pattern 
+              (relational_pattern (character_literal)) 
+              (binary_pattern 
+                (relational_pattern (character_literal))
+                (relational_pattern (character_literal))))))))))
