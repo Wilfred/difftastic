@@ -104,4 +104,30 @@ class Of1879 {
       (block
         (preprocessor_call (preprocessor_directive) (integer_literal) (string_literal))
         (preprocessor_call (preprocessor_directive) (identifier))
-        (preprocessor_call (preprocessor_directive) (identifier))))))) 
+        (preprocessor_call (preprocessor_directive) (identifier)))))))
+
+===================================
+Whitespace before preprocessor statements
+===================================
+
+# if WIN32
+  string os = "Win32";
+# elif MACOS
+  string os = "MacOS";
+#     endif
+
+---
+
+(compilation_unit
+  (preprocessor_call (preprocessor_directive) (identifier))
+  (field_declaration
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (string_literal)))))
+  (preprocessor_call (preprocessor_directive) (identifier))
+  (field_declaration
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (string_literal)))))
+  (preprocessor_call (preprocessor_directive)))
+
