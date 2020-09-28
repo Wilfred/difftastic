@@ -204,18 +204,70 @@ module.exports = grammar({
     ],
     [
      $.symbol,
-    ]
+    ],
+    // collection-related -- sadly, slows clojure.core parsing to 70-80 ms
+    [
+     $._bare_list,
+     $.anon_func,
+     $.deref_form,
+     $.list,
+     $.map,
+     $.namespaced_map,
+     $.quote_form,
+     $.read_cond,
+     $.set,
+     $.symbol,
+     $.syntax_quote_form,
+     $.tagged_literal,
+     $.unquote_form,
+     $.unquote_splicing_form,
+     $.var_quote_form,
+     $.vector,
+    ],
+    [
+     $._bare_map,
+     $.anon_func,
+     $.deref_form,
+     $.list,
+     $.map,
+     $.namespaced_map,
+     $.quote_form,
+     $.read_cond,
+     $.set,
+     $.symbol,
+     $.syntax_quote_form,
+     $.tagged_literal,
+     $.unquote_form,
+     $.unquote_splicing_form,
+     $.var_quote_form,
+     $.vector,
+    ],
+    [
+     $._bare_vector,
+     $.anon_func,
+     $.deref_form,
+     $.list,
+     $.map,
+     $.namespaced_map,
+     $.quote_form,
+     $.read_cond,
+     $.set,
+     $.symbol,
+     $.syntax_quote_form,
+     $.tagged_literal,
+     $.unquote_form,
+     $.unquote_splicing_form,
+     $.var_quote_form,
+     $.vector,
+    ],
   ],
 
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
     source: $ =>
-      repeat($._input),
-
-    _input: $ =>
-      // XXX: with prec here, clojure.core time: 75ms -> 30ms
-      prec(15, choice($._form,
-                      $._non_form)),
+      repeat(prec(15, // makes one conflict entry unnecessary
+                  choice($._form,
+                         $._non_form))),
 
     _non_form: $ =>
       choice($._whitespace,
@@ -271,7 +323,8 @@ module.exports = grammar({
 
     _bare_list: $ =>
       seq("(",
-          field('value', repeat($._input)),
+          repeat(choice(field('value', $._form),
+                        $._non_form)),
           ")"),
 
     map: $ =>
@@ -282,7 +335,8 @@ module.exports = grammar({
 
     _bare_map: $ =>
       seq("{",
-          field('value', repeat($._input)),
+          repeat(choice(field('value', $._form),
+                        $._non_form)),
           "}"),
 
     vector: $ =>
@@ -293,7 +347,8 @@ module.exports = grammar({
 
     _bare_vector: $ =>
       seq("[",
-          field('value', repeat($._input)),
+          repeat(choice(field('value', $._form),
+                        $._non_form)),
           "]"),
 
     metadata: $ =>
@@ -346,7 +401,8 @@ module.exports = grammar({
                         field('old_metadata', $.old_metadata),
                         $._non_form)),
           "#{",
-          field('value', repeat($._input)),
+          repeat(choice(field('value', $._form),
+                        $._non_form)),
           "}"),
 
     anon_func: $ =>
