@@ -373,12 +373,15 @@ module.exports = grammar({
           repeat($._whitespace),
           $._bare_list),
 
+    auto_res_marker: $ =>
+      AUTO_RESOLVE_MARKER,
+
     namespaced_map: $ =>
       seq(repeat(choice(field('metadata', $.metadata),
                         field('old_metadata', $.old_metadata),
                         $._non_form)),
           "#",
-          field('prefix', choice(AUTO_RESOLVE_MARKER,
+          field('prefix', choice($.auto_res_marker,
                                  $.keyword)),
           repeat($._non_form),
           $._bare_map),
