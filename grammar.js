@@ -1046,7 +1046,11 @@ module.exports = grammar({
       $.escape_sequence
     ),
 
-    interpolated_verbatim_string_text: $ => choice(/[^{"]+/, '""'),
+    interpolated_verbatim_string_text: $ => choice(
+      '{{',
+      /[^{"]+/,
+      '""'
+    ),
 
     interpolation: $ => seq(
       '{',
