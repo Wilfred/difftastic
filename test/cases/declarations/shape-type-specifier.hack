@@ -6,3 +6,5 @@ type circle = shape(
   ),
   ...
 );
+
+type nothing = shape();

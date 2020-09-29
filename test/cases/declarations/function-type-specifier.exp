@@ -3,6 +3,8 @@
     (identifier)
     (function_type_specifier
       (type_specifier)
+      (type_specifier
+        (nullable_modifier))
       return_type: (type_specifier)))
   (function_declaration
     name: (identifier)
