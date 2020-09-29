@@ -854,6 +854,10 @@
         "required": true,
         "types": [
           {
+            "type": "array",
+            "named": false
+          },
+          {
             "type": "bool",
             "named": false
           },
@@ -1036,16 +1040,6 @@
     "type": "const_declaration",
     "named": true,
     "fields": {
-      "name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
       "type": {
         "multiple": false,
         "required": false,
@@ -1055,32 +1049,14 @@
             "named": true
           }
         ]
-      },
-      "value": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "=",
-            "named": false
-          },
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
       }
     },
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "abstract_modifier",
-          "named": true
-        },
-        {
-          "type": "const_declaration",
           "named": true
         },
         {
@@ -1118,7 +1094,7 @@
       },
       "value": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "=",
@@ -1662,6 +1638,10 @@
         },
         {
           "type": "nullable_modifier",
+          "named": true
+        },
+        {
+          "type": "soft_modifier",
           "named": true
         },
         {
@@ -2424,7 +2404,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "identifier",
@@ -2639,7 +2619,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "field_specifier",
@@ -2655,6 +2635,10 @@
         },
         {
           "type": "open_modifier",
+          "named": true
+        },
+        {
+          "type": "soft_modifier",
           "named": true
         }
       ]
@@ -2980,6 +2964,10 @@
         {
           "type": "nullable_modifier",
           "named": true
+        },
+        {
+          "type": "soft_modifier",
+          "named": true
         }
       ]
     }
@@ -3098,6 +3086,10 @@
           "named": true
         },
         {
+          "type": "soft_modifier",
+          "named": true
+        },
+        {
           "type": "type_constant",
           "named": true
         }
@@ -3206,6 +3198,10 @@
           "named": true
         },
         {
+          "type": "soft_modifier",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -3292,7 +3288,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "qualified_identifier",
@@ -4004,10 +4000,6 @@
     "named": false
   },
   {
-    "type": "\\",
-    "named": false
-  },
-  {
     "type": "]",
     "named": false
   },
@@ -4312,16 +4304,20 @@
     "named": false
   },
   {
+    "type": "soft_modifier",
+    "named": true
+  },
+  {
     "type": "static",
     "named": false
   },
   {
     "type": "string",
-    "named": false
+    "named": true
   },
   {
     "type": "string",
-    "named": true
+    "named": false
   },
   {
     "type": "super",

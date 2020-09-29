@@ -62,18 +62,12 @@ const rules = {
     ),
 
   qualified_identifier: $ =>
-    prec.left(
-      choice(
-        prec.qualified(
-          choice(
-            seq(seq.rep1('\\', $.identifier), opt('\\')),
-            seq(seq.rep1($.identifier, '\\'), opt($.identifier)),
-            '\\',
-          ),
-        ),
-        $.identifier,
-      ),
+    choice(
+      seq(opt($.identifier), seq.rep1($._backslash, $.identifier)),
+      $.identifier,
     ),
+
+  _backslash: $ => '\\',
 
   scoped_identifier: $ =>
     seq(
@@ -237,7 +231,7 @@ const rules = {
         com($.use_clause),
         seq(
           opt($.use_type),
-          $.qualified_identifier,
+          $._namespace_identifier,
           '{',
           com($.use_clause, ','),
           '}',
@@ -251,9 +245,12 @@ const rules = {
   use_clause: $ =>
     seq(
       opt($.use_type),
-      $.qualified_identifier,
+      $._namespace_identifier,
       field('alias', seq.opt('as', $.identifier)),
     ),
+
+  _namespace_identifier: $ =>
+    choice(seq($.qualified_identifier, opt($._backslash)), $._backslash),
 
   if_statement: $ =>
     prec.right(
@@ -434,7 +431,11 @@ const rules = {
     ),
 
   _type_modifier: $ =>
-    choice(alias('?', $.nullable_modifier), alias('~', $.like_modifier)),
+    choice(
+      alias('@', $.soft_modifier),
+      alias('?', $.nullable_modifier),
+      alias('~', $.like_modifier),
+    ),
 
   tuple_type_specifier: $ =>
     seq(rep($._type_modifier), '(', com($._type, ','), ')'),
@@ -445,7 +446,7 @@ const rules = {
       '(',
       'function',
       '(',
-      com.opt(opt($.inout_modifier), $._type, opt($.variadic_modifier)),
+      com.opt(opt($.inout_modifier), $._type, opt($.variadic_modifier), ','),
       ')',
       ':',
       field('return_type', $._type),
@@ -457,7 +458,7 @@ const rules = {
       rep($._type_modifier),
       'shape',
       '(',
-      com(choice($.field_specifier, alias('...', $.open_modifier)), ','),
+      com.opt(choice($.field_specifier, alias('...', $.open_modifier)), ','),
       ')',
     ),
 
@@ -662,7 +663,7 @@ const rules = {
     prec.cast(
       seq(
         '(',
-        field('type', choice('int', 'float', 'string', 'bool')),
+        field('type', choice('array', 'int', 'float', 'string', 'bool')),
         ')',
         field('value', $._expression),
       ),
@@ -750,7 +751,7 @@ const rules = {
       field('name', $.identifier),
       opt($.type_parameters),
       $.parameters,
-      seq.opt(':', field('return_type', $._type)),
+      seq.opt(':', opt($.attribute_modifier), field('return_type', $._type)),
       opt($.where_clause),
     ),
 
@@ -876,7 +877,7 @@ const rules = {
       rep($._member_modifier),
       'const',
       field('type', opt($._type)),
-      com(alias($._class_const_declarator, $.const_declaration)),
+      com(alias($._class_const_declarator, $.const_declarator)),
       ';',
     ),
 
@@ -1159,5 +1160,7 @@ module.exports = grammar({
     [$._expression, $.field_initializer],
     [$.scoped_identifier, $._type_constant],
     [$.type_specifier],
+    [$.shape_type_specifier, $.shape],
+    [$.qualified_identifier],
   ],
 });

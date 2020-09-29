@@ -14,4 +14,7 @@
             (type_specifier
               (nullable_modifier)))
           (open_modifier)))
-      (open_modifier))))
+      (open_modifier)))
+  (alias_declaration
+    (identifier)
+    (shape_type_specifier)))
