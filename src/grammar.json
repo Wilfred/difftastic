@@ -674,8 +674,12 @@
             "value": "readonly"
           },
           {
-            "type": "STRING",
-            "value": "ref"
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "STRING",
+              "value": "ref"
+            }
           },
           {
             "type": "STRING",
