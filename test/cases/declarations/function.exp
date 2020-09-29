@@ -6,7 +6,8 @@
     body: (compound_statement))
   (function_declaration
     name: (identifier)
-    (parameters)
+    (parameters
+      (variadic_modifier))
     body: (compound_statement))
   (function_declaration
     name: (identifier)

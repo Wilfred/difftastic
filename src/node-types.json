@@ -1883,7 +1883,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "_expression",
@@ -2183,6 +2183,10 @@
       "types": [
         {
           "type": "parameter",
+          "named": true
+        },
+        {
+          "type": "variadic_modifier",
           "named": true
         }
       ]
