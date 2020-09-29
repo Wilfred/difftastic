@@ -747,6 +747,40 @@ class A {
                   (integer_literal))))))))))
 
 =====================================
+Implicit local ref variable
+=====================================
+
+class A {
+  void Test() {
+    ref var value = ref data[i];
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+  (identifier)
+  (declaration_list
+    (method_declaration
+      (void_keyword)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (modifier)
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (ref_expression
+                  (element_access_expression
+                    (identifier)
+                    (bracketed_argument_list
+                      (argument (identifier))))))))))))))
+
+=====================================
 Using statement with implicit local variable
 =====================================
 
