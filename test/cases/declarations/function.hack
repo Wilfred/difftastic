@@ -1,6 +1,6 @@
 function func0(): void {}
 
-function func1() {}
+function func1(...) {}
 
 function func2($arg) {}
 

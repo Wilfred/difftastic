@@ -228,7 +228,7 @@ const rules = {
     seq(
       'use',
       choice(
-        com($.use_clause),
+        com($.use_clause, ','),
         seq(
           opt($.use_type),
           $._namespace_identifier,
@@ -563,7 +563,7 @@ const rules = {
   subscript_expression: $ =>
     prec.subscript(seq($._expression, '[', opt($._expression), ']')),
 
-  list_expression: $ => seq('list', '(', com($._expression, ','), ')'),
+  list_expression: $ => seq('list', '(', com(opt($._expression), ','), ')'),
 
   binary_expression: $ =>
     choice(
@@ -755,7 +755,10 @@ const rules = {
       opt($.where_clause),
     ),
 
-  parameters: $ => prec.paren(seq('(', com.opt($.parameter, ','), ')')),
+  parameters: $ =>
+    prec.paren(
+      seq('(', choice.opt($.variadic_modifier, com($.parameter, ',')), ')'),
+    ),
 
   parameter: $ =>
     seq(
@@ -1103,7 +1106,7 @@ const rules = {
  * Comma separated rules. A ',' as the last argument indicates an optional trailing comma.
  */
 function com(...rules) {
-  if (rules[rules.length - 1] === ',') {
+  if (rules[rules.length - 1] == ',') {
     rules.splice(-1, 1);
     return seq(...rules, repeat(seq(',', ...rules)), optional(','));
   } else {
@@ -1162,5 +1165,6 @@ module.exports = grammar({
     [$.type_specifier],
     [$.shape_type_specifier, $.shape],
     [$.qualified_identifier],
+    [$.list_expression],
   ],
 });
