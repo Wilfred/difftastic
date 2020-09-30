@@ -8141,7 +8141,7 @@
     },
     "preprocessor_directive": {
       "type": "PATTERN",
-      "value": "#[a-z]\\w*"
+      "value": "#[ \\t]*[a-z]\\w*"
     }
   },
   "extras": [

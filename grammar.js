@@ -1474,7 +1474,7 @@ module.exports = grammar({
       $._preproc_directive_end
     ),
 
-    preprocessor_directive: $ => /#[a-z]\w*/,
+    preprocessor_directive: $ => /#[ \t]*[a-z]\w*/,
   }
 })
 
