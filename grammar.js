@@ -56,13 +56,13 @@ const INTEGER =
           optional(/[MN]/));
 
 const NUMBER =
-      token(seq(optional(/[+-]/),
+      token(prec(10, seq(optional(/[+-]/),
                 choice(HEX_NUMBER,
                        OCTAL_NUMBER,
                        RADIX_NUMBER,
                        RATIO,
                        DOUBLE,
-                       INTEGER)));
+                       INTEGER))));
 
 const KEYWORD_HEAD =
       /[^\f\n\r\t ()\[\]{}"@~^;`\\,:/]/;
@@ -265,7 +265,7 @@ module.exports = grammar({
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
     source: $ =>
-      repeat(prec(15, // makes one conflict entry unnecessary
+    repeat(prec(20,
                   choice($._form,
                          $._non_form))),
 
