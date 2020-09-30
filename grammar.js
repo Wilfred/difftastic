@@ -215,6 +215,39 @@ module.exports = grammar({
              $.unquote_form,
              $.deref_form),
 
+    metadata: $ =>
+      seq("^",
+          repeat($._non_form),
+          choice($.read_cond,
+                 $.map,
+                 $.string,
+                 $.keyword,
+                 $.symbol)),
+
+    old_metadata: $ =>
+      seq("#^",
+          repeat($._non_form),
+          choice($.map,
+                 $.string,
+                 $.keyword,
+                 $.symbol)),
+
+    // would like to use the _metadata_header rule below since it's
+    // repeated a lot, but unfortunately it can match the empty string,
+    // and apparently:
+    //
+    //   Tree-sitter does not support syntactic rules that match the
+    //   empty string unless they are used only as the grammar's start
+    //   rule.
+    //
+    // so be prepared to see it a lot in this grammar...
+    //
+    // _metadata_header: $ =>
+    //   repeat(choice(seq(field('metadata', $.metadata),
+    //                     optional(repeat($._non_form))),
+    //                 seq(field('old_metadata', $.old_metadata),
+    //                     optional(repeat($._non_form))))),
+
     list: $ =>
       seq(repeat(choice(seq(field('metadata', $.metadata),
                             optional(repeat($._non_form))),
@@ -253,23 +286,6 @@ module.exports = grammar({
           repeat(choice(field('value', $._form),
                         $._non_form)),
           "]"),
-
-    metadata: $ =>
-      seq("^",
-          repeat($._non_form),
-          choice($.read_cond,
-                 $.map,
-                 $.string,
-                 $.keyword,
-                 $.symbol)),
-
-    old_metadata: $ =>
-      seq("#^",
-          repeat($._non_form),
-          choice($.map,
-                 $.string,
-                 $.keyword,
-                 $.symbol)),
 
     number: $ =>
       NUMBER,
