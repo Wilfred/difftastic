@@ -3181,33 +3181,37 @@
       ]
     },
     "tuple_element": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "type",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_type"
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "type",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_type"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
           }
-        },
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        }
-      ]
+        ]
+      }
     },
     "_statement": {
       "type": "CHOICE",
@@ -5047,6 +5051,19 @@
         }
       ]
     },
+    "implicit_object_creation_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "new"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "argument_list"
+        }
+      ]
+    },
     "_anonymous_object_member_declarator": {
       "type": "CHOICE",
       "members": [
@@ -6865,6 +6882,10 @@
         {
           "type": "SYMBOL",
           "name": "implicit_array_creation_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "implicit_object_creation_expression"
         },
         {
           "type": "SYMBOL",
