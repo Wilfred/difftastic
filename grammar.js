@@ -160,114 +160,14 @@ module.exports = grammar({
   extras: $ =>
     [],
 
-  // XXX: most if not all of these are a result of trying to have pervasive
-  //      metadata within nodes
-  conflicts: $ => [
-    [
-     $.anon_func,
-     $.deref_form,
-     $.discard_expr,
-     $.list,
-     $.map,
-     $.namespaced_map,
-     $.quote_form,
-     $.read_cond,
-     $.set,
-     $.symbol,
-     $.syntax_quote_form,
-     $.tagged_literal,
-     $.unquote_form,
-     $.unquote_splicing_form,
-     $.var_quote_form,
-     $.vector,
-    ],
-    [
-     $.map,
-     $.metadata,
-     $.read_cond,
-     $.symbol,
-    ],
-    [
-     $.eval_form,
-     $.list,
-     $.read_cond,
-     $.symbol,
-    ],
-    [
-     $.symbol,
-     $.tagged_literal,
-    ],
-    [
-     $.map,
-     $.old_metadata,
-     $.symbol,
-    ],
-    [
-     $.symbol,
-    ],
-    // collection-related -- sadly, slows clojure.core parsing to 70-80 ms
-    [
-     $._bare_list,
-     $.anon_func,
-     $.deref_form,
-     $.list,
-     $.map,
-     $.namespaced_map,
-     $.quote_form,
-     $.read_cond,
-     $.set,
-     $.symbol,
-     $.syntax_quote_form,
-     $.tagged_literal,
-     $.unquote_form,
-     $.unquote_splicing_form,
-     $.var_quote_form,
-     $.vector,
-    ],
-    [
-     $._bare_map,
-     $.anon_func,
-     $.deref_form,
-     $.list,
-     $.map,
-     $.namespaced_map,
-     $.quote_form,
-     $.read_cond,
-     $.set,
-     $.symbol,
-     $.syntax_quote_form,
-     $.tagged_literal,
-     $.unquote_form,
-     $.unquote_splicing_form,
-     $.var_quote_form,
-     $.vector,
-    ],
-    [
-     $._bare_vector,
-     $.anon_func,
-     $.deref_form,
-     $.list,
-     $.map,
-     $.namespaced_map,
-     $.quote_form,
-     $.read_cond,
-     $.set,
-     $.symbol,
-     $.syntax_quote_form,
-     $.tagged_literal,
-     $.unquote_form,
-     $.unquote_splicing_form,
-     $.var_quote_form,
-     $.vector,
-    ],
-  ],
+  conflicts: $ =>
+    [],
 
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
     source: $ =>
-    repeat(prec(20, // makes one conflict entry unnecessary
-                  choice($._form,
-                         $._non_form))),
+      repeat(choice($._form,
+                    $._non_form)),
 
     _non_form: $ =>
       choice($._whitespace,
@@ -316,9 +216,10 @@ module.exports = grammar({
              $.deref_form),
 
     list: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           $._bare_list),
 
     _bare_list: $ =>
@@ -328,9 +229,10 @@ module.exports = grammar({
           ")"),
 
     map: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           $._bare_map),
 
     _bare_map: $ =>
@@ -340,9 +242,10 @@ module.exports = grammar({
           "}"),
 
     vector: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           $._bare_vector),
 
     _bare_vector: $ =>
@@ -391,24 +294,27 @@ module.exports = grammar({
       SYMBOL,
 
     symbol: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           $._bare_symbol),
 
     set: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           "#{",
           repeat(choice(field('value', $._form),
                         $._non_form)),
           "}"),
 
     anon_func: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           "#",
           $._bare_list),
 
@@ -417,9 +323,10 @@ module.exports = grammar({
           STRING),
 
     read_cond: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           "#?",
           repeat($._whitespace),
           $._bare_list),
@@ -433,9 +340,10 @@ module.exports = grammar({
       AUTO_RESOLVE_MARKER,
 
     namespaced_map: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           "#",
           field('prefix', choice($.auto_res_marker,
                                  $.keyword)),
@@ -443,9 +351,10 @@ module.exports = grammar({
           $._bare_map),
 
     var_quote_form: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           "#'",
           repeat($._non_form),
           // XXX: symobl, reader conditional, and tagged literal can work
@@ -475,9 +384,10 @@ module.exports = grammar({
     //      - ctor_tagged_literal
     //      - ctor_tag_literal
     tagged_literal: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           "#",
           // # uuid "00000000-0000-0000-0000-000000000000"
           // # #_ 1 uuid "00000000-0000-0000-0000-000000000000"
@@ -489,17 +399,19 @@ module.exports = grammar({
           field('value', choice($._form))),
 
     syntax_quote_form: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           "`",
           repeat($._non_form),
           field('value', $._form)),
 
     quote_form: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           "'",
           repeat($._non_form),
           field('value', $._form)),
@@ -507,25 +419,28 @@ module.exports = grammar({
     unquote_splicing_form: $ =>
       // XXX: metadata here doesn't seem to make sense, but the repl
       //      will accept: `(^:x ~@[:a :b :c])
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           "~@",
           repeat($._non_form),
           field('value', $._form)),
 
     unquote_form: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           "~",
           repeat($._non_form),
           field('value', $._form)),
 
     deref_form: $ =>
-      seq(repeat(choice(field('metadata', $.metadata),
-                        field('old_metadata', $.old_metadata),
-                        $._non_form)),
+      seq(repeat(choice(seq(field('metadata', $.metadata),
+                            optional(repeat($._non_form))),
+                        seq(field('old_metadata', $.old_metadata),
+                            optional(repeat($._non_form))))),
           "@",
           repeat($._non_form),
           field('value', $._form)),
