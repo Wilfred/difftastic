@@ -19,7 +19,6 @@ Based on an export of the Roslyn grammar export with various changes in order to
 
 Comprehensive support for C# exists with the following exceptions:
 
-- [ ] [Non-ASCII identifiers](https://github.com/tree-sitter/tree-sitter-c-sharp/issues/37)
 - [ ] [Contextual keywords](https://github.com/tree-sitter/tree-sitter-c-sharp/issues/47)
 - [ ] [Global statements](https://github.com/tree-sitter/tree-sitter-c-sharp/issues/12)
 
