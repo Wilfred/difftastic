@@ -265,7 +265,7 @@ module.exports = grammar({
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
     source: $ =>
-    repeat(prec(20,
+    repeat(prec(20, // makes one conflict entry unnecessary
                   choice($._form,
                          $._non_form))),
 
