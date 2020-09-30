@@ -317,3 +317,32 @@ class A {
         (identifier)
         (arrow_expression_clause
           (binary_expression (identifier) (identifier)))))))
+
+=======================================
+Class method with nullable parameter list
+=======================================
+
+class A {
+  public int Zero(params int[]? ints) => 0;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (method_declaration
+        (modifier)
+        (predefined_type)
+        (identifier)
+        (parameter_list
+          (parameter_array
+            (nullable_type
+              (array_type
+                (predefined_type)
+                (array_rank_specifier)))
+            (identifier)))
+        (arrow_expression_clause
+          (integer_literal))))))
+          

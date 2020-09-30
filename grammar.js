@@ -291,7 +291,7 @@ module.exports = grammar({
     parameter_array: $ => seq(
       repeat($.attribute_list),
       'params',
-      $.array_type,
+      choice($.array_type, $.nullable_type),
       $.identifier
     ),
 

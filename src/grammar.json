@@ -1218,8 +1218,17 @@
           "value": "params"
         },
         {
-          "type": "SYMBOL",
-          "name": "array_type"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "array_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "nullable_type"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
