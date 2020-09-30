@@ -105,3 +105,60 @@ class Of1879 {
         (preprocessor_call (preprocessor_directive) (integer_literal) (string_literal))
         (preprocessor_call (preprocessor_directive) (identifier))
         (preprocessor_call (preprocessor_directive) (identifier))))))) 
+
+===================================
+Spaces in directives
+===================================
+
+class Of1879 {
+  void AMethod() {
+# line 2001 "A Space"
+#  line hidden
+#    line default
+  }
+}
+
+---
+
+(compilation_unit (class_declaration
+  (identifier)
+  (declaration_list
+    (method_declaration
+      (void_keyword)
+      (identifier)
+      (parameter_list)
+      (block
+        (preprocessor_call (preprocessor_directive) (integer_literal) (string_literal))
+        (preprocessor_call (preprocessor_directive) (identifier))
+        (preprocessor_call (preprocessor_directive) (identifier))))))) 
+
+===================================
+Directives not in strings or comments
+===================================
+
+class Of1879 {
+  void AMethod() {
+    var s = @"Only a string
+    #if NOPE
+";
+    /* Only a comment
+    #if NOPE
+    */
+  }
+}
+
+---
+
+(compilation_unit (class_declaration
+  (identifier)
+  (declaration_list
+    (method_declaration
+      (void_keyword)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration (implicit_type)
+            (variable_declarator (identifier)
+              (equals_value_clause (verbatim_string_literal)))))
+        (comment))))))
