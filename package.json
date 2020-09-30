@@ -13,7 +13,7 @@
     "nan": "^2.10.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.16.0"
+    "tree-sitter-cli": "^0.17.1"
   },
   "scripts": {
     "test": "tree-sitter test && node test.js"

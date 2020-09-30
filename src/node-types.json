@@ -166,6 +166,10 @@
         "named": true
       },
       {
+        "type": "implicit_object_creation_expression",
+        "named": true
+      },
+      {
         "type": "implicit_stack_alloc_array_creation_expression",
         "named": true
       },
@@ -2438,6 +2442,21 @@
       "types": [
         {
           "type": "initializer_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "implicit_object_creation_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_list",
           "named": true
         }
       ]
