@@ -747,9 +747,14 @@ module.exports = grammar({
 
     switch_statement: $ => seq(
       'switch',
-      '(',
-      field('value', $._expression),
-      ')',
+      choice(
+        seq(
+          '(',
+          field('value', $._expression),
+          ')',
+        ),
+        field('value', $.tuple_expression)
+      ),
       field('body', $.switch_body)
     ),
 

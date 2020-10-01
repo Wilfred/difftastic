@@ -278,6 +278,44 @@ class A {
                 (return_statement (integer_literal)))))))))))
 
 =====================================
+Switch statement with tuple
+=====================================
+
+class A {
+  int Sample(int a) {
+    switch (a, a) {
+      case (1, 1):
+        return 1;
+      default:
+        return 0;
+    }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    name: (identifier)
+    body: (declaration_list (method_declaration
+      type: (predefined_type)
+      name: (identifier)
+      parameters: (parameter_list
+        (parameter
+          type: (predefined_type)
+          name: (identifier)))
+      body: (block
+        (switch_statement
+          value: (tuple_expression (argument (identifier)) (argument (identifier)))
+          body: (switch_body
+            (switch_section
+              (case_switch_label (tuple_expression (argument (integer_literal)) (argument (integer_literal))))
+              (return_statement (integer_literal)))
+            (switch_section
+              (default_switch_label)
+              (return_statement (integer_literal))))))))))
+
+=====================================
 Try finally statement
 =====================================
 
