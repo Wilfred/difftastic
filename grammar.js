@@ -359,7 +359,10 @@ module.exports = grammar({
     ),
 
     type_parameter_constraints_clause: $ => seq(
-      'where', $._identifier_or_global, ':', commaSep1($.type_parameter_constraint)
+      'where',
+      field('target', $._identifier_or_global),
+      ':',
+      field('constraints', commaSep1($.type_parameter_constraint)),
     ),
 
     type_parameter_constraint: $ => choice(
@@ -373,7 +376,7 @@ module.exports = grammar({
 
     constructor_constraint: $ => seq('new', '(', ')'),
 
-    type_constraint: $ => $._type,
+    type_constraint: $ => field('type', $._type),
 
     operator_declaration: $ => seq(
       repeat($.attribute_list),

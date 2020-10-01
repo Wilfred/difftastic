@@ -1658,37 +1658,45 @@
           "value": "where"
         },
         {
-          "type": "SYMBOL",
-          "name": "_identifier_or_global"
+          "type": "FIELD",
+          "name": "target",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_identifier_or_global"
+          }
         },
         {
           "type": "STRING",
           "value": ":"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "type_parameter_constraint"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "type_parameter_constraint"
-                  }
-                ]
+          "type": "FIELD",
+          "name": "constraints",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "type_parameter_constraint"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "type_parameter_constraint"
+                    }
+                  ]
+                }
               }
-            }
-          ]
+            ]
+          }
         }
       ]
     },
@@ -1756,8 +1764,12 @@
       ]
     },
     "type_constraint": {
-      "type": "SYMBOL",
-      "name": "_type"
+      "type": "FIELD",
+      "name": "type",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_type"
+      }
     },
     "operator_declaration": {
       "type": "SEQ",
