@@ -35,7 +35,6 @@ typedef uint16_t TSStateId;
 typedef struct {
   bool visible : 1;
   bool named : 1;
-  bool supertype: 1;
 } TSSymbolMetadata;
 
 typedef struct TSLexer TSLexer;
@@ -120,8 +119,6 @@ struct TSLanguage {
   const uint16_t *small_parse_table;
   const uint32_t *small_parse_table_map;
   const TSSymbol *public_symbol_map;
-  const uint16_t *alias_map;
-  uint32_t state_count;
 };
 
 /*
