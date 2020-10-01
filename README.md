@@ -66,7 +66,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Default interface methods
 - [x] `switch` expressions
 - [ ] `switch` property patterns
-- [ ] `switch` tuple patterns
+- [x] `switch` tuple patterns
 - [x] `static` local functions
 - [x] nullable reference types
 - [x] null-forgiving operator
