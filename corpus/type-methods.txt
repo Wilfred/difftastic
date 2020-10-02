@@ -197,11 +197,11 @@ class A {
         (block)))))
 
 =======================================
-Class method with contextually-reserved keyword named parameter
+Class method with contextually-reserved keyword named parameters
 =======================================
 
 class A {
-  void HasAnOut(int from) {
+  void HasAnOut(int from, string partial) {
   }
 }
 
@@ -215,6 +215,7 @@ class A {
         (void_keyword)
         (identifier)
         (parameter_list
+          (parameter (predefined_type) (identifier))
           (parameter (predefined_type) (identifier)))
         (block)))))        
 

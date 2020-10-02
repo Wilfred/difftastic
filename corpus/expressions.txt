@@ -462,6 +462,22 @@ void a() {
             (invocation_expression
               (member_access_expression (identifier) (identifier))
               (argument_list (argument (identifier)))))))))))
+         
+============================
+Async Lambda
+============================
+void a()
+{
+    Do(async () => {});
+}
+
+---
+(compilation_unit
+  (method_declaration (void_keyword) (identifier) (parameter_list)
+  (block
+    (expression_statement (invocation_expression (identifier)
+    (argument_list
+      (argument (lambda_expression (parameter_list) (initializer_expression)))))))))
 
 ============================
 Lambda expression with qualifiers
