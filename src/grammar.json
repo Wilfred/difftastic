@@ -1,6 +1,6 @@
 {
   "name": "c_sharp",
-  "word": "identifier",
+  "word": "_identifier_token",
   "rules": {
     "compilation_unit": {
       "type": "REPEAT",
@@ -557,22 +557,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_identifier_or_global"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_reserved_identifier"
-              },
-              "named": true,
-              "value": "identifier"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_identifier_or_global"
         },
         {
           "type": "STRING",
@@ -1146,22 +1132,8 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_reserved_identifier"
-                },
-                "named": true,
-                "value": "identifier"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "identifier"
           }
         },
         {
@@ -7022,15 +6994,6 @@
           "name": "_simple_name"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_reserved_identifier"
-          },
-          "named": true,
-          "value": "identifier"
-        },
-        {
           "type": "SYMBOL",
           "name": "_literal"
         }
@@ -7710,7 +7673,7 @@
         }
       ]
     },
-    "identifier": {
+    "_identifier_token": {
       "type": "TOKEN",
       "content": {
         "type": "SEQ",
@@ -7733,6 +7696,19 @@
           }
         ]
       }
+    },
+    "identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_identifier_token"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_contextual_keywords"
+        }
+      ]
     },
     "global": {
       "type": "STRING",
@@ -8133,12 +8109,104 @@
         ]
       }
     },
-    "_reserved_identifier": {
+    "_contextual_keywords": {
       "type": "CHOICE",
       "members": [
         {
           "type": "STRING",
+          "value": "ascending"
+        },
+        {
+          "type": "STRING",
+          "value": "by"
+        },
+        {
+          "type": "STRING",
+          "value": "descending"
+        },
+        {
+          "type": "STRING",
+          "value": "equals"
+        },
+        {
+          "type": "STRING",
           "value": "from"
+        },
+        {
+          "type": "STRING",
+          "value": "group"
+        },
+        {
+          "type": "STRING",
+          "value": "into"
+        },
+        {
+          "type": "STRING",
+          "value": "join"
+        },
+        {
+          "type": "STRING",
+          "value": "let"
+        },
+        {
+          "type": "STRING",
+          "value": "on"
+        },
+        {
+          "type": "STRING",
+          "value": "orderby"
+        },
+        {
+          "type": "STRING",
+          "value": "select"
+        },
+        {
+          "type": "STRING",
+          "value": "where"
+        },
+        {
+          "type": "STRING",
+          "value": "add"
+        },
+        {
+          "type": "STRING",
+          "value": "get"
+        },
+        {
+          "type": "STRING",
+          "value": "remove"
+        },
+        {
+          "type": "STRING",
+          "value": "set"
+        },
+        {
+          "type": "STRING",
+          "value": "alias"
+        },
+        {
+          "type": "STRING",
+          "value": "dynamic"
+        },
+        {
+          "type": "STRING",
+          "value": "nameof"
+        },
+        {
+          "type": "STRING",
+          "value": "notnull"
+        },
+        {
+          "type": "STRING",
+          "value": "unmanaged"
+        },
+        {
+          "type": "STRING",
+          "value": "when"
+        },
+        {
+          "type": "STRING",
+          "value": "yield"
         }
       ]
     },
@@ -8260,8 +8328,16 @@
       "member_access_expression"
     ],
     [
-      "from_clause",
-      "_reserved_identifier"
+      "_contextual_keywords",
+      "from_clause"
+    ],
+    [
+      "_contextual_keywords",
+      "accessor_declaration"
+    ],
+    [
+      "_contextual_keywords",
+      "type_parameter_constraint"
     ],
     [
       "_type",

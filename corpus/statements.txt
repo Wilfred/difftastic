@@ -1175,3 +1175,78 @@ class A {
             (variable_declarator
               (tuple_pattern (identifier) (tuple_pattern (identifier) (discard)))
               (equals_value_clause (identifier))))))))))
+
+=====================================
+Function with dynamic local variable
+=====================================
+
+void A() {
+  dynamic dyn = "";
+}
+
+---
+
+ (compilation_unit
+  (method_declaration (void_keyword) (identifier) (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration (identifier)
+          (variable_declarator (identifier)
+            (equals_value_clause (string_literal))))))))
+
+=====================================
+Function with contextually reserved identifiers
+=====================================
+
+async void Sample() {
+  var var = "";
+  int partial = from;
+  A into = select;
+  R await = get;
+  T set = let + yield + group + add + alias + ascending + notnull + descending + equals;
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+      (modifier)
+      (void_keyword)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration (implicit_type)
+            (variable_declarator (identifier)
+              (equals_value_clause (string_literal)))))
+        (local_declaration_statement
+          (variable_declaration (predefined_type)
+            (variable_declarator (identifier)
+              (equals_value_clause (identifier)))))
+        (local_declaration_statement
+          (variable_declaration (identifier)
+            (variable_declarator (identifier)
+              (equals_value_clause (identifier)))))
+        (local_declaration_statement
+          (variable_declaration (identifier)
+            (variable_declarator (identifier)
+              (equals_value_clause (identifier)))))
+       (local_declaration_statement
+          (variable_declaration (identifier)
+            (variable_declarator (identifier)
+              (equals_value_clause
+                (binary_expression
+                  (binary_expression
+                    (binary_expression
+                      (binary_expression
+                        (binary_expression
+                          (binary_expression
+                            (binary_expression
+                              (binary_expression (identifier) (identifier))
+                            (identifier))
+                          (identifier))
+                        (identifier))
+                      (identifier))
+                    (identifier))
+                  (identifier))
+                (identifier)))))))))

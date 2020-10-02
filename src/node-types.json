@@ -2830,6 +2830,11 @@
     }
   },
   {
+    "type": "label_name",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "labeled_statement",
     "named": true,
     "fields": {},
@@ -5173,6 +5178,10 @@
     "named": false
   },
   {
+    "type": "dynamic",
+    "named": false
+  },
+  {
     "type": "else",
     "named": false
   },
@@ -5281,10 +5290,6 @@
     "named": false
   },
   {
-    "type": "label_name",
-    "named": true
-  },
-  {
     "type": "let",
     "named": false
   },
@@ -5298,6 +5303,10 @@
   },
   {
     "type": "module",
+    "named": false
+  },
+  {
+    "type": "nameof",
     "named": false
   },
   {
