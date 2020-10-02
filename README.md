@@ -19,10 +19,10 @@ Based on an export of the Roslyn grammar export with various changes in order to
 
 Comprehensive support for C# exists with the following exceptions:
 
-- [ ] [Contextual keywords](https://github.com/tree-sitter/tree-sitter-c-sharp/issues/47)
+- [ ] `async` and `await` cannot be used as identifiers
 - [ ] [Global statements](https://github.com/tree-sitter/tree-sitter-c-sharp/issues/12)
 
-#### C# 7.0
+#### C# 7.0 features (complete)
 
 - [x] Tuples
 - [x] Discards
@@ -70,6 +70,28 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] `static` local functions
 - [x] nullable reference types
 - [x] null-forgiving operator
+
+#### C# 9.0 (TBC)
+
+- [x] Covariant returns
+- [x] Extending partial methods
+- [ ] Extension GetEnumerator
+- [ ] Function pointers
+- [ ] Init properties
+- [ ] Lambda discard parameters
+- [ ] Local function attributes
+- [ ] Module initializers
+- [ ] Native integers
+- [ ] Patterns
+  - [ ] Simple type patterns
+  - [ ] Relational patterns
+  - [ ] Logical patterns
+- [ ] Records
+- [ ] Skip Locals Init
+- [x] Static anonymous functions
+- [ ] Target-typed conditional expression
+- [x] Target-typed new
+- [ ] Top-level statements
 
 ### References
 
