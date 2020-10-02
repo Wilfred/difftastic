@@ -287,7 +287,7 @@ module.exports = grammar({
       choice('false',
              'true'),
 
-    _bare_symbol: $=>
+    _bare_symbol: $ =>
       SYMBOL,
 
     symbol: $ =>
