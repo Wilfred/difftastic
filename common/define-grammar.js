@@ -459,6 +459,15 @@ module.exports = function defineGrammar(dialect) {
 
       type_annotation: $ => seq(':', $._type),
 
+      asserts: $ => seq(
+        ':',
+        'asserts',
+        choice(
+          $.identifier,
+          seq($.identifier, 'is', $._type)
+        )
+      ),
+
       _type: $ => choice(
         $._primary_type,
         $.union_type,
@@ -599,7 +608,9 @@ module.exports = function defineGrammar(dialect) {
       _call_signature: $ => seq(
         field('type_parameters', optional($.type_parameters)),
         field('parameters', $.formal_parameters),
-        field('return_type', optional($.type_annotation))
+        field('return_type', optional(
+          choice($.type_annotation, $.asserts)
+        ))
       ),
 
       type_parameters: $ => seq(

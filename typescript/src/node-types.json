@@ -398,6 +398,10 @@
         "required": false,
         "types": [
           {
+            "type": "asserts",
+            "named": true
+          },
+          {
             "type": "type_annotation",
             "named": true
           }
@@ -708,6 +712,10 @@
         "required": false,
         "types": [
           {
+            "type": "asserts",
+            "named": true
+          },
+          {
             "type": "type_annotation",
             "named": true
           }
@@ -791,6 +799,101 @@
         },
         {
           "type": "predefined_type",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_predicate",
+          "named": true
+        },
+        {
+          "type": "type_query",
+          "named": true
+        },
+        {
+          "type": "union_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "asserts",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "constructor_type",
+          "named": true
+        },
+        {
+          "type": "existential_type",
+          "named": true
+        },
+        {
+          "type": "flow_maybe_type",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "generic_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "intersection_type",
+          "named": true
+        },
+        {
+          "type": "literal_type",
+          "named": true
+        },
+        {
+          "type": "lookup_type",
+          "named": true
+        },
+        {
+          "type": "nested_type_identifier",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized_type",
+          "named": true
+        },
+        {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
+          "type": "this",
           "named": true
         },
         {
@@ -1147,6 +1250,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "asserts",
+            "named": true
+          },
           {
             "type": "type_annotation",
             "named": true
@@ -2288,6 +2395,10 @@
         "required": false,
         "types": [
           {
+            "type": "asserts",
+            "named": true
+          },
+          {
             "type": "type_annotation",
             "named": true
           }
@@ -2344,6 +2455,10 @@
         "required": false,
         "types": [
           {
+            "type": "asserts",
+            "named": true
+          },
+          {
             "type": "type_annotation",
             "named": true
           }
@@ -2389,6 +2504,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "asserts",
+            "named": true
+          },
           {
             "type": "type_annotation",
             "named": true
@@ -2545,6 +2664,10 @@
         "required": false,
         "types": [
           {
+            "type": "asserts",
+            "named": true
+          },
+          {
             "type": "type_annotation",
             "named": true
           }
@@ -2600,6 +2723,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "asserts",
+            "named": true
+          },
           {
             "type": "type_annotation",
             "named": true
@@ -3713,6 +3840,10 @@
         "required": false,
         "types": [
           {
+            "type": "asserts",
+            "named": true
+          },
+          {
             "type": "type_annotation",
             "named": true
           }
@@ -3784,6 +3915,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "asserts",
+            "named": true
+          },
           {
             "type": "type_annotation",
             "named": true
@@ -6014,6 +6149,10 @@
   },
   {
     "type": "as",
+    "named": false
+  },
+  {
+    "type": "asserts",
     "named": false
   },
   {

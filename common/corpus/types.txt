@@ -628,4 +628,40 @@ export type NoInfer<T> = T & { [K in keyof T]: T[K] };
           (mapped_type_clause
             (type_identifier)
             (index_type_query (type_identifier)))
-          (type_annotation (lookup_type (type_identifier) (type_identifier)))))))))
+          (type_annotation (lookup_type (type_identifier)
+  (type_identifier)))))))))
+
+=======================================
+Assertion functions checking a value
+=======================================
+
+function f(x: any): asserts x {
+}
+
+---
+
+(program
+  (function_declaration
+    (identifier)
+    (formal_parameters
+      (required_parameter (identifier) (type_annotation (predefined_type))))
+    (asserts (identifier))
+    (statement_block)))
+
+=======================================
+Assertion functions checking a type
+=======================================
+
+function f(x: any): asserts x is number {
+}
+
+---
+
+(program
+  (function_declaration
+    (identifier)
+    (formal_parameters
+    (required_parameter
+      (identifier) (type_annotation (predefined_type))))
+    (asserts (identifier) (predefined_type))
+    (statement_block)))
