@@ -3107,8 +3107,17 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "type_annotation"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "type_annotation"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "asserts"
+                  }
+                ]
               },
               {
                 "type": "BLANK"
@@ -7599,6 +7608,45 @@
         {
           "type": "SYMBOL",
           "name": "_type"
+        }
+      ]
+    },
+    "asserts": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "STRING",
+          "value": "asserts"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "STRING",
+                  "value": "is"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_type"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
