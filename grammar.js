@@ -260,10 +260,13 @@ module.exports = grammar({
 
     vector: $ =>
       seq(repeat($._metadata),
-          seq("[",
-              repeat(choice(field('value', $._form),
-                            $._non_form)),
-              "]")),
+          $._bare_vector),
+
+    _bare_vector: $ =>
+      seq("[",
+          repeat(choice(field('value', $._form),
+                        $._non_form)),
+          "]"),
 
     number: $ =>
       NUMBER,
