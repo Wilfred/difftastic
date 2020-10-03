@@ -1560,6 +1560,10 @@
           "named": true
         },
         {
+          "type": "jsx_fragment",
+          "named": true
+        },
+        {
           "type": "jsx_self_closing_element",
           "named": true
         },
@@ -1607,6 +1611,10 @@
         },
         {
           "type": "jsx_expression",
+          "named": true
+        },
+        {
+          "type": "jsx_fragment",
           "named": true
         },
         {
