@@ -250,10 +250,13 @@ module.exports = grammar({
 
     map: $ =>
       seq(repeat($._metadata),
-          seq("{",
-              repeat(choice(field('value', $._form),
-                            $._non_form)),
-              "}")),
+          $._bare_map),
+
+    _bare_map: $ =>
+      seq("{",
+          repeat(choice(field('value', $._form),
+                        $._non_form)),
+          "}"),
 
     vector: $ =>
       seq(repeat($._metadata),
@@ -295,7 +298,7 @@ module.exports = grammar({
     anon_func: $ =>
       seq(repeat($._metadata),
           "#",
-          $._bare_list),
+          field('value', $.list)),
 
     regex: $ =>
       seq("#",
@@ -321,7 +324,7 @@ module.exports = grammar({
           field('prefix', choice($.auto_res_marker,
                                  $.keyword)),
           repeat($._non_form),
-          field('value', $.map)),
+          $._bare_map),
 
     var_quote_form: $ =>
       seq(repeat($._metadata),
