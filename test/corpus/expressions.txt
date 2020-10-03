@@ -1176,6 +1176,28 @@ b = <Foo.Bar.Baz.Baz></Foo.Bar.Baz.Baz>;
   (expression_statement (assignment_expression (identifier) (jsx_element (jsx_opening_element (nested_identifier (nested_identifier (nested_identifier (identifier) (identifier)) (identifier)) (identifier))) (jsx_closing_element (nested_identifier (nested_identifier (nested_identifier (identifier) (identifier)) (identifier)) (identifier)))))))
 
 ==============================================
+Anonymous JSX element
+==============================================
+
+a = <></>;
+a = <E><></></E>;
+
+---
+
+(program
+  (expression_statement
+    (assignment_expression
+      (identifier)
+      (jsx_fragment)))
+  (expression_statement
+    (assignment_expression
+      (identifier)
+      (jsx_element
+        (jsx_opening_element (identifier))
+        (jsx_fragment)
+        (jsx_closing_element (identifier))))))
+
+==============================================
 Expressions within JSX elements
 ==============================================
 
