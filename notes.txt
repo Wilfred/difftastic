@@ -6,6 +6,22 @@
 //   - clojure clr's pipe-escaping:
 //       https://github.com/clojure/clojure-clr/wiki/Specifying-types
 //
+// - traveral issues
+//   - use of fields (e.g. value, prefix, tag, metadata)
+//     - allows skipping certain nodes such as:
+//       - metadata
+//       - comment
+//       - discard-related
+//     - allows targeted navigation without having to know the
+//       node type (e.g. field value vs node type map)
+//     - limitations
+//       - a bit slower?
+//       - cannot use fields for things without names, e.g.
+//         - seq(...) cannot be the 2nd arg to field()
+//         - $._foo won't work unless it "resolves" to $.bar (non underscore)
+//   - for a given node, examine child nodes in reverse, that is,
+//     starting at the end and working backwards
+//
 // - probably won't do
 //   - support def, if, and other "primitives"
 //   - support for {{}} template constructs
@@ -27,15 +43,6 @@
 //   - npx tree-sitter parse filepath + look for ERROR in console output
 //   - npx tree-sitter parse --debug-graph filepath + view log.html
 //   - npx tree-sitter parse --debug filepath + view console output
-//
-// - use of fields
-//   - helpful when navigating within a node; can jump passed metadata
-//     and other things, directly to value (assuming target has field
-//     named 'value' or something appropriate)
-//   - there is a performance cost -- when no fields are used,
-//     clojure.core takes on average slightly less than 20 ms to parse.
-//     when fields are used extensively, the same file takes typically a
-//     bit more than 30 ms.  (info may be outdated here)
 //
 // - loosening ideas:
 //   - allow ##Other (not just ##Inf, -##Inf, ##NaN)
