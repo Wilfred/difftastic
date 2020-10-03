@@ -16,6 +16,10 @@
           "named": true
         },
         {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
           "type": "call_expression",
           "named": true
         },
@@ -61,6 +65,10 @@
         },
         {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         }
       ]
@@ -209,6 +217,10 @@
           "named": true
         },
         {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
           "type": "call_expression",
           "named": true
         },
@@ -255,8 +267,262 @@
         {
           "type": "true",
           "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "auto_increment_decrement",
+    "named": true,
+    "fields": {
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "++",
+            "named": false
+          },
+          {
+            "type": "--",
+            "named": false
+          }
+        ]
+      },
+      "variable": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "array_ref",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
+            "named": true
+          },
+          {
+            "type": "string_single_quoted",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "binary_expression",
+    "named": true,
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "array_ref",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
+            "named": true
+          },
+          {
+            "type": "string_single_quoted",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "array_ref",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
+            "named": true
+          },
+          {
+            "type": "string_single_quoted",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -277,6 +543,10 @@
         },
         {
           "type": "assignment_statement",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -341,6 +611,10 @@
         },
         {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         },
         {
@@ -641,6 +915,10 @@
           "named": true
         },
         {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
           "type": "call_expression",
           "named": true
         },
@@ -686,6 +964,10 @@
         },
         {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         }
       ]
@@ -723,6 +1005,10 @@
           "named": true
         },
         {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
           "type": "call_expression",
           "named": true
         },
@@ -768,6 +1054,10 @@
         },
         {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         }
       ]
@@ -810,6 +1100,10 @@
           },
           {
             "type": "array_ref",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
             "named": true
           },
           {
@@ -859,6 +1153,10 @@
           {
             "type": "true",
             "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
           }
         ]
       }
@@ -882,6 +1180,10 @@
         },
         {
           "type": "assignment_statement",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -949,6 +1251,10 @@
           "named": true
         },
         {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
           "type": "unless_statement",
           "named": true
         },
@@ -958,6 +1264,21 @@
         },
         {
           "type": "variable_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unary_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "auto_increment_decrement",
           "named": true
         }
       ]
@@ -1082,6 +1403,10 @@
             "named": true
           },
           {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
             "type": "call_expression",
             "named": true
           },
@@ -1128,6 +1453,10 @@
           {
             "type": "true",
             "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
           }
         ]
       }
@@ -1142,7 +1471,23 @@
     "named": false
   },
   {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": "++",
+    "named": false
+  },
+  {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "--",
     "named": false
   },
   {
