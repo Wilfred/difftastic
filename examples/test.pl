@@ -1,1 +1,4 @@
-# print "hewlo" if (1);
+# my $a = 1;
+# if (++$a) {
+#   print "hello";
+# }

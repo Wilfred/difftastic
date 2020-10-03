@@ -6,6 +6,11 @@ const PRECEDENCE = {
   HASH: 1,
   ARRAY: 2,
   SUB_ARGS: 3,
+
+  // begin of operators
+  AUTO_INCREMENT_DECREMENT: 23,
+  // end of operators
+
 };
 
 module.exports = grammar({
@@ -13,6 +18,7 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$._boolean, $.call_expression],
+    [$.auto_increment_decrement],
   ],
 
   extras: $ => [
@@ -183,8 +189,45 @@ module.exports = grammar({
     _expression: $ => choice(
       $._primitive_expression,
 
+      $.binary_expression,
+      $.unary_expression,
+
       $.call_expression,
     ),
+
+    // begin of operators
+
+    binary_expression: $ => choice(
+      ...[
+        ['+', 1],
+        ['-', 2]
+      ].map(([operator, precedence]) =>
+        prec.left(precedence, seq(
+          field('left', $._expression),
+          field('operator', operator),
+          field('right', $._expression)
+        ))
+      )
+    ),
+
+    unary_expression: $ => choice(
+      $.auto_increment_decrement,
+    ),
+
+    // no associativity
+    // auto increment and auto decrement
+    auto_increment_decrement: $ => prec(PRECEDENCE.AUTO_INCREMENT_DECREMENT, choice(
+      seq(
+        field('operator', choice('++', '--')),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', choice('++', '--')),
+      ),
+    )),
+
+    // end of operators
 
     call_expression: $ => seq(
       field('function_name', $.identifier),
