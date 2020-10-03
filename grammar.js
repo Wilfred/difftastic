@@ -218,19 +218,19 @@ module.exports = grammar({
     metadata: $ =>
       seq("^",
           repeat($._non_form),
-          choice($.read_cond,
-                 $.map,
-                 $.string,
-                 $.keyword,
-                 $.symbol)),
+          field('value', choice($.read_cond,
+                                $.map,
+                                $.string,
+                                $.keyword,
+                                $.symbol))),
 
     old_metadata: $ =>
       seq("#^",
           repeat($._non_form),
-          choice($.map,
-                 $.string,
-                 $.keyword,
-                 $.symbol)),
+          field('value', choice($.map,
+                                $.string,
+                                $.keyword,
+                                $.symbol))),
 
     _metadata: $ =>
       choice(seq(field('metadata', $.metadata),
@@ -250,23 +250,17 @@ module.exports = grammar({
 
     map: $ =>
       seq(repeat($._metadata),
-          $._bare_map),
-
-    _bare_map: $ =>
-      seq("{",
-          repeat(choice(field('value', $._form),
-                        $._non_form)),
-          "}"),
+          seq("{",
+              repeat(choice(field('value', $._form),
+                            $._non_form)),
+              "}")),
 
     vector: $ =>
       seq(repeat($._metadata),
-          $._bare_vector),
-
-    _bare_vector: $ =>
-      seq("[",
-          repeat(choice(field('value', $._form),
-                        $._non_form)),
-          "]"),
+          seq("[",
+              repeat(choice(field('value', $._form),
+                            $._non_form)),
+              "]")),
 
     number: $ =>
       NUMBER,
@@ -287,12 +281,9 @@ module.exports = grammar({
       choice('false',
              'true'),
 
-    _bare_symbol: $ =>
-      SYMBOL,
-
     symbol: $ =>
       seq(repeat($._metadata),
-          $._bare_symbol),
+          SYMBOL),
 
     set: $ =>
       seq(repeat($._metadata),
@@ -314,12 +305,12 @@ module.exports = grammar({
       seq(repeat($._metadata),
           "#?",
           repeat($._whitespace),
-          $._bare_list),
+          field('value', $.list)),
 
     read_cond_splicing: $ =>
       seq("#?@",
           repeat($._whitespace),
-          $._bare_list),
+          field('value', $.list)),
 
     auto_res_marker: $ =>
       AUTO_RESOLVE_MARKER,
@@ -330,7 +321,7 @@ module.exports = grammar({
           field('prefix', choice($.auto_res_marker,
                                  $.keyword)),
           repeat($._non_form),
-          $._bare_map),
+          field('value', $.map)),
 
     var_quote_form: $ =>
       seq(repeat($._metadata),
@@ -343,7 +334,7 @@ module.exports = grammar({
     symbolic_value: $ =>
       seq("##",
           repeat($._non_form),
-          $._bare_symbol),
+          field('value', $.symbol)),
 
     eval_form: $ =>
       seq("#=",
