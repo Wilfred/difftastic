@@ -366,7 +366,7 @@ module.exports = grammar({
           // # ^:a uuid "00000000-0000-0000-0000-000000000000"
           field('tag', $.symbol),
           repeat($._non_form),
-          field('value', choice($._form))),
+          field('value', $._form)),
 
     syntax_quote_form: $ =>
       seq(repeat($._metadata),
