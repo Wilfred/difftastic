@@ -129,15 +129,23 @@ module.exports = grammar({
         //  -- [ Declarations ] --  
         _declaration: $ => choice(
             $.contract_declaration,
+            $.interface_declaration,
             $.struct_declaration,
             $.enum_declaration,
-            // TODO: unbound functions, library, interface
+            // TODO: unbound functions, library
         ),
 
         // Contract Declarations
         contract_declaration: $ => seq(
             optional('abstract'),
             'contract',
+            field("name", $.identifier),
+            optional($.class_heritage),
+            field('body', $.contract_body),
+        ),
+
+        interface_declaration: $ => seq(
+            'interface',
             field("name", $.identifier),
             optional($.class_heritage),
             field('body', $.contract_body),
