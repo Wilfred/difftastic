@@ -1,3 +1,5 @@
+// Precedence is used by the parser to determine which rule to apply when there are two rules that can be applied.
+// We use the PREC dict to globally define rule pprecidence
 const PREC = {
     COMMENT: 1,
     STRING: 2,
@@ -24,30 +26,40 @@ const PREC = {
     MEMBER: 14
 }
 
+// The following is the core grammar for Solidity. It accepts Solidity smart contracts between the versions 0.4.x and 0.7.x.
 module.exports = grammar({
     name: 'Solidity',
 
+    // Extras is an array of tokens that is allowed anywhere in the document.
     extras: $ => [
+        // Allow comments to be placed anywhere in the file
         $.comment,
+        // Allow characters such as whitespaces to be placed anywhere in the file
         /[\s\uFEFF\u2060\u200B\u00A0]/
     ],
     
+    // The word token allows tree-sitter to appropriately handle scenario's where an identifier includes a keyword.
+    // Documentation: https://tree-sitter.github.io/tree-sitter/creating-parsers#keywords
     word: $ => $.identifier,
 
     rules: {
         //  -- [ Program ] --  
         source_file: $ => seq(
-            repeat($._source_element),
+            repeat($._source_unit),
         ),
 
         //  -- [ Source Element ] --  
-        _source_element: $ =>  choice(
-            $.pragma_directive,
-            $.import_directive,
+        _source_unit: $ =>  choice(
+            $._directive,
             $._declaration,
         ),
 
         //  -- [ Directives ] --  
+        _directive: $ => choice(
+            $.pragma_directive,
+            $.import_directive,
+        ),
+
         // Pragma
         pragma_directive: $ => seq(
             "pragma", "solidity", repeat($._pragma_version_constraint), $._semicolon,
@@ -110,11 +122,13 @@ module.exports = grammar({
                 )
             )
         ),
+
         //  -- [ Declarations ] --  
         _declaration: $ => choice(
             $.contract_declaration,
             $.struct_declaration,
             $.enum_declaration,
+            // TODO: function, library, interface
         ),
 
         // Contract Declarations
@@ -180,7 +194,6 @@ module.exports = grammar({
         ),
 
         // -- [ Statements ] --
-
         _statement: $ => choice(
             $.block_statement,
             $.variable_declaration_statement,
@@ -194,7 +207,7 @@ module.exports = grammar({
             $.try_statement,
             $.return_statement,
             $.emit_statement,
-            // $.assembly_statement
+            // TODO: $.assembly_statement
         ),
 
         block_statement: $ => seq('{', repeat($._statement), "}"),
