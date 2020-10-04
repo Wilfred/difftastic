@@ -36,7 +36,7 @@ module.exports = grammar({
 
     rules: {
         //  -- [ Program ] --  
-        program: $ => seq(
+        source_file: $ => seq(
             repeat($._source_element),
         ),
 
@@ -45,6 +45,70 @@ module.exports = grammar({
             $.pragma_directive,
             $.import_directive,
             $._declaration,
+        ),
+
+        //  -- [ Directives ] --  
+        // Pragma
+        pragma_directive: $ => seq(
+            "pragma", "solidity", repeat($._pragma_version_constraint), $._semicolon,
+        ),
+
+        _pragma_version_constraint: $ => seq(
+            optional($._solidity_version_comparison_operator),
+            $._solidity_version,
+        ),
+        _solidity_version: $ => /\d+(.\d+(.\d+)?)?/,
+        _solidity_version_comparison_operator: $ => choice("<=", "<", "^", ">", ">=" ),
+
+        // Import
+        import_directive: $ => seq(
+            'import',
+            choice(
+                $._source_import,
+                seq($._import_clause, $._from_clause)
+            ),
+            $._semicolon,
+        ),
+
+        _source_import: $ => seq(
+            field('source', $.string),
+            optional(seq("as", $.identifier))
+        ),
+
+        _import_clause: $ => choice(
+            $._single_import,
+            $._multiple_import,
+        ),
+
+        _from_clause: $ => seq(
+            "from", field('source', $.string)
+        ),
+    
+        _single_import: $ => seq(
+            choice("*", $.identifier),
+            optional(
+                seq(
+                    "as",
+                    $.identifier
+                )
+            )
+        ),
+    
+        _multiple_import: $ => seq(
+            '{',
+            commaSep($._import_declaration),
+            optional(','),
+            '}'
+        ),
+
+        _import_declaration: $  => seq(
+            $.identifier,
+            optional(
+                seq(
+                    "as",
+                    $.identifier
+                )
+            )
         ),
 
         // -- [ Statements ] --
@@ -126,71 +190,6 @@ module.exports = grammar({
 
         // assembly_statement: $ => seq(),
 
-
-        //  -- [ Directives ] --  
-        // Pragma
-        pragma_directive: $ => seq(
-            "pragma", "solidity", repeat($._pragma_version_constraint), $._semicolon,
-        ),
-
-        _pragma_version_constraint: $ => seq(
-            optional($._solidity_version_comparison_operator),
-            $._solidity_version,
-        ),
-        _solidity_version: $ => /\d+(.\d+(.\d+)?)?/,
-        _solidity_version_comparison_operator: $ => choice("<=", "<", "^", ">", ">=" ),
-
-        // Import
-        import_directive: $ => seq(
-            'import',
-            choice(
-                $._source_import,
-                seq($._import_clause, $._from_clause)
-            ),
-            $._semicolon,
-        ),
-
-        _source_import: $ => seq(
-            field('source', $.string),
-            optional(seq("as", $.identifier))
-        ),
-
-        _import_clause: $ => choice(
-            $._single_import,
-            $._multiple_import,
-        ),
-
-        _from_clause: $ => seq(
-            "from", field('source', $.string)
-        ),
-    
-        _single_import: $ => seq(
-            choice("*", $.identifier),
-            optional(
-                seq(
-                    "as",
-                    $.identifier
-                )
-            )
-        ),
-    
-        _multiple_import: $ => seq(
-            '{',
-            commaSep($._import_declaration),
-            optional(','),
-            '}'
-        ),
-
-        _import_declaration: $  => seq(
-            $.identifier,
-            optional(
-                seq(
-                    "as",
-                    $.identifier
-                )
-            )
-        ),
-
         //  -- [ Declarations ] --  
         _declaration: $ => choice(
             $.contract_declaration,
@@ -247,9 +246,9 @@ module.exports = grammar({
         enum_declaration: $ =>  seq(
             'enum',
             $.identifier,
-            '(',
+            '{',
             commaSep1($.identifier),
-            ')',
+            '}',
         ),
         
         event_definition: $ => seq(
@@ -424,23 +423,21 @@ module.exports = grammar({
             field('object', choice(
                 $._expression,
                 $.identifier,
-                $.super,
-                alias($._reserved_identifier, $.identifier)
             )),
             '.',
             field('property', alias($.identifier, $.property_identifier))
         )),
 
         subscript_expression: $ => prec.right(PREC.MEMBER, seq(
-            field('object', choice($._expression, $.super)),
-            '[', field('index', $._expressions), ']'
+            field('object', $._expression),
+            '[', field('index', commaSep1($._expression)), ']'
         )),
 
         _lhs_expression: $ => choice(
             $.member_expression,
             $.subscript_expression,
             $.identifier,
-            $._destructuring_pattern
+            // $._destructuring_pattern
         ),
         parenthesized_expression: $ => seq('(', $._expression, ')'),
 
@@ -463,11 +460,11 @@ module.exports = grammar({
         )),
           
         call_expresion: $ => choice(
-            seq($.expression, $._call_arguments),
+            seq($._expression, $._call_arguments),
             // TODO: add named arguments
         ),
 
-        payable_conversion_expression: $ => seq('payable', _call_arguments),
+        payable_conversion_expression: $ => seq('payable', $._call_arguments),
         meta_type_expression: $ => seq('type', '(', $.type_name, ')'),
 
         type_name: $ => choice(
@@ -569,7 +566,7 @@ module.exports = grammar({
         ),
 
         string_literal: $ => repeat1($.string),
-        number_literal: $ => seq(choice($.decimal_number, $hex_number), optional($.number_unit)),
+        number_literal: $ => seq(choice($.decimal_number, $.hex_number), optional($.number_unit)),
         decimal_number: $ =>  seq(/\d+(.\d+)?/, optional(/[eE](-)?d+/)),
         hex_number: $ => seq('0x', $._hex_digits),
         _hex_digits: $ => /([a-fA-F0-9]{2})+/, 
