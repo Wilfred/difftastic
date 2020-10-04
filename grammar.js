@@ -309,21 +309,21 @@ module.exports = grammar({
             "modifier",
             $.identifier,
             $._parameter_list,
-            repeat(
-                optional('virtual'),
-                optional('override'),
-            ),
+            repeat(choice(
+                'virtual',
+                'override',
+            )),
             choice($._semicolon, $.function_body)
         ),
 
         constructor_definition: $ => seq(
             'constructor',
             $._parameter_list,
-            repeat(
-                repeat($._modifier_invocation),
-                optional('payable'),
-                optional(choice('internal', 'public')),
-            ),
+            repeat(choice(
+                $._modifier_invocation,
+                'payable',
+                choice('internal', 'public'),
+            )),
             field('body', $.function_body),
         ),
 
@@ -332,12 +332,12 @@ module.exports = grammar({
             '(', ')',
             // FIXME: We use repeat to allow for unorderedness. However, this means that the parser 
             // accepts more than just the solidity language. The same problem exists for other definition rules.
-            repeat(
-                optional(field('visibility', $.field_visibility)),      
+            repeat(choice(
+                field('visibility', $.field_visibility),      
                 $._modifier_invocation,
-                optional('virtual'),
-                optional('override'),  
-            ),
+                'virtual',
+                'override',  
+            )),
             choice($._semicolon, field('body', $.function_body))
         ),
 
