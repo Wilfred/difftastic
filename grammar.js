@@ -309,30 +309,35 @@ module.exports = grammar({
             "modifier",
             $.identifier,
             $._parameter_list,
-            // TODO: deal with potential unorderedness
-            optional('virtual'),
-            optional('override'),
+            repeat(
+                optional('virtual'),
+                optional('override'),
+            ),
             choice($._semicolon, $.function_body)
         ),
 
         constructor_definition: $ => seq(
             'constructor',
             $._parameter_list,
-            // TODO: deal with potential unorderedness
-            repeat($._modifier_invocation),
-            optional('payable'),
-            optional(choice('internal', 'public')),
+            repeat(
+                repeat($._modifier_invocation),
+                optional('payable'),
+                optional(choice('internal', 'public')),
+            ),
             field('body', $.function_body),
         ),
 
         fallback_definition: $ => seq(
             choice('fallback', 'receive'),
             '(', ')',
-            // TODO: deal with potential unorderedness
-            optional(field('visibility', $.field_visibility)),      
-            repeat($._modifier_invocation),
-            optional('virtual'),
-            optional('override'),      
+            // FIXME: We use repeat to allow for unorderedness. However, this means that the parser 
+            // accepts more than just the solidity language. The same problem exists for other definition rules.
+            repeat(
+                optional(field('visibility', $.field_visibility)),      
+                $._modifier_invocation,
+                optional('virtual'),
+                optional('override'),  
+            ),
             choice($._semicolon, field('body', $.function_body))
         ),
 
