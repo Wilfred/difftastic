@@ -54,6 +54,7 @@ contract Example {
             type: (type_name (identifier) (identifier)) name: (identifier)
             (modifier_invocation (identifier))
             body: (function_body)))))
+            
 ====================
 Contract Constructor Keywords
 ====================

@@ -810,7 +810,7 @@
         "required": false,
         "types": [
           {
-            "type": "field_visibility",
+            "type": "visibility",
             "named": true
           }
         ]
@@ -836,7 +836,7 @@
         "required": true,
         "types": [
           {
-            "type": "field_visibility",
+            "type": "visibility",
             "named": true
           }
         ]
@@ -888,11 +888,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "field_visibility",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "for_statement",
@@ -968,6 +963,16 @@
           }
         ]
       },
+      "function_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": true,
         "required": false,
@@ -1009,14 +1014,26 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "identifier",
+          "type": "modifier_invocation",
           "named": true
         },
         {
-          "type": "modifier_invocation",
+          "type": "override_specifier",
+          "named": true
+        },
+        {
+          "type": "state_mutability",
+          "named": true
+        },
+        {
+          "type": "virtual",
+          "named": true
+        },
+        {
+          "type": "visibility",
           "named": true
         }
       ]
@@ -1394,6 +1411,21 @@
     "fields": {}
   },
   {
+    "type": "override_specifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "parenthesized_expression",
     "named": true,
     "fields": {},
@@ -1623,6 +1655,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "state_mutability",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "string",
@@ -2203,6 +2240,16 @@
     }
   },
   {
+    "type": "virtual",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "visibility",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "while_statement",
     "named": true,
     "fields": {},
@@ -2614,10 +2661,6 @@
     "named": false
   },
   {
-    "type": "constant",
-    "named": false
-  },
-  {
     "type": "constructor",
     "named": false
   },
@@ -2663,6 +2706,10 @@
   },
   {
     "type": "event",
+    "named": false
+  },
+  {
+    "type": "external",
     "named": false
   },
   {
@@ -2902,6 +2949,10 @@
     "named": false
   },
   {
+    "type": "pure",
+    "named": false
+  },
+  {
     "type": "receive",
     "named": false
   },
@@ -3091,6 +3142,10 @@
   },
   {
     "type": "var",
+    "named": false
+  },
+  {
+    "type": "view",
     "named": false
   },
   {

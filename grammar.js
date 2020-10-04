@@ -305,7 +305,7 @@ module.exports = grammar({
         // Definitions
         field_definition: $ => seq(
             $.type_name,
-            field('visibility', $.field_visibility),
+            field('visibility', $.visibility), // TODO: add constant
             optional($._immutable),
             $.identifier,
             optional(seq(
@@ -314,11 +314,17 @@ module.exports = grammar({
             $._semicolon
         ),
 
-        field_visibility: $ => choice(
+        visibility: $ => choice(
             'public',
             'internal',
             'private',
-            'constant',
+            'external',
+        ),
+
+        state_mutability: $ => choice(
+            'pure',
+            'view',
+            'payable'
         ),
 
         _immutable: $ => 'immutable',
@@ -356,12 +362,13 @@ module.exports = grammar({
         ),
 
         fallback_definition: $ => seq(
+            "function",
             choice('fallback', 'receive'),
             '(', ')',
             // FIXME: We use repeat to allow for unorderedness. However, this means that the parser 
             // accepts more than just the solidity language. The same problem exists for other definition rules.
             repeat(choice(
-                field('visibility', $.field_visibility),      
+                field('visibility', $.visibility),      
                 $.modifier_invocation,
                 'virtual',
                 'override',  
@@ -371,14 +378,22 @@ module.exports = grammar({
 
         function_definition: $ => seq(
             "function",
-            choice($.identifier),
+            field("function_name", $.identifier),
             $._parameter_list,
-            repeat($.modifier_invocation),
-            'returns',
-            $._parameter_list,
+            repeat(choice(
+                $.modifier_invocation,
+                $.visibility,
+                $.state_mutability,
+                $.virtual,
+                $.override_specifier,
+            )),
+            optional(seq(     
+                'returns',
+                $._parameter_list,
+            )),
             choice($._semicolon, field('body', $.function_body))
         ),
-
+        virtual: $ => "virtual",
         modifier_invocation: $ => seq($.identifier, optional($._call_arguments)),
         
         _call_arguments: $ => choice(
@@ -559,7 +574,7 @@ module.exports = grammar({
         _parameter: $ =>  seq(
             field("type", $.type_name),
             optional(field("storage_location", $._storage_location)),
-            field("name", $.identifier),
+            optional(field("name", $.identifier)),
         ),
 
         _storage_location: $ => choice(
@@ -567,7 +582,7 @@ module.exports = grammar({
             'storage',
             'calldata'
         ),
-
+        // TODO: make visible type
         _user_defined_type: $ => prec(PREC.USER_TYPE,seq(
             $.identifier,
             repeat(seq(
