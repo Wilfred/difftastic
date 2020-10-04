@@ -1,0 +1,57 @@
+====================
+Contract
+====================
+
+contract Example {}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body)))
+
+====================
+Abstract Contract
+====================
+
+abstract contract Example {}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body)))
+
+
+====================
+Inheriting contract
+====================
+
+contract Example is NotAContract() {}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    (class_heritage ancestor: (identifier))
+    body: (contract_body)))
+
+====================
+Multiple Inheritance
+====================
+
+contract Example is NotAContract(), AContract(1) {}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    (class_heritage 
+        ancestor: (identifier) 
+        ancestor: (identifier) 
+        ancestor_arguments: (primary_expression (number_literal (decimal_number))))
+    body: (contract_body)))

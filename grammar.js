@@ -148,10 +148,8 @@ module.exports = grammar({
         ),
 
         _inheritance_specifier: $ => seq(
-            $._user_defined_type,
-            '(',
-            commaSep($._expression),
-            ')',
+            field("ancestor", $._user_defined_type),
+            field("ancestor_arguments", $._call_arguments),
         ),
 
         contract_body: $  => seq(
@@ -393,6 +391,8 @@ module.exports = grammar({
             $.identifier,
             $._user_defined_type,
             // TODO: add literals
+            $.number_literal
+            // TODO: add the following
             // $.new_expression,
             // $.tuple_expression,
             // $.inline_array_expression,
@@ -588,7 +588,7 @@ module.exports = grammar({
 
         _semicolon: $ => ';',
 
-        identifier: $ => /[a-z0-9A-Z]+/,
+        identifier: $ => /[a-zA-Z$_][a-zA-Z0-9$_]+/,
 
         number: $ => /\d+/,
         literal: $ => choice(

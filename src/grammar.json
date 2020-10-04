@@ -463,61 +463,20 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_user_defined_type"
+          "type": "FIELD",
+          "name": "ancestor",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_user_defined_type"
+          }
         },
         {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_expression"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_expression"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ")"
+          "type": "FIELD",
+          "name": "ancestor_arguments",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_call_arguments"
+          }
         }
       ]
     },
@@ -1931,6 +1890,10 @@
         {
           "type": "SYMBOL",
           "name": "_user_defined_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "number_literal"
         }
       ]
     },
@@ -3993,7 +3956,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[a-z0-9A-Z]+"
+      "value": "[a-zA-Z$_][a-zA-Z0-9$_]+"
     },
     "number": {
       "type": "PATTERN",
