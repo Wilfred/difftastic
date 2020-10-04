@@ -172,7 +172,7 @@ module.exports = grammar({
             repeat(choice(
                 $.function_definition,
                 $.modifier_definition,
-                $.field_definition,
+                $.state_variable_declaration,
                 $.struct_declaration,
                 $.enum_declaration,
                 $.event_definition,
@@ -303,17 +303,21 @@ module.exports = grammar({
 
         //  -- [ Definitions ] --  
         // Definitions
-        field_definition: $ => seq(
-            $.type_name,
-            field('visibility', $.visibility), // TODO: add constant
-            optional($._immutable),
-            $.identifier,
+        state_variable_declaration: $ => seq(
+            field("type", $.type_name),
+            repeat(choice(
+                field('visibility', $.visibility), // FIXME: this also allows external
+                $.constant,
+                $.override_specifier,
+                $.immutable,
+            )),
+            field("name", $.identifier),
             optional(seq(
-                '=', $._expression
+                '=', field("value", $._expression)
             )),
             $._semicolon
         ),
-
+        constant: $ => "constant",
         visibility: $ => choice(
             'public',
             'internal',
@@ -327,7 +331,7 @@ module.exports = grammar({
             'payable'
         ),
 
-        _immutable: $ => 'immutable',
+        immutable: $ => 'immutable',
         _override: $ => 'override',
 
         override_specifier: $ => seq(
