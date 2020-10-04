@@ -129,7 +129,7 @@ module.exports = grammar({
             $.contract_declaration,
             $.struct_declaration,
             $.enum_declaration,
-            // TODO: function, library, interface
+            // TODO: unbound functions, library, interface
         ),
 
         // Contract Declarations
@@ -212,10 +212,20 @@ module.exports = grammar({
             // TODO: $.assembly_statement
         ),
 
+        assembly_statement: $ => seq(
+            'assembly',
+            optional('"evmasm"'),
+            "{",
+            // TODO: Add yul statements
+            // repeat($.yul_statement),
+            "}"
+        ),
+
+        // yul_statement: $ => seq(),
+
         block_statement: $ => seq('{', repeat($._statement), "}"),
         variable_declaration_statement: $ => seq(
             choice(
-                // TODO: make sure that this is correct
                 seq($.variable_declaration, optional(seq('=', $._expression))),
                 seq($.variable_declaration_tuple, '=', $._expression),
             ),
@@ -271,13 +281,12 @@ module.exports = grammar({
             'emit',  $._expression, $._call_arguments, $._semicolon
         ),
 
-        // TODO: assembly_statement: $ => seq(),
 
         //  -- [ Definitions ] --  
         // Definitions
         field_definition: $ => seq(
             $.type_name,
-            // TODO: deal with unordered possibility later
+            repeat(
             field('visibility', $.field_visibility),
             optional($._immutable),
             $.identifier,
