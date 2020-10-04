@@ -1281,9 +1281,19 @@
     "type": "modifier_definition",
     "named": true,
     "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "function_body",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "identifier",
@@ -1322,14 +1332,14 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "function_body",
+          "type": "override_specifier",
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "virtual",
           "named": true
         }
       ]

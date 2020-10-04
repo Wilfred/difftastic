@@ -5,6 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Run tree-sitter test",
+            "request": "launch",
+            "runtimeArgs": [
+                "test",
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "Generate Grammar",
@@ -13,6 +25,7 @@
             ],
             "program": "${workspaceFolder}/node_modules/bin/tree-sitter",
             "args": ["generate"],
-        }
+        },
+
     ]
 }

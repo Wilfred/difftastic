@@ -341,13 +341,13 @@ module.exports = grammar({
 
         modifier_definition: $ => seq(
             "modifier",
-            $.identifier,
-            $._parameter_list,
+            field("name", $.identifier),
+            optional($._parameter_list),
             repeat(choice(
-                'virtual',
-                'override',
+                $.virtual,
+                $.override_specifier,
             )),
-            choice($._semicolon, $.function_body)
+            choice($._semicolon, field("body", $.function_body)),
         ),
 
         constructor_definition: $ => seq(
@@ -634,7 +634,7 @@ module.exports = grammar({
 
         _semicolon: $ => ';',
 
-        identifier: $ => /[a-zA-Z$_][a-zA-Z0-9$_]+/,
+        identifier: $ => /[a-zA-Z$_][a-zA-Z0-9$_]*/,
 
         number: $ => /\d+/,
         literal: $ => choice(
