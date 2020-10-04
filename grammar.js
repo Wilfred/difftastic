@@ -207,7 +207,17 @@ module.exports = grammar({
             
 
         event_definition: $ => seq(
-            'event',  field('name', $.identifier), $._parameter_list,  optional('anonymous'), $._semicolon
+            'event',  field('name', $.identifier), $._event_parameter_list ,  optional('anonymous'), $._semicolon
+        ),
+
+        _event_parameter_list: $ => seq(
+            "(",
+            commaSep(seq(
+                field("type", $.type_name),
+                optional("indexed"),
+                optional(field("name", $.identifier)),
+            )),
+            ")"
         ),
 
         using_directive: $ => seq(
