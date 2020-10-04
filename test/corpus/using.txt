@@ -1,0 +1,36 @@
+====================
+Using directive
+====================
+
+contract Example {
+    using user.defined for *;
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (using_directive 
+          alias: (identifier)
+          alias: (identifier)))))
+
+====================
+Using directive
+====================
+
+contract Example {
+    using user.defined for uint256;
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (using_directive 
+          alias: (identifier)
+          alias: (identifier) 
+          source: (type_name))))) 

@@ -172,13 +172,13 @@ module.exports = grammar({
             repeat(choice(
                 $.function_definition,
                 $.modifier_definition,
-                $.field_definition,
+                $.state_variable_declaration,
                 $.struct_declaration,
                 $.enum_declaration,
                 $.event_definition,
                 $.using_directive,
                 $.constructor_definition,
-                $.fallback_definition,
+                $.fallback_receive_definition,
             )),
             "}",
         ),
@@ -207,11 +207,25 @@ module.exports = grammar({
             
 
         event_definition: $ => seq(
-            'event',  field('name', $.identifier), $._parameter_list,  optional('anonymous'), $._semicolon
+            'event',  field('name', $.identifier), $._event_parameter_list ,  optional('anonymous'), $._semicolon
+        ),
+
+        _event_parameter_list: $ => seq(
+            "(",
+            commaSep(seq(
+                field("type", $.type_name),
+                optional("indexed"),
+                optional(field("name", $.identifier)),
+            )),
+            ")"
         ),
 
         using_directive: $ => seq(
-            'using', $._user_defined_type, 'for', choice('*', $.type_name), $._semicolon
+            'using', 
+            field("alias", $._user_defined_type),
+            'for',
+            field("source", choice('*', $.type_name)),
+            $._semicolon
         ),
 
         // -- [ Statements ] --
@@ -303,17 +317,21 @@ module.exports = grammar({
 
         //  -- [ Definitions ] --  
         // Definitions
-        field_definition: $ => seq(
-            $.type_name,
-            field('visibility', $.visibility), // TODO: add constant
-            optional($._immutable),
-            $.identifier,
+        state_variable_declaration: $ => seq(
+            field("type", $.type_name),
+            repeat(choice(
+                field('visibility', $.visibility), // FIXME: this also allows external
+                $.constant,
+                $.override_specifier,
+                $.immutable,
+            )),
+            field("name", $.identifier),
             optional(seq(
-                '=', $._expression
+                '=', field("value", $._expression)
             )),
             $._semicolon
         ),
-
+        constant: $ => "constant",
         visibility: $ => choice(
             'public',
             'internal',
@@ -327,7 +345,7 @@ module.exports = grammar({
             'payable'
         ),
 
-        _immutable: $ => 'immutable',
+        immutable: $ => 'immutable',
         _override: $ => 'override',
 
         override_specifier: $ => seq(
@@ -341,13 +359,13 @@ module.exports = grammar({
 
         modifier_definition: $ => seq(
             "modifier",
-            $.identifier,
-            $._parameter_list,
+            field("name", $.identifier),
+            optional($._parameter_list),
             repeat(choice(
-                'virtual',
-                'override',
+                $.virtual,
+                $.override_specifier,
             )),
-            choice($._semicolon, $.function_body)
+            choice($._semicolon, field("body", $.function_body)),
         ),
 
         constructor_definition: $ => seq(
@@ -361,17 +379,18 @@ module.exports = grammar({
             field('body', $.function_body),
         ),
 
-        fallback_definition: $ => seq(
-            "function",
+        fallback_receive_definition: $ => seq(
+            optional("function"),
             choice('fallback', 'receive'),
             '(', ')',
             // FIXME: We use repeat to allow for unorderedness. However, this means that the parser 
             // accepts more than just the solidity language. The same problem exists for other definition rules.
             repeat(choice(
-                field('visibility', $.visibility),      
+                $.visibility,      
                 $.modifier_invocation,
-                'virtual',
-                'override',  
+                $.state_mutability,
+                $.virtual,
+                $.override_specifier,
             )),
             choice($._semicolon, field('body', $.function_body))
         ),
@@ -634,7 +653,7 @@ module.exports = grammar({
 
         _semicolon: $ => ';',
 
-        identifier: $ => /[a-zA-Z$_][a-zA-Z0-9$_]+/,
+        identifier: $ => /[a-zA-Z$_][a-zA-Z0-9$_]*/,
 
         number: $ => /\d+/,
         literal: $ => choice(
