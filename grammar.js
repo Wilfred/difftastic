@@ -186,12 +186,16 @@ module.exports = grammar({
         struct_declaration: $ =>  seq(
             'struct',
             $.identifier,
-            '(', 
+            '{', 
             repeat1($.struct_member),
-            ')',
+            '}',
         ),
 
-        struct_member: $ => seq($.type_name, $.identifier, $._semicolon),
+        struct_member: $ => seq(
+            $.type_name,
+            $.identifier,
+            $._semicolon
+        ),
 
         enum_declaration: $ =>  seq(
             'enum',
