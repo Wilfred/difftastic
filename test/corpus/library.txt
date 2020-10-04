@@ -1,0 +1,14 @@
+====================
+Library
+====================
+
+library Example {}
+
+---
+
+(source_file
+  (library_declaration
+    name: (identifier)
+    body: (contract_body)))
+
+

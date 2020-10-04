@@ -257,6 +257,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "meta_type_expression",
           "named": true
         },
@@ -309,48 +313,83 @@
   {
     "type": "class_heritage",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "call_expresion",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "meta_type_expression",
-          "named": true
-        },
-        {
-          "type": "payable_conversion_expression",
-          "named": true
-        },
-        {
-          "type": "primary_expression",
-          "named": true
-        },
-        {
-          "type": "subscript_expression",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "update_expression",
-          "named": true
-        }
-      ]
+    "fields": {
+      "ancestor": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "ancestor_arguments": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expresion",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "meta_type_expression",
+            "named": true
+          },
+          {
+            "type": "payable_conversion_expression",
+            "named": true
+          },
+          {
+            "type": "primary_expression",
+            "named": true
+          },
+          {
+            "type": "subscript_expression",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "update_expression",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
+          }
+        ]
+      }
     }
   },
   {
@@ -572,6 +611,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "meta_type_expression",
           "named": true
         },
@@ -712,7 +755,7 @@
         ]
       },
       "visibility": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -1015,6 +1058,26 @@
     "type": "import_directive",
     "named": true,
     "fields": {
+      "import_alias": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "import_origin": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
       "source": {
         "multiple": false,
         "required": true,
@@ -1027,7 +1090,7 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
@@ -1035,6 +1098,68 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "interface_declaration",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "contract_body",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "class_heritage",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "library_declaration",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "contract_body",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1221,6 +1346,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "meta_type_expression",
           "named": true
         },
@@ -1250,7 +1379,34 @@
   {
     "type": "pragma_directive",
     "named": true,
-    "fields": {}
+    "fields": {
+      "version_constraint": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "<",
+            "named": false
+          },
+          {
+            "type": "<=",
+            "named": false
+          },
+          {
+            "type": ">",
+            "named": false
+          },
+          {
+            "type": ">=",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          }
+        ]
+      }
+    }
   },
   {
     "type": "primary_expression",
@@ -1266,6 +1422,10 @@
         },
         {
           "type": "member_expression",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         },
         {
@@ -1336,6 +1496,14 @@
         },
         {
           "type": "import_directive",
+          "named": true
+        },
+        {
+          "type": "interface_declaration",
+          "named": true
+        },
+        {
+          "type": "library_declaration",
           "named": true
         },
         {
@@ -1921,6 +2089,10 @@
     "named": false
   },
   {
+    "type": "\"evmasm\"",
+    "named": false
+  },
+  {
     "type": "%",
     "named": false
   },
@@ -2106,6 +2278,10 @@
   },
   {
     "type": "as",
+    "named": false
+  },
+  {
+    "type": "assembly",
     "named": false
   },
   {
@@ -2493,11 +2669,19 @@
     "named": false
   },
   {
+    "type": "interface",
+    "named": false
+  },
+  {
     "type": "internal",
     "named": false
   },
   {
     "type": "is",
+    "named": false
+  },
+  {
+    "type": "library",
     "named": false
   },
   {

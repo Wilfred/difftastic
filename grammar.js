@@ -63,7 +63,10 @@ module.exports = grammar({
 
         // Pragma
         pragma_directive: $ => seq(
-            "pragma", "solidity", repeat($._pragma_version_constraint), $._semicolon,
+            "pragma",
+            "solidity",
+            repeat(field("version_constraint", $._pragma_version_constraint)),
+            $._semicolon,
         ),
 
         _pragma_version_constraint: $ => seq(
@@ -98,11 +101,11 @@ module.exports = grammar({
         ),
     
         _single_import: $ => seq(
-            choice("*", $.identifier),
+            "*",
             optional(
                 seq(
                     "as",
-                    $.identifier
+                    field("import_alias", $.identifier)
                 )
             )
         ),
@@ -110,16 +113,15 @@ module.exports = grammar({
         _multiple_import: $ => seq(
             '{',
             commaSep($._import_declaration),
-            optional(','),
             '}'
         ),
 
         _import_declaration: $  => seq(
-            $.identifier,
+            field("import_origin", $.identifier),
             optional(
                 seq(
                     "as",
-                    $.identifier
+                    field("import_alias", $.identifier)
                 )
             )
         ),
@@ -127,9 +129,11 @@ module.exports = grammar({
         //  -- [ Declarations ] --  
         _declaration: $ => choice(
             $.contract_declaration,
+            $.interface_declaration,
+            $.library_declaration,
             $.struct_declaration,
             $.enum_declaration,
-            // TODO: function, library, interface
+            // TODO: unbound functions
         ),
 
         // Contract Declarations
@@ -141,15 +145,26 @@ module.exports = grammar({
             field('body', $.contract_body),
         ),
 
+        interface_declaration: $ => seq(
+            'interface',
+            field("name", $.identifier),
+            optional($.class_heritage),
+            field('body', $.contract_body),
+        ),
+
+        library_declaration: $ => seq(
+            'library',
+            field("name", $.identifier),
+            field('body', $.contract_body),
+        ),
+
         class_heritage: $ => seq(
             "is", commaSep1($._inheritance_specifier)
         ),
 
         _inheritance_specifier: $ => seq(
-            $._user_defined_type,
-            '(',
-            commaSep($._expression),
-            ')',
+            field("ancestor", $._user_defined_type),
+            field("ancestor_arguments", $._call_arguments),
         ),
 
         contract_body: $  => seq(
@@ -171,12 +186,16 @@ module.exports = grammar({
         struct_declaration: $ =>  seq(
             'struct',
             $.identifier,
-            '(', 
+            '{', 
             repeat1($.struct_member),
-            ')',
+            '}',
         ),
 
-        struct_member: $ => seq($.type_name, $.identifier, $._semicolon),
+        struct_member: $ => seq(
+            $.type_name,
+            $.identifier,
+            $._semicolon
+        ),
 
         enum_declaration: $ =>  seq(
             'enum',
@@ -212,10 +231,20 @@ module.exports = grammar({
             // TODO: $.assembly_statement
         ),
 
+        assembly_statement: $ => seq(
+            'assembly',
+            optional('"evmasm"'),
+            "{",
+            // TODO: Add yul statements
+            // repeat($.yul_statement),
+            "}"
+        ),
+
+        // yul_statement: $ => seq(),
+
         block_statement: $ => seq('{', repeat($._statement), "}"),
         variable_declaration_statement: $ => seq(
             choice(
-                // TODO: make sure that this is correct
                 seq($.variable_declaration, optional(seq('=', $._expression))),
                 seq($.variable_declaration_tuple, '=', $._expression),
             ),
@@ -271,13 +300,11 @@ module.exports = grammar({
             'emit',  $._expression, $._call_arguments, $._semicolon
         ),
 
-        // TODO: assembly_statement: $ => seq(),
 
         //  -- [ Definitions ] --  
         // Definitions
         field_definition: $ => seq(
             $.type_name,
-            // TODO: deal with unordered possibility later
             field('visibility', $.field_visibility),
             optional($._immutable),
             $.identifier,
@@ -293,6 +320,7 @@ module.exports = grammar({
             'private',
             'constant',
         ),
+
         _immutable: $ => 'immutable',
         _override: $ => 'override',
 
@@ -309,30 +337,35 @@ module.exports = grammar({
             "modifier",
             $.identifier,
             $._parameter_list,
-            // TODO: deal with potential unorderedness
-            optional('virtual'),
-            optional('override'),
+            repeat(choice(
+                'virtual',
+                'override',
+            )),
             choice($._semicolon, $.function_body)
         ),
 
         constructor_definition: $ => seq(
             'constructor',
             $._parameter_list,
-            // TODO: deal with potential unorderedness
-            repeat($._modifier_invocation),
-            optional('payable'),
-            optional(choice('internal', 'public')),
+            repeat(choice(
+                $._modifier_invocation,
+                'payable',
+                choice('internal', 'public'),
+            )),
             field('body', $.function_body),
         ),
 
         fallback_definition: $ => seq(
             choice('fallback', 'receive'),
             '(', ')',
-            // TODO: deal with potential unorderedness
-            optional(field('visibility', $.field_visibility)),      
-            repeat($._modifier_invocation),
-            optional('virtual'),
-            optional('override'),      
+            // FIXME: We use repeat to allow for unorderedness. However, this means that the parser 
+            // accepts more than just the solidity language. The same problem exists for other definition rules.
+            repeat(choice(
+                field('visibility', $.field_visibility),      
+                $._modifier_invocation,
+                'virtual',
+                'override',  
+            )),
             choice($._semicolon, field('body', $.function_body))
         ),
 
@@ -347,7 +380,11 @@ module.exports = grammar({
         ),
 
         _modifier_invocation: $ => seq($.identifier, $._call_arguments),
-        _call_arguments: $ =>  seq('(', commaSep($._expression),')'),
+        
+        _call_arguments: $ => choice(
+            seq('(', commaSep($._expression),')'),
+            seq("{", commaSep($.identifier, ":", $._expression), "}")
+        ),
 
         function_body: $ => choice(),
 
@@ -373,6 +410,8 @@ module.exports = grammar({
             $.identifier,
             $._user_defined_type,
             // TODO: add literals
+            $.number_literal
+            // TODO: add the following
             // $.new_expression,
             // $.tuple_expression,
             // $.inline_array_expression,
@@ -475,8 +514,7 @@ module.exports = grammar({
         )),
           
         call_expresion: $ => choice(
-            seq($._expression, $._call_arguments),
-            // TODO: add named arguments
+            seq($.identifier, $._call_arguments),
         ),
 
         payable_conversion_expression: $ => seq('payable', $._call_arguments),
@@ -569,7 +607,7 @@ module.exports = grammar({
 
         _semicolon: $ => ';',
 
-        identifier: $ => /[a-z0-9A-Z]+/,
+        identifier: $ => /[a-zA-Z$_][a-zA-Z0-9$_]+/,
 
         number: $ => /\d+/,
         literal: $ => choice(
