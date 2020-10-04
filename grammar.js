@@ -63,7 +63,10 @@ module.exports = grammar({
 
         // Pragma
         pragma_directive: $ => seq(
-            "pragma", "solidity", repeat($._pragma_version_constraint), $._semicolon,
+            "pragma",
+            "solidity",
+            repeat(field("version_constraint", $._pragma_version_constraint)),
+            $._semicolon,
         ),
 
         _pragma_version_constraint: $ => seq(
@@ -286,7 +289,6 @@ module.exports = grammar({
         // Definitions
         field_definition: $ => seq(
             $.type_name,
-            repeat(
             field('visibility', $.field_visibility),
             optional($._immutable),
             $.identifier,
@@ -302,6 +304,7 @@ module.exports = grammar({
             'private',
             'constant',
         ),
+
         _immutable: $ => 'immutable',
         _override: $ => 'override',
 

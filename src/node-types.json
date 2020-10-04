@@ -257,6 +257,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "meta_type_expression",
           "named": true
         },
@@ -572,6 +576,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "meta_type_expression",
           "named": true
         },
@@ -712,7 +720,7 @@
         ]
       },
       "visibility": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -1221,6 +1229,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "meta_type_expression",
           "named": true
         },
@@ -1250,7 +1262,34 @@
   {
     "type": "pragma_directive",
     "named": true,
-    "fields": {}
+    "fields": {
+      "version_constraint": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "<",
+            "named": false
+          },
+          {
+            "type": "<=",
+            "named": false
+          },
+          {
+            "type": ">",
+            "named": false
+          },
+          {
+            "type": ">=",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          }
+        ]
+      }
+    }
   },
   {
     "type": "primary_expression",
@@ -1921,6 +1960,10 @@
     "named": false
   },
   {
+    "type": "\"evmasm\"",
+    "named": false
+  },
+  {
     "type": "%",
     "named": false
   },
@@ -2106,6 +2149,10 @@
   },
   {
     "type": "as",
+    "named": false
+  },
+  {
+    "type": "assembly",
     "named": false
   },
   {
