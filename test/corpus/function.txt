@@ -1,40 +1,4 @@
 ====================
-Function Fallback
-====================
-
-contract Example {
-    function fallback () {}
-}
-
----
-
-(source_file
-  (contract_declaration
-    name: (identifier)
-    body: (contract_body 
-        (fallback_definition 
-            body: (function_body)))))
-
-
-====================
-Function Fallback
-====================
-
-contract Example {
-    function receive () {}
-}
-
----
-
-(source_file
-  (contract_declaration
-    name: (identifier)
-    body: (contract_body 
-        (fallback_definition 
-            body: (function_body)))))
-
-
-====================
 Function 
 ====================
 

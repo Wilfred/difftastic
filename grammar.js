@@ -178,7 +178,7 @@ module.exports = grammar({
                 $.event_definition,
                 $.using_directive,
                 $.constructor_definition,
-                $.fallback_definition,
+                $.fallback_receive_definition,
             )),
             "}",
         ),
@@ -361,17 +361,18 @@ module.exports = grammar({
             field('body', $.function_body),
         ),
 
-        fallback_definition: $ => seq(
-            "function",
+        fallback_receive_definition: $ => seq(
+            optional("function"),
             choice('fallback', 'receive'),
             '(', ')',
             // FIXME: We use repeat to allow for unorderedness. However, this means that the parser 
             // accepts more than just the solidity language. The same problem exists for other definition rules.
             repeat(choice(
-                field('visibility', $.visibility),      
+                $.visibility,      
                 $.modifier_invocation,
-                'virtual',
-                'override',  
+                $.state_mutability,
+                $.virtual,
+                $.override_specifier,
             )),
             choice($._semicolon, field('body', $.function_body))
         ),

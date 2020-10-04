@@ -1,0 +1,55 @@
+====================
+Function Fallback
+====================
+
+contract Example {
+    function fallback () {}
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (fallback_receive_definition 
+            body: (function_body)))))
+
+
+====================
+Function Fallback
+====================
+
+contract Example {
+    function receive () {}
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (fallback_receive_definition 
+            body: (function_body)))))
+
+
+====================
+Function Fallback with modifiers and visibility
+====================
+
+contract Example {
+    function receive () onlyOwner virtual override(param) {}
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (fallback_receive_definition 
+            (modifier_invocation (identifier))
+            (virtual) 
+            (override_specifier (identifier))
+            body: (function_body)))))
