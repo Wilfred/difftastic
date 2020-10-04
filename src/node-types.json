@@ -1137,6 +1137,32 @@
     }
   },
   {
+    "type": "library_declaration",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "contract_body",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "member_expression",
     "named": true,
     "fields": {
@@ -1474,6 +1500,10 @@
         },
         {
           "type": "interface_declaration",
+          "named": true
+        },
+        {
+          "type": "library_declaration",
           "named": true
         },
         {
@@ -2648,6 +2678,10 @@
   },
   {
     "type": "is",
+    "named": false
+  },
+  {
+    "type": "library",
     "named": false
   },
   {
