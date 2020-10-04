@@ -101,11 +101,11 @@ module.exports = grammar({
         ),
     
         _single_import: $ => seq(
-            choice("*", $.identifier),
+            "*",
             optional(
                 seq(
                     "as",
-                    $.identifier
+                    field("import_alias", $.identifier)
                 )
             )
         ),
@@ -113,16 +113,15 @@ module.exports = grammar({
         _multiple_import: $ => seq(
             '{',
             commaSep($._import_declaration),
-            optional(','),
             '}'
         ),
 
         _import_declaration: $  => seq(
-            $.identifier,
+            field("import_origin", $.identifier),
             optional(
                 seq(
                     "as",
-                    $.identifier
+                    field("import_alias", $.identifier)
                 )
             )
         ),
