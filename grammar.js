@@ -347,7 +347,11 @@ module.exports = grammar({
         ),
 
         _modifier_invocation: $ => seq($.identifier, $._call_arguments),
-        _call_arguments: $ =>  seq('(', commaSep($._expression),')'),
+        
+        _call_arguments: $ => choice(
+            seq('(', commaSep($._expression),')'),
+            seq("{", commaSep($.identifier, ":", $._expression), "}")
+        ),
 
         function_body: $ => choice(),
 
@@ -475,8 +479,7 @@ module.exports = grammar({
         )),
           
         call_expresion: $ => choice(
-            seq($._expression, $._call_arguments),
-            // TODO: add named arguments
+            seq($.identifier, $._call_arguments),
         ),
 
         payable_conversion_expression: $ => seq('payable', $._call_arguments),
