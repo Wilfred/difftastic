@@ -6,6 +6,7 @@ const PREC = {
     
     COMMA: -1,
     OBJECT: -1,
+    USER_TYPE: 1,
     DECLARATION: 1,
     ASSIGN: 0,
     TERNARY: 1,
@@ -179,11 +180,12 @@ module.exports = grammar({
 
         enum_declaration: $ =>  seq(
             'enum',
-            $.identifier,
+            field("enum_type_name", $.identifier),
             '{',
-            commaSep1($.identifier),
+            commaSep1(field("enum_value", $.identifier)),
             '}',
         ),
+            
 
         event_definition: $ => seq(
             'event',  field('name', $.identifier), $._parameter_list,  optional('anonymous'), $._semicolon
@@ -269,9 +271,7 @@ module.exports = grammar({
             'emit',  $._expression, $._call_arguments, $._semicolon
         ),
 
-        // assembly_statement: $ => seq(),
-
-        
+        // TODO: assembly_statement: $ => seq(),
 
         //  -- [ Definitions ] --  
         // Definitions
@@ -358,7 +358,7 @@ module.exports = grammar({
             $.update_expression,
             $.subscript_expression,
             $.call_expresion,
-            // $.function_call_options_expression,
+            // TODO: $.function_call_options_expression,
             $.payable_conversion_expression,
             $.meta_type_expression,
 
@@ -367,9 +367,10 @@ module.exports = grammar({
 
         primary_expression: $ => choice(
             $.parenthesized_expression,
-            $.identifier,
             $.member_expression,
             $._primitive_type,
+            // TODO: revisit precedence
+            $.identifier,
             $._user_defined_type,
             // TODO: add literals
             // $.new_expression,
@@ -518,13 +519,13 @@ module.exports = grammar({
             'calldata'
         ),
 
-        _user_defined_type: $ => seq(
+        _user_defined_type: $ => prec(PREC.USER_TYPE,seq(
             $.identifier,
             repeat(seq(
                 '.',
                 $.identifier,
             ))
-        ),
+        )),
 
         _mapping: $ => seq(
             'mapping', '(', $._mapping_key, '=>', $.type_name, ')',
@@ -568,7 +569,7 @@ module.exports = grammar({
 
         _semicolon: $ => ';',
 
-        identifier: $ => /[a-z]+/,
+        identifier: $ => /[a-z0-9A-Z]+/,
 
         number: $ => /\d+/,
         literal: $ => choice(
@@ -655,7 +656,16 @@ module.exports = grammar({
 );
 
 function commaSep1(rule) {
-    return seq(rule, repeat(seq(',', rule)));
+    return seq(
+        rule,
+        repeat(
+            seq(
+                ',',
+                 rule
+            )
+        ),
+        optional(','),
+    );
   }
   
 function commaSep(rule) {
