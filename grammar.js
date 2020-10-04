@@ -348,7 +348,7 @@ module.exports = grammar({
             'constructor',
             $._parameter_list,
             repeat(choice(
-                $._modifier_invocation,
+                $.modifier_invocation,
                 'payable',
                 choice('internal', 'public'),
             )),
@@ -362,7 +362,7 @@ module.exports = grammar({
             // accepts more than just the solidity language. The same problem exists for other definition rules.
             repeat(choice(
                 field('visibility', $.field_visibility),      
-                $._modifier_invocation,
+                $.modifier_invocation,
                 'virtual',
                 'override',  
             )),
@@ -373,20 +373,31 @@ module.exports = grammar({
             "function",
             choice($.identifier),
             $._parameter_list,
+            repeat($.modifier_invocation),
             'returns',
-            repeat($._modifier_invocation),
             $._parameter_list,
             choice($._semicolon, field('body', $.function_body))
         ),
 
-        _modifier_invocation: $ => seq($.identifier, $._call_arguments),
+        modifier_invocation: $ => seq($.identifier, optional($._call_arguments)),
         
         _call_arguments: $ => choice(
-            seq('(', commaSep($._expression),')'),
-            seq("{", commaSep($.identifier, ":", $._expression), "}")
+            seq(
+                '(',
+                commaSep(choice(
+                    $._expression,
+                    seq("{", commaSep($.identifier, ":", $._expression), "}"),
+                )),
+                ')'
+            ),
         ),
 
-        function_body: $ => choice(),
+        function_body: $ => seq(
+            "{", 
+            // TODO: make sure this is correct
+            // repeat($._statement),
+            "}",
+        ),
 
         // Expressions
         _expression: $ => choice(
@@ -533,7 +544,7 @@ module.exports = grammar({
         ),
 
         _parameter_list: $ => seq(
-            '(', commaSep1($._parameter), ')'
+            '(', commaSep($._parameter), ')'
         ),
 
         _return_parameters: $ => seq(
@@ -546,9 +557,9 @@ module.exports = grammar({
         ),
 
         _parameter: $ =>  seq(
-            $.type_name,
-            optional($._storage_location),
-            optional($.identifier),
+            field("type", $.type_name),
+            optional(field("storage_location", $._storage_location)),
+            field("name", $.identifier),
         ),
 
         _storage_location: $ => choice(

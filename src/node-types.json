@@ -290,7 +290,46 @@
   {
     "type": "catch_clause",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "storage_location": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "calldata",
+            "named": false
+          },
+          {
+            "type": "memory",
+            "named": false
+          },
+          {
+            "type": "storage",
+            "named": false
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "type_name",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -301,10 +340,6 @@
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "type_name",
           "named": true
         }
       ]
@@ -405,6 +440,44 @@
             "named": true
           }
         ]
+      },
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "storage_location": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "calldata",
+            "named": false
+          },
+          {
+            "type": "memory",
+            "named": false
+          },
+          {
+            "type": "storage",
+            "named": false
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "type_name",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -412,43 +485,7 @@
       "required": false,
       "types": [
         {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "call_expresion",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "meta_type_expression",
-          "named": true
-        },
-        {
-          "type": "payable_conversion_expression",
-          "named": true
-        },
-        {
-          "type": "primary_expression",
-          "named": true
-        },
-        {
-          "type": "subscript_expression",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "update_expression",
+          "type": "modifier_invocation",
           "named": true
         }
       ]
@@ -672,7 +709,7 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -680,21 +717,35 @@
             "named": true
           }
         ]
+      },
+      "storage_location": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "calldata",
+            "named": false
+          },
+          {
+            "type": "memory",
+            "named": false
+          },
+          {
+            "type": "storage",
+            "named": false
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "type_name",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -770,39 +821,7 @@
       "required": false,
       "types": [
         {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "call_expresion",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "meta_type_expression",
-          "named": true
-        },
-        {
-          "type": "payable_conversion_expression",
-          "named": true
-        },
-        {
-          "type": "primary_expression",
-          "named": true
-        },
-        {
-          "type": "subscript_expression",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "update_expression",
+          "type": "modifier_invocation",
           "named": true
         }
       ]
@@ -948,6 +967,44 @@
             "named": true
           }
         ]
+      },
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "storage_location": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "calldata",
+            "named": false
+          },
+          {
+            "type": "memory",
+            "named": false
+          },
+          {
+            "type": "storage",
+            "named": false
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "type_name",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -955,43 +1012,11 @@
       "required": true,
       "types": [
         {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "call_expresion",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "meta_type_expression",
-          "named": true
-        },
-        {
-          "type": "payable_conversion_expression",
-          "named": true
-        },
-        {
-          "type": "primary_expression",
-          "named": true
-        },
-        {
-          "type": "subscript_expression",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "update_expression",
+          "type": "modifier_invocation",
           "named": true
         }
       ]
@@ -1238,7 +1263,46 @@
   {
     "type": "modifier_definition",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "storage_location": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "calldata",
+            "named": false
+          },
+          {
+            "type": "memory",
+            "named": false
+          },
+          {
+            "type": "storage",
+            "named": false
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "type_name",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -1250,9 +1314,52 @@
         {
           "type": "identifier",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "modifier_invocation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary_expression",
+          "named": true
         },
         {
-          "type": "type_name",
+          "type": "call_expresion",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "meta_type_expression",
+          "named": true
+        },
+        {
+          "type": "payable_conversion_expression",
+          "named": true
+        },
+        {
+          "type": "primary_expression",
+          "named": true
+        },
+        {
+          "type": "subscript_expression",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "update_expression",
           "named": true
         }
       ]
@@ -1674,7 +1781,46 @@
   {
     "type": "try_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "storage_location": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "calldata",
+            "named": false
+          },
+          {
+            "type": "memory",
+            "named": false
+          },
+          {
+            "type": "storage",
+            "named": false
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "type_name",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -1696,10 +1842,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "meta_type_expression",
           "named": true
         },
@@ -1716,10 +1858,6 @@
           "named": true
         },
         {
-          "type": "type_name",
-          "named": true
-        },
-        {
           "type": "unary_expression",
           "named": true
         },
@@ -1733,7 +1871,46 @@
   {
     "type": "type_name",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "storage_location": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "calldata",
+            "named": false
+          },
+          {
+            "type": "memory",
+            "named": false
+          },
+          {
+            "type": "storage",
+            "named": false
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "type_name",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
