@@ -4,7 +4,7 @@
   "description": "A tree sitter parser for Solidity",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tree-sitter generate && tree-sitter test"
   },
   "author": "Joran Honig",
   "license": "MIT",
