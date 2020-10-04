@@ -133,7 +133,7 @@ module.exports = grammar({
             $.library_declaration,
             $.struct_declaration,
             $.enum_declaration,
-            // TODO: unbound functions
+            $.function_definition
         ),
 
         // Contract Declarations
@@ -582,6 +582,7 @@ module.exports = grammar({
             'storage',
             'calldata'
         ),
+
         // TODO: make visible type
         _user_defined_type: $ => prec(PREC.USER_TYPE,seq(
             $.identifier,

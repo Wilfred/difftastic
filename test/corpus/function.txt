@@ -188,3 +188,17 @@ contract Example {
 
 
 
+
+====================
+Function not in contract
+====================
+
+function exampleFunction ();
+
+---
+
+(source_file
+    (function_definition
+        function_name: (identifier)))
+
+

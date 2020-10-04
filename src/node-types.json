@@ -1634,6 +1634,10 @@
           "named": true
         },
         {
+          "type": "function_definition",
+          "named": true
+        },
+        {
           "type": "import_directive",
           "named": true
         },
