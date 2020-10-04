@@ -221,7 +221,11 @@ module.exports = grammar({
         ),
 
         using_directive: $ => seq(
-            'using', $._user_defined_type, 'for', choice('*', $.type_name), $._semicolon
+            'using', 
+            field("alias", $._user_defined_type),
+            'for',
+            field("source", choice('*', $.type_name)),
+            $._semicolon
         ),
 
         // -- [ Statements ] --
