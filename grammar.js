@@ -110,6 +110,74 @@ module.exports = grammar({
                 )
             )
         ),
+        //  -- [ Declarations ] --  
+        _declaration: $ => choice(
+            $.contract_declaration,
+            $.struct_declaration,
+            $.enum_declaration,
+        ),
+
+        // Contract Declarations
+        contract_declaration: $ => seq(
+            optional('abstract'),
+            'contract',
+            field("name", $.identifier),
+            optional($.class_heritage),
+            field('body', $.contract_body),
+        ),
+
+        class_heritage: $ => seq(
+            "is", commaSep1($._inheritance_specifier)
+        ),
+
+        _inheritance_specifier: $ => seq(
+            $._user_defined_type,
+            '(',
+            commaSep($._expression),
+            ')',
+        ),
+
+        contract_body: $  => seq(
+            "{",
+            repeat(choice(
+                $.function_definition,
+                $.modifier_definition,
+                $.field_definition,
+                $.struct_declaration,
+                $.enum_declaration,
+                $.event_definition,
+                $.using_directive,
+                $.constructor_definition,
+                $.fallback_definition,
+            )),
+            "}",
+        ),
+
+        struct_declaration: $ =>  seq(
+            'struct',
+            $.identifier,
+            '(', 
+            repeat1($.struct_member),
+            ')',
+        ),
+
+        struct_member: $ => seq($.type_name, $.identifier, $._semicolon),
+
+        enum_declaration: $ =>  seq(
+            'enum',
+            $.identifier,
+            '{',
+            commaSep1($.identifier),
+            '}',
+        ),
+
+        event_definition: $ => seq(
+            'event',  field('name', $.identifier), $._parameter_list,  optional('anonymous'), $._semicolon
+        ),
+
+        using_directive: $ => seq(
+            'using', $._user_defined_type, 'for', choice('*', $.type_name), $._semicolon
+        ),
 
         // -- [ Statements ] --
 
@@ -190,74 +258,7 @@ module.exports = grammar({
 
         // assembly_statement: $ => seq(),
 
-        //  -- [ Declarations ] --  
-        _declaration: $ => choice(
-            $.contract_declaration,
-            $.struct_declaration,
-            $.enum_declaration,
-        ),
-
-        // Contract Declarations
-        contract_declaration: $ => seq(
-            optional('abstract'),
-            'contract',
-            field("name", $.identifier),
-            optional($.class_heritage),
-            field('body', $.contract_body),
-        ),
-
-        class_heritage: $ => seq(
-            "is", commaSep1($._inheritance_specifier)
-        ),
-
-        _inheritance_specifier: $ => seq(
-            $._user_defined_type,
-            '(',
-            commaSep($._expression),
-            ')',
-        ),
-
-        contract_body: $  => seq(
-            "{",
-            repeat(choice(
-                $.function_definition,
-                $.modifier_definition,
-                $.field_definition,
-                $.struct_declaration,
-                $.enum_declaration,
-                $.event_definition,
-                $.using_directive,
-                $.constructor_definition,
-                $.fallback_definition,
-            )),
-            "}",
-        ),
         
-        struct_declaration: $ =>  seq(
-            'struct',
-            $.identifier,
-            '(', 
-            repeat1($.struct_member),
-            ')',
-        ),
-
-        struct_member: $ => seq($.type_name, $.identifier, $._semicolon),
-
-        enum_declaration: $ =>  seq(
-            'enum',
-            $.identifier,
-            '{',
-            commaSep1($.identifier),
-            '}',
-        ),
-        
-        event_definition: $ => seq(
-            'event',  field('name', $.identifier), $._parameter_list,  optional('anonymous'), $._semicolon
-        ),
-
-        using_directive: $ => seq(
-            'using', $._user_defined_type, 'for', choice('*', $.type_name), $._semicolon
-        ),
 
         //  -- [ Definitions ] --  
         // Definitions
