@@ -433,6 +433,32 @@ void a() {
             (return_statement (identifier))))))))
 
 ============================
+Anonymous method expression with discard parameters
+============================
+
+void a() {
+  delegate(int _, int _) {
+    return a;
+  };
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier)
+    (parameter_list)
+    (block
+      (expression_statement
+        (anonymous_method_expression
+          (parameter_list
+            (parameter (predefined_type) (discard))
+            (parameter (predefined_type) (discard)))
+          (block
+            (return_statement (identifier))))))))
+
+============================
 Lambda expressions
 ============================
 
@@ -518,6 +544,46 @@ void a() {
                 (binary_expression
                   (identifier)
                   (integer_literal))))))))))
+
+============================
+Lambda expression with discard parameters
+============================
+
+void a() {
+  var lam = (_, _) => 0;
+  var bda = (int _, int _) => 0;
+}
+
+---
+
+(compilation_unit
+  (method_declaration
+    (void_keyword)
+    (identifier)
+    (parameter_list)
+    (block
+      (local_declaration_statement
+        (variable_declaration
+          (implicit_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+              (lambda_expression
+                (parameter_list
+                  (parameter (discard))
+                  (parameter (discard)))
+                (integer_literal))))))
+      (local_declaration_statement
+        (variable_declaration
+          (implicit_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+              (lambda_expression
+                (parameter_list
+                  (parameter (predefined_type) (discard))
+                  (parameter (predefined_type) (discard)))
+                (integer_literal)))))))))
 
 ============================
 Invocation expressions

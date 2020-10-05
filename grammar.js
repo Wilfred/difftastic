@@ -71,6 +71,7 @@ module.exports = grammar({
     [$.parameter, $._expression],
     [$.parameter, $.tuple_element, $.declaration_expression],
     [$.parameter, $._variable_designation],
+    [$.parameter, $._pattern],
     [$.tuple_element, $.variable_declarator],
   ],
 
@@ -279,7 +280,7 @@ module.exports = grammar({
       repeat($.attribute_list),
       optional($.parameter_modifier),
       optional(field('type', $._type)),
-      field('name', $.identifier),
+      field('name', choice($.discard, $.identifier)),
       optional($.equals_value_clause)
     ),
 
