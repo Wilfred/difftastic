@@ -423,7 +423,7 @@ module.exports = grammar({
     accessor_declaration: $ => seq(
       repeat($.attribute_list),
       repeat($.modifier),
-      choice('get', 'set', 'add', 'remove', $.identifier),
+      choice('get', 'set', 'add', 'remove', 'init', $.identifier),
       $._function_body
     ),
 

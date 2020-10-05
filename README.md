@@ -77,7 +77,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Extending partial methods
 - [ ] Extension GetEnumerator
 - [ ] Function pointers
-- [ ] Init properties
+- [x] Init properties
 - [ ] Lambda discard parameters
 - [ ] Local function attributes
 - [ ] Module initializers
