@@ -595,6 +595,8 @@ module.exports = grammar({
       'uint',
       'ulong',
       'ushort',
+      'nint',
+      'nuint'
       // void is handled in return_type for better matching
     )),
 

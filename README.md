@@ -81,7 +81,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [ ] Lambda discard parameters
 - [ ] Local function attributes
 - [ ] Module initializers
-- [ ] Native integers
+- [x] Native integers
 - [ ] Patterns
   - [ ] Simple type patterns
   - [ ] Relational patterns

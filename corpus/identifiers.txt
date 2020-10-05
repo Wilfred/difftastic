@@ -25,3 +25,22 @@ int @var = @const;
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier) (equals_value_clause (identifier))))))
+
+=======================================
+indentifiers with contextual keyword names
+=======================================
+
+int nint = 0;
+int nuint = 0;
+
+---
+
+(compilation_unit
+  (field_declaration
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (integer_literal)))))
+  (field_declaration
+    (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
