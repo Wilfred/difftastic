@@ -72,6 +72,10 @@
         "named": true
       },
       {
+        "type": "record_declaration",
+        "named": true
+      },
+      {
         "type": "struct_declaration",
         "named": true
       },
@@ -287,6 +291,10 @@
       },
       {
         "type": "verbatim_string_literal",
+        "named": true
+      },
+      {
+        "type": "with_expression",
         "named": true
       }
     ]
@@ -845,6 +853,10 @@
       "types": [
         {
           "type": "_type",
+          "named": true
+        },
+        {
+          "type": "primary_constructor_base_type",
           "named": true
         }
       ]
@@ -3763,6 +3775,25 @@
     }
   },
   {
+    "type": "primary_constructor_base_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "property_declaration",
     "named": true,
     "fields": {
@@ -3982,6 +4013,84 @@
     }
   },
   {
+    "type": "record_declaration",
+    "named": true,
+    "fields": {
+      "bases": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "base_list",
+            "named": true
+          }
+        ]
+      },
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "declaration_list",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "parameter_list",
+            "named": true
+          }
+        ]
+      },
+      "type_parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_parameter_list",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute_list",
+          "named": true
+        },
+        {
+          "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "type_parameter_constraints_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "ref_expression",
     "named": true,
     "fields": {},
@@ -4073,6 +4182,21 @@
     "fields": {},
     "children": {
       "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "simple_assignment_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -4863,6 +4987,40 @@
     }
   },
   {
+    "type": "with_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "with_initializer_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_initializer_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "simple_assignment_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "yield_statement",
     "named": true,
     "fields": {},
@@ -5406,6 +5564,10 @@
     "named": true
   },
   {
+    "type": "record",
+    "named": false
+  },
+  {
     "type": "ref",
     "named": false
   },
@@ -5519,6 +5681,10 @@
   },
   {
     "type": "while",
+    "named": false
+  },
+  {
+    "type": "with",
     "named": false
   },
   {

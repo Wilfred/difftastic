@@ -86,7 +86,7 @@ Comprehensive support for C# exists with the following exceptions:
   - [ ] Simple type patterns
   - [x] Relational patterns
   - [x] Logical patterns
-- [ ] Records
+- [x] Records
 - [ ] Skip Locals Init
 - [x] Static anonymous functions
 - [ ] Target-typed conditional expression

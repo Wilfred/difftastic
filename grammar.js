@@ -104,6 +104,7 @@ module.exports = grammar({
       $.namespace_declaration,
       $.operator_declaration,
       $.property_declaration,
+      $.record_declaration,
       $.struct_declaration,
       $.using_directive,
     ),
@@ -537,6 +538,33 @@ module.exports = grammar({
       field('type_parameters', optional($.type_parameter_list)),
       field('parameters', $.parameter_list),
       repeat($.type_parameter_constraints_clause),
+      ';'
+    ),
+
+    record_declaration: $ => seq(
+      repeat($.attribute_list),
+      repeat($.modifier),
+      'record',
+      field('name', $.identifier),
+      field('type_parameters', optional($.type_parameter_list)),
+      field('parameters', optional($.parameter_list)),
+      field('bases', optional(alias($.record_base, $.base_list))),
+      repeat($.type_parameter_constraints_clause),
+      field('body', $._record_base),
+    ),
+
+    record_base: $ => choice(
+      seq(':', commaSep1($.identifier)),
+      seq(':', $.primary_constructor_base_type, optional(seq(',', commaSep1($.identifier)))),
+    ),
+
+    primary_constructor_base_type: $ => seq(
+      $.identifier,
+      $.argument_list
+    ),
+
+    _record_base: $ => choice(
+      $.declaration_list,
       ';'
     ),
 
@@ -1275,6 +1303,12 @@ module.exports = grammar({
 
     type_of_expression: $ => seq('typeof', '(', $._type, ')'),
 
+    with_expression: $ => seq($._expression, 'with', '{', optional($.with_initializer_expression), '}'),
+
+    with_initializer_expression: $ => commaSep1($.simple_assignment_expression),
+
+    simple_assignment_expression: $ => seq($.identifier, '=', $._expression),
+
     // TODO: Expressions need work on precedence and conflicts.
 
     _expression: $ => choice(
@@ -1319,6 +1353,7 @@ module.exports = grammar({
       $.throw_expression,
       $.tuple_expression,
       $.type_of_expression,
+      $.with_expression,
 
       $._simple_name,
       $._literal
