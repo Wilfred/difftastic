@@ -177,3 +177,26 @@ class A {
             (tuple_element (identifier) (identifier)))
           (variable_declarator (identifier)))))))
 
+=======================================
+Native interger types
+=======================================
+
+class A {
+  nint a;
+  nuint b;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier)))))))

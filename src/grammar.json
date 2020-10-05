@@ -3102,6 +3102,14 @@
           {
             "type": "STRING",
             "value": "ushort"
+          },
+          {
+            "type": "STRING",
+            "value": "nint"
+          },
+          {
+            "type": "STRING",
+            "value": "nuint"
           }
         ]
       }
