@@ -1132,8 +1132,17 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "discard"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              }
+            ]
           }
         },
         {
@@ -8379,6 +8388,10 @@
     [
       "parameter",
       "_variable_designation"
+    ],
+    [
+      "parameter",
+      "_pattern"
     ],
     [
       "tuple_element",
