@@ -2012,6 +2012,10 @@
               "value": "remove"
             },
             {
+              "type": "STRING",
+              "value": "init"
+            },
+            {
               "type": "SYMBOL",
               "name": "identifier"
             }

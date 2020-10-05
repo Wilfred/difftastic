@@ -37,6 +37,28 @@ class Foo {
           (accessor_declaration) (accessor_declaration))))))
 
 =====================================
+Class with init properties
+=====================================
+
+class Person
+{
+    public string FirstName { get; init; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (property_declaration
+        (modifier)
+        (predefined_type)
+        (identifier)
+        (accessor_list
+          (accessor_declaration) (accessor_declaration))))))
+
+=====================================
 Class with single-accessor property bodies
 =====================================
 

@@ -5266,6 +5266,10 @@
     "named": false
   },
   {
+    "type": "init",
+    "named": false
+  },
+  {
     "type": "integer_literal",
     "named": true
   },
