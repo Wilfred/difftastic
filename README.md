@@ -53,7 +53,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] `private protected` modifier
 - [ ] Conditional `ref` expressions
 
-#### C# 7.3
+#### C# 7.3 (complete)
 
 - [x] `stackalloc` array initializers
 - [x] `unmanaged` generic type parameter constraint
