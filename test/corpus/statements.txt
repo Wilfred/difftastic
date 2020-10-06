@@ -1,0 +1,22 @@
+====================
+Array local variable declaration
+====================
+
+contract Example {
+    function example() {
+        int[] a;
+    }
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (function_definition
+         function_name: (identifier)
+         body: (function_body 
+            (variable_declaration_statement (variable_declaration 
+                    (type_name (type_name)) 
+                    name: (identifier))))))))

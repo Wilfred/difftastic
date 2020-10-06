@@ -24,7 +24,7 @@ const PREC = {
     INC: 11,
     CALL: 12,
     NEW: 13,
-    MEMBER: 14
+    MEMBER: 14 
 }
 
 // The following is the core grammar for Solidity. It accepts Solidity smart contracts between the versions 0.4.x and 0.7.x.
@@ -42,6 +42,10 @@ module.exports = grammar({
     // The word token allows tree-sitter to appropriately handle scenario's where an identifier includes a keyword.
     // Documentation: https://tree-sitter.github.io/tree-sitter/creating-parsers#keywords
     word: $ => $.identifier,
+
+    conflicts: $ => [
+        [$.primary_expression, $.type_name]
+    ],
 
     rules: {
         //  -- [ Program ] --  
@@ -231,8 +235,8 @@ module.exports = grammar({
         // -- [ Statements ] --
         _statement: $ => choice(
             $.block_statement,
-            $.variable_declaration_statement,
             $.expression_statement,
+            $.variable_declaration_statement,
             $.if_statement,
             $.for_statement,
             $.while_statement,
@@ -264,11 +268,13 @@ module.exports = grammar({
             ),
             $._semicolon
         ),
+
         variable_declaration: $ => seq(
             $.type_name,
             optional(choice('memory', 'storage', 'calldata')),
             field('name', $.identifier)
         ),
+
         variable_declaration_tuple: $ => seq(
             '(', 
             commaSep($.variable_declaration),
@@ -438,22 +444,22 @@ module.exports = grammar({
             $.binary_expression,
             $.unary_expression,
             $.update_expression,
-            $.subscript_expression,
             $.call_expresion,
             // TODO: $.function_call_options_expression,
             $.payable_conversion_expression,
             $.meta_type_expression,
-
             $.primary_expression,
         ),
         // TODO: make primary expression anonymous
         primary_expression: $ => choice(
             $.parenthesized_expression,
             $.member_expression,
+            $.array_access,
+            $.slice_access,
             $._primitive_type,
+            $._user_defined_type,
             // TODO: revisit precedence
             $.identifier,
-            $._user_defined_type,
             // TODO: add literals
             $.literal,
             // TODO: add the following
@@ -527,15 +533,27 @@ module.exports = grammar({
             field('property', alias($.identifier, $.property_identifier))
         )),
 
-        subscript_expression: $ => prec.right(PREC.MEMBER, seq(
-            field('object', $._expression),
-            '[', field('index', commaSep1($._expression)), ']'
+        array_access: $ => prec.right(14,seq(
+            field('base', $._expression),
+            '[',
+            field('index', $._expression), 
+            ']'
+        )),
+
+        slice_access: $ => prec(PREC.MEMBER, seq(
+            field('base', $._expression),
+            '[',
+            field('from', $._expression), 
+            ':',
+            field('to', $._expression), 
+            ']'
         )),
 
         _lhs_expression: $ => choice(
             $.member_expression,
-            $.subscript_expression,
+            $.array_access,
             $.identifier,
+            $.parenthesized_expression,
             // $._destructuring_pattern
         ),
         parenthesized_expression: $ => seq('(', $._expression, ')'),
@@ -547,12 +565,7 @@ module.exports = grammar({
         )),
       
         augmented_assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
-            field('left', choice(
-                $.member_expression,
-                $.subscript_expression,
-                $.identifier,
-                $.parenthesized_expression,
-            )),
+            field('left', $._lhs_expression),
             choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=',
                 '<<=', '**=', '&&=', '||=', '??='),
             field('right', $._expression)
@@ -564,14 +577,16 @@ module.exports = grammar({
 
         payable_conversion_expression: $ => seq('payable', $._call_arguments),
         meta_type_expression: $ => seq('type', '(', $.type_name, ')'),
-
-        type_name: $ => prec(1, choice(
+        
+        type_name: $ => prec(0, choice(
             $._primitive_type,
             $._user_defined_type,
             $._mapping,
-            seq($.type_name, '[', optional($._expression), ']'),
+            $._array_type,
             $._function_type,
         )),
+
+        _array_type: $ => seq($.type_name, '[', optional($._expression), ']'),
         
         _function_type: $ => seq(
             'function', $._parameter_list, optional($._return_parameters),

@@ -1,15 +1,38 @@
 ====================
-Expression Single Literal
+Member Access
 ====================
 
 contract Example {
     function example() {
-        11;
+        int a;
+        a.b;
     }
 }
 
 ---
 
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (function_definition
+         function_name: (identifier)
+         body: (function_body 
+            (variable_declaration_statement (variable_declaration (type_name) name: (identifier)))
+            (expression_statement 
+                (primary_expression (member_expression object: (identifier) property: (property_identifier)))))))))
+
+====================
+Subscript Access
+====================
+
+contract Example {
+    function example() {
+        a[1];
+    }
+}
+
+---
 
 (source_file
   (contract_declaration
@@ -19,7 +42,57 @@ contract Example {
          function_name: (identifier)
          body: (function_body 
             (expression_statement 
-                (primary_expression 
-                    (literal 
-                        (number_literal 
-                            (decimal_number))))))))))
+                (primary_expression (array_access base: (primary_expression (identifier)) index: (primary_expression (literal (number_literal (decimal_number))))))))))))
+
+====================
+Parenthesized expression
+====================
+
+contract Example {
+    function example() {
+        (1);
+    }
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (function_definition
+         function_name: (identifier)
+         body: (function_body 
+            (expression_statement (primary_expression
+                (parenthesized_expression (primary_expression
+                    (literal (number_literal (decimal_number))))))))))))
+
+====================
+Maths expression
+====================
+
+contract Example {
+    function example() {
+        1+1;
+        ++a;
+        a>>b;
+        a<=b;
+        a||c;
+    }
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (function_definition
+         function_name: (identifier)
+         body: (function_body 
+            (expression_statement (primary_expression
+                (literal (number_literal (decimal_number)))))
+            (expression_statement (update_expression argument: (primary_expression (identifier))))
+            (expression_statement (binary_expression left: (primary_expression (identifier)) right: (primary_expression (identifier)))) 
+            (expression_statement (binary_expression left: (primary_expression (identifier)) right: (primary_expression (identifier)))) 
+            (expression_statement (binary_expression left: (primary_expression (identifier)) right: (primary_expression (identifier)))))))))
