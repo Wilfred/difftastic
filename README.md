@@ -75,19 +75,19 @@ Comprehensive support for C# exists with the following exceptions:
 
 - [x] Covariant returns
 - [x] Extending partial methods
-- [ ] Extension GetEnumerator
+- [x] Extension GetEnumerator
 - [ ] Function pointers
 - [x] Init properties
 - [x] Lambda discard parameters
 - [ ] Local function attributes
-- [ ] Module initializers
+- [x] Module initializers
 - [x] Native integers
 - [ ] Patterns
   - [ ] Simple type patterns
   - [x] Relational patterns
   - [x] Logical patterns
 - [x] Records
-- [ ] Skip Locals Init
+- [x] Skip Locals Init
 - [x] Static anonymous functions
 - [ ] Target-typed conditional expression
 - [x] Target-typed new
