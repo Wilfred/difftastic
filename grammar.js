@@ -317,7 +317,10 @@ module.exports = grammar({
           $._bare_list),
 
     read_cond_splicing: $ =>
-      seq("#?@",
+      // XXX: metadata here doesn't seem to make sense, but the repl
+      //      will accept: [^:x #?@(:clj [[:a]] :cljr [[:b]])]
+      seq(repeat($._metadata),
+          "#?@",
           repeat($._whitespace),
           $._bare_list),
 
