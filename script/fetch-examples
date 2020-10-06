@@ -15,5 +15,5 @@ function checkout() {
 }
 
 checkout examples/Newtonsoft.Json JamesNK/Newtonsoft.Json 7c3d7f8da7e35dde8fa74188b0decff70f8f10e3
-checkout examples/nunit           nunit/nunit             1eb24591cdc9835b91d2258b979cef9e9d4bc829
+checkout examples/nunit           nunit/nunit             ad49f27294bd0f2677d8699756c6ccb10df600f8
 checkout examples/orchard         OrchardCMS/orchard      0a82721968232b07354edcaac63a9ccea02220c6
