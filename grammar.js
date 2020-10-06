@@ -349,7 +349,8 @@ module.exports = grammar({
           field('value', $.symbol)),
 
     eval_form: $ =>
-      seq("#=",
+      seq(repeat($._metadata), // ^:x #=(vector 1)
+          "#=",
           repeat($._non_form),
           field('value', choice($.list,
                                 $.read_cond,
