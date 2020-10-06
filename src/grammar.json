@@ -4798,6 +4798,19 @@
       ]
     },
     "annotation": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_single_annotation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_multi_annotation"
+        }
+      ]
+    },
+    "_single_annotation": {
       "type": "SEQ",
       "members": [
         {
@@ -4819,6 +4832,42 @@
         {
           "type": "SYMBOL",
           "name": "_unescaped_annotation"
+        }
+      ]
+    },
+    "_multi_annotation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "use_site_target"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_unescaped_annotation"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "]"
         }
       ]
     },
