@@ -7,7 +7,7 @@ var a = Assert.Range(from, to);
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator

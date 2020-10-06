@@ -36,15 +36,7 @@
         "named": true
       },
       {
-        "type": "extern_alias_directive",
-        "named": true
-      },
-      {
         "type": "field_declaration",
-        "named": true
-      },
-      {
-        "type": "global_attribute_list",
         "named": true
       },
       {
@@ -1414,7 +1406,47 @@
       "required": false,
       "types": [
         {
-          "type": "_declaration",
+          "type": "_statement",
+          "named": true
+        },
+        {
+          "type": "class_declaration",
+          "named": true
+        },
+        {
+          "type": "delegate_declaration",
+          "named": true
+        },
+        {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "extern_alias_directive",
+          "named": true
+        },
+        {
+          "type": "global_attribute_list",
+          "named": true
+        },
+        {
+          "type": "interface_declaration",
+          "named": true
+        },
+        {
+          "type": "namespace_declaration",
+          "named": true
+        },
+        {
+          "type": "record_declaration",
+          "named": true
+        },
+        {
+          "type": "struct_declaration",
+          "named": true
+        },
+        {
+          "type": "using_directive",
           "named": true
         }
       ]

@@ -11,32 +11,32 @@ const UInt16 bin2 = 0B01010__10;
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier) (equals_value_clause (integer_literal)))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier) (equals_value_clause (integer_literal)))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier) (equals_value_clause (integer_literal)))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
       (identifier)
       (variable_declarator (identifier) (equals_value_clause (integer_literal)))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
       (identifier)
       (variable_declarator (identifier) (equals_value_clause (integer_literal)))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
       (identifier)
@@ -51,7 +51,7 @@ const bool t = true, u = false;
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
       (predefined_type)
@@ -71,27 +71,27 @@ const char uni32 = '\UA0BFf9ca';
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier) (equals_value_clause (character_literal)))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
     (predefined_type)
       (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence))))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
     (predefined_type)
       (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence))))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
     (predefined_type)
       (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence))))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
     (predefined_type)
@@ -112,37 +112,37 @@ const Decimal m2 = 102.349M;
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
     (predefined_type)
     (variable_declarator (identifier) (equals_value_clause (real_literal)))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
     (predefined_type)
     (variable_declarator (identifier) (equals_value_clause (real_literal)))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
     (identifier)
     (variable_declarator (identifier) (equals_value_clause (real_literal)))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
     (identifier)
     (variable_declarator (identifier) (equals_value_clause (real_literal)))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
     (predefined_type)
     (variable_declarator (identifier) (equals_value_clause (real_literal)))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
     (predefined_type)
     (variable_declarator (identifier) (equals_value_clause (real_literal)))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
     (identifier)
@@ -157,7 +157,7 @@ const string x = null;
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
       (predefined_type)
@@ -476,7 +476,7 @@ class A {
               (interpolated_verbatim_string_text)))))))))
 
 ==================================================
-interpolated verbatim string literals bracket escapes
+interpolated verbatim string literals bracket escapes (WRONG!)
 ==================================================
 
 string s = $@"
@@ -492,7 +492,7 @@ class A
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (predefined_type)
       (variable_declarator

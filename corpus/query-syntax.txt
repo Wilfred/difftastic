@@ -7,7 +7,7 @@ var x = from a in source select a.B;
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -31,7 +31,7 @@ var x = from a in source select { Name = a.B };
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -61,7 +61,7 @@ var x = from a in source
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -91,7 +91,7 @@ var x = from a in source
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -133,7 +133,7 @@ var x = from a in source
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -167,7 +167,7 @@ var x = from a in source
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -200,7 +200,7 @@ var x = from a in sourceA
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -240,7 +240,7 @@ var x = from a in sourceA
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -281,7 +281,7 @@ var x = from a in sourceA
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator

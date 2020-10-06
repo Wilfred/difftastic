@@ -136,7 +136,7 @@ void Test() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -160,7 +160,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -184,7 +184,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -211,7 +211,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -237,7 +237,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -264,7 +264,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -299,7 +299,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -346,7 +346,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -372,7 +372,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -396,7 +396,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -421,7 +421,7 @@ void a() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -445,7 +445,7 @@ void a() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -470,7 +470,7 @@ void a() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -492,18 +492,20 @@ void a() {
 ============================
 Async Lambda
 ============================
+
 void a()
 {
     Do(async () => {});
 }
 
 ---
+
 (compilation_unit
-  (method_declaration (void_keyword) (identifier) (parameter_list)
-  (block
-    (expression_statement (invocation_expression (identifier)
-    (argument_list
-      (argument (lambda_expression (parameter_list) (initializer_expression)))))))))
+  (local_function_statement (void_keyword) (identifier) (parameter_list)
+    (block
+      (expression_statement (invocation_expression (identifier)
+      (argument_list
+        (argument (lambda_expression (parameter_list) (initializer_expression)))))))))
 
 ============================
 Lambda expression with qualifiers
@@ -517,7 +519,7 @@ void a() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -557,7 +559,7 @@ void a() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -595,20 +597,21 @@ void a() {
 
 ---
 
-(compilation_unit (method_declaration
-  (void_keyword)
-  (identifier)
-  (parameter_list)
-  (block
-    (expression_statement
-      (invocation_expression
-        (identifier)
-        (argument_list
-          (argument (identifier))
-          (argument (identifier))
-          (argument (identifier))
-          (argument (identifier))
-          (argument (declaration_expression (implicit_type) (identifier)))))))))
+(compilation_unit
+  (local_function_statement
+    (void_keyword)
+    (identifier)
+    (parameter_list)
+    (block
+      (expression_statement
+        (invocation_expression
+          (identifier)
+          (argument_list
+            (argument (identifier))
+            (argument (identifier))
+            (argument (identifier))
+            (argument (identifier))
+            (argument (declaration_expression (implicit_type) (identifier)))))))))
 
 ============================
 Tuple expressions
@@ -621,7 +624,7 @@ void a() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -646,7 +649,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -674,7 +677,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -708,7 +711,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -736,7 +739,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -766,7 +769,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -814,7 +817,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -853,7 +856,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -880,7 +883,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -907,7 +910,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -932,7 +935,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -958,7 +961,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -983,7 +986,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -1012,7 +1015,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -1050,7 +1053,7 @@ void b() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -1301,7 +1304,7 @@ var t = typeof(Tuple<,,,>);
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -1311,7 +1314,7 @@ var t = typeof(Tuple<,,,>);
             (generic_name
               (identifier)
               (type_argument_list)))))))
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -1331,7 +1334,7 @@ int b = default;
 
 ---
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -1339,7 +1342,7 @@ int b = default;
         (equals_value_clause
           (default_expression
             (predefined_type))))))
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (predefined_type)
       (variable_declarator
@@ -1357,7 +1360,7 @@ ref var elementRef = ref arr[0];
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
       (identifier)
@@ -1366,7 +1369,7 @@ ref var elementRef = ref arr[0];
         (equals_value_clause
           (ref_expression
             (identifier))))))
-  (field_declaration
+  (local_declaration_statement
     (modifier)
     (variable_declaration
       (implicit_type)
@@ -1389,7 +1392,7 @@ var x = new Dictionary<string,int> { ["a"] = 65 };
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -1415,7 +1418,7 @@ var x = dict?["a"];
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -1439,7 +1442,7 @@ void Test(){
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -1474,7 +1477,7 @@ var b = s is string;
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -1494,7 +1497,7 @@ var c = s is "test";
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -1505,7 +1508,7 @@ var c = s is "test";
             (declaration_pattern
               (predefined_type)
               (identifier)))))))
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -1527,7 +1530,7 @@ void Do() {
 ---
 
 (compilation_unit
-  (method_declaration
+  (local_function_statement
     (void_keyword)
     (identifier)
     (parameter_list)
@@ -1546,7 +1549,7 @@ var x = name!.Length;
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -1565,7 +1568,7 @@ var x = name is not null;
 
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -1585,7 +1588,7 @@ var x = name is (var a);
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -1605,7 +1608,7 @@ var x = c is < '0' or >= 'A' and <= 'Z';
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
@@ -1628,7 +1631,7 @@ var x = !this.Call();
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (implicit_type)
       (variable_declarator
