@@ -190,11 +190,19 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "simple_identifier",
+          "type": "constructor_invocation",
+          "named": true
+        },
+        {
+          "type": "use_site_target",
+          "named": true
+        },
+        {
+          "type": "user_type",
           "named": true
         }
       ]
@@ -8254,6 +8262,11 @@
     }
   },
   {
+    "type": "use_site_target",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "user_type",
     "named": true,
     "fields": {},
@@ -9335,6 +9348,10 @@
     "named": false
   },
   {
+    "type": "delegate",
+    "named": false
+  },
+  {
     "type": "do",
     "named": false
   },
@@ -9360,6 +9377,10 @@
   },
   {
     "type": "false",
+    "named": false
+  },
+  {
+    "type": "field",
     "named": false
   },
   {
@@ -9475,7 +9496,15 @@
     "named": false
   },
   {
+    "type": "param",
+    "named": false
+  },
+  {
     "type": "private",
+    "named": false
+  },
+  {
+    "type": "property",
     "named": false
   },
   {
@@ -9495,6 +9524,10 @@
     "named": true
   },
   {
+    "type": "receiver",
+    "named": false
+  },
+  {
     "type": "reification_modifier",
     "named": true
   },
@@ -9512,6 +9545,10 @@
   },
   {
     "type": "set",
+    "named": false
+  },
+  {
+    "type": "setparam",
     "named": false
   },
   {
