@@ -1,0 +1,25 @@
+====================
+Expression Single Literal
+====================
+
+contract Example {
+    function example() {
+        11;
+    }
+}
+
+---
+
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (function_definition
+         function_name: (identifier)
+         body: (function_body 
+            (expression_statement 
+                (primary_expression 
+                    (literal 
+                        (number_literal 
+                            (decimal_number))))))))))

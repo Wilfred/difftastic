@@ -34,7 +34,7 @@ contract StateVariable {
             type: (type_name)
             name:  (identifier) 
             value: (primary_expression 
-                (number_literal (decimal_number)))))))
+                (literal (number_literal (decimal_number))))))))
 
 ====================
 Variable Declaration
@@ -55,4 +55,4 @@ contract StateVariable {
             (override_specifier (identifier) (identifier)) 
             name: (identifier) 
             value: (primary_expression 
-                (number_literal (decimal_number))))))) 
+                (literal (number_literal (decimal_number))))))))

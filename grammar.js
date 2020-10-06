@@ -429,7 +429,7 @@ module.exports = grammar({
         function_body: $ => seq(
             "{", 
             // TODO: make sure this is correct
-            // repeat($._statement),
+                repeat($._statement),
             "}",
         ),
 
@@ -446,7 +446,7 @@ module.exports = grammar({
 
             $.primary_expression,
         ),
-
+        // TODO: make primary expression anonymous
         primary_expression: $ => choice(
             $.parenthesized_expression,
             $.member_expression,
@@ -455,7 +455,7 @@ module.exports = grammar({
             $.identifier,
             $._user_defined_type,
             // TODO: add literals
-            $.number_literal
+            $.literal,
             // TODO: add the following
             // $.new_expression,
             // $.tuple_expression,
@@ -565,13 +565,13 @@ module.exports = grammar({
         payable_conversion_expression: $ => seq('payable', $._call_arguments),
         meta_type_expression: $ => seq('type', '(', $.type_name, ')'),
 
-        type_name: $ => choice(
+        type_name: $ => prec(1, choice(
             $._primitive_type,
             $._user_defined_type,
             $._mapping,
             seq($.type_name, '[', optional($._expression), ']'),
             $._function_type,
-        ),
+        )),
         
         _function_type: $ => seq(
             'function', $._parameter_list, optional($._return_parameters),
@@ -603,7 +603,7 @@ module.exports = grammar({
         ),
 
         // TODO: make visible type
-        _user_defined_type: $ => prec(PREC.USER_TYPE,seq(
+        _user_defined_type: $ => prec(PREC.USER_TYPE, seq(
             $.identifier,
             repeat(seq(
                 '.',
@@ -667,8 +667,8 @@ module.exports = grammar({
         string_literal: $ => repeat1($.string),
         number_literal: $ => seq(choice($.decimal_number, $.hex_number), optional($.number_unit)),
         decimal_number: $ =>  seq(/\d+(.\d+)?/, optional(/[eE](-)?d+/)),
-        hex_number: $ => seq('0x', $._hex_digits),
-        _hex_digits: $ => /([a-fA-F0-9]{2})+/, 
+        hex_number: $ => seq('0x', optional(optionalDashSeparation($._hex_digit))),
+        _hex_digit: $ => /([a-fA-F0-9][a-fA-F0-9])/, 
         number_unit: $ => choice(
             'wei', 'gwei', 'ether', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'years'
         ),
@@ -676,8 +676,8 @@ module.exports = grammar({
         hex_string_literal: $ => repeat1(seq(
             'hex',
             choice(
-                seq('"', $._hex_digits, '"'),
-                seq("'", $._hex_digits, "'"),
+                seq('"', optional(optionalDashSeparation($._hex_digit)), '"'),
+                seq("'", optional(optionalDashSeparation($._hex_digit)), "'"),
             ))),
         _escape_sequence: $ => seq('\\', choice(
             // TODO: it might be allowed to escape non special characters
@@ -685,13 +685,13 @@ module.exports = grammar({
             /u([a-fA-F0-9]{4})/,
             /x([a-fA-F0-9]{2})/,
         )),
-        _single_quoted_unicode_char: $ => choice(/~['\r\n\\]/, $._escape_sequence),
-        _double_quoted_unicode_char: $ => choice(/~["\r\n\\]/, $._escape_sequence),
+        _single_quoted_unicode_char: $ => choice(/[^'\r\n\\]/, $._escape_sequence),
+        _double_quoted_unicode_char: $ => choice(/[^"\r\n\\]/, $._escape_sequence),
         unicode_string_literal: $ => repeat1(seq(
             'unicode',
             choice(
-                seq('"', $._double_quoted_unicode_char, '"'),
-                seq("'", $._single_quoted_unicode_char, "'"),
+                seq('"', repeat($._double_quoted_unicode_char), '"'),
+                seq("'", repeat($._single_quoted_unicode_char), "'"),
             ))),
 
         string: $ => choice(
@@ -745,13 +745,26 @@ function commaSep1(rule) {
         repeat(
             seq(
                 ',',
-                 rule
+                rule
             )
         ),
         optional(','),
-    );
-  }
+    );  
+}
   
 function commaSep(rule) {
     return optional(commaSep1(rule));
 }
+
+function optionalDashSeparation(rule) {
+    return seq(
+        rule,
+        repeat(
+            seq(
+                optional('_'),
+                rule
+            )
+        ),
+    );  
+}
+  
