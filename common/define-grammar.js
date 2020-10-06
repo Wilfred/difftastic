@@ -182,10 +182,17 @@ module.exports = function defineGrammar(dialect) {
         $._expression, '!'
       )),
 
-      variable_declarator: $ => seq(
-        field('name', choice($.identifier, $._destructuring_pattern)),
-        field('type', optional($.type_annotation)),
-        optional($._initializer)
+      variable_declarator: $ => choice(
+        seq(
+          field('name', choice($.identifier, $._destructuring_pattern)),
+          field('type', optional($.type_annotation)),
+          optional($._initializer)
+        ),
+        prec(PREC.DECLARATION, seq(
+          field('name', $.identifier),
+          '!',
+          field('type', $.type_annotation)
+        ))
       ),
 
       method_signature: $ => seq(

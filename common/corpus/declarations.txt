@@ -803,3 +803,24 @@ export type Extracted = keyof Pick<Base, "id">
             (type_identifier)
             (literal_type
               (string))))))))
+
+==================================
+Definite assignment assertions
+==================================
+
+var a!: b;
+let a!: b;
+
+---
+
+(program
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+      (type_identifier))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+      (type_identifier)))))
