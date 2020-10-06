@@ -11,3 +11,8 @@ node_modules
 *.exp
 *.lib
 *.obj
+
+# WASM
+*.asm.js
+*.wasm
+*.wasm.mem
