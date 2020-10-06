@@ -304,7 +304,7 @@ module.exports = grammar({
     anon_func: $ =>
       seq(repeat($._metadata),
           "#",
-          field('value', $.list)),
+          $._bare_list),
 
     regex: $ =>
       seq("#",
@@ -314,12 +314,12 @@ module.exports = grammar({
       seq(repeat($._metadata),
           "#?",
           repeat($._whitespace),
-          field('value', $.list)),
+          $._bare_list),
 
     read_cond_splicing: $ =>
       seq("#?@",
           repeat($._whitespace),
-          field('value', $.list)),
+          $._bare_list),
 
     auto_res_marker: $ =>
       AUTO_RESOLVE_MARKER,
