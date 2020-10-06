@@ -581,6 +581,7 @@ module.exports = grammar({
       $._name,
       $.nullable_type,
       $.pointer_type,
+      $.function_pointer_type,
       $.predefined_type,
       $.tuple_type,  // TODO: Conflicts with everything
     ),
@@ -607,6 +608,40 @@ module.exports = grammar({
     ),
 
     pointer_type: $ => prec(PREC.POSTFIX, seq($._type, '*')),
+
+    function_pointer_type: $ => seq(
+      'delegate',
+      '*',
+      optional($.function_pointer_calling_convention),
+      '<',
+      commaSep1($.function_pointer_parameter),
+      '>'
+    ),
+
+    function_pointer_calling_convention: $ => choice(
+      'managed',
+      seq(
+        'unmanaged',
+        optional($.function_pointer_unmanaged_calling_convention_list)
+      )
+    ),
+
+    function_pointer_unmanaged_calling_convention_list: $ => seq(
+      '[', commaSep1($.function_pointer_unmanaged_calling_convention), ']'
+    ),
+
+    function_pointer_unmanaged_calling_convention: $ => choice(
+      'Cdecl',
+      'Stdcall',
+      'Thiscall',
+      'Fastcall',
+      $.identifier
+    ),
+
+    function_pointer_parameter: $ => seq(
+      optional(choice('ref', 'out', 'in', seq('ref', 'readonly'))),
+      choice($._type, $.void_keyword)
+    ),
 
     predefined_type: $ => token(choice(
       'bool',
