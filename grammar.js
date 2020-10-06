@@ -293,7 +293,10 @@ module.exports = grammar({
 
     set: $ =>
       seq(repeat($._metadata),
-          "#{",
+          $._bare_set),
+
+    _bare_set: $ =>
+      seq("#{",
           repeat(choice(field('value', $._form),
                         $._non_form)),
           "}"),
