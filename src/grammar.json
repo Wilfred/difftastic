@@ -4068,6 +4068,13 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
+            "name": "attribute_list"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
             "name": "modifier"
           }
         },
