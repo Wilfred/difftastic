@@ -91,7 +91,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Static anonymous functions
 - [ ] Target-typed conditional expression
 - [x] Target-typed new
-- [ ] Top-level statements
+- [x] Top-level statements
 
 ### References
 

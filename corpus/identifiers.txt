@@ -7,7 +7,7 @@ int x = y;
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier) (equals_value_clause (identifier))))))
@@ -21,7 +21,7 @@ int @var = @const;
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier) (equals_value_clause (identifier))))))
@@ -36,11 +36,11 @@ int nuint = 0;
 ---
 
 (compilation_unit
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier) (equals_value_clause (integer_literal)))))
-  (field_declaration
+  (local_declaration_statement
     (variable_declaration
       (predefined_type)
       (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
