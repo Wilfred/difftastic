@@ -941,10 +941,23 @@ module.exports = grammar({
 		// Annotations
 		// ==========
 
-		annotation: $ => seq(
+		annotation: $ => choice(
+			$._single_annotation,
+			$._multi_annotation
+		),
+
+		_single_annotation: $ => seq(
 			"@",
 			optional($.use_site_target),
 			$._unescaped_annotation
+		),
+
+		_multi_annotation: $ => seq(
+			"@",
+			optional($.use_site_target),
+			"[",
+			repeat1($._unescaped_annotation),
+			"]"
 		),
 
 		use_site_target: $ => seq(
