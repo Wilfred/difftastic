@@ -937,11 +937,17 @@ module.exports = grammar({
 		// ==========
 		// Annotations
 		// ==========
-		
+
 		annotation: $ => seq(
 			"@",
+			optional($.use_site_target),
 			$.simple_identifier
 			// TODO
+		),
+
+		use_site_target: $ => seq(
+			choice("field", "property", "get", "set", "receiver", "param", "setparam", "delegate"),
+			":"
 		),
 
 		_unescaped_annotation: $ => choice(
