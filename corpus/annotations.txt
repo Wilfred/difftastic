@@ -1,0 +1,43 @@
+==================
+Annotations
+==================
+
+@Test
+class Empty
+
+---
+
+(source_file
+	(class_declaration
+        (modifiers (annotation (user_type (type_identifier))))
+        (type_identifier)))
+
+==================
+Annotations with use-site-target
+==================
+
+class Empty(@field:Test val x: Boolean)
+
+---
+
+(source_file
+	(class_declaration
+        (type_identifier)
+        (primary_constructor (class_parameter
+            (modifiers (annotation (use_site_target) (user_type (type_identifier))))
+            (simple_identifier)
+            (user_type (type_identifier))))))
+
+==================
+Multi-annotations
+==================
+
+@set:[Inject VisibleForTesting]
+var x: Int
+
+---
+
+(source_file
+    (property_declaration
+        (modifiers (annotation (use_site_target) (user_type (type_identifier)) (user_type (type_identifier))))
+        (variable_declaration (simple_identifier) (user_type (type_identifier)))))
