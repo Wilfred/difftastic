@@ -9,6 +9,9 @@ const PRECEDENCE = {
 
   // begin of operators
   AUTO_INCREMENT_DECREMENT: 23,
+  EXPONENTIATION: 22,
+  SYMBOLIC_UNARY: 21,
+  BINDING_OPERATORS: 20,
   // end of operators
 
 };
@@ -18,7 +21,7 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$._boolean, $.call_expression],
-    [$.auto_increment_decrement],
+    [$._auto_increment_decrement],
   ],
 
   extras: $ => [
@@ -33,7 +36,7 @@ module.exports = grammar({
       $.use_statement,
       $.require_statement,
 
-      $._expression,
+      $.expression_statement,
 
       $._declaration,
 
@@ -45,6 +48,11 @@ module.exports = grammar({
       // $.given_statement,
 
       $.assignment_statement,
+    ),
+
+    expression_statement: $ => seq(
+      $._expression,
+      $._semi_colon,
     ),
 
     comments: $ => token(prec(PRECEDENCE.COMMENTS, choice(
@@ -188,6 +196,7 @@ module.exports = grammar({
 
     _expression: $ => choice(
       $._primitive_expression,
+      $._variables,
 
       $.binary_expression,
       $.unary_expression,
@@ -207,16 +216,19 @@ module.exports = grammar({
           field('operator', operator),
           field('right', $._expression)
         ))
-      )
+      ),
+      $._exponentiation,
+      $._binding_expression,
     ),
 
     unary_expression: $ => choice(
-      $.auto_increment_decrement,
+      $._auto_increment_decrement,
+      $._symbolic_unary,
     ),
 
     // no associativity
     // auto increment and auto decrement
-    auto_increment_decrement: $ => prec(PRECEDENCE.AUTO_INCREMENT_DECREMENT, choice(
+    _auto_increment_decrement: $ => prec(PRECEDENCE.AUTO_INCREMENT_DECREMENT, choice(
       seq(
         field('operator', choice('++', '--')),
         field('variable', $._expression),
@@ -224,6 +236,49 @@ module.exports = grammar({
       seq(
         field('variable', $._expression),
         field('operator', choice('++', '--')),
+      ),
+    )),
+
+    // It binds even more tightly than unary minus, so -2**4 is -(2**4), not (-2)**4
+    _exponentiation: $ => prec.right(PRECEDENCE.EXPONENTIATION, seq(
+      field('variable', $._expression),
+      field('operator', '**'),
+      field('variable', $._expression),
+    )),
+
+    _symbolic_unary: $ => prec.right(PRECEDENCE.SYMBOLIC_UNARY, choice(
+      seq(
+        field('operator', '!'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('operator', '~'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('operator', '\\'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('operator', '+'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('operator', '-'),
+        field('variable', $._expression),
+      ),
+    )),
+
+    _binding_expression: $ => prec.left(PRECEDENCE.BINDING_OPERATORS, choice(
+      seq(
+        field('variable', $._expression),
+        field('operator', '=~'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', '!~'),
+        field('variable', $._expression),
       ),
     )),
 
@@ -251,6 +306,12 @@ module.exports = grammar({
 
       $.array,
       $.hash,
+    ),
+
+    _variables: $ => choice(
+      $.scalar_variable,
+      $.array_variable,
+      $.hash_variable,
     ),
 
     _scalar_type: $ => choice(

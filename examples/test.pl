@@ -1,4 +1,3 @@
-# my $a = 1;
-# if (++$a) {
-#   print "hello";
-# }
+my $a = 1;
+++$a;
+# print "$a";
