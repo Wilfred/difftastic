@@ -4809,7 +4809,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "annotation_use_site_target"
+              "name": "use_site_target"
             },
             {
               "type": "BLANK"
@@ -4818,11 +4818,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "simple_identifier"
+          "name": "_unescaped_annotation"
         }
       ]
     },
-    "annotation_use_site_target": {
+    "use_site_target": {
       "type": "SEQ",
       "members": [
         {
@@ -5635,6 +5635,10 @@
     [
       "_primary_expression",
       "callable_reference"
+    ],
+    [
+      "constructor_invocation",
+      "_unescaped_annotation"
     ]
   ],
   "externals": [],

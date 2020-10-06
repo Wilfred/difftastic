@@ -194,20 +194,19 @@
       "required": true,
       "types": [
         {
-          "type": "annotation_use_site_target",
+          "type": "constructor_invocation",
           "named": true
         },
         {
-          "type": "simple_identifier",
+          "type": "use_site_target",
+          "named": true
+        },
+        {
+          "type": "user_type",
           "named": true
         }
       ]
     }
-  },
-  {
-    "type": "annotation_use_site_target",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "anonymous_function",
@@ -8261,6 +8260,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "use_site_target",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "user_type",

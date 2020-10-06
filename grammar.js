@@ -69,7 +69,10 @@ module.exports = grammar({
 		[$.anonymous_function],
 
 		// Member access operator '::' conflicts with callable reference
-		[$._primary_expression, $.callable_reference]
+		[$._primary_expression, $.callable_reference],
+
+		// @Type(... could either be an annotation constructor invocation or an annotated expression
+		[$.constructor_invocation, $._unescaped_annotation]
 	],
 
 	extras: $ => [
@@ -941,8 +944,7 @@ module.exports = grammar({
 		annotation: $ => seq(
 			"@",
 			optional($.use_site_target),
-			$.simple_identifier
-			// TODO
+			$._unescaped_annotation
 		),
 
 		use_site_target: $ => seq(
