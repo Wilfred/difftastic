@@ -4798,6 +4798,19 @@
       ]
     },
     "annotation": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_single_annotation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_multi_annotation"
+        }
+      ]
+    },
+    "_single_annotation": {
       "type": "SEQ",
       "members": [
         {
@@ -4805,8 +4818,102 @@
           "value": "@"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "use_site_target"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
-          "name": "simple_identifier"
+          "name": "_unescaped_annotation"
+        }
+      ]
+    },
+    "_multi_annotation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "use_site_target"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_unescaped_annotation"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
+    "use_site_target": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "field"
+            },
+            {
+              "type": "STRING",
+              "value": "property"
+            },
+            {
+              "type": "STRING",
+              "value": "get"
+            },
+            {
+              "type": "STRING",
+              "value": "set"
+            },
+            {
+              "type": "STRING",
+              "value": "receiver"
+            },
+            {
+              "type": "STRING",
+              "value": "param"
+            },
+            {
+              "type": "STRING",
+              "value": "setparam"
+            },
+            {
+              "type": "STRING",
+              "value": "delegate"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ":"
         }
       ]
     },
@@ -5577,6 +5684,10 @@
     [
       "_primary_expression",
       "callable_reference"
+    ],
+    [
+      "constructor_invocation",
+      "_unescaped_annotation"
     ]
   ],
   "externals": [],
