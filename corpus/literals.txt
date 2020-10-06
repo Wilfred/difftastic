@@ -232,6 +232,26 @@ class A {
           (predefined_type)
           (variable_declarator (identifier) (equals_value_clause (verbatim_string_literal))))))))
 
+=======================================
+string literals
+=======================================
+
+var e = @"This
+is
+a
+multi-line";
+
+---
+
+(compilation_unit
+  (local_declaration_statement
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier)
+        (equals_value_clause
+          (verbatim_string_literal))))))
+
 ==================================================
 string literals containing the line comment token
 ==================================================
@@ -477,6 +497,25 @@ class A {
 
 ==================================================
 interpolated verbatim string literals bracket escapes (WRONG!)
+==================================================
+
+var s = $@"Another
+multiple
+line";
+
+---
+
+(compilation_unit
+  (local_declaration_statement
+    (variable_declaration
+      (implicit_type)
+      (variable_declarator
+        (identifier)
+        (equals_value_clause
+          (interpolated_string_expression (interpolated_verbatim_string_text)))))))
+
+==================================================
+interpolated verbatim string literals bracket escapes
 ==================================================
 
 string s = $@"
