@@ -79,7 +79,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [ ] Function pointers
 - [x] Init properties
 - [x] Lambda discard parameters
-- [ ] Local function attributes
+- [x] Local function attributes
 - [x] Module initializers
 - [x] Native integers
 - [ ] Patterns

@@ -759,6 +759,7 @@ module.exports = grammar({
     ),
 
     local_function_statement: $ => seq(
+      repeat($.attribute_list),
       repeat($.modifier),
       field('type', $.return_type),
       field('name', $.identifier),

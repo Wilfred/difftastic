@@ -605,6 +605,7 @@ class A {
       return a + b;
     }
 
+    [SomeAttribute]
     private static int X() {
       return 1;
     }
@@ -630,7 +631,9 @@ class A {
             (type_parameter_constraint (type_constraint (identifier))))
           (block
             (return_statement (binary_expression (identifier) (identifier)))))
-        (local_function_statement (modifier) (modifier) (predefined_type) (identifier) (parameter_list)
+        (local_function_statement 
+          (attribute_list (attribute (identifier)))
+          (modifier) (modifier) (predefined_type) (identifier) (parameter_list)
           (block
             (return_statement (integer_literal)))))))))
 
