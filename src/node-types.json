@@ -414,6 +414,10 @@
         "named": true
       },
       {
+        "type": "function_pointer_type",
+        "named": true
+      },
+      {
         "type": "generic_name",
         "named": true
       },
@@ -2330,6 +2334,89 @@
         },
         {
           "type": "_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_pointer_calling_convention",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "function_pointer_unmanaged_calling_convention_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_pointer_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_type",
+          "named": true
+        },
+        {
+          "type": "void_keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_pointer_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "function_pointer_calling_convention",
+          "named": true
+        },
+        {
+          "type": "function_pointer_parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_pointer_unmanaged_calling_convention",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_pointer_unmanaged_calling_convention_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "function_pointer_unmanaged_calling_convention",
           "named": true
         }
       ]
@@ -5224,6 +5311,22 @@
     "named": false
   },
   {
+    "type": "Cdecl",
+    "named": false
+  },
+  {
+    "type": "Fastcall",
+    "named": false
+  },
+  {
+    "type": "Stdcall",
+    "named": false
+  },
+  {
+    "type": "Thiscall",
+    "named": false
+  },
+  {
     "type": "[",
     "named": false
   },
@@ -5465,6 +5568,10 @@
   },
   {
     "type": "lock",
+    "named": false
+  },
+  {
+    "type": "managed",
     "named": false
   },
   {

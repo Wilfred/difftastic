@@ -104,6 +104,70 @@ class A {
           (variable_declarator (identifier)))))))
 
 =======================================
+Function pointer type
+=======================================
+
+class A {
+  // Function pointer equivalent without calling convention
+  delegate*<string, int> a;
+  delegate*<delegate*<in string, int>, delegate*<string, ref readonly int>> b;
+
+  // Function pointer equivalent with calling convention
+  delegate* managed<string, int> c;
+  delegate*<delegate* unmanaged[MyCallConv, YourCallConv]<string, int>, delegate*<string, int>> d;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (comment)
+      (field_declaration
+        (variable_declaration
+          (function_pointer_type
+            (function_pointer_parameter (predefined_type))
+            (function_pointer_parameter (predefined_type)))
+          (variable_declarator (identifier))))
+      (field_declaration
+        (variable_declaration
+          (function_pointer_type
+            (function_pointer_parameter
+              (function_pointer_type
+                (function_pointer_parameter (predefined_type))
+                (function_pointer_parameter (predefined_type))))
+            (function_pointer_parameter
+              (function_pointer_type
+                (function_pointer_parameter (predefined_type))
+                (function_pointer_parameter (predefined_type)))))
+          (variable_declarator (identifier))))
+      (comment)
+      (field_declaration
+        (variable_declaration
+          (function_pointer_type
+            (function_pointer_calling_convention)
+            (function_pointer_parameter (predefined_type))
+            (function_pointer_parameter (predefined_type)))
+          (variable_declarator (identifier))))
+      (field_declaration
+        (variable_declaration
+          (function_pointer_type
+            (function_pointer_parameter
+              (function_pointer_type
+                (function_pointer_calling_convention
+                  (function_pointer_unmanaged_calling_convention_list
+                    (function_pointer_unmanaged_calling_convention (identifier))
+                    (function_pointer_unmanaged_calling_convention (identifier))))
+                (function_pointer_parameter (predefined_type))
+                (function_pointer_parameter (predefined_type))))
+            (function_pointer_parameter
+              (function_pointer_type
+                (function_pointer_parameter (predefined_type))
+                (function_pointer_parameter (predefined_type)))))
+          (variable_declarator (identifier)))))))
+
+=======================================
 Ref readonly
 =======================================
 
