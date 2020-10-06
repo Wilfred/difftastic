@@ -75,6 +75,7 @@ module.exports = function defineGrammar(dialect) {
       .concat([
         $._type_identifier,
         $._enum_member,
+        $._jsx_start_opening_element,
       ]),
 
     rules: {
@@ -136,8 +137,7 @@ module.exports = function defineGrammar(dialect) {
         return choice(...choices);
       },
 
-      // This rule is only referenced by _expression when the dialect is 'tsx'
-      jsx_opening_element: $ => prec.dynamic(-1, seq(
+      _jsx_start_opening_element: $ => seq(
         '<',
         choice(
           field('name', choice(
@@ -152,7 +152,19 @@ module.exports = function defineGrammar(dialect) {
             field('type_arguments', optional($.type_arguments))
           )
         ),
-        repeat(field('attribute', $._jsx_attribute)),
+        repeat(field('attribute', $._jsx_attribute))
+      ),
+
+      // This rule is only referenced by _expression when the dialect is 'tsx'
+      jsx_opening_element: $ => prec.dynamic(-1, seq(
+        $._jsx_start_opening_element,
+        '>'
+      )),
+
+      // tsx only. See jsx_opening_element.
+      jsx_self_closing_element: $ => prec.dynamic(-1, seq(
+        $._jsx_start_opening_element,
+        '/',
         '>'
       )),
 
