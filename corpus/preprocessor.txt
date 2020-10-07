@@ -14,20 +14,23 @@ If, elif and else directives
 
 (compilation_unit
   (preprocessor_call (preprocessor_directive) (identifier))
-  (local_declaration_statement
-    (variable_declaration
-      (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (string_literal)))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (string_literal))))))
   (preprocessor_call (preprocessor_directive) (identifier))
-  (local_declaration_statement
-    (variable_declaration
-      (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (string_literal)))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (string_literal))))))
   (preprocessor_call (preprocessor_directive))
-  (local_declaration_statement
-    (variable_declaration
-      (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (string_literal)))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (string_literal))))))
   (preprocessor_call (preprocessor_directive)))
 
 ===========================

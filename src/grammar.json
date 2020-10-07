@@ -30,7 +30,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_statement"
+            "name": "global_statement"
           }
         },
         {
@@ -41,6 +41,10 @@
           }
         }
       ]
+    },
+    "global_statement": {
+      "type": "SYMBOL",
+      "name": "_statement"
     },
     "_declaration": {
       "type": "CHOICE",

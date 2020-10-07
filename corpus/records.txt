@@ -182,20 +182,21 @@ void A() {
 ---
 
 (compilation_unit
-  (local_function_statement (void_keyword) (identifier) (parameter_list)
-    (block
-      (local_declaration_statement
-        (variable_declaration
-          (implicit_type)
-          (variable_declarator
-            (identifier)
-            (equals_value_clause
-              (with_expression
-                (identifier)
-                (with_initializer_expression
-                  (simple_assignment_expression
-                    (identifier)
-                    (string_literal)))))))))))
+  (global_statement
+    (local_function_statement (void_keyword) (identifier) (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (with_expression
+                  (identifier)
+                  (with_initializer_expression
+                    (simple_assignment_expression
+                      (identifier)
+                      (string_literal))))))))))))
 
 =====================================
 With expression using expressions
@@ -211,12 +212,13 @@ void A() {
 ---
 
 (compilation_unit
-  (local_function_statement (void_keyword) (identifier) (parameter_list)
-    (block
-      (local_declaration_statement
-        (variable_declaration
-          (implicit_type)
-          (variable_declarator
+  (global_statement
+    (local_function_statement (void_keyword) (identifier) (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
               (identifier)
               (equals_value_clause
                 (with_expression
@@ -227,4 +229,4 @@ void A() {
                       (invocation_expression (identifier) (argument_list)))
                     (simple_assignment_expression
                       (identifier)
-                      (invocation_expression (identifier) (argument_list))))))))))))
+                      (invocation_expression (identifier) (argument_list)))))))))))))
