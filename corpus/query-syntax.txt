@@ -7,20 +7,21 @@ var x = from a in source select a.B;
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (implicit_type)
-      (variable_declarator
-        (identifier)
-        (equals_value_clause
-          (query_expression
-            (from_clause
-              (identifier)
-              (identifier))
-              (select_clause
-                (member_access_expression
-                  (identifier)
-                  (identifier)))))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+                (select_clause
+                  (member_access_expression
+                    (identifier)
+                    (identifier))))))))))
 
 =====================================
 Query from select projection
@@ -31,24 +32,25 @@ var x = from a in source select { Name = a.B };
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (implicit_type)
-      (variable_declarator
-        (identifier)
-        (equals_value_clause
-          (query_expression
-            (from_clause
-              (identifier)
-              (identifier))
-              (select_clause
-                (initializer_expression
-                  (assignment_expression
-                    (identifier)
-                      (assignment_operator)
-                        (member_access_expression
-                          (identifier)
-                          (identifier)))))))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+                (select_clause
+                  (initializer_expression
+                    (assignment_expression
+                      (identifier)
+                        (assignment_operator)
+                          (member_access_expression
+                            (identifier)
+                            (identifier))))))))))))
 
 =====================================
 Query from select with where
@@ -61,24 +63,25 @@ var x = from a in source
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (implicit_type)
-      (variable_declarator
-        (identifier)
-        (equals_value_clause
-          (query_expression
-            (from_clause
-              (identifier)
-              (identifier))
-            (where_clause
-              (binary_expression
-                (member_access_expression
-                  (identifier)
-                  (identifier))
-                (string_literal)))
-            (select_clause
-              (identifier))))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (where_clause
+                (binary_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (string_literal)))
+              (select_clause
+                (identifier)))))))))
 
 =====================================
 Query from select with where and projection
@@ -91,34 +94,35 @@ var x = from a in source
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (implicit_type)
-      (variable_declarator
-        (identifier)
-        (equals_value_clause
-          (query_expression
-            (from_clause
-              (identifier)
-              (identifier))
-            (where_clause
-              (binary_expression
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (where_clause
                 (binary_expression
-                  (member_access_expression
-                    (identifier)
-                    (identifier))
-                  (string_literal))
-                (binary_expression
-                  (member_access_expression
-                    (identifier)
-                    (identifier))
-                  (string_literal))))
-              (select_clause
-                (anonymous_object_creation_expression
-                  (name_equals (identifier))
-                  (member_access_expression
-                    (identifier)
-                    (identifier))))))))))
+                  (binary_expression
+                    (member_access_expression
+                      (identifier)
+                      (identifier))
+                    (string_literal))
+                  (binary_expression
+                    (member_access_expression
+                      (identifier)
+                      (identifier))
+                    (string_literal))))
+                (select_clause
+                  (anonymous_object_creation_expression
+                    (name_equals (identifier))
+                    (member_access_expression
+                      (identifier)
+                      (identifier)))))))))))
 
 =====================================
 Query from select with orderby
@@ -133,28 +137,29 @@ var x = from a in source
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (implicit_type)
-      (variable_declarator
-        (identifier)
-        (equals_value_clause
-          (query_expression
-            (from_clause
-              (identifier)
-              (identifier))
-            (order_by_clause
-              (member_access_expression
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
                 (identifier)
-                (identifier)))
-            (order_by_clause
-              (member_access_expression
-                (identifier)
-                (identifier)))
-            (order_by_clause
-              (integer_literal))
-            (select_clause
-              (identifier))))))))
+                (identifier))
+              (order_by_clause
+                (member_access_expression
+                  (identifier)
+                  (identifier)))
+              (order_by_clause
+                (member_access_expression
+                  (identifier)
+                  (identifier)))
+              (order_by_clause
+                (integer_literal))
+              (select_clause
+                (identifier)))))))))
 
 =====================================
 Query from select with let
@@ -167,27 +172,28 @@ var x = from a in source
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (implicit_type)
-      (variable_declarator
-        (identifier)
-        (equals_value_clause
-          (query_expression
-            (from_clause
-              (identifier)
-              (identifier))
-            (let_clause
-              (identifier)
-              (anonymous_object_creation_expression
-                (member_access_expression
-                  (identifier)
-                  (identifier))
-                (member_access_expression
-                  (identifier)
-                  (identifier))))
-            (select_clause
-              (identifier))))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (let_clause
+                (identifier)
+                (anonymous_object_creation_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (member_access_expression
+                    (identifier)
+                    (identifier))))
+              (select_clause
+                (identifier)))))))))
 
 =====================================
 Query from select with join
@@ -200,33 +206,34 @@ var x = from a in sourceA
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (implicit_type)
-      (variable_declarator
-        (identifier)
-        (equals_value_clause
-          (query_expression
-            (from_clause
-              (identifier)
-              (identifier))
-            (join_clause
-              (identifier)
-              (identifier)
-              (member_access_expression
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
                 (identifier)
                 (identifier))
-              (member_access_expression
+              (join_clause
                 (identifier)
-                (identifier)))
-            (select_clause
-              (anonymous_object_creation_expression
+                (identifier)
                 (member_access_expression
                   (identifier)
                   (identifier))
                 (member_access_expression
                   (identifier)
-                  (identifier))))))))))
+                  (identifier)))
+              (select_clause
+                (anonymous_object_creation_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (member_access_expression
+                    (identifier)
+                    (identifier)))))))))))
 
 =====================================
 Query from select with multiple from
@@ -240,35 +247,36 @@ var x = from a in sourceA
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (implicit_type)
-      (variable_declarator
-        (identifier)
-        (equals_value_clause
-          (query_expression
-            (from_clause
-              (identifier)
-              (identifier))
-            (from_clause
-              (identifier)
-              (identifier))
-            (where_clause
-              (binary_expression
-                (member_access_expression
-                  (identifier)
-                  (identifier))
-                (member_access_expression
-                  (identifier)
-                  (identifier))))
-            (select_clause
-              (anonymous_object_creation_expression
-                (member_access_expression
-                  (identifier)
-                  (identifier))
-                (member_access_expression
-                  (identifier)
-                  (identifier))))))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (from_clause
+                (identifier)
+                (identifier))
+              (where_clause
+                (binary_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (member_access_expression
+                    (identifier)
+                    (identifier))))
+              (select_clause
+                (anonymous_object_creation_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (member_access_expression
+                    (identifier)
+                    (identifier)))))))))))
 
 =====================================
 Query from select with group by & continuation
@@ -281,38 +289,39 @@ var x = from a in sourceA
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (implicit_type)
-      (variable_declarator
-        (identifier)
-        (equals_value_clause
-          (query_expression
-            (from_clause
-              (identifier)
-              (identifier))
-            (group_clause
-              (identifier)
-              (member_access_expression
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
                 (identifier)
-                (identifier)))
-            (query_continuation
-              (identifier)
-              (select_clause
-                (anonymous_object_creation_expression
-                  (name_equals (identifier))
-                  (member_access_expression
-                    (identifier)
-                    (identifier))
-                  (name_equals (identifier))
-                  (invocation_expression
+                (identifier))
+              (group_clause
+                (identifier)
+                (member_access_expression
+                  (identifier)
+                  (identifier)))
+              (query_continuation
+                (identifier)
+                (select_clause
+                  (anonymous_object_creation_expression
+                    (name_equals (identifier))
                     (member_access_expression
                       (identifier)
                       (identifier))
-                    (argument_list
-                      (argument
-                        (lambda_expression
-                          (identifier)
-                          (member_access_expression
+                    (name_equals (identifier))
+                    (invocation_expression
+                      (member_access_expression
+                        (identifier)
+                        (identifier))
+                      (argument_list
+                        (argument
+                          (lambda_expression
                             (identifier)
-                            (identifier)))))))))))))))
+                            (member_access_expression
+                              (identifier)
+                              (identifier))))))))))))))))

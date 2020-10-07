@@ -7,10 +7,11 @@ int x = y;
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (identifier))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (identifier)))))))
 
 =======================================
 indentifiers with keyword names
@@ -21,10 +22,11 @@ int @var = @const;
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (identifier))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (identifier)))))))
 
 =======================================
 indentifiers with contextual keyword names
@@ -36,11 +38,13 @@ int nuint = 0;
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (integer_literal)))))
-  (local_declaration_statement
-    (variable_declaration
-      (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal)))))))

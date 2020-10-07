@@ -11,36 +11,42 @@ const UInt16 bin2 = 0B01010__10;
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-      (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (integer_literal)))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-      (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (integer_literal)))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-      (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (integer_literal)))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-      (identifier)
-      (variable_declarator (identifier) (equals_value_clause (integer_literal)))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-      (identifier)
-      (variable_declarator (identifier) (equals_value_clause (integer_literal)))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-      (identifier)
-      (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (identifier)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (identifier)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (identifier)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal)))))))
 
 =======================================
 boolean literals
@@ -51,12 +57,13 @@ const bool t = true, u = false;
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-      (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (boolean_literal)))
-      (variable_declarator (identifier) (equals_value_clause (boolean_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (boolean_literal)))
+        (variable_declarator (identifier) (equals_value_clause (boolean_literal)))))))
 
 =======================================
 char literals
@@ -71,31 +78,36 @@ const char uni32 = '\UA0BFf9ca';
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (character_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
       (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (character_literal)))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-    (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence))))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-    (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence))))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-    (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence))))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-    (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence)))))))
+        (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence)))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence)))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence)))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence))))))))
 
 =======================================
 real literals
@@ -112,41 +124,48 @@ const Decimal m2 = 102.349M;
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-    (predefined_type)
-    (variable_declarator (identifier) (equals_value_clause (real_literal)))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-    (predefined_type)
-    (variable_declarator (identifier) (equals_value_clause (real_literal)))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-    (identifier)
-    (variable_declarator (identifier) (equals_value_clause (real_literal)))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-    (identifier)
-    (variable_declarator (identifier) (equals_value_clause (real_literal)))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-    (predefined_type)
-    (variable_declarator (identifier) (equals_value_clause (real_literal)))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-    (predefined_type)
-    (variable_declarator (identifier) (equals_value_clause (real_literal)))))
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-    (identifier)
-    (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (identifier)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (identifier)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (identifier)
+      (variable_declarator (identifier) (equals_value_clause (real_literal)))))))
 
 =======================================
 null literals
@@ -157,11 +176,12 @@ const string x = null;
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (modifier)
-    (variable_declaration
-      (predefined_type)
-      (variable_declarator (identifier) (equals_value_clause (null_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (null_literal)))))))
 
 =======================================
 string literals
@@ -244,13 +264,14 @@ multi-line";
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (implicit_type)
-      (variable_declarator
-        (identifier)
-        (equals_value_clause
-          (verbatim_string_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (verbatim_string_literal)))))))
 
 ==================================================
 string literals containing the line comment token
@@ -506,13 +527,14 @@ line";
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (implicit_type)
-      (variable_declarator
-        (identifier)
-        (equals_value_clause
-          (interpolated_string_expression (interpolated_verbatim_string_text)))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression (interpolated_verbatim_string_text))))))))
 
 ==================================================
 interpolated verbatim string literals bracket escapes
@@ -531,19 +553,20 @@ class A
 ---
 
 (compilation_unit
-  (local_declaration_statement
-    (variable_declaration
-      (predefined_type)
-      (variable_declarator
-        (identifier)
-        (equals_value_clause
-          (interpolated_string_expression
-            (interpolated_verbatim_string_text)
-            (interpolated_verbatim_string_text)
-            (interpolated_verbatim_string_text)
-            (interpolated_verbatim_string_text)
-            (interpolated_verbatim_string_text)
-            (interpolation (identifier))
-            (interpolated_verbatim_string_text)
-            (interpolation (identifier))
-            (interpolated_verbatim_string_text)))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_verbatim_string_text)
+              (interpolated_verbatim_string_text)
+              (interpolated_verbatim_string_text)
+              (interpolated_verbatim_string_text)
+              (interpolated_verbatim_string_text)
+              (interpolation (identifier))
+              (interpolated_verbatim_string_text)
+              (interpolation (identifier))
+              (interpolated_verbatim_string_text))))))))

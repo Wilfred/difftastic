@@ -1189,13 +1189,14 @@ void A() {
 
 ---
 
- (compilation_unit
-  (local_function_statement (void_keyword) (identifier) (parameter_list)
-    (block
-      (local_declaration_statement
-        (variable_declaration (identifier)
-          (variable_declarator (identifier)
-            (equals_value_clause (string_literal))))))))
+(compilation_unit
+  (global_statement
+    (local_function_statement (void_keyword) (identifier) (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration (identifier)
+            (variable_declarator (identifier)
+              (equals_value_clause (string_literal)))))))))
 
 =====================================
 Function with contextually reserved identifiers
@@ -1212,44 +1213,45 @@ async void Sample() {
 ---
 
 (compilation_unit
-  (local_function_statement
-    (modifier)
-    (void_keyword)
-    (identifier)
-    (parameter_list)
-    (block
-      (local_declaration_statement
-        (variable_declaration (implicit_type)
-          (variable_declarator (identifier)
-            (equals_value_clause (string_literal)))))
-      (local_declaration_statement
-        (variable_declaration (predefined_type)
-          (variable_declarator (identifier)
-            (equals_value_clause (identifier)))))
-      (local_declaration_statement
-        (variable_declaration (identifier)
-          (variable_declarator (identifier)
-            (equals_value_clause (identifier)))))
-      (local_declaration_statement
-        (variable_declaration (identifier)
-          (variable_declarator (identifier)
-            (equals_value_clause (identifier)))))
-      (local_declaration_statement
-        (variable_declaration (identifier)
-          (variable_declarator (identifier)
-            (equals_value_clause
-              (binary_expression
+  (global_statement
+    (local_function_statement
+      (modifier)
+      (void_keyword)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration (implicit_type)
+            (variable_declarator (identifier)
+              (equals_value_clause (string_literal)))))
+        (local_declaration_statement
+          (variable_declaration (predefined_type)
+            (variable_declarator (identifier)
+              (equals_value_clause (identifier)))))
+        (local_declaration_statement
+          (variable_declaration (identifier)
+            (variable_declarator (identifier)
+              (equals_value_clause (identifier)))))
+        (local_declaration_statement
+          (variable_declaration (identifier)
+            (variable_declarator (identifier)
+              (equals_value_clause (identifier)))))
+        (local_declaration_statement
+          (variable_declaration (identifier)
+            (variable_declarator (identifier)
+              (equals_value_clause
                 (binary_expression
                   (binary_expression
                     (binary_expression
                       (binary_expression
                         (binary_expression
                           (binary_expression
-                            (binary_expression (identifier) (identifier))
+                            (binary_expression
+                              (binary_expression (identifier) (identifier))
+                            (identifier))
                           (identifier))
                         (identifier))
                       (identifier))
                     (identifier))
                   (identifier))
-                (identifier))
-              (identifier)))))))))
+                (identifier))))))))))

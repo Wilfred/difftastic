@@ -80,14 +80,15 @@ module.exports = grammar({
   word: $ => $._identifier_token,
 
   rules: {
-    // Intentionally deviates from spec so that we can syntax highlight fragments of code
     compilation_unit: $ => seq(
       repeat($.extern_alias_directive),
       repeat($.using_directive),
       repeat($.global_attribute_list),
-      repeat($._statement),
+      repeat($.global_statement),
       repeat($._namespace_member_declaration)
     ),
+
+    global_statement: $ => $._statement,
 
     _declaration: $ => choice(
       $.class_declaration,

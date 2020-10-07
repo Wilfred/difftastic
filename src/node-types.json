@@ -1406,10 +1406,6 @@
       "required": false,
       "types": [
         {
-          "type": "_statement",
-          "named": true
-        },
-        {
           "type": "class_declaration",
           "named": true
         },
@@ -1427,6 +1423,10 @@
         },
         {
           "type": "global_attribute_list",
+          "named": true
+        },
+        {
+          "type": "global_statement",
           "named": true
         },
         {
@@ -2483,6 +2483,21 @@
       "types": [
         {
           "type": "attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "global_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_statement",
           "named": true
         }
       ]
