@@ -1549,7 +1549,6 @@ var x = name is not null;
 
 ---
 
-
 (compilation_unit
   (global_statement
     (local_declaration_statement
@@ -1628,3 +1627,78 @@ var x = !this.Call();
               (invocation_expression
                 (member_access_expression (this_expression) (identifier))
                 (argument_list)))))))))
+
+=====================================
+Property patterns
+=====================================
+
+var x = operand is ILiteralOperation { ConstantValue: { HasValue: true, Value: null } };
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (is_pattern_expression
+              (identifier)
+              (recursive_pattern
+                (identifier)
+                (property_pattern_clause
+                  (subpattern 
+                    (name_colon (identifier))
+                    (recursive_pattern 
+                      (property_pattern_clause
+                        (subpattern 
+                          (name_colon (identifier))
+                          (constant_pattern (boolean_literal)))
+                        (subpattern
+                          (name_colon (identifier))
+                          (constant_pattern (null_literal)))))))))))))))
+
+=====================================
+Positional patterns
+=====================================
+
+var a = p is var (x, y);
+var c = p is (var x, var y) { x: 0 };
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (is_pattern_expression
+              (identifier)
+              (var_pattern
+                (parenthesized_variable_designation
+                  (identifier)
+                  (identifier)))))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (is_pattern_expression
+              (identifier)
+              (recursive_pattern
+                (positional_pattern_clause
+                  (subpattern
+                    (var_pattern (identifier)))
+                  (subpattern
+                    (var_pattern (identifier))))
+                (property_pattern_clause
+                  (subpattern
+                    (name_colon (identifier))
+                    (constant_pattern (integer_literal))))))))))))

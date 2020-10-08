@@ -1011,6 +1011,10 @@
             "named": true
           },
           {
+            "type": "recursive_pattern",
+            "named": true
+          },
+          {
             "type": "relational_pattern",
             "named": true
           },
@@ -1060,6 +1064,10 @@
           },
           {
             "type": "parenthesized_pattern",
+            "named": true
+          },
+          {
+            "type": "recursive_pattern",
             "named": true
           },
           {
@@ -1159,6 +1167,10 @@
         },
         {
           "type": "parenthesized_pattern",
+          "named": true
+        },
+        {
+          "type": "recursive_pattern",
           "named": true
         },
         {
@@ -2926,6 +2938,10 @@
             "named": true
           },
           {
+            "type": "recursive_pattern",
+            "named": true
+          },
+          {
             "type": "relational_pattern",
             "named": true
           },
@@ -3448,6 +3464,10 @@
           "named": true
         },
         {
+          "type": "recursive_pattern",
+          "named": true
+        },
+        {
           "type": "relational_pattern",
           "named": true
         },
@@ -3816,6 +3836,10 @@
         },
         {
           "type": "parenthesized_pattern",
+          "named": true
+        },
+        {
+          "type": "recursive_pattern",
           "named": true
         },
         {
@@ -4229,6 +4253,37 @@
     }
   },
   {
+    "type": "recursive_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_type",
+          "named": true
+        },
+        {
+          "type": "discard",
+          "named": true
+        },
+        {
+          "type": "parenthesized_variable_designation",
+          "named": true
+        },
+        {
+          "type": "positional_pattern_clause",
+          "named": true
+        },
+        {
+          "type": "property_pattern_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "ref_expression",
     "named": true,
     "fields": {},
@@ -4494,6 +4549,10 @@
           "named": true
         },
         {
+          "type": "recursive_pattern",
+          "named": true
+        },
+        {
           "type": "relational_pattern",
           "named": true
         },
@@ -4572,6 +4631,10 @@
         },
         {
           "type": "parenthesized_pattern",
+          "named": true
+        },
+        {
+          "type": "recursive_pattern",
           "named": true
         },
         {
