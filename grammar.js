@@ -66,9 +66,7 @@ module.exports = grammar({
 
     [$.parameter_modifier, $.this_expression],
     [$.parameter, $._simple_name],
-    [$.parameter, $._expression],
     [$.parameter, $.tuple_element, $.declaration_expression],
-    [$.parameter, $._variable_designation],
     [$.parameter, $._pattern],
   ],
 
