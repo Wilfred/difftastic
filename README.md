@@ -39,7 +39,7 @@ Comprehensive support for C# exists with the following exceptions:
 
 - [x] `async` main method
 - [x] Default literals (as `default_expression`)
-- [ ] Inferred tuple element names
+- [x] Inferred tuple element names
 - [ ] Generic type pattern matching
 
 #### C# 7.2
