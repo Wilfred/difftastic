@@ -42,7 +42,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Inferred tuple element names
 - [x] Generic type pattern matching
 
-#### C# 7.2
+#### C# 7.2 (complete)
 
 - [x] `in` parameter modifiers
 - [x] `ref readonly` method returns
@@ -51,7 +51,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Non-trailing named arguments
 - [x] `_` leading binary and hex literals
 - [x] `private protected` modifier
-- [ ] Conditional `ref` expressions
+- [x] Conditional `ref` expressions
 
 #### C# 7.3 (complete)
 
