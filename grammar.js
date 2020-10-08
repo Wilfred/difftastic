@@ -1034,6 +1034,7 @@ module.exports = grammar({
     implicit_object_creation_expression: $ => seq(
       'new',
       $.argument_list,
+      optional($.initializer_expression)
     ),
 
     _anonymous_object_member_declarator: $ => choice(

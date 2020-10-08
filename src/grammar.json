@@ -5663,6 +5663,18 @@
         {
           "type": "SYMBOL",
           "name": "argument_list"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "initializer_expression"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
