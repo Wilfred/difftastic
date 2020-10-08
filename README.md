@@ -20,7 +20,6 @@ Based on an export of the Roslyn grammar export with various changes in order to
 Comprehensive support for C# exists with the following exceptions:
 
 - [ ] `async` and `await` cannot be used as identifiers
-- [ ] [Global statements](https://github.com/tree-sitter/tree-sitter-c-sharp/issues/12)
 
 #### C# 7.0 features (complete)
 
