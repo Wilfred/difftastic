@@ -20,6 +20,7 @@ const PREC = {
   ASSIGN: 2,
   SEQ: 1,
   TUPLE: -1,
+  TYPE_PATTERN: -2,
 };
 
 module.exports = grammar({
@@ -48,6 +49,7 @@ module.exports = grammar({
     [$.event_declaration, $.variable_declarator],
 
     [$.nullable_type, $.binary_expression],
+    [$.nullable_type, $.binary_expression, $.type_pattern],
 
     [$._name, $._expression],
     [$._simple_name, $.type_parameter],
@@ -866,8 +868,11 @@ module.exports = grammar({
       $.negated_pattern,
       $.parenthesized_pattern,
       $.relational_pattern,
-      $.binary_pattern
+      $.binary_pattern,
+      $.type_pattern
     ),
+
+    type_pattern: $ => prec(PREC.TYPE_PATTERN, $._type),
 
     parenthesized_pattern: $ => seq('(', $._pattern, ')'),
 

@@ -1079,6 +1079,7 @@ string b(Object operation) =>
       { } => "nothing",
       var z => "var",
       null => "constant",
+      int => "type"
   };
 
 ---
@@ -1091,7 +1092,8 @@ string b(Object operation) =>
         (switch_expression_arm (constant_pattern (identifier)) (string_literal))
         (switch_expression_arm (recursive_pattern (property_pattern_clause)) (string_literal))
         (switch_expression_arm (var_pattern (identifier)) (string_literal))
-        (switch_expression_arm (constant_pattern (null_literal)) (string_literal)))))))
+        (switch_expression_arm (constant_pattern (null_literal)) (string_literal))
+        (switch_expression_arm (type_pattern (predefined_type)) (string_literal)))))))
 
 =====================================
 await Expression
@@ -1747,3 +1749,37 @@ var c = p is (var x, var y) { x: 0 };
                   (subpattern
                     (name_colon (identifier))
                     (constant_pattern (integer_literal))))))))))))
+
+=====================================
+Type patterns
+=====================================
+
+var b = o is int or string; //is_pattern_expression with type_pattern
+var c = o is int; //binary_expression ("IsExpression" in Roslyn)
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (is_pattern_expression
+              (identifier)
+              (binary_pattern
+                (type_pattern (predefined_type))
+                (type_pattern (predefined_type))))))))) (comment)
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+              (binary_expression
+                (identifier)
+                (predefined_type))))))) (comment))
+                

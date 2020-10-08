@@ -1019,6 +1019,10 @@
             "named": true
           },
           {
+            "type": "type_pattern",
+            "named": true
+          },
+          {
             "type": "var_pattern",
             "named": true
           }
@@ -1072,6 +1076,10 @@
           },
           {
             "type": "relational_pattern",
+            "named": true
+          },
+          {
+            "type": "type_pattern",
             "named": true
           },
           {
@@ -1175,6 +1183,10 @@
         },
         {
           "type": "relational_pattern",
+          "named": true
+        },
+        {
+          "type": "type_pattern",
           "named": true
         },
         {
@@ -2946,6 +2958,10 @@
             "named": true
           },
           {
+            "type": "type_pattern",
+            "named": true
+          },
+          {
             "type": "var_pattern",
             "named": true
           }
@@ -3472,6 +3488,10 @@
           "named": true
         },
         {
+          "type": "type_pattern",
+          "named": true
+        },
+        {
           "type": "var_pattern",
           "named": true
         }
@@ -3844,6 +3864,10 @@
         },
         {
           "type": "relational_pattern",
+          "named": true
+        },
+        {
+          "type": "type_pattern",
           "named": true
         },
         {
@@ -4557,6 +4581,10 @@
           "named": true
         },
         {
+          "type": "type_pattern",
+          "named": true
+        },
+        {
           "type": "var_pattern",
           "named": true
         }
@@ -4639,6 +4667,10 @@
         },
         {
           "type": "relational_pattern",
+          "named": true
+        },
+        {
+          "type": "type_pattern",
           "named": true
         },
         {
@@ -4977,6 +5009,21 @@
       "types": [
         {
           "type": "type_parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_type",
           "named": true
         }
       ]
