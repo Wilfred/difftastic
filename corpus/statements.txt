@@ -315,6 +315,37 @@ class A {
               (default_switch_label)
               (return_statement (integer_literal))))))))))
 
+
+=====================================
+switch on positional pattern with when clause
+=====================================
+
+switch (A, B)
+{
+    case (_, _) when !c:
+      break;
+}
+
+---
+
+(compilation_unit
+  (global_statement
+    (switch_statement
+      (tuple_expression
+        (argument (identifier))
+        (argument (identifier)))
+      (switch_body
+        (switch_section
+          (case_pattern_switch_label
+            (recursive_pattern
+              (positional_pattern_clause
+                (subpattern (discard))
+                (subpattern (discard))))
+            (when_clause
+              (prefix_unary_expression (identifier))))
+          (break_statement))))))
+
+
 =====================================
 Try finally statement
 =====================================

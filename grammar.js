@@ -916,7 +916,7 @@ module.exports = grammar({
       ')'
     ),
 
-    recursive_pattern: $ => prec.right(seq(
+    recursive_pattern: $ => prec.left(seq(
       optional($._type),
       choice(
         seq(
