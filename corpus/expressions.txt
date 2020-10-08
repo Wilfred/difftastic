@@ -1048,6 +1048,47 @@ void b() {
                     (discard)
                     (string_literal)))))))))))
 
+============================
+switch expression return
+============================
+
+string b(Object operation) =>
+  operation switch {
+      1 => "one",
+      _ => "more",
+  };
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_function_statement (predefined_type) (identifier) (parameter_list (parameter (identifier) (identifier)))
+      (arrow_expression_clause
+        (switch_expression (identifier)
+          (switch_expression_arm (constant_pattern (integer_literal)) (string_literal))
+          (switch_expression_arm (discard) (string_literal)))))))
+
+============================
+switch expression declaration and constant patterns
+============================
+
+string b(Object operation) =>
+  operation switch {
+      Declaration d => "declaration",
+      Simple => "simple (constant)",
+      null => "constant",
+  };
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_function_statement (predefined_type) (identifier) (parameter_list (parameter (identifier) (identifier)))
+      (arrow_expression_clause (switch_expression (identifier)
+        (switch_expression_arm (declaration_pattern (identifier) (identifier)) (string_literal))
+        (switch_expression_arm (constant_pattern (identifier)) (string_literal))
+        (switch_expression_arm (constant_pattern (null_literal)) (string_literal)))))))
+
 =====================================
 await Expression
 =====================================
