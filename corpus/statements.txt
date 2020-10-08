@@ -375,6 +375,33 @@ switch (A, B)
               (prefix_unary_expression (identifier))))
           (break_statement))))))
 
+=====================================
+switch on property pattern with when clause
+=====================================
+
+switch (A)
+{
+    case {Length: 2} when !c:
+      break;
+}
+
+---
+
+(compilation_unit
+  (global_statement
+    (switch_statement
+      (identifier)
+      (switch_body
+        (switch_section
+          (case_pattern_switch_label
+            (recursive_pattern
+              (property_pattern_clause
+                (subpattern
+                  (name_colon (identifier))
+                  (constant_pattern (integer_literal)))))
+            (when_clause
+              (prefix_unary_expression (identifier))))
+          (break_statement))))))
 
 =====================================
 Try finally statement

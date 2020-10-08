@@ -30,7 +30,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Throw expressions
 - [x] Binary and `_` literal support
 
-#### C# 7.1
+#### C# 7.1 (complete)
 
 - [x] `async` main method
 - [x] Default literals (as `default_expression`)
@@ -55,12 +55,12 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Attributes attached to auto property backing fields
 - [x] `out` support for parameters on initializers, constructors etc.
 
-#### C# 8.0
+#### C# 8.0 (complete)
 
 - [x] `readonly` members
 - [x] Default interface methods
 - [x] `switch` expressions
-- [ ] `switch` property patterns
+- [x] `switch` property patterns
 - [x] `switch` tuple patterns
 - [x] `static` local functions
 - [x] nullable reference types
