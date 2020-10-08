@@ -3660,20 +3660,33 @@
           "name": "tuple_element"
         },
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ","
-              },
-              {
-                "type": "SYMBOL",
-                "name": "tuple_element"
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "tuple_element"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "tuple_element"
+                  }
+                ]
               }
-            ]
-          }
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3682,8 +3695,8 @@
       ]
     },
     "tuple_element": {
-      "type": "PREC",
-      "value": -1,
+      "type": "PREC_LEFT",
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -9024,12 +9037,31 @@
     ],
     [
       "parameter",
+      "tuple_element"
+    ],
+    [
+      "parameter",
       "tuple_element",
       "declaration_expression"
     ],
     [
       "parameter",
       "_pattern"
+    ],
+    [
+      "parameter",
+      "declaration_expression"
+    ],
+    [
+      "tuple_element"
+    ],
+    [
+      "tuple_element",
+      "declaration_expression"
+    ],
+    [
+      "tuple_element",
+      "variable_declarator"
     ]
   ],
   "externals": [

@@ -19,7 +19,6 @@ const PREC = {
   COND: 3,
   ASSIGN: 2,
   SEQ: 1,
-  TUPLE: -1,
   TYPE_PATTERN: -2,
 };
 
@@ -68,8 +67,13 @@ module.exports = grammar({
 
     [$.parameter_modifier, $.this_expression],
     [$.parameter, $._simple_name],
+    [$.parameter, $.tuple_element],
     [$.parameter, $.tuple_element, $.declaration_expression],
     [$.parameter, $._pattern],
+    [$.parameter, $.declaration_expression],
+    [$.tuple_element],
+    [$.tuple_element, $.declaration_expression],
+    [$.tuple_element, $.variable_declarator]
   ],
 
   inline: $ => [
@@ -599,7 +603,7 @@ module.exports = grammar({
       $.pointer_type,
       $.function_pointer_type,
       $.predefined_type,
-      $.tuple_type,  // TODO: Conflicts with everything
+      $.tuple_type,
     ),
 
     implicit_type: $ => 'var',
@@ -689,14 +693,12 @@ module.exports = grammar({
     tuple_type: $ => seq(
       '(',
       $.tuple_element,
-      repeat1(seq(
-        ',',
-        $.tuple_element,
-      )),
+      ',',
+      commaSep1($.tuple_element),
       ')'
     ),
 
-    tuple_element: $ => prec(PREC.TUPLE, seq(
+    tuple_element: $ => prec.left(seq(
       field('type', $._type),
       field('name', optional($.identifier))
     )),
