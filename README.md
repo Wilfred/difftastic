@@ -84,7 +84,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Records
 - [x] Skip Locals Init
 - [x] Static anonymous functions
-- [ ] Target-typed conditional expression
+- [x] Target-typed conditional expression
 - [x] Target-typed new
 - [x] Top-level statements
 
