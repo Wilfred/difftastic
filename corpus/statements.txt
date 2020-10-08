@@ -1316,3 +1316,32 @@ async void Sample() {
                     (identifier))
                   (identifier))
                 (identifier))))))))))
+
+=====================================
+Function conditional ref expression
+=====================================
+
+ref T Choice(bool condition, ref T a, ref T b)
+{
+  ref var r = ref (condition ? ref a: ref b);
+}
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_function_statement (modifier) (identifier) (identifier)
+      (parameter_list
+        (parameter (predefined_type) (identifier))
+        (parameter (parameter_modifier) (identifier) (identifier))
+        (parameter (parameter_modifier) (identifier) (identifier)))
+      (block
+        (local_declaration_statement (modifier)
+          (variable_declaration (implicit_type)
+            (variable_declarator (identifier)
+              (equals_value_clause
+                (ref_expression
+                  (parenthesized_expression
+                    (conditional_expression (identifier)
+                      (ref_expression (identifier))
+                      (ref_expression (identifier)))))))))))))
