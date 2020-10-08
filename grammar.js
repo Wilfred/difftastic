@@ -297,7 +297,7 @@ module.exports = grammar({
       repeat($.attribute_list),
       optional($.parameter_modifier),
       optional(field('type', $._type)),
-      field('name', choice($.discard, $.identifier)),
+      field('name', $.identifier),
       optional($.equals_value_clause)
     ),
 

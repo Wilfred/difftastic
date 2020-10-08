@@ -3721,10 +3721,6 @@
         "required": true,
         "types": [
           {
-            "type": "discard",
-            "named": true
-          },
-          {
             "type": "identifier",
             "named": true
           }
