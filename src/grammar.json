@@ -4637,8 +4637,20 @@
         {
           "type": "SYMBOL",
           "name": "binary_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_pattern"
         }
       ]
+    },
+    "type_pattern": {
+      "type": "PREC",
+      "value": -2,
+      "content": {
+        "type": "SYMBOL",
+        "name": "_type"
+      }
     },
     "parenthesized_pattern": {
       "type": "SEQ",
@@ -8961,6 +8973,11 @@
     [
       "nullable_type",
       "binary_expression"
+    ],
+    [
+      "nullable_type",
+      "binary_expression",
+      "type_pattern"
     ],
     [
       "_name",
