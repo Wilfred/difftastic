@@ -1,0 +1,13 @@
+there is some implementation of "recursive patterns" that looks like positional patterns.
+
+allign this with the property patterns i made and remove dublicate rules.
+
+
+see gramma here: https://github.com/dotnet/csharplang/blob/master/proposals/csharp-8.0/patterns.md
+
+
+Known issues:
+
+var b = p is Point (var x, var y); // is parsed as a (constant_pattern(invocation_expression ...)), should be (recursive_pattern .. (positional_pattern_clause ...))
+
+var b = p is Point (var x, var y) { x: 0 }; // causes error as it tries to parse it as invocation_expression again
