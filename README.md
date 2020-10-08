@@ -66,7 +66,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] nullable reference types
 - [x] null-forgiving operator
 
-#### C# 9.0 (TBC)
+#### C# 9.0 (complete)
 
 - [x] Covariant returns
 - [x] Extending partial methods
@@ -77,8 +77,8 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Local function attributes
 - [x] Module initializers
 - [x] Native integers
-- [ ] Patterns
-  - [ ] Simple type patterns
+- [x] Patterns
+  - [x] Simple type patterns
   - [x] Relational patterns
   - [x] Logical patterns
 - [x] Records
