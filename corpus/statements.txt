@@ -278,6 +278,36 @@ class A {
                 (return_statement (integer_literal)))))))))))
 
 =====================================
+Inferred tuples
+=====================================
+
+var result = list.Select(c => (c.f1, c.f2)).Where(t => t.f2 == 1);
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration (implicit_type)
+        (variable_declarator (identifier)
+          (equals_value_clause
+            (invocation_expression
+              (member_access_expression
+                (invocation_expression
+                  (member_access_expression (identifier) (identifier))
+                  (argument_list
+                    (argument
+                      (lambda_expression (identifier)
+                        (tuple_expression
+                          (argument (member_access_expression (identifier) (identifier)))
+                          (argument (member_access_expression (identifier) (identifier))))))))
+              (identifier))
+            (argument_list
+              (argument
+                (lambda_expression (identifier)
+                  (binary_expression (member_access_expression (identifier) (identifier)) (integer_literal))))))))))))
+
+=====================================
 Switch statement with tuple
 =====================================
 
