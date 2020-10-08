@@ -22,7 +22,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Tuples
 - [x] Discards
 - [x] Basic pattern matching
-- [x] [Recursive pattern matching](https://github.com/tree-sitter/tree-sitter-c-sharp/issues/19)
+- [x] Recursive pattern matching
 - [x] Ref locals and return
 - [x] Local function statements
 - [x] Expression bodied constructors
