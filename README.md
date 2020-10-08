@@ -3,11 +3,7 @@ tree-sitter-c-sharp
 
 [![Build Status](https://travis-ci.org/tree-sitter/tree-sitter-c-sharp.svg?branch=master)](https://travis-ci.org/tree-sitter/tree-sitter-c-sharp)
 
-C# grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter)
-
-### Status
-
-Based on an export of the Roslyn grammar export with various changes in order to:
+C# grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter) based on an export of the Roslyn grammar export with various changes in order to:
 
 - Deal with differences between the parsing technologies
 - Work around some bugs in that grammar
@@ -15,7 +11,7 @@ Based on an export of the Roslyn grammar export with various changes in order to
 - Support syntax highlighting/parsing of fragments
 - Simplify the output tree
 
-### Detailed status
+### Status
 
 Comprehensive support for C# exists with the following exceptions:
 
