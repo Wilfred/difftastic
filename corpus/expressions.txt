@@ -1069,13 +1069,15 @@ string b(Object operation) =>
           (switch_expression_arm (discard) (string_literal)))))))
 
 ============================
-switch expression declaration and constant patterns
+switch expression with patterns
 ============================
 
 string b(Object operation) =>
   operation switch {
       Declaration d => "declaration",
       Simple => "simple (constant)",
+      { } => "nothing",
+      var z => "var",
       null => "constant",
   };
 
@@ -1087,6 +1089,8 @@ string b(Object operation) =>
       (arrow_expression_clause (switch_expression (identifier)
         (switch_expression_arm (declaration_pattern (identifier) (identifier)) (string_literal))
         (switch_expression_arm (constant_pattern (identifier)) (string_literal))
+        (switch_expression_arm (recursive_pattern (property_pattern_clause)) (string_literal))
+        (switch_expression_arm (var_pattern (identifier)) (string_literal))
         (switch_expression_arm (constant_pattern (null_literal)) (string_literal)))))))
 
 =====================================
