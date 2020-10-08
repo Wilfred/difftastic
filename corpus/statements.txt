@@ -1222,7 +1222,8 @@ class A {
   void Sample() {
     (var a, var b) = c;
     var (a, b) = c;
-    (a, b) = c;
+    (a, b, _) = c;
+    (_, b) = c;
     var (a, _) = c;
     var (a, (b, _)) = c;
   }
@@ -1253,6 +1254,11 @@ class A {
               (equals_value_clause (identifier)))))
           (expression_statement
             (assignment_expression
+              (tuple_expression (argument (identifier)) (argument (identifier)) (argument (identifier)))
+              (assignment_operator)
+              (identifier)))
+          (expression_statement
+            (assignment_expression
               (tuple_expression (argument (identifier)) (argument (identifier)))
               (assignment_operator)
               (identifier)))
@@ -1266,7 +1272,7 @@ class A {
             (variable_declarator
               (tuple_pattern (identifier) (tuple_pattern (identifier) (discard)))
               (equals_value_clause (identifier))))))))))
-
+              
 =====================================
 Function with dynamic local variable
 =====================================

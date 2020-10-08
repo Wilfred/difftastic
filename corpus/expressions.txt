@@ -463,8 +463,8 @@ void a() {
         (expression_statement
           (anonymous_method_expression
             (parameter_list
-              (parameter (predefined_type) (discard))
-              (parameter (predefined_type) (discard)))
+              (parameter (predefined_type) (identifier))
+              (parameter (predefined_type) (identifier)))
             (block (return_statement (identifier)))))))))
 
 ============================
@@ -576,8 +576,8 @@ void a() {
               (equals_value_clause
                 (lambda_expression
                   (parameter_list
-                    (parameter (discard))
-                    (parameter (discard)))
+                    (parameter (identifier))
+                    (parameter (identifier)))
                   (integer_literal))))))
         (local_declaration_statement
           (variable_declaration
@@ -587,8 +587,8 @@ void a() {
               (equals_value_clause
                 (lambda_expression
                   (parameter_list
-                    (parameter (predefined_type) (discard))
-                    (parameter (predefined_type) (discard)))
+                    (parameter (predefined_type) (identifier))
+                    (parameter (predefined_type) (identifier)))
                   (integer_literal))))))))))
 
 ============================
@@ -629,9 +629,8 @@ void a() {
   (global_statement
     (local_function_statement (void_keyword) (identifier) (parameter_list)
       (block
-        (expression_statement (assignment_expression
-          (identifier)
-          (assignment_operator)
+        (expression_statement
+          (assignment_expression (identifier) (assignment_operator)
           (tuple_expression
             (argument (identifier))
             (argument
