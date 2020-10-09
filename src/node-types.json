@@ -2498,6 +2498,11 @@
     }
   },
   {
+    "type": "global",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "global_attribute_list",
     "named": true,
     "fields": {},
@@ -5669,7 +5674,7 @@
   },
   {
     "type": "global",
-    "named": true
+    "named": false
   },
   {
     "type": "goto",

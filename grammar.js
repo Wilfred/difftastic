@@ -59,6 +59,7 @@ module.exports = grammar({
     [$.qualified_name, $.member_access_expression],
 
     [$._contextual_keywords, $.from_clause],
+    [$._contextual_keywords, $.global],
     [$._contextual_keywords, $.accessor_declaration],
     [$._contextual_keywords, $.type_parameter_constraint],
 
@@ -171,7 +172,13 @@ module.exports = grammar({
 
     qualified_name: $ => prec(PREC.DOT, seq($._name, '.', $._simple_name)),
 
-    attribute_list: $ => seq('[', optional($.attribute_target_specifier), commaSep1($.attribute), ']'),
+    attribute_list: $ => seq(
+      '[',
+      optional($.attribute_target_specifier),
+      commaSep1($.attribute),
+      optional(','),
+      ']'
+    ),
 
     attribute_target_specifier: $ => seq(
       choice('field', 'event', 'method', 'param', 'property', 'return', 'type'),
@@ -1601,6 +1608,7 @@ module.exports = grammar({
       // 'await',
 
       // Misc
+      'global',
       'alias',
       'dynamic',
       'nameof',

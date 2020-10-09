@@ -270,3 +270,20 @@ class Zzz {
             (attribute_list (attribute (identifier)) (attribute (identifier) (attribute_argument_list)))
             (attribute_list (attribute (identifier)))
             (block)))))))
+
+=======================================
+Attributes with trailing comma
+=======================================
+[Theory,]
+void A() { }
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (attribute_list (attribute (identifier)))
+      (void_keyword)
+      (identifier)
+      (parameter_list)
+      (block))))
