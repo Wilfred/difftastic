@@ -1,5 +1,6 @@
 (
   (comment)* @doc
+  .
   (method_definition
     name: (property_identifier) @name) @definition.method
   (#not-eq? @name "constructor")
@@ -9,6 +10,7 @@
 
 (
   (comment)* @doc
+  .
   [
     (class
       name: (_) @name)
@@ -21,6 +23,7 @@
 
 (
   (comment)* @doc
+  .
   [
     (function
       name: (identifier) @name)
@@ -37,6 +40,7 @@
 
 (
   (comment)* @doc
+  .
   (lexical_declaration
     (variable_declarator
       name: (identifier) @name
@@ -47,6 +51,7 @@
 
 (
   (comment)* @doc
+  .
   (variable_declaration
     (variable_declarator
       name: (identifier) @name
