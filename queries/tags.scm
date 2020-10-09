@@ -1,5 +1,6 @@
 (
   (comment)* @doc
+  .
   (function_declaration
     name: (identifier) @name) @definition.function
   (#strip! @doc "^//\\s*")
@@ -8,6 +9,7 @@
 
 (
   (comment)* @doc
+  .
   (method_declaration
     name: (field_identifier) @name) @definition.method
   (#strip! @doc "^//\\s*")
