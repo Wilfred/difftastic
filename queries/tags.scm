@@ -2,6 +2,7 @@
 
 (
   (comment)* @doc
+  .
   [
     (method
       name: (_) @name) @definition.method
@@ -22,6 +23,7 @@
 
 (
   (comment)* @doc
+  .
   [
     (class
       name: [
