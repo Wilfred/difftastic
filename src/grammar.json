@@ -417,6 +417,18 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "]"
         }
@@ -8873,6 +8885,10 @@
         },
         {
           "type": "STRING",
+          "value": "global"
+        },
+        {
+          "type": "STRING",
           "value": "alias"
         },
         {
@@ -9022,6 +9038,10 @@
     [
       "_contextual_keywords",
       "from_clause"
+    ],
+    [
+      "_contextual_keywords",
+      "global"
     ],
     [
       "_contextual_keywords",

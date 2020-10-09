@@ -17,7 +17,7 @@ using static J.K;
     (qualified_name (identifier) (identifier)))
   (using_directive
     (qualified_name
-      (alias_qualified_name (global) (identifier))
+      (alias_qualified_name (identifier) (identifier))
       (identifier)))
   (using_directive
     (name_equals (identifier))
