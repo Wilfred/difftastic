@@ -227,7 +227,8 @@ module.exports = grammar({
     old_metadata: $ =>
       seq("#^",
           repeat($._non_form),
-          field('value', choice($.map,
+          field('value', choice($.read_cond,
+                                $.map,
                                 $.string,
                                 $.keyword,
                                 $.symbol))),
