@@ -22,6 +22,8 @@ const PREC = {
   TYPE_PATTERN: -2,
 };
 
+const decimalDigitSequence = /([0-9][0-9_]*[0-9]|[0-9])/;
+
 module.exports = grammar({
   name: 'c_sharp',
 
@@ -1508,9 +1510,9 @@ module.exports = grammar({
 
     integer_literal: $ => token(seq(
       choice(
-        (/[0-9_]+/), // Decimal
-        (/0[xX][0-9a-fA-F_]+/), // Hex
-        (/0[bB][01_]+/) // Binary
+        decimalDigitSequence, // Decimal
+        (/0[xX][0-9a-fA-F_]*[0-9a-fA-F]+/), // Hex
+        (/0[bB][01_]*[01]+/) // Binary
       ),
       optional(/u|U|l|L|ul|UL|uL|Ul|lu|LU|Lu|lU/)
     )),
@@ -1519,28 +1521,28 @@ module.exports = grammar({
 
     real_literal: $ => {
       const suffix = /[fFdDmM]/;
-      const exponent = /[eE][+-]?[0-9_]+/;
+      const exponent = /[eE][+-]?[0-9][0-9_]*/;
       return token(choice(
         seq(
-          (/[0-9_]+/),
+          decimalDigitSequence,
           '.',
-          (/[0-9_]+/),
+          decimalDigitSequence,
           optional(exponent),
           optional(suffix)
         ),
         seq(
           '.',
-          (/[0-9_]+/),
+          decimalDigitSequence,
           optional(exponent),
           optional(suffix)
         ),
         seq(
-          (/[0-9_]+/),
+          decimalDigitSequence,
           exponent,
           optional(suffix)
         ),
         seq(
-          (/[0-9_]+/),
+          decimalDigitSequence,
           suffix
         )
       ))

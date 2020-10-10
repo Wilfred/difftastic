@@ -5,9 +5,11 @@ integer literals
 const int dec = 1_2;
 const long hex = 0xf_1l;
 const long hex2 = 0Xffff;
+const long hex3 = 0x_0_f;
 const UInt64 dec = 1uL;
 const UInt16 bin = 0b0100_100;
 const UInt16 bin2 = 0B01010__10;
+const long bin3 = 0b_0_10;
 ---
 
 (compilation_unit
@@ -33,7 +35,7 @@ const UInt16 bin2 = 0B01010__10;
     (local_declaration_statement
       (modifier)
       (variable_declaration
-        (identifier)
+        (predefined_type)
         (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
   (global_statement
     (local_declaration_statement
@@ -46,6 +48,18 @@ const UInt16 bin2 = 0B01010__10;
       (modifier)
       (variable_declaration
         (identifier)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (identifier)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
         (variable_declarator (identifier) (equals_value_clause (integer_literal)))))))
 
 =======================================
@@ -118,6 +132,7 @@ const float e = 1e6f;
 const Single en = 0e-1f;
 const Single ep = 1_1e+12f;
 const double d = 0.9_9d;
+const double e = .4_9d;
 const decimal m = 0_1_2.9m;
 const Decimal m2 = 102.349M;
 
@@ -147,6 +162,12 @@ const Decimal m2 = 102.349M;
       (modifier)
       (variable_declaration
       (identifier)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
       (variable_declarator (identifier) (equals_value_clause (real_literal))))))
   (global_statement
     (local_declaration_statement
