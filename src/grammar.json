@@ -8539,15 +8539,15 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[0-9_]+"
+                "value": "([0-9][0-9_]*[0-9]|[0-9])"
               },
               {
                 "type": "PATTERN",
-                "value": "0[xX][0-9a-fA-F_]+"
+                "value": "0[xX][0-9a-fA-F_]*[0-9a-fA-F]+"
               },
               {
                 "type": "PATTERN",
-                "value": "0[bB][01_]+"
+                "value": "0[bB][01_]*[01]+"
               }
             ]
           },
@@ -8580,7 +8580,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[0-9_]+"
+                "value": "([0-9][0-9_]*[0-9]|[0-9])"
               },
               {
                 "type": "STRING",
@@ -8588,14 +8588,14 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[0-9_]+"
+                "value": "([0-9][0-9_]*[0-9]|[0-9])"
               },
               {
                 "type": "CHOICE",
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[eE][+-]?[0-9_]+"
+                    "value": "[eE][+-]?[0-9][0-9_]*"
                   },
                   {
                     "type": "BLANK"
@@ -8625,14 +8625,14 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[0-9_]+"
+                "value": "([0-9][0-9_]*[0-9]|[0-9])"
               },
               {
                 "type": "CHOICE",
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[eE][+-]?[0-9_]+"
+                    "value": "[eE][+-]?[0-9][0-9_]*"
                   },
                   {
                     "type": "BLANK"
@@ -8658,11 +8658,11 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[0-9_]+"
+                "value": "([0-9][0-9_]*[0-9]|[0-9])"
               },
               {
                 "type": "PATTERN",
-                "value": "[eE][+-]?[0-9_]+"
+                "value": "[eE][+-]?[0-9][0-9_]*"
               },
               {
                 "type": "CHOICE",
@@ -8683,7 +8683,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[0-9_]+"
+                "value": "([0-9][0-9_]*[0-9]|[0-9])"
               },
               {
                 "type": "PATTERN",
