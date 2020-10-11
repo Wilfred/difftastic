@@ -168,7 +168,7 @@ module.exports = grammar({
 
         _inheritance_specifier: $ => seq(
             field("ancestor", $._user_defined_type),
-            field("ancestor_arguments", $._call_arguments),
+            optional(field("ancestor_arguments", $._call_arguments)),
         ),
 
         contract_body: $  => seq(
@@ -771,7 +771,7 @@ module.exports = grammar({
                     seq(
                         '/*',
                         /[^*]*\*+([^/*][^*]*\*+)*/,
-                        '/'
+                        '*/'
                     )       
                 )
             )

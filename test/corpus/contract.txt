@@ -40,6 +40,20 @@ contract Example is NotAContract() {}
     body: (contract_body)))
 
 ====================
+Inheriting contract without parentheses
+====================
+
+contract Example is NotAContract{}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    (class_heritage ancestor: (identifier))
+    body: (contract_body)))
+
+====================
 Multiple Inheritance
 ====================
 
