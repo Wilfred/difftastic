@@ -41,5 +41,6 @@ interface Example is NotAContract(), AContract(1) {}
     (class_heritage 
         ancestor: (identifier) 
         ancestor: (identifier) 
-        ancestor_arguments: (primary_expression (number_literal (decimal_number))))
+        ancestor_arguments: (primary_expression 
+          (literal (number_literal (decimal_number)))))
     body: (contract_body)))

@@ -24,7 +24,7 @@ const PREC = {
     INC: 11,
     CALL: 12,
     NEW: 13,
-    MEMBER: 14
+    MEMBER: 14 
 }
 
 // The following is the core grammar for Solidity. It accepts Solidity smart contracts between the versions 0.4.x and 0.7.x.
@@ -42,6 +42,10 @@ module.exports = grammar({
     // The word token allows tree-sitter to appropriately handle scenario's where an identifier includes a keyword.
     // Documentation: https://tree-sitter.github.io/tree-sitter/creating-parsers#keywords
     word: $ => $.identifier,
+
+    conflicts: $ => [
+        [$.primary_expression, $.type_name]
+    ],
 
     rules: {
         //  -- [ Program ] --  
@@ -231,8 +235,8 @@ module.exports = grammar({
         // -- [ Statements ] --
         _statement: $ => choice(
             $.block_statement,
-            $.variable_declaration_statement,
             $.expression_statement,
+            $.variable_declaration_statement,
             $.if_statement,
             $.for_statement,
             $.while_statement,
@@ -264,11 +268,13 @@ module.exports = grammar({
             ),
             $._semicolon
         ),
+
         variable_declaration: $ => seq(
             $.type_name,
             optional(choice('memory', 'storage', 'calldata')),
             field('name', $.identifier)
         ),
+
         variable_declaration_tuple: $ => seq(
             '(', 
             commaSep($.variable_declaration),
@@ -429,7 +435,7 @@ module.exports = grammar({
         function_body: $ => seq(
             "{", 
             // TODO: make sure this is correct
-            // repeat($._statement),
+                repeat($._statement),
             "}",
         ),
 
@@ -438,28 +444,45 @@ module.exports = grammar({
             $.binary_expression,
             $.unary_expression,
             $.update_expression,
-            $.subscript_expression,
             $.call_expresion,
             // TODO: $.function_call_options_expression,
             $.payable_conversion_expression,
             $.meta_type_expression,
-
             $.primary_expression,
+            $.struct_expression,
         ),
-
+        // TODO: make primary expression anonymous
         primary_expression: $ => choice(
             $.parenthesized_expression,
             $.member_expression,
+            $.array_access,
+            $.slice_access,
             $._primitive_type,
+            $.assignment_expression,
+            $.augmented_assignment_expression,
+            $._user_defined_type,
+            $.tuple_expression,
+            $.inline_array_expression,
             // TODO: revisit precedence
             $.identifier,
-            $._user_defined_type,
             // TODO: add literals
-            $.number_literal
+            $.literal,
             // TODO: add the following
-            // $.new_expression,
-            // $.tuple_expression,
-            // $.inline_array_expression,
+            $.new_expression,
+        ),
+
+        new_expression: $ => prec.left(seq('new', $.type_name)),
+
+        tuple_expression: $ => seq(
+            '(', 
+            commaSep($._expression),
+            ')'
+        ),
+
+        inline_array_expression: $ => seq(
+            '[', 
+            commaSep($._expression),
+            ']'
         ),
 
         binary_expression: $ => choice(
@@ -527,18 +550,40 @@ module.exports = grammar({
             field('property', alias($.identifier, $.property_identifier))
         )),
 
-        subscript_expression: $ => prec.right(PREC.MEMBER, seq(
-            field('object', $._expression),
-            '[', field('index', commaSep1($._expression)), ']'
+        array_access: $ => prec.right(14,seq(
+            field('base', $._expression),
+            '[',
+            field('index', $._expression), 
+            ']'
         )),
+
+        slice_access: $ => prec(PREC.MEMBER, seq(
+            field('base', $._expression),
+            '[',
+            field('from', $._expression), 
+            ':',
+            field('to', $._expression), 
+            ']'
+        )),
+
+        struct_expression: $ => seq(
+            $._expression,
+            "{",
+            commaSep(seq(
+                $.identifier,
+                ":",
+                $._expression,
+            )),
+            "}"
+        ),
 
         _lhs_expression: $ => choice(
             $.member_expression,
-            $.subscript_expression,
+            $.array_access,
             $.identifier,
             // $._destructuring_pattern
         ),
-        parenthesized_expression: $ => seq('(', $._expression, ')'),
+        parenthesized_expression: $ => prec(1, seq('(', $._expression, ')')),
 
         assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
             field('left', choice($.parenthesized_expression, $._lhs_expression)),
@@ -547,14 +592,9 @@ module.exports = grammar({
         )),
       
         augmented_assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
-            field('left', choice(
-                $.member_expression,
-                $.subscript_expression,
-                $.identifier,
-                $.parenthesized_expression,
-            )),
+            field('left', $._lhs_expression),
             choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=',
-                '<<=', '**=', '&&=', '||=', '??='),
+                '<<=',),
             field('right', $._expression)
         )),
           
@@ -564,18 +604,20 @@ module.exports = grammar({
 
         payable_conversion_expression: $ => seq('payable', $._call_arguments),
         meta_type_expression: $ => seq('type', '(', $.type_name, ')'),
-
-        type_name: $ => choice(
+        
+        type_name: $ => prec(0, choice(
             $._primitive_type,
             $._user_defined_type,
             $._mapping,
-            seq($.type_name, '[', optional($._expression), ']'),
+            $._array_type,
             $._function_type,
-        ),
+        )),
+
+        _array_type: $ => seq($.type_name, '[', optional($._expression), ']'),
         
-        _function_type: $ => seq(
+        _function_type: $ => prec.right(seq(
             'function', $._parameter_list, optional($._return_parameters),
-        ),
+        )),
 
         _parameter_list: $ => seq(
             '(', commaSep($._parameter), ')'
@@ -603,7 +645,7 @@ module.exports = grammar({
         ),
 
         // TODO: make visible type
-        _user_defined_type: $ => prec(PREC.USER_TYPE,seq(
+        _user_defined_type: $ => prec.left(PREC. USER_TYPE, seq(
             $.identifier,
             repeat(seq(
                 '.',
@@ -667,8 +709,8 @@ module.exports = grammar({
         string_literal: $ => repeat1($.string),
         number_literal: $ => seq(choice($.decimal_number, $.hex_number), optional($.number_unit)),
         decimal_number: $ =>  seq(/\d+(.\d+)?/, optional(/[eE](-)?d+/)),
-        hex_number: $ => seq('0x', $._hex_digits),
-        _hex_digits: $ => /([a-fA-F0-9]{2})+/, 
+        hex_number: $ => seq('0x', optional(optionalDashSeparation($._hex_digit))),
+        _hex_digit: $ => /([a-fA-F0-9][a-fA-F0-9])/, 
         number_unit: $ => choice(
             'wei', 'gwei', 'ether', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'years'
         ),
@@ -676,8 +718,8 @@ module.exports = grammar({
         hex_string_literal: $ => repeat1(seq(
             'hex',
             choice(
-                seq('"', $._hex_digits, '"'),
-                seq("'", $._hex_digits, "'"),
+                seq('"', optional(optionalDashSeparation($._hex_digit)), '"'),
+                seq("'", optional(optionalDashSeparation($._hex_digit)), "'"),
             ))),
         _escape_sequence: $ => seq('\\', choice(
             // TODO: it might be allowed to escape non special characters
@@ -685,13 +727,13 @@ module.exports = grammar({
             /u([a-fA-F0-9]{4})/,
             /x([a-fA-F0-9]{2})/,
         )),
-        _single_quoted_unicode_char: $ => choice(/~['\r\n\\]/, $._escape_sequence),
-        _double_quoted_unicode_char: $ => choice(/~["\r\n\\]/, $._escape_sequence),
+        _single_quoted_unicode_char: $ => choice(/[^'\r\n\\]/, $._escape_sequence),
+        _double_quoted_unicode_char: $ => choice(/[^"\r\n\\]/, $._escape_sequence),
         unicode_string_literal: $ => repeat1(seq(
             'unicode',
             choice(
-                seq('"', $._double_quoted_unicode_char, '"'),
-                seq("'", $._single_quoted_unicode_char, "'"),
+                seq('"', repeat($._double_quoted_unicode_char), '"'),
+                seq("'", repeat($._single_quoted_unicode_char), "'"),
             ))),
 
         string: $ => choice(
@@ -745,13 +787,26 @@ function commaSep1(rule) {
         repeat(
             seq(
                 ',',
-                 rule
+                rule
             )
         ),
         optional(','),
-    );
-  }
+    );  
+}
   
 function commaSep(rule) {
     return optional(commaSep1(rule));
 }
+
+function optionalDashSeparation(rule) {
+    return seq(
+        rule,
+        repeat(
+            seq(
+                optional('_'),
+                rule
+            )
+        ),
+    );  
+}
+  
