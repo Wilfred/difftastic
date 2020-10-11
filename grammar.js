@@ -449,6 +449,7 @@ module.exports = grammar({
             $.payable_conversion_expression,
             $.meta_type_expression,
             $.primary_expression,
+            $.struct_expression,
         ),
         // TODO: make primary expression anonymous
         primary_expression: $ => choice(
@@ -457,15 +458,31 @@ module.exports = grammar({
             $.array_access,
             $.slice_access,
             $._primitive_type,
+            $.assignment_expression,
+            $.augmented_assignment_expression,
             $._user_defined_type,
+            $.tuple_expression,
+            $.inline_array_expression,
             // TODO: revisit precedence
             $.identifier,
             // TODO: add literals
             $.literal,
             // TODO: add the following
-            // $.new_expression,
-            // $.tuple_expression,
-            // $.inline_array_expression,
+            $.new_expression,
+        ),
+
+        new_expression: $ => prec.left(seq('new', $.type_name)),
+
+        tuple_expression: $ => seq(
+            '(', 
+            commaSep($._expression),
+            ')'
+        ),
+
+        inline_array_expression: $ => seq(
+            '[', 
+            commaSep($._expression),
+            ']'
         ),
 
         binary_expression: $ => choice(
@@ -549,14 +566,24 @@ module.exports = grammar({
             ']'
         )),
 
+        struct_expression: $ => seq(
+            $._expression,
+            "{",
+            commaSep(seq(
+                $.identifier,
+                ":",
+                $._expression,
+            )),
+            "}"
+        ),
+
         _lhs_expression: $ => choice(
             $.member_expression,
             $.array_access,
             $.identifier,
-            $.parenthesized_expression,
             // $._destructuring_pattern
         ),
-        parenthesized_expression: $ => seq('(', $._expression, ')'),
+        parenthesized_expression: $ => prec(1, seq('(', $._expression, ')')),
 
         assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
             field('left', choice($.parenthesized_expression, $._lhs_expression)),
@@ -567,7 +594,7 @@ module.exports = grammar({
         augmented_assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
             field('left', $._lhs_expression),
             choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=',
-                '<<=', '**=', '&&=', '||=', '??='),
+                '<<=',),
             field('right', $._expression)
         )),
           
@@ -588,9 +615,9 @@ module.exports = grammar({
 
         _array_type: $ => seq($.type_name, '[', optional($._expression), ']'),
         
-        _function_type: $ => seq(
+        _function_type: $ => prec.right(seq(
             'function', $._parameter_list, optional($._return_parameters),
-        ),
+        )),
 
         _parameter_list: $ => seq(
             '(', commaSep($._parameter), ')'
@@ -618,7 +645,7 @@ module.exports = grammar({
         ),
 
         // TODO: make visible type
-        _user_defined_type: $ => prec(PREC.USER_TYPE, seq(
+        _user_defined_type: $ => prec.left(PREC. USER_TYPE, seq(
             $.identifier,
             repeat(seq(
                 '.',

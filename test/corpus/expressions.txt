@@ -96,3 +96,221 @@ contract Example {
             (expression_statement (binary_expression left: (primary_expression (identifier)) right: (primary_expression (identifier)))) 
             (expression_statement (binary_expression left: (primary_expression (identifier)) right: (primary_expression (identifier)))) 
             (expression_statement (binary_expression left: (primary_expression (identifier)) right: (primary_expression (identifier)))))))))
+
+
+====================
+Struct expression
+====================
+
+contract Example {
+    function example() {
+        a{b: c};
+    }
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (function_definition
+         function_name: (identifier)
+         body: (function_body 
+            (expression_statement 
+                (struct_expression 
+                    (primary_expression (identifier)) 
+                    (identifier) 
+                    (primary_expression (identifier))))))))) 
+
+
+====================
+Call
+====================
+
+contract Example {
+    function example() {
+        a(b);
+    }
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (function_definition
+         function_name: (identifier)
+         body: (function_body 
+            (expression_statement (call_expresion 
+            (identifier) 
+            (primary_expression (identifier))))))))) 
+
+====================
+Payable conversion
+====================
+
+contract Example {
+    function example() {
+        payable(b);
+    }
+}
+
+---
+
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (function_definition
+         function_name: (identifier)
+         body: (function_body (expression_statement 
+            (payable_conversion_expression 
+                (primary_expression (identifier)))))))))
+
+====================
+increment and unary
+====================
+
+contract Example {
+    function example() {
+        ++b;
+        delete b;
+    }
+}
+
+---
+
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (function_definition
+         function_name: (identifier)
+         body: (function_body (expression_statement 
+            (update_expression argument: (primary_expression (identifier)))) 
+            (expression_statement (unary_expression argument: (primary_expression (identifier)))))))))
+
+
+====================
+Boolean logic 
+====================
+
+contract Example {
+    function example() {
+        a && b;
+        a || c;
+
+        // Bit
+        a & c;
+        a ^ d;
+        a | b;
+    }
+}
+
+---
+
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body 
+        (function_definition
+         function_name: (identifier)
+         body: (function_body 
+            (expression_statement (binary_expression left: (primary_expression (identifier)) right: (primary_expression (identifier)))) 
+            (expression_statement (binary_expression left: (primary_expression (identifier)) right: (primary_expression (identifier)))) 
+            (comment) 
+            (expression_statement (binary_expression left: (primary_expression (identifier)) right: (primary_expression (identifier))))
+            (expression_statement (binary_expression left: (primary_expression (identifier)) right: (primary_expression (identifier))))
+            (expression_statement (binary_expression left: (primary_expression (identifier)) right: (primary_expression (identifier))))))))) 
+
+
+====================
+Comparisons
+====================
+
+contract Example {
+    function example() {
+        a == b;
+        a < b;
+        a > b;
+        a >= b;
+        a <= b;
+        a != b;
+    }
+}
+
+---
+(source_file 
+    (contract_declaration (identifier) 
+        (contract_body (function_definition (identifier) (function_body 
+            (expression_statement (binary_expression (primary_expression (identifier)) (primary_expression (identifier))))
+            (expression_statement (binary_expression (primary_expression (identifier)) (primary_expression (identifier))))
+            (expression_statement (binary_expression (primary_expression (identifier)) (primary_expression (identifier)))) 
+            (expression_statement (binary_expression (primary_expression (identifier)) (primary_expression (identifier)))) 
+            (expression_statement (binary_expression (primary_expression (identifier)) (primary_expression (identifier)))) 
+            (expression_statement (binary_expression (primary_expression (identifier)) (primary_expression (identifier)))))))))
+
+
+====================
+Update expression
+====================
+
+contract Example {
+    function example() {
+        a = b;
+        a |= b;
+        a /= c;
+        a %= d;
+        a >>>= d;
+    }
+}
+
+---
+(source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) (function_body 
+    (expression_statement (primary_expression (assignment_expression (identifier) (primary_expression (identifier))))) 
+    (expression_statement (primary_expression (augmented_assignment_expression (identifier) (primary_expression (identifier))))) 
+    (expression_statement (primary_expression (augmented_assignment_expression (identifier) (primary_expression (identifier))))) 
+    (expression_statement (primary_expression (augmented_assignment_expression (identifier) (primary_expression (identifier))))) 
+    (expression_statement (primary_expression (augmented_assignment_expression (identifier) (primary_expression (identifier))))))))))
+
+
+====================
+Special Expression types
+====================
+
+contract Example {
+    function example() {
+        (a, b);
+        [1, 2];
+        identifier;
+        1;
+        user.type;
+        uint;
+    }
+}
+---
+(source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) (function_body 
+    (expression_statement (primary_expression (tuple_expression (primary_expression (identifier)) (primary_expression (identifier)))))
+    (expression_statement (primary_expression (inline_array_expression (primary_expression (literal (number_literal (decimal_number)))) (primary_expression (literal (number_literal (decimal_number)))))))
+    (expression_statement (primary_expression (identifier))) 
+    (expression_statement (primary_expression (literal (number_literal (decimal_number))))) 
+    (expression_statement (primary_expression (member_expression (identifier) (property_identifier)))) (expression_statement (primary_expression)))))))
+
+
+====================
+New expression
+====================
+
+contract Example {
+    function example() {
+        new lambo;
+    }
+}
+---
+(source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) (function_body 
+    (expression_statement (primary_expression (new_expression (type_name (identifier))))))))))
