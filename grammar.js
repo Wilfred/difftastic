@@ -263,13 +263,33 @@ module.exports = grammar({
         // yul_statement: $ => seq(),
 
         block_statement: $ => seq('{', repeat($._statement), "}"),
-        variable_declaration_statement: $ => seq(
-            choice(
-                seq($.variable_declaration, optional(seq('=', $._expression))),
-                seq($.variable_declaration_tuple, '=', $._expression),
-            ),
-            $._semicolon
-        ),
+        variable_declaration_statement: $ => prec(3,seq(
+                choice(
+                    seq($.variable_declaration, optional(seq('=', $._expression))),
+                    seq($.variable_declaration_tuple, '=', $._expression),
+                ),
+                $._semicolon
+            )),
+
+        // var_variable_decartion: $ => prec.left(seq(
+        //     'var',
+        //     choice(
+        //         $.identifier,
+        //         seq(
+        //             '(', 
+        //             optional($.identifier),
+        //             repeat(
+        //                 seq(
+        //                     ',',
+        //                     optional($.identifier),
+        //                 )
+        //             ),
+        //         ')')
+        //     ),
+        //     '=',
+        //      $._expression,
+        //      $._semicolon,
+        // )),
 
         variable_declaration: $ => seq(
             $.type_name,
@@ -277,11 +297,24 @@ module.exports = grammar({
             field('name', $.identifier)
         ),
 
-        variable_declaration_tuple: $ => seq(
-            '(', 
-            commaSep($.variable_declaration),
-            ')'
-        ),
+        variable_declaration_tuple: $ => prec(3, choice(
+            seq(
+                '(', 
+                commaSep($.variable_declaration),
+                ')'
+            ),
+            seq('var',
+                '(', 
+                optional($.identifier),
+                repeat(
+                    seq(
+                        ',',
+                        optional($.identifier),
+                    )
+                ),
+                ')'
+            )
+        )),
 
         expression_statement: $ => seq($._expression, $._semicolon),
 
