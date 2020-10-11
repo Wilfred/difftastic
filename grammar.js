@@ -722,7 +722,7 @@ module.exports = grammar({
         hex_number: $ => seq('0x', optional(optionalDashSeparation($._hex_digit))),
         _hex_digit: $ => /([a-fA-F0-9][a-fA-F0-9])/, 
         number_unit: $ => choice(
-            'wei', 'gwei', 'ether', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'years'
+            'wei','szabo', 'finney', 'gwei', 'ether', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'years'
         ),
         boolean_literal: $ => choice('true', 'false'),
         hex_string_literal: $ => prec.left(repeat1(seq(
