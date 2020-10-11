@@ -283,24 +283,23 @@ module.exports = grammar({
 
         expression_statement: $ => seq($._expression, $._semicolon),
 
-        if_statement: $ => seq(
-            'if', '(',$._expression, ')', $.block_statement, optional(seq('else', $.block_statement)),
-        ),
+        if_statement: $ => prec.left(seq(
+            'if', '(',$._expression, ')', $._statement, optional(seq('else', $._statement)),
+        )),
         
         for_statement: $ => seq(
             'for', '(', 
-            // TODO: verify
             choice($.variable_declaration_statement, $.expression_statement, $._semicolon),
             choice($.expression_statement, $._semicolon),
-            choice($._expression),
-            ')', $.block_statement,
+            optional($._expression),
+            ')', $._statement,
         ),
 
         while_statement: $ => seq(
-            'while', '(',$._expression, ')', $.block_statement,
+            'while', '(',$._expression, ')', $._statement,
         ),
         do_while_statement: $ => seq(
-            'do', $.block_statement, 'while', '(',$._expression, ')',
+            'do', $._statement, 'while', '(',$._expression, ')',
         ),        
         continue_statement: $ => seq('continue', $._semicolon),
         break_statement: $ => seq('break', $._semicolon),
@@ -662,7 +661,7 @@ module.exports = grammar({
             $._user_defined_type
         ),
 
-        _primitive_type: $ => choice(
+        _primitive_type: $ => prec.left(choice(
             seq('address', optional('payable')),
             'bool',
             'string',
@@ -672,7 +671,7 @@ module.exports = grammar({
             $._bytes,
             $._fixed,
             $._ufixed,
-        ),
+        )),
 
         _int: $ => choice (
             'int', 'int8', 'int16', 'int24', 'int32', 'int40', 'int48', 'int56', 'int64', 'int72', 'int80', 'int88', 'int96', 'int104', 'int112', 'int120', 'int128', 'int136', 'int144', 'int152', 'int160', 'int168', 'int176', 'int184', 'int192', 'int200', 'int208', 'int216', 'int224', 'int232', 'int240', 'int248', 'int256'
@@ -706,7 +705,7 @@ module.exports = grammar({
             $.unicode_string_literal,
         ),
 
-        string_literal: $ => repeat1($.string),
+        string_literal: $ => prec.left(repeat1($.string)),
         number_literal: $ => seq(choice($.decimal_number, $.hex_number), optional($.number_unit)),
         decimal_number: $ =>  seq(/\d+(.\d+)?/, optional(/[eE](-)?d+/)),
         hex_number: $ => seq('0x', optional(optionalDashSeparation($._hex_digit))),
@@ -715,12 +714,12 @@ module.exports = grammar({
             'wei', 'gwei', 'ether', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'years'
         ),
         boolean_literal: $ => choice('true', 'false'),
-        hex_string_literal: $ => repeat1(seq(
+        hex_string_literal: $ => prec.left(repeat1(seq(
             'hex',
             choice(
                 seq('"', optional(optionalDashSeparation($._hex_digit)), '"'),
                 seq("'", optional(optionalDashSeparation($._hex_digit)), "'"),
-            ))),
+            )))),
         _escape_sequence: $ => seq('\\', choice(
             // TODO: it might be allowed to escape non special characters
             /"'\\bfnrtv\n\r/,
@@ -729,12 +728,12 @@ module.exports = grammar({
         )),
         _single_quoted_unicode_char: $ => choice(/[^'\r\n\\]/, $._escape_sequence),
         _double_quoted_unicode_char: $ => choice(/[^"\r\n\\]/, $._escape_sequence),
-        unicode_string_literal: $ => repeat1(seq(
+        unicode_string_literal: $ => prec.left(repeat1(seq(
             'unicode',
             choice(
                 seq('"', repeat($._double_quoted_unicode_char), '"'),
                 seq("'", repeat($._single_quoted_unicode_char), "'"),
-            ))),
+        )))),
 
         string: $ => choice(
             seq(
