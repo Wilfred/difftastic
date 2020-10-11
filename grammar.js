@@ -45,6 +45,7 @@ module.exports = grammar({
 
     conflicts: $ => [
         [$.primary_expression, $.type_name],
+        [$._parameter_list, $.fallback_receive_definition],
         [$.primary_expression, $.type_cast_expression]
     ],
 
@@ -386,8 +387,12 @@ module.exports = grammar({
         ),
 
         fallback_receive_definition: $ => seq(
-            optional("function"),
-            choice('fallback', 'receive'),
+            choice(seq(
+                optional("function"),
+                choice('fallback', 'receive'),
+                ),
+                "function"
+            ),
             '(', ')',
             // FIXME: We use repeat to allow for unorderedness. However, this means that the parser 
             // accepts more than just the solidity language. The same problem exists for other definition rules.
