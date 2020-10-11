@@ -172,6 +172,26 @@ struct Scanner
         return false;
     }
 
+    bool checkForIn(TSLexer *lexer, const bool *valid_symbols)
+    {
+        // Are we at the end of a let (in) declaration
+        if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == 'i')
+        {
+            skip(lexer);
+
+            if (lexer->lookahead == 'n')
+            {
+                skip(lexer);
+                if (isElmSpace(lexer) || lexer->lookahead == 0)
+                {
+                    lexer->result_symbol = VIRTUAL_END_SECTION;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     bool scan(TSLexer *lexer, const bool *valid_symbols)
     {
         // First handle eventual runback tokens, we saved on a previous scan op
@@ -194,11 +214,41 @@ struct Scanner
         lexer->mark_end(lexer);
         while (true)
         {
+            if (lexer->lookahead == ' ')
+            {
+                skip(lexer);
+               
+                if (lexer->lookahead == '\n')
+                {
+                    skip(lexer);
+                    has_newline = true;
+                    indent_length = 0;
+                    while (true)
+                    {
+                        if (lexer->lookahead == ' ')
+                        {
+                            indent_length++;
+                            skip(lexer);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                if (checkForIn(lexer, valid_symbols))
+                {
+                    return true;
+                } else {
+                    break;
+                }
+            }
             if (lexer->lookahead == '\n')
             {
+                skip(lexer);
                 has_newline = true;
                 indent_length = 0;
-                skip(lexer);
                 while (true)
                 {
                     if (lexer->lookahead == ' ')
@@ -214,9 +264,9 @@ struct Scanner
             }
             else if (lexer->lookahead == '\r')
             {
+                skip(lexer);
                 indent_length = 0;
                 has_newline = true;
-                skip(lexer);
             }
             else if (lexer->lookahead == 0)
             {
@@ -231,25 +281,6 @@ struct Scanner
             else
             {
                 break;
-            }
-        }
-        // Are we at the end of a let (in) declaration
-        if (valid_symbols[VIRTUAL_END_SECTION] && isElmSpace(lexer))
-        {
-            skip(lexer);
-            if (lexer->lookahead == 'i')
-            {
-                skip(lexer);
-
-                if (lexer->lookahead == 'n')
-                {
-                    skip(lexer);
-                    if (isElmSpace(lexer))
-                    {
-                        lexer->result_symbol = VIRTUAL_END_SECTION;
-                        return true;
-                    }
-                }
             }
         }
 
@@ -333,14 +364,11 @@ struct Scanner
         }
 
         // Handle block comments if we're not in a string
-        if (in_string == 0 && valid_symbols[BLOCK_COMMENT])
+        if (in_string == 0 && valid_symbols[BLOCK_COMMENT]  && scan_comment(lexer))
         {
-            if (scan_comment(lexer))
-            {
-                lexer->mark_end(lexer);
-                lexer->result_symbol = BLOCK_COMMENT;
-                return true;
-            }
+            lexer->mark_end(lexer);
+            lexer->result_symbol = BLOCK_COMMENT;
+            return true;
         }
 
         // Handle string quotes for multiline and normal strings
