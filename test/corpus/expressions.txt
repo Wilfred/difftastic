@@ -314,3 +314,16 @@ contract Example {
 ---
 (source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) (function_body 
     (expression_statement (primary_expression (new_expression (type_name (identifier))))))))))
+
+====================
+Ternary expression
+====================
+
+contract Example {
+    function example() {
+        a  ? b : c;
+    }
+}
+---
+(source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) (function_body 
+    (expression_statement (ternary_expression (primary_expression (identifier)) (primary_expression (identifier)) (primary_expression (identifier)))))))))

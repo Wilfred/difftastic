@@ -449,7 +449,9 @@ module.exports = grammar({
             $.meta_type_expression,
             $.primary_expression,
             $.struct_expression,
+            $.ternary_expression,
         ),
+
         // TODO: make primary expression anonymous
         primary_expression: $ => choice(
             $.parenthesized_expression,
@@ -469,6 +471,8 @@ module.exports = grammar({
             // TODO: add the following
             $.new_expression,
         ),
+        
+        ternary_expression: $ => prec.left(seq($._expression, "?", $._expression, ':', $._expression)),
 
         new_expression: $ => prec.left(seq('new', $.type_name)),
 
