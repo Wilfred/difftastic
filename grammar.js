@@ -483,11 +483,11 @@ module.exports = grammar({
 
         new_expression: $ => prec.left(seq('new', $.type_name)),
 
-        tuple_expression: $ => seq(
+        tuple_expression: $ => prec(1, seq(
             '(', 
             commaSep($._expression),
             ')'
-        ),
+        )),
 
         inline_array_expression: $ => seq(
             '[', 
@@ -589,11 +589,12 @@ module.exports = grammar({
 
         _lhs_expression: $ => choice(
             $.member_expression,
+            $.tuple_expression,
             $.array_access,
             $.identifier,
             // $._destructuring_pattern
         ),
-        parenthesized_expression: $ => prec(1, seq('(', $._expression, ')')),
+        parenthesized_expression: $ => prec(2, seq('(', $._expression, ')')),
 
         assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
             field('left', choice($.parenthesized_expression, $._lhs_expression)),
