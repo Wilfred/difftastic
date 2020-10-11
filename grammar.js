@@ -78,7 +78,7 @@ module.exports = grammar({
             $._solidity_version,
         ),
         _solidity_version: $ => /\d+(.\d+(.\d+)?)?/,
-        _solidity_version_comparison_operator: $ => choice("<=", "<", "^", ">", ">=", "~"),
+        _solidity_version_comparison_operator: $ => choice("<=", "<", "^", ">", ">=", "~", "="),
 
         // Import
         import_directive: $ => seq(
