@@ -206,7 +206,7 @@ module.exports = grammar({
             'enum',
             field("enum_type_name", $.identifier),
             '{',
-            commaSep1(field("enum_value", $.identifier)),
+            commaSep(field("enum_value", $.identifier)),
             '}',
         ),
             
