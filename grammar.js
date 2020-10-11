@@ -464,11 +464,8 @@ module.exports = grammar({
             $._user_defined_type,
             $.tuple_expression,
             $.inline_array_expression,
-            // TODO: revisit precedence
             $.identifier,
-            // TODO: add literals
             $.literal,
-            // TODO: add the following
             $.new_expression,
         ),
         
