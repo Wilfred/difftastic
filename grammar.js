@@ -44,7 +44,8 @@ module.exports = grammar({
     word: $ => $.identifier,
 
     conflicts: $ => [
-        [$.primary_expression, $.type_name]
+        [$.primary_expression, $.type_name],
+        [$.primary_expression, $.type_cast_expression]
     ],
 
     rules: {
@@ -450,6 +451,7 @@ module.exports = grammar({
             $.primary_expression,
             $.struct_expression,
             $.ternary_expression,
+            $.type_cast_expression,
         ),
 
         // TODO: make primary expression anonymous
@@ -468,7 +470,10 @@ module.exports = grammar({
             $.literal,
             $.new_expression,
         ),
-        
+
+        // TODO: back this up with official dcumentation
+        type_cast_expression: $ => prec.left(seq($._primitive_type, '(', $._expression,')')),
+
         ternary_expression: $ => prec.left(seq($._expression, "?", $._expression, ':', $._expression)),
 
         new_expression: $ => prec.left(seq('new', $.type_name)),
