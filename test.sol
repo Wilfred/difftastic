@@ -470,31 +470,31 @@ contract test {
 
 contract test {
   function() {
-		assembly {
-			mstore(0x40, 0x60) // store the "free memory pointer"
-			// function dispatcher
-			switch div(calldataload(0), exp(2, 226))
-			case 0xb3de648b {
-				let (r) := f(calldataload(4))
-				let ret := $allocate(0x20)
-				mstore(ret, r)
-				return(ret, 0x20)
-			}
-			default { revert(0, 0) }
-			// memory allocator
-			function $allocate(size) -> pos {
-				pos := mload(0x40)
-				mstore(0x40, add(pos, size))
-			}
-			// the contract function
-			function f(x) -> y {
-				y := 1
-				for { let i := 0 } lt(i, x) { i := add(i, 1) } {
-					y := mul(2, y)
-				}
-				if gt(y, 2) { revert(0, 0) }
-			}
-		}
+		// assembly {
+		// 	mstore(0x40, 0x60) // store the "free memory pointer"
+		// 	// function dispatcher
+		// 	switch div(calldataload(0), exp(2, 226))
+		// 	case 0xb3de648b {
+		// 		let (r) := f(calldataload(4))
+		// 		let ret := $allocate(0x20)
+		// 		mstore(ret, r)
+		// 		return(ret, 0x20)
+		// 	}
+		// 	default { revert(0, 0) }
+		// 	// memory allocator
+		// 	function $allocate(size) -> pos {
+		// 		pos := mload(0x40)
+		// 		mstore(0x40, add(pos, size))
+		// 	}
+		// 	// the contract function
+		// 	function f(x) -> y {
+		// 		y := 1
+		// 		for { let i := 0 } lt(i, x) { i := add(i, 1) } {
+		// 			y := mul(2, y)
+		// 		}
+		// 		if gt(y, 2) { revert(0, 0) }
+		// 	}
+		// }
   }
 }
 
@@ -511,236 +511,4 @@ contract test {
   function f() {
     uint256 a = 2.3e5;
   }
-}
-
-contract test {
-  function f() {
-    uint256 a;
-    (a,) = g();
-    (,) = g();
-    () = ();
-  }
-}
-
-contract test {
-  function foo() public returns (byte b) {
-    assembly {
-      n := byte(0x0)
-    }
-  }
-}
-
-contract test {
-    function() {
-        emit EventCalled(1, 2, 3);
-    }
-}
-
-contract test {
-    constructor(uint a, uint b) withModifier {}
-}
-
-contract test {
-  function () payable {
-    (bytes32 a, uint b) = foo();
-  }
-}
-
-contract test {
-  uint x = .1 ether;
-}
-
-contract test {
-  function () {
-    type(Proxy).creationCode;
-  }
-}
-
-contract test {
-  uint x = 1000000;
-  int x2 = -1000000;
-  int x3 = -1000000 * 200;
-  uint y = .25;
-  uint y2 = 0.25;
-  // uint y3 = 10.25;
-  // uint y4 = 100.25;
-  // uint y5 = 0.0025 * 1e18;
-  uint z = 0x11_22;
-  uint z2 = 0x1122;
-}
-
-contract test {
-  function _finalization() internal {
-    if (goalReached()) {
-      _escrow.close();
-      _escrow.beneficiaryWithdraw();
-    } else {
-      _escrow.enableRefunds();
-    }
-
-    super._finalization();
-  }
-}
-
-contract test {
-  function testFunction() {
-		assembly {
-			function power(base, exponent) -> result {
-        switch exponent
-        case 0 { result := 1 }
-        case 1 { result := base }
-        default {
-            result := power(mul(base, base), div(exponent, 2))
-            switch mod(exponent, 2)
-            case 1 {
-              result := mul(base, result)
-              leave
-            }
-        }
-    }
-		}
-  }
-}
-
-contract Sharer {
-    function sendHalf(address payable addr) public payable returns (uint balance) {
-        require(msg.value % 2 == 0, "Even value required.");
-        uint balanceBeforeTransfer = address(this).balance;
-        addr.transfer(msg.value / 2);
-        // Since transfer throws an exception on failure and
-        // cannot call back here, there should be no way for us to
-        // still have half of the money.
-        assert(address(this).balance == balanceBeforeTransfer - msg.value / 2);
-        return address(this).balance;
-    }
-}
-
-contract FeedConsumer {
-    DataFeed feed;
-    uint errorCount;
-    function rate(address token) public returns (uint value, bool success) {
-        // Permanently disable the mechanism if there are
-        // more than 10 errors.
-        require(errorCount < 10);
-        try feed.getData(token) returns (uint v) {
-            return (v, true);
-        } catch Error(string memory /*reason*/) {
-            // This is executed in case
-            // revert was called inside getData
-            // and a reason string was provided.
-            errorCount++;
-            return (0, false);
-        } catch (bytes memory /*lowLevelData*/) {
-            // This is executed in case revert() was used
-            // or there was a failing assertion, division
-            // by zero, etc. inside getData.
-            errorCount++;
-            return (0, false);
-        } catch {
-            // This is also executed in case revert() was used
-            // or there was a failing assertion, division
-            // by zero, etc. inside getData.
-            errorCount++;
-            return (0, false);
-        }
-    }
-}
-
-
-contract test {
-  receive () external payable {}
-  fallback () external payable {}
-}
-
-pragma solidity >=0.5.0 <0.7.0;
-
-contract D {
-    uint public x;
-    constructor(uint a) public payable {
-        x = a;
-    }
-}
-
-contract C {
-    D d = new D(4); // will be executed as part of C's constructor
-
-    function createD(uint arg) public {
-        D newD = new D(arg);
-        newD.x();
-    }
-
-    function createAndEndowD(uint arg, uint amount) public payable {
-        // Send ether along with the creation
-        D newD = new D{value: amount}(arg);
-        newD.x();
-    }
-}
-
-pragma solidity >0.6.1 <0.7.0;
-
-contract D {
-    uint public x;
-    constructor(uint a) public {
-        x = a;
-    }
-}
-
-contract C {
-    function createDSalted(bytes32 salt, uint arg) public {
-        /// This complicated expression just tells you how the address
-        /// can be pre-computed. It is just there for illustration.
-        /// You actually only need ``new D{salt: salt}(arg)``.
-        address predictedAddress = address(bytes20(keccak256(abi.encodePacked(
-            byte(0xff),
-            address(this),
-            salt,
-            keccak256(abi.encodePacked(
-                type(D).creationCode,
-                arg
-            ))
-        ))));
-
-        D d = new D{salt: salt}(arg);
-        require(address(d) == predictedAddress);
-    }
-}
-
-contract c {
-    string a = "aaa"
-    "bbb";
-    string b = "aaa""bbb";
-    string c = "aaa"  "bbb";
-}
-
-pragma solidity >=0.4.22 <0.7.0;
-
-contract owned {
-    constructor() public { owner = msg.sender; }
-    address payable owner;
-}
-
-contract Destructible is owned {
-    function destroy() virtual public {
-        if (msg.sender == owner) selfdestruct(owner);
-    }
-}
-
-contract Base1 is Destructible {
-    function destroy() public virtual override { /* do cleanup 1 */ super.destroy(); }
-}
-
-
-contract Base2 is Destructible {
-    function destroy() public virtual override { /* do cleanup 2 */ super.destroy(); }
-}
-
-contract Final is Base1, Base2 {
-    function destroy() public override(Base1, Base2) { super.destroy(); }
-}
-
-contract PayableAddress {
-    function payableFn() public pure {
-        address x;
-        address y = payable(x);
-    }
 }
