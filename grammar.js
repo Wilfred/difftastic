@@ -519,7 +519,13 @@ module.exports = grammar({
 
         tuple_expression: $ => prec(1, seq(
             '(', 
-            commaSep($._expression),
+            optional($._expression),
+            repeat(
+                seq(
+                    ',',
+                    optional($._expression),
+                )
+            ),
             ')'
         )),
 
@@ -620,12 +626,12 @@ module.exports = grammar({
             )),
             "}"
         ),
-
+        
         _lhs_expression: $ => choice(
             $.member_expression,
-            $.tuple_expression,
             $.array_access,
             $.identifier,
+            $.tuple_expression,
             // $._destructuring_pattern
         ),
         parenthesized_expression: $ => prec(2, seq('(', $._expression, ')')),
