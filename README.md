@@ -28,4 +28,6 @@ binding.gyp
 
 -> Tree-sitter javascript grammar: https://github.com/tree-sitter/tree-sitter-javascript/blob/master/grammar.js
 
+-> Solidity antlr grammar: https://github.com/ConsenSys/solidity-parser-antlr
+
 Major inspriration & some structures have been taken from tree-sitter-javascript, a big thanks to the contributors to this repo! 

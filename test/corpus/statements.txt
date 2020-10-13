@@ -20,3 +20,155 @@ contract Example {
             (variable_declaration_statement (variable_declaration 
                     (type_name (type_name)) 
                     name: (identifier))))))))
+
+
+====================
+Block statement
+====================
+
+contract Example {
+    function example() {
+        {
+            1;
+        }
+    }
+}
+
+---
+(source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) 
+    (function_body (block_statement (expression_statement (primary_expression (literal (number_literal (decimal_number)))))))))))
+
+====================
+If statement
+====================
+
+contract Example {
+    function example() {
+        if (a) {
+            
+        } 
+        if (d) {} else {
+            b; 
+        }
+        if (a) 1;
+
+    }
+}
+
+---
+(source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) 
+    (function_body 
+        (if_statement (primary_expression (identifier)) (block_statement)) 
+        (if_statement (primary_expression (identifier)) (block_statement) (block_statement (expression_statement (primary_expression (identifier))))) 
+        (if_statement (primary_expression (identifier)) (expression_statement (primary_expression (literal (number_literal (decimal_number))))))))))) 
+
+====================
+For statement
+====================
+
+contract Example {
+    function example() {
+        for (int i = 0; i++; i < 10) e++;
+        for (; i++; i < 10) e++;
+        for (;; i < 10) e++;
+    }
+}
+
+---
+(source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) 
+    (function_body 
+        (for_statement (variable_declaration_statement (variable_declaration (type_name) (identifier)) (primary_expression (literal (number_literal (decimal_number))))) (expression_statement (update_expression (primary_expression (identifier)))) (binary_expression (primary_expression (identifier)) (primary_expression (literal (number_literal (decimal_number))))) (expression_statement (update_expression (primary_expression (identifier))))) 
+        (for_statement (expression_statement (update_expression (primary_expression (identifier)))) (binary_expression (primary_expression (identifier)) (primary_expression (literal (number_literal (decimal_number))))) (expression_statement (update_expression (primary_expression (identifier))))) 
+        (for_statement (binary_expression (primary_expression (identifier)) (primary_expression (literal (number_literal (decimal_number))))) (expression_statement (update_expression (primary_expression (identifier))))))))))        
+
+
+====================
+While statement
+====================
+
+contract Example {
+    function example() {
+        while (true) return;
+    }
+}
+
+---
+(source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) (function_body 
+    (while_statement (primary_expression (literal (boolean_literal))) (return_statement)))))))
+
+
+====================
+While statement
+====================
+
+contract Example {
+    function example() {
+        while (true) {
+            break;
+            continue;
+        }
+    }
+}
+
+---
+(source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) (function_body 
+    (while_statement (primary_expression (literal (boolean_literal))) (block_statement (break_statement) (continue_statement))))))))
+
+
+====================
+Try statement
+====================
+
+contract Example {
+    function example() {
+        try callSomething() returns (uint param) {
+            param++;
+        } catch errorMessage(uint value) {
+            param--;
+        }
+    }
+}
+
+---
+(source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) (function_body 
+    (try_statement (call_expresion (identifier)) (type_name) (identifier) (block_statement (expression_statement (update_expression (primary_expression (identifier))))) 
+    (catch_clause (identifier) (type_name) (identifier) (block_statement (expression_statement (update_expression (primary_expression (identifier))))))))))))
+
+====================
+Return statement
+====================
+
+contract Example {
+    function example() {
+        return;
+    }
+}
+---
+(source_file (contract_declaration (identifier) (contract_body 
+    (function_definition (identifier) (function_body (return_statement))))))
+
+
+====================
+Emit statement
+====================
+
+contract Example {
+    function example() {
+        emit logmessage();
+    }
+}
+---
+(source_file (contract_declaration (identifier) (contract_body 
+    (function_definition (identifier) (function_body (emit_statement (primary_expression (identifier))))))))
+
+
+====================
+Assembly statement
+====================
+
+contract Example {
+    function example() {
+        emit logmessage();
+    }
+}
+---

@@ -44,7 +44,9 @@ module.exports = grammar({
     word: $ => $.identifier,
 
     conflicts: $ => [
-        [$.primary_expression, $.type_name]
+        [$.primary_expression, $.type_name],
+        [$._parameter_list, $.fallback_receive_definition],
+        [$.primary_expression, $.type_cast_expression]
     ],
 
     rules: {
@@ -78,7 +80,7 @@ module.exports = grammar({
             $._solidity_version,
         ),
         _solidity_version: $ => /\d+(.\d+(.\d+)?)?/,
-        _solidity_version_comparison_operator: $ => choice("<=", "<", "^", ">", ">=" ),
+        _solidity_version_comparison_operator: $ => choice("<=", "<", "^", ">", ">=", "~", "="),
 
         // Import
         import_directive: $ => seq(
@@ -168,7 +170,7 @@ module.exports = grammar({
 
         _inheritance_specifier: $ => seq(
             field("ancestor", $._user_defined_type),
-            field("ancestor_arguments", $._call_arguments),
+            optional(field("ancestor_arguments", $._call_arguments)),
         ),
 
         contract_body: $  => seq(
@@ -205,7 +207,7 @@ module.exports = grammar({
             'enum',
             field("enum_type_name", $.identifier),
             '{',
-            commaSep1(field("enum_value", $.identifier)),
+            commaSep(field("enum_value", $.identifier)),
             '}',
         ),
             
@@ -261,13 +263,33 @@ module.exports = grammar({
         // yul_statement: $ => seq(),
 
         block_statement: $ => seq('{', repeat($._statement), "}"),
-        variable_declaration_statement: $ => seq(
-            choice(
-                seq($.variable_declaration, optional(seq('=', $._expression))),
-                seq($.variable_declaration_tuple, '=', $._expression),
-            ),
-            $._semicolon
-        ),
+        variable_declaration_statement: $ => prec(3,seq(
+                choice(
+                    seq($.variable_declaration, optional(seq('=', $._expression))),
+                    seq($.variable_declaration_tuple, '=', $._expression),
+                ),
+                $._semicolon
+            )),
+
+        // var_variable_decartion: $ => prec.left(seq(
+        //     'var',
+        //     choice(
+        //         $.identifier,
+        //         seq(
+        //             '(', 
+        //             optional($.identifier),
+        //             repeat(
+        //                 seq(
+        //                     ',',
+        //                     optional($.identifier),
+        //                 )
+        //             ),
+        //         ')')
+        //     ),
+        //     '=',
+        //      $._expression,
+        //      $._semicolon,
+        // )),
 
         variable_declaration: $ => seq(
             $.type_name,
@@ -275,32 +297,44 @@ module.exports = grammar({
             field('name', $.identifier)
         ),
 
-        variable_declaration_tuple: $ => seq(
-            '(', 
-            commaSep($.variable_declaration),
-            ')'
-        ),
+        variable_declaration_tuple: $ => prec(3, choice(
+            seq(
+                '(', 
+                commaSep($.variable_declaration),
+                ')'
+            ),
+            seq('var',
+                '(', 
+                optional($.identifier),
+                repeat(
+                    seq(
+                        ',',
+                        optional($.identifier),
+                    )
+                ),
+                ')'
+            )
+        )),
 
         expression_statement: $ => seq($._expression, $._semicolon),
 
-        if_statement: $ => seq(
-            'if', '(',$._expression, ')', $.block_statement, optional(seq('else', $.block_statement)),
-        ),
+        if_statement: $ => prec.left(seq(
+            'if', '(',$._expression, ')', $._statement, optional(seq('else', $._statement)),
+        )),
         
         for_statement: $ => seq(
             'for', '(', 
-            // TODO: verify
             choice($.variable_declaration_statement, $.expression_statement, $._semicolon),
             choice($.expression_statement, $._semicolon),
-            choice($._expression),
-            ')', $.block_statement,
+            optional($._expression),
+            ')', $._statement,
         ),
 
         while_statement: $ => seq(
-            'while', '(',$._expression, ')', $.block_statement,
+            'while', '(',$._expression, ')', $._statement,
         ),
         do_while_statement: $ => seq(
-            'do', $.block_statement, 'while', '(',$._expression, ')',
+            'do', $._statement, 'while', '(',$._expression, ')',
         ),        
         continue_statement: $ => seq('continue', $._semicolon),
         break_statement: $ => seq('break', $._semicolon),
@@ -386,8 +420,12 @@ module.exports = grammar({
         ),
 
         fallback_receive_definition: $ => seq(
-            optional("function"),
-            choice('fallback', 'receive'),
+            choice(seq(
+                optional("function"),
+                choice('fallback', 'receive'),
+                ),
+                "function"
+            ),
             '(', ')',
             // FIXME: We use repeat to allow for unorderedness. However, this means that the parser 
             // accepts more than just the solidity language. The same problem exists for other definition rules.
@@ -421,7 +459,7 @@ module.exports = grammar({
         virtual: $ => "virtual",
         modifier_invocation: $ => seq($.identifier, optional($._call_arguments)),
         
-        _call_arguments: $ => choice(
+        _call_arguments: $ => prec(4,
             seq(
                 '(',
                 commaSep(choice(
@@ -450,7 +488,10 @@ module.exports = grammar({
             $.meta_type_expression,
             $.primary_expression,
             $.struct_expression,
+            $.ternary_expression,
+            $.type_cast_expression,
         ),
+
         // TODO: make primary expression anonymous
         primary_expression: $ => choice(
             $.parenthesized_expression,
@@ -463,21 +504,30 @@ module.exports = grammar({
             $._user_defined_type,
             $.tuple_expression,
             $.inline_array_expression,
-            // TODO: revisit precedence
             $.identifier,
-            // TODO: add literals
             $.literal,
-            // TODO: add the following
             $.new_expression,
         ),
 
-        new_expression: $ => prec.left(seq('new', $.type_name)),
+        // TODO: back this up with official dcumentation
+        type_cast_expression: $ => prec.left(seq($._primitive_type, '(', $._expression,')')),
 
-        tuple_expression: $ => seq(
+        ternary_expression: $ => prec.left(seq($._expression, "?", $._expression, ':', $._expression)),
+
+        // TODO: make sure call arguments are part of solidity
+        new_expression: $ => prec.left(seq('new', $.type_name, optional($._call_arguments))),
+
+        tuple_expression: $ => prec(1, seq(
             '(', 
-            commaSep($._expression),
+            optional($._expression),
+            repeat(
+                seq(
+                    ',',
+                    optional($._expression),
+                )
+            ),
             ')'
-        ),
+        )),
 
         inline_array_expression: $ => seq(
             '[', 
@@ -576,14 +626,15 @@ module.exports = grammar({
             )),
             "}"
         ),
-
+        
         _lhs_expression: $ => choice(
             $.member_expression,
             $.array_access,
             $.identifier,
+            $.tuple_expression,
             // $._destructuring_pattern
         ),
-        parenthesized_expression: $ => prec(1, seq('(', $._expression, ')')),
+        parenthesized_expression: $ => prec(2, seq('(', $._expression, ')')),
 
         assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
             field('left', choice($.parenthesized_expression, $._lhs_expression)),
@@ -613,7 +664,7 @@ module.exports = grammar({
             $._function_type,
         )),
 
-        _array_type: $ => seq($.type_name, '[', optional($._expression), ']'),
+        _array_type: $ => prec(1, seq($.type_name, '[', optional($._expression), ']')),
         
         _function_type: $ => prec.right(seq(
             'function', $._parameter_list, optional($._return_parameters),
@@ -662,7 +713,7 @@ module.exports = grammar({
             $._user_defined_type
         ),
 
-        _primitive_type: $ => choice(
+        _primitive_type: $ => prec.left(choice(
             seq('address', optional('payable')),
             'bool',
             'string',
@@ -672,7 +723,7 @@ module.exports = grammar({
             $._bytes,
             $._fixed,
             $._ufixed,
-        ),
+        )),
 
         _int: $ => choice (
             'int', 'int8', 'int16', 'int24', 'int32', 'int40', 'int48', 'int56', 'int64', 'int72', 'int80', 'int88', 'int96', 'int104', 'int112', 'int120', 'int128', 'int136', 'int144', 'int152', 'int160', 'int168', 'int176', 'int184', 'int192', 'int200', 'int208', 'int216', 'int224', 'int232', 'int240', 'int248', 'int256'
@@ -706,21 +757,24 @@ module.exports = grammar({
             $.unicode_string_literal,
         ),
 
-        string_literal: $ => repeat1($.string),
+        string_literal: $ => prec.left(repeat1($.string)),
         number_literal: $ => seq(choice($.decimal_number, $.hex_number), optional($.number_unit)),
-        decimal_number: $ =>  seq(/\d+(.\d+)?/, optional(/[eE](-)?d+/)),
-        hex_number: $ => seq('0x', optional(optionalDashSeparation($._hex_digit))),
+        decimal_number: $ =>  choice(
+            /\d+(\.\d+)?([eE](-)?\d+)?/,
+            /\.\d+([eE](-)?\d+)?/,
+        ),
+        hex_number: $ => seq(/0[xX]/, optional(optionalDashSeparation($._hex_digit))),
         _hex_digit: $ => /([a-fA-F0-9][a-fA-F0-9])/, 
         number_unit: $ => choice(
-            'wei', 'gwei', 'ether', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'years'
+            'wei','szabo', 'finney', 'gwei', 'ether', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'years'
         ),
         boolean_literal: $ => choice('true', 'false'),
-        hex_string_literal: $ => repeat1(seq(
+        hex_string_literal: $ => prec.left(repeat1(seq(
             'hex',
             choice(
                 seq('"', optional(optionalDashSeparation($._hex_digit)), '"'),
                 seq("'", optional(optionalDashSeparation($._hex_digit)), "'"),
-            ))),
+            )))),
         _escape_sequence: $ => seq('\\', choice(
             // TODO: it might be allowed to escape non special characters
             /"'\\bfnrtv\n\r/,
@@ -729,12 +783,12 @@ module.exports = grammar({
         )),
         _single_quoted_unicode_char: $ => choice(/[^'\r\n\\]/, $._escape_sequence),
         _double_quoted_unicode_char: $ => choice(/[^"\r\n\\]/, $._escape_sequence),
-        unicode_string_literal: $ => repeat1(seq(
+        unicode_string_literal: $ => prec.left(repeat1(seq(
             'unicode',
             choice(
                 seq('"', repeat($._double_quoted_unicode_char), '"'),
                 seq("'", repeat($._single_quoted_unicode_char), "'"),
-            ))),
+        )))),
 
         string: $ => choice(
             seq(
@@ -771,8 +825,8 @@ module.exports = grammar({
                     seq('//', /.*/),
                     seq(
                         '/*',
-                        /[^*]*\*+([^/*][^*]*\*+)*/,
-                        '/'
+                        /.*/,
+                        '*/'
                     )       
                 )
             )
