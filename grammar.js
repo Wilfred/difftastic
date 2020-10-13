@@ -459,7 +459,7 @@ module.exports = grammar({
         virtual: $ => "virtual",
         modifier_invocation: $ => seq($.identifier, optional($._call_arguments)),
         
-        _call_arguments: $ => choice(
+        _call_arguments: $ => prec(4,
             seq(
                 '(',
                 commaSep(choice(
@@ -514,7 +514,8 @@ module.exports = grammar({
 
         ternary_expression: $ => prec.left(seq($._expression, "?", $._expression, ':', $._expression)),
 
-        new_expression: $ => prec.left(seq('new', $.type_name)),
+        // TODO: make sure call arguments are part of solidity
+        new_expression: $ => prec.left(seq('new', $.type_name, optional($._call_arguments))),
 
         tuple_expression: $ => prec(1, seq(
             '(', 
@@ -657,7 +658,7 @@ module.exports = grammar({
             $._function_type,
         )),
 
-        _array_type: $ => seq($.type_name, '[', optional($._expression), ']'),
+        _array_type: $ => prec(1, seq($.type_name, '[', optional($._expression), ']')),
         
         _function_type: $ => prec.right(seq(
             'function', $._parameter_list, optional($._return_parameters),
