@@ -12,6 +12,10 @@ const PRECEDENCE = {
   EXPONENTIATION: 22,
   SYMBOLIC_UNARY: 21,
   BINDING_OPERATORS: 20,
+  BODMAS_1: 19,
+  BODMAS_2: 18,
+  SHIFT_OPERATORS: 17,
+  RELATIONAL_OPERATORS: 15,
   // end of operators
 
 };
@@ -22,6 +26,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$._boolean, $.call_expression],
     [$._auto_increment_decrement],
+    [$.binary_expression, $._bodmas_2, $._shift_expression],
   ],
 
   extras: $ => [
@@ -36,7 +41,7 @@ module.exports = grammar({
       $.use_statement,
       $.require_statement,
 
-      $.expression_statement,
+      $._expression_statement,
 
       $._declaration,
 
@@ -50,7 +55,7 @@ module.exports = grammar({
       $.assignment_statement,
     ),
 
-    expression_statement: $ => seq(
+    _expression_statement: $ => seq(
       $._expression,
       $._semi_colon,
     ),
@@ -219,11 +224,16 @@ module.exports = grammar({
       ),
       $._exponentiation,
       $._binding_expression,
+      $._bodmas_1,
+      $._bodmas_2,
+      $._shift_expression,
+      $._relational_expression,
     ),
 
     unary_expression: $ => choice(
       $._auto_increment_decrement,
       $._symbolic_unary,
+      // TODO: named_unary_expression
     ),
 
     // no associativity
@@ -280,6 +290,77 @@ module.exports = grammar({
         field('operator', '!~'),
         field('variable', $._expression),
       ),
+    )),
+
+    _bodmas_1: $ => prec.left(PRECEDENCE.BODMAS_1, choice(
+      seq(
+        field('variable', $._expression),
+        field('operator', '*'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', '/'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', '%'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', 'X'),
+        field('variable', $._expression),
+      ),
+    )),
+
+    _bodmas_2: $ => prec.left(PRECEDENCE.BODMAS_2, choice(
+      seq(
+        field('variable', $._expression),
+        field('operator', '+'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', '-'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', '.'),
+        field('variable', $._expression),
+      ),
+    )),
+
+    _shift_expression: $ => prec.left(PRECEDENCE.SHIFT_OPERATORS, choice(
+      seq(
+        field('variable', $._expression),
+        field('operator', '<<'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', '>>'),
+        field('variable', $._expression),
+      ),
+    )),
+
+    _relational_expression: $ => prec.left(PRECEDENCE.RELATIONAL_OPERATORS, seq(
+      field('variable', $._expression),
+      repeat1(seq(
+        choice(
+          '<',
+          '>',
+          '<=',
+          '>=',
+          'lt',
+          'gt',
+          'le',
+          'ge',
+        ),
+        $._expression,
+      ))
     )),
 
     // end of operators
