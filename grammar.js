@@ -759,7 +759,10 @@ module.exports = grammar({
 
         string_literal: $ => prec.left(repeat1($.string)),
         number_literal: $ => seq(choice($.decimal_number, $.hex_number), optional($.number_unit)),
-        decimal_number: $ =>  /\d+(\.\d+)?([eE](-)?\d+)?/,
+        decimal_number: $ =>  choice(
+            /\d+(\.\d+)?([eE](-)?\d+)?/,
+            /\.\d+([eE](-)?\d+)?/,
+        ),
         hex_number: $ => seq(/0[xX]/, optional(optionalDashSeparation($._hex_digit))),
         _hex_digit: $ => /([a-fA-F0-9][a-fA-F0-9])/, 
         number_unit: $ => choice(
