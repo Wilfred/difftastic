@@ -181,7 +181,7 @@ module.exports = grammar({
       token(/(;|(#!)).*/),
 
     discard_expr: $ =>
-      seq("#_",
+      seq(field('marker', "#_"),
           repeat($._non_form),
           field('value', $._form)),
 
@@ -216,7 +216,7 @@ module.exports = grammar({
              $.deref_form),
 
     metadata: $ =>
-      seq("^",
+      seq(field('marker', "^"),
           repeat($._non_form),
           field('value', choice($.read_cond,
                                 $.map,
@@ -225,7 +225,7 @@ module.exports = grammar({
                                 $.symbol))),
 
     old_metadata: $ =>
-      seq("#^",
+      seq(field('marker', "#^"),
           repeat($._non_form),
           field('value', choice($.read_cond,
                                 $.map,
@@ -296,7 +296,7 @@ module.exports = grammar({
           $._bare_set),
 
     _bare_set: $ =>
-      seq("#",
+      seq(field('marker', "#"),
           field('open', "{"),
           repeat(choice(field('value', $._form),
                         $._non_form)),
@@ -304,16 +304,16 @@ module.exports = grammar({
 
     anon_func: $ =>
       seq(repeat($._metadata),
-          "#",
+          field('marker', "#"),
           $._bare_list),
 
     regex: $ =>
-      seq("#",
+      seq(field('marker', "#"),
           STRING),
 
     read_cond: $ =>
       seq(repeat($._metadata),
-          "#?",
+          field('marker', "#?"),
           repeat($._whitespace),
           $._bare_list),
 
@@ -321,7 +321,7 @@ module.exports = grammar({
       // XXX: metadata here doesn't seem to make sense, but the repl
       //      will accept: [^:x #?@(:clj [[:a]] :cljr [[:b]])]
       seq(repeat($._metadata),
-          "#?@",
+          field('marker', "#?@"),
           repeat($._whitespace),
           $._bare_list),
 
@@ -330,7 +330,7 @@ module.exports = grammar({
 
     namespaced_map: $ =>
       seq(repeat($._metadata),
-          "#",
+          field('marker', "#"),
           field('prefix', choice($.auto_res_marker,
                                  $.keyword)),
           repeat($._non_form),
@@ -338,20 +338,20 @@ module.exports = grammar({
 
     var_quote_form: $ =>
       seq(repeat($._metadata),
-          "#'",
+          field('marker', "#'"),
           repeat($._non_form),
           // XXX: symbol, reader conditional, and tagged literal can work
           //      any other things?
           field('value', $._form)),
 
     symbolic_value: $ =>
-      seq("##",
+      seq(field('marker', "##"),
           repeat($._non_form),
           field('value', $.symbol)),
 
     eval_form: $ =>
       seq(repeat($._metadata), // ^:x #=(vector 1)
-          "#=",
+          field('marker', "#="),
           repeat($._non_form),
           field('value', choice($.list,
                                 $.read_cond,
@@ -369,7 +369,7 @@ module.exports = grammar({
     //      - ctor_tag_literal
     tagged_literal: $ =>
       seq(repeat($._metadata),
-          "#",
+          field('marker', "#"),
           // # uuid "00000000-0000-0000-0000-000000000000"
           // # #_ 1 uuid "00000000-0000-0000-0000-000000000000"
           // etc.
@@ -381,13 +381,13 @@ module.exports = grammar({
 
     syntax_quote_form: $ =>
       seq(repeat($._metadata),
-          "`",
+          field('marker', "`"),
           repeat($._non_form),
           field('value', $._form)),
 
     quote_form: $ =>
       seq(repeat($._metadata),
-          "'",
+          field('marker', "'"),
           repeat($._non_form),
           field('value', $._form)),
 
@@ -395,19 +395,19 @@ module.exports = grammar({
       // XXX: metadata here doesn't seem to make sense, but the repl
       //      will accept: `(^:x ~@[:a :b :c])
       seq(repeat($._metadata),
-          "~@",
+          field('marker', "~@"),
           repeat($._non_form),
           field('value', $._form)),
 
     unquote_form: $ =>
       seq(repeat($._metadata),
-          "~",
+          field('marker', "~"),
           repeat($._non_form),
           field('value', $._form)),
 
     deref_form: $ =>
       seq(repeat($._metadata),
-          "@",
+          field('marker', "@"),
           repeat($._non_form),
           field('value', $._form)),
   }
