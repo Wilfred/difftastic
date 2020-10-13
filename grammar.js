@@ -234,10 +234,9 @@ module.exports = grammar({
                                 $.symbol))),
 
     _metadata: $ =>
-      choice(seq(field('metadata', $.metadata),
-                 optional(repeat($._non_form))),
-             seq(field('old_metadata', $.old_metadata),
-                 optional(repeat($._non_form)))),
+      seq(choice(field('metadata', $.metadata),
+                 field('old_metadata', $.old_metadata)),
+          optional(repeat($._non_form))),
 
     list: $ =>
       seq(repeat($._metadata),
