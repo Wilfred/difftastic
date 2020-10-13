@@ -243,30 +243,30 @@ module.exports = grammar({
           $._bare_list),
 
     _bare_list: $ =>
-      seq("(",
+      seq(field('open', "("),
           repeat(choice(field('value', $._form),
                         $._non_form)),
-          ")"),
+          field('close', ")")),
 
     map: $ =>
       seq(repeat($._metadata),
           $._bare_map),
 
     _bare_map: $ =>
-      seq("{",
+      seq(field('open', "{"),
           repeat(choice(field('value', $._form),
                         $._non_form)),
-          "}"),
+          field('close', "}")),
 
     vector: $ =>
       seq(repeat($._metadata),
           $._bare_vector),
 
     _bare_vector: $ =>
-      seq("[",
+      seq(field('open', "["),
           repeat(choice(field('value', $._form),
                         $._non_form)),
-          "]"),
+          field('close', "]")),
 
     number: $ =>
       NUMBER,
@@ -296,10 +296,11 @@ module.exports = grammar({
           $._bare_set),
 
     _bare_set: $ =>
-      seq("#{",
+      seq("#",
+          field('open', "{"),
           repeat(choice(field('value', $._form),
                         $._non_form)),
-          "}"),
+          field('close', "}")),
 
     anon_func: $ =>
       seq(repeat($._metadata),
