@@ -90,8 +90,7 @@ contract Example {
         (function_definition
          function_name: (identifier)
          body: (function_body 
-            (expression_statement (primary_expression
-                (literal (number_literal (decimal_number)))))
+            (expression_statement (binary_expression left: (primary_expression (literal (number_literal (decimal_number)))) right: (primary_expression (literal (number_literal (decimal_number))))))
             (expression_statement (update_expression argument: (primary_expression (identifier))))
             (expression_statement (binary_expression left: (primary_expression (identifier)) right: (primary_expression (identifier)))) 
             (expression_statement (binary_expression left: (primary_expression (identifier)) right: (primary_expression (identifier)))) 
