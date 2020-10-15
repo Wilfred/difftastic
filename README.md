@@ -63,8 +63,9 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] `switch` property patterns
 - [x] `switch` tuple patterns
 - [x] `static` local functions
-- [x] nullable reference types
-- [x] null-forgiving operator
+- [x] Nullable reference types
+- [x] Null-forgiving operator
+- [x] Null-coalescing assignment
 
 #### C# 9.0 (complete)
 
