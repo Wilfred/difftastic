@@ -233,7 +233,7 @@ module.exports = grammar({
 
         using_directive: $ => seq(
             'using', 
-            field("alias", $._user_defined_type),
+            alias($._user_defined_type, $.type_alias),
             'for',
             field("source", choice($.any_source_type, $.type_name)),
             $._semicolon
