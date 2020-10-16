@@ -12,8 +12,8 @@ enum example {
 (source_file
   (enum_declaration
     enum_type_name: (identifier)
-    enum_value: (identifier )
-    enum_value: (identifier )))
+    (enum_value)
+    (enum_value)))
 
 
 ====================
@@ -28,4 +28,4 @@ enum example {
 (source_file
   (enum_declaration
     enum_type_name: (identifier)
-    enum_value: (identifier )))
+    (enum_value)))
