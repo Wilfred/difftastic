@@ -24,7 +24,7 @@ interface Example is NotAContract() {}
 (source_file
   (interface_declaration
     name: (identifier)
-    (class_heritage ancestor: (identifier))
+    (inheritance_specifier ancestor: (identifier))
     body: (contract_body)))
 
 ====================
@@ -38,9 +38,8 @@ interface Example is NotAContract(), AContract(1) {}
 (source_file
   (interface_declaration
     name: (identifier)
-    (class_heritage 
-        ancestor: (identifier) 
-        ancestor: (identifier) 
-        ancestor_arguments: (primary_expression 
-          (literal (number_literal (decimal_number)))))
+    (inheritance_specifier ancestor: (identifier))
+    (inheritance_specifier 
+      ancestor: (identifier)
+      ancestor_arguments: (primary_expression (literal (number_literal (decimal_number)))))
     body: (contract_body)))

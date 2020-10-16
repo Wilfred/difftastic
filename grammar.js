@@ -168,10 +168,10 @@ module.exports = grammar({
 
         _class_heritage: $ => seq(
             "is", 
-            commaSep1($._inheritance_specifier)
+            commaSep1($.inheritance_specifier)
         ),
 
-        _inheritance_specifier: $ => seq(
+        inheritance_specifier: $ => seq(
             field("ancestor", $._user_defined_type),
             optional(field("ancestor_arguments", $._call_arguments)),
         ),
