@@ -47,8 +47,8 @@ module.exports = grammar({
         [$.primary_expression, $.type_name],
         [$._parameter_list, $.fallback_receive_definition],
         [$.primary_expression, $.type_cast_expression],
-        [$.yul_expression, $.yul_path],
-        [$.yul_expression, $.yul_assignment],
+        [$._yul_expression, $.yul_path],
+        [$._yul_expression, $.yul_assignment],
     ],
 
     rules: {
@@ -149,14 +149,14 @@ module.exports = grammar({
             optional('abstract'),
             'contract',
             field("name", $.identifier),
-            optional($.class_heritage),
+            optional($._class_heritage),
             field('body', $.contract_body),
         ),
 
         interface_declaration: $ => seq(
             'interface',
             field("name", $.identifier),
-            optional($.class_heritage),
+            optional($._class_heritage),
             field('body', $.contract_body),
         ),
 
@@ -166,8 +166,9 @@ module.exports = grammar({
             field('body', $.contract_body),
         ),
 
-        class_heritage: $ => seq(
-            "is", commaSep1($._inheritance_specifier)
+        _class_heritage: $ => seq(
+            "is", 
+            commaSep1($._inheritance_specifier)
         ),
 
         _inheritance_specifier: $ => seq(
@@ -193,15 +194,15 @@ module.exports = grammar({
 
         struct_declaration: $ =>  seq(
             'struct',
-            $.identifier,
+            field("struct_name", $.identifier),
             '{', 
             repeat1($.struct_member),
             '}',
         ),
 
         struct_member: $ => seq(
-            $.type_name,
-            $.identifier,
+            field("type", $.type_name),
+            field("name", $.identifier),
             $._semicolon
         ),
 
@@ -209,7 +210,7 @@ module.exports = grammar({
             'enum',
             field("enum_type_name", $.identifier),
             '{',
-            commaSep(field("enum_value", $.identifier)),
+            commaSep(alias($.identifier, $.enum_value)),
             '}',
         ),
             
@@ -220,21 +221,25 @@ module.exports = grammar({
 
         _event_parameter_list: $ => seq(
             "(",
-            commaSep(seq(
-                field("type", $.type_name),
-                optional("indexed"),
-                optional(field("name", $.identifier)),
-            )),
+            commaSep($.event_paramater),
             ")"
+        ),
+
+        event_paramater: $ => seq(
+            field("type", $.type_name),
+            optional("indexed"),
+            optional(field("name", $.identifier)),
         ),
 
         using_directive: $ => seq(
             'using', 
             field("alias", $._user_defined_type),
             'for',
-            field("source", choice('*', $.type_name)),
+            field("source", choice($.any_source_type, $.type_name)),
             $._semicolon
         ),
+
+        any_source_type: $ => '*',
 
         // -- [ Statements ] --
         _statement: $ => choice(
@@ -261,6 +266,7 @@ module.exports = grammar({
             "}"
         ),
 
+        // -- [ Yul ] --
         yul_statement: $ => choice(
             $.yul_block,
             $.yul_variable_declaration,
@@ -269,10 +275,66 @@ module.exports = grammar({
             $.yul_if_statement,
             $.yul_for_statement,
             $.yul_switch_statement,
-            "leave",
-            "break",
-            "continue",
+            $.yul_leave,
+            $.yul_break,
+            $.yul_continue,
             $.yul_function_definition
+        ),
+        
+        yul_leave: $ => "leave",
+        yul_break: $ => "break",
+        yul_continue: $ => "continue",
+
+        yul_identifier: $ => /[a-zA-Z$_]+/,
+        _yul_expression: $ => choice($.yul_path, $.yul_function_call, $._yul_literal),
+        yul_path: $ => prec.left(dotSep1($.yul_identifier)),
+        
+        // -- Yul Literals --
+        _yul_literal: $ =>  choice(
+            $.yul_decimal_number,
+            $.yul_string_literal,
+            $.yul_hex_number,
+            $.yul_boolean,
+        ),
+        yul_decimal_number: $ => /0|([1-9][0-9]*)/,
+        yul_string_literal: $ => $.string,
+        yul_hex_number: $ => /0x[0-9A-Fa-f]*/,
+        yul_boolean: $ => choice('true', 'false'),
+
+        // -- Yul Statements --
+        yul_block: $ => seq('{', repeat($.yul_statement), '}'),
+        yul_variable_declaration: $ => prec.left(PREC.DECLARATION, choice(
+            seq('let', field("left", $.yul_identifier), optional(seq(':=', field("right", $._yul_expression)))),
+            seq(
+                'let', field("left", choice(
+                    commaSep1($.yul_identifier),
+                    seq('(', commaSep1($.yul_identifier), ')')
+                )), 
+                optional(seq(':=', field("right", $.yul_function_call)))),
+        )),
+        yul_assignment: $ => prec.left(PREC.ASSIGN, choice(
+            seq($.yul_path, ':=', $._yul_expression),
+            seq(commaSep1($.yul_path), optional(seq(':=', $.yul_function_call))),
+        )),
+        yul_function_call: $ => seq(
+            choice($.yul_identifier, $.yul_evm_builtin), '(', commaSep($._yul_expression), ')'
+        ),
+        yul_if_statement: $ => seq('if', $._yul_expression, $.yul_block),
+        yul_for_statement: $ => seq('for', $.yul_block, $._yul_expression, $.yul_block, $.yul_block),
+        yul_switch_statement: $ => seq(
+            'switch', $._yul_expression,
+            choice(
+                seq('default', $.yul_block),
+                seq(
+                    repeat1(seq('case', $._yul_literal, $.yul_block)),
+                    optional(seq('default', $.yul_block)),
+                )
+            ),
+        ),
+        yul_function_definition: $ => seq(
+            'function', $.yul_identifier, '(', commaSep($.yul_identifier), ')',
+            optional(seq('->', commaSep1($.yul_identifier))),
+            $.yul_block
         ),
 
         yul_evm_builtin: $ => prec(1, choice(
@@ -350,58 +412,7 @@ module.exports = grammar({
             'gaslimit',
         )),
 
-        yul_identifier: $ => $.identifier,
-        yul_expression: $ => choice($.yul_path, $.yul_function_call, $.yul_literal),
-        yul_path: $ => prec.left(dotSep1($.yul_identifier)),
-        yul_literal: $ =>  choice(
-            $.yul_decimal_number,
-            $.yul_string_literal,
-            $.yul_hex_number,
-            $.yul_boolean,
-        ),
-
-        yul_decimal_number: $ => /0|([1-9][0-9]*)/,
-        yul_string_literal: $ => $.string,
-        yul_hex_number: $ => /0x[0-9A-Fa-f]*/,
-        yul_boolean: $ => choice('true', 'false'),
-
-        yul_block: $ => seq('{', repeat($.yul_statement), '}'),
-        yul_variable_declaration: $ => prec.left(PREC.DECLARATION, choice(
-            seq('let', $.yul_identifier, optional(seq(':=', $.yul_expression))),
-            seq(
-                'let', 
-                choice(
-                    commaSep1($.yul_identifier),
-                    seq('(', commaSep1($.yul_identifier), ')')
-                ), 
-                optional(seq(':=', $.yul_function_call))),
-        )),
-        yul_assignment: $ => prec.left(PREC.ASSIGN, choice(
-            seq($.yul_path, ':=', $.yul_expression),
-            seq(commaSep1($.yul_path), optional(seq(':=', $.yul_function_call))),
-        )),
-        yul_function_call: $ => seq(
-            choice($.yul_identifier, $.yul_evm_builtin), '(', commaSep($.yul_expression), ')'
-        ),
-        yul_if_statement: $ => seq('if', $.yul_expression, $.yul_block),
-        yul_for_statement: $ => seq('for', $.yul_block, $.yul_expression, $.yul_block, $.yul_block),
-        yul_switch_statement: $ => seq(
-            'switch', $.yul_expression,
-            choice(
-                seq('default', $.yul_block),
-                seq(
-                    repeat1(seq('case', $.yul_literal, $.yul_block)),
-                    optional(seq('default', $.yul_block)),
-                )
-            ),
-        ),
-
-        yul_function_definition: $ => seq(
-            'function', $.yul_identifier, '(', commaSep($.yul_identifier), ')',
-            optional(seq('->', commaSep1($.yul_identifier))),
-            $.yul_block
-        ),
-
+        // -- [ Statements ] --
         block_statement: $ => seq('{', repeat($._statement), "}"),
         variable_declaration_statement: $ => prec(3,seq(
                 choice(
@@ -409,7 +420,7 @@ module.exports = grammar({
                     seq($.variable_declaration_tuple, '=', $._expression),
                 ),
                 $._semicolon
-            )),
+        )),
 
         // var_variable_decartion: $ => prec.left(seq(
         //     'var',
