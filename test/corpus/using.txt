@@ -13,9 +13,8 @@ contract Example {
     name: (identifier)
     body: (contract_body 
         (using_directive 
-          alias: (identifier)
-          alias: (identifier)))))
-
+          (type_alias (identifier) (identifier)) 
+          source: (any_source_type))))) 
 ====================
 Using directive
 ====================
@@ -30,7 +29,6 @@ contract Example {
   (contract_declaration
     name: (identifier)
     body: (contract_body 
-        (using_directive 
-          alias: (identifier)
-          alias: (identifier) 
-          source: (type_name))))) 
+      (using_directive 
+        (type_alias (identifier) (identifier))
+        source: (type_name)))))
