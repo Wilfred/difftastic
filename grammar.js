@@ -262,12 +262,12 @@ module.exports = grammar({
             'assembly',
             optional('"evmasm"'),
             "{",
-            repeat($.yul_statement),
+            repeat($._yul_statement),
             "}"
         ),
 
         // -- [ Yul ] --
-        yul_statement: $ => choice(
+        _yul_statement: $ => choice(
             $.yul_block,
             $.yul_variable_declaration,
             $.yul_assignment,
@@ -302,7 +302,7 @@ module.exports = grammar({
         yul_boolean: $ => choice('true', 'false'),
 
         // -- Yul Statements --
-        yul_block: $ => seq('{', repeat($.yul_statement), '}'),
+        yul_block: $ => seq('{', repeat($._yul_statement), '}'),
         yul_variable_declaration: $ => prec.left(PREC.DECLARATION, choice(
             seq('let', field("left", $.yul_identifier), optional(seq(':=', field("right", $._yul_expression)))),
             seq(
@@ -317,7 +317,7 @@ module.exports = grammar({
             seq(commaSep1($.yul_path), optional(seq(':=', $.yul_function_call))),
         )),
         yul_function_call: $ => seq(
-            choice($.yul_identifier, $.yul_evm_builtin), '(', commaSep($._yul_expression), ')'
+            field("function", choice($.yul_identifier, $.yul_evm_builtin)), '(', commaSep($._yul_expression), ')'
         ),
         yul_if_statement: $ => seq('if', $._yul_expression, $.yul_block),
         yul_for_statement: $ => seq('for', $.yul_block, $._yul_expression, $.yul_block, $.yul_block),
