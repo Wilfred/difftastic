@@ -10,7 +10,7 @@
   "author": "Razze",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.1",
+    "nan": "^2.14.2",
     "prebuild-install": "^5.3.5"
   },
   "devDependencies": {
@@ -26,8 +26,9 @@
     "parse-basic": "tree-sitter parse ./examples/Basic.elm",
     "parse-test": "tree-sitter parse --debug ./examples/test.elm",
     "test": "tree-sitter test && script/parse-examples",
+    "test-full": "tree-sitter test && script/parse-examples-full",
     "test-windows": "tree-sitter test",
-    "tests-only": "tree-sitter test"
+    "test-only": "tree-sitter test"
   },
   "repository": "https://github.com/razzeee/tree-sitter-elm",
   "tree-sitter": [
