@@ -456,3 +456,199 @@ letExample =
     )
   )
 )
+
+=====================================
+Let in same line in in next
+=====================================
+
+testLet =
+    let color = "x"
+    in
+    color
+
+---
+
+(file 
+  (value_declaration (function_declaration_left (lower_case_identifier)) 
+    (eq) 
+    (let_in_expr 
+      (value_declaration (function_declaration_left (lower_case_identifier)) 
+      (eq) 
+      (string_constant_expr (open_quote) (regular_string_part) (close_quote))) (value_expr (value_qid (lower_case_identifier)))
+    )
+  )
+) 
+
+=====================================
+Let with unit in body
+=====================================
+
+view =
+    let
+        styles =
+            "x"
+    in
+    div
+        (
+        )
+
+
+---
+
+(file 
+  (value_declaration 
+    (function_declaration_left 
+      (lower_case_identifier)
+    ) 
+    (eq) 
+    (let_in_expr 
+      (value_declaration 
+        (function_declaration_left (lower_case_identifier)) 
+        (eq) 
+        (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+      ) 
+      (function_call_expr (value_expr (value_qid (lower_case_identifier))) (unit_expr (left_parenthesis) (right_parenthesis)))
+    )
+  )
+)
+
+
+=====================================
+Nested let with function and list in body
+=====================================
+
+
+main =
+    let
+        arcLengths =
+            List.map
+                    (\n ->
+                        let
+                            fraction =
+                                toFloat n
+                                    / toFloat numSegments
+                        in
+                        fraction * overallArcLength
+                    )
+
+    in
+    toHtml
+        []
+
+
+
+---
+
+(file 
+  (value_declaration 
+    (function_declaration_left 
+      (lower_case_identifier)
+    ) 
+    (eq) 
+    (let_in_expr 
+      (value_declaration 
+        (function_declaration_left 
+          (lower_case_identifier)
+        ) 
+        (eq) 
+        (function_call_expr 
+          (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) 
+          (parenthesized_expr (left_parenthesis) 
+            (anonymous_function_expr (backslash) 
+              (pattern (lower_pattern (lower_case_identifier))) 
+              (arrow) 
+              (let_in_expr 
+                (value_declaration (function_declaration_left (lower_case_identifier)) 
+                  (eq) 
+                  (bin_op_expr 
+                    (function_call_expr 
+                      (value_expr (value_qid (lower_case_identifier))) 
+                      (value_expr (value_qid (lower_case_identifier)))
+                    ) 
+                    (operator (operator_identifier)) 
+                    (function_call_expr (value_expr (value_qid (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
+                  )
+                ) 
+                (bin_op_expr (value_expr (value_qid (lower_case_identifier))) 
+                (operator (operator_identifier)) 
+                (value_expr (value_qid (lower_case_identifier)))))
+            ) 
+            (right_parenthesis)
+          )
+        )
+      ) 
+      (function_call_expr 
+        (value_expr (value_qid (lower_case_identifier))) 
+        (list_expr (left_square_bracket) (right_square_bracket))
+      )
+    )
+  )
+) 
+
+=====================================
+Let with comment after in
+=====================================
+
+pyramidMesh =
+    let
+        frontLeft =
+            10
+
+    in
+    -- Comment
+    frontLeft
+
+
+
+---
+
+(file 
+  (value_declaration 
+    (function_declaration_left (lower_case_identifier)) 
+    (eq) 
+    (let_in_expr 
+      (value_declaration (function_declaration_left (lower_case_identifier)) 
+        (eq) 
+        (number_constant_expr (number_literal))
+      ) 
+      (line_comment) 
+      (value_expr (value_qid (lower_case_identifier)))
+    )
+  )
+)
+
+
+=====================================
+Let with annotation
+=====================================
+
+displayEmoji : Color
+displayEmoji =
+    let native = 10
+    in 
+      20
+
+---
+
+
+(file 
+  (type_annotation 
+    (lower_case_identifier) 
+    (colon) 
+    (type_expression 
+      (type_ref (upper_case_qid (upper_case_identifier)))
+    )
+  )
+  (value_declaration 
+    (function_declaration_left (lower_case_identifier)) 
+    (eq) 
+    (let_in_expr 
+      (value_declaration (function_declaration_left (lower_case_identifier)) 
+        (eq) 
+        (number_constant_expr (number_literal))
+      ) 
+      (number_constant_expr (number_literal))
+    )
+  )
+)
+
