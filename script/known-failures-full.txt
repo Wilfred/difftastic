@@ -1,0 +1,5 @@
+examples-full/elm-browser/examples/drag.elm
+examples-full/elm-ui/tests-rendering/automation/templates/Run.elm
+examples-full/Chadtech/elm-imperative-porting/examples/find-primes.elm
+examples-full/ianmackenzie/elm-geometry-prerelease/src/Geometry/Examples/Expect.elm
+examples-full/ianmackenzie/elm-geometry-prerelease/doc/interactive/EllipticalArc2d/FromEndpoints.elm
