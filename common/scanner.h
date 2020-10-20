@@ -98,6 +98,7 @@ static inline bool external_scanner_scan(void *payload, TSLexer *lexer, const bo
       case '|':
       case '&':
       case '/':
+      case ':':
         return false;
 
       // Don't insert a semicolon before a '[' or '(', unless we're parsing
