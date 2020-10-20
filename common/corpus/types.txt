@@ -123,6 +123,42 @@ type Something = {
         (predefined_type)
         (type_annotation (predefined_type))))))
 
+==========================================================
+Automatic semicolon disabled before return type
+==========================================================
+
+function f(): any {
+  'a';
+  'b';
+}
+
+function
+f
+()
+ :
+ any {
+  'a'
+  'b'
+}
+
+---
+
+(program
+  (function_declaration
+    (identifier)
+    (formal_parameters)
+    (type_annotation (predefined_type))
+    (statement_block
+      (expression_statement (string))
+      (expression_statement (string))))
+  (function_declaration
+    (identifier)
+    (formal_parameters)
+    (type_annotation (predefined_type))
+    (statement_block
+      (expression_statement (string))
+      (expression_statement (string)))))
+
 =======================================
 Array types
 =======================================
