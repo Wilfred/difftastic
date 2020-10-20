@@ -599,7 +599,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -644,6 +644,10 @@
         },
         {
           "type": "predefined_type",
+          "named": true
+        },
+        {
+          "type": "readonly",
           "named": true
         },
         {
@@ -3042,6 +3046,10 @@
           "named": true
         },
         {
+          "type": "readonly",
+          "named": true
+        },
+        {
           "type": "type_annotation",
           "named": true
         }
@@ -5142,6 +5150,10 @@
         },
         {
           "type": "predefined_type",
+          "named": true
+        },
+        {
+          "type": "readonly",
           "named": true
         },
         {
