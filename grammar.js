@@ -102,7 +102,7 @@ const KEYWORD_NO_SIGIL =
       seq(KEYWORD_HEAD,
           repeat(KEYWORD_BODY));
 
-const AUTO_RESOLVE_MARKER =
+const AUTO_RESOLVE_MARK =
       token("::");
 
 const KEYWORD =
@@ -115,7 +115,7 @@ const KEYWORD =
                    // ::my-alias/hi
                    // ::a
                    // ::/ is invalid
-                   seq(AUTO_RESOLVE_MARKER,
+                   seq(AUTO_RESOLVE_MARK,
                        KEYWORD_NO_SIGIL)));
 
 const STRING =
@@ -194,248 +194,245 @@ module.exports = grammar({
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
     source: $ =>
       repeat(choice($._form,
-                    $._non_form)),
+                    $._gap)),
 
-    _non_form: $ =>
-      choice($._whitespace,
+    _gap: $ =>
+      choice($._ws,
              $.comment,
-             $.discard_expr),
+             $.dis_expr),
 
-    _whitespace: $ =>
+    _ws: $ =>
       token(repeat1(WHITESPACE)),
 
     comment: $ =>
       token(/(;|#!).*\n?/),
 
-    discard_expr: $ =>
+    dis_expr: $ =>
       seq(field('marker', "#_"),
-          repeat($._non_form),
+          repeat($._gap),
           field('value', $._form)),
 
     _form: $ =>
-      choice($.list,
-             $.map,
-             $.vector,
-             // literals
-             $.number,
-             $.keyword,
-             $.string,
-             $.character,
-             $.nil,
-             $.boolean,
-             $.symbol,
+      choice(// basic collection-ish
+             $.list_lit,
+             $.map_lit,
+             $.vec_lit,
+             // atom-ish
+             $.num_lit,
+             $.kwd_lit,
+             $.str_lit,
+             $.char_lit,
+             $.nil_lit,
+             $.bool_lit,
+             $.sym_lit,
              // dispatch reader macros
-             $.set,
-             $.anon_func,
-             $.regex,
-             $.read_cond,
-             $.read_cond_splicing,
-             $.namespaced_map,
-             $.var_quote_form,
-             $.symbolic_value,
-             $.eval_form,
-             $.tagged_literal,
-             // other reader macros
-             $.syntax_quote_form,
-             $.quote_form,
-             $.unquote_splicing_form,
-             $.unquote_form,
-             $.deref_form),
+             $.set_lit,
+             $.anon_fn_lit,
+             $.regex_lit,
+             $.read_cond_lit,
+             $.splicing_read_cond_lit,
+             $.ns_map_lit,
+             $.var_quoting_lit,
+             $.sym_val_lit,
+             $.evaling_lit,
+             $.tagged_or_ctor_lit,
+             // some other reader macros
+             $.syn_quoting_lit,
+             $.quoting_lit,
+             $.unquote_splicing_lit,
+             $.unquoting_lit,
+             $.derefing_lit),
 
-    metadata: $ =>
+    meta_lit: $ =>
       seq(field('marker', "^"),
-          repeat($._non_form),
-          field('value', choice($.read_cond,
-                                $.map,
-                                $.string,
-                                $.keyword,
-                                $.symbol))),
+          repeat($._gap),
+          field('value', choice($.read_cond_lit,
+                                $.map_lit,
+                                $.str_lit,
+                                $.kwd_lit,
+                                $.sym_lit))),
 
-    old_metadata: $ =>
+    old_meta_lit: $ =>
       seq(field('marker', "#^"),
-          repeat($._non_form),
-          field('value', choice($.read_cond,
-                                $.map,
-                                $.string,
-                                $.keyword,
-                                $.symbol))),
+          repeat($._gap),
+          field('value', choice($.read_cond_lit,
+                                $.map_lit,
+                                $.str_lit,
+                                $.kwd_lit,
+                                $.sym_lit))),
 
-    _metadata: $ =>
-      seq(choice(field('metadata', $.metadata),
-                 field('old_metadata', $.old_metadata)),
-          optional(repeat($._non_form))),
+    _metadata_lit: $ =>
+      seq(choice(field('meta', $.meta_lit),
+                 field('old_meta', $.old_meta_lit)),
+          optional(repeat($._gap))),
 
-    list: $ =>
-      seq(repeat($._metadata),
-          $._bare_list),
+    list_lit: $ =>
+      seq(repeat($._metadata_lit),
+          $._bare_list_lit),
 
-    _bare_list: $ =>
+    _bare_list_lit: $ =>
       seq(field('open', "("),
           repeat(choice(field('value', $._form),
-                        $._non_form)),
+                        $._gap)),
           field('close', ")")),
 
-    map: $ =>
-      seq(repeat($._metadata),
-          $._bare_map),
+    map_lit: $ =>
+      seq(repeat($._metadata_lit),
+          $._bare_map_lit),
 
-    _bare_map: $ =>
+    _bare_map_lit: $ =>
       seq(field('open', "{"),
           repeat(choice(field('value', $._form),
-                        $._non_form)),
+                        $._gap)),
           field('close', "}")),
 
-    vector: $ =>
-      seq(repeat($._metadata),
-          $._bare_vector),
+    vec_lit: $ =>
+      seq(repeat($._metadata_lit),
+          $._bare_vec_lit),
 
-    _bare_vector: $ =>
+    _bare_vec_lit: $ =>
       seq(field('open', "["),
           repeat(choice(field('value', $._form),
-                        $._non_form)),
+                        $._gap)),
           field('close', "]")),
 
-    number: $ =>
+    num_lit: $ =>
       NUMBER,
 
-    keyword: $ =>
+    kwd_lit: $ =>
       KEYWORD,
 
-    string: $ =>
+    str_lit: $ =>
       STRING,
 
-    character: $ =>
+    char_lit: $ =>
       CHARACTER,
 
-    nil: $ =>
+    nil_lit: $ =>
       'nil',
 
-    boolean: $ =>
+    bool_lit: $ =>
       choice('false',
              'true'),
 
-    symbol: $ =>
-      seq(repeat($._metadata),
+    sym_lit: $ =>
+      seq(repeat($._metadata_lit),
           SYMBOL),
 
-    set: $ =>
-      seq(repeat($._metadata),
-          $._bare_set),
+    set_lit: $ =>
+      seq(repeat($._metadata_lit),
+          $._bare_set_lit),
 
-    _bare_set: $ =>
+    _bare_set_lit: $ =>
       seq(field('marker', "#"),
           field('open', "{"),
           repeat(choice(field('value', $._form),
-                        $._non_form)),
+                        $._gap)),
           field('close', "}")),
 
-    anon_func: $ =>
-      seq(repeat($._metadata),
+    anon_fn_lit: $ =>
+      seq(repeat($._metadata_lit),
           field('marker', "#"),
-          $._bare_list),
+          $._bare_list_lit),
 
-    regex: $ =>
+    regex_lit: $ =>
       seq(field('marker', "#"),
           STRING),
 
-    read_cond: $ =>
-      seq(repeat($._metadata),
+    read_cond_lit: $ =>
+      seq(repeat($._metadata_lit),
           field('marker', "#?"),
-          repeat($._whitespace),
-          $._bare_list),
+          // whitespace possible, but neither comment nor discard
+          repeat($._ws),
+          $._bare_list_lit),
 
-    read_cond_splicing: $ =>
+    splicing_read_cond_lit: $ =>
       // XXX: metadata here doesn't seem to make sense, but the repl
       //      will accept: [^:x #?@(:clj [[:a]] :cljr [[:b]])]
-      seq(repeat($._metadata),
+      seq(repeat($._metadata_lit),
           field('marker', "#?@"),
-          repeat($._whitespace),
-          $._bare_list),
+          // whitespace possible, but neither comment nor discard
+          repeat($._ws),
+          $._bare_list_lit),
 
-    auto_res_marker: $ =>
-      AUTO_RESOLVE_MARKER,
+    auto_res_mark: $ =>
+      AUTO_RESOLVE_MARK,
 
-    namespaced_map: $ =>
-      seq(repeat($._metadata),
+    ns_map_lit: $ =>
+      seq(repeat($._metadata_lit),
           field('marker', "#"),
-          field('prefix', choice($.auto_res_marker,
-                                 $.keyword)),
-          repeat($._non_form),
-          $._bare_map),
+          field('prefix', choice($.auto_res_mark,
+                                 $.kwd_lit)),
+          repeat($._gap),
+          $._bare_map_lit),
 
-    var_quote_form: $ =>
-      seq(repeat($._metadata),
+    var_quoting_lit: $ =>
+      seq(repeat($._metadata_lit),
           field('marker', "#'"),
-          repeat($._non_form),
+          repeat($._gap),
           // XXX: symbol, reader conditional, and tagged literal can work
           //      any other things?
           field('value', $._form)),
 
-    symbolic_value: $ =>
+    sym_val_lit: $ =>
       seq(field('marker', "##"),
-          repeat($._non_form),
-          field('value', $.symbol)),
+          repeat($._gap),
+          field('value', $.sym_lit)),
 
-    eval_form: $ =>
-      seq(repeat($._metadata), // ^:x #=(vector 1)
+    evaling_lit: $ =>
+      seq(repeat($._metadata_lit), // ^:x #=(vector 1)
           field('marker', "#="),
-          repeat($._non_form),
-          field('value', choice($.list,
-                                $.read_cond,
+          repeat($._gap),
+          field('value', choice($.list_lit,
+                                $.read_cond_lit,
                                 // #= ^:a java.lang.String
-                                $.symbol))),
+                                $.sym_lit))),
 
-    // XXX: deftype, defrecod, and constructor calls end up as this
-    //      alternate name ideas:
-    //      - ctor_literal
-    //      - ctor_reader_literal
-    //      - tag_or_ctor_literal
-    //      - ctor_literal (because CtorReader)
-    //      - ctor_or_tagged_literal
-    //      - ctor_tagged_literal
-    //      - ctor_tag_literal
-    tagged_literal: $ =>
-      seq(repeat($._metadata),
+    // #uuid "00000000-0000-0000-0000-000000000000"
+    // #user.Fun[1 2]
+    // #user.Fun{:a 1 :b 2}
+    tagged_or_ctor_lit: $ =>
+      seq(repeat($._metadata_lit),
           field('marker', "#"),
           // # uuid "00000000-0000-0000-0000-000000000000"
           // # #_ 1 uuid "00000000-0000-0000-0000-000000000000"
           // etc.
-          repeat($._non_form),
+          repeat($._gap),
           // # ^:a uuid "00000000-0000-0000-0000-000000000000"
-          field('tag', $.symbol),
-          repeat($._non_form),
+          field('tag', $.sym_lit),
+          repeat($._gap),
           field('value', $._form)),
 
-    syntax_quote_form: $ =>
-      seq(repeat($._metadata),
+    syn_quoting_lit: $ =>
+      seq(repeat($._metadata_lit),
           field('marker', "`"),
-          repeat($._non_form),
+          repeat($._gap),
           field('value', $._form)),
 
-    quote_form: $ =>
-      seq(repeat($._metadata),
+    quoting_lit: $ =>
+      seq(repeat($._metadata_lit),
           field('marker', "'"),
-          repeat($._non_form),
+          repeat($._gap),
           field('value', $._form)),
 
-    unquote_splicing_form: $ =>
+    unquote_splicing_lit: $ =>
       // XXX: metadata here doesn't seem to make sense, but the repl
       //      will accept: `(^:x ~@[:a :b :c])
-      seq(repeat($._metadata),
+      seq(repeat($._metadata_lit),
           field('marker', "~@"),
-          repeat($._non_form),
+          repeat($._gap),
           field('value', $._form)),
 
-    unquote_form: $ =>
-      seq(repeat($._metadata),
+    unquoting_lit: $ =>
+      seq(repeat($._metadata_lit),
           field('marker', "~"),
-          repeat($._non_form),
+          repeat($._gap),
           field('value', $._form)),
 
-    deref_form: $ =>
-      seq(repeat($._metadata),
+    derefing_lit: $ =>
+      seq(repeat($._metadata_lit),
           field('marker', "@"),
-          repeat($._non_form),
+          repeat($._gap),
           field('value', $._form)),
   }
 });
