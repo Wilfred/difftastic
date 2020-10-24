@@ -36,7 +36,7 @@ contract Example {
 
 ---
 (source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) 
-    (function_body (block_statement (expression_statement (primary_expression (literal (number_literal (decimal_number)))))))))))
+    (function_body (block_statement (expression_statement (number_literal))))))))
 
 ====================
 If statement
@@ -58,9 +58,9 @@ contract Example {
 ---
 (source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) 
     (function_body 
-        (if_statement (primary_expression (identifier)) (block_statement)) 
-        (if_statement (primary_expression (identifier)) (block_statement) (block_statement (expression_statement (primary_expression (identifier))))) 
-        (if_statement (primary_expression (identifier)) (expression_statement (primary_expression (literal (number_literal (decimal_number))))))))))) 
+        (if_statement (identifier) (block_statement)) 
+        (if_statement (identifier) (block_statement) (block_statement (expression_statement (identifier)))) 
+        (if_statement (identifier) (expression_statement (number_literal)))))))) 
 
 ====================
 For statement
@@ -77,9 +77,19 @@ contract Example {
 ---
 (source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) 
     (function_body 
-        (for_statement (variable_declaration_statement (variable_declaration (type_name) (identifier)) (primary_expression (literal (number_literal (decimal_number))))) (expression_statement (update_expression (primary_expression (identifier)))) (binary_expression (primary_expression (identifier)) (primary_expression (literal (number_literal (decimal_number))))) (expression_statement (update_expression (primary_expression (identifier))))) 
-        (for_statement (expression_statement (update_expression (primary_expression (identifier)))) (binary_expression (primary_expression (identifier)) (primary_expression (literal (number_literal (decimal_number))))) (expression_statement (update_expression (primary_expression (identifier))))) 
-        (for_statement (binary_expression (primary_expression (identifier)) (primary_expression (literal (number_literal (decimal_number))))) (expression_statement (update_expression (primary_expression (identifier))))))))))        
+        (for_statement 
+            (variable_declaration_statement (variable_declaration (type_name) (identifier)) (number_literal)) 
+            (expression_statement (update_expression (identifier)))
+            (binary_expression (identifier) (number_literal)) 
+            (expression_statement (update_expression (identifier))))
+
+        (for_statement 
+            (expression_statement (update_expression (identifier)))
+            (binary_expression (identifier) (number_literal)) 
+            (expression_statement (update_expression (identifier)))) 
+        (for_statement 
+            (binary_expression (identifier) (number_literal)) 
+            (expression_statement (update_expression (identifier)))))))))
 
 
 ====================
@@ -94,11 +104,11 @@ contract Example {
 
 ---
 (source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) (function_body 
-    (while_statement (primary_expression (literal (boolean_literal))) (return_statement)))))))
+    (while_statement (boolean_literal (true)) (return_statement)))))))
 
 
 ====================
-While statement
+While statement 2
 ====================
 
 contract Example {
@@ -112,7 +122,7 @@ contract Example {
 
 ---
 (source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) (function_body 
-    (while_statement (primary_expression (literal (boolean_literal))) (block_statement (break_statement) (continue_statement))))))))
+    (while_statement (boolean_literal (true)) (block_statement (break_statement) (continue_statement))))))))
 
 
 ====================
@@ -131,8 +141,8 @@ contract Example {
 
 ---
 (source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) (function_body 
-    (try_statement (call_expresion (identifier)) (type_name) (identifier) (block_statement (expression_statement (update_expression (primary_expression (identifier))))) 
-    (catch_clause (identifier) (type_name) (identifier) (block_statement (expression_statement (update_expression (primary_expression (identifier))))))))))))
+    (try_statement (call_expresion (identifier)) (type_name) (identifier) (block_statement (expression_statement (update_expression (identifier))))
+    (catch_clause (identifier) (type_name) (identifier) (block_statement (expression_statement (update_expression (identifier)))))))))))
 
 ====================
 Return statement
@@ -159,7 +169,7 @@ contract Example {
 }
 ---
 (source_file (contract_declaration (identifier) (contract_body 
-    (function_definition (identifier) (function_body (emit_statement (primary_expression (identifier))))))))
+    (function_definition (identifier) (function_body (emit_statement (identifier)))))))
 
 
 ====================
