@@ -3,8 +3,35 @@
 // things.  this is more or less in line with advice from tree-sitter
 // folks.
 
+// java.lang.Character.isWhitespace AND comma
+//
+// Space Separator (Zs) but NOT including (U+00A0, U+2007, U+202F)
+//   U+0020, U+1680, U+2000, U+2001, U+2002, U+2003, U+2004, U+2005,
+//   U+2006, U+2008, U+2009, U+200A, U+205F, U+3000
+// Line Separator (Zl)
+//   U+2028
+// Paragraph Separator (Zp)
+//   U+2029
+// Horizontal Tabulation
+//   \t
+// Line Feed
+//   \n
+// Vertical Tabulation
+//   U+000B
+// Form Feed
+//   \f
+// Carriage Return
+//   \r
+// File Separator
+//   U+001C
+// Group Separator
+//   U+001D
+// Record Separator
+//   U+001E
+// Unit Separator
+//   U+001F
 const WHITESPACE =
-      /[\f\n\r\t, ]/;
+      /[\f\n\r\t, \u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
 
 const DIGIT =
       /[0-9]/;
@@ -65,7 +92,7 @@ const NUMBER =
                        INTEGER))));
 
 const KEYWORD_HEAD =
-      /[^\f\n\r\t ()\[\]{}"@~^;`\\,:/]/;
+      /[^\f\n\r\t ()\[\]{}"@~^;`\\,:/\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
 
 const KEYWORD_BODY =
       choice(/[:'/]/,
@@ -140,7 +167,7 @@ const CHARACTER =
                        ANY_CHAR)));
 
 const SYMBOL_HEAD =
-      /[^\f\n\r\t ()\[\]{}"@~^;`\\,:#'0-9]/;
+      /[^\f\n\r\t ()\[\]{}"@~^;`\\,:#'0-9\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
 
 const SYMBOL_BODY =
       choice(SYMBOL_HEAD,
