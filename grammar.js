@@ -44,9 +44,9 @@ module.exports = grammar({
     word: $ => $.identifier,
 
     conflicts: $ => [
-        [$.primary_expression, $.type_name],
+        [$._primary_expression, $.type_name],
         [$._parameter_list, $.fallback_receive_definition],
-        [$.primary_expression, $.type_cast_expression],
+        [$._primary_expression, $.type_cast_expression],
         [$._yul_expression, $.yul_path],
         [$._yul_expression, $.yul_assignment],
     ],
@@ -637,14 +637,14 @@ module.exports = grammar({
             // TODO: $.function_call_options_expression,
             $.payable_conversion_expression,
             $.meta_type_expression,
-            $.primary_expression,
+            $._primary_expression,
             $.struct_expression,
             $.ternary_expression,
             $.type_cast_expression,
         ),
 
         // TODO: make primary expression anonymous
-        primary_expression: $ => choice(
+        _primary_expression: $ => choice(
             $.parenthesized_expression,
             $.member_expression,
             $.array_access,
@@ -656,7 +656,7 @@ module.exports = grammar({
             $.tuple_expression,
             $.inline_array_expression,
             $.identifier,
-            $.literal,
+            $._literal,
             $.new_expression,
         ),
 
@@ -900,7 +900,8 @@ module.exports = grammar({
         identifier: $ => /[a-zA-Z$_][a-zA-Z0-9$_]*/,
 
         number: $ => /\d+/,
-        literal: $ => choice(
+
+        _literal: $ => choice(
             $.string_literal,
             $.number_literal,
             $.boolean_literal,
@@ -909,17 +910,19 @@ module.exports = grammar({
         ),
 
         string_literal: $ => prec.left(repeat1($.string)),
-        number_literal: $ => seq(choice($.decimal_number, $.hex_number), optional($.number_unit)),
-        decimal_number: $ =>  choice(
+        number_literal: $ => seq(choice($._decimal_number, $._hex_number), optional($.number_unit)),
+        _decimal_number: $ =>  choice(
             /\d+(\.\d+)?([eE](-)?\d+)?/,
             /\.\d+([eE](-)?\d+)?/,
         ),
-        hex_number: $ => seq(/0[xX]/, optional(optionalDashSeparation($._hex_digit))),
+        _hex_number: $ => seq(/0[xX]/, optional(optionalDashSeparation($._hex_digit))),
         _hex_digit: $ => /([a-fA-F0-9][a-fA-F0-9])/, 
         number_unit: $ => choice(
             'wei','szabo', 'finney', 'gwei', 'ether', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'years'
         ),
-        boolean_literal: $ => choice('true', 'false'),
+        true: $ => "true",
+        false: $ => "false",
+        boolean_literal: $ => choice($.true, $.false),
         hex_string_literal: $ => prec.left(repeat1(seq(
             'hex',
             choice(
@@ -931,6 +934,16 @@ module.exports = grammar({
             /"'\\bfnrtv\n\r/,
             /u([a-fA-F0-9]{4})/,
             /x([a-fA-F0-9]{2})/,
+        )),
+        _escape_sequence: $ => token.immediate(seq(
+            '\\',
+            choice(
+              /[^xu0-7]/,
+              /[0-7]{1,3}/,
+              /x[0-9a-fA-F]{2}/,
+              /u[0-9a-fA-F]{4}/,
+              /u{[0-9a-fA-F]+}/
+            )
         )),
         _single_quoted_unicode_char: $ => choice(/[^'\r\n\\]/, $._escape_sequence),
         _double_quoted_unicode_char: $ => choice(/[^"\r\n\\]/, $._escape_sequence),
@@ -946,7 +959,7 @@ module.exports = grammar({
             '"',
             repeat(choice(
                 token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)),
-                $.escape_sequence
+                $._escape_sequence
             )),
             '"'
             ),
@@ -954,21 +967,12 @@ module.exports = grammar({
             "'",
             repeat(choice(
                 token.immediate(prec(PREC.STRING, /[^'\\\n]+|\\\r?\n/)),
-                $.escape_sequence
+                $._escape_sequence
             )),
             "'"
             )
         ),
-        escape_sequence: $ => token.immediate(seq(
-            '\\',
-            choice(
-              /[^xu0-7]/,
-              /[0-7]{1,3}/,
-              /x[0-9a-fA-F]{2}/,
-              /u[0-9a-fA-F]{4}/,
-              /u{[0-9a-fA-F]+}/
-            )
-        )),
+        
 
         comment: $ => token(
             prec(PREC.COMMENT, 
