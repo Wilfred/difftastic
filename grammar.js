@@ -178,7 +178,7 @@ module.exports = grammar({
       token(repeat1(WHITESPACE)),
 
     comment: $ =>
-      token(/(;|(#!)).*/),
+      token(/(;|#!).*\n?/),
 
     discard_expr: $ =>
       seq(field('marker', "#_"),
