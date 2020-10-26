@@ -10,11 +10,10 @@
 //! that is configured to use this grammar, and then use the parser to parse some code:
 //!
 //! ```
-//! # use indoc::indoc;
-//! let code = indoc! {"
+//! let code = r#"
 //!     def double(x):
 //!         return x * 2
-//! "};
+//! "#;
 //! let mut parser = tree_sitter_python::parser();
 //! let parsed = parser.parse(code, None);
 //! # assert!(parsed.is_some());
