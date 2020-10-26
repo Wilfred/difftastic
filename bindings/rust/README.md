@@ -2,8 +2,9 @@
 
 This crate provides a Python grammar for the [tree-sitter][] parsing library.
 To use this crate, add it to the `[dependencies]` section of your `Cargo.toml`
-file.  (Note that you will probably also need to depend on `tree-sitter` to use
-the parsed result in any useful way.)
+file.  (Note that you will probably also need to depend on the
+[`tree-sitter`][tree-sitter crate] crate to use the parsed result in any useful
+way.)
 
 ``` toml
 [dependencies]
@@ -31,4 +32,5 @@ discussions] page.
 [Parser]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Parser.html
 [parser func]: https://docs.rs/tree-sitter-python/*/tree_sitter_python/fn.parser.html
 [tree-sitter]: https://tree-sitter.github.io/
+[tree-sitter crate]: https://crates.io/crates/tree-sitter
 [tree-sitter discussions]: https://github.com/tree-sitter/tree-sitter/discussions
