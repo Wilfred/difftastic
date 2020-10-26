@@ -17,8 +17,9 @@ grammar to a tree-sitter [Parser][], and then use the parser to parse some code:
 
 ``` rust
 let code = indoc! {"
-    def double(x):
-        return x * 2
+    def double(x)
+      x * 2
+    end
 "};
 let mut parser = tree_sitter_ruby::parser();
 let parsed = parser.parse(code, None);
