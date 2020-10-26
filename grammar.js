@@ -5,7 +5,8 @@ const PRECEDENCE = {
 
   HASH: 1,
   ARRAY: 2,
-  SUB_ARGS: 3,
+  SUB_ARGS: 29,
+  SUB_CALL: 30, // sub call, parathesised have higher precedence than operators
 
   // begin of operators
   AUTO_INCREMENT_DECREMENT: 23,
@@ -559,19 +560,18 @@ module.exports = grammar({
 
     // end of operators
 
-    call_expression: $ => seq(
+    call_expression: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
       field('function_name', $.identifier),
       field('args', optional(choice($.parenthesized_arguments, $.arguments))),
-      $._semi_colon,
-    ),
+    )),
 
-    parenthesized_arguments: $ => prec(PRECEDENCE.SUB_ARGS, seq(
+    parenthesized_arguments: $ => prec.left(PRECEDENCE.SUB_ARGS, seq(
       '(',
       optional($.arguments),
       ')',
     )),
 
-    arguments: $ => commaSeparated($._expression),
+    arguments: $ => prec.left(PRECEDENCE.SUB_ARGS, commaSeparated($._expression)),
 
     _primitive_expression: $ => choice(
       // data-types
