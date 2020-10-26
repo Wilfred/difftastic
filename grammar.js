@@ -79,8 +79,6 @@ module.exports = grammar({
       $.if_statement,
       $.unless_statement,
       // $.given_statement,
-
-      $.assignment_statement,
     ),
 
     _expression_statement: $ => seq(
@@ -101,14 +99,6 @@ module.exports = grammar({
     require_statement: $ => seq(
       'require',
       $.package_name,
-      $._semi_colon,
-    ),
-
-    assignment_statement: $ => seq(
-      // optional($.scope),
-      // $.scalar_declaration,
-      '=',
-      $._expression,
       $._semi_colon,
     ),
 
