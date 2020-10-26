@@ -6,8 +6,8 @@
 
 //! This crate provides a Python grammar for the [tree-sitter][] parsing library.
 //!
-//! Typically, you will use the [parser func][] function to create a tree-sitter [Parser][] that is
-//! configured to use this grammar, and then use the parser to parse some code:
+//! Typically, you will use the [parser][parser func] function to create a tree-sitter [Parser][]
+//! that is configured to use this grammar, and then use the parser to parse some code:
 //!
 //! ```
 //! # use indoc::indoc;
