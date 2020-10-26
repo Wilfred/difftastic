@@ -12,9 +12,9 @@ tree-sitter = "0.17"
 tree-sitter-python = "0.16"
 ```
 
-Typically, you will use the [parser func][] function to create a tree-sitter
-[Parser][] that is configured to use this grammar, and then use the parser to
-parse some code:
+Typically, you will use the [parser][parser func] function to create a
+tree-sitter [Parser][] that is configured to use this grammar, and then use the
+parser to parse some code:
 
 ``` rust
 let code = indoc! {"
