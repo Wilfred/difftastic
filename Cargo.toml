@@ -7,6 +7,7 @@ authors = [
     "Douglas Creager <dcreager@dcreager.net>",
 ]
 license = "MIT"
+readme = "bindings/rust/README.md"
 keywords = ["incremental", "parsing", "python"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter/tree-sitter-python"
