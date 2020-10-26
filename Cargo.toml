@@ -1,0 +1,32 @@
+[package]
+name = "tree-sitter-python"
+description = "Python grammar for the tree-sitter parsing library"
+version = "0.16.1"
+authors = [
+    "Max Brunsfeld <maxbrunsfeld@gmail.com>",
+    "Douglas Creager <dcreager@dcreager.net>",
+]
+license = "MIT"
+keywords = ["incremental", "parsing", "python"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/tree-sitter/tree-sitter-python"
+edition = "2018"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "src/*",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "0.17"
+
+[build-dependencies]
+cc = "1.0"
+
+[dev-dependencies]
+indoc = "1.0"
