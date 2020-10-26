@@ -25,6 +25,10 @@ const PRECEDENCE = {
   RANGE_OPERATOR: 8,
   TERNARY_OPERATOR: 7,
   ASSIGNMENT_OPERATORS: 6,
+  // COMMA_OPERATORS: 5,
+  UNARY_NOT: 4,
+  UNARY_AND: 3,
+  OR_XOR: 2,
   // end of operators
 
 };
@@ -45,6 +49,9 @@ module.exports = grammar({
     [$.binary_expression, $._bodmas_2, $._range_exp],
     [$.binary_expression, $._bodmas_2, $._assignment_exp],
     [$.binary_expression, $._bodmas_2, $.ternary_expression],
+    [$.binary_expression, $._bodmas_2, $._unary_not],
+    [$.binary_expression, $._bodmas_2, $._unary_and],
+    [$.binary_expression, $._bodmas_2, $._logical_verbal_or_xor],
     [$._range_exp],
     [$._class_instance_exp],
   ],
@@ -257,12 +264,15 @@ module.exports = grammar({
       $._logical_ors_exp,
       $._range_exp,
       $._assignment_exp,
+      $._logical_verbal_or_xor,
     ),
 
     unary_expression: $ => choice(
       $._auto_increment_decrement,
       $._symbolic_unary,
       // TODO: named_unary_expression
+      $._unary_not,
+      $._unary_and,
     ),
 
     ternary_expression: $ => prec.right(PRECEDENCE.TERNARY_OPERATOR, seq(
@@ -521,6 +531,29 @@ module.exports = grammar({
           field('operator', operator),
           field('variable', $._expression),
         ),
+      )
+    )),
+
+    _unary_not: $ => prec.right(PRECEDENCE.UNARY_NOT, seq(
+      field('operator', 'not'),
+      field('variable', $._expression),
+    )),
+
+    _unary_and: $ => prec.left(PRECEDENCE.UNARY_AND, seq(
+      field('operator', 'and'),
+      field('variable', $._expression),
+    )),
+
+    _logical_verbal_or_xor: $ => prec.left(PRECEDENCE.OR_XOR, choice(
+      seq(
+        field('variable', $._expression),
+        field('operator', 'or'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', 'xor'),
+        field('variable', $._expression),
       )
     )),
 
