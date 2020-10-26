@@ -554,6 +554,14 @@
             "named": false
           },
           {
+            "type": "or",
+            "named": false
+          },
+          {
+            "type": "xor",
+            "named": false
+          },
+          {
             "type": "|",
             "named": false
           },
@@ -1974,6 +1982,14 @@
             "named": false
           },
           {
+            "type": "and",
+            "named": false
+          },
+          {
+            "type": "not",
+            "named": false
+          },
+          {
             "type": "~",
             "named": false
           }
@@ -2478,6 +2494,10 @@
     "named": false
   },
   {
+    "type": "and",
+    "named": false
+  },
+  {
     "type": "array_variable",
     "named": true
   },
@@ -2554,8 +2574,16 @@
     "named": false
   },
   {
+    "type": "not",
+    "named": false
+  },
+  {
     "type": "octal",
     "named": true
+  },
+  {
+    "type": "or",
+    "named": false
   },
   {
     "type": "our",
@@ -2603,6 +2631,10 @@
   },
   {
     "type": "use",
+    "named": false
+  },
+  {
+    "type": "xor",
     "named": false
   },
   {

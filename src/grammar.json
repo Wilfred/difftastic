@@ -711,6 +711,10 @@
         {
           "type": "SYMBOL",
           "name": "_assignment_exp"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_logical_verbal_or_xor"
         }
       ]
     },
@@ -724,6 +728,14 @@
         {
           "type": "SYMBOL",
           "name": "_symbolic_unary"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_unary_not"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_unary_and"
         }
       ]
     },
@@ -2444,6 +2456,123 @@
         ]
       }
     },
+    "_unary_not": {
+      "type": "PREC_RIGHT",
+      "value": 4,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "STRING",
+              "value": "not"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "variable",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          }
+        ]
+      }
+    },
+    "_unary_and": {
+      "type": "PREC_LEFT",
+      "value": 3,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "STRING",
+              "value": "and"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "variable",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          }
+        ]
+      }
+    },
+    "_logical_verbal_or_xor": {
+      "type": "PREC_LEFT",
+      "value": 2,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "variable",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
+                  "type": "STRING",
+                  "value": "or"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "variable",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                }
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "variable",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
+                  "type": "STRING",
+                  "value": "xor"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "variable",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
     "call_expression": {
       "type": "SEQ",
       "members": [
@@ -3038,6 +3167,21 @@
       "binary_expression",
       "_bodmas_2",
       "ternary_expression"
+    ],
+    [
+      "binary_expression",
+      "_bodmas_2",
+      "_unary_not"
+    ],
+    [
+      "binary_expression",
+      "_bodmas_2",
+      "_unary_and"
+    ],
+    [
+      "binary_expression",
+      "_bodmas_2",
+      "_logical_verbal_or_xor"
     ],
     [
       "_range_exp"
