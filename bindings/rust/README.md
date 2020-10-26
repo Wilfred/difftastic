@@ -11,7 +11,7 @@ tree-sitter = "0.17"
 tree-sitter-python = "0.16"
 ```
 
-Typically, you will use the [parser][] function to create a tree-sitter
+Typically, you will use the [parser func][] function to create a tree-sitter
 [Parser][] that is configured to use this grammar, and then use the parser to
 parse some code:
 
@@ -29,6 +29,6 @@ discussions] page.
 
 [Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
 [Parser]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Parser.html
-[parser]: fn.parser.html
+[parser func]: https://docs.rs/tree-sitter-python/*/tree_sitter_python/fn.parser.html
 [tree-sitter]: https://tree-sitter.github.io/
 [tree-sitter discussions]: https://github.com/tree-sitter/tree-sitter/discussions

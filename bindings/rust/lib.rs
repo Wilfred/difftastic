@@ -6,7 +6,7 @@
 
 //! This crate provides a Python grammar for the [tree-sitter][] parsing library.
 //!
-//! Typically, you will use the [parser][] function to create a tree-sitter [Parser][] that is
+//! Typically, you will use the [parser func][] function to create a tree-sitter [Parser][] that is
 //! configured to use this grammar, and then use the parser to parse some code:
 //!
 //! ```
@@ -22,7 +22,7 @@
 //!
 //! [Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
 //! [Parser]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Parser.html
-//! [parser]: fn.parser.html
+//! [parser func]: fn.parser.html
 //! [tree-sitter]: https://tree-sitter.github.io/
 
 use tree_sitter::Language;
