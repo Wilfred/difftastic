@@ -38,10 +38,6 @@
         {
           "type": "SYMBOL",
           "name": "unless_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "assignment_statement"
         }
       ]
     },
@@ -101,23 +97,6 @@
         {
           "type": "SYMBOL",
           "name": "package_name"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_semi_colon"
-        }
-      ]
-    },
-    "assignment_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
         },
         {
           "type": "SYMBOL",
