@@ -16,6 +16,15 @@ const PRECEDENCE = {
   BODMAS_2: 18,
   SHIFT_OPERATORS: 17,
   RELATIONAL_OPERATORS: 15,
+  EQUALITY_OPERATORS: 14,
+  ISA_OPERATOR: 13,
+  BITWISE_AND: 12,
+  BITWISE_OR_XOR: 11,
+  LOGICAL_AND: 10,
+  LOGICAL_ORS: 9,
+  RANGE_OPERATOR: 8,
+  TERNARY_OPERATOR: 7,
+  ASSIGNMENT_OPERATORS: 6,
   // end of operators
 
 };
@@ -27,6 +36,17 @@ module.exports = grammar({
     [$._boolean, $.call_expression],
     [$._auto_increment_decrement],
     [$.binary_expression, $._bodmas_2, $._shift_expression],
+    [$.binary_expression, $._bodmas_2, $._equality_expression],
+    [$.binary_expression, $._bodmas_2, $._class_instance_exp],
+    [$.binary_expression, $._bodmas_2, $._bitwise_and_exp],
+    [$.binary_expression, $._bodmas_2, $._bitwise_or_xor_exp],
+    [$.binary_expression, $._bodmas_2, $._logical_and_exp],
+    [$.binary_expression, $._bodmas_2, $._logical_ors_exp],
+    [$.binary_expression, $._bodmas_2, $._range_exp],
+    [$.binary_expression, $._bodmas_2, $._assignment_exp],
+    [$.binary_expression, $._bodmas_2, $.ternary_expression],
+    [$._range_exp],
+    [$._class_instance_exp],
   ],
 
   extras: $ => [
@@ -205,6 +225,7 @@ module.exports = grammar({
 
       $.binary_expression,
       $.unary_expression,
+      $.ternary_expression,
 
       $.call_expression,
     ),
@@ -228,6 +249,14 @@ module.exports = grammar({
       $._bodmas_2,
       $._shift_expression,
       $._relational_expression,
+      $._equality_expression,
+      $._class_instance_exp,
+      $._bitwise_and_exp,
+      $._bitwise_or_xor_exp,
+      $._logical_and_exp,
+      $._logical_ors_exp,
+      $._range_exp,
+      $._assignment_exp,
     ),
 
     unary_expression: $ => choice(
@@ -235,6 +264,14 @@ module.exports = grammar({
       $._symbolic_unary,
       // TODO: named_unary_expression
     ),
+
+    ternary_expression: $ => prec.right(PRECEDENCE.TERNARY_OPERATOR, seq(
+      field('condition', $._expression),
+      field('operator', '?'),
+      field('true', $._expression),
+      field('operator', ':'),
+      field('false', $._expression),
+    )),
 
     // no associativity
     // auto increment and auto decrement
@@ -346,6 +383,7 @@ module.exports = grammar({
       ),
     )),
 
+    // has chaining. example: $a > $b > $c
     _relational_expression: $ => prec.left(PRECEDENCE.RELATIONAL_OPERATORS, seq(
       field('variable', $._expression),
       repeat1(seq(
@@ -361,6 +399,129 @@ module.exports = grammar({
         ),
         $._expression,
       ))
+    )),
+
+    // first few has chaining
+    _equality_expression: $ => prec.left(PRECEDENCE.EQUALITY_OPERATORS, choice(
+      seq(
+        field('variable', $._expression),
+        repeat1(seq(
+          choice(
+            '==',
+            '!=',
+            'eq',
+            'ne',
+          ),
+          $._expression,
+        ))
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', '<=>'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', 'cmp'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', '~~'),
+        field('variable', $._expression),
+      ),
+    )),
+
+    _class_instance_exp: $ => prec(PRECEDENCE.ISA_OPERATOR, seq(
+      field('variable', $._expression),
+      field('operator', 'isa'),
+      field('variable', $._expression),
+    )),
+
+    _bitwise_and_exp: $ => prec.left(PRECEDENCE.BITWISE_AND, seq(
+      field('variable', $._expression),
+      field('operator', '&'),
+      field('variable', $._expression),
+    )),
+
+    _bitwise_or_xor_exp: $ => prec.left(PRECEDENCE.BITWISE_OR_XOR, choice(
+      seq(
+        field('variable', $._expression),
+        field('operator', '|'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', '^'),
+        field('variable', $._expression),
+      ),
+    )),
+
+    _logical_and_exp: $ => prec.left(PRECEDENCE.LOGICAL_AND, seq(
+      field('variable', $._expression),
+      field('operator', '&&'),
+      field('variable', $._expression),
+    )),
+
+    _logical_ors_exp: $ => prec.left(PRECEDENCE.LOGICAL_ORS, choice(
+      seq(
+        field('variable', $._expression),
+        field('operator', '||'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', '//'),
+        field('variable', $._expression),
+      ),
+    )),
+
+    _range_exp: $ => prec(PRECEDENCE.RANGE_OPERATOR, choice(
+      seq(
+        field('variable', $._expression),
+        field('operator', '..'),
+        field('variable', $._expression),
+      ),
+      seq(
+        field('variable', $._expression),
+        field('operator', '...'),
+        field('variable', $._expression),
+      ),
+    )),
+
+    // **=    +=    *=    &=    &.=    <<=    &&=
+    //    -=    /=    |=    |.=    >>=    ||=
+    //    .=    %=    ^=    ^.=           //=
+    //          x=
+    _assignment_exp: $ => prec.right(PRECEDENCE.ASSIGNMENT_OPERATORS, choice(
+      ...[
+        '=',
+        '**=',
+        '+=',
+        '*=',
+        '&=',
+        '&.=',
+        '<<=',
+        '&&=',
+        '-=',
+        '/=',      
+        '|=',
+        '|.=',
+        '>>=',
+        '||=',
+        '.=',
+        '%=',
+        '^=',
+        '^.=',
+        '//=',
+        'X=',
+      ].map((operator) => 
+        seq(
+          field('variable', $._expression),
+          field('operator', operator),
+          field('variable', $._expression),
+        ),
+      )
     )),
 
     // end of operators
