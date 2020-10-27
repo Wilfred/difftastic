@@ -21,7 +21,8 @@ let code = r#"
       x * 2
     end
 "#;
-let mut parser = tree_sitter_ruby::parser();
+let mut parser = Parser::new();
+parser.set_language(tree_sitter_ruby::language()).expect("Error loading Ruby grammar");
 let parsed = parser.parse(code, None);
 ```
 
