@@ -46,25 +46,25 @@ pub fn language() -> Language {
 /// The source of the JavaScript tree-sitter grammar description.
 pub const GRAMMAR: &'static str = include_str!("../../grammar.js");
 
-/// The syntax highlighting queries for this language.
-pub const HIGHLIGHT_QUERIES: &'static str = include_str!("../../queries/highlights.scm");
+/// The syntax highlighting query for this language.
+pub const HIGHLIGHT_QUERY: &'static str = include_str!("../../queries/highlights.scm");
 
-/// The syntax highlighting queries for languages injected into this one.
-pub const INJECTION_QUERIES: &'static str = include_str!("../../queries/injections.scm");
+/// The syntax highlighting query for languages injected into this one.
+pub const INJECTION_QUERY: &'static str = include_str!("../../queries/injections.scm");
 
-/// The syntax highlighting queries for JSX.
-pub const JSX_HIGHLIGHT_QUERIES: &'static str = include_str!("../../queries/highlights-jsx.scm");
+/// The syntax highlighting query for JSX.
+pub const JSX_HIGHLIGHT_QUERY: &'static str = include_str!("../../queries/highlights-jsx.scm");
 
-/// The local-variable syntax highlighting queries for this language.
-pub const LOCALS_QUERIES: &'static str = include_str!("../../queries/locals.scm");
+/// The local-variable syntax highlighting query for this language.
+pub const LOCALS_QUERY: &'static str = include_str!("../../queries/locals.scm");
 
 /// The content of the [`node-types.json`][] file for this grammar.
 ///
 /// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
 pub const NODE_TYPES: &'static str = include_str!("../../src/node-types.json");
 
-/// The symbol tagging queries for this language.
-pub const TAGGING_QUERIES: &'static str = include_str!("../../queries/tags.scm");
+/// The symbol tagging query for this language.
+pub const TAGGING_QUERY: &'static str = include_str!("../../queries/tags.scm");
 
 #[cfg(test)]
 mod tests {
