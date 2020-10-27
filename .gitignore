@@ -1,3 +1,4 @@
+Cargo.lock
 node_modules
 build
 *.log
@@ -7,3 +8,4 @@ test.java
 /examples/elasticsearch
 /examples/guava
 /examples/RxJava
+/target/
