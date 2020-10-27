@@ -19,7 +19,9 @@
 //! let mut parser = Parser::new();
 //! parser.set_language(tree_sitter_python::language()).expect("Error loading Python grammar");
 //! let parsed = parser.parse(code, None);
-//! # assert!(parsed.is_some());
+//! # let parsed = parsed.unwrap();
+//! # let root = parsed.root_node();
+//! # assert!(!root.has_error());
 //! ```
 //!
 //! [Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
