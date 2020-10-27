@@ -21,7 +21,8 @@ let code = r#"
     	return x * 2
     }
 "#;
-let mut parser = tree_sitter_go::parser();
+let mut parser = Parser::new();
+parser.set_language(tree_sitter_go::language()).expect("Error loading Go grammar");
 let parsed = parser.parse(code, None);
 ```
 
