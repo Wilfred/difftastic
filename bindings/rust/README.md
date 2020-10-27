@@ -20,7 +20,8 @@ let code = r#"
     def double(x):
         return x * 2
 "#;
-let mut parser = tree_sitter_python::parser();
+let mut parser = Parser::new();
+parser.set_language(tree_sitter_python::language()).expect("Error loading Python grammar");
 let parsed = parser.parse(code, None);
 ```
 
