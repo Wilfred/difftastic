@@ -16,10 +16,10 @@ Typically, you will use the [language][language func] function to add this
 grammar to a tree-sitter [Parser][], and then use the parser to parse some code:
 
 ``` rust
-let code = indoc! {"
+let code = r#"
     def double(x):
         return x * 2
-"};
+"#;
 let mut parser = tree_sitter_python::parser();
 let parsed = parser.parse(code, None);
 ```
