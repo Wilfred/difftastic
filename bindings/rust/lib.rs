@@ -46,7 +46,7 @@ pub fn language() -> Language {
 pub const GRAMMAR: &'static str = include_str!("../../grammar.js");
 
 /// The syntax highlighting query for this language.
-pub const HIGHLIGHT_QUERY: &'static str = include_str!("../../query/highlights.scm");
+pub const HIGHLIGHT_QUERY: &'static str = include_str!("../../queries/highlights.scm");
 
 /// The content of the [`node-types.json`][] file for this grammar.
 ///
@@ -54,7 +54,7 @@ pub const HIGHLIGHT_QUERY: &'static str = include_str!("../../query/highlights.s
 pub const NODE_TYPES: &'static str = include_str!("../../src/node-types.json");
 
 /// The symbol tagging query for this language.
-pub const TAGGING_QUERY: &'static str = include_str!("../../query/tags.scm");
+pub const TAGGING_QUERY: &'static str = include_str!("../../queries/tags.scm");
 
 #[cfg(test)]
 mod tests {
