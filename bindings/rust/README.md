@@ -23,7 +23,8 @@ let code = r#"
         }
     }
 "#;
-let mut parser = tree_sitter_java::parser();
+let mut parser = Parser::new();
+parser.set_language(tree_sitter_java::language()).expect("Error loading Java grammar");
 let parsed = parser.parse(code, None);
 ```
 
