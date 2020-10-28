@@ -1,3 +1,4 @@
+Cargo.lock
 node_modules
 build
 npm-debug.log
@@ -8,3 +9,4 @@ parser.obj
 examples
 !examples/.gitkeep
 scanner.obj
+/target/
