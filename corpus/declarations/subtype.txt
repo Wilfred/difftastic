@@ -173,7 +173,6 @@ subtype st is t (st);
 
 ==========================================================
 Subtype indication - Array constraint - Index Constraint - Subtype indication II
-Test fails due tree-sitter test bug
 ==========================================================
 subtype st is t (integer range h downto l);
 ---
@@ -197,7 +196,7 @@ subtype st is t (integer range h downto l);
 
 ===========================================================
 Subtype indication - Array constraint - Open I
-==========================================================-
+===========================================================
 subtype st is t(open);
 ---
 
@@ -212,7 +211,7 @@ subtype st is t(open);
 
 ===========================================================
 Subtype indication - Array constraint - Open II
-==========================================================-
+===========================================================
 subtype st is t(open)(h downto l);
 ---
 
