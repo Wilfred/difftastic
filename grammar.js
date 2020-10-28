@@ -1,12 +1,12 @@
 const PREC = { // {{{
-    LOGICAL           : 1,
-    RELATION          : 2,
-    SHIFT_EXPRESSION  : 3,
-    SIMPLE_EXPRESSION : 4,
-    SIGN              : 5,
-    TERM              : 6,
-    FACTOR            : 7,
-    REDUCTION         : 8,
+    LOGICAL            : 1,
+    RELATION           : 2,
+    SHIFT_EXPRESSION   : 3,
+    SIMPLE_EXPRESSION  : 4,
+    SIGN               : 5,
+    TERM               : 6,
+    FACTOR             : 7,
+    REDUCTION          : 8,
     CONSTANT_INTERFACE : 3,
     VARIABLE_INTERFACE : 2,
     SIGNAL_INTERFACE   : 1,
@@ -40,16 +40,16 @@ const UNDERLINE = '_';
 // BACKSLASH and QUOTATION_MARK are intentionally
 // missing. They have to be manullay added to the
 // regex in places where they are needed
-const SPECIAL_CHARACTER = '!'   + // 0x21
+const SPECIAL_CHARACTER = '!'   +  // 0x21
                           //QUOTATION_MARK + // 0x22
-                          '#-@' + // 0x23 to 0x40
+                          '#-@' +  // 0x23 to 0x40
                           '\\['  + // 0x5B
                           //BACKSLASH + // 0x5C
                           '\\]-`'+ // 0x5D to 0x60
                           '\\{-~'+ // 0x7B to 0x7E
-                          '¡-¿' + // 0xA1 to 0xBF
-                          '×'   + // 0xD7
-                          '÷'   ; // 0xF7
+                          '¡-¿' +  // 0xA1 to 0xBF
+                          '×'   +  // 0xD7
+                          '÷'   ;  // 0xF7
 
 const LETTER = UPPER_CASE_LETTER+LOWER_CASE_LETTER;
 const LETTER_OR_DIGIT = LETTER+DIGIT;
@@ -98,7 +98,7 @@ extras: $ => [ // {{{
 ], // }}}
 
 inline: $ => [ // {{{
-    //$._subprogram_specification,               //  4.2.1
+    $._subprogram_specification,               //  4.2.1
     $._subprogram_instantiation_declaration,   //  4.4
     $._scalar_type_definition,                 //  5.2
     $._composite_type_definition,              //  5.3
@@ -107,9 +107,6 @@ inline: $ => [ // {{{
     $._element_subtype_indication,             //  5.3.2
     $._type_declaration,                       //  6.2
     $._type_definition,                        //  6.2
-    //$._constant_mode,                        //  6.5.2
-    //$._variable_mode,                        //  6.5.2
-    //$._signal_mode,                          //  6.5.2
     $._interface_package_generic_map_aspect,   //  6.5.5
     $._formal_designator,                      //  6.5.7
     $._generic_association_list,               //  6.5.7.2
@@ -140,36 +137,36 @@ inline: $ => [ // {{{
     $._block_header,                           // 11.2
 
     // expressions
-    $._file_open_kind_expression,            //  6.4.2.4
-    $._file_logical_name,                    //  6.4.2.4
-    $._sensitivity_clause,                   // 10.2
-    $._condition_clause,                     // 10.2
-    $._timeout_clause,                       // 10.2
-    $._guard_condition,                      // 11.2
+    $._file_open_kind_expression,              //  6.4.2.4
+    $._file_logical_name,                      //  6.4.2.4
+    $._sensitivity_clause,                     // 10.2
+    $._condition_clause,                       // 10.2
+    $._timeout_clause,                         // 10.2
+    $._guard_condition,                        // 11.2
 
     // identifier aliases
-    $._architecture_identifier,              //  3.3
-    $._package_simple_name,                  //  4.8
-    $._object_simple_name,                   //  8.8
-    $._name_or_label,                        //  8.8
-    $._simple_name,                          //  9
-    $._loop_label,                           // 10.10
-    $._generate_statement_label,             // 11.8
-    $._label,                                // 11.8
-    $._end_label,                            // 11.8
-    $._logical_name,                         // 13.2
+    $._architecture_identifier,                //  3.3
+    $._package_simple_name,                    //  4.8
+    $._object_simple_name,                     //  8.8
+    $._name_or_label,                          //  8.8
+    $._simple_name,                            //  9
+    $._loop_label,                             // 10.10
+    $._generate_statement_label,               // 11.8
+    $._label,                                  // 11.8
+    $._end_label,                              // 11.8
+    $._logical_name,                           // 13.2
 
     // name aliases
-    $._uninstantiated_name,                  //  8
-    $._entity_name,                          //  3.2
-    $._subprogram_name,                      //  4.2.1
-    $._type_mark,                            //  6.3
-    $._alias_denotator,                      //  6.6
-    $._component_name,                       //  6.8
-    $._entity_tag,                           //  7.2
-    $._prefix,                               //  8
-    $._suffix,                               //  8.3
-    $._signal_name,                          // 10.2
+    $._uninstantiated_name,                    //  8
+    $._entity_name,                            //  3.2
+    $._subprogram_name,                        //  4.2.1
+    $._type_mark,                              //  6.3
+    $._alias_denotator,                        //  6.6
+    $._component_name,                         //  6.8
+    $._entity_tag,                             //  7.2
+    $._prefix,                                 //  8
+    $._suffix,                                 //  8.3
+    $._signal_name,                            // 10.2
 ], // }}}
 
 conflicts: $ => [ // {{{
@@ -2262,44 +2259,44 @@ rules: {
     ),
     // }}}
 
-        // 10.6 Variable assignment statement {{{
-        _variable_assignment_statement: $ => choice(
-            $.simple_variable_assignment,
-            $.conditional_variable_assignment,
-            $.selected_variable_assignment
-        ),
-        // }}}
+    // 10.6 Variable assignment statement {{{
+    _variable_assignment_statement: $ => choice(
+        $.simple_variable_assignment,
+        $.conditional_variable_assignment,
+        $.selected_variable_assignment
+    ),
+    // }}}
 
-        // 10.6.2 Simple variable assignments {{{
-        simple_variable_assignment: $ => seq(
-            $._target,
-            ':=',
-            field('value', $._expression),
-            ';'
-        ),
-        // }}}
+    // 10.6.2 Simple variable assignments {{{
+    simple_variable_assignment: $ => seq(
+        $._target,
+        ':=',
+        field('value', $._expression),
+        ';'
+    ),
+    // }}}
 
-        // 10.6.3 Conditional variable assignments {{{
-        conditional_variable_assignment: $ => seq(
-            $._target,
-            ':=',
-            $.conditional_expressions,
-            ';'
-        ),
-        // }}}
+    // 10.6.3 Conditional variable assignments {{{
+    conditional_variable_assignment: $ => seq(
+        $._target,
+        ':=',
+        $.conditional_expressions,
+        ';'
+    ),
+    // }}}
 
-        // 10.6.4 Selected variable assignments {{{
-        selected_variable_assignment: $ => seq(
-            caseInsensitive('with'),
-            field('expression',$._expression),
-            caseInsensitive('select'),
-            optional('?'),
-            $._target,
-            ':=',
-            $.selected_expressions,
-            ';'
-        ),
-        // }}}
+    // 10.6.4 Selected variable assignments {{{
+    selected_variable_assignment: $ => seq(
+        caseInsensitive('with'),
+        field('expression',$._expression),
+        caseInsensitive('select'),
+        optional('?'),
+        $._target,
+        ':=',
+        $.selected_expressions,
+        ';'
+    ),
+    // }}}
 
     // 10.7 Procedure call statement {{{
     procedure_call_statement: $ => seq(
