@@ -1,0 +1,81 @@
+=============================
+Declaration
+=============================
+attribute a : t;
+---
+
+(design_file
+  (attribute_declaration
+    (identifier)
+    type_mark: (simple_name)))
+
+=============================
+Specification
+=============================
+attribute attr of e : entity is expr;
+---
+
+(design_file
+  (attribute_specification
+    (attribute_designator)
+    (entity_specification
+      (entity_name_list
+        (entity_designator
+          entity_tag: (simple_name)))
+      (entity_class))
+    (simple_name)))
+
+=============================
+Specification [LRM] I
+=============================
+attribute LOCATION of ADDER1: label is (10,15);
+---
+
+(design_file
+  (attribute_specification
+    (attribute_designator)
+    (entity_specification
+      (entity_name_list
+        (entity_designator
+          entity_tag: (simple_name)))
+      (entity_class))
+    (aggregate
+      (positional_element_association
+        (integer_decimal_literal
+          (integer)))
+      (positional_element_association
+        (integer_decimal_literal
+          (integer))))))
+
+=============================
+Specification [LRM] II
+=============================
+attribute IMPLEMENTATION of G1: group is "74LS152";
+---
+
+(design_file
+  (attribute_specification
+    (attribute_designator)
+    (entity_specification
+      (entity_name_list
+        (entity_designator
+          entity_tag: (simple_name)))
+      (entity_class))
+    (string_literal)))
+
+=============================
+Specification [LRM] III
+=============================
+attribute CAPACITANCE of all: signal is 15 pF;
+---
+
+(design_file
+  (attribute_specification
+    (attribute_designator)
+    (entity_specification
+      (entity_name_list
+        (all))
+      (entity_class))
+    (physical_literal
+      coefficient: (integer_decimal_literal (integer))
+      unit_name: (simple_name))))

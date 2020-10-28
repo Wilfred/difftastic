@@ -1,0 +1,151 @@
+===============================
+Instantiation unit - Component
+===============================
+L1: component unit;
+---
+
+(design_file
+  (label)
+  (component_instantiation_statement
+    (component_instantiation
+      component_name: (simple_name))))
+
+===============================
+Instantiation unit - Entity I
+===============================
+L1: entity pkg.e;
+---
+
+(design_file
+  (label)
+  (component_instantiation_statement
+    (entity_instantiation
+      entity_name: (selected_name
+        prefix: (simple_name)
+        suffix: (simple_name)))))
+
+===============================
+Instantiation unit - Entity II
+===============================
+L1: entity pkg.e(rtl);
+---
+
+(design_file
+  (label)
+  (component_instantiation_statement
+    (entity_instantiation
+      entity_name: (selected_name
+        prefix: (simple_name)
+        suffix: (simple_name))
+      (architecture_identifier))))
+
+===================================
+Instantiation unit - Configuration
+===================================
+L1: configuration pkg.cfg;
+---
+
+(design_file
+  (label)
+  (component_instantiation_statement
+    (configuration_instantiation
+      (selected_name
+        prefix: (simple_name)
+        suffix: (simple_name)))))
+
+===================================
+Generic map aspect
+===================================
+L1: unit
+generic map (a,b,c);
+---
+
+(design_file
+  (label)
+  (component_instantiation_statement
+    (component_instantiation
+      component_name: (simple_name))
+    (generic_map_aspect
+      (generic_association_list
+        (positional_association_element
+          (actual_part (actual_designator (simple_name))))
+        (positional_association_element
+          (actual_part (actual_designator (simple_name))))
+        (positional_association_element
+          (actual_part (actual_designator (simple_name))))))))
+
+===================================
+Port map aspect
+===================================
+L1: unit
+port map (a,b,c);
+---
+
+(design_file
+  (label)
+  (component_instantiation_statement
+    (component_instantiation
+      component_name: (simple_name))
+    (port_map_aspect
+      (port_association_list
+        (positional_association_element
+          (actual_part (actual_designator (simple_name))))
+        (positional_association_element
+          (actual_part (actual_designator (simple_name))))
+        (positional_association_element
+          (actual_part (actual_designator (simple_name))))))))
+
+===================================
+Generic and port map aspect
+===================================
+L1: unit
+generic map (a,b,c)
+   port map (open,a);
+---
+
+(design_file
+  (label)
+  (component_instantiation_statement
+    (component_instantiation
+      component_name: (simple_name))
+    (generic_map_aspect
+      (generic_association_list
+        (positional_association_element
+          (actual_part (actual_designator (simple_name))))
+        (positional_association_element
+          (actual_part (actual_designator (simple_name))))
+        (positional_association_element
+          (actual_part (actual_designator (simple_name))))))
+    (port_map_aspect
+      (port_association_list
+        (positional_association_element
+          (actual_part (actual_designator (open))))
+        (positional_association_element
+          (actual_part (actual_designator (simple_name))))))))
+
+===================================
+Type declaration
+===================================
+L1: unit
+generic map (integer range 0 to 7);
+---
+
+(design_file
+  (label)
+  (component_instantiation_statement
+    (component_instantiation
+      component_name: (simple_name))
+    (generic_map_aspect
+      (generic_association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (subtype_indication
+                type_mark: (simple_name)
+                (constraint
+                  (range_constraint
+                    (ascending_range
+                      low: (integer_decimal_literal
+                        (integer))
+                      high: (integer_decimal_literal
+                        (integer)))))))))))))

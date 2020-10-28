@@ -1,0 +1,213 @@
+====================================
+Minimal
+====================================
+package pkg is
+end;
+
+package pkg is
+end package;
+
+package pkg is
+end pkg;
+---
+
+(design_file
+  (package_declaration
+    (identifier))
+  (package_declaration
+    (identifier))
+  (package_declaration
+    (identifier)
+    end_name: (simple_name)))
+
+====================================
+Header - Generic clause
+====================================
+package pkg is
+    generic (a:t)
+end package;
+---
+
+(design_file
+  (package_declaration
+    (identifier)
+    (package_header
+      (generic_clause
+        (generic_interface_list
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))))))
+
+====================================
+Header - Generic map aspects
+====================================
+package pkg is
+    generic (a:t)
+    generic map (a);
+end package;
+---
+
+(design_file
+  (package_declaration
+    (identifier)
+    (package_header
+      (generic_clause
+        (generic_interface_list
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name)))))
+      (generic_map_aspect
+        (generic_association_list
+          (positional_association_element
+            (actual_part
+              (actual_designator
+                (simple_name)))))
+        (semicolon)))))
+
+====================================
+Declarative part
+====================================
+package pkg is
+    constant k : t;
+end package;
+
+package pkg is
+    constant k : t;
+    constant k : t;
+end package;
+---
+
+(design_file
+  (package_declaration
+    (identifier)
+    (package_declarative_part
+      (deferred_constant_declaration
+        (identifier_list
+          (identifier))
+        (subtype_indication
+          type_mark: (simple_name)))))
+  (package_declaration
+    (identifier)
+    (package_declarative_part
+      (deferred_constant_declaration
+        (identifier_list
+          (identifier))
+        (subtype_indication
+          type_mark: (simple_name)))
+      (deferred_constant_declaration
+        (identifier_list
+          (identifier))
+        (subtype_indication
+          type_mark: (simple_name))))))
+
+====================================
+Header + Declarative part
+====================================
+package pkg is
+    generic (a:t)
+    generic map (a);
+
+    constant k : t;
+end package;
+---
+
+(design_file
+  (package_declaration
+    (identifier)
+    (package_header
+      (generic_clause
+        (generic_interface_list
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name)))))
+      (generic_map_aspect
+        (generic_association_list
+          (positional_association_element
+            (actual_part
+              (actual_designator
+                (simple_name)))))
+        (semicolon)))
+    (package_declarative_part
+      (deferred_constant_declaration
+        (identifier_list
+          (identifier))
+        (subtype_indication
+          type_mark: (simple_name))))))
+
+====================================
+Header - Unexpected token (LINT)
+====================================
+package pkg is
+    generic (a:t); -- here
+end package;
+
+package pkg is
+    generic (a:t); -- here
+    generic map (a);
+end package;
+---
+
+(design_file
+  (package_declaration
+    (identifier)
+    (package_header
+      (generic_clause
+        (generic_interface_list
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
+        (semicolon))) (comment))
+
+  (package_declaration
+    (identifier)
+    (package_header
+      (generic_clause
+        (generic_interface_list
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name)))) (semicolon))
+      (comment)
+      (generic_map_aspect
+        (generic_association_list
+          (positional_association_element
+            (actual_part
+              (actual_designator
+                (simple_name)))))
+        (semicolon)))))
+
+====================================
+Header - Missing token (LINT)
+====================================
+package pkg is
+    generic (a:t)
+    generic map (a) -- here
+end package;
+---
+
+(design_file
+  (package_declaration
+    (identifier)
+    (package_header
+      (generic_clause
+        (generic_interface_list
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name)))))
+      (generic_map_aspect
+        (generic_association_list
+          (positional_association_element
+            (actual_part
+              (actual_designator
+                (simple_name))))))) (comment)))

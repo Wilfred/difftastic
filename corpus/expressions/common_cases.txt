@@ -1,0 +1,97 @@
+============================================
+Simple expression + relation I
+============================================
+assert a < b and b > c;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (logical_expression_and
+      left: (relation
+         left: (simple_name)
+        right: (simple_name))
+      right: (relation
+         left: (simple_name)
+        right: (simple_name)))))
+
+============================================
+Simple expression + relation I
+============================================
+assert a < b and b > c and a > d;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (logical_expression_and
+      left: (logical_expression_and
+        left: (relation
+          left: (simple_name)
+          right: (simple_name))
+        right: (relation
+          left: (simple_name)
+          right: (simple_name)))
+      right: (relation
+        left: (simple_name)
+        right: (simple_name)))))
+
+============================================
+Logical expression + simple expression I
+============================================
+assert a+b and c+d;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (logical_expression_and
+      left: (simple_expression
+         left: (simple_name)
+        right: (simple_name))
+      right: (simple_expression
+         left: (simple_name)
+        right: (simple_name)))))
+
+============================================
+Logical expression + simple expression II
+============================================
+assert a+b and c+d and c+d;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (logical_expression_and
+      left: (logical_expression_and
+        left: (simple_expression
+           left: (simple_name)
+          right: (simple_name))
+        right: (simple_expression
+           left: (simple_name)
+          right: (simple_name)))
+      right: (simple_expression
+         left: (simple_name)
+        right: (simple_name)))))
+
+============================================
+Logical expression + simple expression III
+============================================
+assert a+b+c and d+e+f and g+h+i;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (logical_expression_and
+      left: (logical_expression_and
+        left: (simple_expression
+          left: (simple_expression
+            left: (simple_name)
+            right: (simple_name))
+          right: (simple_name))
+        right: (simple_expression
+          left: (simple_expression
+            left: (simple_name)
+            right: (simple_name))
+          right: (simple_name)))
+      right: (simple_expression
+        left: (simple_expression
+          left: (simple_name)
+          right: (simple_name))
+        right: (simple_name)))))

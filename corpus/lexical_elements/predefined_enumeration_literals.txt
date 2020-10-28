@@ -1,0 +1,204 @@
+==============================================================
+Character literal - White space (SPACE)
+==============================================================
+assert ' ';
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (character_literal)))
+
+==============================================================
+Character literal - White space (NBSP)
+==============================================================
+assert ' ';
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (character_literal)))
+
+==============================================================
+Character literal - Apostrophe
+==============================================================
+assert ''';
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (character_literal)))
+
+==============================================================
+Character literal - Quotation mark
+==============================================================
+assert '"';
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (character_literal)))
+
+
+==============================================================
+Character literal - Solidus
+==============================================================
+assert '/';
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (character_literal)))
+
+==============================================================
+Character literal - Backslash
+==============================================================
+assert '\';
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (character_literal)))
+
+==============================================================
+Character literal - Number signal
+==============================================================
+assert '#';
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (character_literal)))
+
+
+==============================================================
+Character literal - STD_LOGIC values (upper case)
+==============================================================
+assert '1';
+assert '0';
+assert 'U';
+assert 'X';
+assert 'W';
+assert 'L';
+assert 'H';
+assert '-';
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal)))
+
+==============================================================
+Character literal - STD_LOGIC values (lower case)
+==============================================================
+assert '1';
+assert '0';
+assert 'u';
+assert 'x';
+assert 'w';
+assert 'l';
+assert 'h';
+assert '-';
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal)))
+
+==============================================================
+Character literal - Format effectors (upper case)
+==============================================================
+assert HT;
+assert VT;
+assert CR;
+assert LF;
+assert FF;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal)))
+
+==============================================================
+Character literal - Format effectors (lower case)
+==============================================================
+assert ht;
+assert vt;
+assert cr;
+assert lf;
+assert ff;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal)))
+
+
+==============================================================
+Character literal - Null
+==============================================================
+assert NUL;
+assert nul;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (character_literal))
+  (concurrent_assertion_statement
+    condition: (character_literal)))
+
+==============================================================
+Boolean
+==============================================================
+assert true;
+assert false;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name)))

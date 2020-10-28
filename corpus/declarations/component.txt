@@ -1,0 +1,93 @@
+=============================
+Minimal
+=============================
+component c
+end component;
+
+component c is
+end component;
+
+component c is
+end component c;
+---
+
+(design_file
+  (component_declaration
+    (identifier))
+  (component_declaration
+    (identifier))
+  (component_declaration
+    (identifier)
+    at_end: (simple_name)))
+
+=============================
+Local generic clause
+=============================
+component c
+    generic (a:b);
+end component;
+---
+
+(design_file
+  (component_declaration
+    (identifier)
+    (component_header
+      (generic_clause
+        (generic_interface_list
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
+        (semicolon)))))
+
+=============================
+Local port clause
+=============================
+component c
+    port (a:b);
+end component;
+---
+
+(design_file
+  (component_declaration
+    (identifier)
+    (component_header
+      (port_clause
+        (port_interface_list
+          (interface_signal_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
+        (semicolon)))))
+
+=============================
+Local generic and port clause
+=============================
+component c
+    generic (a:b);
+       port (a:b);
+end component;
+---
+
+(design_file
+  (component_declaration
+    (identifier)
+    (component_header
+      (generic_clause
+        (generic_interface_list
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
+        (semicolon))
+      (port_clause
+        (port_interface_list
+          (interface_signal_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
+        (semicolon)))))

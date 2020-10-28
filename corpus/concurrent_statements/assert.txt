@@ -1,0 +1,25 @@
+==============================
+Minimal
+==============================
+assert a;
+A1: assert a;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (label)
+  (concurrent_assertion_statement
+    condition: (simple_name)))
+
+==============================
+Label
+==============================
+assert a report "str" severity failure;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (simple_name)
+    report: (string_literal)
+    severity: (severity_level)))

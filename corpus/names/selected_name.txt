@@ -1,0 +1,260 @@
+=====================================
+Prefix: Basic Identifier
+=====================================
+assert foo.bar;
+assert foo.\bar\;
+assert foo.'+';
+assert foo."and";
+assert foo.all;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (simple_name)
+      suffix: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (simple_name)
+      suffix: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (simple_name)
+      suffix: (character_literal)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (simple_name)
+      suffix: (operator_symbol)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (simple_name)
+      suffix: (all))))
+
+========================================
+Prefix: Extended Identifier
+========================================
+assert \foo\.bar;
+assert \foo\.\bar\;
+assert \foo\.'+';
+assert \foo\."and";
+assert \foo\.all;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (simple_name)
+      suffix: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (simple_name)
+      suffix: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (simple_name)
+      suffix: (character_literal)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (simple_name)
+      suffix: (operator_symbol)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (simple_name)
+      suffix: (all))))
+
+========================================
+Prefix: Selected Name
+========================================
+assert foo.foo.bar;
+assert foo.foo.\bar\;
+assert foo.foo.'+';
+assert foo.foo."and";
+assert foo.foo.all;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (selected_name
+        prefix: (simple_name)
+        suffix: (simple_name))
+      suffix: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (selected_name
+        prefix: (simple_name)
+        suffix: (simple_name))
+      suffix: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (selected_name
+        prefix: (simple_name)
+        suffix: (simple_name))
+      suffix: (character_literal)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (selected_name
+        prefix: (simple_name)
+        suffix: (simple_name))
+      suffix: (operator_symbol)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (selected_name
+        prefix: (simple_name)
+        suffix: (simple_name))
+      suffix: (all))))
+
+========================================
+Prefix: External Name
+========================================
+assert <<signal foo : bar >>.bar;
+assert <<signal foo : bar >>.\bar\;
+assert <<signal foo : bar >>.'+';
+assert <<signal foo : bar >>."and";
+assert <<signal foo : bar >>.all;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (external_signal_name
+        (relative_pathname
+          (partial_pathname
+            (object_simple_name)))
+        (subtype_indication
+          type_mark: (simple_name)))
+      suffix: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (external_signal_name
+        (relative_pathname
+          (partial_pathname
+            (object_simple_name)))
+        (subtype_indication
+          type_mark: (simple_name)))
+      suffix: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (external_signal_name
+        (relative_pathname
+          (partial_pathname
+            (object_simple_name)))
+        (subtype_indication
+          type_mark: (simple_name)))
+      suffix: (character_literal)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (external_signal_name
+        (relative_pathname
+          (partial_pathname
+            (object_simple_name)))
+        (subtype_indication
+          type_mark: (simple_name)))
+      suffix: (operator_symbol)))
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (external_signal_name
+        (relative_pathname
+          (partial_pathname
+            (object_simple_name)))
+        (subtype_indication
+          type_mark: (simple_name)))
+      suffix: (all))))
+
+========================================
+Prefix: Ambiguous Name I
+========================================
+assert f(a).bar;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (ambiguous_name
+        prefix: (simple_name)
+        (association_list
+          (positional_association_element
+            (actual_part
+              (actual_designator
+                (simple_name))))))
+      suffix: (simple_name))))
+
+========================================
+Prefix: Ambiguous Name II
+========================================
+assert f(a=>B).\bar\;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (ambiguous_name
+        prefix: (simple_name)
+        (association_list
+          (named_association_element
+            (formal_part
+              (formal_designator))
+            (actual_part
+              (actual_designator
+                (simple_name))))))
+      suffix: (simple_name))))
+
+
+========================================
+Prefix: Ambiguous Name III
+========================================
+assert f(a,b).'+';
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (ambiguous_name
+        prefix: (simple_name)
+        (association_list
+          (positional_association_element
+            (actual_part
+              (actual_designator
+                (simple_name))))
+          (positional_association_element
+            (actual_part
+              (actual_designator
+                (simple_name))))))
+      suffix: (character_literal))))
+
+========================================
+Prefix: Ambiguous Name IV
+========================================
+assert f(a'range)."and";
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (ambiguous_name
+        prefix: (simple_name)
+        (index_constraint
+          (discrete_range
+            (attribute_name
+              prefix: (simple_name)
+              (range_attribute_designator)))))
+      suffix: (operator_symbol))))
+
+========================================
+Prefix: Ambiguous Name V
+========================================
+assert f(0).all;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (selected_name
+      prefix: (ambiguous_name
+        prefix: (simple_name)
+        (association_list
+          (positional_association_element
+            (actual_part
+              (actual_designator
+                (integer_decimal_literal
+                  (integer)))))))
+      suffix: (all))))

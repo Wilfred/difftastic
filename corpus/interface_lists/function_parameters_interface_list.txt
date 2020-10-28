@@ -1,0 +1,184 @@
+============================================================================
+Minimal I
+============================================================================
+function f (a : b) return t;
+---
+
+(design_file
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (identifier)
+      (formal_function_parameter_clause
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name))))
+      (return
+        type_mark: (simple_name)))))
+
+============================================================================
+Constant interface declaration
+============================================================================
+function f (constant k1 :    t;
+            constant k2 : in t) return t;
+---
+
+(design_file
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (identifier)
+      (formal_function_parameter_clause
+        (interface_constant_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (interface_constant_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (mode (in))
+          (subtype_indication
+            type_mark: (simple_name))))
+      (return
+        type_mark: (simple_name)))))
+
+============================================================================
+Signal interface declaration
+============================================================================
+function f (signal s1 :    t;
+            signal s2 : in t) return t;
+---
+
+(design_file
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (identifier)
+      (formal_function_parameter_clause
+        (interface_signal_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (interface_signal_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (mode (in))
+          (subtype_indication
+            type_mark: (simple_name))))
+      (return
+        type_mark: (simple_name)))))
+
+============================================================================
+Files interface declaration
+============================================================================
+function f (file f : t) return t;
+---
+
+(design_file
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (identifier)
+      (formal_function_parameter_clause
+        (interface_file_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name))))
+      (return
+        type_mark: (simple_name)))))
+
+============================================================================
+ILLEGAL: Variable interface declaration
+============================================================================
+function f (variable v1 : t) return t;
+---
+
+(design_file
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (identifier)
+      (formal_function_parameter_clause
+        ILLEGAL: (interface_variable_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name))))
+      (return
+        type_mark: (simple_name)))))
+
+============================================================================
+ILLEGAL: Type interface declaration
+============================================================================
+function f (type t) return t;
+---
+
+(design_file
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (identifier)
+      (formal_function_parameter_clause
+        ILLEGAL: (interface_type_declaration
+          (identifier)))
+      (return
+        type_mark: (simple_name)))))
+
+============================================================================
+ILLEGAL Procedure interface declaration
+============================================================================
+function f (procedure p) return t;
+---
+
+(design_file
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (identifier)
+      (formal_function_parameter_clause
+        ILLEGAL: (interface_subprogram_declaration
+          (procedure_specification
+            designator: (identifier))))
+      (return
+        type_mark: (simple_name)))))
+
+============================================================================
+ILLEGAL Function interface declaration
+============================================================================
+function f (function f return t) return t;
+---
+
+(design_file
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (identifier)
+      (formal_function_parameter_clause
+        ILLEGAL: (interface_subprogram_declaration
+          (pure_function_specification
+            designator: (identifier)
+            (return
+              type_mark: (simple_name)))))
+      (return
+        type_mark: (simple_name)))))
+
+============================================================================
+ILLEGAL Package interface declaration
+============================================================================
+function f (package pkg is new pkg generic map (<>)) return t;
+---
+
+(design_file
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (identifier)
+      (formal_function_parameter_clause
+        ILLEGAL: (interface_package_declaration
+          (identifier)
+          uninstantiated: (simple_name)
+          (interface_package_generic_map_aspect
+            (any))))
+      (return
+        type_mark: (simple_name)))))

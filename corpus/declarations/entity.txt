@@ -1,0 +1,112 @@
+===============================
+Minimal I
+===============================
+entity e is
+end;
+
+entity e is
+end entity;
+
+entity e is
+end e;
+
+entity e is
+end entity e;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)))
+  (design_unit
+    (entity_declaration
+      (identifier)))
+  (design_unit
+    (entity_declaration
+      (identifier)
+      at_end: (simple_name)))
+  (design_unit
+    (entity_declaration
+      (identifier)
+      at_end: (simple_name))))
+
+================================
+Entity header - Port Clause
+================================
+entity e is
+    port (s : t);
+end entity;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (port_clause
+          (port_interface_list
+            (interface_signal_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))))
+          (semicolon))))))
+
+================================
+Entity header - Generic Clause
+================================
+entity e is
+   generic (k : t);
+end entity;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_constant_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))))
+          (semicolon))))))
+
+================================
+Entity header - Generic Clause + Port Clause
+================================
+entity e is
+   generic (k : t; v : in t);
+      port (s : t);
+end entity;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_constant_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name)))
+            (interface_constant_declaration
+              (identifier_list
+                (identifier))
+              (mode (in))
+              (subtype_indication
+                type_mark: (simple_name))))
+          (semicolon))
+        (port_clause
+          (port_interface_list
+            (interface_signal_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))))
+          (semicolon))))))

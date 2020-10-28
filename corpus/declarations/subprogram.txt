@@ -1,0 +1,155 @@
+=======================================
+Minimal
+=======================================
+procedure p;
+function f return t;
+function "+" return t;
+---
+
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)))
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (identifier)
+      (return
+        type_mark: (simple_name))))
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (operator_symbol)
+      (return
+        type_mark: (simple_name)))))
+
+=======================================
+Function purity
+=======================================
+  pure function f return t;
+impure function f return t;
+---
+
+(design_file
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (identifier)
+      (return
+        type_mark: (simple_name))))
+  (subprogram_declaration
+    (impure_function_specification
+      designator: (identifier)
+      (return
+        type_mark: (simple_name)))))
+
+=======================================
+Header - Generic clause
+=======================================
+procedure p
+    generic (k : t);
+
+function f
+    generic (k : t) return t;
+---
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)
+      (subprogram_header
+        (generic_clause
+          (generic_interface_list
+            (interface_constant_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))))))))
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (identifier)
+      (subprogram_header
+        (generic_clause
+          (generic_interface_list
+            (interface_constant_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))))))
+      (return
+        type_mark: (simple_name)))))
+
+
+=======================================
+Header - Generic Map aspect
+=======================================
+procedure p
+    generic (k : t)
+    generic map (k);
+
+function f
+    generic (k : t)
+    generic map (k) return t;
+---
+
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)
+      (subprogram_header
+        (generic_clause
+          (generic_interface_list
+            (interface_constant_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name)))))
+        (generic_map_aspect
+          (generic_association_list
+            (positional_association_element
+              (actual_part
+                (actual_designator
+                  (simple_name)))))))))
+  (subprogram_declaration
+    (pure_function_specification
+      designator: (identifier)
+      (subprogram_header
+        (generic_clause
+          (generic_interface_list
+            (interface_constant_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name)))))
+        (generic_map_aspect
+          (generic_association_list
+            (positional_association_element
+              (actual_part
+                (actual_designator
+                  (simple_name)))))))
+      (return
+        type_mark: (simple_name)))))
+
+================================
+Header - Unexpected token (LINT)
+================================
+procedure p
+    generic (k : t); -- here
+    generic map (k);
+---
+
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)
+      (subprogram_header
+        (generic_clause
+          (generic_interface_list
+            (interface_constant_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))))
+          (semicolon)) (comment)
+        (generic_map_aspect
+          (generic_association_list
+            (positional_association_element
+              (actual_part
+                (actual_designator
+                  (simple_name))))))))))

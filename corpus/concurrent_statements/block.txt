@@ -1,0 +1,177 @@
+==============================
+Minimal
+==============================
+B1: block
+begin
+end block;
+
+B2: block is
+begin
+end block;
+
+B3: block is
+begin
+end block B3;
+----
+
+(design_file
+  (label)
+  (block_statement)
+
+  (label)
+  (block_statement)
+
+  (label)
+  (block_statement
+    at_end: (label)))
+
+==============================
+Guard condition
+==============================
+B1: block (cond) is
+begin
+end block;
+---
+
+(design_file
+  (label)
+  (block_statement
+    guard_condition: (simple_name)))
+
+==============================
+Block header - Generic clause
+==============================
+B1: block is
+    generic (a:t);
+begin
+end block;
+---
+
+(design_file
+  (label)
+  (block_statement
+    (block_header
+      (generic_clause
+        (generic_interface_list
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
+        (semicolon)))))
+
+==================================
+Block header - Generic map aspect
+==================================
+B1: block is
+    generic (a:t);
+    generic map (b);
+begin
+end block;
+---
+
+(design_file
+  (label)
+  (block_statement
+    (block_header
+      (generic_clause
+        (generic_interface_list
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
+        (semicolon))
+      (generic_map_aspect
+        (generic_association_list
+          (positional_association_element
+            (actual_part
+              (actual_designator
+                (simple_name)))))
+        (semicolon)))))
+
+==============================
+Block header - Port clause
+==============================
+B1: block is
+    port (a:t);
+begin
+end block;
+---
+
+(design_file
+  (label)
+  (block_statement
+    (block_header
+      (port_clause
+        (port_interface_list
+          (interface_signal_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
+        (semicolon)))))
+
+==============================
+Block header - Port clause
+==============================
+B1: block is
+    port (a:t);
+    port map (b);
+begin
+end block;
+---
+
+(design_file
+  (label)
+  (block_statement
+    (block_header
+      (port_clause
+        (port_interface_list
+          (interface_signal_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
+        (semicolon))
+      (port_map_aspect
+        (port_association_list
+          (positional_association_element
+            (actual_part
+              (actual_designator
+                (simple_name)))))
+        (semicolon)))))
+
+==============================
+Declarative part
+==============================
+B1: block is
+     alias a is s;
+begin
+end block;
+---
+
+(design_file
+  (label)
+  (block_statement
+    (block_declarative_part
+      (alias_declaration
+        alias_designator: (identifier)
+        alias_denotator: (simple_name)))))
+
+==============================
+Sequential part
+==============================
+B1: block is
+begin
+    PL: p;
+end block;
+---
+
+(design_file
+  (label)
+  (block_statement
+    (block_statement_part
+      (label)
+      (concurrent_procedure_call_statement
+        (simple_name)))))

@@ -1,0 +1,548 @@
+====================================
+For generate - Minimal
+====================================
+G1:
+for i in r
+    generate
+    end generate;
+---
+
+(design_file
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      (discrete_range
+        (subtype_indication
+          type_mark: (simple_name))))))
+
+====================================
+For generate - Generate body begin
+====================================
+G1:
+for i in r
+    generate
+        begin
+    end generate;
+---
+
+(design_file
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      (discrete_range
+        (subtype_indication
+          type_mark: (simple_name))))
+    (generate_statement_body)))
+
+====================================
+For generate - Generate body end
+====================================
+G1:
+for i in r
+    generate
+        end;
+    end generate;
+---
+
+(design_file
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      (discrete_range
+        (subtype_indication
+          type_mark: (simple_name))))
+    (generate_statement_body)))
+
+====================================
+For generate - Generate body begin/end
+====================================
+G1:
+for i in r
+    generate
+        begin
+        end;
+    end generate;
+---
+
+(design_file
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      (discrete_range
+        (subtype_indication
+          type_mark: (simple_name))))
+    (generate_statement_body)))
+
+==================================================
+Generate statement body - Block declarative part I
+==================================================
+G1:
+for i in r
+    generate
+            subtype t is t2;
+        begin
+    end generate;
+---
+
+(design_file
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      (discrete_range
+        (subtype_indication
+          type_mark: (simple_name))))
+    (generate_statement_body
+      (block_declarative_part
+        (subtype_declaration
+          (identifier)
+          (subtype_indication
+            type_mark: (simple_name)))))))
+
+===================================================
+Generate statement body - Block declarative part II
+===================================================
+G1:
+for i in r
+    generate
+            subtype t is t2;
+        begin
+        end;
+    end generate;
+---
+
+(design_file
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      (discrete_range
+        (subtype_indication
+          type_mark: (simple_name))))
+    (generate_statement_body
+      (block_declarative_part
+        (subtype_declaration
+          (identifier)
+          (subtype_indication
+            type_mark: (simple_name)))))))
+
+==================================================
+Generate statement body - Concurrent statement I
+==================================================
+G1:
+for i in r
+    generate
+            B1: block
+            begin
+            end block;
+        end;
+    end generate;
+---
+
+(design_file
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      (discrete_range
+        (subtype_indication
+          type_mark: (simple_name))))
+    (generate_statement_body
+      (label)
+      (block_statement))))
+
+
+================================================
+Generate statement body - Concurrent statement II
+================================================
+G1:
+for i in r
+    generate
+        begin
+            B1: block
+            begin
+            end block;
+    end generate;
+---
+
+(design_file
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      (discrete_range
+        (subtype_indication
+          type_mark: (simple_name))))
+    (generate_statement_body
+      (label)
+      (block_statement))))
+
+================================================
+Generate statement body - Concurrent statement II
+================================================
+G1:
+for i in r
+    generate
+        begin
+            B1: block
+            begin
+            end block;
+        end;
+    end generate;
+---
+
+(design_file
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      (discrete_range
+        (subtype_indication
+          type_mark: (simple_name))))
+    (generate_statement_body
+      (label)
+      (block_statement))))
+
+====================================
+If generate - Minimal
+====================================
+G1:
+if c generate
+end generate;
+---
+
+(design_file
+  (label)
+  (if_generate_statement
+    (if_generate
+      (condition
+        (simple_name)))))
+
+====================================
+If generate - Elsif I
+====================================
+G1:
+if c generate
+elsif x generate
+end generate;
+---
+
+(design_file
+  (label)
+  (if_generate_statement
+    (if_generate
+      (condition
+        (simple_name)))
+    (elsif_generate
+      (condition
+        (simple_name)))))
+
+====================================
+If generate - Elsif II
+====================================
+G1:
+if c generate
+elsif x generate
+elsif x generate
+end generate;
+---
+
+(design_file
+  (label)
+  (if_generate_statement
+    (if_generate
+      (condition
+        (simple_name)))
+    (elsif_generate
+      (condition
+        (simple_name)))
+    (elsif_generate
+      (condition
+        (simple_name)))))
+
+====================================
+If generate - Else
+====================================
+G1:
+if c generate
+else generate
+end generate;
+---
+
+(design_file
+  (label)
+  (if_generate_statement
+    (if_generate
+      (condition
+        (simple_name)))
+    (else_generate)))
+
+====================================
+If generate - All alternatives
+====================================
+G1:
+if c generate
+elsif c generate
+else generate
+end generate;
+---
+
+(design_file
+  (label)
+  (if_generate_statement
+    (if_generate
+      (condition (simple_name)))
+    (elsif_generate
+      (condition (simple_name)))
+    (else_generate)))
+
+====================================
+If generate - Generate body - If
+====================================
+G_BEGIN:
+if c generate
+    begin
+end generate;
+
+G_END:
+if c generate
+    end;
+end generate;
+
+G_BOTH:
+if c generate
+    begin
+    end;
+end generate;
+---
+
+(design_file
+  (label)
+  (if_generate_statement
+    (if_generate
+      (condition
+        (simple_name))
+      (generate_statement_body)))
+
+  (label)
+  (if_generate_statement
+    (if_generate
+      (condition
+        (simple_name))
+      (generate_statement_body)))
+
+  (label)
+  (if_generate_statement
+    (if_generate
+      (condition
+        (simple_name))
+      (generate_statement_body))))
+
+====================================
+If generate - Generate body - Elsif
+====================================
+G1:
+if c generate
+elsif x generate
+    begin
+elsif x generate
+    end;
+elsif x generate
+    begin
+    end;
+end generate;
+---
+
+(design_file
+  (label)
+  (if_generate_statement
+    (if_generate
+      (condition
+        (simple_name)))
+    (elsif_generate
+      (condition
+        (simple_name))
+      (generate_statement_body))
+    (elsif_generate
+      (condition
+        (simple_name))
+      (generate_statement_body))
+    (elsif_generate
+      (condition
+        (simple_name))
+      (generate_statement_body))))
+
+====================================
+If generate - Else
+====================================
+G_BEGIN:
+if c generate
+else generate
+    begin
+end generate;
+
+G_END:
+if c generate
+else generate
+    end;
+end generate;
+
+G_BOTH:
+if c generate
+else generate
+    begin
+    end;
+end generate;
+---
+
+(design_file
+  (label)
+  (if_generate_statement
+    (if_generate
+      (condition
+        (simple_name)))
+    (else_generate
+      (generate_statement_body)))
+
+  (label)
+  (if_generate_statement
+    (if_generate
+      (condition
+        (simple_name)))
+    (else_generate
+      (generate_statement_body)))
+
+  (label)
+  (if_generate_statement
+    (if_generate
+      (condition
+        (simple_name)))
+    (else_generate
+      (generate_statement_body))))
+
+====================================
+If generate - Labels
+====================================
+G1:
+if A1: c generate
+elsif A2: c generate
+else A3: generate
+end generate G1;
+---
+
+(design_file
+  (label)
+  (if_generate_statement
+    (if_generate
+      (label)
+      (condition (simple_name)))
+    (elsif_generate
+      (label)
+      (condition (simple_name)))
+    (else_generate
+      (label))
+    at_end: (label)))
+
+====================================
+If generate - Generate body label
+====================================
+G1:
+if A1: c generate
+elsif A2: c generate
+    begin
+    end A2;
+else A3: generate
+    end A3;
+end generate G1;
+---
+
+(design_file
+  (label)
+  (if_generate_statement
+    (if_generate
+      (label)
+      (condition (simple_name)))
+    (elsif_generate
+      (label)
+      (condition (simple_name))
+      (generate_statement_body
+        at_end: (label)))
+    (else_generate
+      (label)
+      (generate_statement_body
+        at_end: (label)))
+    at_end: (label)))
+
+====================================
+Case generate - Minimal
+====================================
+G1:
+case e generate
+    when a =>
+end generate;
+---
+
+(design_file
+  (label)
+  (case_generate_statement
+    (simple_name)
+    (case_generate_alternative
+      condition: (choices
+                    (simple_name)))))
+
+====================================
+Case generate - Alternative
+====================================
+g1:
+case e generate
+    when a =>
+    when b =>
+end generate;
+---
+
+(design_file
+  (label)
+  (case_generate_statement
+    (simple_name)
+    (case_generate_alternative
+      condition: (choices
+        (simple_name)))
+    (case_generate_alternative
+      condition: (choices
+        (simple_name)))))
+
+====================================
+Case generate - Generate body
+====================================
+G1:
+case e generate
+    when a =>
+        begin
+    when b =>
+        end;
+    when c =>
+        begin
+        end;
+end generate;
+---
+
+(design_file
+  (label)
+  (case_generate_statement
+    (simple_name)
+    (case_generate_alternative
+      condition: (choices
+        (simple_name))
+      (generate_statement_body))
+    (case_generate_alternative
+      condition: (choices
+        (simple_name))
+      (generate_statement_body))
+    (case_generate_alternative
+      condition: (choices
+        (simple_name))
+      (generate_statement_body))))

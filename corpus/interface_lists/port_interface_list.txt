@@ -1,0 +1,238 @@
+============================================================================
+Minimal I
+============================================================================
+entity e is
+    port (a : b);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (port_clause
+          (port_interface_list
+            (interface_signal_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))))
+          (semicolon))))))
+
+============================================================================
+Default interface declaration
+============================================================================
+entity e is
+    port (signal foo : in bar bus;
+          signal foo : in bar;
+          signal foo :    bar;
+                 foo :    bar);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (port_clause
+          (port_interface_list
+            (interface_signal_declaration
+              (object_class)
+              (identifier_list
+                (identifier))
+              (mode (in))
+              (subtype_indication
+                type_mark: (simple_name))
+              (signal_kind
+                (bus)))
+            (interface_signal_declaration
+              (object_class)
+              (identifier_list
+                (identifier))
+              (mode (in))
+              (subtype_indication
+                type_mark: (simple_name)))
+            (interface_signal_declaration
+              (object_class)
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name)))
+            (interface_signal_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))))
+          (semicolon))))))
+
+============================================================================
+Modes
+============================================================================
+entity e is
+    port (foo : in      bar;
+          foo : out     bar;
+          foo : inout   bar;
+          foo : buffer  bar;
+          foo : linkage bar);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (port_clause
+          (port_interface_list
+            (interface_signal_declaration
+              (identifier_list
+                (identifier))
+              (mode (in))
+              (subtype_indication
+                type_mark: (simple_name)))
+            (interface_signal_declaration
+              (identifier_list
+                (identifier))
+              (mode (out))
+              (subtype_indication
+                type_mark: (simple_name)))
+            (interface_signal_declaration
+              (identifier_list
+                (identifier))
+              (mode (inout))
+              (subtype_indication
+                type_mark: (simple_name)))
+            (interface_signal_declaration
+              (identifier_list
+                (identifier))
+              (mode (buffer))
+              (subtype_indication
+                type_mark: (simple_name)))
+            (interface_signal_declaration
+              (identifier_list
+                (identifier))
+              (mode (linkage))
+              (subtype_indication
+                type_mark: (simple_name))))
+          (semicolon))))))
+
+============================================================================
+ILLEGAL Object declarations
+============================================================================
+entity e is
+    port (constant k : bar;
+          variable v : bar;
+          file     f : bar);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (port_clause
+          (port_interface_list
+            ILLEGAL: (interface_constant_declaration
+              (object_class)
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name)))
+            ILLEGAL: (interface_variable_declaration
+              (object_class)
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name)))
+            ILLEGAL: (interface_file_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))))
+          (semicolon))))))
+
+============================================================================
+ILLEGAL Type interface declarations
+============================================================================
+entity e is
+    port (type t);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (port_clause
+          (port_interface_list
+            ILLEGAL: (interface_type_declaration
+              (identifier)))
+          (semicolon))))))
+
+============================================================================
+ILLEGAL Procedure interface declarations
+============================================================================
+entity e is
+    port (procedure p);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (port_clause
+          (port_interface_list
+            ILLEGAL: (interface_subprogram_declaration
+              (procedure_specification
+                designator: (identifier))))
+          (semicolon))))))
+
+============================================================================
+ILLEGAL Function interface declarations
+============================================================================
+entity e is
+    port (function foo return bar);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (port_clause
+          (port_interface_list
+            ILLEGAL: (interface_subprogram_declaration
+              (pure_function_specification
+                designator: (identifier)
+                (return
+                  type_mark: (simple_name)))))
+          (semicolon))))))
+
+============================================================================
+ILLEGAL Package interface declarations
+============================================================================
+entity e is
+    port (package pkg is new foo generic map (<>));
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (port_clause
+          (port_interface_list
+            ILLEGAL: (interface_package_declaration
+              (identifier)
+              uninstantiated: (simple_name)
+              (interface_package_generic_map_aspect
+                (any))))
+          (semicolon))))))

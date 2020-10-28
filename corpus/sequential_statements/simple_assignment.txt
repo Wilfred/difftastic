@@ -1,0 +1,123 @@
+===========================================
+Aggregate
+===========================================
+SIMPLE_SIGNAL_ASSIGNMENT:
+(a,b) <= c;
+
+SIMPLE_VARIABLE_ASSIGNMENT:
+(a,b) := c;
+---
+
+(design_file
+  (label)
+  (concurrent_simple_signal_assignment
+    target: (aggregate
+      (positional_element_association
+        (simple_name))
+      (positional_element_association
+        (simple_name)))
+    (waveform_element
+      value: (simple_name)))
+  (label)
+  (simple_variable_assignment
+    target: (aggregate
+      (positional_element_association
+        (simple_name))
+      (positional_element_association
+        (simple_name)))
+    value: (simple_name)))
+
+===============================
+Unnafected signal assignment
+===============================
+a <= unaffected;
+---
+
+(design_file
+  (concurrent_simple_signal_assignment
+    target: (simple_name)
+    (unaffected)))
+
+============================================
+Simple release assignment
+============================================
+a <= release;
+a <= release in;
+a <= release out;
+---
+
+(design_file
+  (simple_release_assignment
+    target: (simple_name))
+  (simple_release_assignment
+    target: (simple_name)
+    (force_mode (in)))
+  (simple_release_assignment
+    target: (simple_name)
+    (force_mode (out))))
+
+============================================
+Force assignment
+============================================
+FORCE_DEFAULT:
+t <= force e;
+
+FORCE_IN:
+t <= force in e;
+
+FORCE_IN:
+t <= force out e;
+---
+
+(design_file
+  (label)
+  (simple_force_assignment
+    target: (simple_name)
+    value: (simple_name))
+  (label)
+  (simple_force_assignment
+    target: (simple_name)
+    (force_mode (in))
+    value: (simple_name))
+  (label)
+  (simple_force_assignment
+    target: (simple_name)
+    (force_mode (out))
+    value: (simple_name)))
+
+============================================
+Delay mechanism
+============================================
+TRANSPORT_DELAY:
+t <= transport e;
+
+INERTIAL_DELAY:
+t <= reject 10 ns inertial e;
+
+REJECT_DELAY:
+t <= inertial e;
+---
+
+(design_file
+  (label)
+  (concurrent_simple_signal_assignment
+    target: (simple_name)
+    (delay_mechanism (transport))
+    (waveform_element
+      value: (simple_name)))
+  (label)
+  (concurrent_simple_signal_assignment
+    target: (simple_name)
+    (delay_mechanism
+      (reject
+        pulse_limit: (physical_literal
+          coefficient: (integer_decimal_literal (integer))
+          unit_name: (simple_name))))
+    (waveform_element
+      value: (simple_name)))
+  (label)
+  (concurrent_simple_signal_assignment
+    target: (simple_name)
+    (delay_mechanism (inertial))
+    (waveform_element
+      value: (simple_name))))

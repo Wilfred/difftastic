@@ -1,0 +1,246 @@
+============================================
+Positional association
+============================================
+assert (a,b);
+assert (a,b,c);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (positional_element_association (simple_name))
+      (positional_element_association (simple_name))))
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (positional_element_association (simple_name))
+      (positional_element_association (simple_name))
+      (positional_element_association (simple_name)))))
+
+============================================
+Named association
+============================================
+assert (a=>b);
+assert (a=>b,c=>d);
+assert (a=>b,c=>d,e=>f);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (named_element_association
+        (choices (simple_name))
+        (simple_name))))
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (named_element_association
+        (choices (simple_name))
+        (simple_name))
+      (named_element_association
+        (choices (simple_name))
+        (simple_name))))
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (named_element_association
+        (choices (simple_name))
+        (simple_name))
+      (named_element_association
+        (choices (simple_name))
+        (simple_name))
+      (named_element_association
+        (choices (simple_name))
+        (simple_name)))))
+
+============================================
+Choices
+============================================
+assert (a|b=>d);
+assert (a|b|c=>d);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (named_element_association
+        (choices (simple_name)
+                 (simple_name))
+        (simple_name))))
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (named_element_association
+        (choices (simple_name)
+                 (simple_name)
+                 (simple_name))
+        (simple_name)))))
+
+============================================
+Others
+============================================
+assert (others=>a);
+assert (a,b=>c,others=>d);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (named_element_association
+        (choices (others))
+        (simple_name))))
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (positional_element_association
+        (simple_name))
+      (named_element_association
+        (choices (simple_name))
+        (simple_name))
+      (named_element_association
+        (choices (others))
+        (simple_name)))))
+
+============================================
+Mixed element associations
+============================================
+assert (a,b=>c);
+assert (a,b,c=>d,e=>f);
+assert (a,b,c|d=>e,f|g=>h);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (positional_element_association (simple_name))
+      (named_element_association
+        (choices (simple_name))
+        (simple_name))))
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (positional_element_association (simple_name))
+      (positional_element_association (simple_name))
+      (named_element_association
+        (choices (simple_name))
+        (simple_name))
+      (named_element_association
+        (choices (simple_name))
+        (simple_name))))
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (positional_element_association (simple_name))
+      (positional_element_association (simple_name))
+      (named_element_association
+        (choices (simple_name)
+                 (simple_name))
+        (simple_name))
+      (named_element_association
+        (choices (simple_name)
+                 (simple_name))
+        (simple_name)))))
+
+============================================
+Aggregate name on choice
+============================================
+assert (a'high=>b);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (named_element_association
+        (choices
+          (attribute_name
+            prefix: (simple_name)
+            (attribute_designator)))
+        (simple_name)))))
+
+============================================
+Discrete range I
+============================================
+assert (h downto l=>a);
+assert (l to h=>a);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (named_element_association
+        (choices
+          (discrete_range
+            (descending_range
+              high: (simple_name)
+              low: (simple_name))))
+        (simple_name))))
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (named_element_association
+        (choices
+          (discrete_range
+            (ascending_range
+              low: (simple_name)
+              high: (simple_name))))
+        (simple_name)))))
+
+============================================
+Discrete range II
+============================================
+assert (t'range=>a);
+assert (t'reverse_range=>a);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (named_element_association
+        (choices
+          (discrete_range
+            (attribute_name
+              prefix: (simple_name)
+              (range_attribute_designator))))
+        (simple_name))))
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (named_element_association
+        (choices
+          (discrete_range
+            (attribute_name
+              prefix: (simple_name)
+              (range_attribute_designator))))
+        (simple_name)))))
+
+============================================
+Discrete range III
+============================================
+assert (t'range(1)=>a);
+assert (t'reverse_range(1)=>a);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (named_element_association
+        (choices
+          (discrete_range
+            (ambiguous_name
+              prefix: (attribute_name
+                prefix: (simple_name)
+                (range_attribute_designator))
+              (association_list
+                (positional_association_element
+                  (actual_part
+                    (actual_designator
+                      (integer_decimal_literal
+                        (integer)))))))))
+        (simple_name))))
+  (concurrent_assertion_statement
+    condition: (aggregate
+      (named_element_association
+        (choices
+          (discrete_range
+            (ambiguous_name
+              prefix: (attribute_name
+                prefix: (simple_name)
+                (range_attribute_designator))
+              (association_list
+                (positional_association_element
+                  (actual_part
+                    (actual_designator
+                      (integer_decimal_literal
+                        (integer)))))))))
+        (simple_name)))))

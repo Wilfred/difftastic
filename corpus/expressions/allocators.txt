@@ -1,0 +1,102 @@
+=========================================
+Minimal [LRM]
+=========================================
+assert new Node;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (allocator
+      (subtype_indication
+        type_mark: (simple_name)))))
+
+=========================================
+Qualified expression I [LRM]
+=========================================
+assert new Node'(Delay => 5 ns,
+                \Next\ => Stack);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (allocator
+      (qualified_expression
+        type_mark: (simple_name)
+        (aggregate
+          (named_element_association
+            (choices
+              (simple_name))
+            (physical_literal
+              coefficient: (integer_decimal_literal (integer))
+              unit_name: (simple_name)))
+          (named_element_association
+            (choices
+              (simple_name))
+            (simple_name)))))))
+
+=========================================
+Qualified expression II [LRM]
+=========================================
+assert new CELL'(0, null, null);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (allocator
+      (qualified_expression
+        type_mark: (simple_name)
+        (aggregate
+          (positional_element_association
+            (integer_decimal_literal
+              (integer)))
+          (positional_element_association
+            (null))
+          (positional_element_association
+            (null)))))))
+
+=========================================
+Subtype indication LRM - I
+=========================================
+assert new String;
+assert new String (1 to 10);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (allocator
+      (subtype_indication
+        type_mark: (simple_name))))
+  (concurrent_assertion_statement
+    condition: (allocator
+      (subtype_indication
+        type_mark: (simple_name)
+        (constraint
+          (array_constraint
+            (index_constraint
+              (discrete_range
+                (ascending_range
+                  low: (integer_decimal_literal
+                    (integer))
+                  high: (integer_decimal_literal
+                    (integer)))))))))))
+
+=========================================
+Subtype indication - LRM II
+=========================================
+assert new bit_vector (1 to index);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (allocator
+      (subtype_indication
+        type_mark: (simple_name)
+        (constraint
+          (array_constraint
+            (index_constraint
+              (discrete_range
+                (ascending_range
+                  low: (integer_decimal_literal
+                    (integer))
+                  high: (simple_name))))))))))
+

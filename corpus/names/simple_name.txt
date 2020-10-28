@@ -1,0 +1,98 @@
+============================================
+Basic identifier
+============================================
+assert b;
+assert o;
+assert x;
+assert d;
+assert e1;
+assert e2;
+assert B;
+assert O;
+assert X;
+assert D;
+assert E1;
+assert E2;
+assert a_b;
+assert high;
+assert base;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name)))
+
+============================================
+Extended Identifier
+============================================
+assert \b\;
+assert \o\;
+assert \X\;
+assert \e0\;
+assert \E2\;
+assert \\\\;
+assert \a\\b\;
+assert \BUS\;
+assert \bus\;
+assert \all\;
+assert \in\;
+assert \null\;
+assert \use\;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name))
+  (concurrent_assertion_statement
+    condition: (simple_name)))
+

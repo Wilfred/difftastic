@@ -1,0 +1,198 @@
+===================================
+Factor
+===================================
+assert a**b;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (exponentiation
+       left: (simple_name)
+      right: (simple_name))))
+
+===================================
+Term
+===================================
+assert a**b * c**d;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (term
+      left: (exponentiation
+         left: (simple_name)
+        right: (simple_name))
+      right: (exponentiation
+         left: (simple_name)
+        right: (simple_name)))))
+
+===================================
+Sign
+===================================
+assert -a**b * c**d;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (sign
+      argument: (term
+        left: (exponentiation
+           left: (simple_name)
+          right: (simple_name))
+        right: (exponentiation
+           left: (simple_name)
+          right: (simple_name))))))
+
+===================================
+Shift expression
+===================================
+assert -a**b * c**d sll -a**b * c**d;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (shift_expression
+      left: (sign
+        argument: (term
+          left: (exponentiation
+            left: (simple_name)
+            right: (simple_name))
+          right: (exponentiation
+            left: (simple_name)
+            right: (simple_name))))
+      right: (sign
+        argument: (term
+          left: (exponentiation
+            left: (simple_name)
+            right: (simple_name))
+          right: (exponentiation
+            left: (simple_name)
+            right: (simple_name)))))))
+
+===================================
+Relation
+===================================
+assert -a**b * c**d sll -a**b * c**d > -a**b * c**d sll -a**b * c**d;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (relation
+      left: (shift_expression
+        left: (sign
+          argument: (term
+            left: (exponentiation
+              left: (simple_name)
+              right: (simple_name))
+            right: (exponentiation
+              left: (simple_name)
+              right: (simple_name))))
+        right: (sign
+          argument: (term
+            left: (exponentiation
+              left: (simple_name)
+              right: (simple_name))
+            right: (exponentiation
+              left: (simple_name)
+              right: (simple_name)))))
+      right: (shift_expression
+        left: (sign
+          argument: (term
+            left: (exponentiation
+              left: (simple_name)
+              right: (simple_name))
+            right: (exponentiation
+              left: (simple_name)
+              right: (simple_name))))
+        right: (sign
+          argument: (term
+            left: (exponentiation
+              left: (simple_name)
+              right: (simple_name))
+            right: (exponentiation
+              left: (simple_name)
+              right: (simple_name))))))))
+
+===================================
+Logical expression
+===================================
+assert -a**b * c**d sll -a**b * c**d >
+            -a**b * c**d sll -a**b * c**d
+            and
+        -a**b * c**d sll -a**b * c**d >
+            -a**b * c**d sll -a**b * c**d;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (logical_expression_and
+      left: (relation
+        left: (shift_expression
+          left: (sign
+            argument: (term
+              left: (exponentiation
+                left: (simple_name)
+                right: (simple_name))
+              right: (exponentiation
+                left: (simple_name)
+                right: (simple_name))))
+          right: (sign
+            argument: (term
+              left: (exponentiation
+                left: (simple_name)
+                right: (simple_name))
+              right: (exponentiation
+                left: (simple_name)
+                right: (simple_name)))))
+        right: (shift_expression
+          left: (sign
+            argument: (term
+              left: (exponentiation
+                left: (simple_name)
+                right: (simple_name))
+              right: (exponentiation
+                left: (simple_name)
+                right: (simple_name))))
+          right: (sign
+            argument: (term
+              left: (exponentiation
+                left: (simple_name)
+                right: (simple_name))
+              right: (exponentiation
+                left: (simple_name)
+                right: (simple_name))))))
+      right: (relation
+        left: (shift_expression
+          left: (sign
+            argument: (term
+              left: (exponentiation
+                left: (simple_name)
+                right: (simple_name))
+              right: (exponentiation
+                left: (simple_name)
+                right: (simple_name))))
+          right: (sign
+            argument: (term
+              left: (exponentiation
+                left: (simple_name)
+                right: (simple_name))
+              right: (exponentiation
+                left: (simple_name)
+                right: (simple_name)))))
+        right: (shift_expression
+          left: (sign
+            argument: (term
+              left: (exponentiation
+                left: (simple_name)
+                right: (simple_name))
+              right: (exponentiation
+                left: (simple_name)
+                right: (simple_name))))
+          right: (sign
+            argument: (term
+              left: (exponentiation
+                left: (simple_name)
+                right: (simple_name))
+              right: (exponentiation
+                left: (simple_name)
+                right: (simple_name)))))))))

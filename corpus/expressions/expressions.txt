@@ -1,0 +1,217 @@
+===================================
+Factor
+===================================
+assert abs a;
+assert not b;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (factor
+      argument: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (factor
+      argument: (simple_name))))
+
+===================================
+Factor - exponentiation
+===================================
+assert a**b;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (exponentiation
+      left: (simple_name)
+      right: (simple_name))))
+
+===================================
+Factor - logical reduction operation
+===================================
+assert and a;
+assert or a;
+assert nand a;
+assert nor a;
+assert xor a;
+assert xnor a;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (reduction
+      argument: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (reduction
+      argument: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (reduction
+      argument: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (reduction
+      argument: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (reduction
+      argument: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (reduction
+      argument: (simple_name))))
+
+===================================
+Associative logical expression
+===================================
+assert a and b and c;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (logical_expression_and
+      left: (logical_expression_and
+        left: (simple_name)
+        right: (simple_name))
+      right: (simple_name))))
+
+
+===================================
+Term I
+===================================
+assert a * b;
+assert a / b;
+assert a mod b;
+assert a rem b;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (term
+      left: (simple_name)
+      right: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (term
+      left: (simple_name)
+      right: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (term
+      left: (simple_name)
+      right: (simple_name)))
+  (concurrent_assertion_statement
+    condition: (term
+      left: (simple_name)
+      right: (simple_name))))
+
+===================================
+Term II
+===================================
+assert a * b / c mod d rem e;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (term
+      left: (term
+        left: (term
+          left: (term
+            left: (simple_name)
+            right: (simple_name))
+          right: (simple_name))
+        right: (simple_name))
+      right: (simple_name))))
+
+
+===================================
+Simple expression
+===================================
+assert a + b - c;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (simple_expression
+      left: (simple_expression
+         left: (simple_name)
+        right: (simple_name))
+      right: (simple_name))))
+
+===================================
+Simple expression - Sign
+===================================
+assert -a - b;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (simple_expression
+      left: (sign
+        argument: (simple_name))
+      right: (simple_name))))
+
+
+===========================================
+Illegal association - Logical expression I
+===========================================
+assert a nand b nand c;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (logical_expression_nand
+      left: (logical_expression_nand
+        left: (simple_name)
+        right: (simple_name))
+      right: (simple_name))))
+
+===========================================
+Illegal association - Logical expression II
+===========================================
+assert a and b nand c;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (logical_expression_nand
+      left: (logical_expression_and
+        left: (simple_name)
+        right: (simple_name))
+      right: (simple_name))))
+
+===========================================
+Illegal association - Logical expression II
+===========================================
+assert a nand b and c;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (logical_expression_and
+      left: (logical_expression_nand
+        left: (simple_name)
+        right: (simple_name))
+      right: (simple_name))))
+
+============================================
+Illegal association - Logical expression III
+============================================
+assert a nand b and c;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (logical_expression_and
+      left: (logical_expression_nand
+        left: (simple_name)
+        right: (simple_name))
+      right: (simple_name))))
+
+============================================
+Illegal association - Logical expression III
+============================================
+assert a and b or c;
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (logical_expression_or
+      left: (logical_expression_and
+        left: (simple_name)
+        right: (simple_name))
+      right: (simple_name))))
+

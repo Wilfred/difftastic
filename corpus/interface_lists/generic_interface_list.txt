@@ -1,0 +1,397 @@
+============================================================================
+Minimal
+============================================================================
+entity e is
+    generic (foo : bar);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_constant_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))))
+          (semicolon))))))
+
+============================================================================
+Default interface declaration
+============================================================================
+entity e is
+    generic (constant foo : in bar := 0;
+             constant foo :    bar := 0;
+                      foo :    bar := 0;
+                      foo :    bar);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_constant_declaration
+              (object_class)
+              (identifier_list
+                (identifier))
+              (mode (in))
+              (subtype_indication
+                type_mark: (simple_name))
+              default_expression: (integer_decimal_literal (integer)))
+            (interface_constant_declaration
+              (object_class)
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))
+              default_expression: (integer_decimal_literal (integer)))
+            (interface_constant_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))
+              default_expression: (integer_decimal_literal (integer)))
+            (interface_constant_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))))
+          (semicolon))))))
+
+============================================================================
+Type interface declaration
+============================================================================
+entity e is
+    generic (type t);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_type_declaration
+              (identifier)))
+          (semicolon))))))
+
+============================================================================
+Procedure interface declaration - Minimal
+============================================================================
+entity e is
+    generic (procedure p);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_subprogram_declaration
+              (procedure_specification
+                designator: (identifier))))
+          (semicolon))))))
+
+============================================================================
+Procedure interface declaration - Default interface declarations
+============================================================================
+entity e is
+    generic (procedure p (a : t; b : out t));
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_subprogram_declaration
+              (procedure_specification
+                designator: (identifier)
+                (formal_procedure_parameter_clause
+                  (interface_constant_declaration
+                    (identifier_list
+                      (identifier))
+                    (subtype_indication
+                      type_mark: (simple_name)))
+                  (interface_variable_declaration
+                    (identifier_list
+                      (identifier))
+                    (mode (out))
+                    (subtype_indication
+                      type_mark: (simple_name)))))))
+          (semicolon))))))
+
+============================================================================
+Procedure interface declaration - Denotations
+============================================================================
+entity e is
+    generic (procedure p1 is <>;
+             procedure p2 is pd);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_subprogram_declaration
+              (procedure_specification
+                designator: (identifier))
+              (interface_subprogram_default
+                (same)))
+            (interface_subprogram_declaration
+              (procedure_specification
+                designator: (identifier))
+              (interface_subprogram_default
+                subprogram_name: (simple_name))))
+          (semicolon))))))
+
+============================================================================
+Procedure interface declaration - Full
+============================================================================
+entity e is
+    generic (procedure p parameter (a, b : t; c : out t) is std.standart.now);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_subprogram_declaration
+              (procedure_specification
+                designator: (identifier)
+                (formal_procedure_parameter_clause
+                  (interface_constant_declaration
+                    (identifier_list
+                      (identifier)
+                      (identifier))
+                    (subtype_indication
+                      type_mark: (simple_name)))
+                  (interface_variable_declaration
+                    (identifier_list
+                      (identifier))
+                    (mode (out))
+                    (subtype_indication
+                      type_mark: (simple_name)))))
+              (interface_subprogram_default
+                subprogram_name: (selected_name
+                  prefix: (selected_name
+                    prefix: (simple_name)
+                    suffix: (simple_name))
+                  suffix: (simple_name)))))
+          (semicolon))))))
+
+============================================================================
+Function interface declaration - Minimal
+============================================================================
+entity e is
+    generic (function f return t);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_subprogram_declaration
+              (pure_function_specification
+                designator: (identifier)
+                (return
+                  type_mark: (simple_name)))))
+          (semicolon))))))
+
+============================================================================
+Function interface declaration - Purity
+============================================================================
+entity e is
+    generic (impure function p1 return t;
+               pure function p2 return t);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_subprogram_declaration
+              (impure_function_specification
+                designator: (identifier)
+                (return
+                  type_mark: (simple_name))))
+            (interface_subprogram_declaration
+              (pure_function_specification
+                designator: (identifier)
+                (return
+                  type_mark: (simple_name)))))
+          (semicolon))))))
+
+============================================================================
+Function interface declaration - Default interface declarations
+============================================================================
+entity e is
+    generic (function "+" (L,R : t) return t);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_subprogram_declaration
+              (pure_function_specification
+                designator: (operator_symbol)
+                (formal_function_parameter_clause
+                  (interface_constant_declaration
+                    (identifier_list
+                      (identifier)
+                      (identifier))
+                    (subtype_indication
+                      type_mark: (simple_name))))
+                (return
+                  type_mark: (simple_name)))))
+          (semicolon))))))
+
+============================================================================
+Function interface declaration - Defaults
+============================================================================
+entity e is
+    generic (impure function f1 return t is <>;
+               pure function f2 return t is fd);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_subprogram_declaration
+              (impure_function_specification
+                designator: (identifier)
+                (return
+                  type_mark: (simple_name)))
+              (interface_subprogram_default
+                (same)))
+            (interface_subprogram_declaration
+              (pure_function_specification
+                designator: (identifier)
+                (return
+                  type_mark: (simple_name)))
+              (interface_subprogram_default
+                subprogram_name: (simple_name))))
+          (semicolon))))))
+
+============================================================================
+Function interface declaration - Full
+============================================================================
+entity e is
+    generic (function "and"
+        parameter (L, R : unsigned) return unsigned is ieee.numeric_std."and");
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_subprogram_declaration
+              (pure_function_specification
+                designator: (operator_symbol)
+                (formal_function_parameter_clause
+                  (interface_constant_declaration
+                    (identifier_list
+                      (identifier)
+                      (identifier))
+                    (subtype_indication
+                      type_mark: (simple_name))))
+                (return
+                  type_mark: (simple_name)))
+              (interface_subprogram_default
+                subprogram_name: (selected_name
+                  prefix: (selected_name
+                    prefix: (simple_name)
+                    suffix: (simple_name))
+                  suffix: (operator_symbol)))))
+          (semicolon))))))
+
+============================================================================
+Package interface declaration
+============================================================================
+entity e is
+    generic (package p1 is new up generic map (default));
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            (interface_package_declaration
+              (identifier)
+              uninstantiated: (simple_name)
+              (interface_package_generic_map_aspect
+                (default))))
+          (semicolon))))))
+
+============================================================================
+ILLEGAL Signal interface declaration
+============================================================================
+entity e is
+    generic (signal s : x);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (entity_header
+        (generic_clause
+          (generic_interface_list
+            ILLEGAL: (interface_signal_declaration
+              (object_class)
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                type_mark: (simple_name))))
+          (semicolon))))))

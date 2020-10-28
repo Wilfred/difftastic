@@ -1,0 +1,116 @@
+===========================
+Ordinary case statement
+===========================
+process
+begin
+    case e is
+        when c =>
+    end case;
+end process;
+---
+
+(design_file
+  (process_statement
+    (process_statement_part
+      (case_statement
+        discrete_type: (simple_name)
+        (case_statement_alternative
+          condition: (choices
+            (simple_name)))))))
+
+===========================
+Matching case statement
+===========================
+process
+begin
+    case? e is
+        when c =>
+    end case?;
+end process;
+---
+
+(design_file
+  (process_statement
+    (process_statement_part
+      (case_statement
+        discrete_type: (simple_name)
+        (case_statement_alternative
+          condition: (choices
+            (simple_name)))))))
+
+===========================
+Label
+===========================
+process
+begin
+    L1:
+    case e is
+        when c =>
+    end case L1;
+end process;
+---
+
+(design_file
+  (process_statement
+    (process_statement_part
+      (label)
+      (case_statement
+        discrete_type: (simple_name)
+        (case_statement_alternative
+          condition: (choices
+            (simple_name)))
+        at_end: (label)))))
+
+===================================
+Case statement alternatives
+===================================
+process
+begin
+    case e is
+        when a =>
+        when b | c =>
+        when others =>
+    end case L;
+end process;
+---
+
+(design_file
+  (process_statement
+    (process_statement_part
+      (case_statement
+        discrete_type: (simple_name)
+        (case_statement_alternative
+          condition: (choices
+            (simple_name)))
+        (case_statement_alternative
+          condition: (choices
+            (simple_name)
+            (simple_name)))
+        (case_statement_alternative
+          condition: (choices
+            (others)))
+        at_end: (label)))))
+
+===================================
+Sequence os statements
+===================================
+process
+begin
+    case e is
+        when a =>
+            null;
+    end case L;
+end process;
+---
+
+(design_file
+  (process_statement
+    (process_statement_part
+      (case_statement
+        discrete_type: (simple_name)
+        (case_statement_alternative
+          condition: (choices
+            (simple_name))
+          (sequence_of_statements
+            (null_statement)))
+        at_end: (label)))))

@@ -1,0 +1,163 @@
+============================================
+Minimal
+============================================
+assert b"";
+assert o"";
+assert x"";
+
+assert ub"";
+assert uo"";
+assert ux"";
+
+assert sb"";
+assert so"";
+assert sx"";
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier))))
+
+============================================
+Length
+============================================
+assert   4b"0";
+assert  8ub"0";
+assert 16sb"0";
+
+assert   04o"0";
+assert  08uo"0";
+assert 016so"0";
+
+assert   004x"0";
+assert  008ux"0";
+assert 0016sx"0";
+
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+      (base_specifier)
+      (bit_value))))
+
+============================================
+Bit value
+============================================
+assert  b"01";
+assert ub"01";
+assert sb"01";
+
+assert  o"0123_4567";
+assert uo"0123_4567";
+assert so"0123_4567";
+
+assert  x"0123_4567";
+assert ux"0123_4567_89AB_CDEF";
+assert sx"0123_4567_89AB_CDEF";
+
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)
+      (bit_value)))
+  (concurrent_assertion_statement
+    condition: (bit_string_literal
+      (base_specifier)
+      (bit_value))))

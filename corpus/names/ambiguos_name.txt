@@ -1,0 +1,409 @@
+==============================================================
+Ambiguity I
+==============================================================
+-- Possible interpretations:
+-- (function_call
+--     (function_name "foo")
+--     ...)
+--
+-- (type_conversion
+--      (type_name "foo")
+--      ...)
+--
+-- (indexed_name
+--      (array_name "foo")
+--      (object_name "bar"))
+--
+-- (slice_name
+--      (array_name "foo")
+--      (subtype_name "bar"))
+
+assert foo(bar);
+---
+
+(design_file
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+==============================================================
+Ambiguity II
+==============================================================
+-- Possible interpretations:
+-- (function_call
+--     (function_name "foo")
+--     (object_name "bar")
+--     (object_name "baz"))
+--
+-- (slice_name
+--     (array_name "foo")
+--     (subtype_name "bar")
+--     (subtype_name "baz"))
+
+assert foo(bar, baz);
+---
+
+(design_file
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name))))
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+==============================================================
+Ambiguity III
+==============================================================
+-- Possible interpretations:
+-- (slice_name
+--      (function_call ...)
+--      (subtype_name "bar"))
+--
+-- (indexed_name
+--      (function_call ...)
+--      (object_name "bar"))
+
+assert foobar(foo=>bar)(bar);
+---
+
+(design_file
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (ambiguous_name
+        prefix: (simple_name)
+        (association_list
+          (named_association_element
+            (formal_part
+              (formal_designator))
+            (actual_part
+              (actual_designator
+                (simple_name))))))
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+==============================================================
+Ambiguity IV
+==============================================================
+-- Possible interpretation (in pseudo s-expression)
+-- (slice_name
+--      (type_conversion ...)
+--      (subtype_name "bar"))
+--
+-- (indexed_name
+--      (type_conversion ...)
+--      (object_name "bar"))
+
+assert bit_vector(foo)(bar);
+---
+
+(design_file
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (ambiguous_name
+        prefix: (simple_name)
+        (association_list
+          (positional_association_element
+            (actual_part
+              (actual_designator
+                (simple_name))))))
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+
+==============================================================
+Function call - Formal part
+==============================================================
+assert foo(a=>b);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (named_association_element
+          (formal_part
+            (formal_designator))
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+==============================================================
+Function call - Type conversion on formal part
+==============================================================
+assert foo(positive(a)=>b);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (named_association_element
+          (formal_part
+            (ambiguous_name
+              prefix: (simple_name)
+              (association_list
+                (positional_association_element
+                  (actual_part
+                    (actual_designator
+                      (simple_name)))))))
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+==============================================================
+Function call - Type conversion on actual part
+==============================================================
+assert foo(a=>positive(a));
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (named_association_element
+          (formal_part
+            (formal_designator))
+          (actual_part
+            (actual_designator
+              (ambiguous_name
+                prefix: (simple_name)
+                (association_list
+                  (positional_association_element
+                    (actual_part
+                      (actual_designator
+                        (simple_name)))))))))))))
+
+==============================================================
+Function call - Attribute name on formal part
+==============================================================
+assert foo(a'b(a)=>b);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (named_association_element
+          (formal_part
+            (ambiguous_name
+              prefix: (attribute_name
+                prefix: (simple_name)
+                (attribute_designator))
+              (association_list
+                (positional_association_element
+                  (actual_part
+                    (actual_designator
+                      (simple_name)))))))
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+==============================================================
+Function call - Conversion function on formal part
+==============================================================
+assert foo(bar(a)=>b);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (named_association_element
+          (formal_part
+            (ambiguous_name
+              prefix: (simple_name)
+              (association_list
+                (positional_association_element
+                  (actual_part
+                    (actual_designator
+                      (simple_name)))))))
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+
+==============================================================
+Function call - Operation symbol
+==============================================================
+assert "and"(a);
+assert "xor"(a,b);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (operator_symbol)
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name)))))))
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (operator_symbol)
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name))))
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+==============================================================
+Function call - Open
+==============================================================
+assert foo(open);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (open))))))))
+
+
+==============================================================
+Function call on ambiguous name's actual
+==============================================================
+assert foo(bar(open));
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (ambiguous_name
+                prefix: (simple_name)
+                (association_list
+                  (positional_association_element
+                    (actual_part
+                      (actual_designator
+                        (open)))))))))))))
+
+==============================================================
+Function call - Attribute expression
+==============================================================
+assert foo'val(bar);
+assert foo'image(bar);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (attribute_name
+        prefix: (simple_name)
+        (attribute_designator))
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name)))))))
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (attribute_name
+        prefix: (simple_name)
+        (attribute_designator))
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+==============================================================
+Function name - Enumeration literal actual
+==============================================================
+assert foo('+');
+assert foo(true);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (character_literal)))))))
+  (concurrent_assertion_statement
+    condition: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name))))))))

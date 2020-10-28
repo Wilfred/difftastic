@@ -1,0 +1,48 @@
+=========================
+Attribute name
+=========================
+assert true report integer'image(a);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (simple_name)
+    report: (ambiguous_name
+      prefix: (attribute_name
+        prefix: (simple_name)
+        (attribute_designator))
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+=========================
+Function
+=========================
+assert true report to_string(a);
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (simple_name)
+    report: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+=========================
+Concatenation
+=========================
+assert true report "a" & "b";
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (simple_name)
+    report: (concatenation
+      left: (string_literal)
+      right: (string_literal))))

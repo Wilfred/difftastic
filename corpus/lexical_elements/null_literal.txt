@@ -1,0 +1,11 @@
+============================================
+Null literal
+============================================
+assert null;
+
+---
+
+(design_file
+  (concurrent_assertion_statement
+    condition: (null)))
+

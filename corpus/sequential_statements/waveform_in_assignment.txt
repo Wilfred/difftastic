@@ -1,0 +1,122 @@
+===============================
+Unaffected
+===============================
+B: process
+begin
+    SIMPLE_SIGNAL_ASSIGNMENT:
+    a <= unaffected;
+
+    SELECTED_SIGNAL_ASSIGNMENT:
+    with e select
+        t <= unaffected when c;
+
+    CONDITIONAL_SIGNAL_ASSIGNMENT:
+    t <= unaffected when c;
+end process;
+---
+
+(design_file
+  (label)
+  (process_statement
+    (process_statement_part
+      (label)
+      (simple_waveform_assignment
+        target: (simple_name)
+        (unaffected))
+      (label)
+      (selected_waveform_assignment
+        expression: (simple_name)
+        target: (simple_name)
+        (selected_waveforms
+          (unaffected)
+          (choices (simple_name))))
+      (label)
+      (conditional_waveform_assignment
+        target: (simple_name)
+        (conditional_waveforms
+          (unaffected)
+          (condition (simple_name)))))))
+
+===========================================
+Waveform element with time expression
+===========================================
+B: process
+begin
+    SIMPLE_SIGNAL_ASSIGNMENT:
+    a <= v after 10ns;
+
+    SELECTED_SIGNAL_ASSIGNMENT:
+    with e select
+        t <= v after 10 ns when c;
+
+    CONDITIONAL_SIGNAL_ASSIGNMENT:
+    t <= c after 10 ns when c;
+end process;
+---
+
+(design_file
+  (label)
+  (process_statement
+    (process_statement_part
+      (label)
+      (simple_waveform_assignment
+        target: (simple_name)
+        (waveform_element
+          value: (simple_name)
+          after: (physical_literal
+            coefficient: (integer_decimal_literal (integer))
+            unit_name: (simple_name))))
+      (label)
+      (selected_waveform_assignment
+        expression: (simple_name)
+        target: (simple_name)
+        (selected_waveforms
+          (waveform_element
+            value: (simple_name)
+            after: (physical_literal
+              coefficient: (integer_decimal_literal (integer))
+              unit_name: (simple_name)))
+          (choices
+            (simple_name))))
+      (label)
+      (conditional_waveform_assignment
+        target: (simple_name)
+        (conditional_waveforms
+          (waveform_element
+            value: (simple_name)
+            after: (physical_literal
+              coefficient: (integer_decimal_literal (integer))
+              unit_name: (simple_name)))
+          (condition
+            (simple_name)))))))
+
+===========================================
+Multiple waveforms elements
+===========================================
+B: process
+begin
+    t <= v1 after 10 ns,
+         v2,
+         v3 after 30 ns;
+end process;
+---
+
+(design_file
+  (label)
+  (process_statement
+    (process_statement_part
+      (simple_waveform_assignment
+        target: (simple_name)
+        (waveform_element
+          value: (simple_name)
+          after: (physical_literal
+            coefficient: (integer_decimal_literal (integer))
+            unit_name: (simple_name)))
+        (waveform_element
+          value: (simple_name))
+        (waveform_element
+          value: (simple_name)
+          after: (physical_literal
+            coefficient: (integer_decimal_literal (integer))
+            unit_name: (simple_name)))))))
+

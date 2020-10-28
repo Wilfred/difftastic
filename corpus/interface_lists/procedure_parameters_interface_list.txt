@@ -1,0 +1,244 @@
+============================================================================
+Minimal I
+============================================================================
+procedure p (a : b);
+---
+
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)
+      (formal_procedure_parameter_clause
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))))))
+
+============================================================================
+Default interface declaration
+============================================================================
+procedure p (k1 :       t;
+             k2 : in    t;
+             v1 : out   t;
+             v2 : inout t);
+---
+
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)
+      (formal_procedure_parameter_clause
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (mode (in))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (interface_variable_declaration
+          (identifier_list
+            (identifier))
+          (mode (out))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (interface_variable_declaration
+          (identifier_list
+            (identifier))
+          (mode (inout))
+          (subtype_indication
+            type_mark: (simple_name)))))))
+
+============================================================================
+Constant interface declaration
+============================================================================
+procedure p (constant k1 :    t;
+             constant k2 : in t);
+---
+
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)
+      (formal_procedure_parameter_clause
+        (interface_constant_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (interface_constant_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (mode (in))
+          (subtype_indication
+            type_mark: (simple_name)))))))
+
+============================================================================
+Variable interface declaration
+============================================================================
+procedure p (variable v1 :       t;
+             variable v2 : in    t;
+             variable v3 : out   t;
+             variable v4 : inout t);
+---
+
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)
+      (formal_procedure_parameter_clause
+        (interface_variable_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (interface_variable_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (mode (in))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (interface_variable_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (mode (out))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (interface_variable_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (mode (inout))
+          (subtype_indication
+            type_mark: (simple_name)))))))
+
+============================================================================
+Signal interface declaration
+============================================================================
+procedure p (signal   s1 :       t;
+             signal   s2 : in    t;
+             signal   s3 : out   t;
+             signal   s4 : inout t);
+---
+
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)
+      (formal_procedure_parameter_clause
+        (interface_signal_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (interface_signal_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (mode (in))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (interface_signal_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (mode (out))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (interface_signal_declaration
+          (object_class)
+          (identifier_list
+            (identifier))
+          (mode (inout))
+          (subtype_indication
+            type_mark: (simple_name)))))))
+
+============================================================================
+Files interface declaration
+============================================================================
+procedure p (file f : t);
+---
+
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)
+      (formal_procedure_parameter_clause
+        (interface_file_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))))))
+
+============================================================================
+ILLEGAL: Type interface declaration
+============================================================================
+procedure p (type t);
+---
+
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)
+      (formal_procedure_parameter_clause
+        ILLEGAL: (interface_type_declaration
+          (identifier))))))
+
+============================================================================
+ILLEGAL Procedure interface declaration
+============================================================================
+procedure p (procedure p);
+---
+
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)
+      (formal_procedure_parameter_clause
+        ILLEGAL: (interface_subprogram_declaration
+          (procedure_specification
+            designator: (identifier)))))))
+
+============================================================================
+ILLEGAL Function interface declaration
+============================================================================
+procedure p (function f return t);
+---
+
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)
+      (formal_procedure_parameter_clause
+        ILLEGAL: (interface_subprogram_declaration
+          (pure_function_specification
+            designator: (identifier)
+            (return
+              type_mark: (simple_name))))))))
+
+============================================================================
+ILLEGAL Package interface declaration
+============================================================================
+procedure p (package pkg is new pkg generic map (<>));
+---
+
+(design_file
+  (subprogram_declaration
+    (procedure_specification
+      designator: (identifier)
+      (formal_procedure_parameter_clause
+        ILLEGAL: (interface_package_declaration
+          (identifier)
+          uninstantiated: (simple_name)
+          (interface_package_generic_map_aspect
+            (any)))))))

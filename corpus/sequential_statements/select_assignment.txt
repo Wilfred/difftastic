@@ -1,0 +1,203 @@
+=========================================
+Minimal
+=========================================
+SELECT_VARIABLE_ASSIGNMENT:
+with e select
+    t := a when e1;
+
+SELECT_SIGNAL_ASSIGNMENT:
+with e select
+    t <= a when e1;
+
+SELECT_FORCE_ASSIGNMENT:
+with e select
+    t <= force a when e1;
+---
+
+(design_file
+  (label)
+  (selected_variable_assignment
+    expression: (simple_name)
+    target: (simple_name)
+    (selected_expressions
+      value: (simple_name)
+      (choices (simple_name))))
+  (label)
+  (concurrent_selected_signal_assignment
+    expression: (simple_name)
+    target: (simple_name)
+    (selected_waveforms
+      (waveform_element
+        value: (simple_name))
+      (choices (simple_name))))
+  (label)
+  (selected_force_assignment
+    expression: (simple_name)
+    target: (simple_name)
+    (selected_expressions
+      value: (simple_name)
+      (choices (simple_name)))))
+
+=========================================
+Multiple waveforms/expressions
+=========================================
+SELECT_VARIABLE_ASSIGNMENT:
+with t'(s) select
+    tgt := a when e1,
+           b when e2 | e3,
+           c when others;
+
+SELECT_SIGNAL_ASSIGNMENT:
+with t'(s) select
+    tgt <= a when e1,
+           b when e2 | e3,
+           c when others;
+
+---
+
+(design_file
+  (label)
+  (selected_variable_assignment
+    expression: (qualified_expression
+      type_mark: (simple_name)
+      (parenthesized_expression
+        (simple_name)))
+    target: (simple_name)
+    (selected_expressions
+      value: (simple_name)
+      (choices (simple_name))
+      (alternative_selected_expressions
+        (simple_name)
+        (choices (simple_name)
+                 (simple_name)))
+      (alternative_selected_expressions
+        (simple_name)
+        (choices (others)))))
+  (label)
+  (concurrent_selected_signal_assignment
+    expression: (qualified_expression
+      type_mark: (simple_name)
+      (parenthesized_expression
+        (simple_name)))
+    target: (simple_name)
+    (selected_waveforms
+      (waveform_element
+        value: (simple_name))
+      (choices (simple_name))
+      (alternative_selected_expressions
+        (simple_name)
+        (choices (simple_name)
+                 (simple_name)))
+      (alternative_selected_expressions
+        (simple_name)
+        (choices (others))))))
+
+=========================================
+Force mode
+=========================================
+FORCE_DEFAULT:
+with e select
+    t <= force a when e1,
+               b when others;
+FORCE_IN:
+with e select
+    t <= force in a when e1,
+                  b when others;
+
+FORCE_OUT:
+with e select
+    t <= force out a when e1,
+                   b when others;
+---
+
+(design_file
+  (label)
+  (selected_force_assignment
+    expression: (simple_name)
+    target: (simple_name)
+    (selected_expressions
+      value: (simple_name)
+      (choices
+        (simple_name))
+      (alternative_selected_expressions
+        (simple_name)
+        (choices
+          (others)))))
+  (label)
+  (selected_force_assignment
+    expression: (simple_name)
+    target: (simple_name)
+    (force_mode (in))
+    (selected_expressions
+      value: (simple_name)
+      (choices
+        (simple_name))
+      (alternative_selected_expressions
+        (simple_name)
+        (choices
+          (others)))))
+  (label)
+  (selected_force_assignment
+    expression: (simple_name)
+    target: (simple_name)
+    (force_mode (out))
+    (selected_expressions
+      value: (simple_name)
+      (choices
+        (simple_name))
+      (alternative_selected_expressions
+        (simple_name)
+        (choices
+          (others))))))
+
+============================================
+Delay mechanism
+============================================
+TRANSPORT_DELAY:
+with e select
+    t <= transport e when c1;
+
+INERTIAL_DELAY:
+with e select
+    t <= reject 10 ns inertial e when c1;
+
+REJECT_DELAY:
+with e select
+    t <= inertial e when c1;
+---
+
+(design_file
+  (label)
+  (concurrent_selected_signal_assignment
+    expression: (simple_name)
+    target: (simple_name)
+    (delay_mechanism (transport))
+    (selected_waveforms
+      (waveform_element
+        value: (simple_name))
+      (choices
+        (simple_name))))
+  (label)
+  (concurrent_selected_signal_assignment
+    expression: (simple_name)
+    target: (simple_name)
+    (delay_mechanism
+      (reject
+        pulse_limit: (physical_literal
+          coefficient: (integer_decimal_literal (integer))
+          unit_name: (simple_name))))
+    (selected_waveforms
+      (waveform_element
+        value: (simple_name))
+      (choices
+        (simple_name))))
+  (label)
+  (concurrent_selected_signal_assignment
+    expression: (simple_name)
+    target: (simple_name)
+    (delay_mechanism (inertial))
+    (selected_waveforms
+      (waveform_element
+        value: (simple_name))
+      (choices
+        (simple_name)))))
