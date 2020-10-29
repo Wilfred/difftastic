@@ -1,6 +1,11 @@
 module.exports = grammar({
   name: 'R',
 
+  extras: $ => [
+    $.comment,
+    /\s/
+  ],
+
   rules: {
     source_file: $ => repeat($._expression),
 
@@ -64,6 +69,7 @@ module.exports = grammar({
     _expression: $ => choice(
       $.identifier,
       $.number,
+      $.string,
       $.call,
       $.function_definition,
       $.left_assignment,
@@ -71,9 +77,30 @@ module.exports = grammar({
       // TODO: other kinds of expressions
     ),
 
-    identifier: $ => /[a-z]+/,
+    identifier: $ => /[A-Za-z][A-Za-z0-9_]*/,
 
-    number: $ => /\d+/
+    number: $ => /\d+/,
+
+    comment: $ => token(prec(0, seq('#', /.*/))),
+
+    string: $ => choice(
+      seq(
+        '"',
+        repeat(choice(
+          /[^"\\\n]+|\\\r?\n/,
+          '\\'
+        )),
+        '"'
+      ),
+      seq(
+        "'",
+        repeat(choice(
+          /[^'\\\n]+|\\\r?\n/,
+          '\\'
+        )),
+        "'"
+      )
+    )
   }
 });
 
