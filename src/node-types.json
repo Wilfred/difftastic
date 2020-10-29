@@ -1,12 +1,16 @@
 [
   {
-    "type": "brace_list",
+    "type": "binary",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
         {
           "type": "brace_list",
           "named": true
@@ -24,15 +28,66 @@
           "named": true
         },
         {
+          "type": "integer",
+          "named": true
+        },
+        {
           "type": "left_assignment",
           "named": true
         },
         {
-          "type": "number",
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "brace_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "brace_list",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
           "named": true
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
           "named": true
         }
       ]
@@ -47,6 +102,10 @@
       "required": true,
       "types": [
         {
+          "type": "binary",
+          "named": true
+        },
+        {
           "type": "brace_list",
           "named": true
         },
@@ -63,15 +122,19 @@
           "named": true
         },
         {
+          "type": "integer",
+          "named": true
+        },
+        {
           "type": "left_assignment",
           "named": true
         },
         {
-          "type": "number",
+          "type": "string",
           "named": true
         },
         {
-          "type": "string",
+          "type": "unary",
           "named": true
         }
       ]
@@ -86,6 +149,10 @@
       "required": true,
       "types": [
         {
+          "type": "binary",
+          "named": true
+        },
+        {
           "type": "brace_list",
           "named": true
         },
@@ -102,15 +169,19 @@
           "named": true
         },
         {
+          "type": "integer",
+          "named": true
+        },
+        {
           "type": "left_assignment",
           "named": true
         },
         {
-          "type": "number",
+          "type": "string",
           "named": true
         },
         {
-          "type": "string",
+          "type": "unary",
           "named": true
         }
       ]
@@ -125,6 +196,10 @@
       "required": true,
       "types": [
         {
+          "type": "binary",
+          "named": true
+        },
+        {
           "type": "brace_list",
           "named": true
         },
@@ -141,22 +216,26 @@
           "named": true
         },
         {
+          "type": "integer",
+          "named": true
+        },
+        {
           "type": "left_assignment",
           "named": true
         },
         {
-          "type": "number",
+          "type": "string",
           "named": true
         },
         {
-          "type": "string",
+          "type": "unary",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "source_file",
+    "type": "program",
     "named": true,
     "fields": {},
     "children": {
@@ -164,6 +243,10 @@
       "required": false,
       "types": [
         {
+          "type": "binary",
+          "named": true
+        },
+        {
           "type": "brace_list",
           "named": true
         },
@@ -180,15 +263,19 @@
           "named": true
         },
         {
+          "type": "integer",
+          "named": true
+        },
+        {
           "type": "left_assignment",
           "named": true
         },
         {
-          "type": "number",
+          "type": "string",
           "named": true
         },
         {
-          "type": "string",
+          "type": "unary",
           "named": true
         }
       ]
@@ -198,6 +285,57 @@
     "type": "string",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "unary",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "brace_list",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "!",
+    "named": false
   },
   {
     "type": "\"",
@@ -220,7 +358,19 @@
     "named": false
   },
   {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
     "named": false
   },
   {
@@ -236,6 +386,10 @@
     "named": false
   },
   {
+    "type": "==",
+    "named": false
+  },
+  {
     "type": "\\",
     "named": false
   },
@@ -248,7 +402,7 @@
     "named": true
   },
   {
-    "type": "number",
+    "type": "integer",
     "named": true
   },
   {

@@ -7,7 +7,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => repeat($._expression),
+    program: $ => repeat($._expression),
 
     _definition: $ => choice(
       $.function_definition
@@ -66,20 +66,35 @@ module.exports = grammar({
       '}'
     ),
 
+    unary: $ => prec.left(2, choice(
+      seq('-', $._expression),
+      seq('+', $._expression),
+      seq('!', $._expression)
+    )),
+
+    binary: $ => choice(
+      prec.left(2, seq($._expression, '*', $._expression)),
+      prec.left(1, seq($._expression, '+', $._expression)),
+      prec.left(1, seq($._expression, '-', $._expression)),
+      prec.left(seq($._expression, '==', $._expression))
+    ),
+
     _expression: $ => choice(
       $.identifier,
-      $.number,
+      $.integer,
       $.string,
       $.call,
       $.function_definition,
       $.left_assignment,
-      $.brace_list
+      $.brace_list,
+      $.binary,
+      $.unary
       // TODO: other kinds of expressions
     ),
 
     identifier: $ => /[A-Za-z][A-Za-z0-9_]*/,
 
-    number: $ => /\d+/,
+    integer: $ => /\d+/,
 
     comment: $ => seq('#', /.*/),
 
