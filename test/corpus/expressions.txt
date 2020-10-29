@@ -98,3 +98,27 @@ binary operations
     (binary
        (integer)
        (integer))))
+
+===========
+unary minus
+===========
+
+-a
+foo(-a, bar)
+
+---
+
+(program
+  (unary (identifier))
+  (call (identifier) (unary (identifier)) (identifier)))
+
+===========
+binary minus
+===========
+
+foo-a
+
+---
+
+(program
+  (binary (identifier) (identifier)))
