@@ -81,7 +81,7 @@ module.exports = grammar({
 
     number: $ => /\d+/,
 
-    comment: $ => token(prec(0, seq('#', /.*/))),
+    comment: $ => seq('#', /.*/),
 
     string: $ => choice(
       seq(

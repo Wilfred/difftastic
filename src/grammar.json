@@ -276,24 +276,17 @@
       "value": "\\d+"
     },
     "comment": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 0,
-        "content": {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "#"
-            },
-            {
-              "type": "PATTERN",
-              "value": ".*"
-            }
-          ]
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#"
+        },
+        {
+          "type": "PATTERN",
+          "value": ".*"
         }
-      }
+      ]
     },
     "string": {
       "type": "CHOICE",
