@@ -1,0 +1,23 @@
+============================================
+function definition
+============================================
+f <- function(x, y = 2) {
+  foo(x)
+  x
+}
+
+----
+
+(source_file
+  (left_assignment
+    (identifier)
+    (function_definition
+      (identifier)
+      (identifier)
+      (number)
+      (brace_list
+        (call
+          (identifier)
+          (identifier)
+        )
+      (identifier)))))
