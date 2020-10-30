@@ -83,7 +83,7 @@ foo(-a, bar)
 (program
   (unary (identifier))
   (call (identifier) 
-    (argument_list
+    (arguments
       (unary (identifier))
       (identifier))))
 
@@ -135,16 +135,16 @@ foo[1, ]
 (program
   (subset
     (identifier)
-    (argument_list
+    (arguments
      (identifier)))
   (subset
     (identifier)
-    (argument_list
+    (arguments
       (integer)
       (integer)))
   (subset
     (identifier)
-    (argument_list
+    (arguments
       (integer))))
 
 ============================================
@@ -164,11 +164,13 @@ if (a.b) {
 (program
   (if
     condition: (identifier)
-    consequence: (call (identifier) (argument_list (identifier))))
+    consequence: (call function: (identifier) arguments: (arguments (identifier))))
   (if
     condition: (identifier)
     consequence: (brace_list
-      (call (identifier) (argument_list (identifier)))
+      (call
+       function: (identifier)
+       arguments: (arguments (identifier)))
       (identifier))))
 
 ============================================
@@ -232,7 +234,7 @@ foo::bar(1)
     namespace: (identifier)
     function: (identifier))
   (call
-    (namespace_get
+    function: (namespace_get
      namespace: (identifier)
      function: (identifier))
-    (argument_list (integer))))
+    arguments: (arguments (integer))))

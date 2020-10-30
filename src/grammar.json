@@ -258,7 +258,7 @@
         }
       ]
     },
-    "argument_list": {
+    "arguments": {
       "type": "REPEAT1",
       "content": {
         "type": "CHOICE",
@@ -295,24 +295,32 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_expression"
+          "type": "FIELD",
+          "name": "function",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
         },
         {
           "type": "STRING",
           "value": "("
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "argument_list"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "FIELD",
+          "name": "arguments",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "arguments"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
         },
         {
           "type": "STRING",
@@ -395,7 +403,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "argument_list"
+          "name": "arguments"
         },
         {
           "type": "STRING",
@@ -416,7 +424,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "argument_list"
+          "name": "arguments"
         },
         {
           "type": "STRING",

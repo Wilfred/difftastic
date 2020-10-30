@@ -59,7 +59,7 @@ module.exports = grammar({
       '}'
     ),
 
-    argument_list: $ => repeat1(
+    arguments: $ => repeat1(
       choice(
         $._expression,
         seq(',', optional($._expression))
@@ -67,9 +67,9 @@ module.exports = grammar({
     ),
 
     call: $ => seq(
-      $._expression,
+      field('function', $._expression),
       '(',
-      optional($.argument_list),
+      field('arguments', optional($.arguments)),
       ')'
     ),
 
@@ -94,14 +94,14 @@ module.exports = grammar({
     subset: $ => seq(
       $._expression,
       '[',
-      $.argument_list,
+      $.arguments,
       ']'
     ),
 
     subset2: $ => seq(
       $._expression,
       '[[',
-      $.argument_list,
+      $.arguments,
       ']]'
     ),
 
