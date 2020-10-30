@@ -102,7 +102,7 @@ module.exports = grammar({
       // TODO: other kinds of expressions
     ),
 
-    identifier: $ => /[A-Za-z][A-Za-z0-9_]*/,
+    identifier: $ => /[A-Za-z.][A-Za-z0-9_.]*/,
 
     integer: $ => /\d+/,
 

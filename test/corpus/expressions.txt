@@ -1,4 +1,25 @@
 ============================================
+Identifiers
+============================================
+foo
+foo2
+foo.bar
+.foo.bar
+foo_bar
+
+0foo
+_foo
+
+(program
+ (identifier)
+ (identifier)
+ (identifier)
+ (identifier)
+ (identifier)
+ (error)
+ (error)
+
+============================================
 Comments
 ============================================
 

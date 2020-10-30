@@ -451,7 +451,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[A-Za-z][A-Za-z0-9_]*"
+      "value": "[A-Za-z.][A-Za-z0-9_.]*"
     },
     "integer": {
       "type": "PATTERN",
