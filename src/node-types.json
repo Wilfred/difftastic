@@ -28,6 +28,10 @@
           "named": true
         },
         {
+          "type": "dots",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -147,6 +151,10 @@
             "named": true
           },
           {
+            "type": "dots",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -258,6 +266,10 @@
           },
           {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "dots",
             "named": true
           },
           {
@@ -377,6 +389,10 @@
           "named": true
         },
         {
+          "type": "dots",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -493,6 +509,10 @@
         },
         {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "dots",
           "named": true
         },
         {
@@ -625,6 +645,10 @@
             "named": true
           },
           {
+            "type": "dots",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -742,6 +766,10 @@
           },
           {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "dots",
             "named": true
           },
           {
@@ -869,6 +897,10 @@
             "named": true
           },
           {
+            "type": "dots",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -985,6 +1017,10 @@
           "named": true
         },
         {
+          "type": "dots",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -1097,6 +1133,10 @@
         },
         {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "dots",
           "named": true
         },
         {
@@ -1238,6 +1278,10 @@
             "named": true
           },
           {
+            "type": "dots",
+            "named": true
+          },
+          {
             "type": "else",
             "named": false
           },
@@ -1356,6 +1400,10 @@
             "named": true
           },
           {
+            "type": "dots",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -1467,6 +1515,10 @@
           },
           {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "dots",
             "named": true
           },
           {
@@ -1617,6 +1669,10 @@
           "named": true
         },
         {
+          "type": "dots",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -1729,6 +1785,10 @@
         },
         {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "dots",
           "named": true
         },
         {
@@ -1851,6 +1911,10 @@
             "named": true
           },
           {
+            "type": "dots",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -1964,6 +2028,10 @@
         },
         {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "dots",
           "named": true
         },
         {
@@ -2116,6 +2184,10 @@
           "named": true
         },
         {
+          "type": "dots",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -2235,6 +2307,10 @@
           "named": true
         },
         {
+          "type": "dots",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -2347,6 +2423,10 @@
         },
         {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "dots",
           "named": true
         },
         {
@@ -2466,6 +2546,10 @@
           },
           {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "dots",
             "named": true
           },
           {
@@ -2720,6 +2804,10 @@
   },
   {
     "type": "break",
+    "named": true
+  },
+  {
+    "type": "dots",
     "named": true
   },
   {

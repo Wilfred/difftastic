@@ -80,7 +80,8 @@ module.exports = grammar({
 
     _formal_parameter: $ => choice(
         $.identifier,
-        seq($.identifier, '=', $._expression)
+        seq($.identifier, '=', $._expression),
+        $.dots
     ),
 
     block: $ => seq(
@@ -162,6 +163,8 @@ module.exports = grammar({
       ')'
     ),
 
+    dots: $ => '...',
+
     unary: $ => choice(
       prec.left(PREC.NEG, seq('-', $._expression)),
       prec.left(PREC.NEG, seq('+', $._expression)),
@@ -233,6 +236,7 @@ module.exports = grammar({
       $.inf,
       $.nan,
       $.na,
+      $.dots,
       ';'
     ),
 

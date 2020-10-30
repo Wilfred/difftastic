@@ -9,6 +9,8 @@ function(arg1, arg2) {
 
 function(x, y) return(y)
 
+function(x, ...) f(...)
+
 ----
 
 (program
@@ -19,7 +21,10 @@ function(x, y) return(y)
     (brace_list (identifier)))
   (function_definition
     (formal_parameters (identifier) (identifier))
-    (return (identifier))))
+    (return (identifier)))
+  (function_definition
+    (formal_parameters (identifier) (dots))
+    (call (identifier) (arguments (dots)))))
 
 ==========
 relational

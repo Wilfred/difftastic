@@ -293,6 +293,10 @@
               "name": "_expression"
             }
           ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dots"
         }
       ]
     },
@@ -613,6 +617,10 @@
           "value": ")"
         }
       ]
+    },
+    "dots": {
+      "type": "STRING",
+      "value": "..."
     },
     "unary": {
       "type": "CHOICE",
@@ -1191,6 +1199,10 @@
         {
           "type": "SYMBOL",
           "name": "na"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dots"
         },
         {
           "type": "STRING",

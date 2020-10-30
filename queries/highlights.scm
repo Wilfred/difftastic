@@ -1,7 +1,5 @@
 ; highlights.scm
 
-"function" @keyword
-
 (call (identifier) @function.method)
 
 ; Literals
@@ -22,7 +20,7 @@
  "<-"
  "<<-"
  "->"
- ] @operator
+] @operator
 
 [
  "("
@@ -31,5 +29,23 @@
  "]"
  "{"
  "}"
- ] @punctuation.bracket
+] @punctuation.bracket
 
+[
+ "while"
+ "if"
+ "else"
+ "function"
+ "repeat"
+ "for"
+ "in"
+ (dots)
+ (true)
+ (false)
+ (break)
+ (next)
+ (inf)
+ (nan)
+ (na)
+ (null)
+] @keyword
