@@ -39,7 +39,7 @@ module.exports = grammar({
     argument_list: $ => repeat1(
       choice(
         $._expression,
-        seq(',', $._expression)
+        seq(',', optional($._expression))
       )
     ),
 
@@ -85,7 +85,9 @@ module.exports = grammar({
       prec.left(2, seq($._expression, '*', $._expression)),
       prec.left(1, seq($._expression, '+', $._expression)),
       prec.left(1, seq($._expression, '-', $._expression)),
-      prec.left(seq($._expression, '==', $._expression))
+      prec.left(seq($._expression, '==', $._expression)),
+      prec.left(seq($._expression, '|', $._expression)),
+      prec.left(seq($._expression, '&', $._expression))
     ),
 
     _expression: $ => choice(

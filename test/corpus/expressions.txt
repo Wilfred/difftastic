@@ -150,6 +150,7 @@ subset
 
 foo[bar]
 foo[1, 2]
+foo[1, ]
 
 ---
 
@@ -162,4 +163,8 @@ foo[1, 2]
     (identifier)
     (argument_list
       (integer)
+      (integer)))
+  (subset
+    (identifier)
+    (argument_list
       (integer))))
