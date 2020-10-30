@@ -1,23 +1,25 @@
 ============================================
-function definition
+Functions
 ============================================
-f <- function(x, y = 2) {
-  foo(x)
-  x
+function() 1
+function() {}
+function(arg1, arg2) {
+  arg2
 }
+
+function(x, y) return(y)
 
 ----
 
 (program
-  (left_assignment
-    (identifier)
-    (function_definition
-      (identifier)
-      (identifier)
-      (integer)
-      (brace_list
-        (call (identifier) (argument_list (identifier)))
-      (identifier)))))
+  (function_definition (formal_parameters) (integer))
+  (function_definition (formal_parameters) (brace_list))
+  (function_definition
+    (formal_parameters (identifier) (identifier))
+    (brace_list (identifier)))
+  (function_definition
+    (formal_parameters (identifier) (identifier))
+    (return (identifier))))
 
 ==========
 relational

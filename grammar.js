@@ -16,28 +16,31 @@ module.exports = grammar({
 
     function_definition: $ => prec.left(seq(
       'function',
-      '(',
-      optional(seq(
-        commaSep1($._parameter),
-        optional(',')
-      )),
-      ')',
+      $.formal_parameters,
       $._expression
     )),
 
-    if: $ => prec.right(
-      seq(
-        'if',
-        '(',
-        field('condition', $._expression),
-        ')',
-        field('consequence', $._expression),
-        field('alternative', optional(seq('else', $._expression)))
-      )),
+    if: $ => prec.right(seq(
+      'if',
+      '(',
+      field('condition', $._expression),
+      ')',
+      field('consequence', $._expression),
+      field('alternative', optional(seq('else', $._expression)))
+    )),
 
-    _parameter: $ => choice(
+    formal_parameters: $ => seq(
+      '(',
+      optional(seq(
+        commaSep1($._formal_parameter),
+        optional(',')
+      )),
+      ')'
+    ),
+
+    _formal_parameter: $ => choice(
         $.identifier,
-        seq($.identifier, '=', $._expression),
+        seq($.identifier, '=', $._expression)
     ),
 
     block: $ => seq(
@@ -98,6 +101,13 @@ module.exports = grammar({
       field('function', $.identifier),
     ),
 
+    return: $ => seq(
+      'return',
+      '(',
+      optional($._expression),
+      ')'
+    ),
+
     unary: $ => prec.left(2, choice(
       seq('-', $._expression),
       seq('+', $._expression),
@@ -128,7 +138,8 @@ module.exports = grammar({
       $.subset,
       $.subset2,
       $.if,
-      $.namespace_get
+      $.namespace_get,
+      $.return
       // TODO: other kinds of expressions
     ),
 

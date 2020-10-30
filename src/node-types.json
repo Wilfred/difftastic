@@ -44,6 +44,10 @@
           "named": true
         },
         {
+          "type": "return",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -107,6 +111,10 @@
           "named": true
         },
         {
+          "type": "return",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -167,6 +175,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "return",
           "named": true
         },
         {
@@ -237,6 +249,77 @@
           "named": true
         },
         {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
+          "named": true
+        },
+        {
+          "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "formal_parameters",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "brace_list",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -276,6 +359,10 @@
           "named": true
         },
         {
+          "type": "formal_parameters",
+          "named": true
+        },
+        {
           "type": "function_definition",
           "named": true
         },
@@ -297,6 +384,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "return",
           "named": true
         },
         {
@@ -367,6 +458,10 @@
             "named": true
           },
           {
+            "type": "return",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -425,6 +520,10 @@
             "named": true
           },
           {
+            "type": "return",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -480,6 +579,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "return",
             "named": true
           },
           {
@@ -544,6 +647,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "return",
           "named": true
         },
         {
@@ -636,6 +743,77 @@
           "named": true
         },
         {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
+          "named": true
+        },
+        {
+          "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "return",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "brace_list",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -718,6 +896,10 @@
           "named": true
         },
         {
+          "type": "return",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -785,6 +967,10 @@
           "named": true
         },
         {
+          "type": "return",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -845,6 +1031,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "return",
           "named": true
         },
         {
@@ -977,6 +1167,10 @@
   {
     "type": "integer",
     "named": true
+  },
+  {
+    "type": "return",
+    "named": false
   },
   {
     "type": "{",
