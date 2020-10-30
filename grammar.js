@@ -54,6 +54,11 @@ module.exports = grammar({
       field('body', $._expression)
     )),
 
+    repeat: $ => prec.right(seq(
+      'repeat',
+      field('body', $._expression)
+    )),
+
     for: $ => prec.right(seq(
       'for',
       '(',
@@ -183,9 +188,23 @@ module.exports = grammar({
       prec.left(PREC.DOLLAR, seq($._expression, '$', $.identifier))
     ),
 
-    break_statement: $ => 'break',
+    break: $ => 'break',
 
-    continue_statement: $ => 'continue',
+    next: $ => 'next',
+
+    true: $ => 'TRUE',
+    false: $ => 'FALSE',
+    null: $ => 'NULL',
+    inf: $ => 'Inf',
+    nan: $ => 'NaN',
+
+    na: $ => choice(
+      'NA',
+      'NA_character_',
+      'NA_complex_',
+      'NA_integer_',
+      'NA_real_'
+    ),
 
     _expression: $ => choice(
       $.identifier,
@@ -200,15 +219,21 @@ module.exports = grammar({
       $.unary,
       $.subset,
       $.subset2,
+      $.namespace_get,
       $.if,
       $.for,
       $.while,
-      $.namespace_get,
+      $.repeat,
       $.return,
-      $.break_statement,
-      $.continue_statement,
+      $.break,
+      $.next,
+      $.true,
+      $.false,
+      $.null,
+      $.inf,
+      $.nan,
+      $.na,
       ';'
-      // TODO: other kinds of expressions
     ),
 
     identifier: $ => choice(

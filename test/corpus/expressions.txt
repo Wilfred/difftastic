@@ -270,6 +270,39 @@ while(TRUE)
   (while
     condition: (identifier)
     body: (identifier)))
+
+=====
+While
+=====
+while(TRUE)
+  break
+
+while(TRUE)
+  next
+
+---
+
+(program
+  (while
+    condition: (identifier)
+    body: (break))
+
+  (while
+    condition: (identifier)
+    body: (next)))
+
+=====
+Repeat
+=====
+
+repeat 1
+
+---
+
+(program
+  (repeat
+    body: (integer)))
+
 ============================================
 Namespace get
 ============================================

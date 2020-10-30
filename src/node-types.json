@@ -20,7 +20,7 @@
           "named": true
         },
         {
-          "type": "break_statement",
+          "type": "break",
           "named": true
         },
         {
@@ -28,7 +28,7 @@
           "named": true
         },
         {
-          "type": "continue_statement",
+          "type": "false",
           "named": true
         },
         {
@@ -48,7 +48,15 @@
           "named": true
         },
         {
+          "type": "inf",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "na",
           "named": true
         },
         {
@@ -56,7 +64,23 @@
           "named": true
         },
         {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
           "named": true
         },
         {
@@ -73,6 +97,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -111,7 +139,7 @@
             "named": true
           },
           {
-            "type": "break_statement",
+            "type": "break",
             "named": true
           },
           {
@@ -119,7 +147,7 @@
             "named": true
           },
           {
-            "type": "continue_statement",
+            "type": "false",
             "named": true
           },
           {
@@ -139,7 +167,15 @@
             "named": true
           },
           {
+            "type": "inf",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "na",
             "named": true
           },
           {
@@ -147,7 +183,23 @@
             "named": true
           },
           {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
             "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
             "named": true
           },
           {
@@ -164,6 +216,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "true",
             "named": true
           },
           {
@@ -197,7 +253,7 @@
             "named": true
           },
           {
-            "type": "break_statement",
+            "type": "break",
             "named": true
           },
           {
@@ -205,7 +261,7 @@
             "named": true
           },
           {
-            "type": "continue_statement",
+            "type": "false",
             "named": true
           },
           {
@@ -225,7 +281,15 @@
             "named": true
           },
           {
+            "type": "inf",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "na",
             "named": true
           },
           {
@@ -233,7 +297,23 @@
             "named": true
           },
           {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
             "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
             "named": true
           },
           {
@@ -250,6 +330,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "true",
             "named": true
           },
           {
@@ -285,7 +369,7 @@
           "named": true
         },
         {
-          "type": "break_statement",
+          "type": "break",
           "named": true
         },
         {
@@ -293,7 +377,7 @@
           "named": true
         },
         {
-          "type": "continue_statement",
+          "type": "false",
           "named": true
         },
         {
@@ -313,7 +397,15 @@
           "named": true
         },
         {
+          "type": "inf",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "na",
           "named": true
         },
         {
@@ -321,7 +413,23 @@
           "named": true
         },
         {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
           "named": true
         },
         {
@@ -342,6 +450,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -376,7 +488,7 @@
           "named": true
         },
         {
-          "type": "break_statement",
+          "type": "break",
           "named": true
         },
         {
@@ -384,7 +496,7 @@
           "named": true
         },
         {
-          "type": "continue_statement",
+          "type": "false",
           "named": true
         },
         {
@@ -404,7 +516,15 @@
           "named": true
         },
         {
+          "type": "inf",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "na",
           "named": true
         },
         {
@@ -412,7 +532,23 @@
           "named": true
         },
         {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
           "named": true
         },
         {
@@ -429,6 +565,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -477,7 +617,7 @@
             "named": true
           },
           {
-            "type": "break_statement",
+            "type": "break",
             "named": true
           },
           {
@@ -485,7 +625,7 @@
             "named": true
           },
           {
-            "type": "continue_statement",
+            "type": "false",
             "named": true
           },
           {
@@ -505,7 +645,15 @@
             "named": true
           },
           {
+            "type": "inf",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "na",
             "named": true
           },
           {
@@ -513,7 +661,23 @@
             "named": true
           },
           {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
             "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
             "named": true
           },
           {
@@ -530,6 +694,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "true",
             "named": true
           },
           {
@@ -569,7 +737,7 @@
             "named": true
           },
           {
-            "type": "break_statement",
+            "type": "break",
             "named": true
           },
           {
@@ -577,7 +745,7 @@
             "named": true
           },
           {
-            "type": "continue_statement",
+            "type": "false",
             "named": true
           },
           {
@@ -597,7 +765,15 @@
             "named": true
           },
           {
+            "type": "inf",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "na",
             "named": true
           },
           {
@@ -605,7 +781,23 @@
             "named": true
           },
           {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
             "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
             "named": true
           },
           {
@@ -622,6 +814,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "true",
             "named": true
           },
           {
@@ -665,7 +861,7 @@
             "named": true
           },
           {
-            "type": "break_statement",
+            "type": "break",
             "named": true
           },
           {
@@ -673,7 +869,7 @@
             "named": true
           },
           {
-            "type": "continue_statement",
+            "type": "false",
             "named": true
           },
           {
@@ -693,7 +889,15 @@
             "named": true
           },
           {
+            "type": "inf",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "na",
             "named": true
           },
           {
@@ -701,7 +905,23 @@
             "named": true
           },
           {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
             "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
             "named": true
           },
           {
@@ -718,6 +938,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "true",
             "named": true
           },
           {
@@ -753,7 +977,7 @@
           "named": true
         },
         {
-          "type": "break_statement",
+          "type": "break",
           "named": true
         },
         {
@@ -761,7 +985,7 @@
           "named": true
         },
         {
-          "type": "continue_statement",
+          "type": "false",
           "named": true
         },
         {
@@ -781,7 +1005,15 @@
           "named": true
         },
         {
+          "type": "inf",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "na",
           "named": true
         },
         {
@@ -789,7 +1021,23 @@
           "named": true
         },
         {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
           "named": true
         },
         {
@@ -806,6 +1054,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -840,7 +1092,7 @@
           "named": true
         },
         {
-          "type": "break_statement",
+          "type": "break",
           "named": true
         },
         {
@@ -848,7 +1100,7 @@
           "named": true
         },
         {
-          "type": "continue_statement",
+          "type": "false",
           "named": true
         },
         {
@@ -872,7 +1124,15 @@
           "named": true
         },
         {
+          "type": "inf",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "na",
           "named": true
         },
         {
@@ -880,7 +1140,23 @@
           "named": true
         },
         {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
           "named": true
         },
         {
@@ -897,6 +1173,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -950,7 +1230,7 @@
             "named": true
           },
           {
-            "type": "break_statement",
+            "type": "break",
             "named": true
           },
           {
@@ -958,12 +1238,12 @@
             "named": true
           },
           {
-            "type": "continue_statement",
-            "named": true
-          },
-          {
             "type": "else",
             "named": false
+          },
+          {
+            "type": "false",
+            "named": true
           },
           {
             "type": "for",
@@ -982,7 +1262,15 @@
             "named": true
           },
           {
+            "type": "inf",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "na",
             "named": true
           },
           {
@@ -990,7 +1278,23 @@
             "named": true
           },
           {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
             "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
             "named": true
           },
           {
@@ -1007,6 +1311,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "true",
             "named": true
           },
           {
@@ -1040,7 +1348,7 @@
             "named": true
           },
           {
-            "type": "break_statement",
+            "type": "break",
             "named": true
           },
           {
@@ -1048,7 +1356,7 @@
             "named": true
           },
           {
-            "type": "continue_statement",
+            "type": "false",
             "named": true
           },
           {
@@ -1068,7 +1376,15 @@
             "named": true
           },
           {
+            "type": "inf",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "na",
             "named": true
           },
           {
@@ -1076,7 +1392,23 @@
             "named": true
           },
           {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
             "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
             "named": true
           },
           {
@@ -1093,6 +1425,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "true",
             "named": true
           },
           {
@@ -1126,7 +1462,7 @@
             "named": true
           },
           {
-            "type": "break_statement",
+            "type": "break",
             "named": true
           },
           {
@@ -1134,7 +1470,7 @@
             "named": true
           },
           {
-            "type": "continue_statement",
+            "type": "false",
             "named": true
           },
           {
@@ -1154,7 +1490,15 @@
             "named": true
           },
           {
+            "type": "inf",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "na",
             "named": true
           },
           {
@@ -1162,7 +1506,23 @@
             "named": true
           },
           {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
             "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
             "named": true
           },
           {
@@ -1182,6 +1542,10 @@
             "named": true
           },
           {
+            "type": "true",
+            "named": true
+          },
+          {
             "type": "unary",
             "named": true
           },
@@ -1192,6 +1556,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "na",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "namespace_get",
@@ -1240,7 +1609,7 @@
           "named": true
         },
         {
-          "type": "break_statement",
+          "type": "break",
           "named": true
         },
         {
@@ -1248,7 +1617,7 @@
           "named": true
         },
         {
-          "type": "continue_statement",
+          "type": "false",
           "named": true
         },
         {
@@ -1268,7 +1637,15 @@
           "named": true
         },
         {
+          "type": "inf",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "na",
           "named": true
         },
         {
@@ -1276,7 +1653,23 @@
           "named": true
         },
         {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
           "named": true
         },
         {
@@ -1293,6 +1686,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -1327,7 +1724,7 @@
           "named": true
         },
         {
-          "type": "break_statement",
+          "type": "break",
           "named": true
         },
         {
@@ -1335,7 +1732,7 @@
           "named": true
         },
         {
-          "type": "continue_statement",
+          "type": "false",
           "named": true
         },
         {
@@ -1355,7 +1752,15 @@
           "named": true
         },
         {
+          "type": "inf",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "na",
           "named": true
         },
         {
@@ -1363,7 +1768,23 @@
           "named": true
         },
         {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
           "named": true
         },
         {
@@ -1383,6 +1804,10 @@
           "named": true
         },
         {
+          "type": "true",
+          "named": true
+        },
+        {
           "type": "unary",
           "named": true
         },
@@ -1391,6 +1816,126 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "repeat",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "brace_list",
+            "named": true
+          },
+          {
+            "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "function_definition",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inf",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "na",
+            "named": true
+          },
+          {
+            "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
+            "type": "return",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subset",
+            "named": true
+          },
+          {
+            "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1414,7 +1959,7 @@
           "named": true
         },
         {
-          "type": "break_statement",
+          "type": "break",
           "named": true
         },
         {
@@ -1422,7 +1967,7 @@
           "named": true
         },
         {
-          "type": "continue_statement",
+          "type": "false",
           "named": true
         },
         {
@@ -1442,7 +1987,15 @@
           "named": true
         },
         {
+          "type": "inf",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "na",
           "named": true
         },
         {
@@ -1450,7 +2003,23 @@
           "named": true
         },
         {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
           "named": true
         },
         {
@@ -1467,6 +2036,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -1535,7 +2108,7 @@
           "named": true
         },
         {
-          "type": "break_statement",
+          "type": "break",
           "named": true
         },
         {
@@ -1543,7 +2116,7 @@
           "named": true
         },
         {
-          "type": "continue_statement",
+          "type": "false",
           "named": true
         },
         {
@@ -1563,7 +2136,15 @@
           "named": true
         },
         {
+          "type": "inf",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "na",
           "named": true
         },
         {
@@ -1571,7 +2152,23 @@
           "named": true
         },
         {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
           "named": true
         },
         {
@@ -1588,6 +2185,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -1626,7 +2227,7 @@
           "named": true
         },
         {
-          "type": "break_statement",
+          "type": "break",
           "named": true
         },
         {
@@ -1634,7 +2235,7 @@
           "named": true
         },
         {
-          "type": "continue_statement",
+          "type": "false",
           "named": true
         },
         {
@@ -1654,7 +2255,15 @@
           "named": true
         },
         {
+          "type": "inf",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "na",
           "named": true
         },
         {
@@ -1662,7 +2271,23 @@
           "named": true
         },
         {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
           "named": true
         },
         {
@@ -1679,6 +2304,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -1713,7 +2342,7 @@
           "named": true
         },
         {
-          "type": "break_statement",
+          "type": "break",
           "named": true
         },
         {
@@ -1721,7 +2350,7 @@
           "named": true
         },
         {
-          "type": "continue_statement",
+          "type": "false",
           "named": true
         },
         {
@@ -1741,7 +2370,15 @@
           "named": true
         },
         {
+          "type": "inf",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "na",
           "named": true
         },
         {
@@ -1749,7 +2386,23 @@
           "named": true
         },
         {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
           "named": true
         },
         {
@@ -1766,6 +2419,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "true",
           "named": true
         },
         {
@@ -1804,7 +2461,7 @@
             "named": true
           },
           {
-            "type": "break_statement",
+            "type": "break",
             "named": true
           },
           {
@@ -1812,7 +2469,7 @@
             "named": true
           },
           {
-            "type": "continue_statement",
+            "type": "false",
             "named": true
           },
           {
@@ -1832,7 +2489,15 @@
             "named": true
           },
           {
+            "type": "inf",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "na",
             "named": true
           },
           {
@@ -1840,7 +2505,23 @@
             "named": true
           },
           {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
             "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
             "named": true
           },
           {
@@ -1857,6 +2538,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "true",
             "named": true
           },
           {
@@ -1990,6 +2675,26 @@
     "named": false
   },
   {
+    "type": "NA",
+    "named": false
+  },
+  {
+    "type": "NA_character_",
+    "named": false
+  },
+  {
+    "type": "NA_complex_",
+    "named": false
+  },
+  {
+    "type": "NA_integer_",
+    "named": false
+  },
+  {
+    "type": "NA_real_",
+    "named": false
+  },
+  {
     "type": "[",
     "named": false
   },
@@ -2014,11 +2719,7 @@
     "named": false
   },
   {
-    "type": "break_statement",
-    "named": true
-  },
-  {
-    "type": "continue_statement",
+    "type": "break",
     "named": true
   },
   {
@@ -2027,6 +2728,10 @@
   },
   {
     "type": "escape_sequence",
+    "named": true
+  },
+  {
+    "type": "false",
     "named": true
   },
   {
@@ -2046,12 +2751,36 @@
     "named": false
   },
   {
+    "type": "inf",
+    "named": true
+  },
+  {
     "type": "integer",
     "named": true
   },
   {
+    "type": "nan",
+    "named": true
+  },
+  {
+    "type": "next",
+    "named": true
+  },
+  {
+    "type": "null",
+    "named": true
+  },
+  {
+    "type": "repeat",
+    "named": false
+  },
+  {
     "type": "return",
     "named": false
+  },
+  {
+    "type": "true",
+    "named": true
   },
   {
     "type": "while",

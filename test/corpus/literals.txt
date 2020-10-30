@@ -77,3 +77,30 @@ Integers
   (integer)
   (integer)
   (integer))
+
+========
+Constants
+========
+
+TRUE
+FALSE
+NULL
+Inf
+NaN
+NA
+NA_real_
+NA_character_
+NA_complex_
+
+---
+
+(program
+  (true)
+  (false)
+  (null)
+  (inf)
+  (nan)
+  (na)
+  (na)
+  (na)
+  (na))

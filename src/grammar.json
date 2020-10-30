@@ -137,6 +137,27 @@
         ]
       }
     },
+    "repeat": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "repeat"
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          }
+        ]
+      }
+    },
     "for": {
       "type": "PREC_RIGHT",
       "value": 0,
@@ -1011,13 +1032,58 @@
         }
       ]
     },
-    "break_statement": {
+    "break": {
       "type": "STRING",
       "value": "break"
     },
-    "continue_statement": {
+    "next": {
       "type": "STRING",
-      "value": "continue"
+      "value": "next"
+    },
+    "true": {
+      "type": "STRING",
+      "value": "TRUE"
+    },
+    "false": {
+      "type": "STRING",
+      "value": "FALSE"
+    },
+    "null": {
+      "type": "STRING",
+      "value": "NULL"
+    },
+    "inf": {
+      "type": "STRING",
+      "value": "Inf"
+    },
+    "nan": {
+      "type": "STRING",
+      "value": "NaN"
+    },
+    "na": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "NA"
+        },
+        {
+          "type": "STRING",
+          "value": "NA_character_"
+        },
+        {
+          "type": "STRING",
+          "value": "NA_complex_"
+        },
+        {
+          "type": "STRING",
+          "value": "NA_integer_"
+        },
+        {
+          "type": "STRING",
+          "value": "NA_real_"
+        }
+      ]
     },
     "_expression": {
       "type": "CHOICE",
@@ -1072,6 +1138,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "namespace_get"
+        },
+        {
+          "type": "SYMBOL",
           "name": "if"
         },
         {
@@ -1084,7 +1154,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "namespace_get"
+          "name": "repeat"
         },
         {
           "type": "SYMBOL",
@@ -1092,11 +1162,35 @@
         },
         {
           "type": "SYMBOL",
-          "name": "break_statement"
+          "name": "break"
         },
         {
           "type": "SYMBOL",
-          "name": "continue_statement"
+          "name": "next"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "true"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "false"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "null"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "inf"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "nan"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "na"
         },
         {
           "type": "STRING",
