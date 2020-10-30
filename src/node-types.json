@@ -20,7 +20,15 @@
           "named": true
         },
         {
+          "type": "break_statement",
+          "named": true
+        },
+        {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "continue_statement",
           "named": true
         },
         {
@@ -45,6 +53,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "paren_list",
           "named": true
         },
         {
@@ -79,6 +91,10 @@
         "required": true,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -91,7 +107,15 @@
             "named": true
           },
           {
+            "type": "break_statement",
+            "named": true
+          },
+          {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "continue_statement",
             "named": true
           },
           {
@@ -116,6 +140,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "paren_list",
             "named": true
           },
           {
@@ -145,6 +173,10 @@
         "required": true,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -157,7 +189,15 @@
             "named": true
           },
           {
+            "type": "break_statement",
+            "named": true
+          },
+          {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "continue_statement",
             "named": true
           },
           {
@@ -182,6 +222,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "paren_list",
             "named": true
           },
           {
@@ -214,7 +258,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "assignment",
@@ -229,7 +273,15 @@
           "named": true
         },
         {
+          "type": "break_statement",
+          "named": true
+        },
+        {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "continue_statement",
           "named": true
         },
         {
@@ -254,6 +306,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "paren_list",
           "named": true
         },
         {
@@ -304,7 +360,15 @@
           "named": true
         },
         {
+          "type": "break_statement",
+          "named": true
+        },
+        {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "continue_statement",
           "named": true
         },
         {
@@ -329,6 +393,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "paren_list",
           "named": true
         },
         {
@@ -373,6 +441,10 @@
         "required": true,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -385,7 +457,15 @@
             "named": true
           },
           {
+            "type": "break_statement",
+            "named": true
+          },
+          {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "continue_statement",
             "named": true
           },
           {
@@ -410,6 +490,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "paren_list",
             "named": true
           },
           {
@@ -445,6 +529,10 @@
         "required": true,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -457,7 +545,15 @@
             "named": true
           },
           {
+            "type": "break_statement",
+            "named": true
+          },
+          {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "continue_statement",
             "named": true
           },
           {
@@ -482,6 +578,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "paren_list",
             "named": true
           },
           {
@@ -521,6 +621,10 @@
         "required": true,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -533,7 +637,15 @@
             "named": true
           },
           {
+            "type": "break_statement",
+            "named": true
+          },
+          {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "continue_statement",
             "named": true
           },
           {
@@ -558,6 +670,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "paren_list",
             "named": true
           },
           {
@@ -605,7 +721,15 @@
           "named": true
         },
         {
+          "type": "break_statement",
+          "named": true
+        },
+        {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "continue_statement",
           "named": true
         },
         {
@@ -630,6 +754,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "paren_list",
           "named": true
         },
         {
@@ -676,7 +804,15 @@
           "named": true
         },
         {
+          "type": "break_statement",
+          "named": true
+        },
+        {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "continue_statement",
           "named": true
         },
         {
@@ -705,6 +841,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "paren_list",
           "named": true
         },
         {
@@ -754,6 +894,10 @@
         "required": false,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -766,7 +910,15 @@
             "named": true
           },
           {
+            "type": "break_statement",
+            "named": true
+          },
+          {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "continue_statement",
             "named": true
           },
           {
@@ -798,6 +950,10 @@
             "named": true
           },
           {
+            "type": "paren_list",
+            "named": true
+          },
+          {
             "type": "return",
             "named": true
           },
@@ -824,6 +980,10 @@
         "required": true,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -836,7 +996,15 @@
             "named": true
           },
           {
+            "type": "break_statement",
+            "named": true
+          },
+          {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "continue_statement",
             "named": true
           },
           {
@@ -861,6 +1029,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "paren_list",
             "named": true
           },
           {
@@ -890,6 +1062,10 @@
         "required": true,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
             "type": "assignment",
             "named": true
           },
@@ -902,7 +1078,15 @@
             "named": true
           },
           {
+            "type": "break_statement",
+            "named": true
+          },
+          {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "continue_statement",
             "named": true
           },
           {
@@ -927,6 +1111,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "paren_list",
             "named": true
           },
           {
@@ -980,7 +1168,7 @@
     }
   },
   {
-    "type": "program",
+    "type": "paren_list",
     "named": true,
     "fields": {},
     "children": {
@@ -1000,7 +1188,15 @@
           "named": true
         },
         {
+          "type": "break_statement",
+          "named": true
+        },
+        {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "continue_statement",
           "named": true
         },
         {
@@ -1025,6 +1221,93 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
+          "named": true
+        },
+        {
+          "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "program",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "brace_list",
+          "named": true
+        },
+        {
+          "type": "break_statement",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "continue_statement",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "paren_list",
           "named": true
         },
         {
@@ -1071,7 +1354,15 @@
           "named": true
         },
         {
+          "type": "break_statement",
+          "named": true
+        },
+        {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "continue_statement",
           "named": true
         },
         {
@@ -1096,6 +1387,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "paren_list",
           "named": true
         },
         {
@@ -1176,7 +1471,15 @@
           "named": true
         },
         {
+          "type": "break_statement",
+          "named": true
+        },
+        {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "continue_statement",
           "named": true
         },
         {
@@ -1201,6 +1504,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "paren_list",
           "named": true
         },
         {
@@ -1251,7 +1558,15 @@
           "named": true
         },
         {
+          "type": "break_statement",
+          "named": true
+        },
+        {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "continue_statement",
           "named": true
         },
         {
@@ -1276,6 +1591,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "paren_list",
           "named": true
         },
         {
@@ -1307,7 +1626,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "assignment",
@@ -1322,7 +1641,15 @@
           "named": true
         },
         {
+          "type": "break_statement",
+          "named": true
+        },
+        {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "continue_statement",
           "named": true
         },
         {
@@ -1347,6 +1674,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "paren_list",
           "named": true
         },
         {
@@ -1445,6 +1776,10 @@
     "named": false
   },
   {
+    "type": ";",
+    "named": false
+  },
+  {
     "type": "<",
     "named": false
   },
@@ -1499,6 +1834,14 @@
   {
     "type": "`",
     "named": false
+  },
+  {
+    "type": "break_statement",
+    "named": true
+  },
+  {
+    "type": "continue_statement",
+    "named": true
   },
   {
     "type": "else",

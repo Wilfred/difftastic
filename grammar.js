@@ -115,6 +115,13 @@ module.exports = grammar({
       '}'
     ),
 
+    paren_list: $ => seq(
+      '(',
+      repeat(
+        $._expression
+      ),
+      ')'
+    ),
     subset: $ => prec(PREC.SUBSET, seq(
       $._expression,
       '[',
@@ -168,6 +175,10 @@ module.exports = grammar({
       prec.left(PREC.DOLLAR, seq($._expression, '$', $.identifier))
     ),
 
+    break_statement: $ => 'break',
+
+    continue_statement: $ => 'continue',
+
     _expression: $ => choice(
       $.identifier,
       $.integer,
@@ -176,6 +187,7 @@ module.exports = grammar({
       $.function_definition,
       $.assignment,
       $.brace_list,
+      $.paren_list,
       $.binary,
       $.unary,
       $.subset,
@@ -183,7 +195,10 @@ module.exports = grammar({
       $.if,
       $.for,
       $.namespace_get,
-      $.return
+      $.return,
+      $.break_statement,
+      $.continue_statement,
+      ';'
       // TODO: other kinds of expressions
     ),
 
