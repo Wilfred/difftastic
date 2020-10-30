@@ -40,6 +40,10 @@
           "named": true
         },
         {
+          "type": "namespace_get",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -99,6 +103,10 @@
           "named": true
         },
         {
+          "type": "namespace_get",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -155,6 +163,10 @@
         },
         {
           "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "namespace_get",
           "named": true
         },
         {
@@ -221,6 +233,10 @@
           "named": true
         },
         {
+          "type": "namespace_get",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -277,6 +293,10 @@
         },
         {
           "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "namespace_get",
           "named": true
         },
         {
@@ -343,6 +363,10 @@
             "named": true
           },
           {
+            "type": "namespace_get",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -397,6 +421,10 @@
             "named": true
           },
           {
+            "type": "namespace_get",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -448,6 +476,10 @@
           },
           {
             "type": "left_assignment",
+            "named": true
+          },
+          {
+            "type": "namespace_get",
             "named": true
           },
           {
@@ -511,6 +543,10 @@
           "named": true
         },
         {
+          "type": "namespace_get",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -527,6 +563,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "namespace_get",
+    "named": true,
+    "fields": {
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -567,6 +629,10 @@
         },
         {
           "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "namespace_get",
           "named": true
         },
         {
@@ -648,6 +714,10 @@
           "named": true
         },
         {
+          "type": "namespace_get",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -711,6 +781,10 @@
           "named": true
         },
         {
+          "type": "namespace_get",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -767,6 +841,10 @@
         },
         {
           "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "namespace_get",
           "named": true
         },
         {
@@ -830,6 +908,10 @@
   },
   {
     "type": "-",
+    "named": false
+  },
+  {
+    "type": "::",
     "named": false
   },
   {

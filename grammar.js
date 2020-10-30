@@ -92,6 +92,12 @@ module.exports = grammar({
       ']]'
     ),
 
+    namespace_get: $ => seq(
+      field('namespace', $.identifier),
+      '::',
+      field('function', $.identifier),
+    ),
+
     unary: $ => prec.left(2, choice(
       seq('-', $._expression),
       seq('+', $._expression),
@@ -121,7 +127,8 @@ module.exports = grammar({
       $.unary,
       $.subset,
       $.subset2,
-      $.if
+      $.if,
+      $.namespace_get
       // TODO: other kinds of expressions
     ),
 

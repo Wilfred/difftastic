@@ -358,6 +358,31 @@
         }
       ]
     },
+    "namespace_get": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "namespace",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "::"
+        },
+        {
+          "type": "FIELD",
+          "name": "function",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        }
+      ]
+    },
     "unary": {
       "type": "PREC_LEFT",
       "value": 2,
@@ -629,6 +654,10 @@
         {
           "type": "SYMBOL",
           "name": "if"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "namespace_get"
         }
       ]
     },

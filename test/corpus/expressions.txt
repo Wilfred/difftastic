@@ -175,3 +175,22 @@ if (a) {
    condition: (identifier)
    consequence: (brace_list (identifier) (identifier))
    alternative: (brace_list (identifier))))
+
+============================================
+Namespace get
+============================================
+
+foo::bar
+foo::bar(1)
+
+---
+
+(program
+  (namespace_get
+    namespace: (identifier)
+    function: (identifier))
+  (call
+    (namespace_get
+     namespace: (identifier)
+     function: (identifier))
+    (argument_list (integer))))
