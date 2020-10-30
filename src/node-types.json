@@ -123,6 +123,10 @@
           "named": true
         },
         {
+          "type": "special",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1044,6 +1048,21 @@
     }
   },
   {
+    "type": "special",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "string",
     "named": true,
     "fields": {},
@@ -1293,6 +1312,10 @@
   },
   {
     "type": "#",
+    "named": false
+  },
+  {
+    "type": "%",
     "named": false
   },
   {

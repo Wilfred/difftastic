@@ -135,7 +135,8 @@ module.exports = grammar({
       prec.left(seq($._expression, '||', $._expression)),
       prec.left(seq($._expression, '&&', $._expression)),
       prec.left(seq($._expression, '|', $._expression)),
-      prec.left(seq($._expression, '&', $._expression))
+      prec.left(seq($._expression, '&', $._expression)),
+      prec.left(2,seq($._expression, $.special, $._expression))
     ),
 
     _expression: $ => choice(
@@ -169,7 +170,7 @@ module.exports = grammar({
       )
     ),
 
-    integer: $ => /\d+/,
+    integer: $ => /\d+L?/,
 
     comment: $ => seq('#', /.*/),
 
@@ -192,16 +193,25 @@ module.exports = grammar({
       )
     ),
 
-        escape_sequence: $ => token.immediate(seq(
-          '\\',
-          choice(
-            /[^xu0-7]/,
-            /[0-7]{1,3}/,
-            /x[0-9a-fA-F]{2}/,
-            /u[0-9a-fA-F]{4}/,
-            /u{[0-9a-fA-F]+}/
-          )
-        ))
+    special: $ => seq(
+      '%',
+    repeat(choice(
+      /[^%\\\n]+|\\\r?\n/,
+      $.escape_sequence
+    )),
+      '%'
+    ),
+
+    escape_sequence: $ => token.immediate(seq(
+      '\\',
+      choice(
+        /[^xu0-7]/,
+        /[0-7]{1,3}/,
+        /x[0-9a-fA-F]{2}/,
+        /u[0-9a-fA-F]{4}/,
+        /u{[0-9a-fA-F]+}/
+      )
+    ))
   }
 });
 

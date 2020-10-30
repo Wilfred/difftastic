@@ -98,6 +98,30 @@ foo-a
 (program
   (binary (identifier) (identifier)))
 
+
+========
+Specials
+========
+
+x %% y
+
+x %+% y
+
+x %>% y
+
+x %some text% y
+
+x %some \% escaped text% y
+
+---
+
+(program
+  (binary (identifier) (special) (identifier))
+  (binary (identifier) (special) (identifier))
+  (binary (identifier) (special) (identifier))
+  (binary (identifier) (special) (identifier))
+  (binary (identifier) (special (escape_sequence)) (identifier)))
+
 ===========
 subset
 ===========

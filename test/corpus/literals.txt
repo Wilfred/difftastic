@@ -62,3 +62,18 @@ Comments
  (comment)
  (string)
  (string))
+
+========
+Integers
+========
+
+12332
+0
+12L
+
+---
+
+(program
+  (integer)
+  (integer)
+  (integer))
