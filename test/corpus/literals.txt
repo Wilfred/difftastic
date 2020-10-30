@@ -6,9 +6,13 @@ foo2
 foo.bar
 .foo.bar
 foo_bar
+`a "literal"`
+`another
+literal \` foo`
 
 # 0foo not working for now
 _foo
+
 
 ----
 
@@ -18,6 +22,8 @@ _foo
  (identifier)
  (identifier)
  (identifier)
+ (identifier)
+ (identifier (escape_sequence))
  (comment)
  (ERROR (UNEXPECTED '_'))
  (identifier))

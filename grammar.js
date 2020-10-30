@@ -121,6 +121,8 @@ module.exports = grammar({
       prec.left(seq($._expression, '<', $._expression)),
       prec.left(seq($._expression, '>', $._expression)),
       prec.left(seq($._expression, '==', $._expression)),
+      prec.left(seq($._expression, '||', $._expression)),
+      prec.left(seq($._expression, '&&', $._expression)),
       prec.left(seq($._expression, '|', $._expression)),
       prec.left(seq($._expression, '&', $._expression))
     ),
@@ -143,7 +145,17 @@ module.exports = grammar({
       // TODO: other kinds of expressions
     ),
 
-    identifier: $ => /[A-Za-z.][A-Za-z0-9_.]*/,
+    identifier: $ => choice(
+      /[A-Za-z.][A-Za-z0-9_.]*/,
+      seq(
+        '`',
+        repeat(choice(
+          /[^`\\\n]+|\\\r?\n/,
+          $.escape_sequence
+        )),
+        '`'
+      )
+    ),
 
     integer: $ => /\d+/,
 
