@@ -122,7 +122,7 @@ foo[1, ]
       (integer))))
 
 ============================================
-If statements
+If
 ============================================
 
 if (x)
@@ -144,3 +144,34 @@ if (a.b) {
     consequence: (brace_list
       (call (identifier) (argument_list (identifier)))
       (identifier))))
+
+============================================
+If-else
+============================================
+
+if (x)
+  y
+else if (a)
+  b
+
+if (a) {
+  c
+  d
+} else {
+  e
+}
+
+----
+
+(program
+  (if
+   condition: (identifier)
+   consequence: (identifier)
+   alternative: (if
+     condition: (identifier)
+     consequence: (identifier)))
+
+  (if
+   condition: (identifier)
+   consequence: (brace_list (identifier) (identifier))
+   alternative: (brace_list (identifier))))

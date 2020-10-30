@@ -32,13 +32,8 @@ module.exports = grammar({
         field('condition', $._expression),
         ')',
         field('consequence', $._expression),
-        field('alternative', optional($.else))
+        field('alternative', optional(seq('else', $._expression)))
       )),
-
-    else: $ => prec.left(seq(
-      'else',
-      $._expression
-    )),
 
     _parameter: $ => choice(
         $.identifier,
@@ -107,6 +102,8 @@ module.exports = grammar({
       prec.left(2, seq($._expression, '*', $._expression)),
       prec.left(1, seq($._expression, '+', $._expression)),
       prec.left(1, seq($._expression, '-', $._expression)),
+      prec.left(seq($._expression, '<', $._expression)),
+      prec.left(seq($._expression, '>', $._expression)),
       prec.left(seq($._expression, '==', $._expression)),
       prec.left(seq($._expression, '|', $._expression)),
       prec.left(seq($._expression, '&', $._expression))
