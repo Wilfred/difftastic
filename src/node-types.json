@@ -44,6 +44,10 @@
           "named": true
         },
         {
+          "type": "subset2",
+          "named": true
+        },
+        {
           "type": "unary",
           "named": true
         }
@@ -95,6 +99,10 @@
           "named": true
         },
         {
+          "type": "subset2",
+          "named": true
+        },
+        {
           "type": "unary",
           "named": true
         }
@@ -143,6 +151,10 @@
         },
         {
           "type": "subset",
+          "named": true
+        },
+        {
+          "type": "subset2",
           "named": true
         },
         {
@@ -201,6 +213,10 @@
           "named": true
         },
         {
+          "type": "subset2",
+          "named": true
+        },
+        {
           "type": "unary",
           "named": true
         }
@@ -249,6 +265,10 @@
         },
         {
           "type": "subset",
+          "named": true
+        },
+        {
+          "type": "subset2",
           "named": true
         },
         {
@@ -303,6 +323,10 @@
           "named": true
         },
         {
+          "type": "subset2",
+          "named": true
+        },
+        {
           "type": "unary",
           "named": true
         }
@@ -354,6 +378,10 @@
           "named": true
         },
         {
+          "type": "subset2",
+          "named": true
+        },
+        {
           "type": "unary",
           "named": true
         }
@@ -363,7 +391,17 @@
   {
     "type": "string",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "subset",
@@ -411,6 +449,69 @@
         },
         {
           "type": "subset",
+          "named": true
+        },
+        {
+          "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subset2",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "brace_list",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
+          "named": true
+        },
+        {
+          "type": "subset2",
           "named": true
         },
         {
@@ -462,6 +563,10 @@
         },
         {
           "type": "subset",
+          "named": true
+        },
+        {
+          "type": "subset2",
           "named": true
         },
         {
@@ -536,12 +641,20 @@
     "named": false
   },
   {
-    "type": "\\",
+    "type": "[[",
     "named": false
   },
   {
     "type": "]",
     "named": false
+  },
+  {
+    "type": "]]",
+    "named": false
+  },
+  {
+    "type": "escape_sequence",
+    "named": true
   },
   {
     "type": "function",

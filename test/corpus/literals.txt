@@ -1,0 +1,59 @@
+============================================
+Identifiers
+============================================
+foo
+foo2
+foo.bar
+.foo.bar
+foo_bar
+
+# 0foo not working for now
+_foo
+
+----
+
+(program
+ (identifier)
+ (identifier)
+ (identifier)
+ (identifier)
+ (identifier)
+ (comment)
+ (ERROR (UNEXPECTED '_'))
+ (identifier))
+
+============================================
+Strings
+============================================
+
+"foo"
+"foo\"bar"
+'foo'
+'foo\'bar'
+
+----
+
+(program
+ (string)
+ (string (escape_sequence))
+ (string)
+ (string (escape_sequence)))
+
+============================================
+Comments
+============================================
+
+# a comment' 
+
+'# not a comment'
+
+
+'
+# still not a comment'
+
+---
+
+(program
+ (comment)
+ (string)
+ (string))

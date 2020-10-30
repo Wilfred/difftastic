@@ -75,6 +75,13 @@ module.exports = grammar({
       ']'
     ),
 
+    subset2: $ => seq(
+      $._expression,
+      '[[',
+      $.argument_list,
+      ']]'
+    ),
+
     unary: $ => prec.left(2, choice(
       seq('-', $._expression),
       seq('+', $._expression),
@@ -100,7 +107,8 @@ module.exports = grammar({
       $.brace_list,
       $.binary,
       $.unary,
-      $.subset
+      $.subset,
+      $.subset2
       // TODO: other kinds of expressions
     ),
 
@@ -115,7 +123,7 @@ module.exports = grammar({
         '"',
         repeat(choice(
           /[^"\\\n]+|\\\r?\n/,
-          '\\'
+          $.escape_sequence
         )),
         '"'
       ),
@@ -123,11 +131,22 @@ module.exports = grammar({
         "'",
         repeat(choice(
           /[^'\\\n]+|\\\r?\n/,
-          '\\'
+          $.escape_sequence
         )),
         "'"
       )
-    )
+    ),
+
+        escape_sequence: $ => token.immediate(seq(
+          '\\',
+          choice(
+            /[^xu0-7]/,
+            /[0-7]{1,3}/,
+            /x[0-9a-fA-F]{2}/,
+            /u[0-9a-fA-F]{4}/,
+            /u{[0-9a-fA-F]+}/
+          )
+        ))
   }
 });
 
