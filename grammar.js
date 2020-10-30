@@ -36,20 +36,22 @@ module.exports = grammar({
       '}'
     ),
 
+    argument_list: $ => repeat1(
+      choice(
+        $._expression,
+        seq(',', $._expression)
+      )
+    ),
+
     call: $ => seq(
       $._expression,
       '(',
-      repeat(
-        choice(
-          $._expression,
-          seq(',', $._expression)
-        )
-      ),
+      optional($.argument_list),
       ')'
     ),
 
     left_assignment: $ => prec.right(seq(
-      $.identifier,
+      $._expression,
       choice(
         '=',
         '<-',
@@ -64,6 +66,13 @@ module.exports = grammar({
         $._expression
       ),
       '}'
+    ),
+
+    subset: $ => seq(
+      $._expression,
+      '[',
+      $.argument_list,
+      ']'
     ),
 
     unary: $ => prec.left(2, choice(
@@ -88,7 +97,8 @@ module.exports = grammar({
       $.left_assignment,
       $.brace_list,
       $.binary,
-      $.unary
+      $.unary,
+      $.subset
       // TODO: other kinds of expressions
     ),
 

@@ -1,5 +1,56 @@
 [
   {
+    "type": "argument_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "brace_list",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "binary",
     "named": true,
     "fields": {},
@@ -37,6 +88,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
           "named": true
         },
         {
@@ -87,6 +142,10 @@
           "named": true
         },
         {
+          "type": "subset",
+          "named": true
+        },
+        {
           "type": "unary",
           "named": true
         }
@@ -101,6 +160,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        },
         {
           "type": "binary",
           "named": true
@@ -131,6 +194,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
           "named": true
         },
         {
@@ -181,6 +248,10 @@
           "named": true
         },
         {
+          "type": "subset",
+          "named": true
+        },
+        {
           "type": "unary",
           "named": true
         }
@@ -225,6 +296,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
           "named": true
         },
         {
@@ -275,6 +350,10 @@
           "named": true
         },
         {
+          "type": "subset",
+          "named": true
+        },
+        {
           "type": "unary",
           "named": true
         }
@@ -285,6 +364,61 @@
     "type": "string",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "subset",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "brace_list",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "unary",
@@ -324,6 +458,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
           "named": true
         },
         {
@@ -390,7 +528,15 @@
     "named": false
   },
   {
+    "type": "[",
+    "named": false
+  },
+  {
     "type": "\\",
+    "named": false
+  },
+  {
+    "type": "]",
     "named": false
   },
   {

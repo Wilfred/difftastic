@@ -43,10 +43,7 @@ f <- function(x, y = 2) {
       (identifier)
       (integer)
       (brace_list
-        (call
-          (identifier)
-          (identifier)
-        )
+        (call (identifier) (argument_list (identifier)))
       (identifier)))))
 
 ==========
@@ -110,7 +107,10 @@ foo(-a, bar)
 
 (program
   (unary (identifier))
-  (call (identifier) (unary (identifier)) (identifier)))
+  (call (identifier) 
+    (argument_list
+      (unary (identifier))
+      (identifier))))
 
 ===========
 binary minus
@@ -122,3 +122,23 @@ foo-a
 
 (program
   (binary (identifier) (identifier)))
+
+===========
+subset
+===========
+
+foo[bar]
+foo[1, 2]
+
+---
+
+(program
+  (subset
+    (identifier)
+    (argument_list
+     (identifier)))
+  (subset
+    (identifier)
+    (argument_list
+      (integer)
+      (integer))))
