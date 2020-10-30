@@ -178,6 +178,22 @@ if (a) {
    consequence: (brace_list (identifier) (identifier))
    alternative: (brace_list (identifier))))
 
+
+===
+for
+===
+
+for (x in y)
+  f
+
+---
+
+(program
+  (for
+    name: (identifier)
+    vector: (identifier)
+    body: (identifier)))
+
 ============================================
 Namespace get
 ============================================

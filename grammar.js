@@ -29,6 +29,16 @@ module.exports = grammar({
       field('alternative', optional(seq('else', $._expression)))
     )),
 
+    for: $ => prec.right(seq(
+      'for',
+      '(',
+      field('name', $.identifier),
+      'in',
+      field('vector', $._expression),
+      ')',
+      field('body', $._expression)
+    )),
+
     formal_parameters: $ => seq(
       '(',
       optional(seq(
@@ -121,6 +131,7 @@ module.exports = grammar({
       prec.left(seq($._expression, '<', $._expression)),
       prec.left(seq($._expression, '>', $._expression)),
       prec.left(seq($._expression, '==', $._expression)),
+      prec.left(seq($._expression, '!=', $._expression)),
       prec.left(seq($._expression, '||', $._expression)),
       prec.left(seq($._expression, '&&', $._expression)),
       prec.left(seq($._expression, '|', $._expression)),
@@ -140,6 +151,7 @@ module.exports = grammar({
       $.subset,
       $.subset2,
       $.if,
+      $.for,
       $.namespace_get,
       $.return
       // TODO: other kinds of expressions
