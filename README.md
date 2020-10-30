@@ -1,6 +1,8 @@
 tree-sitter-r
 ===========================
 
+![Build Status](https://github.com/jimhester/tree-sitter-r/workflows/Node.js%20CI/badge.svg)
+
 R grammar for [tree-sitter][].
 
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
