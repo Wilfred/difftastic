@@ -238,3 +238,36 @@ foo::bar(1)
      namespace: (identifier)
      function: (identifier))
     arguments: (arguments (integer))))
+
+==========
+Assignment
+==========
+
+x <- 1
+x <<- 1
+1 -> x
+x <- y(1)
+y(1) -> x
+
+---
+
+(program
+ (assignment
+  left: (identifier)
+  right: (integer))
+
+ (assignment
+  left: (identifier)
+  right: (integer))
+
+ (assignment
+  right: (integer)
+  left: (identifier))
+
+ (assignment
+  left: (identifier)
+  right: (call function: (identifier) arguments: (arguments (integer))))
+
+ (assignment
+  right: (call function: (identifier) arguments: (arguments (integer)))
+  left: (identifier)))

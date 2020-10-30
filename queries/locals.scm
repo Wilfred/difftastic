@@ -4,6 +4,6 @@
 
 (formal_parameters (identifier) @local.definition)
 
-(left_assignment left: (identifier) @local.definition)
+(assignment left: (identifier) @local.definition)
 
 (identifier) @local.reference

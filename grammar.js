@@ -1,3 +1,18 @@
+const PREC = {
+  ASSIGN: 0,
+  OR: 2,
+  AND: 3,
+  NOT: 4,
+  REL: 5,
+  PLUS: 6,
+  TIMES: 7,
+  NEG: 8,
+  EXP: 9,
+  DOLLAR: 10,
+  NS_GET: 11,
+  CALL: 12
+}
+
 module.exports = grammar({
   name: 'R',
 
@@ -66,22 +81,28 @@ module.exports = grammar({
       )
     ),
 
-    call: $ => seq(
+    call: $ => prec(PREC.CALL, seq(
       field('function', $._expression),
       '(',
       field('arguments', optional($.arguments)),
       ')'
-    ),
-
-    left_assignment: $ => prec.right(seq(
-      field('left', $._expression),
-      choice(
-        '=',
-        '<-',
-        '<<-'
-      ),
-      field('right', $._expression)
     )),
+
+    assignment: $ => prec.right(PREC.ASSIGN, choice(
+      seq(
+        field('left', $._expression),
+        choice(
+          '=',
+          '<-',
+          '<<-'
+        ),
+        field('right', $._expression)
+      ),
+      seq(
+        field('right', $._expression),
+        '->',
+        field('left', $._expression)
+      ))),
 
     brace_list: $ => seq(
       '{',
@@ -118,11 +139,11 @@ module.exports = grammar({
       ')'
     ),
 
-    unary: $ => prec.left(2, choice(
-      seq('-', $._expression),
-      seq('+', $._expression),
-      seq('!', $._expression)
-    )),
+    unary: $ => choice(
+      prec.left(PREC.NEG, seq('-', $._expression)),
+      prec.left(PREC.NEG, seq('+', $._expression)),
+      prec.left(PREC.NOT, seq('!', $._expression))
+    ),
 
     binary: $ => choice(
       prec.left(1, seq($._expression, '+', $._expression)),
@@ -148,7 +169,7 @@ module.exports = grammar({
       $.string,
       $.call,
       $.function_definition,
-      $.left_assignment,
+      $.assignment,
       $.brace_list,
       $.binary,
       $.unary,
