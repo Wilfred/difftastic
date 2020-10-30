@@ -100,6 +100,43 @@
         ]
       }
     },
+    "while": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "while"
+          },
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "FIELD",
+            "name": "condition",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          }
+        ]
+      }
+    },
     "for": {
       "type": "PREC_RIGHT",
       "value": 0,
@@ -1040,6 +1077,10 @@
         {
           "type": "SYMBOL",
           "name": "for"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "while"
         },
         {
           "type": "SYMBOL",

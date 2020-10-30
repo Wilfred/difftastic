@@ -46,6 +46,14 @@ module.exports = grammar({
       field('alternative', optional(seq('else', $._expression)))
     )),
 
+    while: $ => prec.right(seq(
+      'while',
+      '(',
+      field('condition', $.identifier),
+      ')',
+      field('body', $._expression)
+    )),
+
     for: $ => prec.right(seq(
       'for',
       '(',
@@ -194,6 +202,7 @@ module.exports = grammar({
       $.subset2,
       $.if,
       $.for,
+      $.while,
       $.namespace_get,
       $.return,
       $.break_statement,

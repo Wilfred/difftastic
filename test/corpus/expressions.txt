@@ -257,6 +257,19 @@ for (x in y)
     vector: (identifier)
     body: (identifier)))
 
+=====
+While
+=====
+
+while(TRUE)
+  bar
+
+---
+
+(program
+  (while
+    condition: (identifier)
+    body: (identifier)))
 ============================================
 Namespace get
 ============================================
