@@ -109,7 +109,9 @@ npx tree-sitter build-wasm
 ## Acknowledgments
 
 * Aerijo - Guide to your first Tree-sitter grammar
+* alehatsman - nvim-treesitter and related discussion
 * alexmiller - clojure-related inquiries and docs
+* andrewchambers - discussion
 * bfredl - neovim and tree-sitter work
 * borkdude - analyze-reify, babashka, clj-kondo, edamame, and more
 * carocad - parcera and discussions
@@ -130,8 +132,9 @@ npx tree-sitter build-wasm
 * oakmac - tree-sitter-clojure.oakmac, conj 2018 unsession, advice, etc.
 * pedrorgirardi - discussions, vscode and tree-sitter-clojure bits
 * PEZ - calva, vscode tips, and general discussion
-* pyrmont - review, error-spotting, and fix
+* pyrmont - review, error-spotting, fix, and discussions
 * rewinfrey - helpful bits from tree-sitter-haskell
+* richhickey - clojure, etc.
 * Saikyun - discussions
 * seancorfield - clojure-related inquiries 
 * SergeevPavel - tree-sitter-clojure.SergeevPavel (fork of tree-sitter-clojure.Tavistock with further work)
@@ -141,5 +144,5 @@ npx tree-sitter build-wasm
 * Tavistock - tree-sitter-clojure.Tavistock
 * th0rex - emacs-tree-sitter related
 * tobias - clojars work
-* tonsky - sublime-clojure work with test data
+* tonsky - sublime-clojure work with test data, clojure north talk, alabaster theme
 * ubolonton - emacs-tree-sitter
