@@ -25,6 +25,21 @@ module.exports = grammar({
       $._expression
     )),
 
+    if: $ => prec.right(
+      seq(
+        'if',
+        '(',
+        field('condition', $._expression),
+        ')',
+        field('consequence', $._expression),
+        field('alternative', optional($.else))
+      )),
+
+    else: $ => prec.left(seq(
+      'else',
+      $._expression
+    )),
+
     _parameter: $ => choice(
         $.identifier,
         seq($.identifier, '=', $._expression),
@@ -108,7 +123,8 @@ module.exports = grammar({
       $.binary,
       $.unary,
       $.subset,
-      $.subset2
+      $.subset2,
+      $.if
       // TODO: other kinds of expressions
     ),
 

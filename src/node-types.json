@@ -28,6 +28,10 @@
           "named": true
         },
         {
+          "type": "if",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -83,6 +87,10 @@
           "named": true
         },
         {
+          "type": "if",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -135,6 +143,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
           "named": true
         },
         {
@@ -197,6 +209,69 @@
           "named": true
         },
         {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
+          "named": true
+        },
+        {
+          "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "else",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "brace_list",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -252,6 +327,10 @@
           "named": true
         },
         {
+          "type": "if",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -276,6 +355,130 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "if",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "else",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "brace_list",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "function_definition",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subset",
+            "named": true
+          },
+          {
+            "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "brace_list",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "function_definition",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subset",
+            "named": true
+          },
+          {
+            "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -304,6 +507,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
           "named": true
         },
         {
@@ -359,6 +566,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
           "named": true
         },
         {
@@ -436,6 +647,10 @@
           "named": true
         },
         {
+          "type": "if",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -495,6 +710,10 @@
           "named": true
         },
         {
+          "type": "if",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -547,6 +766,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
           "named": true
         },
         {
@@ -653,6 +876,10 @@
     "named": false
   },
   {
+    "type": "else",
+    "named": false
+  },
+  {
     "type": "escape_sequence",
     "named": true
   },
@@ -663,6 +890,10 @@
   {
     "type": "identifier",
     "named": true
+  },
+  {
+    "type": "if",
+    "named": false
   },
   {
     "type": "integer",
