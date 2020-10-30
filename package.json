@@ -22,8 +22,10 @@
     {
       "scope": "source.R",
       "file-types": [
+        "R",
         "r"
-      ]
+      ],
+      "first-line-regex": "#!.*\\bRscript$"
     }
   ]
 }

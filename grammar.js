@@ -74,13 +74,13 @@ module.exports = grammar({
     ),
 
     left_assignment: $ => prec.right(seq(
-      $._expression,
+      field('left', $._expression),
       choice(
         '=',
         '<-',
         '<<-'
       ),
-      $._expression
+      field('right', $._expression)
     )),
 
     brace_list: $ => seq(
