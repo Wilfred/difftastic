@@ -6,11 +6,13 @@ const PREC = {
   REL: 5,
   PLUS: 6,
   TIMES: 7,
-  NEG: 8,
-  EXP: 9,
-  DOLLAR: 10,
-  NS_GET: 11,
-  CALL: 12
+  SPECIAL: 8,
+  NEG: 9,
+  EXP: 10,
+  DOLLAR: 11,
+  NS_GET: 12,
+  CALL: 13,
+  SUBSET: 14
 }
 
 module.exports = grammar({
@@ -98,11 +100,12 @@ module.exports = grammar({
         ),
         field('right', $._expression)
       ),
+      prec.left(PREC.ASSIGN,
       seq(
         field('right', $._expression),
         '->',
         field('left', $._expression)
-      ))),
+      )))),
 
     brace_list: $ => seq(
       '{',
@@ -112,25 +115,25 @@ module.exports = grammar({
       '}'
     ),
 
-    subset: $ => seq(
+    subset: $ => prec(PREC.SUBSET, seq(
       $._expression,
       '[',
       $.arguments,
       ']'
-    ),
+    )),
 
-    subset2: $ => seq(
+    subset2: $ => prec(PREC.SUBSET, seq(
       $._expression,
       '[[',
       $.arguments,
       ']]'
-    ),
+    )),
 
-    namespace_get: $ => seq(
+    namespace_get: $ => prec(PREC.NS_GET, seq(
       field('namespace', $.identifier),
       '::',
       field('function', $.identifier),
-    ),
+    )),
 
     return: $ => seq(
       'return',
@@ -146,21 +149,23 @@ module.exports = grammar({
     ),
 
     binary: $ => choice(
-      prec.left(1, seq($._expression, '+', $._expression)),
-      prec.left(1, seq($._expression, '-', $._expression)),
-      prec.left(2, seq($._expression, '*', $._expression)),
-      prec.left(2, seq($._expression, '/', $._expression)),
-      prec.left(3, seq($._expression, '^', $._expression)),
-      prec.left(seq($._expression, '<', $._expression)),
-      prec.left(seq($._expression, '>', $._expression)),
-      prec.left(seq($._expression, '==', $._expression)),
-      prec.left(seq($._expression, '!=', $._expression)),
-      prec.left(seq($._expression, '||', $._expression)),
-      prec.left(seq($._expression, '&&', $._expression)),
-      prec.left(seq($._expression, '|', $._expression)),
-      prec.left(seq($._expression, '&', $._expression)),
-      prec.left(2,seq($._expression, $.special, $._expression)),
-      seq($._expression, '$', $.identifier)
+      prec.left(PREC.PLUS, seq($._expression, '+', $._expression)),
+      prec.left(PREC.PLUS, seq($._expression, '-', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '*', $._expression)),
+      prec.left(PREC.TIMES, seq($._expression, '/', $._expression)),
+      prec.right(PREC.EXP, seq($._expression, '^', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '<', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '>', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '<=', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '>=', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '==', $._expression)),
+      prec.left(PREC.REL, seq($._expression, '!=', $._expression)),
+      prec.left(PREC.OR, seq($._expression, '||', $._expression)),
+      prec.left(PREC.OR, seq($._expression, '|', $._expression)),
+      prec.left(PREC.AND, seq($._expression, '&&', $._expression)),
+      prec.left(PREC.AND, seq($._expression, '&', $._expression)),
+      prec.left(PREC.SPECIAL, seq($._expression, $.special, $._expression)),
+      prec.left(PREC.DOLLAR, seq($._expression, '$', $.identifier))
     ),
 
     _expression: $ => choice(

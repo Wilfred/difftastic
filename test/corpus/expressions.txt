@@ -99,6 +99,43 @@ foo-a
   (binary (identifier) (identifier)))
 
 
+===================
+Operator precedence
+===================
+
+a <= b && c >= d
+a[1] <- foo || bar
+a && b(c) && d
+val <- foo %>% bar(1) %>% baz()
+---
+
+(program
+
+  (binary
+    (binary (identifier) (identifier))
+    (binary (identifier) (identifier)))
+
+  (assignment
+    left: (subset (identifier) (arguments (integer)))
+    right: (binary (identifier) (identifier)))
+
+  (binary
+     (binary (identifier) (call function: (identifier) arguments: (arguments (identifier))))
+     (identifier))
+
+  (assignment
+    left: (identifier)
+    right: (binary
+      (binary
+        (identifier)
+        (special)
+        (call
+          function: (identifier)
+          arguments: (arguments (integer))))
+      (special)
+      (call
+        function: (identifier)))))
+
 ========
 Specials
 ========
