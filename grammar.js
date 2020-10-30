@@ -125,9 +125,11 @@ module.exports = grammar({
     )),
 
     binary: $ => choice(
-      prec.left(2, seq($._expression, '*', $._expression)),
       prec.left(1, seq($._expression, '+', $._expression)),
       prec.left(1, seq($._expression, '-', $._expression)),
+      prec.left(2, seq($._expression, '*', $._expression)),
+      prec.left(2, seq($._expression, '/', $._expression)),
+      prec.left(3, seq($._expression, '^', $._expression)),
       prec.left(seq($._expression, '<', $._expression)),
       prec.left(seq($._expression, '>', $._expression)),
       prec.left(seq($._expression, '==', $._expression)),
@@ -136,7 +138,8 @@ module.exports = grammar({
       prec.left(seq($._expression, '&&', $._expression)),
       prec.left(seq($._expression, '|', $._expression)),
       prec.left(seq($._expression, '&', $._expression)),
-      prec.left(2,seq($._expression, $.special, $._expression))
+      prec.left(2,seq($._expression, $.special, $._expression)),
+      seq($._expression, '$', $.identifier)
     ),
 
     _expression: $ => choice(
