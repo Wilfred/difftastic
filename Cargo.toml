@@ -1,0 +1,29 @@
+[package]
+name = "tree-sitter-elm"
+description = "Rust bindings for the tree sitter elm language parser"
+authors = [
+    "Harry Sarson <harry.sarson@hotmail.co.uk>",
+    "Razze"
+
+]
+homepage = "https://tree-sitter.github.io/tree-sitter/"
+repository = "https://github.com/Razzeee/tree-sitter-elm"
+keywords = ["elm", "tree", "sitter", "parsing", "incremental"]
+catagories = ["parser-implementations", "api-bindings", "text-editors", "parsing"]
+edition = "2018"
+license = "MIT"
+build = "rust/build.rs"
+
+# Updated based on package.json
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tree-sitter = "0.17.0"
+
+[build-dependencies]
+cc = "1.0.61"
+
+[lib]
+path = "rust/lib.rs"    # The source file of the target.
