@@ -1,5 +1,3 @@
-language: node_js
-
 sudo: false
 
 node_js:
@@ -21,12 +19,18 @@ branches:
     - /^v.*$/
 
 deploy:
-  provider: script
-  script: npm run prebuild && npm run prebuild:upload -u ${PREBUILD_UPLOAD}
-  skip_cleanup: true
-  on:
-    all_branches: true
-    tags: true
+  - provider: script
+    language: node_js
+    script: npm run prebuild && npm run prebuild:upload -u ${PREBUILD_UPLOAD}
+    skip_cleanup: true
+    on:
+      all_branches: true
+      tags: true
+  - provider: cargo
+    language: rust
+    token: "TODO"
+    on:
+      tags: true
 
 env:
   global:
