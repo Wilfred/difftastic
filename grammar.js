@@ -226,11 +226,7 @@ module.exports = grammar({
           field('value', $._form)),
 
     _form: $ =>
-      choice(// basic collection-ish
-             $.list_lit,
-             $.map_lit,
-             $.vec_lit,
-             // atom-ish
+      choice(// atom-ish
              $.num_lit,
              $.kwd_lit,
              $.str_lit,
@@ -238,6 +234,10 @@ module.exports = grammar({
              $.nil_lit,
              $.bool_lit,
              $.sym_lit,
+             // basic collection-ish
+             $.list_lit,
+             $.map_lit,
+             $.vec_lit,
              // dispatch reader macros
              $.set_lit,
              $.anon_fn_lit,
@@ -250,11 +250,38 @@ module.exports = grammar({
              $.evaling_lit,
              $.tagged_or_ctor_lit,
              // some other reader macros
-             $.syn_quoting_lit,
+             $.derefing_lit,
              $.quoting_lit,
+             $.syn_quoting_lit,
              $.unquote_splicing_lit,
-             $.unquoting_lit,
-             $.derefing_lit),
+             $.unquoting_lit),
+
+    num_lit: $ =>
+      NUMBER,
+
+    kwd_lit: $ =>
+      KEYWORD,
+
+    str_lit: $ =>
+      STRING,
+
+    char_lit: $ =>
+      CHARACTER,
+
+    nil_lit: $ =>
+      NIL,
+
+    bool_lit: $ =>
+      BOOLEAN,
+
+    sym_lit: $ =>
+      seq(repeat($._metadata_lit),
+          SYMBOL),
+
+    _metadata_lit: $ =>
+      seq(choice(field('meta', $.meta_lit),
+                 field('old_meta', $.old_meta_lit)),
+          optional(repeat($._gap))),
 
     meta_lit: $ =>
       seq(field('marker', "^"),
@@ -273,11 +300,6 @@ module.exports = grammar({
                                 $.str_lit,
                                 $.kwd_lit,
                                 $.sym_lit))),
-
-    _metadata_lit: $ =>
-      seq(choice(field('meta', $.meta_lit),
-                 field('old_meta', $.old_meta_lit)),
-          optional(repeat($._gap))),
 
     list_lit: $ =>
       seq(repeat($._metadata_lit),
@@ -308,28 +330,6 @@ module.exports = grammar({
           repeat(choice(field('value', $._form),
                         $._gap)),
           field('close', "]")),
-
-    num_lit: $ =>
-      NUMBER,
-
-    kwd_lit: $ =>
-      KEYWORD,
-
-    str_lit: $ =>
-      STRING,
-
-    char_lit: $ =>
-      CHARACTER,
-
-    nil_lit: $ =>
-      NIL,
-
-    bool_lit: $ =>
-      BOOLEAN,
-
-    sym_lit: $ =>
-      seq(repeat($._metadata_lit),
-          SYMBOL),
 
     set_lit: $ =>
       seq(repeat($._metadata_lit),
@@ -415,15 +415,21 @@ module.exports = grammar({
           repeat($._gap),
           field('value', $._form)),
 
-    syn_quoting_lit: $ =>
+    derefing_lit: $ =>
       seq(repeat($._metadata_lit),
-          field('marker', "`"),
+          field('marker', "@"),
           repeat($._gap),
           field('value', $._form)),
 
     quoting_lit: $ =>
       seq(repeat($._metadata_lit),
           field('marker', "'"),
+          repeat($._gap),
+          field('value', $._form)),
+
+    syn_quoting_lit: $ =>
+      seq(repeat($._metadata_lit),
+          field('marker', "`"),
           repeat($._gap),
           field('value', $._form)),
 
@@ -438,12 +444,6 @@ module.exports = grammar({
     unquoting_lit: $ =>
       seq(repeat($._metadata_lit),
           field('marker', "~"),
-          repeat($._gap),
-          field('value', $._form)),
-
-    derefing_lit: $ =>
-      seq(repeat($._metadata_lit),
-          field('marker', "@"),
           repeat($._gap),
           field('value', $._form)),
   }
