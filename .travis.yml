@@ -1,5 +1,7 @@
 sudo: false
 
+language: rust
+
 node_js:
   - "10"
 
@@ -20,14 +22,12 @@ branches:
 
 deploy:
   - provider: script
-    language: node_js
     script: npm run prebuild && npm run prebuild:upload -u ${PREBUILD_UPLOAD}
     skip_cleanup: true
     on:
       all_branches: true
       tags: true
   - provider: cargo
-    language: rust
     token: "TODO"
     on:
       tags: true
