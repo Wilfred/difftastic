@@ -176,11 +176,6 @@
     }
   },
   {
-    "type": "bool_lit",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "derefing_lit",
     "named": true,
     "fields": {
@@ -3103,16 +3098,16 @@
     "named": true
   },
   {
+    "type": "bool_lit",
+    "named": true
+  },
+  {
     "type": "char_lit",
     "named": true
   },
   {
     "type": "comment",
     "named": true
-  },
-  {
-    "type": "false",
-    "named": false
   },
   {
     "type": "kwd_lit",
@@ -3125,10 +3120,6 @@
   {
     "type": "num_lit",
     "named": true
-  },
-  {
-    "type": "true",
-    "named": false
   },
   {
     "type": "{",

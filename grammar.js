@@ -30,8 +30,14 @@
 //   U+001E
 // Unit Separator
 //   U+001F
-const WHITESPACE =
+const WHITESPACE_CHAR =
       /[\f\n\r\t, \u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
+
+const WHITESPACE =
+      token(repeat1(WHITESPACE_CHAR));
+
+const COMMENT =
+      token(/(;|#!).*\n?/);
 
 const DIGIT =
       /[0-9]/;
@@ -90,6 +96,13 @@ const NUMBER =
                        RATIO,
                        DOUBLE,
                        INTEGER))));
+
+const NIL =
+      token('nil');
+
+const BOOLEAN =
+      token(choice('false',
+                   'true'));
 
 const KEYWORD_HEAD =
       /[^\f\n\r\t ()\[\]{}"@~^;`\\,:/\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
@@ -202,10 +215,10 @@ module.exports = grammar({
              $.dis_expr),
 
     _ws: $ =>
-      token(repeat1(WHITESPACE)),
+      WHITESPACE,
 
     comment: $ =>
-      token(/(;|#!).*\n?/),
+      COMMENT,
 
     dis_expr: $ =>
       seq(field('marker', "#_"),
@@ -309,11 +322,10 @@ module.exports = grammar({
       CHARACTER,
 
     nil_lit: $ =>
-      'nil',
+      NIL,
 
     bool_lit: $ =>
-      choice('false',
-             'true'),
+      BOOLEAN,
 
     sym_lit: $ =>
       seq(repeat($._metadata_lit),
