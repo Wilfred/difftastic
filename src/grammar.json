@@ -2416,6 +2416,10 @@
         ]
       }
     },
+    "nullary_constructor_argument_pattern": {
+      "type": "SYMBOL",
+      "name": "upper_case_qid"
+    },
     "_union_argument_pattern": {
       "type": "CHOICE",
       "members": [
@@ -2433,7 +2437,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "upper_case_qid"
+          "name": "nullary_constructor_argument_pattern"
         },
         {
           "type": "SYMBOL",
