@@ -2413,7 +2413,7 @@
     "named": true,
     "fields": {
       "designator": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
