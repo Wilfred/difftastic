@@ -119,7 +119,7 @@
             "name": "condition",
             "content": {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "_expression"
             }
           },
           {
@@ -327,7 +327,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "_argument"
           },
           {
             "type": "SEQ",
@@ -341,7 +341,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "_expression"
+                    "name": "_argument"
                   },
                   {
                     "type": "BLANK"
@@ -352,6 +352,56 @@
           }
         ]
       }
+    },
+    "_argument": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        },
+        {
+          "type": "PREC_LEFT",
+          "value": 14,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "name",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                }
+              },
+              {
+                "type": "STRING",
+                "value": "="
+              },
+              {
+                "type": "FIELD",
+                "name": "value",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_expression"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     "call": {
       "type": "PREC",

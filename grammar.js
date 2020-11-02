@@ -49,7 +49,7 @@ module.exports = grammar({
     while: $ => prec.right(seq(
       'while',
       '(',
-      field('condition', $.identifier),
+      field('condition', $._expression),
       ')',
       field('body', $._expression)
     )),
@@ -92,10 +92,18 @@ module.exports = grammar({
 
     arguments: $ => repeat1(
       choice(
-        $._expression,
-        seq(',', optional($._expression))
+        $._argument,
+        seq(',', optional($._argument))
       )
     ),
+
+    _argument: $ => choice(
+      field('value', $._expression),
+      prec.left(PREC.CALL + 1, seq(
+        field('name', $.identifier),
+        '=',
+        field('value', optional($._expression))
+    ))),
 
     call: $ => prec(PREC.CALL, seq(
       field('function', $._expression),
