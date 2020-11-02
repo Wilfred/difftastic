@@ -26,7 +26,8 @@ module.exports = grammar(C, {
     [$._expression, $._declarator, $._type_specifier],
     [$.parameter_list, $.argument_list],
     [$._type_specifier, $.call_expression],
-    [$._declaration_specifiers, $.operator_cast_definition, $.constructor_or_destructor_definition],
+    [$._declaration_specifiers, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
+    [$._declaration_specifiers, $._constructor_specifiers],
   ]),
 
   inline: ($, original) => original.concat([
@@ -209,7 +210,9 @@ module.exports = grammar(C, {
         $.declaration,
         $.template_declaration,
         $.function_definition,
+        alias($.constructor_or_destructor_declaration, $.declaration),
         alias($.constructor_or_destructor_definition, $.function_definition),
+        alias($.operator_cast_declaration, $.declaration),
         alias($.operator_cast_definition, $.function_definition),
       )
     ),
@@ -385,16 +388,19 @@ module.exports = grammar(C, {
       )
     ),
 
-    operator_cast_definition: $ => seq(
-      repeat(choice(
+    _constructor_specifiers: $ => repeat1(
+      prec.right(choice(
         $.storage_class_specifier,
         $.type_qualifier,
-        $.attribute_specifier
-      )),
-      prec(1, seq(
-        optional(choice($.virtual_function_specifier, $.explicit_function_specifier)),
-        field('declarator', $.operator_cast),
-      )),
+        $.attribute_specifier,
+        $.virtual_function_specifier,
+        $.explicit_function_specifier
+      ))
+    ),
+
+    operator_cast_definition: $ => seq(
+      optional($._constructor_specifiers),
+      field('declarator', $.operator_cast),
       choice(
         field('body', $.compound_statement),
         $.default_method_clause,
@@ -402,24 +408,17 @@ module.exports = grammar(C, {
       )
     ),
 
-    operator_cast_declaration: $ => seq(
-      optional(choice($.virtual_function_specifier, $.explicit_function_specifier)),
+    operator_cast_declaration: $ => prec(1, seq(
+      optional($._constructor_specifiers),
       field('declarator', $.operator_cast),
       optional(seq('=', field('default_value', $._expression))),
       ';'
-    ),
+    )),
 
     constructor_or_destructor_definition: $ => seq(
-      repeat(choice(
-        $.storage_class_specifier,
-        $.type_qualifier,
-        $.attribute_specifier
-      )),
-      prec(1, seq(
-        optional(choice($.virtual_function_specifier, $.explicit_function_specifier)),
-        field('declarator', $.function_declarator),
-        optional($.field_initializer_list)
-      )),
+      optional($._constructor_specifiers),
+      field('declarator', $.function_declarator),
+      optional($.field_initializer_list),
       choice(
         field('body', $.compound_statement),
         $.default_method_clause,
@@ -428,7 +427,7 @@ module.exports = grammar(C, {
     ),
 
     constructor_or_destructor_declaration: $ => seq(
-      optional(choice($.virtual_function_specifier, $.explicit_function_specifier)),
+      optional($._constructor_specifiers),
       field('declarator', $.function_declarator),
       ';'
     ),

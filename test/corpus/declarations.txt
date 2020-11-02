@@ -232,6 +232,10 @@ class C {
  public:
   C();
   C(int, float);
+  inline C();
+  explicit inline C();
+  template <typename T>
+  C(T t);
   ~C();
 };
 
@@ -245,6 +249,10 @@ class C {
     (declaration (function_declarator (identifier) (parameter_list
       (parameter_declaration (primitive_type))
       (parameter_declaration (primitive_type)))))
+    (declaration (storage_class_specifier) (function_declarator (identifier) (parameter_list)))
+    (declaration (explicit_function_specifier) (storage_class_specifier) (function_declarator (identifier) (parameter_list)))
+    (template_declaration (template_parameter_list (type_parameter_declaration (type_identifier)))
+      (declaration (function_declarator (identifier) (parameter_list (parameter_declaration (type_identifier) (identifier))))))
     (declaration (function_declarator (destructor_name (identifier)) (parameter_list))))))
 
 =========================================
@@ -1009,7 +1017,8 @@ operator B&();
 operator auto() const;
 virtual operator A() = 0;
 A::B::operator C();
-
+template <typename T>
+operator T*();
 ---
 
 (translation_unit
@@ -1039,4 +1048,9 @@ A::B::operator C();
   (declaration
     (operator_cast
       (scoped_namespace_identifier (namespace_identifier) (namespace_identifier))
-      (type_identifier) (abstract_function_declarator (parameter_list)))))
+      (type_identifier) (abstract_function_declarator (parameter_list))))
+  (template_declaration
+    (template_parameter_list (type_parameter_declaration (type_identifier)))
+    (declaration (operator_cast
+      (type_identifier)
+      (abstract_pointer_declarator (abstract_function_declarator (parameter_list)))))))
