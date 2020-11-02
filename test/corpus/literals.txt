@@ -9,8 +9,6 @@ foo_bar
 `a "literal"`
 `another
 literal \` foo`
-
-# 0foo not working for now
 _foo
 
 
@@ -24,7 +22,6 @@ _foo
  (identifier)
  (identifier)
  (identifier (escape_sequence))
- (comment)
  (ERROR (UNEXPECTED '_')))
 
 ============================================
@@ -64,21 +61,6 @@ Comments
  (string))
 
 ========
-Integers
-========
-
-12332
-0
-12L
-
----
-
-(program
-  (integer)
-  (integer)
-  (integer))
-
-========
 Constants
 ========
 
@@ -104,3 +86,61 @@ NA_complex_
   (na)
   (na)
   (na))
+
+========
+Integers
+========
+
+12332L
+0L
+12L
+0xDEADL
+
+---
+
+(program
+  (integer)
+  (integer)
+  (integer)
+  (integer))
+
+======
+Floats
+======
+
+.66
+.11
+123.4123
+.1234
+x <- -.66
+
+---
+
+(program
+  (float)
+  (float)
+  (float)
+  (float)
+
+(left_assignment (identifier) (unary (float))))
+
+=====================================
+Scientific Notation Floats
+=====================================
+
+1e322
+1e-3
+1e+3
+1.8e10
+1.e10
+1e10
+
+---
+
+(program
+  (float)
+  (float)
+  (float)
+  (float)
+  (float)
+  (float))

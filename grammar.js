@@ -12,7 +12,8 @@ const PREC = {
   DOLLAR: 11,
   NS_GET: 12,
   CALL: 13,
-  SUBSET: 14
+  SUBSET: 14,
+  FLOAT: 15
 }
 
 module.exports = grammar({
@@ -238,6 +239,7 @@ module.exports = grammar({
     _expression: $ => choice(
       $.identifier,
       $.integer,
+      $.float,
       $.string,
       $.call,
       $.function_definition,
@@ -278,7 +280,34 @@ module.exports = grammar({
       )
     ),
 
-    integer: $ => /\d+L?/,
+    integer: $ => token(prec(PREC.FLOAT+1,
+      seq(
+        choice(
+          seq(
+            choice('0x', '0X'),
+            /[A-Fa-f0-9]+/
+          ),
+          /\d+/
+        ),
+        'L'
+      ))),
+
+    float: $ => {
+      const digits = repeat1(/[0-9]/);
+      const exponent = seq(/[eE][\+-]?/, digits)
+
+      return token(prec.left(PREC.FLOAT,
+        choice(
+          seq(digits, optional('.'), optional(digits), optional(exponent)),
+          seq(optional(digits), '.', digits, optional(exponent)),
+          seq(digits, exponent),
+          seq(
+            choice('0x', '0X'),
+            /[A-Fa-f0-9]+/
+          )
+        )
+      ))
+    },
 
     comment: $ => seq('#', /.*/),
 
