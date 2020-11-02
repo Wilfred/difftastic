@@ -606,12 +606,15 @@ module.exports = grammar({
         )
       ),
 
+    nullary_constructor_argument_pattern: ($) =>
+          $.upper_case_qid,
+
     _union_argument_pattern: ($) =>
       choice(
         $.anything_pattern,
         $.lower_pattern,
         $.tuple_pattern,
-        $.upper_case_qid,
+        $.nullary_constructor_argument_pattern,
         $.unit_expr,
         $.list_pattern,
         $.record_pattern,
