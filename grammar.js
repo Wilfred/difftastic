@@ -812,7 +812,7 @@ module.exports = grammar({
     heredoc_body: $ => seq(
       $._heredoc_body_start,
       repeat(choice(
-        $._heredoc_content,
+        alias($._heredoc_content, $.heredoc_content),
         $.interpolation,
         $.escape_sequence
       )),
@@ -820,7 +820,7 @@ module.exports = grammar({
     ),
 
     _literal_contents: $ => repeat1(choice(
-      $._string_content,
+      alias($._string_content, $.string_content),
       $.interpolation,
       $.escape_sequence
     )),
