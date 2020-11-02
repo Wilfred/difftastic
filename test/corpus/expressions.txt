@@ -120,28 +120,26 @@ val <- foo %>% bar(1) %>% baz()
     (binary (identifier) (identifier))
     (binary (identifier) (identifier)))
 
-  (assignment
-   (left_assignment
-    name: (subset (identifier) (arguments value: (integer)))
-    value: (binary (identifier) (identifier))))
+  (left_assignment
+   name: (subset (identifier) (arguments value: (integer)))
+   value: (binary (identifier) (identifier)))
 
   (binary
      (binary (identifier) (call function: (identifier) arguments: (arguments value: (identifier))))
      (identifier))
 
-  (assignment
-    (left_assignment
-     name: (identifier)
-     value: (binary
-       (binary
-        (identifier)
-        (special)
-        (call
-         function: (identifier)
-         arguments: (arguments value: (integer))))
-       (special)
-       (call
-        function: (identifier))))))
+  (left_assignment
+   name: (identifier)
+   value: (binary
+     (binary
+      (identifier)
+      (special)
+      (call
+       function: (identifier)
+       arguments: (arguments value: (integer))))
+     (special)
+     (call
+      function: (identifier)))))
 
 ========
 Specials
@@ -288,7 +286,7 @@ while(TRUE)
 
   (while
     condition: (binary (identifier) (integer))
-    body: (assignment (left_assignment name: (identifier) value: (binary (identifier) (integer)))))
+    body: (left_assignment name: (identifier) value: (binary (identifier) (integer))))
 
   (while
     condition: (true)
@@ -343,35 +341,29 @@ y(1) -> x
 ---
 
 (program
- (assignment
   (left_assignment
     name: (identifier)
-    value: (integer)))
+    value: (integer))
 
- (assignment
   (equals_assignment
     name: (identifier)
-    value: (integer)))
+    value: (integer))
 
- (assignment
   (super_assignment
    name: (identifier)
-   value: (integer)))
+   value: (integer))
 
- (assignment
   (right_assignment
    value: (integer)
-   name: (identifier)))
+   name: (identifier))
 
- (assignment
   (left_assignment
    name: (identifier)
-   value: (call function: (identifier) arguments: (arguments value: (integer)))))
+   value: (call function: (identifier) arguments: (arguments value: (integer))))
 
- (assignment
   (right_assignment
    value: (call function: (identifier) arguments: (arguments value: (integer)))
-   name: (identifier))))
+   name: (identifier)))
 
 =====
 calls

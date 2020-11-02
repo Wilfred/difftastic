@@ -22,10 +22,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -43,6 +39,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -71,6 +71,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -106,6 +110,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -115,6 +123,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -134,33 +146,6 @@
     }
   },
   {
-    "type": "assignment",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "equals_assignment",
-          "named": true
-        },
-        {
-          "type": "left_assignment",
-          "named": true
-        },
-        {
-          "type": "right_assignment",
-          "named": true
-        },
-        {
-          "type": "super_assignment",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "binary",
     "named": true,
     "fields": {},
@@ -168,10 +153,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
         {
           "type": "binary",
           "named": true
@@ -190,6 +171,10 @@
         },
         {
           "type": "dots",
+          "named": true
+        },
+        {
+          "type": "equals_assignment",
           "named": true
         },
         {
@@ -218,6 +203,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
           "named": true
         },
         {
@@ -253,6 +242,10 @@
           "named": true
         },
         {
+          "type": "right_assignment",
+          "named": true
+        },
+        {
           "type": "special",
           "named": true
         },
@@ -266,6 +259,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "super_assignment",
           "named": true
         },
         {
@@ -292,10 +289,6 @@
       "required": false,
       "types": [
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
           "type": "binary",
           "named": true
         },
@@ -313,6 +306,10 @@
         },
         {
           "type": "dots",
+          "named": true
+        },
+        {
+          "type": "equals_assignment",
           "named": true
         },
         {
@@ -341,6 +338,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
           "named": true
         },
         {
@@ -376,6 +377,10 @@
           "named": true
         },
         {
+          "type": "right_assignment",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -385,6 +390,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "super_assignment",
           "named": true
         },
         {
@@ -425,10 +434,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -446,6 +451,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -474,6 +483,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -509,6 +522,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -518,6 +535,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -549,10 +570,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -570,6 +587,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -598,6 +619,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -633,6 +658,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -642,6 +671,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -667,10 +700,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -688,6 +717,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -716,6 +749,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -751,6 +788,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -760,6 +801,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -791,10 +836,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -812,6 +853,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -840,6 +885,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -875,6 +924,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -884,6 +937,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -919,10 +976,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -940,6 +993,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -968,6 +1025,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -1003,6 +1064,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -1012,6 +1077,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -1039,10 +1108,6 @@
       "required": false,
       "types": [
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
           "type": "binary",
           "named": true
         },
@@ -1060,6 +1125,10 @@
         },
         {
           "type": "dots",
+          "named": true
+        },
+        {
+          "type": "equals_assignment",
           "named": true
         },
         {
@@ -1088,6 +1157,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
           "named": true
         },
         {
@@ -1123,6 +1196,10 @@
           "named": true
         },
         {
+          "type": "right_assignment",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1132,6 +1209,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "super_assignment",
           "named": true
         },
         {
@@ -1158,10 +1239,6 @@
       "required": true,
       "types": [
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
           "type": "binary",
           "named": true
         },
@@ -1179,6 +1256,10 @@
         },
         {
           "type": "dots",
+          "named": true
+        },
+        {
+          "type": "equals_assignment",
           "named": true
         },
         {
@@ -1214,6 +1295,10 @@
           "named": true
         },
         {
+          "type": "left_assignment",
+          "named": true
+        },
+        {
           "type": "na",
           "named": true
         },
@@ -1246,6 +1331,10 @@
           "named": true
         },
         {
+          "type": "right_assignment",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1255,6 +1344,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "super_assignment",
           "named": true
         },
         {
@@ -1300,10 +1393,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -1326,6 +1415,10 @@
           {
             "type": "else",
             "named": false
+          },
+          {
+            "type": "equals_assignment",
+            "named": true
           },
           {
             "type": "false",
@@ -1353,6 +1446,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -1388,6 +1485,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -1397,6 +1498,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -1422,10 +1527,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -1443,6 +1544,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -1471,6 +1576,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -1506,6 +1615,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -1515,6 +1628,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -1540,10 +1657,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -1561,6 +1674,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -1589,6 +1706,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -1624,6 +1745,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -1633,6 +1758,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -1664,10 +1793,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -1685,6 +1810,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -1713,6 +1842,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -1748,6 +1881,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -1757,6 +1894,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -1782,10 +1923,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -1803,6 +1940,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -1831,6 +1972,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -1866,6 +2011,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -1875,6 +2024,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -1933,10 +2086,6 @@
       "required": false,
       "types": [
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
           "type": "binary",
           "named": true
         },
@@ -1954,6 +2103,10 @@
         },
         {
           "type": "dots",
+          "named": true
+        },
+        {
+          "type": "equals_assignment",
           "named": true
         },
         {
@@ -1982,6 +2135,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
           "named": true
         },
         {
@@ -2017,6 +2174,10 @@
           "named": true
         },
         {
+          "type": "right_assignment",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -2026,6 +2187,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "super_assignment",
           "named": true
         },
         {
@@ -2052,10 +2217,6 @@
       "required": false,
       "types": [
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
           "type": "binary",
           "named": true
         },
@@ -2073,6 +2234,10 @@
         },
         {
           "type": "dots",
+          "named": true
+        },
+        {
+          "type": "equals_assignment",
           "named": true
         },
         {
@@ -2101,6 +2266,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
           "named": true
         },
         {
@@ -2136,6 +2305,10 @@
           "named": true
         },
         {
+          "type": "right_assignment",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -2145,6 +2318,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "super_assignment",
           "named": true
         },
         {
@@ -2175,10 +2352,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -2196,6 +2369,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -2224,6 +2401,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -2259,6 +2440,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -2268,6 +2453,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -2295,10 +2484,6 @@
       "required": false,
       "types": [
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
           "type": "binary",
           "named": true
         },
@@ -2316,6 +2501,10 @@
         },
         {
           "type": "dots",
+          "named": true
+        },
+        {
+          "type": "equals_assignment",
           "named": true
         },
         {
@@ -2344,6 +2533,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
           "named": true
         },
         {
@@ -2379,6 +2572,10 @@
           "named": true
         },
         {
+          "type": "right_assignment",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -2388,6 +2585,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "super_assignment",
           "named": true
         },
         {
@@ -2418,10 +2619,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -2439,6 +2636,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -2467,6 +2668,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -2502,6 +2707,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -2511,6 +2720,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -2536,10 +2749,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -2557,6 +2766,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -2585,6 +2798,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -2620,6 +2837,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -2629,6 +2850,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -2690,10 +2915,6 @@
           "named": true
         },
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
           "type": "binary",
           "named": true
         },
@@ -2711,6 +2932,10 @@
         },
         {
           "type": "dots",
+          "named": true
+        },
+        {
+          "type": "equals_assignment",
           "named": true
         },
         {
@@ -2739,6 +2964,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
           "named": true
         },
         {
@@ -2774,6 +3003,10 @@
           "named": true
         },
         {
+          "type": "right_assignment",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -2783,6 +3016,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "super_assignment",
           "named": true
         },
         {
@@ -2813,10 +3050,6 @@
           "named": true
         },
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
           "type": "binary",
           "named": true
         },
@@ -2834,6 +3067,10 @@
         },
         {
           "type": "dots",
+          "named": true
+        },
+        {
+          "type": "equals_assignment",
           "named": true
         },
         {
@@ -2862,6 +3099,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
           "named": true
         },
         {
@@ -2897,6 +3138,10 @@
           "named": true
         },
         {
+          "type": "right_assignment",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -2906,6 +3151,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "super_assignment",
           "named": true
         },
         {
@@ -2936,10 +3185,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -2957,6 +3202,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -2985,6 +3234,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -3020,6 +3273,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -3029,6 +3286,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -3054,10 +3315,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -3075,6 +3332,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -3103,6 +3364,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -3138,6 +3403,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -3147,6 +3416,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -3174,10 +3447,6 @@
       "required": false,
       "types": [
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
           "type": "binary",
           "named": true
         },
@@ -3195,6 +3464,10 @@
         },
         {
           "type": "dots",
+          "named": true
+        },
+        {
+          "type": "equals_assignment",
           "named": true
         },
         {
@@ -3223,6 +3496,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
           "named": true
         },
         {
@@ -3258,6 +3535,10 @@
           "named": true
         },
         {
+          "type": "right_assignment",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -3267,6 +3548,10 @@
         },
         {
           "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "super_assignment",
           "named": true
         },
         {
@@ -3297,10 +3582,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -3318,6 +3599,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -3346,6 +3631,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -3381,6 +3670,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -3390,6 +3683,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {
@@ -3415,10 +3712,6 @@
             "named": false
           },
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -3436,6 +3729,10 @@
           },
           {
             "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
             "named": true
           },
           {
@@ -3464,6 +3761,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
             "named": true
           },
           {
@@ -3499,6 +3800,10 @@
             "named": true
           },
           {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -3508,6 +3813,10 @@
           },
           {
             "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
             "named": true
           },
           {

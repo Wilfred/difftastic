@@ -444,7 +444,7 @@
         ]
       }
     },
-    "assignment": {
+    "_assignment": {
       "type": "CHOICE",
       "members": [
         {
@@ -1229,7 +1229,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "assignment"
+          "name": "_assignment"
         },
         {
           "type": "SYMBOL",

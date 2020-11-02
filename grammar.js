@@ -112,7 +112,7 @@ module.exports = grammar({
       ')'
     )),
 
-    assignment: $ => choice(
+    _assignment: $ => choice(
       $.equals_assignment,
       $.left_assignment,
       $.right_assignment,
@@ -241,7 +241,7 @@ module.exports = grammar({
       $.string,
       $.call,
       $.function_definition,
-      $.assignment,
+      $._assignment,
       $.brace_list,
       $.paren_list,
       $.binary,
