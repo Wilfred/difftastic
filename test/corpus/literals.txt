@@ -112,11 +112,13 @@ Floats
 .11
 123.4123
 .1234
+0xDEAD
 x <- -.66
 
 ---
 
 (program
+  (float)
   (float)
   (float)
   (float)
