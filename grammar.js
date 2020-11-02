@@ -104,22 +104,40 @@ module.exports = grammar({
       ')'
     )),
 
-    assignment: $ => prec.right(PREC.ASSIGN, choice(
+    assignment: $ => choice(
+      $.equals_assignment,
+      $.left_assignment,
+      $.right_assignment,
+      $.super_assignment
+    ),
+
+    left_assignment: $ => prec.right(PREC.ASSIGN,
       seq(
-        field('left', $._expression),
-        choice(
-          '=',
-          '<-',
-          '<<-'
-        ),
-        field('right', $._expression)
-      ),
-      prec.left(PREC.ASSIGN,
+        field('name', $._expression),
+        '<-',
+        field('value', $._expression)
+    )),
+
+    equals_assignment: $ => prec.right(PREC.ASSIGN,
       seq(
-        field('right', $._expression),
+        field('name', $._expression),
+        '=',
+        field('value', $._expression)
+    )),
+
+    super_assignment: $ => prec.right(PREC.ASSIGN,
+      seq(
+        field('name', $._expression),
+        '<<-',
+      field('value', $._expression)
+    )),
+
+    right_assignment: $ => prec.left(PREC.ASSIGN,
+      seq(
+        field('value', $._expression),
         '->',
-        field('left', $._expression)
-      )))),
+      field('name', $._expression)
+    )),
 
     brace_list: $ => seq(
       '{',

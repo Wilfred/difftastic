@@ -121,25 +121,27 @@ val <- foo %>% bar(1) %>% baz()
     (binary (identifier) (identifier)))
 
   (assignment
-    left: (subset (identifier) (arguments (integer)))
-    right: (binary (identifier) (identifier)))
+   (left_assignment
+    name: (subset (identifier) (arguments (integer)))
+    value: (binary (identifier) (identifier))))
 
   (binary
      (binary (identifier) (call function: (identifier) arguments: (arguments (identifier))))
      (identifier))
 
   (assignment
-    left: (identifier)
-    right: (binary
-      (binary
+    (left_assignment
+     name: (identifier)
+     value: (binary
+       (binary
         (identifier)
         (special)
         (call
-          function: (identifier)
-          arguments: (arguments (integer))))
-      (special)
-      (call
-        function: (identifier)))))
+         function: (identifier)
+         arguments: (arguments (integer))))
+       (special)
+       (call
+        function: (identifier))))))
 
 ========
 Specials
@@ -332,6 +334,7 @@ Assignment
 ==========
 
 x <- 1
+x = 1
 x <<- 1
 1 -> x
 x <- y(1)
@@ -341,21 +344,31 @@ y(1) -> x
 
 (program
  (assignment
-  left: (identifier)
-  right: (integer))
+  (left_assignment
+    name: (identifier)
+    value: (integer)))
 
  (assignment
-  left: (identifier)
-  right: (integer))
+  (equals_assignment
+    name: (identifier)
+    value: (integer)))
 
  (assignment
-  right: (integer)
-  left: (identifier))
+  (super_assignment
+   name: (identifier)
+   value: (integer)))
 
  (assignment
-  left: (identifier)
-  right: (call function: (identifier) arguments: (arguments (integer))))
+  (right_assignment
+   value: (integer)
+   name: (identifier)))
 
  (assignment
-  right: (call function: (identifier) arguments: (arguments (integer)))
-  left: (identifier)))
+  (left_assignment
+   name: (identifier)
+   value: (call function: (identifier) arguments: (arguments (integer)))))
+
+ (assignment
+  (right_assignment
+   value: (call function: (identifier) arguments: (arguments (integer)))
+   name: (identifier))))
