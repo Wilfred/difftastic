@@ -346,7 +346,7 @@ module.exports = grammar({
 
     else: $ => seq(
       'else',
-      field('condition', optional($._terminator)),
+      optional($._terminator),
       optional($._statements)
     ),
 
