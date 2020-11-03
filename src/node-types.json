@@ -1554,6 +1554,29 @@
     }
   },
   {
+    "type": "heredoc_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "heredoc_end",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "if",
     "named": true,
     "fields": {
@@ -3341,6 +3364,10 @@
   },
   {
     "type": "class_variable",
+    "named": true
+  },
+  {
+    "type": "comment",
     "named": true
   },
   {
