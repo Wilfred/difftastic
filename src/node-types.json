@@ -587,7 +587,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "escape_sequence",
@@ -595,6 +595,10 @@
         },
         {
           "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "string_content",
           "named": true
         }
       ]
@@ -606,7 +610,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "escape_sequence",
@@ -614,6 +618,10 @@
         },
         {
           "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "string_content",
           "named": true
         }
       ]
@@ -1566,6 +1574,10 @@
           "named": true
         },
         {
+          "type": "heredoc_content",
+          "named": true
+        },
+        {
           "type": "heredoc_end",
           "named": true
         },
@@ -2250,6 +2262,10 @@
         {
           "type": "interpolation",
           "named": true
+        },
+        {
+          "type": "string_content",
+          "named": true
         }
       ]
     }
@@ -2603,6 +2619,10 @@
         {
           "type": "interpolation",
           "named": true
+        },
+        {
+          "type": "string_content",
+          "named": true
         }
       ]
     }
@@ -2636,6 +2656,10 @@
         },
         {
           "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "string_content",
           "named": true
         }
       ]
@@ -2694,6 +2718,10 @@
         },
         {
           "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "string_content",
           "named": true
         }
       ]
@@ -3431,6 +3459,10 @@
     "named": true
   },
   {
+    "type": "heredoc_content",
+    "named": true
+  },
+  {
     "type": "heredoc_end",
     "named": true
   },
@@ -3496,6 +3528,10 @@
   },
   {
     "type": "self",
+    "named": true
+  },
+  {
+    "type": "string_content",
     "named": true
   },
   {
