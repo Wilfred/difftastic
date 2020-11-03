@@ -36,7 +36,8 @@ end block;
 (design_file
   (label)
   (block_statement
-    guard_condition: (simple_name)))
+    guard: (condition
+      (simple_name))))
 
 ==============================
 Block header - Generic clause
@@ -173,5 +174,5 @@ end block;
   (block_statement
     (block_statement_part
       (label)
-      (concurrent_procedure_call_statement
+      (procedure_call_statement
         (simple_name)))))

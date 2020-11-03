@@ -16,7 +16,7 @@ t <= w1 when c1;
       value: (simple_name)
       (condition (simple_name))))
   (label)
-  (concurrent_conditional_signal_assignment
+  (conditional_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveform_element
@@ -50,7 +50,7 @@ t <= w1 when c1 else
       (alternative_conditional_expression
         value: (simple_name))))
   (label)
-  (concurrent_conditional_signal_assignment
+  (conditional_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveform_element
@@ -120,7 +120,7 @@ t <= inertial e when c1;
 
 (design_file
   (label)
-  (concurrent_conditional_signal_assignment
+  (conditional_signal_assignment
     target: (simple_name)
     (delay_mechanism (transport))
     (conditional_waveforms
@@ -129,7 +129,7 @@ t <= inertial e when c1;
       (condition
         (simple_name))))
   (label)
-  (concurrent_conditional_signal_assignment
+  (conditional_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (reject
@@ -142,7 +142,7 @@ t <= inertial e when c1;
       (condition
         (simple_name))))
   (label)
-  (concurrent_conditional_signal_assignment
+  (conditional_signal_assignment
     target: (simple_name)
     (delay_mechanism (inertial))
     (conditional_waveforms

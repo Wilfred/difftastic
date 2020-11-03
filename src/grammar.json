@@ -9,11 +9,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_labeled_concurrent_statement"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_labeled_sequential_statement"
+            "name": "_labeled_statement"
           },
           {
             "type": "SYMBOL",
@@ -336,7 +332,7 @@
       "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
-        "name": "_concurrent_statement_part"
+        "name": "sequence_of_statements"
       },
       "named": true,
       "value": "architecture_statement_part"
@@ -1701,7 +1697,7 @@
       "members": [
         {
           "type": "FIELD",
-          "name": "primary_unit_name",
+          "name": "unit_name",
           "content": {
             "type": "SYMBOL",
             "name": "identifier"
@@ -1718,7 +1714,7 @@
       "members": [
         {
           "type": "FIELD",
-          "name": "secondary_unit_name",
+          "name": "unit_name",
           "content": {
             "type": "SYMBOL",
             "name": "identifier"
@@ -2995,8 +2991,12 @@
                   }
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_file_open_kind_expression"
+                  "type": "FIELD",
+                  "name": "file_open_kind",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_file_open_kind_expression"
+                  }
                 }
               ]
             },
@@ -3017,26 +3017,22 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_file_logical_name"
+          "type": "FIELD",
+          "name": "file_logical_name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_file_logical_name"
+          }
         }
       ]
     },
     "_file_open_kind_expression": {
-      "type": "FIELD",
-      "name": "file_open_kind",
-      "content": {
-        "type": "SYMBOL",
-        "name": "_expression"
-      }
+      "type": "SYMBOL",
+      "name": "_expression"
     },
     "_file_logical_name": {
-      "type": "FIELD",
-      "name": "file_logical_name",
-      "content": {
-        "type": "SYMBOL",
-        "name": "_string_expression"
-      }
+      "type": "SYMBOL",
+      "name": "_string_expression"
     },
     "interface_type_declaration": {
       "type": "SEQ",
@@ -6329,10 +6325,10 @@
       "type": "REPEAT1",
       "content": {
         "type": "SYMBOL",
-        "name": "_labeled_sequential_statement"
+        "name": "_labeled_statement"
       }
     },
-    "_labeled_sequential_statement": {
+    "_labeled_statement": {
       "type": "SEQ",
       "members": [
         {
@@ -6348,12 +6344,21 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_sequential_statement"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_postponed_statement"
+            }
+          ]
         }
       ]
     },
-    "_sequential_statement": {
+    "_statement": {
       "type": "CHOICE",
       "members": [
         {
@@ -6366,11 +6371,43 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_signal_assignment_statement"
+          "name": "simple_signal_assignment"
         },
         {
           "type": "SYMBOL",
-          "name": "_variable_assignment_statement"
+          "name": "simple_force_assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "simple_release_assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "conditional_signal_assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "conditional_force_assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "selected_signal_assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "selected_force_assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "simple_variable_assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "conditional_variable_assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "selected_variable_assignment"
         },
         {
           "type": "SYMBOL",
@@ -6406,7 +6443,71 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_PSL_directive"
+          "name": "block_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "process_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "component_instantiation_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "for_generate_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "if_generate_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "case_generate_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "PSL_assertion_directive"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "PSL_assumption_directive"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "PSL_restriction_directive"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "PSL_coverage_directive"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "PSL_fairness_directive"
+        }
+      ]
+    },
+    "_postponed_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "PATTERN",
+              "value": "[pP][oO][sS][tT][pP][oO][nN][eE][dD]"
+            }
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "postponed",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_statement"
+          }
         }
       ]
     },
@@ -6640,41 +6741,7 @@
         }
       ]
     },
-    "_signal_assignment_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_simple_signal_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_conditional_signal_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_selected_signal_assignment"
-        }
-      ]
-    },
-    "_simple_signal_assignment": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "simple_waveform_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "simple_force_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "simple_release_assignment"
-        }
-      ]
-    },
-    "simple_waveform_assignment": {
+    "simple_signal_assignment": {
       "type": "SEQ",
       "members": [
         {
@@ -6684,6 +6751,18 @@
         {
           "type": "STRING",
           "value": "<="
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "guarded"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -7013,20 +7092,7 @@
         }
       ]
     },
-    "_conditional_signal_assignment": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "conditional_waveform_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "conditional_force_assignment"
-        }
-      ]
-    },
-    "conditional_waveform_assignment": {
+    "conditional_signal_assignment": {
       "type": "SEQ",
       "members": [
         {
@@ -7036,6 +7102,18 @@
         {
           "type": "STRING",
           "value": "<="
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "guarded"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -7277,20 +7355,7 @@
         "name": "_expression"
       }
     },
-    "_selected_signal_assignment": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "selected_waveform_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "selected_force_assignment"
-        }
-      ]
-    },
-    "selected_waveform_assignment": {
+    "selected_signal_assignment": {
       "type": "SEQ",
       "members": [
         {
@@ -7348,6 +7413,18 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "guarded"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
               "name": "delay_mechanism"
             },
             {
@@ -7364,6 +7441,17 @@
           "value": ";"
         }
       ]
+    },
+    "guarded": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[gG][uU][aA][rR][dD][eE][dD]"
+        }
+      }
     },
     "selected_waveforms": {
       "type": "SEQ",
@@ -7545,23 +7633,6 @@
         }
       ]
     },
-    "_variable_assignment_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "simple_variable_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "conditional_variable_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "selected_variable_assignment"
-        }
-      ]
-    },
     "simple_variable_assignment": {
       "type": "SEQ",
       "members": [
@@ -7672,17 +7743,21 @@
       ]
     },
     "procedure_call_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_name"
-        },
-        {
-          "type": "STRING",
-          "value": ";"
-        }
-      ]
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_name"
+          },
+          {
+            "type": "STRING",
+            "value": ";"
+          }
+        ]
+      }
     },
     "if_statement": {
       "type": "SEQ",
@@ -8340,166 +8415,6 @@
         }
       ]
     },
-    "_concurrent_statement_part": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "SYMBOL",
-        "name": "_labeled_concurrent_statement"
-      }
-    },
-    "_labeled_concurrent_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_label"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_postponed_concurrent_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_concurrent_statement"
-            }
-          ]
-        }
-      ]
-    },
-    "_concurrent_statement": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "block_statement"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "process_statement"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "concurrent_procedure_call_statement"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_concurrent_signal_assignment_statement"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "component_instantiation_statement"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_generate_statement"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_PSL_directive"
-          }
-        ]
-      }
-    },
-    "_postponed_concurrent_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "PREC",
-            "value": 1,
-            "content": {
-              "type": "PATTERN",
-              "value": "[pP][oO][sS][tT][pP][oO][nN][eE][dD]"
-            }
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "process_statement"
-              },
-              "named": true,
-              "value": "postponed_process_statement"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "concurrent_procedure_call_statement"
-              },
-              "named": true,
-              "value": "postponed_concurrent_procedure_call_statement"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "PSL_assertion_directive"
-              },
-              "named": true,
-              "value": "postponed_concurrent_assertion_statement"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "concurrent_simple_signal_assignment"
-              },
-              "named": true,
-              "value": "postponed_concurrent_simple_signal_assignment"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "concurrent_conditional_signal_assignment"
-              },
-              "named": true,
-              "value": "postponed_concurrent_conditional_signal_assignment"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "concurrent_selected_signal_assignment"
-              },
-              "named": true,
-              "value": "postponed_concurrent_selected_signal_assignment"
-            }
-          ]
-        }
-      ]
-    },
-    "postponed": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "PATTERN",
-          "value": "[pP][oO][sS][tT][pP][oO][nN][eE][dD]"
-        }
-      }
-    },
     "block_statement": {
       "type": "SEQ",
       "members": [
@@ -8525,8 +8440,12 @@
                   "value": "("
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_guard_condition"
+                  "type": "FIELD",
+                  "name": "guard",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_condition"
+                  }
                 },
                 {
                   "type": "STRING",
@@ -8645,14 +8564,6 @@
         }
       ]
     },
-    "_guard_condition": {
-      "type": "FIELD",
-      "name": "guard_condition",
-      "content": {
-        "type": "SYMBOL",
-        "name": "_expression"
-      }
-    },
     "_block_header": {
       "type": "ALIAS",
       "content": {
@@ -8673,7 +8584,7 @@
       "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
-        "name": "_concurrent_statement_part"
+        "name": "sequence_of_statements"
       },
       "named": true,
       "value": "block_statement_part"
@@ -8823,6 +8734,17 @@
         }
       ]
     },
+    "postponed": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[pP][oO][sS][tT][pP][oO][nN][eE][dD]"
+        }
+      }
+    },
     "_process_sensitivity_list": {
       "type": "ALIAS",
       "content": {
@@ -8847,240 +8769,6 @@
       },
       "named": true,
       "value": "process_statement_part"
-    },
-    "concurrent_procedure_call_statement": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_name"
-          },
-          {
-            "type": "STRING",
-            "value": ";"
-          }
-        ]
-      }
-    },
-    "_concurrent_signal_assignment_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "concurrent_simple_signal_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "concurrent_conditional_signal_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "concurrent_selected_signal_assignment"
-        }
-      ]
-    },
-    "concurrent_simple_signal_assignment": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_target"
-          },
-          {
-            "type": "STRING",
-            "value": "<="
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "guarded"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "delay_mechanism"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_waveform"
-          },
-          {
-            "type": "STRING",
-            "value": ";"
-          }
-        ]
-      }
-    },
-    "concurrent_conditional_signal_assignment": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_target"
-          },
-          {
-            "type": "STRING",
-            "value": "<="
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "guarded"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "delay_mechanism"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "conditional_waveforms"
-          },
-          {
-            "type": "STRING",
-            "value": ";"
-          }
-        ]
-      }
-    },
-    "concurrent_selected_signal_assignment": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "TOKEN",
-            "content": {
-              "type": "PREC",
-              "value": 1,
-              "content": {
-                "type": "PATTERN",
-                "value": "[wW][iI][tT][hH]"
-              }
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "expression",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_expression"
-            }
-          },
-          {
-            "type": "TOKEN",
-            "content": {
-              "type": "PREC",
-              "value": 1,
-              "content": {
-                "type": "PATTERN",
-                "value": "[sS][eE][lL][eE][cC][tT]"
-              }
-            }
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "?"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_target"
-          },
-          {
-            "type": "STRING",
-            "value": "<="
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "guarded"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "delay_mechanism"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "selected_waveforms"
-          },
-          {
-            "type": "STRING",
-            "value": ";"
-          }
-        ]
-      }
-    },
-    "guarded": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "PATTERN",
-          "value": "[gG][uU][aA][rR][dD][eE][dD]"
-        }
-      }
     },
     "component_instantiation_statement": {
       "type": "SEQ",
@@ -9230,23 +8918,6 @@
         {
           "type": "SYMBOL",
           "name": "_name"
-        }
-      ]
-    },
-    "_generate_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "for_generate_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "if_generate_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "case_generate_statement"
         }
       ]
     },
@@ -9721,11 +9392,16 @@
               }
             },
             {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_concurrent_statement_part"
-              }
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "sequence_of_statements"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             },
             {
               "type": "CHOICE",
@@ -9809,11 +9485,16 @@
               ]
             },
             {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_concurrent_statement_part"
-              }
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "sequence_of_statements"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             },
             {
               "type": "TOKEN",
@@ -9845,11 +9526,8 @@
           ]
         },
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_concurrent_statement_part"
-          }
+          "type": "SYMBOL",
+          "name": "sequence_of_statements"
         }
       ]
     },
@@ -10651,7 +10329,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_labeled_concurrent_statement"
+          "name": "_labeled_statement"
         }
       ]
     },
@@ -11001,31 +10679,6 @@
         {
           "type": "STRING",
           "value": ";"
-        }
-      ]
-    },
-    "_PSL_directive": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "PSL_assertion_directive"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "PSL_assumption_directive"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "PSL_restriction_directive"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "PSL_coverage_directive"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "PSL_fairness_directive"
         }
       ]
     },
@@ -13128,10 +12781,8 @@
     "_enumeration_literal",
     "_positional_element_association",
     "_numeric_literal",
-    "_concurrent_signal_assignment_statement",
     "_instantiated_unit",
     "_generate_parameter_specification",
-    "_generate_statement",
     "_abstract_literal",
     "_PSL_vunit_item",
     "_HDL_module_name",
@@ -13141,14 +12792,14 @@
     "_package_header",
     "_component_header",
     "_block_header",
-    "_file_open_kind_expression",
-    "_file_logical_name",
     "_sensitivity_clause",
     "_condition_clause",
     "_timeout_clause",
-    "_guard_condition",
+    "_file_open_kind_expression",
+    "_file_logical_name",
     "_severity",
     "_string_expression",
+    "_condition",
     "_architecture_identifier",
     "_package_simple_name",
     "_object_simple_name",
@@ -13171,14 +12822,11 @@
     "_signal_name"
   ],
   "supertypes": [
-    "_PSL_directive",
     "_PSL_declaration",
     "_PSL_fl_property",
     "_PSL_sequence",
     "_PSL_property",
     "_PSL_SERE",
-    "_sequential_statement",
-    "_concurrent_statement",
     "_declarative_item",
     "_name"
   ]

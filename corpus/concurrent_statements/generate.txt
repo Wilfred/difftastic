@@ -147,8 +147,9 @@ for i in r
       discrete_range: (subtype_indication
         type_mark: (simple_name)))
     (generate_statement_body
-      (label)
-      (block_statement)))
+      (sequence_of_statements
+        (label)
+        (block_statement))))
   (label)
   (for_generate_statement
     (generate_parameter_specification
@@ -156,8 +157,9 @@ for i in r
       discrete_range: (subtype_indication
         type_mark: (simple_name)))
     (generate_statement_body
-      (label)
-      (block_statement)))
+      (sequence_of_statements
+        (label)
+        (block_statement))))
   (label)
   (for_generate_statement
     (generate_parameter_specification
@@ -165,8 +167,9 @@ for i in r
       discrete_range: (subtype_indication
         type_mark: (simple_name)))
     (generate_statement_body
-      (label)
-      (block_statement))))
+      (sequence_of_statements
+        (label)
+        (block_statement)))))
 
 ====================================
 If generate - Minimal

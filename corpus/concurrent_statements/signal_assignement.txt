@@ -7,17 +7,17 @@ LS: t <= guarded w;
 ---
 
 (design_file
-  (concurrent_simple_signal_assignment
+  (simple_signal_assignment
     target: (simple_name)
     (waveform_element
       value: (simple_name)))
-  (concurrent_simple_signal_assignment
+  (simple_signal_assignment
     target: (simple_name)
     (guarded)
     (waveform_element
       value: (simple_name)))
   (label)
-  (concurrent_simple_signal_assignment
+  (simple_signal_assignment
     target: (simple_name)
     (guarded)
     (waveform_element
@@ -32,19 +32,19 @@ t <= guarded reject 10 ns inertial w;
 ---
 
 (design_file
-  (concurrent_simple_signal_assignment
+  (simple_signal_assignment
     target: (simple_name)
     (guarded)
     (delay_mechanism (transport))
     (waveform_element
       value: (simple_name)))
-  (concurrent_simple_signal_assignment
+  (simple_signal_assignment
     target: (simple_name)
     (guarded)
     (delay_mechanism (inertial))
     (waveform_element
       value: (simple_name)))
-  (concurrent_simple_signal_assignment
+  (simple_signal_assignment
     target: (simple_name)
     (guarded)
     (delay_mechanism
@@ -63,13 +63,13 @@ t <= guarded w when true;
 ---
 
 (design_file
-  (concurrent_conditional_signal_assignment
+  (conditional_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveform_element
         value: (simple_name))
       (condition (simple_name))))
-  (concurrent_conditional_signal_assignment
+  (conditional_signal_assignment
     target: (simple_name)
     (guarded)
     (conditional_waveforms
@@ -86,7 +86,7 @@ t <= guarded reject 10 ns inertial w when true;
 ---
 
 (design_file
-  (concurrent_conditional_signal_assignment
+  (conditional_signal_assignment
     target: (simple_name)
     (guarded)
     (delay_mechanism (transport))
@@ -94,7 +94,7 @@ t <= guarded reject 10 ns inertial w when true;
       (waveform_element
         value: (simple_name))
       (condition (simple_name))))
-  (concurrent_conditional_signal_assignment
+  (conditional_signal_assignment
     target: (simple_name)
     (guarded)
     (delay_mechanism (inertial))
@@ -102,7 +102,7 @@ t <= guarded reject 10 ns inertial w when true;
       (waveform_element
         value: (simple_name))
       (condition (simple_name))))
-  (concurrent_conditional_signal_assignment
+  (conditional_signal_assignment
     target: (simple_name)
     (guarded)
     (delay_mechanism (reject
@@ -131,7 +131,7 @@ postponed with e select
 ---
 
 (design_file
-  (concurrent_selected_signal_assignment
+  (selected_signal_assignment
     expression: (simple_name)
     target: (simple_name)
     (selected_waveforms
@@ -139,7 +139,7 @@ postponed with e select
         value: (simple_name))
       (choices
         (simple_name))))
-  (concurrent_selected_signal_assignment
+  (selected_signal_assignment
     expression: (simple_name)
     target: (simple_name)
     (guarded)
@@ -148,7 +148,7 @@ postponed with e select
         value: (simple_name))
       (choices
         (simple_name))))
-  (postponed_concurrent_selected_signal_assignment
+  postponed: (selected_signal_assignment
     expression: (simple_name)
     target: (simple_name)
     (selected_waveforms
@@ -156,7 +156,7 @@ postponed with e select
         value: (simple_name))
       (choices
         (simple_name))))
-  (postponed_concurrent_selected_signal_assignment
+  postponed: (selected_signal_assignment
     expression: (simple_name)
     target: (simple_name)
     (guarded)
@@ -180,7 +180,7 @@ with e select
 ---
 
 (design_file
-  (concurrent_selected_signal_assignment
+  (selected_signal_assignment
     expression: (simple_name)
     target: (simple_name)
     (delay_mechanism (transport))
@@ -189,7 +189,7 @@ with e select
         value: (simple_name))
       (choices
         (simple_name))))
-  (concurrent_selected_signal_assignment
+  (selected_signal_assignment
     expression: (simple_name)
     target: (simple_name)
     (delay_mechanism (inertial))
@@ -198,7 +198,7 @@ with e select
         value: (simple_name))
       (choices
         (simple_name))))
-  (concurrent_selected_signal_assignment
+  (selected_signal_assignment
     expression: (simple_name)
     target: (simple_name)
     (delay_mechanism
@@ -225,13 +225,13 @@ L3: postponed with e select
 
 (design_file
   (label)
-  (postponed_concurrent_simple_signal_assignment
+  postponed: (simple_signal_assignment
     target: (simple_name)
     (guarded)
     (waveform_element
       value: (simple_name)))
   (label)
-  (postponed_concurrent_conditional_signal_assignment
+  postponed: (conditional_signal_assignment
     target: (simple_name)
     (guarded)
     (conditional_waveforms
@@ -240,7 +240,7 @@ L3: postponed with e select
       (condition
         (simple_name))))
   (label)
-  (postponed_concurrent_selected_signal_assignment
+  postponed: (selected_signal_assignment
     expression: (simple_name)
     target: (simple_name)
     (guarded)

@@ -15,7 +15,7 @@ LN: foo.bar;
 
 (design_file
   (label)
-  (concurrent_procedure_call_statement
+  (procedure_call_statement
     (selected_name
       prefix: (simple_name)
       suffix: (simple_name)))

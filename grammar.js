@@ -189,10 +189,8 @@ inline: $ => [ // {{{
     $._enumeration_literal,                    //  5.5.2
     $._positional_element_association,         //  9.3.3
     $._numeric_literal,                        //  9.3.2
-    $._concurrent_signal_assignment_statement, // 11.6
     $._instantiated_unit,                      // 11.7
     $._generate_parameter_specification,       // 11.8
-    $._generate_statement,                     // 11.8
     $._abstract_literal,                       // 15.5
 
     $._PSL_vunit_item,                         // PSL 7.2
@@ -207,15 +205,17 @@ inline: $ => [ // {{{
     $._component_header,                       // 6.8
     $._block_header,                           // 11.2
 
-    // expressions (for documentation purpose)
-    $._file_open_kind_expression,              //  6.4.2.4
-    $._file_logical_name,                      //  6.4.2.4
+    // clauses
     $._sensitivity_clause,                     // 10.2
     $._condition_clause,                       // 10.2
     $._timeout_clause,                         // 10.2
-    $._guard_condition,                        // 11.2
-    $._severity,                               // TODO
-    $._string_expression,                      // TODO
+
+    // expressions (for documentation purpose)
+    $._file_open_kind_expression,              //  6.4.2.4
+    $._file_logical_name,                      //  6.4.2.4
+    $._severity,                               //  9.1
+    $._string_expression,                      //  9.1
+    $._condition,                              // 10.8
 
     // identifier aliases
     $._architecture_identifier,                //  3.3
@@ -293,8 +293,7 @@ conflicts: $ => [ // {{{
 rules: {
 
     design_file: $ => repeat1(choice(
-        $._labeled_concurrent_statement,
-        $._labeled_sequential_statement,
+        $._labeled_statement,
         $._declarative_item,
         $.design_unit
     )),
@@ -360,7 +359,7 @@ rules: {
     ),
 
     _architecture_statement_part: $ => alias(
-        $._concurrent_statement_part,
+        $.sequence_of_statements,
         $.architecture_statement_part
     ),
 
@@ -695,12 +694,12 @@ rules: {
     ),
 
     _primary_unit_declaration: $ => seq(
-        field('primary_unit_name', $.identifier),
+        field('unit_name', $.identifier),
         ';'
     ),
 
     secondary_unit_declaration: $ => seq(
-        field('secondary_unit_name', $.identifier),
+        field('unit_name', $.identifier),
         '=',
         $.physical_literal,
         ';'
@@ -1066,21 +1065,15 @@ rules: {
     file_open_information: $ => seq(
         optional(seq(
             caseInsensitive('open'),
-            $._file_open_kind_expression,
+            field('file_open_kind', $._file_open_kind_expression)
         )),
         caseInsensitive('is'),
-        $._file_logical_name
+        field('file_logical_name', $._file_logical_name)
     ),
 
-    _file_open_kind_expression: $ => field(
-        'file_open_kind',
-        $._expression
-    ),
+    _file_open_kind_expression: $ => $._expression,
 
-    _file_logical_name: $ => field(
-        'file_logical_name',
-        $._string_expression
-    ),
+    _file_logical_name: $ =>  $._string_expression,
     // }}}
 
     // 6.5.3 Interface type declarations {{{
@@ -2004,22 +1997,33 @@ rules: {
     ),
     // }}}
 
-    // 10.1 Sequential statements {{{
+    // 10.1 Sequential and concurrent statements {{{
     sequence_of_statements: $ => repeat1(
-        $._labeled_sequential_statement
+        $._labeled_statement
     ),
 
-    _labeled_sequential_statement: $ => seq(
+    _labeled_statement: $ => seq(
         optional($._label),
-        $._sequential_statement,
+        choice(
+            $._statement,
+            $._postponed_statement,
+        ),
     ),
 
-    // LINT: PSL directive is only allowed on entity_statement_part
-    _sequential_statement: $ => choice(
+    // LINT: PSL directives, concurrent/sequential assignment
+    _statement: $ => choice(
         $.wait_statement,
         $.report_statement,
-        $._signal_assignment_statement,
-        $._variable_assignment_statement,
+        $.simple_signal_assignment,
+        $.simple_force_assignment,
+        $.simple_release_assignment,
+        $.conditional_signal_assignment,
+        $.conditional_force_assignment,
+        $.selected_signal_assignment,
+        $.selected_force_assignment,
+        $.simple_variable_assignment,
+        $.conditional_variable_assignment,
+        $.selected_variable_assignment,
         $.procedure_call_statement,
         $.if_statement,
         $.case_statement,
@@ -2028,7 +2032,26 @@ rules: {
         $.exit_statement,
         $.return_statement,
         $.null_statement,
-        $._PSL_directive
+        // CONCURRENT STATEMENTS
+        $.block_statement,
+        $.process_statement,
+        $.component_instantiation_statement,
+        // generate statement
+        $.for_generate_statement,
+        $.if_generate_statement,
+        $.case_generate_statement,
+        // PSL directives
+        $.PSL_assertion_directive,
+        $.PSL_assumption_directive,
+        $.PSL_restriction_directive,
+        $.PSL_coverage_directive,
+        $.PSL_fairness_directive,
+    ),
+
+    // LINT: Only a few statements can be posponed
+    _postponed_statement: $ => seq(
+        caseInsensitive('postponed'),
+        field('postponed', $._statement)
     ),
     // }}}
 
@@ -2095,24 +2118,12 @@ rules: {
     ),
     // }}}
 
-    // 10.5 Signal assignment statement {{{
-    _signal_assignment_statement: $ => choice(
-        $._simple_signal_assignment,
-        $._conditional_signal_assignment,
-        $._selected_signal_assignment,
-    ),
-    // }}}
-
     // 10.5.2 Simple signal assignments {{{
-    _simple_signal_assignment: $ => choice(
-        $.simple_waveform_assignment,
-        $.simple_force_assignment,
-        $.simple_release_assignment
-    ),
-
-    simple_waveform_assignment: $ => seq(
+    // LINT: guarded shall only appear on concurrent signal assignment
+    simple_signal_assignment: $ => seq(
         $._target,
         '<=',
+        optional($.guarded),
         optional($.delay_mechanism),
         $._waveform,
         ';'
@@ -2186,14 +2197,11 @@ rules: {
     // }}}
 
     // 10.5.3 Conditonal signal assignments {{{
-    _conditional_signal_assignment: $ => choice(
-        $.conditional_waveform_assignment,
-        $.conditional_force_assignment
-    ),
-
-    conditional_waveform_assignment: $ => seq(
+    // LINT: guarded shall only appear on concurrent statement
+    conditional_signal_assignment: $ => seq(
         $._target,
         '<=',
+        optional($.guarded),
         optional($.delay_mechanism),
         $.conditional_waveforms,
         ';'
@@ -2249,22 +2257,21 @@ rules: {
     // }}}
 
     // 10.5.4 Selected signal assignments {{{
-    _selected_signal_assignment: $ => choice(
-        $.selected_waveform_assignment,
-        $.selected_force_assignment
-    ),
-
-    selected_waveform_assignment: $ => seq(
+    // LINT: guarded can only appear on concurrent statement
+    selected_signal_assignment: $ => seq(
         caseInsensitive('with'),
         field('expression',$._expression),
         caseInsensitive('select'),
         optional('?'),
         $._target,
         '<=',
+        optional($.guarded),
         optional($.delay_mechanism),
         $.selected_waveforms,
         ';'
     ),
+
+    guarded: $ => caseInsensitive('guarded'),
 
     selected_waveforms: $ => seq(
         $._waveform,
@@ -2308,14 +2315,6 @@ rules: {
     ),
     // }}}
 
-    // 10.6 Variable assignment statement {{{
-    _variable_assignment_statement: $ => choice(
-        $.simple_variable_assignment,
-        $.conditional_variable_assignment,
-        $.selected_variable_assignment
-    ),
-    // }}}
-
     // 10.6.2 Simple variable assignments {{{
     simple_variable_assignment: $ => seq(
         $._target,
@@ -2348,10 +2347,10 @@ rules: {
     // }}}
 
     // 10.7 Procedure call statement {{{
-    procedure_call_statement: $ => seq(
+    procedure_call_statement: $ => prec(1,seq(
         $._name,
         ';'
-    ),
+    )),
     // }}}
 
     // 10.8 If statement {{{
@@ -2486,70 +2485,14 @@ rules: {
     ),
     // }}}
 
-    // 11.1 Concurrent statements {{{
-    // separate the labeled rule
-    _concurrent_statement_part: $ => repeat1(
-        $._labeled_concurrent_statement
-    ),
-
-    _labeled_concurrent_statement: $ => seq(
-        optional($._label),
-        choice(
-            $._postponed_concurrent_statement,
-            $._concurrent_statement,
-        )
-    ),
-
-    _concurrent_statement: $ => prec(1,choice(
-        $.block_statement,
-        $.process_statement,
-        $.concurrent_procedure_call_statement,
-        $._concurrent_signal_assignment_statement,
-        $.component_instantiation_statement,
-        $._generate_statement,
-        $._PSL_directive,
-    )),
-
-    _postponed_concurrent_statement: $ => seq(
-        caseInsensitive('postponed'),
-        choice(
-            alias(
-                $.process_statement,
-                $.postponed_process_statement
-            ),
-            alias(
-                $.concurrent_procedure_call_statement,
-                $.postponed_concurrent_procedure_call_statement
-            ),
-            alias(
-                $.PSL_assertion_directive,
-                $.postponed_concurrent_assertion_statement
-            ),
-            alias(
-                $.concurrent_simple_signal_assignment,
-                $.postponed_concurrent_simple_signal_assignment
-            ),
-            alias(
-                $.concurrent_conditional_signal_assignment,
-                $.postponed_concurrent_conditional_signal_assignment
-            ),
-            alias(
-                $.concurrent_selected_signal_assignment,
-                $.postponed_concurrent_selected_signal_assignment
-            ),
-            // TODO illegal
-        )
-    ),
-
-    postponed: $ => caseInsensitive('postponed'),
-    // }}}
-
     // 11.2 Block statement {{{
     // LINT: Label shall be presented
     block_statement: $ => seq(
         caseInsensitive('block'),
         optional(seq(
-            '(', $._guard_condition, ')'
+            '(', 
+            field('guard',$._condition),
+            ')'
         )),
         optional(caseInsensitive('is')),
         optional($._block_header),
@@ -2562,11 +2505,6 @@ rules: {
         ';'
     ),
 
-    _guard_condition: $ => field(
-        'guard_condition',
-        $._expression
-    ),
-
     _block_header: $ => alias(
         $._header,
         $.block_header
@@ -2577,7 +2515,7 @@ rules: {
     ),
 
     _block_statement_part: $ => alias(
-        $._concurrent_statement_part,
+        $.sequence_of_statements,
         $.block_statement_part
     ),
     // }}}
@@ -2599,6 +2537,8 @@ rules: {
         ';'
     ),
 
+    postponed: $ => caseInsensitive('postponed'),
+
     _process_sensitivity_list: $ => alias(
         $.sensitivity_list,
         $.process_sensitivity_list
@@ -2612,54 +2552,6 @@ rules: {
         $.sequence_of_statements,
         $.process_statement_part
     ),
-    // }}}
-
-    // 11.4 Concurrent procedure call statements {{{
-    concurrent_procedure_call_statement: $ => prec(1,seq(
-        $._name,
-        ';'
-    )),
-    // }}}
-
-    // 11.6 Concurrent signal assignment statements {{{
-    _concurrent_signal_assignment_statement: $ => choice(
-         $.concurrent_simple_signal_assignment,
-         $.concurrent_conditional_signal_assignment,
-         $.concurrent_selected_signal_assignment
-    ),
-
-    concurrent_simple_signal_assignment: $ => prec(1,seq(
-        $._target,
-        '<=',
-        optional($.guarded),
-        optional($.delay_mechanism),
-        $._waveform,
-        ';'
-    )),
-
-    concurrent_conditional_signal_assignment: $ => prec(1,seq(
-        $._target,
-        '<=',
-        optional($.guarded),
-        optional($.delay_mechanism),
-        $.conditional_waveforms,
-        ';'
-    )),
-
-    concurrent_selected_signal_assignment: $ => prec(1,seq(
-        caseInsensitive('with'),
-        field('expression',$._expression),
-        caseInsensitive('select'),
-        optional('?'),
-        $._target,
-        '<=',
-        optional($.guarded),
-        optional($.delay_mechanism),
-        $.selected_waveforms,
-        ';'
-    )),
-
-    guarded: $ => caseInsensitive('guarded'),
     // }}}
 
     // 11.7 Component instantiation statements {{{
@@ -2698,12 +2590,6 @@ rules: {
     // }}}
 
     // 11.8 Generate statement {{{
-    _generate_statement: $ => choice(
-        $.for_generate_statement,
-        $.if_generate_statement,
-        $.case_generate_statement
-    ),
-
     for_generate_statement: $ => seq(
         caseInsensitive('for'),
         $._generate_parameter_specification,
@@ -2777,7 +2663,7 @@ rules: {
         seq(
             optional($.block_declarative_part),
             caseInsensitive('begin'),
-            repeat($._concurrent_statement_part),
+            optional($.sequence_of_statements),
             optional(seq(
                 caseInsensitive('end'),
                 optional($._end_label),
@@ -2790,13 +2676,13 @@ rules: {
                 optional($.block_declarative_part),
                 caseInsensitive('begin'),
             )),
-            repeat($._concurrent_statement_part),
+            optional($.sequence_of_statements),
             caseInsensitive('end'),
             optional($._end_label),
             ';'
         ),
         // without both
-        repeat1($._concurrent_statement_part),
+        $.sequence_of_statements
     ),
 
     _label: $ => seq(
@@ -3023,7 +2909,7 @@ rules: {
 
     _PSL_vunit_item: $ => choice(
         $._declarative_item,
-        $._labeled_concurrent_statement,
+        $._labeled_statement
     ),
     // }}}
 
@@ -3105,15 +2991,6 @@ rules: {
     // }}}
 
     // A.4.3 PSL directives {{{
-    _PSL_directive: $ => choice(
-        $.PSL_assertion_directive,
-        $.PSL_assumption_directive,
-        $.PSL_restriction_directive,
-        $.PSL_coverage_directive,
-        $.PSL_fairness_directive
-    ),
-
-
     // LINT: If property is presented,
     //       report and severity shall not be present
     PSL_assertion_directive: $ => seq(
@@ -3565,16 +3442,12 @@ rules: {
 
 },
 
-    
     supertypes: $ => [ // {{{
-        $._PSL_directive,
         $._PSL_declaration,
         $._PSL_fl_property,
         $._PSL_sequence,
         $._PSL_property,
         $._PSL_SERE,
-        $._sequential_statement,
-        $._concurrent_statement,
         $._declarative_item,
         $._name
     ] // }}}
@@ -3582,7 +3455,6 @@ rules: {
 })
 
 function caseInsensitive(keyword) {
-    //return token(keyword)
     return token(prec(1,new RegExp(keyword
         .split('')
         .map(letter => `[${letter}${letter.toUpperCase()}]`)

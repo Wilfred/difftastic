@@ -20,18 +20,18 @@ end process;
   (process_statement
     (process_statement_part
       (label)
-      (simple_waveform_assignment
+      (simple_signal_assignment
         target: (simple_name)
         (unaffected))
       (label)
-      (selected_waveform_assignment
+      (selected_signal_assignment
         expression: (simple_name)
         target: (simple_name)
         (selected_waveforms
           (unaffected)
           (choices (simple_name))))
       (label)
-      (conditional_waveform_assignment
+      (conditional_signal_assignment
         target: (simple_name)
         (conditional_waveforms
           (unaffected)
@@ -59,7 +59,7 @@ end process;
   (process_statement
     (process_statement_part
       (label)
-      (simple_waveform_assignment
+      (simple_signal_assignment
         target: (simple_name)
         (waveform_element
           value: (simple_name)
@@ -67,7 +67,7 @@ end process;
             coefficient: (integer_decimal)
             unit_name: (simple_name))))
       (label)
-      (selected_waveform_assignment
+      (selected_signal_assignment
         expression: (simple_name)
         target: (simple_name)
         (selected_waveforms
@@ -79,7 +79,7 @@ end process;
           (choices
             (simple_name))))
       (label)
-      (conditional_waveform_assignment
+      (conditional_signal_assignment
         target: (simple_name)
         (conditional_waveforms
           (waveform_element
@@ -105,7 +105,7 @@ end process;
   (label)
   (process_statement
     (process_statement_part
-      (simple_waveform_assignment
+      (simple_signal_assignment
         target: (simple_name)
         (waveform_element
           value: (simple_name)

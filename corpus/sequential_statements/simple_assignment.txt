@@ -10,7 +10,7 @@ SIMPLE_VARIABLE_ASSIGNMENT:
 
 (design_file
   (label)
-  (concurrent_simple_signal_assignment
+  (simple_signal_assignment
     target: (aggregate
       (positional_element_association
         (simple_name))
@@ -34,7 +34,7 @@ a <= unaffected;
 ---
 
 (design_file
-  (concurrent_simple_signal_assignment
+  (simple_signal_assignment
     target: (simple_name)
     (unaffected)))
 
@@ -100,13 +100,13 @@ t <= inertial e;
 
 (design_file
   (label)
-  (concurrent_simple_signal_assignment
+  (simple_signal_assignment
     target: (simple_name)
     (delay_mechanism (transport))
     (waveform_element
       value: (simple_name)))
   (label)
-  (concurrent_simple_signal_assignment
+  (simple_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (reject
@@ -116,7 +116,7 @@ t <= inertial e;
     (waveform_element
       value: (simple_name)))
   (label)
-  (concurrent_simple_signal_assignment
+  (simple_signal_assignment
     target: (simple_name)
     (delay_mechanism (inertial))
     (waveform_element

@@ -23,7 +23,7 @@ with e select
       value: (simple_name)
       (choices (simple_name))))
   (label)
-  (concurrent_selected_signal_assignment
+  (selected_signal_assignment
     expression: (simple_name)
     target: (simple_name)
     (selected_waveforms
@@ -74,7 +74,7 @@ with t'(s) select
         (simple_name)
         (choices (others)))))
   (label)
-  (concurrent_selected_signal_assignment
+  (selected_signal_assignment
     expression: (qualified_expression
       type_mark: (simple_name)
       (parenthesized_expression
@@ -168,7 +168,7 @@ with e select
 
 (design_file
   (label)
-  (concurrent_selected_signal_assignment
+  (selected_signal_assignment
     expression: (simple_name)
     target: (simple_name)
     (delay_mechanism (transport))
@@ -178,7 +178,7 @@ with e select
       (choices
         (simple_name))))
   (label)
-  (concurrent_selected_signal_assignment
+  (selected_signal_assignment
     expression: (simple_name)
     target: (simple_name)
     (delay_mechanism
@@ -192,7 +192,7 @@ with e select
       (choices
         (simple_name))))
   (label)
-  (concurrent_selected_signal_assignment
+  (selected_signal_assignment
     expression: (simple_name)
     target: (simple_name)
     (delay_mechanism (inertial))

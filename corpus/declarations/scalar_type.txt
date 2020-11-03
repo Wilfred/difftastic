@@ -74,7 +74,7 @@ type phy_t is range l to h
         (ascending_range
           low: (simple_name)
           high: (simple_name)))
-      primary_unit_name: (identifier))))
+      unit_name: (identifier))))
 
 ======================================
 Physical type definition - Minimal
@@ -94,9 +94,9 @@ type phy_t is range l to h
         (ascending_range
           low: (simple_name)
           high: (simple_name)))
-      primary_unit_name: (identifier)
+      unit_name: (identifier)
       (secondary_unit_declaration
-        secondary_unit_name: (identifier)
+        unit_name: (identifier)
         (physical_literal
           unit_name: (simple_name))))))
 
@@ -124,43 +124,43 @@ type byte_t is range 0 to 1E16
     (physical_type_definition
       (range_constraint
         (ascending_range
-           low: (integer_decimal)
+          low: (integer_decimal)
           high: (integer_decimal)))
-      primary_unit_name: (identifier)
+      unit_name: (identifier)
       (comment)
       (secondary_unit_declaration
-        secondary_unit_name: (identifier)
+        unit_name: (identifier)
         (physical_literal
           coefficient: (integer_decimal)
           unit_name: (simple_name)))
       (secondary_unit_declaration
-        secondary_unit_name: (identifier)
+        unit_name: (identifier)
         (physical_literal
           coefficient: (integer_decimal)
           unit_name: (simple_name)))
       (secondary_unit_declaration
-        secondary_unit_name: (identifier)
+        unit_name: (identifier)
         (physical_literal
           coefficient: (integer_decimal)
           unit_name: (simple_name)))
       (secondary_unit_declaration
-        secondary_unit_name: (identifier)
+        unit_name: (identifier)
         (physical_literal
           coefficient: (integer_decimal)
           unit_name: (simple_name)))
       (comment)
       (secondary_unit_declaration
-        secondary_unit_name: (identifier)
+        unit_name: (identifier)
         (physical_literal
           coefficient: (integer_decimal)
           unit_name: (simple_name)))
       (secondary_unit_declaration
-        secondary_unit_name: (identifier)
+        unit_name: (identifier)
         (physical_literal
           coefficient: (integer_decimal)
           unit_name: (simple_name)))
       (secondary_unit_declaration
-        secondary_unit_name: (identifier)
+        unit_name: (identifier)
         (physical_literal
           coefficient: (integer_decimal)
           unit_name: (simple_name))))))
