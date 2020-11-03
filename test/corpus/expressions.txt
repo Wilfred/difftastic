@@ -48,7 +48,7 @@ foo["bar"]
 
 ---
 
-(program (element_reference (identifier) (string)))
+(program (element_reference (identifier) (string (string_content))))
 
 ============
 element reference with symbol
@@ -199,9 +199,9 @@ NIL = "nil"
 (program
   (assignment (identifier) (identifier))
   (assignment (identifier) (splat_argument (identifier)))
-  (assignment (false) (string))
-  (assignment (true) (string))
-  (assignment (nil) (string)))
+  (assignment (false) (string (string_content)))
+  (assignment (true) (string (string_content)))
+  (assignment (nil) (string (string_content))))
 
 =====================
 multiple assignment
@@ -296,7 +296,7 @@ puts "/hi"
   (operator_assignment (identifier) (identifier))
   (operator_assignment (identifier) (identifier))
   (operator_assignment (identifier) (identifier))
-  (method_call (identifier) (argument_list (string))))
+  (method_call (identifier) (argument_list (string (string_content)))))
 
 ==========
 operator assignment
@@ -351,7 +351,7 @@ conditional and character literal ambiguity
 true ?")":"c"
 
 ---
-(program (conditional (true) (string) (string)))
+(program (conditional (true) (string (string_content)) (string (string_content))))
 
 ===========================================
 conditional with reserved identifiers
@@ -583,10 +583,10 @@ print("hello")
     arguments: (argument_list))
   (method_call
     method: (identifier)
-    arguments: (argument_list (string)))
+    arguments: (argument_list (string (string_content))))
   (method_call
     method: (identifier)
-    arguments: (argument_list (string))))
+    arguments: (argument_list (string (string_content)))))
 
 ====================================
 nested unparenthesized method calls
@@ -668,22 +668,22 @@ foo.bar("hi", 2)
     method: (call
       receiver: (identifier)
       method: (identifier))
-    arguments: (argument_list (string)))
+    arguments: (argument_list (string (string_content))))
   (method_call
     method: (call
       receiver: (identifier)
       method: (identifier))
-    arguments: (argument_list (string) (integer)))
+    arguments: (argument_list (string (string_content)) (integer)))
   (method_call
     method: (call
       receiver: (identifier)
       method: (identifier))
-    arguments: (argument_list (string)))
+    arguments: (argument_list (string (string_content))))
   (method_call
     method: (call
       receiver: (identifier)
       method: (identifier))
-    arguments: (argument_list (string) (integer))))
+    arguments: (argument_list (string (string_content)) (integer))))
 
 ===============================
 implicit call
@@ -921,7 +921,7 @@ foo *(bar.baz)
 (program
   (method_call (identifier) (argument_list (splat_argument (identifier))))
   (method_call (identifier) (argument_list (splat_argument (identifier))))
-  (method_call (identifier) (argument_list (splat_argument (string_array (bare_string) (bare_string)))))
+  (method_call (identifier) (argument_list (splat_argument (string_array (bare_string (string_content)) (bare_string (string_content))))))
   (method_call (identifier) (argument_list (splat_argument (parenthesized_statements (call (identifier) (identifier)))))))
 
 ===============================
@@ -1365,10 +1365,10 @@ foo \
   (method_call
     (identifier)
     (argument_list (identifier) (identifier)))
-  (string (escape_sequence))
+  (string (string_content) (escape_sequence) (string_content))
   (method_call
     (identifier)
-    (argument_list (string))))
+    (argument_list (string (string_content)))))
 
 ===============================
 basic division
@@ -1408,7 +1408,7 @@ foo /bar/
 ---
 
 (program
-  (method_call (identifier) (argument_list (regex))))
+  (method_call (identifier) (argument_list (regex (string_content)))))
 
 ===============================
 regex with opening space
@@ -1419,7 +1419,7 @@ foo
 
 ---
 
-(program (identifier) (regex))
+(program (identifier) (regex (string_content)))
 
 ===============================
 forward slash operator as method
@@ -1430,7 +1430,7 @@ Foo / "bar"
 
 ---
 
-(program (binary (constant) (string)) (string))
+(program (binary (constant) (string (string_content))) (string (string_content)))
 
 ===============================
 multiline regex
@@ -1441,4 +1441,4 @@ multiline regex
 
 ---
 
-(program (regex))
+(program (regex (string_content)))
