@@ -15,8 +15,7 @@ end process;
       (case_statement
         discrete_type: (simple_name)
         (case_statement_alternative
-          condition: (choices
-            (simple_name)))))))
+          (choices (simple_name)))))))
 
 ===========================
 Matching case statement
@@ -35,8 +34,7 @@ end process;
       (case_statement
         discrete_type: (simple_name)
         (case_statement_alternative
-          condition: (choices
-            (simple_name)))))))
+          (choices (simple_name)))))))
 
 ===========================
 Label
@@ -57,8 +55,7 @@ end process;
       (case_statement
         discrete_type: (simple_name)
         (case_statement_alternative
-          condition: (choices
-            (simple_name)))
+          (choices (simple_name)))
         at_end: (label)))))
 
 ===================================
@@ -80,15 +77,12 @@ end process;
       (case_statement
         discrete_type: (simple_name)
         (case_statement_alternative
-          condition: (choices
-            (simple_name)))
+          (choices (simple_name)))
         (case_statement_alternative
-          condition: (choices
-            (simple_name)
-            (simple_name)))
+          (choices (simple_name)
+                   (simple_name)))
         (case_statement_alternative
-          condition: (choices
-            (others)))
+          (choices (others)))
         at_end: (label)))))
 
 ===================================
@@ -109,8 +103,7 @@ end process;
       (case_statement
         discrete_type: (simple_name)
         (case_statement_alternative
-          condition: (choices
-            (simple_name))
+          (choices (simple_name))
           (sequence_of_statements
             (null_statement)))
         at_end: (label)))))

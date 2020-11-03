@@ -5,8 +5,8 @@ assert ' ';
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (character_literal)))
+  (PSL_assertion_directive
+    property: (character_literal)))
 
 ==============================================================
 Character literal - White space (NBSP)
@@ -15,8 +15,8 @@ assert ' ';
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (character_literal)))
+  (PSL_assertion_directive
+    property: (character_literal)))
 
 ==============================================================
 Character literal - Apostrophe
@@ -25,8 +25,8 @@ assert ''';
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (character_literal)))
+  (PSL_assertion_directive
+    property: (character_literal)))
 
 ==============================================================
 Character literal - Quotation mark
@@ -35,8 +35,8 @@ assert '"';
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (character_literal)))
+  (PSL_assertion_directive
+    property: (character_literal)))
 
 
 ==============================================================
@@ -46,8 +46,8 @@ assert '/';
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (character_literal)))
+  (PSL_assertion_directive
+    property: (character_literal)))
 
 ==============================================================
 Character literal - Backslash
@@ -56,8 +56,8 @@ assert '\';
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (character_literal)))
+  (PSL_assertion_directive
+    property: (character_literal)))
 
 ==============================================================
 Character literal - Number signal
@@ -66,8 +66,8 @@ assert '#';
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (character_literal)))
+  (PSL_assertion_directive
+    property: (character_literal)))
 
 
 ==============================================================
@@ -84,22 +84,22 @@ assert '-';
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal)))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal)))
 
 ==============================================================
 Character literal - STD_LOGIC values (lower case)
@@ -115,22 +115,22 @@ assert '-';
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal)))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal)))
 
 ==============================================================
 Character literal - Format effectors (upper case)
@@ -143,16 +143,16 @@ assert FF;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal)))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal)))
 
 ==============================================================
 Character literal - Format effectors (lower case)
@@ -165,16 +165,16 @@ assert ff;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal)))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal)))
 
 
 ==============================================================
@@ -185,10 +185,10 @@ assert nul;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (character_literal))
-  (concurrent_assertion_statement
-    condition: (character_literal)))
+  (PSL_assertion_directive
+    property: (character_literal))
+  (PSL_assertion_directive
+    property: (character_literal)))
 
 ==============================================================
 Boolean
@@ -198,7 +198,7 @@ assert false;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name)))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name)))

@@ -1,16 +1,33 @@
 const PREC = { // {{{
-    LOGICAL            : 1,
-    RELATION           : 2,
-    SHIFT_EXPRESSION   : 3,
-    SIMPLE_EXPRESSION  : 4,
-    SIGN               : 5,
-    TERM               : 6,
-    FACTOR             : 7,
-    REDUCTION          : 8,
-    CONSTANT_INTERFACE : 3,
-    VARIABLE_INTERFACE : 2,
-    SIGNAL_INTERFACE   : 1,
-    ILLEGAL_INTERFACE  : -3,
+    // VHDL EXPRESSION
+    REDUCTION            : 28,
+    FACTOR               : 27,
+    TERM                 : 26,
+    SIGN                 : 25,
+    SIMPLE_EXPRESSION    : 24,
+    SHIFT_EXPRESSION     : 23,
+    RELATION             : 22,
+    LOGICAL              : 21,
+    // PSL EXPRESSION
+    PSL_UNION            : 20,
+    PSL_CLOCK            : 19,
+    PSL_SERE_REPEAT      : 18,
+    PSL_SERE_WITHIN      : 17,
+    PSL_SERE_AND         : 16,
+    PSL_SERE_OR          : 15,
+    PSL_FUSION           : 14,
+    PSL_CONCAT           : 13,
+    PSL_TERMINATION      : 12,
+    PSL_OCURRENCE        : 11,
+    PSL_BOUNDING         : 10,
+    PSL_SEQ_IMPLICATION  : 9,
+    PSL_BOOL_IMPLICATION : 8,
+    PSL_INVARIANCE       : 7,
+
+    CONSTANT_INTERFACE   : 3,
+    VARIABLE_INTERFACE   : 2,
+    SIGNAL_INTERFACE     : 1,
+    ILLEGAL_INTERFACE    : -3,
 };
 // }}}
 
@@ -76,10 +93,62 @@ const EXTENDED_IDENTIFIER = [
 
 const IDENTIFIER = [ BASIC_IDENTIFIER+'|'+EXTENDED_IDENTIFIER ];
 
-const BASE_SPECIFIER_REGEX = [
-    '([uUsS]?[bBoOxX]|d)\"'
-];
 const INTEGER = '[0-9](_?[0-9])*';
+
+const STRING = [
+ '\"(['+GRAPHIC_CHARACTER+BACKSLASH+']|'+DOUBLE_QUOTATION_MARK+')*\"'
+];
+
+const BIT_STRING_LITERAL = [
+    '('+INTEGER+')?([uUsS]?[bBoOxX]|d)'+STRING
+];
+
+const BASED_LITERAL = [
+    '['+EXTENDED_DIGIT+'](_?'+'['+EXTENDED_DIGIT+']'+')*'
+];
+
+const EXPONENT = [
+    '[eE][\-\+]?'+INTEGER
+];
+
+const INTEGER_DECIMAL = [
+    INTEGER+'('+EXPONENT+')?'
+];
+
+const REAL_DECIMAL = [
+    INTEGER+'\\.'+INTEGER+'('+EXPONENT+')?'
+];
+
+const BASED_INTEGER = [
+    INTEGER+'#'+BASED_LITERAL+'#'+'('+EXPONENT+')?'
+];
+
+const BASED_REAL = [
+    INTEGER+'#'+BASED_LITERAL+'\\.'+BASED_LITERAL+'#'+'('+EXPONENT+')?'
+];
+
+// NOTE: Using regex to define the operators reduces the size of
+// parser.c substancially
+
+// nand, nor, and, or, xor, xnor
+const LOGICAL_OPERATORS = [
+    '[nN]?([aA][nN][dD]|[oO][rR])|[xX][nN]?[oO][rR]'
+];
+
+// ?>= ?>= ?> 
+//  >=  >=  > 
+// ?<= ?<= ?< 
+//  <=  <=  < 
+// ?/=  ?=
+//  /=   =
+const RELATION_OPERATORS = [
+    '\\??([<>]=?|\\??\\\/?=)'
+];
+
+// sll sla srl sra ror rol
+const SHIFT_OPERATORS = [
+    '[sS][lLrR][lLaA]|[rR][oO][lLrR]'
+];
 
 // subset of commonly used named predefined character
 const PREDEFINED_CHARACTER = [
@@ -105,20 +174,18 @@ inline: $ => [ // {{{
     $._array_type_definition,                  //  5.3.2
     $._index_constraint,                       //  5.3.2
     $._element_subtype_indication,             //  5.3.2
+    $._discrete_range,                         //  5.3.2
     $._type_declaration,                       //  6.2
     $._type_definition,                        //  6.2
+    $._constraint,                             //  6.3
     $._interface_package_generic_map_aspect,   //  6.5.5
     $._formal_designator,                      //  6.5.7
     $._generic_association_list,               //  6.5.7.2
     $._port_association_list,                  //  6.5.7.3
-    $._predefined_type,                        //  8.4.5
     $._attribute_designator,                   //  8.6
     $._external_name,                          //  8.7
     $._external_pathname,                      //  8.7
-    $._logical_expression_assoc,               //  9.1
-    $._logical_expression_nonassoc,            //  9.1
     $._literal,                                //  9.3.2
-    $._primary_unit_declaration,               //  5.2.4
     $._enumeration_literal,                    //  5.5.2
     $._positional_element_association,         //  9.3.3
     $._numeric_literal,                        //  9.3.2
@@ -127,22 +194,28 @@ inline: $ => [ // {{{
     $._generate_parameter_specification,       // 11.8
     $._generate_statement,                     // 11.8
     $._abstract_literal,                       // 15.5
-    $._base,                                   // 15.5.3
 
-    // headers
+    $._PSL_vunit_item,                         // PSL 7.2
+    $._HDL_module_name,                        // PSL 7.2
+
+    $._boolean,                                // A.4.4
+
+    // headers (aliases)
     $._entity_header,                          // 3.2
     $._subprogram_header,                      // 4.2.2
     $._package_header,                         // 4.7
     $._component_header,                       // 6.8
     $._block_header,                           // 11.2
 
-    // expressions
+    // expressions (for documentation purpose)
     $._file_open_kind_expression,              //  6.4.2.4
     $._file_logical_name,                      //  6.4.2.4
     $._sensitivity_clause,                     // 10.2
     $._condition_clause,                       // 10.2
     $._timeout_clause,                         // 10.2
     $._guard_condition,                        // 11.2
+    $._severity,                               // TODO
+    $._string_expression,                      // TODO
 
     // identifier aliases
     $._architecture_identifier,                //  3.3
@@ -186,12 +259,12 @@ conflicts: $ => [ // {{{
      $.interface_signal_declaration,
      $.interface_variable_declaration],
 
+    [$.interface_constant_declaration,
+     $.interface_signal_declaration],
+
     [$._constant_mode,
      $._variable_mode,
      $._signal_mode],
-
-    [$.interface_constant_declaration,
-     $.interface_signal_declaration],
 
     [$._constant_mode,
      $._signal_mode ],
@@ -209,9 +282,12 @@ conflicts: $ => [ // {{{
 
     [$._name, $.component_declaration],
     [$._name, $.subtype_indication],
+    [$._name, $.subtype_indication, $.physical_literal],
     [$._name, $.record_element_resolution],
 
-    [$.discrete_range, $.actual_designator]
+    [$.index_constraint, $.actual_designator],
+
+    [$.parenthesized_expression, $._HDL_or_PSL_expression]
 ], // }}}
 
 rules: {
@@ -453,7 +529,7 @@ rules: {
     // }}}
 
     // 4.5.3 Signatures {{{
-    // FIXME whitespace before signature shouldn't be allowed
+    // LINT whitespace before signature shouldn't be allowed
     signature: $ => seq(
         '[',
         optional(seq(
@@ -541,7 +617,7 @@ rules: {
     ),
 
     range_constraint: $ => seq(
-        'range',
+        caseInsensitive('range'),
         $._range
     ),
 
@@ -630,12 +706,15 @@ rules: {
         ';'
     ),
 
-    physical_literal: $ => seq(
+    physical_literal: $ => prec(-1,seq(
         optional(
             field('coefficient', $._abstract_literal)
         ),
-        field('unit_name', $._name)
-    ),
+        field('unit_name', choice(
+            $._simple_name,
+            $.selected_name
+        ))
+    )),
     // }}}
 
     // 5.3 Composite types {{{
@@ -683,7 +762,7 @@ rules: {
         '<>'
     ),
 
-    array_constraint: $ => prec(1,seq(
+    array_constraint: $ => prec.right(1,seq(
         $._index_constraint,
         optional($._array_element_constraint)
     )),
@@ -703,17 +782,20 @@ rules: {
     ),
 
     index_constraint: $ => seq(
-        $.discrete_range,
+        $._discrete_range,
         repeat(seq(
-            ',', $.discrete_range
+            ',', $._discrete_range
         )),
     ),
 
     // LINT: open is only allowed
     // in array constraint
-    discrete_range: $ => choice(
-        $.subtype_indication,
-        $._range,
+    _discrete_range: $ => field(
+        'discrete_range',
+        choice(
+            $.subtype_indication,
+            $._range,
+        )
     ),
     // }}}
 
@@ -805,9 +887,7 @@ rules: {
         //$.group_template_declaration,
         //$.group_declaration,
         //
-        //$.PSL_Property_Declaration,
-        //$.PSL_Sequence_Declaration,
-        //$.PSL_Clock_Declaration,
+        $._PSL_declaration
     ),
     // }}}
 
@@ -846,7 +926,7 @@ rules: {
     subtype_indication: $ => prec.dynamic(-1,seq(
         optional($._resolution_indication),
         $._type_mark,
-        optional($.constraint)
+        optional($._constraint)
     )),
 
     _resolution_indication: $ => prec(-2,choice(
@@ -890,7 +970,7 @@ rules: {
         $.attribute_name,
     )),
 
-    constraint: $ => choice(
+    _constraint: $ => choice(
         $.range_constraint,
         $.array_constraint,
         $.record_constraint
@@ -1021,10 +1101,13 @@ rules: {
 
     interface_subprogram_default: $ => choice(
         $._subprogram_name,
-        $.same
+        $._same
     ),
 
-    same: $ => token('<>'),
+    _same: $ => alias(
+        '<>',
+        $.same
+    ),
     // }}}
 
     // 6.5.6.2 Generic clauses {{{
@@ -1250,7 +1333,7 @@ rules: {
         choice(
             $._generic_association_list,
             $.default,
-            $.any
+            $._any
         ),
         ')',
         optional($.semicolon),
@@ -1258,7 +1341,10 @@ rules: {
 
     default: $ => caseInsensitive('default'),
 
-    any: $ => token('<>'),
+    _any: $ => alias(
+        '<>',
+        $.any
+    ),
 
     _generic_association_list: $ => alias(
         prec.dynamic(1, $.association_list),
@@ -1482,7 +1568,6 @@ rules: {
         $._simple_name,
         $._operator_symbol,
         $.selected_name,
-        // TODO: maybe others?
     ),
 
     _prefix: $ => field(
@@ -1522,6 +1607,8 @@ rules: {
     // }}}
 
     // 8.4-5 Ambiguous names {{{
+    // LINT: operator symbol and PSL built ins
+    //       shall have positional association list
     ambiguous_name: $ => seq(
         $._prefix,
         '(',
@@ -1548,9 +1635,8 @@ rules: {
         $.attribute_designator
     ),
 
-    // TODO: Case insensitive
     range_attribute_designator: $ => token.immediate(
-        new RegExp ('\'(reverse_)?range')
+        new RegExp ('\'([rR][eE][vV][eE][rR][sS][eE]_)?[rR][aA][nN][gG][eE]')
     ),
 
     attribute_designator: $ => token.immediate(
@@ -1653,10 +1739,10 @@ rules: {
     // }}}
 
     // 9 Expressions {{{
-    _string_expression: $ => choice(
-        $.concatenation,
-        $._primary
-    ),
+    // LINT: errors _string_expression shall be detected with linting
+    _string_expression: $ => $._expression,
+
+    _severity: $ => $._expression,
 
     _default_expression: $ => seq(
         ':=',
@@ -1680,12 +1766,7 @@ rules: {
 
     _expression: $ => choice(
         $.condition,
-        $.logical_expression_and,
-        $.logical_expression_or,
-        $.logical_expression_xor,
-        $.logical_expression_xnor,
-        $.logical_expression_nor,
-        $.logical_expression_nand,
+        $.logical_expression,
         $.relation,
         $.shift_expression,
         $.simple_expression,
@@ -1698,130 +1779,107 @@ rules: {
         $._primary,
     ),
 
+    // VHDL operations {{{
     condition: $ => seq(
         '??', $._primary
     ),
 
+    logical_expression: $ => prec.left(
+        PREC.LOGICAL,
+        seq(
+            field('left', $._expression),
+            field('operator', new RegExp (LOGICAL_OPERATORS)),
+            field('right', $._expression),
+        )
+    ),
 
-    logical_expression_and: $ => prec.left(PREC.LOGICAL,seq(
-        field('left', $._expression),
-        field('operator', caseInsensitive('and')),
-        field('right', $._expression)
-    )),
+    relation: $ => prec.left(
+        PREC.RELATION,
+        seq(
+            field('left', $._expression),
+            field('operator', new RegExp (RELATION_OPERATORS)),
+            field('right', $._expression)
+        )
+    ),
 
-    logical_expression_or: $ => prec.left(PREC.LOGICAL,seq(
-        field('left', $._expression),
-        field('operator', caseInsensitive('or')),
-        field('right', $._expression)
-    )),
+    shift_expression: $ => prec.left(
+        PREC.SHIFT_EXPRESSION,
+        seq(
+            field('left',$._expression),
+            field('operator', new RegExp (SHIFT_OPERATORS)),
+            field('right',$._expression)
+        )
+    ),
 
-    logical_expression_xor: $ => prec.left(PREC.LOGICAL,seq(
-        field('left', $._expression),
-        field('operator', caseInsensitive('xor')),
-        field('right', $._expression)
-    )),
+    concatenation: $ => prec.left(
+        PREC.SIMPLE_EXPRESSION,
+        seq(
+            field('left',$._expression),
+            field('operator','&'),
+            field('right',$._expression),
+        )
+    ),
 
-    logical_expression_xnor: $ => prec.left(PREC.LOGICAL,seq(
-        field('left', $._expression),
-        field('operator', caseInsensitive('xnor')),
-        field('right', $._expression)
-    )),
-
-    logical_expression_nor: $ => prec.left(PREC.LOGICAL,seq(
-        field('left', $._expression),
-        field('operator', caseInsensitive('nor')),
-        field('right', $._expression)
-    )),
-
-    logical_expression_nand: $ => prec.left(PREC.LOGICAL,seq(
-        field('left', $._expression),
-        field('operator', caseInsensitive('nand')),
-        field('right', $._expression)
-    )),
-
-
-    relation: $ => prec.left(PREC.RELATION,seq(
-        field('left', $._expression),
-        field('operator',seq(
-            optional('?'),
-            choice('=','/=','>','>=','<','<=')
-        )),
-        field('right', $._expression)
-    )),
-
-    shift_expression: $ => prec.left(PREC.SHIFT_EXPRESSION,seq(
-        field('left',$._expression),
-        field('operator', seq(
-            optional('?'),
-            choice(
-                caseInsensitive('sll'),
-                caseInsensitive('srl'),
-                caseInsensitive('sla'),
-                caseInsensitive('sra'),
-                caseInsensitive('sla'),
-                caseInsensitive('rol'),
-                caseInsensitive('ror')
-            )
-        )),
-        field('right',$._expression)
-    )),
-
-    concatenation: $ => prec.left(PREC.SIMPLE_EXPRESSION,seq(
-        field('left',$._expression),
-        field('operator','&'),
-        field('right',$._expression),
-    )),
-
-    simple_expression: $ => prec.left(PREC.SIMPLE_EXPRESSION,seq(
-        field('left',$._expression),
-        field('operator', choice('+','-')),
-        field('right',$._expression),
-    )),
-
+    simple_expression: $ => prec.left(
+        PREC.SIMPLE_EXPRESSION,
+        seq(
+            field('left',$._expression),
+            field('operator', choice('+','-')),
+            field('right',$._expression),
+        )
+    ),
 
     //// LINT: Sign is only allowed on left
-    sign: $ => prec(PREC.SIGN,seq(
-        field('operator',choice('-','+')),
-        field('argument',$._expression)
-    )),
+    sign: $ => prec(
+        PREC.SIGN,
+        seq(
+            field('operator',choice('-','+')),
+            field('argument',$._expression)
+        )
+    ),
 
-    term: $ => prec.left(PREC.TERM,seq(
-        field('left',$._expression),
-        field('operator',choice(
-            '*',
-            '/',
-            caseInsensitive('rem'),
-            caseInsensitive('mod')
-        )),
-        field('right',$._expression),
-    )),
+    term: $ => prec.left(
+        PREC.TERM,
+        seq(
+            field('left',$._expression),
+            field('operator',choice(
+                '*',
+                '/',
+                caseInsensitive('rem'),
+                caseInsensitive('mod')
+            )),
+            field('right',$._expression),
+        )
+    ),
 
-    factor: $ => prec.left(PREC.FACTOR,seq(
-        field('operator', choice(
-            caseInsensitive('abs'),
-            caseInsensitive('not')
-        )),
-        field('argument',$._primary)
-    )),
+    factor: $ => prec.left(
+        PREC.FACTOR,
+        seq(
+            field('operator', choice(
+                caseInsensitive('abs'),
+                caseInsensitive('not')
+            )),
+            field('argument',$._primary)
+        )
+    ),
 
-    exponentiation: $ => prec.left(PREC.FACTOR,seq(
-        field('left',$._primary),
-        field('operator','**'),
-        field('right',$._primary)
-    )),
+    exponentiation: $ => prec.left(
+        PREC.FACTOR,
+        seq(
+            field('left',$._primary),
+            field('operator','**'),
+            field('right',$._primary)
+        )
+    ),
 
-    reduction: $ => prec.left(PREC.REDUCTION,seq(
-        field('operator',choice(
-            caseInsensitive('and'),
-            caseInsensitive('or'),
-            caseInsensitive('nand'),
-            caseInsensitive('nor'),
-            caseInsensitive('xor'),
-            caseInsensitive('xnor')
-        )),
-        field('argument',$._primary)
-    )),
-
+    reduction: $ => prec.left(
+        PREC.REDUCTION,
+        seq(
+            field('operator', new RegExp (LOGICAL_OPERATORS)),
+            field('argument',$._primary)
+        )
+    ),
+    // }}}
     // }}}
 
     // 9.1 Expressions - Primaries {{{
@@ -1834,11 +1892,11 @@ rules: {
         $.aggregate,
     )),
 
-    parenthesized_expression: $ => prec(1,seq(
+    parenthesized_expression: $ => seq(
         '(',
         $._expression,
         ')'
-    )),
+    ),
     // }}}
 
     // 9.3.2 Literals {{{
@@ -1848,7 +1906,8 @@ rules: {
         $.severity_level,
         $.string_literal,
         $.bit_string_literal,
-        $.null
+        $.null,
+        $.infinite // PSL literal
     ),
 
     severity_level: $ => token(choice(
@@ -1860,6 +1919,8 @@ rules: {
 
     null: $ => caseInsensitive('null'),
 
+    infinite: $ => caseInsensitive('inf'),
+
     _numeric_literal: $ => choice(
         $._abstract_literal,
         $.physical_literal
@@ -1867,13 +1928,23 @@ rules: {
     // }}}
 
     // 9.3.3 Aggregates {{{
-    aggregate: $ => seq(
-        '(',
-        $._element_association,
-        repeat(seq(
-            ',', $._element_association
-        )),
-        ')'
+    aggregate: $ => choice(
+        seq(
+            '(',
+            $._positional_element_association,
+            repeat1(seq(
+                ',', $._element_association
+            )),
+            ')'
+        ),
+        seq(
+            '(',
+            $.named_element_association,
+            repeat(seq(
+                ',', $._element_association
+            )),
+            ')'
+        ),
     ),
 
     _element_association: $ => choice(
@@ -1900,10 +1971,7 @@ rules: {
     // shall not be (discrete_range (subtype_indication (simple_name)))
     _choice: $ => choice(
         $._simple_expression,
-        alias(
-            $._range,
-            $.discrete_range
-        ),
+        field('discrete_range',$._range),
         $.others,
     ),
 
@@ -1946,9 +2014,9 @@ rules: {
         $._sequential_statement,
     ),
 
+    // LINT: PSL directive is only allowed on entity_statement_part
     _sequential_statement: $ => choice(
         $.wait_statement,
-        $.assertion_statement,
         $.report_statement,
         $._signal_assignment_statement,
         $._variable_assignment_statement,
@@ -1959,7 +2027,8 @@ rules: {
         $.next_statement,
         $.exit_statement,
         $.return_statement,
-        $.null_statement
+        $.null_statement,
+        $._PSL_directive
     ),
     // }}}
 
@@ -2014,33 +2083,13 @@ rules: {
     ),
     // }}}
 
-    // 10.3 Assertion statement {{{
-    assertion_statement: $ => seq(
-        $._assertion,
-        ';'
-    ),
-
-    _assertion: $ => seq(
-        caseInsensitive('assert'),
-        field('condition', $._expression),
-        optional(seq(
-            caseInsensitive('report'),
-            field('report', $._expression)
-        )),
-        optional(seq(
-            caseInsensitive('severity'),
-            field('severity', $._expression)
-        )),
-    ),
-    // }}}
-
     // 10.4 Report statement {{{
     report_statement: $ => seq(
         caseInsensitive('report'),
-        field('report', $._expression),
+        field('report', $._string_expression),
         optional(seq(
             caseInsensitive('severity'),
-            field('severity', $._expression)
+            field('severity', $._severity)
         )),
         ';'
     ),
@@ -2354,7 +2403,7 @@ rules: {
 
     case_statement_alternative: $ => seq(
         caseInsensitive('when'),
-        field('condition',$.choices),
+        $.choices,
         '=>',
         optional($.sequence_of_statements)
     ),
@@ -2389,7 +2438,7 @@ rules: {
     parameter_specification: $ => seq(
         $.identifier,
         caseInsensitive('in'),
-        $.discrete_range
+        $._discrete_range
     ),
 
     _loop_label: $ => alias(
@@ -2451,16 +2500,15 @@ rules: {
         )
     ),
 
-    _concurrent_statement: $ => choice(
+    _concurrent_statement: $ => prec(1,choice(
         $.block_statement,
         $.process_statement,
         $.concurrent_procedure_call_statement,
-        $.concurrent_assertion_statement,
         $._concurrent_signal_assignment_statement,
         $.component_instantiation_statement,
         $._generate_statement,
-        //$.PSL_Directive
-    ),
+        $._PSL_directive,
+    )),
 
     _postponed_concurrent_statement: $ => seq(
         caseInsensitive('postponed'),
@@ -2474,7 +2522,7 @@ rules: {
                 $.postponed_concurrent_procedure_call_statement
             ),
             alias(
-                $.concurrent_assertion_statement,
+                $.PSL_assertion_directive,
                 $.postponed_concurrent_assertion_statement
             ),
             alias(
@@ -2488,7 +2536,8 @@ rules: {
             alias(
                 $.concurrent_selected_signal_assignment,
                 $.postponed_concurrent_selected_signal_assignment
-            )
+            ),
+            // TODO illegal
         )
     ),
 
@@ -2568,13 +2617,6 @@ rules: {
     // 11.4 Concurrent procedure call statements {{{
     concurrent_procedure_call_statement: $ => prec(1,seq(
         $._name,
-        ';'
-    )),
-    // }}}
-
-    // 11.5 Concurrent assertion statements {{{
-    concurrent_assertion_statement: $ => prec(1,seq(
-        $._assertion,
         ';'
     )),
     // }}}
@@ -2725,7 +2767,7 @@ rules: {
     case_generate_alternative: $ => seq(
         caseInsensitive('when'),
         optional($._label),
-        field('condition',$.choices),
+        $.choices,
         '=>',
         optional($.generate_statement_body)
     ),
@@ -2790,7 +2832,7 @@ rules: {
         $.package_declaration,
         $.package_instantiation_declaration,
         $.context_declaration,
-        //$.PSL_Verification_Unit,
+        $.PSL_verification_unit,
     ),
 
     _secondary_unit: $ => choice(
@@ -2866,10 +2908,10 @@ rules: {
 
     // 15.5 Abstract literals {{{
     _abstract_literal: $ => choice(
-        $.integer_decimal_literal,
-        $.real_decimal_literal,
-        $.integer_based_literal,
-        $.real_based_literal
+        $.integer_decimal,
+        $.real_decimal,
+        $.based_integer,
+        $.based_real
     ),
     // }}}
 
@@ -2881,28 +2923,9 @@ rules: {
         $.integer
     ),
 
-    integer_decimal_literal: $ => seq(
-        $.integer,
-        optional($._exponent)
-    ),
+    integer_decimal: $ => new RegExp (INTEGER_DECIMAL),
 
-    real_decimal_literal: $ => seq(
-        field('integer_part',$.integer),
-        token.immediate('.'),
-        field('fractional_part',$._integer_immed),
-        optional($._exponent)
-    ),
-
-    _exponent: $ => choice(
-        alias(
-            token.immediate(new RegExp ('[eE][\+]?'+INTEGER)),
-            $.positive_exponent
-        ),
-        alias(
-            token.immediate(new RegExp ('[eE]\-'+INTEGER)),
-            $.negative_exponent
-        ),
-    ),
+    real_decimal: $ => new RegExp (REAL_DECIMAL),
     // }}}
 
     // 15.6 Character literal {{{
@@ -2919,30 +2942,8 @@ rules: {
     // }}}
 
     // 15.5.3 Based literals {{{
-    integer_based_literal: $ => seq(
-        $._base,
-        token.immediate('#'),
-        $.based_integer,
-        token.immediate('#'),
-        optional($._exponent)
-    ),
-
-    real_based_literal: $ => seq(
-        $._base,
-        token.immediate('#'),
-        field('integer_part',$.based_integer),
-        token.immediate('.'),
-        field('fractional_part',$.based_integer),
-        token.immediate('#'),
-        optional($._exponent)
-    ),
-
-
-    _base: $ => field('base', $.integer),
-
-    based_integer: $ => token.immediate(
-        new RegExp ('['+EXTENDED_DIGIT+'](_?'+'['+EXTENDED_DIGIT+']'+')*')
-    ),
+    based_integer: $ => new RegExp (BASED_INTEGER),
+    based_real: $ => new RegExp (BASED_REAL),
     // }}}
 
     // 15.4 Identifiers {{{
@@ -2950,27 +2951,11 @@ rules: {
     // }}}
 
     // 15.7 String literal {{{
-    string_literal: $ => seq(
-        '"',
-        optional($._string_literal),
-        '"',
-    ),
-
-    _string_literal: $ => token.immediate(
-        new RegExp('(['+GRAPHIC_CHARACTER+BACKSLASH+']|'+DOUBLE_QUOTATION_MARK+')+')
-    ),
+    string_literal: $ => new RegExp (STRING),
     // }}}
 
     // 15.8 Bit string literals {{{
-    // LINT whitespace shall not be present
-    bit_string_literal: $ => seq(
-        optional(field('length', $.integer)),
-        $.base_specifier,
-        optional(alias($._string_literal, $.bit_value)),
-        token.immediate('"'),
-    ),
-
-    base_specifier: $ => new RegExp (...BASE_SPECIFIER_REGEX),
+    bit_string_literal: $ => new RegExp (BIT_STRING_LITERAL),
     // }}}
 
     // 15.9 Comments {{{
@@ -2980,22 +2965,627 @@ rules: {
     )),
     /// }}}
 
+    // LINT: check if the identifier is compatible with _PSL_identifier
+    _PSL_identifier: $ => alias(
+        $.identifier,
+        $.PSL_identifier
+    ),
+
+    // PSL 7.2 Verification units {{{
+    PSL_verification_unit: $ => seq(
+        $.PSL_VUnit_header,
+        $.PSL_VUnit_body,
+    ),
+
+    PSL_VUnit_header: $ => seq(
+        field('type', alias($.identifier, $.keywoard)),
+        $._PSL_identifier,
+        optional(seq(
+            '(',
+            $.hierarchical_hdl_name,
+            ')'
+        )),
+    ),
+
+    hierarchical_hdl_name: $ => seq(
+        $._HDL_module_name,
+        repeat(seq(
+            choice('.','/'),
+            field('instance_name',$._simple_name)
+        ))
+    ),
+
+    _HDL_module_name: $ => seq(
+        field('entity_name',$._simple_name),
+        optional(seq(
+            '(',
+            field('architecture_identifier',$._simple_name),
+            ')',
+        ))
+    ),
+
+    PSL_VUnit_body: $ => seq(
+        '{',
+        repeat($.vunit_inherit_specification),
+        repeat($._PSL_vunit_item),
+        '}',
+    ),
+
+    vunit_inherit_specification: $ => seq(
+        caseInsensitive('inherited'),
+        field('vunit_name', $._PSL_identifier),
+        repeat(seq(
+            ',',
+            field('vunit_name', $._PSL_identifier)
+        )),
+        ';'
+    ),
+
+    _PSL_vunit_item: $ => choice(
+        $._declarative_item,
+        $._labeled_concurrent_statement,
+    ),
+    // }}}
+
+    // A.4.2 PSL declarations {{{
+    _PSL_declaration: $ => choice(
+        $.PSL_property_declaration,
+        $.PSL_sequence_declaration,
+        $.PSL_endpoint_declaration,
+        $.PSL_clock_declaration
+    ),
+
+    PSL_property_declaration: $ => seq(
+        caseInsensitive('property'),
+        $._PSL_identifier,
+        optional($.PSL_formal_parameter_list),
+        caseInsensitive('is'),
+        $._PSL_property,
+        ';'
+    ),
+
+    PSL_formal_parameter_list: $ => seq(
+        $._PSL_formal_parameter,
+        repeat(seq(
+            ';',
+            $._PSL_formal_parameter,
+        )),
+    ),
+
+    _PSL_formal_parameter: $ => seq(
+        $.param_type,
+        $._PSL_identifier,
+        repeat(seq(
+            ',',
+            $._PSL_identifier
+        ))
+    ),
+
+    param_type: $ => choice(
+        caseInsensitive('const'),
+        caseInsensitive('boolean'),
+        caseInsensitive('property'),
+        caseInsensitive('sequence')
+    ),
+
+    PSL_sequence_declaration: $ => seq(
+        caseInsensitive('sequence'),
+        $._PSL_identifier,
+        optional($.PSL_formal_parameter_list),
+        caseInsensitive('is'),
+        $._PSL_sequence,
+        ';'
+    ),
+
+    PSL_endpoint_declaration: $ => seq(
+        caseInsensitive('endpoint'),
+        $._PSL_identifier,
+        optional($.PSL_formal_parameter_list),
+        caseInsensitive('is'),
+        $._PSL_sequence,
+        ';'
+    ),
+
+    PSL_clock_declaration: $ => seq(
+        caseInsensitive('default'),
+        caseInsensitive('clock'),
+        caseInsensitive('is'),
+        field('clock', 
+            choice(
+                $._primary,
+                seq(
+                    '(',
+                    $._HDL_or_PSL_expression,
+                    ')'
+                ),
+            )
+        ),
+        ';'
+    ),
+    // }}}
+
+    // A.4.3 PSL directives {{{
+    _PSL_directive: $ => choice(
+        $.PSL_assertion_directive,
+        $.PSL_assumption_directive,
+        $.PSL_restriction_directive,
+        $.PSL_coverage_directive,
+        $.PSL_fairness_directive
+    ),
+
+
+    // LINT: If property is presented,
+    //       report and severity shall not be present
+    PSL_assertion_directive: $ => seq(
+        caseInsensitive('assert'),
+        field('property', $._PSL_property),
+        optional(seq(
+            caseInsensitive('report'),
+            field('report', $._string_expression)
+        )),
+        optional(seq(
+            caseInsensitive('severity'),
+            field('severity', $._severity)
+        )),
+        ';'
+    ),
+
+    // LINT: report shall only be presente when assume_guarantee
+    PSL_assumption_directive: $ => seq(
+        caseInsensitive('assume'),
+        optional(token.immediate(caseInsensitive('_guarantee')),
+        ),
+        field('property', $._PSL_property),
+        optional(seq(
+            caseInsensitive('report'),
+            field('report', $._string_expression)
+        )),
+        ';'
+    ),
+
+    // LINT: report shall only be presente when restrict_guarantee
+    PSL_restriction_directive: $ => seq(
+        caseInsensitive('restrict'),
+        optional(token.immediate(caseInsensitive('_guarantee'))),
+        $._PSL_sequence,
+        optional(seq(
+            caseInsensitive('report'),
+            field('report', $._string_expression)
+        )),
+        ';'
+    ),
+
+    PSL_coverage_directive: $ => seq(
+        caseInsensitive('cover'),
+        $._PSL_sequence,
+        optional(seq(
+            caseInsensitive('report'),
+            field('report', $._string_expression)
+        )),
+        ';'
+    ),
+
+    // LINT: non-strong fairness shall have only one expression
+    PSL_fairness_directive: $ => seq(
+        caseInsensitive('strong'),
+        caseInsensitive('fairness'),
+        $._HDL_or_PSL_expression,
+        optional(seq(
+            ',',
+            $._HDL_or_PSL_expression,
+        )),
+        ';'
+    ),
+    // }}}
+
+    // A.4.4 PSL properties {{{
+    _PSL_property: $ => choice(
+        $.replicator,
+        $._PSL_fl_property,
+    ),
+
+    replicator: $ => seq(
+        caseInsensitive('forall'),
+        $._PSL_identifier,
+        optional($._index_range),
+        caseInsensitive('in'),
+        $.value_set,
+        ':',
+        $._PSL_property
+    ),
+
+    // non parenthesized range shall be ascending range
+    _index_range: $ => choice(
+        $._range,
+        seq(
+            '(',
+            $._range,
+            ')',
+        )
+    ),
+
+    // LINT: (_value_range (_range) shall be ascending_range
+    value_set: $ => choice(
+        seq(
+            '{',
+            $._value_range,
+            repeat(seq(
+                ',',
+                $._value_range
+            )),
+            '}'
+        ),
+        $._boolean
+    ),
+
+    _boolean: $ => alias(
+        caseInsensitive('boolean'),
+        $.boolean
+    ),
+
+    _value_range: $ => field('value_range',choice(
+        $._HDL_or_PSL_expression,
+        $._range
+    )),
+
+    // PSL 6.2.1 FL properties {{{
+    _PSL_fl_property: $ => choice(
+        $._HDL_or_PSL_expression,
+        $.parenthesized_fl_property,
+        $.sequential_property,
+        $.clocked_property,
+        $.termination_property,
+        $.implication_property,
+        $.invariance_property,
+        $.ocurrence_property,
+        $.bounding_property,
+        $.extended_ocurrence_property,
+        $.extended_ocurrence_property_all,
+        $.extended_event_ocurrence_property,
+        $.extended_event_ocurrence_property_all,
+        $.suffix_implication_property
+    ),
+
+    sequential_property: $ => seq(
+        $._PSL_sequence,
+        optional('!')
+    ),
+
+    parenthesized_fl_property: $ => prec(1,seq(
+        '(',
+        $._PSL_fl_property,
+        ')'
+    )),
+
+    clocked_property: $ => prec.left(
+        PREC.PSL_CLOCK,
+        seq(
+            field('property',$._PSL_fl_property),
+            '@',
+            field('clock',$._HDL_or_PSL_expression),
+        )
+    ),
+
+    termination_property: $ => prec.left(
+        PREC.PSL_TERMINATION,
+        seq(
+            field('property',$._PSL_fl_property),
+            field('operator',caseInsensitive('abort')),
+            $._boolean_expression,
+        )
+    ),
+
+    implication_property: $ => prec.right(
+        PREC.PSL_BOOL_IMPLICATION,
+        seq(
+            field('left',$._PSL_fl_property),
+            field('operator',choice('->','<->')),
+            field('right',$._PSL_fl_property),
+        )
+    ),
+
+    invariance_property: $ => prec.right(
+        PREC.PSL_INVARIANCE,
+        seq(
+            field('operator', choice(
+                caseInsensitive('always'),
+                caseInsensitive('never'),
+            )),
+            field('property',$._PSL_fl_property),
+        )
+    ),
+
+    ocurrence_property: $ => prec.right(
+        PREC.PSL_OCURRENCE,
+        seq(
+            field('operator', choice(
+                caseInsensitive('next'),
+                caseInsensitive('next!'),
+                caseInsensitive('eventually!'),
+            )),
+            field('property',$._PSL_fl_property),
+        )
+    ),
+
+    bounding_property: $ => prec.right(
+        PREC.PSL_BOUNDING,
+        seq(
+            field('left', $._PSL_fl_property),
+            field('operator', choice(
+                caseInsensitive('until!'),
+                caseInsensitive('until'),
+                caseInsensitive('until!_'),
+                caseInsensitive('until_'),
+                caseInsensitive('before!'),
+                caseInsensitive('before'),
+                caseInsensitive('before!_'),
+                caseInsensitive('before_'),
+            )),
+            field('right', $._PSL_fl_property)
+        )
+    ),
+
+    // LINT: number shall be a integer static non-negative value
+    extended_ocurrence_property: $ => prec.right(
+        PREC.PSL_OCURRENCE,
+        seq(
+            field('operator', choice(
+                caseInsensitive('next'),
+                caseInsensitive('next!'),
+            )),
+            '[',
+            field('number',$._HDL_or_PSL_expression),
+            ']',
+            $.parenthesized_fl_property,
+        )
+    ),
+
+    extended_ocurrence_property_all: $ => prec.right(
+        PREC.PSL_OCURRENCE,
+        seq(
+            field('operator', choice(
+                caseInsensitive('next_a'),
+                caseInsensitive('next_a!'),
+            )),
+            '[',
+            field('finite_range',optional($._range)),
+            ']',
+            $.parenthesized_fl_property,
+        )
+    ),
+
+    extended_event_ocurrence_property: $ => prec.right(
+        PREC.PSL_OCURRENCE,
+        seq(
+            field('operator', choice(
+                caseInsensitive('next_event'),
+                caseInsensitive('next_event!'),
+            )),
+            '(',
+            $._boolean_expression,
+            ')',
+            optional(seq(
+                '[',
+                field('positive_number',$._HDL_or_PSL_expression),
+                ']'
+            )),
+            $.parenthesized_fl_property,
+        )
+    ),
+
+    extended_event_ocurrence_property_all: $ => prec.right(
+        PREC.PSL_OCURRENCE,
+        seq(
+            field('operator', choice(
+                caseInsensitive('next_event_a'),
+                caseInsensitive('next_event_e'),
+                caseInsensitive('next_event_a!'),
+                caseInsensitive('next_event_e!'),
+            )),
+            '(',
+            $._boolean_expression,
+            ')',
+            '[',
+            field('finite_positive_range',$._range),
+            ']',
+            $.parenthesized_fl_property,
+        )
+    ),
+
+    // TODO
+    suffix_implication_property: $ => prec.right(
+        PREC.PSL_SEQ_IMPLICATION,
+        choice(
+            seq(
+                repeat($._PSL_sequence),
+                $.parenthesized_fl_property,
+            ),
+            seq(
+                $._PSL_sequence,
+                field('operator',choice('|->','|=>')),
+                field('property',$._PSL_fl_property),
+            ),
+        )
+    ),
+    // }}}
+
+    // }}}
+
+    // A.4.5 SERE {{{
+    _PSL_SERE: $ => prec(1,choice(
+        $._HDL_or_PSL_expression,
+        $._PSL_sequence,
+        $.fusion_SERE,
+        $.concatenation_SERE,
+        $._compound_SERE
+    )),
+
+    fusion_SERE: $ => prec.left(
+        PREC.PSL_FUSION,
+        seq(
+            field('left',$._PSL_SERE),
+            field('operator', ':'),
+            field('right',$._PSL_SERE)
+        )
+    ),
+
+    concatenation_SERE: $ => prec.left(
+        PREC.PSL_CONCAT,
+        seq(
+            field('left',$._PSL_SERE),
+            field('operator', ';'),
+            field('right',$._PSL_SERE)
+        )
+    ),
+
+    _compound_SERE: $ => prec(-1,choice(
+        $.repeated_SERE,
+        $.braced_SERE,
+        $.clocked_SERE,
+        $.disjunction_SERE,
+        $.conjunction_SERE,
+        $.within_SERE,
+    )),
+
+    disjunction_SERE: $ => prec.left(
+        PREC.PSL_SERE_OR,
+        seq(
+            field('left',$._compound_SERE),
+            '|',
+            field('right',$._compound_SERE),
+        )
+    ),
+
+    conjunction_SERE: $ => prec.left(
+        PREC.PSL_SERE_AND,
+        seq(
+            field('left',$._compound_SERE),
+            field('operator',choice('&','&&')),
+            field('right',$._compound_SERE),
+        )
+    ),
+
+    within_SERE: $ => prec.left(
+        PREC.PSL_SERE_WITHIN,
+        seq(
+            field('left',$._compound_SERE),
+            field('operator',caseInsensitive('within')),
+            field('right',$._compound_SERE),
+        )
+    ),
+    // }}}
+
+    // A.4.6 Sequences {{{
+    _PSL_sequence: $ => field('sequence',choice(
+        prec(-1,$.ambiguous_name),
+        $.repeated_SERE,
+        $.braced_SERE,
+        $.clocked_SERE,
+    )),
+
+    repeated_SERE: $ => prec.left(
+        PREC.PSL_SERE_REPEAT,
+        choice(
+            seq(
+                $._boolean_expression,
+                '[',
+                choice(
+                    seq(field('operator','*'),  optional($._count)),
+                    seq(field('operator','->'), optional($._count)),
+                    seq(field('operator','+')),
+                    seq(field('operator','='), $._count),
+                ),
+                ']'
+            ),
+            seq(
+                optional($._PSL_sequence),
+                '[',
+                choice(
+                    seq(field('operator','*'), optional($._count)),
+                    seq(field('operator','+')),
+                ),
+                ']'
+            ),
+        )),
+
+    braced_SERE: $ => seq(
+        '{',
+        $._PSL_SERE,
+        '}',
+    ),
+
+    clocked_SERE: $ => prec.left(PREC.PSL_CLOCK,seq(
+        $.braced_SERE,
+        '@',
+        $._HDL_or_PSL_expression
+    )),
+
+    // LINT: _range shall be ascending_range
+    _count: $ => field(
+        'count',
+        choice(
+            $._HDL_or_PSL_expression,
+            $._range
+        )
+    ),
+    // }}}
+
+    // A.4.7 Forms of expression {{{
+    _boolean_expression: $ => field(
+        'condition',
+        $._HDL_or_PSL_expression
+    ),
+
+    _HDL_or_PSL_expression: $ => choice(
+        $._expression,
+        $._PSL_expression,
+        $.union_expression,
+        //$.endpoint_instance,
+    ),
+
+    _PSL_expression: $ => choice(
+        $.implication_expression,
+    ),
+
+    implication_expression: $ => prec.right(
+        PREC.PSL_BOOL_IMPLICATION,
+        seq(
+            field('left', $._HDL_or_PSL_expression),
+            field('operator',choice('->','<->')),
+            field('right', $._HDL_or_PSL_expression),
+        )
+    ),
+
+    union_expression: $ => prec.left(PREC.PSL_UNION,seq(
+        field('left', $._HDL_or_PSL_expression),
+        field('operator',caseInsensitive('union')),
+        field('right', $._HDL_or_PSL_expression),
+    )),
+    // }}}
+
 },
 
-    supertypes: $ => [
+    
+    supertypes: $ => [ // {{{
+        $._PSL_directive,
+        $._PSL_declaration,
+        $._PSL_fl_property,
+        $._PSL_sequence,
+        $._PSL_property,
+        $._PSL_SERE,
         $._sequential_statement,
         $._concurrent_statement,
         $._declarative_item,
         $._name
-    ]
+    ] // }}}
 
 })
 
 function caseInsensitive(keyword) {
     //return token(keyword)
-    return new RegExp(keyword
+    return token(prec(1,new RegExp(keyword
         .split('')
         .map(letter => `[${letter}${letter.toUpperCase()}]`)
         .join('')
-    )
+    )))
 }

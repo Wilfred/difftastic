@@ -15,33 +15,24 @@ assert sx"";
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier))))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal)))
 
 ============================================
 Length
@@ -57,55 +48,27 @@ assert 016so"0";
 assert   004x"0";
 assert  008ux"0";
 assert 0016sx"0";
-
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      length: (integer)
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      length: (integer)
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      length: (integer)
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      length: (integer)
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      length: (integer)
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      length: (integer)
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      length: (integer)
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      length: (integer)
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      length: (integer)
-      (base_specifier)
-      (bit_value))))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal)))
 
 ============================================
 Bit value
@@ -121,43 +84,24 @@ assert so"0123_4567";
 assert  x"0123_4567";
 assert ux"0123_4567_89AB_CDEF";
 assert sx"0123_4567_89AB_CDEF";
-
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)
-      (bit_value)))
-  (concurrent_assertion_statement
-    condition: (bit_string_literal
-      (base_specifier)
-      (bit_value))))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal))
+  (PSL_assertion_directive
+    property: (bit_string_literal)))

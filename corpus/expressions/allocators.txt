@@ -5,8 +5,8 @@ assert new Node;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (allocator
+  (PSL_assertion_directive
+    property: (allocator
       (subtype_indication
         type_mark: (simple_name)))))
 
@@ -18,8 +18,8 @@ assert new Node'(Delay => 5 ns,
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (allocator
+  (PSL_assertion_directive
+    property: (allocator
       (qualified_expression
         type_mark: (simple_name)
         (aggregate
@@ -27,11 +27,10 @@ assert new Node'(Delay => 5 ns,
             (choices
               (simple_name))
             (physical_literal
-              coefficient: (integer_decimal_literal (integer))
+              coefficient: (integer_decimal)
               unit_name: (simple_name)))
           (named_element_association
-            (choices
-              (simple_name))
+            (choices (simple_name))
             (simple_name)))))))
 
 =========================================
@@ -41,18 +40,15 @@ assert new CELL'(0, null, null);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (allocator
+  (PSL_assertion_directive
+    property: (allocator
       (qualified_expression
         type_mark: (simple_name)
         (aggregate
           (positional_element_association
-            (integer_decimal_literal
-              (integer)))
-          (positional_element_association
-            (null))
-          (positional_element_association
-            (null)))))))
+            (integer_decimal))
+          (positional_element_association (null))
+          (positional_element_association (null)))))))
 
 =========================================
 Subtype indication LRM - I
@@ -62,23 +58,19 @@ assert new String (1 to 10);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (allocator
+  (PSL_assertion_directive
+    property: (allocator
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (allocator
+  (PSL_assertion_directive
+    property: (allocator
       (subtype_indication
         type_mark: (simple_name)
-        (constraint
           (array_constraint
             (index_constraint
-              (discrete_range
-                (ascending_range
-                  low: (integer_decimal_literal
-                    (integer))
-                  high: (integer_decimal_literal
-                    (integer)))))))))))
+              discrete_range: (ascending_range
+                                low: (integer_decimal)
+                                high: (integer_decimal))))))))
 
 =========================================
 Subtype indication - LRM II
@@ -87,16 +79,13 @@ assert new bit_vector (1 to index);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (allocator
+  (PSL_assertion_directive
+    property: (allocator
       (subtype_indication
         type_mark: (simple_name)
-        (constraint
           (array_constraint
             (index_constraint
-              (discrete_range
-                (ascending_range
-                  low: (integer_decimal_literal
-                    (integer))
-                  high: (simple_name))))))))))
+              discrete_range: (ascending_range
+                            low: (integer_decimal)
+                            high: (simple_name))))))))
 

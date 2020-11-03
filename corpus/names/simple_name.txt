@@ -1,54 +1,82 @@
 ============================================
 Basic identifier
 ============================================
+-- Base specificers
 assert b;
 assert o;
 assert x;
 assert d;
-assert e1;
-assert e2;
 assert B;
 assert O;
 assert X;
 assert D;
+-- PSL LTL
+assert x;
+assert f;
+assert g;
+assert u;
+assert w;
+-- Exponent
+assert e1;
+assert e2;
 assert E1;
 assert E2;
-assert a_b;
+-- Predefined attributes
 assert high;
 assert base;
+-- Others
+assert a_b;
+assert a1;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name)))
+  (comment)
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (comment)
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (comment)
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (comment)
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (comment)
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name)))
 
 ============================================
 Extended Identifier
@@ -69,30 +97,30 @@ assert \use\;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name))
-  (concurrent_assertion_statement
-    condition: (simple_name)))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name))
+  (PSL_assertion_directive
+    property: (simple_name)))
 

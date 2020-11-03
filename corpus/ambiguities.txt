@@ -1,0 +1,3 @@
+ array_constraint prec left of right?
+
+ 'assert'  'extended_next_property_token1'  _simple_expression  'to'  'new'  identifier  '('  index_constraint  ')'  •  '('

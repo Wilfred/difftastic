@@ -7,22 +7,22 @@ assert << signal   obj : bar_t >>;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (external_constant_name
+  (PSL_assertion_directive
+    property: (external_constant_name
       (relative_pathname
         (partial_pathname
           (object_simple_name)))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_variable_name
+  (PSL_assertion_directive
+    property: (external_variable_name
       (relative_pathname
         (partial_pathname
           (object_simple_name)))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_signal_name
+  (PSL_assertion_directive
+    property: (external_signal_name
       (relative_pathname
         (partial_pathname
           (object_simple_name)))
@@ -38,16 +38,16 @@ assert << signal   @lib.pkg.pkg.pkg.obj : foo_t >>;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (external_constant_name
+  (PSL_assertion_directive
+    property: (external_constant_name
       (package_pathname
         (logical_name)
         (package_simple_name)
         (object_simple_name))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_variable_name
+  (PSL_assertion_directive
+    property: (external_variable_name
       (package_pathname
         (logical_name)
         (package_simple_name)
@@ -55,8 +55,8 @@ assert << signal   @lib.pkg.pkg.pkg.obj : foo_t >>;
         (object_simple_name))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_signal_name
+  (PSL_assertion_directive
+    property: (external_signal_name
       (package_pathname
         (logical_name)
         (package_simple_name)
@@ -75,15 +75,15 @@ assert << signal   .foo.bar.obj : foo_t >>;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (external_constant_name
+  (PSL_assertion_directive
+    property: (external_constant_name
       (absolute_pathname
         (partial_pathname
           (object_simple_name)))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_variable_name
+  (PSL_assertion_directive
+    property: (external_variable_name
       (absolute_pathname
         (partial_pathname
           (pathname_element
@@ -91,8 +91,8 @@ assert << signal   .foo.bar.obj : foo_t >>;
           (object_simple_name)))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_signal_name
+  (PSL_assertion_directive
+    property: (external_signal_name
       (absolute_pathname
         (partial_pathname
           (pathname_element
@@ -112,8 +112,8 @@ assert << signal   .foo(0).bar(0).obj : bar >>;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (external_constant_name
+  (PSL_assertion_directive
+    property: (external_constant_name
       (absolute_pathname
         (partial_pathname
           (pathname_element
@@ -123,13 +123,12 @@ assert << signal   .foo(0).bar(0).obj : bar >>;
                 (positional_association_element
                   (actual_part
                     (actual_designator
-                      (integer_decimal_literal
-                        (integer))))))))
+                      (integer_decimal)))))))
           (object_simple_name)))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_variable_name
+  (PSL_assertion_directive
+    property: (external_variable_name
       (absolute_pathname
         (partial_pathname
           (pathname_element
@@ -141,13 +140,12 @@ assert << signal   .foo(0).bar(0).obj : bar >>;
                 (positional_association_element
                   (actual_part
                     (actual_designator
-                      (integer_decimal_literal
-                        (integer))))))))
+                      (integer_decimal)))))))
           (object_simple_name)))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_signal_name
+  (PSL_assertion_directive
+    property: (external_signal_name
       (absolute_pathname
         (partial_pathname
           (pathname_element
@@ -157,8 +155,7 @@ assert << signal   .foo(0).bar(0).obj : bar >>;
                 (positional_association_element
                   (actual_part
                     (actual_designator
-                      (integer_decimal_literal
-                        (integer))))))))
+                      (integer_decimal)))))))
           (pathname_element
             (ambiguous_name
               prefix: (generate_statement_label)
@@ -166,8 +163,7 @@ assert << signal   .foo(0).bar(0).obj : bar >>;
                 (positional_association_element
                   (actual_part
                     (actual_designator
-                      (integer_decimal_literal
-                        (integer))))))))
+                      (integer_decimal)))))))
           (object_simple_name)))
       (subtype_indication
         type_mark: (simple_name)))))
@@ -182,15 +178,15 @@ assert << signal   foo.bar.obj : foo_t >>;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (external_constant_name
+  (PSL_assertion_directive
+    property: (external_constant_name
       (relative_pathname
         (partial_pathname
           (object_simple_name)))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_variable_name
+  (PSL_assertion_directive
+    property: (external_variable_name
       (relative_pathname
         (partial_pathname
           (pathname_element
@@ -198,8 +194,8 @@ assert << signal   foo.bar.obj : foo_t >>;
           (object_simple_name)))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_signal_name
+  (PSL_assertion_directive
+    property: (external_signal_name
       (relative_pathname
         (partial_pathname
           (pathname_element
@@ -219,22 +215,22 @@ assert << signal ^.^.obj : foo_t >>;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (external_constant_name
+  (PSL_assertion_directive
+    property: (external_constant_name
       (relative_pathname
         (partial_pathname
           (object_simple_name)))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_variable_name
+  (PSL_assertion_directive
+    property: (external_variable_name
       (relative_pathname
         (partial_pathname
           (object_simple_name)))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_signal_name
+  (PSL_assertion_directive
+    property: (external_signal_name
       (relative_pathname
         (partial_pathname
           (object_simple_name)))
@@ -250,8 +246,8 @@ assert << signal   ^.^.foobar.foo.bar.obj : foo_t >>;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (external_constant_name
+  (PSL_assertion_directive
+    property: (external_constant_name
       (relative_pathname
         (partial_pathname
           (pathname_element
@@ -259,8 +255,8 @@ assert << signal   ^.^.foobar.foo.bar.obj : foo_t >>;
           (object_simple_name)))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_variable_name
+  (PSL_assertion_directive
+    property: (external_variable_name
       (relative_pathname
         (partial_pathname
           (pathname_element
@@ -270,8 +266,8 @@ assert << signal   ^.^.foobar.foo.bar.obj : foo_t >>;
           (object_simple_name)))
       (subtype_indication
         type_mark: (simple_name))))
-  (concurrent_assertion_statement
-    condition: (external_signal_name
+  (PSL_assertion_directive
+    property: (external_signal_name
       (relative_pathname
         (partial_pathname
           (pathname_element

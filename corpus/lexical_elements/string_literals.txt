@@ -5,8 +5,8 @@ assert "";
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (string_literal)))
+  (PSL_assertion_directive
+    property: (string_literal)))
 
 ============================================
 White space (SPACE)
@@ -15,8 +15,8 @@ assert " ";
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (string_literal)))
+  (PSL_assertion_directive
+    property: (string_literal)))
 
 ============================================
 White space (NBSP)
@@ -25,8 +25,8 @@ assert " ";
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (string_literal)))
+  (PSL_assertion_directive
+    property: (string_literal)))
 
 ==============================================================
 Apostrophe
@@ -35,8 +35,8 @@ assert "'";
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (string_literal)))
+  (PSL_assertion_directive
+    property: (string_literal)))
 
 ==============================================================
 Quotation mark (escape)
@@ -45,8 +45,8 @@ assert """";
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (string_literal)))
+  (PSL_assertion_directive
+    property: (string_literal)))
 
 ==============================================================
 Character literal - Solidus
@@ -55,8 +55,8 @@ assert "/";
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (string_literal)))
+  (PSL_assertion_directive
+    property: (string_literal)))
 
 ==============================================================
 Backslash
@@ -65,8 +65,8 @@ assert "\";
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (string_literal)))
+  (PSL_assertion_directive
+    property: (string_literal)))
 
 ==============================================================
 Zeros and ones
@@ -75,7 +75,7 @@ assert "010";
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (string_literal)))
+  (PSL_assertion_directive
+    property: (string_literal)))
 
 

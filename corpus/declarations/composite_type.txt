@@ -41,9 +41,8 @@ type att_t is array (subtype_t) of foo;
     (identifier)
     (constrained_array_definition
       (index_constraint
-        (discrete_range
-          (subtype_indication
-            type_mark: (simple_name))))
+        discrete_range: (subtype_indication
+          type_mark: (simple_name)))
       (element_subtype_indication
         type_mark: (simple_name)))))
 
@@ -58,12 +57,9 @@ type att_t is array (7 downto 0) of foo;
     (identifier)
     (constrained_array_definition
       (index_constraint
-        (discrete_range
-          (descending_range
-            high: (integer_decimal_literal
-              (integer))
-            low: (integer_decimal_literal
-              (integer)))))
+        discrete_range: (descending_range
+            high: (integer_decimal)
+             low: (integer_decimal)))
       (element_subtype_indication
         type_mark: (simple_name)))))
 

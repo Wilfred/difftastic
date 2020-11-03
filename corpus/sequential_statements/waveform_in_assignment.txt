@@ -64,7 +64,7 @@ end process;
         (waveform_element
           value: (simple_name)
           after: (physical_literal
-            coefficient: (integer_decimal_literal (integer))
+            coefficient: (integer_decimal)
             unit_name: (simple_name))))
       (label)
       (selected_waveform_assignment
@@ -74,7 +74,7 @@ end process;
           (waveform_element
             value: (simple_name)
             after: (physical_literal
-              coefficient: (integer_decimal_literal (integer))
+              coefficient: (integer_decimal)
               unit_name: (simple_name)))
           (choices
             (simple_name))))
@@ -85,7 +85,7 @@ end process;
           (waveform_element
             value: (simple_name)
             after: (physical_literal
-              coefficient: (integer_decimal_literal (integer))
+              coefficient: (integer_decimal)
               unit_name: (simple_name)))
           (condition
             (simple_name)))))))
@@ -110,13 +110,13 @@ end process;
         (waveform_element
           value: (simple_name)
           after: (physical_literal
-            coefficient: (integer_decimal_literal (integer))
+            coefficient: (integer_decimal)
             unit_name: (simple_name)))
         (waveform_element
           value: (simple_name))
         (waveform_element
           value: (simple_name)
           after: (physical_literal
-            coefficient: (integer_decimal_literal (integer))
+            coefficient: (integer_decimal)
             unit_name: (simple_name)))))))
 

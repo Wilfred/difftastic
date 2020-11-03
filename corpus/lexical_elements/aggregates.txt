@@ -6,12 +6,12 @@ assert (a,b,c);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (positional_element_association (simple_name))
       (positional_element_association (simple_name))))
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (positional_element_association (simple_name))
       (positional_element_association (simple_name))
       (positional_element_association (simple_name)))))
@@ -25,21 +25,21 @@ assert (a=>b,c=>d,e=>f);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (named_element_association
         (choices (simple_name))
         (simple_name))))
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (named_element_association
         (choices (simple_name))
         (simple_name))
       (named_element_association
         (choices (simple_name))
         (simple_name))))
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (named_element_association
         (choices (simple_name))
         (simple_name))
@@ -58,14 +58,14 @@ assert (a|b|c=>d);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (named_element_association
         (choices (simple_name)
                  (simple_name))
         (simple_name))))
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (named_element_association
         (choices (simple_name)
                  (simple_name)
@@ -80,13 +80,13 @@ assert (a,b=>c,others=>d);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (named_element_association
         (choices (others))
         (simple_name))))
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (positional_element_association
         (simple_name))
       (named_element_association
@@ -105,14 +105,14 @@ assert (a,b,c|d=>e,f|g=>h);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (positional_element_association (simple_name))
       (named_element_association
         (choices (simple_name))
         (simple_name))))
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (positional_element_association (simple_name))
       (positional_element_association (simple_name))
       (named_element_association
@@ -121,8 +121,8 @@ assert (a,b,c|d=>e,f|g=>h);
       (named_element_association
         (choices (simple_name))
         (simple_name))))
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (positional_element_association (simple_name))
       (positional_element_association (simple_name))
       (named_element_association
@@ -141,8 +141,8 @@ assert (a'high=>b);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (named_element_association
         (choices
           (attribute_name
@@ -158,24 +158,22 @@ assert (l to h=>a);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (named_element_association
         (choices
-          (discrete_range
-            (descending_range
-              high: (simple_name)
-              low: (simple_name))))
-        (simple_name))))
-  (concurrent_assertion_statement
-    condition: (aggregate
+          discrete_range: (descending_range
+                        high: (simple_name)
+                         low: (simple_name)))
+                          (simple_name))))
+  (PSL_assertion_directive
+    property: (aggregate
       (named_element_association
         (choices
-          (discrete_range
-            (ascending_range
-              low: (simple_name)
-              high: (simple_name))))
-        (simple_name)))))
+          discrete_range: (ascending_range
+                         low: (simple_name)
+                        high: (simple_name)))
+                          (simple_name)))))
 
 ============================================
 Discrete range II
@@ -185,24 +183,22 @@ assert (t'reverse_range=>a);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (named_element_association
         (choices
-          (discrete_range
-            (attribute_name
-              prefix: (simple_name)
-              (range_attribute_designator))))
-        (simple_name))))
-  (concurrent_assertion_statement
-    condition: (aggregate
+          discrete_range: (attribute_name
+                        prefix: (simple_name)
+                                (range_attribute_designator)))
+                          (simple_name))))
+  (PSL_assertion_directive
+    property: (aggregate
       (named_element_association
         (choices
-          (discrete_range
-            (attribute_name
-              prefix: (simple_name)
-              (range_attribute_designator))))
-        (simple_name)))))
+          discrete_range: (attribute_name
+                        prefix: (simple_name)
+                                (range_attribute_designator)))
+                          (simple_name)))))
 
 ============================================
 Discrete range III
@@ -211,36 +207,33 @@ assert (t'range(1)=>a);
 assert (t'reverse_range(1)=>a);
 ---
 
+
 (design_file
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (named_element_association
         (choices
-          (discrete_range
-            (ambiguous_name
-              prefix: (attribute_name
-                prefix: (simple_name)
-                (range_attribute_designator))
-              (association_list
-                (positional_association_element
-                  (actual_part
-                    (actual_designator
-                      (integer_decimal_literal
-                        (integer)))))))))
+          discrete_range: (ambiguous_name
+            prefix: (attribute_name
+              prefix: (simple_name)
+              (range_attribute_designator))
+            (association_list
+              (positional_association_element
+                (actual_part
+                  (actual_designator
+                    (integer_decimal)))))))
         (simple_name))))
-  (concurrent_assertion_statement
-    condition: (aggregate
+  (PSL_assertion_directive
+    property: (aggregate
       (named_element_association
         (choices
-          (discrete_range
-            (ambiguous_name
-              prefix: (attribute_name
-                prefix: (simple_name)
-                (range_attribute_designator))
-              (association_list
-                (positional_association_element
-                  (actual_part
-                    (actual_designator
-                      (integer_decimal_literal
-                        (integer)))))))))
+          discrete_range: (ambiguous_name
+            prefix: (attribute_name
+              prefix: (simple_name)
+              (range_attribute_designator))
+            (association_list
+              (positional_association_element
+                (actual_part
+                  (actual_designator
+                    (integer_decimal)))))))
         (simple_name)))))

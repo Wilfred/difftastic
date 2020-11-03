@@ -9,24 +9,24 @@ assert foo.all;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (simple_name)
       suffix: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (simple_name)
       suffix: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (simple_name)
       suffix: (character_literal)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (simple_name)
       suffix: (operator_symbol)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (simple_name)
       suffix: (all))))
 
@@ -41,24 +41,24 @@ assert \foo\.all;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (simple_name)
       suffix: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (simple_name)
       suffix: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (simple_name)
       suffix: (character_literal)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (simple_name)
       suffix: (operator_symbol)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (simple_name)
       suffix: (all))))
 
@@ -73,32 +73,32 @@ assert foo.foo.all;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (selected_name
         prefix: (simple_name)
         suffix: (simple_name))
       suffix: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (selected_name
         prefix: (simple_name)
         suffix: (simple_name))
       suffix: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (selected_name
         prefix: (simple_name)
         suffix: (simple_name))
       suffix: (character_literal)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (selected_name
         prefix: (simple_name)
         suffix: (simple_name))
       suffix: (operator_symbol)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (selected_name
         prefix: (simple_name)
         suffix: (simple_name))
@@ -115,8 +115,8 @@ assert <<signal foo : bar >>.all;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (external_signal_name
         (relative_pathname
           (partial_pathname
@@ -124,8 +124,8 @@ assert <<signal foo : bar >>.all;
         (subtype_indication
           type_mark: (simple_name)))
       suffix: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (external_signal_name
         (relative_pathname
           (partial_pathname
@@ -133,8 +133,8 @@ assert <<signal foo : bar >>.all;
         (subtype_indication
           type_mark: (simple_name)))
       suffix: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (external_signal_name
         (relative_pathname
           (partial_pathname
@@ -142,8 +142,8 @@ assert <<signal foo : bar >>.all;
         (subtype_indication
           type_mark: (simple_name)))
       suffix: (character_literal)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (external_signal_name
         (relative_pathname
           (partial_pathname
@@ -151,8 +151,8 @@ assert <<signal foo : bar >>.all;
         (subtype_indication
           type_mark: (simple_name)))
       suffix: (operator_symbol)))
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (external_signal_name
         (relative_pathname
           (partial_pathname
@@ -168,8 +168,8 @@ assert f(a).bar;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (ambiguous_name
         prefix: (simple_name)
         (association_list
@@ -186,8 +186,8 @@ assert f(a=>B).\bar\;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (ambiguous_name
         prefix: (simple_name)
         (association_list
@@ -207,8 +207,8 @@ assert f(a,b).'+';
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (ambiguous_name
         prefix: (simple_name)
         (association_list
@@ -229,15 +229,14 @@ assert f(a'range)."and";
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (ambiguous_name
         prefix: (simple_name)
         (index_constraint
-          (discrete_range
-            (attribute_name
-              prefix: (simple_name)
-              (range_attribute_designator)))))
+          discrete_range: (attribute_name
+            prefix: (simple_name)
+            (range_attribute_designator))))
       suffix: (operator_symbol))))
 
 ========================================
@@ -247,14 +246,14 @@ assert f(0).all;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (selected_name
+  (PSL_assertion_directive
+    property: (selected_name
       prefix: (ambiguous_name
         prefix: (simple_name)
         (association_list
           (positional_association_element
             (actual_part
               (actual_designator
-                (integer_decimal_literal
-                  (integer)))))))
+                (integer_decimal))))))
       suffix: (all))))
+

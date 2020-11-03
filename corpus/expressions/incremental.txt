@@ -5,8 +5,8 @@ assert a**b;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (exponentiation
+  (PSL_assertion_directive
+    property: (exponentiation
        left: (simple_name)
       right: (simple_name))))
 
@@ -17,8 +17,8 @@ assert a**b * c**d;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (term
+  (PSL_assertion_directive
+    property: (term
       left: (exponentiation
          left: (simple_name)
         right: (simple_name))
@@ -33,8 +33,8 @@ assert -a**b * c**d;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (sign
+  (PSL_assertion_directive
+    property: (sign
       argument: (term
         left: (exponentiation
            left: (simple_name)
@@ -50,8 +50,8 @@ assert -a**b * c**d sll -a**b * c**d;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (shift_expression
+  (PSL_assertion_directive
+    property: (shift_expression
       left: (sign
         argument: (term
           left: (exponentiation
@@ -76,8 +76,8 @@ assert -a**b * c**d sll -a**b * c**d > -a**b * c**d sll -a**b * c**d;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (relation
+  (PSL_assertion_directive
+    property: (relation
       left: (shift_expression
         left: (sign
           argument: (term
@@ -124,8 +124,8 @@ assert -a**b * c**d sll -a**b * c**d >
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (logical_expression_and
+  (PSL_assertion_directive
+    property: (logical_expression
       left: (relation
         left: (shift_expression
           left: (sign

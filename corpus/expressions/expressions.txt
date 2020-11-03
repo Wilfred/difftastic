@@ -6,11 +6,11 @@ assert not b;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (factor
+  (PSL_assertion_directive
+    property: (factor
       argument: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (factor
+  (PSL_assertion_directive
+    property: (factor
       argument: (simple_name))))
 
 ===================================
@@ -20,8 +20,8 @@ assert a**b;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (exponentiation
+  (PSL_assertion_directive
+    property: (exponentiation
       left: (simple_name)
       right: (simple_name))))
 
@@ -37,23 +37,23 @@ assert xnor a;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (reduction
+  (PSL_assertion_directive
+    property: (reduction
       argument: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (reduction
+  (PSL_assertion_directive
+    property: (reduction
       argument: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (reduction
+  (PSL_assertion_directive
+    property: (reduction
       argument: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (reduction
+  (PSL_assertion_directive
+    property: (reduction
       argument: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (reduction
+  (PSL_assertion_directive
+    property: (reduction
       argument: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (reduction
+  (PSL_assertion_directive
+    property: (reduction
       argument: (simple_name))))
 
 ===================================
@@ -63,9 +63,9 @@ assert a and b and c;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (logical_expression_and
-      left: (logical_expression_and
+  (PSL_assertion_directive
+    property: (logical_expression
+      left: (logical_expression
         left: (simple_name)
         right: (simple_name))
       right: (simple_name))))
@@ -81,20 +81,20 @@ assert a rem b;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (term
+  (PSL_assertion_directive
+    property: (term
       left: (simple_name)
       right: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (term
+  (PSL_assertion_directive
+    property: (term
       left: (simple_name)
       right: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (term
+  (PSL_assertion_directive
+    property: (term
       left: (simple_name)
       right: (simple_name)))
-  (concurrent_assertion_statement
-    condition: (term
+  (PSL_assertion_directive
+    property: (term
       left: (simple_name)
       right: (simple_name))))
 
@@ -105,8 +105,8 @@ assert a * b / c mod d rem e;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (term
+  (PSL_assertion_directive
+    property: (term
       left: (term
         left: (term
           left: (term
@@ -124,8 +124,8 @@ assert a + b - c;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (simple_expression
+  (PSL_assertion_directive
+    property: (simple_expression
       left: (simple_expression
          left: (simple_name)
         right: (simple_name))
@@ -138,8 +138,8 @@ assert -a - b;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (simple_expression
+  (PSL_assertion_directive
+    property: (simple_expression
       left: (sign
         argument: (simple_name))
       right: (simple_name))))
@@ -152,9 +152,9 @@ assert a nand b nand c;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (logical_expression_nand
-      left: (logical_expression_nand
+  (PSL_assertion_directive
+    property: (logical_expression
+      left: (logical_expression
         left: (simple_name)
         right: (simple_name))
       right: (simple_name))))
@@ -166,9 +166,9 @@ assert a and b nand c;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (logical_expression_nand
-      left: (logical_expression_and
+  (PSL_assertion_directive
+    property: (logical_expression
+      left: (logical_expression
         left: (simple_name)
         right: (simple_name))
       right: (simple_name))))
@@ -180,9 +180,9 @@ assert a nand b and c;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (logical_expression_and
-      left: (logical_expression_nand
+  (PSL_assertion_directive
+    property: (logical_expression
+      left: (logical_expression
         left: (simple_name)
         right: (simple_name))
       right: (simple_name))))
@@ -194,9 +194,9 @@ assert a nand b and c;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (logical_expression_and
-      left: (logical_expression_nand
+  (PSL_assertion_directive
+    property: (logical_expression
+      left: (logical_expression
         left: (simple_name)
         right: (simple_name))
       right: (simple_name))))
@@ -208,9 +208,9 @@ assert a and b or c;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (logical_expression_or
-      left: (logical_expression_and
+  (PSL_assertion_directive
+    property: (logical_expression
+      left: (logical_expression
         left: (simple_name)
         right: (simple_name))
       right: (simple_name))))

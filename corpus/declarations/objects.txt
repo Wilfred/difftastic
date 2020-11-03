@@ -170,15 +170,11 @@ signal S: STANDARD.BIT_VECTOR (1 to 10);
       type_mark: (selected_name
         prefix: (simple_name)
         suffix: (simple_name))
-      (constraint
         (array_constraint
           (index_constraint
-            (discrete_range
-              (ascending_range
-                low: (integer_decimal_literal
-                  (integer))
-                high: (integer_decimal_literal
-                  (integer))))))))))
+            discrete_range: (ascending_range
+                 low: (integer_decimal)
+                high: (integer_decimal)))))))
 
 =========================
 Resolution function [LRM]

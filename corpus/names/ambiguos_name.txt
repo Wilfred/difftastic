@@ -38,8 +38,8 @@ assert foo(bar);
   (comment)
   (comment)
   (comment)
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (simple_name)
       (association_list
         (positional_association_element
@@ -75,8 +75,8 @@ assert foo(bar, baz);
   (comment)
   (comment)
   (comment)
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (simple_name)
       (association_list
         (positional_association_element
@@ -112,8 +112,8 @@ assert foobar(foo=>bar)(bar);
   (comment)
   (comment)
   (comment)
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (ambiguous_name
         prefix: (simple_name)
         (association_list
@@ -153,8 +153,8 @@ assert bit_vector(foo)(bar);
   (comment)
   (comment)
   (comment)
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (ambiguous_name
         prefix: (simple_name)
         (association_list
@@ -176,8 +176,8 @@ assert foo(a=>b);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (simple_name)
       (association_list
         (named_association_element
@@ -194,8 +194,8 @@ assert foo(positive(a)=>b);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (simple_name)
       (association_list
         (named_association_element
@@ -218,8 +218,8 @@ assert foo(a=>positive(a));
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (simple_name)
       (association_list
         (named_association_element
@@ -242,8 +242,8 @@ assert foo(a'b(a)=>b);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (simple_name)
       (association_list
         (named_association_element
@@ -268,8 +268,8 @@ assert foo(bar(a)=>b);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (simple_name)
       (association_list
         (named_association_element
@@ -294,16 +294,16 @@ assert "xor"(a,b);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (operator_symbol)
       (association_list
         (positional_association_element
           (actual_part
             (actual_designator
               (simple_name)))))))
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (operator_symbol)
       (association_list
         (positional_association_element
@@ -322,8 +322,8 @@ assert foo(open);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (simple_name)
       (association_list
         (positional_association_element
@@ -339,8 +339,8 @@ assert foo(bar(open));
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (simple_name)
       (association_list
         (positional_association_element
@@ -362,8 +362,8 @@ assert foo'image(bar);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (attribute_name
         prefix: (simple_name)
         (attribute_designator))
@@ -372,8 +372,8 @@ assert foo'image(bar);
           (actual_part
             (actual_designator
               (simple_name)))))))
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (attribute_name
         prefix: (simple_name)
         (attribute_designator))
@@ -391,16 +391,16 @@ assert foo(true);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (simple_name)
       (association_list
         (positional_association_element
           (actual_part
             (actual_designator
               (character_literal)))))))
-  (concurrent_assertion_statement
-    condition: (ambiguous_name
+  (PSL_assertion_directive
+    property: (ambiguous_name
       prefix: (simple_name)
       (association_list
         (positional_association_element

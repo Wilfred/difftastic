@@ -1,0 +1,33 @@
+=========================================
+Rising edge
+=========================================
+default clock is rising_edge(clk);
+---
+
+(design_file
+  (PSL_clock_declaration
+    clock: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+=========================================
+Clock expression
+=========================================
+default clock is (clk'event and clk = '1');
+---
+
+(design_file
+  (PSL_clock_declaration
+    clock: (parenthesized_expression
+      (logical_expression
+        left: (attribute_name
+          prefix: (simple_name)
+                  (attribute_designator))
+        right: (relation
+          left: (simple_name)
+          right: (character_literal))))))
+

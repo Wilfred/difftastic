@@ -21,13 +21,10 @@ subtype s is integer range 0 to 1;
     (identifier)
     (subtype_indication
       type_mark: (simple_name)
-      (constraint
         (range_constraint
           (ascending_range
-            low: (integer_decimal_literal
-              (integer))
-            high: (integer_decimal_literal
-              (integer))))))))
+             low: (integer_decimal)
+            high: (integer_decimal))))))
 
 ==================================================
 Subtype indication - Range constraint - Descending
@@ -40,13 +37,10 @@ subtype s is integer range 7 downto 0;
     (identifier)
     (subtype_indication
       type_mark: (simple_name)
-      (constraint
         (range_constraint
           (descending_range
-            high: (integer_decimal_literal
-              (integer))
-            low: (integer_decimal_literal
-              (integer))))))))
+            high: (integer_decimal)
+             low: (integer_decimal))))))
 
 =========================================================
 Subtype indication - Range constraint - Range attribute I
@@ -59,11 +53,10 @@ subtype s is integer range bar'range;
     (identifier)
     (subtype_indication
       type_mark: (simple_name)
-      (constraint
         (range_constraint
           (attribute_name
             prefix: (simple_name)
-            (range_attribute_designator)))))))
+            (range_attribute_designator))))))
 
 ==========================================================
 Subtype indication - Range constraint - Range attribute II
@@ -76,7 +69,6 @@ subtype s is integer range bar'range(2);
     (identifier)
     (subtype_indication
       type_mark: (simple_name)
-      (constraint
         (range_constraint
           (ambiguous_name
             prefix: (attribute_name
@@ -86,8 +78,7 @@ subtype s is integer range bar'range(2);
               (positional_association_element
                 (actual_part
                   (actual_designator
-                    (integer_decimal_literal
-                      (integer))))))))))))
+                    (integer_decimal))))))))))
 
 ==========================================================
 Subtype indication - Range constraint - Physical literal
@@ -100,16 +91,15 @@ subtype phase is t_angle range -360 deg to 360 deg;
     (identifier)
     (subtype_indication
       type_mark: (simple_name)
-      (constraint
         (range_constraint
           (ascending_range
             low: (sign
               argument: (physical_literal
-                coefficient: (integer_decimal_literal (integer))
+                coefficient: (integer_decimal)
                 unit_name: (simple_name)))
             high: (physical_literal
-              coefficient: (integer_decimal_literal (integer))
-              unit_name: (simple_name))))))))
+              coefficient: (integer_decimal)
+              unit_name: (simple_name)))))))
 
 ==========================================================
 Subtype indication - Array constraint - Index Constraint - Range I
@@ -122,13 +112,11 @@ subtype st is t (h downto l);
     (identifier)
     (subtype_indication
       type_mark: (simple_name)
-      (constraint
         (array_constraint
           (index_constraint
-            (discrete_range
-              (descending_range
+            discrete_range: (descending_range
                 high: (simple_name)
-                low: (simple_name)))))))))
+                low: (simple_name)))))))
 
 ==========================================================
 Subtype indication - Array constraint - Index Constraint - Range II
@@ -141,17 +129,14 @@ subtype st is t (h downto l, h downto l);
     (identifier)
     (subtype_indication
       type_mark: (simple_name)
-      (constraint
         (array_constraint
           (index_constraint
-            (discrete_range
-              (descending_range
+            discrete_range: (descending_range
                 high: (simple_name)
-                low: (simple_name)))
-            (discrete_range
-              (descending_range
+                 low: (simple_name))
+            discrete_range: (descending_range
                 high: (simple_name)
-                low: (simple_name)))))))))
+                 low: (simple_name)))))))
 
 ==========================================================
 Subtype indication - Array constraint - Index Constraint - Subtype indication I
@@ -164,12 +149,10 @@ subtype st is t (st);
     (identifier)
     (subtype_indication
       type_mark: (simple_name)
-      (constraint
         (array_constraint
           (index_constraint
-            (discrete_range
-              (subtype_indication
-                type_mark: (simple_name)))))))))
+            discrete_range: (subtype_indication
+                type_mark: (simple_name)))))))
 
 ==========================================================
 Subtype indication - Array constraint - Index Constraint - Subtype indication II
@@ -182,17 +165,14 @@ subtype st is t (integer range h downto l);
     (identifier)
     (subtype_indication
       type_mark: (simple_name)
-      (constraint
         (array_constraint
           (index_constraint
-            (discrete_range
-              (subtype_indication
+            discrete_range: (subtype_indication
                 type_mark: (simple_name)
-                (constraint
                   (range_constraint
                     (descending_range
                       high: (simple_name)
-                      low: (simple_name))))))))))))
+                      low: (simple_name)))))))))
 
 ===========================================================
 Subtype indication - Array constraint - Open I
@@ -205,9 +185,8 @@ subtype st is t(open);
     (identifier)
     (subtype_indication
       type_mark: (simple_name)
-      (constraint
         (array_constraint
-          (open))))))
+          (open)))))
 
 ===========================================================
 Subtype indication - Array constraint - Open II
@@ -220,16 +199,14 @@ subtype st is t(open)(h downto l);
     (identifier)
     (subtype_indication
       type_mark: (simple_name)
-      (constraint
         (array_constraint
           (open)
           (array_element_constraint
             (array_constraint
               (index_constraint
-                (discrete_range
-                  (descending_range
+                discrete_range: (descending_range
                     high: (simple_name)
-                    low: (simple_name)))))))))))
+                    low: (simple_name)))))))))
 
 ==========================================================
 Subtype indication - Record constraint
@@ -242,16 +219,14 @@ subtype rec_st is rec_t (e(h to l));
     (identifier)
     (subtype_indication
       type_mark: (simple_name)
-      (constraint
         (record_constraint
           (record_element_constraint
             (record_element_simple_name)
             (array_constraint
               (index_constraint
-                (discrete_range
-                  (ascending_range
+                discrete_range: (ascending_range
                     low: (simple_name)
-                    high: (simple_name)))))))))))
+                    high: (simple_name)))))))))
 
 ==========================================================
 Subtype indication - Resolution function
@@ -309,8 +284,7 @@ subtype X01 is resolved std_ulogic range 'X' to '1';
     (subtype_indication
       resolution_function_name: (simple_name)
       type_mark: (simple_name)
-      (constraint
         (range_constraint
           (ascending_range
             low: (character_literal)
-            high: (character_literal)))))))
+            high: (character_literal))))))

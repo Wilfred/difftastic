@@ -1,0 +1,215 @@
+========================================
+Repeated SERE - Minimal
+========================================
+restrict [*];
+restrict [+];
+restrict [*1];
+---
+
+(design_file
+  (PSL_restriction_directive
+    sequence: (repeated_SERE))
+  (PSL_restriction_directive
+    sequence: (repeated_SERE))
+  (PSL_restriction_directive
+    sequence: (repeated_SERE
+      count: (integer_decimal))))
+
+========================================
+Repeated SERE - Boolean
+========================================
+restrict c[*];
+restrict c[+];
+restrict c[->];
+---
+
+(design_file
+  (PSL_restriction_directive
+    sequence: (repeated_SERE
+      condition: (simple_name)))
+  (PSL_restriction_directive
+    sequence: (repeated_SERE
+      condition: (simple_name)))
+  (PSL_restriction_directive
+    sequence: (repeated_SERE
+      condition: (simple_name))))
+
+========================================
+Repeated SERE - Boolean - Count integer
+========================================
+restrict c[*2];
+restrict c[=2];
+restrict c[->2];
+---
+
+(design_file
+  (PSL_restriction_directive
+    sequence: (repeated_SERE
+      condition: (simple_name)
+      count: (integer_decimal)))
+  (PSL_restriction_directive
+    sequence: (repeated_SERE
+      condition: (simple_name)
+      count: (integer_decimal)))
+  (PSL_restriction_directive
+    sequence: (repeated_SERE
+      condition: (simple_name)
+      count: (integer_decimal))))
+
+========================================
+Repeated SERE - Boolean - Count range
+========================================
+restrict c[*2 to inf];
+restrict c[=2 to inf];
+restrict c[->2 to inf];
+---
+
+(design_file
+  (PSL_restriction_directive
+    sequence: (repeated_SERE
+      condition: (simple_name)
+      count: (ascending_range
+         low: (integer_decimal)
+        high: (infinite))))
+  (PSL_restriction_directive
+    sequence: (repeated_SERE
+      condition: (simple_name)
+      count: (ascending_range
+         low: (integer_decimal)
+        high: (infinite))))
+  (PSL_restriction_directive
+    sequence: (repeated_SERE
+      condition: (simple_name)
+      count: (ascending_range
+         low: (integer_decimal)
+        high: (infinite)))))
+
+========================================
+Repeated SERE - Sequence
+========================================
+restrict {s}[*];
+restrict {s}[+];
+restrict {s}[*1];
+---
+
+(design_file
+  (PSL_restriction_directive
+    sequence: (repeated_SERE
+      sequence: (braced_SERE
+        (simple_name))))
+  (PSL_restriction_directive
+    sequence: (repeated_SERE
+      sequence: (braced_SERE
+        (simple_name))))
+  (PSL_restriction_directive
+    sequence: (repeated_SERE
+      sequence: (braced_SERE
+        (simple_name))
+      count: (integer_decimal))))
+
+========================================
+Clocked SERE
+========================================
+restrict {s} @ rising_edge(clk);
+---
+
+(design_file
+  (PSL_restriction_directive
+    sequence: (clocked_SERE
+      (braced_SERE
+        (simple_name))
+      (ambiguous_name
+        prefix: (simple_name)
+        (association_list
+          (positional_association_element
+            (actual_part
+              (actual_designator
+                (simple_name)))))))))
+
+========================================
+Sequence instance
+========================================
+restrict sn(a);
+---
+
+(design_file
+  (PSL_restriction_directive
+    sequence: (ambiguous_name
+      prefix: (simple_name)
+      (association_list
+        (positional_association_element
+          (actual_part
+            (actual_designator
+              (simple_name))))))))
+
+========================================
+SERE - Fusion
+========================================
+restrict { s:s };
+---
+
+(design_file
+  (PSL_restriction_directive
+    sequence: (braced_SERE
+      (fusion_SERE
+        left: (simple_name)
+        right: (simple_name)))))
+
+========================================
+SERE - Concatenation
+========================================
+restrict { s;s };
+---
+
+(design_file
+  (PSL_restriction_directive
+    sequence: (braced_SERE
+      (concatenation_SERE
+        left: (simple_name)
+        right: (simple_name)))))
+
+========================================
+Compound SERE - Logical expression
+========================================
+restrict { {s} | {s} };
+restrict { {s} & {s} };
+restrict { {s} && {s} };
+---
+
+(design_file
+  (PSL_restriction_directive
+    sequence: (braced_SERE
+      (disjunction_SERE
+        left: (braced_SERE
+          (simple_name))
+        right: (braced_SERE
+          (simple_name)))))
+  (PSL_restriction_directive
+    sequence: (braced_SERE
+      (conjunction_SERE
+        left: (braced_SERE
+          (simple_name))
+        right: (braced_SERE
+          (simple_name)))))
+  (PSL_restriction_directive
+    sequence: (braced_SERE
+      (conjunction_SERE
+        left: (braced_SERE
+          (simple_name))
+        right: (braced_SERE
+          (simple_name))))))
+
+========================================
+Compound SERE - Withing
+========================================
+restrict { {s} within {s} };
+---
+
+(design_file
+  (PSL_restriction_directive
+    sequence: (braced_SERE
+      (within_SERE
+        left: (braced_SERE
+          (simple_name))
+        right: (braced_SERE
+          (simple_name))))))

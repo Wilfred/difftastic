@@ -6,6 +6,6 @@ assert null;
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (null)))
+  (PSL_assertion_directive
+    property: (null)))
 

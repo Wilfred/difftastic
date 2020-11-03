@@ -67,9 +67,8 @@ end process;
         (for_loop
           (parameter_specification
             (identifier)
-            (discrete_range
-              (subtype_indication
-                type_mark: (simple_name)))))))))
+            discrete_range: (subtype_indication
+              type_mark: (simple_name))))))))
 
 ===================================
 Next I
@@ -108,9 +107,8 @@ end process;
         (for_loop
           (parameter_specification
             (identifier)
-            (discrete_range
-              (subtype_indication
-                type_mark: (simple_name)))))
+            discrete_range: (subtype_indication
+              type_mark: (simple_name))))
         (sequence_of_statements
           (next_statement
             when: (simple_name)))))))

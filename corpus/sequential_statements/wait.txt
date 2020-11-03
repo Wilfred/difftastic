@@ -63,7 +63,7 @@ end process;
     (process_statement_part
       (wait_statement
         for: (physical_literal
-          coefficient: (integer_decimal_literal (integer))
+          coefficient: (integer_decimal)
           unit_name: (simple_name))))))
 
 ================================
@@ -91,5 +91,5 @@ end process;
                 (actual_designator
                   (simple_name))))))
         for: (physical_literal
-          coefficient: (integer_decimal_literal (integer))
+          coefficient: (integer_decimal)
           unit_name: (simple_name))))))

@@ -40,10 +40,8 @@ type int_t is range 0 to 255;
     (identifier)
     (numeric_type_definition
       (ascending_range
-        low: (integer_decimal_literal
-          (integer))
-        high: (integer_decimal_literal
-          (integer))))))
+         low: (integer_decimal)
+        high: (integer_decimal)))))
 
 ======================================
 Floating type definition
@@ -56,12 +54,8 @@ type float_t is range 2.0 to 8.0;
     (identifier)
     (numeric_type_definition
       (ascending_range
-        low: (real_decimal_literal
-          integer_part: (integer)
-          fractional_part: (integer))
-        high: (real_decimal_literal
-          integer_part: (integer)
-          fractional_part: (integer))))))
+         low: (real_decimal)
+        high: (real_decimal)))))
 
 ======================================
 Physical type definition - Minimal
@@ -130,46 +124,43 @@ type byte_t is range 0 to 1E16
     (physical_type_definition
       (range_constraint
         (ascending_range
-          low: (integer_decimal_literal
-            (integer))
-          high: (integer_decimal_literal
-            (integer)
-            (positive_exponent))))
+           low: (integer_decimal)
+          high: (integer_decimal)))
       primary_unit_name: (identifier)
       (comment)
       (secondary_unit_declaration
         secondary_unit_name: (identifier)
         (physical_literal
-          coefficient: (integer_decimal_literal (integer))
+          coefficient: (integer_decimal)
           unit_name: (simple_name)))
       (secondary_unit_declaration
         secondary_unit_name: (identifier)
         (physical_literal
-          coefficient: (integer_decimal_literal (integer))
+          coefficient: (integer_decimal)
           unit_name: (simple_name)))
       (secondary_unit_declaration
         secondary_unit_name: (identifier)
         (physical_literal
-          coefficient: (integer_decimal_literal (integer))
+          coefficient: (integer_decimal)
           unit_name: (simple_name)))
       (secondary_unit_declaration
         secondary_unit_name: (identifier)
         (physical_literal
-          coefficient: (integer_decimal_literal (integer))
+          coefficient: (integer_decimal)
           unit_name: (simple_name)))
       (comment)
       (secondary_unit_declaration
         secondary_unit_name: (identifier)
         (physical_literal
-          coefficient: (integer_decimal_literal (integer))
+          coefficient: (integer_decimal)
           unit_name: (simple_name)))
       (secondary_unit_declaration
         secondary_unit_name: (identifier)
         (physical_literal
-          coefficient: (integer_decimal_literal (integer))
+          coefficient: (integer_decimal)
           unit_name: (simple_name)))
       (secondary_unit_declaration
         secondary_unit_name: (identifier)
         (physical_literal
-          coefficient: (integer_decimal_literal (integer))
+          coefficient: (integer_decimal)
           unit_name: (simple_name))))))

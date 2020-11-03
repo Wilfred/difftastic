@@ -45,20 +45,20 @@ end;
               (mode (in))
               (subtype_indication
                 type_mark: (simple_name))
-              default_expression: (integer_decimal_literal (integer)))
+              default_expression: (integer_decimal))
             (interface_constant_declaration
               (object_class)
               (identifier_list
                 (identifier))
               (subtype_indication
                 type_mark: (simple_name))
-              default_expression: (integer_decimal_literal (integer)))
+              default_expression: (integer_decimal))
             (interface_constant_declaration
               (identifier_list
                 (identifier))
               (subtype_indication
                 type_mark: (simple_name))
-              default_expression: (integer_decimal_literal (integer)))
+              default_expression: (integer_decimal))
             (interface_constant_declaration
               (identifier_list
                 (identifier))

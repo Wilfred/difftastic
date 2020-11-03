@@ -134,7 +134,7 @@ t <= inertial e when c1;
     (delay_mechanism
       (reject
         pulse_limit: (physical_literal
-          coefficient: (integer_decimal_literal (integer))
+          coefficient: (integer_decimal)
           unit_name: (simple_name))))
     (conditional_waveforms
       (waveform_element

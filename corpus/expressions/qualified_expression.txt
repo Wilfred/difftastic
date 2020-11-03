@@ -5,8 +5,8 @@ assert foo'(a);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (qualified_expression
+  (PSL_assertion_directive
+    property: (qualified_expression
       type_mark: (simple_name)
       (parenthesized_expression
         (simple_name)))))
@@ -18,8 +18,8 @@ assert foo'(a,b);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (qualified_expression
+  (PSL_assertion_directive
+    property: (qualified_expression
       type_mark: (simple_name)
       (aggregate
         (positional_element_association
@@ -34,8 +34,8 @@ assert foo'(a=>b);
 ---
 
 (design_file
-  (concurrent_assertion_statement
-    condition: (qualified_expression
+  (PSL_assertion_directive
+    property: (qualified_expression
       type_mark: (simple_name)
       (aggregate
         (named_element_association

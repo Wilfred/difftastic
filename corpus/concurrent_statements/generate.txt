@@ -12,54 +12,25 @@ for i in r
   (for_generate_statement
     (generate_parameter_specification
       (identifier)
-      (discrete_range
-        (subtype_indication
-          type_mark: (simple_name))))))
+      discrete_range: (subtype_indication
+        type_mark: (simple_name)))))
 
 ====================================
-For generate - Generate body begin
+For generate - Body
 ====================================
-G1:
+G2:
 for i in r
     generate
         begin
     end generate;
----
 
-(design_file
-  (label)
-  (for_generate_statement
-    (generate_parameter_specification
-      (identifier)
-      (discrete_range
-        (subtype_indication
-          type_mark: (simple_name))))
-    (generate_statement_body)))
-
-====================================
-For generate - Generate body end
-====================================
-G1:
+G3:
 for i in r
     generate
         end;
     end generate;
----
 
-(design_file
-  (label)
-  (for_generate_statement
-    (generate_parameter_specification
-      (identifier)
-      (discrete_range
-        (subtype_indication
-          type_mark: (simple_name))))
-    (generate_statement_body)))
-
-====================================
-For generate - Generate body begin/end
-====================================
-G1:
+G4:
 for i in r
     generate
         begin
@@ -67,14 +38,28 @@ for i in r
     end generate;
 ---
 
+
 (design_file
   (label)
   (for_generate_statement
     (generate_parameter_specification
       (identifier)
-      (discrete_range
-        (subtype_indication
-          type_mark: (simple_name))))
+      discrete_range: (subtype_indication
+        type_mark: (simple_name)))
+    (generate_statement_body))
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      discrete_range: (subtype_indication
+        type_mark: (simple_name)))
+    (generate_statement_body))
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      discrete_range: (subtype_indication
+        type_mark: (simple_name)))
     (generate_statement_body)))
 
 ==================================================
@@ -86,27 +71,8 @@ for i in r
             subtype t is t2;
         begin
     end generate;
----
 
-(design_file
-  (label)
-  (for_generate_statement
-    (generate_parameter_specification
-      (identifier)
-      (discrete_range
-        (subtype_indication
-          type_mark: (simple_name))))
-    (generate_statement_body
-      (block_declarative_part
-        (subtype_declaration
-          (identifier)
-          (subtype_indication
-            type_mark: (simple_name)))))))
-
-===================================================
-Generate statement body - Block declarative part II
-===================================================
-G1:
+G2:
 for i in r
     generate
             subtype t is t2;
@@ -120,9 +86,20 @@ for i in r
   (for_generate_statement
     (generate_parameter_specification
       (identifier)
-      (discrete_range
-        (subtype_indication
-          type_mark: (simple_name))))
+      discrete_range: (subtype_indication
+        type_mark: (simple_name)))
+    (generate_statement_body
+      (block_declarative_part
+        (subtype_declaration
+          (identifier)
+          (subtype_indication
+            type_mark: (simple_name))))))
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      discrete_range: (subtype_indication
+        type_mark: (simple_name)))
     (generate_statement_body
       (block_declarative_part
         (subtype_declaration
@@ -141,25 +118,8 @@ for i in r
             end block;
         end;
     end generate;
----
 
-(design_file
-  (label)
-  (for_generate_statement
-    (generate_parameter_specification
-      (identifier)
-      (discrete_range
-        (subtype_indication
-          type_mark: (simple_name))))
-    (generate_statement_body
-      (label)
-      (block_statement))))
-
-
-================================================
-Generate statement body - Concurrent statement II
-================================================
-G1:
+G2:
 for i in r
     generate
         begin
@@ -167,24 +127,8 @@ for i in r
             begin
             end block;
     end generate;
----
 
-(design_file
-  (label)
-  (for_generate_statement
-    (generate_parameter_specification
-      (identifier)
-      (discrete_range
-        (subtype_indication
-          type_mark: (simple_name))))
-    (generate_statement_body
-      (label)
-      (block_statement))))
-
-================================================
-Generate statement body - Concurrent statement II
-================================================
-G1:
+G3:
 for i in r
     generate
         begin
@@ -200,9 +144,26 @@ for i in r
   (for_generate_statement
     (generate_parameter_specification
       (identifier)
-      (discrete_range
-        (subtype_indication
-          type_mark: (simple_name))))
+      discrete_range: (subtype_indication
+        type_mark: (simple_name)))
+    (generate_statement_body
+      (label)
+      (block_statement)))
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      discrete_range: (subtype_indication
+        type_mark: (simple_name)))
+    (generate_statement_body
+      (label)
+      (block_statement)))
+  (label)
+  (for_generate_statement
+    (generate_parameter_specification
+      (identifier)
+      discrete_range: (subtype_indication
+        type_mark: (simple_name)))
     (generate_statement_body
       (label)
       (block_statement))))
@@ -491,8 +452,7 @@ end generate;
   (case_generate_statement
     (simple_name)
     (case_generate_alternative
-      condition: (choices
-                    (simple_name)))))
+      (choices (simple_name)))))
 
 ====================================
 Case generate - Alternative
@@ -509,11 +469,9 @@ end generate;
   (case_generate_statement
     (simple_name)
     (case_generate_alternative
-      condition: (choices
-        (simple_name)))
+      (choices (simple_name)))
     (case_generate_alternative
-      condition: (choices
-        (simple_name)))))
+      (choices (simple_name)))))
 
 ====================================
 Case generate - Generate body
@@ -535,14 +493,11 @@ end generate;
   (case_generate_statement
     (simple_name)
     (case_generate_alternative
-      condition: (choices
-        (simple_name))
+      (choices (simple_name))
       (generate_statement_body))
     (case_generate_alternative
-      condition: (choices
-        (simple_name))
+      (choices (simple_name))
       (generate_statement_body))
     (case_generate_alternative
-      condition: (choices
-        (simple_name))
+      (choices (simple_name))
       (generate_statement_body))))
