@@ -46,8 +46,8 @@ module.exports = grammar({
     $._string_array_start,
     $._symbol_array_start,
     $._heredoc_body_start,
-    $._string_content,
-    $._heredoc_content,
+    $.string_content,
+    $.heredoc_content,
     $._string_end,
     $.heredoc_end,
     $.heredoc_beginning,
@@ -812,7 +812,7 @@ module.exports = grammar({
     heredoc_body: $ => seq(
       $._heredoc_body_start,
       repeat(choice(
-        alias($._heredoc_content, $.heredoc_content),
+        $.heredoc_content,
         $.interpolation,
         $.escape_sequence
       )),
@@ -820,7 +820,7 @@ module.exports = grammar({
     ),
 
     _literal_contents: $ => repeat1(choice(
-      alias($._string_content, $.string_content),
+      $.string_content,
       $.interpolation,
       $.escape_sequence
     )),
