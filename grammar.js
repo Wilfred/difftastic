@@ -1065,7 +1065,7 @@ module.exports = grammar({
       'if',
       field('condition', $._expression),
       field('consequence', $.block),
-      optional($._else_tail)
+      optional(field("alternative", $.else_clause))
     ),
 
     if_let_expression: $ => seq(
@@ -1075,16 +1075,16 @@ module.exports = grammar({
       '=',
       field('value', $._expression),
       field('consequence', $.block),
-      optional($._else_tail)
+      optional(field('alternative', $.else_clause))
     ),
 
-    _else_tail: $ => seq(
+    else_clause: $ => seq(
       'else',
-      field('alternative', choice(
+      choice(
         $.block,
         $.if_expression,
         $.if_let_expression
-      ))
+      )
     ),
 
     match_expression: $ => seq(

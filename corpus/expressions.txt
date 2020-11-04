@@ -340,12 +340,13 @@ let y = if x == 5 { 10 } else { 15 };
           left: (identifier)
           right: (integer_literal))
         consequence: (block)
-        alternative: (if_expression
-          condition: (binary_expression
-            left: (identifier)
-            right: (integer_literal))
-          consequence: (block)
-          alternative: (block)))))
+        alternative: (else_clause
+          (if_expression
+            condition: (binary_expression
+              left: (identifier)
+              right: (integer_literal))
+            consequence: (block)
+            alternative: (else_clause (block)))))))
   (let_declaration
     pattern: (identifier)
     value: (if_expression
@@ -353,7 +354,7 @@ let y = if x == 5 { 10 } else { 15 };
         left: (identifier)
         right: (integer_literal))
       consequence: (block (integer_literal))
-      alternative: (block (integer_literal)))))
+      alternative: (else_clause (block (integer_literal))))))
 
 ============================================
 If let expressions
