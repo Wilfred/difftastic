@@ -3093,6 +3093,10 @@
     "named": true
   },
   {
+    "type": "block_comment",
+    "named": true
+  },
+  {
     "type": "case",
     "named": true
   },
@@ -3179,6 +3183,10 @@
   {
     "type": "let",
     "named": false
+  },
+  {
+    "type": "line_comment",
+    "named": true
   },
   {
     "type": "lower_case_identifier",
