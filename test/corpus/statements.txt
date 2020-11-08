@@ -196,16 +196,18 @@ if (a) {
   (if_statement
     condition: (parenthesized_expression (identifier))
     consequence: (expression_statement (identifier))
-    alternative: (if_statement
-      condition: (parenthesized_expression (identifier))
-      consequence: (expression_statement (identifier))))
+    alternative: (else_clause
+      (if_statement
+        condition: (parenthesized_expression (identifier))
+        consequence: (expression_statement (identifier)))))
   (if_statement
     condition: (parenthesized_expression (identifier))
     consequence: (statement_block
       (expression_statement (identifier))
       (expression_statement (identifier)))
-    alternative: (statement_block
-      (expression_statement (identifier)))))
+    alternative: (else_clause
+      (statement_block
+        (expression_statement (identifier))))))
 
 ============================================
 For statements
@@ -682,7 +684,8 @@ if (true) {} else {}
   (if_statement
     (parenthesized_expression (true))
     (statement_block)
-    (statement_block)))
+    (else_clause
+      (statement_block))))
 
 ============================================
 Labeled statements
@@ -720,8 +723,9 @@ while (true) {
           condition: (parenthesized_expression (identifier))
           consequence: (statement_block
             (break_statement label: (statement_identifier)))
-          alternative: (statement_block
-            (continue_statement label: (statement_identifier)))))))
+          alternative: (else_clause
+            (statement_block
+              (continue_statement label: (statement_identifier))))))))
   (labeled_statement
     label: (statement_identifier)
     (statement_block

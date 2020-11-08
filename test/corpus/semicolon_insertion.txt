@@ -160,7 +160,8 @@ if (a) {b} else {c}
 (program
   (if_statement (parenthesized_expression (identifier))
     (statement_block (expression_statement (identifier)))
-    (statement_block (expression_statement (identifier)))))
+    (else_clause
+      (statement_block (expression_statement (identifier))))))
 
 ===========================================
 single-line blocks without semicolons
