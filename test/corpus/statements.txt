@@ -194,7 +194,7 @@ return not b
   (return_statement (expression_list
     (binary_operator (identifier) (identifier))
     (identifier)))
-  (return_statement (expression_list (not_operator (identifier)))))
+  (return_statement (not_operator (identifier))))
 
 =====================================
 If statements
@@ -341,14 +341,14 @@ for x, in [(1,), (2,), (3,)]:
 
 (module
   (for_statement
-    left: (left_hand_side (identifier) (identifier))
-    right: (expression_list (identifier))
+    left: (pattern_list (identifier) (identifier))
+    right: (identifier)
     body: (block
       (print_statement
         argument: (identifier))
       (for_statement
-        left: (left_hand_side (identifier) (identifier))
-        right: (expression_list (identifier))
+        left: (pattern_list (identifier) (identifier))
+        right: (identifier)
         body: (block
           (print_statement
             argument: (identifier)))))
@@ -357,8 +357,8 @@ for x, in [(1,), (2,), (3,)]:
         (print_statement
           argument: (identifier)))))
   (for_statement
-    left: (left_hand_side (identifier))
-    right: (expression_list (list (tuple (integer)) (tuple (integer)) (tuple (integer))))
+    left: (pattern_list (identifier))
+    right: (list (tuple (integer)) (tuple (integer)) (tuple (integer)))
     body: (block
       (expression_statement (identifier)))))
 
@@ -525,7 +525,7 @@ async def d(a:str="default", b=c) -> None:
       (typed_parameter (identifier) type: (type (identifier))))
     return_type: (type (none))
     body: (block
-      (return_statement (expression_list (none)))))
+      (return_statement (none))))
   (function_definition
     name: (identifier)
     parameters: (parameters
@@ -538,7 +538,7 @@ async def d(a:str="default", b=c) -> None:
         value: (identifier)))
     return_type: (type (none))
     body: (block
-      (return_statement (expression_list (none))))))
+      (return_statement (none)))))
 
 =====================================
 Function definitions
@@ -570,7 +570,7 @@ def h(*a):
     name: (identifier)
     parameters: (parameters (tuple_pattern (identifier) (identifier)))
     body: (block
-      (return_statement (expression_list (tuple (identifier) (identifier))))))
+      (return_statement (tuple (identifier) (identifier)))))
   (function_definition
     name: (identifier)
     parameters: (parameters (typed_parameter
@@ -683,7 +683,7 @@ class D(Sequence[T, U]):
         (identifier)
         (parameters (identifier))
         (block
-          (return_statement (expression_list (identifier)))))))
+          (return_statement (identifier))))))
  (class_definition
     (identifier)
     (argument_list)
@@ -813,9 +813,9 @@ raise RunTimeError('NO') from e
 (module
   (raise_statement)
   (raise_statement
-    (expression_list (call (identifier) (argument_list (string)))))
+    (call (identifier) (argument_list (string))))
   (raise_statement
-    (expression_list (call (identifier) (argument_list (string))))
+    (call (identifier) (argument_list (string)))
     (identifier)))
 
 ====================================================
