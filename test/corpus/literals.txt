@@ -343,28 +343,28 @@ List comprehensions
     (list_comprehension
       (binary_operator (identifier) (identifier))
       (for_in_clause
-        (left_hand_side (tuple_pattern (identifier) (identifier))) (identifier))))
+        (tuple_pattern (identifier) (identifier)) (identifier))))
   (expression_statement
     (list_comprehension
       (identifier)
       (for_in_clause
-        (left_hand_side (identifier))
+        (identifier)
         (identifier))
       (for_in_clause
-        (left_hand_side (identifier))
+        (identifier)
         (identifier))))
   (expression_statement
     (list_comprehension
       (tuple (identifier) (identifier))
-      (for_in_clause (left_hand_side (identifier))
+      (for_in_clause (identifier)
         (list (integer) (integer) (integer)))
-      (for_in_clause (left_hand_side (identifier))
+      (for_in_clause (identifier)
         (list (integer) (integer) (integer)))
       (if_clause (true))))
   (expression_statement
     (list_comprehension
       (identifier)
-      (for_in_clause (left_hand_side (identifier))
+      (for_in_clause (identifier)
         (lambda (true))
         (lambda (false)))
       (if_clause (call (identifier) (argument_list))))))
@@ -415,13 +415,14 @@ Dictionary comprehensions
     (dictionary_comprehension
       (pair (identifier) (identifier))
       (for_in_clause
-        (left_hand_side (identifier) (identifier)) (identifier))))
+        (pattern_list (identifier) (identifier)) (identifier))))
   (expression_statement
     (dictionary_comprehension
       (pair (identifier) (identifier))
       (for_in_clause
-        (left_hand_side (identifier)) (identifier))
-      (for_in_clause (left_hand_side (identifier)) (identifier)))))
+        (identifier) (identifier))
+      (for_in_clause
+        (identifier) (identifier)))))
 
 =====================================
 Sets
@@ -450,15 +451,17 @@ Set comprehensions
     (set_comprehension
       (subscript (subscript (identifier) (identifier)) (identifier))
       (for_in_clause
-        (left_hand_side (identifier) (identifier) (identifier))
+        (pattern_list (identifier) (identifier) (identifier))
         (identifier))))
   (expression_statement
     (set_comprehension
       (identifier)
       (for_in_clause
-        (left_hand_side (identifier)) (identifier))
+        (identifier)
+        (identifier))
       (for_in_clause
-        (left_hand_side (identifier)) (identifier)))))
+        (identifier)
+        (identifier)))))
 
 =====================================
 Tuples
@@ -493,7 +496,7 @@ dict((a, b) for a, b in d)
     (generator_expression
       (subscript (subscript (identifier) (identifier)) (identifier))
       (for_in_clause
-        (left_hand_side (identifier) (identifier) (identifier))
+        (pattern_list (identifier) (identifier) (identifier))
         (identifier))))
   (expression_statement
     (call
@@ -501,20 +504,20 @@ dict((a, b) for a, b in d)
       (generator_expression
         (tuple (identifier) (identifier))
         (for_in_clause
-          (left_hand_side (identifier) (identifier))
+          (pattern_list (identifier) (identifier))
           (identifier)))))
   (expression_statement
     (generator_expression
       (identifier)
       (for_in_clause
-        (left_hand_side (identifier))
+        (identifier)
         (identifier))
       (for_in_clause
-        (left_hand_side (identifier))
+        (identifier)
         (identifier))))
   (expression_statement
     (generator_expression
       (identifier)
       (for_in_clause
-        (left_hand_side (identifier))
+        (identifier)
         (call (identifier) (argument_list (integer) (integer)))))))

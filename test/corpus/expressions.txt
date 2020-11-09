@@ -8,10 +8,10 @@ Identifiers with Greek letters
 
 (module
   (expression_statement (assignment
-    left: (left_hand_side (identifier))
-    right: (expression_list (binary_operator
+    left: (identifier)
+    right: (binary_operator
       left: (identifier)
-      right: (identifier))))))
+      right: (identifier)))))
 
 =====================================
 Subscript expressions
@@ -27,7 +27,6 @@ c[4, 5,]
   (expression_statement (subscript (identifier) (integer)))
   (expression_statement (subscript (identifier) (integer) (integer)))
   (expression_statement (subscript (identifier) (integer) (integer))))
-
 
 =====================================
 Subscript slice expressions
@@ -84,10 +83,9 @@ return await i(j, 5)
       (identifier)
       (argument_list (identifier) (integer)))))
   (return_statement
-    (expression_list
-      (await (call
-        (identifier)
-        (argument_list (identifier) (integer)))))))
+    (await (call
+      (identifier)
+      (argument_list (identifier) (integer))))))
 
 =====================================
 Call expressions
@@ -441,13 +439,11 @@ a, *b.c = d
 (module
   (expression_statement
     (assignment
-      (left_hand_side
-        (identifier))
-      (expression_list
-        (integer))))
+      (identifier)
+      (integer)))
   (expression_statement
     (assignment
-      (left_hand_side
+      (pattern_list
         (identifier)
         (identifier))
       (expression_list
@@ -455,7 +451,7 @@ a, *b.c = d
         (integer))))
   (expression_statement
     (assignment
-      (left_hand_side
+      (pattern_list
         (identifier)
         (list_splat_pattern (identifier)))
       (expression_list
@@ -464,24 +460,23 @@ a, *b.c = d
         (integer))))
   (expression_statement
     (assignment
-      (left_hand_side
+      (pattern_list
         (identifier))
       (expression_list
         (integer)
         (integer))))
   (expression_statement
     (assignment
-      (left_hand_side
-        (subscript (identifier) (identifier)))
+      (subscript (identifier) (identifier))
       (assignment
-        (left_hand_side (identifier))
-        (expression_list (identifier)))))
+        (identifier)
+        (identifier))))
   (expression_statement
     (assignment
-      (left_hand_side
+      (pattern_list
         (identifier)
         (list_splat_pattern (attribute (identifier) (identifier))))
-      (expression_list (identifier)))))
+      (identifier))))
 
 ====================================================
 Assignments with type annotations
@@ -493,9 +488,9 @@ tail_leaves: List[Leaf] = []
 
 (module
   (expression_statement (assignment
-    (left_hand_side (identifier))
+    (identifier)
     (type (subscript (identifier) (identifier)))
-    (expression_list (list)))))
+    (list))))
 
 ====================================================
 Augmented assignments
@@ -510,16 +505,16 @@ c //= 1
 (module
   (expression_statement
     (augmented_assignment
-      (left_hand_side (identifier))
-      (expression_list (integer))))
+      (identifier)
+      (integer)))
   (expression_statement
     (augmented_assignment
-      (left_hand_side (identifier))
-      (expression_list (integer))))
+      (identifier)
+      (integer)))
   (expression_statement
     (augmented_assignment
-      (left_hand_side (identifier))
-      (expression_list (integer)))))
+      (identifier)
+      (integer))))
 
 ====================================================
 Named expressions
@@ -560,19 +555,18 @@ foo(x := 3, cat='vector')
               (call (identifier) (argument_list (identifier)))))))))
   (expression_statement
     (assignment
-      (left_hand_side (identifier))
-      (expression_list
-        (parenthesized_expression
-          (named_expression
-            (identifier)
-            (call (identifier) (argument_list (identifier))))))))
+      (identifier)
+      (parenthesized_expression
+        (named_expression
+          (identifier)
+          (call (identifier) (argument_list (identifier)))))))
   (function_definition
     (identifier)
     (parameters
       (default_parameter
         (identifier)
         (parenthesized_expression (named_expression (identifier) (integer)))))
-    (block (return_statement (expression_list (identifier)))))
+    (block (return_statement (identifier))))
   (function_definition
     (identifier)
     (parameters
@@ -580,7 +574,7 @@ foo(x := 3, cat='vector')
         (identifier)
         (type (parenthesized_expression (named_expression (identifier) (integer))))
         (integer)))
-    (block (return_statement (expression_list (identifier)))))
+    (block (return_statement (identifier))))
   (expression_statement
     (call
       (identifier)
@@ -615,11 +609,11 @@ def example():
 (module
   (function_definition (identifier) (parameters) (block
     (expression_statement (yield))
-    (expression_statement (yield (expression_list (integer))))
+    (expression_statement (yield (integer)))
     (expression_statement
       (assignment
-        (left_hand_side (identifier))
-        (yield (expression_list (integer)))))
+        (identifier)
+        (yield (integer))))
     (expression_statement (yield (identifier)))
     (expression_statement
       (yield
@@ -628,8 +622,8 @@ def example():
             (generator_expression
               (identifier)
               (for_in_clause
-              (left_hand_side (identifier))
-              (call (identifier) (argument_list (integer) (integer))))))))))))
+                (identifier)
+                (call (identifier) (argument_list (integer) (integer))))))))))))
 
 ====================================================
 lambdas
@@ -680,6 +674,20 @@ Tuples with splats
     (tuple (identifier) (list_splat (identifier)) (list_splat (identifier)))))
 
 =====================================
+Tuples with yield
+=====================================
+
+(a, yield a, b, c)
+
+---
+
+(module
+  (expression_statement
+    (tuple
+      (identifier)
+      (yield (expression_list (identifier) (identifier) (identifier))))))
+
+=====================================
 Conditional if expressions
 =====================================
 
@@ -692,9 +700,8 @@ slice(1,1,1) if a else d
 (module
   (expression_statement
     (assignment
-      (left_hand_side (identifier))
-      (expression_list
-        (conditional_expression (identifier) (identifier) (identifier)))))
+      (identifier)
+      (conditional_expression (identifier) (identifier) (identifier))))
   (expression_statement
     (conditional_expression (call (identifier) (argument_list)) (identifier) (identifier)))
   (expression_statement
@@ -714,11 +721,17 @@ async with a as b:
 
 (module
   (with_statement
-    (with_item (identifier) (identifier))
-    (block
+    (with_item
+      value: (identifier)
+      alias: (identifier))
+    body: (block
       (for_statement
-        (left_hand_side (identifier))
-        (expression_list (identifier))
-        (block
+        left: (identifier)
+        right: (identifier)
+        body: (block
           (expression_statement
-            (list_comprehension (identifier) (for_in_clause (left_hand_side (identifier)) (identifier)))))))))
+            (list_comprehension
+              body: (identifier)
+              (for_in_clause
+                left: (identifier)
+                right: (identifier)))))))))
