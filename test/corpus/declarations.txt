@@ -437,7 +437,7 @@ typedef DismissMethod = Future<void> Function(WidgetTester tester, Finder finder
     (type_identifier) 
     (formal_parameter_list (formal_parameter (type_identifier) (identifier)) (formal_parameter (type_identifier) (type_arguments (type_identifier) (type_identifier)) (identifier)))) 
   (type_alias 
-    (type_identifier) (type_parameters (type_parameter (identifier))) 
+    (type_identifier) (type_parameters (type_parameter (type_identifier))) 
     (function_type (type_identifier) (parameter_type_list))) 
   (type_alias 
     (type_identifier) 
