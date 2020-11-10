@@ -1586,7 +1586,10 @@ module.exports = grammar({
 
         type_parameter: $ => seq(
             optional($._metadata),
-            $.identifier,
+            alias(
+                $.identifier,
+                $.type_identifier),
+            optional($._nullable_type),
             optional($.type_bound)
         ),
 

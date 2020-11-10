@@ -402,7 +402,7 @@ class Box <T> {
     (identifier)
       (type_parameters
         (type_parameter
-          (identifier)))
+          (type_identifier)))
     (class_body
       (declaration
           (type_identifier)
@@ -464,7 +464,7 @@ class someClass <T> {
     (identifier)
     (type_parameters
       (type_parameter
-        (identifier)))
+        (type_identifier)))
       (class_body
         (method_signature (function_signature
               (type_identifier)
@@ -512,7 +512,7 @@ class someClass <T> {
                     (identifier)
           (type_parameters
             (type_parameter
-              (identifier)))
+              (type_identifier)))
             (formal_parameter_list
               (formal_parameter
                 (type_identifier)
