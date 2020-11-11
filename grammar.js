@@ -649,28 +649,40 @@ module.exports = grammar({
       field('right', $._expression)
     )),
 
-    unary: $ => choice(
-      prec(PREC.DEFINED, seq('defined?', $._arg)),
-      prec.right(PREC.NOT, seq('not', $._arg)),
-      prec.right(PREC.UNARY_MINUS, seq(choice(alias($._unary_minus, '-'), '+'), $._arg)),
-      prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._arg))
-    ),
+    unary: $ => {
+      const operators = [
+        [prec, PREC.DEFINED, 'defined?'],
+        [prec.right, PREC.NOT, 'not'],
+        [prec.right, PREC.UNARY_MINUS, choice(alias($._unary_minus, '-'), '+')],
+        [prec.right, PREC.COMPLEMENT, choice('!', '~')]
+      ];
+      return choice(...operators.map(([fn, precedence, operator]) => fn(precedence, seq(
+        field('operator', operator),
+        field('operand', $._arg)
+      ))));
+    },
 
-    command_unary: $ => choice(
-      prec(PREC.DEFINED, seq('defined?', $._expression)),
-      prec.right(PREC.NOT, seq('not', $._expression)),
-      prec.right(PREC.UNARY_MINUS, seq(choice(alias($._unary_minus, '-'), '+'), $._expression)),
-      prec.right(PREC.COMPLEMENT, seq(choice('!', '~'), $._expression))
-    ),
+    command_unary: $ => {
+      const operators = [
+        [prec, PREC.DEFINED, 'defined?'],
+        [prec.right, PREC.NOT, 'not'],
+        [prec.right, PREC.UNARY_MINUS, choice(alias($._unary_minus, '-'), '+')],
+        [prec.right, PREC.COMPLEMENT, choice('!', '~')]
+      ];
+      return choice(...operators.map(([fn, precedence, operator]) => fn(precedence, seq(
+        field('operator', operator),
+        field('operand', $._expression)
+      ))));
+    },
 
     parenthesized_unary: $ => prec(PREC.CALL, seq(
-      choice('defined?', 'not'),
-      $.parenthesized_statements
+      field('operator', choice('defined?', 'not')),
+      field('operand', $.parenthesized_statements)
     )),
 
     unary_literal: $ => prec.right(PREC.UNARY_MINUS, seq(
-      choice(alias($._unary_minus, '-'), '+'),
-      choice($.integer, $.float)
+      field('operator', choice(alias($._unary_minus, '-'), '+')),
+      field('operand', choice($.integer, $.float))
     )),
 
     right_assignment_list: $ => prec(-1, commaSep1(choice($._arg, $.splat_argument))),

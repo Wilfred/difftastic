@@ -1031,7 +1031,7 @@ method calls in unary expression
 
 (program
   (unary
-    (method_call
+    operand: (method_call
       method: (call
         receiver: (identifier)
         method: (identifier))
