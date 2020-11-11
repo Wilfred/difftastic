@@ -133,17 +133,24 @@
   {
     "type": "as_clause",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "upper_case_identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
           "type": "as",
-          "named": true
-        },
-        {
-          "type": "upper_case_identifier",
           "named": true
         }
       ]
@@ -1270,25 +1277,38 @@
   {
     "type": "import_clause",
     "named": true,
-    "fields": {},
+    "fields": {
+      "asClause": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "as_clause",
+            "named": true
+          }
+        ]
+      },
+      "moduleName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "upper_case_qid",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "as_clause",
-          "named": true
-        },
         {
           "type": "exposing_list",
           "named": true
         },
         {
           "type": "import",
-          "named": true
-        },
-        {
-          "type": "upper_case_qid",
           "named": true
         }
       ]

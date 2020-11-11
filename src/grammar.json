@@ -437,20 +437,28 @@
           "name": "import"
         },
         {
-          "type": "SYMBOL",
-          "name": "upper_case_qid"
+          "type": "FIELD",
+          "name": "moduleName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "upper_case_qid"
+          }
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "as_clause"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "FIELD",
+          "name": "asClause",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "as_clause"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
         },
         {
           "type": "CHOICE",
@@ -474,8 +482,12 @@
           "name": "as"
         },
         {
-          "type": "SYMBOL",
-          "name": "upper_case_identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "upper_case_identifier"
+          }
         }
       ]
     },
