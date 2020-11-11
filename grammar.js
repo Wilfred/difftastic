@@ -159,12 +159,12 @@ module.exports = grammar({
     import_clause: ($) =>
       seq(
         $.import,
-        $.upper_case_qid,
-        optional($.as_clause),
+        field("moduleName", $.upper_case_qid),
+        field("asClause", optional($.as_clause)),
         optional($.exposing_list)
       ),
 
-    as_clause: ($) => seq($.as, $.upper_case_identifier),
+    as_clause: ($) => seq($.as, field("name", $.upper_case_identifier)),
 
     // TOP-LEVEL DECLARATION
 
