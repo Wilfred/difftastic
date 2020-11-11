@@ -37,7 +37,12 @@ module.exports = grammar({
   rules: {
     file: ($) =>
       seq(
-        optional(seq($.module_declaration, $._virtual_end_decl)),
+        optional(
+          seq(
+            field("moduleDeclaration", $.module_declaration),
+            $._virtual_end_decl
+          )
+        ),
         optional($._import_list),
         optional($._top_decl_list)
       ),
@@ -45,11 +50,16 @@ module.exports = grammar({
     module_declaration: ($) =>
       prec.left(
         choice(
-          seq(optional($.port), $.module, $.upper_case_qid, $.exposing_list),
+          seq(
+            optional($.port),
+            $.module,
+            field("name", $.upper_case_qid),
+            field("exposing", $.exposing_list)
+          ),
           seq(
             $.effect,
             $.module,
-            $.upper_case_qid,
+            field("name", $.upper_case_qid),
             $.where,
             $.record_expr,
             $.exposing_list
@@ -66,7 +76,10 @@ module.exports = grammar({
       seq(
         $.exposing,
         $.left_parenthesis,
-        choice($.double_dot, commaSep1($._exposed_item, $.comma)),
+        choice(
+          field("doubleDot", $.double_dot),
+          commaSep1($._exposed_item, $.comma)
+        ),
         $.right_parenthesis
       ),
 
@@ -299,7 +312,12 @@ module.exports = grammar({
       ),
 
     port_annotation: ($) =>
-      seq($.port, $.lower_case_identifier, $.colon, $.type_expression),
+      seq(
+        $.port,
+        field("name", $.lower_case_identifier),
+        $.colon,
+        field("typeExpression", $.type_expression)
+      ),
 
     // EXPRESSIONS
 
@@ -322,7 +340,11 @@ module.exports = grammar({
     operator_as_function_expr: ($) => $._operator_as_function_inner,
 
     _operator_as_function_inner: ($) =>
-      seq($.left_parenthesis, $.operator_identifier, $.right_parenthesis),
+      seq(
+        $.left_parenthesis,
+        field("operator", $.operator_identifier),
+        $.right_parenthesis
+      ),
 
     _call_or_atom: ($) => choice($.function_call_expr, $._atom),
 
@@ -402,7 +424,7 @@ module.exports = grammar({
       ), // todo disallow whitespace
 
     parenthesized_expr: ($) =>
-      seq($.left_parenthesis, $._expression, $.right_parenthesis),
+      seq($.left_parenthesis, field("expression", $._expression), $.right_parenthesis),
 
     _literal_expr_group: ($) =>
       choice(
@@ -606,8 +628,7 @@ module.exports = grammar({
         )
       ),
 
-    nullary_constructor_argument_pattern: ($) =>
-          $.upper_case_qid,
+    nullary_constructor_argument_pattern: ($) => $.upper_case_qid,
 
     _union_argument_pattern: ($) =>
       choice(
@@ -648,7 +669,8 @@ module.exports = grammar({
         $.value_expr
       ),
 
-    glsl_code_expr: ($) => seq($.glsl_begin, $.glsl_content, $.glsl_end),
+    glsl_code_expr: ($) =>
+      seq($.glsl_begin, field("content", $.glsl_content), $.glsl_end),
 
     // Stuff from lexer
 
