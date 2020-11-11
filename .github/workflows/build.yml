@@ -1,0 +1,31 @@
+name: build
+
+on:
+  push:
+  pull_request:
+    branches:
+      - '**:**' # For forks
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '12'
+
+      - name: Display Node versions
+        run: |
+          node --version
+          npm --version
+      
+      - name: Install dependencies
+        run: npm install
+
+      - name: Test corpus & parse examples
+        run: npm test
