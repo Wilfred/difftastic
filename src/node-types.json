@@ -202,10 +202,6 @@
         "named": true
       },
       {
-        "type": "member_binding_expression",
-        "named": true
-      },
-      {
         "type": "null_literal",
         "named": true
       },
