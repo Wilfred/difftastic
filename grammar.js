@@ -1384,8 +1384,6 @@ module.exports = grammar({
 
     simple_assignment_expression: $ => seq($.identifier, '=', $._expression),
 
-    // TODO: Expressions need work on precedence and conflicts.
-
     _expression: $ => choice(
       $.anonymous_method_expression,
       $.anonymous_object_creation_expression,
@@ -1411,7 +1409,7 @@ module.exports = grammar({
       $.lambda_expression,
       $.make_ref_expression,
       $.member_access_expression,
-      $.member_binding_expression,
+      // $.member_binding_expression, // Not needed as handled directly in $.conditional_access_expression
       $.object_creation_expression,
       $.parenthesized_expression,
       $.postfix_unary_expression,

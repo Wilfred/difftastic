@@ -7631,10 +7631,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "member_binding_expression"
-        },
-        {
-          "type": "SYMBOL",
           "name": "object_creation_expression"
         },
         {
