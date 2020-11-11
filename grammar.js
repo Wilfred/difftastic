@@ -1086,10 +1086,10 @@ module.exports = grammar({
       seq('unchecked', '(', $._expression, ')')
     ),
 
-    conditional_access_expression: $ => prec.right(seq(
+    conditional_access_expression: $ => prec.right(PREC.COND, seq(
       field('condition', $._expression),
       '?',
-      field('value', $._expression)
+      choice($.member_binding_expression, $.element_binding_expression)
     )),
 
     conditional_expression: $ => prec.right(PREC.COND, seq(
@@ -1206,7 +1206,7 @@ module.exports = grammar({
 
     member_binding_expression: $ => seq(
       '.',
-      $._simple_name,
+      field('name', $._simple_name),
     ),
 
     object_creation_expression: $ => prec.right(seq(

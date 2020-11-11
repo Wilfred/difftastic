@@ -5980,7 +5980,7 @@
     },
     "conditional_access_expression": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 3,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5997,12 +5997,17 @@
             "value": "?"
           },
           {
-            "type": "FIELD",
-            "name": "value",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_expression"
-            }
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "member_binding_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "element_binding_expression"
+              }
+            ]
           }
         ]
       }
@@ -6526,8 +6531,12 @@
           "value": "."
         },
         {
-          "type": "SYMBOL",
-          "name": "_simple_name"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_simple_name"
+          }
         }
       ]
     },
