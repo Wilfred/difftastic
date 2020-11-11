@@ -1247,45 +1247,6 @@ class Foo {
                         (bracketed_argument_list (argument (range_expression)))))))))))))
 
 =====================================
-conditional access expression
-=====================================
-
-class Foo {
-  void Test() {
-    var a = b?.Something;
-    c.Something();
-  }
-}
-
----
-
-(compilation_unit
-  (class_declaration
-    (identifier)
-    (declaration_list
-      (method_declaration
-        (void_keyword)
-        (identifier)
-        (parameter_list)
-        (block
-          (local_declaration_statement
-            (variable_declaration
-              (implicit_type)
-              (variable_declarator
-                (identifier)
-                (equals_value_clause
-                  (conditional_access_expression
-                    (identifier)
-                    (member_binding_expression
-                    (identifier)))))))
-          (expression_statement
-            (invocation_expression
-              (member_access_expression
-                (identifier)
-                (identifier))
-              (argument_list))))))))
-
-=====================================
 cast expression
 =====================================
 
@@ -1433,27 +1394,6 @@ var x = new Dictionary<string,int> { ["a"] = 65 };
                     (bracketed_argument_list (argument (string_literal))))
                   (assignment_operator)
                   (integer_literal))))))))))
-
-=====================================
-Conditional access to element (should be implicit_element_access)
-=====================================
-
-var x = dict?["a"];
-
----
-
-(compilation_unit
-  (global_statement
-    (local_declaration_statement
-      (variable_declaration
-        (implicit_type)
-        (variable_declarator
-          (identifier)
-          (equals_value_clause
-            (conditional_access_expression
-              (identifier)
-                (element_binding_expression
-                  (bracketed_argument_list (argument (string_literal)))))))))))
 
 =====================================
 Member access expression
@@ -1782,3 +1722,105 @@ var c = o is int; //binary_expression ("IsExpression" in Roslyn)
                 (identifier)
                 (predefined_type))))))) (comment))
                 
+
+=====================================
+Conditional expression with member accesses
+=====================================
+
+var a = b ? c.A + d.A : e.A + f.A;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration (implicit_type)
+        (variable_declarator (identifier)
+          (equals_value_clause
+            (conditional_expression (identifier)
+              (binary_expression
+                (member_access_expression (identifier) (identifier))
+                (member_access_expression (identifier) (identifier)))
+              (binary_expression
+                (member_access_expression (identifier) (identifier))
+                (member_access_expression (identifier) (identifier))))))))))
+
+=====================================
+Conditional access expression
+=====================================
+
+var a = b?.Something;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (conditional_access_expression
+              (identifier)
+              (member_binding_expression
+              (identifier)))))))))
+
+=====================================
+Conditional access to element (should be implicit_element_access)
+=====================================
+
+var x = dict?["a"];
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (conditional_access_expression
+              (identifier)
+                (element_binding_expression
+                  (bracketed_argument_list (argument (string_literal)))))))))))
+
+=====================================
+Conditional access expression with member binding
+=====================================
+
+if (a?.B != 1) { }
+
+---
+
+(compilation_unit
+  (global_statement
+    (if_statement
+      (binary_expression
+        (conditional_access_expression (identifier) (member_binding_expression (identifier)))
+        (integer_literal))
+      (block))))
+
+=====================================
+Conditional access expression with simple member access
+=====================================
+      
+if ((p as Person[])?[0]._Age != 1) { }
+
+---
+
+(compilation_unit
+  (global_statement
+    (if_statement
+      (binary_expression
+          (member_access_expression
+            (conditional_access_expression
+              (parenthesized_expression
+                (binary_expression (identifier) (array_type (identifier) (array_rank_specifier))))
+              (element_binding_expression
+                (bracketed_argument_list (argument (integer_literal)))))
+            (identifier))
+          (integer_literal))
+      (block))))

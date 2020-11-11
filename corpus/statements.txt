@@ -1485,3 +1485,38 @@ var a = global => global.Single();
               (invocation_expression
                 (member_access_expression (identifier) (identifier))
                 (argument_list)))))))))
+
+
+=====================================
+Null-coalescing assignment
+=====================================
+
+numbers ??= new List<int>();
+
+---
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression (identifier) (assignment_operator)
+        (object_creation_expression
+          (generic_name (identifier)
+            (type_argument_list (predefined_type)))
+          (argument_list))))))
+
+=====================================
+Null literal arguments
+=====================================
+
+person = new Person(null!, null!);
+
+---
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression (identifier) (assignment_operator)
+        (object_creation_expression (identifier)
+          (argument_list
+            (argument (postfix_unary_expression (null_literal)))
+            (argument (postfix_unary_expression (null_literal)))))))))
