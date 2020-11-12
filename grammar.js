@@ -141,9 +141,19 @@ module.exports = grammar({
             $.library_declaration,
             $.struct_declaration,
             $.enum_declaration,
-            $.function_definition
+            $.function_definition,
+            $.constant_variable_declaration,
         ),
 
+        constant_variable_declaration: $ => seq(
+            field("type", $.type_name),
+            $.constant,
+            field("name", $.identifier),
+            '=', 
+            field("value", $._expression),
+            $._semicolon
+        ),
+        
         // Contract Declarations
         contract_declaration: $ => seq(
             optional('abstract'),
@@ -507,6 +517,7 @@ module.exports = grammar({
 
 
         //  -- [ Definitions ] --  
+        
         // Definitions
         state_variable_declaration: $ => seq(
             field("type", $.type_name),
@@ -800,8 +811,8 @@ module.exports = grammar({
             field('right', $._expression)
         )),
           
-        call_expresion: $ => choice(
-            seq($.identifier, $._call_arguments),
+        call_expresion: $ => seq(
+            seq($._expression, $._call_arguments),
         ),
 
         payable_conversion_expression: $ => seq('payable', $._call_arguments),
