@@ -3237,7 +3237,15 @@
             "named": true
           },
           {
-            "type": "_type",
+            "type": "alias_qualified_name",
+            "named": true
+          },
+          {
+            "type": "predefined_type",
+            "named": true
+          },
+          {
+            "type": "qualified_name",
             "named": true
           }
         ]

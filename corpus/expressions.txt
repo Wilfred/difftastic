@@ -957,7 +957,8 @@ typeof
 ============================
 
 void b() {
-  var z = typeof(int);
+  var y = typeof(int);
+  var z = typeof(List<string>.Enumerator);
 }
 
 ---
@@ -967,13 +968,18 @@ void b() {
     (local_function_statement (void_keyword) (identifier) (parameter_list)
       (block
         (local_declaration_statement
-          (variable_declaration
-            (implicit_type)
-            (variable_declarator
-              (identifier)
+          (variable_declaration (implicit_type)
+            (variable_declarator (identifier)
               (equals_value_clause
-                (type_of_expression
-                  (predefined_type))))))))))
+                (type_of_expression (predefined_type))))))
+          (local_declaration_statement
+            (variable_declaration (implicit_type)
+              (variable_declarator (identifier)
+                (equals_value_clause
+                  (type_of_expression
+                    (qualified_name
+                      (generic_name (identifier) (type_argument_list (predefined_type)))
+                      (identifier)))))))))))
 
 ============================
 switch expression
@@ -1396,29 +1402,27 @@ var x = new Dictionary<string,int> { ["a"] = 65 };
                   (integer_literal))))))))))
 
 =====================================
-Member access expression
+Member access expression (methods)
 =====================================
 
-void Test(){
-  a.IsInfinity(value);
+void Test(int value) {
+  value.ToString();
   double.IsInfinity(value);
-  string.Empty;
 }
 
 ---
 
 (compilation_unit
   (global_statement
-    (local_function_statement (void_keyword) (identifier) (parameter_list)
+    (local_function_statement (void_keyword) (identifier)
+      (parameter_list (parameter (predefined_type) (identifier)))
       (block
         (expression_statement
           (invocation_expression
             (member_access_expression
               (identifier)
               (identifier))
-            (argument_list
-              (argument
-                (identifier)))))
+            (argument_list)))
         (expression_statement
           (invocation_expression
             (member_access_expression
@@ -1426,11 +1430,36 @@ void Test(){
               (identifier))
             (argument_list
               (argument
-                (identifier)))))
-        (expression_statement
-          (member_access_expression
-            (predefined_type)
-            (identifier)))))))
+                (identifier)))))))))
+
+=====================================
+Member access expression (properties)
+=====================================
+
+void Test(int value) {
+  var x = string.Empty;
+  var z = B<int>.Something;
+}
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_function_statement (void_keyword) (identifier)
+      (parameter_list (parameter (predefined_type) (identifier)))
+      (block
+        (local_declaration_statement
+          (variable_declaration (implicit_type)
+            (variable_declarator (identifier)
+              (equals_value_clause
+                (member_access_expression (predefined_type) (identifier))))))
+        (local_declaration_statement
+          (variable_declaration (implicit_type)
+            (variable_declarator (identifier)
+              (equals_value_clause
+                (member_access_expression
+                  (generic_name (identifier) (type_argument_list (predefined_type)))
+                  (identifier))))))))))
 
 =====================================
 is expression

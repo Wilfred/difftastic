@@ -1199,7 +1199,7 @@ module.exports = grammar({
     ),
 
     member_access_expression: $ => prec(PREC.DOT, seq(
-      field('expression', choice($._expression, $._type, $._name)),
+      field('expression', choice($._expression, $.predefined_type, $._name)),
       choice('.', '->'),
       field('name', $._simple_name)
     )),
