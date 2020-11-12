@@ -975,6 +975,25 @@ class A {
                     (bracketed_argument_list
                       (argument (identifier))))))))))))))
 
+====================================
+Member access of an array element
+=====================================
+
+var g = args[0].Length;
+
+---
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration (implicit_type)
+        (variable_declarator (identifier)
+          (equals_value_clause
+            (member_access_expression
+              (element_access_expression
+                (identifier)
+                (bracketed_argument_list (argument (integer_literal))))
+            (identifier))))))))
+
 =====================================
 Using statement with implicit local variable
 =====================================

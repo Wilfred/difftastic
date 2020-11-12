@@ -6490,7 +6490,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_type"
+                  "name": "predefined_type"
                 },
                 {
                   "type": "SYMBOL",
