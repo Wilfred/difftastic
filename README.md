@@ -17,7 +17,7 @@ Comprehensive support for C# exists with the following exceptions:
 
 - [ ] `async` and `await` cannot be used as identifiers
 
-#### C# 7.0 features (complete)
+#### C# 7.0 (complete)
 
 - [x] Tuples
 - [x] Discards
