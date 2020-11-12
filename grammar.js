@@ -811,8 +811,8 @@ module.exports = grammar({
             field('right', $._expression)
         )),
           
-        call_expresion: $ => choice(
-            seq($.identifier, $._call_arguments),
+        call_expresion: $ => seq(
+            seq($._expression, $._call_arguments),
         ),
 
         payable_conversion_expression: $ => seq('payable', $._call_arguments),
