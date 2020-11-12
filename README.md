@@ -1,5 +1,6 @@
 ## 🌴 tree-sitter-solidity 
 ![badge](https://action-badges.now.sh/JoranHonig/tree-sitter-solidity)
+[![npm version](https://badge.fury.io/js/tree-sitter-solidity.svg)](https://badge.fury.io/js/tree-sitter-solidity)
 
 > 💡 this grammar is still in development, the structure of the generated AST is not stable
 
