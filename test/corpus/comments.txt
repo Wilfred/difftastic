@@ -23,6 +23,15 @@ comments and literals
   (expression_statement (decimal_integer_literal))
   (comment))
 
+======================
+documentation comment
+======================
+
+///  * [defaultSchedulingStrategy], the default [SchedulingStrategy] for [SchedulerBinding.schedulingStrategy].
+
+---
+(program (documentation_comment))
+
 
 ======================
 documentation comment 1
