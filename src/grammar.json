@@ -41,20 +41,24 @@
     "comment": {
       "type": "TOKEN",
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "#"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "PATTERN",
-              "value": "[^\\u0000-\\u0008\\u000a-\\u001f\\u007f]"
+        "type": "PREC",
+        "value": -1,
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "#"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\u0000-\\u0008\\u000a-\\u001f\\u007f]"
+              }
             }
-          }
-        ]
+          ]
+        }
       }
     },
     "table": {
