@@ -176,13 +176,13 @@ fn accumulate(self) -> Machine<{State::Accumulate}> {}
     name: (identifier)
     parameters: (parameters
       (attribute_item
-        (meta_item
+        (attr_item
           (identifier)))
       (parameter
         pattern: (identifier)
         type: (primitive_type))
       (attribute_item
-        (meta_item
+        (attr_item
           (identifier)))
       (parameter
         pattern: (identifier)
@@ -473,7 +473,7 @@ struct Inches(i32);
         (field_identifier)
         (primitive_type))
       (attribute_item
-        (meta_item
+        (attr_item
           (identifier)))
       (field_declaration
         (field_identifier)
@@ -632,10 +632,10 @@ pub enum Node<T: Item> {
             (field_identifier)
             (primitive_type))))
       (attribute_item
-        (meta_item
+        (attr_item
           (identifier)))
       (attribute_item
-        (meta_item
+        (attr_item
           (identifier)))
       (enum_variant
         (identifier)
@@ -968,7 +968,7 @@ mod macos_only {}
             path: (identifier)
             name: (identifier))))))
   (attribute_item
-    (meta_item
+    (attr_item
       (scoped_identifier
         path: (identifier)
         name: (identifier))
@@ -1119,7 +1119,7 @@ fn foo() {
         pattern: (identifier)
         value: (array_expression
           (attribute_item
-            (meta_item
+            (attr_item
               (identifier)))
           (integer_literal)
           (integer_literal)
@@ -1128,7 +1128,7 @@ fn foo() {
         pattern: (identifier)
         value: (tuple_expression
           (attribute_item
-            (meta_item
+            (attr_item
               (identifier)))
           (integer_literal)
           (integer_literal)
