@@ -40,7 +40,10 @@ module.exports = grammar({
       ),
 
     comment: $ =>
-      token(seq("#", repeat(getInverseRegex(control_chars.subtract("\t"))))),
+      token(prec(-1, seq(
+        "#",
+        repeat(getInverseRegex(control_chars.subtract("\t"))),
+      ))),
 
     table: $ =>
       seq(
