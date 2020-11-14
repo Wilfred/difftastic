@@ -2563,7 +2563,7 @@ module.exports = grammar({
         _semicolon: $ => seq(';', optional($._automatic_semicolon)),
 
         identifier: $ => /[a-zA-Z_$][\w$]*/,
-        identifier_dollar_escaped: $ => /([a-zA-Z_]|(\\\$))([\w]\\\$)*/,
+        identifier_dollar_escaped: $ => /([a-zA-Z_]|(\\\$))([\w]|(\\\$))*/,
         //TODO: add support for triple-slash comments as a special category.
         // Trying to add support for nested multiline comments.
         // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890

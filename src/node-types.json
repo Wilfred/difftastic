@@ -772,7 +772,7 @@
         ]
       },
       "operator": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -826,7 +826,7 @@
         ]
       },
       "right": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -968,7 +968,7 @@
         ]
       },
       "operator": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -1022,7 +1022,7 @@
         ]
       },
       "right": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -2121,7 +2121,7 @@
     "named": true,
     "fields": {
       "alternative": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -2255,7 +2255,7 @@
         ]
       },
       "consequence": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -3114,7 +3114,7 @@
         ]
       },
       "object": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -3424,7 +3424,7 @@
         ]
       },
       "class": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -3646,7 +3646,7 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -3788,7 +3788,7 @@
         ]
       },
       "condition": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -4180,7 +4180,7 @@
         ]
       },
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -4368,7 +4368,7 @@
         ]
       },
       "condition": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -4760,7 +4760,7 @@
         ]
       },
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -5168,7 +5168,7 @@
         ]
       },
       "parameters": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -5443,7 +5443,7 @@
     "named": true,
     "fields": {
       "alternative": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -5595,7 +5595,7 @@
         ]
       },
       "consequence": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -5743,7 +5743,7 @@
     "named": true,
     "fields": {
       "first": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -5870,7 +5870,7 @@
       },
       "second": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "(",
@@ -6236,7 +6236,7 @@
         ]
       },
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -7605,7 +7605,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "_literal",
@@ -7765,7 +7765,7 @@
     "named": true,
     "fields": {
       "key": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -7891,7 +7891,7 @@
         ]
       },
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
