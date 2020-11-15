@@ -1,0 +1,72 @@
+========================================================================
+Preprocessor include
+========================================================================
+
+#include "foo.h"
+#include <bar.h>
+
+---
+
+(document
+    (preproc_include path: (string_literal))
+    (preproc_include path: (system_lib_string))
+)
+
+========================================================================
+Preprocessor define
+========================================================================
+
+#define FOO 0
+#define BAR(x) (x & 0x01)
+
+---
+
+(document
+    (preproc_def
+        name: (identifier)
+        value: (preproc_arg)
+    )
+    (preproc_function_def
+        name: (identifier)
+        parameters: (preproc_params
+            (identifier)
+        )
+        value: (preproc_arg)
+    )
+)
+
+========================================================================
+Macro expressions
+========================================================================
+
+/ {
+    value = <FOO FUNC(FOO, BAR) LS(LC(A))>;
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property
+            name: (identifier)
+            value: (integer_cells
+                (identifier)
+                (call_expression
+                    function: (identifier)
+                    arguments: (argument_list
+                        (identifier)
+                        (identifier)
+                    )
+                )
+                (call_expression
+                    function: (identifier)
+                    arguments: (argument_list (call_expression
+                        function: (identifier)
+                        arguments: (argument_list (identifier))
+                    ))
+                )
+            )
+        )
+    )
+)

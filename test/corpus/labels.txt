@@ -1,0 +1,37 @@
+========================================================================
+Top-level label
+========================================================================
+
+label: node {};
+
+---
+
+(document
+    (labeled_item
+        label: (identifier)
+        item: (node name: (identifier))
+    )
+)
+
+========================================================================
+Labeled child node
+========================================================================
+
+/ {
+    label: property-name@deadbeef {};
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (labeled_item
+            label: (identifier)
+            item: (node
+                name: (identifier)
+                address: (unit_address)
+            )
+        )
+    )
+)

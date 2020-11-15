@@ -1,12 +1,7 @@
 [
     "/delete-node/"
-    "/delete-property"
+    "/delete-property/"
     "#define"
-    "#else"
-    "#endif"
-    "#if"
-    "#ifdef"
-    "#ifndef"
     "#include"
 ] @keyword
 
@@ -50,10 +45,16 @@
 (call_expression
     function: (identifier) @function)
 
-(labeled_definition
-    label: (dt_identifier) @label)
+(labeled_item
+    label: (identifier) @label)
 
-(dt_identifier) @variable
+(property
+    name: (identifier) @property)
+
 (identifier) @variable
+
+(unit_address) @tag
+
+(reference) @constant
 
 (comment) @comment

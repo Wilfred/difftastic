@@ -1,0 +1,44 @@
+
+========================================================================
+Delete nodes
+========================================================================
+
+/ {
+    foo: bar {};
+    /delete-node/ bar;
+    /delete-node/ &foo;
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (labeled_item
+            label: (identifier)
+            item: (node name: (identifier)))
+        (delete_node (identifier))
+        (delete_node (reference label: (identifier)))
+    )
+)
+
+========================================================================
+Delete properties
+========================================================================
+
+/ {
+    baz = "baz";
+    /delete-property/ baz;
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property
+            name: (identifier)
+            value: (string_literal))
+        (delete_property (identifier))
+    )
+)

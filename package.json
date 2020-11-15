@@ -1,7 +1,7 @@
 {
-  "name": "tree-sitter-device-tree",
+  "name": "tree-sitter-devicetree",
   "version": "0.1.0",
-  "description": "Tree-sitter parser for device-tree files",
+  "description": "Tree-sitter parser for Devicetree files, with support for Zephyr's superset of Devicetree syntax.",
   "main": "index.js",
   "scripts": {
     "build": "tree-sitter generate",
@@ -18,10 +18,11 @@
   },
   "tree-sitter": [
     {
-      "scope": "source.dt",
+      "scope": "source.devicetree",
       "file-types": [
         "dts",
-        "dtsi"
+        "dtsi",
+        "overlay"
       ],
       "injection-regex": "^(dt|devicetree)$"
     }

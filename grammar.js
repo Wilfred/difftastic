@@ -32,87 +32,123 @@ module.exports = grammar({
 
 	extras: ($) => [/\s|\\\r?\n/, $.comment],
 
+	inline: ($) => [
+		$.node_identifier,
+		$.label_identifier,
+		$.property_identifier,
+		$.parenthesized_expression,
+	],
+
 	rules: {
 		document: ($) => repeat($._top_level_item),
 
 		_top_level_item: ($) =>
 			choice(
-				alias($.labeled_node_definition, $.labeled_definition),
-				alias($.node_definition, $.definition),
+				$.file_version,
+				$.memory_reservation,
+				alias($.labeled_node, $.labeled_item),
+				$.node,
 				$.dtsi_include,
 				$.preproc_include,
 				$.preproc_def,
 				$.preproc_function_def
 			),
 
-		dt_identifier: ($) => /[a-zA-Z/_#][0-9a-zA-Z/,._+?#-]*/,
-		dt_node_identifier: ($) => /[a-zA-Z/_][0-9a-zA-Z/,._+?#-]*/,
+		file_version: ($) => seq('/dts-v1/', ';'),
 
-		reference: ($) =>
-			choice($._immediate_reference, $._bracketed_reference),
+		memory_reservation: ($) =>
+			seq('/memreserve/', $.integer_literal, $.integer_literal, ';'),
 
-		_immediate_reference: ($) => seq('&', $.dt_identifier),
+		_label_name: ($) => /[a-zA-Z_][0-9a-zA-Z_]*/,
+		_node_path: ($) => /\/[0-9a-zA-Z/,._+-]*/,
+		_node_or_property: ($) => /[a-zA-Z][0-9a-zA-Z,._+-]*/,
+		_property_with_hash: ($) => /[#0-9a-zA-Z,._+-]*#[#0-9a-zA-Z,._+-]*/,
+		_property_starts_with_number: ($) => /[0-9][#0-9a-zA-Z,._+-]*/,
 
-		_bracketed_reference: ($) => seq('&{', $.dt_identifier, '}'),
+		unit_address: ($) => /[0-9a-fA-F]+/,
 
-		labeled_definition: ($) =>
-			seq(
-				field('label', $.dt_identifier),
-				':',
-				field('definition', $.definition)
+		label_identifier: ($) => alias($._label_name, $.identifier),
+
+		node_identifier: ($) =>
+			alias(
+				choice($._node_or_property, $._node_path, $._label_name),
+				$.identifier
 			),
 
-		definition: ($) =>
+		property_identifier: ($) =>
+			alias(
+				choice(
+					$._node_or_property,
+					$._property_with_hash,
+					$._property_starts_with_number,
+					$._label_name
+				),
+				$.identifier
+			),
+
+		reference: ($) => choice($._label_reference, $._node_reference),
+
+		_label_reference: ($) => seq('&', field('label', $.label_identifier)),
+
+		_node_reference: ($) =>
 			seq(
-				field('name', $.dt_identifier),
-				field('address', optional($.unit_address)),
-				field('value', choice($.node, $.property)),
+				'&{',
+				field('path', $.node_identifier),
+				field('address', optional(seq('@', $.unit_address))),
+				'}'
+			),
+
+		labeled_node: ($) =>
+			seq(field('label', $.label_identifier), ':', field('item', $.node)),
+
+		labeled_item: ($) =>
+			seq(
+				field('label', $.label_identifier),
+				':',
+				field('item', choice($.node, $.property))
+			),
+
+		node: ($) =>
+			seq(
+				field('name', $.node_identifier),
+				field('address', optional(seq('@', $.unit_address))),
+				'{',
+				repeat($._node_members),
+				'}',
 				';'
 			),
 
-		labeled_node_definition: ($) =>
+		property: ($) =>
 			seq(
-				field('label', alias($.dt_node_identifier, $.dt_identifier)),
-				':',
-				field('definition', $.node_definition)
-			),
-
-		node_definition: ($) =>
-			seq(
-				field('name', alias($.dt_node_identifier, $.dt_identifier)),
-				field('address', optional($.unit_address)),
-				field('value', $.node),
+				field('name', $.property_identifier),
+				field('value', optional(seq('=', commaSep($._property_value)))),
 				';'
 			),
-
-		node: ($) => seq('{', repeat($._node_members), '}'),
-		property: ($) => seq('=', $._property_value),
-
-		node_name: ($) => /[a-zA-Z][0-9a-zA-Z,._+-]*/,
-		unit_address: ($) => seq('@', /[0-9a-fA-F]/),
 
 		_node_members: ($) =>
 			choice(
 				$.delete_property,
 				$.delete_node,
-				$.definition,
-				$.labeled_definition
+				$.labeled_item,
+				$.node,
+				$.property
 			),
 
+		// TODO: is delete-node allowed at top level?
 		delete_node: ($) =>
-			seq('/delete-node/', choice($.dt_identifier, $.reference)),
+			seq('/delete-node/', choice($.node_identifier, $.reference), ';'),
 
 		delete_property: ($) =>
-			seq('/delete-property/', choice($.dt_identifier, $.reference)),
+			seq('/delete-property/', $.property_identifier, ';'),
 
+		// TODO: property values can be labeled.
 		_property_value: ($) =>
 			choice(
-				$._integer_cell_list,
+				$.integer_cells,
 				$.string_literal,
-				$.byte_string_literal
+				$.byte_string_literal,
+				$.reference
 			),
-
-		_integer_cell_list: ($) => commaSep1($.integer_cells),
 
 		integer_cells: ($) => seq('<', repeat($._integer_cell_items), '>'),
 
