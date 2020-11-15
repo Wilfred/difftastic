@@ -43,7 +43,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] `ref readonly` method returns
 - [x] `readonly struct`
 - [x] `ref struct`
-- [x] Non-trailing named arguments
+- [x] Non-named trailing arguments
 - [x] `_` leading binary and hex literals
 - [x] `private protected` modifier
 - [x] Conditional `ref` expressions
