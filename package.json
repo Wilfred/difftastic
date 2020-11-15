@@ -1,0 +1,29 @@
+{
+  "name": "tree-sitter-device-tree",
+  "version": "0.1.0",
+  "description": "Tree-sitter parser for device-tree files",
+  "main": "index.js",
+  "scripts": {
+    "build": "tree-sitter generate",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joel Spadin",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.2"
+  },
+  "devDependencies": {
+    "prettier": "^2.1.2",
+    "tree-sitter-cli": "^0.17.3"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.dt",
+      "file-types": [
+        "dts",
+        "dtsi"
+      ],
+      "injection-regex": "^(dt|devicetree)$"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+
+#define DEFAULT 0
+#define LOWER 1
+#define RAISE 2
+
+/ {
+    behaviors {
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            label = "homerow mods";
+            #binding-cells = <2>;
+            tapping_term_ms = <225>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
+        };
+    };
+};
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <
+    &kp ESC   &kp Q       &kp W       &kp E       &kp R       &kp T     &kp Y     &kp U       &kp I       &kp O       &kp P          &kp BKSP
+    &kp TAB   &hm LGUI A  &hm LALT S  &hm LCTL D  &hm LSFT F  &kp G     &kp H     &hm RSFT J  &hm RCTL K  &hm RALT L  &hm RGUI SCLN  &kp RET
+    &kp LSFT  &kp Z       &kp X       &kp C       &kp V       &kp B     &kp N     &kp M       &kp CMMA    &kp DOT     &kp FSLH       &kp QUOT
+    &kp LCTL  &kp LALT    &kp LGUI    &lt 1 BKSP  &lt 2 SPC   &kp LARW  &kp DARW  &kp UARW    &kp RARW
+            >;
+        };
+        lower {
+            bindings = <
+    &kp GRAV     &kp F1  &kp F2    &kp F3  &kp F4  &kp F5  &kp F6        &kp F7        &kp F8        &kp F9       &kp F10     &kp F11     &kp F12  &kp PRSC
+    &kp DEL      &trans  &kp VOLU  &trans  &trans  &trans  &trans        &kp LARW      &kp DARW      &kp UARW     &kp RARW    &trans
+    &trans       &trans  &kp VOLD  &trans  &trans  &trans  &trans        &trans        &trans        &bt BT_PRV   &bt BT_NXT  &bt BT_CLR
+    &bootloader  &reset  &trans    &trans  &trans  &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3
+            >;
+        };
+
+    raise {
+            bindings = <
+    &kp GRAV  &kp NUM_1  &kp NUM_2  &kp NUM_3  &kp NUM_4  &kp NUM_5  &kp NUM_6   &kp NUM_7   &kp NUM_8   &kp NUM_9   &kp NUM_0  &kp PRSC
+    &kp DEL   &kp F1     &kp F2     &kp F3     &kp F4     &kp F5     &kp F6      &kp MINUS   &kp EQL     &kp LBKT    &kp RBKT   &kp BSLH
+    &trans    &kp F7     &kp F8     &kp F9     &kp F10    &kp F11    &kp F12     &kp TILD    &kp HOME    &kp PGUP    &kp PGDN   &kp END
+    &trans    &trans     &trans     &trans     &trans     &trans     &kp M_NEXT  &kp M_VOLD  &kp M_VOLU  &kp M_PLAY
+            >;
+        };
+    };
+};
