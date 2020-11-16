@@ -22,7 +22,7 @@
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
     "prebuild": "prebuild -r electron --strip --verbose -t 4.0.0 -t 5.0.0 -t 6.0.0 -t 7.0.0 -t 8.0.0",
-    "prebuild:upload": "prebuild -u",
+    "prebuild:upload": "prebuild --upload-all",
     "generate": "tree-sitter generate",
     "test": "tree-sitter test"
   },
