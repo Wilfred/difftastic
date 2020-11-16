@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-gdscript",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "GDScript grammar for tree-sitter",
   "main": "index.js",
   "keywords": [
@@ -10,16 +10,16 @@
   "author": "Preston Knopp",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.1",
-    "prebuild-install": "^5.3.3"
+    "nan": "^2.14.2",
+    "prebuild-install": "^6.0.0"
   },
   "devDependencies": {
-    "prebuild": "^9.1.1",
-    "tree-sitter-cli": "^0.15.14"
+    "prebuild": "^10.0.1",
+    "tree-sitter-cli": "^0.17.3"
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
-    "prebuild": "prebuild -r electron --all --strip --verbose",
+    "prebuild": "prebuild -r electron --strip --verbose -t 4.0.0 -t 5.0.0 -t 6.0.0 -t 7.0.0 -t 8.0.0",
     "prebuild:upload": "prebuild --upload-all",
     "test": "tree-sitter test",
     "genTest": "tree-sitter generate && tree-sitter test"

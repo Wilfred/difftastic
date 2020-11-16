@@ -16,4 +16,4 @@ install:
 build: off
 test_script:
 - npm run test
-deploy_script: npm run prebuild && npm run prebuild:upload -u %PREBUILD_UPLOAD%
+deploy_script: npm run prebuild && npm run prebuild:upload %PREBUILD_UPLOAD%
