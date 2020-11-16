@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-godot-resource",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "tree-sitter parser for godot text resources (tres, tscn)",
   "main": "index.js",
   "keywords": [
@@ -12,12 +12,12 @@
   "author": "Preston Knopp",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.0",
-    "prebuild-install": "^5.3.2"
+    "nan": "^2.14.2",
+    "prebuild-install": "^6.0.0"
   },
   "devDependencies": {
-    "prebuild": "^9.1.1",
-    "tree-sitter-cli": "^0.15.9"
+    "prebuild": "^10.0.1",
+    "tree-sitter-cli": "^0.17.3"
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",

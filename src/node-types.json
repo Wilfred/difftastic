@@ -344,19 +344,39 @@
     }
   },
   {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true
   },
   {
-    "type": "true",
-    "named": true
-  },
-  {
     "type": "false",
-    "named": true
-  },
-  {
-    "type": "null",
     "named": true
   },
   {
@@ -368,43 +388,27 @@
     "named": true
   },
   {
-    "type": "[",
-    "named": false
-  },
-  {
-    "type": "]",
-    "named": false
-  },
-  {
-    "type": "=",
-    "named": false
+    "type": "null",
+    "named": true
   },
   {
     "type": "path",
     "named": true
   },
   {
-    "type": ":",
-    "named": false
+    "type": "string",
+    "named": true
+  },
+  {
+    "type": "true",
+    "named": true
   },
   {
     "type": "{",
     "named": false
   },
   {
-    "type": ",",
-    "named": false
-  },
-  {
     "type": "}",
-    "named": false
-  },
-  {
-    "type": "(",
-    "named": false
-  },
-  {
-    "type": ")",
     "named": false
   }
 ]
