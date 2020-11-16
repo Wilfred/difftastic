@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-godot-resource",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "tree-sitter parser for godot text resources (tres, tscn)",
   "main": "index.js",
   "keywords": [
@@ -21,7 +21,7 @@
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
-    "prebuild": "prebuild -r electron --all --strip --verbose",
+    "prebuild": "prebuild -r electron --strip --verbose -t 4.0.0 -t 5.0.0 -t 6.0.0 -t 7.0.0 -t 8.0.0",
     "prebuild:upload": "prebuild --upload-all",
     "generate": "tree-sitter generate",
     "test": "tree-sitter test"
