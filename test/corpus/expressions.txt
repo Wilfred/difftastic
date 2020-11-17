@@ -331,6 +331,7 @@ Switch
 switch(foo,
   x = 1,
   "y" = 2,
+  z = ,
   3
 )
 
@@ -344,6 +345,7 @@ switch(foo,
      value: (float)
      name: (string)
      value: (float)
+     name: (identifier)
      value: (float))))
 
 ======
@@ -428,7 +430,7 @@ y(1) -> x
    name: (identifier)))
 
 =====
-calls
+Calls
 =====
 
 f()
@@ -437,6 +439,7 @@ f(x, )
 f(x, y)
 f(x, y = 2)
 f(x, y =)
+f(f2(x, y))
 
 ---
 
@@ -462,7 +465,14 @@ f(x, y =)
 
   (call
     function: (identifier)
-    arguments: (arguments value: (identifier) name: (identifier))))
+    arguments: (arguments value: (identifier) name: (identifier)))
+
+  (call
+    function: (identifier)
+    arguments: (arguments value:
+      (call
+       function: (identifier)
+       arguments: (arguments value: (identifier) value: (identifier))))))
 
 ======
 Braces

@@ -30,6 +30,8 @@ module.exports = grammar({
   rules: {
     program: $ => repeat(seq($._expression, terminator)),
 
+    word : $ => $.identifier,
+
     _definition: $ => choice(
       $.function_definition
       // TODO: other kinds of definitions
@@ -73,14 +75,14 @@ module.exports = grammar({
       field('body', $._expression)
     )),
 
-    switch: $ => prec.right(seq(
+    switch: $ => seq(
       'switch',
       '(',
       field('value', $._expression),
       ',',
       field('body', $.arguments),
       ')'
-    )),
+    ),
 
     formal_parameters: $ => seq(
       '(',
@@ -103,12 +105,11 @@ module.exports = grammar({
       '}'
     ),
 
-    arguments: $ => prec.left(repeat1(
-      choice(
-        $._argument,
-        seq(',', optional($._argument))
-      )
-    )),
+    arguments: $ => seq(
+      $._argument,
+      repeat(seq(',', $._argument)),
+      optional(',')
+    ),
 
     _argument: $ => prec.left(PREC.CALL + 1, choice(
       field('value', $._expression),
@@ -175,6 +176,7 @@ module.exports = grammar({
       ),
       ')'
     ),
+
     subset: $ => prec(PREC.SUBSET, seq(
       $._expression,
       '[',
@@ -263,6 +265,7 @@ module.exports = grammar({
       $.identifier,
       $.integer,
       $.float,
+      $.complex,
       $.string,
       $.call,
       $.function_definition,
@@ -294,7 +297,8 @@ module.exports = grammar({
       ';'
     ),
 
-    identifier: $ => choice(
+    identifier: $ => 
+      choice(
       /[A-Za-z.][A-Za-z0-9_.]*/,
       seq(
         '`',
@@ -334,6 +338,8 @@ module.exports = grammar({
         )
       ))
     },
+
+    complex: $ => seq($.float, 'i'),
 
     comment: $ => seq('#', /.*/),
 
