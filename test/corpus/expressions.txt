@@ -361,11 +361,15 @@ Dollar
 
 foo$bar
 
+foo$"bar"
+
 ---
 
 (program
   (dollar
-    (identifier) (identifier)))
+    (identifier) (identifier))
+  (dollar
+    (identifier) (string)))
 
 ======
 Slot

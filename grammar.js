@@ -197,7 +197,10 @@ module.exports = grammar({
     dollar: $ => prec(PREC.DOLLAR, seq(
       $._expression,
       '$',
-      $.identifier
+      choice(
+        $.identifier,
+        $.string
+      )
     )),
 
     slot : $ => prec(PREC.DOLLAR, seq(
