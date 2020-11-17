@@ -440,6 +440,11 @@ f(x, y)
 f(x, y = 2)
 f(x, y =)
 f(f2(x, y))
+f(,)
+f(x,)
+f(,y)
+f(x=,)
+f(,y=)
 
 ---
 
@@ -472,7 +477,27 @@ f(f2(x, y))
     arguments: (arguments value:
       (call
        function: (identifier)
-       arguments: (arguments value: (identifier) value: (identifier))))))
+       arguments: (arguments value: (identifier) value: (identifier)))))
+
+  (call
+    function: (identifier)
+    arguments: (arguments))
+
+  (call
+    function: (identifier)
+    arguments: (arguments value: (identifier)))
+
+  (call
+    function: (identifier)
+    arguments: (arguments value: (identifier)))
+
+  (call
+    function: (identifier)
+    arguments: (arguments name: (identifier)))
+
+  (call
+    function: (identifier)
+    arguments: (arguments name: (identifier))))
 
 ======
 Braces

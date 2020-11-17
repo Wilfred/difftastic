@@ -105,13 +105,12 @@ module.exports = grammar({
       '}'
     ),
 
-    arguments: $ => seq(
+    arguments: $ => repeat1(choice(
       $._argument,
-      repeat(seq(',', $._argument)),
-      optional(',')
-    ),
+      ','
+    )),
 
-    _argument: $ => prec.left(PREC.CALL + 1, choice(
+    _argument: $ => prec.left(PREC.CALL - 1, choice(
       field('value', $._expression),
       seq(
         field('name', choice($.identifier, $.string)),
