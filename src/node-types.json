@@ -10,6 +10,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "string",
+            "named": true
           }
         ]
       },
@@ -35,6 +39,10 @@
           },
           {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "dollar",
             "named": true
           },
           {
@@ -118,6 +126,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -131,6 +143,10 @@
           },
           {
             "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
             "named": true
           },
           {
@@ -174,6 +190,10 @@
           "named": true
         },
         {
+          "type": "dollar",
+          "named": true
+        },
+        {
           "type": "dots",
           "named": true
         },
@@ -254,6 +274,10 @@
           "named": true
         },
         {
+          "type": "slot",
+          "named": true
+        },
+        {
           "type": "special",
           "named": true
         },
@@ -271,6 +295,10 @@
         },
         {
           "type": "super_assignment",
+          "named": true
+        },
+        {
+          "type": "switch",
           "named": true
         },
         {
@@ -313,6 +341,10 @@
           "named": true
         },
         {
+          "type": "dollar",
+          "named": true
+        },
+        {
           "type": "dots",
           "named": true
         },
@@ -393,6 +425,10 @@
           "named": true
         },
         {
+          "type": "slot",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -406,6 +442,10 @@
         },
         {
           "type": "super_assignment",
+          "named": true
+        },
+        {
+          "type": "switch",
           "named": true
         },
         {
@@ -462,6 +502,10 @@
             "named": true
           },
           {
+            "type": "dollar",
+            "named": true
+          },
+          {
             "type": "dots",
             "named": true
           },
@@ -542,6 +586,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -555,6 +603,10 @@
           },
           {
             "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
             "named": true
           },
           {
@@ -574,570 +626,12 @@
     }
   },
   {
-    "type": "equals_assignment",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": ";",
-            "named": false
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "brace_list",
-            "named": true
-          },
-          {
-            "type": "break",
-            "named": true
-          },
-          {
-            "type": "call",
-            "named": true
-          },
-          {
-            "type": "dots",
-            "named": true
-          },
-          {
-            "type": "equals_assignment",
-            "named": true
-          },
-          {
-            "type": "false",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "function_definition",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "inf",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "left_assignment",
-            "named": true
-          },
-          {
-            "type": "na",
-            "named": true
-          },
-          {
-            "type": "namespace_get",
-            "named": true
-          },
-          {
-            "type": "nan",
-            "named": true
-          },
-          {
-            "type": "next",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "paren_list",
-            "named": true
-          },
-          {
-            "type": "repeat",
-            "named": true
-          },
-          {
-            "type": "return",
-            "named": true
-          },
-          {
-            "type": "right_assignment",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "subset",
-            "named": true
-          },
-          {
-            "type": "subset2",
-            "named": true
-          },
-          {
-            "type": "super_assignment",
-            "named": true
-          },
-          {
-            "type": "true",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "while",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": ";",
-            "named": false
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "brace_list",
-            "named": true
-          },
-          {
-            "type": "break",
-            "named": true
-          },
-          {
-            "type": "call",
-            "named": true
-          },
-          {
-            "type": "dots",
-            "named": true
-          },
-          {
-            "type": "equals_assignment",
-            "named": true
-          },
-          {
-            "type": "false",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "function_definition",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "inf",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "left_assignment",
-            "named": true
-          },
-          {
-            "type": "na",
-            "named": true
-          },
-          {
-            "type": "namespace_get",
-            "named": true
-          },
-          {
-            "type": "nan",
-            "named": true
-          },
-          {
-            "type": "next",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "paren_list",
-            "named": true
-          },
-          {
-            "type": "repeat",
-            "named": true
-          },
-          {
-            "type": "return",
-            "named": true
-          },
-          {
-            "type": "right_assignment",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "subset",
-            "named": true
-          },
-          {
-            "type": "subset2",
-            "named": true
-          },
-          {
-            "type": "super_assignment",
-            "named": true
-          },
-          {
-            "type": "true",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "while",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "for",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": ";",
-            "named": false
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "brace_list",
-            "named": true
-          },
-          {
-            "type": "break",
-            "named": true
-          },
-          {
-            "type": "call",
-            "named": true
-          },
-          {
-            "type": "dots",
-            "named": true
-          },
-          {
-            "type": "equals_assignment",
-            "named": true
-          },
-          {
-            "type": "false",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "function_definition",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "inf",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "left_assignment",
-            "named": true
-          },
-          {
-            "type": "na",
-            "named": true
-          },
-          {
-            "type": "namespace_get",
-            "named": true
-          },
-          {
-            "type": "nan",
-            "named": true
-          },
-          {
-            "type": "next",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "paren_list",
-            "named": true
-          },
-          {
-            "type": "repeat",
-            "named": true
-          },
-          {
-            "type": "return",
-            "named": true
-          },
-          {
-            "type": "right_assignment",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "subset",
-            "named": true
-          },
-          {
-            "type": "subset2",
-            "named": true
-          },
-          {
-            "type": "super_assignment",
-            "named": true
-          },
-          {
-            "type": "true",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "while",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "vector": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": ";",
-            "named": false
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "brace_list",
-            "named": true
-          },
-          {
-            "type": "break",
-            "named": true
-          },
-          {
-            "type": "call",
-            "named": true
-          },
-          {
-            "type": "dots",
-            "named": true
-          },
-          {
-            "type": "equals_assignment",
-            "named": true
-          },
-          {
-            "type": "false",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "function_definition",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "inf",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "left_assignment",
-            "named": true
-          },
-          {
-            "type": "na",
-            "named": true
-          },
-          {
-            "type": "namespace_get",
-            "named": true
-          },
-          {
-            "type": "nan",
-            "named": true
-          },
-          {
-            "type": "next",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "paren_list",
-            "named": true
-          },
-          {
-            "type": "repeat",
-            "named": true
-          },
-          {
-            "type": "return",
-            "named": true
-          },
-          {
-            "type": "right_assignment",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "subset",
-            "named": true
-          },
-          {
-            "type": "subset2",
-            "named": true
-          },
-          {
-            "type": "super_assignment",
-            "named": true
-          },
-          {
-            "type": "true",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "while",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "formal_parameters",
+    "type": "dollar",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary",
@@ -1153,6 +647,10 @@
         },
         {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "dollar",
           "named": true
         },
         {
@@ -1236,6 +734,10 @@
           "named": true
         },
         {
+          "type": "slot",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1249,6 +751,763 @@
         },
         {
           "type": "super_assignment",
+          "named": true
+        },
+        {
+          "type": "switch",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "equals_assignment",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "brace_list",
+            "named": true
+          },
+          {
+            "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "function_definition",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inf",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
+            "named": true
+          },
+          {
+            "type": "na",
+            "named": true
+          },
+          {
+            "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
+            "type": "return",
+            "named": true
+          },
+          {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
+            "type": "slot",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subset",
+            "named": true
+          },
+          {
+            "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "brace_list",
+            "named": true
+          },
+          {
+            "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "function_definition",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inf",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
+            "named": true
+          },
+          {
+            "type": "na",
+            "named": true
+          },
+          {
+            "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
+            "type": "return",
+            "named": true
+          },
+          {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
+            "type": "slot",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subset",
+            "named": true
+          },
+          {
+            "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "for",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "brace_list",
+            "named": true
+          },
+          {
+            "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "function_definition",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inf",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
+            "named": true
+          },
+          {
+            "type": "na",
+            "named": true
+          },
+          {
+            "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
+            "type": "return",
+            "named": true
+          },
+          {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
+            "type": "slot",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subset",
+            "named": true
+          },
+          {
+            "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "vector": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "brace_list",
+            "named": true
+          },
+          {
+            "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "function_definition",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inf",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
+            "named": true
+          },
+          {
+            "type": "na",
+            "named": true
+          },
+          {
+            "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
+            "type": "return",
+            "named": true
+          },
+          {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
+            "type": "slot",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subset",
+            "named": true
+          },
+          {
+            "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "formal_parameters",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "brace_list",
+          "named": true
+        },
+        {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "dots",
+          "named": true
+        },
+        {
+          "type": "equals_assignment",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "inf",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "na",
+          "named": true
+        },
+        {
+          "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "right_assignment",
+          "named": true
+        },
+        {
+          "type": "slot",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
+          "named": true
+        },
+        {
+          "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "super_assignment",
+          "named": true
+        },
+        {
+          "type": "switch",
           "named": true
         },
         {
@@ -1288,6 +1547,10 @@
         },
         {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "dollar",
           "named": true
         },
         {
@@ -1375,6 +1638,10 @@
           "named": true
         },
         {
+          "type": "slot",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1388,6 +1655,10 @@
         },
         {
           "type": "super_assignment",
+          "named": true
+        },
+        {
+          "type": "switch",
           "named": true
         },
         {
@@ -1446,6 +1717,10 @@
           },
           {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "dollar",
             "named": true
           },
           {
@@ -1533,6 +1808,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -1546,6 +1825,10 @@
           },
           {
             "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
             "named": true
           },
           {
@@ -1587,6 +1870,10 @@
             "named": true
           },
           {
+            "type": "dollar",
+            "named": true
+          },
+          {
             "type": "dots",
             "named": true
           },
@@ -1667,6 +1954,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -1680,6 +1971,10 @@
           },
           {
             "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
             "named": true
           },
           {
@@ -1721,6 +2016,10 @@
             "named": true
           },
           {
+            "type": "dollar",
+            "named": true
+          },
+          {
             "type": "dots",
             "named": true
           },
@@ -1801,6 +2100,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -1814,6 +2117,10 @@
           },
           {
             "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
             "named": true
           },
           {
@@ -1861,6 +2168,10 @@
             "named": true
           },
           {
+            "type": "dollar",
+            "named": true
+          },
+          {
             "type": "dots",
             "named": true
           },
@@ -1941,6 +2252,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -1954,6 +2269,10 @@
           },
           {
             "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
             "named": true
           },
           {
@@ -1995,6 +2314,10 @@
             "named": true
           },
           {
+            "type": "dollar",
+            "named": true
+          },
+          {
             "type": "dots",
             "named": true
           },
@@ -2075,6 +2398,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -2088,6 +2415,10 @@
           },
           {
             "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
             "named": true
           },
           {
@@ -2162,6 +2493,10 @@
           "named": true
         },
         {
+          "type": "dollar",
+          "named": true
+        },
+        {
           "type": "dots",
           "named": true
         },
@@ -2242,6 +2577,10 @@
           "named": true
         },
         {
+          "type": "slot",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -2255,6 +2594,10 @@
         },
         {
           "type": "super_assignment",
+          "named": true
+        },
+        {
+          "type": "switch",
           "named": true
         },
         {
@@ -2297,6 +2640,10 @@
           "named": true
         },
         {
+          "type": "dollar",
+          "named": true
+        },
+        {
           "type": "dots",
           "named": true
         },
@@ -2377,6 +2724,10 @@
           "named": true
         },
         {
+          "type": "slot",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -2390,6 +2741,10 @@
         },
         {
           "type": "super_assignment",
+          "named": true
+        },
+        {
+          "type": "switch",
           "named": true
         },
         {
@@ -2436,6 +2791,10 @@
             "named": true
           },
           {
+            "type": "dollar",
+            "named": true
+          },
+          {
             "type": "dots",
             "named": true
           },
@@ -2516,6 +2875,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -2529,6 +2892,10 @@
           },
           {
             "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
             "named": true
           },
           {
@@ -2569,6 +2936,10 @@
         },
         {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "dollar",
           "named": true
         },
         {
@@ -2652,6 +3023,10 @@
           "named": true
         },
         {
+          "type": "slot",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -2665,6 +3040,10 @@
         },
         {
           "type": "super_assignment",
+          "named": true
+        },
+        {
+          "type": "switch",
           "named": true
         },
         {
@@ -2711,6 +3090,10 @@
             "named": true
           },
           {
+            "type": "dollar",
+            "named": true
+          },
+          {
             "type": "dots",
             "named": true
           },
@@ -2791,6 +3174,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -2804,6 +3191,10 @@
           },
           {
             "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
             "named": true
           },
           {
@@ -2845,6 +3236,10 @@
             "named": true
           },
           {
+            "type": "dollar",
+            "named": true
+          },
+          {
             "type": "dots",
             "named": true
           },
@@ -2925,6 +3320,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -2941,6 +3340,10 @@
             "named": true
           },
           {
+            "type": "switch",
+            "named": true
+          },
+          {
             "type": "true",
             "named": true
           },
@@ -2954,6 +3357,153 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "slot",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "brace_list",
+          "named": true
+        },
+        {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "dots",
+          "named": true
+        },
+        {
+          "type": "equals_assignment",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "inf",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "na",
+          "named": true
+        },
+        {
+          "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "right_assignment",
+          "named": true
+        },
+        {
+          "type": "slot",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
+          "named": true
+        },
+        {
+          "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "super_assignment",
+          "named": true
+        },
+        {
+          "type": "switch",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3015,6 +3565,10 @@
           "named": true
         },
         {
+          "type": "dollar",
+          "named": true
+        },
+        {
           "type": "dots",
           "named": true
         },
@@ -3095,6 +3649,10 @@
           "named": true
         },
         {
+          "type": "slot",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -3108,6 +3666,10 @@
         },
         {
           "type": "super_assignment",
+          "named": true
+        },
+        {
+          "type": "switch",
           "named": true
         },
         {
@@ -3154,6 +3716,10 @@
           "named": true
         },
         {
+          "type": "dollar",
+          "named": true
+        },
+        {
           "type": "dots",
           "named": true
         },
@@ -3234,6 +3800,10 @@
           "named": true
         },
         {
+          "type": "slot",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -3247,6 +3817,10 @@
         },
         {
           "type": "super_assignment",
+          "named": true
+        },
+        {
+          "type": "switch",
           "named": true
         },
         {
@@ -3293,6 +3867,10 @@
             "named": true
           },
           {
+            "type": "dollar",
+            "named": true
+          },
+          {
             "type": "dots",
             "named": true
           },
@@ -3373,6 +3951,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -3386,6 +3968,10 @@
           },
           {
             "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
             "named": true
           },
           {
@@ -3427,6 +4013,10 @@
             "named": true
           },
           {
+            "type": "dollar",
+            "named": true
+          },
+          {
             "type": "dots",
             "named": true
           },
@@ -3507,6 +4097,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -3520,6 +4114,172 @@
           },
           {
             "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "switch",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "arguments",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "brace_list",
+            "named": true
+          },
+          {
+            "type": "break",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "dots",
+            "named": true
+          },
+          {
+            "type": "equals_assignment",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "function_definition",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inf",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "left_assignment",
+            "named": true
+          },
+          {
+            "type": "na",
+            "named": true
+          },
+          {
+            "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "nan",
+            "named": true
+          },
+          {
+            "type": "next",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "paren_list",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
+            "type": "return",
+            "named": true
+          },
+          {
+            "type": "right_assignment",
+            "named": true
+          },
+          {
+            "type": "slot",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subset",
+            "named": true
+          },
+          {
+            "type": "subset2",
+            "named": true
+          },
+          {
+            "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
             "named": true
           },
           {
@@ -3560,6 +4320,10 @@
         },
         {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "dollar",
           "named": true
         },
         {
@@ -3643,6 +4407,10 @@
           "named": true
         },
         {
+          "type": "slot",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -3656,6 +4424,10 @@
         },
         {
           "type": "super_assignment",
+          "named": true
+        },
+        {
+          "type": "switch",
           "named": true
         },
         {
@@ -3702,6 +4474,10 @@
             "named": true
           },
           {
+            "type": "dollar",
+            "named": true
+          },
+          {
             "type": "dots",
             "named": true
           },
@@ -3782,6 +4558,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -3795,6 +4575,10 @@
           },
           {
             "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
             "named": true
           },
           {
@@ -3836,6 +4620,10 @@
             "named": true
           },
           {
+            "type": "dollar",
+            "named": true
+          },
+          {
             "type": "dots",
             "named": true
           },
@@ -3916,6 +4704,10 @@
             "named": true
           },
           {
+            "type": "slot",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -3929,6 +4721,10 @@
           },
           {
             "type": "super_assignment",
+            "named": true
+          },
+          {
+            "type": "switch",
             "named": true
           },
           {
@@ -3946,6 +4742,10 @@
         ]
       }
     }
+  },
+  {
+    "type": "\n",
+    "named": false
   },
   {
     "type": "!",
@@ -4053,6 +4853,10 @@
   },
   {
     "type": ">=",
+    "named": false
+  },
+  {
+    "type": "@",
     "named": false
   },
   {
@@ -4165,6 +4969,10 @@
   },
   {
     "type": "return",
+    "named": false
+  },
+  {
+    "type": "switch",
     "named": false
   },
   {

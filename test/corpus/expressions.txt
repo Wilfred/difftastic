@@ -324,6 +324,52 @@ repeat 1
   (repeat
     body: (float)))
 
+======
+Switch
+======
+
+switch(foo,
+  x = 1,
+  "y" = 2,
+  3
+)
+
+---
+
+(program
+  (switch
+   value: (identifier)
+   body: (arguments
+     name: (identifier)
+     value: (float)
+     name: (string)
+     value: (float)
+     value: (float))))
+
+======
+Dollar
+======
+
+foo$bar
+
+---
+
+(program
+  (dollar
+    (identifier) (identifier)))
+
+======
+Slot
+======
+
+foo@bar
+
+---
+
+(program
+  (slot
+    (identifier) (identifier)))
+
 ============================================
 Namespace get
 ============================================

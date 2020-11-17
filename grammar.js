@@ -73,6 +73,15 @@ module.exports = grammar({
       field('body', $._expression)
     )),
 
+    switch: $ => prec.right(seq(
+      'switch',
+      '(',
+      field('value', $._expression),
+      ',',
+      field('body', $.arguments),
+      ')'
+    )),
+
     formal_parameters: $ => seq(
       '(',
       optional(seq(
@@ -94,17 +103,17 @@ module.exports = grammar({
       '}'
     ),
 
-    arguments: $ => repeat1(
+    arguments: $ => prec.left(repeat1(
       choice(
         $._argument,
         seq(',', optional($._argument))
       )
-    ),
+    )),
 
-    _argument: $ => choice(
+    _argument: $ => prec.left(PREC.CALL + 1, choice(
       field('value', $._expression),
-      prec.left(PREC.CALL + 1, seq(
-        field('name', $.identifier),
+      seq(
+        field('name', choice($.identifier, $.string)),
         '=',
         field('value', optional($._expression))
     ))),
@@ -180,6 +189,18 @@ module.exports = grammar({
       ']]'
     )),
 
+    dollar: $ => prec(PREC.DOLLAR, seq(
+      $._expression,
+      '$',
+      $.identifier
+    )),
+
+    slot : $ => prec(PREC.DOLLAR, seq(
+      $._expression,
+      '@',
+      $.identifier
+    )),
+
     namespace_get: $ => prec(PREC.NS_GET, seq(
       field('namespace', $.identifier),
       '::',
@@ -217,8 +238,7 @@ module.exports = grammar({
       prec.left(PREC.OR, seq($._expression, '|', $._expression)),
       prec.left(PREC.AND, seq($._expression, '&&', $._expression)),
       prec.left(PREC.AND, seq($._expression, '&', $._expression)),
-      prec.left(PREC.SPECIAL, seq($._expression, $.special, $._expression)),
-      prec.left(PREC.DOLLAR, seq($._expression, '$', $.identifier))
+      prec.left(PREC.SPECIAL, seq($._expression, $.special, $._expression))
     ),
 
     break: $ => 'break',
@@ -253,11 +273,14 @@ module.exports = grammar({
       $.unary,
       $.subset,
       $.subset2,
+      $.dollar,
+      $.slot,
       $.namespace_get,
       $.if,
       $.for,
       $.while,
       $.repeat,
+      $.switch,
       $.return,
       $.break,
       $.next,
