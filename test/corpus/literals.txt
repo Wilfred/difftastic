@@ -32,6 +32,8 @@ Strings
 "foo\"bar"
 'foo'
 'foo\'bar'
+"#"
+'#'
 
 ----
 
@@ -39,7 +41,9 @@ Strings
  (string)
  (string (escape_sequence))
  (string)
- (string (escape_sequence)))
+ (string (escape_sequence))
+ (string)
+ (string))
 
 ============================================
 Comments

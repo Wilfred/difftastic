@@ -1,4 +1,6 @@
 const PREC = {
+  COMMENT: -1,
+
   ASSIGN: 0,
   TILDE: 1,
   OR: 2,
@@ -352,7 +354,7 @@ module.exports = grammar({
 
     complex: $ => seq($.float, 'i'),
 
-    comment: $ => seq('#', /.*/),
+    comment: $ => token(prec(PREC.COMMENT, seq('#', /.*/))),
 
     string: $ => choice(
       seq(
