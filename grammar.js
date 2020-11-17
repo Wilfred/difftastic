@@ -7,13 +7,14 @@ const PREC = {
   PLUS: 6,
   TIMES: 7,
   SPECIAL: 8,
-  NEG: 9,
-  EXP: 10,
-  DOLLAR: 11,
-  NS_GET: 12,
-  CALL: 13,
-  SUBSET: 14,
-  FLOAT: 15
+  COLON: 9,
+  NEG: 10,
+  EXP: 11,
+  DOLLAR: 12,
+  NS_GET: 13,
+  CALL: 14,
+  SUBSET: 15,
+  FLOAT: 16
 }
 
 newline = '\n',
@@ -239,7 +240,8 @@ module.exports = grammar({
       prec.left(PREC.OR, seq($._expression, '|', $._expression)),
       prec.left(PREC.AND, seq($._expression, '&&', $._expression)),
       prec.left(PREC.AND, seq($._expression, '&', $._expression)),
-      prec.left(PREC.SPECIAL, seq($._expression, $.special, $._expression))
+      prec.left(PREC.SPECIAL, seq($._expression, $.special, $._expression)),
+      prec.left(PREC.COLON, seq($._expression, ':', $._expression))
     ),
 
     break: $ => 'break',

@@ -530,3 +530,19 @@ Braces
   (brace_list (float) (float))
   (brace_list (float) (float))
   (brace_list (float) (float)))
+
+=====
+Colon
+=====
+
+1:2
+(1 + 1):-5
+
+---
+
+(program
+  (binary (float) (float))
+
+  (binary
+    (paren_list (binary (float) (float)))
+    (unary (float))))
