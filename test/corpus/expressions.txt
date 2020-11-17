@@ -172,6 +172,7 @@ Subset
 foo[bar]
 foo[1, 2]
 foo[1, ]
+foo[]
 
 ---
 
@@ -188,7 +189,9 @@ foo[1, ]
   (subset
     (identifier)
     (arguments
-      (float))))
+      (float)))
+  (subset
+    (identifier)))
 
 ===========
 Subset2
@@ -196,6 +199,7 @@ Subset2
 
 foo[[x]]
 foo[[x, y]]
+foo[[]]
 
 ---
 
@@ -204,7 +208,10 @@ foo[[x, y]]
   (arguments (identifier)))
 
   (subset2 (identifier)
-  (arguments (identifier) (identifier))))
+  (arguments (identifier) (identifier)))
+
+  (subset2
+    (identifier)))
 
 ============================================
 If

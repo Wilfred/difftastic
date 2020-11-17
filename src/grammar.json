@@ -713,8 +713,16 @@
             "value": "["
           },
           {
-            "type": "SYMBOL",
-            "name": "arguments"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "arguments"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "STRING",
@@ -738,8 +746,16 @@
             "value": "[["
           },
           {
-            "type": "SYMBOL",
-            "name": "arguments"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "arguments"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "STRING",

@@ -180,14 +180,14 @@ module.exports = grammar({
     subset: $ => prec(PREC.SUBSET, seq(
       $._expression,
       '[',
-      $.arguments,
+      optional($.arguments),
       ']'
     )),
 
     subset2: $ => prec(PREC.SUBSET, seq(
       $._expression,
       '[[',
-      $.arguments,
+      optional($.arguments),
       ']]'
     )),
 
