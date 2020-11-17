@@ -34,8 +34,6 @@ module.exports = grammar({
   rules: {
     program: $ => repeat(seq($._expression, terminator)),
 
-    word : $ => $.identifier,
-
     _definition: $ => choice(
       $.function_definition
       // TODO: other kinds of definitions
@@ -221,13 +219,6 @@ module.exports = grammar({
       field('function', $.identifier),
     )),
 
-    return: $ => seq(
-      'return',
-      '(',
-      optional($._expression),
-      ')'
-    ),
-
     dots: $ => '...',
 
     unary: $ => choice(
@@ -300,7 +291,6 @@ module.exports = grammar({
       $.while,
       $.repeat,
       $.switch,
-      $.return,
       $.break,
       $.next,
       $.true,

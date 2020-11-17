@@ -21,7 +21,7 @@ function(x, ...) f(...)
     (brace_list (identifier)))
   (function_definition
     (formal_parameters (identifier) (identifier))
-    (return (identifier)))
+    (call (identifier) (arguments (identifier))))
   (function_definition
     (formal_parameters (identifier) (dots))
     (call (identifier) (arguments (dots)))))

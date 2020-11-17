@@ -26,10 +26,6 @@
         ]
       }
     },
-    "word": {
-      "type": "SYMBOL",
-      "name": "identifier"
-    },
     "_definition": {
       "type": "CHOICE",
       "members": [
@@ -873,35 +869,6 @@
         ]
       }
     },
-    "return": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "return"
-        },
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_expression"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        }
-      ]
-    },
     "dots": {
       "type": "STRING",
       "value": "..."
@@ -1509,10 +1476,6 @@
         {
           "type": "SYMBOL",
           "name": "switch"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "return"
         },
         {
           "type": "SYMBOL",
