@@ -16,6 +16,9 @@ const PREC = {
   FLOAT: 15
 }
 
+newline = '\n',
+terminator = choice(newline, ';'),
+
 module.exports = grammar({
   name: 'R',
 
@@ -25,7 +28,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => repeat($._expression),
+    program: $ => repeat(seq($._expression, terminator)),
 
     _definition: $ => choice(
       $.function_definition
@@ -151,7 +154,7 @@ module.exports = grammar({
     brace_list: $ => seq(
       '{',
       repeat(
-        $._expression
+        seq($._expression, optional(terminator))
       ),
       '}'
     ),
