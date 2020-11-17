@@ -210,6 +210,12 @@ module.exports = grammar({
       field('function', $.identifier),
     )),
 
+    namespace_get_internal: $ => prec(PREC.NS_GET, seq(
+      field('namespace', $.identifier),
+      ':::',
+      field('function', $.identifier),
+    )),
+
     return: $ => seq(
       'return',
       '(',
@@ -283,6 +289,7 @@ module.exports = grammar({
       $.dollar,
       $.slot,
       $.namespace_get,
+      $.namespace_get_internal,
       $.if,
       $.for,
       $.while,

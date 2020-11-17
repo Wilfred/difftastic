@@ -102,6 +102,10 @@
             "named": true
           },
           {
+            "type": "namespace_get_internal",
+            "named": true
+          },
+          {
             "type": "nan",
             "named": true
           },
@@ -251,6 +255,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "namespace_get_internal",
           "named": true
         },
         {
@@ -406,6 +414,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "namespace_get_internal",
           "named": true
         },
         {
@@ -571,6 +583,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "namespace_get_internal",
             "named": true
           },
           {
@@ -741,6 +757,10 @@
           "named": true
         },
         {
+          "type": "namespace_get_internal",
+          "named": true
+        },
+        {
           "type": "nan",
           "named": true
         },
@@ -896,6 +916,10 @@
             "named": true
           },
           {
+            "type": "namespace_get_internal",
+            "named": true
+          },
+          {
             "type": "nan",
             "named": true
           },
@@ -1043,6 +1067,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "namespace_get_internal",
             "named": true
           },
           {
@@ -1199,6 +1227,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "namespace_get_internal",
             "named": true
           },
           {
@@ -1362,6 +1394,10 @@
             "named": true
           },
           {
+            "type": "namespace_get_internal",
+            "named": true
+          },
+          {
             "type": "nan",
             "named": true
           },
@@ -1511,6 +1547,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "namespace_get_internal",
           "named": true
         },
         {
@@ -1666,6 +1706,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "namespace_get_internal",
           "named": true
         },
         {
@@ -1843,6 +1887,10 @@
             "named": true
           },
           {
+            "type": "namespace_get_internal",
+            "named": true
+          },
+          {
             "type": "nan",
             "named": true
           },
@@ -1993,6 +2041,10 @@
             "named": true
           },
           {
+            "type": "namespace_get_internal",
+            "named": true
+          },
+          {
             "type": "nan",
             "named": true
           },
@@ -2140,6 +2192,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "namespace_get_internal",
             "named": true
           },
           {
@@ -2299,6 +2355,10 @@
             "named": true
           },
           {
+            "type": "namespace_get_internal",
+            "named": true
+          },
+          {
             "type": "nan",
             "named": true
           },
@@ -2449,6 +2509,10 @@
             "named": true
           },
           {
+            "type": "namespace_get_internal",
+            "named": true
+          },
+          {
             "type": "nan",
             "named": true
           },
@@ -2523,6 +2587,32 @@
   },
   {
     "type": "namespace_get",
+    "named": true,
+    "fields": {
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "namespace_get_internal",
     "named": true,
     "fields": {
       "function": {
@@ -2629,6 +2719,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "namespace_get_internal",
           "named": true
         },
         {
@@ -2780,6 +2874,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "namespace_get_internal",
           "named": true
         },
         {
@@ -2938,6 +3036,10 @@
             "named": true
           },
           {
+            "type": "namespace_get_internal",
+            "named": true
+          },
+          {
             "type": "nan",
             "named": true
           },
@@ -3087,6 +3189,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "namespace_get_internal",
           "named": true
         },
         {
@@ -3245,6 +3351,10 @@
             "named": true
           },
           {
+            "type": "namespace_get_internal",
+            "named": true
+          },
+          {
             "type": "nan",
             "named": true
           },
@@ -3392,6 +3502,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "namespace_get_internal",
             "named": true
           },
           {
@@ -3544,6 +3658,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "namespace_get_internal",
           "named": true
         },
         {
@@ -3732,6 +3850,10 @@
           "named": true
         },
         {
+          "type": "namespace_get_internal",
+          "named": true
+        },
+        {
           "type": "nan",
           "named": true
         },
@@ -3884,6 +4006,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "namespace_get_internal",
           "named": true
         },
         {
@@ -4042,6 +4168,10 @@
             "named": true
           },
           {
+            "type": "namespace_get_internal",
+            "named": true
+          },
+          {
             "type": "nan",
             "named": true
           },
@@ -4189,6 +4319,10 @@
           },
           {
             "type": "namespace_get",
+            "named": true
+          },
+          {
+            "type": "namespace_get_internal",
             "named": true
           },
           {
@@ -4358,6 +4492,10 @@
             "named": true
           },
           {
+            "type": "namespace_get_internal",
+            "named": true
+          },
+          {
             "type": "nan",
             "named": true
           },
@@ -4507,6 +4645,10 @@
         },
         {
           "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "namespace_get_internal",
           "named": true
         },
         {
@@ -4665,6 +4807,10 @@
             "named": true
           },
           {
+            "type": "namespace_get_internal",
+            "named": true
+          },
+          {
             "type": "nan",
             "named": true
           },
@@ -4815,6 +4961,10 @@
             "named": true
           },
           {
+            "type": "namespace_get_internal",
+            "named": true
+          },
+          {
             "type": "nan",
             "named": true
           },
@@ -4960,6 +5110,10 @@
   },
   {
     "type": "::",
+    "named": false
+  },
+  {
+    "type": ":::",
     "named": false
   },
   {

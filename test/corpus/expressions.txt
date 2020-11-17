@@ -398,6 +398,25 @@ foo::bar(1)
      function: (identifier))
     arguments: (arguments value: (float))))
 
+============================================
+Namespace get internal
+============================================
+
+foo:::bar
+foo:::bar(1)
+
+---
+
+(program
+  (namespace_get_internal
+    namespace: (identifier)
+    function: (identifier))
+  (call
+    function: (namespace_get_internal
+     namespace: (identifier)
+     function: (identifier))
+    arguments: (arguments value: (float))))
+
 ==========
 Assignment
 ==========
