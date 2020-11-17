@@ -1,5 +1,6 @@
 const PREC = {
   ASSIGN: 0,
+  TILDE: 1,
   OR: 2,
   AND: 3,
   NOT: 4,
@@ -221,7 +222,8 @@ module.exports = grammar({
     unary: $ => choice(
       prec.left(PREC.NEG, seq('-', $._expression)),
       prec.left(PREC.NEG, seq('+', $._expression)),
-      prec.left(PREC.NOT, seq('!', $._expression))
+      prec.left(PREC.NOT, seq('!', $._expression)),
+      prec.left(PREC.TILDE, seq('~', $._expression))
     ),
 
     binary: $ => choice(
@@ -241,7 +243,8 @@ module.exports = grammar({
       prec.left(PREC.AND, seq($._expression, '&&', $._expression)),
       prec.left(PREC.AND, seq($._expression, '&', $._expression)),
       prec.left(PREC.SPECIAL, seq($._expression, $.special, $._expression)),
-      prec.left(PREC.COLON, seq($._expression, ':', $._expression))
+      prec.left(PREC.COLON, seq($._expression, ':', $._expression)),
+      prec.left(PREC.TILDE, seq($._expression, '~', $._expression))
     ),
 
     break: $ => 'break',

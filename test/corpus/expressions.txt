@@ -553,3 +553,18 @@ Colon
   (binary
     (paren_list (binary (float) (float)))
     (unary (float))))
+
+=====
+Formulas
+=====
+
+~x
+y~x
+
+---
+
+(program
+
+  (unary (identifier))
+
+  (binary (identifier) (identifier)))
