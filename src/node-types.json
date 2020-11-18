@@ -552,6 +552,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "reference",
+            "named": true
           }
         ]
       }

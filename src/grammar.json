@@ -1,5 +1,5 @@
 {
-  "name": "device_tree",
+  "name": "devicetree",
   "rules": {
     "document": {
       "type": "REPEAT",
@@ -307,8 +307,17 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "SYMBOL",
-            "name": "node_identifier"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "node_identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "reference"
+              }
+            ]
           }
         },
         {

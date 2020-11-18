@@ -28,7 +28,7 @@ const PREC = {
 };
 
 module.exports = grammar({
-	name: 'device_tree',
+	name: 'devicetree',
 
 	extras: ($) => [/\s|\\\r?\n/, $.comment],
 
@@ -110,7 +110,7 @@ module.exports = grammar({
 
 		node: ($) =>
 			seq(
-				field('name', $.node_identifier),
+				field('name', choice($.node_identifier, $.reference)),
 				field('address', optional(seq('@', $.unit_address))),
 				'{',
 				repeat($._node_members),

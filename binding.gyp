@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "tree_sitter_device_tree_binding",
+      "target_name": "tree_sitter_devicetree_binding",
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
         "src"

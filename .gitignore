@@ -5,3 +5,4 @@ parser.lib
 parser.obj
 *.log
 *.html
+*.wasm
