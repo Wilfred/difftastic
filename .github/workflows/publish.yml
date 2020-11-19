@@ -1,0 +1,36 @@
+name: Test OSX and Linux
+
+on:
+  create:
+    tags:
+      - v*
+
+jobs:
+  npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: install
+        run: |
+          npm i
+      - publish:
+        run: |
+          npm run prebuild && npm run prebuild:upload -u ${PREBUILD_UPLOAD}
+        env:
+          CRATES_IO_TOKEN: ${{ secrets.PREBUILD_UPLOAD }}
+  cargo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: actions-rs/cargo@v1
+        with:
+          command: login ${CRATES_IO_TOKEN}
+        env:
+          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
+      - run: cargo publish
