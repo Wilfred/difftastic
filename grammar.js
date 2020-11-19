@@ -32,7 +32,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => repeat(seq($._expression, terminator)),
+    program: $ => repeat(seq($._expression, optional(terminator))),
 
     _definition: $ => choice(
       $.function_definition
