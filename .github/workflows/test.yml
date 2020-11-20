@@ -3,7 +3,7 @@ name: Test OSX and Linux
 on: [push, pull_request]
 
 jobs:
-  build:
+  node:
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -27,3 +27,25 @@ jobs:
       - name: Test examples
         run: |
           script/parse-examples
+
+  rust:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: lint
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+      - name: test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
