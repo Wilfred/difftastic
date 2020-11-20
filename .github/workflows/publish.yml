@@ -1,9 +1,10 @@
 name: Publish release
 
 on:
-  create:
-    tags:
-      - v*
+  pull_request
+  # create:
+  #   tags:
+  #     - v*
 
 jobs:
   cargo:
@@ -16,4 +17,4 @@ jobs:
       - run: cargo login ${CRATES_IO_TOKEN}
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-      - run: cargo publish
+      - run: cargo publish --dry-run
