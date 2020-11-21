@@ -1,9 +1,8 @@
 name: Publish release
 
 on:
-  create:
-    tags:
-      - v*
+  release:
+    types: [created]
 
 jobs:
   cargo:
