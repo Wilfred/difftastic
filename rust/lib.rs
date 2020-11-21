@@ -1,5 +1,24 @@
 #![warn(clippy::pedantic)]
 
+//! Create a [tree-sitter][] for parsing elm source code.
+//!
+//! ## Usage
+//!
+//! ```
+//! use tree_sitter::Parser;
+//!
+//! let code = r#"
+//!     cons : a -> List a -> List a
+//!     cons first rest =
+//!         first :: rest
+//! "#;
+//! let mut parser = Parser::new();
+//! parser.set_language(tree_sitter_elm::language()).expect("Error loading Elm language");
+//! let tree = parser.parse(code, None).unwrap();
+//! ```
+//!
+//! [tree-sitter]: https://tree-sitter.github.io/
+
 use tree_sitter::Language;
 
 extern "C" {
@@ -7,8 +26,9 @@ extern "C" {
     fn raw_tree_sitter_elm() -> Language;
 }
 
+/// Returns the tree-sitter [`Language`] for elm.
 #[must_use]
-pub fn tree_sitter_elm() -> Language {
+pub fn language() -> Language {
     unsafe { raw_tree_sitter_elm() }
 }
 
@@ -22,8 +42,7 @@ mod tests {
         let source_code = "test : Test.Test";
         let tree = {
             let mut parser = Parser::new();
-            let language = super::tree_sitter_elm();
-            parser.set_language(language).unwrap();
+            parser.set_language(super::language()).unwrap();
             parser.parse(source_code, None).unwrap()
         };
         let root_node = tree.root_node();
