@@ -27,7 +27,6 @@
     "parse-test": "tree-sitter parse --debug ./examples/test.elm",
     "test": "tree-sitter test && script/parse-examples",
     "test-full": "tree-sitter test && script/parse-examples-full",
-    "test-windows": "tree-sitter test",
     "test-only": "tree-sitter test"
   },
   "repository": "https://github.com/razzeee/tree-sitter-elm",
