@@ -220,6 +220,12 @@ namespace
                 {
                     skip(lexer);
 
+
+                    if (lexer->lookahead == '\r')
+                    {
+                        skip(lexer);
+                    }
+
                     if (lexer->lookahead == '\n')
                     {
                         skip(lexer);
@@ -270,8 +276,6 @@ namespace
                 else if (lexer->lookahead == '\r')
                 {
                     skip(lexer);
-                    indent_length = 0;
-                    has_newline = true;
                 }
                 else if (lexer->lookahead == 0)
                 {
