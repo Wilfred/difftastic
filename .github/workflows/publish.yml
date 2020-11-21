@@ -1,7 +1,6 @@
 name: Publish release
 
 on:
-  pull_request
   create:
     tags:
       - v*
