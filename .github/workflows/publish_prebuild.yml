@@ -1,9 +1,8 @@
 name: Publish prebuilds
 
 on:
-  create:
-    tags:
-      - v*
+  release:
+    types: [created]
 
 jobs:
   prebuild:
@@ -21,8 +20,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-        with:
-          toolchain: stable
       - name: Npm install
         run: |
           npm i
