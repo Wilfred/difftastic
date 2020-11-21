@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npm ci
+      - run: npm i
       - run: npm run build
       - run: npm test-only
 
@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
+      - run: npm i
       - run: npm run build
       - run: npm publish
         env:
@@ -43,7 +43,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-      - run: npm ci
+      - run: npm i
       - run: npm run build
       - run: npm publish
         env:
