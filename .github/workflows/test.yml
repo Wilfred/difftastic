@@ -1,4 +1,4 @@
-name: Test OSX and Linux
+name: Test OSX, Windows and Linux
 
 on: [push, pull_request]
 
@@ -26,9 +26,10 @@ jobs:
           npx tree-sitter test
       - name: Test examples
         run: |
-          if [ '$RUNNER_OS' != "Windows" ]; then
+          if [ "$RUNNER_OS" != "Windows" ]; then
               script/parse-examples
           fi
+        shell: bash
 
   rust:
     runs-on: ${{ matrix.os }}
