@@ -3,7 +3,7 @@ name = "tree-sitter-elm"
 description = "Rust bindings for the tree sitter elm language parser"
 authors = [
     "Harry Sarson <harry.sarson@hotmail.co.uk>",
-    "Razze"
+    "Kolja Lampe <razzeee@gmail.com>"
 
 ]
 homepage = "https://tree-sitter.github.io/tree-sitter/"
