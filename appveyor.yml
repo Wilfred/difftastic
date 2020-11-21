@@ -15,14 +15,10 @@ install:
   - npm --version
   - npm install
 
-test_script:
-  - npm run test-windows
-
 build: off
 
 branches:
   only:
-    - master
     - /^v.*$/
 
 deploy_script: IF "%APPVEYOR_REPO_TAG%" == "true" (npm run prebuild && npm run prebuild:upload -u %PREBUILD_UPLOAD%)
