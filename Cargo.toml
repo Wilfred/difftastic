@@ -13,6 +13,11 @@ categories = ["parser-implementations", "api-bindings", "text-editors", "parsing
 edition = "2018"
 license = "MIT"
 build = "rust/build.rs"
+include = [
+  "rust/*",
+  "src/*",
+  "LICENSE.MD"
+]
 
 # Keep in sync with package.json
 version = "4.3.4"
