@@ -35,35 +35,29 @@ checkout_at "examples/elm-visualization" "gampleman/elm-visualization" "68631a3d
 
 
 skipped_files=()
+examples_to_parse=()
 all_examples=$(find examples -name '*.elm')
 known_failures=$(cat script/known-failures.txt)
-examples_to_parse=$(
-  for example in $all_examples; do
-    if [[ ! $known_failures == *$example* ]]; then
-      echo $example
-    else
-      skipped_files+=($example)
-    fi
-  done
-)
+for example in $all_examples; do
+  if [[ ! $known_failures == *$example* ]]; then
+    examples_to_parse+=($example)
+  else
+    skipped_files+=($example)
+  fi
+done
 
 start=`date +%s.%N`
-tree_sitter_report=$(echo $examples_to_parse | xargs -n 1000 npx tree-sitter parse -q)
+tree_sitter_report=$(echo ${examples_to_parse[@]} | xargs -n 100000 npx tree-sitter parse --quiet --stat)
 end=`date +%s.%N`
 
 ret_code=$?
 
 echo -e "-----------------------------------------------------------------\n$tree_sitter_report \n -----------------------------------------------------------------\n"
 
-errors=$( echo "$tree_sitter_report" | sed '/^\s*$/d' | wc -l )
-
 skipped=$( echo ${#skipped_files[@]} )
-tried_to_parse=$( echo "$examples_to_parse" | wc -w )
-parsed=$(bc -l <<< "$tried_to_parse-$errors")
-total=$((tried_to_parse+skipped))
-percent=$(bc -l <<< "100*$parsed/$total")
+# This doesn't work on macos due to how date is used and will default to empty
 runtime=$( echo "$end - $start" | bc -l )
 
-printf "Successfully parsed %d of %d files (%.2f%%)\nSkipped: %d Failed: %d\nTook: %s\n" $parsed $total $percent $skipped $errors $runtime
+printf "Skipped: %d \nTook: %s\n" $skipped $runtime
 
 exit $ret_code
