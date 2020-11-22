@@ -16,7 +16,7 @@ build = "rust/build.rs"
 include = [
   "rust/*",
   "src/*",
-  "LICENSE.MD"
+  "LICENSE.md"
 ]
 
 # Keep in sync with package.json
