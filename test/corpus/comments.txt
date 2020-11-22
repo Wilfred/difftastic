@@ -14,7 +14,7 @@ One line comments
 -- MODEL
 -- update
 -- more words
--- (isOkay x || any isOkay xs) would not get TCO
+-- note: (isOkay x || any isOkay xs) would not get TCO
 
 ---
 
