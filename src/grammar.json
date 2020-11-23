@@ -127,8 +127,12 @@
                 "name": "record_expr"
               },
               {
-                "type": "SYMBOL",
-                "name": "exposing_list"
+                "type": "FIELD",
+                "name": "exposing",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "exposing_list"
+                }
               }
             ]
           }
@@ -461,16 +465,20 @@
           }
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "exposing_list"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "FIELD",
+          "name": "exposing",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "exposing_list"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
         }
       ]
     },

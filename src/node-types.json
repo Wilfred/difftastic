@@ -1288,6 +1288,16 @@
           }
         ]
       },
+      "exposing": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "exposing_list",
+            "named": true
+          }
+        ]
+      },
       "moduleName": {
         "multiple": false,
         "required": true,
@@ -1300,13 +1310,9 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "exposing_list",
-          "named": true
-        },
         {
           "type": "import",
           "named": true
@@ -1668,7 +1674,7 @@
     "fields": {
       "exposing": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "exposing_list",
@@ -1693,10 +1699,6 @@
       "types": [
         {
           "type": "effect",
-          "named": true
-        },
-        {
-          "type": "exposing_list",
           "named": true
         },
         {
