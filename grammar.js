@@ -62,7 +62,7 @@ module.exports = grammar({
             field("name", $.upper_case_qid),
             $.where,
             $.record_expr,
-            $.exposing_list
+            field("exposing", $.exposing_list)
           )
         )
       ),
@@ -161,7 +161,7 @@ module.exports = grammar({
         $.import,
         field("moduleName", $.upper_case_qid),
         field("asClause", optional($.as_clause)),
-        optional($.exposing_list)
+        field("exposing", optional($.exposing_list))
       ),
 
     as_clause: ($) => seq($.as, field("name", $.upper_case_identifier)),
@@ -424,7 +424,11 @@ module.exports = grammar({
       ), // todo disallow whitespace
 
     parenthesized_expr: ($) =>
-      seq($.left_parenthesis, field("expression", $._expression), $.right_parenthesis),
+      seq(
+        $.left_parenthesis,
+        field("expression", $._expression),
+        $.right_parenthesis
+      ),
 
     _literal_expr_group: ($) =>
       choice(
