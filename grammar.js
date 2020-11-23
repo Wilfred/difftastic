@@ -142,6 +142,7 @@ module.exports = grammar({
     ], // }}}
 
     inline: $ => [ // {{{
+        $._generate_specification,               // 3.4
         $._subprogram_specification,             // 4.2.1
         $._designator,                           // 4.2.1
         $._subprogram_instantiation_declaration, // 4.4
@@ -170,6 +171,8 @@ module.exports = grammar({
         $._configuration_aspect,                 // 7.3.2
         $._name,                                 // 8
         $._prefix,                               // 8.3
+        $._simple_name_or_label,                 // 8.7
+        $._external_pathname,                    // 8.7
         $._primary,                              // 9
         $._literal,                              // 9.3.2
         $._function_name ,                       // 9.3.4
@@ -406,17 +409,25 @@ module.exports = grammar({
         ),
 
         generate_statement_element: $ => seq(
-            field('generate_statement_label',$._simple_name),
+            $._generate_statement_label,
             '(',
-            field('generate_specification',$._generate_specification),
+            $._generate_specification,
             ')'
         ),
 
-        _generate_specification: $ => choice(
-            $._expression,
-            $._range,
-            $._simple_name_or_label
+        _generate_statement_label: $ => field(
+            'generate_statement_label',
+            $._simple_name
         ),
+
+        _generate_specification: $ => prec(1,field(
+            'generate_specification',
+            choice(
+                $._expression,
+                $._range,
+                $._simple_name_or_label
+            )
+        )),
 
         _configuration_item: $ => choice(
             $.block_configuration,
@@ -1893,10 +1904,10 @@ module.exports = grammar({
         $.generate_statement_element,
     ),
 
-    _simple_name_or_label: $ => prec(1,field(
+    _simple_name_or_label: $ => field(
         'simple_name_or_label',
-        $._simple_name,
-    )),
+        $._simple_name
+    ),
     // }}}
 
     // 9. Expressions {{{
@@ -2735,7 +2746,10 @@ module.exports = grammar({
         ';'
     ),
 
-    _guard: $ => field('guard', $._expression),
+    _guard: $ => field(
+        'guard',
+        $._expression
+    ),
 
     block_declarative_part: $ => repeat1(
         $._declaration

@@ -549,24 +549,16 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "FIELD",
-          "name": "generate_statement_label",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_simple_name"
-          }
+          "type": "SYMBOL",
+          "name": "_generate_statement_label"
         },
         {
           "type": "STRING",
           "value": "("
         },
         {
-          "type": "FIELD",
-          "name": "generate_specification",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_generate_specification"
-          }
+          "type": "SYMBOL",
+          "name": "_generate_specification"
         },
         {
           "type": "STRING",
@@ -574,22 +566,38 @@
         }
       ]
     },
+    "_generate_statement_label": {
+      "type": "FIELD",
+      "name": "generate_statement_label",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_simple_name"
+      }
+    },
     "_generate_specification": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_range"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_simple_name_or_label"
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "FIELD",
+        "name": "generate_specification",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_range"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_simple_name_or_label"
+            }
+          ]
         }
-      ]
+      }
     },
     "_configuration_item": {
       "type": "CHOICE",
@@ -6739,15 +6747,11 @@
       ]
     },
     "_simple_name_or_label": {
-      "type": "PREC",
-      "value": 1,
+      "type": "FIELD",
+      "name": "simple_name_or_label",
       "content": {
-        "type": "FIELD",
-        "name": "simple_name_or_label",
-        "content": {
-          "type": "SYMBOL",
-          "name": "_simple_name"
-        }
+        "type": "SYMBOL",
+        "name": "_simple_name"
       }
     },
     "_expression": {
@@ -12852,7 +12856,7 @@
       "type": "TOKEN",
       "content": {
         "type": "PREC",
-        "value": 99,
+        "value": 2,
         "content": {
           "type": "PATTERN",
           "value": "`[^\u000b\\r\\n\f]*"
@@ -16331,6 +16335,7 @@
   ],
   "externals": [],
   "inline": [
+    "_generate_specification",
     "_subprogram_specification",
     "_designator",
     "_subprogram_instantiation_declaration",
@@ -16359,6 +16364,8 @@
     "_configuration_aspect",
     "_name",
     "_prefix",
+    "_simple_name_or_label",
+    "_external_pathname",
     "_primary",
     "_literal",
     "_function_name",
