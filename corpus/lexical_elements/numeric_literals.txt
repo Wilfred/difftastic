@@ -12,18 +12,18 @@ assert 12_34;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (integer_decimal))
-  (PSL_assertion_directive
-    property: (integer_decimal))
-  (PSL_assertion_directive
-    property: (integer_decimal))
-  (PSL_assertion_directive
-    property: (integer_decimal))
-  (PSL_assertion_directive
-    property: (integer_decimal))
-  (PSL_assertion_directive
-    property: (integer_decimal)))
+  (assertion_statement
+     (integer_decimal (integer)))
+  (assertion_statement
+     (integer_decimal (integer)))
+  (assertion_statement
+     (integer_decimal (integer)))
+  (assertion_statement
+     (integer_decimal (integer)))
+  (assertion_statement
+     (integer_decimal (integer)))
+  (assertion_statement
+     (integer_decimal (integer))))
 
 ======================================================================
 Integer decimal literals - Exponent
@@ -40,20 +40,20 @@ assert 12_34e+1234;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (integer_decimal))
-  (PSL_assertion_directive
-    property: (integer_decimal))
-  (PSL_assertion_directive
-    property: (integer_decimal))
-  (PSL_assertion_directive
-    property: (integer_decimal))
-  (PSL_assertion_directive
-    property: (integer_decimal))
-  (PSL_assertion_directive
-    property: (integer_decimal))
-  (PSL_assertion_directive
-    property: (integer_decimal)))
+  (assertion_statement
+     (integer_decimal (integer) (positive_exponent)))
+  (assertion_statement
+     (integer_decimal (integer) (positive_exponent)))
+  (assertion_statement
+     (integer_decimal (integer) (positive_exponent)))
+  (assertion_statement
+     (integer_decimal (integer) (positive_exponent)))
+  (assertion_statement
+     (integer_decimal (integer) (positive_exponent)))
+  (assertion_statement
+     (integer_decimal (integer) (positive_exponent)))
+  (assertion_statement
+     (integer_decimal (integer) (positive_exponent))))
 
 ======================================================================
 Real decimal literals
@@ -72,22 +72,22 @@ assert 12_34.56_78;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (real_decimal))
-  (PSL_assertion_directive
-    property: (real_decimal))
-  (PSL_assertion_directive
-    property: (real_decimal))
-  (PSL_assertion_directive
-    property: (real_decimal))
-  (PSL_assertion_directive
-    property: (real_decimal))
-  (PSL_assertion_directive
-    property: (real_decimal))
-  (PSL_assertion_directive
-    property: (real_decimal))
-  (PSL_assertion_directive
-    property: (real_decimal)))
+  (assertion_statement
+     (real_decimal (integer) (integer)))
+  (assertion_statement
+     (real_decimal (integer) (integer)))
+  (assertion_statement
+     (real_decimal (integer) (integer)))
+  (assertion_statement
+     (real_decimal (integer) (integer)))
+  (assertion_statement
+     (real_decimal (integer) (integer)))
+  (assertion_statement
+     (real_decimal (integer) (integer)))
+  (assertion_statement
+     (real_decimal (integer) (integer)))
+  (assertion_statement
+     (real_decimal (integer) (integer))))
 
 ======================================================================
 Real decimal literals - Negative exponent
@@ -103,18 +103,18 @@ assert 12_34.56_78e-1245;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (real_decimal))
-  (PSL_assertion_directive
-    property: (real_decimal))
-  (PSL_assertion_directive
-    property: (real_decimal))
-  (PSL_assertion_directive
-    property: (real_decimal))
-  (PSL_assertion_directive
-    property: (real_decimal))
-  (PSL_assertion_directive
-    property: (real_decimal)))
+  (assertion_statement
+     (real_decimal (integer) (integer) (negative_exponent)))
+  (assertion_statement
+     (real_decimal (integer) (integer) (negative_exponent)))
+  (assertion_statement
+     (real_decimal (integer) (integer) (negative_exponent)))
+  (assertion_statement
+     (real_decimal (integer) (integer) (negative_exponent)))
+  (assertion_statement
+     (real_decimal (integer) (integer) (negative_exponent)))
+  (assertion_statement
+     (real_decimal (integer) (integer) (negative_exponent))))
 
 ======================================================================
 Integer based literals - Base I
@@ -126,14 +126,14 @@ assert 016#0#;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal))))
 
 ======================================================================
 Integer based literals - Based integer I
@@ -156,49 +156,52 @@ assert  16#F#;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal)))
+  (assertion_statement
+     (based_integer (base) (based_literal))))
 
 ======================================================================
 Integer based literals - Exponent
 ======================================================================
 assert 16#e1#e1;
 assert 16#e1#e+1;
+assert 16#e1#e-1;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (based_integer))
-  (PSL_assertion_directive
-    property: (based_integer)))
+  (assertion_statement
+     (based_integer (base) (based_literal) (positive_exponent)))
+  (assertion_statement
+     (based_integer (base) (based_literal) (positive_exponent)))
+  (assertion_statement
+     (based_integer (base) (based_literal) (negative_exponent))))
 
 ======================================================================
 Real based literals
@@ -211,14 +214,26 @@ assert 16#01234567.89ABCDEF#;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (based_real))
-  (PSL_assertion_directive
-    property: (based_real))
-  (PSL_assertion_directive
-    property: (based_real))
-  (PSL_assertion_directive
-    property: (based_real)))
+  (assertion_statement
+     (based_real
+      (base)
+      (based_literal)
+      (based_literal)))
+  (assertion_statement
+     (based_real
+      (base)
+      (based_literal)
+      (based_literal)))
+  (assertion_statement
+     (based_real
+      (base)
+      (based_literal)
+      (based_literal)))
+  (assertion_statement
+     (based_real
+      (base)
+      (based_literal)
+      (based_literal))))
 
 ======================================================================
 Real based literals - Positive exponent
@@ -229,29 +244,44 @@ assert 16#E1.E1#E-1;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (based_real))
-  (PSL_assertion_directive
-    property: (based_real))
-  (PSL_assertion_directive
-    property: (based_real)))
+  (assertion_statement
+     (based_real
+      (base)
+      (based_literal)
+      (based_literal)
+      (positive_exponent)))
+  (assertion_statement
+     (based_real
+      (base)
+      (based_literal)
+      (based_literal)
+      (positive_exponent)))
+  (assertion_statement
+     (based_real
+      (base)
+      (based_literal)
+      (based_literal)
+      (negative_exponent))))
 
 ======================================================================
-Physical literals
+Physical literals I
 ======================================================================
 assert 100 ns;
 assert 16#E1#E1 MIN;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (physical_literal
-      coefficient: (integer_decimal)
-        unit_name: (simple_name)))
-  (PSL_assertion_directive
-    property: (physical_literal
-      coefficient: (based_integer)
-        unit_name: (simple_name))))
+  (assertion_statement
+    condition: (physical_literal
+      coefficient: (integer_decimal (integer))
+      unit: (simple_name)))
+  (assertion_statement
+    condition: (physical_literal
+      coefficient: (based_integer
+                    (base)
+                    (based_literal)
+                    (positive_exponent))
+      unit: (simple_name))))
 
 ======================================================================
 Physical literals II
@@ -261,14 +291,17 @@ assert 16#E1#E1MIN;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (physical_literal
-      coefficient: (integer_decimal)
-        unit_name: (simple_name)))
-  (PSL_assertion_directive
-    property: (physical_literal
-      coefficient: (based_integer)
-        unit_name: (simple_name))))
+  (assertion_statement
+    condition: (physical_literal
+      coefficient: (integer_decimal (integer))
+      unit: (simple_name)))
+  (assertion_statement
+    condition: (physical_literal
+      coefficient: (based_integer
+        (base)
+        (based_literal)
+        (positive_exponent))
+      unit: (simple_name))))
 
 ======================================================================
 Physical literals - Integer coefficient
@@ -281,19 +314,25 @@ assert 16#E1#E1 E1;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (physical_literal
-      coefficient: (integer_decimal)
-         unit_name: (simple_name)))
-  (PSL_assertion_directive
-    property: (physical_literal
-      coefficient: (integer_decimal)
-        unit_name: (simple_name)))
-  (PSL_assertion_directive
-    property: (physical_literal
-      coefficient: (based_integer)
-        unit_name: (simple_name)))
-  (PSL_assertion_directive
-    property: (physical_literal
-      coefficient: (based_integer)
-        unit_name: (simple_name))))
+  (assertion_statement
+    condition: (physical_literal
+      coefficient: (integer_decimal (integer))
+      unit: (simple_name)))
+  (assertion_statement
+    condition: (physical_literal
+      coefficient: (integer_decimal (integer)
+        (positive_exponent))
+      unit: (simple_name)))
+  (assertion_statement
+    condition: (physical_literal
+      coefficient: (based_integer
+        (base)
+        (based_literal))
+      unit: (simple_name)))
+  (assertion_statement
+    condition: (physical_literal
+      coefficient: (based_integer
+        (base)
+        (based_literal)
+        (positive_exponent))
+      unit: (simple_name))))

@@ -30,13 +30,11 @@ function f (constant k1 :    t;
       designator: (identifier)
       (formal_function_parameter_clause
         (interface_constant_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (subtype_indication
             type_mark: (simple_name)))
         (interface_constant_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (mode (in))
@@ -58,13 +56,11 @@ function f (signal s1 :    t;
       designator: (identifier)
       (formal_function_parameter_clause
         (interface_signal_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (subtype_indication
             type_mark: (simple_name)))
         (interface_signal_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (mode (in))
@@ -104,7 +100,6 @@ function f (variable v1 : t) return t;
       designator: (identifier)
       (formal_function_parameter_clause
         ILLEGAL: (interface_variable_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (subtype_indication
@@ -177,8 +172,7 @@ function f (package pkg is new pkg generic map (<>)) return t;
       (formal_function_parameter_clause
         ILLEGAL: (interface_package_declaration
           (identifier)
-          uninstantiated: (simple_name)
-          (interface_package_generic_map_aspect
-            (any))))
+          uninstantiated_package: (simple_name)
+          (generic_map_aspect (any))))
       (return
         type_mark: (simple_name)))))

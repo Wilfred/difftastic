@@ -4,23 +4,17 @@ Minimal
 process
 begin
 end process;
----
 
-(design_file
-  (process_statement))
-
-=============================
-Labels
-=============================
-LP: process is
+L1: process is
 begin
-end process LP;
+end process L1;
 ---
 
 (design_file
-  (label)
+  (process_statement)
   (process_statement
-    at_end: (label)))
+    (label (identifier))
+    footer_label: (simple_name)))
 
 =============================
 Sequential statement
@@ -36,7 +30,7 @@ end process;
     (process_statement_part
       (wait_statement
         on: (sensitivity_list
-          signal_name: (simple_name))))))
+          signal: (simple_name))))))
 
 =============================
 Sensitivity list - All
@@ -48,7 +42,8 @@ end process;
 
 (design_file
   (process_statement
-    (process_sensitivity_list (all))))
+    (process_sensitivity_list
+      (all))))
 
 =============================
 Sensitivity list - Signals
@@ -61,8 +56,8 @@ end process;
 (design_file
   (process_statement
     (process_sensitivity_list
-      signal_name: (simple_name)
-      signal_name: (simple_name))))
+      signal: (simple_name)
+      signal: (simple_name))))
 
 =============================
 Declarative part
@@ -82,4 +77,3 @@ end process;
         (subtype_indication
           type_mark: (simple_name))
         default_expression: (simple_name)))))
-

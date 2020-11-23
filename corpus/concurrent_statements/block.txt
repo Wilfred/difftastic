@@ -7,23 +7,15 @@ end block;
 
 B2: block is
 begin
-end block;
-
-B3: block is
-begin
-end block B3;
+end block B2;
 ----
 
 (design_file
-  (label)
-  (block_statement)
-
-  (label)
-  (block_statement)
-
-  (label)
   (block_statement
-    at_end: (label)))
+    (label (identifier)))
+  (block_statement
+    (label (identifier))
+    footer_label: (simple_name)))
 
 ==============================
 Guard condition
@@ -34,10 +26,9 @@ end block;
 ---
 
 (design_file
-  (label)
   (block_statement
-    guard: (condition
-      (simple_name))))
+    (label (identifier))
+    guard: (simple_name)))
 
 ==============================
 Block header - Generic clause
@@ -49,16 +40,14 @@ end block;
 ---
 
 (design_file
-  (label)
   (block_statement
-    (block_header
+    (label (identifier))
+    (header
       (generic_clause
-        (generic_interface_list
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              type_mark: (simple_name))))
+        (interface_constant_declaration
+          (identifier_list (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))
         (semicolon)))))
 
 ==================================
@@ -72,23 +61,20 @@ end block;
 ---
 
 (design_file
-  (label)
   (block_statement
-    (block_header
+    (label (identifier))
+    (header
       (generic_clause
-        (generic_interface_list
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              type_mark: (simple_name))))
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))
         (semicolon))
       (generic_map_aspect
         (generic_association_list
           (positional_association_element
-            (actual_part
-              (actual_designator
-                (simple_name)))))
+            actual_part: (simple_name)))
         (semicolon)))))
 
 ==============================
@@ -101,16 +87,15 @@ end block;
 ---
 
 (design_file
-  (label)
   (block_statement
-    (block_header
+    (label (identifier))
+    (header
       (port_clause
-        (port_interface_list
-          (interface_signal_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              type_mark: (simple_name))))
+        (interface_signal_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))
         (semicolon)))))
 
 ==============================
@@ -124,23 +109,20 @@ end block;
 ---
 
 (design_file
-  (label)
   (block_statement
-    (block_header
+    (label (identifier))
+    (header
       (port_clause
-        (port_interface_list
-          (interface_signal_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              type_mark: (simple_name))))
+        (interface_signal_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))
         (semicolon))
       (port_map_aspect
         (port_association_list
           (positional_association_element
-            (actual_part
-              (actual_designator
-                (simple_name)))))
+            actual_part: (simple_name)))
         (semicolon)))))
 
 ==============================
@@ -153,8 +135,8 @@ end block;
 ---
 
 (design_file
-  (label)
   (block_statement
+    (label (identifier))
     (block_declarative_part
       (alias_declaration
         alias_designator: (identifier)
@@ -170,9 +152,9 @@ end block;
 ---
 
 (design_file
-  (label)
   (block_statement
+    (label (identifier))
     (block_statement_part
-      (label)
       (procedure_call_statement
+        (label (identifier))
         (simple_name)))))

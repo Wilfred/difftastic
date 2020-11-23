@@ -1,0 +1,642 @@
+===================================================
+PSL LRM 1.3.1
+===================================================
+assert always {req; ack_n; not cancel} |=> (ena or enb);
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          (PSL_SERE_Concatenation
+            left: (PSL_SERE_Concatenation
+              left: (simple_name)
+              right: (simple_name))
+            right: (factor
+              argument: (simple_name))))
+        Property: (parenthesized_expression
+          (logical_expression
+            left: (simple_name)
+            right: (simple_name)))))))
+
+===================================================
+PSL LRM 1.3.2.1 Simulation (Property 1)
+===================================================
+assert always (req -> next not req);
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Parenthesized_FL_Property
+        (PSL_Implication_FL_Property
+          left: (simple_name)
+          right: (PSL_Ocurrence_FL_Property
+            argument: (factor
+              argument: (simple_name))))))))
+
+===================================================
+PSL LRM 1.3.2.1 Simulation (Property 2)
+===================================================
+assert always (a -> next[3] (b));
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Parenthesized_FL_Property
+        (PSL_Implication_FL_Property
+          left: (simple_name)
+          right: (PSL_Extended_Ocurrence_FL_Property
+            Count: (integer_decimal (integer))
+            Property: (simple_name)))))))
+
+===================================================
+PSL LRM 1.3.2.1 Simulation (Property 3)
+===================================================
+assert always ((a and next[3] (b)) -> c);
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Parenthesized_FL_Property
+        (PSL_Implication_FL_Property
+          left: (PSL_Parenthesized_FL_Property
+            (PSL_Logical_FL_Property
+              left: (simple_name)
+              right: (PSL_Extended_Ocurrence_FL_Property
+                Count: (integer_decimal (integer))
+                Property: (simple_name))))
+          right: (simple_name))))))
+
+===================================================
+PSL LRM 6.2.3 Replicated properties I
+===================================================
+assert forall i in boolean: f(i);
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        (PSL_Value_Set
+          (boolean)))
+      Property: (PSL_Property_Instance
+        Property_Name: (PSL_Identifier)
+        (PSL_Actual_Parameter_List
+          (PSL_Actual_Parameter
+            (simple_name)))))))
+
+===================================================
+PSL LRM 6.2.3 Replicated properties II
+===================================================
+assert forall i in {j to k} : f(i);
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        (PSL_Value_Set
+          (ascending_range
+            low: (simple_name)
+            high: (simple_name))))
+      Property: (PSL_Property_Instance
+        Property_Name: (PSL_Identifier)
+        (PSL_Actual_Parameter_List
+          (PSL_Actual_Parameter
+            (simple_name)))))))
+
+===================================================
+PSL LRM 6.2.3 Replicated properties III
+===================================================
+assert forall i (0 to 1) in boolean : f(i);
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        Index_Range: (ascending_range
+          low: (integer_decimal (integer))
+          high: (integer_decimal (integer)))
+        (PSL_Value_Set
+          (boolean)))
+      Property: (PSL_Property_Instance
+        Property_Name: (PSL_Identifier)
+        (PSL_Actual_Parameter_List
+          (PSL_Actual_Parameter
+            (simple_name)))))))
+
+===================================================
+PSL LRM 6.2.3 Replicated properties IV
+===================================================
+assert forall i (0 to 2) in {4,5} : f(i);
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        Index_Range: (ascending_range
+          low: (integer_decimal (integer))
+          high: (integer_decimal (integer)))
+        (PSL_Value_Set
+          Value: (integer_decimal (integer))
+          Value: (integer_decimal (integer))))
+      Property: (PSL_Property_Instance
+        Property_Name: (PSL_Identifier)
+        (PSL_Actual_Parameter_List
+          (PSL_Actual_Parameter
+            (simple_name)))))))
+
+===================================================
+PSL LRM 6.2.3 Replicated properties IV
+===================================================
+assert forall i(0 to 3) in boolean:
+    request and (data_in = i) -> next(data_out = i);
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        Index_Range: (ascending_range
+          low: (integer_decimal (integer))
+          high: (integer_decimal (integer)))
+        (PSL_Value_Set
+          (boolean)))
+      Property: (PSL_Expression
+        left: (logical_expression
+          left: (simple_name)
+          right: (parenthesized_expression
+            (relation
+              left: (simple_name)
+              right: (simple_name))))
+        right: (PSL_Built_In_Function_Call
+          (PSL_Built_In_Function_Name)
+          (relation
+            left: (simple_name)
+            right: (simple_name)))))))
+
+===================================================
+PSL LRM 6.2.3 Replicated properties V
+===================================================
+assert forall i in boolean:
+         forall j in {0 to 7}:
+             forall k in {0 to 3}:
+                f(i,j,k);
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        (PSL_Value_Set
+          (boolean)))
+      Property: (PSL_Property_Replicator
+        (PSL_Parameter_Specification
+          (PSL_Identifier)
+          (PSL_Value_Set
+            (ascending_range
+              low: (integer_decimal (integer))
+              high: (integer_decimal (integer)))))
+        Property: (PSL_Property_Replicator
+          (PSL_Parameter_Specification
+            (PSL_Identifier)
+            (PSL_Value_Set
+              (ascending_range
+                low: (integer_decimal (integer))
+                high: (integer_decimal (integer)))))
+          Property: (PSL_Property_Instance
+            Property_Name: (PSL_Identifier)
+            (PSL_Actual_Parameter_List
+              (PSL_Actual_Parameter
+                (simple_name))
+              (PSL_Actual_Parameter
+                (simple_name))
+              (PSL_Actual_Parameter
+                (simple_name)))))))))
+
+===================================================
+PSL LRM 6.2.3 Replicated properties VI
+===================================================
+assert forall j in {0 to 7}:
+           forall k in {0 to j}:
+              f(j);
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        (PSL_Value_Set
+          (ascending_range
+            low: (integer_decimal (integer))
+            high: (integer_decimal (integer)))))
+      Property: (PSL_Property_Replicator
+        (PSL_Parameter_Specification
+          (PSL_Identifier)
+          (PSL_Value_Set
+            (ascending_range
+              low: (integer_decimal (integer))
+              high: (simple_name))))
+        Property: (PSL_Property_Instance
+          Property_Name: (PSL_Identifier)
+          (PSL_Actual_Parameter_List
+            (PSL_Actual_Parameter
+              (simple_name))))))))
+
+===================================================
+PSL LRM 6.3.1 PSL formal parameter type classes
+===================================================
+sequence s (boolean b0, b1) is {b0 = b1};
+---
+
+(design_file
+  (PSL_Sequence_Declaration
+    (PSL_Identifier)
+    (PSL_Formal_Parameter_List
+      (PSL_Formal_Parameter
+        (PSL_Constant_Parameter_Specification
+          Value_Parameter: (PSL_Type_Class))
+        (PSL_Identifier)
+        (PSL_Identifier)))
+    Sequence: (PSL_Braced_SERE
+      Boolean: (relation
+        left: (simple_name)
+        right: (simple_name)))))
+
+===================================================
+PSL LRM 6.3.2 HDL formal parameter types I
+===================================================
+sequence color_is_red (hdltype COLOR c) is {c = RED};
+---
+
+(design_file
+  (PSL_Sequence_Declaration
+    (PSL_Identifier)
+    (PSL_Formal_Parameter_List
+      (PSL_Formal_Parameter
+        (PSL_Constant_Parameter_Specification
+          Value_Parameter: (PSL_HDL_Type
+            (subtype_indication
+              type_mark: (simple_name))))
+        (PSL_Identifier)))
+    Sequence: (PSL_Braced_SERE
+      Boolean: (relation
+        left: (simple_name)
+        right: (simple_name)))))
+
+===================================================
+PSL LRM 6.3.2 HDL formal parameter types II
+===================================================
+sequence slope_is_1 (hdltype COORDINATE_RECORD c) is {(c.x / c.y) = 1}; 
+---
+
+(design_file
+  (PSL_Sequence_Declaration
+    (PSL_Identifier)
+    (PSL_Formal_Parameter_List
+      (PSL_Formal_Parameter
+        (PSL_Constant_Parameter_Specification
+          Value_Parameter: (PSL_HDL_Type
+            (subtype_indication
+              type_mark: (simple_name))))
+        (PSL_Identifier)))
+    Sequence: (PSL_Braced_SERE
+      Boolean: (relation
+        left: (parenthesized_expression
+          (term
+            left: (selected_name
+              prefix: (simple_name)
+              suffix: (simple_name))
+            right: (selected_name
+              prefix: (simple_name)
+              suffix: (simple_name))))
+        right: (integer_decimal (integer))))))
+
+===================================================
+PSL LRM 6.3.2.1 - Sequence declaration  I
+===================================================
+sequence BusArb (boolean br, bg; const n) is
+                { br; (br and not bg)[*0 to n]; br and bg };
+---
+
+(design_file
+  (PSL_Sequence_Declaration
+    (PSL_Identifier)
+    (PSL_Formal_Parameter_List
+      (PSL_Formal_Parameter
+        (PSL_Constant_Parameter_Specification
+          Value_Parameter: (PSL_Type_Class))
+        (PSL_Identifier)
+        (PSL_Identifier))
+      (PSL_Formal_Parameter
+        (PSL_Constant_Parameter_Specification)
+        (PSL_Identifier)))
+    Sequence: (PSL_Braced_SERE
+      (PSL_SERE_Concatenation
+        left: (PSL_SERE_Concatenation
+          left: (simple_name)
+          right: (PSL_Repeated_SERE
+            Boolean: (parenthesized_expression
+              (logical_expression
+                left: (simple_name)
+                right: (factor
+                  argument: (simple_name))))
+            Count: (ascending_range
+              low: (integer_decimal (integer))
+              high: (simple_name))))
+        right: (logical_expression
+          left: (simple_name)
+          right: (simple_name))))))
+
+===================================================
+PSL LRM 6.3.2.1 - Sequence declaration II
+===================================================
+sequence ReadCycle (sequence ba; boolean bb, ar, dr) is
+            { ba; {bb[*]} && {ar[->]; dr[->]}; not bb };
+---
+
+(design_file
+  (PSL_Sequence_Declaration
+    (PSL_Identifier)
+    (PSL_Formal_Parameter_List
+      (PSL_Formal_Parameter
+        (PSL_Temporal_Parameter_Specification)
+        (PSL_Identifier))
+      (PSL_Formal_Parameter
+        (PSL_Constant_Parameter_Specification
+          Value_Parameter: (PSL_Type_Class))
+        (PSL_Identifier)
+        (PSL_Identifier)
+        (PSL_Identifier)))
+    Sequence: (PSL_Braced_SERE
+      (PSL_SERE_Concatenation
+        left: (PSL_SERE_Concatenation
+          left: (simple_name)
+          right: (PSL_SERE_And
+            left: (PSL_Braced_SERE
+              (PSL_Repeated_SERE
+                Boolean: (simple_name)))
+            right: (PSL_Braced_SERE
+              (PSL_SERE_Concatenation
+                left: (PSL_Repeated_SERE
+                  Boolean: (simple_name))
+                right: (PSL_Repeated_SERE
+                  Boolean: (simple_name))))))
+        right: (factor
+          argument: (simple_name))))))
+
+===================================================
+PSL LRM 6.3.2.2 - Property declaration I
+===================================================
+property ResultAfterN
+    (boolean start; property result; const n; boolean stop) is
+        always ((start -> next[n] (result)) @ (rising_edge(clk)) async_abort stop);
+---
+
+(design_file
+  (PSL_Property_Declaration
+    (PSL_Identifier)
+    (PSL_Formal_Parameter_List
+      (PSL_Formal_Parameter
+        (PSL_Constant_Parameter_Specification
+          Value_Parameter: (PSL_Type_Class))
+        (PSL_Identifier))
+      (PSL_Formal_Parameter
+        (PSL_Temporal_Parameter_Specification)
+        (PSL_Identifier))
+      (PSL_Formal_Parameter
+        (PSL_Constant_Parameter_Specification)
+        (PSL_Identifier))
+      (PSL_Formal_Parameter
+        (PSL_Constant_Parameter_Specification
+          Value_Parameter: (PSL_Type_Class))
+        (PSL_Identifier)))
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Parenthesized_FL_Property
+        (PSL_Termination_FL_Property
+          Property: (PSL_Clocked_FL_Property
+            Property: (PSL_Parenthesized_FL_Property
+              (PSL_Implication_FL_Property
+                left: (simple_name)
+                right: (PSL_Extended_Ocurrence_FL_Property
+                  Count: (simple_name)
+                  Property: (simple_name))))
+            Clock: (parenthesized_expression
+                (ambiguous_name
+                 prefix: (simple_name)
+                 (expression_list
+                  expression: (simple_name)))))
+          Boolean: (simple_name))))))
+
+===================================================
+PSL LRM 6.3.2.2 - Property declaration II
+===================================================
+property ResultAfterN
+    (boolean start, stop; property result; const n) is
+        always ((start -> next[n] (result)) @ (rising_edge(clk)) 
+            async_abort stop);
+---
+
+(design_file
+  (PSL_Property_Declaration
+    (PSL_Identifier)
+    (PSL_Formal_Parameter_List
+      (PSL_Formal_Parameter
+        (PSL_Constant_Parameter_Specification
+          Value_Parameter: (PSL_Type_Class))
+        (PSL_Identifier)
+        (PSL_Identifier))
+      (PSL_Formal_Parameter
+        (PSL_Temporal_Parameter_Specification)
+        (PSL_Identifier))
+      (PSL_Formal_Parameter
+        (PSL_Constant_Parameter_Specification)
+        (PSL_Identifier)))
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Parenthesized_FL_Property
+        (PSL_Termination_FL_Property
+          Property: (PSL_Clocked_FL_Property
+            Property: (PSL_Parenthesized_FL_Property
+              (PSL_Implication_FL_Property
+                left: (simple_name)
+                right: (PSL_Extended_Ocurrence_FL_Property
+                  Count: (simple_name)
+                  Property: (simple_name))))
+            Clock: (parenthesized_expression
+              (ambiguous_name
+      prefix: (simple_name)
+      (expression_list
+        expression: (simple_name)))))
+          Boolean: (simple_name))))))
+
+===================================================
+PSL LRM 6.3.3.1 - Sequence instantiation I
+===================================================
+restrict BusArb (breq, back, 3);
+---
+
+(design_file
+  (PSL_Restrict_Directive
+    Sequence: (PSL_Sequence_Instance
+      Sequence_Name: (PSL_Identifier)
+      (PSL_Actual_Parameter_List
+        (PSL_Actual_Parameter
+          (simple_name))
+        (PSL_Actual_Parameter
+          (simple_name))
+        (PSL_Actual_Parameter
+          (integer_decimal (integer)))))))
+
+===================================================
+PSL LRM 6.3.3.1 - Sequence instantiation II
+===================================================
+restrict { breq; (breq and not back)[*0 to 3]; breq and back };
+---
+
+(design_file
+  (PSL_Restrict_Directive
+    Sequence: (PSL_Braced_SERE
+      (PSL_SERE_Concatenation
+        left: (PSL_SERE_Concatenation
+          left: (simple_name)
+          right: (PSL_Repeated_SERE
+            Boolean: (parenthesized_expression
+              (logical_expression
+                left: (simple_name)
+                right: (factor
+                  argument: (simple_name))))
+            Count: (ascending_range
+              low: (integer_decimal (integer))
+              high: (integer_decimal (integer)))))
+        right: (logical_expression
+          left: (simple_name)
+          right: (simple_name))))))
+
+===================================================
+PSL LRM 6.3.3.1 - Sequence instantiation III
+===================================================
+restrict ReadCycle(BusArb(breq, back, 5), breq, ardy, drdy);
+---
+
+(design_file
+  (PSL_Restrict_Directive
+    Sequence: (PSL_Sequence_Instance
+      Sequence_Name: (PSL_Identifier)
+      (PSL_Actual_Parameter_List
+        (PSL_Actual_Parameter
+          (ambiguous_name
+            prefix: (simple_name)
+            (expression_list
+              expression: (simple_name)
+              expression: (simple_name)
+              expression: (integer_decimal (integer)))))
+        (PSL_Actual_Parameter
+          (simple_name))
+        (PSL_Actual_Parameter
+          (simple_name))
+        (PSL_Actual_Parameter
+          (simple_name))))))
+
+===================================================
+PSL LRM 6.3.3.1 - Sequence instantiation IV
+===================================================
+restrict { { breq; (breq and not back)[*0 to 5]; breq and back };
+         {breq[*]} && {ardy[->]}; drdy[->]; not breq};
+---
+
+(design_file
+  (PSL_Restrict_Directive
+    Sequence: (PSL_Braced_SERE
+      (PSL_SERE_Concatenation
+        left: (PSL_SERE_Concatenation
+          left: (PSL_SERE_Concatenation
+            left: (PSL_Braced_SERE
+              (PSL_SERE_Concatenation
+                left: (PSL_SERE_Concatenation
+                  left: (simple_name)
+                  right: (PSL_Repeated_SERE
+                    Boolean: (parenthesized_expression
+                      (logical_expression
+                        left: (simple_name)
+                        right: (factor
+                          argument: (simple_name))))
+                    Count: (ascending_range
+                      low: (integer_decimal (integer))
+                      high: (integer_decimal (integer)))))
+                right: (logical_expression
+                  left: (simple_name)
+                  right: (simple_name))))
+            right: (PSL_SERE_And
+              left: (PSL_Braced_SERE
+                (PSL_Repeated_SERE
+                  Boolean: (simple_name)))
+              right: (PSL_Braced_SERE
+                (PSL_Repeated_SERE
+                  Boolean: (simple_name)))))
+          right: (PSL_Repeated_SERE
+            Boolean: (simple_name)))
+        right: (factor
+          argument: (simple_name))))))
+
+===================================================
+PSL LRM 6.3.3.2 - Property instantiation I
+===================================================
+assert ResultAfterN (write_req, eventually! ack, 3, cancel);
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Property_Instance
+      Property_Name: (PSL_Identifier)
+      (PSL_Actual_Parameter_List
+        (PSL_Actual_Parameter
+          (simple_name))
+        (PSL_Actual_Parameter
+          Property: (PSL_Ocurrence_FL_Property
+            argument: (simple_name)))
+        (PSL_Actual_Parameter
+          (integer_decimal (integer)))
+        (PSL_Actual_Parameter
+          (simple_name))))))
+
+===================================================
+PSL LRM 6.3.3.2 - Property instantiation II
+===================================================
+assert always ((write_req -> next[3] (eventually! ack))
+            @ (rising_edge(clk)) async_abort  cancel);
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Parenthesized_FL_Property
+        (PSL_Termination_FL_Property
+          Property: (PSL_Clocked_FL_Property
+            Property: (PSL_Parenthesized_FL_Property
+              (PSL_Implication_FL_Property
+                left: (simple_name)
+                right: (PSL_Extended_Ocurrence_FL_Property
+                  Count: (integer_decimal (integer))
+                  Property: (PSL_Ocurrence_FL_Property
+                    argument: (simple_name)))))
+            Clock: (parenthesized_expression
+              (ambiguous_name
+      prefix: (simple_name)
+      (expression_list
+        expression: (simple_name)))))
+          Boolean: (simple_name))))))
+
+

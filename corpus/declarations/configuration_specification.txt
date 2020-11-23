@@ -1,0 +1,221 @@
+=============================================
+Simple configuration specification
+=============================================
+for l : c
+    use open;
+
+for l : c
+    use open;
+end for;
+---
+
+(design_file
+  (simple_configuration_specification
+    (component_specification
+      (instantiation_list
+        instantiation_label: (simple_name))
+      component: (simple_name))
+    (binding_indication
+      (open)))
+  (simple_configuration_specification
+    (component_specification
+      (instantiation_list
+        instantiation_label: (simple_name))
+      component: (simple_name))
+    (binding_indication
+      (open))))
+
+=============================================
+Compound configuration specification
+=============================================
+for l : c
+    use open;
+    use vunit vu;
+end for;
+---
+
+(design_file
+  (compound_configuration_specification
+    (component_specification
+      (instantiation_list
+        instantiation_label: (simple_name))
+      component: (simple_name))
+    (binding_indication
+      (open))
+    (verification_unit_binding_indication
+      (verification_unit_list
+        (simple_name)))))
+
+=============================================
+Instantiation list
+=============================================
+for l1, l2 : c
+    use open;
+
+for others : c
+    use open;
+
+for all : c
+    use open;
+---
+
+(design_file
+  (simple_configuration_specification
+    (component_specification
+      (instantiation_list
+        instantiation_label: (simple_name)
+        instantiation_label: (simple_name))
+      component: (simple_name))
+    (binding_indication
+      (open)))
+  (simple_configuration_specification
+    (component_specification
+      (instantiation_list
+        (others))
+      component: (simple_name))
+    (binding_indication
+      (open)))
+  (simple_configuration_specification
+    (component_specification
+      (instantiation_list
+        (all))
+      component: (simple_name))
+    (binding_indication
+      (open))))
+
+=============================================
+Binding indication - Entity aspect
+=============================================
+for all : c
+    use entity e;
+
+for all : c
+    use entity e(a);
+
+for all : c
+    use configuration c;
+
+for all : c
+    use open;
+---
+
+(design_file
+  (simple_configuration_specification
+    (component_specification
+      (instantiation_list
+        (all))
+      component: (simple_name))
+    (binding_indication
+      entity: (simple_name)))
+  (simple_configuration_specification
+    (component_specification
+      (instantiation_list
+        (all))
+      component: (simple_name))
+    (binding_indication
+      entity: (simple_name)
+      architecture: (simple_name)))
+  (simple_configuration_specification
+    (component_specification
+      (instantiation_list
+        (all))
+      component: (simple_name))
+    (binding_indication
+      configuration: (simple_name)))
+  (simple_configuration_specification
+    (component_specification
+      (instantiation_list
+        (all))
+      component: (simple_name))
+    (binding_indication
+      (open))))
+
+=============================================
+Binding indication - Generic map aspects
+=============================================
+for all : c
+    generic map (a);
+---
+
+(design_file
+  (simple_configuration_specification
+    (component_specification
+      (instantiation_list
+        (all))
+      component: (simple_name))
+    (binding_indication
+      (generic_map_aspect
+        (generic_association_list
+          (positional_association_element
+            actual_part: (simple_name)))))))
+
+=============================================
+Binding indication - Port map aspects
+=============================================
+for all : c
+    port map (a);
+---
+
+(design_file
+  (simple_configuration_specification
+    (component_specification
+      (instantiation_list
+        (all))
+      component: (simple_name))
+    (binding_indication
+      (port_map_aspect
+        (port_association_list
+          (positional_association_element
+            actual_part: (simple_name)))))))
+
+=============================================
+Binding indication - Both map aspects
+=============================================
+for all : c
+    generic map (a);
+    port map (a);
+---
+
+(design_file
+  (simple_configuration_specification
+    (component_specification
+      (instantiation_list
+        (all))
+      component: (simple_name))
+    (binding_indication
+      (generic_map_aspect
+        (generic_association_list
+          (positional_association_element
+            actual_part: (simple_name)))
+        (semicolon))
+      (port_map_aspect
+        (port_association_list
+          (positional_association_element
+            actual_part: (simple_name)))))))
+
+=============================================
+Binding indication - Full
+=============================================
+for all : c
+    use open
+    generic map (a);
+    port map (a);
+---
+
+(design_file
+  (simple_configuration_specification
+    (component_specification
+      (instantiation_list
+        (all))
+      component: (simple_name))
+    (binding_indication
+      (open)
+      (generic_map_aspect
+        (generic_association_list
+          (positional_association_element
+            actual_part: (simple_name)))
+        (semicolon))
+      (port_map_aspect
+        (port_association_list
+          (positional_association_element
+            actual_part: (simple_name)))))))

@@ -18,7 +18,7 @@ end pkg;
     (identifier))
   (package_declaration
     (identifier)
-    end_name: (simple_name)))
+    at_end: (simple_name)))
 
 ====================================
 Header - Generic clause
@@ -31,14 +31,13 @@ end package;
 (design_file
   (package_declaration
     (identifier)
-    (package_header
+    (header
       (generic_clause
-        (generic_interface_list
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              type_mark: (simple_name))))))))
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))))))
 
 ====================================
 Header - Generic map aspects
@@ -52,20 +51,17 @@ end package;
 (design_file
   (package_declaration
     (identifier)
-    (package_header
+    (header
       (generic_clause
-        (generic_interface_list
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              type_mark: (simple_name)))))
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name))))
       (generic_map_aspect
         (generic_association_list
           (positional_association_element
-            (actual_part
-              (actual_designator
-                (simple_name)))))
+            actual_part: (simple_name)))
         (semicolon)))))
 
 ====================================
@@ -108,7 +104,7 @@ end package;
 Header + Declarative part
 ====================================
 package pkg is
-    generic (a:t)
+    generic (a : t)
     generic map (a);
 
     constant k : t;
@@ -118,20 +114,17 @@ end package;
 (design_file
   (package_declaration
     (identifier)
-    (package_header
+    (header
       (generic_clause
-        (generic_interface_list
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              type_mark: (simple_name)))))
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name))))
       (generic_map_aspect
         (generic_association_list
           (positional_association_element
-            (actual_part
-              (actual_designator
-                (simple_name)))))
+            actual_part: (simple_name)))
         (semicolon)))
     (package_declarative_part
       (deferred_constant_declaration
@@ -156,33 +149,30 @@ end package;
 (design_file
   (package_declaration
     (identifier)
-    (package_header
+    (header
       (generic_clause
-        (generic_interface_list
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              type_mark: (simple_name))))
-        (semicolon))) (comment))
-
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (semicolon)))
+    (comment))
   (package_declaration
     (identifier)
-    (package_header
+    (header
       (generic_clause
-        (generic_interface_list
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              type_mark: (simple_name)))) (semicolon))
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))
+        (semicolon))
       (comment)
       (generic_map_aspect
         (generic_association_list
           (positional_association_element
-            (actual_part
-              (actual_designator
-                (simple_name)))))
+            actual_part: (simple_name)))
         (semicolon)))))
 
 ====================================
@@ -197,17 +187,15 @@ end package;
 (design_file
   (package_declaration
     (identifier)
-    (package_header
+    (header
       (generic_clause
-        (generic_interface_list
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              type_mark: (simple_name)))))
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name))))
       (generic_map_aspect
         (generic_association_list
           (positional_association_element
-            (actual_part
-              (actual_designator
-                (simple_name))))))) (comment)))
+            actual_part: (simple_name)))))
+    (comment)))

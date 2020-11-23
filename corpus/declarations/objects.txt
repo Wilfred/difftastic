@@ -1,10 +1,10 @@
 ========================
 Minimal
 ========================
-constant k : t;
-signal s   : t;
-variable v : t;
-file f     : ft;
+constant k: t;
+signal s  : t;
+variable v: t;
+file f    : ft;
 ---
 
 (design_file
@@ -146,7 +146,7 @@ file f : ft open write_mode is "fn.ext";
     (subtype_indication
       type_mark: (simple_name))
     (file_open_information
-      file_logical_name: (string_literal)))
+      file_logical: (string_literal)))
   (file_declaration
     (identifier_list
       (identifier))
@@ -154,12 +154,12 @@ file f : ft open write_mode is "fn.ext";
       type_mark: (simple_name))
     (file_open_information
       file_open_kind: (simple_name)
-      file_logical_name: (string_literal))))
+      file_logical: (string_literal))))
 
 ===============================
 Type Mark - Selected name [LRM]
 ===============================
-signal S: STANDARD.BIT_VECTOR (1 to 10);
+signal S : STANDARD.BIT_VECTOR (1 to 10);
 ---
 
 (design_file
@@ -172,9 +172,9 @@ signal S: STANDARD.BIT_VECTOR (1 to 10);
         suffix: (simple_name))
         (array_constraint
           (index_constraint
-            discrete_range: (ascending_range
-                 low: (integer_decimal)
-                high: (integer_decimal)))))))
+            (ascending_range
+                 low: (integer_decimal (integer))
+                high: (integer_decimal (integer))))))))
 
 =========================
 Resolution function [LRM]
@@ -187,5 +187,5 @@ signal OUTPUT: WIRED_OR MULTI_VALUED_LOGIC;
     (identifier_list
       (identifier))
     (subtype_indication
-      resolution_function_name: (simple_name)
+      resolution_function: (simple_name)
       type_mark: (simple_name))))

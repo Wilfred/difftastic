@@ -1,81 +1,146 @@
 ============================================
 Minimal
 ============================================
-assert "";
+report "";
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (string_literal)))
+  (report_statement
+    report: (string_literal)))
 
 ============================================
 White space (SPACE)
 ============================================
-assert " ";
+report " ";
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (string_literal)))
+  (report_statement
+    report: (string_literal)))
 
 ============================================
 White space (NBSP)
 ============================================
-assert " ";
+report " ";
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (string_literal)))
+  (report_statement
+    report: (string_literal)))
 
 ==============================================================
 Apostrophe
 ==============================================================
-assert "'";
+report "'";
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (string_literal)))
+  (report_statement
+    report: (string_literal)))
 
 ==============================================================
 Quotation mark (escape)
 ==============================================================
-assert """";
+report """";
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (string_literal)))
-
-==============================================================
-Character literal - Solidus
-==============================================================
-assert "/";
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (string_literal)))
+  (report_statement
+    report: (string_literal
+      (escape_sequence))))
 
 ==============================================================
 Backslash
 ==============================================================
-assert "\";
+report "\";
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (string_literal)))
+  (report_statement
+    report: (string_literal)))
 
 ==============================================================
 Zeros and ones
 ==============================================================
-assert "010";
+report "010";
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (string_literal)))
+  (report_statement
+    report: (string_literal)))
 
+==============================================================
+Comment
+==============================================================
+report "--";
+---
 
+(design_file
+  (report_statement
+    report: (string_literal)))
+
+==============================================================
+Operators symbols
+==============================================================
+report "and";
+report ">=";
+report "sll";
+report "+";
+report "abs";
+report "**";
+---
+
+(design_file
+  (report_statement
+    report: (string_literal))
+  (report_statement
+    report: (string_literal))
+  (report_statement
+    report: (string_literal))
+  (report_statement
+    report: (string_literal))
+  (report_statement
+    report: (string_literal))
+  (report_statement
+    report: (string_literal)))
+
+==============================================================
+Regex Tokens
+==============================================================
+report "^" & "$" & "." & "|" & "\";
+report "*" & "?" & "+";
+report "[" & "]" & "(" & ")" & "{" & "}";
+report "#";
+---
+
+(design_file
+  (report_statement
+    report: (concatenation
+      left: (concatenation
+        left: (concatenation
+          left: (concatenation
+            left: (string_literal)
+            right: (string_literal))
+          right: (string_literal))
+        right: (string_literal))
+      right: (string_literal)))
+  (report_statement
+    report: (concatenation
+      left: (concatenation
+        left: (string_literal)
+        right: (string_literal))
+      right: (string_literal)))
+  (report_statement
+    report: (concatenation
+      left: (concatenation
+        left: (concatenation
+          left: (concatenation
+            left: (concatenation
+              left: (string_literal)
+              right: (string_literal))
+            right: (string_literal))
+          right: (string_literal))
+        right: (string_literal))
+      right: (string_literal)))
+  (report_statement
+    report: (string_literal)))

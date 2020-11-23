@@ -1,0 +1,78 @@
+===================================
+Ambiguous name I
+===================================
+assert arr (st);
+---
+
+(design_file
+  (assertion_statement
+    condition: (ambiguous_name
+      prefix: (simple_name)
+      (expression_list
+        expression: (simple_name)))))
+
+============================
+Descending range
+============================
+assert arr (h downto l);
+---
+
+(design_file
+  (assertion_statement
+    condition: (slice_name
+      prefix: (simple_name)
+      (descending_range
+        high: (simple_name)
+        low: (simple_name)))))
+
+============================
+Ascending range
+============================
+assert arr (h to l);
+---
+
+(design_file
+  (assertion_statement
+    condition: (slice_name
+      prefix: (simple_name)
+      (ascending_range
+        low: (simple_name)
+        high: (simple_name)))))
+
+============================
+Attribute range
+============================
+assert arr (st'range);
+assert arr (st'reverse_range);
+---
+
+(design_file
+  (assertion_statement
+    condition: (slice_name
+      prefix: (simple_name)
+      (range_attribute_name
+        prefix: (simple_name)
+        (range_attribute_designator))))
+  (assertion_statement
+    condition: (slice_name
+      prefix: (simple_name)
+      (range_attribute_name
+        prefix: (simple_name)
+        (range_attribute_designator)))))
+
+============================
+Prefix
+============================
+assert amb (amb)(h downto l);
+---
+
+(design_file
+  (assertion_statement
+    condition: (slice_name
+      prefix: (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (simple_name)))
+      (descending_range
+        high: (simple_name)
+        low: (simple_name)))))

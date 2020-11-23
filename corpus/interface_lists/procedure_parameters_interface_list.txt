@@ -37,19 +37,22 @@ procedure p (k1 :       t;
         (interface_constant_declaration
           (identifier_list
             (identifier))
-          (mode (in))
+          (mode
+            (in))
           (subtype_indication
             type_mark: (simple_name)))
         (interface_variable_declaration
           (identifier_list
             (identifier))
-          (mode (out))
+          (mode
+            (out))
           (subtype_indication
             type_mark: (simple_name)))
         (interface_variable_declaration
           (identifier_list
             (identifier))
-          (mode (inout))
+          (mode
+            (inout))
           (subtype_indication
             type_mark: (simple_name)))))))
 
@@ -66,16 +69,15 @@ procedure p (constant k1 :    t;
       designator: (identifier)
       (formal_procedure_parameter_clause
         (interface_constant_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (subtype_indication
             type_mark: (simple_name)))
         (interface_constant_declaration
-          (object_class)
           (identifier_list
             (identifier))
-          (mode (in))
+          (mode
+            (in))
           (subtype_indication
             type_mark: (simple_name)))))))
 
@@ -94,27 +96,23 @@ procedure p (variable v1 :       t;
       designator: (identifier)
       (formal_procedure_parameter_clause
         (interface_variable_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (subtype_indication
             type_mark: (simple_name)))
         (interface_variable_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (mode (in))
           (subtype_indication
             type_mark: (simple_name)))
         (interface_variable_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (mode (out))
           (subtype_indication
             type_mark: (simple_name)))
         (interface_variable_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (mode (inout))
@@ -136,27 +134,23 @@ procedure p (signal   s1 :       t;
       designator: (identifier)
       (formal_procedure_parameter_clause
         (interface_signal_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (subtype_indication
             type_mark: (simple_name)))
         (interface_signal_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (mode (in))
           (subtype_indication
             type_mark: (simple_name)))
         (interface_signal_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (mode (out))
           (subtype_indication
             type_mark: (simple_name)))
         (interface_signal_declaration
-          (object_class)
           (identifier_list
             (identifier))
           (mode (inout))
@@ -239,6 +233,5 @@ procedure p (package pkg is new pkg generic map (<>));
       (formal_procedure_parameter_clause
         ILLEGAL: (interface_package_declaration
           (identifier)
-          uninstantiated: (simple_name)
-          (interface_package_generic_map_aspect
-            (any)))))))
+          uninstantiated_package: (simple_name)
+          (generic_map_aspect (any)))))))

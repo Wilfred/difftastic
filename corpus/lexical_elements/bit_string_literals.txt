@@ -15,24 +15,24 @@ assert sx"";
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal)))
+  (assertion_statement
+     (bit_string_literal))
+  (assertion_statement
+     (bit_string_literal))
+  (assertion_statement
+     (bit_string_literal))
+  (assertion_statement
+     (bit_string_literal))
+  (assertion_statement
+     (bit_string_literal))
+  (assertion_statement
+     (bit_string_literal))
+  (assertion_statement
+     (bit_string_literal))
+  (assertion_statement
+     (bit_string_literal))
+  (assertion_statement
+     (bit_string_literal)))
 
 ============================================
 Length
@@ -51,24 +51,42 @@ assert 0016sx"0";
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal)))
+  (assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+              (bit_value)))
+  (assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+              (bit_value)))
+  (assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+              (bit_value)))
+  (assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+              (bit_value)))
+  (assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+              (bit_value)))
+  (assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+              (bit_value)))
+  (assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+              (bit_value)))
+  (assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+              (bit_value)))
+  (assertion_statement
+    condition: (bit_string_literal
+      length: (integer)
+              (bit_value))))
 
 ============================================
 Bit value
@@ -87,21 +105,41 @@ assert sx"0123_4567_89AB_CDEF";
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal))
-  (PSL_assertion_directive
-    property: (bit_string_literal)))
+  (assertion_statement
+     (bit_string_literal
+      (bit_value)))
+  (assertion_statement
+     (bit_string_literal
+      (bit_value)))
+  (assertion_statement
+     (bit_string_literal
+      (bit_value)))
+  (assertion_statement
+     (bit_string_literal
+      (bit_value)))
+  (assertion_statement
+     (bit_string_literal
+      (bit_value)))
+  (assertion_statement
+     (bit_string_literal
+      (bit_value)))
+  (assertion_statement
+     (bit_string_literal
+      (bit_value)))
+  (assertion_statement
+     (bit_string_literal
+      (bit_value)))
+  (assertion_statement
+     (bit_string_literal
+      (bit_value))))
+
+============================================
+STD MATCH
+============================================
+assert  b"--";
+---
+
+(design_file
+  (assertion_statement
+    condition: (bit_string_literal
+      (bit_value))))

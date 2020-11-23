@@ -1,95 +1,64 @@
 ================================
 Wait - Minimal
 ================================
-process
-begin
-    wait;
-end process;
+wait;
+L: wait;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (wait_statement))))
+  (wait_statement)
+  (wait_statement
+    (label (identifier))))
 
 ================================
 Wait - Sensitivity clause
 ================================
-process
-begin
-    wait on a;
-end process;
+wait on a;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (wait_statement
-        on: (sensitivity_list
-          signal_name: (simple_name))))))
+  (wait_statement
+    on: (sensitivity_list
+      signal: (simple_name))))
 
 ================================
 Wait - Conditon clause
 ================================
-process
-begin
-    wait until rising_edge(clk);
-end process;
+wait until rising_edge(clk);
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (wait_statement
-        until: (ambiguous_name
-          prefix: (simple_name)
-          (association_list
-            (positional_association_element
-              (actual_part
-                (actual_designator
-                  (simple_name))))))))))
+  (wait_statement
+    until: (ambiguous_name
+      prefix: (simple_name)
+      (expression_list
+        expression: (simple_name)))))
 
 ================================
 Wait - Timeout clause
 ================================
-process
-begin
-    wait for 10 ns;
-end process;
+wait for 10 ns;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (wait_statement
-        for: (physical_literal
-          coefficient: (integer_decimal)
-          unit_name: (simple_name))))))
+  (wait_statement
+    time: (physical_literal
+      coefficient: (integer_decimal (integer))
+      unit: (simple_name))))
 
 ================================
 Wait - All clauses
 ================================
-process
-begin
-    W1: wait on foo, bar until foo(bar) for 1 ms;
-end process;
+L1: wait on foo, bar until cond for 1 ms;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (label)
-      (wait_statement
-        on: (sensitivity_list
-          signal_name: (simple_name)
-          signal_name: (simple_name))
-        until: (ambiguous_name
-          prefix: (simple_name)
-          (association_list
-            (positional_association_element
-              (actual_part
-                (actual_designator
-                  (simple_name))))))
-        for: (physical_literal
-          coefficient: (integer_decimal)
-          unit_name: (simple_name))))))
+  (wait_statement
+    (label (identifier))
+    on: (sensitivity_list
+      signal: (simple_name)
+      signal: (simple_name))
+    until: (simple_name)
+    time: (physical_literal
+      coefficient: (integer_decimal (integer))
+      unit: (simple_name))))

@@ -1,14 +1,25 @@
 ===============================
+Minimal (ambigous)
+===============================
+L1: unit;
+---
+
+(design_file
+  (procedure_call_statement
+    (label (identifier))
+    (simple_name)))
+
+===============================
 Instantiation unit - Component
 ===============================
 L1: component unit;
 ---
 
 (design_file
-  (label)
   (component_instantiation_statement
+    (label (identifier))
     (component_instantiation
-      component_name: (simple_name))))
+      component: (simple_name))))
 
 ===============================
 Instantiation unit - Entity I
@@ -17,10 +28,10 @@ L1: entity pkg.e;
 ---
 
 (design_file
-  (label)
   (component_instantiation_statement
+    (label (identifier))
     (entity_instantiation
-      entity_name: (selected_name
+      entity: (selected_name
         prefix: (simple_name)
         suffix: (simple_name)))))
 
@@ -31,13 +42,13 @@ L1: entity pkg.e(rtl);
 ---
 
 (design_file
-  (label)
   (component_instantiation_statement
+    (label (identifier))
     (entity_instantiation
-      entity_name: (selected_name
+      entity: (selected_name
         prefix: (simple_name)
         suffix: (simple_name))
-      (architecture_identifier))))
+      architecture: (simple_name))))
 
 ===================================
 Instantiation unit - Configuration
@@ -46,10 +57,10 @@ L1: configuration pkg.cfg;
 ---
 
 (design_file
-  (label)
   (component_instantiation_statement
+    (label (identifier))
     (configuration_instantiation
-      (selected_name
+      configuration: (selected_name
         prefix: (simple_name)
         suffix: (simple_name)))))
 
@@ -61,18 +72,18 @@ generic map (a,b,c);
 ---
 
 (design_file
-  (label)
   (component_instantiation_statement
+    (label (identifier))
     (component_instantiation
-      component_name: (simple_name))
+      component: (simple_name))
     (generic_map_aspect
       (generic_association_list
         (positional_association_element
-          (actual_part (actual_designator (simple_name))))
+          actual_part: (simple_name))
         (positional_association_element
-          (actual_part (actual_designator (simple_name))))
+          actual_part: (simple_name))
         (positional_association_element
-          (actual_part (actual_designator (simple_name))))))))
+          actual_part: (simple_name))))))
 
 ===================================
 Port map aspect
@@ -82,18 +93,18 @@ port map (a,b,c);
 ---
 
 (design_file
-  (label)
   (component_instantiation_statement
+    (label (identifier))
     (component_instantiation
-      component_name: (simple_name))
+      component: (simple_name))
     (port_map_aspect
       (port_association_list
         (positional_association_element
-          (actual_part (actual_designator (simple_name))))
+          actual_part: (simple_name))
         (positional_association_element
-          (actual_part (actual_designator (simple_name))))
+          actual_part: (simple_name))
         (positional_association_element
-          (actual_part (actual_designator (simple_name))))))))
+          actual_part: (simple_name))))))
 
 ===================================
 Generic and port map aspect
@@ -104,24 +115,24 @@ generic map (a,b,c)
 ---
 
 (design_file
-  (label)
   (component_instantiation_statement
+    (label (identifier))
     (component_instantiation
-      component_name: (simple_name))
+      component: (simple_name))
     (generic_map_aspect
       (generic_association_list
         (positional_association_element
-          (actual_part (actual_designator (simple_name))))
+          actual_part: (simple_name))
         (positional_association_element
-          (actual_part (actual_designator (simple_name))))
+          actual_part: (simple_name))
         (positional_association_element
-          (actual_part (actual_designator (simple_name))))))
+          actual_part: (simple_name))))
     (port_map_aspect
       (port_association_list
         (positional_association_element
-          (actual_part (actual_designator (open))))
+          actual_part: (open))
         (positional_association_element
-          (actual_part (actual_designator (simple_name))))))))
+          actual_part: (simple_name))))))
 
 ===================================
 Type declaration
@@ -131,18 +142,38 @@ generic map (integer range 0 to 7);
 ---
 
 (design_file
-  (label)
   (component_instantiation_statement
+    (label (identifier))
     (component_instantiation
-      component_name: (simple_name))
+      component: (simple_name))
     (generic_map_aspect
       (generic_association_list
         (positional_association_element
-          (actual_part
-            (actual_designator
-              (subtype_indication
-                type_mark: (simple_name)
-                  (range_constraint
-                    (ascending_range
-                      low: (integer_decimal)
-                      high: (integer_decimal)))))))))))
+          actual_part: (subtype_indication
+            type_mark: (simple_name)
+            (range_constraint
+              (ascending_range
+                low: (integer_decimal
+                  (integer))
+                high: (integer_decimal
+                  (integer))))))))))
+
+===================================
+Selected name on port map aspect
+===================================
+L1: unit
+port map (a.b => c);
+---
+
+(design_file
+  (component_instantiation_statement
+    (label (identifier))
+    (component_instantiation
+      component: (simple_name))
+    (port_map_aspect
+      (port_association_list
+        (named_association_element
+          formal_part: (selected_name
+            prefix: (simple_name)
+            suffix: (simple_name))
+          actual_part: (simple_name))))))

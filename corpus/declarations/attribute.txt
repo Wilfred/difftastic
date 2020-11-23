@@ -40,10 +40,10 @@ attribute LOCATION of ADDER1: label is (10,15);
           entity_tag: (simple_name)))
       (entity_class))
     (aggregate
-      (positional_element_association
-        (integer_decimal))
-      (positional_element_association
-        (integer_decimal)))))
+      (element_asociation
+        value: (integer_decimal (integer)))
+      (element_asociation
+        value: (integer_decimal (integer))))))
 
 =============================
 Specification [LRM] II
@@ -75,5 +75,5 @@ attribute CAPACITANCE of all: signal is 15 pF;
         (all))
       (entity_class))
     (physical_literal
-      coefficient: (integer_decimal)
-        unit_name: (simple_name))))
+      coefficient: (integer_decimal (integer))
+        unit: (simple_name))))

@@ -1,217 +1,305 @@
 ===================================
 Factor
 ===================================
-assert abs a;
-assert not b;
+t <= abs a,
+     not b;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (factor
-      argument: (simple_name)))
-  (PSL_assertion_directive
-    property: (factor
-      argument: (simple_name))))
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (factor
+          argument: (simple_name)))
+      (waveform_element
+        value: (factor
+          argument: (simple_name))))))
 
 ===================================
 Factor - exponentiation
 ===================================
-assert a**b;
+t <= a**b;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (exponentiation
-      left: (simple_name)
-      right: (simple_name))))
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (exponentiation
+          left: (simple_name)
+          right: (simple_name))))))
 
 ===================================
 Factor - logical reduction operation
 ===================================
-assert and a;
-assert or a;
-assert nand a;
-assert nor a;
-assert xor a;
-assert xnor a;
+t <= and a,
+     or a,
+     nand a,
+     nor a,
+     xor a,
+     xnor a;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (reduction
-      argument: (simple_name)))
-  (PSL_assertion_directive
-    property: (reduction
-      argument: (simple_name)))
-  (PSL_assertion_directive
-    property: (reduction
-      argument: (simple_name)))
-  (PSL_assertion_directive
-    property: (reduction
-      argument: (simple_name)))
-  (PSL_assertion_directive
-    property: (reduction
-      argument: (simple_name)))
-  (PSL_assertion_directive
-    property: (reduction
-      argument: (simple_name))))
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (reduction
+          argument: (simple_name)))
+      (waveform_element
+        value: (reduction
+          argument: (simple_name)))
+      (waveform_element
+        value: (reduction
+          argument: (simple_name)))
+      (waveform_element
+        value: (reduction
+          argument: (simple_name)))
+      (waveform_element
+        value: (reduction
+          argument: (simple_name)))
+      (waveform_element
+        value: (reduction
+          argument: (simple_name))))))
 
 ===================================
 Associative logical expression
 ===================================
-assert a and b and c;
+t <= a and b and c;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (logical_expression
-      left: (logical_expression
-        left: (simple_name)
-        right: (simple_name))
-      right: (simple_name))))
-
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (logical_expression
+          left: (logical_expression
+            left: (simple_name)
+            right: (simple_name))
+          right: (simple_name))))))
 
 ===================================
 Term I
 ===================================
-assert a * b;
-assert a / b;
-assert a mod b;
-assert a rem b;
+t <= a * b,
+     a / b,
+     a mod b,
+     a rem b;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (term
-      left: (simple_name)
-      right: (simple_name)))
-  (PSL_assertion_directive
-    property: (term
-      left: (simple_name)
-      right: (simple_name)))
-  (PSL_assertion_directive
-    property: (term
-      left: (simple_name)
-      right: (simple_name)))
-  (PSL_assertion_directive
-    property: (term
-      left: (simple_name)
-      right: (simple_name))))
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (term
+          left: (simple_name)
+          right: (simple_name)))
+      (waveform_element
+        value: (term
+          left: (simple_name)
+          right: (simple_name)))
+      (waveform_element
+        value: (term
+          left: (simple_name)
+          right: (simple_name)))
+      (waveform_element
+        value: (term
+          left: (simple_name)
+          right: (simple_name))))))
 
 ===================================
 Term II
 ===================================
-assert a * b / c mod d rem e;
+t <= a * b / c mod d rem e;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (term
-      left: (term
-        left: (term
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (term
           left: (term
-            left: (simple_name)
+            left: (term
+              left: (term
+                left: (simple_name)
+                right: (simple_name))
+              right: (simple_name))
             right: (simple_name))
-          right: (simple_name))
-        right: (simple_name))
-      right: (simple_name))))
-
+          right: (simple_name))))))
 
 ===================================
 Simple expression
 ===================================
-assert a + b - c;
+t <= a + b - c;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (simple_expression
-      left: (simple_expression
-         left: (simple_name)
-        right: (simple_name))
-      right: (simple_name))))
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (simple_expression
+          left: (simple_expression
+            left: (simple_name)
+            right: (simple_name))
+          right: (simple_name))))))
 
 ===================================
 Simple expression - Sign
 ===================================
-assert -a - b;
+t <= -a, -b;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (simple_expression
-      left: (sign
-        argument: (simple_name))
-      right: (simple_name))))
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (sign
+          argument: (simple_name)))
+      (waveform_element
+        value: (sign
+          argument: (simple_name))))))
 
-
-===========================================
-Illegal association - Logical expression I
-===========================================
-assert a nand b nand c;
+===================================
+Parenthesized expression I
+===================================
+t <= (x);
+t <= ((x));
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (logical_expression
-      left: (logical_expression
-        left: (simple_name)
-        right: (simple_name))
-      right: (simple_name))))
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (parenthesized_expression
+          (simple_name)))))
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (parenthesized_expression
+          (parenthesized_expression
+            (simple_name)))))))
 
-===========================================
-Illegal association - Logical expression II
-===========================================
-assert a and b nand c;
+===================================
+Parenthesized expression II
+===================================
+t <= (x(foo'range));
+t <= ((x(foo'range)));
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (logical_expression
-      left: (logical_expression
-        left: (simple_name)
-        right: (simple_name))
-      right: (simple_name))))
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (parenthesized_expression
+          (slice_name
+            prefix: (simple_name)
+            (range_attribute_name
+              prefix: (simple_name)
+              (range_attribute_designator)))))))
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (parenthesized_expression
+          (parenthesized_expression
+            (slice_name
+              prefix: (simple_name)
+              (range_attribute_name
+                prefix: (simple_name)
+                (range_attribute_designator)))))))))
 
 ===========================================
-Illegal association - Logical expression II
+ILLEGAL: Association - Logical expression I
 ===========================================
-assert a nand b and c;
+t <= a nand b nand c;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (logical_expression
-      left: (logical_expression
-        left: (simple_name)
-        right: (simple_name))
-      right: (simple_name))))
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (logical_expression
+          left: (logical_expression
+            left: (simple_name)
+            right: (simple_name))
+          right: (simple_name))))))
+
+===========================================
+ILLEGAL: Association - Logical expression II
+===========================================
+t <= a and b nand c;
+---
+
+(design_file
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (logical_expression
+          left: (logical_expression
+            left: (simple_name)
+            right: (simple_name))
+          right: (simple_name))))))
+
+===========================================
+ILLEGAL: Association - Logical expression II
+===========================================
+t <= a nand b and c;
+---
+
+(design_file
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (logical_expression
+          left: (logical_expression
+            left: (simple_name)
+            right: (simple_name))
+          right: (simple_name))))))
 
 ============================================
-Illegal association - Logical expression III
+ILLEGAL: Association - Logical expression III
 ============================================
-assert a nand b and c;
+t <= a nand b and c;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (logical_expression
-      left: (logical_expression
-        left: (simple_name)
-        right: (simple_name))
-      right: (simple_name))))
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (logical_expression
+          left: (logical_expression
+            left: (simple_name)
+            right: (simple_name))
+          right: (simple_name))))))
 
 ============================================
-Illegal association - Logical expression III
+ILLEGAL: Association - Logical expression III
 ============================================
-assert a and b or c;
+t <= a and b or c;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (logical_expression
-      left: (logical_expression
-        left: (simple_name)
-        right: (simple_name))
-      right: (simple_name))))
-
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (logical_expression
+          left: (logical_expression
+            left: (simple_name)
+            right: (simple_name))
+          right: (simple_name))))))

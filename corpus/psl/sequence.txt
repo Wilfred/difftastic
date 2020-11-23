@@ -1,215 +1,132 @@
-========================================
-Repeated SERE - Minimal
-========================================
-restrict [*];
-restrict [+];
-restrict [*1];
+==================================
+Repeated sequence I
+==================================
+restrict {a[*2]};
 ---
 
 (design_file
-  (PSL_restriction_directive
-    sequence: (repeated_SERE))
-  (PSL_restriction_directive
-    sequence: (repeated_SERE))
-  (PSL_restriction_directive
-    sequence: (repeated_SERE
-      count: (integer_decimal))))
+  (PSL_Restrict_Directive
+    Sequence: (PSL_Braced_SERE
+      (PSL_Repeated_SERE
+        Boolean: (simple_name)
+          Count: (integer_decimal (integer))))))
 
-========================================
-Repeated SERE - Boolean
-========================================
-restrict c[*];
-restrict c[+];
-restrict c[->];
+==================================
+Repeated sequence II
+==================================
+restrict {a[+]};
 ---
 
 (design_file
-  (PSL_restriction_directive
-    sequence: (repeated_SERE
-      condition: (simple_name)))
-  (PSL_restriction_directive
-    sequence: (repeated_SERE
-      condition: (simple_name)))
-  (PSL_restriction_directive
-    sequence: (repeated_SERE
-      condition: (simple_name))))
+  (PSL_Restrict_Directive
+    Sequence: (PSL_Braced_SERE
+      (PSL_Repeated_SERE
+        Boolean: (simple_name)))))
 
-========================================
-Repeated SERE - Boolean - Count integer
-========================================
-restrict c[*2];
-restrict c[=2];
-restrict c[->2];
+==================================
+Repeated sequence III
+==================================
+restrict {a[*]};
 ---
 
 (design_file
-  (PSL_restriction_directive
-    sequence: (repeated_SERE
-      condition: (simple_name)
-      count: (integer_decimal)))
-  (PSL_restriction_directive
-    sequence: (repeated_SERE
-      condition: (simple_name)
-      count: (integer_decimal)))
-  (PSL_restriction_directive
-    sequence: (repeated_SERE
-      condition: (simple_name)
-      count: (integer_decimal))))
+  (PSL_Restrict_Directive
+    Sequence: (PSL_Braced_SERE
+      (PSL_Repeated_SERE
+        Boolean: (simple_name)))))
 
-========================================
-Repeated SERE - Boolean - Count range
-========================================
-restrict c[*2 to inf];
-restrict c[=2 to inf];
-restrict c[->2 to inf];
+==================================
+Repeated sequence IV
+==================================
+restrict {[*]};
 ---
 
 (design_file
-  (PSL_restriction_directive
-    sequence: (repeated_SERE
-      condition: (simple_name)
-      count: (ascending_range
-         low: (integer_decimal)
-        high: (infinite))))
-  (PSL_restriction_directive
-    sequence: (repeated_SERE
-      condition: (simple_name)
-      count: (ascending_range
-         low: (integer_decimal)
-        high: (infinite))))
-  (PSL_restriction_directive
-    sequence: (repeated_SERE
-      condition: (simple_name)
-      count: (ascending_range
-         low: (integer_decimal)
-        high: (infinite)))))
+  (PSL_Restrict_Directive
+    Sequence: (PSL_Braced_SERE
+      (PSL_Repeated_SERE))))
 
-========================================
-Repeated SERE - Sequence
-========================================
-restrict {s}[*];
-restrict {s}[+];
-restrict {s}[*1];
+==================================
+Repeated sequence V
+==================================
+restrict {a[=2]};
 ---
 
 (design_file
-  (PSL_restriction_directive
-    sequence: (repeated_SERE
-      sequence: (braced_SERE
-        (simple_name))))
-  (PSL_restriction_directive
-    sequence: (repeated_SERE
-      sequence: (braced_SERE
-        (simple_name))))
-  (PSL_restriction_directive
-    sequence: (repeated_SERE
-      sequence: (braced_SERE
-        (simple_name))
-      count: (integer_decimal))))
+  (PSL_Restrict_Directive
+    Sequence: (PSL_Braced_SERE
+      (PSL_Repeated_SERE
+        Boolean: (simple_name)
+          Count: (integer_decimal (integer))))))
 
-========================================
-Clocked SERE
-========================================
-restrict {s} @ rising_edge(clk);
+==================================
+Repeated sequence VI
+==================================
+restrict {a[*1 to 3]};
 ---
 
 (design_file
-  (PSL_restriction_directive
-    sequence: (clocked_SERE
-      (braced_SERE
-        (simple_name))
-      (ambiguous_name
-        prefix: (simple_name)
-        (association_list
-          (positional_association_element
-            (actual_part
-              (actual_designator
-                (simple_name)))))))))
+  (PSL_Restrict_Directive
+    Sequence: (PSL_Braced_SERE
+      (PSL_Repeated_SERE
+        Boolean: (simple_name)
+          Count: (ascending_range
+             low: (integer_decimal (integer))
+            high: (integer_decimal (integer)))))))
 
-========================================
-Sequence instance
-========================================
-restrict sn(a);
+
+==================================
+Sequence Instantiation - minimal
+==================================
+restrict s;
 ---
 
 (design_file
-  (PSL_restriction_directive
-    sequence: (ambiguous_name
-      prefix: (simple_name)
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
+  (PSL_Restrict_Directive
+    Sequence: (PSL_Sequence_Instance
+      Sequence_Name: (PSL_Identifier))))
 
-========================================
-SERE - Fusion
-========================================
-restrict { s:s };
+==================================
+Sequence Instantiation - LRM I
+==================================
+restrict BusArb (breq, back, 3);
 ---
 
 (design_file
-  (PSL_restriction_directive
-    sequence: (braced_SERE
-      (fusion_SERE
-        left: (simple_name)
-        right: (simple_name)))))
-
-========================================
-SERE - Concatenation
-========================================
-restrict { s;s };
----
-
-(design_file
-  (PSL_restriction_directive
-    sequence: (braced_SERE
-      (concatenation_SERE
-        left: (simple_name)
-        right: (simple_name)))))
-
-========================================
-Compound SERE - Logical expression
-========================================
-restrict { {s} | {s} };
-restrict { {s} & {s} };
-restrict { {s} && {s} };
----
-
-(design_file
-  (PSL_restriction_directive
-    sequence: (braced_SERE
-      (disjunction_SERE
-        left: (braced_SERE
+  (PSL_Restrict_Directive
+    Sequence: (PSL_Sequence_Instance
+      Sequence_Name: (PSL_Identifier)
+      (PSL_Actual_Parameter_List
+        (PSL_Actual_Parameter
           (simple_name))
-        right: (braced_SERE
-          (simple_name)))))
-  (PSL_restriction_directive
-    sequence: (braced_SERE
-      (conjunction_SERE
-        left: (braced_SERE
+        (PSL_Actual_Parameter
           (simple_name))
-        right: (braced_SERE
-          (simple_name)))))
-  (PSL_restriction_directive
-    sequence: (braced_SERE
-      (conjunction_SERE
-        left: (braced_SERE
-          (simple_name))
-        right: (braced_SERE
-          (simple_name))))))
+        (PSL_Actual_Parameter
+          (integer_decimal
+            (integer)))))))
 
-========================================
-Compound SERE - Withing
-========================================
-restrict { {s} within {s} };
+==================================
+Sequence Instantiation - LRM II
+==================================
+restrict ReadCycle(BusArb(breq, back, 5), breq, ardy, drdy);
 ---
 
 (design_file
-  (PSL_restriction_directive
-    sequence: (braced_SERE
-      (within_SERE
-        left: (braced_SERE
+  (PSL_Restrict_Directive
+    Sequence: (PSL_Sequence_Instance
+      Sequence_Name: (PSL_Identifier)
+      (PSL_Actual_Parameter_List
+        (PSL_Actual_Parameter
+          (ambiguous_name
+            prefix: (simple_name)
+            (expression_list
+              expression: (simple_name)
+              expression: (simple_name)
+              expression: (integer_decimal
+                (integer)))))
+        (PSL_Actual_Parameter
           (simple_name))
-        right: (braced_SERE
+        (PSL_Actual_Parameter
+          (simple_name))
+        (PSL_Actual_Parameter
           (simple_name))))))

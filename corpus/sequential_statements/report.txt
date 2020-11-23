@@ -1,0 +1,25 @@
+================================
+Report - Minimal
+================================
+report "str";
+L1: report "str";
+---
+
+(design_file
+  (report_statement
+    report: (string_literal))
+  (report_statement
+    (label (identifier))
+    report: (string_literal)))
+
+================================
+Report - Severity
+================================
+report K_MSG severity note;
+---
+
+(design_file
+  (report_statement
+    report: (simple_name)
+    severity: (simple_name)))
+

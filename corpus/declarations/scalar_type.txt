@@ -40,8 +40,8 @@ type int_t is range 0 to 255;
     (identifier)
     (numeric_type_definition
       (ascending_range
-         low: (integer_decimal)
-        high: (integer_decimal)))))
+         low: (integer_decimal (integer))
+        high: (integer_decimal (integer))))))
 
 ======================================
 Floating type definition
@@ -54,8 +54,8 @@ type float_t is range 2.0 to 8.0;
     (identifier)
     (numeric_type_definition
       (ascending_range
-         low: (real_decimal)
-        high: (real_decimal)))))
+         low: (real_decimal (integer) (integer))
+        high: (real_decimal (integer) (integer))))))
 
 ======================================
 Physical type definition - Minimal
@@ -74,10 +74,11 @@ type phy_t is range l to h
         (ascending_range
           low: (simple_name)
           high: (simple_name)))
-      unit_name: (identifier))))
+      (primary_unit_declaration
+        (identifier)))))
 
 ======================================
-Physical type definition - Minimal
+Physical type definition
 ======================================
 type phy_t is range l to h
     units
@@ -94,14 +95,15 @@ type phy_t is range l to h
         (ascending_range
           low: (simple_name)
           high: (simple_name)))
-      unit_name: (identifier)
+      (primary_unit_declaration
+        (identifier))
       (secondary_unit_declaration
-        unit_name: (identifier)
+        (identifier)
         (physical_literal
-          unit_name: (simple_name))))))
+          unit: (simple_name))))))
 
 ======================================
-Physical type definition - Minimal
+Physical type definition - LRM
 ======================================
 type byte_t is range 0 to 1E16
     units
@@ -124,43 +126,45 @@ type byte_t is range 0 to 1E16
     (physical_type_definition
       (range_constraint
         (ascending_range
-          low: (integer_decimal)
-          high: (integer_decimal)))
-      unit_name: (identifier)
+          low: (integer_decimal (integer))
+          high: (integer_decimal (integer)
+            (positive_exponent))))
+      (primary_unit_declaration
+        (identifier))
       (comment)
       (secondary_unit_declaration
-        unit_name: (identifier)
+        (identifier)
         (physical_literal
-          coefficient: (integer_decimal)
-          unit_name: (simple_name)))
+          coefficient: (integer_decimal (integer))
+          unit: (simple_name)))
       (secondary_unit_declaration
-        unit_name: (identifier)
+        (identifier)
         (physical_literal
-          coefficient: (integer_decimal)
-          unit_name: (simple_name)))
+          coefficient: (integer_decimal (integer))
+          unit: (simple_name)))
       (secondary_unit_declaration
-        unit_name: (identifier)
+        (identifier)
         (physical_literal
-          coefficient: (integer_decimal)
-          unit_name: (simple_name)))
+          coefficient: (integer_decimal (integer))
+          unit: (simple_name)))
       (secondary_unit_declaration
-        unit_name: (identifier)
+        (identifier)
         (physical_literal
-          coefficient: (integer_decimal)
-          unit_name: (simple_name)))
+          coefficient: (integer_decimal (integer))
+          unit: (simple_name)))
       (comment)
       (secondary_unit_declaration
-        unit_name: (identifier)
+        (identifier)
         (physical_literal
-          coefficient: (integer_decimal)
-          unit_name: (simple_name)))
+          coefficient: (integer_decimal (integer))
+          unit: (simple_name)))
       (secondary_unit_declaration
-        unit_name: (identifier)
+        (identifier)
         (physical_literal
-          coefficient: (integer_decimal)
-          unit_name: (simple_name)))
+          coefficient: (integer_decimal (integer))
+          unit: (simple_name)))
       (secondary_unit_declaration
-        unit_name: (identifier)
+        (identifier)
         (physical_literal
-          coefficient: (integer_decimal)
-          unit_name: (simple_name))))))
+          coefficient: (integer_decimal (integer))
+          unit: (simple_name))))))

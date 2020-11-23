@@ -1,110 +1,92 @@
 ================================
 Minimal
 ================================
-process
-begin
-    if true then
-    end if;
-end process;
+if true then
+end if;
+
+L2:
+if true then
+end if;
+
+L3:
+if true then
+end if L3;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (if_statement
-        (condition (simple_name))))))
-
-================================
-Label
-================================
-process
-begin
-    L1:
-    if true then
-    end if L1;
-end process;
----
-
-(design_file
-  (process_statement
-    (process_statement_part
-      (label)
-      (if_statement
-        (condition (simple_name))
-        at_end: (label)))))
+  (if_statement
+    (if
+      condition: (simple_name)))
+  (if_statement
+    (label (identifier))
+    (if
+      condition: (simple_name)))
+  (if_statement
+    (label (identifier))
+    (if
+      condition: (simple_name))
+    footer_label: (simple_name)))
 
 ================================
 Elsif
 ================================
-process
-begin
-    if true then
-    elsif true then
-    end if;
-end process;
+if true then
+elsif true then
+end if;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (if_statement
-        (condition (simple_name))
-        (elsif
-          (condition (simple_name)))))))
+  (if_statement
+    (if
+      condition: (simple_name))
+    (elsif
+      condition: (simple_name))))
 
 ================================
 Else
 ================================
-process
-begin
-    if true then
-    elsif true then
-    else
-    end if;
-end process;
+if true then
+elsif true then
+else
+end if;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (if_statement
-        (condition (simple_name))
-        (elsif
-          (condition (simple_name)))
-        (else)))))
+  (if_statement
+    (if
+      condition: (simple_name))
+    (elsif
+      condition: (simple_name))
+    (else)))
 
 ================================
 Sequence os statements
 ================================
-process
-begin
-    if true then
-        null;
-    elsif true then
-        null;
-        null;
-    else
-        null;
-        null;
-        null;
-    end if;
-end process;
+if true then
+    null;
+elsif true then
+    null;
+    null;
+else
+    null;
+    null;
+    null;
+end if;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (if_statement
-        (condition (simple_name))
-        (sequence_of_statements
-          (null_statement))
-        (elsif
-          (condition (simple_name))
-          (sequence_of_statements
-            (null_statement)
-            (null_statement)))
-        (else
-          (sequence_of_statements
-            (null_statement)
-            (null_statement)
-            (null_statement)))))))
+  (if_statement
+    (if
+      condition: (simple_name)
+      (sequence_of_statements
+        (null_statement)))
+    (elsif
+      condition: (simple_name)
+      (sequence_of_statements
+        (null_statement)
+        (null_statement)))
+    (else
+      (sequence_of_statements
+        (null_statement)
+        (null_statement)
+        (null_statement)))))

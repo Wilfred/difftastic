@@ -7,115 +7,63 @@ assert and (and A);
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (logical_expression
+  (assertion_statement
+    condition: (logical_expression
       left: (parenthesized_expression
         (reduction
           argument: (simple_name)))
       right: (simple_name)))
-  (PSL_assertion_directive
-    property: (logical_expression
+  (assertion_statement
+    condition: (logical_expression
       left: (simple_name)
       right: (parenthesized_expression
         (reduction
           argument: (simple_name)))))
-  (PSL_assertion_directive
-    property: (reduction
+  (assertion_statement
+    condition: (reduction
       argument: (parenthesized_expression
         (reduction
           argument: (simple_name))))))
 
 ===================================
-ERROR: VHDL LRM 9.1 NOTE 2 (Illegal) I
+VHDL LRM 9.2.7 NOTE
 ===================================
-assert and A and B;
+assert -5 rem 2 >= 0;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (logical_expression
-      left: (reduction
-        argument: (simple_name))
-      right: (simple_name))))
-
-===================================
-ERROR: VHDL LRM 9.1 NOTE 2 (Illegal) II
-===================================
-assert A and and B;
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (logical_expression
-      left: (simple_name)
-      right: (reduction
-        argument: (simple_name)))))
-
-===================================
-ERROR: VHDL LRM 9.1 NOTE 2 (Illegal) III
-===================================
-assert and and A;
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (reduction
-      argument: (simple_name))
-    (ERROR
-      (identifier))))
+  (assertion_statement
+    condition: (relation
+      left: (sign
+        argument: (term
+           left: (integer_decimal (integer))
+          right: (integer_decimal (integer))))
+      right: (integer_decimal (integer)))))
 
 ===================================
 VHDL LRM 9.2.6 NOTE
 ===================================
-assert A/(+B);
-assert A**(-B);
+assert A/(+B) > 0;
+assert A**(-B) > 0;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (term
-      left: (simple_name)
-      right: (parenthesized_expression
-        (sign
-          argument: (simple_name)))))
-  (PSL_assertion_directive
-    property: (exponentiation
-      left: (simple_name)
-      right: (parenthesized_expression
-        (sign
-          argument: (simple_name))))))
-
-===================================
-ERROR: VHDL LRM 9.2.6 NOTE (Illegal)
-===================================
-assert A/+B;
-assert A**-B;
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (term
-      left: (simple_name)
-      right: (sign
-        argument: (simple_name))))
-  (PSL_assertion_directive
-    property: (exponentiation
-      left: (simple_name)
-      (ERROR)
-      right: (simple_name))))
-
-===================================
-VHDL LRM 9.2.7 NOTE
-===================================
-assert -5 rem 2;
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (sign
-      argument: (term
-        left: (integer_decimal)
-        right: (integer_decimal)))))
+  (assertion_statement
+    condition: (relation
+      left: (term
+        left: (simple_name)
+        right: (parenthesized_expression
+          (sign
+            argument: (simple_name))))
+      right: (integer_decimal (integer))))
+  (assertion_statement
+    condition: (relation
+      left: (exponentiation
+        left: (simple_name)
+        right: (parenthesized_expression
+          (sign
+            argument: (simple_name))))
+      right: (integer_decimal (integer)))))
 
 ===================================
 ADA LRM 4.5.0
@@ -124,21 +72,87 @@ assert not Sunny or Warm;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (logical_expression
+  (assertion_statement
+    condition: (logical_expression
       left: (factor
         argument: (simple_name))
       right: (simple_name))))
 
 ===================================
-ERROR: ADA LRM 4.5.0 (Illegal)
+ILLEGAL: VHDL LRM 9.1 NOTE 2 I
 ===================================
-assert Y**-3;
+assert and A and B;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (simple_expression
+  (assertion_statement
+    condition: (logical_expression
+      left: (reduction
+        argument: (simple_name))
+      right: (simple_name))))
+
+===================================
+ILLEGAL: VHDL LRM 9.1 NOTE 2 II
+===================================
+assert A and and B;
+---
+
+(design_file
+  (assertion_statement
+    condition: (logical_expression
       left: (simple_name)
-      (ERROR)
-      right: (integer_decimal))))
+      right: (reduction
+        argument: (simple_name)))))
+
+===================================
+ILLEGAL: VHDL LRM 9.1 NOTE 2 III
+===================================
+assert and and A;
+---
+
+(design_file
+  (assertion_statement
+    condition: (reduction
+      (ERROR
+        (simple_name))
+      argument: (simple_name))))
+
+===================================
+ILLEGAL: VHDL LRM 9.2.6 NOTE IV
+===================================
+assert A/+B > 0;
+assert A**-B > 0;
+---
+
+(design_file
+  (assertion_statement
+    condition: (relation
+      left: (term
+        left: (simple_name)
+        right: (sign
+          argument: (simple_name)))
+      right: (integer_decimal (integer))))
+  (assertion_statement
+    condition: (relation
+      left: (exponentiation
+        left: (simple_name)
+        (ERROR)
+        right: (simple_name))
+      right: (integer_decimal (integer)))))
+
+===================================
+ILLEGAL: ADA LRM 4.5.0
+===================================
+assert Y**-3 > 0;
+---
+
+(design_file
+  (assertion_statement
+    condition: (relation
+      left: (simple_expression
+        left: (simple_name)
+        (ERROR)
+        right: (integer_decimal
+          (integer)))
+      right: (integer_decimal
+        (integer)))))

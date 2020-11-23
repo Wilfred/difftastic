@@ -1,0 +1,286 @@
+===========================================
+Selected waveform assignment - Minimal
+===========================================
+with expr select
+    t <= w when true;
+
+L1:
+with expr select
+    t <= w when true;
+
+with expr select?
+    t <= w when true;
+
+L2:
+with expr select?
+    t <= w when true;
+---
+
+(design_file
+  (selected_waveform_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)))
+      (choices
+        choice: (simple_name))))
+  (selected_waveform_assignment
+    (label (identifier))
+    with: (simple_name)
+    (simple_name)
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)))
+      (choices
+        choice: (simple_name))))
+  (selected_waveform_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)))
+      (choices
+        choice: (simple_name))))
+  (selected_waveform_assignment
+    (label (identifier))
+    with: (simple_name)
+    (simple_name)
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)))
+      (choices
+        choice: (simple_name)))))
+
+===========================================
+Selected waveform assignment - Delay mechanism
+===========================================
+with expr select
+    t <= transport w when true;
+
+with expr select
+    t <= inertial w when true;
+
+with expr select
+    t <= reject 10 ns inertial w when true;
+---
+
+(design_file
+  (selected_waveform_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (transport)
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)))
+      (choices
+        choice: (simple_name))))
+  (selected_waveform_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (inertial)
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)))
+      (choices
+        choice: (simple_name))))
+  (selected_waveform_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (inertial
+      pulse_limit: (physical_literal
+        coefficient: (integer_decimal
+          (integer))
+        unit: (simple_name)))
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)))
+      (choices
+        choice: (simple_name)))))
+
+===========================================
+Selected waveforms I
+===========================================
+with expr select
+    t <= w1 when true,
+         w2 when false;
+---
+
+(design_file
+  (selected_waveform_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)))
+      (choices
+        choice: (simple_name))
+      (alternative_selected_expressions
+        value: (simple_name)
+        (choices
+          choice: (simple_name))))))
+
+===========================================
+Selected waveforms II
+===========================================
+with expr select
+    t <= w1 when cond1 | cond2,
+         w3 when others;
+---
+
+(design_file
+  (selected_waveform_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)))
+      (choices
+        choice: (simple_name)
+        choice: (simple_name))
+      (alternative_selected_expressions
+        value: (simple_name)
+        (choices
+          choice: (others))))))
+
+===========================================
+Selected waveforms III
+===========================================
+with expr select
+    t <= w1 after 10 ns when cond1,
+         w2 when others;
+---
+
+(design_file
+  (selected_waveform_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)
+          after: (physical_literal
+            coefficient: (integer_decimal
+              (integer))
+            unit: (simple_name))))
+      (choices
+        choice: (simple_name))
+      (alternative_selected_expressions
+        value: (simple_name)
+        (choices
+          choice: (others))))))
+
+===========================================
+Selected force assignment
+===========================================
+with expr select
+    t <= force     w when true;
+
+with expr select
+    t <= force in  w when true;
+
+with expr select
+    t <= force out w when true;
+---
+
+(design_file
+  (selected_force_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (selected_expressions
+      value: (simple_name)
+      (choices
+        choice: (simple_name))))
+  (selected_force_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (force_mode (in))
+    (selected_expressions
+      value: (simple_name)
+      (choices
+        choice: (simple_name))))
+  (selected_force_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (force_mode
+      (out))
+    (selected_expressions
+      value: (simple_name)
+      (choices
+        choice: (simple_name)))))
+
+===========================================
+Guarded assignment
+===========================================
+with expr select
+    t <= guarded w when cond;
+---
+
+(design_file
+  (guarded_selected_signal_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)))
+      (choices
+        choice: (simple_name)))))
+
+===========================================
+Guarded assignment - Delay mechanism
+===========================================
+with expr select
+    t <= guarded transport w when cond;
+
+with expr select
+    t <= guarded inertial w when cond;
+
+with expr select
+    t <= guarded reject 10 ns inertial w when cond;
+---
+
+(design_file
+  (guarded_selected_signal_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (transport)
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)))
+      (choices
+        choice: (simple_name))))
+  (guarded_selected_signal_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (inertial)
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)))
+      (choices
+        choice: (simple_name))))
+  (guarded_selected_signal_assignment
+    with: (simple_name)
+    target: (simple_name)
+    (inertial
+      pulse_limit: (physical_literal
+        coefficient: (integer_decimal
+          (integer))
+        unit: (simple_name)))
+    (selected_waveforms
+      (waveforms
+        (waveform_element
+          value: (simple_name)))
+      (choices
+        choice: (simple_name)))))

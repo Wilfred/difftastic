@@ -117,14 +117,74 @@ end;
     (procedure_specification
       designator: (identifier)
       (formal_procedure_parameter_clause
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))))
+  (subprogram_body
+    (pure_function_specification
+      designator: (identifier)
+      (formal_function_parameter_clause
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
+      (return
+        type_mark: (simple_name)))))
+
+=======================================
+Procedure Header - Generic clause
+=======================================
+procedure p
+      generic (k:t)
+    parameter (a:b) is
+begin
+end procedure p;
+---
+
+(design_file
+  (subprogram_body
+    (procedure_specification
+      designator: (identifier)
+      (header
+        (generic_clause
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name)))))
+      (formal_procedure_parameter_clause
         (interface_constant_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name))))))
+            type_mark: (simple_name)))))
+    (subprogram_kind)
+    at_end: (simple_name)))
+
+=======================================
+Function Header - Generic clause
+=======================================
+function f
+      generic (k:t)
+    parameter (a:b) return t is
+begin
+end;
+---
+
+(design_file
   (subprogram_body
     (pure_function_specification
       designator: (identifier)
+      (header
+        (generic_clause
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name)))))
       (formal_function_parameter_clause
         (interface_constant_declaration
           (identifier_list
@@ -135,63 +195,7 @@ end;
         type_mark: (simple_name)))))
 
 =======================================
-Subprogram Header - Generic clause
-=======================================
-procedure p
-      generic (k:t)
-    parameter (a:b) is
-begin
-end procedure p;
-
-function f
-      generic (k:t)
-    parameter (a:b) return t is
-begin
-end;
----
-
-(design_file
-  (subprogram_body
-    (procedure_specification
-      designator: (identifier)
-      (subprogram_header
-        (generic_clause
-          (generic_interface_list
-            (interface_constant_declaration
-              (identifier_list
-                (identifier))
-              (subtype_indication
-                type_mark: (simple_name))))))
-      (formal_procedure_parameter_clause
-        (interface_constant_declaration
-          (identifier_list
-            (identifier))
-          (subtype_indication
-            type_mark: (simple_name)))))
-    (subprogram_kind)
-    at_end: (simple_name))
-  (subprogram_body
-    (pure_function_specification
-      designator: (identifier)
-      (subprogram_header
-        (generic_clause
-          (generic_interface_list
-            (interface_constant_declaration
-              (identifier_list
-                (identifier))
-              (subtype_indication
-                type_mark: (simple_name))))))
-      (formal_function_parameter_clause
-        (interface_constant_declaration
-          (identifier_list
-            (identifier))
-          (subtype_indication
-            type_mark: (simple_name))))
-      (return
-        type_mark: (simple_name)))))
-
-=======================================
-Subprogram Header - Generic map aspect
+Procedure Header - Generic map aspect
 =======================================
 procedure p
       generic (k:t)
@@ -199,7 +203,35 @@ procedure p
     parameter (a:b) is
 begin
 end procedure p;
+---
 
+(design_file
+  (subprogram_body
+    (procedure_specification
+      designator: (identifier)
+      (header
+        (generic_clause
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
+        (generic_map_aspect
+          (generic_association_list
+            (positional_association_element
+              actual_part: (simple_name)))))
+      (formal_procedure_parameter_clause
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name)))))
+    (subprogram_kind)
+    at_end: (simple_name)))
+
+=======================================
+Function Header - Generic map aspect
+=======================================
 function f
       generic (k:t)
       generic map (a)
@@ -210,47 +242,19 @@ end;
 
 (design_file
   (subprogram_body
-    (procedure_specification
-      designator: (identifier)
-      (subprogram_header
-        (generic_clause
-          (generic_interface_list
-            (interface_constant_declaration
-              (identifier_list
-                (identifier))
-              (subtype_indication
-                type_mark: (simple_name)))))
-        (generic_map_aspect
-          (generic_association_list
-            (positional_association_element
-              (actual_part
-                (actual_designator
-                  (simple_name)))))))
-      (formal_procedure_parameter_clause
-        (interface_constant_declaration
-          (identifier_list
-            (identifier))
-          (subtype_indication
-            type_mark: (simple_name)))))
-    (subprogram_kind)
-    at_end: (simple_name))
-  (subprogram_body
     (pure_function_specification
       designator: (identifier)
-      (subprogram_header
+      (header
         (generic_clause
-          (generic_interface_list
-            (interface_constant_declaration
-              (identifier_list
-                (identifier))
-              (subtype_indication
-                type_mark: (simple_name)))))
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
         (generic_map_aspect
           (generic_association_list
             (positional_association_element
-              (actual_part
-                (actual_designator
-                  (simple_name)))))))
+              actual_part: (simple_name)))))
       (formal_function_parameter_clause
         (interface_constant_declaration
           (identifier_list
@@ -263,7 +267,7 @@ end;
 =======================================
 Return statement
 =======================================
-function f is
+function f return r is
 begin
     return e;
 end function;
@@ -272,7 +276,9 @@ end function;
 (design_file
   (subprogram_body
     (pure_function_specification
-      designator: (identifier))
+      designator: (identifier)
+      (return
+        type_mark: (simple_name)))
     (subprogram_statement_part
       (return_statement
         (simple_name)))
@@ -292,15 +298,15 @@ end procedure p;
   (subprogram_body
     (procedure_specification
       designator: (identifier)
-      (subprogram_header
+      (header
         (generic_clause
-          (generic_interface_list
-            (interface_constant_declaration
-              (identifier_list
-                (identifier))
-              (subtype_indication
-                type_mark: (simple_name))))
-          (semicolon))) (comment)
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name)))
+          (semicolon)))
+      (comment)
       (formal_procedure_parameter_clause
         (interface_constant_declaration
           (identifier_list
@@ -325,21 +331,19 @@ end procedure p;
   (subprogram_body
     (procedure_specification
       designator: (identifier)
-      (subprogram_header
+      (header
         (generic_clause
-          (generic_interface_list
-            (interface_constant_declaration
-              (identifier_list
-                (identifier))
-              (subtype_indication
-                type_mark: (simple_name)))))
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
         (generic_map_aspect
           (generic_association_list
             (positional_association_element
-              (actual_part
-                (actual_designator
-                  (simple_name)))))
-          (semicolon))) (comment)
+              actual_part: (simple_name)))
+          (semicolon)))
+      (comment)
       (formal_procedure_parameter_clause
         (interface_constant_declaration
           (identifier_list

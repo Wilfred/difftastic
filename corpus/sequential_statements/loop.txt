@@ -1,153 +1,113 @@
 ===================================
 Minmal
 ===================================
-process
-begin
-    loop
-    end loop;
-end process;
+loop
+end loop;
+
+L1:
+loop
+end loop;
+
+L2:
+loop
+end loop L2;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (loop_statement))))
-
-===================================
-Label
-===================================
-process
-begin
-    L1: loop
-    end loop L1;
-end process;
----
-
-(design_file
-  (process_statement
-    (process_statement_part
-      (label)
-      (loop_statement
-        at_end: (label)))))
+  (loop_statement)
+  (loop_statement
+    (label (identifier)))
+  (loop_statement
+    (label (identifier))
+    footer_label: (simple_name)))
 
 ===================================
 Iteration scheme - While
 ===================================
-process
-begin
-    while cond
-        loop
-        end loop;
-end process;
+while cond
+    loop
+    end loop;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (loop_statement
-        (while_loop
-          (condition
-            (simple_name)))))))
+  (loop_statement
+    (while_loop
+      condition: (simple_name))))
 
 ===================================
 Iteration scheme - For loop
 ===================================
-process
-begin
-    for c in r
-        loop
-        end loop;
-end process;
+for c in r
+    loop
+    end loop;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (loop_statement
-        (for_loop
-          (parameter_specification
-            (identifier)
-            discrete_range: (subtype_indication
-              type_mark: (simple_name))))))))
+  (loop_statement
+    (for_loop
+      (parameter_specification
+        (identifier)
+        (subtype_indication
+          type_mark: (simple_name))))))
 
 ===================================
 Next I
 ===================================
-process
-begin
-    loop
-        next;
-    end loop;
-end process;
+loop
+    next;
+end loop;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (loop_statement
-        (sequence_of_statements
-          (next_statement))))))
+  (loop_statement
+    (sequence_of_statements
+      (next_statement))))
 
 ===================================
 Next II
 ===================================
-process
-begin
-    for c in r
-        loop
-            next when e;
-        end loop;
-end process;
+for c in r
+    loop
+        next when e;
+    end loop;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (loop_statement
-        (for_loop
-          (parameter_specification
-            (identifier)
-            discrete_range: (subtype_indication
-              type_mark: (simple_name))))
-        (sequence_of_statements
-          (next_statement
-            when: (simple_name)))))))
+  (loop_statement
+    (for_loop
+      (parameter_specification
+        (identifier)
+        (subtype_indication
+          type_mark: (simple_name))))
+    (sequence_of_statements
+      (next_statement
+        condition: (simple_name)))))
 
 ===================================
 Exit I
 ===================================
-process
-begin
-    loop
-        exit;
-    end loop;
-end process;
+loop
+    exit;
+end loop;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (loop_statement
-        (sequence_of_statements
-          (exit_statement))))))
+  (loop_statement
+    (sequence_of_statements
+      (exit_statement))))
 
 ===================================
 Exit II
 ===================================
-process
-begin
-    loop
-        exit when e;
-    end loop;
-end process;
+loop
+    exit when e;
+end loop;
 ---
 
 (design_file
-  (process_statement
-    (process_statement_part
-      (loop_statement
-        (sequence_of_statements
-          (exit_statement
-            when: (simple_name)))))))
+  (loop_statement
+    (sequence_of_statements
+      (exit_statement
+        condition: (simple_name)))))
 
 

@@ -1,48 +1,40 @@
 =========================
 Attribute name
 =========================
-assert true report integer'image(a);
+report integer'image(a);
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (simple_name)
-    report: (ambiguous_name
-      prefix: (attribute_name
+  (report_statement
+    report: (function_call
+      function_name: (attribute_name
         prefix: (simple_name)
         (attribute_designator))
       (association_list
         (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
+          actual_part: (simple_name))))))
 
 =========================
 Function
 =========================
-assert true report to_string(a);
+report to_string(a);
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (simple_name)
+  (report_statement
     report: (ambiguous_name
       prefix: (simple_name)
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
+      (expression_list
+        expression: (simple_name)))))
 
 =========================
 Concatenation
 =========================
-assert true report "a" & "b";
+report "a" & "b";
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (simple_name)
+  (report_statement
     report: (concatenation
       left: (string_literal)
       right: (string_literal))))

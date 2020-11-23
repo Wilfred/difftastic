@@ -1,0 +1,299 @@
+=============================================
+SERE_0_a
+=============================================
+assert always {a} |=> {b; b; b; b; c};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_SERE_Concatenation
+                left: (PSL_SERE_Concatenation
+                  left: (PSL_SERE_Concatenation
+                    left: (simple_name)
+                    right: (simple_name))
+                  right: (simple_name))
+                right: (simple_name))
+              right: (simple_name))))))))
+
+=============================================
+SERE_1_a
+=============================================
+assert always {a} |=> {b[*4]; c};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_Repeated_SERE
+                Boolean: (simple_name)
+                Count: (integer_decimal (integer)))
+              right: (simple_name))))))))
+
+=============================================
+SERE_2_a
+=============================================
+assert always {a} |=> {b[*3 to 5]; c};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_Repeated_SERE
+                Boolean: (simple_name)
+                Count: (ascending_range
+                  low: (integer_decimal
+                    (integer))
+                  high: (integer_decimal
+                    (integer))))
+              right: (simple_name))))))))
+
+=============================================
+SERE_3_a
+=============================================
+assert always {a} |=> {b[*]; c};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_Repeated_SERE
+                Boolean: (simple_name))
+              right: (simple_name))))))))
+
+=============================================
+SERE_4_a
+=============================================
+assert always {a} |=> {b[+]; c};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_Repeated_SERE
+                Boolean: (simple_name))
+              right: (simple_name))))))))
+
+=============================================
+SERE_5_a
+=============================================
+assert always {d} |=> {e[*]; f};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_Repeated_SERE
+                Boolean: (simple_name))
+              right: (simple_name))))))))
+
+=============================================
+SERE_6_a
+=============================================
+assert always {d} |=> {e[+]; f};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_Repeated_SERE
+                Boolean: (simple_name))
+              right: (simple_name))))))))
+
+=============================================
+SERE_7_a
+=============================================
+assert always {g} |=> {h[*3]; i};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_Repeated_SERE
+                Boolean: (simple_name)
+                Count: (integer_decimal
+                  (integer)))
+              right: (simple_name))))))))
+
+=============================================
+SERE_8_a
+=============================================
+assert always {g} |=> {h[*2 to 4]; i};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_Repeated_SERE
+                Boolean: (simple_name)
+                Count: (ascending_range
+                  low: (integer_decimal
+                    (integer))
+                  high: (integer_decimal
+                    (integer))))
+              right: (simple_name))))))))
+
+=============================================
+SERE_9_a
+=============================================
+assert always {g} |=> {h[*]; i};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_Repeated_SERE
+                Boolean: (simple_name))
+              right: (simple_name))))))))
+
+=============================================
+SERE_10_a
+=============================================
+assert always {g} |=> {h[+]; i};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_Repeated_SERE
+                Boolean: (simple_name))
+              right: (simple_name))))))))
+
+=============================================
+SERE_11_a
+=============================================
+assert always {g} |=> {[*6]; i};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_Repeated_SERE
+                Count: (integer_decimal
+                  (integer)))
+              right: (simple_name))))))))
+
+=============================================
+SERE_12_a
+=============================================
+assert always {g} |=> {[*6]; i; not i[*1 to inf]};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_SERE_Concatenation
+                left: (PSL_Repeated_SERE
+                  Count: (integer_decimal
+                    (integer)))
+                right: (simple_name))
+              right: (PSL_Repeated_SERE
+                Boolean: (factor
+                  argument: (simple_name))
+                Count: (ascending_range
+                  low: (integer_decimal
+                    (integer))
+                  high: (simple_name))))))))))
+
+=============================================
+SERE_13_a
+=============================================
+assert always {g} |=> {{h; not h}[*3]; i};
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Invariant_FL_Property
+      argument: (PSL_Suffix_Implication_FL_Property
+        Sequence: (PSL_Braced_SERE
+          Boolean: (simple_name))
+        Property: (PSL_Sequential_FL_Property
+          Sequence: (PSL_Braced_SERE
+            (PSL_SERE_Concatenation
+              left: (PSL_Repeated_SERE
+                Sequence: (PSL_Braced_SERE
+                  (PSL_SERE_Concatenation
+                    left: (simple_name)
+                    right: (factor
+                      argument: (simple_name))))
+                Count: (integer_decimal
+                  (integer)))
+              right: (simple_name))))))))

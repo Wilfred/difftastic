@@ -1,24 +1,25 @@
 ==============================================================
 Ambiguity I
 ==============================================================
--- Possible interpretations:
+-- possible interpretations:
 -- (function_call
 --     (function_name "foo")
---     ...)
+--      (_name "bar"))
 --
 -- (type_conversion
 --      (type_name "foo")
---      ...)
+--      (_name "bar"))
 --
 -- (indexed_name
 --      (array_name "foo")
---      (object_name "bar"))
+--      (_name "bar"))
 --
 -- (slice_name
 --      (array_name "foo")
 --      (subtype_name "bar"))
 
 assert foo(bar);
+
 ---
 
 (design_file
@@ -38,14 +39,11 @@ assert foo(bar);
   (comment)
   (comment)
   (comment)
-  (PSL_assertion_directive
-    property: (ambiguous_name
+  (assertion_statement
+    condition: (ambiguous_name
       prefix: (simple_name)
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
+      (expression_list
+        expression: (simple_name)))))
 
 ==============================================================
 Ambiguity II
@@ -53,15 +51,16 @@ Ambiguity II
 -- Possible interpretations:
 -- (function_call
 --     (function_name "foo")
---     (object_name "bar")
---     (object_name "baz"))
+--     (_name "bar")
+--     (_name "baz"))
 --
--- (slice_name
+-- (indexed_name
 --     (array_name "foo")
---     (subtype_name "bar")
---     (subtype_name "baz"))
+--     (_name "bar")
+--     (_name "baz"))
 
 assert foo(bar, baz);
+
 ---
 
 (design_file
@@ -75,18 +74,12 @@ assert foo(bar, baz);
   (comment)
   (comment)
   (comment)
-  (PSL_assertion_directive
-    property: (ambiguous_name
+  (assertion_statement
+    condition: (ambiguous_name
       prefix: (simple_name)
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name))))
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
+      (expression_list
+        expression: (simple_name)
+        expression: (simple_name)))))
 
 ==============================================================
 Ambiguity III
@@ -101,6 +94,7 @@ Ambiguity III
 --      (object_name "bar"))
 
 assert foobar(foo=>bar)(bar);
+
 ---
 
 (design_file
@@ -112,298 +106,45 @@ assert foobar(foo=>bar)(bar);
   (comment)
   (comment)
   (comment)
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (ambiguous_name
-        prefix: (simple_name)
+  (assertion_statement
+    condition: (ambiguous_name
+      prefix: (function_call
+        function_name: (simple_name)
         (association_list
           (named_association_element
-            (formal_part
-              (formal_designator))
-            (actual_part
-              (actual_designator
-                (simple_name))))))
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
+            formal_part: (simple_name)
+            actual_part: (simple_name))))
+      (expression_list
+        expression: (simple_name)))))
 
 ==============================================================
-Ambiguity IV
+Ambiguous name on ambiguous name
 ==============================================================
--- Possible interpretation (in pseudo s-expression)
--- (slice_name
---      (type_conversion ...)
---      (subtype_name "bar"))
---
--- (indexed_name
---      (type_conversion ...)
---      (object_name "bar"))
-
-assert bit_vector(foo)(bar);
+assert foo(bar(x));
 ---
 
 (design_file
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (ambiguous_name
-        prefix: (simple_name)
-        (association_list
-          (positional_association_element
-            (actual_part
-              (actual_designator
-                (simple_name))))))
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
-
-
-==============================================================
-Function call - Formal part
-==============================================================
-assert foo(a=>b);
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (ambiguous_name
+  (assertion_statement
+    condition: (ambiguous_name
       prefix: (simple_name)
-      (association_list
-        (named_association_element
-          (formal_part
-            (formal_designator))
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
+      (expression_list
+        expression: (ambiguous_name
+          prefix: (simple_name)
+          (expression_list
+            expression: (simple_name)))))))
 
 ==============================================================
-Function call - Type conversion on formal part
+PSL Built-ins functions names (not reserved words)
 ==============================================================
-assert foo(positive(a)=>b);
+t <= prev(x);
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (simple_name)
-      (association_list
-        (named_association_element
-          (formal_part
-            (ambiguous_name
-              prefix: (simple_name)
-              (association_list
-                (positional_association_element
-                  (actual_part
-                    (actual_designator
-                      (simple_name)))))))
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
-
-==============================================================
-Function call - Type conversion on actual part
-==============================================================
-assert foo(a=>positive(a));
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (simple_name)
-      (association_list
-        (named_association_element
-          (formal_part
-            (formal_designator))
-          (actual_part
-            (actual_designator
-              (ambiguous_name
-                prefix: (simple_name)
-                (association_list
-                  (positional_association_element
-                    (actual_part
-                      (actual_designator
-                        (simple_name)))))))))))))
-
-==============================================================
-Function call - Attribute name on formal part
-==============================================================
-assert foo(a'b(a)=>b);
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (simple_name)
-      (association_list
-        (named_association_element
-          (formal_part
-            (ambiguous_name
-              prefix: (attribute_name
-                prefix: (simple_name)
-                (attribute_designator))
-              (association_list
-                (positional_association_element
-                  (actual_part
-                    (actual_designator
-                      (simple_name)))))))
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
-
-==============================================================
-Function call - Conversion function on formal part
-==============================================================
-assert foo(bar(a)=>b);
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (simple_name)
-      (association_list
-        (named_association_element
-          (formal_part
-            (ambiguous_name
-              prefix: (simple_name)
-              (association_list
-                (positional_association_element
-                  (actual_part
-                    (actual_designator
-                      (simple_name)))))))
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
-
-
-==============================================================
-Function call - Operation symbol
-==============================================================
-assert "and"(a);
-assert "xor"(a,b);
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (operator_symbol)
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name)))))))
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (operator_symbol)
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name))))
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
-
-==============================================================
-Function call - Open
-==============================================================
-assert foo(open);
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (simple_name)
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (open))))))))
-
-
-==============================================================
-Function call on ambiguous name's actual
-==============================================================
-assert foo(bar(open));
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (simple_name)
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (ambiguous_name
-                prefix: (simple_name)
-                (association_list
-                  (positional_association_element
-                    (actual_part
-                      (actual_designator
-                        (open)))))))))))))
-
-==============================================================
-Function call - Attribute expression
-==============================================================
-assert foo'val(bar);
-assert foo'image(bar);
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (attribute_name
-        prefix: (simple_name)
-        (attribute_designator))
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name)))))))
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (attribute_name
-        prefix: (simple_name)
-        (attribute_designator))
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
-
-==============================================================
-Function name - Enumeration literal actual
-==============================================================
-assert foo('+');
-assert foo(true);
----
-
-(design_file
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (simple_name)
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (character_literal)))))))
-  (PSL_assertion_directive
-    property: (ambiguous_name
-      prefix: (simple_name)
-      (association_list
-        (positional_association_element
-          (actual_part
-            (actual_designator
-              (simple_name))))))))
+  (simple_waveform_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        value: (ambiguous_name
+          prefix: (simple_name)
+          (expression_list
+            expression: (simple_name)))))))

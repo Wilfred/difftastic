@@ -2,10 +2,8 @@
 Null literal
 ============================================
 assert null;
-
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (null)))
-
+  (assertion_statement
+     (null)))

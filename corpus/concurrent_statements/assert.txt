@@ -6,20 +6,42 @@ A1: assert a;
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (simple_name))
-  (label)
-  (PSL_assertion_directive
-    property: (simple_name)))
+  (assertion_statement
+    condition: (simple_name))
+  (assertion_statement
+    (label (identifier))
+    condition: (simple_name)))
 
 ==============================
-Label
+Report
 ==============================
-assert a report "str" severity failure;
+assert a report "str";
 ---
 
 (design_file
-  (PSL_assertion_directive
-    property: (simple_name)
-    report: (string_literal)
-    severity: (severity_level)))
+  (assertion_statement
+    condition: (simple_name)
+    report: (string_literal)))
+
+==============================
+Severity
+==============================
+assert a severity note;
+---
+
+(design_file
+  (assertion_statement
+    condition: (simple_name)
+    severity: (simple_name)))
+
+==============================
+Report and severity
+==============================
+assert a report K_MSG severity failure;
+---
+
+(design_file
+  (assertion_statement
+    condition: (simple_name)
+    report: (simple_name)
+    severity: (simple_name)))

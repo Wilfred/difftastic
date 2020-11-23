@@ -49,32 +49,30 @@ procedure p
 function f
     generic (k : t) return t;
 ---
+
 (design_file
   (subprogram_declaration
     (procedure_specification
       designator: (identifier)
-      (subprogram_header
+      (header
         (generic_clause
-          (generic_interface_list
-            (interface_constant_declaration
-              (identifier_list
-                (identifier))
-              (subtype_indication
-                type_mark: (simple_name))))))))
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name)))))))
   (subprogram_declaration
     (pure_function_specification
       designator: (identifier)
-      (subprogram_header
+      (header
         (generic_clause
-          (generic_interface_list
-            (interface_constant_declaration
-              (identifier_list
-                (identifier))
-              (subtype_indication
-                type_mark: (simple_name))))))
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name)))))
       (return
         type_mark: (simple_name)))))
-
 
 =======================================
 Header - Generic Map aspect
@@ -92,37 +90,31 @@ function f
   (subprogram_declaration
     (procedure_specification
       designator: (identifier)
-      (subprogram_header
+      (header
         (generic_clause
-          (generic_interface_list
-            (interface_constant_declaration
-              (identifier_list
-                (identifier))
-              (subtype_indication
-                type_mark: (simple_name)))))
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
         (generic_map_aspect
           (generic_association_list
             (positional_association_element
-              (actual_part
-                (actual_designator
-                  (simple_name)))))))))
+              actual_part: (simple_name)))))))
   (subprogram_declaration
     (pure_function_specification
       designator: (identifier)
-      (subprogram_header
+      (header
         (generic_clause
-          (generic_interface_list
-            (interface_constant_declaration
-              (identifier_list
-                (identifier))
-              (subtype_indication
-                type_mark: (simple_name)))))
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name))))
         (generic_map_aspect
           (generic_association_list
             (positional_association_element
-              (actual_part
-                (actual_designator
-                  (simple_name)))))))
+              actual_part: (simple_name)))))
       (return
         type_mark: (simple_name)))))
 
@@ -138,18 +130,16 @@ procedure p
   (subprogram_declaration
     (procedure_specification
       designator: (identifier)
-      (subprogram_header
+      (header
         (generic_clause
-          (generic_interface_list
-            (interface_constant_declaration
-              (identifier_list
-                (identifier))
-              (subtype_indication
-                type_mark: (simple_name))))
-          (semicolon)) (comment)
+          (interface_constant_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              type_mark: (simple_name)))
+          (semicolon))
+        (comment)
         (generic_map_aspect
           (generic_association_list
             (positional_association_element
-              (actual_part
-                (actual_designator
-                  (simple_name))))))))))
+              actual_part: (simple_name))))))))

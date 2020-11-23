@@ -1,0 +1,102 @@
+=================================
+Minimal
+=================================
+type t is
+    protected body
+    end protected body;
+
+type t is
+    protected body
+    end protected body t;
+---
+
+(design_file
+  (full_type_declaration
+    (identifier)
+    (protected_type_body))
+  (full_type_declaration
+    (identifier)
+    (protected_type_body
+      at_end: (simple_name))))
+
+=================================
+LRM I
+=================================
+type SharedCounter is protected body
+   variable counter: Integer := 0;
+   procedure increment (N: Integer := 1) is
+   begin
+      counter := counter + N;
+   end procedure increment;
+   procedure decrement (N: Integer := 1) is
+   begin
+      counter := counter - N;
+   end procedure decrement;
+   impure function value return Integer is
+   begin
+      return counter;
+   end function value;
+end protected body SharedCounter;
+---
+
+(design_file
+  (full_type_declaration
+    (identifier)
+    (protected_type_body
+      (protected_type_body_declarative_part
+        (variable_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            type_mark: (simple_name))
+          default_expression: (integer_decimal
+            (integer)))
+        (subprogram_body
+          (procedure_specification
+            designator: (identifier)
+            (formal_procedure_parameter_clause
+              (interface_constant_declaration
+                (identifier_list
+                  (identifier))
+                (subtype_indication
+                  type_mark: (simple_name))
+                default_expression: (integer_decimal
+                  (integer)))))
+          (subprogram_statement_part
+            (simple_variable_assignment
+              target: (simple_name)
+              value: (simple_expression
+                left: (simple_name)
+                right: (simple_name))))
+          (subprogram_kind)
+          at_end: (simple_name))
+        (subprogram_body
+          (procedure_specification
+            designator: (identifier)
+            (formal_procedure_parameter_clause
+              (interface_constant_declaration
+                (identifier_list
+                  (identifier))
+                (subtype_indication
+                  type_mark: (simple_name))
+                default_expression: (integer_decimal
+                  (integer)))))
+          (subprogram_statement_part
+            (simple_variable_assignment
+              target: (simple_name)
+              value: (simple_expression
+                left: (simple_name)
+                right: (simple_name))))
+          (subprogram_kind)
+          at_end: (simple_name))
+        (subprogram_body
+          (impure_function_specification
+            designator: (identifier)
+            (return
+              type_mark: (simple_name)))
+          (subprogram_statement_part
+            (return_statement
+              (simple_name)))
+          (subprogram_kind)
+          at_end: (simple_name)))
+      at_end: (simple_name))))

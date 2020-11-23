@@ -1,0 +1,159 @@
+=====================================
+Minimal
+=====================================
+configuration cfg of ent is
+end;
+
+configuration cfg of ent is
+end configuration;
+
+configuration cfg of ent is
+end configuration cfg;
+---
+
+(design_file
+  (design_unit
+    (configuration_declaration
+      (identifier)
+      entity: (simple_name)))
+  (design_unit
+    (configuration_declaration
+      (identifier)
+      entity: (simple_name)))
+  (design_unit
+    (configuration_declaration
+      (identifier)
+      entity: (simple_name)
+      at_end: (simple_name))))
+
+=====================================
+Block configuration - Minimal
+=====================================
+configuration cfg of ent is
+    for arch
+    end for;
+end;
+
+configuration cfg of ent is
+    for gen(GEN1)
+    end for;
+end;
+
+configuration cfg of ent is
+    for gen(0 to 1)
+    end for;
+end;
+
+configuration cfg of ent is
+    for gen(1+1)
+    end for;
+end;
+---
+
+(design_file
+  (design_unit
+    (configuration_declaration
+      (identifier)
+      entity: (simple_name)
+      (block_configuration
+        (block_specification
+          simple_name_or_label: (simple_name)))))
+  (design_unit
+    (configuration_declaration
+      (identifier)
+      entity: (simple_name)
+      (block_configuration
+        (block_specification
+          (generate_statement_element
+            generate_statement_label: (simple_name)
+            simple_name_or_label: (simple_name))))))
+  (design_unit
+    (configuration_declaration
+      (identifier)
+      entity: (simple_name)
+      (block_configuration
+        (block_specification
+          (generate_statement_element
+            generate_statement_label: (simple_name)
+            generate_specification: (ascending_range
+              low: (integer_decimal
+                (integer))
+              high: (integer_decimal
+                (integer))))))))
+  (design_unit
+    (configuration_declaration
+      (identifier)
+      entity: (simple_name)
+      (block_configuration
+        (block_specification
+          (generate_statement_element
+            generate_statement_label: (simple_name)
+            generate_specification: (simple_expression
+              left: (integer_decimal
+                (integer))
+              right: (integer_decimal
+                (integer)))))))))
+
+=====================================
+LRM 3.4.1
+=====================================
+library TTL, Work;
+configuration V4_27_87 of Processor is
+   use Work.all;
+   for Structure_View
+      for A1: ALU
+         use configuration TTL.SN74LS181;
+      end for;
+      for M1,M2,M3: MUX
+         use entity Multiplex4 (Behavior);
+      end for;
+      for all: Latch
+          -- use defaults
+      end for;
+   end for;
+end configuration V4_27_87;
+---
+
+(design_file
+  (design_unit
+    (context_clause
+      (library_clause
+        (logical_name_list
+          logical_name: (identifier)
+          logical_name: (identifier))))
+    (configuration_declaration
+      (identifier)
+      entity: (simple_name)
+      (configuration_declarative_part
+        (use_clause
+          (selected_name
+            prefix: (simple_name)
+            suffix: (all))))
+      (block_configuration
+        (block_specification
+          simple_name_or_label: (simple_name))
+        (component_configuration
+          (component_specification
+            (instantiation_list
+              instantiation_label: (simple_name))
+            component: (simple_name))
+          (binding_indication
+            configuration: (selected_name
+              prefix: (simple_name)
+              suffix: (simple_name))))
+        (component_configuration
+          (component_specification
+            (instantiation_list
+              instantiation_label: (simple_name)
+              instantiation_label: (simple_name)
+              instantiation_label: (simple_name))
+            component: (simple_name))
+          (binding_indication
+            entity: (simple_name)
+            architecture: (simple_name)))
+        (component_configuration
+          (component_specification
+            (instantiation_list (all))
+            component: (simple_name))
+          (comment)))
+      at_end: (simple_name))))

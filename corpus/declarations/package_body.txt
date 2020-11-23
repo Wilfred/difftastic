@@ -13,11 +13,11 @@ end package body pkg;
 
 (design_file
   (package_body
-    (package_simple_name))
+    package: (simple_name))
   (package_body
-    (package_simple_name))
+    package: (simple_name))
   (package_body
-    (package_simple_name)
+    package: (simple_name)
     at_end: (simple_name)))
 
 ================================================
@@ -36,7 +36,7 @@ end;
 
 (design_file
   (package_body
-    (package_simple_name)
+    package: (simple_name)
     (package_body_declarative_part
       (deferred_constant_declaration
         (identifier_list
@@ -44,7 +44,7 @@ end;
         (subtype_indication
           type_mark: (simple_name)))))
   (package_body
-    (package_simple_name)
+    package: (simple_name)
     (package_body_declarative_part
       (deferred_constant_declaration
         (identifier_list

@@ -25,7 +25,7 @@ alias '0' is STD.STANDARD.'0' [return STD.STANDARD.BIT];
       suffix: (character_literal))
     (signature
       (return
-        type_mark: (selected_name
+       type_mark: (selected_name
           prefix: (selected_name
             prefix: (simple_name)
             suffix: (simple_name))
@@ -38,7 +38,6 @@ alias "or" is STD.STANDARD."or" [STD.STANDARD.BIT,
                                  STD.STANDARD.BIT
                           return STD.STANDARD.BIT];
 ---
-
 (design_file
   (alias_declaration
     alias_designator: (operator_symbol)
