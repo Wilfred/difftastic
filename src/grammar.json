@@ -12624,15 +12624,76 @@
       ]
     },
     "based_literal": {
-      "type": "IMMEDIATE_TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 3,
-        "content": {
-          "type": "PATTERN",
-          "value": "[0-9A-ZÀ-ÖØ-Þa-zß-öø-ÿ](_?[0-9A-ZÀ-ÖØ-Þa-zß-öø-ÿ])*"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "PREC",
+                "value": 3,
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[0-9A-ZÀ-ÖØ-Þa-zß-öø-ÿ]"
+                }
+              }
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": 3,
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "_+"
+                  }
+                }
+              },
+              "named": true,
+              "value": "based_literal_error"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": 3,
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "_?[0-9A-ZÀ-ÖØ-Þa-zß-öø-ÿ]"
+                  }
+                }
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "PREC",
+                    "value": 3,
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "__+"
+                    }
+                  }
+                },
+                "named": true,
+                "value": "based_literal_error"
+              }
+            ]
+          }
         }
-      }
+      ]
     },
     "character_literal": {
       "type": "CHOICE",

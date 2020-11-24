@@ -103,11 +103,6 @@ const BASE_SPECIFIER = [
     '([uUsS]?[bBoOxX]|d)"'
 ];
 
-const BASED_LITERAL = [
-    '['+EXTENDED_DIGIT+']'+
-    '('+UNDERLINE+'?'+'['+EXTENDED_DIGIT+']'+')*'
-];
-
 const POSITIVE_EXPONENT = [
     '[eE]\\+?'+INTEGER
 ];
@@ -3141,8 +3136,22 @@ module.exports = grammar({
         optional($._exponent),
     ),
 
-    based_literal: $ =>
-        token.immediate(prec(3,new RegExp (BASED_LITERAL))),
+    based_literal: $ => seq(
+        choice(
+            token.immediate(prec(3,new RegExp ('['+EXTENDED_DIGIT+']'))),
+            alias(
+                token.immediate(prec(3,new RegExp (UNDERLINE+'+'))),
+                $.based_literal_error
+            )
+        ),
+        repeat(choice(
+            token.immediate(prec(3,new RegExp (UNDERLINE+'?['+EXTENDED_DIGIT+']'))),
+            alias(
+                token.immediate(prec(3,new RegExp (UNDERLINE+UNDERLINE+'+'))),
+                $.based_literal_error
+            )
+        )),
+    ),
     // }}}
 
     // 15.6 Character literal {{{

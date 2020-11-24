@@ -336,3 +336,40 @@ assert 16#E1#E1 E1;
         (based_literal)
         (positive_exponent))
       unit: (simple_name))))
+
+======================================================================
+Integer based literals - Error I
+======================================================================
+assert 2#_#;
+assert 3#_2#;
+assert 4#3_#;
+---
+
+(design_file
+  (assertion_statement
+    condition: (based_integer
+      (base)
+      (based_literal (based_literal_error))))
+  (assertion_statement
+    condition: (based_integer
+      (base)
+      (based_literal (based_literal_error))))
+  (assertion_statement
+    condition: (based_integer
+      (base)
+      (ERROR)
+      (based_literal
+        (based_literal_error)))))
+
+======================================================================
+Integer based literals - Error II
+======================================================================
+assert 3#0__2#;
+---
+
+(design_file
+  (assertion_statement
+    condition: (based_integer
+      (base) (based_literal
+                (based_literal_error)))))
+

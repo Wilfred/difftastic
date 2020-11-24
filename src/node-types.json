@@ -13227,6 +13227,21 @@
     }
   },
   {
+    "type": "based_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "based_literal_error",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "based_real",
     "named": true,
     "fields": {},
@@ -30834,7 +30849,7 @@
     "named": true
   },
   {
-    "type": "based_literal",
+    "type": "based_literal_error",
     "named": true
   },
   {
