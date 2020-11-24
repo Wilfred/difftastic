@@ -306,8 +306,7 @@ module.exports = grammar({
     case: $ => seq(
       'case',
       field('value', optional($._statement)),
-      $._terminator,
-      repeat(';'),
+      optional($._terminator),
       repeat($.when),
       optional($.else),
       'end'

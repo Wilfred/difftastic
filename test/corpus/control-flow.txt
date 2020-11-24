@@ -546,6 +546,24 @@ end
     (when (pattern (identifier)) (then (identifier)))
     (else (identifier))))
 
+
+==============================
+case without line break
+==============================
+
+case a when b
+ c end
+
+---
+
+(program
+  (case (identifier)
+    (when
+      (pattern
+        (identifier))
+      (then
+        (identifier)))))
+
 ==============================
 case with splat parameter in when
 ==============================
