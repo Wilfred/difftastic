@@ -715,6 +715,9 @@ Assertion functions checking a type
 
 function f(x: any): asserts x is number {
 }
+class Foo<T> {
+  test(): this is T {}
+}
 
 ---
 
@@ -725,7 +728,19 @@ function f(x: any): asserts x is number {
     (required_parameter
       (identifier) (type_annotation (predefined_type))))
     (asserts (identifier) (predefined_type))
-    (statement_block)))
+    (statement_block))
+  (class_declaration
+    (type_identifier)
+    (type_parameters (type_parameter (type_identifier)))
+    (class_body
+      (method_definition
+        (property_identifier)
+        (formal_parameters)
+        (type_annotation
+          (type_predicate
+            (this)
+            (type_identifier)))
+        (statement_block)))))
 
 ==================================
 Tuple types
