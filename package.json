@@ -13,8 +13,8 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.16.9",
-    "tree-sitter-javascript": "github:tree-sitter/tree-sitter-javascript#3d54934"
+    "tree-sitter-cli": "^0.17.3",
+    "tree-sitter-javascript": "github:tree-sitter/tree-sitter-javascript#3d9fe97"
   },
   "scripts": {
     "build": "npm run build-typescript && npm run build-tsx",
