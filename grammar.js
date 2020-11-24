@@ -134,7 +134,6 @@ module.exports = grammar({
         $._subprogram_instantiation_declaration, // 4.4
         $._scalar_type_definition,               // 5.2.1
         $._numeric_type_definition,              // 5.2.1
-        $._range,                                // 5.2.1
         $._coefficient,                          // 5.2.4
         $._unit,                                 // 5.2.4
         $._discrete_range,                       // 5.3.2
@@ -164,6 +163,8 @@ module.exports = grammar({
         $._value,                                // 9.3.3
         $._function_name,                        // 9.3.4
         $._condition,                            // 10.3
+        $._conditional_signal_assignment,        // 10.5.4
+        $._selected_signal_assignment,           // 10.5.4
         $._signal_assignment_statement,          // 11.5
         $._concurrent_signal_assignment,         // 11.6
         $._instantiated_unit,                    // 11.7
@@ -172,6 +173,7 @@ module.exports = grammar({
         $._context_item,                         // 13.1
         $._base_specifier,                       // 15.8
         $._base_specifier_immed,                 // 15.8
+
         $._PSL_Identifier,                       // PSL
         $._PSL_Boolean,                          // PSL 5
         $._PSL_Any_Type,                         // PSL 5
@@ -179,10 +181,9 @@ module.exports = grammar({
         $._PSL_FL_Property,                      // PSL 6.2
         $._PSL_Value,                            // PSL 5
         $._PSL_SERE,                             // PSL 6.1.1
+        // TODO: prec left or right
         $._PSL_Property,                         // PSL 6.2
         $._PSL_Verification_Unit,                // PSL 7.2
-        $._PSL_Verification_Unit_Body,           // PSL 7.2
-        $._PSL_VUnit_Item,                       // PSL 7.2
         $._PSL_Extended_Ocurrence_FL_Property_Count_Specification,
         $._PSL_Extended_Ocurrence_FL_Property_Until_Specification,
     ], // }}}
@@ -4106,7 +4107,7 @@ function delimiter(delim) {
 }
 
 function reservedWord(word) {
-    return reserved(caseInsensitive(word))
+    return alias(reserved(caseInsensitive(word)), word)
 }
 
 function reserved(regex) {
@@ -4118,6 +4119,7 @@ function caseInsensitive(word) {
         .map(letter => `[${letter}${letter.toUpperCase()}]`)
         .join('')
 }
+
 
 function sepBy1(sep, rule) {
   return seq(rule, repeat(seq(sep, rule)))
