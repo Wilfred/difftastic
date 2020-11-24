@@ -17916,39 +17916,11 @@
         "required": true,
         "types": [
           {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
             "type": "selected_name",
             "named": true
           },
           {
             "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
             "named": true
           }
         ]
@@ -20178,7 +20150,7 @@
     "named": true,
     "fields": {
       "type_mark": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -24793,7 +24765,7 @@
     "named": true,
     "fields": {
       "type_mark": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -26881,49 +26853,16 @@
   {
     "type": "sensitivity_list",
     "named": true,
-    "fields": {
-      "signal": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "simple_name",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -28936,10 +28875,6 @@
           "named": true
         },
         {
-          "type": "subprogram_kind",
-          "named": true
-        },
-        {
           "type": "subprogram_statement_part",
           "named": true
         }
@@ -29127,11 +29062,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "subprogram_kind",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "subprogram_statement_part",
@@ -30926,6 +30856,10 @@
   },
   {
     "type": "simple_name",
+    "named": true
+  },
+  {
+    "type": "tool_directive",
     "named": true
   },
   {

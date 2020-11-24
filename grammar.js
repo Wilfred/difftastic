@@ -100,7 +100,7 @@ const INTEGER = [
 ];
 
 const BASE_SPECIFIER = [
-    '([uUsS]?[bBoOxX]|d)"'
+    '([uUsS]?[bBoOxX]|d)'+QUOTATION_MARK
 ];
 
 const POSITIVE_EXPONENT = [
@@ -123,6 +123,7 @@ module.exports = grammar({
 
     extras: $ => [ // {{{
         $.comment,
+        $.tool_directive,
         new RegExp('['+SPACE_CHARACTER+FORMAT_EFFECTOR+']'),
     ], // }}}
 
@@ -160,7 +161,9 @@ module.exports = grammar({
         $._external_pathname,                    // 8.7
         $._primary,                              // 9
         $._literal,                              // 9.3.2
-        $._function_name ,                       // 9.3.4
+        $._value,                                // 9.3.3
+        $._function_name,                        // 9.3.4
+        $._condition,                            // 10.3
         $._signal_assignment_statement,          // 11.5
         $._concurrent_signal_assignment,         // 11.6
         $._instantiated_unit,                    // 11.7
@@ -176,6 +179,7 @@ module.exports = grammar({
         $._PSL_FL_Property,                      // PSL 6.2
         $._PSL_Value,                            // PSL 5
         $._PSL_SERE,                             // PSL 6.1.1
+        $._PSL_Property,                         // PSL 6.2
         $._PSL_Verification_Unit,                // PSL 7.2
         $._PSL_Verification_Unit_Body,           // PSL 7.2
         $._PSL_VUnit_Item,                       // PSL 7.2
@@ -272,585 +276,596 @@ module.exports = grammar({
         [$._PSL_Sequence_Name, $._simple_name],
 
         // vhdl: `assert 1+1;`
-        [$._PSL_Property, $._condition],
         // vhdl: `assert (id -> id);`
         [$.PSL_Implication_FL_Property, $.PSL_Expression],
-        [$._PSL_Property, $.PSL_Actual_Parameter],
+        [$.PSL_Actual_Parameter],
 
         // `property p (property p2) is p2;`
-        [$.PSL_Property_Declaration, $._PSL_Property],
+        [$.PSL_Property_Declaration],
 
         // `assert forall i in boolean: p(i)`
-        [$.PSL_Property_Replicator, $._PSL_Property],
+        [$.PSL_Property_Replicator],
     ], // }}}
 
     rules: {
 
-        design_file: $ => repeat1(choice(
-            $._declaration,
-            $._sequential_statement,
-            $._concurrent_statement,
-            $.design_unit
-        )),
+     design_file: $ => repeat1(choice(
+         $._declaration,
+         $._sequential_statement,
+         $._concurrent_statement,
+         $.design_unit
+     )),
 
-        // 3.2 Entity declarations {{{
-        entity_declaration: $ => seq(
-            reservedWord('entity'),
-            $.identifier,
-            reservedWord('is'),
-            optional($.header),
-            optional($.entity_declarative_part),
-            optional(seq(
-                'begin',
-                optional($.sequence_of_statements)
-            )),
-            reservedWord('end'),
-            optional(reservedWord('entity')),
-            optional($._end_simple_name),
-            ';'
-        ),
+     // 3.2 Entity declarations {{{
+     entity_declaration: $ => seq(
+         reservedWord('entity'),
+         $.identifier,
+         reservedWord('is'),
+         optional($.header),
+         optional($.entity_declarative_part),
+         optional(seq(
+             'begin',
+             optional($.sequence_of_statements)
+         )),
+         reservedWord('end'),
+         optional(reservedWord('entity')),
+         optional($._end_simple_name),
+         ';'
+     ),
 
-        entity_declarative_part: $ => repeat1(
-            $._declaration
-        ),
+     entity_declarative_part: $ => repeat1(
+         $._declaration
+     ),
 
-        _entity_name: $ => prec(1,field(
-            'entity',
-            choice(
-                $._simple_name,
-                $.selected_name
-            ),
-        )),
-        // }}}
+     _entity_name: $ => prec(1,field(
+         'entity',
+         choice(
+             $._simple_name,
+             $.selected_name
+         ),
+     )),
+     // }}}
 
-        // 3.3 Architecture bodies {{{
-        architecture_body: $ => seq(
-            reservedWord('architecture'),
-            $.identifier,
-            reservedWord('of'),
-            $._entity_name,
-            reservedWord('is'),
-            optional($.architecture_declarative_part),
-            reservedWord('begin'),
-            optional($.architecture_statement_part),
-            reservedWord('end'),
-            optional(reservedWord('architecture')),
-            optional($._end_simple_name),
-            ';'
-        ),
+     // 3.3 Architecture bodies {{{
+     architecture_body: $ => seq(
+         reservedWord('architecture'),
+         $.identifier,
+         reservedWord('of'),
+         $._entity_name,
+         reservedWord('is'),
+         optional($.architecture_declarative_part),
+         reservedWord('begin'),
+         optional($.architecture_statement_part),
+         reservedWord('end'),
+         optional(reservedWord('architecture')),
+         optional($._end_simple_name),
+         ';'
+     ),
 
-        architecture_declarative_part: $ => repeat1(
-            $._declaration
-        ),
+     architecture_declarative_part: $ => repeat1(
+         $._declaration
+     ),
 
-        architecture_statement_part: $ => repeat1(
-            $._concurrent_statement
-        ),
-        // }}}
+     architecture_statement_part: $ => repeat1(
+         $._concurrent_statement
+     ),
+     // }}}
 
-        // 3.4 Configuration declarations {{{
-        configuration_declaration: $ => seq(
-            reservedWord('configuration'),
-            $.identifier,
-            reservedWord('of'),
-            $._entity_name,
-            reservedWord('is'),
-            optional($.configuration_declarative_part),
-            repeat(seq(
-                $.verification_unit_binding_indication,
-                ';'
-            )),
-            optional($.block_configuration),
-            reservedWord('end'),
-            optional(reservedWord('configuration')),
-            optional($._end_simple_name),
-            ';'
-        ),
+     // 3.4 Configuration declarations {{{
+     configuration_declaration: $ => seq(
+         reservedWord('configuration'),
+         $.identifier,
+         reservedWord('of'),
+         $._entity_name,
+         reservedWord('is'),
+         optional($.configuration_declarative_part),
+         repeat(seq(
+             $.verification_unit_binding_indication,
+             ';'
+         )),
+         optional($.block_configuration),
+         reservedWord('end'),
+         optional(reservedWord('configuration')),
+         optional($._end_simple_name),
+         ';'
+     ),
 
-        configuration_declarative_part: $ => prec.left(repeat1(
-            $._declaration
-        )),
+     configuration_declarative_part: $ => prec.left(repeat1(
+         $._declaration
+     )),
 
-        _configuration_name: $ => field(
-            'configuration',
-            $._name
-        ),
-        // }}}
+     _configuration_name: $ => field(
+         'configuration',
+         $._name
+     ),
+     // }}}
 
-        // 3.4.2 Block configuration {{{
-        block_configuration: $ => seq(
-            reservedWord('for'),
-            $._block_specification,
-            repeat($.use_clause),
-            repeat($._configuration_item),
-            reservedWord('end'),
-            reservedWord('for'),
-            ';'
-        ),
+     // 3.4.2 Block configuration {{{
+     block_configuration: $ => seq(
+         reservedWord('for'),
+         $._block_specification,
+         repeat($.use_clause),
+         repeat($._configuration_item),
+         reservedWord('end'),
+         reservedWord('for'),
+         ';'
+     ),
 
-        _block_specification: $ => alias(
-            $.pathname_element,
-            $.block_specification
-        ),
+     _block_specification: $ => alias(
+         $.pathname_element,
+         $.block_specification
+     ),
 
-        generate_statement_element: $ => seq(
-            $._generate_statement_label,
-            '(',
-            $._generate_specification,
-            ')'
-        ),
+     generate_statement_element: $ => seq(
+         $._generate_statement_label,
+         '(',
+         $._generate_specification,
+         ')'
+     ),
 
-        _generate_statement_label: $ => field(
-            'generate_statement_label',
-            $._simple_name
-        ),
+     _generate_statement_label: $ => field(
+         'generate_statement_label',
+         $._simple_name
+     ),
 
-        _generate_specification: $ => prec(1,field(
-            'generate_specification',
-            choice(
-                $._expression,
-                $._range,
-                $._simple_name_or_label
-            )
-        )),
+     _generate_specification: $ => prec(1,field(
+         'generate_specification',
+         choice(
+             $._expression,
+             $._range,
+             $._simple_name_or_label
+         )
+     )),
 
-        _configuration_item: $ => choice(
-            $.block_configuration,
-            $.component_configuration
-        ),
-        // }}}
+     _configuration_item: $ => choice(
+         $.block_configuration,
+         $.component_configuration
+     ),
+     // }}}
 
-        // 3.4.3 Component Configuration {{{
-        component_configuration: $ => seq(
-            reservedWord('for'),
-            $.component_specification,
-            optional(seq($.binding_indication, ';')),
-            repeat(seq(
-                $.verification_unit_binding_indication,
-                ';'
-            )),
-            optional($.block_configuration),
-            reservedWord('end'),
-            reservedWord('for'),
-            ';'
-        ),
-        // }}}
+     // 3.4.3 Component Configuration {{{
+     component_configuration: $ => seq(
+         reservedWord('for'),
+         $.component_specification,
+         optional(seq($.binding_indication, ';')),
+         repeat(seq(
+             $.verification_unit_binding_indication,
+             ';'
+         )),
+         optional($.block_configuration),
+         reservedWord('end'),
+         reservedWord('for'),
+         ';'
+     ),
+     // }}}
 
-        // 4.2.1 Subprogram declarations {{{
-        subprogram_declaration: $ => seq(
-            $._subprogram_specification, ';'
-        ),
+     // 4.2.1 Subprogram declarations {{{
+     subprogram_declaration: $ => seq(
+         $._subprogram_specification, ';'
+     ),
 
-        _subprogram_specification: $ => choice(
-            $.procedure_specification,
-            $.pure_function_specification,
-            $.impure_function_specification
-        ),
+     _subprogram_specification: $ => choice(
+         $.procedure_specification,
+         $.pure_function_specification,
+         $.impure_function_specification
+     ),
 
-        procedure_specification: $ => seq(
-            reservedWord('procedure'),
-            $._designator,
-            optional($.header),
-            optional($.formal_procedure_parameter_clause),
-        ),
+     procedure_specification: $ => seq(
+         field(
+             'header_keyword',
+             reservedWord('procedure'),
+         ),
+         $._designator,
+         optional($.header),
+         optional($.formal_procedure_parameter_clause),
+     ),
 
-        pure_function_specification: $ => seq(
-            optional(reservedWord('pure')),
-            reservedWord('function'),
-            $._designator,
-            optional($.header),
-            optional($.formal_function_parameter_clause),
-            $.return
-        ),
+     pure_function_specification: $ => seq(
+         optional(reservedWord('pure')),
+         field(
+             'header_keyword',
+             reservedWord('function'),
+         ),
+         $._designator,
+         optional($.header),
+         optional($.formal_function_parameter_clause),
+         $.return
+     ),
 
-        impure_function_specification: $ => seq(
-            reservedWord('impure'),
-            reservedWord('function'),
-            $._designator,
-            optional($.header),
-            optional($.formal_function_parameter_clause),
-            $.return
-        ),
+     impure_function_specification: $ => seq(
+         reservedWord('impure'),
+         field(
+             'header_keyword',
+             reservedWord('function'),
+         ),
+         $._designator,
+         optional($.header),
+         optional($.formal_function_parameter_clause),
+         $.return
+     ),
 
-        return: $ => seq(
-            reservedWord('return'),
-            $._type_mark,
-        ),
+     return: $ => seq(
+         reservedWord('return'),
+         $._type_mark,
+     ),
 
-        _end_designator: $ => field(
-            'at_end',
-            choice(
-                $._end_simple_name,
-                $._operator_symbol
-            )
-        ),
+     _end_designator: $ => field(
+         'at_end',
+         choice(
+             $._end_simple_name,
+             $._operator_symbol
+         )
+     ),
 
-        _designator: $ => field(
-            'designator',
-            choice(
-                $.identifier,
-                $._operator_symbol,
-            ),
-        ),
-        // }}}
+     _designator: $ => field(
+         'designator',
+         choice(
+             $.identifier,
+             $._operator_symbol,
+         ),
+     ),
+     // }}}
 
-        // 4.2.2.1 Formal parameter list {{{
-        // ref formal_parameter_list
-        formal_procedure_parameter_clause: $ => seq(
-            optional(reservedWord('parameter')),
-            '(',
-            $._procedure_parameter_list,
-            ')',
-        ),
+     // 4.2.2.1 Formal parameter list {{{
+     // ref formal_parameter_list
+     formal_procedure_parameter_clause: $ => seq(
+         optional(reservedWord('parameter')),
+         '(',
+         $._procedure_parameter_list,
+         ')',
+     ),
 
-        formal_function_parameter_clause: $ => seq(
-            optional(reservedWord('parameter')),
-            '(',
-            $._function_parameter_list,
-            ')',
-        ),
-        // }}}
+     formal_function_parameter_clause: $ => seq(
+         optional(reservedWord('parameter')),
+         '(',
+         $._function_parameter_list,
+         ')',
+     ),
+     // }}}
 
-        // 4.3 Subprogram bodies {{{
-        subprogram_body: $ => seq(
-            $._subprogram_specification,
-            reservedWord('is'),
-            optional($.subprogram_declarative_part),
-            reservedWord('begin'),
-            optional($._subprogram_statement_part),
-            reservedWord('end'),
-            optional($.subprogram_kind),
-            optional($._end_designator),
-            ';'
-        ),
+     // 4.3 Subprogram bodies {{{
+     subprogram_body: $ => seq(
+         $._subprogram_specification,
+         reservedWord('is'),
+         optional($.subprogram_declarative_part),
+         reservedWord('begin'),
+         optional($._subprogram_statement_part),
+         reservedWord('end'),
+         optional($._subprogram_kind),
+         optional($._end_designator),
+         ';'
+     ),
 
-        subprogram_kind: $ => choice(
+    _subprogram_kind: $ => field(
+        'footer_keyword',
+        choice(
             reservedWord('procedure'),
             reservedWord('function')
         ),
+    ),
 
-        subprogram_declarative_part: $ => repeat1(
-            $._declaration
-        ),
+     subprogram_declarative_part: $ => repeat1(
+         $._declaration
+     ),
 
-        _subprogram_statement_part: $ => alias(
-            $.sequence_of_statements,
-            $.subprogram_statement_part
-        ),
-        // }}}
+     _subprogram_statement_part: $ => alias(
+         $.sequence_of_statements,
+         $.subprogram_statement_part
+     ),
+     // }}}
 
-        // 4.4 Subprogram instantiation declaration {{{
-        _subprogram_instantiation_declaration: $ => choice(
-            $.function_instantiation_declaration,
-            $.procedure_instantiation_declaration
-        ),
+     // 4.4 Subprogram instantiation declaration {{{
+     _subprogram_instantiation_declaration: $ => choice(
+         $.function_instantiation_declaration,
+         $.procedure_instantiation_declaration
+     ),
 
-        function_instantiation_declaration: $ => seq(
-            reservedWord('function'),
-            $._designator,
-            reservedWord('is'),
-            reservedWord('new'),
-            $._uninstantiated_subprogram,
-            optional($.signature),
-            optional($.generic_map_aspect),
-            ';'
-        ),
+     function_instantiation_declaration: $ => seq(
+         reservedWord('function'),
+         $._designator,
+         reservedWord('is'),
+         reservedWord('new'),
+         $._uninstantiated_subprogram,
+         optional($.signature),
+         optional($.generic_map_aspect),
+         ';'
+     ),
 
-        procedure_instantiation_declaration: $ => seq(
-            reservedWord('procedure'),
-            $._designator,
-            reservedWord('is'),
-            reservedWord('new'),
-            $._uninstantiated_subprogram,
-            optional($.signature),
-            optional($.generic_map_aspect),
-            ';'
-        ),
+     procedure_instantiation_declaration: $ => seq(
+         reservedWord('procedure'),
+         $._designator,
+         reservedWord('is'),
+         reservedWord('new'),
+         $._uninstantiated_subprogram,
+         optional($.signature),
+         optional($.generic_map_aspect),
+         ';'
+     ),
 
-        _uninstantiated_subprogram: $ => field(
-            'uninstantiated_subprogram',
-            $._name,
-        ),
-        // }}}
+     _uninstantiated_subprogram: $ => field(
+         'uninstantiated_subprogram',
+         $._name,
+     ),
+     // }}}
 
-        // 4.7 Package declarations {{{
-        package_declaration: $ => seq(
-            reservedWord('package'),
-            $.identifier,
-            reservedWord('is'),
-            optional($.header),
-            optional($.package_declarative_part),
-            reservedWord('end'),
-            optional(reservedWord('package')),
-            optional($._end_simple_name),
-            ';'
-        ),
+     // 4.7 Package declarations {{{
+     package_declaration: $ => seq(
+         reservedWord('package'),
+         $.identifier,
+         reservedWord('is'),
+         optional($.header),
+         optional($.package_declarative_part),
+         reservedWord('end'),
+         optional(reservedWord('package')),
+         optional($._end_simple_name),
+         ';'
+     ),
 
-        package_declarative_part: $ => repeat1(
-            $._declaration
-        ),
-        // }}}
+     package_declarative_part: $ => repeat1(
+         $._declaration
+     ),
+     // }}}
 
-        // 4.8 Package bodies {{{
-        package_body: $ => seq(
-            reservedWord('package'),
-            reservedWord('body'),
-            $._package_name,
-            reservedWord('is'),
-            optional($.package_body_declarative_part),
-            reservedWord('end'),
-            optional(seq(
-                reservedWord('package'),
-                reservedWord('body'),
-            )),
-            optional($._end_simple_name),
-            ';'
-        ),
+     // 4.8 Package bodies {{{
+     package_body: $ => seq(
+         reservedWord('package'),
+         reservedWord('body'),
+         $._package_name,
+         reservedWord('is'),
+         optional($.package_body_declarative_part),
+         reservedWord('end'),
+         optional(seq(
+             reservedWord('package'),
+             reservedWord('body'),
+         )),
+         optional($._end_simple_name),
+         ';'
+     ),
 
-        _package_name: $ => field(
-            'package',
-            $._simple_name
-        ),
+     _package_name: $ => field(
+         'package',
+         $._simple_name
+     ),
 
-        package_body_declarative_part: $ => repeat1(
-            $._declaration
-        ),
-        // }}}
+     package_body_declarative_part: $ => repeat1(
+         $._declaration
+     ),
+     // }}}
 
-        // 4.9 Package instantiation Declarations {{{
-        package_instantiation_declaration: $ => seq(
-            reservedWord('package'),
-            $.identifier,
-            reservedWord('is'),
-            reservedWord('new'),
-            $._uninstantiated_package,
-            optional($.generic_map_aspect),
-            ';'
-        ),
+     // 4.9 Package instantiation Declarations {{{
+     package_instantiation_declaration: $ => seq(
+         reservedWord('package'),
+         $.identifier,
+         reservedWord('is'),
+         reservedWord('new'),
+         $._uninstantiated_package,
+         optional($.generic_map_aspect),
+         ';'
+     ),
 
-        _uninstantiated_package: $ => field(
-            'uninstantiated_package',
-            $._name
-        ),
+     _uninstantiated_package: $ => field(
+         'uninstantiated_package',
+         $._name
+     ),
 
-        // }}}
+     // }}}
 
-        // 4.5.3 Signatures {{{
-        signature: $ => seq(
-            '[',
-            sepBy(',',$._type_mark),
-            optional($.return),
-            ']',
-        ),
-        // }}}
+     // 4.5.3 Signatures {{{
+     signature: $ => seq(
+         '[',
+         sepBy(',',$._type_mark),
+         optional($.return),
+         ']',
+     ),
+     // }}}
 
-        // 5.2.1 Scalar types {{{
-        _scalar_type_definition: $ => choice(
-            $.enumeration_type_definition,
-            $._numeric_type_definition,
-            $.physical_type_definition
-        ),
+     // 5.2.1 Scalar types {{{
+     _scalar_type_definition: $ => choice(
+         $.enumeration_type_definition,
+         $._numeric_type_definition,
+         $.physical_type_definition
+     ),
 
-        _numeric_type_definition: $ => alias(
-            $.range_constraint,
-            $.numeric_type_definition
-        ),
+     _numeric_type_definition: $ => alias(
+         $.range_constraint,
+         $.numeric_type_definition
+     ),
 
-        range_constraint: $ => seq(
-            reservedWord('range'),
-            $._range
-        ),
+     range_constraint: $ => seq(
+         reservedWord('range'),
+         $._range
+     ),
 
-        _range: $ => choice(
-            $.ascending_range,
-            $.descending_range,
-            $.range_attribute_name,
-            $.range_attribute_function_call
-        ),
+     _range: $ => choice(
+         $.ascending_range,
+         $.descending_range,
+         $.range_attribute_name,
+         $.range_attribute_function_call
+     ),
 
-        range_attribute_name: $ => seq(
-            $._prefix,
-            $.range_attribute_designator,
-        ),
+     range_attribute_name: $ => seq(
+         $._prefix,
+         $.range_attribute_designator,
+     ),
 
-        range_attribute_function_call: $ => seq(
-            field('function_call', $.range_attribute_name),
-            '(',
-            $.association_list,
-            ')'
-        ),
+     range_attribute_function_call: $ => seq(
+         field('function_call', $.range_attribute_name),
+         '(',
+         $.association_list,
+         ')'
+     ),
 
-        ascending_range: $ => seq(
-            field('low',$._expression),
-            reservedWord('to'),
-            field('high',$._expression),
-        ),
+     ascending_range: $ => seq(
+         field('low',$._expression),
+         reservedWord('to'),
+         field('high',$._expression),
+     ),
 
-        descending_range: $ => seq(
-            field('high',$._expression),
-            reservedWord('downto'),
-            field('low',$._expression),
-        ),
-        // }}}
+     descending_range: $ => seq(
+         field('high',$._expression),
+         reservedWord('downto'),
+         field('low',$._expression),
+     ),
+     // }}}
 
-        // 5.2.2 Enumeration types {{{
-        enumeration_type_definition: $ => seq(
-            '(',
-            sepBy1(',',$._enumeration_literal),
-            ')'
-        ),
+     // 5.2.2 Enumeration types {{{
+     enumeration_type_definition: $ => seq(
+         '(',
+         sepBy1(',',$._enumeration_literal),
+         ')'
+     ),
 
-        _enumeration_literal: $ => field(
-            'enumerator',
-            choice(
-                $.character_literal,
-                $.identifier
-            )
-        ),
-        // }}}
+     _enumeration_literal: $ => field(
+         'enumerator',
+         choice(
+             $.character_literal,
+             $.identifier
+         )
+     ),
+     // }}}
 
-        // 5.2.4 Physical types {{{
-        physical_type_definition: $ => seq(
-            $.range_constraint,
-            reservedWord('units'),
-            $.primary_unit_declaration,
-            repeat($.secondary_unit_declaration),
-            reservedWord('end'),
-            reservedWord('units'),
-            optional($._end_simple_name)
-        ),
+     // 5.2.4 Physical types {{{
+     physical_type_definition: $ => seq(
+         $.range_constraint,
+         reservedWord('units'),
+         $.primary_unit_declaration,
+         repeat($.secondary_unit_declaration),
+         reservedWord('end'),
+         reservedWord('units'),
+         optional($._end_simple_name)
+     ),
 
-        primary_unit_declaration: $ => seq(
-            $.identifier,
-            ';'
-        ),
+     primary_unit_declaration: $ => seq(
+         $.identifier,
+         ';'
+     ),
 
-        secondary_unit_declaration: $ => seq(
-            $.identifier,
-            '=',
-            choice(
-                $.physical_literal,
-                alias(
-                    $._physical_literal,
-                    $.physical_literal
-                ),
-            ),
-            ';'
-        ),
+     secondary_unit_declaration: $ => seq(
+         $.identifier,
+         '=',
+         choice(
+             $.physical_literal,
+             alias(
+                 $._physical_literal,
+                 $.physical_literal
+             ),
+         ),
+         ';'
+     ),
 
-        _physical_literal: $ => seq(
-            $._unit
-        ),
+     _physical_literal: $ => seq(
+         $._unit
+     ),
 
-        physical_literal: $ => prec(-1,seq(
-            $._coefficient,
-            $._unit,
-        )),
+     physical_literal: $ => prec(-1,seq(
+         $._coefficient,
+         $._unit,
+     )),
 
-        _coefficient: $ => field(
-            'coefficient',
-            $._abstract_literal
-        ),
+     _coefficient: $ => field(
+         'coefficient',
+         $._abstract_literal
+     ),
 
-        _unit: $ => prec(-1,field(
-            'unit',
-            $._name
-        )),
-        // }}}
+     _unit: $ => prec(-1,field(
+         'unit',
+         $._name
+     )),
+     // }}}
 
-        // 5.3 Composite types {{{
-        _composite_type_definition: $ => choice(
-            $._array_type_definition,
-            $.record_type_definition
-        ),
-        // }}}
+     // 5.3 Composite types {{{
+     _composite_type_definition: $ => choice(
+         $._array_type_definition,
+         $.record_type_definition
+     ),
+     // }}}
 
-        // 5.3.2 Array types {{{
-        _array_type_definition: $ => choice(
-            $.unbounded_array_definition,
-            $.constrained_array_definition
-        ),
+     // 5.3.2 Array types {{{
+     _array_type_definition: $ => choice(
+         $.unbounded_array_definition,
+         $.constrained_array_definition
+     ),
 
-        unbounded_array_definition: $ => seq(
-            reservedWord('array'),
-            '(',
-            sepBy1(',', $.index_subtype_definition),
-            ')',
-            reservedWord('of'),
-            $._element_subtype_indication
-        ),
+     unbounded_array_definition: $ => seq(
+         reservedWord('array'),
+         '(',
+         sepBy1(',', $.index_subtype_definition),
+         ')',
+         reservedWord('of'),
+         $._element_subtype_indication
+     ),
 
-        constrained_array_definition: $ => seq(
-            reservedWord('array'),
-            $.index_constraint,
-            reservedWord('of'),
-            $._element_subtype_indication
-        ),
+     constrained_array_definition: $ => seq(
+         reservedWord('array'),
+         $.index_constraint,
+         reservedWord('of'),
+         $._element_subtype_indication
+     ),
 
-        _element_subtype_indication: $ => alias(
-            $.subtype_indication,
-            $.element_subtype_indication
-        ),
+     _element_subtype_indication: $ => alias(
+         $.subtype_indication,
+         $.element_subtype_indication
+     ),
 
-        index_subtype_definition: $ => seq(
-            $._type_mark,
-            reservedWord('range'),
-            field('range', $._any)
-        ),
+     index_subtype_definition: $ => seq(
+         $._type_mark,
+         reservedWord('range'),
+         field('range', $._any)
+     ),
 
-        array_constraint: $ => seq(
-            $.index_constraint,
-            optional($._array_element_constraint)
-        ),
+     array_constraint: $ => seq(
+         $.index_constraint,
+         optional($._array_element_constraint)
+     ),
 
-        _array_element_constraint: $ => alias(
-            $._element_constraint,
-            $.array_element_constraint
-        ),
+     _array_element_constraint: $ => alias(
+         $._element_constraint,
+         $.array_element_constraint
+     ),
 
-        index_constraint: $ => seq(
-            '(',
-            choice(
-                sepBy1(',',$._discrete_range),
-                $.open
-            ),
-            ')',
-        ),
+     index_constraint: $ => seq(
+         '(',
+         choice(
+             sepBy1(',',$._discrete_range),
+             $.open
+         ),
+         ')',
+     ),
 
-        _discrete_range: $ => choice(
-            $.subtype_indication,
-            $._range,
-        ),
+     _discrete_range: $ => choice(
+         $.subtype_indication,
+         $._range,
+     ),
 
-        open: $ => reservedWord('open'),
-        // }}}
+     open: $ => reservedWord('open'),
+     // }}}
 
-        // 5.3.3 Record types {{{
-        record_type_definition: $ => seq(
-            reservedWord('record'),
-            repeat1($.element_declaration),
-            reservedWord('end'),
-            reservedWord('record'),
-            optional($._end_simple_name)
-        ),
+     // 5.3.3 Record types {{{
+     record_type_definition: $ => seq(
+         reservedWord('record'),
+         repeat1($.element_declaration),
+         reservedWord('end'),
+         reservedWord('record'),
+         optional($._end_simple_name)
+     ),
 
-        element_declaration: $ => seq(
-            $.identifier_list,
-            ':',
-            $._element_subtype_indication,
-            ';'
-        ),
+     element_declaration: $ => seq(
+         $.identifier_list,
+         ':',
+         $._element_subtype_indication,
+         ';'
+     ),
 
-        record_constraint: $ => seq(
-            '(',
-            sepBy1(',',$.record_element_constraint),
-            ')'
-        ),
+     record_constraint: $ => seq(
+         '(',
+         sepBy1(',',$.record_element_constraint),
+         ')'
+     ),
 
-        record_element_constraint: $ => prec(1,seq(
-            field('record_element', $._simple_name),
-            $._element_constraint
-        )),
+     record_element_constraint: $ => prec(1,seq(
+         field('record_element', $._simple_name),
+         $._element_constraint
+     )),
 
     identifier_list: $ => sepBy1(',', $.identifier),
     // }}}
@@ -1262,12 +1277,15 @@ module.exports = grammar({
     ),
 
     interface_subprogram_default: $ => choice(
-        field('subprogram',choice(
-            $._simple_name,
-            $.selected_name,
-            $.character_literal,
-            $._operator_symbol
-        )),
+        field(
+            'subprogram',
+            choice(
+                $._simple_name,
+                $.selected_name,
+                $.character_literal,
+                $._operator_symbol
+            )
+        ),
         $._same
     ),
 
@@ -1660,9 +1678,14 @@ module.exports = grammar({
         $._entity_name,
         optional(seq(
             '(',
-            field('architecture', $._simple_name),
+            $._architecture_name,
             ')',
         ))
+    ),
+
+    _architecture_name: $ => field(
+        'architecture',
+        $._simple_name
     ),
 
     _configuration_aspect: $ => seq(
@@ -1691,14 +1714,14 @@ module.exports = grammar({
         reservedWord('disconnect'),
         $.guarded_signal_specification,
         reservedWord('after'),
-        field('after',$._expression),
+        $._after,
         ';'
     ),
 
     guarded_signal_specification: $ => seq(
         $.signal_list,
         ':',
-        field('type_mark',$._type_mark),
+        $._type_mark,
     ),
 
     signal_list: $ => choice(
@@ -1707,7 +1730,10 @@ module.exports = grammar({
         $._all
     ),
 
-    _signal_name: $ => field('signal',$._name),
+    _signal_name: $ => field(
+        'signal',
+        $._name
+    ),
     // }}}
 
     // 8 Names {{{
@@ -1810,7 +1836,7 @@ module.exports = grammar({
         $.attribute_designator
     )),
 
-    range_attribute_designator: $ => token(prec(3,new RegExp (RANGE_ATTRIBUTE))),
+    range_attribute_designator: $ => reserved(RANGE_ATTRIBUTE),
 
     attribute_designator: $ => token(
         delimiter(new RegExp ('\''+IDENTIFIER))
@@ -1857,7 +1883,10 @@ module.exports = grammar({
         $.relative_pathname
     ),
 
-    _object_name:  $ => field('object' , $._simple_name),
+    _object_name:  $ => field(
+        'object',
+        $._simple_name
+    ),
 
     package_pathname: $ => seq(
         '@',
@@ -1971,7 +2000,10 @@ module.exports = grammar({
         $._time_expression
     ),
 
-    _time_expression: $ => field('time', $._expression),
+    _time_expression: $ => field(
+        'time',
+        $._expression
+    ),
 
     // 9.1 Operations {{{
     condition: $ => seq(
@@ -2140,11 +2172,16 @@ module.exports = grammar({
             $.choices,
             delimiter('=>'),
         )),
-        field('value',$._expression),
+        $._value
     )),
 
+    _value: $ => field(
+        'value',
+        $._expression
+    ),
+
     choices: $ => sepBy1('|', field('choice',$._choice)),
-    
+
     _choice: $ => choice(
         $._expression,
         $._discrete_range,
@@ -2178,7 +2215,7 @@ module.exports = grammar({
 
     // 9.3.5 Qualified expressions {{{
     qualified_expression: $ => seq(
-        field('type_mark', $._type_mark),
+        $._type_mark,
         token.immediate('\''),
         token.immediate('('),
         sepBy1(',', $.element_asociation),
@@ -2241,18 +2278,21 @@ module.exports = grammar({
         $._until
     ),
 
-    _until: $ => field('until', $._expression),
+    _until: $ => field(
+        'until',
+        $._expression
+    ),
 
     _timeout_clause: $ => seq(
         reservedWord('for'),
         $._time_expression
     ),
 
-    sensitivity_list: $ => sepBy1(',', field('signal',$._name)),
+    sensitivity_list: $ => sepBy1(',', $._simple_name),
     // }}}
 
     // 10.3 Assertion statement {{{
-    assertion_statement: $ => prec.dynamic(10,seq(
+    assertion_statement: $ => prec(1,seq(
         optional($.label),
         optional($._postponed),
         reservedWord('assert'),
@@ -2265,7 +2305,10 @@ module.exports = grammar({
         ';'
     )),
 
-    _condition: $ => field('condition', $._expression),
+    _condition: $ => field(
+        'condition',
+        $._expression
+    ),
     // }}}
 
     // 10.4 Report statement {{{
@@ -2304,7 +2347,7 @@ module.exports = grammar({
 
     simple_waveform_assignment: $ => seq(
         optional($.label),
-        field('target',$._target),
+        $._target,
         '<=',
         optional($._delay_mechanism),
         $.waveforms,
@@ -2313,17 +2356,17 @@ module.exports = grammar({
 
     simple_force_assignment: $ => seq(
         optional($.label),
-        field('target',$._target),
+        $._target,
         '<=',
         reservedWord('force'),
         optional($.force_mode),
-        field('value',$._expression),
+        $._value,
         ';'
     ),
 
     simple_release_assignment: $ => seq(
         optional($.label),
-        field('target',$._target),
+        $._target,
         '<=',
         reservedWord('release'),
         optional($.force_mode),
@@ -2350,9 +2393,12 @@ module.exports = grammar({
         reservedWord('inertial')
     ),
 
-    _target: $ => choice(
-        $._name,
-        $.aggregate
+    _target: $ => field(
+        'target',
+        choice(
+            $._name,
+            $.aggregate
+        ),
     ),
 
     waveforms: $ => choice(
@@ -2366,12 +2412,14 @@ module.exports = grammar({
     ),
 
     waveform_element: $ => seq(
-        field('value',$._expression),
+        $._value,
         optional(seq(
             reservedWord('after'),
-            field('after', $._expression)
+            $._after
         ))
     ),
+
+    _after: $ => field('after', $._expression),
     // }}}
 
     // 10.5.3 Conditonal signal assignments {{{
@@ -2382,7 +2430,7 @@ module.exports = grammar({
 
     conditional_waveform_assignment: $ => seq(
         optional($.label),
-        field('target',$._target),
+        $._target,
         '<=',
         optional($._delay_mechanism),
         $.conditional_waveforms,
@@ -2406,7 +2454,7 @@ module.exports = grammar({
     ),
 
     conditional_force_assignment: $ => seq(
-        field('target',$._target),
+        $._target,
         '<=',
         reservedWord('force'),
         optional($.force_mode),
@@ -2415,7 +2463,7 @@ module.exports = grammar({
     ),
 
     conditional_expressions: $ => seq(
-        field('value',$._expression),
+        $._value,
         reservedWord('when'),
         $._condition,
         repeat($.alternative_conditional_expression),
@@ -2423,7 +2471,7 @@ module.exports = grammar({
 
     alternative_conditional_expression: $ => seq(
         reservedWord('else'),
-        field('value',$._expression),
+        $._value,
         optional(seq(
             reservedWord('when'),
             $._condition,
@@ -2447,7 +2495,7 @@ module.exports = grammar({
             reservedWord('select'),
             reserved(caseInsensitive('select') + '\\?'),
         ),
-        field('target',$._target),
+        $._target,
         '<=',
         optional($._delay_mechanism),
         $.selected_waveforms,
@@ -2462,7 +2510,7 @@ module.exports = grammar({
             reservedWord('select'),
             reserved(caseInsensitive('select') + '\\?'),
         ),
-        field('target',$._target),
+        $._target,
         '<=',
         reservedWord('force'),
         optional($.force_mode),
@@ -2485,7 +2533,7 @@ module.exports = grammar({
     ),
 
     selected_expressions: $ => seq(
-        field('value',$._expression),
+        $._value,
         reservedWord('when'),
         $.choices,
         repeat($.alternative_selected_expressions)
@@ -2493,7 +2541,7 @@ module.exports = grammar({
 
     alternative_selected_expressions: $ => seq(
         ',',
-        field('value',$._expression),
+        $._value,
         reservedWord('when'),
         $.choices,
     ),
@@ -2510,9 +2558,9 @@ module.exports = grammar({
     // 10.6.2 Simple variable assignments {{{
     simple_variable_assignment: $ => seq(
         optional($.label),
-        field('target',$._target),
+        $._target,
         ':=',
-        field('value',$._expression),
+        $._value,
         ';'
     ),
     // }}}
@@ -2520,7 +2568,7 @@ module.exports = grammar({
     // 10.6.3 Conditional variable assignments {{{
     conditional_variable_assignment: $ => seq(
         optional($.label),
-        field('target',$._target),
+        $._target,
         ':=',
         $.conditional_expressions,
         ';'
@@ -2536,7 +2584,7 @@ module.exports = grammar({
             reservedWord('select'),
             reserved(caseInsensitive('select') + '\\?'),
         ),
-        field('target',$._target),
+        $._target,
         ':=',
         $.selected_expressions,
         ';'
@@ -2663,14 +2711,17 @@ module.exports = grammar({
         ';'
     ),
 
-    _loop_label: $ => field('loop_label', $._simple_name),
+    _loop_label: $ => field(
+        'loop_label',
+        $._simple_name
+    ),
     // }}}
 
     // 10.12 Exit statement {{{
     exit_statement: $ => seq(
        optional($.label),
        reservedWord('exit'),
-        optional(field('loop_label',$._simple_name)),
+        optional($._loop_label),
         optional(seq(
             reservedWord('when'),
             $._condition
@@ -2765,7 +2816,10 @@ module.exports = grammar({
         ';'
     ),
 
-    _postponed: $ => alias(reservedWord('postponed'), $.posponed),
+    _postponed: $ => alias(
+        reservedWord('postponed'),
+        $.posponed
+    ),
 
     _process_sensitivity_list: $ => alias(
         $.signal_list,
@@ -2794,7 +2848,7 @@ module.exports = grammar({
 
     guarded_simple_signal_assignment: $ => seq(
         optional($.label),
-        field('target',$._target),
+        $._target,
         '<=',
         reservedWord('guarded'),
         optional($._delay_mechanism),
@@ -2804,7 +2858,7 @@ module.exports = grammar({
 
     guarded_conditional_signal_assignment: $ => seq(
         optional($.label),
-        field('target',$._target),
+        $._target,
         '<=',
         reservedWord('guarded'),
         optional($._delay_mechanism),
@@ -2820,7 +2874,7 @@ module.exports = grammar({
             reservedWord('select'),
             reserved(caseInsensitive('select') + '\\?'),
         ),
-        field('target',$._target),
+        $._target,
         '<=',
         reservedWord('guarded'),
         optional($._delay_mechanism),
@@ -2850,10 +2904,10 @@ module.exports = grammar({
 
     entity_instantiation: $ => prec(1,seq(
         reservedWord('entity'),
-        field('entity', $._name),
+        $._entity_name,
         optional(seq(
             '(',
-            field('architecture', $._simple_name),
+            $._architecture_name,
             ')'
         ))
     )),
@@ -2929,7 +2983,10 @@ module.exports = grammar({
         ';'
     ),
 
-    _case_expression: $ => field('expression',$._expression),
+    _case_expression: $ => field(
+        'expression',
+        $._expression
+    ),
 
     case_generate_alternative: $ => seq(
         reservedWord('when'),
@@ -2977,7 +3034,10 @@ module.exports = grammar({
     ),
 
     _alternative_label: $ => seq(
-        field('alternative_label', $.identifier),
+        field(
+            'alternative_label',
+            $.identifier
+        ),
         ':'
     ),
     // }}}
@@ -3067,7 +3127,10 @@ module.exports = grammar({
 
     _context_list: $ => sepBy1(',', $._context_name),
 
-    _context_name: $ => field('context', $.selected_name),
+    _context_name: $ => field(
+        'context',
+        $.selected_name
+    ),
     // }}}
 
     // 15.4 Identifiers {{{
@@ -3237,12 +3300,12 @@ module.exports = grammar({
     tool_directive: $ => token(prec(2,new RegExp('`[^'+VT+CR+LF+FF+']*'))),
     // }}}
 
+    // PSL 5. Boolean layer {{{
     _PSL_Identifier: $ => alias(
         $.identifier,
         $.PSL_Identifier
     ),
 
-    // PSL 5. Boolean layer {{{
     _PSL_Any_Type: $ => choice(
         $._expression,
         $.PSL_Expression,
@@ -3266,7 +3329,8 @@ module.exports = grammar({
         $.PSL_Built_In_Function_Call
     ),
 
-    _PSL_Value: $ => choice(
+    _PSL_Value: $ => field(
+        'Value',
         $._PSL_Any_Type
     ),
 
@@ -3451,12 +3515,15 @@ module.exports = grammar({
                 $._PSL_Sequence,
             )),
             '[',
-            field('operator',choice(
-                delimiter('*'),
-                delimiter('+'),
-                delimiter('='),
-                delimiter('->')
-            )),
+            field(
+                'operator',
+                choice(
+                    delimiter('*'),
+                    delimiter('+'),
+                    delimiter('='),
+                    delimiter('->')
+                )
+            ),
             optional($._PSL_Count),
             ']',
         ),
@@ -3600,15 +3667,18 @@ module.exports = grammar({
     PSL_Extended_Ocurrence_FL_Property: $ => prec.right(
         PREC.PSL_OCURRENCE,
         seq(
-            field('operator',choice(
-                reservedWord('next'),
-                reservedWord('next_a'),
-                reservedWord('next_e'),
-                reservedWord('next_event'),
-                reservedWord('next_event_a'),
-                reservedWord('next_event_e'),
-                reservedWord('eventually'),
-            )),
+            field(
+                'operator',
+                choice(
+                    reservedWord('next'),
+                    reservedWord('next_a'),
+                    reservedWord('next_e'),
+                    reservedWord('next_event'),
+                    reservedWord('next_event_a'),
+                    reservedWord('next_event_e'),
+                    reservedWord('eventually'),
+                )
+            ),
             optional(token.immediate('!')),
             choice(
                 $._PSL_Extended_Ocurrence_FL_Property_Count_Specification,
@@ -3693,10 +3763,13 @@ module.exports = grammar({
         reservedWord('for'),
         $.PSL_Parameters_Definition,
         ':',
-        field('operation', choice(
-            reservedWord('and'),
-            reservedWord('or'),
-        )),
+        field(
+            'operation',
+            choice(
+                reservedWord('and'),
+                reservedWord('or'),
+            )
+        ),
         '(',
         $._PSL_FL_Property,
         ')'
@@ -3744,7 +3817,7 @@ module.exports = grammar({
     ),
 
     _PSL_Value_Range: $ => choice(
-        field('Value', $._PSL_Value),
+        $._PSL_Value,
         $._PSL_Range
     ),
     // }}}
@@ -3842,7 +3915,10 @@ module.exports = grammar({
         ))
     )),
 
-    _PSL_Sequence_Name: $ => field('Sequence_Name', $._PSL_Identifier),
+    _PSL_Sequence_Name: $ => field(
+        'Sequence_Name',
+        $._PSL_Identifier
+    ),
 
     PSL_Property_Instance: $ => prec.dynamic(-1,seq(
         $._PSL_Property_Name,
@@ -3853,7 +3929,10 @@ module.exports = grammar({
         ))
     )),
 
-    _PSL_Property_Name: $ => field('Property_Name', $._PSL_Identifier),
+    _PSL_Property_Name: $ => field(
+        'Property_Name',
+        $._PSL_Identifier
+    ),
 
     PSL_Actual_Parameter_List: $ => sepBy1(',', $.PSL_Actual_Parameter),
 
@@ -3992,7 +4071,7 @@ module.exports = grammar({
         $._entity_name,
         optional(seq(
             '(',
-            field('architecture', $._simple_name),
+            $._architecture_name,
             ')',
         ))
     ),
@@ -4027,7 +4106,6 @@ function delimiter(delim) {
 }
 
 function reservedWord(word) {
-    //return delimiter(word)
     return reserved(caseInsensitive(word))
 }
 
