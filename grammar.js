@@ -54,15 +54,16 @@ const UNDERLINE = '_';
 
 // *special_character* includes both
 // *special character* and *others special character*
-// BACKSLASH and QUOTATION_MARK are intentionally
-// missing from the set. They shall be added to the
-// regex expression where allowed
+// BACKSLASH, QUOTATION_MARK and UNDERLINE are intentionally missing.
+// They shall be added to the regex expression where allowed
 const SPECIAL_CHARACTER = '!'              + // 0x21
                           //QUOTATION_MARK + // 0x22
                           '#-@'            + // 0x23 to 0x40
                           '\\['            + // 0x5B
                           //BACKSLASH      + // 0x5C
-                          '\\]-`'          + // 0x5D to 0x60
+                          '\\]^'           + // 0x5D to 0x5E
+                          //UNDERLINE      + // 0x5F
+                          '`'              + // 0x60
                           '\\{-~'          + // 0x7B to 0x7E
                           '¡-¿'            + // 0xA1 to 0xBF
                           '×'              + // 0xD7
@@ -98,19 +99,8 @@ const INTEGER = [
     '('+UNDERLINE+'?'+'['+DIGIT+']'+')*'
 ];
 
-const STRING = [
-    QUOTATION_MARK+
-    '(['+GRAPHIC_CHARACTER+BACKSLASH+']|'+DOUBLE_QUOTATION_MARK+')*'+
-    QUOTATION_MARK
-];
-
 const BASE_SPECIFIER = [
     '([uUsS]?[bBoOxX]|d)"'
-];
-
-const BIT_VALUE = [
-    '['+GRAPHIC_CHARACTER+BACKSLASH+']'+
-    '('+UNDERLINE+'?'+'['+GRAPHIC_CHARACTER+BACKSLASH+']'+')+'
 ];
 
 const BASED_LITERAL = [
@@ -2132,7 +2122,6 @@ module.exports = grammar({
         $.string_literal,
         $.bit_string_literal,
         $.null,
-        // predefine enumeration literals
         $.character_literal,
     ),
 
@@ -3161,7 +3150,7 @@ module.exports = grammar({
         seq(
             '\'',
             token.immediate(
-                new RegExp ('['+GRAPHIC_CHARACTER+QUOTATION_MARK+BACKSLASH+']')
+                new RegExp ('['+GRAPHIC_CHARACTER+QUOTATION_MARK+BACKSLASH+UNDERLINE+']')
             ),
             token.immediate('\'')
         ),
@@ -3172,7 +3161,7 @@ module.exports = grammar({
     string_literal: $ => seq(
         '"',
         repeat(choice(
-            token.immediate(prec(3,new RegExp ('['+GRAPHIC_CHARACTER+BACKSLASH+']'))),
+            token.immediate(prec(3,new RegExp ('['+GRAPHIC_CHARACTER+BACKSLASH+UNDERLINE+']'))),
             $.escape_sequence
         )),
         token.immediate('"'),
@@ -3203,21 +3192,30 @@ module.exports = grammar({
 
     _base_specifier: $ => field(
         'base_specifier',
-        seq(
-            token(new RegExp (BASE_SPECIFIER))
-        ),
+        seq(token(new RegExp (BASE_SPECIFIER))),
     ),
 
     _base_specifier_immed: $ => field(
         'base_specifier',
-        seq(
-            token.immediate(new RegExp (BASE_SPECIFIER))
-        ),
+        seq(token.immediate(new RegExp (BASE_SPECIFIER))),
     ),
 
-    bit_value: $ => repeat1(choice(
-        token.immediate(prec(3,new RegExp ('['+GRAPHIC_CHARACTER+BACKSLASH+']'))),
-    )),
+    bit_value: $ => seq(
+        choice(
+            token.immediate(prec(3,new RegExp ('['+GRAPHIC_CHARACTER+BACKSLASH+']'))),
+            alias(
+                token.immediate(prec(3,new RegExp (UNDERLINE+'+'))),
+                $.bit_value_error
+            )
+        ),
+        repeat(choice(
+            token.immediate(prec(3,new RegExp (UNDERLINE+'?['+GRAPHIC_CHARACTER+BACKSLASH+']'))),
+            alias(
+                token.immediate(prec(3,new RegExp (UNDERLINE+UNDERLINE+'+'))),
+                $.bit_value_error
+            )
+        )),
+    ),
     // }}}
 
     // 15.9 Comments {{{

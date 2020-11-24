@@ -13376,7 +13376,17 @@
   {
     "type": "bit_value",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bit_value_error",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "block_configuration",
@@ -30830,6 +30840,10 @@
   {
     "type": "begin",
     "named": false
+  },
+  {
+    "type": "bit_value_error",
+    "named": true
   },
   {
     "type": "boolean",

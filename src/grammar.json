@@ -6474,7 +6474,7 @@
           "value": 2,
           "content": {
             "type": "PATTERN",
-            "value": "'[A-ZÀ-ÖØ-Þa-zß-öø-ÿ](_?[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9])*|\\\\(\\\\\\\\|[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9  !#-@\\[\\]-`\\{-~¡-¿×÷\"])+\\\\"
+            "value": "'[A-ZÀ-ÖØ-Þa-zß-öø-ÿ](_?[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9])*|\\\\(\\\\\\\\|[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9  !#-@\\[\\]^`\\{-~¡-¿×÷\"])+\\\\"
           }
         }
       }
@@ -12384,7 +12384,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[A-ZÀ-ÖØ-Þa-zß-öø-ÿ](_?[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9])*|\\\\(\\\\\\\\|[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9  !#-@\\[\\]-`\\{-~¡-¿×÷\"])+\\\\"
+      "value": "[A-ZÀ-ÖØ-Þa-zß-öø-ÿ](_?[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9])*|\\\\(\\\\\\\\|[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9  !#-@\\[\\]^`\\{-~¡-¿×÷\"])+\\\\"
     },
     "_abstract_literal": {
       "type": "CHOICE",
@@ -12648,7 +12648,7 @@
               "type": "IMMEDIATE_TOKEN",
               "content": {
                 "type": "PATTERN",
-                "value": "[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9  !#-@\\[\\]-`\\{-~¡-¿×÷\"\\\\]"
+                "value": "[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9  !#-@\\[\\]^`\\{-~¡-¿×÷\"\\\\_]"
               }
             },
             {
@@ -12681,7 +12681,7 @@
                   "value": 3,
                   "content": {
                     "type": "PATTERN",
-                    "value": "[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9  !#-@\\[\\]-`\\{-~¡-¿×÷\\\\]"
+                    "value": "[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9  !#-@\\[\\]^`\\{-~¡-¿×÷\\\\_]"
                   }
                 }
               },
@@ -12818,23 +12818,76 @@
       }
     },
     "bit_value": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "IMMEDIATE_TOKEN",
-            "content": {
-              "type": "PREC",
-              "value": 3,
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "IMMEDIATE_TOKEN",
               "content": {
-                "type": "PATTERN",
-                "value": "[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9  !#-@\\[\\]-`\\{-~¡-¿×÷\\\\]"
+                "type": "PREC",
+                "value": 3,
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9  !#-@\\[\\]^`\\{-~¡-¿×÷\\\\]"
+                }
               }
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": 3,
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "_+"
+                  }
+                }
+              },
+              "named": true,
+              "value": "bit_value_error"
             }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": 3,
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "_?[A-ZÀ-ÖØ-Þa-zß-öø-ÿ0-9  !#-@\\[\\]^`\\{-~¡-¿×÷\\\\]"
+                  }
+                }
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "PREC",
+                    "value": 3,
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "__+"
+                    }
+                  }
+                },
+                "named": true,
+                "value": "bit_value_error"
+              }
+            ]
           }
-        ]
-      }
+        }
+      ]
     },
     "comment": {
       "type": "SEQ",
