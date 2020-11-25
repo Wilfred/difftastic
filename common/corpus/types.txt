@@ -736,11 +736,11 @@ function isT(t: T): t is T {
       (required_parameter
         (identifier)
         (type_annotation (type_identifier))))
-    (type_predicate
-      (identifier)
-      (type_identifier))
-    (statement_block (return_statement (true))))
-  )
+    (type_predicate_annotation
+      (type_predicate
+        (identifier)
+        (type_identifier)))
+    (statement_block (return_statement (true)))))
 
 ==================================
 Tuple types
