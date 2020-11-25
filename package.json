@@ -15,7 +15,7 @@
     "latex",
     "parser"
   ],
-  "author": "Patrick Förster <pfoerster@users.noreply.github.com>",
+  "author": "Patrick Förster <patrick.foerster@outlook.de>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/latex-lsp/tree-sitter-latex/issues"
