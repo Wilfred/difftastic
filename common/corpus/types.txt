@@ -35,6 +35,9 @@ Object types
 
 let person: {name: string, age: number};
 let thing: { [type: string]: string };
+type T = { [K in keyof T]-?: any }
+type T = { [K in keyof T]?: any }
+
 ---
 
 (program
@@ -46,7 +49,23 @@ let thing: { [type: string]: string };
   (lexical_declaration (variable_declarator
     (identifier)
     (type_annotation (object_type
-      (index_signature (identifier) (predefined_type) (type_annotation (predefined_type))))))))
+      (index_signature (identifier) (predefined_type) (type_annotation (predefined_type)))))))
+  (type_alias_declaration
+    (type_identifier)
+    (object_type
+      (index_signature
+        (mapped_type_clause
+          (type_identifier)
+          (index_type_query (type_identifier)))
+        (omitting_type_annotation (predefined_type)))))
+  (type_alias_declaration
+    (type_identifier)
+    (object_type
+      (index_signature
+        (mapped_type_clause
+          (type_identifier)
+          (index_type_query (type_identifier)))
+        (opting_type_annotation (predefined_type))))))
 
 =======================================
 Object types with call signatures
