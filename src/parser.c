@@ -9,7 +9,7 @@
 #define STATE_COUNT 910
 #define LARGE_STATE_COUNT 99
 #define SYMBOL_COUNT 110
-#define ALIAS_COUNT 5
+#define ALIAS_COUNT 4
 #define TOKEN_COUNT 65
 #define EXTERNAL_TOKEN_COUNT 2
 #define FIELD_COUNT 1
@@ -129,7 +129,6 @@ enum {
   alias_sym_expression = 111,
   alias_sym_method = 112,
   alias_sym_property_identifier = 113,
-  alias_sym_variable_declarator = 114,
 };
 
 static const char *ts_symbol_names[] = {
@@ -247,7 +246,6 @@ static const char *ts_symbol_names[] = {
   [alias_sym_expression] = "expression",
   [alias_sym_method] = "method",
   [alias_sym_property_identifier] = "property_identifier",
-  [alias_sym_variable_declarator] = "variable_declarator",
 };
 
 static TSSymbol ts_symbol_map[] = {
@@ -365,7 +363,6 @@ static TSSymbol ts_symbol_map[] = {
   [alias_sym_expression] = alias_sym_expression,
   [alias_sym_method] = alias_sym_method,
   [alias_sym_property_identifier] = alias_sym_property_identifier,
-  [alias_sym_variable_declarator] = alias_sym_variable_declarator,
 };
 
 static const TSSymbolMetadata ts_symbol_metadata[] = {
@@ -825,10 +822,6 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = true,
   },
-  [alias_sym_variable_declarator] = {
-    .visible = true,
-    .named = true,
-  },
 };
 
 enum {
@@ -858,10 +851,10 @@ static TSSymbol ts_alias_sequences[12][MAX_ALIAS_SEQUENCE_LENGTH] = {
     [2] = alias_sym_condition_expression,
   },
   [4] = {
-    [1] = alias_sym_variable_declarator,
+    [1] = sym__local_variable_declarator,
   },
   [5] = {
-    [0] = alias_sym_variable_declarator,
+    [0] = sym__local_variable_declarator,
   },
   [6] = {
     [2] = alias_sym_property_identifier,
@@ -886,7 +879,7 @@ static TSSymbol ts_alias_sequences[12][MAX_ALIAS_SEQUENCE_LENGTH] = {
 static uint16_t ts_non_terminal_alias_map[] = {
   sym__variable_declarator, 2,
     sym__variable_declarator,
-    alias_sym_variable_declarator,
+    sym__local_variable_declarator,
   sym__expression, 3,
     sym__expression,
     alias_sym_condition_expression,
@@ -41335,25 +41328,15 @@ extern const TSLanguage *tree_sitter_lua(void) {
     .symbol_count = SYMBOL_COUNT,
     .alias_count = ALIAS_COUNT,
     .token_count = TOKEN_COUNT,
-    .large_state_count = LARGE_STATE_COUNT,
-    .alias_map = ts_non_terminal_alias_map,
-    .state_count = STATE_COUNT,
+    .external_token_count = EXTERNAL_TOKEN_COUNT,
+    .symbol_names = ts_symbol_names,
     .symbol_metadata = ts_symbol_metadata,
-    .parse_table = (const unsigned short *)ts_parse_table,
-    .small_parse_table = (const uint16_t *)ts_small_parse_table,
-    .small_parse_table_map = (const uint32_t *)ts_small_parse_table_map,
+    .parse_table = (const uint16_t *)ts_parse_table,
     .parse_actions = ts_parse_actions,
     .lex_modes = ts_lex_modes,
-    .symbol_names = ts_symbol_names,
-    .public_symbol_map = ts_symbol_map,
     .alias_sequences = (const TSSymbol *)ts_alias_sequences,
-    .field_count = FIELD_COUNT,
-    .field_names = ts_field_names,
-    .field_map_slices = (const TSFieldMapSlice *)ts_field_map_slices,
-    .field_map_entries = (const TSFieldMapEntry *)ts_field_map_entries,
     .max_alias_sequence_length = MAX_ALIAS_SEQUENCE_LENGTH,
     .lex_fn = ts_lex,
-    .external_token_count = EXTERNAL_TOKEN_COUNT,
     .external_scanner = {
       (const bool *)ts_external_scanner_states,
       ts_external_scanner_symbol_map,
@@ -41363,6 +41346,16 @@ extern const TSLanguage *tree_sitter_lua(void) {
       tree_sitter_lua_external_scanner_serialize,
       tree_sitter_lua_external_scanner_deserialize,
     },
+    .field_count = FIELD_COUNT,
+    .field_map_slices = (const TSFieldMapSlice *)ts_field_map_slices,
+    .field_map_entries = (const TSFieldMapEntry *)ts_field_map_entries,
+    .field_names = ts_field_names,
+    .large_state_count = LARGE_STATE_COUNT,
+    .small_parse_table = (const uint16_t *)ts_small_parse_table,
+    .small_parse_table_map = (const uint32_t *)ts_small_parse_table_map,
+    .public_symbol_map = ts_symbol_map,
+    .alias_map = ts_non_terminal_alias_map,
+    .state_count = STATE_COUNT,
   };
   return &language;
 }
