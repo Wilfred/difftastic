@@ -66,6 +66,7 @@ module.exports = function defineGrammar(dialect) {
       [$._expression, $._primary_type],
       [$._expression, $.generic_type],
       [$._expression, $.predefined_type],
+      [$._expression, $._rest_annotation],
 
       [$.object, $.object_type],
       [$.object, $._property_name],
@@ -471,11 +472,15 @@ module.exports = function defineGrammar(dialect) {
         )
       ),
 
-      rest_parameter: $ => seq(
+      _rest_annotation: $ => seq(
         '...',
         $.identifier,
         optional($.type_annotation)
       ),
+
+      rest_type: $ => $._rest_annotation,
+
+      rest_parameter: $ => $._rest_annotation,
 
       type_annotation: $ => seq(':', $._type),
 
@@ -685,7 +690,16 @@ module.exports = function defineGrammar(dialect) {
 
       tuple_type: $ => choice(
         seq($.readonly, '[', commaSep1($._type), ']'),
-        prec(PREC.TUPLE_TYPE, seq('[', commaSep1($._type), ']'))
+        prec(PREC.TUPLE_TYPE, seq(
+          '[',
+          choice(
+            $.rest_type,
+            seq($._type, optional(seq(',', $.rest_type))),
+            seq($._type, optional(repeat(seq(',', $._type)))),
+            seq($._type, repeat(seq(',', $._type)), optional(seq(',', $.rest_type))),
+          ),
+          ']'
+        ))
       ),
 
       union_type: $ => prec.left(PREC.UNION, seq(
