@@ -551,6 +551,10 @@ module.exports = function defineGrammar(dialect) {
         $._type
       ),
 
+      type_predicate_annotation: $ => seq(
+        seq(':', $.type_predicate)
+      ),
+
       type_query: $ => prec(PREC.TYPEOF, seq(
         'typeof',
         choice($.identifier, $.nested_identifier)
@@ -643,7 +647,7 @@ module.exports = function defineGrammar(dialect) {
         field('type_parameters', optional($.type_parameters)),
         field('parameters', $.formal_parameters),
         field('return_type', optional(
-          choice($.type_annotation, $.asserts, seq(':', $.type_predicate))
+          choice($.type_annotation, $.asserts, $.type_predicate_annotation)
         ))
       ),
 
