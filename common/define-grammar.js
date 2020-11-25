@@ -2,7 +2,6 @@ const PREC = {
   ACCESSIBILITY: 1,
   DEFINITION: 1,
   DECLARATION: 1,
-  TUPLE_TYPE: 1,
   INTERSECTION: 2,
   UNION: 2,
   PLUS: 4,
@@ -44,6 +43,7 @@ module.exports = function defineGrammar(dialect) {
       [$.nested_identifier, $.member_expression, $.nested_type_identifier],
 
       [$.generic_type, $._primary_type],
+      [$._expression, $._primary_type, $.generic_type],
       [$.member_expression, $.nested_identifier],
 
       [$._parameter_name, $.predefined_type],
@@ -66,12 +66,15 @@ module.exports = function defineGrammar(dialect) {
       [$._expression, $._primary_type],
       [$._expression, $.generic_type],
       [$._expression, $.predefined_type],
-      [$._expression, $._rest_annotation],
-
-      [$._tuple_type, $.tuple_type],
+      [$._expression, $._rest_identifier],
+      [$._expression, $._tuple_type_member_type],
+      [$._expression, $.optional_tuple_type],
 
       [$.object, $.object_type],
       [$.object, $._property_name],
+
+      [$._tuple_type_member_type, $.optional_tuple_type],
+      [$.array, $._tuple_type_body]
     ]),
 
     inline: ($, previous) => previous
@@ -474,15 +477,20 @@ module.exports = function defineGrammar(dialect) {
         )
       ),
 
-      _rest_annotation: $ => seq(
+      _rest_identifier: $ => seq(
         '...',
         $.identifier,
+      ),
+
+      rest_parameter: $ => seq(
+        $._rest_identifier,
         optional($.type_annotation)
       ),
 
-      rest_type: $ => $._rest_annotation,
-
-      rest_parameter: $ => $._rest_annotation,
+      annotated_rest_type: $ => seq(
+        $._rest_identifier,
+        $.type_annotation
+      ),
 
       type_annotation: $ => seq(':', $._type),
 
@@ -503,9 +511,20 @@ module.exports = function defineGrammar(dialect) {
         $.constructor_type
       ),
 
-      optional_tuple_type: $ => seq($._type, '?'),
+      tuple_rest_member: $ => $._rest_identifier,
 
-      _tuple_type: $ => choice($.optional_tuple_type, $._type),
+      optional_tuple_type: $ => seq($.identifier, '?'),
+
+      _tuple_type_member_type: $ => choice($.optional_tuple_type, $.identifier),
+
+      labeled_tuple_type_member: $ => seq($._tuple_type_member_type, $.type_annotation),
+
+      _tuple_type_member: $ => choice(
+        $._tuple_type_member_type,
+        $.tuple_rest_member,
+        $.labeled_tuple_type_member,
+        $.annotated_rest_type
+      ),
 
       constructor_type: $ => seq(
         'new',
@@ -694,18 +713,13 @@ module.exports = function defineGrammar(dialect) {
         prec(PREC.ARRAY_TYPE+1, seq($._primary_type, '[', ']'))
       )),
 
+      _tuple_type_body: $ => seq(
+        "[", optional(commaSep1($._tuple_type_member)), "]"
+      ),
+
       tuple_type: $ => choice(
-        seq($.readonly, '[', commaSep1($._type), ']'),
-        prec(PREC.TUPLE_TYPE, seq(
-          '[',
-          choice(
-            $.rest_type,
-            seq($._tuple_type, optional(seq(',', $.rest_type))),
-            seq($._tuple_type, optional(repeat(seq(',', $._tuple_type)))),
-            seq($._tuple_type, repeat(seq(',', $._tuple_type)), optional(seq(',', $.rest_type))),
-          ),
-          ']'
-        ))
+        prec.left(PREC.ARRAY_TYPE + 1, $._tuple_type_body),
+        prec.left(PREC.ARRAY_TYPE + 2, seq($.readonly, $._tuple_type_body)),
       ),
 
       union_type: $ => prec.left(PREC.UNION, seq(
