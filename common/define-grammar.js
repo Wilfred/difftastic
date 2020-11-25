@@ -3,8 +3,10 @@ const PREC = {
   DEFINITION: 1,
   DECLARATION: 1,
   TUPLE_TYPE: 1,
-  INTERSECTION: 2,
-  UNION: 2,
+  FUNCTION_TYPE: 1,
+  CONDITIONAL_TYPE: 2,
+  INTERSECTION: 3,
+  UNION: 3,
   PLUS: 4,
   REL: 5,
   TIMES: 6,
@@ -15,11 +17,13 @@ const PREC = {
   NON_NULL: 10,
   CALL: 11,
   NEW: 12,
+  FLOW_MAYBE_TYPE: 12,
   ARRAY_TYPE: 13,
   MEMBER: 14,
   AS_EXPRESSION: 15,
   TYPE_ASSERTION: 16,
-  TYPE_REFERENCE: 16
+  TYPE_REFERENCE: 16,
+  CONSTRUCTOR_TYPE: 17
 };
 
 module.exports = function defineGrammar(dialect) {
@@ -496,13 +500,13 @@ module.exports = function defineGrammar(dialect) {
         $.constructor_type
       ),
 
-      constructor_type: $ => seq(
+      constructor_type: $ => prec.left(PREC.CONSTRUCTOR_TYPE, seq(
         'new',
         optional($.type_parameters),
         $.formal_parameters,
         '=>',
         $._type
-      ),
+      )),
 
       _primary_type: $ => choice(
         $.parenthesized_type,
@@ -519,8 +523,19 @@ module.exports = function defineGrammar(dialect) {
         $.this,
         $.existential_type,
         $.literal_type,
-        $.lookup_type
+        $.lookup_type,
+        $.conditional_type,
       ),
+
+      conditional_type: $ => prec.left(PREC.CONDITIONAL_TYPE, seq(
+        field('left', $._type),
+        'extends',
+        field('right', $._type),
+        '?',
+        field('consequence', $._type),
+        ':',
+        field('alternative', $._type)
+      )),
 
       generic_type: $ => seq(
         choice(
@@ -574,7 +589,7 @@ module.exports = function defineGrammar(dialect) {
 
       existential_type: $ => '*',
 
-      flow_maybe_type: $ => prec.right(seq( '?', $._primary_type)),
+      flow_maybe_type: $ => prec.right(PREC.FLOW_MAYBE_TYPE, seq( '?', $._primary_type)),
 
       parenthesized_type: $ => seq(
         '(', $._type, ')'
@@ -695,12 +710,12 @@ module.exports = function defineGrammar(dialect) {
         optional($._type), '&', $._type
       )),
 
-      function_type: $ => seq(
+      function_type: $ => prec.left(PREC.FUNCTION_TYPE, seq(
         optional($.type_parameters),
         $.formal_parameters,
         '=>',
         $._type
-      ),
+      )),
 
       _type_identifier: $ => alias($.identifier, $.type_identifier),
 
