@@ -9,11 +9,11 @@
         "name": "_content"
       }
     },
-    "whitespace": {
+    "_whitespace": {
       "type": "PATTERN",
       "value": "\\s+"
     },
-    "comment": {
+    "_comment": {
       "type": "PATTERN",
       "value": "%[^\\r\\n]+"
     },
@@ -3149,11 +3149,11 @@
   "extras": [
     {
       "type": "SYMBOL",
-      "name": "whitespace"
+      "name": "_whitespace"
     },
     {
       "type": "SYMBOL",
-      "name": "comment"
+      "name": "_comment"
     }
   ],
   "conflicts": [],
