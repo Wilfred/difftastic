@@ -2,6 +2,7 @@
   "name": "tree-sitter-latex",
   "version": "0.1.0",
   "description": "Tree-sitter Grammar for LaTeX",
+  "main": "index.js",
   "scripts": {
     "build": "tree-sitter build",
     "test": "tree-sitter test"
