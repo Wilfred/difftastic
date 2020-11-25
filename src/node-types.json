@@ -1581,6 +1581,10 @@
           "named": true
         },
         {
+          "type": "shebang",
+          "named": true
+        },
+        {
           "type": "variable_declaration",
           "named": true
         },
@@ -2278,6 +2282,10 @@
   },
   {
     "type": "self",
+    "named": true
+  },
+  {
+    "type": "shebang",
     "named": true
   },
   {

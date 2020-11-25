@@ -41,7 +41,9 @@ module.exports = grammar({
   ],
 
   rules: {
-    program: $ => seq(repeat($._statement), optional($.return_statement)),
+    program: $ => seq(optional($.shebang), repeat($._statement), optional($.return_statement)),
+
+    shebang: $ => /#!.*\n/,
 
     // Return statement
     return_statement: $ => seq(
