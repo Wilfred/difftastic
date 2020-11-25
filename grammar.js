@@ -66,18 +66,21 @@ module.exports = grammar({
     part: $ =>
       prec.right(
         seq(
-          /\\part\*?/,
-          $.brace_group,
-          repeat(
-            choice(
-              $.chapter,
-              $.section,
-              $.subsection,
-              $.subsubsection,
-              $.paragraph,
-              $.subparagraph,
-              $.enum_item,
-              $._simple_content
+          field('command', /\\part\*?/),
+          field('text', $.brace_group),
+          field(
+            'child',
+            repeat(
+              choice(
+                $.chapter,
+                $.section,
+                $.subsection,
+                $.subsubsection,
+                $.paragraph,
+                $.subparagraph,
+                $.enum_item,
+                $._simple_content
+              )
             )
           )
         )
@@ -86,17 +89,20 @@ module.exports = grammar({
     chapter: $ =>
       prec.right(
         seq(
-          /\\chapter\*?/,
-          $.brace_group,
-          repeat(
-            choice(
-              $.section,
-              $.subsection,
-              $.subsubsection,
-              $.paragraph,
-              $.subparagraph,
-              $.enum_item,
-              $._simple_content
+          field('command', /\\chapter\*?/),
+          field('text', $.brace_group),
+          field(
+            'child',
+            repeat(
+              choice(
+                $.section,
+                $.subsection,
+                $.subsubsection,
+                $.paragraph,
+                $.subparagraph,
+                $.enum_item,
+                $._simple_content
+              )
             )
           )
         )
@@ -105,16 +111,19 @@ module.exports = grammar({
     section: $ =>
       prec.right(
         seq(
-          /\\section\*?/,
-          $.brace_group,
-          repeat(
-            choice(
-              $.subsection,
-              $.subsubsection,
-              $.paragraph,
-              $.subparagraph,
-              $.enum_item,
-              $._simple_content
+          field('command', /\\section\*?/),
+          field('text', $.brace_group),
+          field(
+            'child',
+            repeat(
+              choice(
+                $.subsection,
+                $.subsubsection,
+                $.paragraph,
+                $.subparagraph,
+                $.enum_item,
+                $._simple_content
+              )
             )
           )
         )
@@ -123,15 +132,18 @@ module.exports = grammar({
     subsection: $ =>
       prec.right(
         seq(
-          /\\subsection\*?/,
-          $.brace_group,
-          repeat(
-            choice(
-              $.subsubsection,
-              $.paragraph,
-              $.subparagraph,
-              $.enum_item,
-              $._simple_content
+          field('command', /\\subsection\*?/),
+          field('text', $.brace_group),
+          field(
+            'child',
+            repeat(
+              choice(
+                $.subsubsection,
+                $.paragraph,
+                $.subparagraph,
+                $.enum_item,
+                $._simple_content
+              )
             )
           )
         )
@@ -140,10 +152,18 @@ module.exports = grammar({
     subsubsection: $ =>
       prec.right(
         seq(
-          /\\subsubsection\*?/,
-          $.brace_group,
-          repeat(
-            choice($.paragraph, $.subparagraph, $.enum_item, $._simple_content)
+          field('command', /\\subsubsection\*?/),
+          field('text', $.brace_group),
+          field(
+            'child',
+            repeat(
+              choice(
+                $.paragraph,
+                $.subparagraph,
+                $.enum_item,
+                $._simple_content
+              )
+            )
           )
         )
       ),
@@ -151,46 +171,75 @@ module.exports = grammar({
     paragraph: $ =>
       prec.right(
         seq(
-          /\\paragraph\*?/,
-          $.brace_group,
-          repeat(choice($.subparagraph, $.enum_item, $._simple_content))
+          field('command', /\\paragraph\*?/),
+          field('text', $.brace_group),
+          field(
+            'child',
+            repeat(choice($.subparagraph, $.enum_item, $._simple_content))
+          )
         )
       ),
 
     subparagraph: $ =>
       prec.right(
         seq(
-          /\\subparagraph\*?/,
-          $.brace_group,
-          repeat(choice($.enum_item, $._simple_content))
+          field('command', /\\subparagraph\*?/),
+          field('text', $.brace_group),
+          field('child', repeat(choice($.enum_item, $._simple_content)))
         )
       ),
 
     enum_item: $ =>
       prec.right(
         seq(
-          '\\item',
-          optional(seq('[', $.word, ']')),
-          repeat(choice($._simple_content))
+          field('command', '\\item'),
+          field('label', optional(seq('[', $.word, ']'))),
+          field('child', repeat(choice($._simple_content)))
         )
       ),
 
     //--- Groups ---//
 
-    brace_group: $ => seq('{', repeat($._content), '}'),
+    brace_group: $ =>
+      seq(
+        field('left', '{'),
+        field('child', repeat($._content)),
+        field('right', '}')
+      ),
 
-    bracket_group: $ => seq('[', repeat($._content), ']'),
+    bracket_group: $ =>
+      seq(
+        field('left', '['),
+        field('child', repeat($._content)),
+        field('right', ']')
+      ),
 
-    paren_group: $ => seq('(', repeat($._content), ')'),
+    paren_group: $ =>
+      seq(
+        field('left', '('),
+        field('child', repeat($._content)),
+        field('right', ')')
+      ),
 
     mixed_group: $ =>
-      seq(choice('(', '['), repeat($._content), choice(')', ']')),
+      seq(
+        field('left', choice('(', '[')),
+        field('child', repeat($._content)),
+        field('right', choice(')', ']'))
+      ),
 
-    key_val_options: $ => seq('[', sepBy($.key_val_pair, ','), ']'),
+    key_val_options: $ =>
+      seq(
+        field('left', '['),
+        field('property', sepBy($.key_val_pair, ',')),
+        field('right', ']')
+      ),
 
-    key_val_pair: $ => seq($.key, optional(seq('=', $._content))),
-
-    key: $ => repeat1($.word),
+    key_val_pair: $ =>
+      seq(
+        field('key', repeat1($.word)),
+        optional(seq(field('equals', '='), field('value', $._content)))
+      ),
 
     _word_group: $ => seq('{', $.word, '}'),
 
@@ -199,7 +248,10 @@ module.exports = grammar({
     //--- Text ---//
 
     // Performance optimization: store text as a binary tree instead of a list
-    text: $ => prec.right(seq($._text_fragment, optional($.text))),
+    text: $ =>
+      prec.right(
+        seq(field('left', $._text_fragment), field('right', optional($.text)))
+      ),
 
     _text_fragment: $ => prec.right(choice($.word, ',', '=')),
 
@@ -211,150 +263,248 @@ module.exports = grammar({
 
     displayed_equation: $ =>
       prec.left(
-        seq(choice('$$', '\\['), repeat($._content), choice('$$', '\\]'))
+        seq(
+          field('left', choice('$$', '\\[')),
+          field('child', repeat($._content)),
+          field('right', choice('$$', '\\]'))
+        )
       ),
 
     inline_formula: $ =>
       prec.left(
-        seq(choice('$', '\\('), repeat($._content), choice('$', '\\)'))
+        seq(
+          field('left', choice('$', '\\(')),
+          field('child', repeat($._content)),
+          field('right', choice('$', '\\)'))
+        )
       ),
 
     //--- Environment ---//
 
     begin: $ =>
-      prec.right(seq('\\begin', '{', $.word, '}', repeat($.bracket_group))),
+      prec.right(
+        seq(
+          field('command', '\\begin'),
+          '{',
+          field('name', $.word),
+          '}',
+          field('option', repeat($.bracket_group))
+        )
+      ),
 
-    end: $ => seq('\\end', '{', $.word, '}'),
+    end: $ => seq(field('command', '\\end'), '{', field('name', $.word), '}'),
 
-    environment: $ => prec.right(seq($.begin, repeat($._content), $.end)),
+    environment: $ =>
+      prec.right(
+        seq(
+          field('begin', $.begin),
+          field('child', repeat($._content)),
+          field('end', $.end)
+        )
+      ),
 
     //--- Special Commands ---//
 
-    caption: $ => seq('\\caption', optional($.bracket_group), $.brace_group),
+    caption: $ =>
+      seq(
+        field('command', '\\caption'),
+        field('short', optional($.bracket_group)),
+        field('long', $.brace_group)
+      ),
 
     citation: $ =>
       seq(
-        token(choice(...commands.citation)),
-        optional($.bracket_group),
-        optional($.bracket_group),
-        $._comma_sep_word_group
+        field('command', token(choice(...commands.citation))),
+        optional(
+          seq(
+            field('prenote', $.bracket_group),
+            field('postnote', optional($.bracket_group))
+          )
+        ),
+        '{',
+        sepBy(field('key', $.word), ','),
+        '}'
       ),
 
     package_include: $ =>
       seq(
-        token(choice('\\usepackage', '\\RequirePackage')),
-        optional($.key_val_options),
-        $._comma_sep_word_group
+        field('command', token(choice('\\usepackage', '\\RequirePackage'))),
+        field('option', optional($.key_val_options)),
+        '{',
+        sepBy(field('name', $.word), ','),
+        '}'
       ),
 
     class_include: $ =>
       seq(
-        '\\documentclass',
-        optional($.key_val_options),
-        $._comma_sep_word_group
+        field('command', '\\documentclass'),
+        field('option', optional($.key_val_options)),
+        '{',
+        sepBy(field('name', $.word), ','),
+        '}'
       ),
 
     biblatex_include: $ =>
       seq(
-        '\\addbibresource',
-        optional($.key_val_options),
-        $._comma_sep_word_group
+        field('command', '\\addbibresource'),
+        field('option', optional($.key_val_options)),
+        '{',
+        sepBy(field('path', $.word), ','),
+        '}'
       ),
 
     graphics_include: $ =>
       seq(
-        token(choice('\\includegraphics', '\\includesvg', '\\includeinkscape')),
-        optional($.key_val_options),
-        $._comma_sep_word_group
+        field(
+          'command',
+          token(
+            choice('\\includegraphics', '\\includesvg', '\\includeinkscape')
+          )
+        ),
+        field('option', optional($.key_val_options)),
+        '{',
+        sepBy(field('path', $.word), ','),
+        '}'
       ),
 
     generic_include: $ =>
-      seq(token(choice(...commands.include)), $._comma_sep_word_group),
+      seq(
+        field('command', token(choice(...commands.include))),
+        '{',
+        sepBy(field('path', $.word), ','),
+        '}'
+      ),
 
     import: $ =>
       seq(
-        token(
-          choice(
-            '\\import',
-            '\\subimport',
-            '\\inputfrom',
-            '\\subimportfrom',
-            '\\includefrom',
-            '\\subincludefrom'
+        field(
+          'command',
+          token(
+            choice(
+              '\\import',
+              '\\subimport',
+              '\\inputfrom',
+              '\\subimportfrom',
+              '\\includefrom',
+              '\\subincludefrom'
+            )
           )
         ),
-        $._word_group,
-        $._word_group
+        '{',
+        field('directory', $.word),
+        '}',
+        '{',
+        field('file', $.word),
+        '}'
       ),
 
-    label_definition: $ => seq('\\label', $._word_group),
+    label_definition: $ =>
+      seq(field('command', '\\label'), '{', field('name', $.word), '}'),
 
     label_reference: $ =>
-      seq(token(choice(...commands.labelReference)), $._comma_sep_word_group),
+      seq(
+        field('command', token(choice(...commands.labelReference))),
+        '{',
+        sepBy(field('label', $.word), ','),
+        '}'
+      ),
 
     label_reference_range: $ =>
       seq(
-        token(choice(...commands.labelRangeReference)),
-        $._word_group,
-        $._word_group
+        field('command', token(choice(...commands.labelRangeReference))),
+        '{',
+        field('label1', $.word),
+        '}',
+        '{',
+        field('label2', $.word),
+        '}'
       ),
 
-    label_number: $ => seq('\\newlabel', $._word_group, $.brace_group),
+    label_number: $ =>
+      seq(
+        field('command', '\\newlabel'),
+        '{',
+        field('label', $.word),
+        '}',
+        field('number', $.brace_group)
+      ),
 
     command_definition: $ =>
       seq(
-        token(
-          choice('\\newcommand', '\\renewcommand', '\\DeclareRobustCommand')
+        field(
+          'command',
+          token(
+            choice('\\newcommand', '\\renewcommand', '\\DeclareRobustCommand')
+          )
         ),
-        optional(seq('[', /\d/, ']')),
+        field('argc', optional(seq('[', /\d/, ']'))),
         '{',
-        $._generic_command_name,
+        field('name', $._generic_command_name),
         '}',
-        $.brace_group
+        field('impl', $.brace_group)
       ),
 
     math_operator: $ =>
       seq(
-        token(choice('\\DeclareMathOperator', '\\DeclareMathOperator*')),
+        field(
+          'command',
+          token(choice('\\DeclareMathOperator', '\\DeclareMathOperator*'))
+        ),
         '{',
-        $._generic_command_name,
+        field('name', $._generic_command_name),
         '}',
-        $.brace_group
+        field('impl', $.brace_group)
       ),
 
     glossary_entry_definition: $ =>
       seq(
-        '\\newglossaryentry',
-        $._word_group,
+        field('command', '\\newglossaryentry'),
         '{',
-        sepBy($.key_val_pair, ','),
+        field('name', $.word),
+        '}',
+        '{',
+        sepBy(field('property', $.key_val_pair), ','),
         '}'
       ),
 
     glossary_entry_reference: $ =>
       seq(
-        token(choice(...commands.glossaryEntryReference)),
-        optional($.key_val_options),
-        $._word_group
+        field('command', token(choice(...commands.glossaryEntryReference))),
+        field('option', optional($.key_val_options)),
+        '{',
+        field('name', $.word),
+        '}'
       ),
 
     acronym_definition: $ =>
       seq(
         '\\newacronym',
-        optional($.key_val_options),
-        $._word_group,
-        $.brace_group,
-        $.brace_group
+        field('option', optional($.key_val_options)),
+        '{',
+        field('name', $.word),
+        '}',
+        field('short', $.brace_group),
+        field('long', $.brace_group)
       ),
 
     theorem_definition: $ =>
       prec.right(
         seq(
-          token(choice('\\newtheorem', '\\declaretheorem')),
-          $._word_group,
+          field('command', token(choice('\\newtheorem', '\\declaretheorem'))),
+          '{',
+          field('name', $.word),
+          '}',
           choice(
-            seq($.brace_group, optional(seq('[', $.word, ']'))),
-            seq('[', $.word, ']', $.brace_group)
+            seq(
+              field('title', $.brace_group),
+              optional(seq('[', field('counter', $.word), ']'))
+            ),
+            seq(
+              '[',
+              field('counter', $.word),
+              ']',
+              field('title', $.brace_group)
+            )
           )
         )
       ),
@@ -364,8 +514,11 @@ module.exports = grammar({
     generic_command: $ =>
       prec.right(
         seq(
-          $._generic_command_name,
-          repeat(choice($.brace_group, $.bracket_group, $.paren_group))
+          field('name', $._generic_command_name),
+          field(
+            'arg',
+            repeat(choice($.brace_group, $.bracket_group, $.paren_group))
+          )
         )
       ),
 
