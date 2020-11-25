@@ -806,3 +806,87 @@ type t = readonly (readonly a[]) []
         (array_type
           (readonly)
           (type_identifier))))))
+
+==================================
+Conditional types
+==================================
+
+type T = X extends Y ? Z : Y
+type T = X extends ?Y ? ?X : Y
+type F<T, X, Y> = ((t: T) => X extends Y ? X : Y) extends ((t: T) => X extends Y ? Y : X) ? X : Y
+type F<T, X, Y> = (t: T) => X extends Y ? X : Y extends (t: T) => X extends Y ? Y : X ? X : Y
+
+---
+(program
+  (type_alias_declaration (type_identifier)
+    (conditional_type
+      (type_identifier)
+      (type_identifier)
+      (type_identifier)
+      (type_identifier)))
+  (type_alias_declaration (type_identifier)
+    (conditional_type
+      (type_identifier)
+      (flow_maybe_type (type_identifier))
+      (flow_maybe_type (type_identifier))
+      (type_identifier)))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter (type_identifier))
+      (type_parameter (type_identifier))
+      (type_parameter (type_identifier)))
+    (conditional_type
+      (parenthesized_type
+        (function_type
+          (formal_parameters
+            (required_parameter
+              (identifier)
+              (type_annotation (type_identifier))))
+          (conditional_type
+            (type_identifier)
+            (type_identifier)
+            (type_identifier)
+            (type_identifier))))
+      (parenthesized_type
+        (function_type
+          (formal_parameters
+            (required_parameter
+              (identifier)
+              (type_annotation (type_identifier))))
+          (conditional_type
+            (type_identifier)
+            (type_identifier)
+            (type_identifier)
+            (type_identifier))))
+      (type_identifier)
+      (type_identifier)))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter (type_identifier))
+      (type_parameter (type_identifier))
+      (type_parameter (type_identifier)))
+    (function_type
+      (formal_parameters
+        (required_parameter
+          (identifier)
+          (type_annotation (type_identifier))))
+      (conditional_type
+        (conditional_type
+          (type_identifier)
+          (type_identifier)
+          (type_identifier)
+          (type_identifier))
+        (function_type
+          (formal_parameters
+            (required_parameter
+              (identifier)
+              (type_annotation (type_identifier))))
+          (conditional_type
+            (type_identifier)
+            (type_identifier)
+            (type_identifier)
+            (type_identifier)))
+        (type_identifier)
+        (type_identifier)))))
