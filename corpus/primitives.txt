@@ -67,3 +67,17 @@ Numeric constants
   (expression (number))
   (expression (number))
   (expression (number)))
+
+=============================
+Shebang
+=============================
+
+#!foobar
+
+return
+
+---
+
+(program
+  (shebang)
+  (return_statement))

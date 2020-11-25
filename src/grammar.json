@@ -5,6 +5,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "shebang"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
@@ -24,6 +36,10 @@
           ]
         }
       ]
+    },
+    "shebang": {
+      "type": "PATTERN",
+      "value": "#!.*\\n"
     },
     "return_statement": {
       "type": "SEQ",
