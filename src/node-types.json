@@ -1,0 +1,2818 @@
+[
+  {
+    "type": "acronym_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "key_val_options",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "begin",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bracket_group",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "biblatex_include",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "key_val_options",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "brace_group",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "bracket_group",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "caption",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "bracket_group",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "chapter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "citation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bracket_group",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "class_include",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "key_val_options",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "command_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "brace_group",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "displayed_equation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "document",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "end",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_item",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "environment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "begin",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "end",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "generic_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "bracket_group",
+          "named": true
+        },
+        {
+          "type": "paren_group",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "glossary_entry_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "key_val_pair",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "glossary_entry_reference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "key_val_options",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "graphics_include",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "key_val_options",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "import",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "inline_formula",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "key",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "key_val_options",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "key_val_pair",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "key_val_pair",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "key",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "label_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "label_number",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "label_reference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "label_reference_range",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "math_operator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "brace_group",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "mixed_group",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_include",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "key_val_options",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "paragraph",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "paren_group",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "part",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "part",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "chapter",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "section",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsection",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subparagraph",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subsection",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subsubsection",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "command_definition",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "environment",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "math_operator",
+          "named": true
+        },
+        {
+          "type": "mixed_group",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "subparagraph",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "text",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "theorem_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "brace_group",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "$",
+    "named": false
+  },
+  {
+    "type": "$$",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "\\(",
+    "named": false
+  },
+  {
+    "type": "\\)",
+    "named": false
+  },
+  {
+    "type": "\\[",
+    "named": false
+  },
+  {
+    "type": "\\]",
+    "named": false
+  },
+  {
+    "type": "\\addbibresource",
+    "named": false
+  },
+  {
+    "type": "\\begin",
+    "named": false
+  },
+  {
+    "type": "\\caption",
+    "named": false
+  },
+  {
+    "type": "\\documentclass",
+    "named": false
+  },
+  {
+    "type": "\\end",
+    "named": false
+  },
+  {
+    "type": "\\item",
+    "named": false
+  },
+  {
+    "type": "\\label",
+    "named": false
+  },
+  {
+    "type": "\\newacronym",
+    "named": false
+  },
+  {
+    "type": "\\newglossaryentry",
+    "named": false
+  },
+  {
+    "type": "\\newlabel",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "param",
+    "named": true
+  },
+  {
+    "type": "word",
+    "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]
