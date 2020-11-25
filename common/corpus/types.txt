@@ -728,50 +728,6 @@ function f(x: any): asserts x is number {
     (statement_block)))
 
 ==================================
-Tuple types
-==================================
-
-type t = [a]
-type t = [a, b]
-type t = readonly [a, b]
-type t = [...b]
-type t = [a, ...b]
-type t = [a, b, ...c]
-type t = [a, b?]
-
----
-
-(program
-  (type_alias_declaration
-    (type_identifier)
-    (tuple_type (type_identifier)))
-  (type_alias_declaration
-    (type_identifier)
-    (tuple_type (type_identifier) (type_identifier)))
-  (type_alias_declaration
-    (type_identifier)
-    (tuple_type (readonly) (type_identifier) (type_identifier)))
-  (type_alias_declaration
-    (type_identifier)
-    (tuple_type (rest_type (identifier))))
-  (type_alias_declaration
-    (type_identifier)
-    (tuple_type
-      (type_identifier)
-      (rest_type (identifier))))
-  (type_alias_declaration
-    (type_identifier)
-    (tuple_type
-      (type_identifier)
-      (type_identifier)
-      (rest_type (identifier))))
-  (type_alias_declaration
-    (type_identifier)
-    (tuple_type
-      (type_identifier)
-      (optional_tuple_type (type_identifier)))))
-
-==================================
 Read-only arrays
 ==================================
 
@@ -814,3 +770,61 @@ type t = readonly (readonly a[]) []
         (array_type
           (readonly)
           (type_identifier))))))
+
+==================================
+Tuple types
+==================================
+
+type t = []
+type t = [a, b]
+type t = readonly [a, b]
+type t = [...b]
+type t = [a, ...b]
+type t = [a, b, ...c]
+type t = [a, b?]
+type t = [a: A, b?: B, ...c: C[]]
+
+---
+
+(program
+  (type_alias_declaration
+    (type_identifier)
+    (tuple_type))
+  (type_alias_declaration
+    (type_identifier)
+    (tuple_type
+      (identifier)
+      (identifier)))
+  (type_alias_declaration
+    (type_identifier)
+    (tuple_type
+      (readonly)
+      (identifier)
+      (identifier)))
+  (type_alias_declaration
+    (type_identifier)
+    (tuple_type (tuple_rest_member (identifier))))
+  (type_alias_declaration
+    (type_identifier)
+    (tuple_type (identifier) (tuple_rest_member (identifier))))
+  (type_alias_declaration
+    (type_identifier)
+    (tuple_type
+      (identifier)
+      (identifier)
+      (tuple_rest_member (identifier))))
+  (type_alias_declaration
+    (type_identifier)
+    (tuple_type (identifier) (optional_tuple_type (identifier))))
+  (type_alias_declaration
+    (type_identifier)
+    (tuple_type
+      (labeled_tuple_type_member
+        (identifier)
+        (type_annotation (type_identifier)))
+      (labeled_tuple_type_member
+        (optional_tuple_type (identifier))
+        (type_annotation     (type_identifier)))
+      (annotated_rest_type
+        (identifier)
+        (type_annotation (array_type (type_identifier)))))))
