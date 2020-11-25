@@ -484,7 +484,7 @@ module.exports = function defineGrammar(dialect) {
         'asserts',
         choice(
           $.identifier,
-          seq($.identifier, 'is', $._type)
+          $.type_predicate
         )
       ),
 
@@ -510,7 +510,6 @@ module.exports = function defineGrammar(dialect) {
         $._type_identifier,
         $.nested_type_identifier,
         $.generic_type,
-        $.type_predicate,
         $.object_type,
         $.array_type,
         $.tuple_type,
@@ -629,7 +628,7 @@ module.exports = function defineGrammar(dialect) {
         field('type_parameters', optional($.type_parameters)),
         field('parameters', $.formal_parameters),
         field('return_type', optional(
-          choice($.type_annotation, $.asserts)
+          choice($.type_annotation, $.asserts, seq(':', $.type_predicate))
         ))
       ),
 

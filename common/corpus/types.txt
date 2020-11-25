@@ -716,6 +716,10 @@ Assertion functions checking a type
 function f(x: any): asserts x is number {
 }
 
+function isT(t: T): t is T {
+  return true
+}
+
 ---
 
 (program
@@ -724,8 +728,19 @@ function f(x: any): asserts x is number {
     (formal_parameters
     (required_parameter
       (identifier) (type_annotation (predefined_type))))
-    (asserts (identifier) (predefined_type))
-    (statement_block)))
+    (asserts (type_predicate (identifier) (predefined_type)))
+    (statement_block))
+  (function_declaration
+    (identifier)
+    (formal_parameters
+      (required_parameter
+        (identifier)
+        (type_annotation (type_identifier))))
+    (type_predicate
+      (identifier)
+      (type_identifier))
+    (statement_block (return_statement (true))))
+  )
 
 ==================================
 Tuple types
