@@ -241,10 +241,6 @@ module.exports = grammar({
         optional(seq(field('equals', '='), field('value', $._content)))
       ),
 
-    _word_group: $ => seq('{', $.word, '}'),
-
-    _comma_sep_word_group: $ => seq('{', sepBy($.word, ','), '}'),
-
     //--- Text ---//
 
     // Performance optimization: store text as a binary tree instead of a list
