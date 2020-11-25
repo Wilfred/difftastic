@@ -737,6 +737,7 @@ type t = readonly [a, b]
 type t = [...b]
 type t = [a, ...b]
 type t = [a, b, ...c]
+type t = [a, b?]
 
 ---
 
@@ -763,7 +764,12 @@ type t = [a, b, ...c]
     (tuple_type
       (type_identifier)
       (type_identifier)
-      (rest_type (identifier)))))
+      (rest_type (identifier))))
+  (type_alias_declaration
+    (type_identifier)
+    (tuple_type
+      (type_identifier)
+      (optional_tuple_type (type_identifier)))))
 
 ==================================
 Read-only arrays
