@@ -66,11 +66,19 @@
         },
         {
           "type": "SYMBOL",
+          "name": "latex_include"
+        },
+        {
+          "type": "SYMBOL",
           "name": "biblatex_include"
         },
         {
           "type": "SYMBOL",
           "name": "graphics_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "verbatim_include"
         },
         {
           "type": "SYMBOL",
@@ -577,33 +585,33 @@
             }
           },
           {
-            "type": "FIELD",
-            "name": "label",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": "["
-                    },
-                    {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "["
+                  },
+                  {
+                    "type": "FIELD",
+                    "name": "label",
+                    "content": {
                       "type": "SYMBOL",
                       "name": "word"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "]"
                     }
-                  ]
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            }
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "]"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "FIELD",
@@ -782,41 +790,45 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "property",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "property",
+                  "content": {
                     "type": "SYMBOL",
                     "name": "key_val_pair"
-                  },
-                  {
-                    "type": "REPEAT",
-                    "content": {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": ","
-                        },
-                        {
+                  }
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "FIELD",
+                        "name": "property",
+                        "content": {
                           "type": "SYMBOL",
                           "name": "key_val_pair"
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
-                ]
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "FIELD",
@@ -1684,6 +1696,88 @@
         }
       ]
     },
+    "latex_include": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\input"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\include"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\subfile"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\subfileinclude"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "path",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "word"
+                  }
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "FIELD",
+                        "name": "path",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "word"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
     "biblatex_include": {
       "type": "SEQ",
       "members": [
@@ -1709,6 +1803,68 @@
                 "type": "BLANK"
               }
             ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "path",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "word"
+                  }
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "FIELD",
+                        "name": "path",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "word"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "bibtex_include": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\bibliography"
           }
         },
         {
@@ -1856,7 +2012,7 @@
         }
       ]
     },
-    "generic_include": {
+    "verbatim_include": {
       "type": "SEQ",
       "members": [
         {
@@ -1869,31 +2025,11 @@
               "members": [
                 {
                   "type": "STRING",
-                  "value": "\\include"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\input"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\bibliography"
-                },
-                {
-                  "type": "STRING",
                   "value": "\\verbatiminput"
                 },
                 {
                   "type": "STRING",
                   "value": "\\VerbatimInput"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\subfile"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\subfileinclude"
                 }
               ]
             }

@@ -210,6 +210,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -255,6 +259,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -374,6 +382,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -419,6 +431,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -570,6 +586,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -611,6 +631,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -822,6 +846,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -867,6 +895,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -994,6 +1026,10 @@
           "named": true
         },
         {
+          "type": "latex_include",
+          "named": true
+        },
+        {
           "type": "math_operator",
           "named": true
         },
@@ -1039,6 +1075,10 @@
         },
         {
           "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
           "named": true
         }
       ]
@@ -1155,6 +1195,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -1177,6 +1221,10 @@
           {
             "type": "theorem_definition",
             "named": true
+          },
+          {
+            "type": "verbatim_include",
+            "named": true
           }
         ]
       },
@@ -1191,17 +1239,9 @@
         ]
       },
       "label": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "[",
-            "named": false
-          },
-          {
-            "type": "]",
-            "named": false
-          },
           {
             "type": "word",
             "named": true
@@ -1313,6 +1353,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -1358,6 +1402,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -1605,6 +1653,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -1650,6 +1702,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -1702,10 +1758,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
           {
             "type": "key_val_pair",
             "named": true
@@ -1837,6 +1889,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -1882,6 +1938,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -1983,6 +2043,22 @@
       "label2": {
         "multiple": false,
         "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "latex_include",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": true,
+        "required": false,
         "types": [
           {
             "type": "word",
@@ -2101,6 +2177,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -2146,6 +2226,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -2295,6 +2379,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -2320,6 +2408,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -2429,6 +2521,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -2474,6 +2570,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -2593,6 +2693,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -2634,6 +2738,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -2739,6 +2847,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -2776,6 +2888,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -2881,6 +2997,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -2902,6 +3022,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -3007,6 +3131,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -3040,6 +3168,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -3145,6 +3277,10 @@
             "named": true
           },
           {
+            "type": "latex_include",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -3174,6 +3310,10 @@
           },
           {
             "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           }
         ]
@@ -3261,6 +3401,22 @@
     }
   },
   {
+    "type": "verbatim_include",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "$",
     "named": false
   },
@@ -3310,6 +3466,10 @@
   },
   {
     "type": "\\begin",
+    "named": false
+  },
+  {
+    "type": "\\bibliography",
     "named": false
   },
   {

@@ -57,15 +57,6 @@
     "\\Pnotecite",
     "\\fnotecite"
   ],
-  "include": [
-    "\\include",
-    "\\input",
-    "\\bibliography",
-    "\\verbatiminput",
-    "\\VerbatimInput",
-    "\\subfile",
-    "\\subfileinclude"
-  ],
   "labelReference": [
     "\\ref",
     "\\vref",

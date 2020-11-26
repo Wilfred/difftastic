@@ -32,8 +32,10 @@ module.exports = grammar({
         $.citation,
         $.package_include,
         $.class_include,
+        $.latex_include,
         $.biblatex_include,
         $.graphics_include,
+        $.verbatim_include,
         $.import,
         $.label_definition,
         $.label_reference,
@@ -193,7 +195,7 @@ module.exports = grammar({
       prec.right(
         seq(
           field('command', '\\item'),
-          field('label', optional(seq('[', $.word, ']'))),
+          optional(seq('[', field('label', $.word), ']')),
           field('child', repeat(choice($._simple_content)))
         )
       ),
@@ -231,7 +233,7 @@ module.exports = grammar({
     key_val_options: $ =>
       seq(
         field('left', '['),
-        field('property', sepBy($.key_val_pair, ',')),
+        sepBy(field('property', $.key_val_pair), ','),
         field('right', ']')
       ),
 
@@ -340,10 +342,29 @@ module.exports = grammar({
         '}'
       ),
 
+    latex_include: $ =>
+      seq(
+        field(
+          'command',
+          token(choice('\\input', '\\include', '\\subfile', '\\subfileinclude'))
+        ),
+        '{',
+        sepBy(field('path', $.word), ','),
+        '}'
+      ),
+
     biblatex_include: $ =>
       seq(
         field('command', '\\addbibresource'),
         field('option', optional($.key_val_options)),
+        '{',
+        sepBy(field('path', $.word), ','),
+        '}'
+      ),
+
+    bibtex_include: $ =>
+      seq(
+        field('command', '\\bibliography'),
         '{',
         sepBy(field('path', $.word), ','),
         '}'
@@ -363,9 +384,9 @@ module.exports = grammar({
         '}'
       ),
 
-    generic_include: $ =>
+    verbatim_include: $ =>
       seq(
-        field('command', token(choice(...commands.include))),
+        field('command', token(choice('\\verbatiminput', '\\VerbatimInput'))),
         '{',
         sepBy(field('path', $.word), ','),
         '}'
