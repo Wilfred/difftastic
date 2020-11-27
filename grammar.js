@@ -137,6 +137,7 @@ module.exports = grammar({
         $._coefficient,                          // 5.2.4
         $._unit,                                 // 5.2.4
         $._discrete_range,                       // 5.3.2
+        $._object_declaration,                   // 6
         $._constraint,                           // 6.3
         $._element_constraint,                   // 6.3
         $._type_mark,                            // 6.3
@@ -160,6 +161,7 @@ module.exports = grammar({
         $._external_pathname,                    // 8.7
         $._primary,                              // 9
         $._literal,                              // 9.3.2
+        $._numeric_literal,                      // 9.3.2
         $._value,                                // 9.3.3
         $._function_name,                        // 9.3.4
         $._condition,                            // 10.3
@@ -171,6 +173,7 @@ module.exports = grammar({
         $._generate_statement,                   // 11.8
         $._library_unit,                         // 13.1
         $._context_item,                         // 13.1
+        $._abstract_literal,                     // 15.8
         $._base_specifier,                       // 15.8
         $._base_specifier_immed,                 // 15.8
 
@@ -1170,7 +1173,7 @@ module.exports = grammar({
     interface_constant_declaration: $ => prec.dynamic(
         PREC.CONSTANT_INTERFACE,
         seq(
-            optional(reservedWord('constant')),
+            optional(field('kind',reservedWord('constant'))),
             $.identifier_list,
             ':',
             optional(alias($._constant_mode, $.mode)),
@@ -1182,7 +1185,7 @@ module.exports = grammar({
     interface_signal_declaration: $ => prec.dynamic(
         PREC.SIGNAL_INTERFACE,
         seq(
-            optional(reservedWord('signal')),
+            optional(field('kind',reservedWord('signal'))),
             $.identifier_list,
             ':',
             optional(alias($._signal_mode, $.mode)),
@@ -1195,7 +1198,7 @@ module.exports = grammar({
     interface_variable_declaration: $ => prec.dynamic(
         PREC.VARIABLE_INTERFACE,
         seq(
-            optional(reservedWord('variable')),
+            optional(field('kind',reservedWord('variable'))),
             $.identifier_list,
             ':',
             optional(alias($._variable_mode, $.mode)),
@@ -1205,7 +1208,7 @@ module.exports = grammar({
     ),
 
     interface_file_declaration: $ => seq(
-        reservedWord('file'),
+        field('kind',reservedWord('file')),
         $.identifier_list,
         ':',
         $.subtype_indication
@@ -1263,7 +1266,7 @@ module.exports = grammar({
 
     // 6.5.3 Interface type declarations {{{
     interface_type_declaration: $ => seq(
-        reservedWord('type'),
+        field('kind',reservedWord('type')),
         $.identifier
     ),
     // }}}
@@ -3046,10 +3049,7 @@ module.exports = grammar({
     // 12.4 Use clauses {{{
     use_clause: $ => seq(
         reservedWord('use'),
-        $.selected_name,
-        repeat(seq(
-            ',', $.selected_name
-        )),
+        sepBy1(',',$.selected_name),
         ';'
     ),
     // }}}

@@ -21477,6 +21477,16 @@
             "named": true
           }
         ]
+      },
+      "kind": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "constant",
+            "named": false
+          }
+        ]
       }
     },
     "children": {
@@ -21501,7 +21511,18 @@
   {
     "type": "interface_file_declaration",
     "named": true,
-    "fields": {},
+    "fields": {
+      "kind": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "file",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -21724,6 +21745,16 @@
             "named": true
           }
         ]
+      },
+      "kind": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "signal",
+            "named": false
+          }
+        ]
       }
     },
     "children": {
@@ -21817,7 +21848,18 @@
   {
     "type": "interface_type_declaration",
     "named": true,
-    "fields": {},
+    "fields": {
+      "kind": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,
@@ -21972,6 +22014,16 @@
           {
             "type": "term",
             "named": true
+          }
+        ]
+      },
+      "kind": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "variable",
+            "named": false
           }
         ]
       }
