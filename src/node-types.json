@@ -118,6 +118,32 @@
     }
   },
   {
+    "type": "bibtex_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\bibliography",
+            "named": false
+          }
+        ]
+      },
+      "path": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "brace_group",
     "named": true,
     "fields": {
@@ -131,6 +157,10 @@
           },
           {
             "type": "biblatex_include",
+            "named": true
+          },
+          {
+            "type": "bibtex_include",
             "named": true
           },
           {
@@ -303,6 +333,10 @@
           },
           {
             "type": "biblatex_include",
+            "named": true
+          },
+          {
+            "type": "bibtex_include",
             "named": true
           },
           {
@@ -511,6 +545,10 @@
           },
           {
             "type": "biblatex_include",
+            "named": true
+          },
+          {
+            "type": "bibtex_include",
             "named": true
           },
           {
@@ -770,6 +808,10 @@
             "named": true
           },
           {
+            "type": "bibtex_include",
+            "named": true
+          },
+          {
             "type": "brace_group",
             "named": true
           },
@@ -950,6 +992,10 @@
           "named": true
         },
         {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
           "type": "brace_group",
           "named": true
         },
@@ -1127,6 +1173,10 @@
             "named": true
           },
           {
+            "type": "bibtex_include",
+            "named": true
+          },
+          {
             "type": "brace_group",
             "named": true
           },
@@ -1274,6 +1324,10 @@
           },
           {
             "type": "biblatex_include",
+            "named": true
+          },
+          {
+            "type": "bibtex_include",
             "named": true
           },
           {
@@ -1577,6 +1631,10 @@
             "named": true
           },
           {
+            "type": "bibtex_include",
+            "named": true
+          },
+          {
             "type": "brace_group",
             "named": true
           },
@@ -1810,6 +1868,10 @@
           },
           {
             "type": "biblatex_include",
+            "named": true
+          },
+          {
+            "type": "bibtex_include",
             "named": true
           },
           {
@@ -2101,6 +2163,10 @@
             "named": true
           },
           {
+            "type": "bibtex_include",
+            "named": true
+          },
+          {
             "type": "brace_group",
             "named": true
           },
@@ -2307,6 +2373,10 @@
             "named": true
           },
           {
+            "type": "bibtex_include",
+            "named": true
+          },
+          {
             "type": "brace_group",
             "named": true
           },
@@ -2442,6 +2512,10 @@
           },
           {
             "type": "biblatex_include",
+            "named": true
+          },
+          {
+            "type": "bibtex_include",
             "named": true
           },
           {
@@ -2617,6 +2691,10 @@
             "named": true
           },
           {
+            "type": "bibtex_include",
+            "named": true
+          },
+          {
             "type": "brace_group",
             "named": true
           },
@@ -2775,6 +2853,10 @@
             "named": true
           },
           {
+            "type": "bibtex_include",
+            "named": true
+          },
+          {
             "type": "brace_group",
             "named": true
           },
@@ -2925,6 +3007,10 @@
             "named": true
           },
           {
+            "type": "bibtex_include",
+            "named": true
+          },
+          {
             "type": "brace_group",
             "named": true
           },
@@ -3056,6 +3142,10 @@
           },
           {
             "type": "biblatex_include",
+            "named": true
+          },
+          {
+            "type": "bibtex_include",
             "named": true
           },
           {
@@ -3202,6 +3292,10 @@
           },
           {
             "type": "biblatex_include",
+            "named": true
+          },
+          {
+            "type": "bibtex_include",
             "named": true
           },
           {

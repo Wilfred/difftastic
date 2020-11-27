@@ -74,6 +74,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "bibtex_include"
+        },
+        {
+          "type": "SYMBOL",
           "name": "graphics_include"
         },
         {

@@ -34,6 +34,7 @@ module.exports = grammar({
         $.class_include,
         $.latex_include,
         $.biblatex_include,
+        $.bibtex_include,
         $.graphics_include,
         $.verbatim_include,
         $.import,
@@ -250,6 +251,7 @@ module.exports = grammar({
       prec.right(
         seq(field('left', $._text_fragment), field('right', optional($.text)))
       ),
+    // text: $ => prec.right(repeat1($._text_fragment)),
 
     _text_fragment: $ => prec.right(choice($.word, ',', '=')),
 
