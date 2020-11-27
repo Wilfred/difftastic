@@ -1,3 +1,6 @@
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
+
 const commands = require('./commands.json');
 
 const sepBy1 = (rule, sep) => seq(rule, repeat(seq(sep, rule)));
@@ -247,11 +250,11 @@ module.exports = grammar({
     //--- Text ---//
 
     // Performance optimization: store text as a binary tree instead of a list
-    text: $ =>
-      prec.right(
-        seq(field('left', $._text_fragment), field('right', optional($.text)))
-      ),
-    // text: $ => prec.right(repeat1($._text_fragment)),
+    // text: $ =>
+    //   prec.right(
+    //     seq(field('left', $._text_fragment), field('right', optional($.text)))
+    //   ),
+    text: $ => prec.right(repeat1($._text_fragment)),
 
     _text_fragment: $ => prec.right(choice($.word, ',', '=')),
 
