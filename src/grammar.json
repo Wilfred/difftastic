@@ -34,7 +34,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "text"
+          "name": "_text"
         },
         {
           "type": "SYMBOL",
@@ -889,7 +889,7 @@
         }
       ]
     },
-    "text": {
+    "_text": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
@@ -1561,7 +1561,7 @@
               "members": [
                 {
                   "type": "FIELD",
-                  "name": "name",
+                  "name": "path",
                   "content": {
                     "type": "SYMBOL",
                     "name": "word"
@@ -1578,7 +1578,7 @@
                       },
                       {
                         "type": "FIELD",
-                        "name": "name",
+                        "name": "path",
                         "content": {
                           "type": "SYMBOL",
                           "name": "word"
@@ -1639,7 +1639,7 @@
               "members": [
                 {
                   "type": "FIELD",
-                  "name": "name",
+                  "name": "path",
                   "content": {
                     "type": "SYMBOL",
                     "name": "word"
@@ -1656,7 +1656,7 @@
                       },
                       {
                         "type": "FIELD",
-                        "name": "name",
+                        "name": "path",
                         "content": {
                           "type": "SYMBOL",
                           "name": "word"

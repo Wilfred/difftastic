@@ -334,7 +334,7 @@ module.exports = grammar({
         field('command', token(choice('\\usepackage', '\\RequirePackage'))),
         field('option', optional($.key_val_options)),
         '{',
-        sepBy(field('name', $.word), ','),
+        sepBy(field('path', $.word), ','),
         '}'
       ),
 
@@ -343,7 +343,7 @@ module.exports = grammar({
         field('command', '\\documentclass'),
         field('option', optional($.key_val_options)),
         '{',
-        sepBy(field('name', $.word), ','),
+        sepBy(field('path', $.word), ','),
         '}'
       ),
 
