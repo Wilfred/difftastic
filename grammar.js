@@ -462,6 +462,8 @@ module.exports = grammar({
          $._designator,
          optional($.header),
          optional($.formal_procedure_parameter_clause),
+         // LINT: shall not be present:
+         $.return
      ),
 
      pure_function_specification: $ => seq(
@@ -1173,7 +1175,7 @@ module.exports = grammar({
     interface_constant_declaration: $ => prec.dynamic(
         PREC.CONSTANT_INTERFACE,
         seq(
-            optional(field('kind',reservedWord('constant'))),
+            optional(reservedWord('constant')),
             $.identifier_list,
             ':',
             optional(alias($._constant_mode, $.mode)),
@@ -1185,7 +1187,7 @@ module.exports = grammar({
     interface_signal_declaration: $ => prec.dynamic(
         PREC.SIGNAL_INTERFACE,
         seq(
-            optional(field('kind',reservedWord('signal'))),
+            optional(reservedWord('signal')),
             $.identifier_list,
             ':',
             optional(alias($._signal_mode, $.mode)),
@@ -1198,7 +1200,7 @@ module.exports = grammar({
     interface_variable_declaration: $ => prec.dynamic(
         PREC.VARIABLE_INTERFACE,
         seq(
-            optional(field('kind',reservedWord('variable'))),
+            optional(reservedWord('variable')),
             $.identifier_list,
             ':',
             optional(alias($._variable_mode, $.mode)),
@@ -1208,9 +1210,11 @@ module.exports = grammar({
     ),
 
     interface_file_declaration: $ => seq(
-        field('kind',reservedWord('file')),
+        reservedWord('file'),
         $.identifier_list,
         ':',
+        // shall NOT be present
+        optional(alias($._signal_mode, $.mode)),
         $.subtype_indication
     ),
 
@@ -1249,24 +1253,21 @@ module.exports = grammar({
 
     _illegal_interface_declaration: $ => prec.dynamic(
         PREC.ILLEGAL_INTERFACE,
-        field(
-            'ILLEGAL',
-            choice(
-                $.interface_constant_declaration,
-                $.interface_signal_declaration,
-                $.interface_variable_declaration,
-                $.interface_file_declaration,
-                $.interface_type_declaration,
-                $.interface_subprogram_declaration,
-                $.interface_package_declaration
-            )
+        choice(
+            $.interface_constant_declaration,
+            $.interface_signal_declaration,
+            $.interface_variable_declaration,
+            $.interface_file_declaration,
+            $.interface_type_declaration,
+            $.interface_subprogram_declaration,
+            $.interface_package_declaration
         )
     ),
     // }}}
 
     // 6.5.3 Interface type declarations {{{
     interface_type_declaration: $ => seq(
-        field('kind',reservedWord('type')),
+        reservedWord('type'),
         $.identifier
     ),
     // }}}

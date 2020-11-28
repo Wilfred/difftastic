@@ -19246,45 +19246,10 @@
   {
     "type": "formal_function_parameter_clause",
     "named": true,
-    "fields": {
-      "ILLEGAL": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "interface_constant_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_file_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_package_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_signal_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_subprogram_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_type_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_variable_declaration",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "interface_constant_declaration",
@@ -19295,7 +19260,23 @@
           "named": true
         },
         {
+          "type": "interface_package_declaration",
+          "named": true
+        },
+        {
           "type": "interface_signal_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_subprogram_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_type_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_variable_declaration",
           "named": true
         }
       ]
@@ -19304,45 +19285,10 @@
   {
     "type": "formal_procedure_parameter_clause",
     "named": true,
-    "fields": {
-      "ILLEGAL": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "interface_constant_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_file_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_package_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_signal_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_subprogram_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_type_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_variable_declaration",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "interface_constant_declaration",
@@ -19353,7 +19299,19 @@
           "named": true
         },
         {
+          "type": "interface_package_declaration",
+          "named": true
+        },
+        {
           "type": "interface_signal_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_subprogram_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_type_declaration",
           "named": true
         },
         {
@@ -19860,52 +19818,25 @@
   {
     "type": "generic_clause",
     "named": true,
-    "fields": {
-      "ILLEGAL": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "interface_constant_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_file_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_package_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_signal_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_subprogram_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_type_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_variable_declaration",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "interface_constant_declaration",
           "named": true
         },
         {
+          "type": "interface_file_declaration",
+          "named": true
+        },
+        {
           "type": "interface_package_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_signal_declaration",
           "named": true
         },
         {
@@ -19914,6 +19845,10 @@
         },
         {
           "type": "interface_type_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_variable_declaration",
           "named": true
         },
         {
@@ -21477,16 +21412,6 @@
             "named": true
           }
         ]
-      },
-      "kind": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "constant",
-            "named": false
-          }
-        ]
       }
     },
     "children": {
@@ -21511,24 +21436,17 @@
   {
     "type": "interface_file_declaration",
     "named": true,
-    "fields": {
-      "kind": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "file",
-            "named": false
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
           "type": "identifier_list",
+          "named": true
+        },
+        {
+          "type": "mode",
           "named": true
         },
         {
@@ -21745,16 +21663,6 @@
             "named": true
           }
         ]
-      },
-      "kind": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "signal",
-            "named": false
-          }
-        ]
       }
     },
     "children": {
@@ -21848,18 +21756,7 @@
   {
     "type": "interface_type_declaration",
     "named": true,
-    "fields": {
-      "kind": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type",
-            "named": false
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": false,
       "required": true,
@@ -22014,16 +21911,6 @@
           {
             "type": "term",
             "named": true
-          }
-        ]
-      },
-      "kind": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "variable",
-            "named": false
           }
         ]
       }
@@ -23790,48 +23677,37 @@
   {
     "type": "port_clause",
     "named": true,
-    "fields": {
-      "ILLEGAL": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "interface_constant_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_file_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_package_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_signal_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_subprogram_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_type_declaration",
-            "named": true
-          },
-          {
-            "type": "interface_variable_declaration",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
+          "type": "interface_constant_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_file_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_package_declaration",
+          "named": true
+        },
+        {
           "type": "interface_signal_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_subprogram_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_type_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_variable_declaration",
           "named": true
         },
         {
@@ -24194,7 +24070,7 @@
     },
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "formal_procedure_parameter_clause",
@@ -24202,6 +24078,10 @@
         },
         {
           "type": "header",
+          "named": true
+        },
+        {
+          "type": "return",
           "named": true
         }
       ]
