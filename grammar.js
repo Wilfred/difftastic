@@ -541,7 +541,7 @@ module.exports = grammar({
         $._virtual_open_section,
         field("branch", $.case_of_branch),
         optional($._more_case_of_branches),
-        optional($._virtual_end_section)
+        $._virtual_end_section
       ),
 
     _more_case_of_branches: ($) =>
