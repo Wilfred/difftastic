@@ -860,17 +860,24 @@
   {
     "type": "block",
     "named": true,
-    "fields": {},
+    "fields": {
+      "parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "block_parameters",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
           "type": "_statement",
-          "named": true
-        },
-        {
-          "type": "block_parameters",
           "named": true
         },
         {
@@ -1222,17 +1229,24 @@
   {
     "type": "do_block",
     "named": true,
-    "fields": {},
+    "fields": {
+      "parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "block_parameters",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
           "type": "_statement",
-          "named": true
-        },
-        {
-          "type": "block_parameters",
           "named": true
         },
         {
