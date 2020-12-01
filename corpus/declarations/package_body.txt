@@ -37,27 +37,27 @@ end;
 (design_file
   (package_body
     package: (simple_name)
-    (package_body_declarative_part
+    (declarative_part
       (deferred_constant_declaration
         (identifier_list
           (identifier))
         (subtype_indication
-          type_mark: (simple_name)))))
+          (type_mark (simple_name))))))
   (package_body
     package: (simple_name)
-    (package_body_declarative_part
+    (declarative_part
       (deferred_constant_declaration
         (identifier_list
           (identifier))
         (subtype_indication
-          type_mark: (simple_name)))
+          (type_mark (simple_name))))
       (deferred_constant_declaration
         (identifier_list
           (identifier))
         (subtype_indication
-          type_mark: (simple_name)))
+          (type_mark (simple_name))))
       (deferred_constant_declaration
         (identifier_list
           (identifier))
         (subtype_indication
-          type_mark: (simple_name))))))
+          (type_mark (simple_name)))))))

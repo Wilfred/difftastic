@@ -37,8 +37,9 @@ end component;
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name)))
+            (type_mark (simple_name))))
         (semicolon)))))
+
 
 =============================
 Local port clause
@@ -57,7 +58,7 @@ end component;
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name)))
+            (type_mark (simple_name))))
         (semicolon)))))
 
 =============================
@@ -78,12 +79,12 @@ end component;
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name)))
+            (type_mark (simple_name))))
         (semicolon))
       (port_clause
         (interface_signal_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name)))
+            (type_mark (simple_name))))
         (semicolon)))))

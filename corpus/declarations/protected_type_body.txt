@@ -45,24 +45,24 @@ end protected body SharedCounter;
     (protected_type_body
       (protected_type_body_declarative_part
         (variable_declaration
-          (identifier_list
-            (identifier))
+          (identifier_list (identifier))
           (subtype_indication
-            type_mark: (simple_name))
-          default_expression: (integer_decimal
-            (integer)))
+            (type_mark (simple_name)))
+          (default_expression
+            (integer_decimal
+              (integer))))
         (subprogram_body
           (procedure_specification
-            designator: (identifier)
+            (identifier)
             (formal_procedure_parameter_clause
               (interface_constant_declaration
-                (identifier_list
-                  (identifier))
+                (identifier_list (identifier))
                 (subtype_indication
-                  type_mark: (simple_name))
-                default_expression: (integer_decimal
-                  (integer)))))
-          (subprogram_statement_part
+                  (type_mark (simple_name)))
+                (default_expression
+                  (integer_decimal
+                    (integer))))))
+          (sequence_of_statements
             (simple_variable_assignment
               target: (simple_name)
               value: (simple_expression
@@ -72,16 +72,16 @@ end protected body SharedCounter;
           at_end: (simple_name))
         (subprogram_body
           (procedure_specification
-            designator: (identifier)
+            (identifier)
             (formal_procedure_parameter_clause
               (interface_constant_declaration
-                (identifier_list
-                  (identifier))
+                (identifier_list (identifier))
                 (subtype_indication
-                  type_mark: (simple_name))
-                default_expression: (integer_decimal
-                  (integer)))))
-          (subprogram_statement_part
+                  (type_mark (simple_name)))
+                (default_expression
+                  (integer_decimal
+                    (integer))))))
+          (sequence_of_statements
             (simple_variable_assignment
               target: (simple_name)
               value: (simple_expression
@@ -91,10 +91,10 @@ end protected body SharedCounter;
           at_end: (simple_name))
         (subprogram_body
           (impure_function_specification
-            designator: (identifier)
+            (identifier)
             (return
-              type_mark: (simple_name)))
-          (subprogram_statement_part
+              (type_mark (simple_name))))
+          (sequence_of_statements
             (return_statement
               (simple_name)))
           (subprogram_kind)

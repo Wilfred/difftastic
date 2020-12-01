@@ -18,14 +18,14 @@ for i in r
     (parameter_specification
       (identifier)
       (subtype_indication
-        type_mark: (simple_name))))
+        (type_mark (simple_name)))))
   (for_generate_statement
     (label (identifier))
     (parameter_specification
       (identifier)
       (subtype_indication
-        type_mark: (simple_name)))
-    footer_label: (simple_name)))
+        (type_mark (simple_name))))
+    at_end: (simple_name)))
 
 ====================================
 For generate - Body
@@ -56,21 +56,21 @@ for i in r
     (parameter_specification
       (identifier)
       (subtype_indication
-        type_mark: (simple_name)))
+        (type_mark (simple_name))))
     (generate_statement_body))
   (for_generate_statement
     (label (identifier))
     (parameter_specification
       (identifier)
       (subtype_indication
-        type_mark: (simple_name)))
+        (type_mark (simple_name))))
     (generate_statement_body))
   (for_generate_statement
     (label (identifier))
     (parameter_specification
       (identifier)
       (subtype_indication
-        type_mark: (simple_name)))
+        (type_mark (simple_name))))
     (generate_statement_body)))
 
 ==================================================
@@ -98,25 +98,25 @@ for i in r
     (parameter_specification
       (identifier)
       (subtype_indication
-        type_mark: (simple_name)))
+        (type_mark (simple_name))))
     (generate_statement_body
-      (block_declarative_part
+      (declarative_part
         (subtype_declaration
           (identifier)
           (subtype_indication
-            type_mark: (simple_name))))))
+            (type_mark (simple_name)))))))
   (for_generate_statement
     (label (identifier))
     (parameter_specification
       (identifier)
       (subtype_indication
-        type_mark: (simple_name)))
+        (type_mark (simple_name))))
     (generate_statement_body
-      (block_declarative_part
+      (declarative_part
         (subtype_declaration
           (identifier)
           (subtype_indication
-            type_mark: (simple_name)))))))
+            (type_mark (simple_name))))))))
 
 ==================================================
 Generate statement body - Concurrent statement I
@@ -154,14 +154,14 @@ for i in r
     (parameter_specification
       (identifier)
       (subtype_indication
-        type_mark: (simple_name)))
+        (type_mark (simple_name))))
     (generate_statement_body))
   (for_generate_statement
     (label (identifier))
     (parameter_specification
       (identifier)
       (subtype_indication
-        type_mark: (simple_name)))
+        (type_mark (simple_name))))
     (generate_statement_body
       (block_statement
         (label (identifier)))))
@@ -170,7 +170,7 @@ for i in r
     (parameter_specification
       (identifier)
       (subtype_indication
-        type_mark: (simple_name)))
+        (type_mark (simple_name))))
     (generate_statement_body
       (block_statement
         (label (identifier))))))
@@ -392,7 +392,7 @@ end generate G1;
       condition: (simple_name))
     (else_generate
       alternative_label: (identifier))
-    footer_label: (simple_name)))
+    at_end: (simple_name)))
 
 ====================================
 If generate - Generate body label
@@ -417,12 +417,12 @@ end generate G1;
       alternative_label: (identifier)
       condition: (simple_name)
       (generate_statement_body
-        footer_label: (simple_name)))
+        at_end: (simple_name)))
     (else_generate
       alternative_label: (identifier)
       (generate_statement_body
-        footer_label: (simple_name)))
-    footer_label: (simple_name)))
+        at_end: (simple_name)))
+    at_end: (simple_name)))
 
 ====================================
 Case generate - Minimal

@@ -9,10 +9,8 @@ assert forall p in boolean : p;
     Property: (PSL_Property_Replicator
       (PSL_Parameter_Specification
         (PSL_Identifier)
-        (PSL_Value_Set
-          (boolean)))
-      Property: (PSL_Property_Instance
-        Property_Name: (PSL_Identifier)))))
+        (PSL_Value_Set (boolean)))
+      Property: (simple_name))))
 
 =============================
 Property replicator - Index Range I
@@ -26,14 +24,10 @@ assert forall p (0 to 1) in boolean : p;
       (PSL_Parameter_Specification
         (PSL_Identifier)
         Index_Range: (ascending_range
-          low: (integer_decimal
-            (integer))
-          high: (integer_decimal
-            (integer)))
-        (PSL_Value_Set
-          (boolean)))
-      Property: (PSL_Property_Instance
-        Property_Name: (PSL_Identifier)))))
+           low: (integer_decimal (integer))
+          high: (integer_decimal (integer)))
+        (PSL_Value_Set (boolean)))
+      Property: (simple_name))))
 
 =============================
 Replicator - Index Range II
@@ -47,14 +41,10 @@ assert forall p (1 downto 0) in boolean : p;
       (PSL_Parameter_Specification
         (PSL_Identifier)
         Index_Range: (descending_range
-          high: (integer_decimal
-            (integer))
-          low: (integer_decimal
-            (integer)))
-        (PSL_Value_Set
-          (boolean)))
-      Property: (PSL_Property_Instance
-        Property_Name: (PSL_Identifier)))))
+          high: (integer_decimal (integer))
+           low: (integer_decimal (integer)))
+        (PSL_Value_Set (boolean)))
+      Property: (simple_name))))
 
 =============================
 Replicator - Index Range - VHDL Range III
@@ -69,11 +59,9 @@ assert forall p (foo'range) in boolean : p;
         (PSL_Identifier)
         Index_Range: (range_attribute_name
           prefix: (simple_name)
-          (range_attribute_designator))
-        (PSL_Value_Set
-          (boolean)))
-      Property: (PSL_Property_Instance
-        Property_Name: (PSL_Identifier)))))
+                  (range_attribute_designator))
+        (PSL_Value_Set (boolean)))
+      Property: (simple_name))))
 
 =============================
 Replicator - Value Set I
@@ -88,12 +76,9 @@ assert forall p in {0 to 1} : p;
         (PSL_Identifier)
         (PSL_Value_Set
           (ascending_range
-            low: (integer_decimal
-              (integer))
-            high: (integer_decimal
-              (integer)))))
-      Property: (PSL_Property_Instance
-        Property_Name: (PSL_Identifier)))))
+             low: (integer_decimal (integer))
+            high: (integer_decimal (integer)))))
+      Property: (simple_name))))
 
 =============================
 Replicator - Value Set II
@@ -108,17 +93,12 @@ assert forall p in {0 to 1, 0 to 1} : p;
         (PSL_Identifier)
         (PSL_Value_Set
           (ascending_range
-            low: (integer_decimal
-              (integer))
-            high: (integer_decimal
-              (integer)))
+             low: (integer_decimal (integer))
+            high: (integer_decimal (integer)))
           (ascending_range
-            low: (integer_decimal
-              (integer))
-            high: (integer_decimal
-              (integer)))))
-      Property: (PSL_Property_Instance
-        Property_Name: (PSL_Identifier)))))
+             low: (integer_decimal (integer))
+            high: (integer_decimal (integer)))))
+      Property: (simple_name))))
 
 =============================
 Replicator - Value Set - Value
@@ -133,8 +113,7 @@ assert forall p in {val} : p;
         (PSL_Identifier)
         (PSL_Value_Set
           Value: (simple_name)))
-      Property: (PSL_Property_Instance
-        Property_Name: (PSL_Identifier)))))
+      Property: (simple_name))))
 
 ===============================
 Clock property

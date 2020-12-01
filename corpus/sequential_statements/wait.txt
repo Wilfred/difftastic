@@ -18,8 +18,9 @@ wait on a;
 
 (design_file
   (wait_statement
-    on: (sensitivity_list
-      signal: (simple_name))))
+    (sensitivity_clause
+      (sensitivity_list
+        (simple_name)))))
 
 ================================
 Wait - Conditon clause
@@ -29,10 +30,11 @@ wait until rising_edge(clk);
 
 (design_file
   (wait_statement
-    until: (ambiguous_name
-      prefix: (simple_name)
-      (expression_list
-        expression: (simple_name)))))
+    (condition_clause
+      (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (simple_name))))))
 
 ================================
 Wait - Timeout clause
@@ -42,9 +44,10 @@ wait for 10 ns;
 
 (design_file
   (wait_statement
-    time: (physical_literal
-      coefficient: (integer_decimal (integer))
-      unit: (simple_name))))
+    (timeout_clause
+      (physical_literal
+        coefficient: (integer_decimal (integer))
+        unit: (simple_name)))))
 
 ================================
 Wait - All clauses
@@ -55,10 +58,14 @@ L1: wait on foo, bar until cond for 1 ms;
 (design_file
   (wait_statement
     (label (identifier))
-    on: (sensitivity_list
-      signal: (simple_name)
-      signal: (simple_name))
-    until: (simple_name)
-    time: (physical_literal
-      coefficient: (integer_decimal (integer))
-      unit: (simple_name))))
+    (sensitivity_clause
+      (sensitivity_list
+        (simple_name)
+        (simple_name)))
+    (condition_clause
+      (simple_name))
+    (timeout_clause
+      (physical_literal
+        coefficient: (integer_decimal (integer))
+        unit: (simple_name)))))
+

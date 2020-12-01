@@ -84,11 +84,10 @@ assert forall i in boolean: f(i);
         (PSL_Identifier)
         (PSL_Value_Set
           (boolean)))
-      Property: (PSL_Property_Instance
-        Property_Name: (PSL_Identifier)
-        (PSL_Actual_Parameter_List
-          (PSL_Actual_Parameter
-            (simple_name)))))))
+      Property: (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (simple_name))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties II
@@ -105,11 +104,10 @@ assert forall i in {j to k} : f(i);
           (ascending_range
             low: (simple_name)
             high: (simple_name))))
-      Property: (PSL_Property_Instance
-        Property_Name: (PSL_Identifier)
-        (PSL_Actual_Parameter_List
-          (PSL_Actual_Parameter
-            (simple_name)))))))
+      Property: (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (simple_name))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties III
@@ -127,11 +125,10 @@ assert forall i (0 to 1) in boolean : f(i);
           high: (integer_decimal (integer)))
         (PSL_Value_Set
           (boolean)))
-      Property: (PSL_Property_Instance
-        Property_Name: (PSL_Identifier)
-        (PSL_Actual_Parameter_List
-          (PSL_Actual_Parameter
-            (simple_name)))))))
+      Property: (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (simple_name))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties IV
@@ -145,16 +142,15 @@ assert forall i (0 to 2) in {4,5} : f(i);
       (PSL_Parameter_Specification
         (PSL_Identifier)
         Index_Range: (ascending_range
-          low: (integer_decimal (integer))
+           low: (integer_decimal (integer))
           high: (integer_decimal (integer)))
         (PSL_Value_Set
           Value: (integer_decimal (integer))
           Value: (integer_decimal (integer))))
-      Property: (PSL_Property_Instance
-        Property_Name: (PSL_Identifier)
-        (PSL_Actual_Parameter_List
-          (PSL_Actual_Parameter
-            (simple_name)))))))
+      Property: (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (simple_name))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties IV
@@ -216,15 +212,12 @@ assert forall i in boolean:
               (ascending_range
                 low: (integer_decimal (integer))
                 high: (integer_decimal (integer)))))
-          Property: (PSL_Property_Instance
-            Property_Name: (PSL_Identifier)
-            (PSL_Actual_Parameter_List
-              (PSL_Actual_Parameter
-                (simple_name))
-              (PSL_Actual_Parameter
-                (simple_name))
-              (PSL_Actual_Parameter
-                (simple_name)))))))))
+          Property: (ambiguous_name
+            prefix: (simple_name)
+            (expression_list
+              expression: (simple_name)
+              expression: (simple_name)
+              expression: (simple_name))))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties VI
@@ -250,11 +243,10 @@ assert forall j in {0 to 7}:
             (ascending_range
               low: (integer_decimal (integer))
               high: (simple_name))))
-        Property: (PSL_Property_Instance
-          Property_Name: (PSL_Identifier)
-          (PSL_Actual_Parameter_List
-            (PSL_Actual_Parameter
-              (simple_name))))))))
+        Property: (ambiguous_name
+          prefix: (simple_name)
+          (expression_list
+            expression: (simple_name)))))))
 
 ===================================================
 PSL LRM 6.3.1 PSL formal parameter type classes
@@ -290,7 +282,7 @@ sequence color_is_red (hdltype COLOR c) is {c = RED};
         (PSL_Constant_Parameter_Specification
           Value_Parameter: (PSL_HDL_Type
             (subtype_indication
-              type_mark: (simple_name))))
+              (type_mark (simple_name)))))
         (PSL_Identifier)))
     Sequence: (PSL_Braced_SERE
       Boolean: (relation
@@ -311,7 +303,7 @@ sequence slope_is_1 (hdltype COORDINATE_RECORD c) is {(c.x / c.y) = 1};
         (PSL_Constant_Parameter_Specification
           Value_Parameter: (PSL_HDL_Type
             (subtype_indication
-              type_mark: (simple_name))))
+              (type_mark (simple_name)))))
         (PSL_Identifier)))
     Sequence: (PSL_Braced_SERE
       Boolean: (relation
@@ -323,7 +315,8 @@ sequence slope_is_1 (hdltype COORDINATE_RECORD c) is {(c.x / c.y) = 1};
             right: (selected_name
               prefix: (simple_name)
               suffix: (simple_name))))
-        right: (integer_decimal (integer))))))
+        right: (integer_decimal
+          (integer))))))
 
 ===================================================
 PSL LRM 6.3.2.1 - Sequence declaration  I

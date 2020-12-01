@@ -23,7 +23,7 @@ assert new foobar (foo (open));
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (record_constraint
           (record_element_constraint
             record_element: (simple_name)
@@ -56,7 +56,7 @@ assert new foobar (foo (h downto l));
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (record_constraint
           (record_element_constraint
             record_element: (simple_name)

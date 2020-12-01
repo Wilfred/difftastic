@@ -25,7 +25,7 @@ end if L3;
     (label (identifier))
     (if
       condition: (simple_name))
-    footer_label: (simple_name)))
+    at_end: (simple_name)))
 
 ================================
 Elsif

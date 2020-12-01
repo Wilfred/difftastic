@@ -8,7 +8,7 @@ assert new Node;
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)))))
+        (type_mark (simple_name))))))
 
 =========================================
 Qualified expression I [LRM]
@@ -21,7 +21,7 @@ assert new Node'(Delay => 5 ns,
   (assertion_statement
     condition: (allocator
       (qualified_expression
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (element_asociation
           (choices
             choice: (simple_name))
@@ -43,7 +43,7 @@ assert new CELL'(0, null, null);
   (assertion_statement
     condition: (allocator
       (qualified_expression
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (element_asociation
           value: (integer_decimal (integer)))
         (element_asociation
@@ -62,11 +62,11 @@ assert new String (1 to 10);
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name))))
+        (type_mark (simple_name)))))
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (array_constraint
           (index_constraint
             (ascending_range
@@ -85,7 +85,7 @@ assert new bit_vector (1 to index);
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (array_constraint
           (index_constraint
             (ascending_range

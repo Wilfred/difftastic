@@ -19,7 +19,7 @@ end loop L2;
     (label (identifier)))
   (loop_statement
     (label (identifier))
-    footer_label: (simple_name)))
+    at_end: (simple_name)))
 
 ===================================
 Iteration scheme - While
@@ -48,7 +48,7 @@ for c in r
       (parameter_specification
         (identifier)
         (subtype_indication
-          type_mark: (simple_name))))))
+          (type_mark (simple_name)))))))
 
 ===================================
 Next I
@@ -78,7 +78,7 @@ for c in r
       (parameter_specification
         (identifier)
         (subtype_indication
-          type_mark: (simple_name))))
+          (type_mark (simple_name)))))
     (sequence_of_statements
       (next_statement
         condition: (simple_name)))))

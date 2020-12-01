@@ -150,13 +150,13 @@ t <= force out w when true;
       condition: (simple_name)))
   (conditional_force_assignment
     target: (simple_name)
-    (force_mode (in))
+    (force_mode)
     (conditional_expressions
       value: (simple_name)
       condition: (simple_name)))
   (conditional_force_assignment
     target: (simple_name)
-    (force_mode (out))
+    (force_mode)
     (conditional_expressions
       value: (simple_name)
       condition: (simple_name))))

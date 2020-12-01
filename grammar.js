@@ -129,6 +129,7 @@ module.exports = grammar({
 
     inline: $ => [ // {{{
         $._generate_specification,               // 3.4
+        $._block_specification,                  // 3.4.2
         $._subprogram_specification,             // 4.2.1
         $._designator,                           // 4.2.1
         $._subprogram_instantiation_declaration, // 4.4
@@ -140,7 +141,7 @@ module.exports = grammar({
         $._object_declaration,                   // 6
         $._constraint,                           // 6.3
         $._element_constraint,                   // 6.3
-        $._type_mark,                            // 6.3
+        //$.type_mark,                            // 6.3
         $._resolution_indication,                // 6.3
         $._resolution_function,                  // 6.3
         $._generic_interface_declaration,        // 6.5
@@ -153,11 +154,9 @@ module.exports = grammar({
         $._group_template,                       // 6.10
         $._group_constituent,                    // 6.10
         $._configuration_specification,          // 7.3
-        $._entity_aspect,                        // 7.3.2
-        $._configuration_aspect,                 // 7.3.2
         $._name,                                 // 8
         $._prefix,                               // 8.3
-        $._simple_name_or_label,                 // 8.7
+        $._name_or_label,                        // 8.7
         $._external_pathname,                    // 8.7
         $._primary,                              // 9
         $._literal,                              // 9.3.2
@@ -177,6 +176,13 @@ module.exports = grammar({
         $._base_specifier,                       // 15.8
         $._base_specifier_immed,                 // 15.8
 
+        // modes
+        $.in,
+        $.out,
+        $.inout,
+        $.buffer,
+        $.linkage,
+
         $._PSL_Identifier,                       // PSL
         $._PSL_Boolean,                          // PSL 5
         $._PSL_Any_Type,                         // PSL 5
@@ -187,6 +193,7 @@ module.exports = grammar({
         // TODO: prec left or right
         $._PSL_Property,                         // PSL 6.2
         $._PSL_Verification_Unit,                // PSL 7.2
+        $._PSL_HDL_Module_NAME,                  // PSL 7.2
         $._PSL_Extended_Ocurrence_FL_Property_Count_Specification,
         $._PSL_Extended_Ocurrence_FL_Property_Until_Specification,
     ], // }}}
@@ -221,7 +228,18 @@ module.exports = grammar({
         // '(' '(' _name  • ')' ...
         //
         [$.parenthesized_resolution, $._expression],
-        [$.parenthesized_resolution, $._expression, $.subtype_indication],
+        [$.parenthesized_resolution, $._expression, $.type_mark],
+
+        //[$.resolution_function, $._expression],
+        //[$.resolution_function, $.record_element_resolution],
+        //[$.resolution_function, $._expression, $.type_mark],
+
+        [$.type_mark, $.ambiguous_name, $.slice_name],
+        [$.type_mark, $._expression],
+        [$.type_mark, $.subtype_indication],
+        [$.type_mark, $.record_element_resolution],
+        [$.type_mark, $.ambiguous_name, $.slice_name, $.function_call],
+        [$.type_mark, $.ambiguous_name, $.slice_name, $.record_element_resolution, $.type_mark, $.function_call],
 
         // '('  _name '(' open  • ')' ...
         //
@@ -306,7 +324,7 @@ module.exports = grammar({
          $.identifier,
          reservedWord('is'),
          optional($.header),
-         optional($.entity_declarative_part),
+         optional($.declarative_part),
          optional(seq(
              'begin',
              optional($.sequence_of_statements)
@@ -316,18 +334,6 @@ module.exports = grammar({
          optional($._end_simple_name),
          ';'
      ),
-
-     entity_declarative_part: $ => repeat1(
-         $._declaration
-     ),
-
-     _entity_name: $ => prec(1,field(
-         'entity',
-         choice(
-             $._simple_name,
-             $.selected_name
-         ),
-     )),
      // }}}
 
      // 3.3 Architecture bodies {{{
@@ -335,23 +341,15 @@ module.exports = grammar({
          reservedWord('architecture'),
          $.identifier,
          reservedWord('of'),
-         $._entity_name,
+         $._simple_name,
          reservedWord('is'),
-         optional($.architecture_declarative_part),
+         optional($.declarative_part),
          reservedWord('begin'),
-         optional($.architecture_statement_part),
+         optional($.concurrent_statement_part),
          reservedWord('end'),
          optional(reservedWord('architecture')),
          optional($._end_simple_name),
          ';'
-     ),
-
-     architecture_declarative_part: $ => repeat1(
-         $._declaration
-     ),
-
-     architecture_statement_part: $ => repeat1(
-         $._concurrent_statement
      ),
      // }}}
 
@@ -360,9 +358,9 @@ module.exports = grammar({
          reservedWord('configuration'),
          $.identifier,
          reservedWord('of'),
-         $._entity_name,
+         $._simple_name,
          reservedWord('is'),
-         optional($.configuration_declarative_part),
+         optional($.declarative_part),
          repeat(seq(
              $.verification_unit_binding_indication,
              ';'
@@ -372,15 +370,6 @@ module.exports = grammar({
          optional(reservedWord('configuration')),
          optional($._end_simple_name),
          ';'
-     ),
-
-     configuration_declarative_part: $ => prec.left(repeat1(
-         $._declaration
-     )),
-
-     _configuration_name: $ => field(
-         'configuration',
-         $._name
      ),
      // }}}
 
@@ -401,23 +390,18 @@ module.exports = grammar({
      ),
 
      generate_statement_element: $ => seq(
-         $._generate_statement_label,
+         field('generate_label',$._simple_name),
          '(',
          $._generate_specification,
          ')'
      ),
 
-     _generate_statement_label: $ => field(
-         'generate_statement_label',
-         $._simple_name
-     ),
-
      _generate_specification: $ => prec(1,field(
-         'generate_specification',
+         'specification',
          choice(
              $._expression,
              $._range,
-             $._simple_name_or_label
+             $._name_or_label
          )
      )),
 
@@ -455,35 +439,28 @@ module.exports = grammar({
      ),
 
      procedure_specification: $ => seq(
-         field(
-             'header_keyword',
-             reservedWord('procedure'),
-         ),
+         reservedWord('procedure'),
          $._designator,
          optional($.header),
          optional($.formal_procedure_parameter_clause),
          // LINT: shall not be present:
-         $.return
+         optional($.return)
      ),
 
      pure_function_specification: $ => seq(
          optional(reservedWord('pure')),
-         field(
-             'header_keyword',
-             reservedWord('function'),
-         ),
+         reservedWord('function'),
          $._designator,
          optional($.header),
          optional($.formal_function_parameter_clause),
+         // LINT: shall not be present:
+         // TODO: make optional for better highlighting
          $.return
      ),
 
      impure_function_specification: $ => seq(
          reservedWord('impure'),
-         field(
-             'header_keyword',
-             reservedWord('function'),
-         ),
+         reservedWord('function'),
          $._designator,
          optional($.header),
          optional($.formal_function_parameter_clause),
@@ -492,7 +469,7 @@ module.exports = grammar({
 
      return: $ => seq(
          reservedWord('return'),
-         $._type_mark,
+         $.type_mark,
      ),
 
      _end_designator: $ => field(
@@ -503,12 +480,9 @@ module.exports = grammar({
          )
      ),
 
-     _designator: $ => field(
-         'designator',
-         choice(
-             $.identifier,
-             $._operator_symbol,
-         ),
+     _designator: $ => choice(
+         $.identifier,
+         $._operator_symbol,
      ),
      // }}}
 
@@ -517,14 +491,14 @@ module.exports = grammar({
      formal_procedure_parameter_clause: $ => seq(
          optional(reservedWord('parameter')),
          '(',
-         $._procedure_parameter_list,
+         optional($._procedure_parameter_list),
          ')',
      ),
 
      formal_function_parameter_clause: $ => seq(
          optional(reservedWord('parameter')),
          '(',
-         $._function_parameter_list,
+         optional($._function_parameter_list),
          ')',
      ),
      // }}}
@@ -533,30 +507,18 @@ module.exports = grammar({
      subprogram_body: $ => seq(
          $._subprogram_specification,
          reservedWord('is'),
-         optional($.subprogram_declarative_part),
+         optional($.declarative_part),
          reservedWord('begin'),
-         optional($._subprogram_statement_part),
+         optional($.sequence_of_statements),
          reservedWord('end'),
-         optional($._subprogram_kind),
+         optional($.subprogram_kind),
          optional($._end_designator),
          ';'
      ),
 
-    _subprogram_kind: $ => field(
-        'footer_keyword',
-        choice(
-            reservedWord('procedure'),
-            reservedWord('function')
-        ),
-    ),
-
-     subprogram_declarative_part: $ => repeat1(
-         $._declaration
-     ),
-
-     _subprogram_statement_part: $ => alias(
-         $.sequence_of_statements,
-         $.subprogram_statement_part
+     subprogram_kind: $ => choice(
+         reservedWord('procedure'),
+         reservedWord('function')
      ),
      // }}}
 
@@ -571,7 +533,7 @@ module.exports = grammar({
          $._designator,
          reservedWord('is'),
          reservedWord('new'),
-         $._uninstantiated_subprogram,
+         $._name,
          optional($.signature),
          optional($.generic_map_aspect),
          ';'
@@ -582,15 +544,10 @@ module.exports = grammar({
          $._designator,
          reservedWord('is'),
          reservedWord('new'),
-         $._uninstantiated_subprogram,
+         $._name,
          optional($.signature),
          optional($.generic_map_aspect),
          ';'
-     ),
-
-     _uninstantiated_subprogram: $ => field(
-         'uninstantiated_subprogram',
-         $._name,
      ),
      // }}}
 
@@ -600,15 +557,11 @@ module.exports = grammar({
          $.identifier,
          reservedWord('is'),
          optional($.header),
-         optional($.package_declarative_part),
+         optional($.declarative_part),
          reservedWord('end'),
          optional(reservedWord('package')),
          optional($._end_simple_name),
          ';'
-     ),
-
-     package_declarative_part: $ => repeat1(
-         $._declaration
      ),
      // }}}
 
@@ -618,7 +571,7 @@ module.exports = grammar({
          reservedWord('body'),
          $._package_name,
          reservedWord('is'),
-         optional($.package_body_declarative_part),
+         optional($.declarative_part),
          reservedWord('end'),
          optional(seq(
              reservedWord('package'),
@@ -631,10 +584,6 @@ module.exports = grammar({
      _package_name: $ => field(
          'package',
          $._simple_name
-     ),
-
-     package_body_declarative_part: $ => repeat1(
-         $._declaration
      ),
      // }}}
 
@@ -659,7 +608,7 @@ module.exports = grammar({
      // 4.5.3 Signatures {{{
      signature: $ => seq(
          '[',
-         sepBy(',',$._type_mark),
+         sepBy(',',$.type_mark),
          optional($.return),
          ']',
      ),
@@ -798,23 +747,18 @@ module.exports = grammar({
          sepBy1(',', $.index_subtype_definition),
          ')',
          reservedWord('of'),
-         $._element_subtype_indication
+         $.subtype_indication
      ),
 
      constrained_array_definition: $ => seq(
          reservedWord('array'),
          $.index_constraint,
          reservedWord('of'),
-         $._element_subtype_indication
-     ),
-
-     _element_subtype_indication: $ => alias(
-         $.subtype_indication,
-         $.element_subtype_indication
+         $.subtype_indication
      ),
 
      index_subtype_definition: $ => seq(
-         $._type_mark,
+         $.type_mark,
          reservedWord('range'),
          field('range', $._any)
      ),
@@ -833,7 +777,7 @@ module.exports = grammar({
          '(',
          choice(
              sepBy1(',',$._discrete_range),
-             $.open
+             prec.dynamic(99,$.open)
          ),
          ')',
      ),
@@ -849,7 +793,7 @@ module.exports = grammar({
      // 5.3.3 Record types {{{
      record_type_definition: $ => seq(
          reservedWord('record'),
-         repeat1($.element_declaration),
+         repeat($.element_declaration),
          reservedWord('end'),
          reservedWord('record'),
          optional($._end_simple_name)
@@ -858,7 +802,7 @@ module.exports = grammar({
      element_declaration: $ => seq(
          $.identifier_list,
          ':',
-         $._element_subtype_indication,
+         $.subtype_indication,
          ';'
      ),
 
@@ -895,21 +839,17 @@ module.exports = grammar({
     file_type_definition: $ => seq(
         reservedWord('file'),
         reservedWord('of'),
-        $._type_mark
+        $.type_mark
     ),
     // }}}
 
     // 5.6.2 Protected type declarations {{{
     protected_type_declaration: $ => seq(
         reservedWord('protected'),
-        optional($.protected_type_declarative_part),
+        optional($.declarative_part),
         reservedWord('end'),
         reservedWord('protected'),
         optional($._end_simple_name),
-    ),
-
-    protected_type_declarative_part: $ => repeat1(
-        $._declaration
     ),
     // }}}
 
@@ -930,6 +870,10 @@ module.exports = grammar({
     // }}}
 
     // 6. Declarations {{{
+    declarative_part: $ => prec.left(repeat1(
+        $._declaration
+    )),
+
     _declaration: $ => prec(1,choice(
         $.subprogram_declaration,
         $.subprogram_body,
@@ -987,11 +931,11 @@ module.exports = grammar({
         ';'
     ),
 
-    subtype_indication: $ => prec.dynamic(-1,seq(
+    subtype_indication: $ => seq(
         optional($._resolution_indication),
-        $._type_mark,
+        $.type_mark,
         optional($._constraint)
-    )),
+    ),
 
     _resolution_indication: $ => choice(
         $._resolution_function,
@@ -999,13 +943,13 @@ module.exports = grammar({
         $.parenthesized_resolution,
     ),
 
-    _resolution_function: $ => prec.dynamic(2,field(
+    _resolution_function: $ => field(
         'resolution_function',
         choice(
             $._simple_name,
             $.selected_name
-        )
-    )),
+        ),
+    ),
 
     parenthesized_resolution: $ => seq(
         '(',
@@ -1024,13 +968,10 @@ module.exports = grammar({
         $._resolution_indication
     ),
 
-    _type_mark: $ => field(
-        'type_mark',
-        choice(
-            $._simple_name,
-            $.selected_name,
-            //prec.dynamic(-1, $.attribute_name)
-        )
+    type_mark: $ => choice(
+        $._simple_name,
+        $.selected_name,
+        //prec.dynamic(-1,$.attribute_name)
     ),
 
     _constraint: $ => choice(
@@ -1062,7 +1003,7 @@ module.exports = grammar({
         $.identifier_list,
         ':',
         $.subtype_indication,
-        $._default_expression,
+        $.default_expression,
         ';'
     ),
 
@@ -1082,17 +1023,15 @@ module.exports = grammar({
         ':',
         $.subtype_indication,
         optional($.signal_kind),
-        optional($._default_expression),
+        optional($.default_expression),
         ';'
     ),
 
     signal_kind: $ => choice(
-        $._register,
-        $._bus
+        reservedWord('register'),
+        reservedWord('bus')
     ),
 
-    _register: $ => alias(reservedWord('register'), $.register),
-    _bus:      $ => alias(reservedWord('bus'), $.bus),
     // }}}
 
     // 6.4.2.4 Variable declarations {{{
@@ -1101,7 +1040,7 @@ module.exports = grammar({
         $.identifier_list,
         ':',
         $.subtype_indication,
-        optional($._default_expression),
+        optional($.default_expression),
         ';'
     ),
 
@@ -1111,7 +1050,7 @@ module.exports = grammar({
         $.identifier_list,
         ':',
         $.subtype_indication,
-        optional($._default_expression),
+        optional($.default_expression),
         ';'
     ),
     // }}}
@@ -1180,7 +1119,7 @@ module.exports = grammar({
             ':',
             optional(alias($._constant_mode, $.mode)),
             $.subtype_indication,
-            optional($._default_expression)
+            optional($.default_expression)
         )
     ),
 
@@ -1193,7 +1132,7 @@ module.exports = grammar({
             optional(alias($._signal_mode, $.mode)),
             $.subtype_indication,
             optional($.signal_kind),
-            optional($._default_expression)
+            optional($.default_expression)
         )
     ),
 
@@ -1205,7 +1144,7 @@ module.exports = grammar({
             ':',
             optional(alias($._variable_mode, $.mode)),
             $.subtype_indication,
-            optional($._default_expression)
+            optional($.default_expression)
         )
     ),
 
@@ -1319,7 +1258,7 @@ module.exports = grammar({
     generic_clause: $ => seq(
         reservedWord('generic'),
         '(',
-        $._generic_interface_list,
+        optional($._generic_interface_list),
         ')',
         optional($._semicolon)
     ),
@@ -1331,7 +1270,7 @@ module.exports = grammar({
     port_clause: $ => seq(
         reservedWord('port'),
         '(',
-        $._port_interface_list,
+        optional($._port_interface_list),
         ')',
         optional($._semicolon)
     ),
@@ -1365,7 +1304,7 @@ module.exports = grammar({
         choice(
             $._expression,
             $.subtype_indication,
-            prec.dynamic(2, $.open),
+            prec.dynamic(99,$.open),
             // used to resolve conflicts
             // between ambiguous_name and
             // function_call
@@ -1383,11 +1322,11 @@ module.exports = grammar({
         reservedWord('generic'),
         reservedWord('map'),
         '(',
-        choice(
+        optional(choice(
             $._generic_association_list,
             $._default,
             $._any
-        ),
+        )),
         ')',
         optional($._semicolon),
     ),
@@ -1406,7 +1345,7 @@ module.exports = grammar({
         reservedWord('port'),
         reservedWord('map'),
         '(',
-        $._port_association_list,
+        optional($._port_association_list),
         ')',
         optional($._semicolon)
     ),
@@ -1418,29 +1357,24 @@ module.exports = grammar({
     // }}}
 
     // HEADER and MAP_ASPECTS {{{
-    // Check if semicolon shall or shall not be present on
-    // highlight file
-    header: $ => choice(
-        seq(
-            $.generic_clause,
-            optional($.generic_map_aspect),
-            optional(seq(
-                $.port_clause,
-                optional($.port_map_aspect),
-            )),
-        ),
-        seq(
-            $.port_clause,
-            optional($.port_map_aspect),
-        ),
+    // TODO: allow any order
+    header: $ => seq(
+        $._header,
+        optional($._header),
+        optional($._header),
+        optional($._header),
     ),
 
-    _map_aspects: $ => choice(
+    _header: $ => choice(
+        $.generic_clause,
+        $.generic_map_aspect,
+        $.port_clause,
         $.port_map_aspect,
-        seq(
-            $.generic_map_aspect,
-            optional($.port_map_aspect)
-        )
+    ),
+
+    _map_aspects: $ => alias(
+        $.header,
+        $.map_aspect
     ),
     // }}}
 
@@ -1478,7 +1412,7 @@ module.exports = grammar({
         reservedWord('attribute'),
         $.identifier,
         ':',
-        $._type_mark,
+        $.type_mark,
         ';'
     ),
     // }}}
@@ -1591,8 +1525,8 @@ module.exports = grammar({
 
     entity_name_list: $ => choice(
         sepBy1(',', $.entity_designator),
-        $._others,
-        $._all
+        $.others,
+        $.all
     ),
 
     entity_designator: $ => seq(
@@ -1648,9 +1582,11 @@ module.exports = grammar({
 
     instantiation_list: $ => choice(
         sepBy1(',',$._instantiated_label),
-        $._others,
-        $._all
+        $.others,
+        $.all
     ),
+
+    all: $ => reservedWord('all'),
 
     _instantiated_label: $ => field(
         'instantiation_label',
@@ -1659,7 +1595,7 @@ module.exports = grammar({
 
     _component_name: $ => field(
         'component',
-        $._name
+        $._simple_name
     ),
     // }}}
 
@@ -1669,8 +1605,8 @@ module.exports = grammar({
         seq(
             reservedWord('use'),
             choice(
-                $._entity_aspect,
-                $._configuration_aspect,
+                $.entity_aspect,
+                $.configuration_aspect,
                 $.open
             ),
             optional($._semicolon),
@@ -1678,24 +1614,19 @@ module.exports = grammar({
         ),
     ),
 
-    _entity_aspect: $ => seq(
+    entity_aspect: $ => seq(
         reservedWord('entity'),
-        $._entity_name,
+        $._simple_name,
         optional(seq(
             '(',
-            $._architecture_name,
+            $._simple_name,
             ')',
         ))
     ),
 
-    _architecture_name: $ => field(
-        'architecture',
-        $._simple_name
-    ),
-
-    _configuration_aspect: $ => seq(
+    configuration_aspect: $ => seq(
         reservedWord('configuration'),
-        $._configuration_name
+        $._name
     ),
     // }}}
 
@@ -1726,13 +1657,13 @@ module.exports = grammar({
     guarded_signal_specification: $ => seq(
         $.signal_list,
         ':',
-        $._type_mark,
+        $.type_mark,
     ),
 
     signal_list: $ => choice(
         sepBy1(',', $._signal_name),
-        $._others,
-        $._all
+        $.others,
+        $.all
     ),
 
     _signal_name: $ => field(
@@ -1788,18 +1719,13 @@ module.exports = grammar({
             $._simple_name,
             $.character_literal,
             $._operator_symbol,
-            $._all
+            $.all
         ),
     ),
 
     _operator_symbol: $ => alias(
         $.string_literal,
         $.operator_symbol
-    ),
-
-    _all: $ => alias(
-        reservedWord('all'),
-        $.all
     ),
     // }}}
 
@@ -1903,15 +1829,15 @@ module.exports = grammar({
     ),
 
     absolute_pathname:$ => seq(
-        '.', $.partial_pathname
+        '.', $._partial_pathname
     ),
 
     relative_pathname: $ => seq(
         repeat('^.'),
-        $.partial_pathname
+        $._partial_pathname
     ),
 
-    partial_pathname: $ => seq(
+    _partial_pathname: $ => seq(
         repeat(seq(
             $.pathname_element, '.'
         )),
@@ -1919,14 +1845,11 @@ module.exports = grammar({
     ),
 
     pathname_element: $ => choice(
-        $._simple_name_or_label,
+        $._name_or_label,
         $.generate_statement_element,
     ),
 
-    _simple_name_or_label: $ => field(
-        'simple_name_or_label',
-        $._simple_name
-    ),
+    _name_or_label: $ => $.identifier,
     // }}}
 
     // 9. Expressions {{{
@@ -1989,24 +1912,16 @@ module.exports = grammar({
         ')'
     ),
 
-    _default_expression: $ => seq(
+    default_expression: $ => seq(
         ':=',
-        field(
-            'default_expression',
-            choice(
-                $._expression,
-                $.inertial_expression,
-            )
+        choice(
+            $._expression,
+            $.inertial_expression,
         )
     ),
 
     inertial_expression: $ => seq(
         reservedWord('inertial'),
-        $._time_expression
-    ),
-
-    _time_expression: $ => field(
-        'time',
         $._expression
     ),
 
@@ -2190,13 +2105,10 @@ module.exports = grammar({
     _choice: $ => choice(
         $._expression,
         $._discrete_range,
-        $._others
-    ),
-
-    _others: $ => alias(
-        reservedWord('others'),
         $.others
     ),
+
+    others: $ => reservedWord('others'),
     // }}}
 
     // 9.3.4 Function call {{{
@@ -2220,7 +2132,7 @@ module.exports = grammar({
 
     // 9.3.5 Qualified expressions {{{
     qualified_expression: $ => seq(
-        $._type_mark,
+        $.type_mark,
         token.immediate('\''),
         token.immediate('('),
         sepBy1(',', $.element_asociation),
@@ -2267,46 +2179,41 @@ module.exports = grammar({
     wait_statement: $ => seq(
         optional($.label),
         reservedWord('wait'),
-        optional($._sensitivity_clause),
-        optional($._condition_clause),
-        optional($._timeout_clause),
+        optional($.sensitivity_clause),
+        optional($.condition_clause),
+        optional($.timeout_clause),
         ';'
     ),
 
-    _sensitivity_clause: $ => seq(
+    sensitivity_clause: $ => seq(
         reservedWord('on'),
-        field('on', $.sensitivity_list)
+        $.sensitivity_list
     ),
 
-    _condition_clause: $ => seq(
+    condition_clause: $ => seq(
         reservedWord('until'),
-        $._until
-    ),
-
-    _until: $ => field(
-        'until',
         $._expression
     ),
 
-    _timeout_clause: $ => seq(
+    timeout_clause: $ => seq(
         reservedWord('for'),
-        $._time_expression
+        $._expression
     ),
 
-    sensitivity_list: $ => sepBy1(',', $._simple_name),
+    sensitivity_list: $ => choice(
+        reservedWord("all"),
+        sepBy1(',', $._simple_name),
+    ),
     // }}}
 
     // 10.3 Assertion statement {{{
     assertion_statement: $ => prec(1,seq(
         optional($.label),
-        optional($._postponed),
+        optional(reservedWord('postponed')),
         reservedWord('assert'),
         $._condition,
-        optional($._report),
-        optional(seq(
-            reservedWord('severity'),
-            field('severity', $._expression)
-        )),
+        optional($.report),
+        optional($.severity),
         ';'
     )),
 
@@ -2319,17 +2226,19 @@ module.exports = grammar({
     // 10.4 Report statement {{{
     report_statement: $ => seq(
         optional($.label),
-        $._report,
-        optional(seq(
-            reservedWord('severity'),
-            field('severity', $._expression)
-        )),
+        $.report,
+        optional($.severity),
         ';'
     ),
 
-    _report: $ => seq(
+    report: $ => seq(
         reservedWord('report'),
-        field('report', $._expression),
+         $._expression,
+    ),
+
+    severity: $ => seq(
+        reservedWord('severity'),
+         $._expression
     ),
     // }}}
 
@@ -2599,7 +2508,7 @@ module.exports = grammar({
     // 10.7 Procedure call statement {{{
     procedure_call_statement: $ => prec(1,seq(
         optional($.label),
-        optional($._postponed),
+        optional(reservedWord('postponed')),
         $._name,
         ';'
     )),
@@ -2613,7 +2522,7 @@ module.exports = grammar({
         optional($.else),
         reservedWord('end'),
         reservedWord('if'),
-        optional($._label_footer),
+        optional($._end_simple_name),
         ';'
     ),
 
@@ -2658,7 +2567,7 @@ module.exports = grammar({
                 reserved(caseInsensitive('case') + '\\?'),
             ),
         ),
-        optional($._label_footer),
+        optional($._end_simple_name),
         ';'
     ),
 
@@ -2678,7 +2587,7 @@ module.exports = grammar({
         optional($.sequence_of_statements),
         reservedWord('end'),
         reservedWord('loop'),
-        optional($._label_footer),
+        optional($._end_simple_name),
         ';'
     ),
 
@@ -2753,6 +2662,10 @@ module.exports = grammar({
     // }}}
 
     // 11 Concurrent statements {{{
+    concurrent_statement_part: $ => repeat1(
+        $._concurrent_statement
+    ),
+
     _concurrent_statement: $ => prec(2,choice(
         $.block_statement,
         $.process_statement,
@@ -2777,12 +2690,12 @@ module.exports = grammar({
         )),
         optional(reservedWord('is')),
         optional($.header),
-        optional($.block_declarative_part),
+        optional($.declarative_part),
         reservedWord('begin'),
-        optional($.block_statement_part),
+        optional($.concurrent_statement_part),
         reservedWord('end'),
         reservedWord('block'),
-        optional($._label_footer),
+        optional($._end_simple_name),
         ';'
     ),
 
@@ -2790,54 +2703,27 @@ module.exports = grammar({
         'guard',
         $._expression
     ),
-
-    block_declarative_part: $ => repeat1(
-        $._declaration
-    ),
-
-    block_statement_part: $ => repeat1(
-        $._concurrent_statement
-    ),
     // }}}
 
     // 11.3 Process statement {{{
     process_statement: $ => seq(
         optional($.label),
-        optional(field('header_postponed',$._postponed)),
+        optional(reservedWord('postponed')),
         reservedWord('process'),
         optional(seq(
             '(',
-            $._process_sensitivity_list,
+            $.sensitivity_list,
             ')'
         )),
         optional(reservedWord('is')),
-        optional($.process_declarative_part),
+        optional($.declarative_part),
         reservedWord('begin'),
-        optional($._process_statement_part),
+        optional($.sequence_of_statements),
         reservedWord('end'),
-        optional(field('footer_postponed',$._postponed)),
+        optional(reservedWord('postponed')),
         reservedWord('process'),
-        optional($._label_footer),
+        optional($._end_simple_name),
         ';'
-    ),
-
-    _postponed: $ => alias(
-        reservedWord('postponed'),
-        $.posponed
-    ),
-
-    _process_sensitivity_list: $ => alias(
-        $.signal_list,
-        $.process_sensitivity_list
-    ),
-
-    process_declarative_part: $ => repeat1(
-        $._declaration
-    ),
-
-    _process_statement_part: $ => alias(
-        $.sequence_of_statements,
-        $.process_statement_part
     ),
     // }}}
 
@@ -2909,17 +2795,20 @@ module.exports = grammar({
 
     entity_instantiation: $ => prec(1,seq(
         reservedWord('entity'),
-        $._entity_name,
+        choice(
+            $._simple_name,
+            $.selected_name
+        ),
         optional(seq(
             '(',
-            $._architecture_name,
+            field('architecture',$._simple_name),
             ')'
         ))
     )),
 
     configuration_instantiation: $ => seq(
         reservedWord('configuration'),
-        $._configuration_name
+        $._name
     ),
     // }}}
 
@@ -2938,7 +2827,7 @@ module.exports = grammar({
         optional($.generate_statement_body),
         reservedWord('end'),
         reservedWord('generate'),
-        optional($._label_footer),
+        optional($._end_simple_name),
         ';'
     ),
 
@@ -2949,7 +2838,7 @@ module.exports = grammar({
         optional($.else_generate),
         reservedWord('end'),
         reservedWord('generate'),
-        optional($._label_footer),
+        optional($._end_simple_name),
         ';'
     ),
 
@@ -2984,7 +2873,7 @@ module.exports = grammar({
         repeat($.case_generate_alternative),
         reservedWord('end'),
         reservedWord('generate'),
-        optional($._label_footer),
+        optional($._end_simple_name),
         ';'
     ),
 
@@ -3004,24 +2893,24 @@ module.exports = grammar({
     generate_statement_body: $ => choice(
         // with begin
         seq(
-            optional($.block_declarative_part),
+            optional($.declarative_part),
             reservedWord('begin'),
             repeat($._concurrent_statement),
             optional(seq(
                 reservedWord('end'),
-                optional($._label_footer),
+                optional($._end_simple_name),
                 ';'
             )),
         ),
         // with end
         seq(
             optional(seq(
-                optional($.block_declarative_part),
+                optional($.declarative_part),
                 reservedWord('begin'),
             )),
             repeat($._concurrent_statement),
             reservedWord('end'),
-            optional($._label_footer),
+            optional($._end_simple_name),
             ';'
         ),
         // without both
@@ -3031,11 +2920,6 @@ module.exports = grammar({
     label: $ => seq(
         $.identifier,
         ':'
-    ),
-
-    _label_footer: $ => field(
-        'footer_label',
-        $._simple_name
     ),
 
     _alternative_label: $ => seq(
@@ -3786,7 +3670,7 @@ module.exports = grammar({
         field(
             'Property',
             choice(
-                prec.dynamic(99,$.PSL_Property_Instance),
+                prec.dynamic(-1,$.PSL_Property_Instance),
                 $._PSL_Property
             ),
         ),
@@ -3961,7 +3845,7 @@ module.exports = grammar({
         optional($.label),
         reservedWord('assert'),
         $._PSL_Property,
-        optional($._report),
+        optional($.report),
         ';'
     ),
 
@@ -3976,7 +3860,7 @@ module.exports = grammar({
         optional($.label),
         reservedWord('assume_guarantee'),
         $._PSL_Property,
-        optional($._report),
+        optional($.report),
         ';'
     ),
 
@@ -3991,7 +3875,7 @@ module.exports = grammar({
         optional($.label),
         reservedWord('restrict_guarantee'),
         $._PSL_Sequence,
-        optional($._report),
+        optional($.report),
         ';'
     ),
 
@@ -3999,7 +3883,7 @@ module.exports = grammar({
         optional($.label),
         reservedWord('cover'),
         $._PSL_Sequence,
-        optional($._report),
+        optional($.report),
         ';'
     ),
 
@@ -4059,7 +3943,7 @@ module.exports = grammar({
     ),
 
     PSL_Hierarchical_HDL_Name: $ => seq(
-        $.PSL_HDL_Module_NAME,
+        $._PSL_HDL_Module_NAME,
         repeat(seq(
             choice(
                 delimiter('.'),
@@ -4069,14 +3953,7 @@ module.exports = grammar({
         ))
     ),
 
-    PSL_HDL_Module_NAME: $ => seq(
-        $._entity_name,
-        optional(seq(
-            '(',
-            $._architecture_name,
-            ')',
-        ))
-    ),
+    _PSL_HDL_Module_NAME: $ => $.entity_aspect,
 
     PSL_Inherit_Spec: $ => seq(
         reservedWord('inherit'),
@@ -4093,7 +3970,6 @@ module.exports = grammar({
 },
     supertype: $ => [
         $._primary_unit,
-        $._declaration,
         $._sequential_statement,
         $._concurrent_statement,
         $._PSL_Verification_Unit,

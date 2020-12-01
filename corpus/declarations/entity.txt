@@ -48,7 +48,7 @@ end entity;
             (identifier_list
               (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (semicolon))))))
 
 ================================
@@ -69,7 +69,7 @@ end entity;
             (identifier_list
               (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (semicolon))))))
 
 ================================
@@ -88,22 +88,18 @@ end entity;
       (header
         (generic_clause
           (interface_constant_declaration
-            (identifier_list
-              (identifier))
+            (identifier_list (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (mode
-              (in))
+            (identifier_list (identifier))
+            (mode)
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (semicolon))
         (port_clause
           (interface_signal_declaration
-            (identifier_list
-              (identifier))
+            (identifier_list (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (semicolon))))))

@@ -14,7 +14,7 @@ end process L1;
   (process_statement)
   (process_statement
     (label (identifier))
-    footer_label: (simple_name)))
+    at_end: (simple_name)))
 
 =============================
 Sequential statement
@@ -27,10 +27,11 @@ end process;
 
 (design_file
   (process_statement
-    (process_statement_part
+    (sequence_of_statements
       (wait_statement
-        on: (sensitivity_list
-          signal: (simple_name))))))
+        (sensitivity_clause
+          (sensitivity_list
+            (simple_name)))))))
 
 =============================
 Sensitivity list - All
@@ -42,8 +43,7 @@ end process;
 
 (design_file
   (process_statement
-    (process_sensitivity_list
-      (all))))
+    (sensitivity_list)))
 
 =============================
 Sensitivity list - Signals
@@ -55,9 +55,9 @@ end process;
 
 (design_file
   (process_statement
-    (process_sensitivity_list
-      signal: (simple_name)
-      signal: (simple_name))))
+    (sensitivity_list
+      (simple_name)
+      (simple_name))))
 
 =============================
 Declarative part
@@ -70,10 +70,10 @@ end process;
 
 (design_file
   (process_statement
-    (process_declarative_part
+    (declarative_part
       (constant_declaration
-        (identifier_list
-          (identifier))
+        (identifier_list (identifier))
         (subtype_indication
-          type_mark: (simple_name))
-        default_expression: (simple_name)))))
+          (type_mark (simple_name)))
+        (default_expression
+          (simple_name))))))

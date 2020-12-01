@@ -6,9 +6,9 @@ report ' ' & ' ';
 
 (design_file
   (report_statement
-    report: (concatenation
+    (report (concatenation
        left: (character_literal)
-      right: (character_literal))))
+      right: (character_literal)))))
 
 ==============================================================
 Character literal - Apostrophe
@@ -18,9 +18,9 @@ report ''' & ''';
 
 (design_file
   (report_statement
-    report: (concatenation
+    (report (concatenation
        left: (character_literal)
-      right: (character_literal))))
+      right: (character_literal)))))
 
 ==============================================================
 Character literal - Quotation mark
@@ -30,9 +30,9 @@ report '"' & '"';
 
 (design_file
   (report_statement
-    report: (concatenation
+    (report (concatenation
        left: (character_literal)
-      right: (character_literal))))
+      right: (character_literal)))))
 
 ==============================================================
 Character literal - Solidus and backslash
@@ -42,9 +42,9 @@ report '/' & '\';
 
 (design_file
   (report_statement
-    report: (concatenation
+    (report (concatenation
        left: (character_literal)
-      right: (character_literal))))
+      right: (character_literal)))))
 
 ==============================================================
 Character literal - Number signal
@@ -54,9 +54,9 @@ report '#' & 'e';
 
 (design_file
   (report_statement
-    report: (concatenation
+    (report (concatenation
        left: (character_literal)
-      right: (character_literal))))
+      right: (character_literal)))))
 
 ==============================================================
 Character literal - STD_LOGIC values (upper case)
@@ -66,7 +66,7 @@ report '1' & '0' & 'U' & 'X' & 'W' & 'L' & 'H' & '-';
 
 (design_file
   (report_statement
-    report: (concatenation
+    (report (concatenation
       left: (concatenation
         left: (concatenation
           left: (concatenation
@@ -80,7 +80,7 @@ report '1' & '0' & 'U' & 'X' & 'W' & 'L' & 'H' & '-';
             right: (character_literal))
           right: (character_literal))
         right: (character_literal))
-      right: (character_literal))))
+      right: (character_literal)))))
 
 ==============================================================
 Character literal - STD_LOGIC values (lower case)
@@ -90,7 +90,7 @@ report '1' & '0' & 'u' & 'x' & 'w' & 'l' & 'h' & '-';
 
 (design_file
   (report_statement
-    report: (concatenation
+    (report (concatenation
       left: (concatenation
         left: (concatenation
           left: (concatenation
@@ -104,7 +104,7 @@ report '1' & '0' & 'u' & 'x' & 'w' & 'l' & 'h' & '-';
             right: (character_literal))
           right: (character_literal))
         right: (character_literal))
-      right: (character_literal))))
+      right: (character_literal)))))
 
 ==============================================================
 Special characters
@@ -167,27 +167,31 @@ report ht & vt & cr & lf & ff;
 
 (design_file
   (report_statement
-    report: (simple_name))
+    (report
+      (simple_name)))
   (report_statement
-    report: (concatenation
-      left: (simple_name)
-      right: (simple_name)))
+    (report
+      (concatenation
+        left: (simple_name)
+        right: (simple_name))))
   (report_statement
-    report: (concatenation
-      left: (simple_name)
-      right: (simple_name)))
+    (report
+      (concatenation
+        left: (simple_name)
+        right: (simple_name))))
   (report_statement
-    report: (concatenation
-      left: (simple_name)
-      right: (simple_name)))
+    (report
+      (concatenation
+        left: (simple_name)
+        right: (simple_name))))
   (report_statement
-    report: (concatenation
-      left: (concatenation
+    (report
+      (concatenation
         left: (concatenation
           left: (concatenation
-            left: (simple_name)
+            left: (concatenation
+              left: (simple_name)
+              right: (simple_name))
             right: (simple_name))
           right: (simple_name))
-        right: (simple_name))
-      right: (simple_name))))
-
+        right: (simple_name)))))

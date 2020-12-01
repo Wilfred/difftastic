@@ -7,7 +7,7 @@ attribute a : t;
 (design_file
   (attribute_declaration
     (identifier)
-    type_mark: (simple_name)))
+    (type_mark (simple_name))))
 
 =============================
 Specification

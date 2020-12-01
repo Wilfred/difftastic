@@ -9,7 +9,7 @@ assert new resolved ut;
     condition: (allocator
       (subtype_indication
         resolution_function: (simple_name)
-        type_mark: (simple_name)))))
+        (type_mark (simple_name))))))
 
 =========================================
 Record resolution I
@@ -25,7 +25,7 @@ assert new (elem resolved) ut;
           (record_element_resolution
             record_element: (simple_name)
             resolution_function: (simple_name)))
-        type_mark: (simple_name)))))
+        (type_mark (simple_name))))))
 
 =========================================
 Record resolution II
@@ -44,7 +44,7 @@ assert new (elem1 resolved, elem2 resolved) ut;
           (record_element_resolution
             record_element: (simple_name)
             resolution_function: (simple_name)))
-        type_mark: (simple_name)))))
+        (type_mark (simple_name))))))
 
 =========================================
 Parenthesized resolution - Resolution function
@@ -58,7 +58,7 @@ assert new (resolved) ut;
       (subtype_indication
         (parenthesized_resolution
           resolution_function: (simple_name))
-        type_mark: (simple_name)))))
+        (type_mark (simple_name))))))
 
 =========================================
 Parenthesized resolution - Record resolution
@@ -75,7 +75,7 @@ assert new ((elem resolved)) ut;
             (record_element_resolution
               record_element: (simple_name)
               resolution_function: (simple_name))))
-        type_mark: (simple_name)))))
+        (type_mark (simple_name))))))
 
 =========================================
 Range constraint I
@@ -87,7 +87,7 @@ assert new range_t range l to h;
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (range_constraint
           (ascending_range
             low: (simple_name)
@@ -103,7 +103,7 @@ assert new range_t range st'range;
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (range_constraint
           (range_attribute_name
             prefix: (simple_name)
@@ -119,7 +119,7 @@ assert new arr_t (open);
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (array_constraint
           (index_constraint
             (open)))))))
@@ -135,7 +135,7 @@ assert new arr_t (l     to h);
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (array_constraint
           (index_constraint
             (descending_range
@@ -144,7 +144,7 @@ assert new arr_t (l     to h);
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (array_constraint
           (index_constraint
             (ascending_range
@@ -161,7 +161,7 @@ assert new rec_t (elem1 (open));
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (record_constraint
           (record_element_constraint
             record_element: (simple_name)
@@ -180,7 +180,7 @@ assert new rec_t (elem1 (h downto l),
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (record_constraint
           (record_element_constraint
             record_element: (simple_name)
@@ -207,7 +207,7 @@ assert new rec_t (elem1 (elem2 (open)));
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (record_constraint
           (record_element_constraint
             record_element: (simple_name)
@@ -229,7 +229,7 @@ assert new arr_t (open)(open)(open);
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (array_constraint
           (index_constraint
             (open))
@@ -239,7 +239,7 @@ assert new arr_t (open)(open)(open);
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (array_constraint
           (index_constraint
             (open))
@@ -260,7 +260,7 @@ assert new arr_t (open)(elem (open));
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (array_constraint
           (index_constraint
             (open))
@@ -281,7 +281,7 @@ assert new arr_t (elem (open));
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (record_constraint
           (record_element_constraint
             record_element: (simple_name)
@@ -299,7 +299,7 @@ assert new arr_t (elem (elem (open)));
   (assertion_statement
     condition: (allocator
       (subtype_indication
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (record_constraint
           (record_element_constraint
             record_element: (simple_name)
@@ -321,7 +321,7 @@ assert new resolved ut(h downto l);
     condition: (allocator
       (subtype_indication
         resolution_function: (simple_name)
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (array_constraint
           (index_constraint
             (descending_range
@@ -346,7 +346,7 @@ assert new (elem1 resolved, elem2 resolved) ut (elem1 (h downto l),
           (record_element_resolution
             record_element: (simple_name)
             resolution_function: (simple_name)))
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (record_constraint
           (record_element_constraint
             record_element: (simple_name)
@@ -378,7 +378,7 @@ assert new ((elem1 resolved)) ut(h downto l)(elem1 (h downto 0));
             (record_element_resolution
               record_element: (simple_name)
               resolution_function: (simple_name))))
-        type_mark: (simple_name)
+        (type_mark (simple_name))
         (array_constraint
           (index_constraint
             (descending_range

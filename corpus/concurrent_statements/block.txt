@@ -15,7 +15,7 @@ end block B2;
     (label (identifier)))
   (block_statement
     (label (identifier))
-    footer_label: (simple_name)))
+    at_end: (simple_name)))
 
 ==============================
 Guard condition
@@ -47,7 +47,7 @@ end block;
         (interface_constant_declaration
           (identifier_list (identifier))
           (subtype_indication
-            type_mark: (simple_name)))
+            (type_mark (simple_name))))
         (semicolon)))))
 
 ==================================
@@ -66,10 +66,9 @@ end block;
     (header
       (generic_clause
         (interface_constant_declaration
-          (identifier_list
-            (identifier))
+          (identifier_list (identifier))
           (subtype_indication
-            type_mark: (simple_name)))
+            (type_mark (simple_name))))
         (semicolon))
       (generic_map_aspect
         (generic_association_list
@@ -92,10 +91,9 @@ end block;
     (header
       (port_clause
         (interface_signal_declaration
-          (identifier_list
-            (identifier))
+          (identifier_list (identifier))
           (subtype_indication
-            type_mark: (simple_name)))
+            (type_mark (simple_name))))
         (semicolon)))))
 
 ==============================
@@ -117,7 +115,7 @@ end block;
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name)))
+            (type_mark (simple_name))))
         (semicolon))
       (port_map_aspect
         (port_association_list
@@ -137,7 +135,7 @@ end block;
 (design_file
   (block_statement
     (label (identifier))
-    (block_declarative_part
+    (declarative_part
       (alias_declaration
         alias_designator: (identifier)
         alias_denotator: (simple_name)))))
@@ -154,7 +152,7 @@ end block;
 (design_file
   (block_statement
     (label (identifier))
-    (block_statement_part
+    (concurrent_statement_part
       (procedure_call_statement
         (label (identifier))
         (simple_name)))))

@@ -70,15 +70,13 @@ for all : c
       (open)))
   (simple_configuration_specification
     (component_specification
-      (instantiation_list
-        (others))
+      (instantiation_list (others))
       component: (simple_name))
     (binding_indication
       (open)))
   (simple_configuration_specification
     (component_specification
-      (instantiation_list
-        (all))
+      (instantiation_list (all))
       component: (simple_name))
     (binding_indication
       (open))))
@@ -102,30 +100,29 @@ for all : c
 (design_file
   (simple_configuration_specification
     (component_specification
-      (instantiation_list
-        (all))
+      (instantiation_list (all))
       component: (simple_name))
     (binding_indication
-      entity: (simple_name)))
+      (entity_aspect
+        (simple_name))))
   (simple_configuration_specification
     (component_specification
-      (instantiation_list
-        (all))
+      (instantiation_list (all))
       component: (simple_name))
     (binding_indication
-      entity: (simple_name)
-      architecture: (simple_name)))
+      (entity_aspect
+        (simple_name)
+        (simple_name))))
   (simple_configuration_specification
     (component_specification
-      (instantiation_list
-        (all))
+      (instantiation_list (all))
       component: (simple_name))
     (binding_indication
-      configuration: (simple_name)))
+      (configuration_aspect
+        (simple_name))))
   (simple_configuration_specification
     (component_specification
-      (instantiation_list
-        (all))
+      (instantiation_list (all))
       component: (simple_name))
     (binding_indication
       (open))))
@@ -140,14 +137,14 @@ for all : c
 (design_file
   (simple_configuration_specification
     (component_specification
-      (instantiation_list
-        (all))
+      (instantiation_list (all))
       component: (simple_name))
     (binding_indication
-      (generic_map_aspect
-        (generic_association_list
-          (positional_association_element
-            actual_part: (simple_name)))))))
+      (map_aspect
+        (generic_map_aspect
+          (generic_association_list
+            (positional_association_element
+              actual_part: (simple_name))))))))
 
 =============================================
 Binding indication - Port map aspects
@@ -159,63 +156,61 @@ for all : c
 (design_file
   (simple_configuration_specification
     (component_specification
-      (instantiation_list
-        (all))
+      (instantiation_list (all))
       component: (simple_name))
     (binding_indication
-      (port_map_aspect
-        (port_association_list
-          (positional_association_element
-            actual_part: (simple_name)))))))
+      (map_aspect
+        (port_map_aspect
+          (port_association_list
+            (positional_association_element
+              actual_part: (simple_name))))))))
 
 =============================================
 Binding indication - Both map aspects
 =============================================
 for all : c
-    generic map (a);
+    generic map (a)
     port map (a);
 ---
 
 (design_file
   (simple_configuration_specification
     (component_specification
-      (instantiation_list
-        (all))
+      (instantiation_list (all))
       component: (simple_name))
     (binding_indication
-      (generic_map_aspect
-        (generic_association_list
-          (positional_association_element
-            actual_part: (simple_name)))
-        (semicolon))
-      (port_map_aspect
-        (port_association_list
-          (positional_association_element
-            actual_part: (simple_name)))))))
+      (map_aspect
+        (generic_map_aspect
+          (generic_association_list
+            (positional_association_element
+              actual_part: (simple_name))))
+        (port_map_aspect
+          (port_association_list
+            (positional_association_element
+              actual_part: (simple_name))))))))
 
 =============================================
 Binding indication - Full
 =============================================
 for all : c
     use open
-    generic map (a);
+    generic map (a)
     port map (a);
 ---
 
 (design_file
   (simple_configuration_specification
     (component_specification
-      (instantiation_list
-        (all))
+      (instantiation_list (all))
       component: (simple_name))
     (binding_indication
       (open)
-      (generic_map_aspect
-        (generic_association_list
-          (positional_association_element
-            actual_part: (simple_name)))
-        (semicolon))
-      (port_map_aspect
-        (port_association_list
-          (positional_association_element
-            actual_part: (simple_name)))))))
+      (map_aspect
+        (generic_map_aspect
+          (generic_association_list
+            (positional_association_element
+              actual_part: (simple_name))))
+        (port_map_aspect
+          (port_association_list
+            (positional_association_element
+              actual_part: (simple_name))))))))

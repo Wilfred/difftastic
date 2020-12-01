@@ -62,7 +62,7 @@ sequence s (hdltype t o) is {o};
         (PSL_Constant_Parameter_Specification
           Value_Parameter: (PSL_HDL_Type
             (subtype_indication
-              type_mark: (simple_name))))
+              (type_mark (simple_name)))))
         (PSL_Identifier)))
     Sequence: (PSL_Braced_SERE
       Boolean: (simple_name))))
@@ -81,7 +81,7 @@ sequence s (const hdltype t o) is {o};
         (PSL_Constant_Parameter_Specification
           Value_Parameter: (PSL_HDL_Type
             (subtype_indication
-              type_mark: (simple_name))))
+              (type_mark (simple_name)))))
         (PSL_Identifier)))
     Sequence: (PSL_Braced_SERE
       Boolean: (simple_name))))

@@ -134,7 +134,7 @@ assert A**-B > 0;
       right: (integer_decimal (integer))))
   (assertion_statement
     condition: (relation
-      left: (exponentiation
+      left: (simple_expression
         left: (simple_name)
         (ERROR)
         right: (simple_name))

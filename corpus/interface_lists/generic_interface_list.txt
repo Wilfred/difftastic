@@ -13,10 +13,9 @@ end;
       (header
         (generic_clause
           (interface_constant_declaration
-            (identifier_list
-              (identifier))
+            (identifier_list (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (semicolon))))))
 
 ============================================================================
@@ -37,32 +36,31 @@ end;
       (header
         (generic_clause
           (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (mode (in))
+            (identifier_list (identifier))
+            (mode)
             (subtype_indication
-              type_mark: (simple_name))
-            default_expression: (integer_decimal
-              (integer)))
+              (type_mark (simple_name)))
+            (default_expression
+              (integer_decimal
+                (integer))))
           (interface_constant_declaration
-            (identifier_list
-              (identifier))
+            (identifier_list (identifier))
             (subtype_indication
-              type_mark: (simple_name))
-            default_expression: (integer_decimal
-              (integer)))
+              (type_mark (simple_name)))
+            (default_expression
+              (integer_decimal
+                (integer))))
           (interface_constant_declaration
-            (identifier_list
-              (identifier))
+            (identifier_list (identifier))
             (subtype_indication
-              type_mark: (simple_name))
-            default_expression: (integer_decimal
-              (integer)))
+              (type_mark (simple_name)))
+            (default_expression
+              (integer_decimal
+                (integer))))
           (interface_constant_declaration
-            (identifier_list
-              (identifier))
+            (identifier_list (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (semicolon))))))
 
 ============================================================================
@@ -99,7 +97,7 @@ end;
         (generic_clause
           (interface_subprogram_declaration
             (procedure_specification
-              designator: (identifier)))
+              (identifier)))
           (semicolon))))))
 
 ============================================================================
@@ -118,19 +116,17 @@ end;
         (generic_clause
           (interface_subprogram_declaration
             (procedure_specification
-              designator: (identifier)
+              (identifier)
               (formal_procedure_parameter_clause
                 (interface_constant_declaration
-                  (identifier_list
-                    (identifier))
+                  (identifier_list (identifier))
                   (subtype_indication
-                    type_mark: (simple_name)))
+                    (type_mark (simple_name))))
                 (interface_variable_declaration
-                  (identifier_list
-                    (identifier))
-                  (mode (out))
+                  (identifier_list (identifier))
+                  (mode)
                   (subtype_indication
-                    type_mark: (simple_name))))))
+                    (type_mark (simple_name)))))))
           (semicolon))))))
 
 ============================================================================
@@ -150,12 +146,12 @@ end;
         (generic_clause
           (interface_subprogram_declaration
             (procedure_specification
-              designator: (identifier))
+              (identifier))
             (interface_subprogram_default
               (same)))
           (interface_subprogram_declaration
             (procedure_specification
-              designator: (identifier))
+              (identifier))
             (interface_subprogram_default
               subprogram: (simple_name)))
           (semicolon))))))
@@ -176,21 +172,19 @@ end;
         (generic_clause
           (interface_subprogram_declaration
             (procedure_specification
-              designator: (identifier)
+              (identifier)
               (formal_procedure_parameter_clause
                 (interface_constant_declaration
                   (identifier_list
                     (identifier)
                     (identifier))
                   (subtype_indication
-                    type_mark: (simple_name)))
+                    (type_mark (simple_name))))
                 (interface_variable_declaration
-                  (identifier_list
-                    (identifier))
-                  (mode
-                    (out))
+                  (identifier_list (identifier))
+                  (mode)
                   (subtype_indication
-                    type_mark: (simple_name)))))
+                    (type_mark (simple_name))))))
             (interface_subprogram_default
               subprogram: (selected_name
                 prefix: (selected_name
@@ -215,9 +209,9 @@ end;
         (generic_clause
           (interface_subprogram_declaration
             (pure_function_specification
-              designator: (identifier)
+              (identifier)
               (return
-                type_mark: (simple_name))))
+                (type_mark (simple_name)))))
           (semicolon))))))
 
 ============================================================================
@@ -237,14 +231,14 @@ end;
         (generic_clause
           (interface_subprogram_declaration
             (impure_function_specification
-              designator: (identifier)
+              (identifier)
               (return
-                type_mark: (simple_name))))
+                (type_mark (simple_name)))))
           (interface_subprogram_declaration
             (pure_function_specification
-              designator: (identifier)
+              (identifier)
               (return
-                type_mark: (simple_name))))
+                (type_mark (simple_name)))))
           (semicolon))))))
 
 ============================================================================
@@ -263,16 +257,16 @@ end;
         (generic_clause
           (interface_subprogram_declaration
             (pure_function_specification
-              designator: (operator_symbol)
+              (operator_symbol)
               (formal_function_parameter_clause
                 (interface_constant_declaration
                   (identifier_list
                     (identifier)
                     (identifier))
                   (subtype_indication
-                    type_mark: (simple_name))))
+                    (type_mark (simple_name)))))
               (return
-                type_mark: (simple_name))))
+                (type_mark (simple_name)))))
           (semicolon))))))
 
 ============================================================================
@@ -292,16 +286,16 @@ end;
         (generic_clause
           (interface_subprogram_declaration
             (impure_function_specification
-              designator: (identifier)
+              (identifier)
               (return
-                type_mark: (simple_name)))
+                (type_mark (simple_name))))
             (interface_subprogram_default
               (same)))
           (interface_subprogram_declaration
             (pure_function_specification
-              designator: (identifier)
+              (identifier)
               (return
-                type_mark: (simple_name)))
+                (type_mark (simple_name))))
             (interface_subprogram_default
               subprogram: (simple_name)))
           (semicolon))))))
@@ -323,16 +317,16 @@ end;
         (generic_clause
           (interface_subprogram_declaration
             (pure_function_specification
-              designator: (operator_symbol)
+              (operator_symbol)
               (formal_function_parameter_clause
                 (interface_constant_declaration
                   (identifier_list
                     (identifier)
                     (identifier))
                   (subtype_indication
-                    type_mark: (simple_name))))
+                    (type_mark (simple_name)))))
               (return
-                type_mark: (simple_name)))
+                (type_mark (simple_name))))
             (interface_subprogram_default
               subprogram: (selected_name
                 prefix: (selected_name
@@ -358,7 +352,8 @@ end;
           (interface_package_declaration
             (identifier)
             uninstantiated_package: (simple_name)
-            (generic_map_aspect (default)))
+            (generic_map_aspect
+              (default)))
           (semicolon))))))
 
 ============================================================================
@@ -375,9 +370,8 @@ end;
       (identifier)
       (header
         (generic_clause
-          ILLEGAL: (interface_signal_declaration
-            (identifier_list
-              (identifier))
+          (interface_signal_declaration
+            (identifier_list (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (semicolon))))))

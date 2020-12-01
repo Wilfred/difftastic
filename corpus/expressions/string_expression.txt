@@ -6,13 +6,13 @@ report integer'image(a);
 
 (design_file
   (report_statement
-    report: (function_call
+    (report (function_call
       function_name: (attribute_name
         prefix: (simple_name)
         (attribute_designator))
       (association_list
         (positional_association_element
-          actual_part: (simple_name))))))
+          actual_part: (simple_name)))))))
 
 =========================
 Function
@@ -22,10 +22,10 @@ report to_string(a);
 
 (design_file
   (report_statement
-    report: (ambiguous_name
+    (report (ambiguous_name
       prefix: (simple_name)
       (expression_list
-        expression: (simple_name)))))
+        expression: (simple_name))))))
 
 =========================
 Concatenation
@@ -35,6 +35,6 @@ report "a" & "b";
 
 (design_file
   (report_statement
-    report: (concatenation
+    (report (concatenation
       left: (string_literal)
-      right: (string_literal))))
+      right: (string_literal)))))

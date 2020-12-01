@@ -9,25 +9,22 @@ assert << signal   obj : bar_t >>;
 (design_file
   (assertion_statement
     condition: (external_constant_name
-                 (relative_pathname
-                   (partial_pathname
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name))))
+      (relative_pathname
+        object: (simple_name))
+      (subtype_indication
+        (type_mark (simple_name)))))
   (assertion_statement
     condition: (external_variable_name
-                 (relative_pathname
-                   (partial_pathname
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name))))
+      (relative_pathname
+        object: (simple_name))
+      (subtype_indication
+        (type_mark (simple_name)))))
   (assertion_statement
     condition: (external_signal_name
-                 (relative_pathname
-                   (partial_pathname
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name)))))
+      (relative_pathname
+        object: (simple_name))
+      (subtype_indication
+        (type_mark (simple_name))))))
 
 =====================================
 Package pathname
@@ -45,7 +42,7 @@ assert << signal   @lib.pkg.pkg.pkg.obj : foo_t >>;
                    package: (simple_name)
                    object: (simple_name))
                  (subtype_indication
-                   type_mark: (simple_name))))
+                   (type_mark (simple_name)))))
   (assertion_statement
     condition: (external_variable_name
                  (package_pathname
@@ -54,7 +51,7 @@ assert << signal   @lib.pkg.pkg.pkg.obj : foo_t >>;
                    package: (simple_name)
                    object: (simple_name))
                  (subtype_indication
-                   type_mark: (simple_name))))
+                   (type_mark (simple_name)))))
   (assertion_statement
     condition: (external_signal_name
                  (package_pathname
@@ -64,7 +61,7 @@ assert << signal   @lib.pkg.pkg.pkg.obj : foo_t >>;
                    package: (simple_name)
                    object: (simple_name))
                  (subtype_indication
-                   type_mark: (simple_name)))))
+                   (type_mark (simple_name))))))
 
 =====================================
 Absolute pathname I
@@ -77,31 +74,28 @@ assert << signal   .foo.bar.obj : foo_t >>;
 (design_file
   (assertion_statement
     condition: (external_constant_name
-                 (absolute_pathname
-                   (partial_pathname
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name))))
+      (absolute_pathname
+        object: (simple_name))
+      (subtype_indication
+        (type_mark (simple_name)))))
   (assertion_statement
     condition: (external_variable_name
-                 (absolute_pathname
-                   (partial_pathname
-                     (pathname_element
-                       simple_name_or_label: (simple_name))
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name))))
+      (absolute_pathname
+        (pathname_element
+          (identifier))
+        object: (simple_name))
+      (subtype_indication
+        (type_mark (simple_name)))))
   (assertion_statement
     condition: (external_signal_name
-                 (absolute_pathname
-                   (partial_pathname
-                     (pathname_element
-                       simple_name_or_label: (simple_name))
-                     (pathname_element
-                       simple_name_or_label: (simple_name))
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name)))))
+      (absolute_pathname
+        (pathname_element
+          (identifier))
+        (pathname_element
+          (identifier))
+        object: (simple_name))
+      (subtype_indication
+        (type_mark (simple_name))))))
 
 =====================================
 Absolute pathname II
@@ -114,43 +108,44 @@ assert << signal   .foo(0).bar(0).obj : bar >>;
 (design_file
   (assertion_statement
     condition: (external_constant_name
-                 (absolute_pathname
-                   (partial_pathname
-                     (pathname_element
-                       (generate_statement_element
-                         generate_statement_label: (simple_name)
-                         generate_specification: (integer_decimal (integer))))
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name))))
+      (absolute_pathname
+        (pathname_element
+          (generate_statement_element
+            generate_label: (simple_name)
+            specification: (integer_decimal
+              (integer))))
+        object: (simple_name))
+      (subtype_indication
+        (type_mark (simple_name)))))
   (assertion_statement
     condition: (external_variable_name
-                 (absolute_pathname
-                   (partial_pathname
-                     (pathname_element
-                       simple_name_or_label: (simple_name))
-                     (pathname_element
-                       (generate_statement_element
-                         generate_statement_label: (simple_name)
-                         generate_specification: (integer_decimal (integer))))
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name))))
+      (absolute_pathname
+        (pathname_element
+          (identifier))
+        (pathname_element
+          (generate_statement_element
+            generate_label: (simple_name)
+            specification: (integer_decimal
+              (integer))))
+        object: (simple_name))
+      (subtype_indication
+        (type_mark (simple_name)))))
   (assertion_statement
     condition: (external_signal_name
-                 (absolute_pathname
-                   (partial_pathname
-                     (pathname_element
-                       (generate_statement_element
-                         generate_statement_label: (simple_name)
-                         generate_specification: (integer_decimal (integer))))
-                     (pathname_element
-                       (generate_statement_element
-                         generate_statement_label: (simple_name)
-                         generate_specification: (integer_decimal (integer))))
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name)))))
+      (absolute_pathname
+        (pathname_element
+          (generate_statement_element
+            generate_label: (simple_name)
+            specification: (integer_decimal
+              (integer))))
+        (pathname_element
+          (generate_statement_element
+            generate_label: (simple_name)
+            specification: (integer_decimal
+              (integer))))
+        object: (simple_name))
+      (subtype_indication
+        (type_mark (simple_name))))))
 
 =====================================
 Relative pathname I
@@ -163,31 +158,31 @@ assert << signal   foo.bar.obj : foo_t >>;
 (design_file
   (assertion_statement
     condition: (external_constant_name
-                 (relative_pathname
-                   (partial_pathname
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name))))
+      (relative_pathname
+        object: (simple_name))
+      (subtype_indication
+        (type_mark
+          (simple_name)))))
   (assertion_statement
     condition: (external_variable_name
-                 (relative_pathname
-                   (partial_pathname
-                     (pathname_element
-                       simple_name_or_label: (simple_name))
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name))))
+      (relative_pathname
+        (pathname_element
+          (identifier))
+        object: (simple_name))
+      (subtype_indication
+        (type_mark
+          (simple_name)))))
   (assertion_statement
     condition: (external_signal_name
-                 (relative_pathname
-                   (partial_pathname
-                     (pathname_element
-                       simple_name_or_label: (simple_name))
-                     (pathname_element
-                       simple_name_or_label: (simple_name))
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name)))))
+      (relative_pathname
+        (pathname_element
+          (identifier))
+        (pathname_element
+          (identifier))
+        object: (simple_name))
+      (subtype_indication
+        (type_mark
+          (simple_name))))))
 
 =====================================
 Relative pathname II
@@ -200,25 +195,25 @@ assert << signal ^.^.obj : foo_t >>;
 (design_file
   (assertion_statement
     condition: (external_constant_name
-                 (relative_pathname
-                   (partial_pathname
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name))))
+      (relative_pathname
+        object: (simple_name))
+      (subtype_indication
+        (type_mark
+          (simple_name)))))
   (assertion_statement
     condition: (external_variable_name
-                 (relative_pathname
-                   (partial_pathname
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name))))
+      (relative_pathname
+        object: (simple_name))
+      (subtype_indication
+        (type_mark
+          (simple_name)))))
   (assertion_statement
     condition: (external_signal_name
-                 (relative_pathname
-                   (partial_pathname
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name)))))
+      (relative_pathname
+        object: (simple_name))
+      (subtype_indication
+        (type_mark
+          (simple_name))))))
 
 =====================================
 Relative pathname III
@@ -231,34 +226,34 @@ assert << signal   ^.^.foobar.foo.bar.obj : foo_t >>;
 (design_file
   (assertion_statement
     condition: (external_constant_name
-                 (relative_pathname
-                   (partial_pathname
-                     (pathname_element
-                       simple_name_or_label: (simple_name))
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name))))
+      (relative_pathname
+        (pathname_element
+          (identifier))
+        object: (simple_name))
+      (subtype_indication
+        (type_mark
+          (simple_name)))))
   (assertion_statement
     condition: (external_variable_name
-                 (relative_pathname
-                   (partial_pathname
-                     (pathname_element
-                       simple_name_or_label: (simple_name))
-                     (pathname_element
-                       simple_name_or_label: (simple_name))
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name))))
+      (relative_pathname
+        (pathname_element
+          (identifier))
+        (pathname_element
+          (identifier))
+        object: (simple_name))
+      (subtype_indication
+        (type_mark
+          (simple_name)))))
   (assertion_statement
     condition: (external_signal_name
-                 (relative_pathname
-                   (partial_pathname
-                     (pathname_element
-                       simple_name_or_label: (simple_name))
-                     (pathname_element
-                       simple_name_or_label: (simple_name))
-                     (pathname_element
-                       simple_name_or_label: (simple_name))
-                     object: (simple_name)))
-                 (subtype_indication
-                   type_mark: (simple_name)))))
+      (relative_pathname
+        (pathname_element
+          (identifier))
+        (pathname_element
+          (identifier))
+        (pathname_element
+          (identifier))
+        object: (simple_name))
+      (subtype_indication
+        (type_mark
+          (simple_name))))))

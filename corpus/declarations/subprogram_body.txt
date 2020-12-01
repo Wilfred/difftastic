@@ -17,14 +17,14 @@ end procedure p;
 (design_file
   (subprogram_body
     (procedure_specification
-      designator: (identifier)))
+      (identifier)))
   (subprogram_body
     (procedure_specification
-      designator: (identifier))
+      (identifier))
     (subprogram_kind))
   (subprogram_body
     (procedure_specification
-      designator: (identifier))
+      (identifier))
     (subprogram_kind)
     at_end: (simple_name)))
 
@@ -47,20 +47,20 @@ end function f;
 (design_file
   (subprogram_body
     (pure_function_specification
-      designator: (identifier)
+      (identifier)
       (return
-        type_mark: (simple_name))))
+        (type_mark (simple_name)))))
   (subprogram_body
     (pure_function_specification
-      designator: (identifier)
+      (identifier)
       (return
-        type_mark: (simple_name)))
+        (type_mark (simple_name))))
     (subprogram_kind))
   (subprogram_body
     (pure_function_specification
-      designator: (identifier)
+      (identifier)
       (return
-        type_mark: (simple_name)))
+        (type_mark (simple_name))))
     (subprogram_kind)
     at_end: (simple_name)))
 
@@ -79,24 +79,24 @@ end;
 (design_file
   (subprogram_body
     (procedure_specification
-      designator: (identifier)
+      (identifier)
       (formal_procedure_parameter_clause
         (interface_constant_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name))))))
+            (type_mark (simple_name)))))))
   (subprogram_body
     (pure_function_specification
-      designator: (identifier)
+      (identifier)
       (formal_function_parameter_clause
         (interface_constant_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name))))
+            (type_mark (simple_name)))))
       (return
-        type_mark: (simple_name)))))
+        (type_mark (simple_name))))))
 
 ================================================
 Header - Parameters (Explicit clause)
@@ -115,24 +115,25 @@ end;
 (design_file
   (subprogram_body
     (procedure_specification
-      designator: (identifier)
+      (identifier)
       (formal_procedure_parameter_clause
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              type_mark: (simple_name))))))
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark (simple_name)))))))
   (subprogram_body
     (pure_function_specification
-      designator: (identifier)
+      (identifier)
       (formal_function_parameter_clause
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              type_mark: (simple_name))))
+        (interface_constant_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark (simple_name)))))
       (return
-        type_mark: (simple_name)))))
+        (type_mark
+          (simple_name))))))
 
 =======================================
 Procedure Header - Generic clause
@@ -147,20 +148,20 @@ end procedure p;
 (design_file
   (subprogram_body
     (procedure_specification
-      designator: (identifier)
+      (identifier)
       (header
         (generic_clause
           (interface_constant_declaration
             (identifier_list
               (identifier))
             (subtype_indication
-              type_mark: (simple_name)))))
+              (type_mark (simple_name))))))
       (formal_procedure_parameter_clause
         (interface_constant_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name)))))
+            (type_mark (simple_name))))))
     (subprogram_kind)
     at_end: (simple_name)))
 
@@ -177,22 +178,22 @@ end;
 (design_file
   (subprogram_body
     (pure_function_specification
-      designator: (identifier)
+      (identifier)
       (header
         (generic_clause
           (interface_constant_declaration
             (identifier_list
               (identifier))
             (subtype_indication
-              type_mark: (simple_name)))))
+              (type_mark (simple_name))))))
       (formal_function_parameter_clause
         (interface_constant_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name))))
+            (type_mark (simple_name)))))
       (return
-        type_mark: (simple_name)))))
+        (type_mark (simple_name))))))
 
 =======================================
 Procedure Header - Generic map aspect
@@ -208,14 +209,14 @@ end procedure p;
 (design_file
   (subprogram_body
     (procedure_specification
-      designator: (identifier)
+      (identifier)
       (header
         (generic_clause
           (interface_constant_declaration
             (identifier_list
               (identifier))
             (subtype_indication
-              type_mark: (simple_name))))
+              (type_mark (simple_name)))))
         (generic_map_aspect
           (generic_association_list
             (positional_association_element
@@ -225,7 +226,7 @@ end procedure p;
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name)))))
+            (type_mark (simple_name))))))
     (subprogram_kind)
     at_end: (simple_name)))
 
@@ -243,14 +244,14 @@ end;
 (design_file
   (subprogram_body
     (pure_function_specification
-      designator: (identifier)
+      (identifier)
       (header
         (generic_clause
           (interface_constant_declaration
             (identifier_list
               (identifier))
             (subtype_indication
-              type_mark: (simple_name))))
+              (type_mark (simple_name)))))
         (generic_map_aspect
           (generic_association_list
             (positional_association_element
@@ -260,9 +261,9 @@ end;
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name))))
+            (type_mark (simple_name)))))
       (return
-        type_mark: (simple_name)))))
+        (type_mark (simple_name))))))
 
 =======================================
 Return statement
@@ -276,16 +277,16 @@ end function;
 (design_file
   (subprogram_body
     (pure_function_specification
-      designator: (identifier)
+      (identifier)
       (return
-        type_mark: (simple_name)))
-    (subprogram_statement_part
+        (type_mark (simple_name))))
+    (sequence_of_statements
       (return_statement
         (simple_name)))
     (subprogram_kind)))
 
 ============================================================
-Header - Semi colon after generic clause (unexpected_token)
+Header - Semicolon after generic clause (unexpected_token)
 ============================================================
 procedure p
       generic (k:t); -- here
@@ -297,14 +298,14 @@ end procedure p;
 (design_file
   (subprogram_body
     (procedure_specification
-      designator: (identifier)
+      (identifier)
       (header
         (generic_clause
           (interface_constant_declaration
             (identifier_list
               (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (semicolon)))
       (comment)
       (formal_procedure_parameter_clause
@@ -312,12 +313,12 @@ end procedure p;
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name)))))
+            (type_mark (simple_name))))))
     (subprogram_kind)
     at_end: (simple_name)))
 
 ============================================================
-Header - Semi colon after generic maps aspect (unexpected_token)
+Header - Semicolon after generic maps aspect (unexpected_token)
 ============================================================
 procedure p
       generic (k:t)
@@ -330,14 +331,14 @@ end procedure p;
 (design_file
   (subprogram_body
     (procedure_specification
-      designator: (identifier)
+      (identifier)
       (header
         (generic_clause
           (interface_constant_declaration
             (identifier_list
               (identifier))
             (subtype_indication
-              type_mark: (simple_name))))
+              (type_mark (simple_name)))))
         (generic_map_aspect
           (generic_association_list
             (positional_association_element
@@ -349,6 +350,6 @@ end procedure p;
           (identifier_list
             (identifier))
           (subtype_indication
-            type_mark: (simple_name)))))
+            (type_mark (simple_name))))))
     (subprogram_kind)
     at_end: (simple_name)))

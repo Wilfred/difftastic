@@ -13,10 +13,9 @@ end;
       (header
         (port_clause
           (interface_signal_declaration
-            (identifier_list
-              (identifier))
+            (identifier_list (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (semicolon))))))
 
 ============================================================================
@@ -37,31 +36,24 @@ end;
       (header
         (port_clause
           (interface_signal_declaration
-            (identifier_list
-              (identifier))
-            (mode
-              (in))
+            (identifier_list (identifier))
+            (mode)
             (subtype_indication
-              type_mark: (simple_name))
-            (signal_kind
-              (bus)))
+              (type_mark (simple_name)))
+            (signal_kind))
           (interface_signal_declaration
-            (identifier_list
-              (identifier))
-            (mode
-              (in))
+            (identifier_list (identifier))
+            (mode)
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (interface_signal_declaration
-            (identifier_list
-              (identifier))
+            (identifier_list (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (interface_signal_declaration
-            (identifier_list
-              (identifier))
+            (identifier_list (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (semicolon))))))
 
 ============================================================================
@@ -83,40 +75,30 @@ end;
       (header
         (port_clause
           (interface_signal_declaration
-            (identifier_list
-              (identifier))
-            (mode
-              (in))
+            (identifier_list (identifier))
+            (mode)
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (interface_signal_declaration
-            (identifier_list
-              (identifier))
-            (mode
-              (out))
+            (identifier_list (identifier))
+            (mode)
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (interface_signal_declaration
-            (identifier_list
-              (identifier))
-            (mode
-              (inout))
+            (identifier_list (identifier))
+            (mode)
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (interface_signal_declaration
-            (identifier_list
-              (identifier))
-            (mode
-              (buffer))
+            (identifier_list (identifier))
+            (mode)
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (interface_signal_declaration
-            (identifier_list
-              (identifier))
-            (mode
-              (linkage))
+            (identifier_list (identifier))
+            (mode)
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (semicolon))))))
 
 ============================================================================
@@ -135,21 +117,18 @@ end;
       (identifier)
       (header
         (port_clause
-          ILLEGAL: (interface_constant_declaration
-            (identifier_list
-              (identifier))
+          (interface_constant_declaration
+            (identifier_list (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
-          ILLEGAL: (interface_variable_declaration
-            (identifier_list
-              (identifier))
+              (type_mark (simple_name))))
+          (interface_variable_declaration
+            (identifier_list (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
-          ILLEGAL: (interface_file_declaration
-            (identifier_list
-              (identifier))
+              (type_mark (simple_name))))
+          (interface_file_declaration
+            (identifier_list (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (semicolon))))))
 
 ============================================================================
@@ -166,7 +145,7 @@ end;
       (identifier)
       (header
         (port_clause
-          ILLEGAL: (interface_type_declaration
+          (interface_type_declaration
             (identifier))
           (semicolon))))))
 
@@ -184,9 +163,9 @@ end;
       (identifier)
       (header
         (port_clause
-          ILLEGAL: (interface_subprogram_declaration
+          (interface_subprogram_declaration
             (procedure_specification
-              designator: (identifier)))
+              (identifier)))
           (semicolon))))))
 
 ============================================================================
@@ -203,11 +182,11 @@ end;
       (identifier)
       (header
         (port_clause
-          ILLEGAL: (interface_subprogram_declaration
+          (interface_subprogram_declaration
             (pure_function_specification
-              designator: (identifier)
+              (identifier)
               (return
-                type_mark: (simple_name))))
+                (type_mark (simple_name)))))
           (semicolon))))))
 
 ============================================================================
@@ -224,8 +203,9 @@ end;
       (identifier)
       (header
         (port_clause
-          ILLEGAL: (interface_package_declaration
+          (interface_package_declaration
             (identifier)
             uninstantiated_package: (simple_name)
-            (generic_map_aspect (any)))
+            (generic_map_aspect
+              (any)))
           (semicolon))))))

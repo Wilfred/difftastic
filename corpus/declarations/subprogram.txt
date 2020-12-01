@@ -9,17 +9,17 @@ function "+" return t;
 (design_file
   (subprogram_declaration
     (procedure_specification
-      designator: (identifier)))
+      (identifier)))
   (subprogram_declaration
     (pure_function_specification
-      designator: (identifier)
+      (identifier)
       (return
-        type_mark: (simple_name))))
+        (type_mark (simple_name)))))
   (subprogram_declaration
     (pure_function_specification
-      designator: (operator_symbol)
+      (operator_symbol)
       (return
-        type_mark: (simple_name)))))
+        (type_mark (simple_name))))))
 
 =======================================
 Function purity
@@ -31,14 +31,14 @@ impure function f return t;
 (design_file
   (subprogram_declaration
     (pure_function_specification
-      designator: (identifier)
+      (identifier)
       (return
-        type_mark: (simple_name))))
+        (type_mark (simple_name)))))
   (subprogram_declaration
     (impure_function_specification
-      designator: (identifier)
+      (identifier)
       (return
-        type_mark: (simple_name)))))
+        (type_mark (simple_name))))))
 
 =======================================
 Header - Generic clause
@@ -53,26 +53,26 @@ function f
 (design_file
   (subprogram_declaration
     (procedure_specification
-      designator: (identifier)
+      (identifier)
       (header
         (generic_clause
           (interface_constant_declaration
             (identifier_list
               (identifier))
             (subtype_indication
-              type_mark: (simple_name)))))))
+              (type_mark (simple_name))))))))
   (subprogram_declaration
     (pure_function_specification
-      designator: (identifier)
+      (identifier)
       (header
         (generic_clause
           (interface_constant_declaration
             (identifier_list
               (identifier))
             (subtype_indication
-              type_mark: (simple_name)))))
+              (type_mark (simple_name))))))
       (return
-        type_mark: (simple_name)))))
+        (type_mark (simple_name))))))
 
 =======================================
 Header - Generic Map aspect
@@ -89,34 +89,34 @@ function f
 (design_file
   (subprogram_declaration
     (procedure_specification
-      designator: (identifier)
+      (identifier)
       (header
         (generic_clause
           (interface_constant_declaration
             (identifier_list
               (identifier))
             (subtype_indication
-              type_mark: (simple_name))))
+              (type_mark (simple_name)))))
         (generic_map_aspect
           (generic_association_list
             (positional_association_element
               actual_part: (simple_name)))))))
   (subprogram_declaration
     (pure_function_specification
-      designator: (identifier)
+      (identifier)
       (header
         (generic_clause
           (interface_constant_declaration
             (identifier_list
               (identifier))
             (subtype_indication
-              type_mark: (simple_name))))
+              (type_mark (simple_name)))))
         (generic_map_aspect
           (generic_association_list
             (positional_association_element
               actual_part: (simple_name)))))
       (return
-        type_mark: (simple_name)))))
+        (type_mark (simple_name))))))
 
 ================================
 Header - Unexpected token (LINT)
@@ -129,14 +129,14 @@ procedure p
 (design_file
   (subprogram_declaration
     (procedure_specification
-      designator: (identifier)
+      (identifier)
       (header
         (generic_clause
           (interface_constant_declaration
             (identifier_list
               (identifier))
             (subtype_indication
-              type_mark: (simple_name)))
+              (type_mark (simple_name))))
           (semicolon))
         (comment)
         (generic_map_aspect

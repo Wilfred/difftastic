@@ -21,7 +21,7 @@ assert a report "str";
 (design_file
   (assertion_statement
     condition: (simple_name)
-    report: (string_literal)))
+    (report (string_literal))))
 
 ==============================
 Severity
@@ -32,7 +32,7 @@ assert a severity note;
 (design_file
   (assertion_statement
     condition: (simple_name)
-    severity: (simple_name)))
+    (severity (simple_name))))
 
 ==============================
 Report and severity
@@ -43,5 +43,5 @@ assert a report K_MSG severity failure;
 (design_file
   (assertion_statement
     condition: (simple_name)
-    report: (simple_name)
-    severity: (simple_name)))
+    (report (simple_name))
+    (severity (simple_name))))

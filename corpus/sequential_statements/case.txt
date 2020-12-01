@@ -22,7 +22,7 @@ end case L2;
   (case_statement
     (label (identifier))
     expression: (simple_name)
-    footer_label: (simple_name)))
+    at_end: (simple_name)))
 
 ===========================
 Matching case statement
@@ -48,7 +48,7 @@ end case? L2;
   (case_statement
     (label (identifier))
     expression: (simple_name)
-    footer_label: (simple_name)))
+    at_end: (simple_name)))
 
 ===================================
 Case statement alternatives

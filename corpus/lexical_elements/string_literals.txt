@@ -6,7 +6,7 @@ report "";
 
 (design_file
   (report_statement
-    report: (string_literal)))
+    (report (string_literal))))
 
 ============================================
 White space (SPACE)
@@ -16,7 +16,7 @@ report " ";
 
 (design_file
   (report_statement
-    report: (string_literal)))
+    (report (string_literal))))
 
 ============================================
 White space (NBSP)
@@ -26,7 +26,7 @@ report " ";
 
 (design_file
   (report_statement
-    report: (string_literal)))
+    (report (string_literal))))
 
 ==============================================================
 Apostrophe
@@ -36,7 +36,7 @@ report "'";
 
 (design_file
   (report_statement
-    report: (string_literal)))
+    (report (string_literal))))
 
 ==============================================================
 Quotation mark (escape)
@@ -46,8 +46,7 @@ report """";
 
 (design_file
   (report_statement
-    report: (string_literal
-      (escape_sequence))))
+    (report (string_literal (escape_sequence)))))
 
 ==============================================================
 Underscore
@@ -57,7 +56,7 @@ report "_";
 
 (design_file
   (report_statement
-    report: (string_literal)))
+    (report (string_literal))))
 
 ==============================================================
 Backslash
@@ -67,7 +66,7 @@ report "\";
 
 (design_file
   (report_statement
-    report: (string_literal)))
+    (report (string_literal))))
 
 ==============================================================
 Comment
@@ -77,7 +76,7 @@ report "--";
 
 (design_file
   (report_statement
-    report: (string_literal)))
+    (report (string_literal))))
 
 ==============================================================
 Zeros and ones
@@ -87,7 +86,7 @@ report "010";
 
 (design_file
   (report_statement
-    report: (string_literal)))
+    (report (string_literal))))
 
 ==============================================================
 Operators symbols
@@ -102,17 +101,17 @@ report "**";
 
 (design_file
   (report_statement
-    report: (string_literal))
+    (report (string_literal)))
   (report_statement
-    report: (string_literal))
+    (report (string_literal)))
   (report_statement
-    report: (string_literal))
+    (report (string_literal)))
   (report_statement
-    report: (string_literal))
+    (report (string_literal)))
   (report_statement
-    report: (string_literal))
+    (report (string_literal)))
   (report_statement
-    report: (string_literal)))
+    (report (string_literal))))
 
 ==============================================================
 Regex Tokens
@@ -125,24 +124,8 @@ report "#";
 
 (design_file
   (report_statement
-    report: (concatenation
-      left: (concatenation
-        left: (concatenation
-          left: (concatenation
-            left: (string_literal)
-            right: (string_literal))
-          right: (string_literal))
-        right: (string_literal))
-      right: (string_literal)))
-  (report_statement
-    report: (concatenation
-      left: (concatenation
-        left: (string_literal)
-        right: (string_literal))
-      right: (string_literal)))
-  (report_statement
-    report: (concatenation
-      left: (concatenation
+    (report
+      (concatenation
         left: (concatenation
           left: (concatenation
             left: (concatenation
@@ -150,8 +133,27 @@ report "#";
               right: (string_literal))
             right: (string_literal))
           right: (string_literal))
-        right: (string_literal))
-      right: (string_literal)))
+        right: (string_literal))))
   (report_statement
-    report: (string_literal)))
-
+    (report
+      (concatenation
+        left: (concatenation
+          left: (string_literal)
+          right: (string_literal))
+        right: (string_literal))))
+  (report_statement
+    (report
+      (concatenation
+        left: (concatenation
+          left: (concatenation
+            left: (concatenation
+              left: (concatenation
+                left: (string_literal)
+                right: (string_literal))
+              right: (string_literal))
+            right: (string_literal))
+          right: (string_literal))
+        right: (string_literal))))
+  (report_statement
+    (report
+      (string_literal))))

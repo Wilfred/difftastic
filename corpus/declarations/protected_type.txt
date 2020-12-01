@@ -33,107 +33,32 @@ end protected SharedCounter;
   (full_type_declaration
     (identifier)
     (protected_type_declaration
-      (protected_type_declarative_part
+      (declarative_part
         (subprogram_declaration
           (procedure_specification
-            designator: (identifier)
+            (identifier)
             (formal_procedure_parameter_clause
               (interface_constant_declaration
-                (identifier_list
-                  (identifier))
+                (identifier_list (identifier))
                 (subtype_indication
-                  type_mark: (simple_name))
-                default_expression: (integer_decimal
-                  (integer))))))
+                  (type_mark (simple_name)))
+                (default_expression
+                  (integer_decimal
+                    (integer)))))))
         (subprogram_declaration
           (procedure_specification
-            designator: (identifier)
+            (identifier)
             (formal_procedure_parameter_clause
               (interface_constant_declaration
-                (identifier_list
-                  (identifier))
+                (identifier_list (identifier))
                 (subtype_indication
-                  type_mark: (simple_name))
-                default_expression: (integer_decimal
-                  (integer))))))
+                  (type_mark (simple_name)))
+                (default_expression
+                  (integer_decimal
+                    (integer)))))))
         (subprogram_declaration
           (impure_function_specification
-            designator: (identifier)
+            (identifier)
             (return
-              type_mark: (simple_name)))))
-      at_end: (simple_name))))
-
-=================================
-LRM II
-=================================
-type ComplexNumber is protected
-   procedure extract (variable r, i: out Real);
-   procedure add (variable a, b: inout ComplexNumber);
-end protected ComplexNumber;
----
-
-(design_file
-  (full_type_declaration
-    (identifier)
-    (protected_type_declaration
-      (protected_type_declarative_part
-        (subprogram_declaration
-          (procedure_specification
-            designator: (identifier)
-            (formal_procedure_parameter_clause
-              (interface_variable_declaration
-                (identifier_list
-                  (identifier)
-                  (identifier))
-                (mode
-                  (out))
-                (subtype_indication
-                  type_mark: (simple_name))))))
-        (subprogram_declaration
-          (procedure_specification
-            designator: (identifier)
-            (formal_procedure_parameter_clause
-              (interface_variable_declaration
-                (identifier_list
-                  (identifier)
-                  (identifier))
-                (mode
-                  (inout))
-                (subtype_indication
-                  type_mark: (simple_name)))))))
-      at_end: (simple_name))))
-
-=================================
-LRM III
-=================================
-type VariableSizeBitArray is protected
-   procedure add_bit (index: Positive; value: Bit);
-   impure function size return Natural;
-end protected VariableSizeBitArray;
----
-
-(design_file
-  (full_type_declaration
-    (identifier)
-    (protected_type_declaration
-      (protected_type_declarative_part
-        (subprogram_declaration
-          (procedure_specification
-            designator: (identifier)
-            (formal_procedure_parameter_clause
-              (interface_constant_declaration
-                (identifier_list
-                  (identifier))
-                (subtype_indication
-                  type_mark: (simple_name)))
-              (interface_constant_declaration
-                (identifier_list
-                  (identifier))
-                (subtype_indication
-                  type_mark: (simple_name))))))
-        (subprogram_declaration
-          (impure_function_specification
-            designator: (identifier)
-            (return
-              type_mark: (simple_name)))))
+              (type_mark (simple_name))))))
       at_end: (simple_name))))
