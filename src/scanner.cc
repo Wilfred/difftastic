@@ -220,7 +220,6 @@ namespace
                 {
                     skip(lexer);
 
-
                     if (lexer->lookahead == '\r')
                     {
                         skip(lexer);
@@ -279,6 +278,11 @@ namespace
                 }
                 else if (lexer->lookahead == 0)
                 {
+                    if (valid_symbols[VIRTUAL_END_SECTION])
+                    {
+                        lexer->result_symbol = VIRTUAL_END_SECTION;
+                        return true;
+                    }
                     if (valid_symbols[VIRTUAL_END_DECL])
                     {
                         lexer->result_symbol = VIRTUAL_END_DECL;
@@ -387,6 +391,11 @@ namespace
                 else if (!runback.empty() && runback.back() == 1 && valid_symbols[VIRTUAL_END_SECTION])
                 {
                     runback.pop_back();
+                    lexer->result_symbol = VIRTUAL_END_SECTION;
+                    return true;
+                }
+                else if (lexer->eof(lexer) && valid_symbols[VIRTUAL_END_SECTION])
+                {
                     lexer->result_symbol = VIRTUAL_END_SECTION;
                     return true;
                 }
