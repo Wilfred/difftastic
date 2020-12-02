@@ -13,12 +13,6 @@ static void advance(TSLexer *lexer) {
   lexer->advance(lexer, false);
 }
 
-static bool is_eof(TSLexer *lexer) {
-  uint32_t column = lexer->get_column(lexer);
-  advance(lexer);
-  return lexer->get_column(lexer) <= column;
-}
-
 static void skip(TSLexer *lexer) {
   lexer->advance(lexer, true);
 }
@@ -59,7 +53,7 @@ static bool scan_str(TSLexer *lexer) {
         has_content = true;
         break;
       case '\0':
-        if (is_eof(lexer)) {
+        if (lexer->eof(lexer)) {
           return false;
         }
         has_content = true;
@@ -129,7 +123,7 @@ static bool scan_ind_str(TSLexer *lexer) {
         }
         break;
       case '\0':
-        if (is_eof(lexer)) {
+        if (lexer->eof(lexer)) {
           return false;
         }
         has_content = true;
