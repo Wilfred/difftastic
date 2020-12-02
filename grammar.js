@@ -891,7 +891,23 @@ module.exports = grammar({
         $._reserved_identifier,
       )),
       '!',
-      $.token_tree
+      alias($.delim_token_tree, $.token_tree)
+    ),
+
+    delim_token_tree: $ => choice(
+      seq('(', repeat($._delim_tokens), ')'),
+      seq('[', repeat($._delim_tokens), ']'),
+      seq('{', repeat($._delim_tokens), '}')
+    ),
+
+    _delim_tokens: $ => choice(
+      $._non_delim_token,
+      alias($.delim_token_tree, $.token_tree),
+    ),
+
+    _non_delim_token: $ => choice(
+      $._non_special_token,
+      '$'
     ),
 
     scoped_identifier: $ => seq(
