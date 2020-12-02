@@ -463,7 +463,7 @@ module.exports = grammar({
         '{',
         field('name', $._generic_command_name),
         '}',
-        field('impl', $.brace_group)
+        field('implementation', $.brace_group)
       ),
 
     math_operator: $ =>
@@ -475,7 +475,7 @@ module.exports = grammar({
         '{',
         field('name', $._generic_command_name),
         '}',
-        field('impl', $.brace_group)
+        field('implementation', $.brace_group)
       ),
 
     glossary_entry_definition: $ =>

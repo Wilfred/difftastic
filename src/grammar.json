@@ -34,7 +34,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_text"
+          "name": "text"
         },
         {
           "type": "SYMBOL",
@@ -889,7 +889,7 @@
         }
       ]
     },
-    "_text": {
+    "text": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
@@ -2500,7 +2500,7 @@
         },
         {
           "type": "FIELD",
-          "name": "impl",
+          "name": "implementation",
           "content": {
             "type": "SYMBOL",
             "name": "brace_group"
@@ -2549,7 +2549,7 @@
         },
         {
           "type": "FIELD",
-          "name": "impl",
+          "name": "implementation",
           "content": {
             "type": "SYMBOL",
             "name": "brace_group"

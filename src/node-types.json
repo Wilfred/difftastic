@@ -152,14 +152,6 @@
         "required": false,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
-          {
             "type": "acronym_definition",
             "named": true
           },
@@ -292,15 +284,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -336,14 +328,6 @@
         "required": false,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
-          {
             "type": "acronym_definition",
             "named": true
           },
@@ -476,15 +460,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -556,14 +540,6 @@
         "required": false,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
-          {
             "type": "acronym_definition",
             "named": true
           },
@@ -688,15 +664,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -803,7 +779,7 @@
           }
         ]
       },
-      "impl": {
+      "implementation": {
         "multiple": false,
         "required": true,
         "types": [
@@ -823,14 +799,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "acronym_definition",
             "named": true
@@ -964,15 +932,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -1148,15 +1116,15 @@
           "named": true
         },
         {
+          "type": "text",
+          "named": true
+        },
+        {
           "type": "theorem_definition",
           "named": true
         },
         {
           "type": "verbatim_include",
-          "named": true
-        },
-        {
-          "type": "word",
           "named": true
         }
       ]
@@ -1196,14 +1164,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "acronym_definition",
             "named": true
@@ -1305,15 +1265,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -1358,14 +1318,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "acronym_definition",
             "named": true
@@ -1499,15 +1451,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -1671,14 +1623,6 @@
         "required": false,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
-          {
             "type": "acronym_definition",
             "named": true
           },
@@ -1811,15 +1755,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -1915,17 +1859,9 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "acronym_definition",
             "named": true
@@ -2059,15 +1995,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -2198,7 +2134,7 @@
     "type": "math_operator",
     "named": true,
     "fields": {
-      "impl": {
+      "implementation": {
         "multiple": false,
         "required": true,
         "types": [
@@ -2218,14 +2154,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "acronym_definition",
             "named": true
@@ -2359,15 +2287,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -2437,14 +2365,6 @@
         "required": false,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
-          {
             "type": "acronym_definition",
             "named": true
           },
@@ -2553,15 +2473,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -2586,14 +2506,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "acronym_definition",
             "named": true
@@ -2727,15 +2639,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -2770,14 +2682,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "acronym_definition",
             "named": true
@@ -2907,15 +2811,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -2940,14 +2844,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "acronym_definition",
             "named": true
@@ -3069,15 +2965,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -3102,14 +2998,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "acronym_definition",
             "named": true
@@ -3215,15 +3103,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -3248,14 +3136,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "acronym_definition",
             "named": true
@@ -3373,15 +3253,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -3406,14 +3286,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "acronym_definition",
             "named": true
@@ -3527,15 +3399,15 @@
             "named": true
           },
           {
+            "type": "text",
+            "named": true
+          },
+          {
             "type": "theorem_definition",
             "named": true
           },
           {
             "type": "verbatim_include",
-            "named": true
-          },
-          {
-            "type": "word",
             "named": true
           }
         ]
@@ -3550,6 +3422,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "text",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
     }
   },
   {
