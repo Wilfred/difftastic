@@ -1,0 +1,1822 @@
+[
+  {
+    "type": "app",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "app",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "assert",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "app",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        },
+        {
+          "type": "with",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attrpath",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attrs",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attrset",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bind",
+          "named": true
+        },
+        {
+          "type": "inherit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "binary",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "app",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "bind",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "app",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "attrpath",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        },
+        {
+          "type": "with",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "app",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        },
+        {
+          "type": "with",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "formal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "app",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        },
+        {
+          "type": "with",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "formals",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ellipses",
+          "named": true
+        },
+        {
+          "type": "formal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "app",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "formals",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        },
+        {
+          "type": "with",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "if",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "app",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        },
+        {
+          "type": "with",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "indented_string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "inherit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attrs",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interpolation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "app",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        },
+        {
+          "type": "with",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "let",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "app",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "bind",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "inherit",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        },
+        {
+          "type": "with",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "let_attrset",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bind",
+          "named": true
+        },
+        {
+          "type": "inherit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parenthesized",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "app",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        },
+        {
+          "type": "with",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rec_attrset",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bind",
+          "named": true
+        },
+        {
+          "type": "inherit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "select",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attrpath",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unary",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "app",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "app",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "attrset",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "hpath",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "indented_string",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "let_attrset",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "path",
+          "named": true
+        },
+        {
+          "type": "rec_attrset",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "spath",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "uri",
+          "named": true
+        },
+        {
+          "type": "with",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "!=",
+    "named": false
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "${",
+    "named": false
+  },
+  {
+    "type": "&&",
+    "named": false
+  },
+  {
+    "type": "''",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": "++",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "->",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": "//",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<=",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "==",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
+    "named": false
+  },
+  {
+    "type": "?",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "assert",
+    "named": false
+  },
+  {
+    "type": "comment",
+    "named": true
+  },
+  {
+    "type": "ellipses",
+    "named": true
+  },
+  {
+    "type": "else",
+    "named": false
+  },
+  {
+    "type": "escape_sequence",
+    "named": true
+  },
+  {
+    "type": "float",
+    "named": true
+  },
+  {
+    "type": "hpath",
+    "named": true
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "in",
+    "named": false
+  },
+  {
+    "type": "inherit",
+    "named": false
+  },
+  {
+    "type": "integer",
+    "named": true
+  },
+  {
+    "type": "let",
+    "named": false
+  },
+  {
+    "type": "or",
+    "named": false
+  },
+  {
+    "type": "path",
+    "named": true
+  },
+  {
+    "type": "rec",
+    "named": false
+  },
+  {
+    "type": "spath",
+    "named": true
+  },
+  {
+    "type": "then",
+    "named": false
+  },
+  {
+    "type": "uri",
+    "named": true
+  },
+  {
+    "type": "with",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "||",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]

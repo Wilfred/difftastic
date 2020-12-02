@@ -8,9 +8,11 @@ comments
 This is also a comment.
 */
 
+"This is a string."
+
 ---
 
-(expression (comment) (comment) (MISSING))
+(expression (comment) (comment) (string))
 
 ====================
 identifier
