@@ -663,7 +663,12 @@ module.exports = function defineGrammar(dialect) {
       ),
 
       index_signature: $ => seq(
-        optional($.readonly),
+        optional(
+          seq(
+            field("sign", optional("-")),
+            $.readonly
+          )
+        ),
         '[',
         choice(
           seq(
