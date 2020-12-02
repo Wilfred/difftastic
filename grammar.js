@@ -734,7 +734,7 @@ module.exports = grammar({
       $.class_variable,
       $.global_variable
     ),
-    setter: $ => seq($.identifier, '='),
+    setter: $ => seq(field('name', $.identifier), '='),
 
     undef: $ => seq('undef', commaSep1($._method_name)),
     alias: $ => seq(
