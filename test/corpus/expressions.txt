@@ -984,7 +984,7 @@ end
           (identifier)
           (splat_argument (identifier)))
         block: (do_block
-          (block_parameters (identifier))
+          parameters: (block_parameters (identifier))
           (identifier)))
       method: (identifier))
     arguments: (argument_list
@@ -993,7 +993,7 @@ end
           receiver: (method_call
             method: (identifier)
             block: (block
-              (block_parameters (identifier))
+              parameters: (block_parameters (identifier))
               (identifier)))
           method: (identifier))
         block: (do_block (identifier))))))
