@@ -698,14 +698,16 @@ module.exports = grammar({
       field('right', $._expression)
     )),
 
+    _augmented_assignment_lhs: $ => choice(
+      $.member_expression,
+      $.subscript_expression,
+      alias($._reserved_identifier, $.identifier),
+      $.identifier,
+      $.parenthesized_expression,
+    ),
+
     augmented_assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
-      field('left', choice(
-        $.member_expression,
-        $.subscript_expression,
-        alias($._reserved_identifier, $.identifier),
-        $.identifier,
-        $.parenthesized_expression,
-      )),
+      field('left', $._augmented_assignment_lhs),
       choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=',
              '<<=', '**=', '&&=', '||=', '??='),
       field('right', $._expression)
