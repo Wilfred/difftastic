@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/cstrahan/tree-sitter-nix#readme",
   "dependencies": {
-    "nan": "^2.13.2",
-    "tree-sitter": "^0.14.0"
+    "nan": "^2.14.2",
+    "tree-sitter": "^0.17.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.14.5"
+    "tree-sitter-cli": "^0.17.3"
   },
   "tree-sitter": [
     {

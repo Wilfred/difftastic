@@ -1411,5 +1411,7 @@
       "name": "ind_escape_sequence"
     }
   ],
-  "inline": []
+  "inline": [],
+  "supertypes": []
 }
+

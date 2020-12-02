@@ -15,14 +15,27 @@ extern "C" {
 
 #ifndef TREE_SITTER_API_H_
 typedef uint16_t TSSymbol;
+typedef uint16_t TSFieldId;
 typedef struct TSLanguage TSLanguage;
 #endif
+
+typedef struct {
+  TSFieldId field_id;
+  uint8_t child_index;
+  bool inherited;
+} TSFieldMapEntry;
+
+typedef struct {
+  uint16_t index;
+  uint16_t length;
+} TSFieldMapSlice;
 
 typedef uint16_t TSStateId;
 
 typedef struct {
   bool visible : 1;
   bool named : 1;
+  bool supertype: 1;
 } TSSymbolMetadata;
 
 typedef struct TSLexer TSLexer;
@@ -33,7 +46,8 @@ struct TSLexer {
   void (*advance)(TSLexer *, bool);
   void (*mark_end)(TSLexer *);
   uint32_t (*get_column)(TSLexer *);
-  bool (*is_at_included_range_start)(TSLexer *);
+  bool (*is_at_included_range_start)(const TSLexer *);
+  bool (*eof)(const TSLexer *);
 };
 
 typedef enum {
@@ -49,13 +63,13 @@ typedef struct {
       TSStateId state;
       bool extra : 1;
       bool repetition : 1;
-    };
+    } shift;
     struct {
       TSSymbol symbol;
       int16_t dynamic_precedence;
       uint8_t child_count;
-      uint8_t alias_sequence_id;
-    };
+      uint8_t production_id;
+    } reduce;
   } params;
   TSParseActionType type : 4;
 } TSParseAction;
@@ -70,7 +84,7 @@ typedef union {
   struct {
     uint8_t count;
     bool reusable : 1;
-  };
+  } entry;
 } TSParseActionEntry;
 
 struct TSLanguage {
@@ -92,12 +106,22 @@ struct TSLanguage {
   struct {
     const bool *states;
     const TSSymbol *symbol_map;
-    void *(*create)();
+    void *(*create)(void);
     void (*destroy)(void *);
     bool (*scan)(void *, TSLexer *, const bool *symbol_whitelist);
     unsigned (*serialize)(void *, char *);
     void (*deserialize)(void *, const char *, unsigned);
   } external_scanner;
+  uint32_t field_count;
+  const TSFieldMapSlice *field_map_slices;
+  const TSFieldMapEntry *field_map_entries;
+  const char **field_names;
+  uint32_t large_state_count;
+  const uint16_t *small_parse_table;
+  const uint32_t *small_parse_table_map;
+  const TSSymbol *public_symbol_map;
+  const uint16_t *alias_map;
+  uint32_t state_count;
 };
 
 /*
@@ -106,22 +130,27 @@ struct TSLanguage {
 
 #define START_LEXER()           \
   bool result = false;          \
+  bool skip = false;            \
+  bool eof = false;             \
   int32_t lookahead;            \
+  goto start;                   \
   next_state:                   \
+  lexer->advance(lexer, skip);  \
+  start:                        \
+  skip = false;                 \
   lookahead = lexer->lookahead;
 
-#define ADVANCE(state_value)      \
-  {                               \
-    lexer->advance(lexer, false); \
-    state = state_value;          \
-    goto next_state;              \
+#define ADVANCE(state_value) \
+  {                          \
+    state = state_value;     \
+    goto next_state;         \
   }
 
-#define SKIP(state_value)        \
-  {                              \
-    lexer->advance(lexer, true); \
-    state = state_value;         \
-    goto next_state;             \
+#define SKIP(state_value) \
+  {                       \
+    skip = true;          \
+    state = state_value;  \
+    goto next_state;      \
   }
 
 #define ACCEPT_TOKEN(symbol_value)     \
@@ -135,26 +164,34 @@ struct TSLanguage {
  *  Parse Table Macros
  */
 
+#define SMALL_STATE(id) id - LARGE_STATE_COUNT
+
 #define STATE(id) id
 
 #define ACTIONS(id) id
 
-#define SHIFT(state_value)              \
-  {                                     \
-    {                                   \
-      .type = TSParseActionTypeShift,   \
-      .params = {.state = state_value}, \
-    }                                   \
+#define SHIFT(state_value)                \
+  {                                       \
+    {                                     \
+      .params = {                         \
+        .shift = {                        \
+          .state = state_value            \
+        }                                 \
+      },                                  \
+      .type = TSParseActionTypeShift      \
+    }                                     \
   }
 
 #define SHIFT_REPEAT(state_value)     \
   {                                   \
     {                                 \
-      .type = TSParseActionTypeShift, \
       .params = {                     \
-        .state = state_value,         \
-        .repetition = true            \
+        .shift = {                    \
+          .state = state_value,       \
+          .repetition = true          \
+        }                             \
       },                              \
+      .type = TSParseActionTypeShift  \
     }                                 \
   }
 
@@ -166,20 +203,26 @@ struct TSLanguage {
 #define SHIFT_EXTRA()                 \
   {                                   \
     {                                 \
-      .type = TSParseActionTypeShift, \
-      .params = {.extra = true}       \
+      .params = {                     \
+        .shift = {                    \
+          .extra = true               \
+        }                             \
+      },                              \
+      .type = TSParseActionTypeShift  \
     }                                 \
   }
 
 #define REDUCE(symbol_val, child_count_val, ...) \
   {                                              \
     {                                            \
-      .type = TSParseActionTypeReduce,           \
       .params = {                                \
-        .symbol = symbol_val,                    \
-        .child_count = child_count_val,          \
-        __VA_ARGS__                              \
-      }                                          \
+        .reduce = {                              \
+          .symbol = symbol_val,                  \
+          .child_count = child_count_val,        \
+          __VA_ARGS__                            \
+        },                                       \
+      },                                         \
+      .type = TSParseActionTypeReduce            \
     }                                            \
   }
 
