@@ -114,6 +114,10 @@ module.exports = function defineGrammar(dialect) {
         field('arguments', optional($.arguments))
       )),
 
+      _augmented_assignment_lhs: ($, previous) => choice(previous, $.non_null_expression),
+
+      _lhs_expression: ($, previous) => choice(previous, $.non_null_expression),
+
       // If the dialect is regular typescript, we exclude JSX expressions and
       // include type assertions. If the dialect is TSX, we do the opposite.
       _expression: ($, previous) => {
