@@ -118,3 +118,32 @@ Objects with reserved words as keys
   (pair key: (property_identifier) value: (true))
   (pair key: (property_identifier) value: (true))
   (pair key: (property_identifier) value: (true)))))
+
+====================================
+Assignment to non-null LHS
+====================================
+
+foo! = bar;
+foo! += bar;
+(foo)! = bar;
+(foo)! += bar;
+
+---
+(program
+  (expression_statement
+    (assignment_expression
+      (non_null_expression (identifier))
+      (identifier)))
+  (expression_statement
+    (augmented_assignment_expression
+      (non_null_expression (identifier))
+      (identifier)))
+  (expression_statement
+    (assignment_expression
+      (non_null_expression (parenthesized_expression (identifier)))
+      (identifier)))
+  (expression_statement
+    (augmented_assignment_expression
+      (non_null_expression
+        (parenthesized_expression (identifier)))
+      (identifier))))
