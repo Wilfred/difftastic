@@ -314,7 +314,7 @@ module.exports = grammar({
 
     when: $ => seq(
       'when',
-      field('pattern', commaSep1($.pattern)),
+      commaSep1(field('pattern', $.pattern)),
       choice($._terminator, field('body', $.then))
     ),
 

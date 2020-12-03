@@ -3047,10 +3047,6 @@
         "required": true,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
             "type": "pattern",
             "named": true
           }
