@@ -6,7 +6,9 @@
   "scripts": {
     "build": "tree-sitter generate",
     "test": "tree-sitter test",
-    "build:wasm": "tree-sitter build-wasm"
+    "build:wasm": "tree-sitter build-wasm",
+    "prettier:check": "prettier --check .",
+    "prettier:format": "prettier --write ."
   },
   "author": "Joel Spadin",
   "license": "MIT",
