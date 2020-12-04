@@ -856,11 +856,6 @@
     }
   },
   {
-    "type": "unit_address",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "\n",
     "named": false
   },
@@ -1034,6 +1029,10 @@
   },
   {
     "type": "system_lib_string",
+    "named": true
+  },
+  {
+    "type": "unit_address",
     "named": true
   },
   {

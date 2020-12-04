@@ -106,7 +106,7 @@
     },
     "unit_address": {
       "type": "PATTERN",
-      "value": "[0-9a-fA-F]+"
+      "value": "[0-9a-fA-F,]+"
     },
     "label_identifier": {
       "type": "ALIAS",

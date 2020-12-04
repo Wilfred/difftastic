@@ -65,7 +65,7 @@ module.exports = grammar({
 		_property_with_hash: ($) => /[#0-9a-zA-Z,._+-]*#[#0-9a-zA-Z,._+-]*/,
 		_property_starts_with_number: ($) => /[0-9][#0-9a-zA-Z,._+-]*/,
 
-		unit_address: ($) => /[0-9a-fA-F]+/,
+		unit_address: ($) => /[0-9a-fA-F,]+/,
 
 		label_identifier: ($) => alias($._label_name, $.identifier),
 
