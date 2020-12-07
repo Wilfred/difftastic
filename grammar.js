@@ -97,7 +97,7 @@ module.exports = grammar({
 
     _formal_parameter: $ => choice(
         $.identifier,
-        seq($.identifier, '=', $._expression),
+        seq(choice($.identifier, $.string, $.dots), '=', $._expression),
         $.dots
     ),
 
@@ -115,7 +115,7 @@ module.exports = grammar({
     _argument: $ => prec.left(PREC.CALL - 1, choice(
       field('value', $._expression),
       seq(
-        field('name', choice($.identifier, $.string)),
+        field('name', choice($.identifier, $.string, $.dots)),
         '=',
         field('value', optional($._expression))
     ))),
@@ -130,6 +130,7 @@ module.exports = grammar({
     _assignment: $ => choice(
       $.equals_assignment,
       $.left_assignment,
+      $.left_assignment2,
       $.right_assignment,
       $.super_assignment
     ),
@@ -138,6 +139,13 @@ module.exports = grammar({
       seq(
         field('name', $._expression),
         '<-',
+        field('value', $._expression)
+    )),
+
+    left_assignment2: $ => prec.right(PREC.ASSIGN,
+      seq(
+        field('name', $._expression),
+        ':=',
         field('value', $._expression)
     )),
 

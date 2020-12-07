@@ -427,6 +427,7 @@ Assignment
 
 x <- 1
 x = 1
+x := 1
 x <<- 1
 1 -> x
 x <- y(1)
@@ -440,6 +441,10 @@ y(1) -> x
     value: (float))
 
   (equals_assignment
+    name: (identifier)
+    value: (float))
+
+  (left_assignment2
     name: (identifier)
     value: (float))
 
@@ -474,6 +479,8 @@ f(,)
 f(x,)
 f(,y)
 f(x=,)
+f("x"=,)
+f(... = ,)
 f(,y=)
 
 ---
@@ -524,6 +531,14 @@ f(,y=)
   (call
     function: (identifier)
     arguments: (arguments name: (identifier)))
+
+  (call
+    function: (identifier)
+    arguments: (arguments name: (string)))
+
+  (call
+    function: (identifier)
+    arguments: (arguments name: (dots)))
 
   (call
     function: (identifier)
