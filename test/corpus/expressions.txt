@@ -642,6 +642,25 @@ foo(bar(a),)
   (method_call (identifier) (argument_list (identifier) (identifier)))
   (method_call (identifier) (argument_list (method_call (identifier) (argument_list (identifier))))))
 
+==============================================
+keyword arguments, no space, trailing comma
+==============================================
+
+foo(a:b)
+foo(a_:b)
+foo(a2:b)
+foo(a_:b,)
+foo(a2:b,)
+
+---
+
+(program
+  (method_call (identifier) (argument_list (pair (symbol) (identifier))))
+  (method_call (identifier) (argument_list (pair (symbol) (identifier))))
+  (method_call (identifier) (argument_list (pair (symbol) (identifier))))
+  (method_call (identifier) (argument_list (pair (symbol) (identifier))))
+  (method_call (identifier) (argument_list (pair (symbol) (identifier)))))
+
 ===============================
 method call with receiver
 ===============================
