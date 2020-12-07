@@ -1,5 +1,5 @@
 {
-  "name": "R",
+  "name": "r",
   "rules": {
     "program": {
       "type": "REPEAT",

@@ -24,7 +24,7 @@ newline = '\n',
 terminator = choice(newline, ';'),
 
 module.exports = grammar({
-  name: 'R',
+  name: 'r',
 
   extras: $ => [
     $.comment,
