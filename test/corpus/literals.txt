@@ -349,10 +349,21 @@ rational
 ========
 
 2/3r
+1.2r
+0b01r
+0o7r
+0d1r
+0x12r
 
 ---
 
-(program (binary (integer) (rational (integer))))
+(program
+  (binary (integer) (rational (integer)))
+  (rational (float))
+  (rational (integer))
+  (rational (integer))
+  (rational (integer))
+  (rational (integer)))
 
 =======
 boolean

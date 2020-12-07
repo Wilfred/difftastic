@@ -761,7 +761,7 @@ module.exports = grammar({
 
     float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE][\+-]?\d(_?\d)*)?/,
     complex: $ => /(\d+)?(\+|-)?(\d+)i/,
-    rational: $ => seq($.integer, 'r'),
+    rational: $ => seq(choice($.integer, $.float), 'r'),
     super: $ => 'super',
     self: $ => 'self',
     true: $ => token(choice('true', 'TRUE')),
