@@ -844,8 +844,11 @@ struct Scanner {
     }
 
     // Open delimiters for literals
-    if (valid_symbols[IDENTIFIER_HASH_KEY] && iswalpha(lexer->lookahead)) {
-      while (iswalpha(lexer->lookahead)) advance(lexer);
+    if (valid_symbols[IDENTIFIER_HASH_KEY]
+        && (iswalpha(lexer->lookahead) || lexer->lookahead == '_')) {
+      while (iswalnum(lexer->lookahead) || lexer->lookahead == '_') {
+        advance(lexer);
+      }
       lexer->mark_end(lexer);
 
       if (lexer->lookahead == ':') {
