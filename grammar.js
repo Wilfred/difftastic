@@ -598,13 +598,13 @@ module.exports = grammar({
 
     operator_assignment: $ => prec.right(PREC.ASSIGN, seq(
       field('left', $._lhs),
-      choice('+=', '-=', '*=', '**=', '/=', '||=', '|=', '&&=', '&=', '%=', '>>=', '<<=', '^='),
+      field('operator', choice('+=', '-=', '*=', '**=', '/=', '||=', '|=', '&&=', '&=', '%=', '>>=', '<<=', '^=')),
       field('right', $._arg)
     )),
 
     command_operator_assignment: $ => prec.right(PREC.ASSIGN, seq(
       field('left', $._lhs),
-      choice('+=', '-=', '*=', '**=', '/=', '||=', '|=', '&&=', '&=', '%=', '>>=', '<<=', '^='),
+      field('operator', choice('+=', '-=', '*=', '**=', '/=', '||=', '|=', '&&=', '&=', '%=', '>>=', '<<=', '^=')),
       field('right', $._expression)
     )),
 
