@@ -803,19 +803,19 @@ type t = [a: A, b?: B, ...c: C[]]
       (identifier)))
   (type_alias_declaration
     (type_identifier)
-    (tuple_type (tuple_rest_member (identifier))))
+    (tuple_type (rest_identifier (identifier))))
   (type_alias_declaration
     (type_identifier)
-    (tuple_type (identifier) (tuple_rest_member (identifier))))
+    (tuple_type (identifier) (rest_identifier (identifier))))
   (type_alias_declaration
     (type_identifier)
     (tuple_type
       (identifier)
       (identifier)
-      (tuple_rest_member (identifier))))
+      (rest_identifier (identifier))))
   (type_alias_declaration
     (type_identifier)
-    (tuple_type (identifier) (optional_tuple_type (identifier))))
+    (tuple_type (identifier) (optional_identifier (identifier))))
   (type_alias_declaration
     (type_identifier)
     (tuple_type
@@ -823,8 +823,8 @@ type t = [a: A, b?: B, ...c: C[]]
         (identifier)
         (type_annotation (type_identifier)))
       (labeled_tuple_type_member
-        (optional_tuple_type (identifier))
+        (optional_identifier (identifier))
         (type_annotation     (type_identifier)))
-      (annotated_rest_type
-        (identifier)
+      (labeled_tuple_type_member
+        (rest_identifier (identifier))
         (type_annotation (array_type (type_identifier)))))))
