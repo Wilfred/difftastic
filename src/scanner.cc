@@ -49,9 +49,10 @@ struct Literal {
 };
 
 struct Heredoc {
-  Heredoc() : end_word_indentation_allowed(false) {}
+  Heredoc() : end_word_indentation_allowed(false), started(false) {}
   string word;
   bool end_word_indentation_allowed;
+  bool started;
 };
 
 const char NON_IDENTIFIER_CHARS[] = {
@@ -128,6 +129,7 @@ struct Scanner {
     ) {
       if (i + 2 + iter->word.size() >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
       buffer[i++] = iter->end_word_indentation_allowed;
+      buffer[i++] = iter->started;
       buffer[i++] = iter->word.size();
       iter->word.copy(&buffer[i], iter->word.size());
       i += iter->word.size();
@@ -159,6 +161,7 @@ struct Scanner {
     for (unsigned j = 0; j < open_heredoc_count; j++) {
       Heredoc heredoc;
       heredoc.end_word_indentation_allowed = buffer[i++];
+      heredoc.started = buffer[i++];
       uint8_t word_length = buffer[i++];
       heredoc.word.assign(buffer + i, buffer + i + word_length);
       i += word_length;
@@ -178,7 +181,10 @@ struct Scanner {
   }
 
   bool scan_whitespace(TSLexer *lexer, const bool *valid_symbols) {
-    bool heredoc_body_start_is_valid = !open_heredocs.empty() && valid_symbols[HEREDOC_BODY_START];
+    bool heredoc_body_start_is_valid =
+      !open_heredocs.empty() &&
+      !open_heredocs[0].started &&
+      valid_symbols[HEREDOC_BODY_START];
     bool crossed_newline = false;
 
     for (;;) {
@@ -197,6 +203,7 @@ struct Scanner {
         case '\n':
           if (heredoc_body_start_is_valid) {
             lexer->result_symbol = HEREDOC_BODY_START;
+            open_heredocs[0].started = true;
             return true;
           } else if (valid_symbols[LINE_BREAK] && !crossed_newline) {
             lexer->mark_end(lexer);

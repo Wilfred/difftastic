@@ -809,7 +809,13 @@ a
 b #{[1, "c #{2} d", 3]} e
 #{4} f #{foo.bar}
 #{a if b}
-#{foo(1, bar).baz}
+#{
+  # multiline
+  foo(
+    1,
+    bar
+  ).baz
+}
 g
 TEXT
 
@@ -824,7 +830,9 @@ return
     (heredoc_content) (interpolation (integer)) (heredoc_content)
     (interpolation (call (identifier) (identifier)))
     (heredoc_content) (interpolation (if_modifier (identifier) (identifier))) (heredoc_content)
-    (interpolation (call (method_call (identifier) (argument_list (integer) (identifier))) (identifier)))
+    (interpolation
+      (comment)
+      (call (method_call (identifier) (argument_list (integer) (identifier))) (identifier)))
     (heredoc_content) (heredoc_end))
   (return))
 
