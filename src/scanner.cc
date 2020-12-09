@@ -219,42 +219,8 @@ namespace
                 if (lexer->lookahead == ' ')
                 {
                     skip(lexer);
-
-                    if (lexer->lookahead == '\r')
-                    {
-                        skip(lexer);
-                    }
-
-                    if (lexer->lookahead == '\n')
-                    {
-                        skip(lexer);
-                        has_newline = true;
-                        indent_length = 0;
-                        while (true)
-                        {
-                            if (lexer->lookahead == ' ')
-                            {
-                                indent_length++;
-                                skip(lexer);
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                    }
-
-                    if (checkForIn(lexer, valid_symbols) == 2)
-                    {
-                        lexer->result_symbol = VIRTUAL_END_SECTION;
-                        return true;
-                    }
-                    else
-                    {
-                        break;
-                    }
                 }
-                if (lexer->lookahead == '\n')
+                else if (lexer->lookahead == '\n')
                 {
                     skip(lexer);
                     has_newline = true;
@@ -302,9 +268,17 @@ namespace
                 skip(lexer);
             }
 
-            if (has_newline && checkForIn(lexer, valid_symbols) == 2)
+            if (checkForIn(lexer, valid_symbols) == 2)
             {
-                found_in = true;
+                if (has_newline)
+                {
+                    found_in = true;
+                }
+                else
+                {
+                    lexer->result_symbol = VIRTUAL_END_SECTION;
+                    return true;
+                }
             }
 
             // Handle minus without a whitespace for negate and line comments as both start with '-'
