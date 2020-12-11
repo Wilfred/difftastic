@@ -480,6 +480,34 @@ testLet =
 ) 
 
 =====================================
+Let in same line as name and multiple declarations
+=====================================
+
+viewHorizontal =
+    let viewConfig =
+          Decrement
+
+        at x =
+          Increment
+    in
+    update
+
+
+---
+
+(file 
+  (value_declaration 
+    (function_declaration_left (lower_case_identifier)) 
+    (eq) 
+    (let_in_expr 
+      (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (value_expr (upper_case_qid (upper_case_identifier))))
+      (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier))) (eq) (value_expr (upper_case_qid (upper_case_identifier))))
+      (value_expr (value_qid (lower_case_identifier)))
+    )
+  )
+)
+
+=====================================
 Let with unit in body
 =====================================
 
