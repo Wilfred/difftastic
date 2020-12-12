@@ -316,12 +316,13 @@ namespace
             {
                 if (indent_length > indent_length_stack.back())
                 {
-                    indent_length_stack.push_back(indent_length);
+                    // lexer->mark_end(lexer); // We might want this, but this is changing error behavior as well
+                    indent_length_stack.push_back(lexer->get_column(lexer));
                 }
                 lexer->result_symbol = VIRTUAL_OPEN_SECTION;
                 return true;
             }
-            else if (has_newline)
+            else if (has_newline && !in_string)
             {
                 // We had a newline now it's time to check if we need to add multiple tokens to get back up to the right level
                 runback.clear();
