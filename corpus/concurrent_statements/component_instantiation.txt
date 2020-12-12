@@ -17,9 +17,9 @@ L1: component unit;
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
-    (component_instantiation
-      component: (simple_name))))
+    (label
+      (identifier))
+    component: (simple_name)))
 
 ===============================
 Instantiation unit - Entity I
@@ -29,11 +29,11 @@ L1: entity pkg.e;
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
-    (entity_instantiation
-      (selected_name
-        prefix: (simple_name)
-        suffix: (simple_name)))))
+    (label
+      (identifier))
+    entity: (expanded_name
+      prefix: (simple_name)
+      suffix: (simple_name))))
 
 ===============================
 Instantiation unit - Entity II
@@ -43,12 +43,12 @@ L1: entity pkg.e(rtl);
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
-    (entity_instantiation
-      (selected_name
-        prefix: (simple_name)
-        suffix: (simple_name))
-      architecture: (simple_name))))
+    (label
+      (identifier))
+    entity: (expanded_name
+      prefix: (simple_name)
+      suffix: (simple_name))
+    architecture: (simple_name)))
 
 ===================================
 Instantiation unit - Configuration
@@ -58,11 +58,11 @@ L1: configuration pkg.cfg;
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
-    (configuration_instantiation
-      (selected_name
-        prefix: (simple_name)
-        suffix: (simple_name)))))
+    (label
+      (identifier))
+    configuration: (expanded_name
+      prefix: (simple_name)
+      suffix: (simple_name))))
 
 ===================================
 Generic map aspect
@@ -73,12 +73,12 @@ generic map (a,b,c);
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
-    (component_instantiation
-      component: (simple_name))
+    (label
+      (identifier))
+    component: (simple_name)
     (map_aspect
       (generic_map_aspect
-        (generic_association_list
+        (association_list
           (positional_association_element
             actual_part: (simple_name))
           (positional_association_element
@@ -95,12 +95,12 @@ port map (a,b,c);
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
-    (component_instantiation
-      component: (simple_name))
+    (label
+      (identifier))
+    component: (simple_name)
     (map_aspect
       (port_map_aspect
-        (port_association_list
+        (association_list
           (positional_association_element
             actual_part: (simple_name))
           (positional_association_element
@@ -118,12 +118,12 @@ generic map (a,b,c)
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
-    (component_instantiation
-      component: (simple_name))
+    (label
+      (identifier))
+    component: (simple_name)
     (map_aspect
       (generic_map_aspect
-        (generic_association_list
+        (association_list
           (positional_association_element
             actual_part: (simple_name))
           (positional_association_element
@@ -131,7 +131,7 @@ generic map (a,b,c)
           (positional_association_element
             actual_part: (simple_name))))
       (port_map_aspect
-        (port_association_list
+        (association_list
           (positional_association_element
             actual_part: (open))
           (positional_association_element
@@ -146,19 +146,22 @@ generic map (integer range 0 to 7);
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
-    (component_instantiation
-      component: (simple_name))
+    (label
+      (identifier))
+    component: (simple_name)
     (map_aspect
       (generic_map_aspect
-        (generic_association_list
+        (association_list
           (positional_association_element
             actual_part: (subtype_indication
-              (type_mark (simple_name))
+              (type_mark
+                (simple_name))
               (range_constraint
                 (ascending_range
-                  low: (integer_decimal (integer))
-                  high: (integer_decimal (integer)))))))))))
+                  low: (integer_decimal
+                    (integer))
+                  high: (integer_decimal
+                    (integer)))))))))))
 
 ===================================
 Selected name on port map aspect
@@ -169,12 +172,12 @@ port map (a.b => c);
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
-    (component_instantiation
-      component: (simple_name))
+    (label
+      (identifier))
+    component: (simple_name)
     (map_aspect
       (port_map_aspect
-        (port_association_list
+        (association_list
           (named_association_element
             formal_part: (selected_name
               prefix: (simple_name)

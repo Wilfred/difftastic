@@ -6,7 +6,7 @@ assert fun (obj);
 
 (design_file
   (assertion_statement
-    condition: (ambiguous_name
+     (ambiguous_name
       prefix: (simple_name)
       (expression_list
         expression: (simple_name)))))
@@ -19,7 +19,7 @@ assert fun (bar, baz);
 
 (design_file
   (assertion_statement
-    condition: (ambiguous_name
+     (ambiguous_name
       prefix: (simple_name)
       (expression_list
         expression: (simple_name)
@@ -34,14 +34,14 @@ assert fun ("str");
 
 (design_file
   (assertion_statement
-    condition: (function_call
-      function_name: (simple_name)
+     (function_call
+      (simple_name)
       (association_list
         (positional_association_element
           actual_part: (character_literal)))))
   (assertion_statement
-    condition: (function_call
-      function_name: (simple_name)
+     (function_call
+      (simple_name)
       (association_list
         (positional_association_element
           actual_part: (string_literal))))))
@@ -55,16 +55,16 @@ assert fun (amb, "str");
 
 (design_file
   (assertion_statement
-    condition: (function_call
-      function_name: (simple_name)
+     (function_call
+      (simple_name)
       (association_list
         (positional_association_element
           actual_part: (simple_name))
         (positional_association_element
           actual_part: (character_literal)))))
   (assertion_statement
-    condition: (function_call
-      function_name: (simple_name)
+     (function_call
+      (simple_name)
       (association_list
         (positional_association_element
           actual_part: (simple_name))
@@ -79,8 +79,8 @@ assert fun (foo => bar);
 
 (design_file
   (assertion_statement
-    condition: (function_call
-      function_name: (simple_name)
+     (function_call
+      (simple_name)
       (association_list
         (named_association_element
           formal_part: (simple_name)
@@ -94,8 +94,8 @@ assert fun (foo.bar => baz);
 
 (design_file
   (assertion_statement
-    condition: (function_call
-      function_name: (simple_name)
+     (function_call
+      (simple_name)
       (association_list
         (named_association_element
           formal_part: (selected_name
@@ -111,8 +111,8 @@ assert fun (a, b => c);
 
 (design_file
   (assertion_statement
-    condition: (function_call
-      function_name: (simple_name)
+     (function_call
+      (simple_name)
       (association_list
         (positional_association_element
           actual_part: (simple_name))
@@ -128,8 +128,8 @@ assert fun (open);
 
 (design_file
   (assertion_statement
-    condition: (function_call
-      function_name: (simple_name)
+     (function_call
+      (simple_name)
       (association_list
         (positional_association_element
           actual_part: (open))))))
@@ -142,8 +142,8 @@ assert fun (bar => open);
 
 (design_file
   (assertion_statement
-    condition: (function_call
-      function_name: (simple_name)
+     (function_call
+      (simple_name)
       (association_list
         (named_association_element
           formal_part: (simple_name)
@@ -157,11 +157,11 @@ assert fun (fun (open));
 
 (design_file
   (assertion_statement
-    condition: (ambiguous_name
+     (ambiguous_name
       prefix: (simple_name)
       (expression_list
         expression: (function_call
-          function_name: (simple_name)
+          (simple_name)
           (association_list
             (positional_association_element
               actual_part: (open))))))))
@@ -174,8 +174,8 @@ assert "and" (foo, bar);
 
 (design_file
   (assertion_statement
-    condition: (function_call
-      function_name: (operator_symbol)
+     (function_call
+      (operator_symbol)
       (association_list
         (positional_association_element
           actual_part: (simple_name))
@@ -190,10 +190,10 @@ assert foo'bar (baz);
 
 (design_file
   (assertion_statement
-    condition: (function_call
-      function_name: (attribute_name
+    (function_call
+      (attribute_name
         prefix: (simple_name)
-        (attribute_designator))
+        designator: (simple_name))
       (association_list
         (positional_association_element
           actual_part: (simple_name))))))
@@ -206,8 +206,8 @@ assert fun (t(param) => obj);
 
 (design_file
   (assertion_statement
-    condition: (function_call
-      function_name: (simple_name)
+     (function_call
+      (simple_name)
       (association_list
         (named_association_element
           formal_part: (ambiguous_name

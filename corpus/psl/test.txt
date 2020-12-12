@@ -7,11 +7,11 @@ assert (a and b);
 
 (design_file
   (assertion_statement
-    condition: (logical_expression
+     (logical_expression
        left: (simple_name)
       right: (simple_name)))
   (assertion_statement
-    condition: (parenthesized_expression
+     (parenthesized_expression
       (logical_expression
          left: (simple_name)
         right: (simple_name)))))
@@ -44,10 +44,9 @@ assert foo(x);
 (design_file
   (PSL_Assert_Directive
     Property: (PSL_Built_In_Function_Call
-      (PSL_Built_In_Function_Name)
       (simple_name)))
   (assertion_statement
-    condition: (ambiguous_name
+     (ambiguous_name
       prefix: (simple_name)
       (expression_list
         expression: (simple_name)))))
@@ -62,12 +61,10 @@ assert nondet({x,y});
 (design_file
   (PSL_Assert_Directive
     Property: (PSL_Built_In_Function_Call
-      (PSL_Built_In_Function_Name)
       (PSL_Value_Set
         Value: (simple_name))))
   (PSL_Assert_Directive
     Property: (PSL_Built_In_Function_Call
-      (PSL_Built_In_Function_Name)
       (PSL_Value_Set
         Value: (simple_name)
         Value: (simple_name)))))
@@ -81,7 +78,6 @@ assert ended({x});
 (design_file
   (PSL_Assert_Directive
     Property: (PSL_Built_In_Function_Call
-      (PSL_Built_In_Function_Name)
       Sequence: (PSL_Braced_SERE
         Boolean: (simple_name)))))
 
@@ -96,11 +92,9 @@ assert next (x) (y);
 (design_file
   (PSL_Assert_Directive
     Property: (PSL_Built_In_Function_Call
-      (PSL_Built_In_Function_Name)
       (simple_name)))
   (PSL_Assert_Directive
     Property: (PSL_Built_In_Function_Call
-      (PSL_Built_In_Function_Name)
       (PSL_Expression
         left: (simple_name)
         right: (simple_name))))
@@ -169,7 +163,6 @@ assert c -> next (x);
    Property:  (PSL_Expression
        left: (simple_name)
       right: (PSL_Built_In_Function_Call
-        (PSL_Built_In_Function_Name)
         (simple_name)))))
 
 ================================
@@ -197,7 +190,6 @@ assert c -> (next (x));
        left: (simple_name)
       right: (PSL_Parenthesized_FL_Property
         (PSL_Built_In_Function_Call
-          (PSL_Built_In_Function_Name)
           (simple_name))))))
 
 

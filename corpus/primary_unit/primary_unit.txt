@@ -12,7 +12,7 @@ end entity;
     (context_clause
       (library_clause
         (logical_name_list
-          logical_name: (identifier))))
+          library: (simple_name))))
     (entity_declaration
       (identifier))))
 
@@ -30,8 +30,8 @@ end entity;
     (context_clause
       (library_clause
         (logical_name_list
-          logical_name: (identifier)
-          logical_name: (identifier))))
+          library: (simple_name)
+          library: (simple_name))))
     (entity_declaration
       (identifier))))
 
@@ -53,18 +53,19 @@ end context project_context;
       (context_clause
         (library_clause
           (logical_name_list
-           logical_name: (identifier)))
+            library: (simple_name)))
         (use_clause
-          (selected_name
+          (expanded_name
             prefix: (selected_name
               prefix: (simple_name)
               suffix: (simple_name))
             suffix: (all)))
         (library_clause
           (logical_name_list
-           logical_name: (identifier)))
+            library: (simple_name)))
         (context_reference
-          context: (selected_name
-            prefix: (simple_name)
-            suffix: (simple_name))))
+          (context_list
+            (expanded_name
+              prefix: (simple_name)
+              suffix: (simple_name)))))
       at_end: (simple_name))))

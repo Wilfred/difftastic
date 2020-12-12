@@ -9,11 +9,11 @@ type enum_t is (foo);
   (full_type_declaration
     (identifier)
     (enumeration_type_definition
-      enumerator: (character_literal)))
+      (character_literal)))
   (full_type_declaration
     (identifier)
     (enumeration_type_definition
-      enumerator: (identifier))))
+      (identifier))))
 
 ======================================
 Enumeration type - Character type
@@ -25,9 +25,9 @@ type enum_t is ('a', foo, bar);
   (full_type_declaration
     (identifier)
     (enumeration_type_definition
-      enumerator: (character_literal)
-      enumerator: (identifier)
-      enumerator: (identifier))))
+      (character_literal)
+      (identifier)
+      (identifier))))
 
 ======================================
 Integer type definition
@@ -40,8 +40,10 @@ type int_t is range 0 to 255;
     (identifier)
     (numeric_type_definition
       (ascending_range
-         low: (integer_decimal (integer))
-        high: (integer_decimal (integer))))))
+        low: (integer_decimal
+          (integer))
+        high: (integer_decimal
+          (integer))))))
 
 ======================================
 Floating type definition
@@ -54,8 +56,12 @@ type float_t is range 2.0 to 8.0;
     (identifier)
     (numeric_type_definition
       (ascending_range
-         low: (real_decimal (integer) (integer))
-        high: (real_decimal (integer) (integer))))))
+        low: (real_decimal
+          (integer)
+          (integer))
+        high: (real_decimal
+          (integer)
+          (integer))))))
 
 ======================================
 Physical type definition - Minimal
@@ -100,7 +106,7 @@ type phy_t is range l to h
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-          unit: (simple_name))))))
+           (simple_name))))))
 
 ======================================
 Physical type definition - LRM
@@ -126,8 +132,10 @@ type byte_t is range 0 to 1E16
     (physical_type_definition
       (range_constraint
         (ascending_range
-          low: (integer_decimal (integer))
-          high: (integer_decimal (integer)
+          low: (integer_decimal
+            (integer))
+          high: (integer_decimal
+            (integer)
             (positive_exponent))))
       (primary_unit_declaration
         (identifier))
@@ -135,36 +143,43 @@ type byte_t is range 0 to 1E16
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-          coefficient: (integer_decimal (integer))
-          unit: (simple_name)))
+           (integer_decimal
+            (integer))
+           (simple_name)))
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-          coefficient: (integer_decimal (integer))
-          unit: (simple_name)))
+           (integer_decimal
+            (integer))
+           (simple_name)))
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-          coefficient: (integer_decimal (integer))
-          unit: (simple_name)))
+           (integer_decimal
+            (integer))
+           (simple_name)))
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-          coefficient: (integer_decimal (integer))
-          unit: (simple_name)))
+           (integer_decimal
+            (integer))
+           (simple_name)))
       (comment)
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-          coefficient: (integer_decimal (integer))
-          unit: (simple_name)))
+           (integer_decimal
+            (integer))
+           (simple_name)))
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-          coefficient: (integer_decimal (integer))
-          unit: (simple_name)))
+           (integer_decimal
+            (integer))
+           (simple_name)))
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-          coefficient: (integer_decimal (integer))
-          unit: (simple_name))))))
+           (integer_decimal
+            (integer))
+           (simple_name))))))

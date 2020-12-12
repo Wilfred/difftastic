@@ -8,26 +8,30 @@ file f    : ft;
 ---
 
 (design_file
-  (deferred_constant_declaration
+  (constant_declaration
     (identifier_list
       (identifier))
     (subtype_indication
-      (type_mark (simple_name))))
+      (type_mark
+        (simple_name))))
   (signal_declaration
     (identifier_list
       (identifier))
     (subtype_indication
-      (type_mark (simple_name))))
+      (type_mark
+        (simple_name))))
   (variable_declaration
     (identifier_list
       (identifier))
     (subtype_indication
-      (type_mark (simple_name))))
+      (type_mark
+        (simple_name))))
   (file_declaration
     (identifier_list
       (identifier))
     (subtype_indication
-      (type_mark (simple_name)))))
+      (type_mark
+        (simple_name)))))
 
 ========================
 Identifier list
@@ -39,19 +43,21 @@ file f1, f2, f3, f4, f5 : ft;
 ---
 
 (design_file
-  (deferred_constant_declaration
+  (constant_declaration
     (identifier_list
       (identifier)
       (identifier))
     (subtype_indication
-      (type_mark (simple_name))))
+      (type_mark
+        (simple_name))))
   (signal_declaration
     (identifier_list
       (identifier)
       (identifier)
       (identifier))
     (subtype_indication
-      (type_mark (simple_name))))
+      (type_mark
+        (simple_name))))
   (variable_declaration
     (identifier_list
       (identifier)
@@ -59,7 +65,8 @@ file f1, f2, f3, f4, f5 : ft;
       (identifier)
       (identifier))
     (subtype_indication
-      (type_mark (simple_name))))
+      (type_mark
+        (simple_name))))
   (file_declaration
     (identifier_list
       (identifier)
@@ -68,7 +75,8 @@ file f1, f2, f3, f4, f5 : ft;
       (identifier)
       (identifier))
     (subtype_indication
-      (type_mark (simple_name)))))
+      (type_mark
+        (simple_name)))))
 
 ========================
 Default expression
@@ -83,20 +91,26 @@ variable v : t := expr;
     (identifier_list
       (identifier))
     (subtype_indication
-      (type_mark (simple_name)))
-    (default_expression (simple_name)))
+      (type_mark
+        (simple_name)))
+    (default_expression
+      (simple_name)))
   (signal_declaration
     (identifier_list
       (identifier))
     (subtype_indication
-      (type_mark (simple_name)))
-    (default_expression (simple_name)))
+      (type_mark
+        (simple_name)))
+    (default_expression
+      (simple_name)))
   (variable_declaration
     (identifier_list
       (identifier))
     (subtype_indication
-      (type_mark (simple_name)))
-    (default_expression (simple_name))))
+      (type_mark
+        (simple_name)))
+    (default_expression
+      (simple_name))))
 
 ========================
 Shared variable
@@ -123,13 +137,15 @@ signal s : t register;
     (identifier_list
       (identifier))
     (subtype_indication
-      (type_mark (simple_name)))
+      (type_mark
+        (simple_name)))
     (signal_kind))
   (signal_declaration
     (identifier_list
       (identifier))
     (subtype_indication
-      (type_mark (simple_name)))
+      (type_mark
+        (simple_name)))
     (signal_kind)))
 
 ========================
@@ -144,17 +160,19 @@ file f : ft open write_mode is "fn.ext";
     (identifier_list
       (identifier))
     (subtype_indication
-      (type_mark (simple_name)))
+      (type_mark
+        (simple_name)))
     (file_open_information
-      file_logical: (string_literal)))
+      file_name: (string_literal)))
   (file_declaration
     (identifier_list
       (identifier))
     (subtype_indication
-      (type_mark (simple_name)))
+      (type_mark
+        (simple_name)))
     (file_open_information
-      file_open_kind: (simple_name)
-      file_logical: (string_literal))))
+      (file_open_kind)
+      file_name: (string_literal))))
 
 ===============================
 Type Mark - Selected name [LRM]
@@ -168,14 +186,16 @@ signal S : STANDARD.BIT_VECTOR (1 to 10);
       (identifier))
     (subtype_indication
       (type_mark
-        (selected_name
+        (expanded_name
           prefix: (simple_name)
           suffix: (simple_name)))
       (array_constraint
         (index_constraint
           (ascending_range
-            low: (integer_decimal (integer))
-            high: (integer_decimal (integer))))))))
+            low: (integer_decimal
+              (integer))
+            high: (integer_decimal
+              (integer))))))))
 
 =========================
 Resolution function [LRM]
@@ -188,5 +208,7 @@ signal OUTPUT: WIRED_OR MULTI_VALUED_LOGIC;
     (identifier_list
       (identifier))
     (subtype_indication
-      resolution_function: (simple_name)
-      (type_mark (simple_name)))))
+      (resolution_function
+        (simple_name))
+      (type_mark
+        (simple_name)))))

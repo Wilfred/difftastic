@@ -41,13 +41,16 @@ end block;
 
 (design_file
   (block_statement
-    (label (identifier))
+    (label
+      (identifier))
     (header
       (generic_clause
-        (interface_constant_declaration
-          (identifier_list (identifier))
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
           (subtype_indication
-            (type_mark (simple_name))))
+            (type_mark
+              (simple_name))))
         (semicolon)))))
 
 ==================================
@@ -62,16 +65,19 @@ end block;
 
 (design_file
   (block_statement
-    (label (identifier))
+    (label
+      (identifier))
     (header
       (generic_clause
-        (interface_constant_declaration
-          (identifier_list (identifier))
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
           (subtype_indication
-            (type_mark (simple_name))))
+            (type_mark
+              (simple_name))))
         (semicolon))
       (generic_map_aspect
-        (generic_association_list
+        (association_list
           (positional_association_element
             actual_part: (simple_name)))
         (semicolon)))))
@@ -87,13 +93,16 @@ end block;
 
 (design_file
   (block_statement
-    (label (identifier))
+    (label
+      (identifier))
     (header
       (port_clause
-        (interface_signal_declaration
-          (identifier_list (identifier))
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
           (subtype_indication
-            (type_mark (simple_name))))
+            (type_mark
+              (simple_name))))
         (semicolon)))))
 
 ==============================
@@ -108,17 +117,19 @@ end block;
 
 (design_file
   (block_statement
-    (label (identifier))
+    (label
+      (identifier))
     (header
       (port_clause
-        (interface_signal_declaration
+        (signal_interface_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            (type_mark (simple_name))))
+            (type_mark
+              (simple_name))))
         (semicolon))
       (port_map_aspect
-        (port_association_list
+        (association_list
           (positional_association_element
             actual_part: (simple_name)))
         (semicolon)))))
@@ -134,11 +145,12 @@ end block;
 
 (design_file
   (block_statement
-    (label (identifier))
+    (label
+      (identifier))
     (declarative_part
       (alias_declaration
-        alias_designator: (identifier)
-        alias_denotator: (simple_name)))))
+        designator: (identifier)
+        denotator: (simple_name)))))
 
 ==============================
 Sequential part
@@ -151,8 +163,10 @@ end block;
 
 (design_file
   (block_statement
-    (label (identifier))
+    (label
+      (identifier))
     (concurrent_statement_part
       (procedure_call_statement
-        (label (identifier))
+        (label
+          (identifier))
         (simple_name)))))

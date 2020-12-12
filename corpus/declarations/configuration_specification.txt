@@ -10,20 +10,20 @@ end for;
 ---
 
 (design_file
-  (simple_configuration_specification
-    (component_specification
-      (instantiation_list
-        instantiation_label: (simple_name))
-      component: (simple_name))
+  (configuration_specification
+    (instantiation_list
+      label: (simple_name))
+    component: (simple_name)
     (binding_indication
-      (open)))
-  (simple_configuration_specification
-    (component_specification
-      (instantiation_list
-        instantiation_label: (simple_name))
-      component: (simple_name))
+      (entity_aspect
+        (open))))
+  (configuration_specification
+    (instantiation_list
+      label: (simple_name))
+    component: (simple_name)
     (binding_indication
-      (open))))
+      (entity_aspect
+        (open)))))
 
 =============================================
 Compound configuration specification
@@ -35,13 +35,13 @@ end for;
 ---
 
 (design_file
-  (compound_configuration_specification
-    (component_specification
-      (instantiation_list
-        instantiation_label: (simple_name))
-      component: (simple_name))
+  (configuration_specification
+    (instantiation_list
+      label: (simple_name))
+    component: (simple_name)
     (binding_indication
-      (open))
+      (entity_aspect
+        (open)))
     (verification_unit_binding_indication
       (verification_unit_list
         (simple_name)))))
@@ -60,26 +60,28 @@ for all : c
 ---
 
 (design_file
-  (simple_configuration_specification
-    (component_specification
-      (instantiation_list
-        instantiation_label: (simple_name)
-        instantiation_label: (simple_name))
-      component: (simple_name))
+  (configuration_specification
+    (instantiation_list
+      label: (simple_name)
+      label: (simple_name))
+    component: (simple_name)
     (binding_indication
-      (open)))
-  (simple_configuration_specification
-    (component_specification
-      (instantiation_list (others))
-      component: (simple_name))
+      (entity_aspect
+        (open))))
+  (configuration_specification
+    (instantiation_list
+      (others))
+    component: (simple_name)
     (binding_indication
-      (open)))
-  (simple_configuration_specification
-    (component_specification
-      (instantiation_list (all))
-      component: (simple_name))
+      (entity_aspect
+        (open))))
+  (configuration_specification
+    (instantiation_list
+      (all))
+    component: (simple_name)
     (binding_indication
-      (open))))
+      (entity_aspect
+        (open)))))
 
 =============================================
 Binding indication - Entity aspect
@@ -98,34 +100,35 @@ for all : c
 ---
 
 (design_file
-  (simple_configuration_specification
-    (component_specification
-      (instantiation_list (all))
-      component: (simple_name))
+  (configuration_specification
+    (instantiation_list
+      (all))
+    component: (simple_name)
     (binding_indication
       (entity_aspect
-        (simple_name))))
-  (simple_configuration_specification
-    (component_specification
-      (instantiation_list (all))
-      component: (simple_name))
+        entity: (simple_name))))
+  (configuration_specification
+    (instantiation_list
+      (all))
+    component: (simple_name)
     (binding_indication
       (entity_aspect
-        (simple_name)
-        (simple_name))))
-  (simple_configuration_specification
-    (component_specification
-      (instantiation_list (all))
-      component: (simple_name))
+        entity: (simple_name)
+        architecture: (simple_name))))
+  (configuration_specification
+    (instantiation_list
+      (all))
+    component: (simple_name)
     (binding_indication
-      (configuration_aspect
-        (simple_name))))
-  (simple_configuration_specification
-    (component_specification
-      (instantiation_list (all))
-      component: (simple_name))
+      (entity_aspect
+        configuration: (simple_name))))
+  (configuration_specification
+    (instantiation_list
+      (all))
+    component: (simple_name)
     (binding_indication
-      (open))))
+      (entity_aspect
+        (open)))))
 
 =============================================
 Binding indication - Generic map aspects
@@ -135,14 +138,14 @@ for all : c
 ---
 
 (design_file
-  (simple_configuration_specification
-    (component_specification
-      (instantiation_list (all))
-      component: (simple_name))
+  (configuration_specification
+    (instantiation_list
+      (all))
+    component: (simple_name)
     (binding_indication
       (map_aspect
         (generic_map_aspect
-          (generic_association_list
+          (association_list
             (positional_association_element
               actual_part: (simple_name))))))))
 
@@ -154,14 +157,14 @@ for all : c
 ---
 
 (design_file
-  (simple_configuration_specification
-    (component_specification
-      (instantiation_list (all))
-      component: (simple_name))
+  (configuration_specification
+    (instantiation_list
+      (all))
+    component: (simple_name)
     (binding_indication
       (map_aspect
         (port_map_aspect
-          (port_association_list
+          (association_list
             (positional_association_element
               actual_part: (simple_name))))))))
 
@@ -174,43 +177,46 @@ for all : c
 ---
 
 (design_file
-  (simple_configuration_specification
-    (component_specification
-      (instantiation_list (all))
-      component: (simple_name))
+  (configuration_specification
+    (instantiation_list
+      (all))
+    component: (simple_name)
     (binding_indication
       (map_aspect
         (generic_map_aspect
-          (generic_association_list
+          (association_list
             (positional_association_element
               actual_part: (simple_name))))
         (port_map_aspect
-          (port_association_list
+          (association_list
             (positional_association_element
               actual_part: (simple_name))))))))
 
 =============================================
-Binding indication - Full
+LINT: Binding indication (open)
 =============================================
 for all : c
     use open
-    generic map (a)
-    port map (a);
+    generic map (a) -- error
+    port map (a);   -- error
 ---
 
 (design_file
-  (simple_configuration_specification
-    (component_specification
-      (instantiation_list (all))
-      component: (simple_name))
+  (configuration_specification
+    (instantiation_list
+      (all))
+    component: (simple_name)
     (binding_indication
-      (open)
+      (entity_aspect
+        (open))
       (map_aspect
         (generic_map_aspect
-          (generic_association_list
+          (association_list
             (positional_association_element
               actual_part: (simple_name))))
+        (comment)
         (port_map_aspect
-          (port_association_list
+          (association_list
             (positional_association_element
-              actual_part: (simple_name))))))))
+              actual_part: (simple_name)))))))
+  (comment))

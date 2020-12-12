@@ -6,7 +6,7 @@ assert arr (st);
 
 (design_file
   (assertion_statement
-    condition: (ambiguous_name
+     (ambiguous_name
       prefix: (simple_name)
       (expression_list
         expression: (simple_name)))))
@@ -19,7 +19,7 @@ assert arr (h downto l);
 
 (design_file
   (assertion_statement
-    condition: (slice_name
+     (slice_name
       prefix: (simple_name)
       (descending_range
         high: (simple_name)
@@ -33,7 +33,7 @@ assert arr (h to l);
 
 (design_file
   (assertion_statement
-    condition: (slice_name
+     (slice_name
       prefix: (simple_name)
       (ascending_range
         low: (simple_name)
@@ -48,17 +48,17 @@ assert arr (st'reverse_range);
 
 (design_file
   (assertion_statement
-    condition: (slice_name
+    (slice_name
       prefix: (simple_name)
-      (range_attribute_name
+      (attribute_name
         prefix: (simple_name)
-        (range_attribute_designator))))
+        designator: (predefined_name))))
   (assertion_statement
-    condition: (slice_name
+    (slice_name
       prefix: (simple_name)
-      (range_attribute_name
+      (attribute_name
         prefix: (simple_name)
-        (range_attribute_designator)))))
+        designator: (predefined_name)))))
 
 ============================
 Prefix
@@ -68,7 +68,7 @@ assert amb (amb)(h downto l);
 
 (design_file
   (assertion_statement
-    condition: (slice_name
+     (slice_name
       prefix: (ambiguous_name
         prefix: (simple_name)
         (expression_list

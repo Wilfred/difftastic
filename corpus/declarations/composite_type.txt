@@ -9,10 +9,11 @@ type att_t is array (a range <>) of b;
     (identifier)
     (unbounded_array_definition
       (index_subtype_definition
-        (type_mark (simple_name))
-        range: (any))
+        (type_mark
+          (simple_name)))
       (subtype_indication
-        (type_mark (simple_name))))))
+        (type_mark
+          (simple_name))))))
 
 ======================================
 Unbounded array type II
@@ -25,13 +26,14 @@ type att_t is array (a range <>, b range <>) of c;
     (identifier)
     (unbounded_array_definition
       (index_subtype_definition
-        (type_mark (simple_name))
-        range: (any))
+        (type_mark
+          (simple_name)))
       (index_subtype_definition
-        (type_mark (simple_name))
-        range: (any))
+        (type_mark
+          (simple_name)))
       (subtype_indication
-        (type_mark (simple_name))))))
+        (type_mark
+          (simple_name))))))
 
 ===========================================
 Constrained array type - Subtype indication
@@ -45,9 +47,11 @@ type att_t is array (subtype_t) of foo;
     (constrained_array_definition
       (index_constraint
         (subtype_indication
-          (type_mark (simple_name))))
+          (type_mark
+            (simple_name))))
       (subtype_indication
-        (type_mark (simple_name))))))
+        (type_mark
+          (simple_name))))))
 
 ===========================================
 Constrained array type - Range
@@ -61,10 +65,13 @@ type att_t is array (7 downto 0) of foo;
     (constrained_array_definition
       (index_constraint
         (descending_range
-            high: (integer_decimal (integer))
-             low: (integer_decimal (integer))))
+          high: (integer_decimal
+            (integer))
+          low: (integer_decimal
+            (integer))))
       (subtype_indication
-        (type_mark (simple_name))))))
+        (type_mark
+          (simple_name))))))
 
 ===========================================
 Record type I
@@ -83,7 +90,8 @@ end record;
         (identifier_list
           (identifier))
         (subtype_indication
-          (type_mark (simple_name)))))))
+          (type_mark
+            (simple_name)))))))
 
 ===========================================
 Record type II
@@ -102,11 +110,13 @@ end record;
         (identifier_list
           (identifier))
         (subtype_indication
-          (type_mark (simple_name))
+          (type_mark
+            (simple_name))
           (array_constraint
             (index_constraint
               (subtype_indication
-                (type_mark (simple_name))))))))))
+                (type_mark
+                  (simple_name))))))))))
 
 ===========================================
 Record type III
@@ -115,7 +125,7 @@ type rec_t is
     record
         e1     : elemt_t;
         e2, e3 : elemt_t;
-    end record rect_t;
+    end record rec_t;
 ---
 
 (design_file
@@ -126,11 +136,13 @@ type rec_t is
         (identifier_list
           (identifier))
         (subtype_indication
-          (type_mark (simple_name))))
+          (type_mark
+            (simple_name))))
       (element_declaration
         (identifier_list
           (identifier)
           (identifier))
         (subtype_indication
-          (type_mark (simple_name))))
+          (type_mark
+            (simple_name))))
       at_end: (simple_name))))

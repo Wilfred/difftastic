@@ -1,5 +1,5 @@
 ===============================
-Minimal I
+Minimal
 ===============================
 entity e is
 end;
@@ -31,32 +31,14 @@ end entity e;
       at_end: (simple_name))))
 
 ================================
-Entity header - Port Clause
+LINT: Header
 ================================
 entity e is
+    generic (k : t);
+    generic map (x);
     port (s : t);
-end entity;
----
-
-(design_file
-  (design_unit
-    (entity_declaration
-      (identifier)
-      (header
-        (port_clause
-          (interface_signal_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              (type_mark (simple_name))))
-          (semicolon))))))
-
-================================
-Entity header - Generic Clause
-================================
-entity e is
-   generic (k : t);
-end entity;
+    port map (x);
+end;
 ---
 
 (design_file
@@ -65,41 +47,141 @@ end entity;
       (identifier)
       (header
         (generic_clause
-          (interface_constant_declaration
+          (constant_interface_declaration
             (identifier_list
               (identifier))
             (subtype_indication
-              (type_mark (simple_name))))
-          (semicolon))))))
-
-================================
-Entity header - Generic Clause + Port Clause
-================================
-entity e is
-   generic (k : t; v : in t);
-      port (s : t);
-end entity;
----
-
-(design_file
-  (design_unit
-    (entity_declaration
-      (identifier)
-      (header
-        (generic_clause
-          (interface_constant_declaration
-            (identifier_list (identifier))
-            (subtype_indication
-              (type_mark (simple_name))))
-          (interface_constant_declaration
-            (identifier_list (identifier))
-            (mode)
-            (subtype_indication
-              (type_mark (simple_name))))
+              (type_mark
+                (simple_name))))
+          (semicolon))
+        (generic_map_aspect
+          (association_list
+            (positional_association_element
+              actual_part: (simple_name)))
           (semicolon))
         (port_clause
-          (interface_signal_declaration
-            (identifier_list (identifier))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
             (subtype_indication
-              (type_mark (simple_name))))
+              (type_mark
+                (simple_name))))
+          (semicolon))
+        (port_map_aspect
+          (association_list
+            (positional_association_element
+              actual_part: (simple_name)))
+          (semicolon))))))
+
+================================
+LINT: Header (semicolon)
+================================
+entity e is
+    generic (k : t) -- here
+end;
+
+entity e is
+       port (k : t) -- here
+end;
+
+entity e is
+    generic (k : t)  -- here
+       port (s : t)  -- here
+end;
+
+entity e is
+    generic (k : t);
+       port (s : t)  -- here
+end;
+
+entity e is
+    generic (k : t) -- here
+       port (s : t);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (header
+        (generic_clause
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))))
+      (comment)))
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (header
+        (port_clause
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))))
+      (comment)))
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (header
+        (generic_clause
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name)))))
+        (comment)
+        (port_clause
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))))
+      (comment)))
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (header
+        (generic_clause
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (semicolon))
+        (port_clause
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))))
+      (comment)))
+  (design_unit
+    (entity_declaration
+      (identifier)
+      (header
+        (generic_clause
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name)))))
+        (comment)
+        (port_clause
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))
           (semicolon))))))

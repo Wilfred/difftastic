@@ -1,5 +1,5 @@
 ====================================
-Minimal
+Package declaration - Minimal
 ====================================
 package pkg is
 end;
@@ -9,6 +9,9 @@ end package;
 
 package pkg is
 end pkg;
+
+package pkg is
+end package pkg;
 ---
 
 (design_file
@@ -16,16 +19,44 @@ end pkg;
     (identifier))
   (package_declaration
     (identifier))
+  (package_declaration
+    (identifier)
+    at_end: (simple_name))
   (package_declaration
     (identifier)
     at_end: (simple_name)))
 
+==========================
+Package body - Minimal
+==========================
+package body pkg is
+end;
+
+package body pkg is
+end package body;
+
+package body pkg is
+end package body pkg;
+---
+
+(design_file
+  (package_body
+    (simple_name))
+  (package_body
+    (simple_name))
+  (package_body
+    (simple_name)
+    at_end: (simple_name)))
+
 ====================================
-Header - Generic clause
+LINT: Package declaration - Header
 ====================================
 package pkg is
-    generic (a:t)
-end package;
+    generic (k:t)
+    generic map (x);
+    port (k:t)
+    port map (x);
+end package pkg;
 ---
 
 (design_file
@@ -33,118 +64,46 @@ end package;
     (identifier)
     (header
       (generic_clause
-        (interface_constant_declaration
+        (constant_interface_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            (type_mark (simple_name))))))))
-
-====================================
-Header - Generic map aspects
-====================================
-package pkg is
-    generic (a:t)
-    generic map (a);
-end package;
----
-
-(design_file
-  (package_declaration
-    (identifier)
-    (header
-      (generic_clause
-        (interface_constant_declaration
-          (identifier_list
-            (identifier))
-          (subtype_indication
-            (type_mark (simple_name)))))
+            (type_mark
+              (simple_name)))))
       (generic_map_aspect
-        (generic_association_list
+        (association_list
           (positional_association_element
             actual_part: (simple_name)))
-        (semicolon)))))
-
-====================================
-Declarative part
-====================================
-package pkg is
-    constant k : t;
-end package;
-
-package pkg is
-    constant k : t;
-    constant k : t;
-end package;
----
-
-(design_file
-  (package_declaration
-    (identifier)
-    (declarative_part
-      (deferred_constant_declaration
-        (identifier_list
-          (identifier))
-        (subtype_indication
-          (type_mark (simple_name))))))
-  (package_declaration
-    (identifier)
-    (declarative_part
-      (deferred_constant_declaration
-        (identifier_list
-          (identifier))
-        (subtype_indication
-          (type_mark
-            (simple_name))))
-      (deferred_constant_declaration
-        (identifier_list
-          (identifier))
-        (subtype_indication
-          (type_mark
-            (simple_name)))))))
-
-====================================
-Header + Declarative part
-====================================
-package pkg is
-    generic (a : t)
-    generic map (a);
-
-    constant k : t;
-end package;
----
-
-(design_file
-  (package_declaration
-    (identifier)
-    (header
-      (generic_clause
-        (interface_constant_declaration
+        (semicolon))
+      (port_clause
+        (signal_interface_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            (type_mark (simple_name)))))
-      (generic_map_aspect
-        (generic_association_list
+            (type_mark
+              (simple_name)))))
+      (port_map_aspect
+        (association_list
           (positional_association_element
             actual_part: (simple_name)))
         (semicolon)))
-    (declarative_part
-      (deferred_constant_declaration
-        (identifier_list
-          (identifier))
-        (subtype_indication
-          (type_mark (simple_name)))))))
+    at_end: (simple_name)))
 
 ====================================
-Header - Unexpected token (LINT)
+LINT: Package declaration - Header (semicolon)
 ====================================
 package pkg is
-    generic (a:t); -- here
+    generic (k:t); -- here
 end package;
 
 package pkg is
-    generic (a:t); -- here
-    generic map (a);
+    generic (k:t); -- here
+    generic map (x);
+end package;
+
+package pkg is
+    generic (k:t)
+    generic map (x) -- here
 end package;
 ---
 
@@ -153,51 +112,44 @@ end package;
     (identifier)
     (header
       (generic_clause
-        (interface_constant_declaration
+        (constant_interface_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            (type_mark (simple_name))))
+            (type_mark
+              (simple_name))))
         (semicolon)))
     (comment))
   (package_declaration
     (identifier)
     (header
       (generic_clause
-        (interface_constant_declaration
+        (constant_interface_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            (type_mark (simple_name))))
+            (type_mark
+              (simple_name))))
         (semicolon))
       (comment)
       (generic_map_aspect
-        (generic_association_list
+        (association_list
           (positional_association_element
             actual_part: (simple_name)))
-        (semicolon)))))
-
-====================================
-Header - Missing token (LINT)
-====================================
-package pkg is
-    generic (a:t)
-    generic map (a) -- here
-end package;
----
-
-(design_file
+        (semicolon))))
   (package_declaration
     (identifier)
     (header
       (generic_clause
-        (interface_constant_declaration
+        (constant_interface_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            (type_mark (simple_name)))))
+            (type_mark
+              (simple_name)))))
       (generic_map_aspect
-        (generic_association_list
+        (association_list
           (positional_association_element
             actual_part: (simple_name)))))
     (comment)))
+

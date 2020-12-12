@@ -43,7 +43,8 @@ end process;
 
 (design_file
   (process_statement
-    (sensitivity_list)))
+    (sensitivity_list
+      (all))))
 
 =============================
 Sensitivity list - Signals

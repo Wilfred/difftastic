@@ -57,10 +57,11 @@ assert forall p (foo'range) in boolean : p;
     Property: (PSL_Property_Replicator
       (PSL_Parameter_Specification
         (PSL_Identifier)
-        Index_Range: (range_attribute_name
+        Index_Range: (attribute_name
           prefix: (simple_name)
-                  (range_attribute_designator))
-        (PSL_Value_Set (boolean)))
+          designator: (predefined_name))
+        (PSL_Value_Set
+          (boolean)))
       Property: (simple_name))))
 
 =============================
@@ -308,7 +309,6 @@ assert next! (p);
 (design_file
   (PSL_Assert_Directive
     Property: (PSL_Built_In_Function_Call
-      (PSL_Built_In_Function_Name)
       (simple_name)))
   (PSL_Assert_Directive
     Property: (PSL_Ocurrence_FL_Property
@@ -397,7 +397,7 @@ assert p;
 
 (design_file
   (assertion_statement
-    condition: (simple_name)))
+     (simple_name)))
 
 ==================================
 Property Instantiation II (Ambiguos)
@@ -407,7 +407,7 @@ assert p(a);
 
 (design_file
   (assertion_statement
-    condition: (ambiguous_name
+     (ambiguous_name
       prefix: (simple_name)
       (expression_list
         expression: (simple_name)))))

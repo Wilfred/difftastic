@@ -204,9 +204,9 @@ t <= ((x(foo'range)));
         value: (parenthesized_expression
           (slice_name
             prefix: (simple_name)
-            (range_attribute_name
+            (attribute_name
               prefix: (simple_name)
-              (range_attribute_designator)))))))
+              designator: (predefined_name)))))))
   (simple_waveform_assignment
     target: (simple_name)
     (waveforms
@@ -215,9 +215,9 @@ t <= ((x(foo'range)));
           (parenthesized_expression
             (slice_name
               prefix: (simple_name)
-              (range_attribute_name
+              (attribute_name
                 prefix: (simple_name)
-                (range_attribute_designator)))))))))
+                designator: (predefined_name)))))))))
 
 ===========================================
 ILLEGAL: Association - Logical expression I

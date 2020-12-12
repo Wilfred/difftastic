@@ -6,10 +6,10 @@ procedure p is new u;
 ---
 
 (design_file
-  (function_instantiation_declaration
+  (subprogram_instantiation_declaration
     (identifier)
     (simple_name))
-  (procedure_instantiation_declaration
+  (subprogram_instantiation_declaration
     (identifier)
     (simple_name)))
 
@@ -21,17 +21,19 @@ procedure p is new u [t];
 ---
 
 (design_file
-  (function_instantiation_declaration
+  (subprogram_instantiation_declaration
     (identifier)
     (simple_name)
     (signature
       (return
-        (type_mark (simple_name)))))
-  (procedure_instantiation_declaration
+        (type_mark
+          (simple_name)))))
+  (subprogram_instantiation_declaration
     (identifier)
     (simple_name)
     (signature
-      (type_mark (simple_name)))))
+      (type_mark
+        (simple_name)))))
 
 ====================================
 Subprogram - Generic map aspect
@@ -44,20 +46,22 @@ procedure p is new u
 ---
 
 (design_file
-  (function_instantiation_declaration
+  (subprogram_instantiation_declaration
     (identifier)
     (simple_name)
-    (generic_map_aspect
-      (generic_association_list
-        (positional_association_element
-          actual_part: (simple_name)))))
-  (procedure_instantiation_declaration
+    (map_aspect
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (simple_name))))))
+  (subprogram_instantiation_declaration
     (identifier)
     (simple_name)
-    (generic_map_aspect
-      (generic_association_list
-        (positional_association_element
-          actual_part: (simple_name))))))
+    (map_aspect
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (simple_name)))))))
 
 ============================================
 Subprogram - Conflict resolution - Procedure
@@ -67,11 +71,11 @@ procedure p;
 ---
 
 (design_file
-  (procedure_instantiation_declaration
+  (subprogram_instantiation_declaration
     (identifier)
     (simple_name))
   (subprogram_declaration
-    (procedure_specification
+    (subprogram_specification
       (identifier))))
 
 ============================================
@@ -82,14 +86,15 @@ function f return t;
 ---
 
 (design_file
-  (function_instantiation_declaration
+  (subprogram_instantiation_declaration
     (identifier)
     (simple_name))
   (subprogram_declaration
-    (pure_function_specification
+    (subprogram_specification
       (identifier)
       (return
-        (type_mark (simple_name))))))
+        (type_mark
+          (simple_name))))))
 
 ====================================
 Package - Minimal
@@ -100,7 +105,7 @@ package p is new u;
 (design_file
   (package_instantiation_declaration
     (identifier)
-    uninstantiated_package: (simple_name)))
+    (simple_name)))
 
 ====================================
 Package - Generic map aspect
@@ -112,8 +117,9 @@ package p is new u
 (design_file
   (package_instantiation_declaration
     (identifier)
-    uninstantiated_package: (simple_name)
-    (generic_map_aspect
-      (generic_association_list
-        (positional_association_element
-          actual_part: (simple_name))))))
+    (simple_name)
+    (map_aspect
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (simple_name)))))))

@@ -21,10 +21,11 @@ end component c;
     at_end: (simple_name)))
 
 =============================
-Local generic clause
+Header
 =============================
 component c
-    generic (a:b);
+    generic (k : t);
+       port (s : t);
 end component;
 ---
 
@@ -33,58 +34,60 @@ end component;
     (identifier)
     (header
       (generic_clause
-        (interface_constant_declaration
+        (constant_interface_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            (type_mark (simple_name))))
-        (semicolon)))))
-
-
-=============================
-Local port clause
-=============================
-component c
-    port (a:b);
-end component;
----
-
-(design_file
-  (component_declaration
-    (identifier)
-    (header
-      (port_clause
-        (interface_signal_declaration
-          (identifier_list
-            (identifier))
-          (subtype_indication
-            (type_mark (simple_name))))
-        (semicolon)))))
-
-=============================
-Local generic and port clause
-=============================
-component c
-    generic (a:b);
-       port (a:b);
-end component;
----
-
-(design_file
-  (component_declaration
-    (identifier)
-    (header
-      (generic_clause
-        (interface_constant_declaration
-          (identifier_list
-            (identifier))
-          (subtype_indication
-            (type_mark (simple_name))))
+            (type_mark
+              (simple_name))))
         (semicolon))
       (port_clause
-        (interface_signal_declaration
+        (signal_interface_declaration
           (identifier_list
             (identifier))
           (subtype_indication
-            (type_mark (simple_name))))
+            (type_mark
+              (simple_name))))
+        (semicolon)))))
+
+=============================
+LINT: Illegal header
+=============================
+component c
+    generic (k : t);
+    generic map (x);
+       port (s : t);
+       port map (x);
+end component;
+---
+
+(design_file
+  (component_declaration
+    (identifier)
+    (header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon))
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (simple_name)))
+        (semicolon))
+      (port_clause
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon))
+      (port_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (simple_name)))
         (semicolon)))))

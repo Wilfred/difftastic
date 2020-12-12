@@ -6,13 +6,14 @@ report integer'image(a);
 
 (design_file
   (report_statement
-    (report (function_call
-      function_name: (attribute_name
-        prefix: (simple_name)
-        (attribute_designator))
-      (association_list
-        (positional_association_element
-          actual_part: (simple_name)))))))
+    (report
+      (function_call
+        (attribute_name
+          prefix: (simple_name)
+          designator: (simple_name))
+        (association_list
+          (positional_association_element
+            actual_part: (simple_name)))))))
 
 =========================
 Function

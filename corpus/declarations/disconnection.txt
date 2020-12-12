@@ -8,11 +8,14 @@ disconnect s : t after 10 ns;
   (disconnection_specification
     (guarded_signal_specification
       (signal_list
-        signal: (simple_name))
-      (type_mark (simple_name)))
-    after: (physical_literal
-      coefficient: (integer_decimal (integer))
-      unit: (simple_name))))
+        (simple_name))
+      (type_mark
+        (simple_name)))
+    (after
+      (physical_literal
+         (integer_decimal
+          (integer))
+         (simple_name)))))
 
 ===============================
 Signal list - Multiple signals
@@ -25,24 +28,35 @@ disconnect s1, s2 : t after 10 ns;
 (design_file
   (disconnection_specification
     (guarded_signal_specification
-      (signal_list (all))
-      (type_mark (simple_name)))
-    after: (physical_literal
-      coefficient: (integer_decimal (integer))
-      unit: (simple_name)))
-  (disconnection_specification
-    (guarded_signal_specification
-      (signal_list (others))
-      (type_mark (simple_name)))
-    after: (physical_literal
-      coefficient: (integer_decimal (integer))
-      unit: (simple_name)))
+      (signal_list
+        (all))
+      (type_mark
+        (simple_name)))
+    (after
+      (physical_literal
+         (integer_decimal
+          (integer))
+         (simple_name))))
   (disconnection_specification
     (guarded_signal_specification
       (signal_list
-        signal: (simple_name)
-        signal: (simple_name))
-      (type_mark (simple_name)))
-    after: (physical_literal
-      coefficient: (integer_decimal (integer))
-      unit: (simple_name))))
+        (others))
+      (type_mark
+        (simple_name)))
+    (after
+      (physical_literal
+         (integer_decimal
+          (integer))
+         (simple_name))))
+  (disconnection_specification
+    (guarded_signal_specification
+      (signal_list
+        (simple_name)
+        (simple_name))
+      (type_mark
+        (simple_name)))
+    (after
+      (physical_literal
+         (integer_decimal
+          (integer))
+         (simple_name)))))

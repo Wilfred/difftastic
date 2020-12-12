@@ -65,14 +65,14 @@ end case;
     expression: (simple_name)
     (case_statement_alternative
       (choices
-        choice: (simple_name)))
+        (simple_name)))
     (case_statement_alternative
       (choices
-        choice: (simple_name)
-        choice: (simple_name)))
+        (simple_name)
+        (simple_name)))
     (case_statement_alternative
       (choices
-        choice: (others)))))
+        (others)))))
 
 ===================================
 Sequence os statements
@@ -88,6 +88,6 @@ end case;
     expression: (simple_name)
     (case_statement_alternative
       (choices
-        choice: (simple_name))
+        (simple_name))
       (sequence_of_statements
         (null_statement)))))

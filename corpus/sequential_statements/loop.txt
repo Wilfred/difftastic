@@ -32,12 +32,12 @@ while cond
 (design_file
   (loop_statement
     (while_loop
-      condition: (simple_name))))
+       (simple_name))))
 
 ===================================
 Iteration scheme - For loop
 ===================================
-for c in r
+for c in st
     loop
     end loop;
 ---
@@ -48,7 +48,8 @@ for c in r
       (parameter_specification
         (identifier)
         (subtype_indication
-          (type_mark (simple_name)))))))
+          (type_mark
+            (simple_name)))))))
 
 ===================================
 Next I
@@ -66,9 +67,9 @@ end loop;
 ===================================
 Next II
 ===================================
-for c in r
+for c in st
     loop
-        next when e;
+        next when cond;
     end loop;
 ---
 
@@ -78,10 +79,12 @@ for c in r
       (parameter_specification
         (identifier)
         (subtype_indication
-          (type_mark (simple_name)))))
+          (type_mark
+            (simple_name)))))
     (sequence_of_statements
       (next_statement
-        condition: (simple_name)))))
+        (when_clause
+          (simple_name))))))
 
 ===================================
 Exit I
@@ -108,6 +111,5 @@ end loop;
   (loop_statement
     (sequence_of_statements
       (exit_statement
-        condition: (simple_name)))))
-
-
+        (when_clause
+          (simple_name))))))

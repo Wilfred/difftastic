@@ -121,8 +121,10 @@ assert forall i (0 to 1) in boolean : f(i);
       (PSL_Parameter_Specification
         (PSL_Identifier)
         Index_Range: (ascending_range
-          low: (integer_decimal (integer))
-          high: (integer_decimal (integer)))
+          low: (integer_decimal
+            (integer))
+          high: (integer_decimal
+            (integer)))
         (PSL_Value_Set
           (boolean)))
       Property: (ambiguous_name
@@ -142,11 +144,15 @@ assert forall i (0 to 2) in {4,5} : f(i);
       (PSL_Parameter_Specification
         (PSL_Identifier)
         Index_Range: (ascending_range
-           low: (integer_decimal (integer))
-          high: (integer_decimal (integer)))
+          low: (integer_decimal
+            (integer))
+          high: (integer_decimal
+            (integer)))
         (PSL_Value_Set
-          Value: (integer_decimal (integer))
-          Value: (integer_decimal (integer))))
+          Value: (integer_decimal
+            (integer))
+          Value: (integer_decimal
+            (integer))))
       Property: (ambiguous_name
         prefix: (simple_name)
         (expression_list
@@ -165,8 +171,10 @@ assert forall i(0 to 3) in boolean:
       (PSL_Parameter_Specification
         (PSL_Identifier)
         Index_Range: (ascending_range
-          low: (integer_decimal (integer))
-          high: (integer_decimal (integer)))
+          low: (integer_decimal
+            (integer))
+          high: (integer_decimal
+            (integer)))
         (PSL_Value_Set
           (boolean)))
       Property: (PSL_Expression
@@ -177,7 +185,6 @@ assert forall i(0 to 3) in boolean:
               left: (simple_name)
               right: (simple_name))))
         right: (PSL_Built_In_Function_Call
-          (PSL_Built_In_Function_Name)
           (relation
             left: (simple_name)
             right: (simple_name)))))))
@@ -203,15 +210,19 @@ assert forall i in boolean:
           (PSL_Identifier)
           (PSL_Value_Set
             (ascending_range
-              low: (integer_decimal (integer))
-              high: (integer_decimal (integer)))))
+              low: (integer_decimal
+                (integer))
+              high: (integer_decimal
+                (integer)))))
         Property: (PSL_Property_Replicator
           (PSL_Parameter_Specification
             (PSL_Identifier)
             (PSL_Value_Set
               (ascending_range
-                low: (integer_decimal (integer))
-                high: (integer_decimal (integer)))))
+                low: (integer_decimal
+                  (integer))
+                high: (integer_decimal
+                  (integer)))))
           Property: (ambiguous_name
             prefix: (simple_name)
             (expression_list
@@ -234,14 +245,17 @@ assert forall j in {0 to 7}:
         (PSL_Identifier)
         (PSL_Value_Set
           (ascending_range
-            low: (integer_decimal (integer))
-            high: (integer_decimal (integer)))))
+            low: (integer_decimal
+              (integer))
+            high: (integer_decimal
+              (integer)))))
       Property: (PSL_Property_Replicator
         (PSL_Parameter_Specification
           (PSL_Identifier)
           (PSL_Value_Set
             (ascending_range
-              low: (integer_decimal (integer))
+              low: (integer_decimal
+                (integer))
               high: (simple_name))))
         Property: (ambiguous_name
           prefix: (simple_name)
@@ -282,7 +296,8 @@ sequence color_is_red (hdltype COLOR c) is {c = RED};
         (PSL_Constant_Parameter_Specification
           Value_Parameter: (PSL_HDL_Type
             (subtype_indication
-              (type_mark (simple_name)))))
+              (type_mark
+                (simple_name)))))
         (PSL_Identifier)))
     Sequence: (PSL_Braced_SERE
       Boolean: (relation
@@ -303,7 +318,8 @@ sequence slope_is_1 (hdltype COORDINATE_RECORD c) is {(c.x / c.y) = 1};
         (PSL_Constant_Parameter_Specification
           Value_Parameter: (PSL_HDL_Type
             (subtype_indication
-              (type_mark (simple_name)))))
+              (type_mark
+                (simple_name)))))
         (PSL_Identifier)))
     Sequence: (PSL_Braced_SERE
       Boolean: (relation
@@ -348,7 +364,8 @@ sequence BusArb (boolean br, bg; const n) is
                 right: (factor
                   argument: (simple_name))))
             Count: (ascending_range
-              low: (integer_decimal (integer))
+              low: (integer_decimal
+                (integer))
               high: (simple_name))))
         right: (logical_expression
           left: (simple_name)
@@ -428,9 +445,9 @@ property ResultAfterN
                   Count: (simple_name)
                   Property: (simple_name))))
             Clock: (parenthesized_expression
-                (ambiguous_name
-                 prefix: (simple_name)
-                 (expression_list
+              (ambiguous_name
+                prefix: (simple_name)
+                (expression_list
                   expression: (simple_name)))))
           Boolean: (simple_name))))))
 
@@ -470,9 +487,9 @@ property ResultAfterN
                   Property: (simple_name))))
             Clock: (parenthesized_expression
               (ambiguous_name
-      prefix: (simple_name)
-      (expression_list
-        expression: (simple_name)))))
+                prefix: (simple_name)
+                (expression_list
+                  expression: (simple_name)))))
           Boolean: (simple_name))))))
 
 ===================================================
@@ -480,7 +497,6 @@ PSL LRM 6.3.3.1 - Sequence instantiation I
 ===================================================
 restrict BusArb (breq, back, 3);
 ---
-
 (design_file
   (PSL_Restrict_Directive
     Sequence: (PSL_Sequence_Instance
@@ -491,7 +507,8 @@ restrict BusArb (breq, back, 3);
         (PSL_Actual_Parameter
           (simple_name))
         (PSL_Actual_Parameter
-          (integer_decimal (integer)))))))
+          (integer_decimal
+            (integer)))))))
 
 ===================================================
 PSL LRM 6.3.3.1 - Sequence instantiation II
@@ -512,8 +529,10 @@ restrict { breq; (breq and not back)[*0 to 3]; breq and back };
                 right: (factor
                   argument: (simple_name))))
             Count: (ascending_range
-              low: (integer_decimal (integer))
-              high: (integer_decimal (integer)))))
+              low: (integer_decimal
+                (integer))
+              high: (integer_decimal
+                (integer)))))
         right: (logical_expression
           left: (simple_name)
           right: (simple_name))))))
@@ -535,7 +554,8 @@ restrict ReadCycle(BusArb(breq, back, 5), breq, ardy, drdy);
             (expression_list
               expression: (simple_name)
               expression: (simple_name)
-              expression: (integer_decimal (integer)))))
+              expression: (integer_decimal
+                (integer)))))
         (PSL_Actual_Parameter
           (simple_name))
         (PSL_Actual_Parameter
@@ -567,8 +587,10 @@ restrict { { breq; (breq and not back)[*0 to 5]; breq and back };
                         right: (factor
                           argument: (simple_name))))
                     Count: (ascending_range
-                      low: (integer_decimal (integer))
-                      high: (integer_decimal (integer)))))
+                      low: (integer_decimal
+                        (integer))
+                      high: (integer_decimal
+                        (integer)))))
                 right: (logical_expression
                   left: (simple_name)
                   right: (simple_name))))
@@ -601,7 +623,8 @@ assert ResultAfterN (write_req, eventually! ack, 3, cancel);
           Property: (PSL_Ocurrence_FL_Property
             argument: (simple_name)))
         (PSL_Actual_Parameter
-          (integer_decimal (integer)))
+          (integer_decimal
+            (integer)))
         (PSL_Actual_Parameter
           (simple_name))))))
 
@@ -611,6 +634,7 @@ PSL LRM 6.3.3.2 - Property instantiation II
 assert always ((write_req -> next[3] (eventually! ack))
             @ (rising_edge(clk)) async_abort  cancel);
 ---
+
 
 (design_file
   (PSL_Assert_Directive
@@ -622,14 +646,14 @@ assert always ((write_req -> next[3] (eventually! ack))
               (PSL_Implication_FL_Property
                 left: (simple_name)
                 right: (PSL_Extended_Ocurrence_FL_Property
-                  Count: (integer_decimal (integer))
+                  Count: (integer_decimal
+                    (integer))
                   Property: (PSL_Ocurrence_FL_Property
                     argument: (simple_name)))))
             Clock: (parenthesized_expression
               (ambiguous_name
-      prefix: (simple_name)
-      (expression_list
-        expression: (simple_name)))))
+                prefix: (simple_name)
+                (expression_list
+                  expression: (simple_name)))))
           Boolean: (simple_name))))))
-
 

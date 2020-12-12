@@ -110,10 +110,6 @@ const POSITIVE_EXPONENT = [
 const NEGATIVE_EXPONENT = [
     '[eE]\-'+INTEGER
 ];
-
-const RANGE_ATTRIBUTE = [
-    '\\\'([rR][eE][vV][eE][rR][sS][eE]_)?[rR][aA][nN][gG][eE]'
-];
 // }}}
 
 module.exports = grammar({
@@ -129,15 +125,16 @@ module.exports = grammar({
 
     inline: $ => [ // {{{
         $._generate_specification,               // 3.4
+        $._configuration_item,                   // 3.4.2
         $._block_specification,                  // 3.4.2
         $._procedure_specification,              // 4.2.1
         $._function_specification,               // 4.2.1
         $._designator,                           // 4.2.1
         $._subprogram_kind,                      // 4.3
         $._package_name,                         // 4.8
+        $._range_attribute_name,                 // 5.2.1
         $._scalar_type_definition,               // 5.2.1
         $._numeric_type_definition,              // 5.2.1
-        $._coefficient,                          // 5.2.4
         $._unit,                                 // 5.2.4
         $._discrete_range,                       // 5.3.2
         $._object_declaration,                   // 6
@@ -149,21 +146,31 @@ module.exports = grammar({
         $._port_interface_declaration,           // 6.5
         $._procedure_interface_declaration,      // 6.5
         $._function_interface_declaration,       // 6.5
+        $._alias_denotator,                      // 6.6
         $._illegal_interface_declaration,        // 6.5.2
         $._formal_part,                          // 6.5.7
         $._actual_part,                          // 6.5.7
-        //$.header,                                // header
         $._generic_interface_list,               // 6.5.6.1
         $._port_interface_list,                  // 6.5.6.1
         $._procedure_parameter_list,             // 6.5.6.1
         $._function_parameter_list,              // 6.5.6.1
+
+        $._header,
+        $._map_aspect,
+
         $._group_template,                       // 6.10
         $._group_constituent,                    // 6.10
         $._configuration_specification,          // 7.3
+        $._component_name,                       // 7.3
+        $._component_specification,              // 7.3
         $._name,                                 // 8
         $._prefix,                               // 8.3
+        $._suffix,                               // 8.3
+        $._range_attribute_designator,                 // 8.6
+        $._attribute_designator,                 // 8.6
         $._external_object_name,                 // 8.7
-        $._external_name,                        // 8.7
+        $._expanded_name,                        // 8.7
+        $._object_name,                          // 8.7
         $._name_or_label,                        // 8.7
         $._external_pathname,                    // 8.7
         $._primary,                              // 9
@@ -171,21 +178,25 @@ module.exports = grammar({
         $._simple_expression,                    // 9.1
         $._literal,                              // 9.3.2
         $._numeric_literal,                      // 9.3.2
+        $._element_association,                  // 9.3.3
         $._value,                                // 9.3.3
         $._choice,                               // 9.3.3
         $._function_name,                        // 9.3.4
         $._condition,                            // 10.3
         $._conditional_signal_assignment,        // 10.5.4
         $._selected_signal_assignment,           // 10.5.4
+        $._iteration_scheme,                     // 10.10
         $._signal_assignment_statement,          // 11.5
         $._concurrent_signal_assignment,         // 11.6
         $._instantiated_unit,                    // 11.7
         $._generate_statement,                   // 11.8
         $._library_unit,                         // 13.1
         $._context_item,                         // 13.1
+        $._logical_name,                         // 13.2
         $._context_list,                         // 13.4
-        $._abstract_literal,                     // 15.8
-        $._length,                               // 15.8
+        $._digit,                                // 15.5.2
+        $._abstract_literal,                     // 15.5
+        $._std_ulogic,                           // 15.8
 
         // modes
         $.in,
@@ -193,6 +204,10 @@ module.exports = grammar({
         $.inout,
         $.buffer,
         $.linkage,
+
+        $._PSL_VUnit_Item,                       // PSL A.4.1
+
+        $._PSL_Parameter_Specification,          // ??
 
         $._PSL_Identifier,                       // PSL
         $._PSL_Boolean,                          // PSL 5
@@ -247,10 +262,19 @@ module.exports = grammar({
 
         [$.type_mark, $.ambiguous_name, $.slice_name],
         [$.type_mark, $._expression],
+        [$.type_mark, $._expression, $._entity_instantiation],
+        [$.type_mark, $._expression, $.PSL_Hierarchical_HDL_Name],
         [$.type_mark, $.subtype_indication],
         [$.type_mark, $.record_element_resolution],
         [$.type_mark, $.ambiguous_name, $.slice_name, $.function_call],
         [$.type_mark, $.ambiguous_name, $.slice_name, $.record_element_resolution, $.type_mark, $.function_call],
+
+
+        // Attribute name conflicts
+        [$.attribute_name, $.type_mark],
+        [$.attribute_name, $._expression ],
+        [$.attribute_name, $.condition],
+        [$.attribute_name, $.range_attribute_name, $.type_mark],
 
         // '('  _name '(' open  • ')' ...
         //
@@ -349,7 +373,6 @@ module.exports = grammar({
          ';'
      ),
      // }}}
-
      // 3.3 Architecture bodies {{{
      architecture_body: $ => seq(
          reservedWord('architecture'),
@@ -366,7 +389,6 @@ module.exports = grammar({
          ';'
      ),
      // }}}
-
      // 3.4 Configuration declarations {{{
      configuration_declaration: $ => seq(
          reservedWord('configuration'),
@@ -386,7 +408,6 @@ module.exports = grammar({
          ';'
      ),
      // }}}
-
      // 3.4.2 Block configuration {{{
      block_configuration: $ => seq(
          reservedWord('for'),
@@ -424,15 +445,17 @@ module.exports = grammar({
          $.component_configuration
      ),
      // }}}
-
      // 3.4.3 Component configuration {{{
      component_configuration: $ => seq(
          reservedWord('for'),
-         $.component_specification,
-         optional(seq($.binding_indication, ';')),
+         $._component_specification,
+         optional(seq(
+             $.binding_indication,
+             $._semicolon
+         )),
          repeat(seq(
              $.verification_unit_binding_indication,
-             ';'
+             $._semicolon
          )),
          optional($.block_configuration),
          reservedWord('end'),
@@ -440,7 +463,6 @@ module.exports = grammar({
          ';'
      ),
      // }}}
-
      // 4.2.1 Subprogram declarations {{{
      subprogram_declaration: $ => seq(
          $.subprogram_specification, ';'
@@ -493,7 +515,6 @@ module.exports = grammar({
          $._operator_symbol,
      ),
      // }}}
-
      // 4.2.2.1 Formal parameter list {{{
      // ref formal_parameter_list
      procedure_parameter_clause: $ => seq(
@@ -510,7 +531,6 @@ module.exports = grammar({
          ')',
      ),
      // }}}
-
      // 4.3 Subprogram bodies {{{
      subprogram_body: $ => seq(
          $.subprogram_specification,
@@ -535,7 +555,6 @@ module.exports = grammar({
          ),
      ),
      // }}}
-
      // 4.4 Subprogram instantiation declarations {{{
      subprogram_instantiation_declaration: $ => seq(
          optional(choice(
@@ -555,7 +574,13 @@ module.exports = grammar({
          ';'
      ),
      // }}}
-
+     // 4.5.3 Signatures {{{
+     signature: $ => seq(
+         '[',
+             sepBy1(',',choice($.type_mark,$.return)),
+         ']'
+     ),
+     // }}}
      // 4.7 Package declarations {{{
      package_declaration: $ => seq(
          reservedWord('package'),
@@ -569,12 +594,11 @@ module.exports = grammar({
          ';'
      ),
      // }}}
-
      // 4.8 Package bodies {{{
      package_body: $ => seq(
          reservedWord('package'),
          reservedWord('body'),
-         $._package_name,
+         $._simple_name,
          reservedWord('is'),
          optional($.declarative_part),
          reservedWord('end'),
@@ -586,9 +610,8 @@ module.exports = grammar({
          ';'
      ),
 
-     _package_name: $ => $._simple_name,
+     _package_name: $ => field('package',$._simple_name),
      // }}}
-
      // 4.9 Package instantiation declarations {{{
      package_instantiation_declaration: $ => seq(
          reservedWord('package'),
@@ -597,21 +620,12 @@ module.exports = grammar({
          reservedWord('new'),
          choice(
              $._simple_name,
-             $._external_name
+             $._expanded_name
          ),
          optional($._map_aspect),
          ';'
      ),
      // }}}
-
-     // 4.5.3 Signatures {{{
-     signature: $ => seq(
-         '[',
-             sepBy1(',',choice($.type_mark,$.return)),
-         ']',
-     ),
-     // }}}
-
      // 5.2.1 Scalar types {{{
      _scalar_type_definition: $ => choice(
          $.enumeration_type_definition,
@@ -632,17 +646,27 @@ module.exports = grammar({
      _range: $ => choice(
          $.ascending_range,
          $.descending_range,
-         $.range_attribute_name,
-         $.range_attribute_function_call
+         $._range_attribute_name,
+         $._range_attribute_function_call
+     ),
+
+     _range_attribute_name: $ => alias(
+        $.range_attribute_name,
+        $.attribute_name
      ),
 
      range_attribute_name: $ => seq(
          $._prefix,
-         $.range_attribute_designator,
+         $._range_attribute_designator,
      ),
 
+    _range_attribute_function_call: $ => alias(
+        $.range_attribute_function_call,
+        $.function_call
+    ),
+
      range_attribute_function_call: $ => seq(
-         field('function_call', $.range_attribute_name),
+         field('function_call', $._range_attribute_name),
          '(',
          $.association_list,
          ')'
@@ -660,7 +684,6 @@ module.exports = grammar({
          field('low',$._simple_expression),
      ),
      // }}}
-
      // 5.2.2 Enumeration types {{{
      enumeration_type_definition: $ => seq(
          '(',
@@ -673,7 +696,6 @@ module.exports = grammar({
           $.identifier
      ),
      // }}}
-
      // 5.2.4 Physical types {{{
      physical_type_definition: $ => seq(
          $.range_constraint,
@@ -708,28 +730,20 @@ module.exports = grammar({
      ),
 
      physical_literal: $ => prec(-1,seq(
-         $._coefficient,
+         $._abstract_literal,
          $._unit,
      )),
 
-     _coefficient: $ => field(
-         'coefficient',
-         $._abstract_literal
-     ),
-
-     _unit: $ => prec(-1,field(
-         'unit',
+     _unit: $ => prec(-1,
          $._simple_name
-     )),
+     ),
      // }}}
-
      // 5.3 Composite types {{{
      _composite_type_definition: $ => choice(
          $._array_type_definition,
          $.record_type_definition
      ),
      // }}}
-
      // 5.3.2 Array types {{{
      _array_type_definition: $ => choice(
          $.unbounded_array_definition,
@@ -755,7 +769,7 @@ module.exports = grammar({
      index_subtype_definition: $ => seq(
          $.type_mark,
          reservedWord('range'),
-         $._any
+         '<>'
      ),
 
      array_constraint: $ => seq(
@@ -784,7 +798,6 @@ module.exports = grammar({
 
      open: $ => reservedWord('open'),
      // }}}
-
      // 5.3.3 Record types {{{
      record_type_definition: $ => seq(
          reservedWord('record'),
@@ -814,14 +827,12 @@ module.exports = grammar({
 
     identifier_list: $ => sepBy1(',', $.identifier),
     // }}}
-
     // 5.4 Access types {{{
     access_type_definition: $ => seq(
         reservedWord('access'),
         $.subtype_indication
     ),
     // }}}
-
     // 5.4.2 Incomplete type declaration {{{
     incomplete_type_declaration: $ => seq(
         reservedWord('type'),
@@ -829,7 +840,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // 5.5 File types {{{
     file_type_definition: $ => seq(
         reservedWord('file'),
@@ -837,7 +847,6 @@ module.exports = grammar({
         $.type_mark
     ),
     // }}}
-
     // 5.6.2 Protected type declarations {{{
     protected_type_declaration: $ => seq(
         reservedWord('protected'),
@@ -847,23 +856,17 @@ module.exports = grammar({
         optional($._end_simple_name),
     ),
     // }}}
-
     // 5.6.2 Protected type bodies {{{
     protected_type_body: $ => seq(
         reservedWord('protected'),
         reservedWord('body'),
-        optional($.protected_type_body_declarative_part),
+        optional($.declarative_part),
         reservedWord('end'),
         reservedWord('protected'),
         reservedWord('body'),
         optional($._end_simple_name),
     ),
-
-    protected_type_body_declarative_part: $ => repeat1(
-        $._declaration
-    ),
     // }}}
-
     // 6. Declarations {{{
     declarative_part: $ => prec.left(repeat1(
         $._declaration
@@ -892,7 +895,6 @@ module.exports = grammar({
         $._PSL_Declaration
     )),
     // }}}
-
     // 6.2 Type declarations {{{
     _type_declaration: $ => choice(
         $.full_type_declaration,
@@ -916,7 +918,6 @@ module.exports = grammar({
         $.protected_type_body
     ),
     // }}}
-
     // 6.3 Subtype declaration {{{
     subtype_declaration: $ => seq(
         reservedWord('subtype'),
@@ -940,7 +941,7 @@ module.exports = grammar({
 
     resolution_function: $ => choice(
         $._simple_name,
-        $._external_name
+        $._expanded_name
     ),
 
     parenthesized_resolution: $ => seq(
@@ -962,7 +963,7 @@ module.exports = grammar({
 
     type_mark: $ => choice(
         $._simple_name,
-        $._external_name,
+        $._expanded_name,
         //prec.dynamic(-1,$.attribute_name)
     ),
 
@@ -977,7 +978,6 @@ module.exports = grammar({
         $.record_constraint
     ),
     // }}}
-
     // 6.4.2 Object declarations {{{
     _object_declaration: $ => choice(
         $.constant_declaration,
@@ -987,7 +987,6 @@ module.exports = grammar({
         $.file_declaration,
     ),
     // }}}
-
     // 6.4.2 Constant declarations {{{
     constant_declaration: $ => seq(
         reservedWord('constant'),
@@ -998,7 +997,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // 6.4.2.3 Signal declarations {{{
     signal_declaration: $ => seq(
         reservedWord('signal'),
@@ -1016,7 +1014,6 @@ module.exports = grammar({
     ),
 
     // }}}
-
     // 6.4.2.4 Variable declarations {{{
     variable_declaration: $ => seq(
         reservedWord('variable'),
@@ -1037,7 +1034,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // 6.4.2.5 File declarations {{{
     file_declaration: $ => seq(
         reservedWord('file'),
@@ -1068,7 +1064,6 @@ module.exports = grammar({
         $._expression
     ),
     // }}}
-
     // 6.5 Interface declarations {{{
     _generic_interface_declaration: $ => choice(
         $.constant_interface_declaration,
@@ -1099,7 +1094,6 @@ module.exports = grammar({
         $._illegal_interface_declaration
     ),
     // }}}
-
     // 6.5.2 Interface object declarations {{{
     constant_interface_declaration: $ => prec.dynamic(
         PREC.CONSTANT_INTERFACE,
@@ -1192,14 +1186,12 @@ module.exports = grammar({
         )
     ),
     // }}}
-
     // 6.5.3 Interface type declarations {{{
     type_interface_declaration: $ => seq(
         reservedWord('type'),
         $.identifier
     ),
     // }}}
-
     // 6.5.4 Interface subprogram declarations {{{
     subprogram_interface_declaration: $ => seq(
         $.subprogram_specification,
@@ -1211,7 +1203,7 @@ module.exports = grammar({
 
     interface_subprogram_default: $ => choice(
         $._simple_name,
-        $._external_name,
+        $._expanded_name,
         $.character_literal,
         $._operator_symbol,
         $._same
@@ -1219,7 +1211,6 @@ module.exports = grammar({
 
     _same: $ => alias('<>', $.same),
     // }}}
-
     // 6.5.5 Interface package declarations {{{
     package_interface_declaration: $ => seq(
         reservedWord('package'),
@@ -1228,19 +1219,17 @@ module.exports = grammar({
         reservedWord('new'),
         choice(
             $._simple_name,
-            $._external_name
+            $._expanded_name
         ),
         optional($._map_aspect)
     ),
     // }}}
-
     // 6.5.6.1 Interface lists {{{
     _generic_interface_list:    $ => sepBy1(';', $._generic_interface_declaration),
     _port_interface_list:       $ => sepBy1(';', $._port_interface_declaration),
     _procedure_parameter_list:  $ => sepBy1(';', $._procedure_interface_declaration),
     _function_parameter_list:   $ => sepBy1(';', $._function_interface_declaration),
     // }}}
-
     // 6.5.6.2 Generic clauses {{{
     generic_clause: $ => seq(
         reservedWord('generic'),
@@ -1252,7 +1241,6 @@ module.exports = grammar({
 
     _semicolon: $ => alias(';', $.semicolon),
     // }}}
-
     // 6.5.6.3 Port clauses {{{
     port_clause: $ => seq(
         reservedWord('port'),
@@ -1262,7 +1250,6 @@ module.exports = grammar({
         optional($._semicolon)
     ),
     // }}}
-
     // 6.5.7 Association lists {{{
     association_list: $ => sepBy1(',', $._association_element),
 
@@ -1283,7 +1270,10 @@ module.exports = grammar({
 
     _formal_part: $ => field(
         'formal_part',
-        $._name,
+        choice(
+            $._name,
+            $.others
+        ),
     ),
 
     _actual_part: $ => field(
@@ -1303,7 +1293,6 @@ module.exports = grammar({
         ),
     ),
     // }}}
-
     // 6.5.7.2 Generic map aspects {{{
     generic_map_aspect: $ => seq(
         reservedWord('generic'),
@@ -1311,17 +1300,16 @@ module.exports = grammar({
         '(',
         optional(choice(
             $.association_list,
-            $._default,
+            $.default,
             $._any
         )),
         ')',
         optional($._semicolon),
     ),
 
-    _default: $ => alias(reservedWord('default'), $.default),
-    _any:     $ => alias('<>', $.any),
+    default: $ => reservedWord('default'),
+    _any:    $ => alias('<>', $.any),
     // }}}
-
     // 6.5.7.3 Port map aspects {{{
     port_map_aspect: $ => seq(
         reservedWord('port'),
@@ -1332,7 +1320,6 @@ module.exports = grammar({
         optional($._semicolon)
     ),
     // }}}
-
     // HEADER and MAP_ASPECTS {{{
     header: $ => seq(
         $._header,
@@ -1342,7 +1329,7 @@ module.exports = grammar({
     ),
 
     _map_aspect: $ => alias(
-        $._header,
+        $.header,
         $.map_aspect
     ),
 
@@ -1353,7 +1340,6 @@ module.exports = grammar({
         $.port_map_aspect,
     ),
     // }}}
-
     // 6.6 Alias declarations {{{
     alias_declaration: $ => seq(
         reservedWord('alias'),
@@ -1370,7 +1356,12 @@ module.exports = grammar({
 
     _alias_denotator: $ => field(
         'denotator',
-        $._name
+        choice(
+            $._expanded_name,
+            $._simple_name,
+            $.character_literal,
+            $._operator_symbol
+        )
     ),
 
     _alias_designator: $ => field(
@@ -1382,7 +1373,6 @@ module.exports = grammar({
         )
     ),
     // }}}
-
     // 6.7 Attribute declarations {{{
     attribute_declaration: $ => seq(
         reservedWord('attribute'),
@@ -1392,7 +1382,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // 6.8 Component declarations {{{
     component_declaration: $ => prec(1,seq(
         reservedWord('component'),
@@ -1405,7 +1394,6 @@ module.exports = grammar({
         ';'
     )),
     // }}}
-
     // 6.9 Group template declarations {{{
     group_template_declaration: $ => seq(
         reservedWord('group'),
@@ -1424,7 +1412,6 @@ module.exports = grammar({
         optional($._any)
     ),
     // }}}
-
     // 6.10 Group declarations {{{
     group_declaration: $ => seq(
         reservedWord('group'),
@@ -1456,7 +1443,6 @@ module.exports = grammar({
         )
     ),
     // }}}
-
     // 7.2 Specifications {{{
     attribute_specification: $ => seq(
         reservedWord('attribute'),
@@ -1466,6 +1452,12 @@ module.exports = grammar({
         reservedWord('is'),
         $._expression,
         ';'
+    ),
+
+    entity_name_list: $ => choice(
+        sepBy1(',', $.entity_designator),
+        $.others,
+        $.all
     ),
 
     entity_specification: $ => seq(
@@ -1496,12 +1488,6 @@ module.exports = grammar({
         reservedWord('sequence'),
     ),
 
-    entity_name_list: $ => choice(
-        sepBy1(',', $.entity_designator),
-        $.others,
-        $.all
-    ),
-
     entity_designator: $ => seq(
         $._entity_tag,
         optional($.signature)
@@ -1513,7 +1499,6 @@ module.exports = grammar({
         $._operator_symbol
     ),
     // }}}
-
     // 7.3 Configuration specification {{{
     _configuration_specification: $ => alias(
         choice(
@@ -1525,7 +1510,7 @@ module.exports = grammar({
 
     simple_configuration_specification: $ => prec.right(seq(
         reservedWord('for'),
-        $.component_specification,
+        $._component_specification,
         optional($.binding_indication),
         ';',
         optional(seq(
@@ -1537,7 +1522,7 @@ module.exports = grammar({
 
     compound_configuration_specification: $ => seq(
         reservedWord('for'),
-        $.component_specification,
+        $._component_specification,
         optional($.binding_indication),
         ';',
         sepBy1(';', $.verification_unit_binding_indication),
@@ -1547,14 +1532,14 @@ module.exports = grammar({
         ';'
     ),
 
-    component_specification: $ => seq(
+    _component_specification: $ => seq(
         $.instantiation_list,
         ':',
         $._component_name
     ),
 
     instantiation_list: $ => choice(
-        sepBy1(',',$._simple_name),
+        sepBy1(',',field('label',$._simple_name)),
         $.others,
         $.all
     ),
@@ -1566,38 +1551,22 @@ module.exports = grammar({
         $._simple_name
     ),
     // }}}
-
     // 7.3.2 Binding indication {{{
     binding_indication: $ => choice(
         $._map_aspect,
         seq(
             reservedWord('use'),
-            choice(
-                $.entity_aspect,
-                $.configuration_aspect,
-                $.open
-            ),
-            optional($._semicolon),
+            $.entity_aspect,
             optional($._map_aspect),
         ),
     ),
 
-    entity_aspect: $ => seq(
-        reservedWord('entity'),
-        $._simple_name,
-        optional(seq(
-            '(',
-            $._simple_name,
-            ')',
-        ))
-    ),
-
-    configuration_aspect: $ => seq(
-        reservedWord('configuration'),
-        $._name
+    entity_aspect: $ => choice(
+        $._entity_instantiation,
+        $._configuration_instantiation,
+        $.open
     ),
     // }}}
-
     // 7.3.4 Verification unit binding indication {{{
     verification_unit_binding_indication: $ => seq(
         reservedWord('use'),
@@ -1609,11 +1578,10 @@ module.exports = grammar({
         ',',
         choice(
             $._simple_name,
-            $._external_name
+            $._expanded_name
         )
     ),
     // }}}
-
     // 7.4 Disconnection specification {{{
     disconnection_specification: $ => seq(
         reservedWord('disconnect'),
@@ -1634,7 +1602,6 @@ module.exports = grammar({
         $.all
     ),
     // }}}
-
     // 8 Names {{{
     _name: $ => choice(
         $._simple_name,
@@ -1656,7 +1623,6 @@ module.exports = grammar({
         $._simple_name
     ),
     // }}}
-
     // 8.3 Selected names {{{
     selected_name: $ => seq(
         $._prefix,
@@ -1690,8 +1656,12 @@ module.exports = grammar({
         $.string_literal,
         $.operator_symbol
     ),
-    // }}}
 
+    _expanded_name: $ => alias(
+        $.selected_name,
+        $.expanded_name
+    ),
+    // }}}
     // 8.4 Indexed name (Ambiguos name) {{{
     // foo (bar)
     // - function call
@@ -1713,7 +1683,6 @@ module.exports = grammar({
 
     expression_list: $ => sepBy1(',', field('expression',$._expression)),
     // }}}
-
     // 8.5 Slice name {{{
     slice_name: $ => seq(
         $._prefix,
@@ -1722,21 +1691,28 @@ module.exports = grammar({
         ')'
     ),
     // }}}
-
     // 8.6 Attribute names {{{
-    attribute_name: $ => prec(-2,seq(
+    attribute_name: $ => seq(
         $._prefix,
         optional($.signature),
-        $.attribute_designator
-    )),
+        $._attribute_designator
+    ),
 
-    range_attribute_designator: $ => reserved(RANGE_ATTRIBUTE),
+    _range_attribute_designator: $ => seq(
+        token('\''),
+        field('designator',
+            choice(
+                alias(reserved(caseInsensitive("reverse_range")), $.predefined_name),
+                alias(reserved(caseInsensitive("range")), $.predefined_name),
+            ),
+        )
+    ),
 
-    attribute_designator: $ => token(
-        delimiter(new RegExp ('\''+IDENTIFIER))
+    _attribute_designator: $ => seq(
+        token('\''),
+        field('designator',$._simple_name)
     ),
     // }}}
-
     // 8.7 External names {{{
     _external_object_name: $ => choice(
         $.external_constant_name,
@@ -1744,36 +1720,31 @@ module.exports = grammar({
         $.external_variable_name
     ),
 
-    _external_name: $ => alias(
-        $.selected_name,
-        $.external_name
-    ),
-
     external_constant_name: $ => seq(
-        '<<',
+        delimiter('<<'),
         reservedWord('constant'),
         $._external_pathname,
         ':',
         $.subtype_indication,
-        '>>'
+        delimiter('>>')
     ),
 
     external_signal_name: $ => seq(
-        '<<',
+        delimiter('<<'),
         reservedWord('signal'),
         $._external_pathname,
         ':',
         $.subtype_indication,
-        '>>'
+        delimiter('>>')
     ),
 
     external_variable_name: $ => seq(
-        '<<',
+        delimiter('<<'),
         reservedWord('variable'),
         $._external_pathname,
         ':',
         $.subtype_indication,
-        '>>'
+        delimiter('>>')
     ),
 
     _external_pathname: $ => choice(
@@ -1817,9 +1788,11 @@ module.exports = grammar({
         $.generate_statement_element,
     ),
 
-    _name_or_label: $ => $._simple_name,
+    _name_or_label: $ => field(
+        'name_or_label',
+        $._simple_name
+    ),
     // }}}
-
     // 9. Expressions {{{
     _expression: $ => choice(
         $.condition,
@@ -1878,12 +1851,12 @@ module.exports = grammar({
         seq(
             field('left', $._expression),
             field('operator', choice(
-                 delimiter('>='), delimiter('>'),
-                 delimiter('<='), delimiter('<'),
-                 delimiter('/='), delimiter('?/='),
-                delimiter('?>='), delimiter('?>'),
-                delimiter('?<='), delimiter('?<'),
-                  delimiter('='), delimiter('?='),
+                  delimiter('='),
+                  delimiter('/='),
+                  delimiter('<'),
+                  delimiter('<='),
+                  delimiter('>'),
+                  delimiter('>='),
             )),
             field('right', $._expression)
         )
@@ -1982,7 +1955,7 @@ module.exports = grammar({
         PREC.FACTOR,
         seq(
             field('left',$._primary),
-            field('operator',delimiter('**')),
+            field('operator',alias(delimiter(seq('*','*')),"**")),
             field('right',$._primary)
         )
     ),
@@ -2003,7 +1976,6 @@ module.exports = grammar({
     ),
     // }}}
     /// }}}
-
     // 9.3.2 Literals {{{
     _literal: $ => choice(
         $._numeric_literal,
@@ -2020,19 +1992,34 @@ module.exports = grammar({
 
     null: $ => reservedWord('null'),
     // }}}
-
     // 9.3.3 Aggregates {{{
     aggregate: $ => prec(-1,seq(
         '(',
-        sepBy1(',', $.element_asociation),
+        $.element_association_list,
         ')'
     )),
 
-    element_asociation: $ => prec(-1,seq(
-        optional(seq(
-            $.choices,
-            delimiter('=>'),
-        )),
+    element_association_list: $ => choice(
+        $.named_element_association,
+        seq(
+            $._element_association,
+            ',',
+            sepBy1(',', $._element_association),
+        ),
+    ),
+
+    _element_association: $ => choice(
+        $.positional_element_association,
+        $.named_element_association,
+    ),
+
+    positional_element_association: $ => seq(
+        $._value
+    ),
+
+    named_element_association: $ => prec(-1,seq(
+        $.choices,
+        delimiter('=>'),
         $._value
     )),
 
@@ -2045,7 +2032,7 @@ module.exports = grammar({
 
     _choice: $ => choice(
         $._simple_expression,
-        $._discrete_range,
+        $._range,
         $.others
     ),
 
@@ -2053,7 +2040,6 @@ module.exports = grammar({
 
     _simple_expression: $ => $._expression,
     // }}}
-
     // 9.3.4 Function call {{{
     function_call: $ => seq(
         $._function_name,
@@ -2062,27 +2048,23 @@ module.exports = grammar({
         ')'
     ),
 
-    _function_name: $ => field(
-        'function_name',
-        choice(
-            $._simple_name,
-            $._operator_symbol,
-            $.selected_name,
-            $.attribute_name,
-        ),
+    _function_name: $ => choice(
+        $._simple_name,
+        $._operator_symbol,
+        $.selected_name,
+        $.attribute_name,
     ),
     // }}}
-
     // 9.3.5 Qualified expressions {{{
     qualified_expression: $ => seq(
         $.type_mark,
-        token.immediate('\''),
-        token.immediate('('),
-        sepBy1(',', $.element_asociation),
-        ')'
+        token('\''),
+        choice(
+            $.aggregate,
+            $.parenthesized_expression
+        ),
     ),
     // }}}
-
     // 9.3.7 Allocators {{{
     allocator: $ => seq(
         reservedWord('new'),
@@ -2092,7 +2074,6 @@ module.exports = grammar({
         )
     ),
     // }}}
-
     // 10.1 Sequential statements {{{
     sequence_of_statements: $ => repeat1(
         $._sequential_statement
@@ -2117,7 +2098,6 @@ module.exports = grammar({
         $._PSL_Declaration,
     ),
     // }}}
-
     // 10.2 Wait statement {{{
     wait_statement: $ => seq(
         optional($.label),
@@ -2144,11 +2124,10 @@ module.exports = grammar({
     ),
 
     sensitivity_list: $ => choice(
-        reservedWord("all"),
+        $.all,
         sepBy1(',', $._simple_name),
     ),
     // }}}
-
     // 10.3 Assertion statement {{{
     assertion_statement: $ => prec(1,seq(
         optional($.label),
@@ -2162,7 +2141,6 @@ module.exports = grammar({
 
     _condition: $ => $._expression,
     // }}}
-
     // 10.4 Report statement {{{
     report_statement: $ => seq(
         optional($.label),
@@ -2181,7 +2159,6 @@ module.exports = grammar({
          $._expression
     ),
     // }}}
-
     // 10.5 Signal assignments {{{
     _signal_assignment_statement: $ => choice(
         $._simple_signal_assignment,
@@ -2189,7 +2166,6 @@ module.exports = grammar({
         $._selected_signal_assignment,
     ),
     // }}}
-
     // 10.5.2 Simple signal assignments {{{
     _simple_signal_assignment: $ => choice(
         $.simple_waveform_assignment,
@@ -2211,6 +2187,7 @@ module.exports = grammar({
         optional($.label),
         $._target,
         '<=',
+        optional(reservedWord('guarded')),
         reservedWord('force'),
         optional($.force_mode),
         $._value,
@@ -2221,6 +2198,7 @@ module.exports = grammar({
         optional($.label),
         $._target,
         '<=',
+        optional(reservedWord('guarded')),
         reservedWord('release'),
         optional($.force_mode),
         ';'
@@ -2239,11 +2217,13 @@ module.exports = grammar({
     transport: $ => reservedWord('transport'),
 
     inertial: $ => seq(
-        optional(seq(
-            reservedWord('reject'),
-            $._time_expression,
-        )),
+        optional($.reject),
         reservedWord('inertial')
+    ),
+
+    reject: $ => seq(
+        reservedWord('reject'),
+        $._time_expression,
     ),
 
     _target: $ => field(
@@ -2274,7 +2254,6 @@ module.exports = grammar({
         $._time_expression
     ),
     // }}}
-
     // 10.5.3 Conditional signal assignments {{{
     _conditional_signal_assignment: $ => choice(
         $.conditional_waveform_assignment,
@@ -2329,7 +2308,6 @@ module.exports = grammar({
         optional($.when_clause)
     ),
     // }}}
-
     // 10.5.4 Selected signal assignments {{{
     _selected_signal_assignment: $ => choice(
         $.selected_waveform_assignment,
@@ -2398,7 +2376,6 @@ module.exports = grammar({
         $.choices,
     ),
     // }}}
-
     // 10.6 Variable assignments {{{
     _variable_assignment_statement: $ => choice(
         $.simple_variable_assignment,
@@ -2406,7 +2383,6 @@ module.exports = grammar({
         $.selected_variable_assignment,
     ),
     // }}}
-
     // 10.6.2 Simple variable assignments {{{
     simple_variable_assignment: $ => seq(
         optional($.label),
@@ -2416,7 +2392,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // 10.6.3 Conditional variable assignments {{{
     conditional_variable_assignment: $ => seq(
         optional($.label),
@@ -2426,7 +2401,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // 10.6.4 Selected variable assignments {{{
     selected_variable_assignment: $ => seq(
         optional($.label),
@@ -2442,7 +2416,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // 10.7 Procedure call statement {{{
     procedure_call_statement: $ => prec(1,seq(
         optional($.label),
@@ -2451,7 +2424,6 @@ module.exports = grammar({
         ';'
     )),
     // }}}
-
     // 10.8 If statement {{{
     if_statement: $ => seq(
         optional($.label),
@@ -2483,7 +2455,6 @@ module.exports = grammar({
         optional($.sequence_of_statements)
     ),
     // }}}
-
     // 10.9 Case statement {{{
     case_statement: $ => seq(
         optional($.label),
@@ -2510,7 +2481,6 @@ module.exports = grammar({
         optional($.sequence_of_statements)
     ),
     // }}}
-
     // 10.10 Loop statement {{{
     loop_statement: $ => seq(
         optional($.label),
@@ -2544,7 +2514,6 @@ module.exports = grammar({
         $._discrete_range
     ),
     // }}}
-
     // 10.11 Next statement {{{
     next_statement: $ => seq(
         optional($.label),
@@ -2559,7 +2528,6 @@ module.exports = grammar({
         $._simple_name
     ),
     // }}}
-
     // 10.12 Exit statement {{{
     exit_statement: $ => seq(
        optional($.label),
@@ -2569,7 +2537,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // 10.13 Return statement {{{
     return_statement: $ => seq(
         optional($.label),
@@ -2578,7 +2545,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // 10.14 Null statement {{{
     null_statement: $ => seq(
         optional($.label),
@@ -2586,7 +2552,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // 11 Concurrent statements {{{
     concurrent_statement_part: $ => repeat1(
         $._concurrent_statement
@@ -2604,7 +2569,6 @@ module.exports = grammar({
         $._PSL_Declaration
     )),
     // }}}
-
     // 11.2 Block statement {{{
     block_statement: $ => seq(
         optional($.label),
@@ -2630,7 +2594,6 @@ module.exports = grammar({
         $._expression
     ),
     // }}}
-
     // 11.3 Process statement {{{
     process_statement: $ => seq(
         optional($.label),
@@ -2652,7 +2615,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // 11.6 Concurrent signal assignments {{{
     _concurrent_signal_assignment: $ => prec(1,choice(
         $.simple_waveform_assignment,
@@ -2660,7 +2622,6 @@ module.exports = grammar({
         $.selected_waveform_assignment,
     )),
     // }}}
-
     // 11.7 Component instantiation statements {{{
     component_instantiation_statement: $ => seq(
         optional($.label),
@@ -2670,38 +2631,52 @@ module.exports = grammar({
     ),
 
     _instantiated_unit: $ => choice(
-        $.component_instantiation,
-        $.entity_instantiation,
-        $.configuration_instantiation
+        $._entity_instantiation,
+        $._configuration_instantiation,
+        $._component_instantiation
     ),
 
-    component_instantiation: $ => seq(
-        optional(reservedWord('component')),
-        $._simple_name
-    ),
-
-    entity_instantiation: $ => prec(-1,seq(
+    _entity_instantiation: $ => seq(
         reservedWord('entity'),
-        choice(
-            $._simple_name,
-            $.selected_name
+        field(
+            'entity',
+            choice(
+                $._simple_name,
+                $._expanded_name
+            ),
         ),
         optional(seq(
             '(',
-            field('architecture',$._simple_name),
+            field(
+                'architecture',
+                $._simple_name
+            ),
             ')'
         ))
-    )),
+    ),
 
-    configuration_instantiation: $ => seq(
+    _configuration_instantiation: $ => seq(
         reservedWord('configuration'),
-        choice(
-            $._simple_name,
-            $._external_name
-        )
+        field(
+            'configuration',
+            choice(
+                $._simple_name,
+                $._expanded_name
+            ),
+        ),
+    ),
+
+    _component_instantiation: $ => seq(
+        optional(reservedWord('component')),
+        field(
+            'component',
+            choice(
+                $._simple_name,
+                $._expanded_name
+            ),
+        ),
     ),
     // }}}
-
     // 11.8 Generate statements {{{
    _generate_statement: $ => choice(
         $.for_generate_statement,
@@ -2812,15 +2787,13 @@ module.exports = grammar({
         ':'
     ),
     // }}}
-
     // 12.4 Use clauses {{{
     use_clause: $ => seq(
         reservedWord('use'),
-        sepBy1(',',$.selected_name),
+        sepBy1(',',$._expanded_name),
         ';'
     ),
     // }}}
-
     // 13.1 Design units {{{
     design_unit: $ => seq(
         optional($.context_clause),
@@ -2846,7 +2819,6 @@ module.exports = grammar({
         $.package_body
     ),
     // }}}
-
     // 13.2 Design libraries {{{
     library_clause: $ => seq(
         reservedWord('library'),
@@ -2856,12 +2828,8 @@ module.exports = grammar({
 
     logical_name_list: $ => sepBy1(',', $._logical_name),
 
-    _logical_name: $ => field(
-        'logical_name',
-        $.identifier
-    ),
+    _logical_name: $ => field('library', $._simple_name),
     // }}}
-
     // 13.3 Context declarations {{{
     context_declaration: $ => seq(
         reservedWord('context'),
@@ -2874,7 +2842,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // 13.4 Context clauses {{{
     context_clause: $ => prec.right(repeat1(
         $._context_item
@@ -2888,17 +2855,15 @@ module.exports = grammar({
 
     context_reference: $ => seq(
         reservedWord('context'),
-        $._context_list,
+        $.context_list,
         ';'
     ),
 
-    _context_list: $ => sepBy1(',', $.selected_name),
+    context_list: $ => sepBy1(',', $._expanded_name),
     // }}}
-
     // 15.4 Identifiers {{{
     identifier: $ => new RegExp (IDENTIFIER),
     // }}}
-
     // 15.5 Abstract literals {{{
     _abstract_literal: $ => choice(
         $.integer_decimal,
@@ -2907,7 +2872,6 @@ module.exports = grammar({
         $.based_real
     ),
     // }}}
-
     // 15.5.2 Decimal literals {{{
     integer_decimal: $ => seq(
         $.integer,
@@ -2917,15 +2881,27 @@ module.exports = grammar({
     real_decimal: $ => seq(
         $.integer,
         token.immediate('.'),
-        $._integer_immed,
+        alias($._integer_immed, $.integer),
         optional($._exponent)
     ),
 
-    integer: $ => token(new RegExp (INTEGER)),
 
-    _integer_immed: $ => alias(
-        token.immediate(new RegExp (INTEGER)),
-        $.integer
+    underline: $ => token.immediate(UNDERLINE),
+
+    integer: $ => seq(
+        new RegExp('['+DIGIT+']'),
+        repeat(seq(
+            optional($.underline),
+            token.immediate(new RegExp('['+DIGIT+']')),
+        ))
+    ),
+
+    _integer_immed: $ => seq(
+        token.immediate(new RegExp('['+DIGIT+']')),
+        repeat(seq(
+            optional($.underline),
+            token.immediate(new RegExp('['+DIGIT+']')),
+        ))
     ),
 
     _exponent: $ => choice(
@@ -2941,7 +2917,6 @@ module.exports = grammar({
         token.immediate(prec(1,new RegExp (NEGATIVE_EXPONENT))),
     ),
     // }}}
-
     // 15.5.3 Based literals {{{
     based_integer: $ => seq(
         alias($.integer, $.base),
@@ -2962,23 +2937,13 @@ module.exports = grammar({
     ),
 
     based_literal: $ => seq(
-        choice(
-            token.immediate(prec(3,new RegExp ('['+EXTENDED_DIGIT+']'))),
-            alias(
-                token.immediate(prec(3,new RegExp (UNDERLINE+'+'))),
-                $.based_literal_error
-            )
-        ),
-        repeat(choice(
-            token.immediate(prec(3,new RegExp (UNDERLINE+'?['+EXTENDED_DIGIT+']'))),
-            alias(
-                token.immediate(prec(3,new RegExp (UNDERLINE+UNDERLINE+'+'))),
-                $.based_literal_error
-            )
-        )),
+        token.immediate(new RegExp('['+EXTENDED_DIGIT+']')),
+        repeat(seq(
+            optional($.underline),
+            token.immediate(new RegExp('['+EXTENDED_DIGIT+']')),
+        ))
     ),
     // }}}
-
     // 15.6 Character literal {{{
     character_literal: $ => choice(
         seq(
@@ -2990,7 +2955,6 @@ module.exports = grammar({
         ),
     ),
     // }}}
-
     // 15.7 String literal {{{
     string_literal: $ => seq(
         '"',
@@ -3003,64 +2967,138 @@ module.exports = grammar({
 
     escape_sequence: $ => token.immediate(prec(3,DOUBLE_QUOTATION_MARK)),
     // }}}
-
     // 15.8 Bit string literals {{{
+    // TODO: refactor
     bit_string_literal: $ => choice(
+        // binary
         seq(
-            $._length,
-            alias(
-                $.base_specifier_immed,
-                $.base_specifier,
+            choice(
+                alias(token(/[uUsS]?[bB]"/), $.base_specifier),
+                seq(
+                    alias($.integer, $.length),
+                    alias(token.immediate(/[uUsS]?[bB]"/), $.base_specifier),
+                ),
             ),
-            optional($.bit_value),
-            token.immediate('"'),
+            optional(alias($._binary_bit_value, $.bit_value)),
+            token.immediate('"')
         ),
+        // octal
         seq(
-            $.base_specifier,
-            optional($.bit_value),
-            token.immediate('"'),
+            choice(
+                alias(token(/[uUsS]?[oO]"/), $.base_specifier),
+                seq(
+                    alias($.integer, $.length),
+                    alias(token.immediate(/[uUsS]?[oO]"/), $.base_specifier),
+                ),
+            ),
+            optional(alias($._octal_bit_value, $.bit_value)),
+            token.immediate('"')
+        ),
+        // decimal
+        seq(
+            choice(
+                alias(token(/[dD]"/), $.base_specifier),
+                seq(
+                    alias($.integer, $.length),
+                    alias(token.immediate(/[dD]"/), $.base_specifier),
+                ),
+            ),
+            optional(alias($._decimal_bit_value, $.bit_value)),
+            token.immediate('"')
+        ),
+        // hexadecimal
+        seq(
+            choice(
+                alias(token(/[uUsS]?[xX]"/), $.base_specifier),
+                seq(
+                    alias($.integer, $.length),
+                    alias(token.immediate(/[uUsS]?[xX]"/), $.base_specifier),
+                ),
+            ),
+            optional(alias($._hexadecimal_bit_value, $.bit_value)),
+            token.immediate('"')
         ),
     ),
 
-    _length: $ => alias(
-        $.integer,
-        $.length
+    _std_ulogic: $ => choice(
+        alias(token.immediate(/[lL]/), $.low),
+        alias(token.immediate(/[hH]/), $.high),
+        alias(token.immediate(/[uU]/), $.uninitialized),
+        alias(token.immediate(/[wW]/), $.weak),
+        alias(token.immediate(/[zZ]/), $.high_impedance),
+        alias(token.immediate(prec(3,/\-/)), $.dont_care),
     ),
 
-    base_specifier: $ => seq(token(new RegExp (BASE_SPECIFIER))),
-
-    base_specifier_immed: $ => seq(token.immediate(new RegExp (BASE_SPECIFIER))),
-
-    bit_value: $ => seq(
+    _binary_bit_value: $ => seq(
         choice(
-            token.immediate(prec(3,new RegExp ('['+GRAPHIC_CHARACTER+BACKSLASH+']'))),
-            alias(
-                token.immediate(prec(3,new RegExp (UNDERLINE+'+'))),
-                $.bit_value_error
-            )
+            token.immediate(new RegExp ('[0-1]')),
+            $._std_ulogic
         ),
-        repeat(choice(
-            token.immediate(prec(3,new RegExp (UNDERLINE+'?['+GRAPHIC_CHARACTER+BACKSLASH+']'))),
-            alias(
-                token.immediate(prec(3,new RegExp (UNDERLINE+UNDERLINE+'+'))),
-                $.bit_value_error
+        repeat(seq(
+            optional($.underline),
+            choice(
+                token.immediate(new RegExp('[0-1]')),
+                $._std_ulogic
             )
-        )),
+        ))
+    ),
+
+    _octal_bit_value: $ => seq(
+        choice(
+            token.immediate(new RegExp ('[0-7]')),
+            $._std_ulogic
+        ),
+        repeat(seq(
+            optional($.underline),
+            choice(
+                token.immediate(new RegExp('[0-7]')),
+                $._std_ulogic
+            )
+        ))
+    ),
+
+    _decimal_bit_value: $ => seq(
+        choice(
+            token.immediate(new RegExp ('[0-9]')),
+            $._std_ulogic
+        ),
+        repeat(seq(
+            optional($.underline),
+            choice(
+                token.immediate(new RegExp('[0-9]')),
+                $._std_ulogic
+            )
+        ))
+    ),
+
+    _hexadecimal_bit_value: $ => seq(
+        token.immediate(new RegExp ('[0-9a-fA-F]')),
+        repeat(seq(
+            optional($.underline),
+            choice(
+                token.immediate(new RegExp('[0-9a-fA-F]')),
+                $._std_ulogic
+            )
+        ))
     ),
     // }}}
-
     // 15.9 Comments {{{
     comment: $ => seq(
-        token(prec(2,new RegExp('--.*['+VT+CR+LF+FF+']')))
+        delimiter('--'),
+        token(prec(2,new RegExp('[^'+VT+CR+LF+FF+']*')))
     ),
     // }}}
-
     // 15.11 Tool directives {{{
-    tool_directive: $ => token(prec(2,new RegExp('`[^'+VT+CR+LF+FF+']*'))),
+    tool_directive: $ => seq(
+        delimiter('`'),
+        new RegExp('[^'+VT+CR+LF+FF+']*')
+    ),
     // }}}
-
     // PSL 5. Boolean layer {{{
-    _PSL_Identifier: $ => $.identifier,
+    _PSL_Identifier: $ => alias(
+        $.identifier,
+        $.PSL_Identifier
+    ),
 
     _PSL_Any_Type: $ => choice(
         $._expression,
@@ -3107,7 +3145,6 @@ module.exports = grammar({
         )
     ),
     // }}}
-
     // PSL 5.2.3 Built-in functions {{{
     PSL_Built_In_Function_Call: $ => prec(2,choice(
         seq(
@@ -3136,7 +3173,6 @@ module.exports = grammar({
         )
     )),
     // }}}
-
     // PSL 5.4 Default clock declaration {{{
     _PSL_Declaration: $ => choice(
         $.PSL_Property_Declaration,
@@ -3152,7 +3188,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // PSL 6.1.1 Sequential Extended Regular Expressions (SEREs) {{{
     _PSL_SERE: $ => choice(
         $._PSL_Boolean,
@@ -3180,7 +3215,6 @@ module.exports = grammar({
         )
     ),
     // }}}
-
     // PSL 6.1.1.2 Compound SEREs {{{
     _PSL_Compound_SERE: $ => prec(1,choice(
         $.PSL_Repeated_SERE,
@@ -3245,7 +3279,6 @@ module.exports = grammar({
         $.PSL_Value_Set
     ),
     // }}}
-
     // PSL 6.1.2 Sequences {{{
     _PSL_Sequence: $ => field(
         'Sequence',
@@ -3306,7 +3339,6 @@ module.exports = grammar({
         )
     ),
     // }}}
-
     // PSL 6.2 Properties {{{
     _PSL_Property: $ => seq(field(
         'Property',
@@ -3524,7 +3556,6 @@ module.exports = grammar({
         ')'
     ),
     // }}}
-
     // PSL 6.2.3 Replicated properties {{{
     PSL_Property_Replicator: $ => seq(
         reservedWord('forall'),
@@ -3570,7 +3601,6 @@ module.exports = grammar({
         $._PSL_Range
     ),
     // }}}
-
     // PSL 6.3 Property and sequence declarations {{{
     PSL_Property_Declaration: $ => seq(
         reservedWord('property'),
@@ -3653,7 +3683,6 @@ module.exports = grammar({
         reservedWord('string'),
     ),
     // }}}
-
     // PSL 6.3.3 Instantiation {{{
     PSL_Sequence_Instance: $ => prec.dynamic(-2,seq(
         $._PSL_Sequence_Name,
@@ -3691,7 +3720,6 @@ module.exports = grammar({
         $._PSL_Property
     ),
     // }}}
-
     // PSL 7.1 Verification directives {{{
     _PSL_Directive: $ => choice(
         $.PSL_Assert_Directive,
@@ -3767,7 +3795,6 @@ module.exports = grammar({
         ';'
     ),
     // }}}
-
     // PSL 7.2 Verification units {{{
     _PSL_Verification_Unit: $ => choice(
         $.PSL_VUnit,
@@ -3778,22 +3805,22 @@ module.exports = grammar({
     PSL_VUnit: $ => seq(
         reservedWord('vunit'),
         $._PSL_Identifier,
-        $._PSL_Verification_Unit_Body
+        $.PSL_Verification_Unit_Body
     ),
 
     PSL_VProp: $ => seq(
         reservedWord('vprop'),
         $._PSL_Identifier,
-        $._PSL_Verification_Unit_Body
+        $.PSL_Verification_Unit_Body
     ),
 
     PSL_VMode: $ => seq(
         reservedWord('vmode'),
         $._PSL_Identifier,
-        $._PSL_Verification_Unit_Body
+        $.PSL_Verification_Unit_Body
     ),
 
-    _PSL_Verification_Unit_Body: $ => seq(
+    PSL_Verification_Unit_Body: $ => seq(
         optional(seq(
             '(',
             $.PSL_Hierarchical_HDL_Name,
@@ -3805,18 +3832,34 @@ module.exports = grammar({
         '}'
     ),
 
-    PSL_Hierarchical_HDL_Name: $ => seq(
+    PSL_Hierarchical_HDL_Name: $ => prec(1,seq(
         $._PSL_HDL_Module_NAME,
-        repeat(seq(
+        optional(seq(
             choice(
-                delimiter('.'),
-                delimiter('/')
+                token.immediate('.'),
+                token.immediate('/'),
             ),
-            $._simple_name
+            field(
+                'instance',
+                $._simple_name
+            )
+        ))
+    )),
+
+    _PSL_HDL_Module_NAME: $ => seq(
+        field(
+            'entity',
+            choice(
+                $._simple_name,
+                $._expanded_name
+            )
+        ),
+        optional(seq(
+            '(',
+            field('architecture',$._simple_name),
+            ')'
         ))
     ),
-
-    _PSL_HDL_Module_NAME: $ => $.entity_aspect,
 
     PSL_Inherit_Spec: $ => seq(
         reservedWord('inherit'),
@@ -3859,7 +3902,6 @@ function caseInsensitive(word) {
         .map(letter => `[${letter}${letter.toUpperCase()}]`)
         .join('')
 }
-
 
 function sepBy1(sep, rule) {
   return seq(rule, repeat(seq(sep, rule)))

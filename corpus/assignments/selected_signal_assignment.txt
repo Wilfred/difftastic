@@ -25,7 +25,7 @@ with expr select?
         (waveform_element
           value: (simple_name)))
       (choices
-        choice: (simple_name))))
+        (simple_name))))
   (selected_waveform_assignment
     (label
       (identifier))
@@ -36,7 +36,7 @@ with expr select?
         (waveform_element
           value: (simple_name)))
       (choices
-        choice: (simple_name))))
+        (simple_name))))
   (selected_waveform_assignment
     with: (simple_name)
     target: (simple_name)
@@ -45,7 +45,7 @@ with expr select?
         (waveform_element
           value: (simple_name)))
       (choices
-        choice: (simple_name))))
+        (simple_name))))
   (selected_waveform_assignment
     (label
       (identifier))
@@ -56,7 +56,7 @@ with expr select?
         (waveform_element
           value: (simple_name)))
       (choices
-        choice: (simple_name)))))
+        (simple_name)))))
 
 ===========================================
 Selected waveform assignment - Delay mechanism
@@ -75,37 +75,41 @@ with expr select
   (selected_waveform_assignment
     with: (simple_name)
     target: (simple_name)
-    (transport)
+    (delay_mechanism
+      (transport))
     (selected_waveforms
       (waveforms
         (waveform_element
           value: (simple_name)))
       (choices
-        choice: (simple_name))))
+        (simple_name))))
   (selected_waveform_assignment
     with: (simple_name)
     target: (simple_name)
-    (inertial)
+    (delay_mechanism
+      (inertial))
     (selected_waveforms
       (waveforms
         (waveform_element
           value: (simple_name)))
       (choices
-        choice: (simple_name))))
+        (simple_name))))
   (selected_waveform_assignment
     with: (simple_name)
     target: (simple_name)
-    (inertial
-      pulse_limit: (physical_literal
-        coefficient: (integer_decimal
-          (integer))
-        unit: (simple_name)))
+    (delay_mechanism
+      (inertial
+        (reject
+          (physical_literal
+            (integer_decimal
+              (integer))
+            (simple_name)))))
     (selected_waveforms
       (waveforms
         (waveform_element
           value: (simple_name)))
       (choices
-        choice: (simple_name)))))
+        (simple_name)))))
 
 ===========================================
 Selected waveforms I
@@ -124,11 +128,13 @@ with expr select
         (waveform_element
           value: (simple_name)))
       (choices
-        choice: (simple_name))
-      (alternative_selected_expressions
-        value: (simple_name)
+        (simple_name))
+      (alternative_selected_waveforms
+        (waveforms
+          (waveform_element
+            value: (simple_name)))
         (choices
-          choice: (simple_name))))))
+          (simple_name))))))
 
 ===========================================
 Selected waveforms II
@@ -147,12 +153,14 @@ with expr select
         (waveform_element
           value: (simple_name)))
       (choices
-        choice: (simple_name)
-        choice: (simple_name))
-      (alternative_selected_expressions
-        value: (simple_name)
+        (simple_name)
+        (simple_name))
+      (alternative_selected_waveforms
+        (waveforms
+          (waveform_element
+            value: (simple_name)))
         (choices
-          choice: (others))))))
+          (others))))))
 
 ===========================================
 Selected waveforms III
@@ -170,16 +178,19 @@ with expr select
       (waveforms
         (waveform_element
           value: (simple_name)
-          after: (physical_literal
-            coefficient: (integer_decimal
-              (integer))
-            unit: (simple_name))))
+          (after
+            (physical_literal
+              (integer_decimal
+                (integer))
+              (simple_name)))))
       (choices
-        choice: (simple_name))
-      (alternative_selected_expressions
-        value: (simple_name)
+        (simple_name))
+      (alternative_selected_waveforms
+        (waveforms
+          (waveform_element
+            value: (simple_name)))
         (choices
-          choice: (others))))))
+          (others))))))
 
 ===========================================
 Selected force assignment
@@ -201,7 +212,7 @@ with expr select
     (selected_expressions
       value: (simple_name)
       (choices
-        choice: (simple_name))))
+        (simple_name))))
   (selected_force_assignment
     with: (simple_name)
     target: (simple_name)
@@ -209,7 +220,7 @@ with expr select
     (selected_expressions
       value: (simple_name)
       (choices
-        choice: (simple_name))))
+        (simple_name))))
   (selected_force_assignment
     with: (simple_name)
     target: (simple_name)
@@ -217,7 +228,7 @@ with expr select
     (selected_expressions
       value: (simple_name)
       (choices
-        choice: (simple_name)))))
+        (simple_name)))))
 
 ===========================================
 Guarded assignment
@@ -227,7 +238,7 @@ with expr select
 ---
 
 (design_file
-  (guarded_selected_signal_assignment
+  (selected_waveform_assignment
     with: (simple_name)
     target: (simple_name)
     (selected_waveforms
@@ -235,7 +246,7 @@ with expr select
         (waveform_element
           value: (simple_name)))
       (choices
-        choice: (simple_name)))))
+        (simple_name)))))
 
 ===========================================
 Guarded assignment - Delay mechanism
@@ -251,37 +262,41 @@ with expr select
 ---
 
 (design_file
-  (guarded_selected_signal_assignment
+  (selected_waveform_assignment
     with: (simple_name)
     target: (simple_name)
-    (transport)
+    (delay_mechanism
+      (transport))
     (selected_waveforms
       (waveforms
         (waveform_element
           value: (simple_name)))
       (choices
-        choice: (simple_name))))
-  (guarded_selected_signal_assignment
+        (simple_name))))
+  (selected_waveform_assignment
     with: (simple_name)
     target: (simple_name)
-    (inertial)
+    (delay_mechanism
+      (inertial))
     (selected_waveforms
       (waveforms
         (waveform_element
           value: (simple_name)))
       (choices
-        choice: (simple_name))))
-  (guarded_selected_signal_assignment
+        (simple_name))))
+  (selected_waveform_assignment
     with: (simple_name)
     target: (simple_name)
-    (inertial
-      pulse_limit: (physical_literal
-        coefficient: (integer_decimal
-          (integer))
-        unit: (simple_name)))
+    (delay_mechanism
+      (inertial
+        (reject
+          (physical_literal
+            (integer_decimal
+              (integer))
+            (simple_name)))))
     (selected_waveforms
       (waveforms
         (waveform_element
           value: (simple_name)))
       (choices
-        choice: (simple_name)))))
+        (simple_name)))))

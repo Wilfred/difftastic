@@ -6,9 +6,10 @@ assert new Node;
 
 (design_file
   (assertion_statement
-    condition: (allocator
+    (allocator
       (subtype_indication
-        (type_mark (simple_name))))))
+        (type_mark
+          (simple_name))))))
 
 =========================================
 Qualified expression I [LRM]
@@ -19,19 +20,23 @@ assert new Node'(Delay => 5 ns,
 
 (design_file
   (assertion_statement
-    condition: (allocator
+    (allocator
       (qualified_expression
-        (type_mark (simple_name))
-        (element_asociation
-          (choices
-            choice: (simple_name))
-          value: (physical_literal
-            coefficient: (integer_decimal (integer))
-            unit: (simple_name)))
-        (element_asociation
-          (choices
-            choice: (simple_name))
-          value: (simple_name))))))
+        (type_mark
+          (simple_name))
+        (aggregate
+          (element_association_list
+            (named_element_association
+              (choices
+                (simple_name))
+              value: (physical_literal
+                (integer_decimal
+                  (integer))
+                (simple_name)))
+            (named_element_association
+              (choices
+                (simple_name))
+              value: (simple_name))))))))
 
 =========================================
 Qualified expression II [LRM]
@@ -41,15 +46,19 @@ assert new CELL'(0, null, null);
 
 (design_file
   (assertion_statement
-    condition: (allocator
+    (allocator
       (qualified_expression
-        (type_mark (simple_name))
-        (element_asociation
-          value: (integer_decimal (integer)))
-        (element_asociation
-          value: (null))
-        (element_asociation
-          value: (null))))))
+        (type_mark
+          (simple_name))
+        (aggregate
+          (element_association_list
+            (positional_element_association
+              value: (integer_decimal
+                (integer)))
+            (positional_element_association
+              value: (null))
+            (positional_element_association
+              value: (null))))))))
 
 =========================================
 Subtype indication LRM - I
@@ -60,13 +69,15 @@ assert new String (1 to 10);
 
 (design_file
   (assertion_statement
-    condition: (allocator
+    (allocator
       (subtype_indication
-        (type_mark (simple_name)))))
+        (type_mark
+          (simple_name)))))
   (assertion_statement
-    condition: (allocator
+    (allocator
       (subtype_indication
-        (type_mark (simple_name))
+        (type_mark
+          (simple_name))
         (array_constraint
           (index_constraint
             (ascending_range
@@ -83,9 +94,10 @@ assert new bit_vector (1 to index);
 
 (design_file
   (assertion_statement
-    condition: (allocator
+    (allocator
       (subtype_indication
-        (type_mark (simple_name))
+        (type_mark
+          (simple_name))
         (array_constraint
           (index_constraint
             (ascending_range

@@ -9,5 +9,5 @@ type foo is access bar;
     (identifier)
     (access_type_definition
       (subtype_indication
-        (type_mark (simple_name))))))
-
+        (type_mark
+          (simple_name))))))

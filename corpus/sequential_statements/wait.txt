@@ -46,8 +46,8 @@ wait for 10 ns;
   (wait_statement
     (timeout_clause
       (physical_literal
-        coefficient: (integer_decimal (integer))
-        unit: (simple_name)))))
+         (integer_decimal (integer))
+         (simple_name)))))
 
 ================================
 Wait - All clauses
@@ -66,6 +66,6 @@ L1: wait on foo, bar until cond for 1 ms;
       (simple_name))
     (timeout_clause
       (physical_literal
-        coefficient: (integer_decimal (integer))
-        unit: (simple_name)))))
+         (integer_decimal (integer))
+         (simple_name)))))
 

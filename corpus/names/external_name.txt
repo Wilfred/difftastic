@@ -2,183 +2,195 @@
 Object classes
 =====================================
 assert << constant obj : bar_t >>;
-assert << variable obj : bar_t >>;
 assert << signal   obj : bar_t >>;
+assert << variable obj : bar_t >>;
 ---
 
 (design_file
   (assertion_statement
-    condition: (external_constant_name
+    (external_constant_name
       (relative_pathname
         object: (simple_name))
       (subtype_indication
-        (type_mark (simple_name)))))
+        (type_mark
+          (simple_name)))))
   (assertion_statement
-    condition: (external_variable_name
+    (external_signal_name
       (relative_pathname
         object: (simple_name))
       (subtype_indication
-        (type_mark (simple_name)))))
+        (type_mark
+          (simple_name)))))
   (assertion_statement
-    condition: (external_signal_name
+    (external_variable_name
       (relative_pathname
         object: (simple_name))
       (subtype_indication
-        (type_mark (simple_name))))))
+        (type_mark
+          (simple_name))))))
 
 =====================================
 Package pathname
 =====================================
 assert << constant @lib.pkg.obj         : foo_t >>;
-assert << variable @lib.pkg.pkg.obj     : foo_t >>;
 assert << signal   @lib.pkg.pkg.pkg.obj : foo_t >>;
+assert << variable @lib.pkg.pkg.obj     : foo_t >>;
 ---
 
 (design_file
   (assertion_statement
-    condition: (external_constant_name
-                 (package_pathname
-                   logical_name: (identifier)
-                   package: (simple_name)
-                   object: (simple_name))
-                 (subtype_indication
-                   (type_mark (simple_name)))))
+    (external_constant_name
+      (package_pathname
+        library: (simple_name)
+        package: (simple_name)
+        object: (simple_name))
+      (subtype_indication
+        (type_mark
+          (simple_name)))))
   (assertion_statement
-    condition: (external_variable_name
-                 (package_pathname
-                   logical_name: (identifier)
-                   package: (simple_name)
-                   package: (simple_name)
-                   object: (simple_name))
-                 (subtype_indication
-                   (type_mark (simple_name)))))
+    (external_signal_name
+      (package_pathname
+        library: (simple_name)
+        package: (simple_name)
+        package: (simple_name)
+        package: (simple_name)
+        object: (simple_name))
+      (subtype_indication
+        (type_mark
+          (simple_name)))))
   (assertion_statement
-    condition: (external_signal_name
-                 (package_pathname
-                   logical_name: (identifier)
-                   package: (simple_name)
-                   package: (simple_name)
-                   package: (simple_name)
-                   object: (simple_name))
-                 (subtype_indication
-                   (type_mark (simple_name))))))
+    (external_variable_name
+      (package_pathname
+        library: (simple_name)
+        package: (simple_name)
+        package: (simple_name)
+        object: (simple_name))
+      (subtype_indication
+        (type_mark
+          (simple_name))))))
 
 =====================================
 Absolute pathname I
 =====================================
 assert << constant .obj         : foo_t >>;
-assert << variable .foo.obj     : foo_t >>;
 assert << signal   .foo.bar.obj : foo_t >>;
+assert << variable .foo.obj     : foo_t >>;
 ---
 
 (design_file
   (assertion_statement
-    condition: (external_constant_name
+    (external_constant_name
       (absolute_pathname
         object: (simple_name))
       (subtype_indication
-        (type_mark (simple_name)))))
+        (type_mark
+          (simple_name)))))
   (assertion_statement
-    condition: (external_variable_name
+    (external_signal_name
       (absolute_pathname
         (pathname_element
-          (identifier))
+          name_or_label: (simple_name))
+        (pathname_element
+          name_or_label: (simple_name))
         object: (simple_name))
       (subtype_indication
-        (type_mark (simple_name)))))
+        (type_mark
+          (simple_name)))))
   (assertion_statement
-    condition: (external_signal_name
+    (external_variable_name
       (absolute_pathname
         (pathname_element
-          (identifier))
-        (pathname_element
-          (identifier))
+          name_or_label: (simple_name))
         object: (simple_name))
       (subtype_indication
-        (type_mark (simple_name))))))
+        (type_mark
+          (simple_name))))))
 
 =====================================
 Absolute pathname II
 =====================================
 assert << constant .foo(0).obj        : bar >>;
-assert << variable .foo.bar(0).obj    : bar >>;
 assert << signal   .foo(0).bar(0).obj : bar >>;
+assert << variable .foo.bar(0).obj    : bar >>;
 ---
 
 (design_file
   (assertion_statement
-    condition: (external_constant_name
+    (external_constant_name
       (absolute_pathname
         (pathname_element
           (generate_statement_element
-            generate_label: (simple_name)
+            label: (simple_name)
             specification: (integer_decimal
               (integer))))
         object: (simple_name))
       (subtype_indication
-        (type_mark (simple_name)))))
+        (type_mark
+          (simple_name)))))
   (assertion_statement
-    condition: (external_variable_name
+    (external_signal_name
       (absolute_pathname
         (pathname_element
-          (identifier))
+          (generate_statement_element
+            label: (simple_name)
+            specification: (integer_decimal
+              (integer))))
         (pathname_element
           (generate_statement_element
-            generate_label: (simple_name)
+            label: (simple_name)
             specification: (integer_decimal
               (integer))))
         object: (simple_name))
       (subtype_indication
-        (type_mark (simple_name)))))
+        (type_mark
+          (simple_name)))))
   (assertion_statement
-    condition: (external_signal_name
+    (external_variable_name
       (absolute_pathname
         (pathname_element
-          (generate_statement_element
-            generate_label: (simple_name)
-            specification: (integer_decimal
-              (integer))))
+          name_or_label: (simple_name))
         (pathname_element
           (generate_statement_element
-            generate_label: (simple_name)
+            label: (simple_name)
             specification: (integer_decimal
               (integer))))
         object: (simple_name))
       (subtype_indication
-        (type_mark (simple_name))))))
+        (type_mark
+          (simple_name))))))
 
 =====================================
 Relative pathname I
 =====================================
 assert << constant obj         : foo_t >>;
-assert << variable foo.obj     : foo_t >>;
 assert << signal   foo.bar.obj : foo_t >>;
+assert << variable foo.obj     : foo_t >>;
 ---
 
 (design_file
   (assertion_statement
-    condition: (external_constant_name
+    (external_constant_name
       (relative_pathname
         object: (simple_name))
       (subtype_indication
         (type_mark
           (simple_name)))))
   (assertion_statement
-    condition: (external_variable_name
+    (external_signal_name
       (relative_pathname
         (pathname_element
-          (identifier))
+          name_or_label: (simple_name))
+        (pathname_element
+          name_or_label: (simple_name))
         object: (simple_name))
       (subtype_indication
         (type_mark
           (simple_name)))))
   (assertion_statement
-    condition: (external_signal_name
+    (external_variable_name
       (relative_pathname
         (pathname_element
-          (identifier))
-        (pathname_element
-          (identifier))
+          name_or_label: (simple_name))
         object: (simple_name))
       (subtype_indication
         (type_mark
@@ -188,27 +200,27 @@ assert << signal   foo.bar.obj : foo_t >>;
 Relative pathname II
 =====================================
 assert << constant obj   : foo_t >>;
-assert << variable ^.obj : foo_t >>;
 assert << signal ^.^.obj : foo_t >>;
+assert << variable ^.obj : foo_t >>;
 ---
 
 (design_file
   (assertion_statement
-    condition: (external_constant_name
+    (external_constant_name
       (relative_pathname
         object: (simple_name))
       (subtype_indication
         (type_mark
           (simple_name)))))
   (assertion_statement
-    condition: (external_variable_name
+    (external_signal_name
       (relative_pathname
         object: (simple_name))
       (subtype_indication
         (type_mark
           (simple_name)))))
   (assertion_statement
-    condition: (external_signal_name
+    (external_variable_name
       (relative_pathname
         object: (simple_name))
       (subtype_indication
@@ -219,40 +231,40 @@ assert << signal ^.^.obj : foo_t >>;
 Relative pathname III
 =====================================
 assert << constant bar.obj                : foo_t >>;
-assert << variable ^.foo.bar.obj          : foo_t >>;
 assert << signal   ^.^.foobar.foo.bar.obj : foo_t >>;
+assert << variable ^.foo.bar.obj          : foo_t >>;
 ---
 
 (design_file
   (assertion_statement
-    condition: (external_constant_name
+    (external_constant_name
       (relative_pathname
         (pathname_element
-          (identifier))
+          name_or_label: (simple_name))
         object: (simple_name))
       (subtype_indication
         (type_mark
           (simple_name)))))
   (assertion_statement
-    condition: (external_variable_name
+    (external_signal_name
       (relative_pathname
         (pathname_element
-          (identifier))
+          name_or_label: (simple_name))
         (pathname_element
-          (identifier))
+          name_or_label: (simple_name))
+        (pathname_element
+          name_or_label: (simple_name))
         object: (simple_name))
       (subtype_indication
         (type_mark
           (simple_name)))))
   (assertion_statement
-    condition: (external_signal_name
+    (external_variable_name
       (relative_pathname
         (pathname_element
-          (identifier))
+          name_or_label: (simple_name))
         (pathname_element
-          (identifier))
-        (pathname_element
-          (identifier))
+          name_or_label: (simple_name))
         object: (simple_name))
       (subtype_indication
         (type_mark

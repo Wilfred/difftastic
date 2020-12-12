@@ -6,8 +6,8 @@ alias a is b;
 
 (design_file
   (alias_declaration
-    alias_designator: (identifier)
-    alias_denotator: (simple_name)))
+    designator: (identifier)
+    denotator: (simple_name)))
 
 ==============================
 Designator - Character literal
@@ -17,8 +17,8 @@ alias '0' is STD.STANDARD.'0' [return STD.STANDARD.BIT];
 
 (design_file
   (alias_declaration
-    alias_designator: (character_literal)
-    alias_denotator: (selected_name
+    designator: (character_literal)
+    denotator: (expanded_name
       prefix: (selected_name
         prefix: (simple_name)
         suffix: (simple_name))
@@ -26,7 +26,7 @@ alias '0' is STD.STANDARD.'0' [return STD.STANDARD.BIT];
     (signature
       (return
         (type_mark
-          (selected_name
+          (expanded_name
             prefix: (selected_name
               prefix: (simple_name)
               suffix: (simple_name))
@@ -36,34 +36,34 @@ alias '0' is STD.STANDARD.'0' [return STD.STANDARD.BIT];
 Designator - Operator symbol
 ==============================
 alias "or" is STD.STANDARD."or" [STD.STANDARD.BIT,
-                                 STD.STANDARD.BIT
+                                 STD.STANDARD.BIT,
                           return STD.STANDARD.BIT];
 ---
 
 (design_file
   (alias_declaration
-    alias_designator: (operator_symbol)
-    alias_denotator: (selected_name
+    designator: (operator_symbol)
+    denotator: (expanded_name
       prefix: (selected_name
         prefix: (simple_name)
         suffix: (simple_name))
       suffix: (operator_symbol))
     (signature
       (type_mark
-        (selected_name
+        (expanded_name
           prefix: (selected_name
             prefix: (simple_name)
             suffix: (simple_name))
           suffix: (simple_name)))
       (type_mark
-        (selected_name
+        (expanded_name
           prefix: (selected_name
             prefix: (simple_name)
             suffix: (simple_name))
           suffix: (simple_name)))
       (return
         (type_mark
-          (selected_name
+          (expanded_name
             prefix: (selected_name
               prefix: (simple_name)
               suffix: (simple_name))

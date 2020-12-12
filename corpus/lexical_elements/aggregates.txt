@@ -7,19 +7,21 @@ assert (a,b,c);
 
 (design_file
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        value: (simple_name))
-      (element_asociation
-        value: (simple_name))))
+    (aggregate
+      (element_association_list
+        (positional_element_association
+          value: (simple_name))
+        (positional_element_association
+          value: (simple_name)))))
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        value: (simple_name))
-      (element_asociation
-        value: (simple_name))
-      (element_asociation
-        value: (simple_name)))))
+    (aggregate
+      (element_association_list
+        (positional_element_association
+          value: (simple_name))
+        (positional_element_association
+          value: (simple_name))
+        (positional_element_association
+          value: (simple_name))))))
 
 ============================================
 Named association
@@ -31,35 +33,38 @@ assert (a=>b,c=>d,e=>f);
 
 (design_file
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        (choices
-          choice: (simple_name))
-        value: (simple_name))))
+    (aggregate
+      (element_association_list
+        (named_element_association
+          (choices
+            (simple_name))
+          value: (simple_name)))))
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        (choices
-          choice: (simple_name))
-        value: (simple_name))
-      (element_asociation
-        (choices
-          choice: (simple_name))
-        value: (simple_name))))
+    (aggregate
+      (element_association_list
+        (named_element_association
+          (choices
+            (simple_name))
+          value: (simple_name))
+        (named_element_association
+          (choices
+            (simple_name))
+          value: (simple_name)))))
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        (choices
-          choice: (simple_name))
-        value: (simple_name))
-      (element_asociation
-        (choices
-          choice: (simple_name))
-        value: (simple_name))
-      (element_asociation
-        (choices
-          choice: (simple_name))
-        value: (simple_name)))))
+    (aggregate
+      (element_association_list
+        (named_element_association
+          (choices
+            (simple_name))
+          value: (simple_name))
+        (named_element_association
+          (choices
+            (simple_name))
+          value: (simple_name))
+        (named_element_association
+          (choices
+            (simple_name))
+          value: (simple_name))))))
 
 ============================================
 Choices
@@ -70,20 +75,22 @@ assert (a|b|c=>d);
 
 (design_file
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        (choices
-          choice: (simple_name)
-          choice: (simple_name))
-        value: (simple_name))))
+    (aggregate
+      (element_association_list
+        (named_element_association
+          (choices
+            (simple_name)
+            (simple_name))
+          value: (simple_name)))))
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        (choices
-          choice: (simple_name)
-          choice: (simple_name)
-          choice: (simple_name))
-        value: (simple_name)))))
+    (aggregate
+      (element_association_list
+        (named_element_association
+          (choices
+            (simple_name)
+            (simple_name)
+            (simple_name))
+          value: (simple_name))))))
 
 ============================================
 Others
@@ -94,23 +101,25 @@ assert (a,b=>c,others=>d);
 
 (design_file
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        (choices
-          choice: (others))
-        value: (simple_name))))
+    (aggregate
+      (element_association_list
+        (named_element_association
+          (choices
+            (others))
+          value: (simple_name)))))
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        value: (simple_name))
-      (element_asociation
-        (choices
-          choice: (simple_name))
-        value: (simple_name))
-      (element_asociation
-        (choices
-          choice: (others))
-        value: (simple_name)))))
+    (aggregate
+      (element_association_list
+        (positional_element_association
+          value: (simple_name))
+        (named_element_association
+          (choices
+            (simple_name))
+          value: (simple_name))
+        (named_element_association
+          (choices
+            (others))
+          value: (simple_name))))))
 
 ============================================
 Mixed element associations
@@ -122,43 +131,46 @@ assert (a,b,c|d=>e,f|g=>h);
 
 (design_file
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        value: (simple_name))
-      (element_asociation
-        (choices
-          choice: (simple_name))
-        value: (simple_name))))
+    (aggregate
+      (element_association_list
+        (positional_element_association
+          value: (simple_name))
+        (named_element_association
+          (choices
+            (simple_name))
+          value: (simple_name)))))
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        value: (simple_name))
-      (element_asociation
-        value: (simple_name))
-      (element_asociation
-        (choices
-          choice: (simple_name))
-        value: (simple_name))
-      (element_asociation
-        (choices
-          choice: (simple_name))
-        value: (simple_name))))
+    (aggregate
+      (element_association_list
+        (positional_element_association
+          value: (simple_name))
+        (positional_element_association
+          value: (simple_name))
+        (named_element_association
+          (choices
+            (simple_name))
+          value: (simple_name))
+        (named_element_association
+          (choices
+            (simple_name))
+          value: (simple_name)))))
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        value: (simple_name))
-      (element_asociation
-        value: (simple_name))
-      (element_asociation
-        (choices
-          choice: (simple_name)
-          choice: (simple_name))
-        value: (simple_name))
-      (element_asociation
-        (choices
-          choice: (simple_name)
-          choice: (simple_name))
-        value: (simple_name)))))
+    (aggregate
+      (element_association_list
+        (positional_element_association
+          value: (simple_name))
+        (positional_element_association
+          value: (simple_name))
+        (named_element_association
+          (choices
+            (simple_name)
+            (simple_name))
+          value: (simple_name))
+        (named_element_association
+          (choices
+            (simple_name)
+            (simple_name))
+          value: (simple_name))))))
 
 ============================================
 Aggregate name on choice
@@ -168,13 +180,14 @@ assert (a'high=>b);
 
 (design_file
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        (choices
-          choice: (attribute_name
-            prefix: (simple_name)
-            (attribute_designator)))
-        value: (simple_name)))))
+    (aggregate
+      (element_association_list
+        (named_element_association
+          (choices
+            (attribute_name
+              prefix: (simple_name)
+              designator: (simple_name)))
+          value: (simple_name))))))
 
 ============================================
 Discrete range I
@@ -185,21 +198,23 @@ assert (l to h=>a);
 
 (design_file
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        (choices
-          choice: (descending_range
-            high: (simple_name)
-            low: (simple_name)))
-        value: (simple_name))))
+    (aggregate
+      (element_association_list
+        (named_element_association
+          (choices
+            (descending_range
+              high: (simple_name)
+              low: (simple_name)))
+          value: (simple_name)))))
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        (choices
-          choice: (ascending_range
-            low: (simple_name)
-            high: (simple_name)))
-        value: (simple_name)))))
+    (aggregate
+      (element_association_list
+        (named_element_association
+          (choices
+            (ascending_range
+              low: (simple_name)
+              high: (simple_name)))
+          value: (simple_name))))))
 
 ============================================
 Discrete range II
@@ -210,21 +225,23 @@ assert (t'reverse_range=>a);
 
 (design_file
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        (choices
-          choice: (range_attribute_name
-            prefix: (simple_name)
-            (range_attribute_designator)))
-        value: (simple_name))))
+    (aggregate
+      (element_association_list
+        (named_element_association
+          (choices
+            (attribute_name
+              prefix: (simple_name)
+              designator: (predefined_name)))
+          value: (simple_name)))))
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        (choices
-          choice: (range_attribute_name
-            prefix: (simple_name)
-            (range_attribute_designator)))
-        value: (simple_name)))))
+    (aggregate
+      (element_association_list
+        (named_element_association
+          (choices
+            (attribute_name
+              prefix: (simple_name)
+              designator: (predefined_name)))
+          value: (simple_name))))))
 
 ============================================
 Discrete range III
@@ -235,28 +252,30 @@ assert (t'reverse_range(1)=>a);
 
 (design_file
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        (choices
-          choice: (range_attribute_function_call
-            function_call: (range_attribute_name
-              prefix: (simple_name)
-              (range_attribute_designator))
-            (association_list
-              (positional_association_element
-                actual_part: (integer_decimal
-                  (integer))))))
-        value: (simple_name))))
+    (aggregate
+      (element_association_list
+        (named_element_association
+          (choices
+            (function_call
+              function_call: (attribute_name
+                prefix: (simple_name)
+                designator: (predefined_name))
+              (association_list
+                (positional_association_element
+                  actual_part: (integer_decimal
+                    (integer))))))
+          value: (simple_name)))))
   (assertion_statement
-    condition: (aggregate
-      (element_asociation
-        (choices
-          choice: (range_attribute_function_call
-            function_call: (range_attribute_name
-              prefix: (simple_name)
-              (range_attribute_designator))
-            (association_list
-              (positional_association_element
-                actual_part: (integer_decimal
-                  (integer))))))
-        value: (simple_name)))))
+    (aggregate
+      (element_association_list
+        (named_element_association
+          (choices
+            (function_call
+              function_call: (attribute_name
+                prefix: (simple_name)
+                designator: (predefined_name))
+              (association_list
+                (positional_association_element
+                  actual_part: (integer_decimal
+                    (integer))))))
+          value: (simple_name))))))

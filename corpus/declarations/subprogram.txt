@@ -1,145 +1,139 @@
-=======================================
-Minimal
-=======================================
-procedure p;
-function f return t;
-function "+" return t;
+==========================
+Procedure - Minimal
+==========================
+procedure p is
+begin
+end;
+
+procedure p is
+begin
+end procedure;
+
+procedure p is
+begin
+end procedure p;
 ---
 
 (design_file
-  (subprogram_declaration
-    (procedure_specification
+  (subprogram_body
+    (subprogram_specification
       (identifier)))
-  (subprogram_declaration
-    (pure_function_specification
-      (identifier)
-      (return
-        (type_mark (simple_name)))))
-  (subprogram_declaration
-    (pure_function_specification
-      (operator_symbol)
-      (return
-        (type_mark (simple_name))))))
+  (subprogram_body
+    (subprogram_specification
+      (identifier)))
+  (subprogram_body
+    (subprogram_specification
+      (identifier))
+    at_end: (simple_name)))
 
-=======================================
-Function purity
-=======================================
-  pure function f return t;
-impure function f return t;
+==========================
+Pure function (implicit) - Minimal
+==========================
+function f return t is
+begin
+end;
+
+function f return t is
+begin
+end function;
+
+function f return t is
+begin
+end function f;
 ---
 
 (design_file
-  (subprogram_declaration
-    (pure_function_specification
+  (subprogram_body
+    (subprogram_specification
       (identifier)
       (return
-        (type_mark (simple_name)))))
-  (subprogram_declaration
-    (impure_function_specification
+        (type_mark
+          (simple_name)))))
+  (subprogram_body
+    (subprogram_specification
       (identifier)
       (return
-        (type_mark (simple_name))))))
+        (type_mark
+          (simple_name)))))
+  (subprogram_body
+    (subprogram_specification
+      (identifier)
+      (return
+        (type_mark
+          (simple_name))))
+    at_end: (simple_name)))
 
-=======================================
-Header - Generic clause
-=======================================
-procedure p
-    generic (k : t);
+==========================
+Pure function (explicit) - Minimal
+==========================
+pure function f return t is
+begin
+end;
 
-function f
-    generic (k : t) return t;
+pure function f return t is
+begin
+end function;
+
+pure function f return t is
+begin
+end function f;
 ---
 
 (design_file
-  (subprogram_declaration
-    (procedure_specification
+  (subprogram_body
+    (subprogram_specification
       (identifier)
-      (header
-        (generic_clause
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              (type_mark (simple_name))))))))
-  (subprogram_declaration
-    (pure_function_specification
-      (identifier)
-      (header
-        (generic_clause
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              (type_mark (simple_name))))))
       (return
-        (type_mark (simple_name))))))
+        (type_mark
+          (simple_name)))))
+  (subprogram_body
+    (subprogram_specification
+      (identifier)
+      (return
+        (type_mark
+          (simple_name)))))
+  (subprogram_body
+    (subprogram_specification
+      (identifier)
+      (return
+        (type_mark
+          (simple_name))))
+    at_end: (simple_name)))
 
-=======================================
-Header - Generic Map aspect
-=======================================
-procedure p
-    generic (k : t)
-    generic map (k);
+==========================
+Impure function - Minimal
+==========================
+impure function f return t is
+begin
+end;
 
-function f
-    generic (k : t)
-    generic map (k) return t;
+impure function f return t is
+begin
+end function;
+
+impure function f return t is
+begin
+end function f;
 ---
 
 (design_file
-  (subprogram_declaration
-    (procedure_specification
+  (subprogram_body
+    (subprogram_specification
       (identifier)
-      (header
-        (generic_clause
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              (type_mark (simple_name)))))
-        (generic_map_aspect
-          (generic_association_list
-            (positional_association_element
-              actual_part: (simple_name)))))))
-  (subprogram_declaration
-    (pure_function_specification
-      (identifier)
-      (header
-        (generic_clause
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              (type_mark (simple_name)))))
-        (generic_map_aspect
-          (generic_association_list
-            (positional_association_element
-              actual_part: (simple_name)))))
       (return
-        (type_mark (simple_name))))))
-
-================================
-Header - Unexpected token (LINT)
-================================
-procedure p
-    generic (k : t); -- here
-    generic map (k);
----
-
-(design_file
-  (subprogram_declaration
-    (procedure_specification
+        (type_mark
+          (simple_name)))))
+  (subprogram_body
+    (subprogram_specification
       (identifier)
-      (header
-        (generic_clause
-          (interface_constant_declaration
-            (identifier_list
-              (identifier))
-            (subtype_indication
-              (type_mark (simple_name))))
-          (semicolon))
-        (comment)
-        (generic_map_aspect
-          (generic_association_list
-            (positional_association_element
-              actual_part: (simple_name))))))))
+      (return
+        (type_mark
+          (simple_name)))))
+  (subprogram_body
+    (subprogram_specification
+      (identifier)
+      (return
+        (type_mark
+          (simple_name))))
+    at_end: (simple_name)))
+

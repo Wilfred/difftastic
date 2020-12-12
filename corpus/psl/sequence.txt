@@ -76,7 +76,7 @@ restrict {a[*1 to 3]};
 
 
 ==================================
-Sequence Instantiation - minimal
+Sequence Instantiation - Minimal
 ==================================
 restrict s;
 ---
