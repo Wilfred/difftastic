@@ -322,7 +322,7 @@ namespace
                 lexer->result_symbol = VIRTUAL_OPEN_SECTION;
                 return true;
             }
-            else if (has_newline)
+            else if (has_newline && !in_string)
             {
                 // We had a newline now it's time to check if we need to add multiple tokens to get back up to the right level
                 runback.clear();
