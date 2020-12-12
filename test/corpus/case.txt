@@ -773,3 +773,37 @@ makeEdit cursor desc =
         )
     )
 )
+
+=====================================
+Case with one line let
+=====================================
+
+all = describe "parsering"
+  [ describe "builtin"
+    [ it "does handle suffixed int" <|
+      case (Parser.run parserInt "11h22m33s") of
+        Err err -> let _ = Debug.log "err" err in isTrue False
+        Ok i -> eql 11 i
+    ]
+  ]
+
+
+---
+
+    (file 
+        (value_declaration 
+            (function_declaration_left (lower_case_identifier)) 
+            (eq) 
+            (function_call_expr (value_expr (value_qid (lower_case_identifier))) (string_constant_expr (open_quote) (regular_string_part) (close_quote)) 
+            (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) (string_constant_expr (open_quote) (regular_string_part) (close_quote)) 
+            (list_expr (left_square_bracket) (bin_op_expr (function_call_expr (value_expr (value_qid (lower_case_identifier))) (string_constant_expr (open_quote) (regular_string_part) (close_quote))) 
+            (operator (operator_identifier)) 
+            (case_of_expr (case) (parenthesized_expr (left_parenthesis) (function_call_expr 
+            (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier))) (string_constant_expr (open_quote) (regular_string_part) (close_quote))) (right_parenthesis)) (of) 
+            (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier)))) (arrow) 
+            (let_in_expr (value_declaration (pattern (anything_pattern (underscore))) (eq) (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) 
+            (string_constant_expr (open_quote) (regular_string_part) (close_quote)) (value_expr (value_qid (lower_case_identifier))))) (function_call_expr (value_expr (value_qid (lower_case_identifier))) 
+            (value_expr (upper_case_qid (upper_case_identifier)))))) 
+            (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier)))) (arrow) 
+            (function_call_expr (value_expr (value_qid (lower_case_identifier))) (number_constant_expr (number_literal)) (value_expr (value_qid (lower_case_identifier))))))) (right_square_bracket))) 
+            (right_square_bracket)))))
