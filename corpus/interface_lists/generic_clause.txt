@@ -10,7 +10,7 @@ end entity e;
   (design_unit
     (entity_declaration
       (identifier)
-      (header
+      (entity_header
         (generic_clause
           (constant_interface_declaration
             (identifier_list
@@ -35,7 +35,7 @@ end block B1;
   (block_statement
     (label
       (identifier))
-    (header
+    (block_header
       (generic_clause
         (constant_interface_declaration
           (identifier_list
@@ -57,7 +57,7 @@ end component c;
 (design_file
   (component_declaration
     (identifier)
-    (header
+    (component_header
       (generic_clause
         (constant_interface_declaration
           (identifier_list
@@ -79,7 +79,7 @@ end package pkg;
 (design_file
   (package_declaration
     (identifier)
-    (header
+    (package_header
       (generic_clause
         (constant_interface_declaration
           (identifier_list
@@ -100,7 +100,7 @@ procedure p
   (subprogram_declaration
     (subprogram_specification
       (identifier)
-      (header
+      (subprogram_header
         (generic_clause
           (constant_interface_declaration
             (identifier_list
@@ -136,7 +136,7 @@ end entity e;
   (design_unit
     (entity_declaration
       (identifier)
-      (header
+      (entity_header
         (generic_clause
           (constant_interface_declaration
             (identifier_list
@@ -169,7 +169,7 @@ end entity e;
   (design_unit
     (entity_declaration
       (identifier)
-      (header
+      (entity_header
         (generic_clause
           (type_interface_declaration
             (identifier))
@@ -178,7 +178,7 @@ end entity e;
   (design_unit
     (entity_declaration
       (identifier)
-      (header
+      (entity_header
         (generic_clause
           (subprogram_interface_declaration
             (subprogram_specification
@@ -188,12 +188,12 @@ end entity e;
   (design_unit
     (entity_declaration
       (identifier)
-      (header
+      (entity_header
         (generic_clause
           (package_interface_declaration
             (identifier)
-            (simple_name)
-            (map_aspect
+            uninstantiated: (simple_name)
+            (package_map_aspect
               (generic_map_aspect
                 (any))))
           (semicolon)))
@@ -240,7 +240,7 @@ end entity e;
   (design_unit
     (entity_declaration
       (identifier)
-      (header
+      (entity_header
         (generic_clause
           (constant_interface_declaration
             (identifier_list
@@ -275,7 +275,7 @@ end entity e;
   (design_unit
     (entity_declaration
       (identifier)
-      (header
+      (entity_header
         (generic_clause
           (signal_interface_declaration
             (identifier_list
@@ -323,7 +323,7 @@ end entity e;
   (design_unit
     (entity_declaration
       (identifier)
-      (header
+      (entity_header
         (generic_clause
           (variable_interface_declaration
             (identifier_list
@@ -371,7 +371,7 @@ end entity e;
   (design_unit
     (entity_declaration
       (identifier)
-      (header
+      (entity_header
         (generic_clause
           (file_interface_declaration
             (identifier_list

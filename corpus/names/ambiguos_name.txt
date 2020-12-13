@@ -109,7 +109,7 @@ assert foobar(foo=>bar)(bar);
   (assertion_statement
      (ambiguous_name
       prefix: (function_call
-        (simple_name)
+        function: (simple_name)
         (association_list
           (named_association_element
             formal_part: (simple_name)

@@ -13,18 +13,18 @@ end entity e;
   (design_unit
     (entity_declaration
       (identifier)
-      (header
+      (entity_header
         (generic_clause
           (package_interface_declaration
             (identifier)
-            (simple_name)
-            (map_aspect
+            uninstantiated: (simple_name)
+            (package_map_aspect
               (generic_map_aspect
                 (default))))
           (package_interface_declaration
             (identifier)
-            (simple_name)
-            (map_aspect
+            uninstantiated: (simple_name)
+            (package_map_aspect
               (generic_map_aspect
                 (any))))
           (semicolon)))

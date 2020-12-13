@@ -32,7 +32,7 @@ end component;
 (design_file
   (component_declaration
     (identifier)
-    (header
+    (component_header
       (generic_clause
         (constant_interface_declaration
           (identifier_list
@@ -64,7 +64,7 @@ end component;
 (design_file
   (component_declaration
     (identifier)
-    (header
+    (component_header
       (generic_clause
         (constant_interface_declaration
           (identifier_list

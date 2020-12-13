@@ -119,7 +119,7 @@ assert and and A;
   (assertion_statement
     (reduction
       (ERROR
-        (simple_name))
+        (identifier))
       argument: (simple_name))))
 
 ===================================
@@ -147,8 +147,11 @@ assert Y**+3 > 0;
 (design_file
   (assertion_statement
     (relation
-      left: (simple_name)
-      (ERROR)
+      left: (simple_expression
+        left: (simple_name)
+        (ERROR)
+        right: (integer_decimal
+          (integer)))
       right: (integer_decimal
         (integer)))))
 
@@ -161,8 +164,11 @@ assert Y**-3 > 0;
 (design_file
   (assertion_statement
     (relation
-      left: (simple_name)
-      (ERROR
-        (dont_care))
+      left: (simple_expression
+        left: (exponentiation
+          left: (simple_name)
+          right: (simple_name))
+        right: (integer_decimal
+          (integer)))
       right: (integer_decimal
         (integer)))))

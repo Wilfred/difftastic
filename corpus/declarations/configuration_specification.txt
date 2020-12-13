@@ -44,7 +44,7 @@ end for;
         (open)))
     (verification_unit_binding_indication
       (verification_unit_list
-        (simple_name)))))
+        verification_unit: (simple_name)))))
 
 =============================================
 Instantiation list
@@ -143,7 +143,7 @@ for all : c
       (all))
     component: (simple_name)
     (binding_indication
-      (map_aspect
+      (binding_indication_map_aspect
         (generic_map_aspect
           (association_list
             (positional_association_element
@@ -162,7 +162,7 @@ for all : c
       (all))
     component: (simple_name)
     (binding_indication
-      (map_aspect
+      (binding_indication_map_aspect
         (port_map_aspect
           (association_list
             (positional_association_element
@@ -182,7 +182,7 @@ for all : c
       (all))
     component: (simple_name)
     (binding_indication
-      (map_aspect
+      (binding_indication_map_aspect
         (generic_map_aspect
           (association_list
             (positional_association_element
@@ -209,7 +209,7 @@ for all : c
     (binding_indication
       (entity_aspect
         (open))
-      (map_aspect
+      (binding_indication_map_aspect
         (generic_map_aspect
           (association_list
             (positional_association_element

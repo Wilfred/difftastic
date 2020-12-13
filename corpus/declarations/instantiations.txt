@@ -48,16 +48,16 @@ procedure p is new u
 (design_file
   (subprogram_instantiation_declaration
     (identifier)
-    (simple_name)
-    (map_aspect
+    uninstantiated: (simple_name)
+    (subprogram_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
             actual_part: (simple_name))))))
   (subprogram_instantiation_declaration
     (identifier)
-    (simple_name)
-    (map_aspect
+    uninstantiated: (simple_name)
+    (subprogram_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
@@ -117,8 +117,8 @@ package p is new u
 (design_file
   (package_instantiation_declaration
     (identifier)
-    (simple_name)
-    (map_aspect
+    uninstantiated: (simple_name)
+    (package_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element

@@ -15,15 +15,15 @@ end configuration cfg;
   (design_unit
     (configuration_declaration
       (identifier)
-      (simple_name)))
+      entity: (simple_name)))
   (design_unit
     (configuration_declaration
       (identifier)
-      (simple_name)))
+      entity: (simple_name)))
   (design_unit
     (configuration_declaration
       (identifier)
-      (simple_name)
+      entity: (simple_name)
       at_end: (simple_name))))
 
 =====================================
@@ -54,14 +54,14 @@ end;
   (design_unit
     (configuration_declaration
       (identifier)
-      (simple_name)
+      entity: (simple_name)
       (block_configuration
         (block_specification
           name_or_label: (simple_name)))))
   (design_unit
     (configuration_declaration
       (identifier)
-      (simple_name)
+      entity: (simple_name)
       (block_configuration
         (block_specification
           (generate_statement_element
@@ -70,7 +70,7 @@ end;
   (design_unit
     (configuration_declaration
       (identifier)
-      (simple_name)
+      entity: (simple_name)
       (block_configuration
         (block_specification
           (generate_statement_element
@@ -83,7 +83,7 @@ end;
   (design_unit
     (configuration_declaration
       (identifier)
-      (simple_name)
+      entity: (simple_name)
       (block_configuration
         (block_specification
           (generate_statement_element
@@ -123,8 +123,8 @@ end configuration V4_27_87;
           library: (simple_name))))
     (configuration_declaration
       (identifier)
-      (simple_name)
-      (declarative_part
+      entity: (simple_name)
+      (configuration_declarative_part
         (use_clause
           (expanded_name
             prefix: (simple_name)

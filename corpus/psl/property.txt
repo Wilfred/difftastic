@@ -335,8 +335,8 @@ assert next! [2] (p);
 ===============================
 Extended ocurrence (all) property I
 ===============================
-assert next_a [0 to 1] (p);
-assert next_a![0 to 1] (p);
+assert next_a  [0 to 1] (p);
+assert next_a! [0 to 1] (p);
 ---
 
 (design_file
