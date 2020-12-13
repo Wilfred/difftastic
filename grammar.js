@@ -112,6 +112,39 @@ const NEGATIVE_EXPONENT = [
 ];
 // }}}
 
+// Operators {{{
+
+const LOGICAL_OPERATORS = [
+    '[nN]?([aA][nN][dD]|[oO][rR])|[xX][nN]?[oO][rR]'
+];
+
+const RELATIONAL_OPERATORS = [
+    '[<>]=?|/?='
+];
+
+// 'sll', 'srl', 'sla', 'sra', 'rol', 'ror'
+const SHIFT_OPERATORS = [
+    '[sS][rRlL][lLaA]|[rR][oO][rRlL]'
+];
+
+const PLUS_MINUS = [
+    '\\+|\\-'
+];
+
+const MULTIPLYING_OPERATORS = [
+    '\\*|/|[rR][eE][mM]|[mM][oO][dD]'
+];
+
+const MISCELLANEOUS_OPERATOR = [
+    '[nN][oO][tT]|[aA][bB][sS]'
+];
+
+const PSL_TERMINATION_OPERATORS = [
+    '([aA]?[sS][yY][nN][cC]_)?[aA][bB][oO][rR][tT]'
+];
+
+// }}}
+
 module.exports = grammar({
     name: 'vhdl',
 
@@ -1850,14 +1883,13 @@ module.exports = grammar({
         PREC.RELATION,
         seq(
             field('left', $._expression),
-            field('operator', choice(
-                  delimiter('='),
-                  delimiter('/='),
-                  delimiter('<'),
-                  delimiter('<='),
-                  delimiter('>'),
-                  delimiter('>='),
-            )),
+            choice(
+                field('operator', operator(RELATIONAL_OPERATORS)),
+                seq(
+                    delimiter('?'),
+                    field('operator', operator_immed(RELATIONAL_OPERATORS)),
+                ),
+            ),
             field('right', $._expression)
         )
     ),
@@ -1866,14 +1898,7 @@ module.exports = grammar({
         PREC.LOGICAL,
         seq(
             field('left', $._expression),
-            field('operator', choice(
-                reservedWord('and'),
-                reservedWord('or'),
-                reservedWord('xor'),
-                reservedWord('nand'),
-                reservedWord('nor'),
-                reservedWord('xnor'),
-            )),
+            field('operator', operator(LOGICAL_OPERATORS)),
             field('right', $._expression),
         )
     ),
@@ -1882,14 +1907,7 @@ module.exports = grammar({
         PREC.SHIFT_EXPRESSION,
         seq(
             field('left',$._expression),
-            field('operator', choice(
-                reservedWord('sll'),
-                reservedWord('srl'),
-                reservedWord('sla'),
-                reservedWord('sra'),
-                reservedWord('rol'),
-                reservedWord('ror'),
-            )),
+            field('operator', operator(SHIFT_OPERATORS)),
             field('right',$._expression)
         )
     ),
@@ -1907,10 +1925,7 @@ module.exports = grammar({
         PREC.SIMPLE_EXPRESSION,
         seq(
             field('left',$._expression),
-            field('operator', choice(
-                delimiter('+'),
-                delimiter('-'),
-            )),
+            field('operator', operator(PLUS_MINUS)),
             field('right',$._expression),
         )
     ),
@@ -1918,10 +1933,7 @@ module.exports = grammar({
     sign: $ => prec.left(
         PREC.SIGN,
         seq(
-            field('operator', choice(
-                delimiter('+'),
-                delimiter('-'),
-            )),
+            field('operator', operator(PLUS_MINUS)),
             field('argument',$._expression),
         )
     ),
@@ -1930,12 +1942,7 @@ module.exports = grammar({
         PREC.TERM,
         seq(
             field('left',$._expression),
-            field('operator',choice(
-                delimiter('*'),
-                delimiter('/'),
-                reservedWord('rem'),
-                reservedWord('mod')
-            )),
+            field('operator', operator(MULTIPLYING_OPERATORS)),
             field('right',$._expression),
         )
     ),
@@ -1943,10 +1950,7 @@ module.exports = grammar({
     factor: $ => prec.left(
         PREC.FACTOR,
         seq(
-            field('operator', choice(
-                reservedWord('abs'),
-                reservedWord('not')
-            )),
+            field('operator', operator(MISCELLANEOUS_OPERATOR)),
             field('argument',$._primary)
         )
     ),
@@ -1955,7 +1959,7 @@ module.exports = grammar({
         PREC.FACTOR,
         seq(
             field('left',$._primary),
-            field('operator',alias(delimiter(seq('*','*')),"**")),
+            field('operator',delimiter('**')),
             field('right',$._primary)
         )
     ),
@@ -1963,14 +1967,7 @@ module.exports = grammar({
     reduction: $ => prec.left(
         PREC.REDUCTION,
         seq(
-            field('operator',choice(
-                reservedWord('and'),
-                reservedWord('or'),
-                reservedWord('xor'),
-                reservedWord('nand'),
-                reservedWord('nor'),
-                reservedWord('xnor'),
-            )),
+            field('operator', operator(LOGICAL_OPERATORS)),
             field('argument',$._primary)
         )
     ),
@@ -3084,7 +3081,7 @@ module.exports = grammar({
     // }}}
     // 15.9 Comments {{{
     comment: $ => seq(
-        delimiter('--'),
+        token(prec(2,'--')),
         token(prec(2,new RegExp('[^'+VT+CR+LF+FF+']*')))
     ),
     // }}}
@@ -3424,14 +3421,12 @@ module.exports = grammar({
         )
     ),
 
+    // TODO: only `and` and `or` allowed
     PSL_Logical_FL_Property: $ => prec.left(
         PREC.LOGICAL,
         seq(
             field('left', $._PSL_FL_Property),
-            field('operator',choice(
-                reservedWord('and'),
-                reservedWord('or'),
-            )),
+            field('operator', operator(LOGICAL_OPERATORS)),
             field('right', $._PSL_FL_Property),
         )
     ),
@@ -3439,7 +3434,8 @@ module.exports = grammar({
     PSL_Factor_FL_Property: $ => prec.left(
         PREC.TERM,
         seq(
-            field('operator', reservedWord('not')),
+            // LINT: abs is not allowed
+            field('operator', operator(MISCELLANEOUS_OPERATOR)),
             field('argument', $._PSL_FL_Property)
         )
     ),
@@ -3493,11 +3489,7 @@ module.exports = grammar({
         PREC.PSL_TERMINATION,
         seq(
             field('Property',$._PSL_FL_Property),
-            field('operator',choice(
-                reservedWord('abort'),
-                reservedWord('async_abort'),
-                reservedWord('sync_abort'),
-            )),
+            field('operator', operator(PSL_TERMINATION_OPERATORS)),
             $._PSL_Boolean,
         )
     ),
@@ -3544,13 +3536,7 @@ module.exports = grammar({
         reservedWord('for'),
         $.PSL_Parameters_Definition,
         ':',
-        field(
-            'operation',
-            choice(
-                reservedWord('and'),
-                reservedWord('or'),
-            )
-        ),
+        field('operator', operator(LOGICAL_OPERATORS)),
         '(',
         $._PSL_FL_Property,
         ')'
@@ -3884,6 +3870,15 @@ module.exports = grammar({
     ]
 
 })
+
+function operator(opset) {
+    return alias(token(prec(2,new RegExp(opset))), "")
+}
+
+function operator_immed(opset) {
+    return alias(token.immediate(prec(2,new RegExp(opset))), "")
+}
+
 
 function delimiter(delim) {
     return token(prec(2,delim))

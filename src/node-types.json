@@ -4016,7 +4016,7 @@
         "required": true,
         "types": [
           {
-            "type": "not",
+            "type": "",
             "named": false
           }
         ]
@@ -5182,11 +5182,7 @@
         "required": true,
         "types": [
           {
-            "type": "and",
-            "named": false
-          },
-          {
-            "type": "or",
+            "type": "",
             "named": false
           }
         ]
@@ -5671,16 +5667,12 @@
     "type": "PSL_Parameterized_Property",
     "named": true,
     "fields": {
-      "operation": {
+      "operator": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "and",
-            "named": false
-          },
-          {
-            "type": "or",
+            "type": "",
             "named": false
           }
         ]
@@ -9807,15 +9799,7 @@
         "required": true,
         "types": [
           {
-            "type": "abort",
-            "named": false
-          },
-          {
-            "type": "async_abort",
-            "named": false
-          },
-          {
-            "type": "sync_abort",
+            "type": "",
             "named": false
           }
         ]
@@ -16177,11 +16161,7 @@
         "required": true,
         "types": [
           {
-            "type": "abs",
-            "named": false
-          },
-          {
-            "type": "not",
+            "type": "",
             "named": false
           }
         ]
@@ -17980,27 +17960,7 @@
         "required": true,
         "types": [
           {
-            "type": "and",
-            "named": false
-          },
-          {
-            "type": "nand",
-            "named": false
-          },
-          {
-            "type": "nor",
-            "named": false
-          },
-          {
-            "type": "or",
-            "named": false
-          },
-          {
-            "type": "xnor",
-            "named": false
-          },
-          {
-            "type": "xor",
+            "type": "",
             "named": false
           }
         ]
@@ -19976,27 +19936,7 @@
         "required": true,
         "types": [
           {
-            "type": "and",
-            "named": false
-          },
-          {
-            "type": "nand",
-            "named": false
-          },
-          {
-            "type": "nor",
-            "named": false
-          },
-          {
-            "type": "or",
-            "named": false
-          },
-          {
-            "type": "xnor",
-            "named": false
-          },
-          {
-            "type": "xor",
+            "type": "",
             "named": false
           }
         ]
@@ -20293,27 +20233,7 @@
         "required": true,
         "types": [
           {
-            "type": "/=",
-            "named": false
-          },
-          {
-            "type": "<",
-            "named": false
-          },
-          {
-            "type": "<=",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
-          {
-            "type": ">",
-            "named": false
-          },
-          {
-            "type": ">=",
+            "type": "",
             "named": false
           }
         ]
@@ -22207,27 +22127,7 @@
         "required": true,
         "types": [
           {
-            "type": "rol",
-            "named": false
-          },
-          {
-            "type": "ror",
-            "named": false
-          },
-          {
-            "type": "sla",
-            "named": false
-          },
-          {
-            "type": "sll",
-            "named": false
-          },
-          {
-            "type": "sra",
-            "named": false
-          },
-          {
-            "type": "srl",
+            "type": "",
             "named": false
           }
         ]
@@ -22519,11 +22419,7 @@
         "required": true,
         "types": [
           {
-            "type": "+",
-            "named": false
-          },
-          {
-            "type": "-",
+            "type": "",
             "named": false
           }
         ]
@@ -22814,11 +22710,7 @@
         "required": true,
         "types": [
           {
-            "type": "+",
-            "named": false
-          },
-          {
-            "type": "-",
+            "type": "",
             "named": false
           }
         ]
@@ -23959,19 +23851,7 @@
         "required": true,
         "types": [
           {
-            "type": "*",
-            "named": false
-          },
-          {
-            "type": "/",
-            "named": false
-          },
-          {
-            "type": "mod",
-            "named": false
-          },
-          {
-            "type": "rem",
+            "type": "",
             "named": false
           }
         ]
@@ -24913,6 +24793,10 @@
     }
   },
   {
+    "type": "",
+    "named": false
+  },
+  {
     "type": "!",
     "named": false
   },
@@ -24961,10 +24845,6 @@
     "named": false
   },
   {
-    "type": "-",
-    "named": false
-  },
-  {
     "type": "--",
     "named": false
   },
@@ -24981,10 +24861,6 @@
     "named": false
   },
   {
-    "type": "/=",
-    "named": false
-  },
-  {
     "type": ":",
     "named": false
   },
@@ -24994,10 +24870,6 @@
   },
   {
     "type": ";",
-    "named": false
-  },
-  {
-    "type": "<",
     "named": false
   },
   {
@@ -25025,15 +24897,11 @@
     "named": false
   },
   {
-    "type": ">",
-    "named": false
-  },
-  {
-    "type": ">=",
-    "named": false
-  },
-  {
     "type": ">>",
+    "named": false
+  },
+  {
+    "type": "?",
     "named": false
   },
   {
@@ -25069,14 +24937,6 @@
     "named": false
   },
   {
-    "type": "abort",
-    "named": false
-  },
-  {
-    "type": "abs",
-    "named": false
-  },
-  {
     "type": "access",
     "named": false
   },
@@ -25094,10 +24954,6 @@
   },
   {
     "type": "always",
-    "named": false
-  },
-  {
-    "type": "and",
     "named": false
   },
   {
@@ -25126,10 +24982,6 @@
   },
   {
     "type": "assume_guarantee",
-    "named": false
-  },
-  {
-    "type": "async_abort",
     "named": false
   },
   {
@@ -25166,11 +25018,11 @@
   },
   {
     "type": "boolean",
-    "named": true
+    "named": false
   },
   {
     "type": "boolean",
-    "named": false
+    "named": true
   },
   {
     "type": "buffer",
@@ -25389,14 +25241,6 @@
     "named": false
   },
   {
-    "type": "mod",
-    "named": false
-  },
-  {
-    "type": "nand",
-    "named": false
-  },
-  {
     "type": "never",
     "named": false
   },
@@ -25437,14 +25281,6 @@
     "named": false
   },
   {
-    "type": "nor",
-    "named": false
-  },
-  {
-    "type": "not",
-    "named": false
-  },
-  {
     "type": "null",
     "named": false
   },
@@ -25470,10 +25306,6 @@
   },
   {
     "type": "open",
-    "named": false
-  },
-  {
-    "type": "or",
     "named": false
   },
   {
@@ -25553,10 +25385,6 @@
     "named": false
   },
   {
-    "type": "rem",
-    "named": false
-  },
-  {
     "type": "report",
     "named": false
   },
@@ -25570,14 +25398,6 @@
   },
   {
     "type": "return",
-    "named": false
-  },
-  {
-    "type": "rol",
-    "named": false
-  },
-  {
-    "type": "ror",
     "named": false
   },
   {
@@ -25621,22 +25441,6 @@
     "named": true
   },
   {
-    "type": "sla",
-    "named": false
-  },
-  {
-    "type": "sll",
-    "named": false
-  },
-  {
-    "type": "sra",
-    "named": false
-  },
-  {
-    "type": "srl",
-    "named": false
-  },
-  {
     "type": "stable",
     "named": false
   },
@@ -25650,10 +25454,6 @@
   },
   {
     "type": "subtype",
-    "named": false
-  },
-  {
-    "type": "sync_abort",
     "named": false
   },
   {
@@ -25734,14 +25534,6 @@
   },
   {
     "type": "write_mode",
-    "named": false
-  },
-  {
-    "type": "xnor",
-    "named": false
-  },
-  {
-    "type": "xor",
     "named": false
   },
   {
