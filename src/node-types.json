@@ -25037,10 +25037,6 @@
     "named": false
   },
   {
-    "type": "case?",
-    "named": false
-  },
-  {
     "type": "clock",
     "named": false
   },
@@ -25410,10 +25406,6 @@
   },
   {
     "type": "select",
-    "named": false
-  },
-  {
-    "type": "select?",
     "named": false
   },
   {

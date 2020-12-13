@@ -2317,10 +2317,8 @@ module.exports = grammar({
         optional($.label),
         reservedWord('with'),
         $._with,
-        choice(
-            reservedWord('select'),
-            alias(reserved(caseInsensitive('select') + '\\?'),"select?")
-        ),
+        reservedWord('select'),
+        optional(delimiter('?')),
         $._target,
         '<=',
         optional(reservedWord('guarded')),
@@ -2333,10 +2331,8 @@ module.exports = grammar({
         optional($.label),
         reservedWord('with'),
         $._with,
-        choice(
-            reservedWord('select'),
-            alias(reserved(caseInsensitive('select') + '\\?'),"select?")
-        ),
+        reservedWord('select'),
+        optional(delimiter('?')),
         $._target,
         '<=',
         reservedWord('force'),
@@ -2403,10 +2399,8 @@ module.exports = grammar({
         optional($.label),
         reservedWord('with'),
         $._with,
-        choice(
-            reservedWord('select'),
-            alias(reserved(caseInsensitive('select') + '\\?'),"select?")
-        ),
+        reservedWord('select'),
+        optional(delimiter('?')),
         $._target,
         ':=',
         $.selected_expressions,
@@ -2455,18 +2449,14 @@ module.exports = grammar({
     // 10.9 Case statement {{{
     case_statement: $ => seq(
         optional($.label),
-        choice(
-            reservedWord('case'),
-            alias(reserved(caseInsensitive('case') + '\\?'),"case?")
-        ),
+        reservedWord('case'),
+        optional(delimiter('?')),
         $._case_expression,
         reservedWord('is'),
         repeat($.case_statement_alternative),
         reservedWord('end'),
-        choice(
-            reservedWord('case'),
-            alias(reserved(caseInsensitive('case') + '\\?'),"case?")
-        ),
+        reservedWord('case'),
+        optional(delimiter('?')),
         optional($._end_simple_name),
         ';'
     ),
