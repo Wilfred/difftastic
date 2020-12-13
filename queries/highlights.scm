@@ -60,3 +60,7 @@
 "typename" @keyword
 "using" @keyword
 "virtual" @keyword
+
+; Strings
+
+(raw_string_literal) @string
