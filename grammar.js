@@ -135,13 +135,15 @@ const MULTIPLYING_OPERATORS = [
     '\\*|/|[rR][eE][mM]|[mM][oO][dD]'
 ];
 
-const MISCELLANEOUS_OPERATOR = [
+const MISCELLANEOUS_OPERATORS = [
     '[nN][oO][tT]|[aA][bB][sS]'
 ];
 
 const PSL_TERMINATION_OPERATORS = [
     '([aA]?[sS][yY][nN][cC]_)?[aA][bB][oO][rR][tT]'
 ];
+
+    // TODO: PSL_IMPLICATION_OPERATORS
 
 // }}}
 
@@ -229,7 +231,6 @@ module.exports = grammar({
         $._context_list,                         // 13.4
         $._digit,                                // 15.5.2
         $._abstract_literal,                     // 15.5
-        $._std_ulogic,                           // 15.8
 
         // modes
         $.in,
@@ -1950,7 +1951,7 @@ module.exports = grammar({
     factor: $ => prec.left(
         PREC.FACTOR,
         seq(
-            field('operator', operator(MISCELLANEOUS_OPERATOR)),
+            field('operator', operator(MISCELLANEOUS_OPERATORS)),
             field('argument',$._primary)
         )
     ),
@@ -2873,12 +2874,12 @@ module.exports = grammar({
     ),
 
 
-    underline: $ => token.immediate(UNDERLINE),
+    separator: $ => token.immediate(UNDERLINE),
 
     integer: $ => seq(
         new RegExp('['+DIGIT+']'),
         repeat(seq(
-            optional($.underline),
+            optional($.separator),
             token.immediate(new RegExp('['+DIGIT+']')),
         ))
     ),
@@ -2886,7 +2887,7 @@ module.exports = grammar({
     _integer_immed: $ => seq(
         token.immediate(new RegExp('['+DIGIT+']')),
         repeat(seq(
-            optional($.underline),
+            optional($.separator),
             token.immediate(new RegExp('['+DIGIT+']')),
         ))
     ),
@@ -2926,7 +2927,7 @@ module.exports = grammar({
     based_literal: $ => seq(
         token.immediate(new RegExp('['+EXTENDED_DIGIT+']')),
         repeat(seq(
-            optional($.underline),
+            optional($.separator),
             token.immediate(new RegExp('['+EXTENDED_DIGIT+']')),
         ))
     ),
@@ -2955,119 +2956,21 @@ module.exports = grammar({
     escape_sequence: $ => token.immediate(prec(3,DOUBLE_QUOTATION_MARK)),
     // }}}
     // 15.8 Bit string literals {{{
-    // TODO: refactor
     bit_string_literal: $ => choice(
-        // binary
-        seq(
-            choice(
-                alias(token(/[uUsS]?[bB]"/), $.base_specifier),
-                seq(
-                    alias($.integer, $.length),
-                    alias(token.immediate(/[uUsS]?[bB]"/), $.base_specifier),
-                ),
-            ),
-            optional(alias($._binary_bit_value, $.bit_value)),
-            token.immediate('"')
-        ),
-        // octal
-        seq(
-            choice(
-                alias(token(/[uUsS]?[oO]"/), $.base_specifier),
-                seq(
-                    alias($.integer, $.length),
-                    alias(token.immediate(/[uUsS]?[oO]"/), $.base_specifier),
-                ),
-            ),
-            optional(alias($._octal_bit_value, $.bit_value)),
-            token.immediate('"')
-        ),
-        // decimal
-        seq(
-            choice(
-                alias(token(/[dD]"/), $.base_specifier),
-                seq(
-                    alias($.integer, $.length),
-                    alias(token.immediate(/[dD]"/), $.base_specifier),
-                ),
-            ),
-            optional(alias($._decimal_bit_value, $.bit_value)),
-            token.immediate('"')
-        ),
-        // hexadecimal
-        seq(
-            choice(
-                alias(token(/[uUsS]?[xX]"/), $.base_specifier),
-                seq(
-                    alias($.integer, $.length),
-                    alias(token.immediate(/[uUsS]?[xX]"/), $.base_specifier),
-                ),
-            ),
-            optional(alias($._hexadecimal_bit_value, $.bit_value)),
-            token.immediate('"')
-        ),
+        bit_string_literal_gen($, '[uUsS]?[bB]', $._binary_bit_value),
+        bit_string_literal_gen($, '[uUsS]?[oO]', $._octal_bit_value),
+        bit_string_literal_gen($, '[dD]'       , $._decimal_bit_value),
+        bit_string_literal_gen($, '[uUsS]?[xX]', $._hexadecimal_bit_value),
     ),
 
-    _std_ulogic: $ => choice(
-        alias(token.immediate(/[lL]/), $.low),
-        alias(token.immediate(/[hH]/), $.high),
-        alias(token.immediate(/[uU]/), $.uninitialized),
-        alias(token.immediate(/[wW]/), $.weak),
-        alias(token.immediate(/[zZ]/), $.high_impedance),
-        alias(token.immediate(prec(3,/\-/)), $.dont_care),
-    ),
+    unresolved: $ => token.immediate(prec(-1,new RegExp ('[^'+UNDERLINE+SPACE_CHARACTER+FORMAT_EFFECTOR+'"]'))),
 
-    _binary_bit_value: $ => seq(
-        choice(
-            token.immediate(new RegExp ('[0-1]')),
-            $._std_ulogic
-        ),
-        repeat(seq(
-            optional($.underline),
-            choice(
-                token.immediate(new RegExp('[0-1]')),
-                $._std_ulogic
-            )
-        ))
-    ),
+    dont_care: $ => token.immediate(prec(3,'-')),
 
-    _octal_bit_value: $ => seq(
-        choice(
-            token.immediate(new RegExp ('[0-7]')),
-            $._std_ulogic
-        ),
-        repeat(seq(
-            optional($.underline),
-            choice(
-                token.immediate(new RegExp('[0-7]')),
-                $._std_ulogic
-            )
-        ))
-    ),
-
-    _decimal_bit_value: $ => seq(
-        choice(
-            token.immediate(new RegExp ('[0-9]')),
-            $._std_ulogic
-        ),
-        repeat(seq(
-            optional($.underline),
-            choice(
-                token.immediate(new RegExp('[0-9]')),
-                $._std_ulogic
-            )
-        ))
-    ),
-
-    _hexadecimal_bit_value: $ => seq(
-        token.immediate(new RegExp ('[0-9a-fA-F]')),
-        repeat(seq(
-            optional($.underline),
-            choice(
-                token.immediate(new RegExp('[0-9a-fA-F]')),
-                $._std_ulogic
-            )
-        ))
-    ),
+    _binary_bit_value:      $ => bit_value_gen($, '[0-1]'),
+    _octal_bit_value:       $ => bit_value_gen($, '[0-7]'),
+    _decimal_bit_value:     $ => bit_value_gen($, '[0-9]'),
+    _hexadecimal_bit_value: $ => bit_value_gen($, '[0-9a-fA-F]'),
     // }}}
     // 15.9 Comments {{{
     comment: $ => seq(
@@ -3425,7 +3328,7 @@ module.exports = grammar({
         PREC.TERM,
         seq(
             // LINT: abs is not allowed
-            field('operator', operator(MISCELLANEOUS_OPERATOR)),
+            field('operator', operator(MISCELLANEOUS_OPERATORS)),
             field('argument', $._PSL_FL_Property)
         )
     ),
@@ -3860,6 +3763,39 @@ module.exports = grammar({
     ]
 
 })
+
+function bit_value_gen($, interval) {
+    return seq(
+        choice(
+            token.immediate(new RegExp (interval)),
+            $.unresolved,
+            $.dont_care
+        ),
+        repeat(seq(
+            optional($.separator),
+            choice(
+                token.immediate(new RegExp(interval)),
+                $.unresolved,
+                $.dont_care
+            )
+        ))
+    )
+}
+
+function bit_string_literal_gen($, specifier, bitval) {
+
+    return seq(
+            choice(
+                alias(token(new RegExp(specifier+'"')), $.base_specifier),
+                seq(
+                    alias($.integer, $.length),
+                    alias(token.immediate(new RegExp(specifier+'"')), $.base_specifier),
+                ),
+            ),
+            optional(alias(bitval, $.bit_value)),
+            token.immediate('"')
+        )
+}
 
 function operator(opset) {
     return alias(token(prec(2,new RegExp(opset))), "")

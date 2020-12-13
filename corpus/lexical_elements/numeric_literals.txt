@@ -27,11 +27,11 @@ assert 12_34;
   (assertion_statement
     (integer_decimal
       (integer
-        (underline))))
+        (separator))))
   (assertion_statement
     (integer_decimal
       (integer
-        (underline)))))
+        (separator)))))
 
 ======================================================================
 Integer decimal literals - Exponent
@@ -67,17 +67,17 @@ assert 12_34e+1234;
   (assertion_statement
     (integer_decimal
       (integer
-        (underline))
+        (separator))
       (positive_exponent)))
   (assertion_statement
     (integer_decimal
       (integer
-        (underline))
+        (separator))
       (positive_exponent)))
   (assertion_statement
     (integer_decimal
       (integer
-        (underline))
+        (separator))
       (positive_exponent))))
 
 ======================================================================
@@ -116,25 +116,25 @@ assert 12_34.56_78;
   (assertion_statement
     (real_decimal
       (integer
-        (underline))
+        (separator))
       (integer)))
   (assertion_statement
     (real_decimal
       (integer
-        (underline))
+        (separator))
       (integer)))
   (assertion_statement
     (real_decimal
       (integer
-        (underline))
+        (separator))
       (integer
-        (underline))))
+        (separator))))
   (assertion_statement
     (real_decimal
       (integer
-        (underline))
+        (separator))
       (integer
-        (underline)))))
+        (separator)))))
 
 ======================================================================
 Real decimal literals - Negative exponent
@@ -163,29 +163,29 @@ assert 12_34.56_78e-1245;
   (assertion_statement
     (real_decimal
       (integer
-        (underline))
+        (separator))
       (integer)
       (negative_exponent)))
   (assertion_statement
     (real_decimal
       (integer
-        (underline))
+        (separator))
       (integer
-        (underline))
+        (separator))
       (negative_exponent)))
   (assertion_statement
     (real_decimal
       (integer
-        (underline))
+        (separator))
       (integer
-        (underline))
+        (separator))
       (negative_exponent)))
   (assertion_statement
     (real_decimal
       (integer
-        (underline))
+        (separator))
       (integer
-        (underline))
+        (separator))
       (negative_exponent))))
 
 ======================================================================
@@ -472,4 +472,4 @@ assert 3#0__2#;
       (base)
       (based_literal
         (ERROR)
-        (underline)))))
+        (separator)))))

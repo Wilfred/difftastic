@@ -11684,7 +11684,7 @@
       "required": false,
       "types": [
         {
-          "type": "underline",
+          "type": "separator",
           "named": true
         }
       ]
@@ -11726,7 +11726,7 @@
       "required": false,
       "types": [
         {
-          "type": "underline",
+          "type": "separator",
           "named": true
         }
       ]
@@ -11814,27 +11814,11 @@
           "named": true
         },
         {
-          "type": "high",
+          "type": "separator",
           "named": true
         },
         {
-          "type": "high_impedance",
-          "named": true
-        },
-        {
-          "type": "low",
-          "named": true
-        },
-        {
-          "type": "underline",
-          "named": true
-        },
-        {
-          "type": "uninitialized",
-          "named": true
-        },
-        {
-          "type": "weak",
+          "type": "unresolved",
           "named": true
         }
       ]
@@ -17708,7 +17692,7 @@
       "required": false,
       "types": [
         {
-          "type": "underline",
+          "type": "separator",
           "named": true
         }
       ]
@@ -17792,7 +17776,7 @@
       "required": false,
       "types": [
         {
-          "type": "underline",
+          "type": "separator",
           "named": true
         }
       ]
@@ -21672,6 +21656,11 @@
     }
   },
   {
+    "type": "separator",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "sequence_of_statements",
     "named": true,
     "fields": {},
@@ -24203,11 +24192,6 @@
     }
   },
   {
-    "type": "underline",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "use_clause",
     "named": true,
     "fields": {},
@@ -25018,11 +25002,11 @@
   },
   {
     "type": "boolean",
-    "named": false
+    "named": true
   },
   {
     "type": "boolean",
-    "named": true
+    "named": false
   },
   {
     "type": "buffer",
@@ -25165,14 +25149,6 @@
     "named": false
   },
   {
-    "type": "high",
-    "named": true
-  },
-  {
-    "type": "high_impedance",
-    "named": true
-  },
-  {
     "type": "identifier",
     "named": true
   },
@@ -25227,10 +25203,6 @@
   {
     "type": "loop",
     "named": false
-  },
-  {
-    "type": "low",
-    "named": true
   },
   {
     "type": "map",
@@ -25469,12 +25441,12 @@
     "named": true
   },
   {
-    "type": "uninitialized",
-    "named": true
-  },
-  {
     "type": "units",
     "named": false
+  },
+  {
+    "type": "unresolved",
+    "named": true
   },
   {
     "type": "until",
@@ -25503,10 +25475,6 @@
   {
     "type": "wait",
     "named": false
-  },
-  {
-    "type": "weak",
-    "named": true
   },
   {
     "type": "when",

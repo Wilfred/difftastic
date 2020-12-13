@@ -139,7 +139,21 @@ assert A/+B > 0;
         (integer)))))
 
 ===================================
-ERROR: ILLEGAL - ADA LRM 4.5.0 (FIXME)
+ERROR: ILLEGAL - ADA LRM 4.5.0 (plus)
+===================================
+assert Y**+3 > 0;
+---
+
+(design_file
+  (assertion_statement
+    (relation
+      left: (simple_name)
+      (ERROR)
+      right: (integer_decimal
+        (integer)))))
+
+===================================
+ERROR: ILLEGAL - ADA LRM 4.5.0 (minus)
 ===================================
 assert Y**-3 > 0;
 ---
@@ -147,10 +161,8 @@ assert Y**-3 > 0;
 (design_file
   (assertion_statement
     (relation
-      left: (simple_expression
-        left: (simple_name)
-        (ERROR)
-        right: (integer_decimal
-          (integer)))
+      left: (simple_name)
+      (ERROR
+        (dont_care))
       right: (integer_decimal
         (integer)))))

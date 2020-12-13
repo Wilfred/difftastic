@@ -139,36 +139,36 @@ assert sx"0123_4567_89AB_CDEF";
     (bit_string_literal
       (base_specifier)
       (bit_value
-        (underline))))
+        (separator))))
   (assertion_statement
     (bit_string_literal
       (base_specifier)
       (bit_value
-        (underline))))
+        (separator))))
   (assertion_statement
     (bit_string_literal
       (base_specifier)
       (bit_value
-        (underline))))
+        (separator))))
   (assertion_statement
     (bit_string_literal
       (base_specifier)
       (bit_value
-        (underline))))
+        (separator))))
   (assertion_statement
     (bit_string_literal
       (base_specifier)
       (bit_value
-        (underline)
-        (underline)
-        (underline))))
+        (separator)
+        (separator)
+        (separator))))
   (assertion_statement
     (bit_string_literal
       (base_specifier)
       (bit_value
-        (underline)
-        (underline)
-        (underline)))))
+        (separator)
+        (separator)
+        (separator)))))
 
 ============================================
 std_match
@@ -209,18 +209,20 @@ assert b"0__-";
       (base_specifier)
       (bit_value
         (ERROR)
-        (underline))))
-  (assertion_statement
-    (bit_string_literal
-      (base_specifier)
-      (bit_value)
-      (ERROR)))
+        (separator))))
   (assertion_statement
     (bit_string_literal
       (base_specifier)
       (bit_value
         (ERROR)
-        (underline)
+        (separator)
+        (unresolved))))
+  (assertion_statement
+    (bit_string_literal
+      (base_specifier)
+      (bit_value
+        (ERROR)
+        (separator)
         (dont_care)))))
 
 ============================================

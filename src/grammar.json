@@ -13090,7 +13090,7 @@
         }
       ]
     },
-    "underline": {
+    "separator": {
       "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "STRING",
@@ -13114,7 +13114,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "underline"
+                    "name": "separator"
                   },
                   {
                     "type": "BLANK"
@@ -13153,7 +13153,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "underline"
+                    "name": "separator"
                   },
                   {
                     "type": "BLANK"
@@ -13336,7 +13336,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "underline"
+                    "name": "separator"
                   },
                   {
                     "type": "BLANK"
@@ -13726,86 +13726,27 @@
         }
       ]
     },
-    "_std_ulogic": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "IMMEDIATE_TOKEN",
-            "content": {
-              "type": "PATTERN",
-              "value": "[lL]"
-            }
-          },
-          "named": true,
-          "value": "low"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "IMMEDIATE_TOKEN",
-            "content": {
-              "type": "PATTERN",
-              "value": "[hH]"
-            }
-          },
-          "named": true,
-          "value": "high"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "IMMEDIATE_TOKEN",
-            "content": {
-              "type": "PATTERN",
-              "value": "[uU]"
-            }
-          },
-          "named": true,
-          "value": "uninitialized"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "IMMEDIATE_TOKEN",
-            "content": {
-              "type": "PATTERN",
-              "value": "[wW]"
-            }
-          },
-          "named": true,
-          "value": "weak"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "IMMEDIATE_TOKEN",
-            "content": {
-              "type": "PATTERN",
-              "value": "[zZ]"
-            }
-          },
-          "named": true,
-          "value": "high_impedance"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "IMMEDIATE_TOKEN",
-            "content": {
-              "type": "PREC",
-              "value": 3,
-              "content": {
-                "type": "PATTERN",
-                "value": "\\-"
-              }
-            }
-          },
-          "named": true,
-          "value": "dont_care"
+    "unresolved": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": -1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[^_  \t\u000b\\r\\n\f\"]"
         }
-      ]
+      }
+    },
+    "dont_care": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 3,
+        "content": {
+          "type": "STRING",
+          "value": "-"
+        }
+      }
     },
     "_binary_bit_value": {
       "type": "SEQ",
@@ -13822,7 +13763,11 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_std_ulogic"
+              "name": "unresolved"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "dont_care"
             }
           ]
         },
@@ -13836,7 +13781,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "underline"
+                    "name": "separator"
                   },
                   {
                     "type": "BLANK"
@@ -13855,7 +13800,11 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_std_ulogic"
+                    "name": "unresolved"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "dont_care"
                   }
                 ]
               }
@@ -13879,7 +13828,11 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_std_ulogic"
+              "name": "unresolved"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "dont_care"
             }
           ]
         },
@@ -13893,7 +13846,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "underline"
+                    "name": "separator"
                   },
                   {
                     "type": "BLANK"
@@ -13912,7 +13865,11 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_std_ulogic"
+                    "name": "unresolved"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "dont_care"
                   }
                 ]
               }
@@ -13936,7 +13893,11 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_std_ulogic"
+              "name": "unresolved"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "dont_care"
             }
           ]
         },
@@ -13950,7 +13911,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "underline"
+                    "name": "separator"
                   },
                   {
                     "type": "BLANK"
@@ -13969,7 +13930,11 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_std_ulogic"
+                    "name": "unresolved"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "dont_care"
                   }
                 ]
               }
@@ -13982,11 +13947,24 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "[0-9a-fA-F]"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "PATTERN",
+                "value": "[0-9a-fA-F]"
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "unresolved"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "dont_care"
+            }
+          ]
         },
         {
           "type": "REPEAT",
@@ -13998,7 +13976,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "underline"
+                    "name": "separator"
                   },
                   {
                     "type": "BLANK"
@@ -14017,7 +13995,11 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_std_ulogic"
+                    "name": "unresolved"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "dont_care"
                   }
                 ]
               }
@@ -17977,7 +17959,6 @@
     "ReferenceError",
     "ReferenceError",
     "_abstract_literal",
-    "_std_ulogic",
     "in",
     "out",
     "inout",
