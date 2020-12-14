@@ -143,7 +143,7 @@ for all : c
       (all))
     component: (simple_name)
     (binding_indication
-      (binding_indication_map_aspect
+      (map_aspect
         (generic_map_aspect
           (association_list
             (positional_association_element
@@ -162,7 +162,7 @@ for all : c
       (all))
     component: (simple_name)
     (binding_indication
-      (binding_indication_map_aspect
+      (map_aspect
         (port_map_aspect
           (association_list
             (positional_association_element
@@ -182,7 +182,7 @@ for all : c
       (all))
     component: (simple_name)
     (binding_indication
-      (binding_indication_map_aspect
+      (map_aspect
         (generic_map_aspect
           (association_list
             (positional_association_element
@@ -209,7 +209,7 @@ for all : c
     (binding_indication
       (entity_aspect
         (open))
-      (binding_indication_map_aspect
+      (map_aspect
         (generic_map_aspect
           (association_list
             (positional_association_element

@@ -11,7 +11,7 @@ end;
   (design_unit
     (entity_declaration
       (identifier)
-      (entity_header
+      (header
         (generic_clause
           (subprogram_interface_declaration
             (subprogram_specification

@@ -10906,162 +10906,15 @@
       "required": true,
       "types": [
         {
-          "type": "architecture_declarative_part",
-          "named": true
-        },
-        {
           "type": "concurrent_statement_part",
           "named": true
         },
         {
+          "type": "declarative_part",
+          "named": true
+        },
+        {
           "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "architecture_declarative_part",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "PSL_Assert_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Assume_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Assume_Guarantee_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Clock_Declaration",
-          "named": true
-        },
-        {
-          "type": "PSL_Cover_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Fairness_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Property_Declaration",
-          "named": true
-        },
-        {
-          "type": "PSL_Restrict_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Restrict_Guarantee_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Sequence_Declaration",
-          "named": true
-        },
-        {
-          "type": "PSL_Strong_Fairness_Directive",
-          "named": true
-        },
-        {
-          "type": "alias_declaration",
-          "named": true
-        },
-        {
-          "type": "attribute_declaration",
-          "named": true
-        },
-        {
-          "type": "attribute_specification",
-          "named": true
-        },
-        {
-          "type": "component_declaration",
-          "named": true
-        },
-        {
-          "type": "configuration_specification",
-          "named": true
-        },
-        {
-          "type": "constant_declaration",
-          "named": true
-        },
-        {
-          "type": "disconnection_specification",
-          "named": true
-        },
-        {
-          "type": "file_declaration",
-          "named": true
-        },
-        {
-          "type": "full_type_declaration",
-          "named": true
-        },
-        {
-          "type": "group_declaration",
-          "named": true
-        },
-        {
-          "type": "group_template_declaration",
-          "named": true
-        },
-        {
-          "type": "incomplete_type_declaration",
-          "named": true
-        },
-        {
-          "type": "package_body",
-          "named": true
-        },
-        {
-          "type": "package_declaration",
-          "named": true
-        },
-        {
-          "type": "package_instantiation_declaration",
-          "named": true
-        },
-        {
-          "type": "shared_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "signal_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_body",
-          "named": true
-        },
-        {
-          "type": "subprogram_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_instantiation_declaration",
-          "named": true
-        },
-        {
-          "type": "subtype_declaration",
-          "named": true
-        },
-        {
-          "type": "use_clause",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
           "named": true
         }
       ]
@@ -11779,17 +11632,7 @@
   {
     "type": "base",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "separator",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "based_integer",
@@ -11826,6 +11669,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "illegal",
+          "named": true
+        },
         {
           "type": "separator",
           "named": true
@@ -11869,38 +11716,11 @@
       "required": true,
       "types": [
         {
-          "type": "binding_indication_map_aspect",
-          "named": true
-        },
-        {
           "type": "entity_aspect",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "binding_indication_map_aspect",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_clause",
-          "named": true
         },
         {
-          "type": "generic_map_aspect",
-          "named": true
-        },
-        {
-          "type": "port_clause",
-          "named": true
-        },
-        {
-          "type": "port_map_aspect",
+          "type": "map_aspect",
           "named": true
         }
       ]
@@ -11974,33 +11794,6 @@
         },
         {
           "type": "use_clause",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "block_header",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_clause",
-          "named": true
-        },
-        {
-          "type": "generic_map_aspect",
-          "named": true
-        },
-        {
-          "type": "port_clause",
-          "named": true
-        },
-        {
-          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -12190,15 +11983,15 @@
       "required": false,
       "types": [
         {
-          "type": "block_header",
-          "named": true
-        },
-        {
           "type": "concurrent_statement_part",
           "named": true
         },
         {
           "type": "declarative_part",
+          "named": true
+        },
+        {
+          "type": "header",
           "named": true
         },
         {
@@ -12813,38 +12606,11 @@
       "required": true,
       "types": [
         {
-          "type": "component_header",
+          "type": "header",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "component_header",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_clause",
-          "named": true
-        },
-        {
-          "type": "generic_map_aspect",
-          "named": true
-        },
-        {
-          "type": "port_clause",
-          "named": true
-        },
-        {
-          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -12912,38 +12678,11 @@
       "required": false,
       "types": [
         {
-          "type": "component_map_aspect",
-          "named": true
-        },
-        {
           "type": "label",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "component_map_aspect",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_clause",
-          "named": true
         },
         {
-          "type": "generic_map_aspect",
-          "named": true
-        },
-        {
-          "type": "port_clause",
-          "named": true
-        },
-        {
-          "type": "port_map_aspect",
+          "type": "map_aspect",
           "named": true
         }
       ]
@@ -14010,7 +13749,7 @@
           "named": true
         },
         {
-          "type": "configuration_declarative_part",
+          "type": "declarative_part",
           "named": true
         },
         {
@@ -14019,153 +13758,6 @@
         },
         {
           "type": "verification_unit_binding_indication",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "configuration_declarative_part",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "PSL_Assert_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Assume_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Assume_Guarantee_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Clock_Declaration",
-          "named": true
-        },
-        {
-          "type": "PSL_Cover_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Fairness_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Property_Declaration",
-          "named": true
-        },
-        {
-          "type": "PSL_Restrict_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Restrict_Guarantee_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Sequence_Declaration",
-          "named": true
-        },
-        {
-          "type": "PSL_Strong_Fairness_Directive",
-          "named": true
-        },
-        {
-          "type": "alias_declaration",
-          "named": true
-        },
-        {
-          "type": "attribute_declaration",
-          "named": true
-        },
-        {
-          "type": "attribute_specification",
-          "named": true
-        },
-        {
-          "type": "component_declaration",
-          "named": true
-        },
-        {
-          "type": "configuration_specification",
-          "named": true
-        },
-        {
-          "type": "constant_declaration",
-          "named": true
-        },
-        {
-          "type": "disconnection_specification",
-          "named": true
-        },
-        {
-          "type": "file_declaration",
-          "named": true
-        },
-        {
-          "type": "full_type_declaration",
-          "named": true
-        },
-        {
-          "type": "group_declaration",
-          "named": true
-        },
-        {
-          "type": "group_template_declaration",
-          "named": true
-        },
-        {
-          "type": "incomplete_type_declaration",
-          "named": true
-        },
-        {
-          "type": "package_body",
-          "named": true
-        },
-        {
-          "type": "package_declaration",
-          "named": true
-        },
-        {
-          "type": "package_instantiation_declaration",
-          "named": true
-        },
-        {
-          "type": "shared_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "signal_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_body",
-          "named": true
-        },
-        {
-          "type": "subprogram_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_instantiation_declaration",
-          "named": true
-        },
-        {
-          "type": "subtype_declaration",
-          "named": true
-        },
-        {
-          "type": "use_clause",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
           "named": true
         }
       ]
@@ -15773,11 +15365,11 @@
       "required": true,
       "types": [
         {
-          "type": "entity_declarative_part",
+          "type": "declarative_part",
           "named": true
         },
         {
-          "type": "entity_header",
+          "type": "header",
           "named": true
         },
         {
@@ -15786,153 +15378,6 @@
         },
         {
           "type": "sequence_of_statements",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "entity_declarative_part",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "PSL_Assert_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Assume_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Assume_Guarantee_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Clock_Declaration",
-          "named": true
-        },
-        {
-          "type": "PSL_Cover_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Fairness_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Property_Declaration",
-          "named": true
-        },
-        {
-          "type": "PSL_Restrict_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Restrict_Guarantee_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Sequence_Declaration",
-          "named": true
-        },
-        {
-          "type": "PSL_Strong_Fairness_Directive",
-          "named": true
-        },
-        {
-          "type": "alias_declaration",
-          "named": true
-        },
-        {
-          "type": "attribute_declaration",
-          "named": true
-        },
-        {
-          "type": "attribute_specification",
-          "named": true
-        },
-        {
-          "type": "component_declaration",
-          "named": true
-        },
-        {
-          "type": "configuration_specification",
-          "named": true
-        },
-        {
-          "type": "constant_declaration",
-          "named": true
-        },
-        {
-          "type": "disconnection_specification",
-          "named": true
-        },
-        {
-          "type": "file_declaration",
-          "named": true
-        },
-        {
-          "type": "full_type_declaration",
-          "named": true
-        },
-        {
-          "type": "group_declaration",
-          "named": true
-        },
-        {
-          "type": "group_template_declaration",
-          "named": true
-        },
-        {
-          "type": "incomplete_type_declaration",
-          "named": true
-        },
-        {
-          "type": "package_body",
-          "named": true
-        },
-        {
-          "type": "package_declaration",
-          "named": true
-        },
-        {
-          "type": "package_instantiation_declaration",
-          "named": true
-        },
-        {
-          "type": "shared_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "signal_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_body",
-          "named": true
-        },
-        {
-          "type": "subprogram_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_instantiation_declaration",
-          "named": true
-        },
-        {
-          "type": "subtype_declaration",
-          "named": true
-        },
-        {
-          "type": "use_clause",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
           "named": true
         }
       ]
@@ -15960,33 +15405,6 @@
         },
         {
           "type": "simple_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "entity_header",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_clause",
-          "named": true
-        },
-        {
-          "type": "generic_map_aspect",
-          "named": true
-        },
-        {
-          "type": "port_clause",
-          "named": true
-        },
-        {
-          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -17557,6 +16975,33 @@
     }
   },
   {
+    "type": "header",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_clause",
+          "named": true
+        },
+        {
+          "type": "generic_map_aspect",
+          "named": true
+        },
+        {
+          "type": "port_clause",
+          "named": true
+        },
+        {
+          "type": "port_map_aspect",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "identifier_list",
     "named": true,
     "fields": {},
@@ -18666,6 +18111,33 @@
     }
   },
   {
+    "type": "map_aspect",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_clause",
+          "named": true
+        },
+        {
+          "type": "generic_map_aspect",
+          "named": true
+        },
+        {
+          "type": "port_clause",
+          "named": true
+        },
+        {
+          "type": "port_map_aspect",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "mode",
     "named": true,
     "fields": {}
@@ -19189,38 +18661,11 @@
           "named": true
         },
         {
+          "type": "header",
+          "named": true
+        },
+        {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "package_header",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "package_header",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_clause",
-          "named": true
-        },
-        {
-          "type": "generic_map_aspect",
-          "named": true
-        },
-        {
-          "type": "port_clause",
-          "named": true
-        },
-        {
-          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -19254,7 +18699,7 @@
           "named": true
         },
         {
-          "type": "package_map_aspect",
+          "type": "map_aspect",
           "named": true
         }
       ]
@@ -19288,34 +18733,7 @@
           "named": true
         },
         {
-          "type": "package_map_aspect",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "package_map_aspect",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_clause",
-          "named": true
-        },
-        {
-          "type": "generic_map_aspect",
-          "named": true
-        },
-        {
-          "type": "port_clause",
-          "named": true
-        },
-        {
-          "type": "port_map_aspect",
+          "type": "map_aspect",
           "named": true
         }
       ]
@@ -24125,11 +23543,11 @@
       "required": true,
       "types": [
         {
-          "type": "sequence_of_statements",
+          "type": "declarative_part",
           "named": true
         },
         {
-          "type": "subprogram_declarative_part",
+          "type": "sequence_of_statements",
           "named": true
         },
         {
@@ -24149,180 +23567,6 @@
       "types": [
         {
           "type": "subprogram_specification",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "subprogram_declarative_part",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "PSL_Assert_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Assume_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Assume_Guarantee_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Clock_Declaration",
-          "named": true
-        },
-        {
-          "type": "PSL_Cover_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Fairness_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Property_Declaration",
-          "named": true
-        },
-        {
-          "type": "PSL_Restrict_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Restrict_Guarantee_Directive",
-          "named": true
-        },
-        {
-          "type": "PSL_Sequence_Declaration",
-          "named": true
-        },
-        {
-          "type": "PSL_Strong_Fairness_Directive",
-          "named": true
-        },
-        {
-          "type": "alias_declaration",
-          "named": true
-        },
-        {
-          "type": "attribute_declaration",
-          "named": true
-        },
-        {
-          "type": "attribute_specification",
-          "named": true
-        },
-        {
-          "type": "component_declaration",
-          "named": true
-        },
-        {
-          "type": "configuration_specification",
-          "named": true
-        },
-        {
-          "type": "constant_declaration",
-          "named": true
-        },
-        {
-          "type": "disconnection_specification",
-          "named": true
-        },
-        {
-          "type": "file_declaration",
-          "named": true
-        },
-        {
-          "type": "full_type_declaration",
-          "named": true
-        },
-        {
-          "type": "group_declaration",
-          "named": true
-        },
-        {
-          "type": "group_template_declaration",
-          "named": true
-        },
-        {
-          "type": "incomplete_type_declaration",
-          "named": true
-        },
-        {
-          "type": "package_body",
-          "named": true
-        },
-        {
-          "type": "package_declaration",
-          "named": true
-        },
-        {
-          "type": "package_instantiation_declaration",
-          "named": true
-        },
-        {
-          "type": "shared_variable_declaration",
-          "named": true
-        },
-        {
-          "type": "signal_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_body",
-          "named": true
-        },
-        {
-          "type": "subprogram_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_instantiation_declaration",
-          "named": true
-        },
-        {
-          "type": "subtype_declaration",
-          "named": true
-        },
-        {
-          "type": "use_clause",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "subprogram_header",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_clause",
-          "named": true
-        },
-        {
-          "type": "generic_map_aspect",
-          "named": true
-        },
-        {
-          "type": "port_clause",
-          "named": true
-        },
-        {
-          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -24384,15 +23628,15 @@
           "named": true
         },
         {
+          "type": "map_aspect",
+          "named": true
+        },
+        {
           "type": "operator_symbol",
           "named": true
         },
         {
           "type": "signature",
-          "named": true
-        },
-        {
-          "type": "subprogram_map_aspect",
           "named": true
         }
       ]
@@ -24418,33 +23662,6 @@
     }
   },
   {
-    "type": "subprogram_map_aspect",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_clause",
-          "named": true
-        },
-        {
-          "type": "generic_map_aspect",
-          "named": true
-        },
-        {
-          "type": "port_clause",
-          "named": true
-        },
-        {
-          "type": "port_map_aspect",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "subprogram_specification",
     "named": true,
     "fields": {},
@@ -24454,6 +23671,10 @@
       "types": [
         {
           "type": "function_parameter_clause",
+          "named": true
+        },
+        {
+          "type": "header",
           "named": true
         },
         {
@@ -24470,10 +23691,6 @@
         },
         {
           "type": "return",
-          "named": true
-        },
-        {
-          "type": "subprogram_header",
           "named": true
         }
       ]
@@ -25678,6 +24895,46 @@
     "named": false
   },
   {
+    "type": "0",
+    "named": false
+  },
+  {
+    "type": "1",
+    "named": false
+  },
+  {
+    "type": "2",
+    "named": false
+  },
+  {
+    "type": "3",
+    "named": false
+  },
+  {
+    "type": "4",
+    "named": false
+  },
+  {
+    "type": "5",
+    "named": false
+  },
+  {
+    "type": "6",
+    "named": false
+  },
+  {
+    "type": "7",
+    "named": false
+  },
+  {
+    "type": "8",
+    "named": false
+  },
+  {
+    "type": "9",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -25774,10 +25031,6 @@
     "named": true
   },
   {
-    "type": "append_mode",
-    "named": false
-  },
-  {
     "type": "architecture",
     "named": false
   },
@@ -25831,11 +25084,11 @@
   },
   {
     "type": "boolean",
-    "named": true
+    "named": false
   },
   {
     "type": "boolean",
-    "named": false
+    "named": true
   },
   {
     "type": "buffer",
@@ -25980,6 +25233,10 @@
   {
     "type": "if",
     "named": false
+  },
+  {
+    "type": "illegal",
+    "named": true
   },
   {
     "type": "impure",
@@ -26138,10 +25395,6 @@
     "named": false
   },
   {
-    "type": "read_mode",
-    "named": false
-  },
-  {
     "type": "record",
     "named": false
   },
@@ -26295,10 +25548,6 @@
   },
   {
     "type": "within",
-    "named": false
-  },
-  {
-    "type": "write_mode",
     "named": false
   },
   {

@@ -23,7 +23,7 @@ const PREC = { // {{{
     PSL_SEQ_IMPLICATION     : 9,
     PSL_LOGICAL_IMPLICATION : 8,
     PSL_INVARIANCE          : 7,
-
+    // INTERFACES
     CONSTANT_INTERFACE      : 3,
     VARIABLE_INTERFACE      : 2,
     SIGNAL_INTERFACE        : 1,
@@ -34,6 +34,7 @@ const PREC = { // {{{
 const UPPER_CASE_LETTER = 'A-ZÀ-ÖØ-Þ';
 const LOWER_CASE_LETTER = 'a-zß-öø-ÿ';
 const DIGIT = '0-9';
+const HEX_DIGIT = 'a-fA-F';
 
 // named characters
 const BACKSLASH = '\\\\';
@@ -70,7 +71,7 @@ const SPECIAL_CHARACTER = '!'              + // 0x21
 
 const LETTER = UPPER_CASE_LETTER+LOWER_CASE_LETTER;
 const LETTER_OR_DIGIT = LETTER+DIGIT;
-const EXTENDED_DIGIT = DIGIT+LETTER;
+const EXTENDED_DIGIT = DIGIT+HEX_DIGIT;
 
 const GRAPHIC_CHARACTER = [
     UPPER_CASE_LETTER+
@@ -154,14 +155,18 @@ const PSL_SUFFIX_IMPLICATION_OPERATOR = [
     '\\|[=\\-]>'
 ];
 
+// TODO regex
 const PSL_OCURRENCE_OPERATORS = [
     'next|eventually'
 ];
 
-
 // TODO regex
 const PSL_EXTENDED_OCURRENCE_OPERATORS = [
     'next(_event)?(_ea)?'
+];
+
+const FILE_OPEN_KIND = [
+    '([rR][eE][aD][dD]|[wW][rR][iI][tT][eE]|[aA][pP][pP][eE][nN][dD])_[mM][oO][dD][eE]'
 ];
 // }}}
 
@@ -173,7 +178,7 @@ module.exports = grammar({
     extras: $ => [ // {{{
         $.comment,
         $.tool_directive,
-        new RegExp('['+SPACE_CHARACTER+FORMAT_EFFECTOR+']'),
+        new RegExp('['+SPACE_CHARACTER+FORMAT_EFFECTOR+']'), // separators
     ], // }}}
 
     inline: $ => [ // {{{
@@ -247,15 +252,15 @@ module.exports = grammar({
         $._logical_name,                         // 13.2
         $._context_list,                         // 13.4
         $._digit,                                // 15.5.2
+        $._digit_immed,                          // 15.5.2
         $._abstract_literal,                     // 15.5
-
         // modes
-        $.in,
-        $.out,
-        $.inout,
-        $.buffer,
-        $.linkage,
-
+        $.in,                                    // 6.5.2
+        $.out,                                   // 6.5.2
+        $.inout,                                 // 6.5.2
+        $.buffer,                                // 6.5.2
+        $.linkage,                               // 6.5.2 
+        // PSL
         $._PSL_VUnit_Item,                       // PSL A.4.1
         $._PSL_Parameter_Specification,          // PSL 6.3
         $._PSL_Identifier,                       // PSL
@@ -273,6 +278,20 @@ module.exports = grammar({
     ], // }}}
 
     conflicts: $ => [ // {{{
+        // Leading zeros on base of based literals and integer
+        // '0'  '0'  •  '0'
+        [$.integer, $.base2 , $.base3 , $.base4 , $.base5 , $.base6 ,
+                    $.base7 , $.base8 , $.base9 , $.base10, $.base11,
+                    $.base12, $.base13, $.base14, $.base15, $.base16 ],
+        // '0'  '1'  •  '0'
+        [$.integer, $.base10],
+        [$.integer, $.base11],
+        [$.integer, $.base12],
+        [$.integer, $.base13],
+        [$.integer, $.base14],
+        [$.integer, $.base15],
+        [$.integer, $.base16],
+
         // function_call (positional_association_element)
         // ambiguous_name (expression_list)
         //
@@ -317,7 +336,6 @@ module.exports = grammar({
         [$.type_mark, $.record_element_resolution],
         [$.type_mark, $.ambiguous_name, $.slice_name, $.function_call],
         [$.type_mark, $.ambiguous_name, $.slice_name, $.record_element_resolution, $.type_mark, $.function_call],
-
 
         // Attribute name conflicts
         [$.attribute_name, $.type_mark],
@@ -410,8 +428,8 @@ module.exports = grammar({
          reservedWord('entity'),
          $.identifier,
          reservedWord('is'),
-         optional(alias($.header, $.entity_header)),
-         optional(alias($.declarative_part, $.entity_declarative_part)),
+         optional($.header),
+         optional($.declarative_part),
          optional(seq(
              'begin',
              optional($.sequence_of_statements)
@@ -431,7 +449,7 @@ module.exports = grammar({
          reservedWord('of'),
          $._entity_name,
          reservedWord('is'),
-         optional(alias($.declarative_part, $.architecture_declarative_part)),
+         optional($.declarative_part),
          reservedWord('begin'),
          optional($.concurrent_statement_part),
          reservedWord('end'),
@@ -447,7 +465,7 @@ module.exports = grammar({
          reservedWord('of'),
          $._entity_name,
          reservedWord('is'),
-         optional(alias($.declarative_part, $.configuration_declarative_part)),
+         optional($.declarative_part),
          repeat(seq(
              $.verification_unit_binding_indication,
              ';'
@@ -531,7 +549,7 @@ module.exports = grammar({
          )),
          reservedWord('procedure'),
          $._designator,
-        optional(alias($.header, $.subprogram_header)),
+         optional($.header),
          optional($.procedure_parameter_clause),
          optional($.return)
      ),
@@ -543,7 +561,7 @@ module.exports = grammar({
          )),
          reservedWord('function'),
          $._designator,
-         optional(alias($.header, $.subprogram_header)),
+         optional($.header),
          optional($.function_parameter_clause),
          optional($.return)
      ),
@@ -586,7 +604,7 @@ module.exports = grammar({
      subprogram_body: $ => seq(
          $.subprogram_specification,
          reservedWord('is'),
-         optional(alias($.declarative_part, $.subprogram_declarative_part)),
+         optional($.declarative_part),
          reservedWord('begin'),
          optional($.sequence_of_statements),
          reservedWord('end'),
@@ -621,7 +639,7 @@ module.exports = grammar({
          reservedWord('new'),
          field('uninstantiated',$._name),
          optional($.signature),
-         optional(alias($.header, $.subprogram_map_aspect)),
+         optional(alias($.header, $.map_aspect)),
          ';'
      ),
      // }}}
@@ -637,7 +655,7 @@ module.exports = grammar({
          reservedWord('package'),
          $.identifier,
          reservedWord('is'),
-         optional(alias($.header, $.package_header)),
+         optional($.header),
          optional($.declarative_part),
          reservedWord('end'),
          optional(reservedWord('package')),
@@ -673,7 +691,7 @@ module.exports = grammar({
              $._simple_name,
              $._expanded_name
          )),
-         optional(alias($.header, $.package_map_aspect)),
+         optional(alias($.header, $.map_aspect)),
          ';'
      ),
      // }}}
@@ -1105,9 +1123,7 @@ module.exports = grammar({
     ),
 
     file_open_kind: $ => choice(
-        reservedWord('read_mode'),
-        reservedWord('write_mode'),
-        reservedWord('append_mode'),
+        operator(FILE_OPEN_KIND)
     ),
 
     _file_logical_name: $ =>  field(
@@ -1272,7 +1288,7 @@ module.exports = grammar({
             $._simple_name,
             $._expanded_name
         )),
-        optional(alias($.header, $.package_map_aspect)),
+        optional(alias($.header, $.map_aspect)),
     ),
     // }}}
     // 6.5.6.1 Interface lists {{{
@@ -1433,7 +1449,7 @@ module.exports = grammar({
         reservedWord('component'),
         $.identifier,
         optional(reservedWord('is')),
-        optional(alias($.header, $.component_header)),
+        optional($.header),
         reservedWord('end'),
         reservedWord('component'),
         optional($._end_simple_name),
@@ -1599,11 +1615,11 @@ module.exports = grammar({
     // }}}
     // 7.3.2 Binding indication {{{
     binding_indication: $ => choice(
-        alias($.header, $.binding_indication_map_aspect),
+        alias($.header, $.map_aspect),
         seq(
             reservedWord('use'),
             $.entity_aspect,
-            optional(alias($.header, $.binding_indication_map_aspect)),
+            optional(alias($.header, $.map_aspect)),
         ),
     ),
 
@@ -2584,7 +2600,7 @@ module.exports = grammar({
             ')'
         )),
         optional(reservedWord('is')),
-        optional(alias($.header, $.block_header)),
+        optional($.header),
         optional($.declarative_part),
         reservedWord('begin'),
         optional($.concurrent_statement_part),
@@ -2631,7 +2647,7 @@ module.exports = grammar({
     component_instantiation_statement: $ => seq(
         optional($.label),
         $._instantiated_unit,
-        optional(alias($.header, $.component_map_aspect)),
+        optional(alias($.header, $.map_aspect)),
         ';'
     ),
 
@@ -2890,22 +2906,24 @@ module.exports = grammar({
         optional($._exponent)
     ),
 
-
     separator: $ => token.immediate(UNDERLINE),
 
+    _digit:       $ => choice(...[...'0123456789'].map(c => token(c))),
+    _digit_immed: $ => choice(...[...'0123456789'].map(c => token.immediate(c))),
+
     integer: $ => seq(
-        new RegExp('['+DIGIT+']'),
+        $._digit,
         repeat(seq(
             optional($.separator),
-            token.immediate(new RegExp('['+DIGIT+']')),
+            $._digit_immed
         ))
     ),
 
     _integer_immed: $ => seq(
-        token.immediate(new RegExp('['+DIGIT+']')),
+        $._digit_immed,
         repeat(seq(
             optional($.separator),
-            token.immediate(new RegExp('['+DIGIT+']')),
+            $._digit_immed
         ))
     ),
 
@@ -2923,31 +2941,83 @@ module.exports = grammar({
     ),
     // }}}
     // 15.5.3 Based literals {{{
+    // If you know javascript and can implement this more elegantly,
+    // I'd happly accept a PR. (just make sure all test are passing)
     based_integer: $ => seq(
-        alias($.integer, $.base),
-        token.immediate('#'),
-        $.based_literal,
-        token.immediate('#'),
-        optional($._exponent),
+        choice(
+            based_integer_gen($, $.base2 , $.extended_digit_base2),
+            based_integer_gen($, $.base3 , $.extended_digit_base3),
+            based_integer_gen($, $.base4 , $.extended_digit_base4),
+            based_integer_gen($, $.base5 , $.extended_digit_base5),
+            based_integer_gen($, $.base6 , $.extended_digit_base6),
+            based_integer_gen($, $.base7 , $.extended_digit_base7),
+            based_integer_gen($, $.base8 , $.extended_digit_base8),
+            based_integer_gen($, $.base9 , $.extended_digit_base9),
+            based_integer_gen($, $.base10, $.extended_digit_base10),
+            based_integer_gen($, $.base11, $.extended_digit_base11),
+            based_integer_gen($, $.base12, $.extended_digit_base12),
+            based_integer_gen($, $.base13, $.extended_digit_base13),
+            based_integer_gen($, $.base14, $.extended_digit_base14),
+            based_integer_gen($, $.base15, $.extended_digit_base15),
+            based_integer_gen($, $.base16, $.extended_digit_base16),
+        ),
+        optional($._exponent)
     ),
 
     based_real: $ => seq(
-        alias($.integer, $.base),
-        token.immediate('#'),
-        $.based_literal,
-        token.immediate('.'),
-        $.based_literal,
-        token.immediate('#'),
-        optional($._exponent),
+        choice(
+            based_real_gen($, $.base2 , $.extended_digit_base2),
+            based_real_gen($, $.base3 , $.extended_digit_base3),
+            based_real_gen($, $.base4 , $.extended_digit_base4),
+            based_real_gen($, $.base5 , $.extended_digit_base5),
+            based_real_gen($, $.base6 , $.extended_digit_base6),
+            based_real_gen($, $.base7 , $.extended_digit_base7),
+            based_real_gen($, $.base8 , $.extended_digit_base8),
+            based_real_gen($, $.base9 , $.extended_digit_base9),
+            based_real_gen($, $.base10, $.extended_digit_base10),
+            based_real_gen($, $.base11, $.extended_digit_base11),
+            based_real_gen($, $.base12, $.extended_digit_base12),
+            based_real_gen($, $.base13, $.extended_digit_base13),
+            based_real_gen($, $.base14, $.extended_digit_base14),
+            based_real_gen($, $.base15, $.extended_digit_base15),
+            based_real_gen($, $.base16, $.extended_digit_base16),
+        ),
+        optional($._exponent)
     ),
 
-    based_literal: $ => seq(
-        token.immediate(new RegExp('['+EXTENDED_DIGIT+']')),
-        repeat(seq(
-            optional($.separator),
-            token.immediate(new RegExp('['+EXTENDED_DIGIT+']')),
-        ))
-    ),
+    // DO NOT INLINE
+    base2 : $ => base_gen('2'),
+    base3 : $ => base_gen('3'),
+    base4 : $ => base_gen('4'),
+    base5 : $ => base_gen('5'),
+    base6 : $ => base_gen('6'),
+    base7 : $ => base_gen('7'),
+    base8 : $ => base_gen('8'),
+    base9 : $ => base_gen('9'),
+    base10: $ => base_gen('10'),
+    base11: $ => base_gen('11'),
+    base12: $ => base_gen('12'),
+    base13: $ => base_gen('13'),
+    base14: $ => base_gen('14'),
+    base15: $ => base_gen('15'),
+    base16: $ => base_gen('16'),
+
+    // DO NOT INLINE
+    extended_digit_base2 : $ => extended_digit($,'0-1'),
+    extended_digit_base3 : $ => extended_digit($,'0-2'),
+    extended_digit_base4 : $ => extended_digit($,'0-3'),
+    extended_digit_base5 : $ => extended_digit($,'0-4'),
+    extended_digit_base6 : $ => extended_digit($,'0-5'),
+    extended_digit_base7 : $ => extended_digit($,'0-6'),
+    extended_digit_base8 : $ => extended_digit($,'0-7'),
+    extended_digit_base9 : $ => extended_digit($,'0-8'),
+    extended_digit_base10: $ => extended_digit($,'0-9'),
+    extended_digit_base11: $ => extended_digit($,'0-9aA'),
+    extended_digit_base12: $ => extended_digit($,'0-9a-bA-B'),
+    extended_digit_base13: $ => extended_digit($,'0-9a-cA-C'),
+    extended_digit_base14: $ => extended_digit($,'0-9a-dA-D'),
+    extended_digit_base15: $ => extended_digit($,'0-9a-eA-E'),
+    extended_digit_base16: $ => extended_digit($,'0-9a-fA-F'),
     // }}}
     // 15.6 Character literal {{{
     character_literal: $ => choice(
@@ -3760,6 +3830,58 @@ module.exports = grammar({
     ]
 
 })
+
+function based_integer_gen($, base, digits) {
+    return seq(
+        alias(base, $.base),
+        token.immediate('#'),
+        alias(digits, $.based_literal),
+        token.immediate('#'),
+    )
+}
+
+function based_real_gen($, base, digits) {
+    return seq(
+        alias(base, $.base),
+        token.immediate('#'),
+        alias(digits, $.based_literal),
+        token.immediate('.'),
+        alias(digits, $.based_literal),
+        token.immediate('#'),
+    )
+}
+
+function extended_digit($, interval) {
+    const valid   = token.immediate(new RegExp('['+interval+']'));
+    const invalid = token.immediate(new RegExp('[^'+interval+'#]'));
+
+    const err = alias(invalid, $.illegal);
+
+    return seq(
+        choice(valid, err),
+        repeat(seq(
+            optional($.separator),
+            choice(valid, err),
+        ))
+    )
+}
+
+function base_gen(base) {
+    const [head, ...tail] = base;
+
+    return choice(
+        seq(
+            head,
+         ...tail.map(c => token.immediate(c))
+        ),
+        seq(
+            '0',
+            repeat(token.immediate('0')),
+            token.immediate(head),
+         ...tail.map(c => token.immediate(c))
+        )
+    )
+}
 
 function bit_value_gen($, interval) {
     return seq(

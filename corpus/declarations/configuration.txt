@@ -124,7 +124,7 @@ end configuration V4_27_87;
     (configuration_declaration
       (identifier)
       entity: (simple_name)
-      (configuration_declarative_part
+      (declarative_part
         (use_clause
           (expanded_name
             prefix: (simple_name)

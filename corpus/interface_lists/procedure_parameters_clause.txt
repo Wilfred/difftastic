@@ -402,6 +402,6 @@ procedure f (package pkg is new pkg generic map (<>));
         (package_interface_declaration
           (identifier)
           uninstantiated: (simple_name)
-          (package_map_aspect
+          (map_aspect
             (generic_map_aspect
               (any))))))))
