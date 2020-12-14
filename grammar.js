@@ -891,7 +891,7 @@ module.exports = grammar({
     format_specifier: $ => seq(
       ':',
       repeat(choice(
-        /[^{}\n]+/,
+        token(prec(1, /[^{}\n]+/)),
         $.format_expression
       ))
     ),
