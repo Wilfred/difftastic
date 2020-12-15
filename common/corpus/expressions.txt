@@ -3,11 +3,39 @@ As expressions
 ==================================
 
 h as `hello`
+T as {} & { [t: T]: T }
+T as {} & { [t: T]: T } & { [g: G]: G }
 
 ---
 
 (program
-  (expression_statement (as_expression (identifier) (template_string))))
+  (expression_statement (as_expression (identifier) (template_string)))
+  (expression_statement
+    (as_expression
+      (identifier)
+      (intersection_type
+        (object_type)
+        (object_type
+          (index_signature
+            (identifier)
+            (type_identifier)
+            (type_annotation (type_identifier)))))))
+  (expression_statement
+    (as_expression
+      (identifier)
+      (intersection_type
+        (intersection_type
+          (object_type)
+          (object_type
+            (index_signature
+              (identifier)
+              (type_identifier)
+              (type_annotation (type_identifier)))))
+        (object_type
+          (index_signature
+            (identifier)
+            (type_identifier)
+            (type_annotation (type_identifier))))))))
 
 ==================================
 Typeof expressions
