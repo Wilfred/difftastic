@@ -745,6 +745,10 @@ Assertion functions checking a type
 function f(x: any): asserts x is number {
 }
 
+class Foo<T> {
+  test(): this is T {}
+}
+
 function isT(t: T): t is T {
   return true
 }
@@ -759,6 +763,18 @@ function isT(t: T): t is T {
       (identifier) (type_annotation (predefined_type))))
     (asserts (type_predicate (identifier) (predefined_type)))
     (statement_block))
+  (class_declaration
+    (type_identifier)
+    (type_parameters (type_parameter (type_identifier)))
+    (class_body
+      (method_definition
+        (property_identifier)
+        (formal_parameters)
+        (type_predicate_annotation
+          (type_predicate
+            (this)
+            (type_identifier)))
+        (statement_block))))
   (function_declaration
     (identifier)
     (formal_parameters

@@ -580,7 +580,7 @@ module.exports = function defineGrammar(dialect) {
       ),
 
       type_predicate: $ => seq(
-        $.identifier,
+        choice($.identifier, $.this),
         'is',
         $._type
       ),
