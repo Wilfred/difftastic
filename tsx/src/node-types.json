@@ -412,6 +412,10 @@
           {
             "type": "type_annotation",
             "named": true
+          },
+          {
+            "type": "type_predicate_annotation",
+            "named": true
           }
         ]
       },
@@ -456,6 +460,10 @@
         },
         {
           "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "conditional_type",
           "named": true
         },
         {
@@ -528,10 +536,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -615,6 +619,10 @@
           "named": true
         },
         {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
           "type": "existential_type",
           "named": true
         },
@@ -668,10 +676,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -730,6 +734,10 @@
           {
             "type": "type_annotation",
             "named": true
+          },
+          {
+            "type": "type_predicate_annotation",
+            "named": true
           }
         ]
       },
@@ -762,6 +770,10 @@
           "named": true
         },
         {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
           "type": "constructor_type",
           "named": true
         },
@@ -819,10 +831,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -841,91 +849,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "constructor_type",
-          "named": true
-        },
-        {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
         {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "index_type_query",
-          "named": true
-        },
-        {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
           "type": "type_predicate",
-          "named": true
-        },
-        {
-          "type": "type_query",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -949,6 +881,10 @@
           },
           {
             "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "non_null_expression",
             "named": true
           },
           {
@@ -1017,6 +953,10 @@
           },
           {
             "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "non_null_expression",
             "named": true
           },
           {
@@ -1269,6 +1209,10 @@
           {
             "type": "type_annotation",
             "named": true
+          },
+          {
+            "type": "type_predicate_annotation",
+            "named": true
           }
         ]
       },
@@ -1496,6 +1440,356 @@
     }
   },
   {
+    "type": "conditional_type",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "conditional_type",
+            "named": true
+          },
+          {
+            "type": "constructor_type",
+            "named": true
+          },
+          {
+            "type": "existential_type",
+            "named": true
+          },
+          {
+            "type": "flow_maybe_type",
+            "named": true
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "generic_type",
+            "named": true
+          },
+          {
+            "type": "index_type_query",
+            "named": true
+          },
+          {
+            "type": "intersection_type",
+            "named": true
+          },
+          {
+            "type": "literal_type",
+            "named": true
+          },
+          {
+            "type": "lookup_type",
+            "named": true
+          },
+          {
+            "type": "nested_type_identifier",
+            "named": true
+          },
+          {
+            "type": "object_type",
+            "named": true
+          },
+          {
+            "type": "parenthesized_type",
+            "named": true
+          },
+          {
+            "type": "predefined_type",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_query",
+            "named": true
+          },
+          {
+            "type": "union_type",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "conditional_type",
+            "named": true
+          },
+          {
+            "type": "constructor_type",
+            "named": true
+          },
+          {
+            "type": "existential_type",
+            "named": true
+          },
+          {
+            "type": "flow_maybe_type",
+            "named": true
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "generic_type",
+            "named": true
+          },
+          {
+            "type": "index_type_query",
+            "named": true
+          },
+          {
+            "type": "intersection_type",
+            "named": true
+          },
+          {
+            "type": "literal_type",
+            "named": true
+          },
+          {
+            "type": "lookup_type",
+            "named": true
+          },
+          {
+            "type": "nested_type_identifier",
+            "named": true
+          },
+          {
+            "type": "object_type",
+            "named": true
+          },
+          {
+            "type": "parenthesized_type",
+            "named": true
+          },
+          {
+            "type": "predefined_type",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_query",
+            "named": true
+          },
+          {
+            "type": "union_type",
+            "named": true
+          }
+        ]
+      },
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "conditional_type",
+            "named": true
+          },
+          {
+            "type": "constructor_type",
+            "named": true
+          },
+          {
+            "type": "existential_type",
+            "named": true
+          },
+          {
+            "type": "flow_maybe_type",
+            "named": true
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "generic_type",
+            "named": true
+          },
+          {
+            "type": "index_type_query",
+            "named": true
+          },
+          {
+            "type": "intersection_type",
+            "named": true
+          },
+          {
+            "type": "literal_type",
+            "named": true
+          },
+          {
+            "type": "lookup_type",
+            "named": true
+          },
+          {
+            "type": "nested_type_identifier",
+            "named": true
+          },
+          {
+            "type": "object_type",
+            "named": true
+          },
+          {
+            "type": "parenthesized_type",
+            "named": true
+          },
+          {
+            "type": "predefined_type",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_query",
+            "named": true
+          },
+          {
+            "type": "union_type",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "conditional_type",
+            "named": true
+          },
+          {
+            "type": "constructor_type",
+            "named": true
+          },
+          {
+            "type": "existential_type",
+            "named": true
+          },
+          {
+            "type": "flow_maybe_type",
+            "named": true
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "generic_type",
+            "named": true
+          },
+          {
+            "type": "index_type_query",
+            "named": true
+          },
+          {
+            "type": "intersection_type",
+            "named": true
+          },
+          {
+            "type": "literal_type",
+            "named": true
+          },
+          {
+            "type": "lookup_type",
+            "named": true
+          },
+          {
+            "type": "nested_type_identifier",
+            "named": true
+          },
+          {
+            "type": "object_type",
+            "named": true
+          },
+          {
+            "type": "parenthesized_type",
+            "named": true
+          },
+          {
+            "type": "predefined_type",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_query",
+            "named": true
+          },
+          {
+            "type": "union_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "constraint",
     "named": true,
     "fields": {},
@@ -1505,6 +1799,10 @@
       "types": [
         {
           "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "conditional_type",
           "named": true
         },
         {
@@ -1569,10 +1867,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -1622,6 +1916,10 @@
           "named": true
         },
         {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
           "type": "constructor_type",
           "named": true
         },
@@ -1691,10 +1989,6 @@
         },
         {
           "type": "type_parameters",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -1765,6 +2059,10 @@
           "named": true
         },
         {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
           "type": "constructor_type",
           "named": true
         },
@@ -1826,10 +2124,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -2165,6 +2459,10 @@
           "named": true
         },
         {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
           "type": "existential_type",
           "named": true
         },
@@ -2217,10 +2515,6 @@
           "named": true
         },
         {
-          "type": "type_predicate",
-          "named": true
-        },
-        {
           "type": "type_query",
           "named": true
         }
@@ -2255,6 +2549,10 @@
           },
           {
             "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "non_null_expression",
             "named": true
           },
           {
@@ -2428,6 +2726,10 @@
           {
             "type": "type_annotation",
             "named": true
+          },
+          {
+            "type": "type_predicate_annotation",
+            "named": true
           }
         ]
       },
@@ -2488,6 +2790,10 @@
           {
             "type": "type_annotation",
             "named": true
+          },
+          {
+            "type": "type_predicate_annotation",
+            "named": true
           }
         ]
       },
@@ -2538,6 +2844,10 @@
           {
             "type": "type_annotation",
             "named": true
+          },
+          {
+            "type": "type_predicate_annotation",
+            "named": true
           }
         ]
       },
@@ -2563,6 +2873,10 @@
       "types": [
         {
           "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "conditional_type",
           "named": true
         },
         {
@@ -2638,10 +2952,6 @@
           "named": true
         },
         {
-          "type": "type_predicate",
-          "named": true
-        },
-        {
           "type": "type_query",
           "named": true
         },
@@ -2696,6 +3006,10 @@
           },
           {
             "type": "type_annotation",
+            "named": true
+          },
+          {
+            "type": "type_predicate_annotation",
             "named": true
           }
         ]
@@ -2756,6 +3070,10 @@
           },
           {
             "type": "type_annotation",
+            "named": true
+          },
+          {
+            "type": "type_predicate_annotation",
             "named": true
           }
         ]
@@ -2844,6 +3162,10 @@
           "named": true
         },
         {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
           "type": "constructor_type",
           "named": true
         },
@@ -2905,10 +3227,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -3051,17 +3369,92 @@
   {
     "type": "index_signature",
     "named": true,
-    "fields": {},
+    "fields": {
+      "sign": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "-",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
+          "type": "constructor_type",
+          "named": true
+        },
+        {
+          "type": "existential_type",
+          "named": true
+        },
+        {
+          "type": "flow_maybe_type",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "generic_type",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
+          "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "intersection_type",
+          "named": true
+        },
+        {
+          "type": "literal_type",
+          "named": true
+        },
+        {
+          "type": "lookup_type",
+          "named": true
+        },
+        {
           "type": "mapped_type_clause",
+          "named": true
+        },
+        {
+          "type": "nested_type_identifier",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "omitting_type_annotation",
+          "named": true
+        },
+        {
+          "type": "opting_type_annotation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_type",
           "named": true
         },
         {
@@ -3073,7 +3466,27 @@
           "named": true
         },
         {
+          "type": "this",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
           "type": "type_annotation",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_query",
+          "named": true
+        },
+        {
+          "type": "union_type",
           "named": true
         }
       ]
@@ -3097,6 +3510,10 @@
         },
         {
           "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_query",
           "named": true
         }
       ]
@@ -3195,6 +3612,10 @@
           "named": true
         },
         {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
           "type": "constructor_type",
           "named": true
         },
@@ -3256,10 +3677,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -3580,6 +3997,33 @@
     }
   },
   {
+    "type": "labeled_tuple_type_member",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "optional_identifier",
+          "named": true
+        },
+        {
+          "type": "rest_identifier",
+          "named": true
+        },
+        {
+          "type": "type_annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "lexical_declaration",
     "named": true,
     "fields": {},
@@ -3638,6 +4082,10 @@
           "named": true
         },
         {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
           "type": "constructor_type",
           "named": true
         },
@@ -3699,10 +4147,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -3729,6 +4173,10 @@
           "named": true
         },
         {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
           "type": "constructor_type",
           "named": true
         },
@@ -3790,10 +4238,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -3895,6 +4339,10 @@
           {
             "type": "type_annotation",
             "named": true
+          },
+          {
+            "type": "type_predicate_annotation",
+            "named": true
           }
         ]
       },
@@ -3970,6 +4418,10 @@
           },
           {
             "type": "type_annotation",
+            "named": true
+          },
+          {
+            "type": "type_predicate_annotation",
             "named": true
           }
         ]
@@ -4350,6 +4802,203 @@
     }
   },
   {
+    "type": "omitting_type_annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
+          "type": "constructor_type",
+          "named": true
+        },
+        {
+          "type": "existential_type",
+          "named": true
+        },
+        {
+          "type": "flow_maybe_type",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "generic_type",
+          "named": true
+        },
+        {
+          "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "intersection_type",
+          "named": true
+        },
+        {
+          "type": "literal_type",
+          "named": true
+        },
+        {
+          "type": "lookup_type",
+          "named": true
+        },
+        {
+          "type": "nested_type_identifier",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized_type",
+          "named": true
+        },
+        {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
+          "type": "this",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_query",
+          "named": true
+        },
+        {
+          "type": "union_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "opting_type_annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
+          "type": "constructor_type",
+          "named": true
+        },
+        {
+          "type": "existential_type",
+          "named": true
+        },
+        {
+          "type": "flow_maybe_type",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "generic_type",
+          "named": true
+        },
+        {
+          "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "intersection_type",
+          "named": true
+        },
+        {
+          "type": "literal_type",
+          "named": true
+        },
+        {
+          "type": "lookup_type",
+          "named": true
+        },
+        {
+          "type": "nested_type_identifier",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized_type",
+          "named": true
+        },
+        {
+          "type": "predefined_type",
+          "named": true
+        },
+        {
+          "type": "this",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_query",
+          "named": true
+        },
+        {
+          "type": "union_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "optional_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "optional_parameter",
     "named": true,
     "fields": {
@@ -4469,6 +5118,10 @@
           "named": true
         },
         {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
           "type": "constructor_type",
           "named": true
         },
@@ -4530,10 +5183,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -4752,6 +5401,21 @@
         },
         {
           "type": "type_annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rest_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -5125,62 +5789,18 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "array_type",
+          "type": "identifier",
           "named": true
         },
         {
-          "type": "constructor_type",
+          "type": "labeled_tuple_type_member",
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
-          "named": true
-        },
-        {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
+          "type": "optional_identifier",
           "named": true
         },
         {
@@ -5188,27 +5808,7 @@
           "named": true
         },
         {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
-          "named": true
-        },
-        {
-          "type": "type_query",
-          "named": true
-        },
-        {
-          "type": "union_type",
+          "type": "rest_identifier",
           "named": true
         }
       ]
@@ -5244,6 +5844,10 @@
         "types": [
           {
             "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "conditional_type",
             "named": true
           },
           {
@@ -5311,10 +5915,6 @@
             "named": true
           },
           {
-            "type": "type_predicate",
-            "named": true
-          },
-          {
             "type": "type_query",
             "named": true
           },
@@ -5336,6 +5936,10 @@
       "types": [
         {
           "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "conditional_type",
           "named": true
         },
         {
@@ -5400,10 +6004,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -5430,6 +6030,10 @@
           "named": true
         },
         {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
           "type": "constructor_type",
           "named": true
         },
@@ -5491,10 +6095,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -5556,6 +6156,10 @@
       "types": [
         {
           "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "conditional_type",
           "named": true
         },
         {
@@ -5627,15 +6231,26 @@
           "named": true
         },
         {
-          "type": "type_predicate",
-          "named": true
-        },
-        {
           "type": "type_query",
           "named": true
         },
         {
           "type": "union_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_predicate_annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type_predicate",
           "named": true
         }
       ]
@@ -5649,6 +6264,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "generic_type",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true
@@ -5723,6 +6342,10 @@
           "named": true
         },
         {
+          "type": "conditional_type",
+          "named": true
+        },
+        {
           "type": "constructor_type",
           "named": true
         },
@@ -5784,10 +6407,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_predicate",
           "named": true
         },
         {
@@ -6054,6 +6673,10 @@
     "named": false
   },
   {
+    "type": "-?:",
+    "named": false
+  },
+  {
     "type": ".",
     "named": false
   },
@@ -6139,6 +6762,10 @@
   },
   {
     "type": "?.",
+    "named": false
+  },
+  {
+    "type": "?:",
     "named": false
   },
   {
