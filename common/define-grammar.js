@@ -3,6 +3,7 @@ const PREC = {
   DEFINITION: 1,
   DECLARATION: 1,
   TUPLE_TYPE: 1,
+  AS_EXPRESSION: 1,
   INTERSECTION: 2,
   UNION: 2,
   PLUS: 4,
@@ -17,7 +18,6 @@ const PREC = {
   NEW: 12,
   ARRAY_TYPE: 13,
   MEMBER: 14,
-  AS_EXPRESSION: 15,
   TYPE_ASSERTION: 16,
   TYPE_REFERENCE: 16
 };
@@ -681,7 +681,7 @@ module.exports = function defineGrammar(dialect) {
               alias($._reserved_identifier, $.identifier)
             ),
             ':',
-            $.predefined_type,
+            $._type,
           ),
           $.mapped_type_clause
         ),
