@@ -18,7 +18,7 @@ return nil if foo
     (false))
   (if_modifier
     (return (argument_list (true)))
-    (method_call (identifier) (argument_list (identifier))))
+    (call (identifier) (argument_list (identifier))))
   (if_modifier
     (return (argument_list (nil)))
     (identifier)))

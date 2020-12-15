@@ -54,10 +54,6 @@
         "named": true
       },
       {
-        "type": "method_call",
-        "named": true
-      },
-      {
         "type": "nil",
         "named": true
       },
@@ -304,10 +300,6 @@
         "named": true
       },
       {
-        "type": "method_call",
-        "named": true
-      },
-      {
         "type": "next",
         "named": true
       },
@@ -438,10 +430,6 @@
           "named": true
         },
         {
-          "type": "method_call",
-          "named": true
-        },
-        {
           "type": "next",
           "named": true
         },
@@ -490,10 +478,6 @@
         },
         {
           "type": "hash_splat_argument",
-          "named": true
-        },
-        {
-          "type": "method_call",
           "named": true
         },
         {
@@ -551,10 +535,6 @@
           },
           {
             "type": "call",
-            "named": true
-          },
-          {
-            "type": "method_call",
             "named": true
           },
           {
@@ -698,10 +678,6 @@
             "named": true
           },
           {
-            "type": "method_call",
-            "named": true
-          },
-          {
             "type": "next",
             "named": true
           },
@@ -835,10 +811,6 @@
           },
           {
             "type": "call",
-            "named": true
-          },
-          {
-            "type": "method_call",
             "named": true
           },
           {
@@ -976,38 +948,62 @@
     "type": "call",
     "named": true,
     "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "argument_list",
+            "named": true
+          }
+        ]
+      },
+      "block": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "do_block",
+            "named": true
+          }
+        ]
+      },
       "method": {
         "multiple": false,
         "required": true,
         "types": [
           {
+            "type": "_variable",
+            "named": true
+          },
+          {
             "type": "argument_list",
             "named": true
           },
           {
-            "type": "constant",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
             "type": "operator",
+            "named": true
+          },
+          {
+            "type": "scope_resolution",
             "named": true
           }
         ]
       },
       "receiver": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "_primary",
             "named": true
           },
           {
-            "type": "method_call",
+            "type": "call",
             "named": true
           }
         ]
@@ -1305,10 +1301,6 @@
         },
         {
           "type": "hash_splat_argument",
-          "named": true
-        },
-        {
-          "type": "method_call",
           "named": true
         },
         {
@@ -1662,10 +1654,6 @@
             "named": true
           },
           {
-            "type": "method_call",
-            "named": true
-          },
-          {
             "type": "next",
             "named": true
           },
@@ -1882,54 +1870,6 @@
     }
   },
   {
-    "type": "method_call",
-    "named": true,
-    "fields": {
-      "arguments": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "argument_list",
-            "named": true
-          }
-        ]
-      },
-      "block": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "do_block",
-            "named": true
-          }
-        ]
-      },
-      "method": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_variable",
-            "named": true
-          },
-          {
-            "type": "call",
-            "named": true
-          },
-          {
-            "type": "scope_resolution",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "method_parameters",
     "named": true,
     "fields": {},
@@ -2120,10 +2060,6 @@
           },
           {
             "type": "call",
-            "named": true
-          },
-          {
-            "type": "method_call",
             "named": true
           },
           {
@@ -2399,10 +2335,6 @@
           },
           {
             "type": "call",
-            "named": true
-          },
-          {
-            "type": "method_call",
             "named": true
           },
           {
@@ -2752,10 +2684,6 @@
           "named": true
         },
         {
-          "type": "method_call",
-          "named": true
-        },
-        {
           "type": "next",
           "named": true
         },
@@ -2853,10 +2781,6 @@
           },
           {
             "type": "integer",
-            "named": true
-          },
-          {
-            "type": "method_call",
             "named": true
           },
           {
@@ -2995,10 +2919,6 @@
             "named": true
           },
           {
-            "type": "method_call",
-            "named": true
-          },
-          {
             "type": "next",
             "named": true
           },
@@ -3068,10 +2988,6 @@
           },
           {
             "type": "call",
-            "named": true
-          },
-          {
-            "type": "method_call",
             "named": true
           },
           {
@@ -3170,10 +3086,6 @@
           },
           {
             "type": "call",
-            "named": true
-          },
-          {
-            "type": "method_call",
             "named": true
           },
           {

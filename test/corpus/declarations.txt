@@ -85,7 +85,7 @@ end
 ---
 
 (program
-  (method_call (identifier) (argument_list (regex (string_content))))
+  (call (identifier) (argument_list (regex (string_content))))
   (method (operator) (method_parameters (identifier)))
   (method (operator) (method_parameters (identifier))))
 
@@ -112,10 +112,10 @@ end
   (method (identifier) (super))
   (method
     (identifier)
-    (method_call (call (identifier) (identifier)) (block (super))))
+    (call (identifier) (identifier) (block (super))))
   (method
     (identifier)
-    (method_call (call (super) (identifier)) (argument_list (identifier) (identifier)))))
+    (call (super) (identifier) (argument_list (identifier) (identifier)))))
 
 ===========================
 method with args
@@ -363,7 +363,7 @@ end
     (superclass (scope_resolution (constant))))
   (class
     (constant)
-    (superclass (method_call (call (scope_resolution (constant) (constant)) (identifier)) (argument_list (identifier))))))
+    (superclass (call (scope_resolution (constant) (constant)) (identifier) (argument_list (identifier))))))
 
 =======================================
 unparenthesized call as superclass
@@ -378,10 +378,9 @@ end
 
 (program (class
   name: (constant)
-  (superclass (method_call
-    method: (call
-      receiver: (constant)
-      method: (identifier))
+  (superclass (call
+    receiver: (constant)
+    method: (identifier)
     arguments: (argument_list
       (symbol)
       (symbol))))))
@@ -408,7 +407,7 @@ end
 
 ---
 
-(program (class (scope_resolution (method_call (identifier) (argument_list)) (constant))))
+(program (class (scope_resolution (call (identifier) (argument_list)) (constant))))
 
 ===============
 singleton class
@@ -513,14 +512,14 @@ end
 
 (program (module (constant)
   (class (constant) (superclass (constant))
-    (method_call (identifier) (argument_list
+    (call (identifier) (argument_list
       (call
         (call
           (scope_resolution (constant) (constant))
           (identifier))
         (identifier))))
 
-    (method_call (identifier) (argument_list (symbol)))
+    (call (identifier) (argument_list (symbol)))
 
     (comment)
     (method (identifier) (identifier))

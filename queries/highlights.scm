@@ -42,8 +42,6 @@
 
 (call
   method: [(identifier) (constant)] @function.method)
-(method_call
-  method: [(identifier) (constant)] @function.method)
 
 ; Function definitions
 

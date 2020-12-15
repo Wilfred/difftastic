@@ -405,9 +405,9 @@ module.exports = grammar({
       alias($.command_unary, $.unary),
       alias($.command_assignment, $.assignment),
       alias($.command_operator_assignment, $.operator_assignment),
-      alias($.command_call, $.method_call),
-      alias($.command_call_with_block, $.method_call),
-      prec.left(alias($.chained_command_call, $.call)),
+      alias($.command_call, $.call),
+      alias($.command_call_with_block, $.call),
+      prec.left(alias($._chained_command_call, $.call)),
       alias($.return_command, $.return),
       alias($.yield_command, $.yield),
       alias($.break_command, $.break),
@@ -483,24 +483,29 @@ module.exports = grammar({
       field('name', choice($.identifier, $.constant))
     )),
 
-    call: $ => prec.left(PREC.CALL, seq(
+    _call: $ => prec.left(PREC.CALL, seq(
       field('receiver', $._primary),
       choice('.', '&.'),
       field('method', choice($.identifier, $.operator, $.constant, $.argument_list))
     )),
 
     command_call: $ => seq(
-      field('method', choice(
-        $._variable,
-        $.scope_resolution,
-        $.call,
-        alias($.chained_command_call, $.call)
-      )),
+      choice(
+        $._call,
+        $._chained_command_call,
+        field('method', choice(
+          $._variable,
+          $.scope_resolution
+        )),
+      ),
       field('arguments', alias($.command_argument_list, $.argument_list))
     ),
 
     command_call_with_block: $ => {
-      const receiver = field('method', choice($._variable, $.scope_resolution, $.call))
+      const receiver = choice(
+        $._call,
+        field('method', choice($._variable, $.scope_resolution))
+      )
       const arguments = field('arguments', alias($.command_argument_list, $.argument_list))
       const block = field('block', $.block)
       const doBlock = field('block', $.do_block)
@@ -510,18 +515,20 @@ module.exports = grammar({
       )
     },
 
-    chained_command_call: $ => seq(
-      field('receiver', alias($.command_call_with_block, $.method_call)),
+    _chained_command_call: $ => seq(
+      field('receiver', alias($.command_call_with_block, $.call)),
       choice('.', '&.'),
       field('method', choice($.identifier, $.operator, $.constant, $.argument_list))
     ),
 
-    method_call: $ => {
-      const receiver = field('method', choice(
-        $._variable,
-        $.scope_resolution,
-        $.call
-      ))
+    call: $ => {
+      const receiver = choice(
+        $._call,
+        field('method', choice(
+          $._variable,
+          $.scope_resolution
+        ))
+      )
       const arguments = field('arguments', $.argument_list)
       const block = field('block', $.block)
       const doBlock = field('block', $.do_block)
@@ -705,8 +712,8 @@ module.exports = grammar({
       $.nil,
       $.scope_resolution,
       $.element_reference,
-      $.call,
-      $.method_call
+      alias($._call, $.call),
+      $.call
     )),
 
     _variable: $ => prec.right(choice(
