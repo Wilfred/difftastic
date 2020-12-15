@@ -481,6 +481,8 @@ module.exports = function defineGrammar(dialect) {
         optional($.type_annotation)
       ),
 
+      omitting_type_annotation: $ => seq('-?:', $._type),
+      opting_type_annotation: $ => seq('?:', $._type),
       type_annotation: $ => seq(':', $._type),
 
       asserts: $ => seq(
@@ -665,7 +667,12 @@ module.exports = function defineGrammar(dialect) {
       ),
 
       index_signature: $ => seq(
-        optional($.readonly),
+        optional(
+          seq(
+            field("sign", optional("-")),
+            $.readonly
+          )
+        ),
         '[',
         choice(
           seq(
@@ -679,7 +686,11 @@ module.exports = function defineGrammar(dialect) {
           $.mapped_type_clause
         ),
         ']',
-        $.type_annotation
+        choice(
+          $.type_annotation,
+          $.omitting_type_annotation,
+          $.opting_type_annotation
+        )
       ),
 
       array_type: $ => prec(PREC.ARRAY_TYPE, choice(
