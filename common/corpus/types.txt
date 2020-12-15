@@ -745,6 +745,10 @@ Assertion functions checking a type
 function f(x: any): asserts x is number {
 }
 
+function isT(t: T): t is T {
+  return true
+}
+
 ---
 
 (program
@@ -753,8 +757,19 @@ function f(x: any): asserts x is number {
     (formal_parameters
     (required_parameter
       (identifier) (type_annotation (predefined_type))))
-    (asserts (identifier) (predefined_type))
-    (statement_block)))
+    (asserts (type_predicate (identifier) (predefined_type)))
+    (statement_block))
+  (function_declaration
+    (identifier)
+    (formal_parameters
+      (required_parameter
+        (identifier)
+        (type_annotation (type_identifier))))
+    (type_predicate_annotation
+      (type_predicate
+        (identifier)
+        (type_identifier)))
+    (statement_block (return_statement (true)))))
 
 ==================================
 Read-only arrays
@@ -857,3 +872,87 @@ type t = [a: A, b?: B, ...c: C[]]
       (labeled_tuple_type_member
         (rest_identifier (identifier))
         (type_annotation (array_type (type_identifier)))))))
+
+==================================
+Conditional types
+==================================
+
+type T = X extends Y ? Z : Y
+type T = X extends ?Y ? ?X : Y
+type F<T, X, Y> = ((t: T) => X extends Y ? X : Y) extends ((t: T) => X extends Y ? Y : X) ? X : Y
+type F<T, X, Y> = (t: T) => X extends Y ? X : Y extends (t: T) => X extends Y ? Y : X ? X : Y
+
+---
+(program
+  (type_alias_declaration (type_identifier)
+    (conditional_type
+      (type_identifier)
+      (type_identifier)
+      (type_identifier)
+      (type_identifier)))
+  (type_alias_declaration (type_identifier)
+    (conditional_type
+      (type_identifier)
+      (flow_maybe_type (type_identifier))
+      (flow_maybe_type (type_identifier))
+      (type_identifier)))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter (type_identifier))
+      (type_parameter (type_identifier))
+      (type_parameter (type_identifier)))
+    (conditional_type
+      (parenthesized_type
+        (function_type
+          (formal_parameters
+            (required_parameter
+              (identifier)
+              (type_annotation (type_identifier))))
+          (conditional_type
+            (type_identifier)
+            (type_identifier)
+            (type_identifier)
+            (type_identifier))))
+      (parenthesized_type
+        (function_type
+          (formal_parameters
+            (required_parameter
+              (identifier)
+              (type_annotation (type_identifier))))
+          (conditional_type
+            (type_identifier)
+            (type_identifier)
+            (type_identifier)
+            (type_identifier))))
+      (type_identifier)
+      (type_identifier)))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter (type_identifier))
+      (type_parameter (type_identifier))
+      (type_parameter (type_identifier)))
+    (function_type
+      (formal_parameters
+        (required_parameter
+          (identifier)
+          (type_annotation (type_identifier))))
+      (conditional_type
+        (conditional_type
+          (type_identifier)
+          (type_identifier)
+          (type_identifier)
+          (type_identifier))
+        (function_type
+          (formal_parameters
+            (required_parameter
+              (identifier)
+              (type_annotation (type_identifier))))
+          (conditional_type
+            (type_identifier)
+            (type_identifier)
+            (type_identifier)
+            (type_identifier)))
+        (type_identifier)
+        (type_identifier)))))
