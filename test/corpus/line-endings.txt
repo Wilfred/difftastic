@@ -8,8 +8,8 @@ x = foo()
 ---
 
 (program
-  (method_call (identifier) (argument_list (string (string_content))))
-  (assignment (identifier) (method_call (identifier) (argument_list))))
+  (call (identifier) (argument_list (string (string_content))))
+  (assignment (identifier) (call (identifier) (argument_list))))
 
 =======================
 CRLF multiline comments

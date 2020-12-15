@@ -586,7 +586,7 @@ foo("%s '%s' " %
 ----
 
 (program
-  (method_call
+  (call
     (identifier)
     (argument_list
       (binary
@@ -622,7 +622,7 @@ foo(?/)
   (character)
   (character)
   (character)
-  (method_call (identifier) (argument_list (character))))
+  (call (identifier) (argument_list (character))))
 
 ========================================
 nested strings with different delimiters
@@ -736,7 +736,7 @@ end
 ---
 
 (program (method (identifier)
-  (method_call (identifier) (argument_list (heredoc_beginning)))
+  (call (identifier) (argument_list (heredoc_beginning)))
   (heredoc_body (heredoc_content) (heredoc_end))))
 
 ========================================
@@ -750,14 +750,13 @@ SQL
 
 ---
 
-(program (method_call
-  (call
-    (method_call
-      (identifier)
-      (argument_list (heredoc_beginning)))
+(program (call
+  receiver: (call
+    method: (identifier)
+    arguments: (argument_list (heredoc_beginning)))
     (heredoc_body (heredoc_content) (heredoc_end))
-    (identifier))
-  (argument_list)))
+  method: (identifier)
+  arguments: (argument_list)))
 
 ========================================
 heredocs with suffix dot method continuation
@@ -771,12 +770,13 @@ where("a")
 ---
 
 (program
-  (method_call
-    (call
-      (method_call (identifier) (argument_list (heredoc_beginning)))
-      (heredoc_body (heredoc_content) (heredoc_end))
-      (identifier))
-    (argument_list (string (string_content)))))
+  (call
+    receiver: (call
+      method: (identifier)
+      arguments: (argument_list (heredoc_beginning)))
+    (heredoc_body (heredoc_content) (heredoc_end))
+    method: (identifier)
+    arguments: (argument_list (string (string_content)))))
 
 ========================================
 multiple heredocs with method continuation
@@ -792,13 +792,16 @@ group("b")
 ---
 
 (program
-  (method_call
-    (call
-      (method_call
-        (call (method_call (identifier) (argument_list (heredoc_beginning))) (identifier))
-        (argument_list (heredoc_beginning)))
-      (heredoc_body (heredoc_content) (heredoc_end)) (heredoc_body (heredoc_content) (heredoc_end)) (identifier))
-    (argument_list (string (string_content)))))
+  (call
+    receiver: (call
+      receiver: (call
+        method: (identifier)
+        arguments: (argument_list (heredoc_beginning)))
+      method: (identifier)
+      arguments: (argument_list (heredoc_beginning)))
+      (heredoc_body (heredoc_content) (heredoc_end)) (heredoc_body (heredoc_content) (heredoc_end))
+    method: (identifier)
+    arguments: (argument_list (string (string_content)))))
 
 ========================================
 heredocs with interpolation
@@ -832,7 +835,7 @@ return
     (heredoc_content) (interpolation (if_modifier (identifier) (identifier))) (heredoc_content)
     (interpolation
       (comment)
-      (call (method_call (identifier) (argument_list (integer) (identifier))) (identifier)))
+      (call (call (identifier) (argument_list (integer) (identifier))) (identifier)))
     (heredoc_content) (heredoc_end))
   (return))
 
@@ -876,22 +879,23 @@ foo[
 ---
 
 (program
-  (method_call
-    (call (identifier) (identifier))
-    (argument_list
-      (pair (symbol) (heredoc_beginning))
+  (call
+    receiver: (identifier)
+    method: (identifier)
+    arguments: (argument_list
+      (pair key: (symbol) value: (heredoc_beginning))
       (heredoc_body (heredoc_content) (heredoc_end))
-      (pair (symbol) (heredoc_beginning))
+      (pair key: (symbol) value: (heredoc_beginning))
       (heredoc_body (heredoc_content) (heredoc_end))))
   (hash
-    (pair (symbol) (heredoc_beginning))
+    (pair key: (symbol) value: (heredoc_beginning))
     (heredoc_body (heredoc_content) (heredoc_end))
-    (pair (symbol) (heredoc_beginning))
+    (pair key: (symbol) value: (heredoc_beginning))
     (heredoc_body (heredoc_content) (heredoc_end)))
   (array (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end)) (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end)))
   (assignment
-    (element_reference (identifier) (integer) (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end)))
-    (integer)))
+    left: (element_reference object: (identifier) (integer) (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end)))
+    right: (integer)))
 
 ==============================================================
 heredocs with method calls and interpolation with method calls
@@ -905,14 +909,19 @@ foo(<<-STR.strip_heredoc.tr()
 ---
 
 (program
-  (method_call
-    (identifier)
-    (argument_list
-      (method_call
-        (call (call (heredoc_beginning) (identifier)) (identifier))
-        (argument_list))
+  (call
+    method: (identifier)
+    arguments: (argument_list
+      (call
+        receiver: (call receiver: (heredoc_beginning) method: (identifier))
+        method: (identifier)
+        arguments: (argument_list))
       (heredoc_body (heredoc_content)
-        (interpolation (call (method_call (identifier) (argument_list)) (identifier)))
+        (interpolation (call
+          receiver: (call
+            method: (identifier)
+            arguments: (argument_list))
+          method: (identifier)))
         (heredoc_content) (heredoc_end)))))
 
 ========================================
@@ -928,7 +937,7 @@ TWO
 ---
 
 (program
-  (method_call
+  (call
     (identifier)
     (argument_list
       (call (heredoc_beginning) (identifier))
@@ -950,7 +959,7 @@ heredoc content that starts with a dot
 
 (program
   (lambda (block
-    (method_call
+    (call
       (identifier)
       (argument_list (heredoc_beginning)))
     (heredoc_body (heredoc_content) (heredoc_end)))))
@@ -1026,8 +1035,12 @@ array as object
 
 ---
 (program
-  (method_call (call (array (integer) (integer)) (identifier))
-    (block (block_parameters (identifier)) (binary (identifier) (integer)))))
+  (call
+    receiver: (array (integer) (integer))
+    method: (identifier)
+    block: (block
+      parameters: (block_parameters (identifier))
+      (binary left: (identifier) right: (integer)))))
 
 =========================
 array with trailing comma

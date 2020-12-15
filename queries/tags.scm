@@ -55,15 +55,6 @@
 
 ; Calls
 
-(method_call
-  method: (call method: (identifier) @name)) @reference.call
-
-(
-  (method_call
-    method: (identifier) @name) @reference.call
-  (#not-match? @name "^(lambda|load|require|require_relative|__FILE__|__LINE__)$")
-)
-
 (call method: (identifier) @name) @reference.call
 
 (
