@@ -118,6 +118,70 @@ const RANGE_ATTRIBUTE = [
     '(' + caseInsensitive('reverse') + '_)?' + caseInsensitive('range')
 ];
 // }}}
+// Predefined names {{{
+const FILE_OPEN_KIND = [
+    '(' + caseInsensitive('read')    +
+    '|' + caseInsensitive('write')   +
+    '|' + caseInsensitive('append')  + ')_' + caseInsensitive('mode')
+];
+
+const ATTRIBUTES_OF_TYPE = [
+   '(' +  caseInsensitive('base')       +
+   '|' +  caseInsensitive('ascending')  +
+    // functions
+   '|' +  caseInsensitive('image')   + 
+   '|' +  caseInsensitive('value')   +
+   '|' +  caseInsensitive('pos')     +
+   '|' +  caseInsensitive('val')     +
+   '|' +  caseInsensitive('succ')    +
+   '|' +  caseInsensitive('pred')    +
+   '|' +  caseInsensitive('leftof')  +
+   '|' +  caseInsensitive('rightof') + ')'
+];
+
+const ATTRIBUTES_OF_OBJECT = [
+   caseInsensitive('subtype')
+];
+
+const ATTRIBUTES_OF_ARRAY = [
+   '(' +  caseInsensitive('range')         +
+   '|' +  caseInsensitive('reverse_range') +
+   '|' +  caseInsensitive('length')        +
+   '|' +  caseInsensitive('ascending')     + ')'
+];
+
+const ATTRIBUTES_OF_TYPE_OR_ARRAY = [
+   '(' +  caseInsensitive('left')   +
+   '|' +  caseInsensitive('right')  +
+   '|' +  caseInsensitive('high')   +
+   '|' +  caseInsensitive('low')    + ')'
+];
+
+const ATTRIBUTES_OF_ARRAY_OBJECT = [
+   caseInsensitive('element')
+];
+
+const ATTRIBUTES_OF_SIGNAL = [
+   '(' +  caseInsensitive('delayed')       +
+   '|' +  caseInsensitive('stable')        +
+   '|' +  caseInsensitive('quiet')         +
+   '|' +  caseInsensitive('transaction')   +
+   '|' +  caseInsensitive('event')         +
+   '|' +  caseInsensitive('active')        +
+   '|' +  caseInsensitive('last_event')    +
+   '|' +  caseInsensitive('last_active')   +
+   '|' +  caseInsensitive('last_value')    +
+   '|' +  caseInsensitive('driving_value') + ')'
+];
+
+const ATTRIBUTES_OF_NAMED_ENTITY = [
+   '(' +  caseInsensitive('simple_name')   +
+   '|' +  caseInsensitive('instance_name') +
+   '|' +  caseInsensitive('path_name')     + ')'
+];
+
+
+// }}}
 // Operators {{{
 const LOGICAL_OPERATORS = [
     '[nN]?([aA][nN][dD]|[oO][rR])|[xX][nN]?[oO][rR]'
@@ -157,12 +221,6 @@ const PSL_LOGICAL_IMPLICATION_OPERATOR = [
 
 const PSL_SUFFIX_IMPLICATION_OPERATOR = [
     '\\|[=\\-]>'
-];
-
-const FILE_OPEN_KIND = [
-    '(' + caseInsensitive('read')    +
-    '|' + caseInsensitive('write')   +
-    '|' + caseInsensitive('append')  + ')_' + caseInsensitive('mode')
 ];
 // }}}
 
@@ -1069,7 +1127,7 @@ module.exports = grammar({
     type_mark: $ => choice(
         $._simple_name,
         $._expanded_name,
-        //prec.dynamic(-1,$.attribute_name)
+        //$.attribute_name
     ),
 
     _constraint: $ => choice(
@@ -1741,11 +1799,8 @@ module.exports = grammar({
     _prefix: $ => field(
         'prefix',
         choice(
-            $._simple_name,
-            $.selected_name,
-            $.ambiguous_name,
-            $.slice_name,
-            $._external_object_name,
+            // LINT char literal
+            $._name,
             $.function_call
         )
     ),
@@ -1800,21 +1855,39 @@ module.exports = grammar({
     ),
     // }}}
     // 8.6 Attribute names {{{
-    attribute_name: $ => seq(
+    attribute_name: $ => prec(1,seq(
         $._prefix,
         optional($.signature),
         $._attribute_designator
-    ),
+    )),
 
     _range_attribute_designator: $ => seq(
         token('\''),
-        field('designator', alias(reserved(RANGE_ATTRIBUTE),$.predefined_name))
+        field('designator', alias(reserved(RANGE_ATTRIBUTE),$.attribute_of_array))
     ),
 
     _attribute_designator: $ => seq(
         token('\''),
-        field('designator',$._simple_name)
+        field('designator',choice(
+            $._simple_name,
+            $.attribute_of_type,
+            $.attribute_of_object,
+            $.attribute_of_array,
+            $.attribute_of_type_or_array,
+            $.attribute_of_array_object,
+            $.attribute_of_signal,
+            $.attribute_of_named_entity
+        ))
     ),
+
+    attribute_of_type:          $ => reserved(ATTRIBUTES_OF_TYPE),
+    attribute_of_object:        $ => reserved(ATTRIBUTES_OF_OBJECT),
+    attribute_of_array:         $ => reserved(ATTRIBUTES_OF_ARRAY),
+    attribute_of_type_or_array: $ => reserved(ATTRIBUTES_OF_TYPE_OR_ARRAY),
+    attribute_of_array_object:  $ => reserved(ATTRIBUTES_OF_ARRAY_OBJECT),
+    attribute_of_signal:        $ => reserved(ATTRIBUTES_OF_SIGNAL),
+    attribute_of_named_entity:  $ => reserved(ATTRIBUTES_OF_NAMED_ENTITY),
+    
     // }}}
     // 8.7 External names {{{
     _external_object_name: $ => choice(
