@@ -2,7 +2,6 @@ const PREC = {
   ACCESSIBILITY: 1,
   DEFINITION: 1,
   DECLARATION: 1,
-  TUPLE_TYPE: 1,
   AS_EXPRESSION: 1,
   INTERSECTION: 2,
   UNION: 2,
@@ -44,6 +43,7 @@ module.exports = function defineGrammar(dialect) {
       [$.nested_identifier, $.member_expression, $.nested_type_identifier],
 
       [$.generic_type, $._primary_type],
+      [$._expression, $._primary_type, $.generic_type],
       [$.member_expression, $.nested_identifier],
 
       [$._parameter_name, $.predefined_type],
@@ -66,9 +66,14 @@ module.exports = function defineGrammar(dialect) {
       [$._expression, $._primary_type],
       [$._expression, $.generic_type],
       [$._expression, $.predefined_type],
+      [$._expression, $._rest_identifier],
+      [$._expression, $._tuple_type_identifier],
+      [$._expression, $.optional_identifier],
 
       [$.object, $.object_type],
       [$.object, $._property_name],
+
+      [$.array, $._tuple_type_body]
     ]),
 
     inline: ($, previous) => previous
@@ -475,9 +480,15 @@ module.exports = function defineGrammar(dialect) {
         )
       ),
 
-      rest_parameter: $ => seq(
+      _rest_identifier: $ => seq(
         '...',
         $.identifier,
+      ),
+
+      rest_identifier: $ => $._rest_identifier,
+
+      rest_parameter: $ => seq(
+        $._rest_identifier,
         optional($.type_annotation)
       ),
 
@@ -500,6 +511,21 @@ module.exports = function defineGrammar(dialect) {
         $.intersection_type,
         $.function_type,
         $.constructor_type
+      ),
+
+      optional_identifier: $ => seq($.identifier, '?'),
+
+      _tuple_type_identifier: $ => choice(
+        $.identifier,
+        $.optional_identifier,
+        $.rest_identifier
+      ),
+
+      labeled_tuple_type_member: $ => seq($._tuple_type_identifier, $.type_annotation),
+
+      _tuple_type_member: $ => choice(
+        $._tuple_type_identifier,
+        $.labeled_tuple_type_member,
       ),
 
       constructor_type: $ => seq(
@@ -698,9 +724,13 @@ module.exports = function defineGrammar(dialect) {
         prec(PREC.ARRAY_TYPE+1, seq($._primary_type, '[', ']'))
       )),
 
+      _tuple_type_body: $ => seq(
+        "[", optional(commaSep1($._tuple_type_member)), "]"
+      ),
+
       tuple_type: $ => choice(
-        seq($.readonly, '[', commaSep1($._type), ']'),
-        prec(PREC.TUPLE_TYPE, seq('[', commaSep1($._type), ']'))
+        prec.left(PREC.ARRAY_TYPE + 1, $._tuple_type_body),
+        prec.left(PREC.ARRAY_TYPE + 2, seq($.readonly, $._tuple_type_body)),
       ),
 
       union_type: $ => prec.left(PREC.UNION, seq(
