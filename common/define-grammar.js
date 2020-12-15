@@ -591,12 +591,12 @@ module.exports = function defineGrammar(dialect) {
 
       type_query: $ => prec(PREC.TYPEOF, seq(
         'typeof',
-        choice($.identifier, $.nested_identifier)
+        choice($.identifier, $.nested_identifier, $.generic_type)
       )),
 
       index_type_query: $ => seq(
         'keyof',
-        prec.left(PREC.DECLARATION, choice($.generic_type, $._type_identifier, $.nested_type_identifier))
+        prec.left(PREC.DECLARATION, choice($.generic_type, $._type_identifier, $.nested_type_identifier, $.type_query))
       ),
 
       lookup_type: $ => prec(PREC.ARRAY_TYPE, seq(
