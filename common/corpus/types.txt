@@ -668,18 +668,33 @@ const repository = foo++!
 Type query and index type query types
 =======================================
 
-type K1 = keyof Person;
-type K1 = typeof Person;
+type T = keyof Person;
+type T = keyof Person.P;
+type T = keyof Person<P>;
+
+type T = typeof Person;
+type T = typeof Person.P;
+type T = typeof Person<P>;
+
+type T = keyof typeof Person;
 
 ---
 
 (program
-  (type_alias_declaration
-    (type_identifier)
+  (type_alias_declaration (type_identifier)
     (index_type_query (type_identifier)))
-  (type_alias_declaration
-    (type_identifier)
-    (type_query (identifier))))
+  (type_alias_declaration (type_identifier)
+    (index_type_query (nested_type_identifier (identifier) (type_identifier))))
+  (type_alias_declaration (type_identifier)
+    (index_type_query (generic_type (type_identifier) (type_arguments (type_identifier)))))
+  (type_alias_declaration (type_identifier)
+    (type_query (identifier)))
+  (type_alias_declaration (type_identifier)
+    (type_query (nested_identifier (identifier) (identifier))))
+  (type_alias_declaration (type_identifier)
+    (type_query (generic_type (type_identifier) (type_arguments (type_identifier)))))
+  (type_alias_declaration (type_identifier)
+    (index_type_query (type_query (identifier)))))
 
 =======================================
 Lookup types
