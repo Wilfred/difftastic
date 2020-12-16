@@ -59,7 +59,7 @@ assert forall p (foo'range) in boolean : p;
         (PSL_Identifier)
         Index_Range: (attribute_name
           prefix: (simple_name)
-          designator: (predefined_name))
+          designator: (array_attribute))
         (PSL_Value_Set
           (boolean)))
       Property: (simple_name))))
@@ -432,3 +432,17 @@ assert p (a -> b, a -> b);
             left: (simple_name)
             right: (simple_name)))))))
 
+==================================
+Property Instantiation IV
+==================================
+assert ResultAfterN (eventually! ack);
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Property_Instance
+      Property_Name: (PSL_Identifier)
+      (PSL_Actual_Parameter_List
+        (PSL_Actual_Parameter
+          Property: (PSL_Ocurrence_FL_Property
+            argument: (simple_name)))))))

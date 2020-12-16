@@ -794,7 +794,7 @@
         }
       ]
     },
-    "_procedure_specification_header": {
+    "_procedure_specification": {
       "type": "SEQ",
       "members": [
         {
@@ -861,15 +861,6 @@
         {
           "type": "SYMBOL",
           "name": "_designator"
-        }
-      ]
-    },
-    "_procedure_specification": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_procedure_specification_header"
         },
         {
           "type": "CHOICE",
@@ -914,7 +905,7 @@
         }
       ]
     },
-    "_function_specification_header": {
+    "_function_specification": {
       "type": "SEQ",
       "members": [
         {
@@ -981,15 +972,6 @@
         {
           "type": "SYMBOL",
           "name": "_designator"
-        }
-      ]
-    },
-    "_function_specification": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_function_specification_header"
         },
         {
           "type": "CHOICE",
@@ -1522,8 +1504,69 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "PREC",
+                      "value": 2,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[pP][uU][rR][eE]"
+                      }
+                    }
+                  },
+                  "named": false,
+                  "value": "pure"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "PREC",
+                      "value": 2,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[iI][mM][pP][uU][rR][eE]"
+                      }
+                    }
+                  },
+                  "named": false,
+                  "value": "impure"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 2,
+              "content": {
+                "type": "PATTERN",
+                "value": "[pP][rR][oO][cC][eE][dD][uU][rR][eE]"
+              }
+            }
+          },
+          "named": false,
+          "value": "procedure"
+        },
+        {
           "type": "SYMBOL",
-          "name": "_procedure_specification_header"
+          "name": "_designator"
         },
         {
           "type": "ALIAS",
@@ -1600,8 +1643,69 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "PREC",
+                      "value": 2,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[pP][uU][rR][eE]"
+                      }
+                    }
+                  },
+                  "named": false,
+                  "value": "pure"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "PREC",
+                      "value": 2,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[iI][mM][pP][uU][rR][eE]"
+                      }
+                    }
+                  },
+                  "named": false,
+                  "value": "impure"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 2,
+              "content": {
+                "type": "PATTERN",
+                "value": "[fF][uU][nN][cC][tT][iI][oO][nN]"
+              }
+            }
+          },
+          "named": false,
+          "value": "function"
+        },
+        {
           "type": "SYMBOL",
-          "name": "_function_specification_header"
+          "name": "_designator"
         },
         {
           "type": "ALIAS",
@@ -3573,17 +3677,21 @@
       ]
     },
     "resolution_function": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_simple_name"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expanded_name"
-        }
-      ]
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_name"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expanded_name"
+          }
+        ]
+      }
     },
     "parenthesized_resolution": {
       "type": "SEQ",
@@ -7425,7 +7533,7 @@
               }
             },
             "named": true,
-            "value": "predefined_name"
+            "value": "array_attribute"
           }
         }
       ]
@@ -7512,7 +7620,7 @@
         "value": 2,
         "content": {
           "type": "PATTERN",
-          "value": "([rR][aA][nN][gG][eE]|[rR][eE][vV][eE][rR][sS][eE][__][rR][aA][nN][gG][eE]|[lL][eE][nN][gG][tT][hH]|[aA][sS][cC][eE][nN][dD][iI][nN][gG])"
+          "value": "([lL][eE][nN][gG][tT][hH]|[aA][sS][cC][eE][nN][dD][iI][nN][gG])"
         }
       }
     },
@@ -21306,35 +21414,9 @@
       "slice_name"
     ],
     [
-      "parenthesized_resolution",
-      "_expression"
-    ],
-    [
-      "parenthesized_resolution",
-      "_expression",
-      "type_mark"
-    ],
-    [
       "resolution_function",
-      "_expression"
-    ],
-    [
-      "resolution_function",
-      "record_element_resolution"
-    ],
-    [
-      "resolution_function",
-      "_expression",
-      "type_mark"
-    ],
-    [
-      "resolution_function",
-      "type_mark"
-    ],
-    [
       "type_mark",
-      "ambiguous_name",
-      "slice_name"
+      "_expression"
     ],
     [
       "type_mark",
@@ -21352,30 +21434,22 @@
     ],
     [
       "type_mark",
-      "subtype_indication"
-    ],
-    [
-      "type_mark",
-      "record_element_resolution"
-    ],
-    [
-      "type_mark",
       "ambiguous_name",
-      "slice_name",
       "function_call"
     ],
     [
       "type_mark",
       "ambiguous_name",
+      "function_call",
+      "slice_name"
+    ],
+    [
+      "type_mark",
+      "ambiguous_name",
+      "function_call",
       "slice_name",
       "record_element_resolution",
-      "type_mark",
-      "function_call"
-    ],
-    [
-      "type_mark",
-      "ambiguous_name",
-      "function_call"
+      "type_mark"
     ],
     [
       "attribute_name",
@@ -21391,80 +21465,18 @@
     ],
     [
       "attribute_name",
-      "resolution_function"
-    ],
-    [
-      "attribute_name",
       "range_attribute_name",
       "type_mark"
-    ],
-    [
-      "attribute_name",
-      "resolution_function",
-      "type_mark"
-    ],
-    [
-      "attribute_name",
-      "range_attribute_name",
-      "resolution_function",
-      "type_mark"
-    ],
-    [
-      "attribute_name",
-      "range_attribute_name",
-      "record_element_resolution",
-      "type_mark"
-    ],
-    [
-      "attribute_name",
-      "range_attribute_name",
-      "record_element_resolution",
-      "type_mark",
-      "resolution_function"
     ],
     [
       "positional_association_element",
       "index_constraint"
     ],
     [
-      "subtype_indication"
-    ],
-    [
-      "subtype_indication",
-      "_expression"
-    ],
-    [
-      "subtype_indication",
-      "record_element_resolution"
-    ],
-    [
-      "_expression",
-      "ascending_range"
-    ],
-    [
-      "_expression",
-      "descending_range"
-    ],
-    [
       "generic_clause"
     ],
     [
-      "generic_map_aspect"
-    ],
-    [
-      "_generic_interface_list"
-    ],
-    [
       "port_clause"
-    ],
-    [
-      "port_map_aspect"
-    ],
-    [
-      "_port_interface_list"
-    ],
-    [
-      "binding_indication"
     ],
     [
       "procedure_parameter_clause"
@@ -21473,14 +21485,20 @@
       "function_parameter_clause"
     ],
     [
-      "_constant_mode",
-      "_signal_mode",
-      "_variable_mode"
+      "generic_map_aspect"
+    ],
+    [
+      "port_map_aspect"
     ],
     [
       "constant_interface_declaration",
       "signal_interface_declaration",
       "variable_interface_declaration"
+    ],
+    [
+      "_constant_mode",
+      "_signal_mode",
+      "_variable_mode"
     ],
     [
       "if_generate"
@@ -21513,12 +21531,20 @@
       "PSL_Extended_Ocurrence_FL_Property"
     ],
     [
-      "_PSL_Property_Name",
-      "_PSL_Sequence_Name",
+      "PSL_Property_Instance",
       "_simple_name"
     ],
     [
-      "_PSL_Sequence_Name",
+      "PSL_Sequence_Instance",
+      "_simple_name"
+    ],
+    [
+      "PSL_Property_Instance",
+      "PSL_Sequence_Instance"
+    ],
+    [
+      "PSL_Property_Instance",
+      "PSL_Sequence_Instance",
       "_simple_name"
     ],
     [
@@ -21545,8 +21571,10 @@
     "_subprogram_instantiation_declaration",
     "_uninstantiated_name",
     "_package_name",
-    "_range_attribute_name",
     "_scalar_type_definition",
+    "_range",
+    "_range_attribute_name",
+    "_range_attribute_function_call",
     "_numeric_type_definition",
     "_unit",
     "_discrete_range",
@@ -21608,17 +21636,14 @@
     "_digit",
     "_digit_immed",
     "_abstract_literal",
-    "in",
-    "out",
-    "inout",
-    "buffer",
-    "linkage",
     "_PSL_Identifier",
     "_PSL_Parameter_Specification",
     "_PSL_Boolean",
     "_PSL_Any_Type",
     "_PSL_Boolean_no_field",
     "_PSL_FL_Property",
+    "_PSL_Property_Name",
+    "_PSL_Sequence_Name",
     "_PSL_Value",
     "_PSL_SERE",
     "_PSL_Property",

@@ -606,6 +606,7 @@ restrict { { breq; (breq and not back)[*0 to 5]; breq and back };
         right: (factor
           argument: (simple_name))))))
 
+
 ===================================================
 PSL LRM 6.3.3.2 - Property instantiation I
 ===================================================

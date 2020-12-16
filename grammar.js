@@ -144,9 +144,9 @@ const ATTRIBUTES_OF_OBJECT = [
 ];
 
 const ATTRIBUTES_OF_ARRAY = [
-   '(' +  caseInsensitive('range')         +
-   '|' +  caseInsensitive('reverse_range') +
-   '|' +  caseInsensitive('length')        +
+   '(' +  caseInsensitive('length')        +
+ //'|' +  caseInsensitive('range')         +
+ //'|' +  caseInsensitive('reverse_range') +
    '|' +  caseInsensitive('ascending')     + ')'
 ];
 
@@ -246,8 +246,10 @@ module.exports = grammar({
         $._subprogram_instantiation_declaration, // 4.4
         $._uninstantiated_name,                  // 4.4
         $._package_name,                         // 4.8
-        $._range_attribute_name,                 // 5.2.1
         $._scalar_type_definition,               // 5.2.1
+        $._range,                                // 5.2.1
+        $._range_attribute_name,                 // 5.2.1
+        $._range_attribute_function_call,        // 5.2.1
         $._numeric_type_definition,              // 5.2.1
         $._unit,                                 // 5.2.4
         $._discrete_range,                       // 5.3.2
@@ -309,12 +311,6 @@ module.exports = grammar({
         $._digit,                                // 15.5.2
         $._digit_immed,                          // 15.5.2
         $._abstract_literal,                     // 15.5
-        // modes
-        $.in,                                    // 6.5.2
-        $.out,                                   // 6.5.2
-        $.inout,                                 // 6.5.2
-        $.buffer,                                // 6.5.2
-        $.linkage,                               // 6.5.2 
         // PSL
         $._PSL_Identifier,                       // PSL
         $._PSL_Parameter_Specification,          // PSL 6.3
@@ -322,6 +318,8 @@ module.exports = grammar({
         $._PSL_Any_Type,                         // PSL 5
         $._PSL_Boolean_no_field,                 // PSL 5
         $._PSL_FL_Property,                      // PSL 6.2
+        $._PSL_Property_Name,                    // PSL 6.3.3
+        $._PSL_Sequence_Name,                    // PSL 6.3.3
         $._PSL_Value,                            // PSL 5
         $._PSL_SERE,                             // PSL 6.1.1
         $._PSL_Property,                         // PSL 6.2
@@ -333,8 +331,14 @@ module.exports = grammar({
     ], // }}}
     conflicts: $ => [ // {{{
 
+        // 'procedure'  identifier  •  'is'  …
+        //
+        // procedure_declaration:
+        //      procedure foo is begin end procedure;;
+        // procedure_declaration:
+        //      procedure foo is new bar;
         [$._procedure_specification, $.procedure_instantiation_declaration],
-        [$._function_specification,  $.function_instantiation_declaration],
+        [$._function_specification ,  $.function_instantiation_declaration],
 
         // Leading zeros on base of based literals and integer
         // '0'  '0'  •  '0'
@@ -373,41 +377,43 @@ module.exports = grammar({
         //      `assert new rec (elem (id'range));`
         [$.index_constraint, $.slice_name],
 
-        // subtype_indication (resolution function)
-        // parenthesized_expression
-        //      
-        // '(' '(' _name  • ')' ...
-        //
-        [$.parenthesized_resolution, $._expression],
-        [$.parenthesized_resolution, $._expression, $.type_mark],
+        // '(' _simple_name '(' _simple_name  •  ')'  …
+        // resolution_function:
+        //      assert new subtype_st (resolve_fun type_t);
+        //                             ^^^^^^^^^^^
+        // type_mark:
+        //      assert new subtype_st (type_t object'range);
+        //                             ^^^^^^
+        // Unsure when _expression is used
+        [$.resolution_function, $.type_mark, $._expression],
 
-        [$.resolution_function, $._expression],
-        [$.resolution_function, $.record_element_resolution],
-        [$.resolution_function, $._expression, $.type_mark],
-        [$.resolution_function, $.type_mark],
-
-        [$.type_mark, $.ambiguous_name, $.slice_name],
+        // type_mark is ambiguos with simple_name in many contexts
         [$.type_mark, $._expression],
         [$.type_mark, $._expression, $._entity_instantiation],
         [$.type_mark, $._expression, $.PSL_Hierarchical_HDL_Name],
-        [$.type_mark, $.subtype_indication],
-        [$.type_mark, $.record_element_resolution],
-        [$.type_mark, $.ambiguous_name, $.slice_name, $.function_call],
-        [$.type_mark, $.ambiguous_name, $.slice_name, $.record_element_resolution, $.type_mark, $.function_call],
         [$.type_mark, $.ambiguous_name, $.function_call],
+        [$.type_mark, $.ambiguous_name, $.function_call, $.slice_name],
+        [$.type_mark, $.ambiguous_name, $.function_call, $.slice_name, $.record_element_resolution, $.type_mark],
 
-        // Attribute name conflicts
+        // _simple_name  •  '''  …
+        //
+        // attribute_name:
+        //      `assert foo'bar;`
+        // qualified_expression:
+        //      `assert foo'(bar);`
         [$.attribute_name, $.type_mark],
         [$.attribute_name, $._expression ],
         [$.attribute_name, $.condition],
-        [$.attribute_name, $.resolution_function],
+
+        // '('  _simple_name  •  '''  …
+        //
+        // type_mark:
+        //      assert (foo'(bar), ...);
+        // attribute_name:
+        //      assert (foo'bar, ...);
+        // range_attribute_name
+        //      assert (foo'range, ...);
         [$.attribute_name, $.range_attribute_name, $.type_mark],
-        [$.attribute_name, $.resolution_function, $.type_mark],
-        [$.attribute_name, $.range_attribute_name, $.resolution_function, $.type_mark],
-        [$.attribute_name, $.range_attribute_name, $.record_element_resolution, $.type_mark],
-        [$.attribute_name, $.range_attribute_name, $.record_element_resolution, $.type_mark, $.resolution_function],
-
-
 
         // '('  _name '(' open  • ')' ...
         //
@@ -418,31 +424,25 @@ module.exports = grammar({
         //
         [$.positional_association_element, $.index_constraint],
 
-        [$.subtype_indication],
-        [$.subtype_indication, $._expression],
-        [$.subtype_indication, $.record_element_resolution],
-
-        [$._expression, $.ascending_range],
-        [$._expression, $.descending_range],
-
+            // 6.2
+        // map clauses and map aspects shall or shall not be
+        // followed by semicolon depending on the context
         [$.generic_clause],
-        [$.generic_map_aspect],
-        [$._generic_interface_list],
         [$.port_clause],
-        [$.port_map_aspect],
-        [$._port_interface_list],
-        [$.binding_indication],
-
         [$.procedure_parameter_clause],
         [$.function_parameter_clause],
+        [$.generic_map_aspect],
+        [$.port_map_aspect],
+
+        // interfaces declarations without explicit object kind
+        // see corpus/interface_lists/
+        [$.constant_interface_declaration,
+         $.signal_interface_declaration,
+         $.variable_interface_declaration],
 
         [$._constant_mode,
          $._signal_mode,
          $._variable_mode],
-
-        [$.constant_interface_declaration,
-         $.signal_interface_declaration,
-         $.variable_interface_declaration],
 
         // Generate statement body
         // see corpus/declarations/generate.txt
@@ -463,8 +463,10 @@ module.exports = grammar({
 
         // `assert id
         // `restrict id;`
-        [$._PSL_Property_Name, $._PSL_Sequence_Name, $._simple_name],
-        [$._PSL_Sequence_Name, $._simple_name],
+        [$.PSL_Property_Instance, $._simple_name],
+        [$.PSL_Sequence_Instance, $._simple_name],
+        [$.PSL_Property_Instance, $.PSL_Sequence_Instance],
+        [$.PSL_Property_Instance, $.PSL_Sequence_Instance, $._simple_name],
 
         // vhdl: `assert 1+1;`
         // vhdl: `assert (id -> id);`
@@ -609,33 +611,25 @@ module.exports = grammar({
         ';'
      ),
 
-    _procedure_specification_header: $ => seq(
+     _procedure_specification: $ => seq(
         optional(choice(
              reservedWord('pure'),
              reservedWord('impure')
          )),
          reservedWord('procedure'),
          $._designator,
-    ),
-
-     _procedure_specification: $ => seq(
-         $._procedure_specification_header,
          optional(alias($.header, $.subprogram_header)),
          optional($.procedure_parameter_clause),
          optional($.return)
      ),
 
-    _function_specification_header: $ => seq(
+     _function_specification: $ => seq(
         optional(choice(
              reservedWord('pure'),
              reservedWord('impure')
          )),
          reservedWord('function'),
          $._designator,
-    ),
-
-     _function_specification: $ => seq(
-         $._function_specification_header,
          optional(alias($.header, $.subprogram_header)),
          optional($.function_parameter_clause),
          optional($.return)
@@ -723,7 +717,12 @@ module.exports = grammar({
      ),
 
      procedure_instantiation_declaration: $ => seq(
-         $._procedure_specification_header,
+        optional(choice(
+             reservedWord('pure'),
+             reservedWord('impure')
+         )),
+         reservedWord('procedure'),
+         $._designator,
          reservedWord('is'),
          reservedWord('new'),
          $._uninstantiated_name,
@@ -733,7 +732,12 @@ module.exports = grammar({
      ),
 
      function_instantiation_declaration: $ => seq(
-         $._function_specification_header,
+        optional(choice(
+             reservedWord('pure'),
+             reservedWord('impure')
+         )),
+         reservedWord('function'),
+         $._designator,
          reservedWord('is'),
          reservedWord('new'),
          $._uninstantiated_name,
@@ -829,7 +833,7 @@ module.exports = grammar({
         field('prefix', choice(
             $._simple_name,
             $._expanded_name,
-            $.ambiguous_name, // indexed_name allowed
+            $.ambiguous_name,
             $.attribute_name,
             $._external_object_name,
         )),
@@ -1115,10 +1119,10 @@ module.exports = grammar({
         $.parenthesized_resolution,
     ),
 
-    resolution_function: $ => choice(
+    resolution_function: $ => prec(-1,choice(
         $._simple_name,
         $._expanded_name
-    ),
+    )),
 
     parenthesized_resolution: $ => seq(
         '(',
@@ -1310,10 +1314,11 @@ module.exports = grammar({
         reservedWord('file'),
         $.identifier_list,
         ':',
-        optional(alias($._signal_mode, $.mode)),
+        optional(alias($._signal_mode, $.mode)), // ILLEGAL, LINT
         $.subtype_indication
     ),
 
+    // DO NOT LINE
     in     : $ => reservedWord('in'),
     out    : $ => reservedWord('out'),
     inout  : $ => reservedWord('inout'),
@@ -1468,10 +1473,9 @@ module.exports = grammar({
             prec.dynamic(99,$.open),
             // used to resolve conflicts
             // between ambiguous_name and
-            // function_call
-            // _name '(' character_literal ')'
-            // _name '(' string_literal ')'
-            // are not ambiguous_name
+            // function_call:
+            //    _name '(' character_literal ')'
+            //    _name '(' string_literal ')'
             prec.dynamic(2, $.character_literal),
             prec.dynamic(2, $.string_literal),
         ),
@@ -1889,7 +1893,7 @@ module.exports = grammar({
 
     _range_attribute_designator: $ => seq(
         token('\''),
-        field('designator', alias(reserved(RANGE_ATTRIBUTE),$.predefined_name))
+        field('designator', alias(reserved(RANGE_ATTRIBUTE),$.array_attribute))
     ),
 
     _attribute_designator: $ => seq(
@@ -3527,7 +3531,6 @@ module.exports = grammar({
             field('argument',$._PSL_FL_Property),
         ),
     ),
-
 
     PSL_Implication_FL_Property: $ => prec.right(
         PREC.PSL_LOGICAL_IMPLICATION,

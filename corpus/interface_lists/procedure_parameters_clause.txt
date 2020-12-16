@@ -20,7 +20,7 @@ procedure f (constant k :    t;
         (constant_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (in))
           (subtype_indication
             (type_mark
               (simple_name))))
@@ -33,7 +33,7 @@ procedure f (constant k :    t;
         (constant_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (in))
           (subtype_indication
             (type_mark
               (simple_name)))))))
@@ -60,21 +60,21 @@ procedure f (signal s :         t;
         (signal_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (in))
           (subtype_indication
             (type_mark
               (simple_name))))
         (signal_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (out))
           (subtype_indication
             (type_mark
               (simple_name))))
         (signal_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (inout))
           (subtype_indication
             (type_mark
               (simple_name)))))))
@@ -96,7 +96,7 @@ procedure f (variable v : in      t := x;
         (variable_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (in))
           (subtype_indication
             (type_mark
               (simple_name)))
@@ -105,28 +105,28 @@ procedure f (variable v : in      t := x;
         (variable_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (out))
           (subtype_indication
             (type_mark
               (simple_name))))
         (variable_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (inout))
           (subtype_indication
             (type_mark
               (simple_name))))
         (variable_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (out))
           (subtype_indication
             (type_mark
               (simple_name))))
         (variable_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (inout))
           (subtype_indication
             (type_mark
               (simple_name)))))))
@@ -164,28 +164,28 @@ procedure f (constant k : out     t;
         (constant_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (out))
           (subtype_indication
             (type_mark
               (simple_name))))
         (constant_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (inout))
           (subtype_indication
             (type_mark
               (simple_name))))
         (constant_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (buffer))
           (subtype_indication
             (type_mark
               (simple_name))))
         (constant_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (linkage))
           (subtype_indication
             (type_mark
               (simple_name)))))))
@@ -216,7 +216,7 @@ procedure f (signal s :         t := x;
         (signal_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (in))
           (subtype_indication
             (type_mark
               (simple_name)))
@@ -225,7 +225,7 @@ procedure f (signal s :         t := x;
         (signal_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (out))
           (subtype_indication
             (type_mark
               (simple_name)))
@@ -234,7 +234,7 @@ procedure f (signal s :         t := x;
         (signal_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (inout))
           (subtype_indication
             (type_mark
               (simple_name)))
@@ -243,14 +243,14 @@ procedure f (signal s :         t := x;
         (signal_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (buffer))
           (subtype_indication
             (type_mark
               (simple_name))))
         (signal_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (linkage))
           (subtype_indication
             (type_mark
               (simple_name)))))))
@@ -271,7 +271,7 @@ procedure f (variable k : out     t := x;
         (variable_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (out))
           (subtype_indication
             (type_mark
               (simple_name)))
@@ -280,7 +280,7 @@ procedure f (variable k : out     t := x;
         (variable_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (inout))
           (subtype_indication
             (type_mark
               (simple_name)))
@@ -289,14 +289,14 @@ procedure f (variable k : out     t := x;
         (variable_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (buffer))
           (subtype_indication
             (type_mark
               (simple_name))))
         (variable_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (linkage))
           (subtype_indication
             (type_mark
               (simple_name)))))))
@@ -318,35 +318,35 @@ procedure f (file v : in      t;
         (file_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (in))
           (subtype_indication
             (type_mark
               (simple_name))))
         (file_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (out))
           (subtype_indication
             (type_mark
               (simple_name))))
         (file_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (inout))
           (subtype_indication
             (type_mark
               (simple_name))))
         (file_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (buffer))
           (subtype_indication
             (type_mark
               (simple_name))))
         (file_interface_declaration
           (identifier_list
             (identifier))
-          (mode)
+          (mode (linkage))
           (subtype_indication
             (type_mark
               (simple_name)))))))

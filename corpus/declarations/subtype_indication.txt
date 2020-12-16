@@ -120,7 +120,7 @@ assert new range_t range st'range;
         (range_constraint
           (attribute_name
             prefix: (simple_name)
-            designator: (predefined_name)))))))
+            designator: (array_attribute)))))))
 
 =========================================
 Array constraint - Open

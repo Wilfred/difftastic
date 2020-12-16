@@ -146,7 +146,7 @@ end entity e;
           (constant_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (in))
             (subtype_indication
               (type_mark
                 (simple_name))))
@@ -159,7 +159,7 @@ end entity e;
           (constant_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (in))
             (subtype_indication
               (type_mark
                 (simple_name))))
@@ -243,28 +243,28 @@ end entity e;
           (constant_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (out))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (constant_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (inout))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (constant_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (buffer))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (constant_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (linkage))
             (subtype_indication
               (type_mark
                 (simple_name))))
@@ -284,35 +284,35 @@ end entity e;
           (signal_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (in))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (signal_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (out))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (signal_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (inout))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (signal_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (buffer))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (signal_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (linkage))
             (subtype_indication
               (type_mark
                 (simple_name))))
@@ -332,35 +332,35 @@ end entity e;
           (variable_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (in))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (variable_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (out))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (variable_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (inout))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (variable_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (buffer))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (variable_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (linkage))
             (subtype_indication
               (type_mark
                 (simple_name))))
@@ -374,35 +374,35 @@ end entity e;
           (file_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (in))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (file_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (out))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (file_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (inout))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (file_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (buffer))
             (subtype_indication
               (type_mark
                 (simple_name))))
           (file_interface_declaration
             (identifier_list
               (identifier))
-            (mode)
+            (mode (linkage))
             (subtype_indication
               (type_mark
                 (simple_name))))
