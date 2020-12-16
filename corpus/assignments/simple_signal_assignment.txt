@@ -138,11 +138,11 @@ t <= force out expr;
     value: (simple_name))
   (simple_force_assignment
     target: (simple_name)
-    (force_mode)
+    (force_mode (in))
     value: (simple_name))
   (simple_force_assignment
     target: (simple_name)
-    (force_mode)
+    (force_mode (out))
     value: (simple_name)))
 
 ===========================================
@@ -158,10 +158,10 @@ t <= release out;
     target: (simple_name))
   (simple_release_assignment
     target: (simple_name)
-    (force_mode))
+    (force_mode (in)))
   (simple_release_assignment
     target: (simple_name)
-    (force_mode)))
+    (force_mode (out))))
 
 ===========================================
 Guarded assignment

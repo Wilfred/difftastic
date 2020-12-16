@@ -141,10 +141,20 @@ assert A/+B > 0;
 ===================================
 ERROR: ILLEGAL - ADA LRM 4.5.0 (plus)
 ===================================
+assert Y** +3 > 0;
 assert Y**+3 > 0;
 ---
 
 (design_file
+  (assertion_statement
+    (relation
+      left: (simple_expression
+        left: (simple_name)
+        (ERROR)
+        right: (integer_decimal
+          (integer)))
+      right: (integer_decimal
+        (integer))))
   (assertion_statement
     (relation
       left: (simple_expression
@@ -158,6 +168,7 @@ assert Y**+3 > 0;
 ===================================
 ERROR: ILLEGAL - ADA LRM 4.5.0 (minus)
 ===================================
+assert Y** -3 > 0;
 assert Y**-3 > 0;
 ---
 
@@ -170,5 +181,13 @@ assert Y**-3 > 0;
         right: (integer_decimal
           (integer)))
       right: (integer_decimal
+        (integer))))
+   (assertion_statement
+    (relation
+      left: (simple_expression
+        left: (simple_name)
+        (ERROR)
+        right: (integer_decimal
+          (integer)))
+      right: (integer_decimal
         (integer)))))
-test.vhdl	0 ms	(ERROR)

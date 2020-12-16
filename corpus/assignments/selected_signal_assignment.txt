@@ -216,7 +216,7 @@ with expr select
   (selected_force_assignment
     with: (simple_name)
     target: (simple_name)
-    (force_mode)
+    (force_mode (in))
     (selected_expressions
       value: (simple_name)
       (choices
@@ -224,7 +224,7 @@ with expr select
   (selected_force_assignment
     with: (simple_name)
     target: (simple_name)
-    (force_mode)
+    (force_mode (out))
     (selected_expressions
       value: (simple_name)
       (choices

@@ -16447,7 +16447,21 @@
   {
     "type": "force_mode",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "in",
+          "named": true
+        },
+        {
+          "type": "out",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "full_type_declaration",
@@ -22875,16 +22889,6 @@
             "named": true
           }
         ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "",
-            "named": false
-          }
-        ]
       }
     }
   },
@@ -23171,16 +23175,6 @@
           {
             "type": "term",
             "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "",
-            "named": false
           }
         ]
       },
@@ -24190,6 +24184,14 @@
           {
             "type": "",
             "named": false
+          },
+          {
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "/",
+            "named": false
           }
         ]
       },
@@ -25162,6 +25164,10 @@
     "named": false
   },
   {
+    "type": "*",
+    "named": false
+  },
+  {
     "type": "**",
     "named": false
   },
@@ -25375,11 +25381,11 @@
   },
   {
     "type": "boolean",
-    "named": true
+    "named": false
   },
   {
     "type": "boolean",
-    "named": false
+    "named": true
   },
   {
     "type": "buffer",

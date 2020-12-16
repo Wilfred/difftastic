@@ -179,8 +179,6 @@ const ATTRIBUTES_OF_NAMED_ENTITY = [
    '|' +  caseInsensitive('instance_name') +
    '|' +  caseInsensitive('path_name')     + ')'
 ];
-
-
 // }}}
 // Operators {{{
 const LOGICAL_OPERATORS = [
@@ -195,12 +193,8 @@ const SHIFT_OPERATORS = [
     '[sS][rRlL][lLaA]|[rR][oO][rRlL]'
 ];
 
-const PLUS_MINUS = [
-    '\\+|\\-'
-];
-
 const MULTIPLYING_OPERATORS = [
-    '\\*|/|[rR][eE][mM]|[mM][oO][dD]'
+    '[rR][eE][mM]|[mM][oO][dD]'
 ];
 
 const MISCELLANEOUS_OPERATORS = [
@@ -215,11 +209,11 @@ const PSL_REPEAT_SERE_OPERATORS = [
     '\\+|\\->?|\\*|='
 ];
 
-const PSL_LOGICAL_IMPLICATION_OPERATOR = [
+const PSL_LOGICAL_IMPLICATION_OPERATORS = [
     '<?\\->'
 ];
 
-const PSL_SUFFIX_IMPLICATION_OPERATOR = [
+const PSL_SUFFIX_IMPLICATION_OPERATORS = [
     '\\|[=\\-]>'
 ];
 // }}}
@@ -1144,7 +1138,7 @@ module.exports = grammar({
     type_mark: $ => choice(
         $._simple_name,
         $._expanded_name,
-        //$.attribute_name
+        //$.attribute_name // TODO types attributes names
     ),
 
     _constraint: $ => choice(
@@ -2057,10 +2051,10 @@ module.exports = grammar({
         seq(
             field('left', $._expression),
             choice(
-                field('operator', operator(RELATIONAL_OPERATORS)),
+                field('operator', operator(RELATIONAL_OPERATORS,"RELATIONAL_OPERATOR")),
                 seq(
                     delimiter('?'),
-                    field('operator', operator_immed(RELATIONAL_OPERATORS)),
+                    field('operator', operator_immed(RELATIONAL_OPERATORS,"CONDITIONAL_RELATIONAL_OPERATOR")),
                 ),
             ),
             field('right', $._expression)
@@ -2071,7 +2065,7 @@ module.exports = grammar({
         PREC.LOGICAL,
         seq(
             field('left', $._expression),
-            field('operator', operator(LOGICAL_OPERATORS)),
+            field('operator', operator(LOGICAL_OPERATORS,"LOGICAL_OPERATOR")),
             field('right', $._expression),
         )
     ),
@@ -2080,7 +2074,7 @@ module.exports = grammar({
         PREC.SHIFT_EXPRESSION,
         seq(
             field('left',$._expression),
-            field('operator', operator(SHIFT_OPERATORS)),
+            field('operator', operator(SHIFT_OPERATORS,"SHIFT_OPERATOR")),
             field('right',$._expression)
         )
     ),
@@ -2098,7 +2092,7 @@ module.exports = grammar({
         PREC.SIMPLE_EXPRESSION,
         seq(
             field('left',$._expression),
-            field('operator', operator(PLUS_MINUS)),
+            field('operator', delimiter(choice('+','-'))),
             field('right',$._expression),
         )
     ),
@@ -2106,7 +2100,7 @@ module.exports = grammar({
     sign: $ => prec.left(
         PREC.SIGN,
         seq(
-            field('operator', operator(PLUS_MINUS)),
+            field('operator', delimiter(choice('+','-'))),
             field('argument',$._expression),
         )
     ),
@@ -2115,7 +2109,11 @@ module.exports = grammar({
         PREC.TERM,
         seq(
             field('left',$._expression),
-            field('operator', operator(MULTIPLYING_OPERATORS)),
+            field('operator', choice(
+               delimiter('*'),
+               delimiter('/'),
+               operator(MULTIPLYING_OPERATORS,"MULTIPLYING_OPERATOR")
+            )),
             field('right',$._expression),
         )
     ),
@@ -2123,7 +2121,7 @@ module.exports = grammar({
     factor: $ => prec.left(
         PREC.FACTOR,
         seq(
-            field('operator', operator(MISCELLANEOUS_OPERATORS)),
+            field('operator', operator(MISCELLANEOUS_OPERATORS,"MISCELLANEOUS_OPERATORS")),
             field('argument',$._primary)
         )
     ),
@@ -2140,7 +2138,7 @@ module.exports = grammar({
     reduction: $ => prec.left(
         PREC.REDUCTION,
         seq(
-            field('operator', operator(LOGICAL_OPERATORS)),
+            field('operator', operator(LOGICAL_OPERATORS,"REDUCTION_OPERATOR")),
             field('argument',$._primary)
         )
     ),
@@ -2380,8 +2378,8 @@ module.exports = grammar({
     ),
 
     force_mode: $ => choice(
-        reservedWord('in'),
-        reservedWord('out'),
+       $.in,
+       $.out
     ),
 
     delay_mechanism: $ => choice(
@@ -3269,7 +3267,7 @@ module.exports = grammar({
         PREC.PSL_LOGICAL_IMPLICATION,
         seq(
             field('left',$._PSL_Boolean_no_field),
-            field('operator', operator(PSL_LOGICAL_IMPLICATION_OPERATOR)),
+            field('operator', operator(PSL_LOGICAL_IMPLICATION_OPERATORS,"PSL_LOGICAL_IMPLICATION_OPERATOR")),
             field('right',$._PSL_Boolean_no_field),
         )
     ),
@@ -3427,7 +3425,7 @@ module.exports = grammar({
                 $._PSL_Sequence,
             )),
             '[',
-            field('operator', operator(PSL_REPEAT_SERE_OPERATORS)),
+            field('operator', operator(PSL_REPEAT_SERE_OPERATORS,"PSL_REPEAT_SERE_OPERATORS")),
             optional($._PSL_Count),
             ']',
         ),
@@ -3536,7 +3534,7 @@ module.exports = grammar({
         PREC.PSL_LOGICAL_IMPLICATION,
         seq(
             field('left', $._PSL_FL_Property),
-            field('operator', operator(PSL_LOGICAL_IMPLICATION_OPERATOR)),
+            field('operator', operator(PSL_LOGICAL_IMPLICATION_OPERATORS,"PSL_LOGICAL_IMPLICATION_OPERATOR")),
             field('right', $._PSL_FL_Property),
         )
     ),
@@ -3606,7 +3604,7 @@ module.exports = grammar({
         PREC.PSL_TERMINATION,
         seq(
             field('Property',$._PSL_FL_Property),
-            field('operator', operator(PSL_TERMINATION_OPERATORS)),
+            field('operator', operator(PSL_TERMINATION_OPERATORS,"PSL_TERMINATION_OPERATORS")),
             $._PSL_Boolean,
         )
     ),
@@ -3640,7 +3638,7 @@ module.exports = grammar({
             ),
             seq(
                 $._PSL_Sequence,
-                field('operator', operator(PSL_SUFFIX_IMPLICATION_OPERATOR)),
+                field('operator', operator(PSL_SUFFIX_IMPLICATION_OPERATORS,"PSL_SUFFIX_IMPLICATION_OPERATOR")),
                 field('Property',$._PSL_FL_Property),
             )
         )
@@ -3650,7 +3648,7 @@ module.exports = grammar({
         reservedWord('for'),
         $.PSL_Parameters_Definition,
         ':',
-        field('operator', operator(LOGICAL_OPERATORS)),
+        field('operator', operator(LOGICAL_OPERATORS,"LOGICAL_OPERATOR")),
         '(',
         $._PSL_FL_Property,
         ')'
