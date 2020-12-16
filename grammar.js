@@ -2092,7 +2092,10 @@ module.exports = grammar({
         PREC.SIMPLE_EXPRESSION,
         seq(
             field('left',$._expression),
-            field('operator', delimiter(choice('+','-'))),
+            field('operator', choice(
+               delimiter('+'),
+               delimiter('-')
+            )),
             field('right',$._expression),
         )
     ),
@@ -2100,7 +2103,10 @@ module.exports = grammar({
     sign: $ => prec.left(
         PREC.SIGN,
         seq(
-            field('operator', delimiter(choice('+','-'))),
+            field('operator', choice(
+               delimiter('+'),
+               delimiter('-')
+            )),
             field('argument',$._expression),
         )
     ),
@@ -2121,7 +2127,7 @@ module.exports = grammar({
     factor: $ => prec.left(
         PREC.FACTOR,
         seq(
-            field('operator', operator(MISCELLANEOUS_OPERATORS,"MISCELLANEOUS_OPERATORS")),
+            field('operator', operator(MISCELLANEOUS_OPERATORS,"MISCELLANEOUS_OPERATOR")),
             field('argument',$._primary)
         )
     ),
@@ -3544,7 +3550,7 @@ module.exports = grammar({
         seq(
             field('left', $._PSL_FL_Property),
             // LINT: only `and` and `or` logical operators are allowed
-            field('operator', operator(LOGICAL_OPERATORS)),
+            field('operator', operator(LOGICAL_OPERATORS,"PSL_LOGICAL_OPERATOR")),
             field('right', $._PSL_FL_Property),
         )
     ),
@@ -3553,7 +3559,7 @@ module.exports = grammar({
         PREC.TERM,
         seq(
             // LINT: abs is not allowed
-            field('operator', operator(MISCELLANEOUS_OPERATORS)),
+            field('operator', operator(MISCELLANEOUS_OPERATORS,"PSL_MISCELLANEOUS_OPERATOR")),
             field('argument', $._PSL_FL_Property)
         )
     ),
@@ -3604,7 +3610,7 @@ module.exports = grammar({
         PREC.PSL_TERMINATION,
         seq(
             field('Property',$._PSL_FL_Property),
-            field('operator', operator(PSL_TERMINATION_OPERATORS,"PSL_TERMINATION_OPERATORS")),
+            field('operator', operator(PSL_TERMINATION_OPERATORS,"PSL_TERMINATION_OPERATOR")),
             $._PSL_Boolean,
         )
     ),
@@ -3648,7 +3654,7 @@ module.exports = grammar({
         reservedWord('for'),
         $.PSL_Parameters_Definition,
         ':',
-        field('operator', operator(LOGICAL_OPERATORS,"LOGICAL_OPERATOR")),
+        field('operator', operator(LOGICAL_OPERATORS,"PSL_LOGICAL_OPERATOR")),
         '(',
         $._PSL_FL_Property,
         ')'
@@ -4067,12 +4073,12 @@ function bit_string_literal_gen($, specifier, bitval) {
         )
 }
 
-function operator(opset) {
-    return alias(token(prec(2,new RegExp(opset))), "")
+function operator(opset,name="") {
+    return alias(token(prec(2,new RegExp(opset))), name)
 }
 
-function operator_immed(opset) {
-    return alias(token.immediate(prec(2,new RegExp(opset))), "")
+function operator_immed(opset, name="") {
+    return alias(token.immediate(prec(2,new RegExp(opset))), name)
 }
 
 function delimiter(delim) {

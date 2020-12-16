@@ -3110,7 +3110,7 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "PSL_LOGICAL_IMPLICATION_OPERATOR",
             "named": false
           }
         ]
@@ -4012,7 +4012,7 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "PSL_MISCELLANEOUS_OPERATOR",
             "named": false
           }
         ]
@@ -4485,7 +4485,7 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "PSL_LOGICAL_IMPLICATION_OPERATOR",
             "named": false
           }
         ]
@@ -5174,7 +5174,7 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "PSL_LOGICAL_OPERATOR",
             "named": false
           }
         ]
@@ -5664,7 +5664,7 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "PSL_LOGICAL_OPERATOR",
             "named": false
           }
         ]
@@ -7138,7 +7138,7 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "PSL_REPEAT_SERE_OPERATORS",
             "named": false
           }
         ]
@@ -9406,7 +9406,7 @@
         "required": false,
         "types": [
           {
-            "type": "",
+            "type": "PSL_SUFFIX_IMPLICATION_OPERATOR",
             "named": false
           }
         ]
@@ -9775,7 +9775,7 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "PSL_TERMINATION_OPERATOR",
             "named": false
           }
         ]
@@ -16168,7 +16168,7 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "MISCELLANEOUS_OPERATOR",
             "named": false
           }
         ]
@@ -18166,7 +18166,7 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "LOGICAL_OPERATOR",
             "named": false
           }
         ]
@@ -20372,7 +20372,7 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "REDUCTION_OPERATOR",
             "named": false
           }
         ]
@@ -20669,7 +20669,11 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "CONDITIONAL_RELATIONAL_OPERATOR",
+            "named": false
+          },
+          {
+            "type": "RELATIONAL_OPERATOR",
             "named": false
           }
         ]
@@ -22603,7 +22607,7 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "SHIFT_OPERATOR",
             "named": false
           }
         ]
@@ -22887,6 +22891,20 @@
           {
             "type": "term",
             "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
           }
         ]
       }
@@ -23175,6 +23193,20 @@
           {
             "type": "term",
             "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
           }
         ]
       },
@@ -24182,15 +24214,15 @@
         "required": true,
         "types": [
           {
-            "type": "",
-            "named": false
-          },
-          {
             "type": "*",
             "named": false
           },
           {
             "type": "/",
+            "named": false
+          },
+          {
+            "type": "MULTIPLYING_OPERATOR",
             "named": false
           }
         ]
@@ -25172,7 +25204,15 @@
     "named": false
   },
   {
+    "type": "+",
+    "named": false
+  },
+  {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
     "named": false
   },
   {
@@ -25272,8 +25312,60 @@
     "named": false
   },
   {
+    "type": "CONDITIONAL_RELATIONAL_OPERATOR",
+    "named": false
+  },
+  {
+    "type": "LOGICAL_OPERATOR",
+    "named": false
+  },
+  {
+    "type": "MISCELLANEOUS_OPERATOR",
+    "named": false
+  },
+  {
+    "type": "MULTIPLYING_OPERATOR",
+    "named": false
+  },
+  {
     "type": "PSL_Identifier",
     "named": true
+  },
+  {
+    "type": "PSL_LOGICAL_IMPLICATION_OPERATOR",
+    "named": false
+  },
+  {
+    "type": "PSL_LOGICAL_OPERATOR",
+    "named": false
+  },
+  {
+    "type": "PSL_MISCELLANEOUS_OPERATOR",
+    "named": false
+  },
+  {
+    "type": "PSL_REPEAT_SERE_OPERATORS",
+    "named": false
+  },
+  {
+    "type": "PSL_SUFFIX_IMPLICATION_OPERATOR",
+    "named": false
+  },
+  {
+    "type": "PSL_TERMINATION_OPERATOR",
+    "named": false
+  },
+  {
+    "type": "REDUCTION_OPERATOR",
+    "named": false
+  },
+  {
+    "type": "RELATIONAL_OPERATOR",
+    "named": false
+  },
+  {
+    "type": "SHIFT_OPERATOR",
+    "named": false
   },
   {
     "type": "[",

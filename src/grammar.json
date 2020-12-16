@@ -8212,7 +8212,7 @@
                     }
                   },
                   "named": false,
-                  "value": ""
+                  "value": "RELATIONAL_OPERATOR"
                 }
               },
               {
@@ -8246,7 +8246,7 @@
                         }
                       },
                       "named": false,
-                      "value": ""
+                      "value": "CONDITIONAL_RELATIONAL_OPERATOR"
                     }
                   }
                 ]
@@ -8295,7 +8295,7 @@
                 }
               },
               "named": false,
-              "value": ""
+              "value": "LOGICAL_OPERATOR"
             }
           },
           {
@@ -8340,7 +8340,7 @@
                 }
               },
               "named": false,
-              "value": ""
+              "value": "SHIFT_OPERATOR"
             }
           },
           {
@@ -8412,24 +8412,31 @@
             "type": "FIELD",
             "name": "operator",
             "content": {
-              "type": "TOKEN",
-              "content": {
-                "type": "PREC",
-                "value": 2,
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "PREC",
+                    "value": 2,
+                    "content": {
                       "type": "STRING",
                       "value": "+"
-                    },
-                    {
+                    }
+                  }
+                },
+                {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "PREC",
+                    "value": 2,
+                    "content": {
                       "type": "STRING",
                       "value": "-"
                     }
-                  ]
+                  }
                 }
-              }
+              ]
             }
           },
           {
@@ -8453,24 +8460,31 @@
             "type": "FIELD",
             "name": "operator",
             "content": {
-              "type": "TOKEN",
-              "content": {
-                "type": "PREC",
-                "value": 2,
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "PREC",
+                    "value": 2,
+                    "content": {
                       "type": "STRING",
                       "value": "+"
-                    },
-                    {
+                    }
+                  }
+                },
+                {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "PREC",
+                    "value": 2,
+                    "content": {
                       "type": "STRING",
                       "value": "-"
                     }
-                  ]
+                  }
                 }
-              }
+              ]
             }
           },
           {
@@ -8540,7 +8554,7 @@
                     }
                   },
                   "named": false,
-                  "value": ""
+                  "value": "MULTIPLYING_OPERATOR"
                 }
               ]
             }
@@ -8579,7 +8593,7 @@
                 }
               },
               "named": false,
-              "value": ""
+              "value": "MISCELLANEOUS_OPERATOR"
             }
           },
           {
@@ -8656,7 +8670,7 @@
                 }
               },
               "named": false,
-              "value": ""
+              "value": "REDUCTION_OPERATOR"
             }
           },
           {
@@ -17921,7 +17935,7 @@
                 }
               },
               "named": false,
-              "value": ""
+              "value": "PSL_LOGICAL_IMPLICATION_OPERATOR"
             }
           },
           {
@@ -18801,7 +18815,7 @@
                 }
               },
               "named": false,
-              "value": ""
+              "value": "PSL_REPEAT_SERE_OPERATORS"
             }
           },
           {
@@ -19231,7 +19245,7 @@
                 }
               },
               "named": false,
-              "value": ""
+              "value": "PSL_LOGICAL_IMPLICATION_OPERATOR"
             }
           },
           {
@@ -19276,7 +19290,7 @@
                 }
               },
               "named": false,
-              "value": ""
+              "value": "PSL_LOGICAL_OPERATOR"
             }
           },
           {
@@ -19313,7 +19327,7 @@
                 }
               },
               "named": false,
-              "value": ""
+              "value": "PSL_MISCELLANEOUS_OPERATOR"
             }
           },
           {
@@ -19591,7 +19605,7 @@
                 }
               },
               "named": false,
-              "value": ""
+              "value": "PSL_TERMINATION_OPERATOR"
             }
           },
           {
@@ -19769,7 +19783,7 @@
                     }
                   },
                   "named": false,
-                  "value": ""
+                  "value": "PSL_SUFFIX_IMPLICATION_OPERATOR"
                 }
               },
               {
@@ -19829,7 +19843,7 @@
               }
             },
             "named": false,
-            "value": ""
+            "value": "PSL_LOGICAL_OPERATOR"
           }
         },
         {
