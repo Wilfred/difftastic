@@ -10,7 +10,8 @@ type att_t is array (a range <>) of b;
     (unbounded_array_definition
       (index_subtype_definition
         (type_mark
-          (simple_name)))
+          (simple_name))
+        (any))
       (subtype_indication
         (type_mark
           (simple_name))))))
@@ -27,10 +28,12 @@ type att_t is array (a range <>, b range <>) of c;
     (unbounded_array_definition
       (index_subtype_definition
         (type_mark
-          (simple_name)))
+          (simple_name))
+        (any))
       (index_subtype_definition
         (type_mark
-          (simple_name)))
+          (simple_name))
+        (any))
       (subtype_indication
         (type_mark
           (simple_name))))))

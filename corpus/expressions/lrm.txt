@@ -147,7 +147,7 @@ assert Y**+3 > 0;
 (design_file
   (assertion_statement
     (relation
-      left: (exponentiation
+      left: (simple_expression
         left: (simple_name)
         (ERROR)
         right: (integer_decimal
@@ -164,10 +164,11 @@ assert Y**-3 > 0;
 (design_file
   (assertion_statement
     (relation
-      left: (exponentiation
+      left: (simple_expression
         left: (simple_name)
         (ERROR)
         right: (integer_decimal
           (integer)))
       right: (integer_decimal
         (integer)))))
+test.vhdl	0 ms	(ERROR)

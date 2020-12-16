@@ -13,20 +13,18 @@ end;
       (identifier)
       (header
         (generic_clause
-          (subprogram_interface_declaration
-            (subprogram_specification
-              (identifier)
-              (return
-                (type_mark
-                  (simple_name))))
+          (function_interface_declaration
+            (identifier)
+            (return
+              (type_mark
+                (simple_name)))
             (interface_subprogram_default
               (same)))
-          (subprogram_interface_declaration
-            (subprogram_specification
-              (identifier)
-              (return
-                (type_mark
-                  (simple_name))))
+          (function_interface_declaration
+            (identifier)
+            (return
+              (type_mark
+                (simple_name)))
             (interface_subprogram_default
               subprogram: (expanded_name
                 prefix: (simple_name)

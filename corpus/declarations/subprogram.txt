@@ -15,15 +15,12 @@ end procedure p;
 ---
 
 (design_file
-  (subprogram_body
-    (subprogram_specification
-      (identifier)))
-  (subprogram_body
-    (subprogram_specification
-      (identifier)))
-  (subprogram_body
-    (subprogram_specification
-      (identifier))
+  (procedure_body
+    (identifier))
+  (procedure_body
+    (identifier))
+  (procedure_body
+    (identifier)
     at_end: (simple_name)))
 
 ==========================
@@ -43,24 +40,21 @@ end function f;
 ---
 
 (design_file
-  (subprogram_body
-    (subprogram_specification
-      (identifier)
-      (return
-        (type_mark
-          (simple_name)))))
-  (subprogram_body
-    (subprogram_specification
-      (identifier)
-      (return
-        (type_mark
-          (simple_name)))))
-  (subprogram_body
-    (subprogram_specification
-      (identifier)
-      (return
-        (type_mark
-          (simple_name))))
+  (function_body
+    (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    (identifier)
+    (return
+      (type_mark
+        (simple_name)))
     at_end: (simple_name)))
 
 ==========================
@@ -80,24 +74,21 @@ end function f;
 ---
 
 (design_file
-  (subprogram_body
-    (subprogram_specification
-      (identifier)
-      (return
-        (type_mark
-          (simple_name)))))
-  (subprogram_body
-    (subprogram_specification
-      (identifier)
-      (return
-        (type_mark
-          (simple_name)))))
-  (subprogram_body
-    (subprogram_specification
-      (identifier)
-      (return
-        (type_mark
-          (simple_name))))
+  (function_body
+    (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    (identifier)
+    (return
+      (type_mark
+        (simple_name)))
     at_end: (simple_name)))
 
 ==========================
@@ -117,23 +108,125 @@ end function f;
 ---
 
 (design_file
-  (subprogram_body
-    (subprogram_specification
-      (identifier)
-      (return
-        (type_mark
-          (simple_name)))))
-  (subprogram_body
-    (subprogram_specification
-      (identifier)
-      (return
-        (type_mark
-          (simple_name)))))
-  (subprogram_body
-    (subprogram_specification
-      (identifier)
-      (return
-        (type_mark
-          (simple_name))))
+  (function_body
+    (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    (identifier)
+    (return
+      (type_mark
+        (simple_name)))
     at_end: (simple_name)))
 
+================================
+LINT: Header
+================================
+procedure p
+    generic (k : t)
+    generic map (x)
+    port (s : t)    -- illegal
+    port map (x);   -- illegal
+---
+
+(design_file
+  (procedure_declaration
+    (identifier)
+    (subprogram_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))))
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (simple_name))))
+      (port_clause
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))))
+      (comment)
+      (port_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (simple_name))))))
+  (comment))
+
+================================
+LINT: Header (semicolon)
+================================
+procedure p
+    generic (k : t);
+
+procedure p
+    generic map (x);
+
+procedure p
+    generic (k : t)
+    generic map (x);
+
+procedure p
+    generic (k : t); -- here
+    generic map (x);
+---
+
+(design_file
+  (procedure_declaration
+    (identifier)
+    (subprogram_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))))))
+  (procedure_declaration
+    (identifier)
+    (subprogram_header
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (simple_name))))))
+  (procedure_declaration
+    (identifier)
+    (subprogram_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))))
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (simple_name))))))
+  (procedure_declaration
+    (identifier)
+    (subprogram_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon))
+      (comment)
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (simple_name)))))))

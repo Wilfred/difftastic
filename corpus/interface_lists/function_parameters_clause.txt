@@ -8,39 +8,38 @@ function f (constant k :    t;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
-      (identifier)
-      (function_parameter_clause
-        (constant_interface_declaration
-          (identifier_list
-            (identifier))
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (constant_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (constant_interface_declaration
-          (identifier_list
-            (identifier))
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (constant_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name)))))
-      (return
-        (type_mark
-          (simple_name))))))
+  (function_declaration
+    (identifier)
+    (function_parameter_clause
+      (constant_interface_declaration
+        (identifier_list
+          (identifier))
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (constant_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (constant_interface_declaration
+        (identifier_list
+          (identifier))
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (constant_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name)))))
+    (return
+      (type_mark
+        (simple_name)))))
 
 ============================================================================
 Signal interface declarations
@@ -50,26 +49,25 @@ function f (signal s1 :    t;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
-      (identifier)
-      (function_parameter_clause
-        (signal_interface_declaration
-          (identifier_list
-            (identifier))
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (signal_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name)))))
-      (return
-        (type_mark
-          (simple_name))))))
+  (function_declaration
+    (identifier)
+    (function_parameter_clause
+      (signal_interface_declaration
+        (identifier_list
+          (identifier))
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (signal_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name)))))
+    (return
+      (type_mark
+        (simple_name)))))
 
 ============================================================================
 File interface declarations
@@ -78,19 +76,18 @@ function f (file f : t) return t;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
-      (identifier)
-      (function_parameter_clause
-        (file_interface_declaration
-          (identifier_list
-            (identifier))
-          (subtype_indication
-            (type_mark
-              (simple_name)))))
-      (return
-        (type_mark
-          (simple_name))))))
+  (function_declaration
+    (identifier)
+    (function_parameter_clause
+      (file_interface_declaration
+        (identifier_list
+          (identifier))
+        (subtype_indication
+          (type_mark
+            (simple_name)))))
+    (return
+      (type_mark
+        (simple_name)))))
 
 ============================================================================
 LINT: Illegal constant interface declarations
@@ -102,41 +99,40 @@ function f (constant k : out     t;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
-      (identifier)
-      (function_parameter_clause
-        (constant_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (constant_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (constant_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (constant_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name)))))
-      (return
-        (type_mark
-          (simple_name))))))
+  (function_declaration
+    (identifier)
+    (function_parameter_clause
+      (constant_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (constant_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (constant_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (constant_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name)))))
+    (return
+      (type_mark
+        (simple_name)))))
 
 ============================================================================
 LINT: Illegal signal interface declarations
@@ -150,58 +146,57 @@ function f (signal s :         t := x;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
-      (identifier)
-      (function_parameter_clause
-        (signal_interface_declaration
-          (identifier_list
-            (identifier))
-          (subtype_indication
-            (type_mark
-              (simple_name)))
-          (default_expression
+  (function_declaration
+    (identifier)
+    (function_parameter_clause
+      (signal_interface_declaration
+        (identifier_list
+          (identifier))
+        (subtype_indication
+          (type_mark
             (simple_name)))
-        (signal_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name)))
-          (default_expression
+        (default_expression
+          (simple_name)))
+      (signal_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
             (simple_name)))
-        (signal_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (signal_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (signal_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (signal_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name)))))
-      (return
-        (type_mark
-          (simple_name))))))
+        (default_expression
+          (simple_name)))
+      (signal_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (signal_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (signal_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (signal_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name)))))
+    (return
+      (type_mark
+        (simple_name)))))
 
 ============================================================================
 LINT: Illegal variable interface declarations
@@ -214,49 +209,47 @@ function f (variable v : in      t;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
-      (identifier)
-      (function_parameter_clause
-        (variable_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (variable_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (variable_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (variable_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (variable_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name)))))
-      (return
-        (type_mark
-          (simple_name))))))
-
+  (function_declaration
+    (identifier)
+    (function_parameter_clause
+      (variable_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (variable_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (variable_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (variable_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (variable_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name)))))
+    (return
+      (type_mark
+        (simple_name)))))
 
 ============================================================================
 LINT: Illegal file interface declarations
@@ -269,48 +262,47 @@ function f (file v : in      t;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
-      (identifier)
-      (function_parameter_clause
-        (file_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (file_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (file_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (file_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name))))
-        (file_interface_declaration
-          (identifier_list
-            (identifier))
-          (mode)
-          (subtype_indication
-            (type_mark
-              (simple_name)))))
-      (return
-        (type_mark
-          (simple_name))))))
+  (function_declaration
+    (identifier)
+    (function_parameter_clause
+      (file_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (file_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (file_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (file_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (file_interface_declaration
+        (identifier_list
+          (identifier))
+        (mode)
+        (subtype_indication
+          (type_mark
+            (simple_name)))))
+    (return
+      (type_mark
+        (simple_name)))))
 
 ============================================================================
 LINT: Illegal type interface declarations
@@ -319,15 +311,14 @@ function f (type t) return t;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
-      (identifier)
-      (function_parameter_clause
-        (type_interface_declaration
-          (identifier)))
-      (return
-        (type_mark
-          (simple_name))))))
+  (function_declaration
+    (identifier)
+    (function_parameter_clause
+      (type_interface_declaration
+        (identifier)))
+    (return
+      (type_mark
+        (simple_name)))))
 
 ============================================================================
 LINT: Illegal subprogram interface declarations
@@ -336,16 +327,14 @@ function f (procedure p) return t;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
-      (identifier)
-      (function_parameter_clause
-        (subprogram_interface_declaration
-          (subprogram_specification
-            (identifier))))
-      (return
-        (type_mark
-          (simple_name))))))
+  (function_declaration
+    (identifier)
+    (function_parameter_clause
+      (procedure_interface_declaration
+        (identifier)))
+    (return
+      (type_mark
+        (simple_name)))))
 
 ============================================================================
 LINT: Illegal package interface declarations
@@ -354,16 +343,15 @@ function f (package pkg is new pkg generic map (<>)) return t;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
-      (identifier)
-      (function_parameter_clause
-        (package_interface_declaration
-          (identifier)
-          uninstantiated: (simple_name)
-          (map_aspect
-            (generic_map_aspect
-              (any)))))
-      (return
-        (type_mark
-          (simple_name))))))
+  (function_declaration
+    (identifier)
+    (function_parameter_clause
+      (package_interface_declaration
+        (identifier)
+        (simple_name)
+        (map_aspect
+          (generic_map_aspect
+            (any)))))
+    (return
+      (type_mark
+        (simple_name)))))

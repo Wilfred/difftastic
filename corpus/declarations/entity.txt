@@ -35,9 +35,9 @@ LINT: Header
 ================================
 entity e is
     generic (k : t);
-    generic map (x);
+    generic map (x); -- illegal
     port (s : t);
-    port map (x);
+    port map (x);    -- illegal
 end;
 ---
 
@@ -59,6 +59,7 @@ end;
             (positional_association_element
               actual_part: (simple_name)))
           (semicolon))
+        (comment)
         (port_clause
           (signal_interface_declaration
             (identifier_list
@@ -71,7 +72,8 @@ end;
           (association_list
             (positional_association_element
               actual_part: (simple_name)))
-          (semicolon))))))
+          (semicolon)))
+      (comment))))
 
 ================================
 LINT: Header (semicolon)

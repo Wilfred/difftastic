@@ -360,9 +360,8 @@ end entity e;
       (identifier)
       (header
         (port_clause
-          (subprogram_interface_declaration
-            (subprogram_specification
-              (identifier)))
+          (procedure_interface_declaration
+              (identifier))
           (semicolon)))
       at_end: (simple_name)))
   (design_unit
@@ -372,7 +371,7 @@ end entity e;
         (port_clause
           (package_interface_declaration
             (identifier)
-            uninstantiated: (simple_name)
+            (simple_name)
             (map_aspect
               (generic_map_aspect
                 (any))))

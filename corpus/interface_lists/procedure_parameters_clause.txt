@@ -8,8 +8,7 @@ procedure f (constant k :    t;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
+  (procedure_declaration
       (identifier)
       (procedure_parameter_clause
         (constant_interface_declaration
@@ -37,7 +36,7 @@ procedure f (constant k :    t;
           (mode)
           (subtype_indication
             (type_mark
-              (simple_name))))))))
+              (simple_name)))))))
 
 ============================================================================
 Signal interface declarations
@@ -49,8 +48,7 @@ procedure f (signal s :         t;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
+  (procedure_declaration
       (identifier)
       (procedure_parameter_clause
         (signal_interface_declaration
@@ -79,7 +77,7 @@ procedure f (signal s :         t;
           (mode)
           (subtype_indication
             (type_mark
-              (simple_name))))))))
+              (simple_name)))))))
 
 ============================================================================
 Variable interface declarations
@@ -92,8 +90,7 @@ procedure f (variable v : in      t := x;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
+  (procedure_declaration
       (identifier)
       (procedure_parameter_clause
         (variable_interface_declaration
@@ -132,7 +129,7 @@ procedure f (variable v : in      t := x;
           (mode)
           (subtype_indication
             (type_mark
-              (simple_name))))))))
+              (simple_name)))))))
 
 ============================================================================
 File interface declarations
@@ -141,8 +138,7 @@ procedure f (file f : t);
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
+  (procedure_declaration
       (identifier)
       (procedure_parameter_clause
         (file_interface_declaration
@@ -150,7 +146,7 @@ procedure f (file f : t);
             (identifier))
           (subtype_indication
             (type_mark
-              (simple_name))))))))
+              (simple_name)))))))
 
 ============================================================================
 LINT: Illegal constant interface declarations
@@ -162,8 +158,7 @@ procedure f (constant k : out     t;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
+  (procedure_declaration
       (identifier)
       (procedure_parameter_clause
         (constant_interface_declaration
@@ -193,7 +188,7 @@ procedure f (constant k : out     t;
           (mode)
           (subtype_indication
             (type_mark
-              (simple_name))))))))
+              (simple_name)))))))
 
 ============================================================================
 LINT: Illegal signal interface declarations
@@ -207,8 +202,7 @@ procedure f (signal s :         t := x;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
+  (procedure_declaration
       (identifier)
       (procedure_parameter_clause
         (signal_interface_declaration
@@ -259,7 +253,7 @@ procedure f (signal s :         t := x;
           (mode)
           (subtype_indication
             (type_mark
-              (simple_name))))))))
+              (simple_name)))))))
 
 ============================================================================
 LINT: Illegal variable interface declarations
@@ -271,8 +265,7 @@ procedure f (variable k : out     t := x;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
+  (procedure_declaration
       (identifier)
       (procedure_parameter_clause
         (variable_interface_declaration
@@ -306,7 +299,7 @@ procedure f (variable k : out     t := x;
           (mode)
           (subtype_indication
             (type_mark
-              (simple_name))))))))
+              (simple_name)))))))
 
 ============================================================================
 LINT: Illegal file interface declarations
@@ -319,8 +312,7 @@ procedure f (file v : in      t;
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
+  (procedure_declaration
       (identifier)
       (procedure_parameter_clause
         (file_interface_declaration
@@ -357,7 +349,7 @@ procedure f (file v : in      t;
           (mode)
           (subtype_indication
             (type_mark
-              (simple_name))))))))
+              (simple_name)))))))
 
 ============================================================================
 LINT: Illegal type interface declarations
@@ -366,12 +358,11 @@ procedure f (type t);
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
+  (procedure_declaration
       (identifier)
       (procedure_parameter_clause
         (type_interface_declaration
-          (identifier))))))
+          (identifier)))))
 
 ============================================================================
 LINT: Illegal subprogram interface declarations
@@ -380,13 +371,11 @@ procedure f (procedure p);
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
-      (identifier)
-      (procedure_parameter_clause
-        (subprogram_interface_declaration
-          (subprogram_specification
-            (identifier)))))))
+  (procedure_declaration
+    (identifier)
+    (procedure_parameter_clause
+      (procedure_interface_declaration
+        (identifier)))))
 
 ============================================================================
 LINT: Illegal package interface declarations
@@ -395,13 +384,12 @@ procedure f (package pkg is new pkg generic map (<>));
 ---
 
 (design_file
-  (subprogram_declaration
-    (subprogram_specification
+  (procedure_declaration
       (identifier)
       (procedure_parameter_clause
         (package_interface_declaration
           (identifier)
-          uninstantiated: (simple_name)
+          (simple_name)
           (map_aspect
             (generic_map_aspect
-              (any))))))))
+              (any)))))))

@@ -1,0 +1,8 @@
+=============================
+Attribute of attribute
+=============================
+t'base'left;
+
+<< a : constant .... :>'subtype
+
+foo(a => b)'high;

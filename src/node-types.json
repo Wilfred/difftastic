@@ -3770,7 +3770,31 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "eventually",
+            "named": false
+          },
+          {
+            "type": "next",
+            "named": false
+          },
+          {
+            "type": "next_a",
+            "named": false
+          },
+          {
+            "type": "next_e",
+            "named": false
+          },
+          {
+            "type": "next_event",
+            "named": false
+          },
+          {
+            "type": "next_event_a",
+            "named": false
+          },
+          {
+            "type": "next_event_e",
             "named": false
           }
         ]
@@ -5570,7 +5594,11 @@
         "required": true,
         "types": [
           {
-            "type": "",
+            "type": "eventually",
+            "named": false
+          },
+          {
+            "type": "next",
             "named": false
           }
         ]
@@ -10115,6 +10143,18 @@
           "named": true
         },
         {
+          "type": "function_body",
+          "named": true
+        },
+        {
+          "type": "function_declaration",
+          "named": true
+        },
+        {
+          "type": "function_instantiation_declaration",
+          "named": true
+        },
+        {
           "type": "group_declaration",
           "named": true
         },
@@ -10143,7 +10183,19 @@
           "named": true
         },
         {
+          "type": "procedure_body",
+          "named": true
+        },
+        {
           "type": "procedure_call_statement",
+          "named": true
+        },
+        {
+          "type": "procedure_declaration",
+          "named": true
+        },
+        {
+          "type": "procedure_instantiation_declaration",
           "named": true
         },
         {
@@ -10164,18 +10216,6 @@
         },
         {
           "type": "simple_waveform_assignment",
-          "named": true
-        },
-        {
-          "type": "subprogram_body",
-          "named": true
-        },
-        {
-          "type": "subprogram_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_instantiation_declaration",
           "named": true
         },
         {
@@ -10835,15 +10875,7 @@
             "named": true
           },
           {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
+            "type": "expanded_name",
             "named": true
           },
           {
@@ -10851,15 +10883,7 @@
             "named": true
           },
           {
-            "type": "selected_name",
-            "named": true
-          },
-          {
             "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
             "named": true
           }
         ]
@@ -11423,11 +11447,39 @@
         "required": true,
         "types": [
           {
+            "type": "array_attribute",
+            "named": true
+          },
+          {
+            "type": "array_object_attribute",
+            "named": true
+          },
+          {
+            "type": "named_entity_attribute",
+            "named": true
+          },
+          {
+            "type": "object_attribute",
+            "named": true
+          },
+          {
             "type": "predefined_name",
             "named": true
           },
           {
+            "type": "signal_attribute",
+            "named": true
+          },
+          {
             "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "type_attribute",
+            "named": true
+          },
+          {
+            "type": "type_or_array_attribute",
             "named": true
           }
         ]
@@ -11438,6 +11490,14 @@
         "types": [
           {
             "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "expanded_name",
             "named": true
           },
           {
@@ -11453,19 +11513,7 @@
             "named": true
           },
           {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
             "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
             "named": true
           }
         ]
@@ -14038,6 +14086,18 @@
           "named": true
         },
         {
+          "type": "function_body",
+          "named": true
+        },
+        {
+          "type": "function_declaration",
+          "named": true
+        },
+        {
+          "type": "function_instantiation_declaration",
+          "named": true
+        },
+        {
           "type": "group_declaration",
           "named": true
         },
@@ -14062,23 +14122,23 @@
           "named": true
         },
         {
+          "type": "procedure_body",
+          "named": true
+        },
+        {
+          "type": "procedure_declaration",
+          "named": true
+        },
+        {
+          "type": "procedure_instantiation_declaration",
+          "named": true
+        },
+        {
           "type": "shared_variable_declaration",
           "named": true
         },
         {
           "type": "signal_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_body",
-          "named": true
-        },
-        {
-          "type": "subprogram_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_instantiation_declaration",
           "named": true
         },
         {
@@ -14682,6 +14742,18 @@
           "named": true
         },
         {
+          "type": "function_body",
+          "named": true
+        },
+        {
+          "type": "function_declaration",
+          "named": true
+        },
+        {
+          "type": "function_instantiation_declaration",
+          "named": true
+        },
+        {
           "type": "group_declaration",
           "named": true
         },
@@ -14726,7 +14798,19 @@
           "named": true
         },
         {
+          "type": "procedure_body",
+          "named": true
+        },
+        {
           "type": "procedure_call_statement",
+          "named": true
+        },
+        {
+          "type": "procedure_declaration",
+          "named": true
+        },
+        {
+          "type": "procedure_instantiation_declaration",
           "named": true
         },
         {
@@ -14775,18 +14859,6 @@
         },
         {
           "type": "simple_waveform_assignment",
-          "named": true
-        },
-        {
-          "type": "subprogram_body",
-          "named": true
-        },
-        {
-          "type": "subprogram_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_instantiation_declaration",
           "named": true
         },
         {
@@ -15523,10 +15595,6 @@
           },
           {
             "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "function_call",
             "named": true
           },
           {
@@ -16436,23 +16504,15 @@
     }
   },
   {
-    "type": "function_call",
+    "type": "function_body",
     "named": true,
     "fields": {
-      "function": {
-        "multiple": false,
+      "at_end": {
+        "multiple": true,
         "required": false,
         "types": [
           {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
             "type": "operator_symbol",
-            "named": true
-          },
-          {
-            "type": "selected_name",
             "named": true
           },
           {
@@ -16460,13 +16520,65 @@
             "named": true
           }
         ]
-      },
-      "function_call": {
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "declarative_part",
+          "named": true
+        },
+        {
+          "type": "function_parameter_clause",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "operator_symbol",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "sequence_of_statements",
+          "named": true
+        },
+        {
+          "type": "subprogram_header",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_call",
+    "named": true,
+    "fields": {
+      "function": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "expanded_name",
+            "named": true
+          },
+          {
+            "type": "operator_symbol",
+            "named": true
+          },
+          {
+            "type": "simple_name",
             "named": true
           }
         ]
@@ -16478,6 +16590,107 @@
       "types": [
         {
           "type": "association_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "function_parameter_clause",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "operator_symbol",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "subprogram_header",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_instantiation_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expanded_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "operator_symbol",
+          "named": true
+        },
+        {
+          "type": "signature",
+          "named": true
+        },
+        {
+          "type": "simple_name",
+          "named": true
+        },
+        {
+          "type": "subprogram_instantiation_map_aspect",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_interface_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "function_parameter_clause",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "interface_subprogram_default",
+          "named": true
+        },
+        {
+          "type": "operator_symbol",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "subprogram_header",
           "named": true
         }
       ]
@@ -16500,15 +16713,19 @@
           "named": true
         },
         {
+          "type": "function_interface_declaration",
+          "named": true
+        },
+        {
           "type": "package_interface_declaration",
           "named": true
         },
         {
-          "type": "signal_interface_declaration",
+          "type": "procedure_interface_declaration",
           "named": true
         },
         {
-          "type": "subprogram_interface_declaration",
+          "type": "signal_interface_declaration",
           "named": true
         },
         {
@@ -16825,7 +17042,15 @@
           "named": true
         },
         {
+          "type": "function_interface_declaration",
+          "named": true
+        },
+        {
           "type": "package_interface_declaration",
+          "named": true
+        },
+        {
+          "type": "procedure_interface_declaration",
           "named": true
         },
         {
@@ -16834,10 +17059,6 @@
         },
         {
           "type": "signal_interface_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_interface_declaration",
           "named": true
         },
         {
@@ -17445,9 +17666,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "any",
+          "named": true
+        },
         {
           "type": "type_mark",
           "named": true
@@ -18577,6 +18802,11 @@
     }
   },
   {
+    "type": "object_attribute",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "open",
     "named": true,
     "fields": {}
@@ -18674,32 +18904,25 @@
   {
     "type": "package_instantiation_declaration",
     "named": true,
-    "fields": {
-      "uninstantiated": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "expanded_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "expanded_name",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true
         },
         {
           "type": "map_aspect",
+          "named": true
+        },
+        {
+          "type": "simple_name",
           "named": true
         }
       ]
@@ -18708,32 +18931,25 @@
   {
     "type": "package_interface_declaration",
     "named": true,
-    "fields": {
-      "uninstantiated": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "expanded_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "expanded_name",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true
         },
         {
           "type": "map_aspect",
+          "named": true
+        },
+        {
+          "type": "simple_name",
           "named": true
         }
       ]
@@ -19084,7 +19300,15 @@
           "named": true
         },
         {
+          "type": "function_interface_declaration",
+          "named": true
+        },
+        {
           "type": "package_interface_declaration",
+          "named": true
+        },
+        {
+          "type": "procedure_interface_declaration",
           "named": true
         },
         {
@@ -19093,10 +19317,6 @@
         },
         {
           "type": "signal_interface_declaration",
-          "named": true
-        },
-        {
-          "type": "subprogram_interface_declaration",
           "named": true
         },
         {
@@ -19446,6 +19666,60 @@
     }
   },
   {
+    "type": "procedure_body",
+    "named": true,
+    "fields": {
+      "at_end": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "operator_symbol",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "declarative_part",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "operator_symbol",
+          "named": true
+        },
+        {
+          "type": "procedure_parameter_clause",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "sequence_of_statements",
+          "named": true
+        },
+        {
+          "type": "subprogram_header",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "procedure_call_statement",
     "named": true,
     "fields": {
@@ -19493,11 +19767,116 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "association_list",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "procedure_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "label",
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "operator_symbol",
+          "named": true
+        },
+        {
+          "type": "procedure_parameter_clause",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "subprogram_header",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "procedure_instantiation_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expanded_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "operator_symbol",
+          "named": true
+        },
+        {
+          "type": "signature",
+          "named": true
+        },
+        {
+          "type": "simple_name",
+          "named": true
+        },
+        {
+          "type": "subprogram_instantiation_map_aspect",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "procedure_interface_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "interface_subprogram_default",
+          "named": true
+        },
+        {
+          "type": "operator_symbol",
+          "named": true
+        },
+        {
+          "type": "procedure_parameter_clause",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "subprogram_header",
           "named": true
         }
       ]
@@ -19520,15 +19899,19 @@
           "named": true
         },
         {
+          "type": "function_interface_declaration",
+          "named": true
+        },
+        {
           "type": "package_interface_declaration",
           "named": true
         },
         {
-          "type": "signal_interface_declaration",
+          "type": "procedure_interface_declaration",
           "named": true
         },
         {
-          "type": "subprogram_interface_declaration",
+          "type": "signal_interface_declaration",
           "named": true
         },
         {
@@ -21150,10 +21533,6 @@
           },
           {
             "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "function_call",
             "named": true
           },
           {
@@ -23451,23 +23830,7 @@
             "named": true
           },
           {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
             "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "selected_name",
             "named": true
           },
           {
@@ -23520,130 +23883,7 @@
     }
   },
   {
-    "type": "subprogram_body",
-    "named": true,
-    "fields": {
-      "at_end": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "operator_symbol",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "declarative_part",
-          "named": true
-        },
-        {
-          "type": "sequence_of_statements",
-          "named": true
-        },
-        {
-          "type": "subprogram_specification",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "subprogram_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "subprogram_specification",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "subprogram_instantiation_declaration",
-    "named": true,
-    "fields": {
-      "uninstantiated": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "map_aspect",
-          "named": true
-        },
-        {
-          "type": "operator_symbol",
-          "named": true
-        },
-        {
-          "type": "signature",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "subprogram_interface_declaration",
+    "type": "subprogram_header",
     "named": true,
     "fields": {},
     "children": {
@@ -23651,18 +23891,26 @@
       "required": true,
       "types": [
         {
-          "type": "interface_subprogram_default",
+          "type": "generic_clause",
           "named": true
         },
         {
-          "type": "subprogram_specification",
+          "type": "generic_map_aspect",
+          "named": true
+        },
+        {
+          "type": "port_clause",
+          "named": true
+        },
+        {
+          "type": "port_map_aspect",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "subprogram_specification",
+    "type": "subprogram_instantiation_map_aspect",
     "named": true,
     "fields": {},
     "children": {
@@ -23670,27 +23918,19 @@
       "required": true,
       "types": [
         {
-          "type": "function_parameter_clause",
+          "type": "generic_clause",
           "named": true
         },
         {
-          "type": "header",
+          "type": "generic_map_aspect",
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "port_clause",
           "named": true
         },
         {
-          "type": "operator_symbol",
-          "named": true
-        },
-        {
-          "type": "procedure_parameter_clause",
-          "named": true
-        },
-        {
-          "type": "return",
+          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -24955,10 +25195,6 @@
     "named": false
   },
   {
-    "type": "<>",
-    "named": false
-  },
-  {
     "type": "=",
     "named": false
   },
@@ -25037,6 +25273,14 @@
   {
     "type": "array",
     "named": false
+  },
+  {
+    "type": "array_attribute",
+    "named": true
+  },
+  {
+    "type": "array_object_attribute",
+    "named": true
   },
   {
     "type": "assert",
@@ -25175,6 +25419,10 @@
     "named": true
   },
   {
+    "type": "eventually",
+    "named": false
+  },
+  {
     "type": "exit",
     "named": false
   },
@@ -25291,6 +25539,10 @@
     "named": false
   },
   {
+    "type": "named_entity_attribute",
+    "named": true
+  },
+  {
     "type": "never",
     "named": false
   },
@@ -25300,6 +25552,26 @@
   },
   {
     "type": "next",
+    "named": false
+  },
+  {
+    "type": "next_a",
+    "named": false
+  },
+  {
+    "type": "next_e",
+    "named": false
+  },
+  {
+    "type": "next_event",
+    "named": false
+  },
+  {
+    "type": "next_event_a",
+    "named": false
+  },
+  {
+    "type": "next_event_e",
     "named": false
   },
   {
@@ -25459,6 +25731,10 @@
     "named": false
   },
   {
+    "type": "signal_attribute",
+    "named": true
+  },
+  {
     "type": "simple_name",
     "named": true
   },
@@ -25493,6 +25769,14 @@
   {
     "type": "type",
     "named": false
+  },
+  {
+    "type": "type_attribute",
+    "named": true
+  },
+  {
+    "type": "type_or_array_attribute",
+    "named": true
   },
   {
     "type": "unaffected",

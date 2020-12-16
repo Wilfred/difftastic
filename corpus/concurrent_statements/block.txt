@@ -166,7 +166,7 @@ end block;
     (label
       (identifier))
     (concurrent_statement_part
-      (procedure_call_statement
+      (component_instantiation_statement
         (label
           (identifier))
-        (simple_name)))))
+        component: (simple_name)))))

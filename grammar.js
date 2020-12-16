@@ -276,7 +276,6 @@ module.exports = grammar({
         $._component_name,                       // 7.3
         $._component_specification,              // 7.3
         $._name,                                 // 8
-        $._prefix,                               // 8.3
         $._suffix,                               // 8.3
         $._range_attribute_designator,           // 8.6
         $._attribute_designator,                 // 8.6
@@ -395,12 +394,20 @@ module.exports = grammar({
         [$.type_mark, $.record_element_resolution],
         [$.type_mark, $.ambiguous_name, $.slice_name, $.function_call],
         [$.type_mark, $.ambiguous_name, $.slice_name, $.record_element_resolution, $.type_mark, $.function_call],
+        [$.type_mark, $.ambiguous_name, $.function_call],
 
         // Attribute name conflicts
         [$.attribute_name, $.type_mark],
         [$.attribute_name, $._expression ],
         [$.attribute_name, $.condition],
+        [$.attribute_name, $.resolution_function],
         [$.attribute_name, $.range_attribute_name, $.type_mark],
+        [$.attribute_name, $.resolution_function, $.type_mark],
+        [$.attribute_name, $.range_attribute_name, $.resolution_function, $.type_mark],
+        [$.attribute_name, $.range_attribute_name, $.record_element_resolution, $.type_mark],
+        [$.attribute_name, $.range_attribute_name, $.record_element_resolution, $.type_mark, $.resolution_function],
+
+
 
         // '('  _name '(' open  • ')' ...
         //
@@ -819,7 +826,13 @@ module.exports = grammar({
      ),
 
      range_attribute_name: $ => seq(
-         $._prefix,
+        field('prefix', choice(
+            $._simple_name,
+            $._expanded_name,
+            $.ambiguous_name, // indexed_name allowed
+            $.attribute_name,
+            $._external_object_name,
+        )),
          $._range_attribute_designator,
      ),
 
@@ -1791,18 +1804,15 @@ module.exports = grammar({
     // }}}
     // 8.3 Selected names {{{
     selected_name: $ => seq(
-        $._prefix,
+        field('prefix', choice(
+            $._simple_name,
+            $.selected_name,
+            $.ambiguous_name,
+            $.slice_name,
+            $._external_object_name,
+        )),
         token.immediate('.'),
         $._suffix
-    ),
-
-    _prefix: $ => field(
-        'prefix',
-        choice(
-            // LINT char literal
-            $._name,
-            $.function_call
-        )
     ),
 
     _suffix: $ => field(
@@ -1838,7 +1848,12 @@ module.exports = grammar({
     // - slice name
     // - indexed name
     ambiguous_name: $ => seq(
-        $._prefix,
+        field('prefix', choice(
+            $._simple_name,
+            $._expanded_name,
+            $.ambiguous_name,
+            $.function_call
+        )),
         '(',
         $.expression_list,
         ')'
@@ -1848,45 +1863,56 @@ module.exports = grammar({
     // }}}
     // 8.5 Slice name {{{
     slice_name: $ => seq(
-        $._prefix,
+        field('prefix', choice(
+            $._simple_name,
+            $.ambiguous_name,
+            $.slice_name,
+            $.function_call,
+        )),
         '(',
         $._range,
         ')'
     ),
     // }}}
     // 8.6 Attribute names {{{
-    attribute_name: $ => prec(1,seq(
-        $._prefix,
+    attribute_name: $ => seq(
+        field('prefix', choice(
+            $._simple_name,
+            $._expanded_name,
+            $.ambiguous_name, // indexed_name allowed
+            $.attribute_name,
+            $._external_object_name,
+        )),
         optional($.signature),
         $._attribute_designator
-    )),
+    ),
 
     _range_attribute_designator: $ => seq(
         token('\''),
-        field('designator', alias(reserved(RANGE_ATTRIBUTE),$.attribute_of_array))
+        field('designator', alias(reserved(RANGE_ATTRIBUTE),$.predefined_name))
     ),
 
     _attribute_designator: $ => seq(
         token('\''),
         field('designator',choice(
             $._simple_name,
-            $.attribute_of_type,
-            $.attribute_of_object,
-            $.attribute_of_array,
-            $.attribute_of_type_or_array,
-            $.attribute_of_array_object,
-            $.attribute_of_signal,
-            $.attribute_of_named_entity
+            $.type_attribute,
+            $.object_attribute,
+            $.array_attribute,
+            $.type_or_array_attribute,
+            $.array_object_attribute,
+            $.signal_attribute,
+            $.named_entity_attribute
         ))
     ),
 
-    attribute_of_type:          $ => reserved(ATTRIBUTES_OF_TYPE),
-    attribute_of_object:        $ => reserved(ATTRIBUTES_OF_OBJECT),
-    attribute_of_array:         $ => reserved(ATTRIBUTES_OF_ARRAY),
-    attribute_of_type_or_array: $ => reserved(ATTRIBUTES_OF_TYPE_OR_ARRAY),
-    attribute_of_array_object:  $ => reserved(ATTRIBUTES_OF_ARRAY_OBJECT),
-    attribute_of_signal:        $ => reserved(ATTRIBUTES_OF_SIGNAL),
-    attribute_of_named_entity:  $ => reserved(ATTRIBUTES_OF_NAMED_ENTITY),
+    type_attribute:          $ => reserved(ATTRIBUTES_OF_TYPE),
+    object_attribute:        $ => reserved(ATTRIBUTES_OF_OBJECT),
+    array_attribute:         $ => reserved(ATTRIBUTES_OF_ARRAY),
+    type_or_array_attribute: $ => reserved(ATTRIBUTES_OF_TYPE_OR_ARRAY),
+    array_object_attribute:  $ => reserved(ATTRIBUTES_OF_ARRAY_OBJECT),
+    signal_attribute:        $ => reserved(ATTRIBUTES_OF_SIGNAL),
+    named_entity_attribute:  $ => reserved(ATTRIBUTES_OF_NAMED_ENTITY),
     
     // }}}
     // 8.7 External names {{{
@@ -2193,7 +2219,7 @@ module.exports = grammar({
         choice(
             $._simple_name,
             $._operator_symbol,
-            $.selected_name,
+            $._expanded_name,
             $.attribute_name,
         )
     ),

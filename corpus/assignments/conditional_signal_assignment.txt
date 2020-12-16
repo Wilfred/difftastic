@@ -201,7 +201,7 @@ S <= unaffected when Input_pin = S'Driving_Value else
           left: (simple_name)
           right: (attribute_name
             prefix: (simple_name)
-            designator: (simple_name))))
+            designator: (signal_attribute))))
       (alternative_conditional_waveforms
         (waveforms
           (waveform_element

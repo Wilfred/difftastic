@@ -6,10 +6,10 @@ procedure p is new u;
 ---
 
 (design_file
-  (subprogram_instantiation_declaration
+  (function_instantiation_declaration
     (identifier)
     (simple_name))
-  (subprogram_instantiation_declaration
+  (procedure_instantiation_declaration
     (identifier)
     (simple_name)))
 
@@ -21,14 +21,14 @@ procedure p is new u [t];
 ---
 
 (design_file
-  (subprogram_instantiation_declaration
+  (function_instantiation_declaration
     (identifier)
     (simple_name)
     (signature
       (return
         (type_mark
           (simple_name)))))
-  (subprogram_instantiation_declaration
+  (procedure_instantiation_declaration
     (identifier)
     (simple_name)
     (signature
@@ -46,18 +46,18 @@ procedure p is new u
 ---
 
 (design_file
-  (subprogram_instantiation_declaration
+  (function_instantiation_declaration
     (identifier)
-    uninstantiated: (simple_name)
-    (map_aspect
+    (simple_name)
+    (subprogram_instantiation_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
             actual_part: (simple_name))))))
-  (subprogram_instantiation_declaration
+  (procedure_instantiation_declaration
     (identifier)
-    uninstantiated: (simple_name)
-    (map_aspect
+    (simple_name)
+    (subprogram_instantiation_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
@@ -71,12 +71,11 @@ procedure p;
 ---
 
 (design_file
-  (subprogram_instantiation_declaration
+  (procedure_instantiation_declaration
     (identifier)
     (simple_name))
-  (subprogram_declaration
-    (subprogram_specification
-      (identifier))))
+  (procedure_declaration
+    (identifier)))
 
 ============================================
 Subprogram - Conflict resolution - Function
@@ -86,15 +85,14 @@ function f return t;
 ---
 
 (design_file
-  (subprogram_instantiation_declaration
+  (function_instantiation_declaration
     (identifier)
     (simple_name))
-  (subprogram_declaration
-    (subprogram_specification
-      (identifier)
-      (return
-        (type_mark
-          (simple_name))))))
+  (function_declaration
+    (identifier)
+    (return
+      (type_mark
+        (simple_name)))))
 
 ====================================
 Package - Minimal
@@ -117,7 +115,7 @@ package p is new u
 (design_file
   (package_instantiation_declaration
     (identifier)
-    uninstantiated: (simple_name)
+    (simple_name)
     (map_aspect
       (generic_map_aspect
         (association_list

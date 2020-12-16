@@ -186,7 +186,7 @@ assert (a'high=>b);
           (choices
             (attribute_name
               prefix: (simple_name)
-              designator: (simple_name)))
+              designator: (type_or_array_attribute)))
           value: (simple_name))))))
 
 ============================================
@@ -257,7 +257,7 @@ assert (t'reverse_range(1)=>a);
         (named_element_association
           (choices
             (function_call
-              function_call: (attribute_name
+              function: (attribute_name
                 prefix: (simple_name)
                 designator: (predefined_name))
               (association_list
@@ -271,7 +271,7 @@ assert (t'reverse_range(1)=>a);
         (named_element_association
           (choices
             (function_call
-              function_call: (attribute_name
+              function: (attribute_name
                 prefix: (simple_name)
                 designator: (predefined_name))
               (association_list

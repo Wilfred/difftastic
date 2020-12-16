@@ -220,7 +220,7 @@ t <= ((x(foo'range)));
                 designator: (predefined_name)))))))))
 
 ===========================================
-ILLEGAL: Association - Logical expression I
+LINT: ILLEGAL - Association - Logical expression I
 ===========================================
 t <= a nand b nand c;
 ---
@@ -237,7 +237,7 @@ t <= a nand b nand c;
           right: (simple_name))))))
 
 ===========================================
-ILLEGAL: Association - Logical expression II
+LINT: ILLEGAL Association - Logical expression II
 ===========================================
 t <= a and b nand c;
 ---
@@ -253,10 +253,10 @@ t <= a and b nand c;
             right: (simple_name))
           right: (simple_name))))))
 
-===========================================
-ILLEGAL: Association - Logical expression II
-===========================================
-t <= a nand b and c;
+============================================
+LINT: ILLEGAL - Association - Logical expression III
+============================================
+t <= a or b and c;
 ---
 
 (design_file
@@ -271,9 +271,9 @@ t <= a nand b and c;
           right: (simple_name))))))
 
 ============================================
-ILLEGAL: Association - Logical expression III
+LINT: ILLEGAL - Sign on right
 ============================================
-t <= a nand b and c;
+t <= -1 + -1;
 ---
 
 (design_file
@@ -281,25 +281,11 @@ t <= a nand b and c;
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (logical_expression
-          left: (logical_expression
-            left: (simple_name)
-            right: (simple_name))
-          right: (simple_name))))))
+        value: (simple_expression
+          left: (sign
+            argument: (integer_decimal
+              (integer)))
+          right: (sign
+            argument: (integer_decimal
+              (integer))))))))
 
-============================================
-ILLEGAL: Association - Logical expression III
-============================================
-t <= a and b or c;
----
-
-(design_file
-  (simple_waveform_assignment
-    target: (simple_name)
-    (waveforms
-      (waveform_element
-        value: (logical_expression
-          left: (logical_expression
-            left: (simple_name)
-            right: (simple_name))
-          right: (simple_name))))))
