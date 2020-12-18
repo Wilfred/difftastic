@@ -7138,7 +7138,19 @@
         "required": true,
         "types": [
           {
-            "type": "PSL_REPEAT_SERE_OPERATORS",
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "->",
+            "named": false
+          },
+          {
+            "type": "=",
             "named": false
           }
         ]
@@ -24555,6 +24567,11 @@
     }
   },
   {
+    "type": "unaffected",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "unbounded_array_definition",
     "named": true,
     "fields": {},
@@ -25220,6 +25237,10 @@
     "named": false
   },
   {
+    "type": "->",
+    "named": false
+  },
+  {
     "type": ".",
     "named": false
   },
@@ -25341,10 +25362,6 @@
   },
   {
     "type": "PSL_MISCELLANEOUS_OPERATOR",
-    "named": false
-  },
-  {
-    "type": "PSL_REPEAT_SERE_OPERATORS",
     "named": false
   },
   {
@@ -25473,11 +25490,11 @@
   },
   {
     "type": "boolean",
-    "named": false
+    "named": true
   },
   {
     "type": "boolean",
-    "named": true
+    "named": false
   },
   {
     "type": "buffer",
@@ -25921,7 +25938,7 @@
   },
   {
     "type": "unaffected",
-    "named": true
+    "named": false
   },
   {
     "type": "units",

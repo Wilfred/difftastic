@@ -9876,7 +9876,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_unaffected"
+          "name": "unaffected"
         },
         {
           "type": "SEQ",
@@ -9905,25 +9905,20 @@
         }
       ]
     },
-    "_unaffected": {
+    "unaffected": {
       "type": "ALIAS",
       "content": {
-        "type": "ALIAS",
+        "type": "TOKEN",
         "content": {
-          "type": "TOKEN",
+          "type": "PREC",
+          "value": 2,
           "content": {
-            "type": "PREC",
-            "value": 2,
-            "content": {
-              "type": "PATTERN",
-              "value": "[uU][nN][aA][fF][fF][eE][cC][tT][eE][dD]"
-            }
+            "type": "PATTERN",
+            "value": "[uU][nN][aA][fF][fF][eE][cC][tT][eE][dD]"
           }
-        },
-        "named": false,
-        "value": "unaffected"
+        }
       },
-      "named": true,
+      "named": false,
       "value": "unaffected"
     },
     "waveform_element": {
@@ -18802,20 +18797,53 @@
             "type": "FIELD",
             "name": "operator",
             "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "TOKEN",
-                "content": {
-                  "type": "PREC",
-                  "value": 2,
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "TOKEN",
                   "content": {
-                    "type": "PATTERN",
-                    "value": "\\+|\\->?|\\*|="
+                    "type": "PREC",
+                    "value": 2,
+                    "content": {
+                      "type": "STRING",
+                      "value": "+"
+                    }
+                  }
+                },
+                {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "PREC",
+                    "value": 2,
+                    "content": {
+                      "type": "STRING",
+                      "value": "*"
+                    }
+                  }
+                },
+                {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "PREC",
+                    "value": 2,
+                    "content": {
+                      "type": "STRING",
+                      "value": "="
+                    }
+                  }
+                },
+                {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "PREC",
+                    "value": 2,
+                    "content": {
+                      "type": "STRING",
+                      "value": "->"
+                    }
                   }
                 }
-              },
-              "named": false,
-              "value": "PSL_REPEAT_SERE_OPERATORS"
+              ]
             }
           },
           {

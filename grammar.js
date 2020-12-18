@@ -205,10 +205,6 @@ const PSL_TERMINATION_OPERATORS = [
     '([aA]?[sS][yY][nN][cC]_)?[aA][bB][oO][rR][tT]'
 ];
 
-const PSL_REPEAT_SERE_OPERATORS = [
-    '\\+|\\->?|\\*|='
-];
-
 const PSL_LOGICAL_IMPLICATION_OPERATORS = [
     '<?\\->'
 ];
@@ -2414,14 +2410,11 @@ module.exports = grammar({
     ),
 
     waveforms: $ => choice(
-        $._unaffected,
+        $.unaffected,
         sepBy1(',', $.waveform_element)
     ),
 
-    _unaffected: $ => alias(
-        reservedWord('unaffected'),
-        $.unaffected
-    ),
+    unaffected: $ => reservedWord('unaffected'),
 
     waveform_element: $ => seq(
         $._value,
@@ -3431,7 +3424,12 @@ module.exports = grammar({
                 $._PSL_Sequence,
             )),
             '[',
-            field('operator', operator(PSL_REPEAT_SERE_OPERATORS,"PSL_REPEAT_SERE_OPERATORS")),
+            field('operator', choice(
+                delimiter('+'),
+                delimiter('*'),
+                delimiter('='),
+                delimiter('->')
+            )),
             optional($._PSL_Count),
             ']',
         ),
