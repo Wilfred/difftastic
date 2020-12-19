@@ -5,10 +5,9 @@ L1: unit;
 ---
 
 (design_file
-  (component_instantiation_statement
-    (label
-      (identifier))
-    component: (simple_name)))
+  (procedure_call_statement
+    (label (identifier))
+    procedure: (simple_name)))
 
 ===============================
 Instantiation unit - Component

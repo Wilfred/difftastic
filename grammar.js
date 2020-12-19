@@ -2588,9 +2588,11 @@ module.exports = grammar({
         optional($.label),
         optional(reservedWord('postponed')),
         field('procedure',$._name),
-        '(',
-        $.association_list,
-        ')',
+        optional(seq(
+            '(',
+            $.association_list,
+            ')',
+        )),
         ';'
     )),
     // }}}
