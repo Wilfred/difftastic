@@ -1844,7 +1844,7 @@ module.exports = grammar({
     ambiguous_name: $ => seq(
         field('prefix', choice(
             $._simple_name,
-            $._expanded_name,
+            $.selected_name,
             $.ambiguous_name,
             $.function_call
         )),
@@ -1860,6 +1860,7 @@ module.exports = grammar({
         field('prefix', choice(
             $._simple_name,
             $.ambiguous_name,
+            $.selected_name,
             $.slice_name,
             $.function_call,
         )),

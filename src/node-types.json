@@ -10763,11 +10763,11 @@
             "named": true
           },
           {
-            "type": "expanded_name",
+            "type": "function_call",
             "named": true
           },
           {
-            "type": "function_call",
+            "type": "selected_name",
             "named": true
           },
           {
@@ -23920,6 +23920,10 @@
           },
           {
             "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "selected_name",
             "named": true
           },
           {

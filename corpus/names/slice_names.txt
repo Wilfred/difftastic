@@ -76,3 +76,29 @@ assert amb (amb)(h downto l);
       (descending_range
         high: (simple_name)
         low: (simple_name)))))
+
+==============================================================
+Prefix - Selected name
+==============================================================
+assert MAC_CONFIG(i).TypeSwitch(0 to SWITCH_COUNT - 1);
+---
+
+(design_file
+  (assertion_statement
+    (slice_name
+      prefix: (selected_name
+        prefix: (ambiguous_name
+          prefix: (simple_name)
+          (expression_list
+            expression: (simple_name)))
+        suffix: (simple_name))
+      (ascending_range
+        low: (integer_decimal
+          (integer))
+        high: (simple_expression
+          left: (simple_name)
+          right: (integer_decimal
+            (integer)))))))
+
+
+

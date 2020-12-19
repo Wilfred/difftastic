@@ -7347,7 +7347,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expanded_name"
+                "name": "selected_name"
               },
               {
                 "type": "SYMBOL",
@@ -7423,6 +7423,10 @@
               {
                 "type": "SYMBOL",
                 "name": "ambiguous_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "selected_name"
               },
               {
                 "type": "SYMBOL",
