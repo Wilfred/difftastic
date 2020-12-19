@@ -467,7 +467,7 @@ module.exports = grammar({
 
     rules: {
 
-     design_file: $ => repeat1(choice(
+     design_file: $ => repeat(choice(
          $._declaration,
          $._sequential_statement,
          $._concurrent_statement,
@@ -3212,9 +3212,17 @@ module.exports = grammar({
     _hexadecimal_bit_value: $ => bit_value_gen($, '[0-9a-fA-F]'),
     // }}}
     // 15.9 Comments {{{
-    comment: $ => seq(
-        token(prec(2,'--')),
-        token(prec(2,new RegExp('[^'+VT+CR+LF+FF+']*')))
+    comment: $ => choice(
+        seq(
+            token(prec(2,'--')),
+            token(prec(2,new RegExp('[^'+VT+CR+LF+FF+']*')))
+        ),
+        // from tree-sitter-c
+        seq(
+            '/*',
+            /[^*]*\*+([^/*][^*]*\*+)*/,
+            '/'
+        )
     ),
     // }}}
     // 15.11 Tool directives {{{

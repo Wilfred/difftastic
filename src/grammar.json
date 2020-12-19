@@ -3,7 +3,7 @@
   "word": "identifier",
   "rules": {
     "design_file": {
-      "type": "REPEAT1",
+      "type": "REPEAT",
       "content": {
         "type": "CHOICE",
         "members": [
@@ -17761,29 +17761,51 @@
       ]
     },
     "comment": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "TOKEN",
-          "content": {
-            "type": "PREC",
-            "value": 2,
-            "content": {
-              "type": "STRING",
-              "value": "--"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "TOKEN",
+              "content": {
+                "type": "PREC",
+                "value": 2,
+                "content": {
+                  "type": "STRING",
+                  "value": "--"
+                }
+              }
+            },
+            {
+              "type": "TOKEN",
+              "content": {
+                "type": "PREC",
+                "value": 2,
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[^\u000b\\r\\n\f]*"
+                }
+              }
             }
-          }
+          ]
         },
         {
-          "type": "TOKEN",
-          "content": {
-            "type": "PREC",
-            "value": 2,
-            "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "/*"
+            },
+            {
               "type": "PATTERN",
-              "value": "[^\u000b\\r\\n\f]*"
+              "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
+            },
+            {
+              "type": "STRING",
+              "value": "/"
             }
-          }
+          ]
         }
       ]
     },
