@@ -5754,8 +5754,37 @@
       "type": "FIELD",
       "name": "denotator",
       "content": {
-        "type": "SYMBOL",
-        "name": "_name"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_name"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "character_literal"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expanded_name"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ambiguous_name"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "slice_name"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "attribute_name"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_external_object_name"
+          }
+        ]
       }
     },
     "_alias_designator": {

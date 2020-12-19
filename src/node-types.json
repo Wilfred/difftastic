@@ -10341,6 +10341,10 @@
             "named": true
           },
           {
+            "type": "expanded_name",
+            "named": true
+          },
+          {
             "type": "external_constant_name",
             "named": true
           },
@@ -10350,10 +10354,6 @@
           },
           {
             "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "selected_name",
             "named": true
           },
           {
