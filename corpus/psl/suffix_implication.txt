@@ -39,7 +39,9 @@ assert always {a} |=> {b[*4]; c};
             (PSL_SERE_Concatenation
               left: (PSL_Repeated_SERE
                 Boolean: (simple_name)
-                Count: (integer_decimal (integer)))
+                (PSL_Count
+                  Count: (integer_decimal
+                    (integer))))
               right: (simple_name))))))))
 
 =============================================
@@ -59,11 +61,12 @@ assert always {a} |=> {b[*3 to 5]; c};
             (PSL_SERE_Concatenation
               left: (PSL_Repeated_SERE
                 Boolean: (simple_name)
-                Count: (ascending_range
-                  low: (integer_decimal
-                    (integer))
-                  high: (integer_decimal
-                    (integer))))
+                (PSL_Count
+                  Count: (ascending_range
+                    low: (integer_decimal
+                      (integer))
+                    high: (integer_decimal
+                      (integer)))))
               right: (simple_name))))))))
 
 =============================================
@@ -82,7 +85,8 @@ assert always {a} |=> {b[*]; c};
           Sequence: (PSL_Braced_SERE
             (PSL_SERE_Concatenation
               left: (PSL_Repeated_SERE
-                Boolean: (simple_name))
+                Boolean: (simple_name)
+                (PSL_Count))
               right: (simple_name))))))))
 
 =============================================
@@ -101,7 +105,8 @@ assert always {a} |=> {b[+]; c};
           Sequence: (PSL_Braced_SERE
             (PSL_SERE_Concatenation
               left: (PSL_Repeated_SERE
-                Boolean: (simple_name))
+                Boolean: (simple_name)
+                (PSL_Count))
               right: (simple_name))))))))
 
 =============================================
@@ -120,7 +125,8 @@ assert always {d} |=> {e[*]; f};
           Sequence: (PSL_Braced_SERE
             (PSL_SERE_Concatenation
               left: (PSL_Repeated_SERE
-                Boolean: (simple_name))
+                Boolean: (simple_name)
+                (PSL_Count))
               right: (simple_name))))))))
 
 =============================================
@@ -139,7 +145,8 @@ assert always {d} |=> {e[+]; f};
           Sequence: (PSL_Braced_SERE
             (PSL_SERE_Concatenation
               left: (PSL_Repeated_SERE
-                Boolean: (simple_name))
+                Boolean: (simple_name)
+                (PSL_Count))
               right: (simple_name))))))))
 
 =============================================
@@ -159,8 +166,9 @@ assert always {g} |=> {h[*3]; i};
             (PSL_SERE_Concatenation
               left: (PSL_Repeated_SERE
                 Boolean: (simple_name)
-                Count: (integer_decimal
-                  (integer)))
+                (PSL_Count
+                  Count: (integer_decimal
+                    (integer))))
               right: (simple_name))))))))
 
 =============================================
@@ -180,11 +188,12 @@ assert always {g} |=> {h[*2 to 4]; i};
             (PSL_SERE_Concatenation
               left: (PSL_Repeated_SERE
                 Boolean: (simple_name)
-                Count: (ascending_range
-                  low: (integer_decimal
-                    (integer))
-                  high: (integer_decimal
-                    (integer))))
+                (PSL_Count
+                  Count: (ascending_range
+                    low: (integer_decimal
+                      (integer))
+                    high: (integer_decimal
+                      (integer)))))
               right: (simple_name))))))))
 
 =============================================
@@ -203,7 +212,8 @@ assert always {g} |=> {h[*]; i};
           Sequence: (PSL_Braced_SERE
             (PSL_SERE_Concatenation
               left: (PSL_Repeated_SERE
-                Boolean: (simple_name))
+                Boolean: (simple_name)
+                (PSL_Count))
               right: (simple_name))))))))
 
 =============================================
@@ -222,7 +232,8 @@ assert always {g} |=> {h[+]; i};
           Sequence: (PSL_Braced_SERE
             (PSL_SERE_Concatenation
               left: (PSL_Repeated_SERE
-                Boolean: (simple_name))
+                Boolean: (simple_name)
+                (PSL_Count))
               right: (simple_name))))))))
 
 =============================================
@@ -241,8 +252,9 @@ assert always {g} |=> {[*6]; i};
           Sequence: (PSL_Braced_SERE
             (PSL_SERE_Concatenation
               left: (PSL_Repeated_SERE
-                Count: (integer_decimal
-                  (integer)))
+                (PSL_Count
+                  Count: (integer_decimal
+                    (integer))))
               right: (simple_name))))))))
 
 =============================================
@@ -262,16 +274,18 @@ assert always {g} |=> {[*6]; i; not i[*1 to inf]};
             (PSL_SERE_Concatenation
               left: (PSL_SERE_Concatenation
                 left: (PSL_Repeated_SERE
-                  Count: (integer_decimal
-                    (integer)))
+                  (PSL_Count
+                    Count: (integer_decimal
+                      (integer))))
                 right: (simple_name))
               right: (PSL_Repeated_SERE
                 Boolean: (factor
                   argument: (simple_name))
-                Count: (ascending_range
-                  low: (integer_decimal
-                    (integer))
-                  high: (simple_name))))))))))
+                (PSL_Count
+                  Count: (ascending_range
+                    low: (integer_decimal
+                      (integer))
+                    high: (simple_name)))))))))))
 
 =============================================
 SERE_13_a
@@ -294,6 +308,7 @@ assert always {g} |=> {{h; not h}[*3]; i};
                     left: (simple_name)
                     right: (factor
                       argument: (simple_name))))
-                Count: (integer_decimal
-                  (integer)))
+                (PSL_Count
+                  Count: (integer_decimal
+                    (integer))))
               right: (simple_name))))))))

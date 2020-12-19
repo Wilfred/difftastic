@@ -49,7 +49,9 @@ assert always (a -> next[3] (b));
         (PSL_Implication_FL_Property
           left: (simple_name)
           right: (PSL_Extended_Ocurrence_FL_Property
-            Count: (integer_decimal (integer))
+            (PSL_Count
+              Count: (integer_decimal
+                (integer)))
             Property: (simple_name)))))))
 
 ===================================================
@@ -67,7 +69,9 @@ assert always ((a and next[3] (b)) -> c);
             (PSL_Logical_FL_Property
               left: (simple_name)
               right: (PSL_Extended_Ocurrence_FL_Property
-                Count: (integer_decimal (integer))
+                (PSL_Count
+                  Count: (integer_decimal
+                    (integer)))
                 Property: (simple_name))))
           right: (simple_name))))))
 
@@ -363,10 +367,11 @@ sequence BusArb (boolean br, bg; const n) is
                 left: (simple_name)
                 right: (factor
                   argument: (simple_name))))
-            Count: (ascending_range
-              low: (integer_decimal
-                (integer))
-              high: (simple_name))))
+            (PSL_Count
+              Count: (ascending_range
+                low: (integer_decimal
+                  (integer))
+                high: (simple_name)))))
         right: (logical_expression
           left: (simple_name)
           right: (simple_name))))))
@@ -398,13 +403,16 @@ sequence ReadCycle (sequence ba; boolean bb, ar, dr) is
           right: (PSL_SERE_And
             left: (PSL_Braced_SERE
               (PSL_Repeated_SERE
-                Boolean: (simple_name)))
+                Boolean: (simple_name)
+                (PSL_Count)))
             right: (PSL_Braced_SERE
               (PSL_SERE_Concatenation
                 left: (PSL_Repeated_SERE
-                  Boolean: (simple_name))
+                  Boolean: (simple_name)
+                  (PSL_Count))
                 right: (PSL_Repeated_SERE
-                  Boolean: (simple_name))))))
+                  Boolean: (simple_name)
+                  (PSL_Count))))))
         right: (factor
           argument: (simple_name))))))
 
@@ -442,7 +450,8 @@ property ResultAfterN
               (PSL_Implication_FL_Property
                 left: (simple_name)
                 right: (PSL_Extended_Ocurrence_FL_Property
-                  Count: (simple_name)
+                  (PSL_Count
+                    Count: (simple_name))
                   Property: (simple_name))))
             Clock: (parenthesized_expression
               (ambiguous_name
@@ -483,7 +492,8 @@ property ResultAfterN
               (PSL_Implication_FL_Property
                 left: (simple_name)
                 right: (PSL_Extended_Ocurrence_FL_Property
-                  Count: (simple_name)
+                  (PSL_Count
+                    Count: (simple_name))
                   Property: (simple_name))))
             Clock: (parenthesized_expression
               (ambiguous_name
@@ -528,11 +538,12 @@ restrict { breq; (breq and not back)[*0 to 3]; breq and back };
                 left: (simple_name)
                 right: (factor
                   argument: (simple_name))))
-            Count: (ascending_range
-              low: (integer_decimal
-                (integer))
-              high: (integer_decimal
-                (integer)))))
+            (PSL_Count
+              Count: (ascending_range
+                low: (integer_decimal
+                  (integer))
+                high: (integer_decimal
+                  (integer))))))
         right: (logical_expression
           left: (simple_name)
           right: (simple_name))))))
@@ -586,26 +597,29 @@ restrict { { breq; (breq and not back)[*0 to 5]; breq and back };
                         left: (simple_name)
                         right: (factor
                           argument: (simple_name))))
-                    Count: (ascending_range
-                      low: (integer_decimal
-                        (integer))
-                      high: (integer_decimal
-                        (integer)))))
+                    (PSL_Count
+                      Count: (ascending_range
+                        low: (integer_decimal
+                          (integer))
+                        high: (integer_decimal
+                          (integer))))))
                 right: (logical_expression
                   left: (simple_name)
                   right: (simple_name))))
             right: (PSL_SERE_And
               left: (PSL_Braced_SERE
                 (PSL_Repeated_SERE
-                  Boolean: (simple_name)))
+                  Boolean: (simple_name)
+                  (PSL_Count)))
               right: (PSL_Braced_SERE
                 (PSL_Repeated_SERE
-                  Boolean: (simple_name)))))
+                  Boolean: (simple_name)
+                  (PSL_Count)))))
           right: (PSL_Repeated_SERE
-            Boolean: (simple_name)))
+            Boolean: (simple_name)
+            (PSL_Count)))
         right: (factor
           argument: (simple_name))))))
-
 
 ===================================================
 PSL LRM 6.3.3.2 - Property instantiation I
@@ -636,7 +650,6 @@ assert always ((write_req -> next[3] (eventually! ack))
             @ (rising_edge(clk)) async_abort  cancel);
 ---
 
-
 (design_file
   (PSL_Assert_Directive
     Property: (PSL_Invariant_FL_Property
@@ -647,8 +660,9 @@ assert always ((write_req -> next[3] (eventually! ack))
               (PSL_Implication_FL_Property
                 left: (simple_name)
                 right: (PSL_Extended_Ocurrence_FL_Property
-                  Count: (integer_decimal
-                    (integer))
+                  (PSL_Count
+                    Count: (integer_decimal
+                      (integer)))
                   Property: (PSL_Ocurrence_FL_Property
                     argument: (simple_name)))))
             Clock: (parenthesized_expression
@@ -657,4 +671,3 @@ assert always ((write_req -> next[3] (eventually! ack))
                 (expression_list
                   expression: (simple_name)))))
           Boolean: (simple_name))))))
-

@@ -325,11 +325,15 @@ assert next! [2] (p);
 (design_file
   (PSL_Assert_Directive
     Property: (PSL_Extended_Ocurrence_FL_Property
-        Count: (integer_decimal (integer))
+      (PSL_Count
+        Count: (integer_decimal
+          (integer)))
       Property: (simple_name)))
   (PSL_Assert_Directive
     Property: (PSL_Extended_Ocurrence_FL_Property
-        Count: (integer_decimal (integer))
+      (PSL_Count
+        Count: (integer_decimal
+          (integer)))
       Property: (simple_name))))
 
 ===============================
@@ -342,15 +346,21 @@ assert next_a! [0 to 1] (p);
 (design_file
   (PSL_Assert_Directive
     Property: (PSL_Extended_Ocurrence_FL_Property
-      Count: (ascending_range
-         low: (integer_decimal (integer))
-        high: (integer_decimal (integer)))
+      (PSL_Count
+        Count: (ascending_range
+          low: (integer_decimal
+            (integer))
+          high: (integer_decimal
+            (integer))))
       Property: (simple_name)))
   (PSL_Assert_Directive
     Property: (PSL_Extended_Ocurrence_FL_Property
-      Count: (ascending_range
-         low: (integer_decimal (integer))
-        high: (integer_decimal (integer)))
+      (PSL_Count
+        Count: (ascending_range
+          low: (integer_decimal
+            (integer))
+          high: (integer_decimal
+            (integer))))
       Property: (simple_name))))
 
 ===============================
@@ -380,17 +390,21 @@ assert next_event! (b) [1] (p);
 (design_file
   (PSL_Assert_Directive
     Property: (PSL_Extended_Ocurrence_FL_Property
-       Boolean: (simple_name)
-         Count: (integer_decimal (integer))
+      Boolean: (simple_name)
+      (PSL_Count
+        Count: (integer_decimal
+          (integer)))
       Property: (simple_name)))
   (PSL_Assert_Directive
     Property: (PSL_Extended_Ocurrence_FL_Property
-       Boolean: (simple_name)
-         Count: (integer_decimal (integer))
+      Boolean: (simple_name)
+      (PSL_Count
+        Count: (integer_decimal
+          (integer)))
       Property: (simple_name))))
 
 ==================================
-Sequence Instantiation I  (Ambiguos)
+Sequence Instantiation I (Ambiguos)
 ==================================
 assert p;
 ---
@@ -446,3 +460,25 @@ assert ResultAfterN (eventually! ack);
         (PSL_Actual_Parameter
           Property: (PSL_Ocurrence_FL_Property
             argument: (simple_name)))))))
+
+==================================
+Clocked property
+==================================
+assert (c and next! (a until! b)@clk1)@clk2 ;
+---
+
+(design_file
+  (PSL_Assert_Directive
+    Property: (PSL_Clocked_FL_Property
+      Property: (PSL_Parenthesized_FL_Property
+        (PSL_Logical_FL_Property
+          left: (simple_name)
+          right: (PSL_Ocurrence_FL_Property
+            argument: (PSL_Clocked_FL_Property
+              Property: (PSL_Parenthesized_FL_Property
+                (PSL_Bounding_FL_Property
+                  left: (simple_name)
+                  right: (simple_name)))
+              Clock: (simple_name)))))
+      Clock: (simple_name))))
+

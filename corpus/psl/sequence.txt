@@ -9,7 +9,9 @@ restrict {a[*2]};
     Sequence: (PSL_Braced_SERE
       (PSL_Repeated_SERE
         Boolean: (simple_name)
-          Count: (integer_decimal (integer))))))
+        (PSL_Count
+          Count: (integer_decimal
+            (integer)))))))
 
 ==================================
 Repeated sequence II
@@ -21,7 +23,8 @@ restrict {a[+]};
   (PSL_Restrict_Directive
     Sequence: (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        Boolean: (simple_name)))))
+        Boolean: (simple_name)
+        (PSL_Count)))))
 
 ==================================
 Repeated sequence III
@@ -33,7 +36,8 @@ restrict {a[*]};
   (PSL_Restrict_Directive
     Sequence: (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        Boolean: (simple_name)))))
+        Boolean: (simple_name)
+        (PSL_Count)))))
 
 ==================================
 Repeated sequence IV
@@ -44,7 +48,8 @@ restrict {[*]};
 (design_file
   (PSL_Restrict_Directive
     Sequence: (PSL_Braced_SERE
-      (PSL_Repeated_SERE))))
+      (PSL_Repeated_SERE
+        (PSL_Count)))))
 
 ==================================
 Repeated sequence V
@@ -57,7 +62,9 @@ restrict {a[=2]};
     Sequence: (PSL_Braced_SERE
       (PSL_Repeated_SERE
         Boolean: (simple_name)
-          Count: (integer_decimal (integer))))))
+        (PSL_Count
+          Count: (integer_decimal
+            (integer)))))))
 
 ==================================
 Repeated sequence VI
@@ -70,10 +77,12 @@ restrict {a[*1 to 3]};
     Sequence: (PSL_Braced_SERE
       (PSL_Repeated_SERE
         Boolean: (simple_name)
+        (PSL_Count
           Count: (ascending_range
-             low: (integer_decimal (integer))
-            high: (integer_decimal (integer)))))))
-
+            low: (integer_decimal
+              (integer))
+            high: (integer_decimal
+              (integer))))))))
 
 ==================================
 Sequence Instantiation - Minimal

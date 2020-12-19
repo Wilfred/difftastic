@@ -153,6 +153,7 @@ File open information
 ========================
 file f : ft is "fn.ext";
 file f : ft open write_mode is "fn.ext";
+file f : ft open f(x) is "fn.ext";
 ---
 
 (design_file
@@ -171,7 +172,19 @@ file f : ft open write_mode is "fn.ext";
       (type_mark
         (simple_name)))
     (file_open_information
-      (file_open_kind)
+      file_open_kind: (simple_name)
+      file_name: (string_literal)))
+  (file_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name)))
+    (file_open_information
+      file_open_kind: (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (simple_name)))
       file_name: (string_literal))))
 
 ===============================

@@ -36,7 +36,7 @@ alias '0' is STD.STANDARD.'0' [return STD.STANDARD.BIT];
 Designator - Operator symbol
 ==============================
 alias "or" is STD.STANDARD."or" [STD.STANDARD.BIT,
-                                 STD.STANDARD.BIT,
+                                 STD.STANDARD.BIT
                           return STD.STANDARD.BIT];
 ---
 

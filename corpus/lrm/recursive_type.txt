@@ -1,0 +1,45 @@
+================================
+LRM 5.4.2
+================================
+
+-- Example of a recursive type:
+type CELL;  --  An incomplete type declaration.
+
+type LINK is access CELL;
+
+type CELL is
+   record
+      VALUE : INTEGER;
+      SUCC  : LINK;
+      PRED  : LINK;
+   end record CELL;
+
+variable HEAD: LINK := new CELL'(0, null, null);
+
+variable \NEXT\: LINK := HEAD.SUCC;
+
+-- Examples of mutually dependent access types:
+
+type PART;  --  Incomplete type declarations.
+type WIRE;
+
+type PART_PTR is access PART;
+type WIRE_PTR is access WIRE;
+
+type PART_LIST is array (POSITIVE range <>) of PART_PTR;
+type WIRE_LIST is array (POSITIVE range <>) of WIRE_PTR;
+
+type PART_LIST_PTR is access PART_LIST;
+type WIRE_LIST_PTR is access WIRE_LIST;
+
+type PART is
+   record
+      PART_NAME   : STRING (1 to MAX_STRING_LEN);
+      CONNECTIONS : WIRE_LIST_PTR;
+   end record;
+
+type WIRE is
+   record
+      WIRE_NAME : STRING (1 to MAX_STRING_LEN);
+      CONNECTS  : PART_LIST_PTR;
+   end record;

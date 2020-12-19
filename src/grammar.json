@@ -1799,45 +1799,47 @@
           "value": "["
         },
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
                 {
                   "type": "SYMBOL",
                   "name": "type_mark"
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "return"
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "type_mark"
+                      }
+                    ]
+                  }
                 }
               ]
             },
             {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "type_mark"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "return"
-                      }
-                    ]
-                  }
-                ]
-              }
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "return"
+            },
+            {
+              "type": "BLANK"
             }
           ]
         },
@@ -4170,7 +4172,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "file_open_kind"
+                  "name": "_file_open_kind"
                 }
               ]
             },
@@ -4201,26 +4203,13 @@
         }
       ]
     },
-    "file_open_kind": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "TOKEN",
-            "content": {
-              "type": "PREC",
-              "value": 2,
-              "content": {
-                "type": "PATTERN",
-                "value": "([rR][eE][aA][dD]|[wW][rR][iI][tT][eE]|[aA][pP][pP][eE][nN][dD])_[mM][oO][dD][eE]"
-              }
-            }
-          },
-          "named": false,
-          "value": ""
-        }
-      ]
+    "_file_open_kind": {
+      "type": "FIELD",
+      "name": "file_open_kind",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_expression"
+      }
     },
     "_file_logical_name": {
       "type": "FIELD",
@@ -5403,8 +5392,12 @@
             "name": "_expression"
           },
           {
-            "type": "SYMBOL",
-            "name": "subtype_indication"
+            "type": "PREC_DYNAMIC",
+            "value": -1,
+            "content": {
+              "type": "SYMBOL",
+              "name": "subtype_indication"
+            }
           },
           {
             "type": "PREC_DYNAMIC",
@@ -5802,6 +5795,15 @@
           }
         ]
       }
+    },
+    "_operator_symbol": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "string_literal"
+      },
+      "named": true,
+      "value": "operator_symbol"
     },
     "attribute_declaration": {
       "type": "SEQ",
@@ -7320,15 +7322,6 @@
           }
         ]
       }
-    },
-    "_operator_symbol": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "string_literal"
-      },
-      "named": true,
-      "value": "operator_symbol"
     },
     "_expanded_name": {
       "type": "ALIAS",
@@ -18415,7 +18408,7 @@
       }
     },
     "_PSL_Compound_SERE": {
-      "type": "PREC",
+      "type": "PREC_DYNAMIC",
       "value": 1,
       "content": {
         "type": "CHOICE",
@@ -18790,97 +18783,137 @@
             ]
           },
           {
-            "type": "STRING",
-            "value": "["
-          },
-          {
-            "type": "FIELD",
-            "name": "operator",
+            "type": "ALIAS",
             "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 2,
-                    "content": {
-                      "type": "STRING",
-                      "value": "+"
-                    }
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 2,
-                    "content": {
-                      "type": "STRING",
-                      "value": "*"
-                    }
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 2,
-                    "content": {
-                      "type": "STRING",
-                      "value": "="
-                    }
-                  }
-                },
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 2,
-                    "content": {
-                      "type": "STRING",
-                      "value": "->"
-                    }
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_PSL_Count"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "STRING",
-            "value": "]"
+              "type": "SYMBOL",
+              "name": "_PSL_Repeated_SERE_Count"
+            },
+            "named": true,
+            "value": "PSL_Count"
           }
         ]
       }
     },
-    "_PSL_Count": {
-      "type": "FIELD",
-      "name": "Count",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_PSL_Number"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_PSL_Range"
+    "_PSL_Repeated_SERE_Count": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "FIELD",
+          "name": "operator",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": 2,
+                  "content": {
+                    "type": "STRING",
+                    "value": "+"
+                  }
+                }
+              },
+              {
+                "type": "TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": 2,
+                  "content": {
+                    "type": "STRING",
+                    "value": "*"
+                  }
+                }
+              },
+              {
+                "type": "TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": 2,
+                  "content": {
+                    "type": "STRING",
+                    "value": "="
+                  }
+                }
+              },
+              {
+                "type": "TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": 2,
+                  "content": {
+                    "type": "STRING",
+                    "value": "->"
+                  }
+                }
+              }
+            ]
           }
-        ]
-      }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "Count",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_PSL_Number"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_PSL_Range"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
+    "PSL_Count": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "FIELD",
+          "name": "Count",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_PSL_Number"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_PSL_Range"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
     },
     "_PSL_Range": {
       "type": "SYMBOL",
@@ -19547,16 +19580,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "["
-        },
-        {
           "type": "SYMBOL",
-          "name": "_PSL_Count"
-        },
-        {
-          "type": "STRING",
-          "value": "]"
+          "name": "PSL_Count"
         }
       ]
     },
@@ -19579,21 +19604,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "["
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_PSL_Count"
-                },
-                {
-                  "type": "STRING",
-                  "value": "]"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "PSL_Count"
             },
             {
               "type": "BLANK"
@@ -19964,7 +19976,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_boolean"
+          "name": "boolean"
         },
         {
           "type": "SEQ",
@@ -20001,25 +20013,20 @@
         }
       ]
     },
-    "_boolean": {
+    "boolean": {
       "type": "ALIAS",
       "content": {
-        "type": "ALIAS",
+        "type": "TOKEN",
         "content": {
-          "type": "TOKEN",
+          "type": "PREC",
+          "value": 2,
           "content": {
-            "type": "PREC",
-            "value": 2,
-            "content": {
-              "type": "PATTERN",
-              "value": "[bB][oO][oO][lL][eE][aA][nN]"
-            }
+            "type": "PATTERN",
+            "value": "[bB][oO][oO][lL][eE][aA][nN]"
           }
-        },
-        "named": false,
-        "value": "boolean"
+        }
       },
-      "named": true,
+      "named": false,
       "value": "boolean"
     },
     "_PSL_Value_Range": {
@@ -21609,6 +21616,10 @@
     ],
     [
       "PSL_Property_Declaration"
+    ],
+    [
+      "_PSL_Compound_SERE",
+      "_PSL_Sequence"
     ]
   ],
   "externals": [],
