@@ -35,6 +35,16 @@ report '"' & '"';
       right: (character_literal)))))
 
 ==============================================================
+Character literal - Backtick
+==============================================================
+report '`';
+---
+
+(design_file
+  (assertion_statement
+    (character_literal)))
+
+==============================================================
 Character literal - Solidus and backslash
 ==============================================================
 report '/' & '\';

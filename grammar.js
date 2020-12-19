@@ -3167,9 +3167,7 @@ module.exports = grammar({
     character_literal: $ => choice(
         seq(
             '\'',
-            token.immediate(
-                new RegExp ('['+GRAPHIC_CHARACTER+QUOTATION_MARK+BACKSLASH+UNDERLINE+']')
-            ),
+            token.immediate(prec(3,new RegExp ('['+GRAPHIC_CHARACTER+QUOTATION_MARK+BACKSLASH+UNDERLINE+']'))),
             token.immediate('\'')
         ),
     ),
