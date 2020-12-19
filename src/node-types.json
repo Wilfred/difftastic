@@ -10329,19 +10329,39 @@
         "required": true,
         "types": [
           {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
             "type": "character_literal",
             "named": true
           },
           {
-            "type": "expanded_name",
+            "type": "external_constant_name",
             "named": true
           },
           {
-            "type": "operator_symbol",
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
             "named": true
           },
           {
             "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
             "named": true
           }
         ]

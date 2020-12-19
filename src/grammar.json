@@ -5754,25 +5754,8 @@
       "type": "FIELD",
       "name": "denotator",
       "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_expanded_name"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_simple_name"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "character_literal"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_operator_symbol"
-          }
-        ]
+        "type": "SYMBOL",
+        "name": "_name"
       }
     },
     "_alias_designator": {

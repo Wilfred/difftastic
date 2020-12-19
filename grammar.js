@@ -1529,12 +1529,7 @@ module.exports = grammar({
 
     _alias_denotator: $ => field(
         'denotator',
-        choice(
-            $._expanded_name,
-            $._simple_name,
-            $.character_literal,
-            $._operator_symbol
-        )
+        $._name
     ),
 
     _alias_designator: $ => field(
