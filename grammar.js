@@ -119,12 +119,6 @@ const RANGE_ATTRIBUTE = [
 ];
 // }}}
 // Predefined names {{{
-const FILE_OPEN_KIND = [
-    '(' + caseInsensitive('read')    +
-    '|' + caseInsensitive('write')   +
-    '|' + caseInsensitive('append')  + ')_' + caseInsensitive('mode')
-];
-
 const ATTRIBUTES_OF_TYPE = [
    '(' +  caseInsensitive('base')       +
    '|' +  caseInsensitive('ascending')  +
@@ -465,6 +459,10 @@ module.exports = grammar({
 
         // `property p (property p2) is p2;`
         [$.PSL_Property_Declaration],
+
+        // assert '{' ... '}' 
+        [$._PSL_Compound_SERE, $._PSL_Sequence],
+
     ], // }}}
 
     rules: {
@@ -744,7 +742,8 @@ module.exports = grammar({
      // 4.5.3 Signatures {{{
      signature: $ => seq(
          '[',
-             sepBy1(',',choice($.type_mark,$.return)),
+             sepBy(',',$.type_mark),
+             optional($.return),
          ']'
      ),
      // }}}
@@ -1217,14 +1216,15 @@ module.exports = grammar({
     file_open_information: $ => seq(
         optional(seq(
             reservedWord('open'),
-            $.file_open_kind
+            $._file_open_kind
         )),
         reservedWord('is'),
         $._file_logical_name
     ),
 
-    file_open_kind: $ => choice(
-        operator(FILE_OPEN_KIND)
+    _file_open_kind: $ => field(
+        'file_open_kind',
+        $._expression
     ),
 
     _file_logical_name: $ =>  field(
@@ -1459,7 +1459,7 @@ module.exports = grammar({
         'actual_part',
         choice(
             $._expression,
-            $.subtype_indication,
+            prec.dynamic(-1,$.subtype_indication),
             prec.dynamic(99,$.open),
             // used to resolve conflicts
             // between ambiguous_name and
@@ -1544,6 +1544,11 @@ module.exports = grammar({
             $.character_literal,
             $._operator_symbol
         )
+    ),
+
+    _operator_symbol: $ => alias(
+        $.string_literal,
+        $.operator_symbol
     ),
     // }}}
     // 6.7 Attribute declarations {{{
@@ -1817,11 +1822,6 @@ module.exports = grammar({
             $._operator_symbol,
             $.all
         ),
-    ),
-
-    _operator_symbol: $ => alias(
-        $.string_literal,
-        $.operator_symbol
     ),
 
     _expanded_name: $ => alias(
@@ -3342,7 +3342,7 @@ module.exports = grammar({
     ),
     // }}}
     // PSL 6.1.1.2 Compound SEREs {{{
-    _PSL_Compound_SERE: $ => prec(1,choice(
+    _PSL_Compound_SERE: $ => prec.dynamic(1,choice(
         $.PSL_Repeated_SERE,
         $.PSL_Braced_SERE,
         $.PSL_Clocked_SERE,
@@ -3423,24 +3423,32 @@ module.exports = grammar({
                 $._PSL_Boolean,
                 $._PSL_Sequence,
             )),
-            '[',
+            alias($._PSL_Repeated_SERE_Count, $.PSL_Count),
+        ),
+    ),
+
+    _PSL_Repeated_SERE_Count: $ => seq(
+        '[',
             field('operator', choice(
                 delimiter('+'),
                 delimiter('*'),
                 delimiter('='),
                 delimiter('->')
             )),
-            optional($._PSL_Count),
+            optional(field('Count', choice(
+                $._PSL_Number,
+                $._PSL_Range
+            ))),
             ']',
-        ),
     ),
 
-    _PSL_Count: $ => field(
-        'Count',
-        choice(
+    PSL_Count: $ => seq(
+        '[',
+        field('Count', choice(
             $._PSL_Number,
             $._PSL_Range
-        ),
+        )),
+        ']',
     ),
 
     _PSL_Range: $ => $._range,
@@ -3587,20 +3595,14 @@ module.exports = grammar({
     ),
 
     _PSL_Extended_Ocurrence_FL_Property_Count_Specification: $ => seq(
-        '[',
-        $._PSL_Count,
-        ']'
+        $.PSL_Count,
     ),
 
     _PSL_Extended_Ocurrence_FL_Property_Until_Specification: $ => seq(
         '(',
         $._PSL_Boolean,
         ')',
-        optional(seq(
-            '[',
-            $._PSL_Count,
-            ']'
-        )),
+        optional($.PSL_Count),
     ),
     // }}}
 
@@ -3682,7 +3684,7 @@ module.exports = grammar({
     ),
 
     PSL_Value_Set: $ => choice(
-        $._boolean,
+        $.boolean,
         seq(
             '{',
             $._PSL_Value_Range,
@@ -3693,10 +3695,7 @@ module.exports = grammar({
         ),
     ),
 
-    _boolean: $ => alias(
-        reservedWord('boolean'),
-        $.boolean
-    ),
+    boolean: $ => reservedWord('boolean'),
 
     _PSL_Value_Range: $ => choice(
         $._PSL_Value,
