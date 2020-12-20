@@ -822,7 +822,7 @@ module.exports = grammar({
      range_attribute_name: $ => seq(
         field('prefix', choice(
             $._simple_name,
-            $._expanded_name,
+            $.selected_name,
             $.ambiguous_name,
             $.attribute_name,
             $._external_object_name,
@@ -1877,7 +1877,7 @@ module.exports = grammar({
     attribute_name: $ => seq(
         field('prefix', choice(
             $._simple_name,
-            $._expanded_name,
+            $.selected_name,
             $.ambiguous_name, // indexed_name allowed
             $.attribute_name,
             $._external_object_name,
