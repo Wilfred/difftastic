@@ -124,6 +124,16 @@ double quoted symbol with interpolation
 
 (program (symbol (string_content) (interpolation (identifier))))
 
+=======================================
+interpolation with no content
+=======================================
+
+:"foo #{}"
+
+---
+
+(program (symbol (string_content) (interpolation)))
+
 =========================================
 percent symbol with unbalanced delimiters
 =========================================
