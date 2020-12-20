@@ -624,6 +624,7 @@ module.exports = grammar({
      ),
 
      return: $ => seq(
+         optional(','), // used in linting to highlight misplaced comma
          reservedWord('return'),
          $.type_mark,
      ),
