@@ -305,6 +305,16 @@ integer with hexadecimal prefix
 
 (program (integer))
 
+===============================
+integer with hexadecimal prefix capitalised
+===============================
+
+0Xa_bcd_ef0_123_456_789
+
+---
+
+(program (integer))
+
 =========================
 integer with octal prefix
 =========================
