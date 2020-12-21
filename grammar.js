@@ -716,7 +716,7 @@ module.exports = grammar({
          reservedWord('new'),
          $._uninstantiated_name,
          optional($.signature),
-         optional(alias($.header, $.subprogram_instantiation_map_aspect)),
+         optional(alias($.header, $.instantiation_declaration_map_aspect)),
          ';'
      ),
 
@@ -731,7 +731,7 @@ module.exports = grammar({
          reservedWord('new'),
          $._uninstantiated_name,
          optional($.signature),
-         optional(alias($.header, $.subprogram_instantiation_map_aspect)),
+         optional(alias($.header, $.instantiation_declaration_map_aspect)),
          ';'
      ),
 
@@ -786,7 +786,7 @@ module.exports = grammar({
          reservedWord('is'),
          reservedWord('new'),
          $._uninstantiated_name,
-         optional(alias($.header, $.map_aspect)),
+         optional(alias($.header, $.instantiation_declaration_map_aspect)),
          ';'
      ),
      // }}}
