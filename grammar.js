@@ -118,62 +118,6 @@ const RANGE_ATTRIBUTE = [
     '(' + caseInsensitive('reverse') + '_)?' + caseInsensitive('range')
 ];
 // }}}
-// Predefined names {{{
-const ATTRIBUTES_OF_TYPE = [
-   '(' +  caseInsensitive('base')       +
-   '|' +  caseInsensitive('ascending')  +
-    // functions
-   '|' +  caseInsensitive('image')   + 
-   '|' +  caseInsensitive('value')   +
-   '|' +  caseInsensitive('pos')     +
-   '|' +  caseInsensitive('val')     +
-   '|' +  caseInsensitive('succ')    +
-   '|' +  caseInsensitive('pred')    +
-   '|' +  caseInsensitive('leftof')  +
-   '|' +  caseInsensitive('rightof') + ')'
-];
-
-const ATTRIBUTES_OF_OBJECT = [
-   caseInsensitive('subtype')
-];
-
-const ATTRIBUTES_OF_ARRAY = [
-   '(' +  caseInsensitive('length')        +
- //'|' +  caseInsensitive('range')         +
- //'|' +  caseInsensitive('reverse_range') +
-   '|' +  caseInsensitive('ascending')     + ')'
-];
-
-const ATTRIBUTES_OF_TYPE_OR_ARRAY = [
-   '(' +  caseInsensitive('left')   +
-   '|' +  caseInsensitive('right')  +
-   '|' +  caseInsensitive('high')   +
-   '|' +  caseInsensitive('low')    + ')'
-];
-
-const ATTRIBUTES_OF_ARRAY_OBJECT = [
-   caseInsensitive('element')
-];
-
-const ATTRIBUTES_OF_SIGNAL = [
-   '(' +  caseInsensitive('delayed')       +
-   '|' +  caseInsensitive('stable')        +
-   '|' +  caseInsensitive('quiet')         +
-   '|' +  caseInsensitive('transaction')   +
-   '|' +  caseInsensitive('event')         +
-   '|' +  caseInsensitive('active')        +
-   '|' +  caseInsensitive('last_event')    +
-   '|' +  caseInsensitive('last_active')   +
-   '|' +  caseInsensitive('last_value')    +
-   '|' +  caseInsensitive('driving_value') + ')'
-];
-
-const ATTRIBUTES_OF_NAMED_ENTITY = [
-   '(' +  caseInsensitive('simple_name')   +
-   '|' +  caseInsensitive('instance_name') +
-   '|' +  caseInsensitive('path_name')     + ')'
-];
-// }}}
 // Operators {{{
 const LOGICAL_OPERATORS = [
     '[nN]?([aA][nN][dD]|[oO][rR])|[xX][nN]?[oO][rR]'
@@ -1893,26 +1837,8 @@ module.exports = grammar({
 
     _attribute_designator: $ => seq(
         token('\''),
-        field('designator',choice(
-            $._simple_name,
-            $.type_attribute,
-            $.object_attribute,
-            $.array_attribute,
-            $.type_or_array_attribute,
-            $.array_object_attribute,
-            $.signal_attribute,
-            $.named_entity_attribute
-        ))
+        field('designator', $._simple_name,)
     ),
-
-    type_attribute:          $ => reserved(ATTRIBUTES_OF_TYPE),
-    object_attribute:        $ => reserved(ATTRIBUTES_OF_OBJECT),
-    array_attribute:         $ => reserved(ATTRIBUTES_OF_ARRAY),
-    type_or_array_attribute: $ => reserved(ATTRIBUTES_OF_TYPE_OR_ARRAY),
-    array_object_attribute:  $ => reserved(ATTRIBUTES_OF_ARRAY_OBJECT),
-    signal_attribute:        $ => reserved(ATTRIBUTES_OF_SIGNAL),
-    named_entity_attribute:  $ => reserved(ATTRIBUTES_OF_NAMED_ENTITY),
-    
     // }}}
     // 8.7 External names {{{
     _external_object_name: $ => choice(
