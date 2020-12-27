@@ -1,6 +1,6 @@
 # Kotlin Grammar for Tree-Sitter
 
-[![Build Status](https://travis-ci.org/fwcd/tree-sitter-kotlin.svg?branch=master)](https://travis-ci.org/fwcd/tree-sitter-kotlin)
+[![Build](https://github.com/fwcd/tree-sitter-kotlin/workflows/Build/badge.svg)](https://github.com/fwcd/tree-sitter-kotlin/actions)
 
 [Kotlin](https://kotlinlang.org) language grammar for [Tree-Sitter](http://tree-sitter.github.io/tree-sitter/).
 
