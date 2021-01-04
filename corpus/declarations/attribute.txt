@@ -23,7 +23,8 @@ attribute attr of e : entity is expr;
         (entity_designator
           (simple_name)))
       (entity_class))
-    (simple_name)))
+    (expression
+      (simple_name))))
 
 =============================
 Specification [LRM] I
@@ -39,14 +40,16 @@ attribute LOCATION of ADDER1 : label is (10,15);
         (entity_designator
           (simple_name)))
       (entity_class))
-    (aggregate
-      (element_association_list
+    (expression
+      (aggregate
         (positional_element_association
-          value: (integer_decimal
-            (integer)))
+          (expression
+            (integer_decimal
+              (integer))))
         (positional_element_association
-          value: (integer_decimal
-            (integer)))))))
+          (expression
+            (integer_decimal
+              (integer))))))))
 
 =============================
 Specification [LRM] II
@@ -62,7 +65,8 @@ attribute IMPLEMENTATION of G1: group is "74LS152";
         (entity_designator
           (simple_name)))
       (entity_class))
-    (string_literal)))
+    (expression
+      (string_literal))))
 
 =============================
 Specification [LRM] III
@@ -77,10 +81,11 @@ attribute CAPACITANCE of all: signal is 15 pF;
       (entity_name_list
         (all))
       (entity_class))
-    (physical_literal
-      (integer_decimal
-        (integer))
-      (simple_name))))
+    (expression
+      (physical_literal
+        (integer_decimal
+          (integer))
+        unit: (simple_name)))))
 
 =============================
 Xilinx Attribute I
@@ -103,7 +108,8 @@ attribute ASYNC_REG of sync_regs : signal is true;
         (entity_designator
           (simple_name)))
       (entity_class))
-    (string_literal))
+    (expression
+      (string_literal)))
   (attribute_declaration
     (identifier)
     (type_mark
@@ -115,4 +121,5 @@ attribute ASYNC_REG of sync_regs : signal is true;
         (entity_designator
           (simple_name)))
       (entity_class))
-    (simple_name)))
+    (expression
+      (simple_name))))

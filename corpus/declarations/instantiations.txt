@@ -49,19 +49,21 @@ procedure p is new u
   (function_instantiation_declaration
     (identifier)
     (simple_name)
-    (subprogram_instantiation_map_aspect
+    (instantiation_declaration_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name))))))
+            actual_part: (expression
+              (simple_name)))))))
   (procedure_instantiation_declaration
     (identifier)
     (simple_name)
-    (subprogram_instantiation_map_aspect
+    (instantiation_declaration_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name)))))))
+            actual_part: (expression
+              (simple_name))))))))
 
 ============================================
 Subprogram - Conflict resolution - Procedure
@@ -116,8 +118,9 @@ package p is new u
   (package_instantiation_declaration
     (identifier)
     (simple_name)
-    (map_aspect
+    (instantiation_declaration_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name)))))))
+            actual_part: (expression
+              (simple_name))))))))

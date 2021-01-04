@@ -6,12 +6,13 @@ assert new resolved ut;
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (resolution_function
-          (simple_name))
-        (type_mark
-          (simple_name))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (resolution_function
+            (simple_name))
+          (type_mark
+            (simple_name)))))))
 
 =========================================
 Record resolution I
@@ -21,15 +22,16 @@ assert new (elem resolved) ut;
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (record_resolution
-          (record_element_resolution
-            (simple_name)
-            (resolution_function
-              (simple_name))))
-        (type_mark
-          (simple_name))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (record_resolution
+            (record_element_resolution
+              record_element: (simple_name)
+              (resolution_function
+                (simple_name))))
+          (type_mark
+            (simple_name)))))))
 
 =========================================
 Record resolution II
@@ -39,19 +41,20 @@ assert new (elem1 resolved, elem2 resolved) ut;
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (record_resolution
-          (record_element_resolution
-            (simple_name)
-            (resolution_function
-              (simple_name)))
-          (record_element_resolution
-            (simple_name)
-            (resolution_function
-              (simple_name))))
-        (type_mark
-          (simple_name))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (record_resolution
+            (record_element_resolution
+              record_element: (simple_name)
+              (resolution_function
+                (simple_name)))
+            (record_element_resolution
+              record_element: (simple_name)
+              (resolution_function
+                (simple_name))))
+          (type_mark
+            (simple_name)))))))
 
 =========================================
 Parenthesized resolution - Resolution function
@@ -61,13 +64,14 @@ assert new (resolved) ut;
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (parenthesized_resolution
-          (resolution_function
-            (simple_name)))
-        (type_mark
-          (simple_name))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (parenthesized_resolution
+            (resolution_function
+              (simple_name)))
+          (type_mark
+            (simple_name)))))))
 
 =========================================
 Parenthesized record resolution
@@ -77,16 +81,17 @@ assert new ((elem resolved)) ut;
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (parenthesized_resolution
-          (record_resolution
-            (record_element_resolution
-              (simple_name)
-              (resolution_function
-                (simple_name)))))
-        (type_mark
-          (simple_name))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (parenthesized_resolution
+            (record_resolution
+              (record_element_resolution
+                record_element: (simple_name)
+                (resolution_function
+                  (simple_name)))))
+          (type_mark
+            (simple_name)))))))
 
 =========================================
 Range constraint I
@@ -96,14 +101,17 @@ assert new range_t range l to h;
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (type_mark
-          (simple_name))
-        (range_constraint
-          (ascending_range
-            low: (simple_name)
-            high: (simple_name)))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (range_constraint
+            (ascending_range
+              low: (simple_expression
+                (simple_name))
+              high: (simple_expression
+                (simple_name)))))))))
 
 =========================================
 Range constraint II
@@ -113,14 +121,15 @@ assert new range_t range st'range;
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (type_mark
-          (simple_name))
-        (range_constraint
-          (attribute_name
-            prefix: (simple_name)
-            designator: (array_attribute)))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (range_constraint
+            (attribute_name
+              prefix: (simple_name)
+              designator: (predefined_designator))))))))
 
 =========================================
 Array constraint - Open
@@ -130,13 +139,14 @@ assert new arr_t (open);
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (type_mark
-          (simple_name))
-        (array_constraint
-          (index_constraint
-            (open)))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (array_constraint
+            (index_constraint
+              (open))))))))
 
 =========================================
 Array constraint - Discrete Range
@@ -147,25 +157,31 @@ assert new arr_t (l     to h);
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (type_mark
-          (simple_name))
-        (array_constraint
-          (index_constraint
-            (descending_range
-              high: (simple_name)
-              low: (simple_name)))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (array_constraint
+            (index_constraint
+              (descending_range
+                high: (simple_expression
+                  (simple_name))
+                low: (simple_expression
+                  (simple_name)))))))))
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (type_mark
-          (simple_name))
-        (array_constraint
-          (index_constraint
-            (ascending_range
-              low: (simple_name)
-              high: (simple_name))))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (array_constraint
+            (index_constraint
+              (ascending_range
+                low: (simple_expression
+                  (simple_name))
+                high: (simple_expression
+                  (simple_name))))))))))
 
 =========================================
 Record constraint - Array constraint I
@@ -175,16 +191,17 @@ assert new rec_t (elem1 (open));
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (type_mark
-          (simple_name))
-        (record_constraint
-          (record_element_constraint
-            (simple_name)
-            (array_constraint
-              (index_constraint
-                (open)))))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (record_constraint
+            (record_element_constraint
+              record_element: (simple_name)
+              (array_constraint
+                (index_constraint
+                  (open))))))))))
 
 =========================================
 Record constraint - Array constraint II
@@ -195,25 +212,30 @@ assert new rec_t (elem1 (h downto l),
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (type_mark
-          (simple_name))
-        (record_constraint
-          (record_element_constraint
-            record_element: (simple_name)
-            (array_constraint
-              (index_constraint
-                (descending_range
-                  high: (simple_name)
-                  low: (simple_name)))))
-          (record_element_constraint
-            record_element: (simple_name)
-            (array_constraint
-              (index_constraint
-                (ascending_range
-                  low: (simple_name)
-                  high: (simple_name))))))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (record_constraint
+            (record_element_constraint
+              record_element: (simple_name)
+              (array_constraint
+                (index_constraint
+                  (descending_range
+                    high: (simple_expression
+                      (simple_name))
+                    low: (simple_expression
+                      (simple_name))))))
+            (record_element_constraint
+              record_element: (simple_name)
+              (array_constraint
+                (index_constraint
+                  (ascending_range
+                    low: (simple_expression
+                      (simple_name))
+                    high: (simple_expression
+                      (simple_name))))))))))))
 
 =========================================
 Record constraint - Record constraint
@@ -223,19 +245,20 @@ assert new rec_t (elem1 (elem2 (open)));
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (type_mark
-          (simple_name))
-        (record_constraint
-          (record_element_constraint
-            (simple_name)
-            (record_constraint
-              (record_element_constraint
-                (simple_name)
-                (array_constraint
-                  (index_constraint
-                    (open)))))))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (record_constraint
+            (record_element_constraint
+              record_element: (simple_name)
+              (record_constraint
+                (record_element_constraint
+                  record_element: (simple_name)
+                  (array_constraint
+                    (index_constraint
+                      (open))))))))))))
 
 =========================================
 Array element constraint - Array constraint
@@ -246,30 +269,32 @@ assert new arr_t (open)(open)(open);
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (type_mark
-          (simple_name))
-        (array_constraint
-          (index_constraint
-            (open))
-          (array_element_constraint
-            (index_constraint
-              (open)))))))
-  (assertion_statement
-    (allocator
-      (subtype_indication
-        (type_mark
-          (simple_name))
-        (array_constraint
-          (index_constraint
-            (open))
-          (array_element_constraint
+    (condition
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (array_constraint
             (index_constraint
               (open))
             (array_element_constraint
               (index_constraint
-                (open)))))))))
+                (open))))))))
+  (assertion_statement
+    (condition
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (array_constraint
+            (index_constraint
+              (open))
+            (array_element_constraint
+              (index_constraint
+                (open))
+              (array_element_constraint
+                (index_constraint
+                  (open))))))))))
 
 =========================================
 Array element constraint - Record constraint
@@ -279,19 +304,20 @@ assert new arr_t (open)(elem (open));
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (type_mark
-          (simple_name))
-        (array_constraint
-          (index_constraint
-            (open))
-          (array_element_constraint
-            (record_element_constraint
-              (simple_name)
-              (array_constraint
-                (index_constraint
-                  (open))))))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (array_constraint
+            (index_constraint
+              (open))
+            (array_element_constraint
+              (record_element_constraint
+                record_element: (simple_name)
+                (array_constraint
+                  (index_constraint
+                    (open)))))))))))
 
 =========================================
 Record element constraint - Array constraint
@@ -301,16 +327,17 @@ assert new arr_t (elem (open));
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (type_mark
-          (simple_name))
-        (record_constraint
-          (record_element_constraint
-            (simple_name)
-            (array_constraint
-              (index_constraint
-                (open)))))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (record_constraint
+            (record_element_constraint
+              record_element: (simple_name)
+              (array_constraint
+                (index_constraint
+                  (open))))))))))
 
 =========================================
 Record element constraint - Record constraint
@@ -320,19 +347,20 @@ assert new arr_t (elem (elem (open)));
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (type_mark
-          (simple_name))
-        (record_constraint
-          (record_element_constraint
-            (simple_name)
-            (record_constraint
-              (record_element_constraint
-                (simple_name)
-                (array_constraint
-                  (index_constraint
-                    (open)))))))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (record_constraint
+            (record_element_constraint
+              record_element: (simple_name)
+              (record_constraint
+                (record_element_constraint
+                  record_element: (simple_name)
+                  (array_constraint
+                    (index_constraint
+                      (open))))))))))))
 
 =========================================
 Array subtype indication
@@ -342,17 +370,20 @@ assert new resolved ut(h downto l);
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (resolution_function
-          (simple_name))
-        (type_mark
-          (simple_name))
-        (array_constraint
-          (index_constraint
-            (descending_range
-              high: (simple_name)
-              low: (simple_name))))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (resolution_function
+            (simple_name))
+          (type_mark
+            (simple_name))
+          (array_constraint
+            (index_constraint
+              (descending_range
+                high: (simple_expression
+                  (simple_name))
+                low: (simple_expression
+                  (simple_name))))))))))
 
 =========================================
 Record subtype indication
@@ -363,34 +394,39 @@ assert new (elem1 resolved, elem2 resolved) ut (elem1 (h downto l),
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (record_resolution
-          (record_element_resolution
-            record_element: (simple_name)
-            (resolution_function
-              (simple_name)))
-          (record_element_resolution
-            record_element: (simple_name)
-            (resolution_function
-              (simple_name))))
-        (type_mark
-          (simple_name))
-        (record_constraint
-          (record_element_constraint
-            record_element: (simple_name)
-            (array_constraint
-              (index_constraint
-                (descending_range
-                  high: (simple_name)
-                  low: (simple_name)))))
-          (record_element_constraint
-            record_element: (simple_name)
-            (array_constraint
-              (index_constraint
-                (ascending_range
-                  low: (simple_name)
-                  high: (simple_name))))))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (record_resolution
+            (record_element_resolution
+              record_element: (simple_name)
+              (resolution_function
+                (simple_name)))
+            (record_element_resolution
+              record_element: (simple_name)
+              (resolution_function
+                (simple_name))))
+          (type_mark
+            (simple_name))
+          (record_constraint
+            (record_element_constraint
+              record_element: (simple_name)
+              (array_constraint
+                (index_constraint
+                  (descending_range
+                    high: (simple_expression
+                      (simple_name))
+                    low: (simple_expression
+                      (simple_name))))))
+            (record_element_constraint
+              record_element: (simple_name)
+              (array_constraint
+                (index_constraint
+                  (ascending_range
+                    low: (simple_expression
+                      (simple_name))
+                    high: (simple_expression
+                      (simple_name))))))))))))
 
 =========================================
 Array of records subtype indication
@@ -400,27 +436,32 @@ assert new ((elem1 resolved)) ut(h downto l)(elem1 (h downto 0));
 
 (design_file
   (assertion_statement
-    (allocator
-      (subtype_indication
-        (parenthesized_resolution
-          (record_resolution
-            (record_element_resolution
-              record_element: (simple_name)
-              (resolution_function
-                (simple_name)))))
-        (type_mark
-          (simple_name))
-        (array_constraint
-          (index_constraint
-            (descending_range
-              high: (simple_name)
-              low: (simple_name)))
-          (array_element_constraint
-            (record_element_constraint
-              record_element: (simple_name)
-              (array_constraint
-                (index_constraint
-                  (descending_range
-                    high: (simple_name)
-                    low: (integer_decimal
-                      (integer))))))))))))
+    (condition
+      (allocator
+        (subtype_indication
+          (parenthesized_resolution
+            (record_resolution
+              (record_element_resolution
+                record_element: (simple_name)
+                (resolution_function
+                  (simple_name)))))
+          (type_mark
+            (simple_name))
+          (array_constraint
+            (index_constraint
+              (descending_range
+                high: (simple_expression
+                  (simple_name))
+                low: (simple_expression
+                  (simple_name))))
+            (array_element_constraint
+              (record_element_constraint
+                record_element: (simple_name)
+                (array_constraint
+                  (index_constraint
+                    (descending_range
+                      high: (simple_expression
+                        (simple_name))
+                      low: (simple_expression
+                        (integer_decimal
+                          (integer))))))))))))))

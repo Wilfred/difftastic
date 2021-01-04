@@ -15,13 +15,18 @@ end case L2;
 
 (design_file
   (case_statement
-    expression: (simple_name))
+    (expression
+      (simple_name)))
   (case_statement
-    (label (identifier))
-    expression: (simple_name))
+    (label
+      (identifier))
+    (expression
+      (simple_name)))
   (case_statement
-    (label (identifier))
-    expression: (simple_name)
+    (label
+      (identifier))
+    (expression
+      (simple_name))
     at_end: (simple_name)))
 
 ===========================
@@ -41,13 +46,18 @@ end case? L2;
 
 (design_file
   (case_statement
-    expression: (simple_name))
+    (expression
+      (simple_name)))
   (case_statement
-    (label (identifier))
-    expression: (simple_name))
+    (label
+      (identifier))
+    (expression
+      (simple_name)))
   (case_statement
-    (label (identifier))
-    expression: (simple_name)
+    (label
+      (identifier))
+    (expression
+      (simple_name))
     at_end: (simple_name)))
 
 ===================================
@@ -62,14 +72,18 @@ end case;
 
 (design_file
   (case_statement
-    expression: (simple_name)
+    (expression
+      (simple_name))
     (case_statement_alternative
       (choices
-        (simple_name)))
+        (simple_expression
+          (simple_name))))
     (case_statement_alternative
       (choices
-        (simple_name)
-        (simple_name)))
+        (simple_expression
+          (simple_name))
+        (simple_expression
+          (simple_name))))
     (case_statement_alternative
       (choices
         (others)))))
@@ -85,9 +99,11 @@ end case;
 
 (design_file
   (case_statement
-    expression: (simple_name)
+    (expression
+      (simple_name))
     (case_statement_alternative
       (choices
-        (simple_name))
+        (simple_expression
+          (simple_name)))
       (sequence_of_statements
         (null_statement)))))

@@ -73,7 +73,8 @@ end package pkg;
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name)))
+            actual_part: (expression
+              (simple_name))))
         (semicolon))
       (port_clause
         (signal_interface_declaration
@@ -85,7 +86,8 @@ end package pkg;
       (port_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name)))
+            actual_part: (expression
+              (simple_name))))
         (semicolon)))
     at_end: (simple_name)))
 
@@ -135,7 +137,8 @@ end package;
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name)))
+            actual_part: (expression
+              (simple_name))))
         (semicolon))))
   (package_declaration
     (identifier)
@@ -150,6 +153,7 @@ end package;
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name)))))
+            actual_part: (expression
+              (simple_name))))))
     (comment)))
 

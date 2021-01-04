@@ -13,25 +13,31 @@ assert 12_34;
 
 (design_file
   (assertion_statement
-    (integer_decimal
-      (integer)))
+    (condition
+      (integer_decimal
+        (integer))))
   (assertion_statement
-    (integer_decimal
-      (integer)))
+    (condition
+      (integer_decimal
+        (integer))))
   (assertion_statement
-    (integer_decimal
-      (integer)))
+    (condition
+      (integer_decimal
+        (integer))))
   (assertion_statement
-    (integer_decimal
-      (integer)))
+    (condition
+      (integer_decimal
+        (integer))))
   (assertion_statement
-    (integer_decimal
-      (integer
-        (separator))))
+    (condition
+      (integer_decimal
+        (integer
+          (separator)))))
   (assertion_statement
-    (integer_decimal
-      (integer
-        (separator)))))
+    (condition
+      (integer_decimal
+        (integer
+          (separator))))))
 
 ======================================================================
 Integer decimal literals - Exponent
@@ -49,36 +55,43 @@ assert 12_34e+1234;
 
 (design_file
   (assertion_statement
-    (integer_decimal
-      (integer)
-      (positive_exponent)))
+    (condition
+      (integer_decimal
+        (integer)
+        (positive_exponent))))
   (assertion_statement
-    (integer_decimal
-      (integer)
-      (positive_exponent)))
+    (condition
+      (integer_decimal
+        (integer)
+        (positive_exponent))))
   (assertion_statement
-    (integer_decimal
-      (integer)
-      (positive_exponent)))
+    (condition
+      (integer_decimal
+        (integer)
+        (positive_exponent))))
   (assertion_statement
-    (integer_decimal
-      (integer)
-      (positive_exponent)))
+    (condition
+      (integer_decimal
+        (integer)
+        (positive_exponent))))
   (assertion_statement
-    (integer_decimal
-      (integer
-        (separator))
-      (positive_exponent)))
+    (condition
+      (integer_decimal
+        (integer
+          (separator))
+        (positive_exponent))))
   (assertion_statement
-    (integer_decimal
-      (integer
-        (separator))
-      (positive_exponent)))
+    (condition
+      (integer_decimal
+        (integer
+          (separator))
+        (positive_exponent))))
   (assertion_statement
-    (integer_decimal
-      (integer
-        (separator))
-      (positive_exponent))))
+    (condition
+      (integer_decimal
+        (integer
+          (separator))
+        (positive_exponent)))))
 
 ======================================================================
 Real decimal literals
@@ -98,43 +111,51 @@ assert 12_34.56_78;
 
 (design_file
   (assertion_statement
-    (real_decimal
-      (integer)
-      (integer)))
+    (condition
+      (real_decimal
+        (integer)
+        (integer))))
   (assertion_statement
-    (real_decimal
-      (integer)
-      (integer)))
+    (condition
+      (real_decimal
+        (integer)
+        (integer))))
   (assertion_statement
-    (real_decimal
-      (integer)
-      (integer)))
+    (condition
+      (real_decimal
+        (integer)
+        (integer))))
   (assertion_statement
-    (real_decimal
-      (integer)
-      (integer)))
+    (condition
+      (real_decimal
+        (integer)
+        (integer))))
   (assertion_statement
-    (real_decimal
-      (integer
-        (separator))
-      (integer)))
+    (condition
+      (real_decimal
+        (integer
+          (separator))
+        (integer))))
   (assertion_statement
-    (real_decimal
-      (integer
-        (separator))
-      (integer)))
+    (condition
+      (real_decimal
+        (integer
+          (separator))
+        (integer))))
   (assertion_statement
-    (real_decimal
-      (integer
-        (separator))
-      (integer
-        (separator))))
+    (condition
+      (real_decimal
+        (integer
+          (separator))
+        (integer
+          (separator)))))
   (assertion_statement
-    (real_decimal
-      (integer
-        (separator))
-      (integer
-        (separator)))))
+    (condition
+      (real_decimal
+        (integer
+          (separator))
+        (integer
+          (separator))))))
 
 ======================================================================
 Real decimal literals - Negative exponent
@@ -151,42 +172,48 @@ assert 12_34.56_78e-1245;
 
 (design_file
   (assertion_statement
-    (real_decimal
-      (integer)
-      (integer)
-      (negative_exponent)))
+    (condition
+      (real_decimal
+        (integer)
+        (integer)
+        (negative_exponent))))
   (assertion_statement
-    (real_decimal
-      (integer)
-      (integer)
-      (negative_exponent)))
+    (condition
+      (real_decimal
+        (integer)
+        (integer)
+        (negative_exponent))))
   (assertion_statement
-    (real_decimal
-      (integer
-        (separator))
-      (integer)
-      (negative_exponent)))
+    (condition
+      (real_decimal
+        (integer
+          (separator))
+        (integer)
+        (negative_exponent))))
   (assertion_statement
-    (real_decimal
-      (integer
-        (separator))
-      (integer
-        (separator))
-      (negative_exponent)))
+    (condition
+      (real_decimal
+        (integer
+          (separator))
+        (integer
+          (separator))
+        (negative_exponent))))
   (assertion_statement
-    (real_decimal
-      (integer
-        (separator))
-      (integer
-        (separator))
-      (negative_exponent)))
+    (condition
+      (real_decimal
+        (integer
+          (separator))
+        (integer
+          (separator))
+        (negative_exponent))))
   (assertion_statement
-    (real_decimal
-      (integer
-        (separator))
-      (integer
-        (separator))
-      (negative_exponent))))
+    (condition
+      (real_decimal
+        (integer
+          (separator))
+        (integer
+          (separator))
+        (negative_exponent)))))
 
 ======================================================================
 Integer based literals - Base I
@@ -199,21 +226,25 @@ assert 016#0#;
 
 (design_file
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal)))))
 
 ======================================================================
 Integer based literals - Based integer I
@@ -237,65 +268,80 @@ assert  16#F#;
 
 (design_file
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal)))))
 
 ======================================================================
 Integer based literals - Exponent
@@ -307,20 +353,23 @@ assert 16#e1#e-1;
 
 (design_file
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)
-      (positive_exponent)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal)
+        (positive_exponent))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)
-      (positive_exponent)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal)
+        (positive_exponent))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)
-      (negative_exponent))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal)
+        (negative_exponent)))))
 
 ======================================================================
 Real based literals
@@ -334,25 +383,29 @@ assert 16#01234567.89ABCDEF#;
 
 (design_file
   (assertion_statement
-    (based_real
-      (base)
-      (based_literal)
-      (based_literal)))
+    (condition
+      (based_real
+        (base)
+        (based_literal)
+        (based_literal))))
   (assertion_statement
-    (based_real
-      (base)
-      (based_literal)
-      (based_literal)))
+    (condition
+      (based_real
+        (base)
+        (based_literal)
+        (based_literal))))
   (assertion_statement
-    (based_real
-      (base)
-      (based_literal)
-      (based_literal)))
+    (condition
+      (based_real
+        (base)
+        (based_literal)
+        (based_literal))))
   (assertion_statement
-    (based_real
-      (base)
-      (based_literal)
-      (based_literal))))
+    (condition
+      (based_real
+        (base)
+        (based_literal)
+        (based_literal)))))
 
 ======================================================================
 Real based literals - Positive exponent
@@ -364,23 +417,26 @@ assert 16#E1.E1#E-1;
 
 (design_file
   (assertion_statement
-    (based_real
-      (base)
-      (based_literal)
-      (based_literal)
-      (positive_exponent)))
+    (condition
+      (based_real
+        (base)
+        (based_literal)
+        (based_literal)
+        (positive_exponent))))
   (assertion_statement
-    (based_real
-      (base)
-      (based_literal)
-      (based_literal)
-      (positive_exponent)))
+    (condition
+      (based_real
+        (base)
+        (based_literal)
+        (based_literal)
+        (positive_exponent))))
   (assertion_statement
-    (based_real
-      (base)
-      (based_literal)
-      (based_literal)
-      (negative_exponent))))
+    (condition
+      (based_real
+        (base)
+        (based_literal)
+        (based_literal)
+        (negative_exponent)))))
 
 ======================================================================
 Physical literals I
@@ -391,17 +447,19 @@ assert 16#E1#E1 MIN;
 
 (design_file
   (assertion_statement
-    (physical_literal
-       (integer_decimal
-        (integer))
-       (simple_name)))
+    (condition
+      (physical_literal
+        (integer_decimal
+          (integer))
+        (simple_name))))
   (assertion_statement
-    (physical_literal
-       (based_integer
-        (base)
-        (based_literal)
-        (positive_exponent))
-       (simple_name))))
+    (condition
+      (physical_literal
+        (based_integer
+          (base)
+          (based_literal)
+          (positive_exponent))
+        (simple_name)))))
 
 ======================================================================
 Physical literals II
@@ -412,17 +470,19 @@ assert 16#E1#E1MIN;
 
 (design_file
   (assertion_statement
-    (physical_literal
-       (integer_decimal
-        (integer))
-       (simple_name)))
+    (condition
+      (physical_literal
+        (integer_decimal
+          (integer))
+        unit: (simple_name))))
   (assertion_statement
-    (physical_literal
-       (based_integer
-        (base)
-        (based_literal)
-        (positive_exponent))
-       (simple_name))))
+    (condition
+      (physical_literal
+        (based_integer
+          (base)
+          (based_literal)
+          (positive_exponent))
+        unit: (simple_name)))))
 
 ======================================================================
 Physical literals - Integer coefficient
@@ -436,32 +496,34 @@ assert 16#E1#E1 E1;
 
 (design_file
   (assertion_statement
-    (physical_literal
-       (integer_decimal
-        (integer))
-       (simple_name)))
-  (assertion_statement
-    (physical_literal
-       (integer_decimal
+    (condition
+      (integer_decimal
         (integer)
-        (positive_exponent))
-       (simple_name)))
+        (positive_exponent))))
   (assertion_statement
-    (physical_literal
-       (based_integer
-        (base)
-        (based_literal))
-       (simple_name)))
+    (condition
+      (physical_literal
+        (integer_decimal
+          (integer)
+          (positive_exponent))
+        unit: (simple_name))))
   (assertion_statement
-    (physical_literal
-       (based_integer
-        (base)
-        (based_literal)
-        (positive_exponent))
-       (simple_name))))
+    (condition
+        (physical_literal
+            (integer_decimal
+              (integer))
+            unit: (simple_name))))
+  (assertion_statement
+    (condition
+      (physical_literal
+        (based_integer
+          (base)
+          (based_literal)
+          (positive_exponent))
+        unit: (simple_name)))))
 
 ======================================================================
-ERROR - Base
+ILLEGAL - Base
 ======================================================================
 assert   2#2#;
 assert   3#3#;
@@ -482,83 +544,98 @@ assert  16#G#;
 
 (design_file
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal)))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal))))))
 
 ======================================================================
-ERROR - Underscore
+ILLEGAL - Underscore
 ======================================================================
 assert 2#_#;
 assert 2#_0#;
@@ -568,23 +645,26 @@ assert 2#0__0#;
 
 (design_file
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (illegal))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal)
-      (ERROR)))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal)))))
   (assertion_statement
-    (based_integer
-      (base)
-      (based_literal
-        (separator)
-        (illegal)))))
+    (condition
+      (based_integer
+        (base)
+        (based_literal
+          (illegal))))))

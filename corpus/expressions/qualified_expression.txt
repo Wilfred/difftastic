@@ -6,11 +6,12 @@ assert foo'(a);
 
 (design_file
   (assertion_statement
-    (qualified_expression
-      (type_mark
-        (simple_name))
-      (parenthesized_expression
-        (simple_name)))))
+    (condition
+      (qualified_expression
+        (type_mark
+          (simple_name))
+        (parenthesized_expression
+          (simple_name))))))
 
 ==========================================================
 Aggregate - Positional asssociation
@@ -20,15 +21,17 @@ assert foo'(a,b);
 
 (design_file
   (assertion_statement
-    (qualified_expression
-      (type_mark
-        (simple_name))
-      (aggregate
-        (element_association_list
+    (condition
+      (qualified_expression
+        (type_mark
+          (simple_name))
+        (aggregate
           (positional_element_association
-            value: (simple_name))
+            (expression
+              (simple_name)))
           (positional_element_association
-            value: (simple_name)))))))
+            (expression
+              (simple_name))))))))
 
 ==========================================================
 Aggregate - Named asssociation
@@ -38,12 +41,14 @@ assert foo'(a=>b);
 
 (design_file
   (assertion_statement
-    (qualified_expression
-      (type_mark
-        (simple_name))
-      (aggregate
-        (element_association_list
+    (condition
+      (qualified_expression
+        (type_mark
+          (simple_name))
+        (aggregate
           (named_element_association
             (choices
-              (simple_name))
-            value: (simple_name)))))))
+              (simple_expression
+                (simple_name)))
+            (expression
+              (simple_name))))))))

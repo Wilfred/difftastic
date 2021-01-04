@@ -68,10 +68,12 @@ type att_t is array (7 downto 0) of foo;
     (constrained_array_definition
       (index_constraint
         (descending_range
-          high: (integer_decimal
-            (integer))
-          low: (integer_decimal
-            (integer))))
+          high: (simple_expression
+            (integer_decimal
+              (integer)))
+          low: (simple_expression
+            (integer_decimal
+              (integer)))))
       (subtype_indication
         (type_mark
           (simple_name))))))

@@ -8,7 +8,8 @@ L: wait;
 (design_file
   (wait_statement)
   (wait_statement
-    (label (identifier))))
+    (label
+      (identifier))))
 
 ================================
 Wait - Sensitivity clause
@@ -18,9 +19,8 @@ wait on a;
 
 (design_file
   (wait_statement
-    (sensitivity_clause
-      (sensitivity_list
-        (simple_name)))))
+    (sensitivity_list
+      (simple_name))))
 
 ================================
 Wait - Conditon clause
@@ -30,11 +30,12 @@ wait until rising_edge(clk);
 
 (design_file
   (wait_statement
-    (condition_clause
+    (condition
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (simple_name))))))
+          expression: (expression
+            (simple_name)))))))
 
 ================================
 Wait - Timeout clause
@@ -44,10 +45,11 @@ wait for 10 ns;
 
 (design_file
   (wait_statement
-    (timeout_clause
+    (time_expression
       (physical_literal
-         (integer_decimal (integer))
-         (simple_name)))))
+        (integer_decimal
+          (integer))
+        unit: (simple_name)))))
 
 ================================
 Wait - All clauses
@@ -57,15 +59,15 @@ L1: wait on foo, bar until cond for 1 ms;
 
 (design_file
   (wait_statement
-    (label (identifier))
-    (sensitivity_clause
-      (sensitivity_list
-        (simple_name)
-        (simple_name)))
-    (condition_clause
+    (label
+      (identifier))
+    (sensitivity_list
+      (simple_name)
       (simple_name))
-    (timeout_clause
+    (condition
+      (simple_name))
+    (time_expression
       (physical_literal
-         (integer_decimal (integer))
-         (simple_name)))))
-
+        (integer_decimal
+          (integer))
+        unit: (simple_name)))))

@@ -40,10 +40,12 @@ type int_t is range 0 to 255;
     (identifier)
     (numeric_type_definition
       (ascending_range
-        low: (integer_decimal
-          (integer))
-        high: (integer_decimal
-          (integer))))))
+        low: (simple_expression
+          (integer_decimal
+            (integer)))
+        high: (simple_expression
+          (integer_decimal
+            (integer)))))))
 
 ======================================
 Floating type definition
@@ -56,12 +58,14 @@ type float_t is range 2.0 to 8.0;
     (identifier)
     (numeric_type_definition
       (ascending_range
-        low: (real_decimal
-          (integer)
-          (integer))
-        high: (real_decimal
-          (integer)
-          (integer))))))
+        low: (simple_expression
+          (real_decimal
+            (integer)
+            (integer)))
+        high: (simple_expression
+          (real_decimal
+            (integer)
+            (integer)))))))
 
 ======================================
 Physical type definition - Minimal
@@ -78,8 +82,10 @@ type phy_t is range l to h
     (physical_type_definition
       (range_constraint
         (ascending_range
-          low: (simple_name)
-          high: (simple_name)))
+          low: (simple_expression
+            (simple_name))
+          high: (simple_expression
+            (simple_name))))
       (primary_unit_declaration
         (identifier)))))
 
@@ -99,14 +105,16 @@ type phy_t is range l to h
     (physical_type_definition
       (range_constraint
         (ascending_range
-          low: (simple_name)
-          high: (simple_name)))
+          low: (simple_expression
+            (simple_name))
+          high: (simple_expression
+            (simple_name))))
       (primary_unit_declaration
         (identifier))
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-           (simple_name))))))
+          unit: (simple_name))))))
 
 ======================================
 Physical type definition - LRM
@@ -132,54 +140,56 @@ type byte_t is range 0 to 1E16
     (physical_type_definition
       (range_constraint
         (ascending_range
-          low: (integer_decimal
-            (integer))
-          high: (integer_decimal
-            (integer)
-            (positive_exponent))))
+          low: (simple_expression
+            (integer_decimal
+              (integer)))
+          high: (simple_expression
+            (integer_decimal
+              (integer)
+              (positive_exponent)))))
       (primary_unit_declaration
         (identifier))
       (comment)
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-           (integer_decimal
+          (integer_decimal
             (integer))
-           (simple_name)))
+          unit: (simple_name)))
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-           (integer_decimal
+          (integer_decimal
             (integer))
-           (simple_name)))
+          unit: (simple_name)))
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-           (integer_decimal
+          (integer_decimal
             (integer))
-           (simple_name)))
+          unit: (simple_name)))
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-           (integer_decimal
+          (integer_decimal
             (integer))
-           (simple_name)))
+          unit: (simple_name)))
       (comment)
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-           (integer_decimal
+          (integer_decimal
             (integer))
-           (simple_name)))
+          unit: (simple_name)))
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-           (integer_decimal
+          (integer_decimal
             (integer))
-           (simple_name)))
+          unit: (simple_name)))
       (secondary_unit_declaration
         (identifier)
         (physical_literal
-           (integer_decimal
+          (integer_decimal
             (integer))
-           (simple_name))))))
+          unit: (simple_name))))))

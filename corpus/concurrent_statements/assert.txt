@@ -7,10 +7,13 @@ A1: assert a;
 
 (design_file
   (assertion_statement
-     (simple_name))
+    (condition
+      (simple_name)))
   (assertion_statement
-    (label (identifier))
-     (simple_name)))
+    (label
+      (identifier))
+    (condition
+      (simple_name))))
 
 ==============================
 Report
@@ -20,8 +23,10 @@ assert a report "str";
 
 (design_file
   (assertion_statement
-     (simple_name)
-    (report (string_literal))))
+    (condition
+      (simple_name))
+    (string_expression
+      (string_literal))))
 
 ==============================
 Severity
@@ -31,8 +36,10 @@ assert a severity note;
 
 (design_file
   (assertion_statement
-     (simple_name)
-    (severity (simple_name))))
+    (condition
+      (simple_name))
+    (severity_expression
+      (simple_name))))
 
 ==============================
 Report and severity
@@ -42,6 +49,9 @@ assert a report K_MSG severity failure;
 
 (design_file
   (assertion_statement
-     (simple_name)
-    (report (simple_name))
-    (severity (simple_name))))
+    (condition
+      (simple_name))
+    (string_expression
+      (simple_name))
+    (severity_expression
+      (simple_name))))

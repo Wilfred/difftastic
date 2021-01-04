@@ -16,15 +16,20 @@ end if L3;
 (design_file
   (if_statement
     (if
-       (simple_name)))
+      (condition
+        (simple_name))))
   (if_statement
-    (label (identifier))
+    (label
+      (identifier))
     (if
-       (simple_name)))
+      (condition
+        (simple_name))))
   (if_statement
-    (label (identifier))
+    (label
+      (identifier))
     (if
-       (simple_name))
+      (condition
+        (simple_name)))
     at_end: (simple_name)))
 
 ================================
@@ -38,9 +43,11 @@ end if;
 (design_file
   (if_statement
     (if
-       (simple_name))
+      (condition
+        (simple_name)))
     (elsif
-       (simple_name))))
+      (condition
+        (simple_name)))))
 
 ================================
 Else
@@ -54,9 +61,11 @@ end if;
 (design_file
   (if_statement
     (if
-       (simple_name))
+      (condition
+        (simple_name)))
     (elsif
-       (simple_name))
+      (condition
+        (simple_name)))
     (else)))
 
 ================================
@@ -77,11 +86,13 @@ end if;
 (design_file
   (if_statement
     (if
-       (simple_name)
+      (condition
+        (simple_name))
       (sequence_of_statements
         (null_statement)))
     (elsif
-       (simple_name)
+      (condition
+        (simple_name))
       (sequence_of_statements
         (null_statement)
         (null_statement)))

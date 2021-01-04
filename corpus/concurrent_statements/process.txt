@@ -29,9 +29,8 @@ end process;
   (process_statement
     (sequence_of_statements
       (wait_statement
-        (sensitivity_clause
-          (sensitivity_list
-            (simple_name)))))))
+        (sensitivity_list
+          (simple_name))))))
 
 =============================
 Sensitivity list - All

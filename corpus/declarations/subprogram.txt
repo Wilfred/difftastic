@@ -149,7 +149,8 @@ procedure p
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name))))
+            actual_part: (expression
+              (simple_name)))))
       (port_clause
         (signal_interface_declaration
           (identifier_list
@@ -161,7 +162,8 @@ procedure p
       (port_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name))))))
+            actual_part: (expression
+              (simple_name)))))))
   (comment))
 
 ================================
@@ -199,7 +201,8 @@ procedure p
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name))))))
+            actual_part: (expression
+              (simple_name)))))))
   (procedure_declaration
     (identifier)
     (subprogram_header
@@ -213,7 +216,8 @@ procedure p
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name))))))
+            actual_part: (expression
+              (simple_name)))))))
   (procedure_declaration
     (identifier)
     (subprogram_header
@@ -229,4 +233,5 @@ procedure p
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name)))))))
+            actual_part: (expression
+              (simple_name))))))))

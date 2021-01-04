@@ -164,7 +164,8 @@ file f : ft open f(x) is "fn.ext";
       (type_mark
         (simple_name)))
     (file_open_information
-      file_name: (string_literal)))
+      (string_expression
+        (string_literal))))
   (file_declaration
     (identifier_list
       (identifier))
@@ -172,8 +173,10 @@ file f : ft open f(x) is "fn.ext";
       (type_mark
         (simple_name)))
     (file_open_information
-      file_open_kind: (simple_name)
-      file_name: (string_literal)))
+      (file_open_kind
+        (simple_name))
+      (string_expression
+        (string_literal))))
   (file_declaration
     (identifier_list
       (identifier))
@@ -181,11 +184,14 @@ file f : ft open f(x) is "fn.ext";
       (type_mark
         (simple_name)))
     (file_open_information
-      file_open_kind: (ambiguous_name
-        prefix: (simple_name)
-        (expression_list
-          expression: (simple_name)))
-      file_name: (string_literal))))
+      (file_open_kind
+        (ambiguous_name
+          prefix: (simple_name)
+          (expression_list
+            expression: (expression
+              (simple_name)))))
+      (string_expression
+        (string_literal)))))
 
 ===============================
 Type Mark - Selected name [LRM]
@@ -205,10 +211,12 @@ signal S : STANDARD.BIT_VECTOR (1 to 10);
       (array_constraint
         (index_constraint
           (ascending_range
-            low: (integer_decimal
-              (integer))
-            high: (integer_decimal
-              (integer))))))))
+            low: (simple_expression
+              (integer_decimal
+                (integer)))
+            high: (simple_expression
+              (integer_decimal
+                (integer)))))))))
 
 =========================
 Resolution function [LRM]

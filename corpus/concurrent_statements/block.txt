@@ -1,7 +1,7 @@
 ==============================
 Minimal
 ==============================
-B1: block
+L1: block
 begin
 end block;
 
@@ -20,20 +20,22 @@ end block B2;
 ==============================
 Guard condition
 ==============================
-B1: block (cond) is
+L1: block (cond) is
 begin
 end block;
 ---
 
 (design_file
   (block_statement
-    (label (identifier))
-    guard: (simple_name)))
+    (label
+      (identifier))
+    guard: (condition
+      (simple_name))))
 
 ==============================
 Block header - Generic clause
 ==============================
-B1: block is
+L1: block is
     generic (a:t);
 begin
 end block;
@@ -56,7 +58,7 @@ end block;
 ==================================
 Block header - Generic map aspect
 ==================================
-B1: block is
+L1: block is
     generic (a:t);
     generic map (b);
 begin
@@ -79,13 +81,14 @@ end block;
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name)))
+            actual_part: (expression
+              (simple_name))))
         (semicolon)))))
 
 ==============================
 Block header - Port clause
 ==============================
-B1: block is
+L1: block is
     port (a:t);
 begin
 end block;
@@ -108,7 +111,7 @@ end block;
 ==============================
 Block header - Port map aspect
 ==============================
-B1: block is
+L1: block is
     port (a:t);
     port map (b);
 begin
@@ -131,13 +134,14 @@ end block;
       (port_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name)))
+            actual_part: (expression
+              (simple_name))))
         (semicolon)))))
 
 ==============================
 Declarative part
 ==============================
-B1: block is
+L1: block is
      alias a is s;
 begin
 end block;
@@ -155,7 +159,7 @@ end block;
 ==============================
 Sequential part
 ==============================
-B1: block is
+L1: block is
 begin
     PL: p;
 end block;

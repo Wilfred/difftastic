@@ -189,9 +189,11 @@ end generate;
 
 (design_file
   (if_generate_statement
-    (label (identifier))
+    (label
+      (identifier))
     (if_generate
-       (simple_name))))
+      (condition
+        (simple_name)))))
 
 ====================================
 If generate - Elsif I
@@ -204,11 +206,14 @@ end generate;
 
 (design_file
   (if_generate_statement
-    (label (identifier))
+    (label
+      (identifier))
     (if_generate
-       (simple_name))
+      (condition
+        (simple_name)))
     (elsif_generate
-       (simple_name))))
+      (condition
+        (simple_name)))))
 
 ====================================
 If generate - Elsif II
@@ -222,13 +227,17 @@ end generate;
 
 (design_file
   (if_generate_statement
-    (label (identifier))
+    (label
+      (identifier))
     (if_generate
-       (simple_name))
+      (condition
+        (simple_name)))
     (elsif_generate
-       (simple_name))
+      (condition
+        (simple_name)))
     (elsif_generate
-       (simple_name))))
+      (condition
+        (simple_name)))))
 
 ====================================
 If generate - Else
@@ -244,7 +253,8 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (simple_name))
+      (condition
+        (simple_name)))
     (else_generate)))
 
 ====================================
@@ -262,9 +272,11 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (simple_name))
+      (condition
+        (simple_name)))
     (elsif_generate
-      (simple_name))
+      (condition
+        (simple_name)))
     (else_generate)))
 
 ====================================
@@ -292,19 +304,22 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (simple_name)
+      (condition
+        (simple_name))
       (generate_statement_body)))
   (if_generate_statement
     (label
       (identifier))
     (if_generate
-      (simple_name)
+      (condition
+        (simple_name))
       (generate_statement_body)))
   (if_generate_statement
     (label
       (identifier))
     (if_generate
-      (simple_name)
+      (condition
+        (simple_name))
       (generate_statement_body))))
 
 ====================================
@@ -327,15 +342,19 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (simple_name))
+      (condition
+        (simple_name)))
     (elsif_generate
-      (simple_name)
+      (condition
+        (simple_name))
       (generate_statement_body))
     (elsif_generate
-      (simple_name)
+      (condition
+        (simple_name))
       (generate_statement_body))
     (elsif_generate
-      (simple_name)
+      (condition
+        (simple_name))
       (generate_statement_body))))
 
 ====================================
@@ -366,21 +385,24 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (simple_name))
+      (condition
+        (simple_name)))
     (else_generate
       (generate_statement_body)))
   (if_generate_statement
     (label
       (identifier))
     (if_generate
-      (simple_name))
+      (condition
+        (simple_name)))
     (else_generate
       (generate_statement_body)))
   (if_generate_statement
     (label
       (identifier))
     (if_generate
-      (simple_name))
+      (condition
+        (simple_name)))
     (else_generate
       (generate_statement_body))))
 
@@ -401,11 +423,13 @@ end generate G1;
     (if_generate
       (label
         (identifier))
-      (simple_name))
+      (condition
+        (simple_name)))
     (elsif_generate
       (label
         (identifier))
-      (simple_name))
+      (condition
+        (simple_name)))
     (else_generate
       (label
         (identifier)))
@@ -431,11 +455,13 @@ end generate G1;
     (if_generate
       (label
         (identifier))
-      (simple_name))
+      (condition
+        (simple_name)))
     (elsif_generate
       (label
         (identifier))
-      (simple_name)
+      (condition
+        (simple_name))
       (generate_statement_body
         at_end: (simple_name)))
     (else_generate
@@ -458,10 +484,12 @@ end generate;
   (case_generate_statement
     (label
       (identifier))
-    expression: (simple_name)
+    (expression
+      (simple_name))
     (case_generate_alternative
       (choices
-        (simple_name)))))
+        (simple_expression
+          (simple_name))))))
 
 ====================================
 Case generate - Alternative
@@ -478,14 +506,18 @@ end generate;
   (case_generate_statement
     (label
       (identifier))
-    expression: (simple_name)
+    (expression
+      (simple_name))
     (case_generate_alternative
       (choices
-        (simple_name)))
+        (simple_expression
+          (simple_name))))
     (case_generate_alternative
       (choices
-        (simple_name)
-        (simple_name)))
+        (simple_expression
+          (simple_name))
+        (simple_expression
+          (simple_name))))
     (case_generate_alternative
       (choices
         (others)))))
@@ -509,15 +541,19 @@ end generate;
   (case_generate_statement
     (label
       (identifier))
-    expression: (simple_name)
+    (expression
+      (simple_name))
     (case_generate_alternative
       (choices
-        (simple_name))
+        (simple_expression
+          (simple_name)))
       (generate_statement_body))
     (case_generate_alternative
       (choices
-        (simple_name)
-        (simple_name))
+        (simple_expression
+          (simple_name))
+        (simple_expression
+          (simple_name)))
       (generate_statement_body))
     (case_generate_alternative
       (choices

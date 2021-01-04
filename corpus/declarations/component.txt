@@ -76,7 +76,8 @@ end component;
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name)))
+            actual_part: (expression
+              (simple_name))))
         (semicolon))
       (port_clause
         (signal_interface_declaration
@@ -89,5 +90,6 @@ end component;
       (port_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name)))
+            actual_part: (expression
+              (simple_name))))
         (semicolon)))))

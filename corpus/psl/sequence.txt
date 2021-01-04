@@ -6,12 +6,13 @@ restrict {a[*2]};
 
 (design_file
   (PSL_Restrict_Directive
-    Sequence: (PSL_Braced_SERE
+    (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        Boolean: (simple_name)
+        (simple_name)
         (PSL_Count
-          Count: (integer_decimal
-            (integer)))))))
+          (simple_expression
+            (integer_decimal
+              (integer))))))))
 
 ==================================
 Repeated sequence II
@@ -21,9 +22,9 @@ restrict {a[+]};
 
 (design_file
   (PSL_Restrict_Directive
-    Sequence: (PSL_Braced_SERE
+    (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        Boolean: (simple_name)
+        (simple_name)
         (PSL_Count)))))
 
 ==================================
@@ -34,9 +35,9 @@ restrict {a[*]};
 
 (design_file
   (PSL_Restrict_Directive
-    Sequence: (PSL_Braced_SERE
+    (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        Boolean: (simple_name)
+        (simple_name)
         (PSL_Count)))))
 
 ==================================
@@ -47,7 +48,7 @@ restrict {[*]};
 
 (design_file
   (PSL_Restrict_Directive
-    Sequence: (PSL_Braced_SERE
+    (PSL_Braced_SERE
       (PSL_Repeated_SERE
         (PSL_Count)))))
 
@@ -59,12 +60,13 @@ restrict {a[=2]};
 
 (design_file
   (PSL_Restrict_Directive
-    Sequence: (PSL_Braced_SERE
+    (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        Boolean: (simple_name)
+        (simple_name)
         (PSL_Count
-          Count: (integer_decimal
-            (integer)))))))
+          (simple_expression
+            (integer_decimal
+              (integer))))))))
 
 ==================================
 Repeated sequence VI
@@ -74,15 +76,17 @@ restrict {a[*1 to 3]};
 
 (design_file
   (PSL_Restrict_Directive
-    Sequence: (PSL_Braced_SERE
+    (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        Boolean: (simple_name)
+        (simple_name)
         (PSL_Count
-          Count: (ascending_range
-            low: (integer_decimal
-              (integer))
-            high: (integer_decimal
-              (integer))))))))
+          (ascending_range
+            low: (simple_expression
+              (integer_decimal
+                (integer)))
+            high: (simple_expression
+              (integer_decimal
+                (integer)))))))))
 
 ==================================
 Sequence Instantiation - Minimal
@@ -92,27 +96,30 @@ restrict s;
 
 (design_file
   (PSL_Restrict_Directive
-    Sequence: (PSL_Sequence_Instance
-      Sequence_Name: (PSL_Identifier))))
+    (PSL_Sequence_Instance
+      (PSL_Identifier))))
 
 ==================================
 Sequence Instantiation - LRM I
 ==================================
-restrict BusArb (breq, back, 3);
+restrict BusArb(breq, back, 3);
 ---
 
 (design_file
   (PSL_Restrict_Directive
-    Sequence: (PSL_Sequence_Instance
-      Sequence_Name: (PSL_Identifier)
+    (PSL_Sequence_Instance
+      (PSL_Identifier)
       (PSL_Actual_Parameter_List
         (PSL_Actual_Parameter
-          (simple_name))
+          (expression
+            (simple_name)))
         (PSL_Actual_Parameter
-          (simple_name))
+          (expression
+            (simple_name)))
         (PSL_Actual_Parameter
-          (integer_decimal
-            (integer)))))))
+          (expression
+            (integer_decimal
+              (integer))))))))
 
 ==================================
 Sequence Instantiation - LRM II
@@ -122,20 +129,27 @@ restrict ReadCycle(BusArb(breq, back, 5), breq, ardy, drdy);
 
 (design_file
   (PSL_Restrict_Directive
-    Sequence: (PSL_Sequence_Instance
-      Sequence_Name: (PSL_Identifier)
+    (PSL_Sequence_Instance
+      (PSL_Identifier)
       (PSL_Actual_Parameter_List
         (PSL_Actual_Parameter
-          (ambiguous_name
-            prefix: (simple_name)
-            (expression_list
-              expression: (simple_name)
-              expression: (simple_name)
-              expression: (integer_decimal
-                (integer)))))
+          (expression
+            (ambiguous_name
+              prefix: (simple_name)
+              (expression_list
+                expression: (expression
+                  (simple_name))
+                expression: (expression
+                  (simple_name))
+                expression: (expression
+                  (integer_decimal
+                    (integer)))))))
         (PSL_Actual_Parameter
-          (simple_name))
+          (expression
+            (simple_name)))
         (PSL_Actual_Parameter
-          (simple_name))
+          (expression
+            (simple_name)))
         (PSL_Actual_Parameter
-          (simple_name))))))
+          (expression
+            (simple_name)))))))

@@ -80,11 +80,14 @@ generic map (a,b,c);
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name))
+            actual_part: (expression
+              (simple_name)))
           (positional_association_element
-            actual_part: (simple_name))
+            actual_part: (expression
+              (simple_name)))
           (positional_association_element
-            actual_part: (simple_name)))))))
+            actual_part: (expression
+              (simple_name))))))))
 
 ===================================
 Port map aspect
@@ -102,11 +105,14 @@ port map (a,b,c);
       (port_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name))
+            actual_part: (expression
+              (simple_name)))
           (positional_association_element
-            actual_part: (simple_name))
+            actual_part: (expression
+              (simple_name)))
           (positional_association_element
-            actual_part: (simple_name)))))))
+            actual_part: (expression
+              (simple_name))))))))
 
 ===================================
 Generic and port map aspect
@@ -125,17 +131,21 @@ generic map (a,b,c)
       (generic_map_aspect
         (association_list
           (positional_association_element
-            actual_part: (simple_name))
+            actual_part: (expression
+              (simple_name)))
           (positional_association_element
-            actual_part: (simple_name))
+            actual_part: (expression
+              (simple_name)))
           (positional_association_element
-            actual_part: (simple_name))))
+            actual_part: (expression
+              (simple_name)))))
       (port_map_aspect
         (association_list
           (positional_association_element
             actual_part: (open))
           (positional_association_element
-            actual_part: (simple_name)))))))
+            actual_part: (expression
+              (simple_name))))))))
 
 ===================================
 Type declaration
@@ -158,10 +168,12 @@ generic map (integer range 0 to 7);
                 (simple_name))
               (range_constraint
                 (ascending_range
-                  low: (integer_decimal
-                    (integer))
-                  high: (integer_decimal
-                    (integer)))))))))))
+                  low: (simple_expression
+                    (integer_decimal
+                      (integer)))
+                  high: (simple_expression
+                    (integer_decimal
+                      (integer))))))))))))
 
 ===================================
 Selected name on port map aspect
@@ -182,4 +194,5 @@ port map (a.b => c);
             formal_part: (selected_name
               prefix: (simple_name)
               suffix: (simple_name))
-            actual_part: (simple_name)))))))
+            actual_part: (expression
+              (simple_name))))))))

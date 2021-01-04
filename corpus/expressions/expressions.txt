@@ -6,15 +6,17 @@ t <= abs a,
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (factor
-          argument: (simple_name)))
+        (expression
+          (factor
+            argument: (simple_name))))
       (waveform_element
-        value: (factor
-          argument: (simple_name))))))
+        (expression
+          (factor
+            argument: (simple_name)))))))
 
 ===================================
 Factor - exponentiation
@@ -23,13 +25,14 @@ t <= a**b;
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (exponentiation
-          left: (simple_name)
-          right: (simple_name))))))
+        (expression
+          (exponentiation
+            left: (simple_name)
+            right: (simple_name)))))))
 
 ===================================
 Factor - logical reduction operation
@@ -43,27 +46,33 @@ t <= and a,
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (reduction
-          argument: (simple_name)))
+        (expression
+          (reduction
+            argument: (simple_name))))
       (waveform_element
-        value: (reduction
-          argument: (simple_name)))
+        (expression
+          (reduction
+            argument: (simple_name))))
       (waveform_element
-        value: (reduction
-          argument: (simple_name)))
+        (expression
+          (reduction
+            argument: (simple_name))))
       (waveform_element
-        value: (reduction
-          argument: (simple_name)))
+        (expression
+          (reduction
+            argument: (simple_name))))
       (waveform_element
-        value: (reduction
-          argument: (simple_name)))
+        (expression
+          (reduction
+            argument: (simple_name))))
       (waveform_element
-        value: (reduction
-          argument: (simple_name))))))
+        (expression
+          (reduction
+            argument: (simple_name)))))))
 
 ===================================
 Associative logical expression
@@ -72,15 +81,16 @@ t <= a and b and c;
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (logical_expression
-          left: (logical_expression
-            left: (simple_name)
-            right: (simple_name))
-          right: (simple_name))))))
+        (expression
+          (logical_expression
+            left: (logical_expression
+              left: (simple_name)
+              right: (simple_name))
+            right: (simple_name)))))))
 
 ===================================
 Term I
@@ -92,25 +102,29 @@ t <= a * b,
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (term
-          left: (simple_name)
-          right: (simple_name)))
+        (expression
+          (term
+            left: (simple_name)
+            right: (simple_name))))
       (waveform_element
-        value: (term
-          left: (simple_name)
-          right: (simple_name)))
+        (expression
+          (term
+            left: (simple_name)
+            right: (simple_name))))
       (waveform_element
-        value: (term
-          left: (simple_name)
-          right: (simple_name)))
+        (expression
+          (term
+            left: (simple_name)
+            right: (simple_name))))
       (waveform_element
-        value: (term
-          left: (simple_name)
-          right: (simple_name))))))
+        (expression
+          (term
+            left: (simple_name)
+            right: (simple_name)))))))
 
 ===================================
 Term II
@@ -119,19 +133,20 @@ t <= a * b / c mod d rem e;
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (term
-          left: (term
+        (expression
+          (term
             left: (term
               left: (term
-                left: (simple_name)
+                left: (term
+                  left: (simple_name)
+                  right: (simple_name))
                 right: (simple_name))
               right: (simple_name))
-            right: (simple_name))
-          right: (simple_name))))))
+            right: (simple_name)))))))
 
 ===================================
 Simple expression
@@ -140,15 +155,16 @@ t <= a + b - c;
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (simple_expression
-          left: (simple_expression
-            left: (simple_name)
-            right: (simple_name))
-          right: (simple_name))))))
+        (expression
+          (simple_expression
+            left: (simple_expression
+              left: (simple_name)
+              right: (simple_name))
+            right: (simple_name)))))))
 
 ===================================
 Simple expression - Sign
@@ -157,15 +173,17 @@ t <= -a, -b;
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (sign
-          argument: (simple_name)))
+        (expression
+          (sign
+            argument: (simple_name))))
       (waveform_element
-        value: (sign
-          argument: (simple_name))))))
+        (expression
+          (sign
+            argument: (simple_name)))))))
 
 ===================================
 Parenthesized expression I
@@ -175,19 +193,21 @@ t <= ((x));
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (parenthesized_expression
-          (simple_name)))))
-  (simple_waveform_assignment
-    target: (simple_name)
-    (waveforms
-      (waveform_element
-        value: (parenthesized_expression
+        (expression
           (parenthesized_expression
-            (simple_name)))))))
+            (simple_name))))))
+  (concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (parenthesized_expression
+            (parenthesized_expression
+              (simple_name))))))))
 
 ===================================
 Parenthesized expression II
@@ -197,27 +217,29 @@ t <= ((x(foo'range)));
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (parenthesized_expression
-          (slice_name
-            prefix: (simple_name)
-            (attribute_name
-              prefix: (simple_name)
-              designator: (array_attribute)))))))
-  (simple_waveform_assignment
-    target: (simple_name)
-    (waveforms
-      (waveform_element
-        value: (parenthesized_expression
+        (expression
           (parenthesized_expression
             (slice_name
               prefix: (simple_name)
               (attribute_name
                 prefix: (simple_name)
-                designator: (array_attribute)))))))))
+                designator: (predefined_designator))))))))
+  (concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (parenthesized_expression
+            (parenthesized_expression
+              (slice_name
+                prefix: (simple_name)
+                (attribute_name
+                  prefix: (simple_name)
+                  designator: (predefined_designator))))))))))
 
 ===========================================
 LINT: ILLEGAL - Association - Logical expression I
@@ -226,15 +248,16 @@ t <= a nand b nand c;
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (logical_expression
-          left: (logical_expression
-            left: (simple_name)
-            right: (simple_name))
-          right: (simple_name))))))
+        (expression
+          (logical_expression
+            left: (logical_expression
+              left: (simple_name)
+              right: (simple_name))
+            right: (simple_name)))))))
 
 ===========================================
 LINT: ILLEGAL Association - Logical expression II
@@ -243,15 +266,16 @@ t <= a and b nand c;
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (logical_expression
-          left: (logical_expression
-            left: (simple_name)
-            right: (simple_name))
-          right: (simple_name))))))
+        (expression
+          (logical_expression
+            left: (logical_expression
+              left: (simple_name)
+              right: (simple_name))
+            right: (simple_name)))))))
 
 ============================================
 LINT: ILLEGAL - Association - Logical expression III
@@ -260,15 +284,16 @@ t <= a or b and c;
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (logical_expression
-          left: (logical_expression
-            left: (simple_name)
-            right: (simple_name))
-          right: (simple_name))))))
+        (expression
+          (logical_expression
+            left: (logical_expression
+              left: (simple_name)
+              right: (simple_name))
+            right: (simple_name)))))))
 
 ============================================
 LINT: ILLEGAL - Sign on right
@@ -277,15 +302,15 @@ t <= -1 + -1;
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (simple_expression
-          left: (sign
-            argument: (integer_decimal
-              (integer)))
-          right: (sign
-            argument: (integer_decimal
-              (integer))))))))
-
+        (expression
+          (simple_expression
+            left: (sign
+              argument: (integer_decimal
+                (integer)))
+            right: (sign
+              argument: (integer_decimal
+                (integer)))))))))

@@ -6,4 +6,5 @@ assert null;
 
 (design_file
   (assertion_statement
-    (null)))
+    (condition
+      (null))))

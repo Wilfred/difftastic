@@ -6,18 +6,20 @@ L: t <= w;
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (simple_name))))
-  (simple_waveform_assignment
+        (expression
+          (simple_name)))))
+  (concurrent_signal_assignment
     (label
       (identifier))
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (simple_name)))))
+        (expression
+          (simple_name))))))
 
 ===========================================
 Simple waveform assignment - Delay mechanism
@@ -28,32 +30,35 @@ t <= reject 10 ns inertial w;
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (transport))
     (waveforms
       (waveform_element
-        value: (simple_name))))
-  (simple_waveform_assignment
+        (expression
+          (simple_name)))))
+  (concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (inertial))
     (waveforms
       (waveform_element
-        value: (simple_name))))
-  (simple_waveform_assignment
+        (expression
+          (simple_name)))))
+  (concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (inertial
-        (reject
+        reject: (time_expression
           (physical_literal
             (integer_decimal
               (integer))
-            (simple_name)))))
+            unit: (simple_name)))))
     (waveforms
       (waveform_element
-        value: (simple_name)))))
+        (expression
+          (simple_name))))))
 
 ===========================================
 Waveform element
@@ -64,31 +69,34 @@ t <= null after 42 ns;
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (simple_name))))
-  (simple_waveform_assignment
+        (expression
+          (simple_name)))))
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (simple_name)
-        (after
+        (expression
+          (simple_name))
+        (time_expression
           (physical_literal
-             (integer_decimal
+            (integer_decimal
               (integer))
-             (simple_name))))))
-  (simple_waveform_assignment
+            unit: (simple_name))))))
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (null)
-        (after
+        (expression
+          (null))
+        (time_expression
           (physical_literal
-             (integer_decimal
+            (integer_decimal
               (integer))
-             (simple_name)))))))
+            unit: (simple_name)))))))
 
 ===========================================
 Waveforms
@@ -100,29 +108,32 @@ t <= val1 after 10 ns,
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (unaffected)))
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (simple_name)
-        (after
+        (expression
+          (simple_name))
+        (time_expression
           (physical_literal
-             (integer_decimal
+            (integer_decimal
               (integer))
-             (simple_name))))
+            unit: (simple_name))))
       (waveform_element
-        value: (simple_name)
-        (after
+        (expression
+          (simple_name))
+        (time_expression
           (physical_literal
-             (integer_decimal
+            (integer_decimal
               (integer))
-             (simple_name))))
+            unit: (simple_name))))
       (waveform_element
-        value: (null)))))
+        (expression
+          (null))))))
 
 ===========================================
 Simple force assignment
@@ -133,17 +144,20 @@ t <= force out expr;
 ---
 
 (design_file
-  (simple_force_assignment
+  (signal_assignment_statement
     target: (simple_name)
-    value: (simple_name))
-  (simple_force_assignment
+    (expression
+      (simple_name)))
+  (signal_assignment_statement
     target: (simple_name)
-    (force_mode (in))
-    value: (simple_name))
-  (simple_force_assignment
+    (force_mode)
+    (expression
+      (simple_name)))
+  (signal_assignment_statement
     target: (simple_name)
-    (force_mode (out))
-    value: (simple_name)))
+    (force_mode)
+    (expression
+      (simple_name))))
 
 ===========================================
 Simple release assignment
@@ -154,14 +168,14 @@ t <= release out;
 ---
 
 (design_file
-  (simple_release_assignment
+  (signal_assignment_statement
     target: (simple_name))
-  (simple_release_assignment
+  (signal_assignment_statement
     target: (simple_name)
-    (force_mode (in)))
-  (simple_release_assignment
+    (force_mode))
+  (signal_assignment_statement
     target: (simple_name)
-    (force_mode (out))))
+    (force_mode)))
 
 ===========================================
 Guarded assignment
@@ -170,8 +184,9 @@ t <= guarded w;
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (simple_name)))))
+        (expression
+          (simple_name))))))

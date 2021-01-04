@@ -6,7 +6,8 @@ report "";
 
 (design_file
   (report_statement
-    (report (string_literal))))
+    (string_expression
+      (string_literal))))
 
 ============================================
 White space (SPACE)
@@ -16,7 +17,8 @@ report " ";
 
 (design_file
   (report_statement
-    (report (string_literal))))
+    (string_expression
+      (string_literal))))
 
 ============================================
 White space (NBSP)
@@ -26,7 +28,8 @@ report " ";
 
 (design_file
   (report_statement
-    (report (string_literal))))
+    (string_expression
+      (string_literal))))
 
 ==============================================================
 Apostrophe
@@ -36,7 +39,8 @@ report "'";
 
 (design_file
   (report_statement
-    (report (string_literal))))
+    (string_expression
+      (string_literal))))
 
 ==============================================================
 Quotation mark (escape)
@@ -46,7 +50,9 @@ report """";
 
 (design_file
   (report_statement
-    (report (string_literal (escape_sequence)))))
+    (string_expression
+      (string_literal
+        (escape_sequence)))))
 
 ==============================================================
 Underscore
@@ -56,7 +62,8 @@ report "_";
 
 (design_file
   (report_statement
-    (report (string_literal))))
+    (string_expression
+      (string_literal))))
 
 ==============================================================
 Backslash
@@ -66,7 +73,8 @@ report "\";
 
 (design_file
   (report_statement
-    (report (string_literal))))
+    (string_expression
+      (string_literal))))
 
 ==============================================================
 Comment
@@ -76,7 +84,8 @@ report "--";
 
 (design_file
   (report_statement
-    (report (string_literal))))
+    (string_expression
+      (string_literal))))
 
 ==============================================================
 Multi line comment
@@ -86,7 +95,7 @@ report "/*aa*/";
 
 (design_file
   (report_statement
-    (report
+    (string_expression
       (string_literal))))
 
 ==============================================================
@@ -97,7 +106,8 @@ report "010";
 
 (design_file
   (report_statement
-    (report (string_literal))))
+    (string_expression
+      (string_literal))))
 
 ==============================================================
 Operators symbols
@@ -112,59 +122,87 @@ report "**";
 
 (design_file
   (report_statement
-    (report (string_literal)))
+    (string_expression
+      (string_literal)))
   (report_statement
-    (report (string_literal)))
+    (string_expression
+      (string_literal)))
   (report_statement
-    (report (string_literal)))
+    (string_expression
+      (string_literal)))
   (report_statement
-    (report (string_literal)))
+    (string_expression
+      (string_literal)))
   (report_statement
-    (report (string_literal)))
+    (string_expression
+      (string_literal)))
   (report_statement
-    (report (string_literal))))
+    (string_expression
+      (string_literal))))
 
 ==============================================================
 Regex Tokens
 ==============================================================
-report "^" & "$" & "." & "|" & "\";
-report "*" & "?" & "+";
-report "[" & "]" & "(" & ")" & "{" & "}";
+report "^";
+report "$";
+report ".";
+report "|";
+report "\";
+report "*";
+report "?";
+report "+";
+report "[";
+report "]";
+report "(";
+report ")";
+report "{";
+report "}";
 report "#";
 ---
 
 (design_file
   (report_statement
-    (report
-      (concatenation
-        left: (concatenation
-          left: (concatenation
-            left: (concatenation
-              left: (string_literal)
-              right: (string_literal))
-            right: (string_literal))
-          right: (string_literal))
-        right: (string_literal))))
+    (string_expression
+      (string_literal)))
   (report_statement
-    (report
-      (concatenation
-        left: (concatenation
-          left: (string_literal)
-          right: (string_literal))
-        right: (string_literal))))
+    (string_expression
+      (string_literal)))
   (report_statement
-    (report
-      (concatenation
-        left: (concatenation
-          left: (concatenation
-            left: (concatenation
-              left: (concatenation
-                left: (string_literal)
-                right: (string_literal))
-              right: (string_literal))
-            right: (string_literal))
-          right: (string_literal))
-        right: (string_literal))))
+    (string_expression
+      (string_literal)))
   (report_statement
-    (report
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
       (string_literal))))

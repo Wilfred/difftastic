@@ -27,6 +27,21 @@ end configuration cfg;
       at_end: (simple_name))))
 
 =====================================
+Extended name
+=====================================
+configuration cfg of lib.ent is
+end;
+---
+
+(design_file
+  (design_unit
+    (configuration_declaration
+      (identifier)
+      entity: (expanded_name
+        prefix: (simple_name)
+        suffix: (simple_name)))))
+
+=====================================
 Block configuration - Minimal
 =====================================
 configuration cfg of ent is
@@ -76,10 +91,12 @@ end;
           (generate_statement_element
             label: (simple_name)
             specification: (ascending_range
-              low: (integer_decimal
-                (integer))
-              high: (integer_decimal
-                (integer))))))))
+              low: (simple_expression
+                (integer_decimal
+                  (integer)))
+              high: (simple_expression
+                (integer_decimal
+                  (integer)))))))))
   (design_unit
     (configuration_declaration
       (identifier)
@@ -88,11 +105,12 @@ end;
         (block_specification
           (generate_statement_element
             label: (simple_name)
-            specification: (simple_expression
-              left: (integer_decimal
-                (integer))
-              right: (integer_decimal
-                (integer)))))))))
+            specification: (expression
+              (simple_expression
+                left: (integer_decimal
+                  (integer))
+                right: (integer_decimal
+                  (integer))))))))))
 
 =====================================
 LRM 3.4.1

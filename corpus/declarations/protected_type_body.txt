@@ -20,22 +20,17 @@ type t is
       at_end: (simple_name))))
 
 =================================
-LRM I
+LRM I (Simplified)
 =================================
 type SharedCounter is protected body
+
    variable counter: Integer := 0;
+
    procedure increment (N: Integer := 1) is
    begin
       counter := counter + N;
    end procedure increment;
-   procedure decrement (N: Integer := 1) is
-   begin
-      counter := counter - N;
-   end procedure decrement;
-   impure function value return Integer is
-   begin
-      return counter;
-   end function value;
+
 end protected body SharedCounter;
 ---
 
@@ -66,38 +61,11 @@ end protected body SharedCounter;
                 (integer_decimal
                   (integer)))))
           (sequence_of_statements
-            (simple_variable_assignment
+            (variable_assignment_statement
               target: (simple_name)
-              value: (simple_expression
-                left: (simple_name)
-                right: (simple_name))))
-          at_end: (simple_name))
-        (procedure_body
-          (identifier)
-          (procedure_parameter_clause
-            (constant_interface_declaration
-              (identifier_list
-                (identifier))
-              (subtype_indication
-                (type_mark
-                  (simple_name)))
-              (default_expression
-                (integer_decimal
-                  (integer)))))
-          (sequence_of_statements
-            (simple_variable_assignment
-              target: (simple_name)
-              value: (simple_expression
-                left: (simple_name)
-                right: (simple_name))))
-          at_end: (simple_name))
-        (function_body
-          (identifier)
-          (return
-            (type_mark
-              (simple_name)))
-          (sequence_of_statements
-            (return_statement
-              (simple_name)))
+              (expression
+                (simple_expression
+                  left: (simple_name)
+                  right: (simple_name)))))
           at_end: (simple_name)))
       at_end: (simple_name))))

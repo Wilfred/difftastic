@@ -19,7 +19,6 @@ Ambiguity I
 --      (subtype_name "bar"))
 
 assert foo(bar);
-
 ---
 
 (design_file
@@ -40,10 +39,12 @@ assert foo(bar);
   (comment)
   (comment)
   (assertion_statement
-     (ambiguous_name
-      prefix: (simple_name)
-      (expression_list
-        expression: (simple_name)))))
+    (condition
+      (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (expression
+            (simple_name)))))))
 
 ==============================================================
 Ambiguity II
@@ -60,7 +61,6 @@ Ambiguity II
 --     (_name "baz"))
 
 assert foo(bar, baz);
-
 ---
 
 (design_file
@@ -75,11 +75,14 @@ assert foo(bar, baz);
   (comment)
   (comment)
   (assertion_statement
-     (ambiguous_name
-      prefix: (simple_name)
-      (expression_list
-        expression: (simple_name)
-        expression: (simple_name)))))
+    (condition
+      (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (expression
+            (simple_name))
+          expression: (expression
+            (simple_name)))))))
 
 ==============================================================
 Ambiguity III
@@ -94,7 +97,6 @@ Ambiguity III
 --      (object_name "bar"))
 
 assert foobar(foo=>bar)(bar);
-
 ---
 
 (design_file
@@ -107,15 +109,18 @@ assert foobar(foo=>bar)(bar);
   (comment)
   (comment)
   (assertion_statement
-     (ambiguous_name
-      prefix: (function_call
-        function: (simple_name)
-        (association_list
-          (named_association_element
-            formal_part: (simple_name)
-            actual_part: (simple_name))))
-      (expression_list
-        expression: (simple_name)))))
+    (condition
+      (ambiguous_name
+        prefix: (function_call
+          function: (simple_name)
+          (association_list
+            (named_association_element
+              formal_part: (simple_name)
+              actual_part: (expression
+                (simple_name)))))
+        (expression_list
+          expression: (expression
+            (simple_name)))))))
 
 ==============================================================
 Ambiguous name on ambiguous name
@@ -125,13 +130,16 @@ assert foo(bar(x));
 
 (design_file
   (assertion_statement
-     (ambiguous_name
-      prefix: (simple_name)
-      (expression_list
-        expression: (ambiguous_name
-          prefix: (simple_name)
-          (expression_list
-            expression: (simple_name)))))))
+    (condition
+      (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (expression
+            (ambiguous_name
+              prefix: (simple_name)
+              (expression_list
+                expression: (expression
+                  (simple_name))))))))))
 
 ==============================================================
 PSL Built-ins functions names (not reserved words)
@@ -140,12 +148,14 @@ t <= prev(x);
 ---
 
 (design_file
-  (simple_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
-        value: (ambiguous_name
-          prefix: (simple_name)
-          (expression_list
-            expression: (simple_name)))))))
+        (expression
+          (ambiguous_name
+            prefix: (simple_name)
+            (expression_list
+              expression: (expression
+                (simple_name)))))))))
 

@@ -17,46 +17,58 @@ with expr select?
 ---
 
 (design_file
-  (selected_waveform_assignment
-    with: (simple_name)
+  (concurrent_signal_assignment
+    (expression
+      (simple_name))
     target: (simple_name)
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
+          (expression
+            (simple_name))))
       (choices
-        (simple_name))))
-  (selected_waveform_assignment
+        (simple_expression
+          (simple_name)))))
+  (concurrent_signal_assignment
     (label
       (identifier))
-    with: (simple_name)
+    (expression
+      (simple_name))
     target: (simple_name)
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
+          (expression
+            (simple_name))))
       (choices
-        (simple_name))))
-  (selected_waveform_assignment
-    with: (simple_name)
+        (simple_expression
+          (simple_name)))))
+  (concurrent_signal_assignment
+    (expression
+      (simple_name))
     target: (simple_name)
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
+          (expression
+            (simple_name))))
       (choices
-        (simple_name))))
-  (selected_waveform_assignment
+        (simple_expression
+          (simple_name)))))
+  (concurrent_signal_assignment
     (label
       (identifier))
-    with: (simple_name)
+    (expression
+      (simple_name))
     target: (simple_name)
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
+          (expression
+            (simple_name))))
       (choices
-        (simple_name)))))
+        (simple_expression
+          (simple_name))))))
 
 ===========================================
 Selected waveform assignment - Delay mechanism
@@ -72,44 +84,53 @@ with expr select
 ---
 
 (design_file
-  (selected_waveform_assignment
-    with: (simple_name)
+  (concurrent_signal_assignment
+    (expression
+      (simple_name))
     target: (simple_name)
     (delay_mechanism
       (transport))
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
+          (expression
+            (simple_name))))
       (choices
-        (simple_name))))
-  (selected_waveform_assignment
-    with: (simple_name)
+        (simple_expression
+          (simple_name)))))
+  (concurrent_signal_assignment
+    (expression
+      (simple_name))
     target: (simple_name)
     (delay_mechanism
       (inertial))
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
+          (expression
+            (simple_name))))
       (choices
-        (simple_name))))
-  (selected_waveform_assignment
-    with: (simple_name)
+        (simple_expression
+          (simple_name)))))
+  (concurrent_signal_assignment
+    (expression
+      (simple_name))
     target: (simple_name)
     (delay_mechanism
       (inertial
-        (reject
+        reject: (time_expression
           (physical_literal
             (integer_decimal
               (integer))
-            (simple_name)))))
+            unit: (simple_name)))))
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
+          (expression
+            (simple_name))))
       (choices
-        (simple_name)))))
+        (simple_expression
+          (simple_name))))))
 
 ===========================================
 Selected waveforms I
@@ -120,21 +141,26 @@ with expr select
 ---
 
 (design_file
-  (selected_waveform_assignment
-    with: (simple_name)
+  (concurrent_signal_assignment
+    (expression
+      (simple_name))
     target: (simple_name)
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
+          (expression
+            (simple_name))))
       (choices
-        (simple_name))
+        (simple_expression
+          (simple_name)))
       (alternative_selected_waveforms
         (waveforms
           (waveform_element
-            value: (simple_name)))
+            (expression
+              (simple_name))))
         (choices
-          (simple_name))))))
+          (simple_expression
+            (simple_name)))))))
 
 ===========================================
 Selected waveforms II
@@ -145,20 +171,25 @@ with expr select
 ---
 
 (design_file
-  (selected_waveform_assignment
-    with: (simple_name)
+  (concurrent_signal_assignment
+    (expression
+      (simple_name))
     target: (simple_name)
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
+          (expression
+            (simple_name))))
       (choices
-        (simple_name)
-        (simple_name))
+        (simple_expression
+          (simple_name))
+        (simple_expression
+          (simple_name)))
       (alternative_selected_waveforms
         (waveforms
           (waveform_element
-            value: (simple_name)))
+            (expression
+              (simple_name))))
         (choices
           (others))))))
 
@@ -171,24 +202,28 @@ with expr select
 ---
 
 (design_file
-  (selected_waveform_assignment
-    with: (simple_name)
+  (concurrent_signal_assignment
+    (expression
+      (simple_name))
     target: (simple_name)
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)
-          (after
+          (expression
+            (simple_name))
+          (time_expression
             (physical_literal
               (integer_decimal
                 (integer))
-              (simple_name)))))
+              unit: (simple_name)))))
       (choices
-        (simple_name))
+        (simple_expression
+          (simple_name)))
       (alternative_selected_waveforms
         (waveforms
           (waveform_element
-            value: (simple_name)))
+            (expression
+              (simple_name))))
         (choices
           (others))))))
 
@@ -206,29 +241,38 @@ with expr select
 ---
 
 (design_file
-  (selected_force_assignment
-    with: (simple_name)
+  (signal_assignment_statement
+    (expression
+      (simple_name))
     target: (simple_name)
     (selected_expressions
-      value: (simple_name)
+      (expression
+        (simple_name))
       (choices
-        (simple_name))))
-  (selected_force_assignment
-    with: (simple_name)
+        (simple_expression
+          (simple_name)))))
+  (signal_assignment_statement
+    (expression
+      (simple_name))
     target: (simple_name)
-    (force_mode (in))
+    (force_mode)
     (selected_expressions
-      value: (simple_name)
+      (expression
+        (simple_name))
       (choices
-        (simple_name))))
-  (selected_force_assignment
-    with: (simple_name)
+        (simple_expression
+          (simple_name)))))
+  (signal_assignment_statement
+    (expression
+      (simple_name))
     target: (simple_name)
-    (force_mode (out))
+    (force_mode)
     (selected_expressions
-      value: (simple_name)
+      (expression
+        (simple_name))
       (choices
-        (simple_name)))))
+        (simple_expression
+          (simple_name))))))
 
 ===========================================
 Guarded assignment
@@ -238,15 +282,18 @@ with expr select
 ---
 
 (design_file
-  (selected_waveform_assignment
-    with: (simple_name)
+  (concurrent_signal_assignment
+    (expression
+      (simple_name))
     target: (simple_name)
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
+          (expression
+            (simple_name))))
       (choices
-        (simple_name)))))
+        (simple_expression
+          (simple_name))))))
 
 ===========================================
 Guarded assignment - Delay mechanism
@@ -262,41 +309,50 @@ with expr select
 ---
 
 (design_file
-  (selected_waveform_assignment
-    with: (simple_name)
+  (concurrent_signal_assignment
+    (expression
+      (simple_name))
     target: (simple_name)
     (delay_mechanism
       (transport))
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
+          (expression
+            (simple_name))))
       (choices
-        (simple_name))))
-  (selected_waveform_assignment
-    with: (simple_name)
+        (simple_expression
+          (simple_name)))))
+  (concurrent_signal_assignment
+    (expression
+      (simple_name))
     target: (simple_name)
     (delay_mechanism
       (inertial))
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
+          (expression
+            (simple_name))))
       (choices
-        (simple_name))))
-  (selected_waveform_assignment
-    with: (simple_name)
+        (simple_expression
+          (simple_name)))))
+  (concurrent_signal_assignment
+    (expression
+      (simple_name))
     target: (simple_name)
     (delay_mechanism
       (inertial
-        (reject
+        reject: (time_expression
           (physical_literal
             (integer_decimal
               (integer))
-            (simple_name)))))
+            unit: (simple_name)))))
     (selected_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
+          (expression
+            (simple_name))))
       (choices
-        (simple_name)))))
+        (simple_expression
+          (simple_name))))))

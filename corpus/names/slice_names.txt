@@ -6,10 +6,12 @@ assert arr (st);
 
 (design_file
   (assertion_statement
-     (ambiguous_name
-      prefix: (simple_name)
-      (expression_list
-        expression: (simple_name)))))
+    (condition
+      (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (expression
+            (simple_name)))))))
 
 ============================
 Descending range
@@ -19,11 +21,14 @@ assert arr (h downto l);
 
 (design_file
   (assertion_statement
-     (slice_name
-      prefix: (simple_name)
-      (descending_range
-        high: (simple_name)
-        low: (simple_name)))))
+    (condition
+      (slice_name
+        prefix: (simple_name)
+        (descending_range
+          high: (simple_expression
+            (simple_name))
+          low: (simple_expression
+            (simple_name)))))))
 
 ============================
 Ascending range
@@ -33,11 +38,14 @@ assert arr (h to l);
 
 (design_file
   (assertion_statement
-     (slice_name
-      prefix: (simple_name)
-      (ascending_range
-        low: (simple_name)
-        high: (simple_name)))))
+    (condition
+      (slice_name
+        prefix: (simple_name)
+        (ascending_range
+          low: (simple_expression
+            (simple_name))
+          high: (simple_expression
+            (simple_name)))))))
 
 ============================
 Attribute range
@@ -48,17 +56,19 @@ assert arr (st'reverse_range);
 
 (design_file
   (assertion_statement
-    (slice_name
-      prefix: (simple_name)
-      (attribute_name
+    (condition
+      (slice_name
         prefix: (simple_name)
-        designator: (array_attribute))))
+        (attribute_name
+          prefix: (simple_name)
+          designator: (predefined_designator)))))
   (assertion_statement
-    (slice_name
-      prefix: (simple_name)
-      (attribute_name
+    (condition
+      (slice_name
         prefix: (simple_name)
-        designator: (array_attribute)))))
+        (attribute_name
+          prefix: (simple_name)
+          designator: (predefined_designator))))))
 
 ============================
 Prefix
@@ -68,14 +78,18 @@ assert amb (amb)(h downto l);
 
 (design_file
   (assertion_statement
-     (slice_name
-      prefix: (ambiguous_name
-        prefix: (simple_name)
-        (expression_list
-          expression: (simple_name)))
-      (descending_range
-        high: (simple_name)
-        low: (simple_name)))))
+    (condition
+      (slice_name
+        prefix: (ambiguous_name
+          prefix: (simple_name)
+          (expression_list
+            expression: (expression
+              (simple_name))))
+        (descending_range
+          high: (simple_expression
+            (simple_name))
+          low: (simple_expression
+            (simple_name)))))))
 
 ==============================================================
 Prefix - Selected name
@@ -85,20 +99,23 @@ assert MAC_CONFIG(i).TypeSwitch(0 to SWITCH_COUNT - 1);
 
 (design_file
   (assertion_statement
-    (slice_name
-      prefix: (selected_name
-        prefix: (ambiguous_name
-          prefix: (simple_name)
-          (expression_list
-            expression: (simple_name)))
-        suffix: (simple_name))
-      (ascending_range
-        low: (integer_decimal
-          (integer))
-        high: (simple_expression
-          left: (simple_name)
-          right: (integer_decimal
-            (integer)))))))
-
+    (condition
+      (slice_name
+        prefix: (selected_name
+          prefix: (ambiguous_name
+            prefix: (simple_name)
+            (expression_list
+              expression: (expression
+                (simple_name))))
+          suffix: (simple_name))
+        (ascending_range
+          low: (simple_expression
+            (integer_decimal
+              (integer)))
+          high: (simple_expression
+            (simple_expression
+              left: (simple_name)
+              right: (integer_decimal
+                (integer)))))))))
 
 

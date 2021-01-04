@@ -32,7 +32,8 @@ while cond
 (design_file
   (loop_statement
     (while_loop
-       (simple_name))))
+      (condition
+        (simple_name)))))
 
 ===================================
 Iteration scheme - For loop
@@ -83,7 +84,7 @@ for c in st
             (simple_name)))))
     (sequence_of_statements
       (next_statement
-        (when_clause
+        (condition
           (simple_name))))))
 
 ===================================
@@ -111,5 +112,5 @@ end loop;
   (loop_statement
     (sequence_of_statements
       (exit_statement
-        (when_clause
+        (condition
           (simple_name))))))

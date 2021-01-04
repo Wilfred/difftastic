@@ -6,23 +6,25 @@ L: t <= w when true;
 ---
 
 (design_file
-  (conditional_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
-      (when_clause
+          (expression
+            (simple_name))))
+      (condition
         (simple_name))))
-  (conditional_waveform_assignment
+  (concurrent_signal_assignment
     (label
       (identifier))
     target: (simple_name)
     (conditional_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
-      (when_clause
+          (expression
+            (simple_name))))
+      (condition
         (simple_name)))))
 
 ===========================================
@@ -34,40 +36,43 @@ t <= reject 10 ns inertial w when true;
 ---
 
 (design_file
-  (conditional_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (transport))
     (conditional_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
-      (when_clause
+          (expression
+            (simple_name))))
+      (condition
         (simple_name))))
-  (conditional_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (inertial))
     (conditional_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
-      (when_clause
+          (expression
+            (simple_name))))
+      (condition
         (simple_name))))
-  (conditional_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (inertial
-        (reject
+        reject: (time_expression
           (physical_literal
             (integer_decimal
               (integer))
-            (simple_name)))))
+            unit: (simple_name)))))
     (conditional_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
-      (when_clause
+          (expression
+            (simple_name))))
+      (condition
         (simple_name)))))
 
 ===========================================
@@ -78,19 +83,21 @@ t <= w1 when true else
 ---
 
 (design_file
-  (conditional_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
-      (when_clause
+          (expression
+            (simple_name))))
+      (condition
         (simple_name))
       (alternative_conditional_waveforms
         (waveforms
           (waveform_element
-            value: (simple_name)))
-        (when_clause
+            (expression
+              (simple_name))))
+        (condition
           (simple_name))))))
 
 ===========================================
@@ -103,30 +110,34 @@ t <= w1 when cond1 else
 ---
 
 (design_file
-  (conditional_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
-      (when_clause
+          (expression
+            (simple_name))))
+      (condition
         (simple_name))
       (alternative_conditional_waveforms
         (waveforms
           (waveform_element
-            value: (simple_name)))
-        (when_clause
+            (expression
+              (simple_name))))
+        (condition
           (simple_name)))
       (alternative_conditional_waveforms
         (waveforms
           (waveform_element
-            value: (simple_name)))
-        (when_clause
+            (expression
+              (simple_name))))
+        (condition
           (simple_name)))
       (alternative_conditional_waveforms
         (waveforms
           (waveform_element
-            value: (simple_name)))))))
+            (expression
+              (simple_name))))))))
 
 ===========================================
 Conditional waveforms III
@@ -135,23 +146,25 @@ t <= w1 after 10 ns when cond1 else w2;
 ---
 
 (design_file
-  (conditional_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)
-          (after
+          (expression
+            (simple_name))
+          (time_expression
             (physical_literal
               (integer_decimal
                 (integer))
-              (simple_name)))))
-      (when_clause
+              unit: (simple_name)))))
+      (condition
         (simple_name))
       (alternative_conditional_waveforms
         (waveforms
           (waveform_element
-            value: (simple_name)))))))
+            (expression
+              (simple_name))))))))
 
 ===========================================
 Conditional force assignment
@@ -162,25 +175,28 @@ t <= force out w when true;
 ---
 
 (design_file
-  (conditional_force_assignment
+  (signal_assignment_statement
     target: (simple_name)
     (conditional_expressions
-      value: (simple_name)
-      (when_clause
+      (expression
+        (simple_name))
+      (condition
         (simple_name))))
-  (conditional_force_assignment
+  (signal_assignment_statement
     target: (simple_name)
-    (force_mode (in))
+    (force_mode)
     (conditional_expressions
-      value: (simple_name)
-      (when_clause
+      (expression
+        (simple_name))
+      (condition
         (simple_name))))
-  (conditional_force_assignment
+  (signal_assignment_statement
     target: (simple_name)
-    (force_mode (out))
+    (force_mode)
     (conditional_expressions
-      value: (simple_name)
-      (when_clause
+      (expression
+        (simple_name))
+      (condition
         (simple_name)))))
 
 ===========================================
@@ -191,22 +207,23 @@ S <= unaffected when Input_pin = S'Driving_Value else
 ---
 
 (design_file
-  (conditional_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveforms
         (unaffected))
-      (when_clause
+      (condition
         (relation
           left: (simple_name)
           right: (attribute_name
             prefix: (simple_name)
-            designator: (signal_attribute))))
+            designator: (predefined_designator))))
       (alternative_conditional_waveforms
         (waveforms
           (waveform_element
-            value: (simple_name)
-            (after
+            (expression
+              (simple_name))
+            (time_expression
               (simple_name))))))))
 
 ===========================================
@@ -216,13 +233,14 @@ t <= guarded w when cond;
 ---
 
 (design_file
-  (conditional_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
-      (when_clause
+          (expression
+            (simple_name))))
+      (condition
         (simple_name)))))
 
 ===========================================
@@ -234,38 +252,41 @@ t <= guarded reject 10 ns inertial w when cond;
 ---
 
 (design_file
-  (conditional_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (transport))
     (conditional_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
-      (when_clause
+          (expression
+            (simple_name))))
+      (condition
         (simple_name))))
-  (conditional_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (inertial))
     (conditional_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
-      (when_clause
+          (expression
+            (simple_name))))
+      (condition
         (simple_name))))
-  (conditional_waveform_assignment
+  (concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (inertial
-        (reject
+        reject: (time_expression
           (physical_literal
             (integer_decimal
               (integer))
-            (simple_name)))))
+            unit: (simple_name)))))
     (conditional_waveforms
       (waveforms
         (waveform_element
-          value: (simple_name)))
-      (when_clause
+          (expression
+            (simple_name))))
+      (condition
         (simple_name)))))
