@@ -1303,63 +1303,21 @@
           "value": "for"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "pattern",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_lhs"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "rest_assignment"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "destructured_left_assignment"
-                  }
-                ]
+          "type": "FIELD",
+          "name": "pattern",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_lhs"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "left_assignment_list"
               }
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "FIELD",
-                    "name": "pattern",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "_lhs"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "rest_assignment"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "destructured_left_assignment"
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            }
-          ]
+            ]
+          }
         },
         {
           "type": "FIELD",

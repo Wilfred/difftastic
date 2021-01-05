@@ -287,11 +287,7 @@ module.exports = grammar({
 
     for: $ => seq(
       'for',
-      commaSep1(field('pattern', choice(
-        $._lhs,
-        $.rest_assignment,
-        $.destructured_left_assignment
-      ))),
+      field('pattern', choice($._lhs, $.left_assignment_list)),
       field('value', $.in),
       field('body', $.do)
     ),
