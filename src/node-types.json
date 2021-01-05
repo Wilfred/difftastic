@@ -138,6 +138,10 @@
         "named": true
       },
       {
+        "type": "const_block",
+        "named": true
+      },
+      {
         "type": "continue_expression",
         "named": true
       },
@@ -325,6 +329,10 @@
       },
       {
         "type": "captured_pattern",
+        "named": true
+      },
+      {
+        "type": "const_block",
         "named": true
       },
       {
@@ -1009,6 +1017,22 @@
         "types": [
           {
             "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "const_block",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
             "named": true
           }
         ]

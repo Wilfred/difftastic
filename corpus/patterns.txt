@@ -310,3 +310,82 @@ fn foo((1 | 2 | 3): u8) {}
   (line_comment)
   (line_comment)
   (line_comment))
+
+===========================================
+Inline const or Const blocks as pattern
+===========================================
+
+fn foo(x: i32) {
+    const CUBE: i32 = 3.pow(3);
+    match x {
+        CUBE => println!("three cubed"),
+        _ => {}
+    }
+}
+
+fn foo(x: i32) {
+    match x {
+        const { 3.pow(3) } => println!("three cubed"),
+        _ => {}
+    }
+}
+
+---
+
+(source_file
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)
+        type: (primitive_type)))
+    body: (block
+      (const_item
+        name: (identifier)
+        type: (primitive_type)
+        value: (call_expression
+          function: (field_expression
+            value: (integer_literal)
+            field: (field_identifier))
+          arguments: (arguments
+            (integer_literal))))
+      (match_expression
+        value: (identifier)
+        body: (match_block
+          (match_arm
+            pattern: (match_pattern
+              (identifier))
+            value: (macro_invocation
+              macro: (identifier)
+              (token_tree
+                (string_literal))))
+          (match_arm
+            pattern: (match_pattern)
+            value: (block))))))
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)
+        type: (primitive_type)))
+    body: (block
+      (match_expression
+        value: (identifier)
+        body: (match_block
+          (match_arm
+            pattern: (match_pattern
+              (const_block
+                body: (block
+                  (call_expression
+                    function: (field_expression
+                      value: (integer_literal)
+                      field: (field_identifier))
+                    arguments: (arguments
+                      (integer_literal))))))
+            value: (macro_invocation
+              macro: (identifier)
+              (token_tree
+                (string_literal))))
+          (match_arm
+            pattern: (match_pattern)
+            value: (block)))))))
