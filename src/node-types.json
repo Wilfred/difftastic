@@ -1477,7 +1477,7 @@
         ]
       },
       "pattern": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1485,11 +1485,7 @@
             "named": true
           },
           {
-            "type": "destructured_left_assignment",
-            "named": true
-          },
-          {
-            "type": "rest_assignment",
+            "type": "left_assignment_list",
             "named": true
           }
         ]

@@ -201,7 +201,15 @@ for x in y do
 	f
 end
 
+for x, in y
+	f
+end
+
 for x, *y in z do
+	f
+end
+
+for (k, v) in y do
 	f
 end
 
@@ -213,8 +221,21 @@ end
     value: (in (identifier))
     body: (do (identifier)))
   (for
-    pattern: (identifier)
-    pattern: (rest_assignment (identifier))
+    pattern: (left_assignment_list
+      (identifier))
+    value: (in (identifier))
+    body: (do (identifier)))
+  (for
+    pattern: (left_assignment_list
+      (identifier)
+      (rest_assignment (identifier)))
+    value: (in (identifier))
+    body: (do (identifier)))
+  (for
+    pattern: (left_assignment_list
+      (destructured_left_assignment
+        (identifier)
+        (identifier)))
     value: (in (identifier))
     body: (do (identifier))))
 
