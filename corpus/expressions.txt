@@ -753,3 +753,53 @@ const a : A = unsafe { foo() };
     (identifier)
     (type_identifier)
     (unsafe_block (block (call_expression (identifier) (arguments))))))
+
+===========================================
+Inline const or Const blocks as expression
+===========================================
+
+const { 1 + 3 };
+if *x < 0 { const { &4i32.pow(4) } } else { x }
+let three_ranges = [const { (0..=5).into_inner() }; 3];
+
+---
+
+(source_file
+  (const_block
+    body: (block
+      (binary_expression
+        left: (integer_literal)
+        right: (integer_literal))))
+  (empty_statement)
+  (if_expression
+    condition: (binary_expression
+      left: (unary_expression
+        (identifier))
+      right: (integer_literal))
+    consequence: (block
+      (const_block
+        body: (block
+          (reference_expression
+            value: (call_expression
+              function: (field_expression
+                value: (integer_literal)
+                field: (field_identifier))
+              arguments: (arguments
+                (integer_literal)))))))
+    alternative: (else_clause
+      (block
+        (identifier))))
+  (let_declaration
+    pattern: (identifier)
+    value: (array_expression
+      (const_block
+        body: (block
+          (call_expression
+            function: (field_expression
+              value: (parenthesized_expression
+                (range_expression
+                  (integer_literal)
+                  (integer_literal)))
+              field: (field_identifier))
+            arguments: (arguments))))
+      length: (integer_literal))))

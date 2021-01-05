@@ -4829,6 +4829,10 @@
         {
           "type": "SYMBOL",
           "name": "for_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "const_block"
         }
       ]
     },
@@ -6698,6 +6702,23 @@
         }
       ]
     },
+    "const_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "const"
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "block"
+          }
+        }
+      ]
+    },
     "closure_expression": {
       "type": "PREC",
       "value": -1,
@@ -7207,6 +7228,10 @@
         {
           "type": "SYMBOL",
           "name": "or_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "const_block"
         },
         {
           "type": "STRING",

@@ -870,7 +870,8 @@ module.exports = grammar({
       $.while_expression,
       $.while_let_expression,
       $.loop_expression,
-      $.for_expression
+      $.for_expression,
+      $.const_block
     ),
 
     macro_invocation: $ => seq(
@@ -1160,6 +1161,11 @@ module.exports = grammar({
       field('body', $.block)
     ),
 
+    const_block: $ => seq(
+      'const',
+      field('body', $.block)
+    ),
+
     closure_expression: $ => prec(PREC.closure, seq(
       optional('move'),
       field('parameters', $.closure_parameters),
@@ -1240,6 +1246,7 @@ module.exports = grammar({
       $.mut_pattern,
       $.range_pattern,
       $.or_pattern,
+      $.const_block,
       '_'
     ),
 
