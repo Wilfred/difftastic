@@ -163,11 +163,11 @@ module.exports = grammar({
         repeat(seq(',', field('argument', $.expression))),
         optional(','))
       ),
-      prec(-1, seq(
+      prec(-10, seq(
         'print',
         commaSep1(field('argument', $.expression)),
-        optional(','))
-      )
+        optional(',')
+      ))
     ),
 
     chevron: $ => seq(
@@ -464,7 +464,6 @@ module.exports = grammar({
 
     parameter: $ => choice(
       $.identifier,
-      $.keyword_identifier,
       $.typed_parameter,
       $.default_parameter,
       $.typed_default_parameter,
@@ -497,13 +496,13 @@ module.exports = grammar({
     ),
 
     default_parameter: $ => seq(
-      field('name', choice($.identifier, $.keyword_identifier)),
+      field('name', $.identifier),
       '=',
       field('value', $.expression)
     ),
 
     typed_default_parameter: $ => prec(PREC.typed_parameter, seq(
-      field('name', choice($.identifier, $.keyword_identifier)),
+      field('name', $.identifier),
       ':',
       field('type', $.type),
       '=',
@@ -833,14 +832,14 @@ module.exports = grammar({
       optional(',')
     ),
 
-    for_in_clause: $ => seq(
+    for_in_clause: $ => prec.left(seq(
       optional('async'),
       'for',
       field('left', $._left_hand_side),
       'in',
       field('right', commaSep1($._expression_within_for_in_clause)),
       optional(',')
-    ),
+    )),
 
     if_clause: $ => seq(
       'if',
@@ -941,7 +940,15 @@ module.exports = grammar({
 
     identifier: $ => /[a-zA-Zα-ωΑ-Ω_][a-zA-Zα-ωΑ-Ω_0-9]*/,
 
-    keyword_identifier: $ => alias(choice('print', 'exec'), $.identifier),
+    keyword_identifier: $ => prec(-3, alias(
+      choice(
+        'print',
+        'exec',
+        'async',
+        'await',
+      ),
+      $.identifier
+    )),
 
     true: $ => 'True',
     false: $ => 'False',

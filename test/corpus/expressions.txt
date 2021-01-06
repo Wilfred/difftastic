@@ -231,6 +231,21 @@ exec("""exec _code_ in _globs_, _locs_""")
       (argument_list (string)))))
 
 =====================================
+Async / await used as identifiers
+=====================================
+
+async = 4
+await = 5
+print async, await
+
+---
+
+(module
+  (expression_statement (assignment (identifier) (integer)))
+  (expression_statement (assignment (identifier) (integer)))
+  (print_statement (identifier) (identifier)))
+
+=====================================
 Calls with splats
 =====================================
 
