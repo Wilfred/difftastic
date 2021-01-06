@@ -736,13 +736,8 @@ Decorated definitions
 
 @a.b
 class C:
-  @f()
   @d(1)
-  @e(2, 3)
-  @a(b=True)
-  @a(*b)
-  @a(**c)
-  @a(1, b=True, *b, **c)
+  @e[2].f.g
   def f():
     g
 
@@ -754,51 +749,24 @@ class C:
 
 (module
   (decorated_definition
-    (decorator (dotted_name (identifier) (identifier)))
+    (decorator (attribute (identifier) (identifier)))
     (class_definition (identifier) (block
       (decorated_definition
-        (decorator
-          (dotted_name (identifier))
-          (argument_list))
-        (decorator
-          (dotted_name (identifier))
-          (argument_list
-            (integer)))
-        (decorator
-          (dotted_name (identifier))
-          (argument_list
-            (integer) (integer)))
-        (decorator
-          (dotted_name (identifier))
-          (argument_list
-            (keyword_argument (identifier) (true))))
-        (decorator
-          (dotted_name (identifier))
-          (argument_list
-            (list_splat (identifier))))
-        (decorator
-          (dotted_name (identifier))
-          (argument_list
-            (dictionary_splat (identifier))))
-        (decorator
-          (dotted_name (identifier))
-          (argument_list
-            (integer)
-            (keyword_argument (identifier) (true))
-            (list_splat (identifier))
-            (dictionary_splat (identifier))))
-        (function_definition
+        (decorator (call
           (identifier)
-          (parameters)
-          (block (expression_statement (identifier)))))
+          (argument_list (integer))))
+        (decorator (attribute
+          (attribute
+            (subscript
+              (identifier)
+              (integer))
+            (identifier))
+          (identifier)))
+        (function_definition (identifier) (parameters) (block (expression_statement (identifier)))))
       (decorated_definition
-        (decorator
-          (dotted_name (identifier))
-          (argument_list))
-        (function_definition
-          (identifier)
-          (parameters)
-          (block (expression_statement (identifier)))))))))
+        (decorator (call (identifier) (argument_list)))
+        (function_definition (identifier) (parameters) (block (expression_statement (identifier)))))))))
+
 
 ====================================================
 Raise statements
