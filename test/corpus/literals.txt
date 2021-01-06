@@ -468,7 +468,7 @@ Set comprehensions
         (identifier)))))
 
 =====================================
-Tuples
+Simple Tuples
 =====================================
 
 ()
