@@ -888,24 +888,13 @@
   {
     "type": "decorator",
     "named": true,
-    "fields": {
-      "arguments": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "argument_list",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "dotted_name",
+          "type": "primary_expression",
           "named": true
         }
       ]

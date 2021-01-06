@@ -1725,23 +1725,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "dotted_name"
-        },
-        {
-          "type": "FIELD",
-          "name": "arguments",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "argument_list"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
+          "name": "primary_expression"
         },
         {
           "type": "SYMBOL",
