@@ -2379,6 +2379,21 @@
     "fields": {}
   },
   {
+    "type": "with_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "with_item",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "with_item",
     "named": true,
     "fields": {
@@ -2420,11 +2435,11 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "with_item",
+          "type": "with_clause",
           "named": true
         }
       ]

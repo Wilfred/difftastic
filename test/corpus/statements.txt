@@ -424,11 +424,22 @@ With statements
 with a as b:
   c
 
+with (open('d') as d,
+      open('e') as e):
+  f
+
 ---
 
 (module
   (with_statement
-    (with_item (identifier) (identifier))
+    (with_clause
+      (with_item (identifier) (identifier)))
+    (block
+      (expression_statement (identifier))))
+  (with_statement
+    (with_clause
+      (with_item (call (identifier) (argument_list (string))) (identifier))
+      (with_item (call (identifier) (argument_list (string))) (identifier)))
     (block
       (expression_statement (identifier)))))
 
