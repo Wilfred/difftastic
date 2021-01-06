@@ -35,6 +35,7 @@ module.exports = grammar({
     [$.primary_expression, $.list_splat_pattern],
     [$.tuple, $.tuple_pattern],
     [$.list, $.list_pattern],
+    [$.with_item, $._collection_elements],
   ],
 
   supertypes: $ => [
@@ -309,18 +310,23 @@ module.exports = grammar({
     with_statement: $ => seq(
       optional('async'),
       'with',
-      commaSep1($.with_item),
+      $.with_clause,
       ':',
       field('body', $._suite)
     ),
 
-    with_item: $ => seq(
+    with_clause: $ => choice(
+      commaSep1($.with_item),
+      seq('(', commaSep1($.with_item), ')')
+    ),
+
+    with_item: $ => prec.dynamic(-1, seq(
       field('value', $.expression),
       optional(seq(
         'as',
         field('alias', $.pattern)
       ))
-    ),
+    )),
 
     function_definition: $ => seq(
       optional('async'),
