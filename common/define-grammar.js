@@ -354,6 +354,7 @@ module.exports = function defineGrammar(dialect) {
       ),
 
       abstract_class_declaration: $ => seq(
+        repeat(field('decorator', $.decorator)),
         'abstract',
         'class',
         field('name', $._type_identifier),

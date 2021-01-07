@@ -744,6 +744,10 @@ abstract class Animal {
     }
 }
 
+@bar
+abstract class Foo {
+}
+
 ---
 
 (program
@@ -782,7 +786,11 @@ abstract class Animal {
             function: (member_expression
               object: (identifier)
               property: (property_identifier))
-            arguments: (arguments (string)))))))))
+            arguments: (arguments (string))))))))
+  (abstract_class_declaration
+    decorator: (decorator (identifier))
+    name: (type_identifier)
+    body: (class_body)))
 
 ==================================
 Index type queries
