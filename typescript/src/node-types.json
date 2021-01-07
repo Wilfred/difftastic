@@ -325,6 +325,16 @@
           }
         ]
       },
+      "decorator": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "decorator",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
