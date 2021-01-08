@@ -31,7 +31,7 @@ L1: entity pkg.e;
   (component_instantiation_statement
     (label
       (identifier))
-    entity: (expanded_name
+    entity: (selected_name
       prefix: (simple_name)
       suffix: (simple_name))))
 
@@ -45,7 +45,7 @@ L1: entity pkg.e(rtl);
   (component_instantiation_statement
     (label
       (identifier))
-    entity: (expanded_name
+    entity: (selected_name
       prefix: (simple_name)
       suffix: (simple_name))
     architecture: (simple_name)))
@@ -60,7 +60,7 @@ L1: configuration pkg.cfg;
   (component_instantiation_statement
     (label
       (identifier))
-    configuration: (expanded_name
+    configuration: (selected_name
       prefix: (simple_name)
       suffix: (simple_name))))
 

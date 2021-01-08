@@ -12,7 +12,7 @@ vunit ex1a(top_block.i1.i2) {
       (PSL_Identifier)
       (PSL_Verification_Unit_Body
         (PSL_Hierarchical_HDL_Name
-          entity: (expanded_name
+          entity: (selected_name
             prefix: (simple_name)
             suffix: (simple_name))
           instance: (simple_name))

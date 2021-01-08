@@ -211,7 +211,6 @@ module.exports = grammar({
         $._component_name, // 7.3
         $._component_specification, // 7.3
         $._name, // 8
-        $._expanded_name, // 8.3
         $._suffix, // 8.3
         $._range_attribute_designator, // 8.6
         $._external_object_name, // 8.7
@@ -460,7 +459,7 @@ module.exports = grammar({
 
         _entity_name: $ => field('entity', choice(
             $._simple_name,
-            $._expanded_name
+            $.selected_name
         )),
         // }}}
         // 3.3 Architecture bodies {{{
@@ -706,7 +705,7 @@ module.exports = grammar({
         ),
 
         _uninstantiated_name: $ => choice(
-            $._expanded_name,
+            $.selected_name,
             $._simple_name
         ),
         // }}}
@@ -1068,7 +1067,7 @@ module.exports = grammar({
 
         resolution_function: $ => prec(-1, choice(
             $._simple_name,
-            $._expanded_name
+            $.selected_name
         )),
 
         parenthesized_resolution: $ => seq(
@@ -1090,7 +1089,7 @@ module.exports = grammar({
 
         type_mark: $ => prec.dynamic(-1, choice(
             $._simple_name,
-            $._expanded_name,
+            $.selected_name,
             $.attribute_name
         )),
 
@@ -1334,7 +1333,7 @@ module.exports = grammar({
 
         interface_subprogram_default: $ => choice(
             $._simple_name,
-            $._expanded_name,
+            $.selected_name,
             $._operator_symbol,
             alias('<>', $.same),
         ),
@@ -1483,7 +1482,7 @@ module.exports = grammar({
             choice(
                 $._simple_name,
                 $.character_literal,
-                $._expanded_name,
+                $.selected_name,
                 $.ambiguous_name,
                 $.slice_name,
                 $.attribute_name,
@@ -1562,7 +1561,7 @@ module.exports = grammar({
             'group_constituent',
             choice(
                 $._simple_name,
-                $._expanded_name,
+                $.selected_name,
                 $.character_literal
             )
         ),
@@ -1571,7 +1570,7 @@ module.exports = grammar({
             'group_template',
             choice(
                 $._simple_name,
-                $._expanded_name
+                $.selected_name
             )
         ),
         // }}}
@@ -1710,7 +1709,7 @@ module.exports = grammar({
             ',',
             field('verification_unit', choice(
                 $._simple_name,
-                $._expanded_name,
+                $.selected_name,
             ))
         ),
         // }}}
@@ -1776,11 +1775,6 @@ module.exports = grammar({
                 $._operator_symbol,
                 $.all
             ),
-        ),
-
-        _expanded_name: $ => alias(
-            $.selected_name,
-            $.expanded_name
         ),
         // }}}
         // 8.4 Indexed name (Ambiguos name) {{{
@@ -2771,7 +2765,7 @@ module.exports = grammar({
                 'entity',
                 choice(
                     $._simple_name,
-                    $._expanded_name,
+                    $.selected_name,
                 ),
             ),
             optional(seq(
@@ -2790,7 +2784,7 @@ module.exports = grammar({
                 'configuration',
                 choice(
                     $._simple_name,
-                    $._expanded_name,
+                    $.selected_name,
                 ),
             ),
         ),
@@ -2801,7 +2795,7 @@ module.exports = grammar({
                 'component',
                 choice(
                     $._simple_name,
-                    $._expanded_name,
+                    $.selected_name,
                 ),
             ),
         ),
@@ -2914,7 +2908,7 @@ module.exports = grammar({
         // 12.4 Use clauses {{{
         use_clause: $ => seq(
             reservedWord('use'),
-            sepBy1(',', $._expanded_name),
+            sepBy1(',', $.selected_name),
             ';'
         ),
         // }}}
@@ -2986,7 +2980,7 @@ module.exports = grammar({
             ';'
         ),
 
-        context_list: $ => sepBy1(',', $._expanded_name),
+        context_list: $ => sepBy1(',', $.selected_name),
         // }}}
         // 15.3 Separators {{{
         _separator: $ => token(choice(...FORMAT_EFFECTOR, ...SPACE_CHARACTER)),
@@ -3849,7 +3843,7 @@ module.exports = grammar({
         _PSL_HDL_Module_NAME: $ => seq(
             field('entity', choice(
                 $._simple_name,
-                $._expanded_name
+                $.selected_name
             )),
             optional(seq(
                 '(',

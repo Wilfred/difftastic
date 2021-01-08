@@ -18,7 +18,7 @@ alias '0' is STD.STANDARD.'0' [return STD.STANDARD.BIT];
 (design_file
   (alias_declaration
     designator: (character_literal)
-    denotator: (expanded_name
+    denotator: (selected_name
       prefix: (selected_name
         prefix: (simple_name)
         suffix: (simple_name))
@@ -26,7 +26,7 @@ alias '0' is STD.STANDARD.'0' [return STD.STANDARD.BIT];
     (signature
       (return
         (type_mark
-          (expanded_name
+          (selected_name
             prefix: (selected_name
               prefix: (simple_name)
               suffix: (simple_name))
@@ -43,27 +43,27 @@ alias "or" is STD.STANDARD."or" [STD.STANDARD.BIT,
 (design_file
   (alias_declaration
     designator: (operator_symbol)
-    denotator: (expanded_name
+    denotator: (selected_name
       prefix: (selected_name
         prefix: (simple_name)
         suffix: (simple_name))
       suffix: (operator_symbol))
     (signature
       (type_mark
-        (expanded_name
+        (selected_name
           prefix: (selected_name
             prefix: (simple_name)
             suffix: (simple_name))
           suffix: (simple_name)))
       (type_mark
-        (expanded_name
+        (selected_name
           prefix: (selected_name
             prefix: (simple_name)
             suffix: (simple_name))
           suffix: (simple_name)))
       (return
         (type_mark
-          (expanded_name
+          (selected_name
             prefix: (selected_name
               prefix: (simple_name)
               suffix: (simple_name))

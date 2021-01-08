@@ -55,7 +55,7 @@ end context project_context;
           (logical_name_list
             library: (simple_name)))
         (use_clause
-          (expanded_name
+          (selected_name
             prefix: (selected_name
               prefix: (simple_name)
               suffix: (simple_name))
@@ -65,7 +65,7 @@ end context project_context;
             library: (simple_name)))
         (context_reference
           (context_list
-            (expanded_name
+            (selected_name
               prefix: (simple_name)
               suffix: (simple_name)))))
       at_end: (simple_name))))

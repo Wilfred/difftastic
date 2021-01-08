@@ -79,7 +79,7 @@ group C2Q: PIN2PIN (PROJECT.GLOBALS.CK, Q);
     (identifier)
     group_template: (simple_name)
     (group_constituent_list
-      group_constituent: (expanded_name
+      group_constituent: (selected_name
         prefix: (selected_name
           prefix: (simple_name)
           suffix: (simple_name))
