@@ -1,6 +1,5 @@
 const PREC = {
   DOT: 17,
-  SELECT: 16,
   INVOCATION: 16,
   POSTFIX: 16,
   PREFIX: 15,
@@ -19,6 +18,7 @@ const PREC = {
   COND: 3,
   ASSIGN: 2,
   SEQ: 1,
+  SELECT: 0,
   TYPE_PATTERN: -2,
 };
 
@@ -1300,14 +1300,14 @@ module.exports = grammar({
       $.select_clause
     ),
 
-    group_clause: $ => prec.left(PREC.SELECT, seq(
+    group_clause: $ => prec.right(PREC.SELECT, seq(
       'group',
       $._expression,
       'by',
       $._expression
     )),
 
-    select_clause: $ => prec.left(PREC.SELECT, seq('select', $._expression)),
+    select_clause: $ => prec.right(PREC.SELECT, seq('select', $._expression)),
 
     query_continuation: $ => seq('into', $.identifier, $._query_body),
 
