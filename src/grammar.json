@@ -7073,8 +7073,8 @@
       ]
     },
     "group_clause": {
-      "type": "PREC_LEFT",
-      "value": 16,
+      "type": "PREC_RIGHT",
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -7098,8 +7098,8 @@
       }
     },
     "select_clause": {
-      "type": "PREC_LEFT",
-      "value": 16,
+      "type": "PREC_RIGHT",
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
