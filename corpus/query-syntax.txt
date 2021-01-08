@@ -24,6 +24,110 @@ var x = from a in source select a.B;
                     (identifier))))))))))
 
 =====================================
+Query from select with operator
+=====================================
+
+var x = from a in source select a * 2;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (select_clause
+                (binary_expression
+                  (identifier)
+                  (integer_literal))))))))))
+
+=====================================
+Query from select with method call
+=====================================
+
+var x = from a in source select a.B();
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (select_clause
+                (invocation_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (argument_list))))))))))
+
+=====================================
+Query from select with conditional operator
+=====================================
+
+var x = from a in source select a ? 0 : 1;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (select_clause
+                (conditional_expression
+                  (identifier)
+                  (integer_literal)
+                  (integer_literal))))))))))
+
+=====================================
+Query from select with assignment
+=====================================
+
+var x = from a in source select somevar = a;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (select_clause
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (identifier))))))))))
+
+=====================================
 Query from select projection
 =====================================
 
