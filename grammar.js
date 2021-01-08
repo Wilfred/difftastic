@@ -1333,12 +1333,9 @@ module.exports = grammar({
         ),
 
         interface_subprogram_default: $ => choice(
-            field('subprogram', choice(
-                $._simple_name,
-                $._expanded_name,
-                $.character_literal,
-                $._operator_symbol,
-            )),
+            $._simple_name,
+            $._expanded_name,
+            $._operator_symbol,
             alias('<>', $.same),
         ),
         // }}}
@@ -2758,7 +2755,7 @@ module.exports = grammar({
         component_instantiation_statement: $ => seq(
             optional($.label),
             $._instantiated_unit,
-            optional($._map_aspect),
+            optional(alias($.header, $.instantiation_declaration_map_aspect)),
             ';'
         ),
 
@@ -3506,7 +3503,8 @@ module.exports = grammar({
 
         PSL_Extended_Ocurrence_FL_Property: $ => prec.right(PREC.PSL_OCURRENCE, seq(
             field('operator', seq(
-                choice(...['eventually',
+                choice(...[
+                    'eventually',
                     'next',
                     'next_a',
                     'next_e',

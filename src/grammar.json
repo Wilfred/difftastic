@@ -4948,29 +4948,16 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "FIELD",
-          "name": "subprogram",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_simple_name"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_expanded_name"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "character_literal"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_operator_symbol"
-              }
-            ]
-          }
+          "type": "SYMBOL",
+          "name": "_simple_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expanded_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_operator_symbol"
         },
         {
           "type": "ALIAS",
@@ -13488,8 +13475,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_map_aspect"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "header"
+              },
+              "named": true,
+              "value": "instantiation_declaration_map_aspect"
             },
             {
               "type": "BLANK"
