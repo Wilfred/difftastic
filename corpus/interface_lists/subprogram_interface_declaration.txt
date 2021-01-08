@@ -26,7 +26,7 @@ end;
               (type_mark
                 (simple_name)))
             (interface_subprogram_default
-              subprogram: (expanded_name
+              (expanded_name
                 prefix: (simple_name)
                 suffix: (simple_name))))
           (semicolon))))))

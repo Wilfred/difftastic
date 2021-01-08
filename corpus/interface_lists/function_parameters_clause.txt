@@ -2,7 +2,7 @@
 Constant interface declarations
 ============================================================================
 function f (constant k :    t;
-            constant k : in i;
+            constant k : in t;
                      k :    t;
                      k : in t) return t;
 ---
