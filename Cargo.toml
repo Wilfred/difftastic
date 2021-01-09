@@ -20,7 +20,7 @@ include = [
 ]
 
 # Keep in sync with package.json
-version = "4.4.1"
+version = "4.5.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
