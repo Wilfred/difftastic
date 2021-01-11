@@ -27,7 +27,7 @@ end configuration cfg;
       at_end: (simple_name))))
 
 =====================================
-Extended name
+Expanded name
 =====================================
 configuration cfg of lib.ent is
 end;
@@ -37,8 +37,8 @@ end;
   (design_unit
     (configuration_declaration
       (identifier)
-      entity: (selected_name
-        prefix: (simple_name)
+      entity: (expanded_name
+        library: (simple_name)
         suffix: (simple_name)))))
 
 =====================================
@@ -144,8 +144,8 @@ end configuration V4_27_87;
       entity: (simple_name)
       (declarative_part
         (use_clause
-          (selected_name
-            prefix: (simple_name)
+          (expanded_name
+            library: (simple_name)
             suffix: (all))))
       (block_configuration
         (block_specification
@@ -156,8 +156,8 @@ end configuration V4_27_87;
           component: (simple_name)
           (binding_indication
             (entity_aspect
-              configuration: (selected_name
-                prefix: (simple_name)
+              configuration: (expanded_name
+                library: (simple_name)
                 suffix: (simple_name))))
           (semicolon))
         (component_configuration

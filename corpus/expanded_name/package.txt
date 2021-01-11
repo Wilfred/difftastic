@@ -1,0 +1,596 @@
+architecture arch of e is
+
+    use IEEE.math_real.all;
+    use IEEE.std_logic_1164.all;
+    use IEEE.std_logic_arith.all;
+    use IEEE_proposed.electrical_systems.all;
+    use NaturalLinkedListPackage.all;
+    use WORK.c10s01b00x00p04n01i00879pkg_a.EIGHTIES;
+    use avalon_mm_sb_pkg.all;
+    use axi_read_data_generic_queue_pkg.all;
+    use axilite_sb_pkg.all;
+    use bv_utilities.bv_arithmetic.all;
+    use bv_utilities.bv_arithmetic.bv_to_natural;
+    use ethernet_sb_pkg.all;
+    use gmii_sb_pkg.all;
+    use gpio_sb_pkg.all;
+    use graphics.graphics_pkg.graphic_style;
+    use graphics.graphics_pkg.graphic_symbol;
+    use i2c_sb_pkg.all;
+    use ieee.math_real.all;
+    use ieee.math_real.uniform;
+    use ieee.numeric_bit.all;
+    use ieee.std_logic_1164.all;
+    use ieee_proposed.electrical_systems.all;
+    use inst.all;
+    use inst_pixel_column_pkg.all;
+    use local_pixel_column_pkg.all;
+    use local_pixel_matrix_pkg.all;
+    use local_pixel_pkg.all;
+    use math.math_real;
+    use math.math_real.sqrt;
+    use prefix_check.all;
+    use project.mem_pkg;
+    use project.mem_pkg.all;
+    use qsim.qsim_types.all;
+    use qsim.queue_types.all;
+    use qsim.token_fifo_adt.all;
+    use qsim.waiting_token_fifo_adt.all;
+    use random.random.all;
+    use rgmii_sb_pkg.all;
+    use sb_queue_pkg.all;
+    use sbi_sb_pkg.all;
+    use spi_sb_pkg.all;
+    use std.textio;
+    use std.textio.all;
+    use stimulus.stimulus_generators.all;
+    use uart_sb_pkg.all;
+    use userInst.all;
+    use util.stimulus_generators.all;
+    use work.DMA_controller_types_and_utilities.all;
+    use work.a19a;
+    use work.automotive_valve_defs.all;
+    use work.bit_vector_signed_arithmetic.all;
+    use work.bounded_buffer_adt.all;
+    use work.bus_monitor_pkg;
+    use work.c01s01b02x00p03n01i00792pkg.ALL;
+    use work.c02s05b00x00p01n01i02982pkg.all;
+    use work.c02s05b00x00p06n01i02987pkg.wtime;
+    use work.c02s05b00x00p06n01i02988pkg.var;
+    use work.c02s06b00x00p07n01i03005pkg.all;
+    use work.c10s02b00x00p02n02i00894pkg.all;
+    use work.c10s03b00x00p07n01i00912pkg.x;
+    use work.c10s03b00x00p07n01i00914pkg.all;
+    use work.c10s03b00x00p10n01i00916pkg.x;
+    use work.c10s03b00x00p20n03i00924pkg.all;
+    use work.c10s04b00x00p01n01i00927pkg;
+    use work.c10s04b00x00p06n01i00935pkg.all;
+    use work.c10s04b00x00p06n01i00936pkg.all;
+    use work.c10s04b00x00p07n01i00938pkg.all;
+    use work.cell_attributes.all;
+    use work.ch_20_03_a.all;
+    use work.clock_pkg.all;
+    use work.clock_power_pkg.Tpw;
+    use work.coeff_ram_types.all;
+    use work.counter_types.all;
+    use work.cpu_types;
+    use work.cpu_types.address;
+    use work.cpu_types.all;
+    use work.cpu_types.word;
+    use work.dlx_instr.reg_index;
+    use work.dlx_types.all;
+    use work.fg_09_02_a.all;
+    use work.fg_11_12.all;
+    use work.function_plus.all;
+    use work.graphics_pkg.all;
+    use work.inline_03_defs.all;
+    use work.pwl_functions.all;
+    use work.serial_interface_defs.serial_interface;
+    use work.stimulus_element_ordered_collection_adt.all;
+    use work.stimulus_types.all;
+    use work.synchronize.all;
+    use work.unknown.all;
+    use work.words.all;
+
+begin
+end architecture;
+---
+
+(design_file
+  (design_unit
+    (architecture_body
+      (identifier)
+      entity: (simple_name)
+      (declarative_part
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            package: (simple_name)
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (simple_name)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))
+        (use_clause
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
+            suffix: (all)))))))

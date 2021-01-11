@@ -24,44 +24,44 @@ L1: component unit;
 ===============================
 Instantiation unit - Entity I
 ===============================
-L1: entity pkg.e;
+L1: entity lib.e;
 ---
 
 (design_file
   (component_instantiation_statement
     (label
       (identifier))
-    entity: (selected_name
-      prefix: (simple_name)
+    entity: (expanded_name
+      library: (simple_name)
       suffix: (simple_name))))
 
 ===============================
 Instantiation unit - Entity II
 ===============================
-L1: entity pkg.e(rtl);
+L1: entity lib.e(rtl);
 ---
 
 (design_file
   (component_instantiation_statement
     (label
       (identifier))
-    entity: (selected_name
-      prefix: (simple_name)
+    entity: (expanded_name
+      library: (simple_name)
       suffix: (simple_name))
     architecture: (simple_name)))
 
 ===================================
 Instantiation unit - Configuration
 ===================================
-L1: configuration pkg.cfg;
+L1: configuration lib.cfg;
 ---
 
 (design_file
   (component_instantiation_statement
     (label
       (identifier))
-    configuration: (selected_name
-      prefix: (simple_name)
+    configuration: (expanded_name
+      library: (simple_name)
       suffix: (simple_name))))
 
 ===================================
