@@ -70,10 +70,10 @@ npx tree-sitter web-ui
 Parse individual files.
 
 ```
-# create and populate sample code file for parsing named `sample.clj`
+# create and populate sample code file for parsing named `sample.janet`
 
 # parse sample file
-npx tree-sitter parse sample.clj
+npx tree-sitter parse sample.janet
 
 # examine output similar to web-ui, but less convenient
 ```
@@ -82,10 +82,10 @@ npx tree-sitter parse sample.clj
 
 ```
 # single measurement
-npx tree-sitter parse --time sample.clj
+npx tree-sitter parse --time sample.janet
 
 # mutliple measurements with `multitime`
-multitime -n10 -s1 npx tree-sitter parse --time --quiet sample.clj
+multitime -n10 -s1 npx tree-sitter parse --time --quiet sample.janet
 ```
 
 ## Build .wasm
