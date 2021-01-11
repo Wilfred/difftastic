@@ -370,6 +370,9 @@ module.exports = grammar({
 
         [$.named_association_element, $._primary],
 
+        // Expanded names
+        // Disambiguous from selected name when possible
+        [$.selected_name, $.extended_name_pkg],
 
         // 6.2
         // map clauses and map aspects shall or shall not be
@@ -1767,6 +1770,21 @@ module.exports = grammar({
             $._suffix
         ),
 
+        extended_name_lib: $ => seq(
+            field('prefix', alias(
+                $.extended_name_pkg,
+                $.extended_name
+            )),
+            token.immediate('.'),
+            $._suffix
+        ),
+
+        extended_name_pkg: $ => seq(
+            field('library', $._simple_name),
+            token.immediate('.'),
+            field('package', $._suffix)
+        ),
+
         _suffix: $ => field(
             'suffix',
             choice(
@@ -2911,6 +2929,15 @@ module.exports = grammar({
             sepBy1(',', $.selected_name),
             ';'
         ),
+
+        use_clause_ctx: $ => seq(
+            reservedWord('use'),
+            sepBy1(',', alias(
+                $.extended_name_lib,
+                $.extended_name
+            )),
+            ';'
+        ),
         // }}}
         // 13.1 Design units {{{
         design_unit: $ => prec.right(choice(
@@ -2970,7 +2997,10 @@ module.exports = grammar({
 
         _context_item: $ => choice(
             $.library_clause,
-            $.use_clause,
+            alias(
+                $.use_clause_ctx,
+                $.use_clause
+            ),
             $.context_reference
         ),
 

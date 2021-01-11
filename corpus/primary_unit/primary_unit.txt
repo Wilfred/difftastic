@@ -55,10 +55,10 @@ end context project_context;
           (logical_name_list
             library: (simple_name)))
         (use_clause
-          (selected_name
-            prefix: (selected_name
-              prefix: (simple_name)
-              suffix: (simple_name))
+          (extended_name
+            prefix: (extended_name
+              library: (simple_name)
+              package: (simple_name))
             suffix: (all)))
         (library_clause
           (logical_name_list

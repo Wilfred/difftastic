@@ -11788,6 +11788,88 @@
     }
   },
   {
+    "type": "extended_name",
+    "named": true,
+    "fields": {
+      "library": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          }
+        ]
+      },
+      "package": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "all",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "operator_symbol",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          }
+        ]
+      },
+      "prefix": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "extended_name",
+            "named": true
+          }
+        ]
+      },
+      "suffix": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "all",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "operator_symbol",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "external_constant_name",
     "named": true,
     "fields": {},
@@ -18473,6 +18555,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "extended_name",
+          "named": true
+        },
         {
           "type": "selected_name",
           "named": true
