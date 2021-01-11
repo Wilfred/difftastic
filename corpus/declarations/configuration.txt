@@ -137,8 +137,8 @@ end configuration V4_27_87;
     (context_clause
       (library_clause
         (logical_name_list
-          library: (simple_name)
-          library: (simple_name))))
+          (simple_name)
+          (simple_name))))
     (configuration_declaration
       (identifier)
       entity: (simple_name)

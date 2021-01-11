@@ -214,7 +214,6 @@ module.exports = grammar({
         $._suffix, // 8.3
         $._range_attribute_designator, // 8.6
         $._external_object_name, // 8.7
-        $._object_name, // 8.7
         $._name_or_label, // 8.7
         $._external_pathname, // 8.7
         $._expression, // 9.1
@@ -244,7 +243,6 @@ module.exports = grammar({
         $._generate_statement, // 11.8
         $._library_unit, // 13.1
         $._context_item, // 13.1
-        $._logical_name, // 13.2
         $._context_list, // 13.4
         $._digit, // 15.5.2
         $._digit_immed, // 15.5.2
@@ -748,7 +746,10 @@ module.exports = grammar({
             ';'
         ),
 
-        _package_name: $ => field('package', $._simple_name),
+        _package_name: $ => field('package', choice(
+            $._simple_name,
+            $.expanded_name
+        )),
         // }}}
         // 4.9 Package instantiation declarations {{{
         package_instantiation_declaration: $ => seq(
@@ -862,9 +863,10 @@ module.exports = grammar({
             $._unit,
         )),
 
-        _unit: $ => field('unit', prec(-1,
-            $._simple_name
-        )),
+        _unit: $ => field('unit', prec(-1,choice(
+            $._simple_name,
+            $.expanded_name
+        ))),
         // }}}
         // 5.3 Composite types {{{
         _composite_type_definition: $ => choice(
@@ -1932,18 +1934,13 @@ module.exports = grammar({
             $.relative_pathname
         ),
 
-        _object_name: $ => field(
-            'object',
-            $._simple_name
-        ),
-
         package_pathname: $ => seq(
             '@',
-            $._logical_name,
+            field('library', $._simple_name),
             '.',
-            sepBy1('.', $._package_name),
+            sepBy1('.', field('package',$._simple_name)),
             '.',
-            $._object_name
+            field('object', $._simple_name),
         ),
 
         absolute_pathname: $ => seq(
@@ -1959,7 +1956,7 @@ module.exports = grammar({
             repeat(seq(
                 $.pathname_element, '.'
             )),
-            $._object_name
+            field('object', $._simple_name),
         ),
 
         pathname_element: $ => choice(
@@ -2959,9 +2956,7 @@ module.exports = grammar({
             ';'
         ),
 
-        logical_name_list: $ => sepBy1(',', $._logical_name),
-
-        _logical_name: $ => field('library', $._simple_name),
+        logical_name_list: $ => sepBy1(',', $._simple_name),
         // }}}
         // 13.3 Context declarations {{{
         context_declaration: $ => seq(

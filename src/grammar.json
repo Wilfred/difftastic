@@ -2141,8 +2141,17 @@
       "type": "FIELD",
       "name": "package",
       "content": {
-        "type": "SYMBOL",
-        "name": "_simple_name"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_name"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "expanded_name"
+          }
+        ]
       }
     },
     "package_instantiation_declaration": {
@@ -2628,8 +2637,17 @@
         "type": "PREC",
         "value": -1,
         "content": {
-          "type": "SYMBOL",
-          "name": "_simple_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_simple_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "expanded_name"
+            }
+          ]
         }
       }
     },
@@ -8715,14 +8733,6 @@
         }
       ]
     },
-    "_object_name": {
-      "type": "FIELD",
-      "name": "object",
-      "content": {
-        "type": "SYMBOL",
-        "name": "_simple_name"
-      }
-    },
     "package_pathname": {
       "type": "SEQ",
       "members": [
@@ -8731,8 +8741,12 @@
           "value": "@"
         },
         {
-          "type": "SYMBOL",
-          "name": "_logical_name"
+          "type": "FIELD",
+          "name": "library",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_simple_name"
+          }
         },
         {
           "type": "STRING",
@@ -8742,8 +8756,12 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_package_name"
+              "type": "FIELD",
+              "name": "package",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_simple_name"
+              }
             },
             {
               "type": "REPEAT",
@@ -8755,8 +8773,12 @@
                     "value": "."
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_package_name"
+                    "type": "FIELD",
+                    "name": "package",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_simple_name"
+                    }
                   }
                 ]
               }
@@ -8768,8 +8790,12 @@
           "value": "."
         },
         {
-          "type": "SYMBOL",
-          "name": "_object_name"
+          "type": "FIELD",
+          "name": "object",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_simple_name"
+          }
         }
       ]
     },
@@ -8822,8 +8848,12 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_object_name"
+          "type": "FIELD",
+          "name": "object",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_simple_name"
+          }
         }
       ]
     },
@@ -14654,7 +14684,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_logical_name"
+          "name": "_simple_name"
         },
         {
           "type": "REPEAT",
@@ -14667,20 +14697,12 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_logical_name"
+                "name": "_simple_name"
               }
             ]
           }
         }
       ]
-    },
-    "_logical_name": {
-      "type": "FIELD",
-      "name": "library",
-      "content": {
-        "type": "SYMBOL",
-        "name": "_simple_name"
-      }
     },
     "context_declaration": {
       "type": "SEQ",
@@ -25501,7 +25523,6 @@
     "_suffix",
     "_range_attribute_designator",
     "_external_object_name",
-    "_object_name",
     "_name_or_label",
     "_external_pathname",
     "_expression",
@@ -25531,7 +25552,6 @@
     "_generate_statement",
     "_library_unit",
     "_context_item",
-    "_logical_name",
     "ReferenceError",
     "_digit",
     "_digit_immed",
