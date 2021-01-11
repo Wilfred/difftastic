@@ -57,7 +57,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "array_literal"
+          "name": "bracket_array"
         },
         {
           "type": "SYMBOL",
@@ -73,7 +73,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "tuple_literal"
+          "name": "bracket_tuple"
         },
         {
           "type": "SYMBOL",
@@ -862,7 +862,7 @@
         }
       ]
     },
-    "array_literal": {
+    "bracket_array": {
       "type": "SEQ",
       "members": [
         {
@@ -942,7 +942,7 @@
         }
       ]
     },
-    "tuple_literal": {
+    "bracket_tuple": {
       "type": "SEQ",
       "members": [
         {

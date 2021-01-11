@@ -56,11 +56,11 @@ module.exports = grammar({
              $.symbol,
              //
              $.array,
-             $.array_literal,
+             $.bracket_array,
              $.struct,
              $.table,
              $.tuple,
-             $.tuple_literal,
+             $.bracket_tuple,
              //
              $.quasi_quote_form,
              $.quote_form,
@@ -153,7 +153,7 @@ module.exports = grammar({
           repeat($._form),
           ')'),
 
-    array_literal: $ =>
+    bracket_array: $ =>
       seq('@[',
           repeat($._form),
           ']'),
@@ -173,7 +173,7 @@ module.exports = grammar({
           repeat($._form),
           ')'),
 
-    tuple_literal: $ =>
+    bracket_tuple: $ =>
       seq('[',
           repeat($._form),
           ']'),
