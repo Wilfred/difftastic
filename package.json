@@ -1,5 +1,5 @@
 {
-  "name": "tree-sitter-janet",
+  "name": "tree-sitter-janet-simple",
   "version": "0.0.1",
   "description": "Janet grammar for tree-sitter",
   "main": "index.js",

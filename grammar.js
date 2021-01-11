@@ -26,7 +26,7 @@ const STRING_DOUBLE_QUOTE_CONTENT =
                     /\\(.|\n)/)); // thanks to tree-sitter-haskell
 
 module.exports = grammar({
-  name: 'janet',
+  name: 'janet_simple',
 
   extras: $ =>
     [/\s/, $.comment],

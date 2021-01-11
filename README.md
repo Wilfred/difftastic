@@ -1,10 +1,14 @@
-# tree-sitter-janet
+# tree-sitter-janet-simple
 
 ## Status
 
 ~Subject to change, grammar still evolving.~
 
-Coincidentally, it appears [another effort by GrayJack](https://github.com/GrayJack/tree-sitter-janet/) was started at about the same time, and that effort looks to be pretty decent.  So this effort will be put on hold.
+Coincidentally, it appears [another effort by GrayJack](https://github.com/GrayJack/tree-sitter-janet/) was started at about the same time.
+
+The main difference between these two are that GrayJack's grammar supports higher level constructs (e.g. `def` is recognized by the grammar).
+
+There might end up being different trade-offs in either approach and my belief is that there is room in the world for multiple attempts (especially for lisp-like languages).
 
 ## Prerequisites
 
@@ -24,14 +28,14 @@ Suppose typical development sources are stored under `~/src`.
 ```
 # clone repository
 cd ~/src
-git clone https://github.com/sogaiu/tree-sitter-janet
-cd tree-sitter-janet
+git clone https://github.com/sogaiu/tree-sitter-janet-simple
+cd tree-sitter-janet-simple
 
 # create / populate
 #   `node_modules` with dependencies
 #   `src` with tree-sitter .c goodness
 #   `build`
-#   `build/Release` and build `tree_sitter_janet_binding.node`
+#   `build/Release` and build `tree_sitter_janet_simple_binding.node`
 npm install
 
 # included in previous command
@@ -92,7 +96,7 @@ Assuming emsdk is installed appropriately under `~/src/emsdk`.
 # prepare emsdk (specifically emcc) for use
 source ~/src/emsdk/emsdk_env.sh
 
-# create `tree-sitter-janet.wasm`
+# create `tree-sitter-janet-simple.wasm`
 npx tree-sitter build-wasm
 ```
 
@@ -105,5 +109,5 @@ npx tree-sitter build-wasm
 
 * Aerijo - Guide to your first Tree-sitter grammar
 * bakpakin - janet
-* GrayJack - a better-looking attempt at tree-sitter-janet
+* GrayJack - tree-sitter-janet
 * maxbrunsfeld - tree-sitter and related
