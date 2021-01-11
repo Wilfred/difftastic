@@ -2,7 +2,7 @@
 
 ## Status
 
-~Subject to change, grammar still evolving.~
+Subject to change, grammar still evolving.
 
 Coincidentally, it appears [another effort by GrayJack](https://github.com/GrayJack/tree-sitter-janet/) was started at about the same time.
 
