@@ -2141,17 +2141,8 @@
       "type": "FIELD",
       "name": "package",
       "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_simple_name"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "expanded_name"
-          }
-        ]
+        "type": "SYMBOL",
+        "name": "_simple_name"
       }
     },
     "package_instantiation_declaration": {

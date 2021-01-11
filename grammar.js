@@ -746,10 +746,7 @@ module.exports = grammar({
             ';'
         ),
 
-        _package_name: $ => field('package', choice(
-            $._simple_name,
-            $.expanded_name
-        )),
+        _package_name: $ => field('package', $._simple_name),
         // }}}
         // 4.9 Package instantiation declarations {{{
         package_instantiation_declaration: $ => seq(
@@ -1681,6 +1678,7 @@ module.exports = grammar({
 
         all: $ => reservedWord('all'),
 
+       // TODO: Does it allow expanded name?
         _component_name: $ => field(
             'component',
             $._simple_name

@@ -14241,10 +14241,6 @@
         "required": true,
         "types": [
           {
-            "type": "expanded_name",
-            "named": true
-          },
-          {
             "type": "extended_simple_name",
             "named": true
           },
