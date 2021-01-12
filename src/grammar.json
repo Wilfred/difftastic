@@ -13549,7 +13549,7 @@
                 "name": "header"
               },
               "named": true,
-              "value": "instantiation_declaration_map_aspect"
+              "value": "component_instantiation_map_aspect"
             },
             {
               "type": "BLANK"

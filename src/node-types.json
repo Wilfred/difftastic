@@ -9099,6 +9099,33 @@
     }
   },
   {
+    "type": "component_instantiation_map_aspect",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_clause",
+          "named": true
+        },
+        {
+          "type": "generic_map_aspect",
+          "named": true
+        },
+        {
+          "type": "port_clause",
+          "named": true
+        },
+        {
+          "type": "port_map_aspect",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "component_instantiation_statement",
     "named": true,
     "fields": {
@@ -9176,7 +9203,7 @@
       "required": false,
       "types": [
         {
-          "type": "instantiation_declaration_map_aspect",
+          "type": "component_instantiation_map_aspect",
           "named": true
         },
         {

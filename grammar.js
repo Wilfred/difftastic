@@ -2756,7 +2756,7 @@ module.exports = grammar({
         component_instantiation_statement: $ => seq(
             optional($.label),
             $._instantiated_unit,
-            optional(alias($.header, $.instantiation_declaration_map_aspect)),
+            optional(alias($.header, $.component_instantiation_map_aspect)),
             ';'
         ),
 
