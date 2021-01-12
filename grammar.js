@@ -2271,26 +2271,25 @@ module.exports = grammar({
             optional(reservedWord('postponed')),
             reservedWord('assert'),
             $._condition,
-            optional($.report),
-            optional($.severity),
+            optional($._report),
+            optional($._severity),
             ';'
         )),
         // }}}
         // 10.4 Report statement {{{
         report_statement: $ => seq(
             optional($.label),
-            reservedWord('report'),
-            $._string_expression,
-            optional($.severity),
+            $._report,
+            optional($._severity),
             ';'
         ),
 
-        report: $ => seq(
+        _report: $ => seq(
             reservedWord('report'),
             $._string_expression
         ),
 
-        severity: $ => seq(
+        _severity: $ => seq(
             reservedWord('severity'),
             $._severity_expression
         ),
@@ -3739,7 +3738,7 @@ module.exports = grammar({
             optional($.label),
             reservedWord('assert'),
             $._PSL_Property,
-            optional($.report),
+            optional($._report),
             ';'
         ),
 
@@ -3754,7 +3753,7 @@ module.exports = grammar({
             optional($.label),
             reservedWord('assume_guarantee'),
             $._PSL_Property,
-            optional($.report),
+            optional($._report),
             ';'
         ),
 
@@ -3769,7 +3768,7 @@ module.exports = grammar({
             optional($.label),
             reservedWord('restrict_guarantee'),
             $._PSL_Sequence,
-            optional($.report),
+            optional($._report),
             ';'
         ),
 
@@ -3777,7 +3776,7 @@ module.exports = grammar({
             optional($.label),
             reservedWord('cover'),
             $._PSL_Sequence,
-            optional($.report),
+            optional($._report),
             ';'
         ),
 

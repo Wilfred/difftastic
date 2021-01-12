@@ -438,10 +438,6 @@
           "named": true
         },
         {
-          "type": "report",
-          "named": true
-        },
-        {
           "type": "selected_name",
           "named": true
         },
@@ -463,6 +459,10 @@
         },
         {
           "type": "slice_name",
+          "named": true
+        },
+        {
+          "type": "string_expression",
           "named": true
         },
         {
@@ -880,10 +880,6 @@
           "named": true
         },
         {
-          "type": "report",
-          "named": true
-        },
-        {
           "type": "selected_name",
           "named": true
         },
@@ -905,6 +901,10 @@
         },
         {
           "type": "slice_name",
+          "named": true
+        },
+        {
+          "type": "string_expression",
           "named": true
         },
         {
@@ -2208,7 +2208,7 @@
           "named": true
         },
         {
-          "type": "report",
+          "type": "string_expression",
           "named": true
         }
       ]
@@ -6218,7 +6218,7 @@
           "named": true
         },
         {
-          "type": "report",
+          "type": "string_expression",
           "named": true
         }
       ]
@@ -8435,11 +8435,11 @@
           "named": true
         },
         {
-          "type": "report",
+          "type": "severity_expression",
           "named": true
         },
         {
-          "type": "severity",
+          "type": "string_expression",
           "named": true
         }
       ]
@@ -16029,21 +16029,6 @@
     }
   },
   {
-    "type": "report",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "string_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "report_statement",
     "named": true,
     "fields": {},
@@ -16056,7 +16041,7 @@
           "named": true
         },
         {
-          "type": "severity",
+          "type": "severity_expression",
           "named": true
         },
         {
@@ -16428,21 +16413,6 @@
         },
         {
           "type": "wait_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "severity",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "severity_expression",
           "named": true
         }
       ]

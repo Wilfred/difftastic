@@ -10663,7 +10663,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "report"
+                "name": "_report"
               },
               {
                 "type": "BLANK"
@@ -10675,7 +10675,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "severity"
+                "name": "_severity"
               },
               {
                 "type": "BLANK"
@@ -10705,31 +10705,15 @@
           ]
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "TOKEN",
-            "content": {
-              "type": "PREC",
-              "value": 2,
-              "content": {
-                "type": "PATTERN",
-                "value": "[rR][eE][pP][oO][rR][tT]"
-              }
-            }
-          },
-          "named": false,
-          "value": "report"
-        },
-        {
           "type": "SYMBOL",
-          "name": "_string_expression"
+          "name": "_report"
         },
         {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "severity"
+              "name": "_severity"
             },
             {
               "type": "BLANK"
@@ -10742,7 +10726,7 @@
         }
       ]
     },
-    "report": {
+    "_report": {
       "type": "SEQ",
       "members": [
         {
@@ -10767,7 +10751,7 @@
         }
       ]
     },
-    "severity": {
+    "_severity": {
       "type": "SEQ",
       "members": [
         {
@@ -24546,7 +24530,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "report"
+              "name": "_report"
             },
             {
               "type": "BLANK"
@@ -24640,7 +24624,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "report"
+              "name": "_report"
             },
             {
               "type": "BLANK"
@@ -24734,7 +24718,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "report"
+              "name": "_report"
             },
             {
               "type": "BLANK"
@@ -24787,7 +24771,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "report"
+              "name": "_report"
             },
             {
               "type": "BLANK"
