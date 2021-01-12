@@ -25,6 +25,7 @@ report K_MSG severity note;
   (report_statement
     (string_expression
       (simple_name))
-    (severity_expression
-      (simple_name))))
+    (severity
+      (severity_expression
+        (simple_name)))))
 

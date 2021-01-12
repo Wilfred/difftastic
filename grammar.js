@@ -2185,7 +2185,7 @@ module.exports = grammar({
             choice(
                 $._simple_name,
                 $._operator_symbol,
-                $.selected_name,
+                $.expanded_name,
                 $.attribute_name,
             )
         ),
@@ -2271,25 +2271,26 @@ module.exports = grammar({
             optional(reservedWord('postponed')),
             reservedWord('assert'),
             $._condition,
-            optional($._report),
-            optional($._severity),
+            optional($.report),
+            optional($.severity),
             ';'
         )),
         // }}}
         // 10.4 Report statement {{{
         report_statement: $ => seq(
             optional($.label),
-            $._report,
-            optional($._severity),
+            reservedWord('report'),
+            $._string_expression,
+            optional($.severity),
             ';'
         ),
 
-        _report: $ => seq(
+        report: $ => seq(
             reservedWord('report'),
             $._string_expression
         ),
 
-        _severity: $ => seq(
+        severity: $ => seq(
             reservedWord('severity'),
             $._severity_expression
         ),
@@ -2548,7 +2549,7 @@ module.exports = grammar({
             optional(reservedWord('postponed')),
             field('procedure', choice(
                 $._simple_name,
-                $.selected_name
+                $.expanded_name
             )),
             optional(seq(
                 '(',
@@ -3738,7 +3739,7 @@ module.exports = grammar({
             optional($.label),
             reservedWord('assert'),
             $._PSL_Property,
-            optional($._report),
+            optional($.report),
             ';'
         ),
 
@@ -3753,7 +3754,7 @@ module.exports = grammar({
             optional($.label),
             reservedWord('assume_guarantee'),
             $._PSL_Property,
-            optional($._report),
+            optional($.report),
             ';'
         ),
 
@@ -3768,7 +3769,7 @@ module.exports = grammar({
             optional($.label),
             reservedWord('restrict_guarantee'),
             $._PSL_Sequence,
-            optional($._report),
+            optional($.report),
             ';'
         ),
 
@@ -3776,7 +3777,7 @@ module.exports = grammar({
             optional($.label),
             reservedWord('cover'),
             $._PSL_Sequence,
-            optional($._report),
+            optional($.report),
             ';'
         ),
 

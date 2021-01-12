@@ -10262,7 +10262,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "selected_name"
+            "name": "expanded_name"
           },
           {
             "type": "SYMBOL",
@@ -10663,7 +10663,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_report"
+                "name": "report"
               },
               {
                 "type": "BLANK"
@@ -10675,7 +10675,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_severity"
+                "name": "severity"
               },
               {
                 "type": "BLANK"
@@ -10705,15 +10705,31 @@
           ]
         },
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 2,
+              "content": {
+                "type": "PATTERN",
+                "value": "[rR][eE][pP][oO][rR][tT]"
+              }
+            }
+          },
+          "named": false,
+          "value": "report"
+        },
+        {
           "type": "SYMBOL",
-          "name": "_report"
+          "name": "_string_expression"
         },
         {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_severity"
+              "name": "severity"
             },
             {
               "type": "BLANK"
@@ -10726,7 +10742,7 @@
         }
       ]
     },
-    "_report": {
+    "report": {
       "type": "SEQ",
       "members": [
         {
@@ -10751,7 +10767,7 @@
         }
       ]
     },
-    "_severity": {
+    "severity": {
       "type": "SEQ",
       "members": [
         {
@@ -12168,7 +12184,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "selected_name"
+                  "name": "expanded_name"
                 }
               ]
             }
@@ -24530,7 +24546,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_report"
+              "name": "report"
             },
             {
               "type": "BLANK"
@@ -24624,7 +24640,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_report"
+              "name": "report"
             },
             {
               "type": "BLANK"
@@ -24718,7 +24734,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_report"
+              "name": "report"
             },
             {
               "type": "BLANK"
@@ -24771,7 +24787,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_report"
+              "name": "report"
             },
             {
               "type": "BLANK"

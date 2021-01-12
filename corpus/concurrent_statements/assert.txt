@@ -25,8 +25,9 @@ assert a report "str";
   (assertion_statement
     (condition
       (simple_name))
-    (string_expression
-      (string_literal))))
+    (report
+      (string_expression
+        (string_literal)))))
 
 ==============================
 Severity
@@ -38,8 +39,9 @@ assert a severity note;
   (assertion_statement
     (condition
       (simple_name))
-    (severity_expression
-      (simple_name))))
+    (severity
+      (severity_expression
+        (simple_name)))))
 
 ==============================
 Report and severity
@@ -51,7 +53,9 @@ assert a report K_MSG severity failure;
   (assertion_statement
     (condition
       (simple_name))
-    (string_expression
-      (simple_name))
-    (severity_expression
-      (simple_name))))
+    (report
+      (string_expression
+        (simple_name)))
+    (severity
+      (severity_expression
+        (simple_name)))))

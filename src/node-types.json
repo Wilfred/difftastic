@@ -438,6 +438,10 @@
           "named": true
         },
         {
+          "type": "report",
+          "named": true
+        },
+        {
           "type": "selected_name",
           "named": true
         },
@@ -459,10 +463,6 @@
         },
         {
           "type": "slice_name",
-          "named": true
-        },
-        {
-          "type": "string_expression",
           "named": true
         },
         {
@@ -880,6 +880,10 @@
           "named": true
         },
         {
+          "type": "report",
+          "named": true
+        },
+        {
           "type": "selected_name",
           "named": true
         },
@@ -901,10 +905,6 @@
         },
         {
           "type": "slice_name",
-          "named": true
-        },
-        {
-          "type": "string_expression",
           "named": true
         },
         {
@@ -2208,7 +2208,7 @@
           "named": true
         },
         {
-          "type": "string_expression",
+          "type": "report",
           "named": true
         }
       ]
@@ -6218,7 +6218,7 @@
           "named": true
         },
         {
-          "type": "string_expression",
+          "type": "report",
           "named": true
         }
       ]
@@ -8435,11 +8435,11 @@
           "named": true
         },
         {
-          "type": "severity_expression",
+          "type": "report",
           "named": true
         },
         {
-          "type": "string_expression",
+          "type": "severity",
           "named": true
         }
       ]
@@ -12492,15 +12492,15 @@
             "named": true
           },
           {
+            "type": "expanded_name",
+            "named": true
+          },
+          {
             "type": "extended_simple_name",
             "named": true
           },
           {
             "type": "operator_symbol",
-            "named": true
-          },
-          {
-            "type": "selected_name",
             "named": true
           },
           {
@@ -14976,11 +14976,11 @@
         "required": true,
         "types": [
           {
-            "type": "extended_simple_name",
+            "type": "expanded_name",
             "named": true
           },
           {
-            "type": "selected_name",
+            "type": "extended_simple_name",
             "named": true
           },
           {
@@ -16029,6 +16029,21 @@
     }
   },
   {
+    "type": "report",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "report_statement",
     "named": true,
     "fields": {},
@@ -16041,7 +16056,7 @@
           "named": true
         },
         {
-          "type": "severity_expression",
+          "type": "severity",
           "named": true
         },
         {
@@ -16413,6 +16428,21 @@
         },
         {
           "type": "wait_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "severity",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "severity_expression",
           "named": true
         }
       ]
