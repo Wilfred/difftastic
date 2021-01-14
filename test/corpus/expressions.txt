@@ -1062,6 +1062,7 @@ foo(*[bar, baz].quoz)
 foo(x, *bar)
 foo(*bar.baz)
 foo(**baz)
+foo **bar, baz
 
 ---
 
@@ -1070,7 +1071,8 @@ foo(**baz)
   (call (identifier) (argument_list (splat_argument (call (array (identifier) (identifier)) (identifier)))))
   (call (identifier) (argument_list (identifier) (splat_argument (identifier))))
   (call (identifier) (argument_list (splat_argument (call (identifier) (identifier)))))
-  (call (identifier) (argument_list (hash_splat_argument (identifier)))))
+  (call (identifier) (argument_list (hash_splat_argument (identifier))))
+  (call (identifier) (argument_list (hash_splat_argument (identifier)) (identifier))))
 
 ============================
 method call without parens

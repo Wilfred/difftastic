@@ -36,6 +36,8 @@ enum TokenType {
   BINARY_STAR,
   SINGLETON_CLASS_LEFT_ANGLE_LEFT_ANGLE,
   IDENTIFIER_HASH_KEY,
+  HASH_SPLAT_STAR_STAR,
+  BINARY_STAR_STAR,
 
   NONE
 };
@@ -773,20 +775,42 @@ struct Scanner {
         break;
 
       case '*':
-        if (valid_symbols[SPLAT_STAR] || valid_symbols[BINARY_STAR]) {
+        if (valid_symbols[SPLAT_STAR] || valid_symbols[BINARY_STAR] ||
+            valid_symbols[HASH_SPLAT_STAR_STAR] || valid_symbols[BINARY_STAR_STAR]) {
           advance(lexer);
-          if (lexer->lookahead == '*' || lexer->lookahead == '=') return false;
-          if (valid_symbols[SPLAT_STAR] && !iswspace(lexer->lookahead)) {
-            lexer->result_symbol = SPLAT_STAR;
-            return true;
-          } else if (valid_symbols[BINARY_STAR]) {
-            lexer->result_symbol = BINARY_STAR;
-            return true;
-          } else if (valid_symbols[SPLAT_STAR]) {
-            lexer->result_symbol = SPLAT_STAR;
-            return true;
+          if (lexer->lookahead == '=') return false;
+          if (lexer->lookahead == '*') {
+            if (valid_symbols[HASH_SPLAT_STAR_STAR] || valid_symbols[BINARY_STAR_STAR]) {
+              advance(lexer);
+              if (lexer->lookahead == '=') return false;
+              if (valid_symbols[HASH_SPLAT_STAR_STAR] && !iswspace(lexer->lookahead)) {
+                lexer->result_symbol = HASH_SPLAT_STAR_STAR;
+                return true;
+              } else if (valid_symbols[BINARY_STAR_STAR]) {
+                lexer->result_symbol = BINARY_STAR_STAR;
+                return true;
+              } else if (valid_symbols[HASH_SPLAT_STAR_STAR]) {
+                lexer->result_symbol = HASH_SPLAT_STAR_STAR;
+                return true;
+              } else  {
+                return false;
+              }
+            } else {
+              return false;
+            }
           } else {
-            return false;
+            if (valid_symbols[SPLAT_STAR] && !iswspace(lexer->lookahead)) {
+              lexer->result_symbol = SPLAT_STAR;
+              return true;
+            } else if (valid_symbols[BINARY_STAR]) {
+              lexer->result_symbol = BINARY_STAR;
+              return true;
+            } else if (valid_symbols[SPLAT_STAR]) {
+              lexer->result_symbol = SPLAT_STAR;
+              return true;
+            } else {
+              return false;
+            }
           }
         }
         break;
