@@ -60,7 +60,9 @@ module.exports = grammar({
     $._binary_minus,
     $._binary_star,
     $._singleton_class_left_angle_left_langle,
-    $._identifier_hash_key
+    $._identifier_hash_key,
+    $._hash_splat_star_star,
+    $._binary_star_star
   ],
 
   extras: $ => [
@@ -559,7 +561,7 @@ module.exports = grammar({
     )),
 
     splat_argument: $ => seq(alias($._splat_star, '*'), $._arg),
-    hash_splat_argument: $ => seq('**', $._arg),
+    hash_splat_argument: $ => seq(alias($._hash_splat_star_star, '**'), $._arg),
     block_argument: $ => seq(alias($._block_ampersand, '&'), $._arg),
 
     do_block: $ => seq(
@@ -638,7 +640,7 @@ module.exports = grammar({
         [prec.left, PREC.ADDITIVE, choice('+', alias($._binary_minus, '-'))],
         [prec.left, PREC.MULTIPLICATIVE, choice('/', '%', alias($._binary_star, '*'))],
         [prec.right, PREC.RELATIONAL, choice('==', '!=', '===', '<=>', '=~', '!~')],
-        [prec.right, PREC.EXPONENTIAL, '**'],
+        [prec.right, PREC.EXPONENTIAL, alias($._binary_star_star, '**')],
       ];
 
       return choice(...operators.map(([fn, precedence, operator]) => fn(precedence, seq(

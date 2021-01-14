@@ -3104,7 +3104,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_hash_splat_star_star"
+          },
+          "named": false,
           "value": "**"
         },
         {
@@ -4101,7 +4106,12 @@
                 "type": "FIELD",
                 "name": "operator",
                 "content": {
-                  "type": "STRING",
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_binary_star_star"
+                  },
+                  "named": false,
                   "value": "**"
                 }
               },
@@ -6062,6 +6072,14 @@
     {
       "type": "SYMBOL",
       "name": "_identifier_hash_key"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_hash_splat_star_star"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_binary_star_star"
     }
   ],
   "inline": [],
