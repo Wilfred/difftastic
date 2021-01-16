@@ -1,7 +1,7 @@
 {
   "name": "janet_simple",
   "rules": {
-    "source_file": {
+    "source": {
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",

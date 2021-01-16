@@ -38,7 +38,7 @@ module.exports = grammar({
 
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
-    source_file: $ =>
+    source: $ =>
       repeat($._form),
 
     comment: $ =>
