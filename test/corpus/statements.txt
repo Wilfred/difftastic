@@ -860,6 +860,35 @@ c
   (expression_statement (identifier)))
 
 ====================================================
+Comments at the ends of indented blocks
+====================================================
+
+if a:
+  b
+  # one
+  # two
+
+if c:
+  d
+    # three
+      # four
+
+# five
+
+---
+
+(module
+  (if_statement (identifier) (block
+    (expression_statement (identifier))
+    (comment)
+    (comment)))
+  (if_statement (identifier) (block
+    (expression_statement (identifier))
+    (comment)
+    (comment)))
+  (comment))
+
+====================================================
 Newline tokens followed by comments
 ====================================================
 
