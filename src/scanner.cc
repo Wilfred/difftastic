@@ -217,12 +217,12 @@ struct Scanner {
 
     lexer->mark_end(lexer);
 
-    bool has_comment = false;
-    bool has_newline = false;
+    bool found_end_of_line = false;
     uint32_t indent_length = 0;
+    int32_t first_comment_indent_length = -1;
     for (;;) {
       if (lexer->lookahead == '\n') {
-        has_newline = true;
+        found_end_of_line = true;
         indent_length = 0;
         skip(lexer);
       } else if (lexer->lookahead == ' ') {
@@ -235,8 +235,12 @@ struct Scanner {
         indent_length += 8;
         skip(lexer);
       } else if (lexer->lookahead == '#') {
-        has_comment = true;
-        while (lexer->lookahead && lexer->lookahead != '\n') skip(lexer);
+        if (first_comment_indent_length == -1) {
+          first_comment_indent_length = (int32_t)indent_length;
+        }
+        while (lexer->lookahead && lexer->lookahead != '\n') {
+          skip(lexer);
+        }
         skip(lexer);
         indent_length = 0;
       } else if (lexer->lookahead == '\\') {
@@ -250,34 +254,39 @@ struct Scanner {
         indent_length = 0;
         skip(lexer);
       } else if (lexer->lookahead == 0) {
-        if (valid_symbols[DEDENT] && indent_length_stack.size() > 1) {
-          indent_length_stack.pop_back();
-          lexer->result_symbol = DEDENT;
-          return true;
-        }
-
-        if (valid_symbols[NEWLINE]) {
-          lexer->result_symbol = NEWLINE;
-          return true;
-        }
-
+        indent_length = 0;
+        found_end_of_line = true;
         break;
       } else {
         break;
       }
     }
 
-    if (has_newline) {
-      if (indent_length > indent_length_stack.back() && valid_symbols[INDENT]) {
-        indent_length_stack.push_back(indent_length);
-        lexer->result_symbol = INDENT;
-        return true;
-      }
+    if (found_end_of_line) {
+      if (!indent_length_stack.empty()) {
+        uint16_t current_indent_length = indent_length_stack.back();
 
-      if (indent_length < indent_length_stack.back() && valid_symbols[DEDENT]) {
-        indent_length_stack.pop_back();
-        lexer->result_symbol = DEDENT;
-        return true;
+        if (
+          valid_symbols[INDENT] &&
+          indent_length > current_indent_length
+        ) {
+          indent_length_stack.push_back(indent_length);
+          lexer->result_symbol = INDENT;
+          return true;
+        }
+
+        if (
+          valid_symbols[DEDENT] &&
+          indent_length < current_indent_length &&
+
+          // Wait to create a dedent token until we've consumed any comments
+          // whose indentation matches the current block.
+          first_comment_indent_length < (int32_t)current_indent_length
+        ) {
+          indent_length_stack.pop_back();
+          lexer->result_symbol = DEDENT;
+          return true;
+        }
       }
 
       if (valid_symbols[NEWLINE]) {
@@ -286,7 +295,7 @@ struct Scanner {
       }
     }
 
-    if (!has_comment && valid_symbols[STRING_START]) {
+    if (first_comment_indent_length == -1 && valid_symbols[STRING_START]) {
       Delimiter delimiter;
 
       bool has_flags = false;
