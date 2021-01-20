@@ -69,7 +69,7 @@ alias foo +
 ---
 
 (program
-  (alias (symbol) (symbol))
+  (alias (simple_symbol) (simple_symbol))
   (alias (identifier) (identifier))
   (alias (global_variable) (global_variable))
   (alias (identifier) (operator)))
@@ -86,7 +86,7 @@ undef :foo, :bar
 ---
 
 (program
-  (undef (symbol))
+  (undef (simple_symbol))
   (undef (identifier))
   (undef (operator))
-  (undef (symbol) (symbol)))
+  (undef (simple_symbol) (simple_symbol)))

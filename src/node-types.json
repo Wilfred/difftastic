@@ -80,6 +80,10 @@
         "named": true
       },
       {
+        "type": "delimited_symbol",
+        "named": true
+      },
+      {
         "type": "global_variable",
         "named": true
       },
@@ -100,7 +104,7 @@
         "named": true
       },
       {
-        "type": "symbol",
+        "type": "simple_symbol",
         "named": true
       }
     ]
@@ -143,6 +147,10 @@
       },
       {
         "type": "complex",
+        "named": true
+      },
+      {
+        "type": "delimited_symbol",
         "named": true
       },
       {
@@ -210,6 +218,10 @@
         "named": true
       },
       {
+        "type": "simple_symbol",
+        "named": true
+      },
+      {
         "type": "singleton_class",
         "named": true
       },
@@ -227,10 +239,6 @@
       },
       {
         "type": "subshell",
-        "named": true
-      },
-      {
-        "type": "symbol",
         "named": true
       },
       {
@@ -1139,6 +1147,29 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "delimited_symbol",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "string_content",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2113,11 +2144,11 @@
             "named": true
           },
           {
-            "type": "string",
+            "type": "hash_key_symbol",
             "named": true
           },
           {
-            "type": "symbol",
+            "type": "string",
             "named": true
           }
         ]
@@ -2689,29 +2720,6 @@
         },
         {
           "type": "yield",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "symbol",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "escape_sequence",
-          "named": true
-        },
-        {
-          "type": "interpolation",
-          "named": true
-        },
-        {
-          "type": "string_content",
           "named": true
         }
       ]
@@ -3456,6 +3464,10 @@
     "named": true
   },
   {
+    "type": "hash_key_symbol",
+    "named": true
+  },
+  {
     "type": "heredoc_beginning",
     "named": true
   },
@@ -3529,6 +3541,10 @@
   },
   {
     "type": "self",
+    "named": true
+  },
+  {
+    "type": "simple_symbol",
     "named": true
   },
   {

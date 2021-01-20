@@ -94,7 +94,9 @@
 ] @string
 
 [
-  (symbol)
+  (simple_symbol)
+  (delimited_symbol)
+  (hash_key_symbol)
   (bare_symbol)
 ] @string.special.symbol
 

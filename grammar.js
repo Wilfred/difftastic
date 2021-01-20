@@ -38,7 +38,7 @@ module.exports = grammar({
     $._line_break,
 
     // Delimited literals
-    $._simple_symbol,
+    $.simple_symbol,
     $._string_start,
     $._symbol_start,
     $._subshell_start,
@@ -60,7 +60,7 @@ module.exports = grammar({
     $._binary_minus,
     $._binary_star,
     $._singleton_class_left_angle_left_langle,
-    $._identifier_hash_key,
+    $.hash_key_symbol,
     $._hash_splat_star_star,
     $._binary_star_star
   ],
@@ -431,7 +431,8 @@ module.exports = grammar({
       $.symbol_array,
       $.hash,
       $.subshell,
-      $.symbol,
+      $.simple_symbol,
+      $.delimited_symbol,
       $.integer,
       $.float,
       $.complex,
@@ -733,7 +734,8 @@ module.exports = grammar({
       $.identifier,
       $.constant,
       $.setter,
-      $.symbol,
+      $.simple_symbol,
+      $.delimited_symbol,
       $.operator,
       $.instance_variable,
       $.class_variable,
@@ -816,11 +818,11 @@ module.exports = grammar({
       alias($._string_end, ')')
     ),
 
-    symbol: $ => choice($._simple_symbol, seq(
+    delimited_symbol: $ => seq(
       alias($._symbol_start, ':"'),
       optional($._literal_contents),
       alias($._string_end, '"')
-    )),
+    ),
 
     regex: $ => seq(
       alias($._regex_start, '/'),
@@ -879,9 +881,9 @@ module.exports = grammar({
       ),
       seq(
         field('key', choice(
-          alias($._identifier_hash_key, $.symbol),
-          alias($.identifier, $.symbol),
-          alias($.constant, $.symbol),
+          $.hash_key_symbol,
+          alias($.identifier, $.hash_key_symbol),
+          alias($.constant, $.hash_key_symbol),
           $.string
         )),
         token.immediate(':'),
