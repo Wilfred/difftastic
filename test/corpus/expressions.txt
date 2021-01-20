@@ -58,7 +58,7 @@ foo[:bar]
 
 ---
 
-(program (element_reference (identifier) (symbol)))
+(program (element_reference (identifier) (simple_symbol)))
 
 ============
 element assignment
@@ -274,7 +274,7 @@ x = foo a, :b => 1, :c => 2
       (argument_list (identifier) (identifier))))
   (assignment (identifier)
     (call (identifier)
-      (argument_list (identifier) (pair (symbol) (integer)) (pair (symbol) (integer))))))
+      (argument_list (identifier) (pair (simple_symbol) (integer)) (pair (simple_symbol) (integer))))))
 
 ==========
 math assignment
@@ -654,11 +654,11 @@ foo(a2:b,)
 ---
 
 (program
-  (call (identifier) (argument_list (pair (symbol) (identifier))))
-  (call (identifier) (argument_list (pair (symbol) (identifier))))
-  (call (identifier) (argument_list (pair (symbol) (identifier))))
-  (call (identifier) (argument_list (pair (symbol) (identifier))))
-  (call (identifier) (argument_list (pair (symbol) (identifier)))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (identifier))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (identifier))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (identifier))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (identifier))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (identifier)))))
 
 ===============================
 method call with receiver
@@ -733,7 +733,7 @@ end
     block: (block))
   (call
     receiver: (identifier)
-    method: (argument_list (pair key: (symbol) value: (identifier)))
+    method: (argument_list (pair key: (hash_key_symbol) value: (identifier)))
     block: (do_block (identifier))))
 
 ===============================
@@ -795,10 +795,10 @@ foo :a => true, :c => 1
 ---
 
 (program
-  (call (identifier) (argument_list (pair (symbol) (true))))
+  (call (identifier) (argument_list (pair (simple_symbol) (true))))
   (call (identifier) (argument_list (pair (array) (integer))))
   (call (identifier) (argument_list (pair (identifier) (integer))))
-  (call (identifier) (argument_list (pair (symbol) (true)) (pair (symbol) (integer)))))
+  (call (identifier) (argument_list (pair (simple_symbol) (true)) (pair (simple_symbol) (integer)))))
 
 ===============================
 method call with keyword args
@@ -811,9 +811,9 @@ foo B: true
 ---
 
 (program
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true)))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true)))))
 
 ===============================
 method call with reserved keyword args
@@ -860,43 +860,43 @@ foo yield: true
 ---
 
 (program
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true))))
-  (call (identifier) (argument_list (pair (symbol) (true)))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true)))))
 
 ===============================
 method call with paren args
@@ -921,7 +921,7 @@ foo &bar, 1
 ---
 
 (program
-  (call (identifier) (argument_list (block_argument (symbol))))
+  (call (identifier) (argument_list (block_argument (simple_symbol))))
   (call (identifier) (argument_list (block_argument (identifier))))
   (call (identifier) (argument_list (block_argument (identifier)) (integer)))
   (call (identifier) (argument_list (block_argument (identifier))))
@@ -956,14 +956,14 @@ foo :bar, -> (a) { where(:c => b) }
 (program
   (call (identifier)
     (argument_list
-      (symbol)
+      (simple_symbol)
       (lambda (lambda_parameters (identifier)) (block (integer)))))
   (call (identifier)
     (argument_list
-      (symbol)
+      (simple_symbol)
       (lambda
         (lambda_parameters (identifier))
-        (block (call (identifier) (argument_list (pair (symbol) (identifier)))))))))
+        (block (call (identifier) (argument_list (pair (simple_symbol) (identifier)))))))))
 
 ===============================
 method call lambda argument and do block
@@ -976,7 +976,7 @@ end
 
 (program
   (call (identifier)
-    (argument_list (symbol) (lambda (lambda_parameters (identifier)) (block (integer))))
+    (argument_list (simple_symbol) (lambda (lambda_parameters (identifier)) (block (integer))))
     (do_block)))
 
 ===============================================

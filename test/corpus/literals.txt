@@ -17,17 +17,17 @@ symbol
 ---
 
 (program
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol))
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol))
 
 ======
 symbol operators
@@ -63,32 +63,32 @@ symbol operators
 ---
 
 (program
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol))
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol)
+  (simple_symbol))
 
 ====================
 single quoted symbol
@@ -100,8 +100,8 @@ single quoted symbol
 ---
 
 (program
-  (symbol (string_content))
-  (symbol (string_content)))
+  (delimited_symbol (string_content))
+  (delimited_symbol (string_content)))
 
 ====================
 double quoted symbol
@@ -112,7 +112,7 @@ double quoted symbol
 
 ---
 
-(program (symbol (string_content)) (symbol (string_content)))
+(program (delimited_symbol (string_content)) (delimited_symbol (string_content)))
 
 =======================================
 double quoted symbol with interpolation
@@ -122,7 +122,7 @@ double quoted symbol with interpolation
 
 ---
 
-(program (symbol (string_content) (interpolation (identifier))))
+(program (delimited_symbol (string_content) (interpolation (identifier))))
 
 =======================================
 interpolation with no content
@@ -132,7 +132,7 @@ interpolation with no content
 
 ---
 
-(program (symbol (string_content) (interpolation)))
+(program (delimited_symbol (string_content) (interpolation)))
 
 =========================================
 percent symbol with unbalanced delimiters
@@ -144,7 +144,7 @@ percent symbol with unbalanced delimiters
 
 ---
 
-(program (symbol (string_content)) (symbol (string_content)) (symbol (string_content)))
+(program (delimited_symbol (string_content)) (delimited_symbol (string_content)) (delimited_symbol (string_content)))
 
 =======================================
 percent symbol with balanced delimiters
@@ -157,7 +157,7 @@ percent symbol with balanced delimiters
 
 ---
 
-(program (symbol (string_content)) (symbol (string_content)) (symbol (string_content)) (symbol (string_content)))
+(program (delimited_symbol (string_content)) (delimited_symbol (string_content)) (delimited_symbol (string_content)) (delimited_symbol (string_content)))
 
 =======================================
 global variables
@@ -593,7 +593,7 @@ flash[:notice] = "Pattern addition failed for '%s' in '%s'", %
 ----
 
 (program (assignment
-  (element_reference (identifier) (symbol))
+  (element_reference (identifier) (simple_symbol))
   (right_assignment_list (string (string_content)) (string (string_content)))))
 
 ==========================
@@ -903,14 +903,14 @@ foo[
     receiver: (identifier)
     method: (identifier)
     arguments: (argument_list
-      (pair key: (symbol) value: (heredoc_beginning))
+      (pair key: (hash_key_symbol) value: (heredoc_beginning))
       (heredoc_body (heredoc_content) (heredoc_end))
-      (pair key: (symbol) value: (heredoc_beginning))
+      (pair key: (hash_key_symbol) value: (heredoc_beginning))
       (heredoc_body (heredoc_content) (heredoc_end))))
   (hash
-    (pair key: (symbol) value: (heredoc_beginning))
+    (pair key: (hash_key_symbol) value: (heredoc_beginning))
     (heredoc_body (heredoc_content) (heredoc_end))
-    (pair key: (symbol) value: (heredoc_beginning))
+    (pair key: (hash_key_symbol) value: (heredoc_beginning))
     (heredoc_body (heredoc_content) (heredoc_end)))
   (array (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end)) (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end)))
   (assignment
@@ -1045,7 +1045,7 @@ array
   (array (identifier) (splat_argument (identifier)))
   (array (identifier) (splat_argument (instance_variable)))
   (array (identifier) (splat_argument (global_variable)))
-  (array (identifier) (pair (symbol) (integer))))
+  (array (identifier) (pair (simple_symbol) (integer))))
 
 =====
 array as object
@@ -1193,7 +1193,7 @@ hash with no spaces
 
 ---
 
-(program (hash (pair (symbol) (string (string_content)))))
+(program (hash (pair (simple_symbol) (string (string_content)))))
 
 =========================
 hash with expression keys
@@ -1256,42 +1256,42 @@ hash with reserved word key
 ---
 
 (program (hash
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))
-  (pair (symbol) (symbol))))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol) (simple_symbol))))
 
 ======================
 hash with keyword keys
@@ -1304,12 +1304,12 @@ hash with keyword keys
 
 (program
   (hash
-    (pair (symbol) (integer))
-    (pair (symbol) (integer))
+    (pair (hash_key_symbol) (integer))
+    (pair (hash_key_symbol) (integer))
     (pair (string (string_content)) (integer)))
   (hash
-    (pair (symbol) (integer))
-    (pair (symbol) (integer))
+    (pair (hash_key_symbol) (integer))
+    (pair (hash_key_symbol) (integer))
     (pair (string (string_content)) (integer))))
 
 ========================
@@ -1320,7 +1320,7 @@ hash with trailing comma
 
 ---
 
-(program (hash (pair (symbol) (integer))))
+(program (hash (pair (hash_key_symbol) (integer))))
 
 ========================
 hash initialization with hash splat
@@ -1331,8 +1331,8 @@ hash initialization with hash splat
 ---
 
 (program (hash
-  (pair (symbol) (integer))
-  (hash_splat_argument (hash (pair (symbol) (integer))))))
+  (pair (hash_key_symbol) (integer))
+  (hash_splat_argument (hash (pair (hash_key_symbol) (integer))))))
 
 ========================
 hash with line breaks and inline comments
@@ -1349,9 +1349,9 @@ hash with line breaks and inline comments
 
 (program
   (hash
-    (pair (symbol) (identifier))
+    (pair (simple_symbol) (identifier))
     (comment)
-    (pair (symbol) (integer))))
+    (pair (simple_symbol) (integer))))
 
 ==================
 regular expression
@@ -1507,5 +1507,5 @@ Cß
   (constant)
   (instance_variable)
   (class_variable)
-  (symbol)
+  (simple_symbol)
   (identifier))

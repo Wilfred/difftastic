@@ -35,7 +35,7 @@ enum TokenType {
   BINARY_MINUS,
   BINARY_STAR,
   SINGLETON_CLASS_LEFT_ANGLE_LEFT_ANGLE,
-  IDENTIFIER_HASH_KEY,
+  HASH_KEY_SYMBOL,
   HASH_SPLAT_STAR_STAR,
   BINARY_STAR_STAR,
 
@@ -875,7 +875,7 @@ struct Scanner {
     }
 
     // Open delimiters for literals
-    if (valid_symbols[IDENTIFIER_HASH_KEY]
+    if (valid_symbols[HASH_KEY_SYMBOL]
         && (iswalpha(lexer->lookahead) || lexer->lookahead == '_')) {
       while (iswalnum(lexer->lookahead) || lexer->lookahead == '_') {
         advance(lexer);
@@ -885,7 +885,7 @@ struct Scanner {
       if (lexer->lookahead == ':') {
         advance(lexer);
         if (lexer->lookahead != ':') {
-          lexer->result_symbol = IDENTIFIER_HASH_KEY;
+          lexer->result_symbol = HASH_KEY_SYMBOL;
           return true;
         }
       }
