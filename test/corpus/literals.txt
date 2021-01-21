@@ -627,11 +627,17 @@ Single character string literals
 ?\C-a
 ?\M-\C-a
 ?あ
+?\u028f
+?\u{028f}
+?\xff
 foo(?/)
 
 ---
 
 (program
+  (character)
+  (character)
+  (character)
   (character)
   (character)
   (character)
