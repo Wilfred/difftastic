@@ -1,7 +1,7 @@
 tree-sitter-javascript
 ===========================
 
-[![Build Status](https://travis-ci.org/tree-sitter/tree-sitter-javascript.svg?branch=master)](https://travis-ci.org/tree-sitter/tree-sitter-javascript)
+[![Build Status](https://github.com/tree-sitter/tree-sitter-javascript/workflows/build/badge.svg)](https://github.com/tree-sitter/tree-sitter-javascript/actions?query=workflow%3Abuild)
 [![Build status](https://ci.appveyor.com/api/projects/status/42kwnan77rtf8144/branch/master?svg=true)](https://ci.appveyor.com/project/maxbrunsfeld/tree-sitter-javascript/branch/master)
 
 JavaScript grammar for [tree-sitter][].
