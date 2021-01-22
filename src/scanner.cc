@@ -280,16 +280,21 @@ struct Scanner {
         }
         return false;
 
-      // &, ^, |, ~, /, %, !,`
+      // &, ^, |, ~, /, %`
       case '&':
       case '^':
       case '|':
       case '~':
       case '/':
       case '%':
-      case '!':
       case '`':
         advance(lexer);
+        return true;
+
+      // !, !=, !~
+      case '!':
+        advance(lexer);
+        if (lexer->lookahead == '=' || lexer->lookahead == '~') advance(lexer);
         return true;
 
       // *, **
@@ -316,6 +321,7 @@ struct Scanner {
   }
 
   bool scan_symbol_identifier(TSLexer *lexer) {
+
     if (lexer->lookahead == '@') {
       advance(lexer);
       if (lexer->lookahead == '@') {
