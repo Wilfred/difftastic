@@ -13,10 +13,12 @@ symbol
 :$0
 :_bar
 :åäö
+:_
 
 ---
 
 (program
+  (simple_symbol)
   (simple_symbol)
   (simple_symbol)
   (simple_symbol)
@@ -59,10 +61,14 @@ symbol operators
 :<=
 :<<
 :<=>
+:!=
+:!~
 
 ---
 
 (program
+  (simple_symbol)
+  (simple_symbol)
   (simple_symbol)
   (simple_symbol)
   (simple_symbol)
@@ -94,12 +100,14 @@ symbol operators
 single quoted symbol
 ====================
 
+:''
 :'foo bar'
 :'#{'
 
 ---
 
 (program
+  (delimited_symbol)
   (delimited_symbol (string_content))
   (delimited_symbol (string_content)))
 
