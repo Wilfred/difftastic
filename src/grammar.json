@@ -394,7 +394,7 @@
                     "type": "REPEAT1",
                     "content": {
                       "type": "PATTERN",
-                      "value": "[0-9A-F]"
+                      "value": "[0-9A-Fa-f]"
                     }
                   },
                   {
@@ -427,7 +427,7 @@
                     "type": "REPEAT",
                     "content": {
                       "type": "PATTERN",
-                      "value": "[0-9A-F]"
+                      "value": "[0-9A-Fa-f]"
                     }
                   },
                   {
@@ -446,7 +446,7 @@
                     "type": "REPEAT",
                     "content": {
                       "type": "PATTERN",
-                      "value": "[0-9A-F]"
+                      "value": "[0-9A-Fa-f]"
                     }
                   },
                   {
@@ -479,7 +479,7 @@
                     "type": "REPEAT1",
                     "content": {
                       "type": "PATTERN",
-                      "value": "[0-9A-F]"
+                      "value": "[0-9A-Fa-f]"
                     }
                   },
                   {
