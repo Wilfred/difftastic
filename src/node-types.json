@@ -1,6 +1,21 @@
 [
   {
-    "type": "array",
+    "type": "bool_lit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "kwd_lit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "num_lit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "par_arr_lit",
     "named": true,
     "fields": {},
     "children": {
@@ -8,43 +23,39 @@
       "required": false,
       "types": [
         {
-          "type": "array",
+          "type": "bool_lit",
           "named": true
         },
         {
-          "type": "boolean",
+          "type": "buf_lit",
           "named": true
         },
         {
-          "type": "bracket_array",
+          "type": "kwd_lit",
           "named": true
         },
         {
-          "type": "bracket_tuple",
+          "type": "long_buf_lit",
           "named": true
         },
         {
-          "type": "buffer",
+          "type": "long_str_lit",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "nil_lit",
           "named": true
         },
         {
-          "type": "long_buffer",
+          "type": "num_lit",
           "named": true
         },
         {
-          "type": "long_string",
+          "type": "par_arr_lit",
           "named": true
         },
         {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
+          "type": "par_tup_lit",
           "named": true
         },
         {
@@ -64,23 +75,27 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "sqr_arr_lit",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "sqr_tup_lit",
           "named": true
         },
         {
-          "type": "symbol",
+          "type": "str_lit",
           "named": true
         },
         {
-          "type": "table",
+          "type": "struct_lit",
           "named": true
         },
         {
-          "type": "tuple",
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
           "named": true
         },
         {
@@ -91,12 +106,7 @@
     }
   },
   {
-    "type": "boolean",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "bracket_array",
+    "type": "par_tup_lit",
     "named": true,
     "fields": {},
     "children": {
@@ -104,43 +114,39 @@
       "required": false,
       "types": [
         {
-          "type": "array",
+          "type": "bool_lit",
           "named": true
         },
         {
-          "type": "boolean",
+          "type": "buf_lit",
           "named": true
         },
         {
-          "type": "bracket_array",
+          "type": "kwd_lit",
           "named": true
         },
         {
-          "type": "bracket_tuple",
+          "type": "long_buf_lit",
           "named": true
         },
         {
-          "type": "buffer",
+          "type": "long_str_lit",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "nil_lit",
           "named": true
         },
         {
-          "type": "long_buffer",
+          "type": "num_lit",
           "named": true
         },
         {
-          "type": "long_string",
+          "type": "par_arr_lit",
           "named": true
         },
         {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
+          "type": "par_tup_lit",
           "named": true
         },
         {
@@ -160,114 +166,27 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "sqr_arr_lit",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "sqr_tup_lit",
           "named": true
         },
         {
-          "type": "symbol",
+          "type": "str_lit",
           "named": true
         },
         {
-          "type": "table",
+          "type": "struct_lit",
           "named": true
         },
         {
-          "type": "tuple",
+          "type": "sym_lit",
           "named": true
         },
         {
-          "type": "unquote_form",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "bracket_tuple",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "bracket_array",
-          "named": true
-        },
-        {
-          "type": "bracket_tuple",
-          "named": true
-        },
-        {
-          "type": "buffer",
-          "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
-        },
-        {
-          "type": "long_buffer",
-          "named": true
-        },
-        {
-          "type": "long_string",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "quasi_quote_form",
-          "named": true
-        },
-        {
-          "type": "quote_form",
-          "named": true
-        },
-        {
-          "type": "short_fn_form",
-          "named": true
-        },
-        {
-          "type": "splice_form",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "struct",
-          "named": true
-        },
-        {
-          "type": "symbol",
-          "named": true
-        },
-        {
-          "type": "table",
-          "named": true
-        },
-        {
-          "type": "tuple",
+          "type": "tbl_lit",
           "named": true
         },
         {
@@ -276,16 +195,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "keyword",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "number",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "quasi_quote_form",
@@ -296,43 +205,39 @@
       "required": true,
       "types": [
         {
-          "type": "array",
+          "type": "bool_lit",
           "named": true
         },
         {
-          "type": "boolean",
+          "type": "buf_lit",
           "named": true
         },
         {
-          "type": "bracket_array",
+          "type": "kwd_lit",
           "named": true
         },
         {
-          "type": "bracket_tuple",
+          "type": "long_buf_lit",
           "named": true
         },
         {
-          "type": "buffer",
+          "type": "long_str_lit",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "nil_lit",
           "named": true
         },
         {
-          "type": "long_buffer",
+          "type": "num_lit",
           "named": true
         },
         {
-          "type": "long_string",
+          "type": "par_arr_lit",
           "named": true
         },
         {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
+          "type": "par_tup_lit",
           "named": true
         },
         {
@@ -352,23 +257,27 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "sqr_arr_lit",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "sqr_tup_lit",
           "named": true
         },
         {
-          "type": "symbol",
+          "type": "str_lit",
           "named": true
         },
         {
-          "type": "table",
+          "type": "struct_lit",
           "named": true
         },
         {
-          "type": "tuple",
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
           "named": true
         },
         {
@@ -387,43 +296,39 @@
       "required": true,
       "types": [
         {
-          "type": "array",
+          "type": "bool_lit",
           "named": true
         },
         {
-          "type": "boolean",
+          "type": "buf_lit",
           "named": true
         },
         {
-          "type": "bracket_array",
+          "type": "kwd_lit",
           "named": true
         },
         {
-          "type": "bracket_tuple",
+          "type": "long_buf_lit",
           "named": true
         },
         {
-          "type": "buffer",
+          "type": "long_str_lit",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "nil_lit",
           "named": true
         },
         {
-          "type": "long_buffer",
+          "type": "num_lit",
           "named": true
         },
         {
-          "type": "long_string",
+          "type": "par_arr_lit",
           "named": true
         },
         {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
+          "type": "par_tup_lit",
           "named": true
         },
         {
@@ -443,23 +348,27 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "sqr_arr_lit",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "sqr_tup_lit",
           "named": true
         },
         {
-          "type": "symbol",
+          "type": "str_lit",
           "named": true
         },
         {
-          "type": "table",
+          "type": "struct_lit",
           "named": true
         },
         {
-          "type": "tuple",
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
           "named": true
         },
         {
@@ -478,43 +387,39 @@
       "required": true,
       "types": [
         {
-          "type": "array",
+          "type": "bool_lit",
           "named": true
         },
         {
-          "type": "boolean",
+          "type": "buf_lit",
           "named": true
         },
         {
-          "type": "bracket_array",
+          "type": "kwd_lit",
           "named": true
         },
         {
-          "type": "bracket_tuple",
+          "type": "long_buf_lit",
           "named": true
         },
         {
-          "type": "buffer",
+          "type": "long_str_lit",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "nil_lit",
           "named": true
         },
         {
-          "type": "long_buffer",
+          "type": "num_lit",
           "named": true
         },
         {
-          "type": "long_string",
+          "type": "par_arr_lit",
           "named": true
         },
         {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
+          "type": "par_tup_lit",
           "named": true
         },
         {
@@ -534,23 +439,27 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "sqr_arr_lit",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "sqr_tup_lit",
           "named": true
         },
         {
-          "type": "symbol",
+          "type": "str_lit",
           "named": true
         },
         {
-          "type": "table",
+          "type": "struct_lit",
           "named": true
         },
         {
-          "type": "tuple",
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
           "named": true
         },
         {
@@ -569,43 +478,39 @@
       "required": false,
       "types": [
         {
-          "type": "array",
+          "type": "bool_lit",
           "named": true
         },
         {
-          "type": "boolean",
+          "type": "buf_lit",
           "named": true
         },
         {
-          "type": "bracket_array",
+          "type": "kwd_lit",
           "named": true
         },
         {
-          "type": "bracket_tuple",
+          "type": "long_buf_lit",
           "named": true
         },
         {
-          "type": "buffer",
+          "type": "long_str_lit",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "nil_lit",
           "named": true
         },
         {
-          "type": "long_buffer",
+          "type": "num_lit",
           "named": true
         },
         {
-          "type": "long_string",
+          "type": "par_arr_lit",
           "named": true
         },
         {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
+          "type": "par_tup_lit",
           "named": true
         },
         {
@@ -625,23 +530,27 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "sqr_arr_lit",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "sqr_tup_lit",
           "named": true
         },
         {
-          "type": "symbol",
+          "type": "str_lit",
           "named": true
         },
         {
-          "type": "table",
+          "type": "struct_lit",
           "named": true
         },
         {
-          "type": "tuple",
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
           "named": true
         },
         {
@@ -660,43 +569,39 @@
       "required": true,
       "types": [
         {
-          "type": "array",
+          "type": "bool_lit",
           "named": true
         },
         {
-          "type": "boolean",
+          "type": "buf_lit",
           "named": true
         },
         {
-          "type": "bracket_array",
+          "type": "kwd_lit",
           "named": true
         },
         {
-          "type": "bracket_tuple",
+          "type": "long_buf_lit",
           "named": true
         },
         {
-          "type": "buffer",
+          "type": "long_str_lit",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "nil_lit",
           "named": true
         },
         {
-          "type": "long_buffer",
+          "type": "num_lit",
           "named": true
         },
         {
-          "type": "long_string",
+          "type": "par_arr_lit",
           "named": true
         },
         {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
+          "type": "par_tup_lit",
           "named": true
         },
         {
@@ -716,23 +621,27 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "sqr_arr_lit",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "sqr_tup_lit",
           "named": true
         },
         {
-          "type": "symbol",
+          "type": "str_lit",
           "named": true
         },
         {
-          "type": "table",
+          "type": "struct_lit",
           "named": true
         },
         {
-          "type": "tuple",
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
           "named": true
         },
         {
@@ -743,7 +652,7 @@
     }
   },
   {
-    "type": "struct",
+    "type": "sqr_arr_lit",
     "named": true,
     "fields": {},
     "children": {
@@ -751,43 +660,39 @@
       "required": false,
       "types": [
         {
-          "type": "array",
+          "type": "bool_lit",
           "named": true
         },
         {
-          "type": "boolean",
+          "type": "buf_lit",
           "named": true
         },
         {
-          "type": "bracket_array",
+          "type": "kwd_lit",
           "named": true
         },
         {
-          "type": "bracket_tuple",
+          "type": "long_buf_lit",
           "named": true
         },
         {
-          "type": "buffer",
+          "type": "long_str_lit",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "nil_lit",
           "named": true
         },
         {
-          "type": "long_buffer",
+          "type": "num_lit",
           "named": true
         },
         {
-          "type": "long_string",
+          "type": "par_arr_lit",
           "named": true
         },
         {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
+          "type": "par_tup_lit",
           "named": true
         },
         {
@@ -807,23 +712,27 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "sqr_arr_lit",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "sqr_tup_lit",
           "named": true
         },
         {
-          "type": "symbol",
+          "type": "str_lit",
           "named": true
         },
         {
-          "type": "table",
+          "type": "struct_lit",
           "named": true
         },
         {
-          "type": "tuple",
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
           "named": true
         },
         {
@@ -834,7 +743,7 @@
     }
   },
   {
-    "type": "table",
+    "type": "sqr_tup_lit",
     "named": true,
     "fields": {},
     "children": {
@@ -842,43 +751,39 @@
       "required": false,
       "types": [
         {
-          "type": "array",
+          "type": "bool_lit",
           "named": true
         },
         {
-          "type": "boolean",
+          "type": "buf_lit",
           "named": true
         },
         {
-          "type": "bracket_array",
+          "type": "kwd_lit",
           "named": true
         },
         {
-          "type": "bracket_tuple",
+          "type": "long_buf_lit",
           "named": true
         },
         {
-          "type": "buffer",
+          "type": "long_str_lit",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "nil_lit",
           "named": true
         },
         {
-          "type": "long_buffer",
+          "type": "num_lit",
           "named": true
         },
         {
-          "type": "long_string",
+          "type": "par_arr_lit",
           "named": true
         },
         {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
+          "type": "par_tup_lit",
           "named": true
         },
         {
@@ -898,23 +803,27 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "sqr_arr_lit",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "sqr_tup_lit",
           "named": true
         },
         {
-          "type": "symbol",
+          "type": "str_lit",
           "named": true
         },
         {
-          "type": "table",
+          "type": "struct_lit",
           "named": true
         },
         {
-          "type": "tuple",
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
           "named": true
         },
         {
@@ -925,7 +834,7 @@
     }
   },
   {
-    "type": "tuple",
+    "type": "struct_lit",
     "named": true,
     "fields": {},
     "children": {
@@ -933,43 +842,39 @@
       "required": false,
       "types": [
         {
-          "type": "array",
+          "type": "bool_lit",
           "named": true
         },
         {
-          "type": "boolean",
+          "type": "buf_lit",
           "named": true
         },
         {
-          "type": "bracket_array",
+          "type": "kwd_lit",
           "named": true
         },
         {
-          "type": "bracket_tuple",
+          "type": "long_buf_lit",
           "named": true
         },
         {
-          "type": "buffer",
+          "type": "long_str_lit",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "nil_lit",
           "named": true
         },
         {
-          "type": "long_buffer",
+          "type": "num_lit",
           "named": true
         },
         {
-          "type": "long_string",
+          "type": "par_arr_lit",
           "named": true
         },
         {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
+          "type": "par_tup_lit",
           "named": true
         },
         {
@@ -989,23 +894,118 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "sqr_arr_lit",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "sqr_tup_lit",
           "named": true
         },
         {
-          "type": "symbol",
+          "type": "str_lit",
           "named": true
         },
         {
-          "type": "table",
+          "type": "struct_lit",
           "named": true
         },
         {
-          "type": "tuple",
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_form",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tbl_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "buf_lit",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "long_buf_lit",
+          "named": true
+        },
+        {
+          "type": "long_str_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "par_arr_lit",
+          "named": true
+        },
+        {
+          "type": "par_tup_lit",
+          "named": true
+        },
+        {
+          "type": "quasi_quote_form",
+          "named": true
+        },
+        {
+          "type": "quote_form",
+          "named": true
+        },
+        {
+          "type": "short_fn_form",
+          "named": true
+        },
+        {
+          "type": "splice_form",
+          "named": true
+        },
+        {
+          "type": "sqr_arr_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_tup_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "struct_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
           "named": true
         },
         {
@@ -1024,43 +1024,39 @@
       "required": true,
       "types": [
         {
-          "type": "array",
+          "type": "bool_lit",
           "named": true
         },
         {
-          "type": "boolean",
+          "type": "buf_lit",
           "named": true
         },
         {
-          "type": "bracket_array",
+          "type": "kwd_lit",
           "named": true
         },
         {
-          "type": "bracket_tuple",
+          "type": "long_buf_lit",
           "named": true
         },
         {
-          "type": "buffer",
+          "type": "long_str_lit",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "nil_lit",
           "named": true
         },
         {
-          "type": "long_buffer",
+          "type": "num_lit",
           "named": true
         },
         {
-          "type": "long_string",
+          "type": "par_arr_lit",
           "named": true
         },
         {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "number",
+          "type": "par_tup_lit",
           "named": true
         },
         {
@@ -1080,23 +1076,27 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "sqr_arr_lit",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "sqr_tup_lit",
           "named": true
         },
         {
-          "type": "symbol",
+          "type": "str_lit",
           "named": true
         },
         {
-          "type": "table",
+          "type": "struct_lit",
           "named": true
         },
         {
-          "type": "tuple",
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
           "named": true
         },
         {
@@ -1147,7 +1147,7 @@
     "named": false
   },
   {
-    "type": "buffer",
+    "type": "buf_lit",
     "named": true
   },
   {
@@ -1155,23 +1155,23 @@
     "named": false
   },
   {
-    "type": "long_buffer",
+    "type": "long_buf_lit",
     "named": true
   },
   {
-    "type": "long_string",
+    "type": "long_str_lit",
     "named": true
   },
   {
-    "type": "nil",
+    "type": "nil_lit",
     "named": true
   },
   {
-    "type": "string",
+    "type": "str_lit",
     "named": true
   },
   {
-    "type": "symbol",
+    "type": "sym_lit",
     "named": true
   },
   {

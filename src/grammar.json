@@ -17,63 +17,63 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "boolean"
+          "name": "bool_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "buffer"
+          "name": "buf_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "keyword"
+          "name": "kwd_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "long_buffer"
+          "name": "long_buf_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "long_string"
+          "name": "long_str_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "nil"
+          "name": "nil_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "number"
+          "name": "num_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "string"
+          "name": "str_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "symbol"
+          "name": "sym_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "array"
+          "name": "par_arr_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "bracket_array"
+          "name": "sqr_arr_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "struct"
+          "name": "struct_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "table"
+          "name": "tbl_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "tuple"
+          "name": "par_tup_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "bracket_tuple"
+          "name": "sqr_tup_lit"
         },
         {
           "type": "SYMBOL",
@@ -97,7 +97,7 @@
         }
       ]
     },
-    "boolean": {
+    "bool_lit": {
       "type": "CHOICE",
       "members": [
         {
@@ -110,7 +110,7 @@
         }
       ]
     },
-    "keyword": {
+    "kwd_lit": {
       "type": "PREC",
       "value": 2,
       "content": {
@@ -126,18 +126,18 @@
               "type": "REPEAT",
               "content": {
                 "type": "PATTERN",
-                "value": "[0-9:a-zA-Z!$%&*+\\-.\\/:<?=>@^_]"
+                "value": "[0-9:a-zA-Z!$%&*+\\-./:<?=>@^_]"
               }
             }
           ]
         }
       }
     },
-    "nil": {
+    "nil_lit": {
       "type": "STRING",
       "value": "nil"
     },
-    "number": {
+    "num_lit": {
       "type": "PREC",
       "value": 5,
       "content": {
@@ -759,7 +759,7 @@
         ]
       }
     },
-    "string": {
+    "str_lit": {
       "type": "TOKEN",
       "content": {
         "type": "SEQ",
@@ -791,7 +791,7 @@
         ]
       }
     },
-    "buffer": {
+    "buf_lit": {
       "type": "TOKEN",
       "content": {
         "type": "SEQ",
@@ -823,26 +823,26 @@
         ]
       }
     },
-    "symbol": {
+    "sym_lit": {
       "type": "TOKEN",
       "content": {
         "type": "SEQ",
         "members": [
           {
             "type": "PATTERN",
-            "value": "[a-zA-Z!$%&*+\\-.\\/:<?=>@^_]"
+            "value": "[a-zA-Z!$%&*+\\-./:<?=>@^_]"
           },
           {
             "type": "REPEAT",
             "content": {
               "type": "PATTERN",
-              "value": "[0-9:a-zA-Z!$%&*+\\-.\\/:<?=>@^_]"
+              "value": "[0-9:a-zA-Z!$%&*+\\-./:<?=>@^_]"
             }
           }
         ]
       }
     },
-    "array": {
+    "par_arr_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -862,7 +862,7 @@
         }
       ]
     },
-    "bracket_array": {
+    "sqr_arr_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -882,7 +882,7 @@
         }
       ]
     },
-    "struct": {
+    "struct_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -902,7 +902,7 @@
         }
       ]
     },
-    "table": {
+    "tbl_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -922,7 +922,7 @@
         }
       ]
     },
-    "tuple": {
+    "par_tup_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -942,7 +942,7 @@
         }
       ]
     },
-    "bracket_tuple": {
+    "sqr_tup_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -1042,11 +1042,11 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "long_buffer"
+      "name": "long_buf_lit"
     },
     {
       "type": "SYMBOL",
-      "name": "long_string"
+      "name": "long_str_lit"
     }
   ],
   "inline": [],

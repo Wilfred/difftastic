@@ -8,8 +8,8 @@ using std::wstring;
 using std::iswspace;
 
 enum TokenType {
-  LONG_BUFFER,
-  LONG_STRING
+  LONG_BUF_LIT,
+  LONG_STR_LIT
 };
 
 struct Scanner {
@@ -19,10 +19,10 @@ struct Scanner {
     }
 
     if (lexer->lookahead == '@') {
-      lexer->result_symbol = LONG_BUFFER;
+      lexer->result_symbol = LONG_BUF_LIT;
       lexer->advance(lexer, false);
     } else {
-      lexer->result_symbol = LONG_STRING;
+      lexer->result_symbol = LONG_STR_LIT;
     }
 
     // long strings start with one or more backticks

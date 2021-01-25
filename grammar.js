@@ -32,8 +32,8 @@ module.exports = grammar({
     [/\s/, $.comment],
 
   externals: $ => [
-    $.long_buffer,
-    $.long_string
+    $.long_buf_lit,
+    $.long_str_lit
   ],
 
   rules: {
@@ -45,22 +45,22 @@ module.exports = grammar({
       /#.*/,
 
     _form: $ =>
-      choice($.boolean,
-             $.buffer,
-             $.keyword,
-             $.long_buffer,
-             $.long_string,
-             $.nil,
-             $.number,
-             $.string,
-             $.symbol,
+      choice($.bool_lit,
+             $.buf_lit,
+             $.kwd_lit,
+             $.long_buf_lit,
+             $.long_str_lit,
+             $.nil_lit,
+             $.num_lit,
+             $.str_lit,
+             $.sym_lit,
              //
-             $.array,
-             $.bracket_array,
-             $.struct,
-             $.table,
-             $.tuple,
-             $.bracket_tuple,
+             $.par_arr_lit,
+             $.sqr_arr_lit,
+             $.struct_lit,
+             $.tbl_lit,
+             $.par_tup_lit,
+             $.sqr_tup_lit,
              //
              $.quasi_quote_form,
              $.quote_form,
@@ -70,18 +70,18 @@ module.exports = grammar({
 
     // simplest things
 
-    boolean: $ =>
+    bool_lit: $ =>
       choice('false',
              'true'),
 
-    keyword: $ =>
+    kwd_lit: $ =>
       prec(2, token(seq(':',
                         repeat(SYM_CHAR)))),
 
-    nil: $ =>
+    nil_lit: $ =>
       'nil',
 
-    number: $ =>
+    num_lit: $ =>
       prec(5, choice($._dec,
                      $._hex,
                      $._radix)),
@@ -132,48 +132,48 @@ module.exports = grammar({
                                  optional(SIGN),
                                  repeat1(DIGIT)))))),
 
-    string: $ =>
+    str_lit: $ =>
       token(seq('"',
                 STRING_DOUBLE_QUOTE_CONTENT,
                 '"')),
 
-    buffer: $ =>
+    buf_lit: $ =>
       token(seq('@"',
                 STRING_DOUBLE_QUOTE_CONTENT,
                 '"')),
 
-    symbol: $ =>
+    sym_lit: $ =>
       token(seq(SYM_CHAR_NO_DIGIT_NO_COLON,
                 repeat(SYM_CHAR))),
 
     // collection-ish things
 
-    array: $ =>
+    par_arr_lit: $ =>
       seq('@(',
           repeat($._form),
           ')'),
 
-    bracket_array: $ =>
+    sqr_arr_lit: $ =>
       seq('@[',
           repeat($._form),
           ']'),
 
-    struct: $ =>
+    struct_lit: $ =>
       seq('{',
           repeat($._form),
           '}'),
 
-    table: $ =>
+    tbl_lit: $ =>
       seq('@{',
           repeat($._form),
           '}'),
 
-    tuple: $ =>
+    par_tup_lit: $ =>
       seq('(',
           repeat($._form),
           ')'),
 
-    bracket_tuple: $ =>
+    sqr_tup_lit: $ =>
       seq('[',
           repeat($._form),
           ']'),
