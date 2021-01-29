@@ -1080,6 +1080,16 @@
             "named": true
           }
         ]
+      },
+      "superclass": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "superclass",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -1104,10 +1114,6 @@
         },
         {
           "type": "rescue",
-          "named": true
-        },
-        {
-          "type": "superclass",
           "named": true
         }
       ]
