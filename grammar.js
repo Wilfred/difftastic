@@ -210,7 +210,7 @@ module.exports = grammar({
     class: $ => seq(
       'class',
       field('name', choice($.constant, $.scope_resolution)),
-      optional($.superclass),
+      field('superclass', optional($.superclass)),
       $._terminator,
       $._body_statement
     ),

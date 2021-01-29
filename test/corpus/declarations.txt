@@ -378,7 +378,7 @@ end
 
 (program (class
   name: (constant)
-  (superclass (call
+  superclass: (superclass (call
     receiver: (constant)
     method: (identifier)
     arguments: (argument_list
