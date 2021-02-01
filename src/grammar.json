@@ -414,7 +414,7 @@
     },
     "_argument": {
       "type": "PREC_LEFT",
-      "value": 13,
+      "value": 0,
       "content": {
         "type": "CHOICE",
         "members": [
@@ -1441,141 +1441,145 @@
       ]
     },
     "_expression": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "integer"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "float"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "complex"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "call"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "brace_list"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "paren_list"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "binary"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unary"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "subset"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "subset2"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "dollar"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "slot"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "namespace_get"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "namespace_get_internal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "if"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "for"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "while"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "repeat"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "switch"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "break"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "next"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "true"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "false"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "null"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "inf"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "nan"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "na"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "dots"
-        },
-        {
-          "type": "STRING",
-          "value": ";"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "integer"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "float"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "complex"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "string"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "call"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "function_definition"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_assignment"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "brace_list"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "paren_list"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "binary"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "unary"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "subset"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "subset2"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "dollar"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "slot"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "namespace_get"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "namespace_get_internal"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "if"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "for"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "while"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "repeat"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "switch"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "break"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "next"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "true"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "false"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "null"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "inf"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "nan"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "na"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "dots"
+          },
+          {
+            "type": "STRING",
+            "value": ";"
+          }
+        ]
+      }
     },
     "identifier": {
       "type": "CHOICE",

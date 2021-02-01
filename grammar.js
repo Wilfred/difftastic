@@ -112,7 +112,7 @@ module.exports = grammar({
       ','
     )),
 
-    _argument: $ => prec.left(PREC.CALL - 1, choice(
+    _argument: $ => prec.left(choice(
       field('value', $._expression),
       seq(
         field('name', choice($.identifier, $.string, $.dots)),
@@ -275,7 +275,7 @@ module.exports = grammar({
       'NA_real_'
     ),
 
-    _expression: $ => choice(
+    _expression: $ => prec.right(choice(
       $.identifier,
       $.integer,
       $.float,
@@ -309,7 +309,7 @@ module.exports = grammar({
       $.na,
       $.dots,
       ';'
-    ),
+    )),
 
     identifier: $ => 
       choice(

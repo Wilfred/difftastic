@@ -470,9 +470,12 @@ Calls
 
 f()
 f(x)
+f(1+1)
+f(1 ~ 1)
 f(x, )
 f(x, y)
 f(x, y = 2)
+f(x = 1 + 1)
 f(x, y =)
 f(f2(x, y))
 f(,)
@@ -494,6 +497,20 @@ f(,y=)
     arguments: (arguments value: (identifier)))
 
   (call
+   function: (identifier)
+   arguments: (arguments
+     value: (binary
+       (float)
+       (float))))
+
+  (call
+   function: (identifier)
+   arguments: (arguments
+     value: (binary
+       (float)
+       (float))))
+
+  (call
     function: (identifier)
     arguments: (arguments value: (identifier)))
 
@@ -504,6 +521,10 @@ f(,y=)
   (call
     function: (identifier)
     arguments: (arguments value: (identifier) name: (identifier) value: (float)))
+
+  (call
+    function: (identifier)
+    arguments: (arguments name: (identifier) value: (binary (float) (float))))
 
   (call
     function: (identifier)
