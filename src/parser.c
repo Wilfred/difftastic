@@ -24,7 +24,7 @@
 #define MAX_ALIAS_SEQUENCE_LENGTH 8
 
 enum {
-  sym__generic_command_name = 1,
+  sym_generic_command_name = 1,
   sym__whitespace = 2,
   sym__comment = 3,
   aux_sym_part_token1 = 4,
@@ -140,7 +140,7 @@ enum {
 
 static const char *ts_symbol_names[] = {
   [ts_builtin_sym_end] = "end",
-  [sym__generic_command_name] = "_generic_command_name",
+  [sym_generic_command_name] = "generic_command_name",
   [sym__whitespace] = "_whitespace",
   [sym__comment] = "_comment",
   [aux_sym_part_token1] = "part_token1",
@@ -256,7 +256,7 @@ static const char *ts_symbol_names[] = {
 
 static TSSymbol ts_symbol_map[] = {
   [ts_builtin_sym_end] = ts_builtin_sym_end,
-  [sym__generic_command_name] = sym__generic_command_name,
+  [sym_generic_command_name] = sym_generic_command_name,
   [sym__whitespace] = sym__whitespace,
   [sym__comment] = sym__comment,
   [aux_sym_part_token1] = aux_sym_part_token1,
@@ -375,8 +375,8 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = false,
     .named = true,
   },
-  [sym__generic_command_name] = {
-    .visible = false,
+  [sym_generic_command_name] = {
+    .visible = true,
     .named = true,
   },
   [sym__whitespace] = {
@@ -1985,10 +1985,10 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 103:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       END_STATE();
     case 104:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == ')') ADVANCE(52);
       if (lookahead == 'A') ADVANCE(120);
@@ -2025,7 +2025,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 105:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == ')') ADVANCE(52);
       if (lookahead == 'A') ADVANCE(120);
@@ -2062,7 +2062,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 106:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == ')') ADVANCE(52);
       if (lookahead == 'A') ADVANCE(120);
@@ -2098,7 +2098,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 107:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == ')') ADVANCE(52);
       if (lookahead == 'A') ADVANCE(120);
@@ -2134,7 +2134,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 108:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == 'A') ADVANCE(120);
       if (lookahead == 'C') ADVANCE(302);
@@ -2170,7 +2170,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 109:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == 'A') ADVANCE(120);
       if (lookahead == 'C') ADVANCE(302);
@@ -2206,7 +2206,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 110:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == 'A') ADVANCE(120);
       if (lookahead == 'C') ADVANCE(302);
@@ -2241,7 +2241,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 111:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == 'A') ADVANCE(120);
       if (lookahead == 'C') ADVANCE(302);
@@ -2276,7 +2276,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 112:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == 'A') ADVANCE(120);
       if (lookahead == 'C') ADVANCE(302);
@@ -2311,7 +2311,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 113:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == 'A') ADVANCE(120);
       if (lookahead == 'C') ADVANCE(302);
@@ -2346,7 +2346,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 114:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == 'A') ADVANCE(120);
       if (lookahead == 'C') ADVANCE(302);
@@ -2381,7 +2381,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 115:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == 'A') ADVANCE(120);
       if (lookahead == 'C') ADVANCE(302);
@@ -2416,7 +2416,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 116:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == 'A') ADVANCE(120);
       if (lookahead == 'C') ADVANCE(302);
@@ -2451,7 +2451,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 117:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == 'A') ADVANCE(120);
       if (lookahead == 'C') ADVANCE(302);
@@ -2486,7 +2486,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 118:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == 'A') ADVANCE(120);
       if (lookahead == 'C') ADVANCE(302);
@@ -2521,7 +2521,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 119:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '(') ADVANCE(51);
       if (lookahead == 'A') ADVANCE(120);
       if (lookahead == 'C') ADVANCE(302);
@@ -2556,7 +2556,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\r') ADVANCE(103);
       END_STATE();
     case 120:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'C') ADVANCE(128);
       if (lookahead == 'c') ADVANCE(93);
@@ -2566,14 +2566,14 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 121:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'C') ADVANCE(394);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 122:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'C') ADVANCE(463);
       if (lookahead == 'c') ADVANCE(463);
@@ -2581,14 +2581,14 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 123:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'I') ADVANCE(383);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 124:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'L') ADVANCE(129);
       if (lookahead == 'l') ADVANCE(467);
@@ -2596,7 +2596,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 125:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'M') ADVANCE(154);
       if (lookahead == 'R') ADVANCE(397);
@@ -2604,35 +2604,35 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 126:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'O') ADVANCE(424);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 127:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'P') ADVANCE(145);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 128:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'R') ADVANCE(274);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 129:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'S') ADVANCE(91);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 130:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(445);
       if (lookahead == 'n') ADVANCE(392);
@@ -2641,7 +2641,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 131:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(416);
       if (lookahead == 'h') ADVANCE(155);
@@ -2651,7 +2651,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 132:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(416);
       if (lookahead == 'i') ADVANCE(500);
@@ -2660,7 +2660,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 133:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(362);
       if (lookahead == 'e') ADVANCE(534);
@@ -2669,7 +2669,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 134:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(285);
       if (lookahead == 'n') ADVANCE(392);
@@ -2678,7 +2678,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 135:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(284);
       if (lookahead == 'e') ADVANCE(388);
@@ -2687,7 +2687,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 136:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(284);
       if (lookahead == 'e') ADVANCE(388);
@@ -2695,7 +2695,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 137:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(179);
       if (lookahead == 'c') ADVANCE(377);
@@ -2703,7 +2703,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 138:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(286);
       if (lookahead == 'n') ADVANCE(392);
@@ -2712,21 +2712,21 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 139:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(440);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 140:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(366);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 141:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(287);
       if (lookahead == 'n') ADVANCE(392);
@@ -2735,7 +2735,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 142:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(193);
       if (lookahead == 'c') ADVANCE(394);
@@ -2746,196 +2746,196 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 143:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(415);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 144:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(418);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 145:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(189);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 146:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(382);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 147:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(419);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 148:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(420);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 149:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(434);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 150:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(381);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 151:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(439);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 152:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(324);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 153:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(437);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 154:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(496);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 155:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(426);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 156:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(180);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 157:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(288);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 158:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(498);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 159:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(476);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 160:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(450);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 161:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(425);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 162:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(504);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 163:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(460);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 164:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(365);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 165:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(290);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 166:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(499);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 167:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(462);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 168:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(506);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 169:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'a') ADVANCE(292);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 170:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(275);
       if (lookahead == 'p') ADVANCE(247);
@@ -2943,7 +2943,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 171:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(277);
       if (lookahead == 'p') ADVANCE(247);
@@ -2951,7 +2951,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 172:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(278);
       if (lookahead == 'p') ADVANCE(247);
@@ -2959,7 +2959,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 173:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(276);
       if (lookahead == 'p') ADVANCE(247);
@@ -2967,77 +2967,77 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 174:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(336);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 175:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(305);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 176:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(158);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 177:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(528);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 178:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(481);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 179:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(249);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 180:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(256);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 181:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(404);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 182:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(464);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 183:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'b') ADVANCE(166);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 184:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(92);
       if (lookahead == 'd') ADVANCE(210);
@@ -3047,21 +3047,21 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 185:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(100);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 186:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(526);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 187:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(318);
       if (lookahead == 't') ADVANCE(246);
@@ -3069,28 +3069,28 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 188:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(318);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 189:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(323);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 190:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(334);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 191:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(335);
       if (lookahead == 'p') ADVANCE(521);
@@ -3098,70 +3098,70 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 192:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(394);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 193:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(449);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 194:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(469);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 195:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(161);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 196:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(233);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 197:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(342);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 198:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(345);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 199:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(346);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 200:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(463);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 201:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(319);
       if (lookahead == 'r') ADVANCE(238);
@@ -3169,21 +3169,21 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 202:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(319);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 203:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(513);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 204:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(320);
       if (lookahead == 'f') ADVANCE(517);
@@ -3191,84 +3191,84 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 205:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(514);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 206:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(515);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 207:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'c') ADVANCE(347);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 208:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'd') ADVANCE(54);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 209:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'd') ADVANCE(84);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 210:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'd') ADVANCE(175);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 211:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'd') ADVANCE(227);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 212:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'd') ADVANCE(248);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 213:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'd') ADVANCE(234);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 214:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(190);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 215:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(429);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 216:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(536);
       if (lookahead == 'v') ADVANCE(391);
@@ -3276,7 +3276,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 217:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(281);
       if (lookahead == 'i') ADVANCE(174);
@@ -3284,126 +3284,126 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 218:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(270);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 219:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(272);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 220:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(100);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 221:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(57);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 222:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(60);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 223:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(122);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 224:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(63);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 225:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(125);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 226:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(127);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 227:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(66);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 228:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(68);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 229:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(58);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 230:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(82);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 231:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(72);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 232:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(64);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 233:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(70);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 234:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(69);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 235:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(438);
       if (lookahead == 'o') ADVANCE(333);
@@ -3412,35 +3412,35 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 236:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(353);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 237:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(535);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 238:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(271);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 239:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(59);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 240:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(203);
       if (lookahead == 'm') ADVANCE(139);
@@ -3450,28 +3450,28 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 241:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(421);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 242:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(380);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 243:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(273);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 244:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(473);
       if (lookahead == 'i') ADVANCE(471);
@@ -3479,147 +3479,147 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 245:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(473);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 246:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(188);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 247:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(441);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 248:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(279);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 249:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(326);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 250:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(200);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 251:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(432);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 252:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(478);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 253:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(433);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 254:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(357);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 255:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(411);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 256:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(328);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 257:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(491);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 258:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(442);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 259:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(537);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 260:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(385);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 261:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(149);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 262:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(538);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 263:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(459);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 264:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(387);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 265:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(205);
       if (lookahead == 'u') ADVANCE(178);
@@ -3627,21 +3627,21 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 266:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(388);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 267:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(206);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 268:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(207);
       if (lookahead == 'o') ADVANCE(186);
@@ -3649,7 +3649,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 269:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'e') ADVANCE(466);
       if (lookahead == 'o') ADVANCE(333);
@@ -3658,7 +3658,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 270:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'f') ADVANCE(79);
       if (lookahead == 'n') ADVANCE(237);
@@ -3666,28 +3666,28 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 271:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'f') ADVANCE(79);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 272:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'f') ADVANCE(80);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 273:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'f') ADVANCE(78);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 274:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'f') ADVANCE(522);
       if (lookahead == 'l') ADVANCE(393);
@@ -3696,7 +3696,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 275:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'f') ADVANCE(311);
       if (lookahead == 'i') ADVANCE(368);
@@ -3706,7 +3706,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 276:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'f') ADVANCE(311);
       if (lookahead == 'i') ADVANCE(368);
@@ -3716,7 +3716,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 277:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'f') ADVANCE(311);
       if (lookahead == 'i') ADVANCE(368);
@@ -3725,7 +3725,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 278:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'f') ADVANCE(311);
       if (lookahead == 'i') ADVANCE(368);
@@ -3733,14 +3733,14 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 279:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'f') ADVANCE(454);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 280:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'f') ADVANCE(529);
       if (lookahead == 'l') ADVANCE(393);
@@ -3749,35 +3749,35 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 281:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'g') ADVANCE(303);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 282:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'g') ADVANCE(72);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 283:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'g') ADVANCE(97);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 284:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'g') ADVANCE(448);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 285:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'g') ADVANCE(258);
       if (lookahead == 'r') ADVANCE(135);
@@ -3785,7 +3785,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 286:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'g') ADVANCE(258);
       if (lookahead == 'r') ADVANCE(136);
@@ -3793,7 +3793,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 287:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'g') ADVANCE(258);
       if (lookahead == 'r') ADVANCE(266);
@@ -3801,98 +3801,98 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 288:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'g') ADVANCE(258);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 289:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'g') ADVANCE(230);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 290:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'g') ADVANCE(232);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 291:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'g') ADVANCE(456);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 292:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'g') ADVANCE(458);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 293:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'h') ADVANCE(33);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 294:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'h') ADVANCE(126);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 295:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'h') ADVANCE(35);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 296:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'h') ADVANCE(539);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 297:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'h') ADVANCE(313);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 298:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'h') ADVANCE(403);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 299:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'h') ADVANCE(255);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 300:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'h') ADVANCE(409);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 301:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(95);
       if (lookahead == 'v') ADVANCE(94);
@@ -3900,7 +3900,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 302:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(497);
       if (lookahead == 'r') ADVANCE(219);
@@ -3908,175 +3908,175 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 303:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(369);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 304:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(444);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 305:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(182);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 306:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(370);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 307:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(355);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 308:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(412);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 309:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(367);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 310:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(398);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 311:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(343);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 312:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(399);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 313:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(194);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 314:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(383);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 315:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(405);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 316:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(406);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 317:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(461);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 318:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(505);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 319:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(506);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 320:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'i') ADVANCE(507);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 321:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'k') ADVANCE(100);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 322:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'k') ADVANCE(475);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 323:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'k') ADVANCE(165);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 324:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(100);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 325:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(99);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 326:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(76);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 327:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(545);
       if (lookahead == 'u') ADVANCE(509);
@@ -4084,147 +4084,147 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 328:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(83);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 329:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(333);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 330:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(97);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 331:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(59);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 332:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(468);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 333:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(188);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 334:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(163);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 335:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(518);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 336:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(308);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 337:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(531);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 338:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(396);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 339:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(423);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 340:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(330);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 341:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(339);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 342:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(159);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 343:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(228);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 344:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(224);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 345:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(527);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 346:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(530);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 347:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'l') ADVANCE(167);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 348:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(139);
       if (lookahead == 'u') ADVANCE(170);
@@ -4233,7 +4233,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 349:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(139);
       if (lookahead == 'u') ADVANCE(171);
@@ -4242,7 +4242,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 350:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(139);
       if (lookahead == 'u') ADVANCE(172);
@@ -4251,7 +4251,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 351:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(139);
       if (lookahead == 'u') ADVANCE(173);
@@ -4260,7 +4260,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 352:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(139);
       if (lookahead == 'v') ADVANCE(391);
@@ -4268,42 +4268,42 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 353:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(36);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 354:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(75);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 355:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(123);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 356:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(101);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 357:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(102);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 358:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(417);
       if (lookahead == 'n') ADVANCE(191);
@@ -4312,7 +4312,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 359:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(417);
       if (lookahead == 'n') ADVANCE(191);
@@ -4320,63 +4320,63 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 360:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(363);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 361:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(181);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 362:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(223);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 363:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(150);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 364:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(260);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 365:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(220);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 366:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(250);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 367:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(314);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 368:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'm') ADVANCE(428);
       if (lookahead == 'n') ADVANCE(198);
@@ -4384,49 +4384,49 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 369:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(53);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 370:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(321);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 371:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(55);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 372:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(27);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 373:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(29);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 374:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(31);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 375:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(392);
       if (lookahead == 'o') ADVANCE(395);
@@ -4437,7 +4437,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 376:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(208);
       if (lookahead == 'q') ADVANCE(442);
@@ -4445,322 +4445,322 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 377:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(140);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 378:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(283);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 379:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(322);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 380:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(188);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 381:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(209);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 382:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(289);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 383:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(427);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 384:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(501);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 385:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(516);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 386:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(542);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 387:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(502);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 388:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(202);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 389:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'n') ADVANCE(199);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 390:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(201);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 391:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(333);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 392:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(508);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 393:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(378);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 394:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(360);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 395:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(484);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 396:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(474);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 397:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(177);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 398:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(371);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 399:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(372);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 400:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(354);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 401:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(524);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 402:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(386);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 403:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(431);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 404:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(324);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 405:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(373);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 406:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(374);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 407:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(435);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 408:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(446);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 409:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(452);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 410:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(455);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 411:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(465);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 412:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(291);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 413:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'o') ADVANCE(202);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 414:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(100);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 415:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(293);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 416:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(511);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 417:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(408);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 418:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(296);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 419:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(297);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 420:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(295);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 421:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(145);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 422:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(157);
       if (lookahead == 'r') ADVANCE(238);
@@ -4768,861 +4768,861 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 423:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(324);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 424:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(263);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 425:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(231);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 426:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(503);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 427:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(525);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 428:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p') ADVANCE(410);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 429:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'q') ADVANCE(519);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 430:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'q') ADVANCE(442);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 431:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(63);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 432:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(301);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 433:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(25);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 434:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(62);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 435:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(87);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 436:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(544);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 437:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(59);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 438:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(176);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 439:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(543);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 440:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(495);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 441:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(188);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 442:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(238);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 443:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(540);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 444:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(480);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 445:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(242);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 446:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(486);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 447:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(196);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 448:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(143);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 449:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(402);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 450:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(169);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 451:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(331);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 452:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(490);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 453:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(152);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 454:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(400);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 455:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(487);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 456:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(144);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 457:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(147);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 458:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(148);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 459:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(162);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 460:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(225);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 461:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(226);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 462:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(257);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 463:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(243);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 464:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(252);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 465:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(254);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 466:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'r') ADVANCE(183);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 467:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(90);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 468:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(89);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 469:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(72);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 470:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(65);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 471:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(414);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 472:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(241);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 473:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(185);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 474:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(482);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 475:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(195);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 476:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(470);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 477:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(251);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 478:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(401);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 479:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(488);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 480:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(510);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 481:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(267);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 482:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 's') ADVANCE(151);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 483:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(100);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 484:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(204);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 485:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(67);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 486:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(75);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 487:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(74);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 488:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(121);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 489:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(73);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 490:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(97);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 491:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(299);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 492:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(59);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 493:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(413);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 494:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(390);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 495:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(188);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 496:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(294);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 497:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(221);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 498:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(307);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 499:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(309);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 500:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(222);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 501:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(436);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 502:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(443);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 503:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(253);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 504:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(407);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 505:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(239);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 506:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(224);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 507:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(229);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 508:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(246);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 509:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(298);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 510:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(98);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 511:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(310);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 512:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(344);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 513:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(312);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 514:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(315);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 515:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(316);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 516:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 't') ADVANCE(197);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 517:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(329);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 518:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(211);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 519:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(317);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 520:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(178);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 521:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(485);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 522:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(340);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 523:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(509);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 524:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(447);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 525:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(489);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 526:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(364);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 527:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(212);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 528:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(479);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 529:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(341);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 530:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(213);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 531:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'u') ADVANCE(453);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 532:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'v') ADVANCE(391);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 533:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'v') ADVANCE(282);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 534:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'w') ADVANCE(142);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 535:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'w') ADVANCE(192);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 536:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'x') ADVANCE(495);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 537:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'x') ADVANCE(483);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 538:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'x') ADVANCE(492);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 539:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'y') ADVANCE(71);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 540:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'y') ADVANCE(88);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 541:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'y') ADVANCE(361);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 542:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'y') ADVANCE(356);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 543:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'y') ADVANCE(264);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 544:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'y') ADVANCE(280);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 545:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (lookahead == 'p' ||
           lookahead == 't') ADVANCE(59);
@@ -5630,13 +5630,13 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 546:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (lookahead == '*') ADVANCE(103);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       END_STATE();
     case 547:
-      ACCEPT_TOKEN(sym__generic_command_name);
+      ACCEPT_TOKEN(sym_generic_command_name);
       if (('@' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(546);
       if (lookahead != 0 &&
@@ -8802,7 +8802,7 @@ static TSLexMode ts_lex_modes[STATE_COUNT] = {
 static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [0] = {
     [ts_builtin_sym_end] = ACTIONS(1),
-    [sym__generic_command_name] = ACTIONS(1),
+    [sym_generic_command_name] = ACTIONS(1),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1),
@@ -8897,7 +8897,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_document_repeat1] = STATE(175),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(5),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -8984,7 +8984,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
     [ts_builtin_sym_end] = ACTIONS(81),
-    [sym__generic_command_name] = ACTIONS(83),
+    [sym_generic_command_name] = ACTIONS(83),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(83),
@@ -9075,7 +9075,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
     [ts_builtin_sym_end] = ACTIONS(87),
-    [sym__generic_command_name] = ACTIONS(89),
+    [sym_generic_command_name] = ACTIONS(89),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(89),
@@ -9166,7 +9166,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
     [ts_builtin_sym_end] = ACTIONS(93),
-    [sym__generic_command_name] = ACTIONS(95),
+    [sym_generic_command_name] = ACTIONS(95),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(95),
@@ -9257,7 +9257,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
     [ts_builtin_sym_end] = ACTIONS(97),
-    [sym__generic_command_name] = ACTIONS(99),
+    [sym_generic_command_name] = ACTIONS(99),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(99),
@@ -9348,7 +9348,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(101),
-    [sym__generic_command_name] = ACTIONS(103),
+    [sym_generic_command_name] = ACTIONS(103),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(106),
@@ -9437,7 +9437,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(95),
+    [sym_generic_command_name] = ACTIONS(95),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -9526,7 +9526,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(99),
+    [sym_generic_command_name] = ACTIONS(99),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -9615,7 +9615,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(83),
+    [sym_generic_command_name] = ACTIONS(83),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -9704,7 +9704,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(99),
+    [sym_generic_command_name] = ACTIONS(99),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -9793,7 +9793,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(99),
+    [sym_generic_command_name] = ACTIONS(99),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -9882,7 +9882,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -9971,7 +9971,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(89),
+    [sym_generic_command_name] = ACTIONS(89),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -10060,7 +10060,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(95),
+    [sym_generic_command_name] = ACTIONS(95),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -10149,7 +10149,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(99),
+    [sym_generic_command_name] = ACTIONS(99),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -10238,7 +10238,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(83),
+    [sym_generic_command_name] = ACTIONS(83),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -10327,7 +10327,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(83),
+    [sym_generic_command_name] = ACTIONS(83),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -10416,7 +10416,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -10505,7 +10505,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(89),
+    [sym_generic_command_name] = ACTIONS(89),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -10594,7 +10594,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -10683,7 +10683,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(95),
+    [sym_generic_command_name] = ACTIONS(95),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -10772,7 +10772,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(99),
+    [sym_generic_command_name] = ACTIONS(99),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -10861,7 +10861,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(83),
+    [sym_generic_command_name] = ACTIONS(83),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -10950,7 +10950,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -11039,7 +11039,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(83),
+    [sym_generic_command_name] = ACTIONS(83),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -11128,7 +11128,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(89),
+    [sym_generic_command_name] = ACTIONS(89),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -11217,7 +11217,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(95),
+    [sym_generic_command_name] = ACTIONS(95),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -11306,7 +11306,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(89),
+    [sym_generic_command_name] = ACTIONS(89),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -11395,7 +11395,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(99),
+    [sym_generic_command_name] = ACTIONS(99),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -11484,7 +11484,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(89),
+    [sym_generic_command_name] = ACTIONS(89),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -11573,7 +11573,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(83),
+    [sym_generic_command_name] = ACTIONS(83),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -11662,7 +11662,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(89),
+    [sym_generic_command_name] = ACTIONS(89),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -11751,7 +11751,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(95),
+    [sym_generic_command_name] = ACTIONS(95),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -11840,7 +11840,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(99),
+    [sym_generic_command_name] = ACTIONS(99),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -11929,7 +11929,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(95),
+    [sym_generic_command_name] = ACTIONS(95),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -12018,7 +12018,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(99),
+    [sym_generic_command_name] = ACTIONS(99),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -12107,7 +12107,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(83),
+    [sym_generic_command_name] = ACTIONS(83),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -12196,7 +12196,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(89),
+    [sym_generic_command_name] = ACTIONS(89),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -12285,7 +12285,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(83),
+    [sym_generic_command_name] = ACTIONS(83),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -12374,7 +12374,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(89),
+    [sym_generic_command_name] = ACTIONS(89),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -12463,7 +12463,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(95),
+    [sym_generic_command_name] = ACTIONS(95),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -12552,7 +12552,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(95),
+    [sym_generic_command_name] = ACTIONS(95),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -12642,7 +12642,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(126),
     [aux_sym_document_repeat1] = STATE(126),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -12730,7 +12730,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(126),
     [aux_sym_document_repeat1] = STATE(126),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -12818,7 +12818,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(126),
     [aux_sym_document_repeat1] = STATE(126),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -12905,7 +12905,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(70),
     [aux_sym_document_repeat1] = STATE(70),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -12993,7 +12993,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -13081,7 +13081,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(47),
     [aux_sym_document_repeat1] = STATE(47),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -13170,7 +13170,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(45),
     [aux_sym_document_repeat1] = STATE(45),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -13258,7 +13258,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(95),
     [aux_sym_document_repeat1] = STATE(95),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -13344,7 +13344,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_part_repeat1] = STATE(98),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(458),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(460),
@@ -13433,7 +13433,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(89),
+    [sym_generic_command_name] = ACTIONS(89),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(89),
@@ -13521,7 +13521,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(55),
     [aux_sym_document_repeat1] = STATE(55),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -13609,7 +13609,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(99),
+    [sym_generic_command_name] = ACTIONS(99),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(99),
@@ -13697,7 +13697,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -13785,7 +13785,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -13874,7 +13874,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(43),
     [aux_sym_document_repeat1] = STATE(43),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -13961,7 +13961,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(56),
     [aux_sym_document_repeat1] = STATE(56),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -14049,7 +14049,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(89),
+    [sym_generic_command_name] = ACTIONS(89),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(89),
@@ -14138,7 +14138,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(126),
     [aux_sym_document_repeat1] = STATE(126),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -14225,7 +14225,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(95),
+    [sym_generic_command_name] = ACTIONS(95),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(95),
@@ -14313,7 +14313,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(56),
     [aux_sym_document_repeat1] = STATE(56),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -14401,7 +14401,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(55),
     [aux_sym_document_repeat1] = STATE(55),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -14489,7 +14489,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(47),
     [aux_sym_document_repeat1] = STATE(47),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -14577,7 +14577,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(73),
     [aux_sym_document_repeat1] = STATE(73),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -14666,7 +14666,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(60),
     [aux_sym_document_repeat1] = STATE(60),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -14754,7 +14754,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(126),
     [aux_sym_document_repeat1] = STATE(126),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -14842,7 +14842,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(76),
     [aux_sym_document_repeat1] = STATE(76),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -14929,7 +14929,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(70),
     [aux_sym_document_repeat1] = STATE(70),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -15017,7 +15017,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -15106,7 +15106,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(77),
     [aux_sym_document_repeat1] = STATE(77),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -15193,7 +15193,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(73),
     [aux_sym_document_repeat1] = STATE(73),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -15281,7 +15281,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -15369,7 +15369,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(75),
     [aux_sym_document_repeat1] = STATE(75),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -15457,7 +15457,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -15546,7 +15546,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(126),
     [aux_sym_document_repeat1] = STATE(126),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -15634,7 +15634,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(126),
     [aux_sym_document_repeat1] = STATE(126),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -15721,7 +15721,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(75),
     [aux_sym_document_repeat1] = STATE(75),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -15809,7 +15809,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -15897,7 +15897,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(84),
     [aux_sym_document_repeat1] = STATE(84),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -15986,7 +15986,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(92),
     [aux_sym_document_repeat1] = STATE(92),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -16073,7 +16073,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(84),
     [aux_sym_document_repeat1] = STATE(84),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -16162,7 +16162,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(126),
     [aux_sym_document_repeat1] = STATE(126),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -16249,7 +16249,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -16337,7 +16337,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(79),
     [aux_sym_document_repeat1] = STATE(79),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -16425,7 +16425,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(104),
     [aux_sym_document_repeat1] = STATE(104),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -16514,7 +16514,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(44),
     [aux_sym_document_repeat1] = STATE(44),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -16602,7 +16602,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(112),
     [aux_sym_document_repeat1] = STATE(112),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -16689,7 +16689,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -16777,7 +16777,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(89),
     [aux_sym_document_repeat1] = STATE(89),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -16865,7 +16865,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(79),
     [aux_sym_document_repeat1] = STATE(79),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -16954,7 +16954,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(126),
     [aux_sym_document_repeat1] = STATE(126),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -17042,7 +17042,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(83),
     [aux_sym_document_repeat1] = STATE(83),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -17129,7 +17129,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(103),
     [aux_sym_document_repeat1] = STATE(103),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -17218,7 +17218,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(126),
     [aux_sym_document_repeat1] = STATE(126),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -17305,7 +17305,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(95),
+    [sym_generic_command_name] = ACTIONS(95),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(95),
@@ -17394,7 +17394,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(67),
     [aux_sym_document_repeat1] = STATE(67),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -17480,7 +17480,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_part_repeat1] = STATE(99),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(564),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(566),
@@ -17568,7 +17568,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_part_repeat1] = STATE(99),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(570),
-    [sym__generic_command_name] = ACTIONS(572),
+    [sym_generic_command_name] = ACTIONS(572),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(575),
@@ -17657,7 +17657,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(104),
     [aux_sym_document_repeat1] = STATE(104),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -17746,7 +17746,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(105),
     [aux_sym_document_repeat1] = STATE(105),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -17833,7 +17833,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(103),
     [aux_sym_document_repeat1] = STATE(103),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -17921,7 +17921,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -18009,7 +18009,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -18098,7 +18098,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(126),
     [aux_sym_document_repeat1] = STATE(126),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -18185,7 +18185,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -18273,7 +18273,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(106),
     [aux_sym_document_repeat1] = STATE(106),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -18361,7 +18361,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(89),
     [aux_sym_document_repeat1] = STATE(89),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -18449,7 +18449,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(99),
+    [sym_generic_command_name] = ACTIONS(99),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(99),
@@ -18537,7 +18537,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(83),
+    [sym_generic_command_name] = ACTIONS(83),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(83),
@@ -18625,7 +18625,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(83),
+    [sym_generic_command_name] = ACTIONS(83),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(83),
@@ -18714,7 +18714,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(126),
     [aux_sym_document_repeat1] = STATE(126),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(362),
@@ -18801,7 +18801,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(106),
     [aux_sym_document_repeat1] = STATE(106),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -18889,7 +18889,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(133),
     [aux_sym_document_repeat1] = STATE(133),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -18976,7 +18976,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(242),
     [aux_sym_document_repeat1] = STATE(242),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -19063,7 +19063,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(95),
+    [sym_generic_command_name] = ACTIONS(95),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(95),
@@ -19150,7 +19150,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(193),
     [aux_sym_document_repeat1] = STATE(193),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -19237,7 +19237,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(130),
     [aux_sym_document_repeat1] = STATE(130),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -19324,7 +19324,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -19411,7 +19411,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(202),
     [aux_sym_document_repeat1] = STATE(202),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -19498,7 +19498,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(135),
     [aux_sym_document_repeat1] = STATE(135),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -19585,7 +19585,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(192),
     [aux_sym_document_repeat1] = STATE(192),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -19672,7 +19672,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(191),
     [aux_sym_document_repeat1] = STATE(191),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -19759,7 +19759,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(146),
     [aux_sym_document_repeat1] = STATE(146),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -19846,7 +19846,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(134),
     [aux_sym_document_repeat1] = STATE(134),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -19933,7 +19933,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(126),
     [aux_sym_document_repeat1] = STATE(126),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(756),
+    [sym_generic_command_name] = ACTIONS(756),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(759),
@@ -20020,7 +20020,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(136),
     [aux_sym_document_repeat1] = STATE(136),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -20107,7 +20107,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -20194,7 +20194,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -20281,7 +20281,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -20368,7 +20368,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -20455,7 +20455,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(186),
     [aux_sym_document_repeat1] = STATE(186),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -20542,7 +20542,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -20629,7 +20629,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -20716,7 +20716,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -20803,7 +20803,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -20890,7 +20890,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -20977,7 +20977,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -21064,7 +21064,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(83),
+    [sym_generic_command_name] = ACTIONS(83),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(83),
@@ -21151,7 +21151,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(222),
     [aux_sym_document_repeat1] = STATE(222),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -21238,7 +21238,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -21325,7 +21325,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(128),
     [aux_sym_document_repeat1] = STATE(128),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -21412,7 +21412,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(148),
     [aux_sym_document_repeat1] = STATE(148),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -21499,7 +21499,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -21586,7 +21586,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(176),
     [aux_sym_document_repeat1] = STATE(176),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -21673,7 +21673,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -21760,7 +21760,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(89),
+    [sym_generic_command_name] = ACTIONS(89),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(89),
@@ -21847,7 +21847,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -21934,7 +21934,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(138),
     [aux_sym_document_repeat1] = STATE(138),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -22021,7 +22021,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -22108,7 +22108,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -22195,7 +22195,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -22282,7 +22282,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -22369,7 +22369,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(244),
     [aux_sym_document_repeat1] = STATE(244),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -22456,7 +22456,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(119),
     [aux_sym_document_repeat1] = STATE(119),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -22543,7 +22543,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(150),
     [aux_sym_document_repeat1] = STATE(150),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -22630,7 +22630,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(137),
     [aux_sym_document_repeat1] = STATE(137),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -22717,7 +22717,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -22804,7 +22804,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(141),
     [aux_sym_document_repeat1] = STATE(141),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -22891,7 +22891,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(151),
     [aux_sym_document_repeat1] = STATE(151),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -22978,7 +22978,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(245),
     [aux_sym_document_repeat1] = STATE(245),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -23063,7 +23063,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_chapter_repeat1] = STATE(170),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(988),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(990),
@@ -23150,7 +23150,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_chapter_repeat1] = STATE(163),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(994),
-    [sym__generic_command_name] = ACTIONS(996),
+    [sym_generic_command_name] = ACTIONS(996),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(999),
@@ -23239,7 +23239,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(144),
     [aux_sym_document_repeat1] = STATE(144),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -23326,7 +23326,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(207),
     [aux_sym_document_repeat1] = STATE(207),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -23413,7 +23413,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(183),
     [aux_sym_document_repeat1] = STATE(183),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -23500,7 +23500,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(206),
     [aux_sym_document_repeat1] = STATE(206),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -23587,7 +23587,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(1121),
+    [sym_generic_command_name] = ACTIONS(1121),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1124),
@@ -23674,7 +23674,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(1229),
+    [sym_generic_command_name] = ACTIONS(1229),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1232),
@@ -23759,7 +23759,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_chapter_repeat1] = STATE(163),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(1337),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1339),
@@ -23848,7 +23848,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -23935,7 +23935,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(246),
     [aux_sym_document_repeat1] = STATE(246),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -24022,7 +24022,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(152),
     [aux_sym_document_repeat1] = STATE(152),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -24109,7 +24109,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(99),
+    [sym_generic_command_name] = ACTIONS(99),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(99),
@@ -24197,7 +24197,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(1355),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -24283,7 +24283,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -24370,7 +24370,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -24457,7 +24457,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -24544,7 +24544,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -24631,7 +24631,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(181),
     [aux_sym_document_repeat1] = STATE(181),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -24718,7 +24718,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -24805,7 +24805,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(177),
     [aux_sym_document_repeat1] = STATE(177),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -24892,7 +24892,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -24979,7 +24979,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(239),
     [aux_sym_document_repeat1] = STATE(239),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -25066,7 +25066,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(214),
     [aux_sym_document_repeat1] = STATE(214),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -25153,7 +25153,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -25240,7 +25240,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(215),
     [aux_sym_document_repeat1] = STATE(215),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -25327,7 +25327,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(153),
     [aux_sym_document_repeat1] = STATE(153),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -25414,7 +25414,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(216),
     [aux_sym_document_repeat1] = STATE(216),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -25501,7 +25501,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(158),
     [aux_sym_document_repeat1] = STATE(158),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -25588,7 +25588,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -25675,7 +25675,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -25762,7 +25762,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -25849,7 +25849,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -25936,7 +25936,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(178),
     [aux_sym_document_repeat1] = STATE(178),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -26023,7 +26023,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(171),
     [aux_sym_document_repeat1] = STATE(171),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -26110,7 +26110,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -26197,7 +26197,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(179),
     [aux_sym_document_repeat1] = STATE(179),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -26284,7 +26284,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -26371,7 +26371,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(129),
     [aux_sym_document_repeat1] = STATE(129),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -26458,7 +26458,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -26545,7 +26545,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -26632,7 +26632,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(212),
     [aux_sym_document_repeat1] = STATE(212),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -26719,7 +26719,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(194),
     [aux_sym_document_repeat1] = STATE(194),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -26806,7 +26806,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(220),
     [aux_sym_document_repeat1] = STATE(220),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -26893,7 +26893,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -26980,7 +26980,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -27067,7 +27067,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -27154,7 +27154,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(197),
     [aux_sym_document_repeat1] = STATE(197),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -27241,7 +27241,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(199),
     [aux_sym_document_repeat1] = STATE(199),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -27328,7 +27328,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(201),
     [aux_sym_document_repeat1] = STATE(201),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -27415,7 +27415,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -27502,7 +27502,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -27589,7 +27589,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -27676,7 +27676,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -27763,7 +27763,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -27850,7 +27850,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -27937,7 +27937,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(223),
     [aux_sym_document_repeat1] = STATE(223),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -28024,7 +28024,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(228),
     [aux_sym_document_repeat1] = STATE(228),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -28111,7 +28111,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -28198,7 +28198,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -28285,7 +28285,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -28372,7 +28372,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -28459,7 +28459,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -28546,7 +28546,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(217),
     [aux_sym_document_repeat1] = STATE(217),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -28633,7 +28633,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -28720,7 +28720,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -28807,7 +28807,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -28894,7 +28894,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(208),
     [aux_sym_document_repeat1] = STATE(208),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -28981,7 +28981,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -29068,7 +29068,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -29155,7 +29155,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -29242,7 +29242,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(221),
     [aux_sym_document_repeat1] = STATE(221),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -29329,7 +29329,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(230),
     [aux_sym_document_repeat1] = STATE(230),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -29416,7 +29416,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(226),
     [aux_sym_document_repeat1] = STATE(226),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -29503,7 +29503,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(224),
     [aux_sym_document_repeat1] = STATE(224),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -29590,7 +29590,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(231),
     [aux_sym_document_repeat1] = STATE(231),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -29677,7 +29677,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -29764,7 +29764,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -29851,7 +29851,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(213),
     [aux_sym_document_repeat1] = STATE(213),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -29938,7 +29938,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(227),
     [aux_sym_document_repeat1] = STATE(227),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -30025,7 +30025,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -30112,7 +30112,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(238),
     [aux_sym_document_repeat1] = STATE(238),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -30199,7 +30199,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(169),
     [aux_sym_document_repeat1] = STATE(169),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(218),
@@ -30286,7 +30286,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(168),
     [aux_sym_document_repeat1] = STATE(168),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -30373,7 +30373,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(6),
     [aux_sym_document_repeat1] = STATE(6),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -30460,7 +30460,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(131),
     [aux_sym_document_repeat1] = STATE(131),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(9),
@@ -30547,7 +30547,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(232),
     [aux_sym_document_repeat1] = STATE(232),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(214),
@@ -30631,7 +30631,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_section_repeat1] = STATE(251),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(1611),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1613),
@@ -30717,7 +30717,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_section_repeat1] = STATE(249),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(1617),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1619),
@@ -30803,7 +30803,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_section_repeat1] = STATE(251),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(1623),
-    [sym__generic_command_name] = ACTIONS(1625),
+    [sym_generic_command_name] = ACTIONS(1625),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1628),
@@ -30890,7 +30890,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(266),
     [aux_sym_part_repeat1] = STATE(266),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(460),
@@ -30975,7 +30975,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(255),
     [aux_sym_part_repeat1] = STATE(255),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(566),
@@ -31060,7 +31060,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(254),
     [aux_sym_part_repeat1] = STATE(254),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(1733),
+    [sym_generic_command_name] = ACTIONS(1733),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(575),
@@ -31145,7 +31145,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(255),
     [aux_sym_part_repeat1] = STATE(255),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(1838),
+    [sym_generic_command_name] = ACTIONS(1838),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(575),
@@ -31230,7 +31230,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(256),
     [aux_sym_part_repeat1] = STATE(256),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(1943),
+    [sym_generic_command_name] = ACTIONS(1943),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(1946),
@@ -31315,7 +31315,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(253),
     [aux_sym_part_repeat1] = STATE(253),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(460),
@@ -31398,7 +31398,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_subsection_repeat1] = STATE(263),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(2050),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2052),
@@ -31485,7 +31485,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(256),
     [aux_sym_part_repeat1] = STATE(256),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(2058),
@@ -31570,7 +31570,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(265),
     [aux_sym_part_repeat1] = STATE(265),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(460),
@@ -31655,7 +31655,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(261),
     [aux_sym_part_repeat1] = STATE(261),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(2130),
+    [sym_generic_command_name] = ACTIONS(2130),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(575),
@@ -31741,7 +31741,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_theorem_definition] = STATE(1595),
     [sym_generic_command] = STATE(1595),
     [aux_sym_text_repeat1] = STATE(475),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2235),
@@ -31823,7 +31823,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_subsection_repeat1] = STATE(267),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(2259),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2261),
@@ -31910,7 +31910,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(259),
     [aux_sym_part_repeat1] = STATE(259),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(2058),
@@ -31995,7 +31995,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(254),
     [aux_sym_part_repeat1] = STATE(254),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(566),
@@ -32080,7 +32080,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(261),
     [aux_sym_part_repeat1] = STATE(261),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(566),
@@ -32163,7 +32163,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_subsection_repeat1] = STATE(267),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(2271),
-    [sym__generic_command_name] = ACTIONS(2273),
+    [sym_generic_command_name] = ACTIONS(2273),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2276),
@@ -32249,7 +32249,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(268),
     [aux_sym_chapter_repeat1] = STATE(268),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(2374),
+    [sym_generic_command_name] = ACTIONS(2374),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(999),
@@ -32331,7 +32331,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_subsubsection_repeat1] = STATE(282),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(2476),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2478),
@@ -32417,7 +32417,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(276),
     [aux_sym_chapter_repeat1] = STATE(276),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(990),
@@ -32501,7 +32501,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(277),
     [aux_sym_chapter_repeat1] = STATE(277),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(990),
@@ -32585,7 +32585,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(272),
     [aux_sym_chapter_repeat1] = STATE(272),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(2486),
+    [sym_generic_command_name] = ACTIONS(2486),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(999),
@@ -32669,7 +32669,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(275),
     [aux_sym_chapter_repeat1] = STATE(275),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(990),
@@ -32753,7 +32753,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(274),
     [aux_sym_chapter_repeat1] = STATE(274),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2590),
+    [sym_generic_command_name] = ACTIONS(2590),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(999),
@@ -32837,7 +32837,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(274),
     [aux_sym_chapter_repeat1] = STATE(274),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(1339),
@@ -32921,7 +32921,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(272),
     [aux_sym_chapter_repeat1] = STATE(272),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1339),
@@ -33005,7 +33005,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(268),
     [aux_sym_chapter_repeat1] = STATE(268),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1339),
@@ -33089,7 +33089,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(278),
     [aux_sym_chapter_repeat1] = STATE(278),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(2698),
+    [sym_generic_command_name] = ACTIONS(2698),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(999),
@@ -33173,7 +33173,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(278),
     [aux_sym_chapter_repeat1] = STATE(278),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1339),
@@ -33257,7 +33257,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(279),
     [aux_sym_chapter_repeat1] = STATE(279),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(990),
@@ -33339,7 +33339,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_subsubsection_repeat1] = STATE(281),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(2804),
-    [sym__generic_command_name] = ACTIONS(2806),
+    [sym_generic_command_name] = ACTIONS(2806),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2809),
@@ -33423,7 +33423,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_subsubsection_repeat1] = STATE(281),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(2904),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2906),
@@ -33508,7 +33508,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(283),
     [aux_sym_section_repeat1] = STATE(283),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(2910),
+    [sym_generic_command_name] = ACTIONS(2910),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1628),
@@ -33591,7 +33591,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(293),
     [aux_sym_section_repeat1] = STATE(293),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1613),
@@ -33672,7 +33672,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_paragraph_repeat1] = STATE(295),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(3011),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3013),
@@ -33758,7 +33758,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(286),
     [aux_sym_chapter_repeat1] = STATE(286),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3017),
+    [sym_generic_command_name] = ACTIONS(3017),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(3020),
@@ -33840,7 +33840,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(284),
     [aux_sym_section_repeat1] = STATE(284),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1619),
@@ -33923,7 +33923,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(292),
     [aux_sym_section_repeat1] = STATE(292),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1619),
@@ -34007,7 +34007,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(286),
     [aux_sym_chapter_repeat1] = STATE(286),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(3125),
@@ -34089,7 +34089,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(283),
     [aux_sym_section_repeat1] = STATE(283),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1613),
@@ -34172,7 +34172,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(291),
     [aux_sym_section_repeat1] = STATE(291),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(3193),
+    [sym_generic_command_name] = ACTIONS(3193),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(1628),
@@ -34255,7 +34255,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(298),
     [aux_sym_section_repeat1] = STATE(298),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1613),
@@ -34338,7 +34338,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(293),
     [aux_sym_section_repeat1] = STATE(293),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(3294),
+    [sym_generic_command_name] = ACTIONS(3294),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1628),
@@ -34422,7 +34422,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(289),
     [aux_sym_chapter_repeat1] = STATE(289),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(3125),
@@ -34502,7 +34502,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_paragraph_repeat1] = STATE(295),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(3395),
-    [sym__generic_command_name] = ACTIONS(3397),
+    [sym_generic_command_name] = ACTIONS(3397),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3400),
@@ -34587,7 +34587,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(291),
     [aux_sym_section_repeat1] = STATE(291),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(1613),
@@ -34668,7 +34668,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_paragraph_repeat1] = STATE(285),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(3494),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3496),
@@ -34753,7 +34753,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(298),
     [aux_sym_section_repeat1] = STATE(298),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(3500),
+    [sym_generic_command_name] = ACTIONS(3500),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1628),
@@ -34836,7 +34836,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(290),
     [aux_sym_section_repeat1] = STATE(290),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(1619),
@@ -34919,7 +34919,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(296),
     [aux_sym_section_repeat1] = STATE(296),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(1619),
@@ -35002,7 +35002,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(307),
     [aux_sym_section_repeat1] = STATE(307),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(1619),
@@ -35083,7 +35083,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(302),
     [aux_sym_subsection_repeat1] = STATE(302),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(3605),
+    [sym_generic_command_name] = ACTIONS(3605),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2276),
@@ -35165,7 +35165,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(304),
     [aux_sym_subsection_repeat1] = STATE(304),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(2261),
@@ -35247,7 +35247,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(304),
     [aux_sym_subsection_repeat1] = STATE(304),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(3703),
+    [sym_generic_command_name] = ACTIONS(3703),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(2276),
@@ -35329,7 +35329,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(303),
     [aux_sym_subsection_repeat1] = STATE(303),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(2052),
@@ -35411,7 +35411,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(317),
     [aux_sym_subsection_repeat1] = STATE(317),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2052),
@@ -35494,7 +35494,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(313),
     [aux_sym_section_repeat1] = STATE(313),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(1613),
@@ -35575,7 +35575,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(311),
     [aux_sym_subsection_repeat1] = STATE(311),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2052),
@@ -35657,7 +35657,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(309),
     [aux_sym_subsection_repeat1] = STATE(309),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(3807),
+    [sym_generic_command_name] = ACTIONS(3807),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2276),
@@ -35737,7 +35737,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_subparagraph_repeat1] = STATE(310),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(3903),
-    [sym__generic_command_name] = ACTIONS(3905),
+    [sym_generic_command_name] = ACTIONS(3905),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3908),
@@ -35821,7 +35821,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(315),
     [aux_sym_subsection_repeat1] = STATE(315),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2261),
@@ -35901,7 +35901,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_subparagraph_repeat1] = STATE(318),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(3999),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4001),
@@ -35986,7 +35986,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(313),
     [aux_sym_section_repeat1] = STATE(313),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(4005),
+    [sym_generic_command_name] = ACTIONS(4005),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(1628),
@@ -36067,7 +36067,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(309),
     [aux_sym_subsection_repeat1] = STATE(309),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2261),
@@ -36149,7 +36149,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(315),
     [aux_sym_subsection_repeat1] = STATE(315),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(4106),
+    [sym_generic_command_name] = ACTIONS(4106),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2276),
@@ -36231,7 +36231,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(314),
     [aux_sym_subsection_repeat1] = STATE(314),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2052),
@@ -36313,7 +36313,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(302),
     [aux_sym_subsection_repeat1] = STATE(302),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2261),
@@ -36393,7 +36393,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_subparagraph_repeat1] = STATE(310),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(4206),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4208),
@@ -36476,7 +36476,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(337),
     [aux_sym_subsubsection_repeat1] = STATE(337),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2478),
@@ -36558,7 +36558,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(323),
     [aux_sym_subsection_repeat1] = STATE(323),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(2052),
@@ -36638,7 +36638,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(339),
     [aux_sym_subsubsection_repeat1] = STATE(339),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(2906),
@@ -36719,7 +36719,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(336),
     [aux_sym_subsubsection_repeat1] = STATE(336),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2906),
@@ -36801,7 +36801,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(333),
     [aux_sym_subsection_repeat1] = STATE(333),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(2261),
@@ -36879,7 +36879,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_enum_item_repeat1] = STATE(329),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(4222),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4224),
@@ -36962,7 +36962,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(330),
     [aux_sym_subsubsection_repeat1] = STATE(330),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2478),
@@ -37043,7 +37043,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(326),
     [aux_sym_subsubsection_repeat1] = STATE(326),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(4230),
+    [sym_generic_command_name] = ACTIONS(4230),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2809),
@@ -37124,7 +37124,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(321),
     [aux_sym_subsubsection_repeat1] = STATE(321),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(2478),
@@ -37203,7 +37203,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_enum_item_repeat1] = STATE(335),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(4325),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4327),
@@ -37284,7 +37284,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_enum_item_repeat1] = STATE(329),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(4333),
-    [sym__generic_command_name] = ACTIONS(4335),
+    [sym_generic_command_name] = ACTIONS(4335),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4338),
@@ -37367,7 +37367,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(332),
     [aux_sym_subsubsection_repeat1] = STATE(332),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2906),
@@ -37450,7 +37450,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(338),
     [aux_sym_section_repeat1] = STATE(338),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(4428),
@@ -37529,7 +37529,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(332),
     [aux_sym_subsubsection_repeat1] = STATE(332),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(4492),
+    [sym_generic_command_name] = ACTIONS(4492),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2809),
@@ -37611,7 +37611,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(333),
     [aux_sym_subsection_repeat1] = STATE(333),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(4585),
+    [sym_generic_command_name] = ACTIONS(4585),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(2276),
@@ -37689,7 +37689,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_enum_item_repeat1] = STATE(324),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(4681),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4683),
@@ -37770,7 +37770,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [aux_sym_enum_item_repeat1] = STATE(329),
     [aux_sym_text_repeat1] = STATE(475),
     [ts_builtin_sym_end] = ACTIONS(4687),
-    [sym__generic_command_name] = ACTIONS(7),
+    [sym_generic_command_name] = ACTIONS(7),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4689),
@@ -37853,7 +37853,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(336),
     [aux_sym_subsubsection_repeat1] = STATE(336),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(4691),
+    [sym_generic_command_name] = ACTIONS(4691),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2809),
@@ -37934,7 +37934,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(326),
     [aux_sym_subsubsection_repeat1] = STATE(326),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2906),
@@ -38017,7 +38017,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(340),
     [aux_sym_section_repeat1] = STATE(340),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(4428),
@@ -38096,7 +38096,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(339),
     [aux_sym_subsubsection_repeat1] = STATE(339),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(4788),
+    [sym_generic_command_name] = ACTIONS(4788),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(2809),
@@ -38179,7 +38179,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(340),
     [aux_sym_section_repeat1] = STATE(340),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4881),
+    [sym_generic_command_name] = ACTIONS(4881),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(4884),
@@ -38258,7 +38258,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(322),
     [aux_sym_subsubsection_repeat1] = STATE(322),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(2478),
@@ -38339,7 +38339,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(342),
     [aux_sym_subsubsection_repeat1] = STATE(342),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(4982),
+    [sym_generic_command_name] = ACTIONS(4982),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(2809),
@@ -38418,7 +38418,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(343),
     [aux_sym_paragraph_repeat1] = STATE(343),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(5075),
+    [sym_generic_command_name] = ACTIONS(5075),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3400),
@@ -38498,7 +38498,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(357),
     [aux_sym_paragraph_repeat1] = STATE(357),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(3496),
@@ -38578,7 +38578,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(346),
     [aux_sym_paragraph_repeat1] = STATE(346),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3013),
@@ -38658,7 +38658,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(346),
     [aux_sym_paragraph_repeat1] = STATE(346),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(5169),
+    [sym_generic_command_name] = ACTIONS(5169),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3400),
@@ -38738,7 +38738,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(343),
     [aux_sym_paragraph_repeat1] = STATE(343),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3013),
@@ -38820,7 +38820,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(352),
     [aux_sym_subsection_repeat1] = STATE(352),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(2052),
@@ -38898,7 +38898,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(353),
     [aux_sym_paragraph_repeat1] = STATE(353),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3013),
@@ -38978,7 +38978,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(350),
     [aux_sym_paragraph_repeat1] = STATE(350),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(5265),
+    [sym_generic_command_name] = ACTIONS(5265),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(3400),
@@ -39060,7 +39060,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(351),
     [aux_sym_subsection_repeat1] = STATE(351),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(5355),
+    [sym_generic_command_name] = ACTIONS(5355),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(2276),
@@ -39140,7 +39140,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(351),
     [aux_sym_subsection_repeat1] = STATE(351),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(2261),
@@ -39218,7 +39218,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(353),
     [aux_sym_paragraph_repeat1] = STATE(353),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(5453),
+    [sym_generic_command_name] = ACTIONS(5453),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3400),
@@ -39298,7 +39298,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(345),
     [aux_sym_paragraph_repeat1] = STATE(345),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3496),
@@ -39378,7 +39378,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(349),
     [aux_sym_paragraph_repeat1] = STATE(349),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3496),
@@ -39459,7 +39459,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(342),
     [aux_sym_subsubsection_repeat1] = STATE(342),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(2906),
@@ -39538,7 +39538,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(350),
     [aux_sym_paragraph_repeat1] = STATE(350),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(3013),
@@ -39618,7 +39618,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(347),
     [aux_sym_paragraph_repeat1] = STATE(347),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3496),
@@ -39699,7 +39699,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(356),
     [aux_sym_subsubsection_repeat1] = STATE(356),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(2478),
@@ -39778,7 +39778,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(369),
     [aux_sym_paragraph_repeat1] = STATE(369),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(3013),
@@ -39856,7 +39856,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(380),
     [aux_sym_subparagraph_repeat1] = STATE(380),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4001),
@@ -39938,7 +39938,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(370),
     [aux_sym_subsection_repeat1] = STATE(370),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(5559),
+    [sym_generic_command_name] = ACTIONS(5559),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(5561),
@@ -40014,7 +40014,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(363),
     [aux_sym_subparagraph_repeat1] = STATE(363),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(5623),
+    [sym_generic_command_name] = ACTIONS(5623),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3908),
@@ -40093,7 +40093,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(379),
     [aux_sym_subparagraph_repeat1] = STATE(379),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(4208),
@@ -40172,7 +40172,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(373),
     [aux_sym_subparagraph_repeat1] = STATE(373),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4001),
@@ -40252,7 +40252,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(360),
     [aux_sym_paragraph_repeat1] = STATE(360),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(3496),
@@ -40332,7 +40332,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(368),
     [aux_sym_subsubsection_repeat1] = STATE(368),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(2478),
@@ -40411,7 +40411,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(377),
     [aux_sym_subsubsection_repeat1] = STATE(377),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(2906),
@@ -40489,7 +40489,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(369),
     [aux_sym_paragraph_repeat1] = STATE(369),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(5720),
+    [sym_generic_command_name] = ACTIONS(5720),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(3400),
@@ -40570,7 +40570,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(372),
     [aux_sym_subsection_repeat1] = STATE(372),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(5559),
+    [sym_generic_command_name] = ACTIONS(5559),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(5561),
@@ -40646,7 +40646,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(371),
     [aux_sym_subparagraph_repeat1] = STATE(371),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(5812),
+    [sym_generic_command_name] = ACTIONS(5812),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3908),
@@ -40728,7 +40728,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(372),
     [aux_sym_subsection_repeat1] = STATE(372),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(5899),
+    [sym_generic_command_name] = ACTIONS(5899),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(5902),
@@ -40804,7 +40804,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(371),
     [aux_sym_subparagraph_repeat1] = STATE(371),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4208),
@@ -40883,7 +40883,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(374),
     [aux_sym_subparagraph_repeat1] = STATE(374),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(5997),
+    [sym_generic_command_name] = ACTIONS(5997),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(3908),
@@ -40962,7 +40962,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(364),
     [aux_sym_subparagraph_repeat1] = STATE(364),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(4001),
@@ -41041,7 +41041,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(363),
     [aux_sym_subparagraph_repeat1] = STATE(363),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4208),
@@ -41122,7 +41122,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(377),
     [aux_sym_subsubsection_repeat1] = STATE(377),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(6088),
+    [sym_generic_command_name] = ACTIONS(6088),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(2809),
@@ -41199,7 +41199,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(376),
     [aux_sym_subparagraph_repeat1] = STATE(376),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4001),
@@ -41278,7 +41278,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(379),
     [aux_sym_subparagraph_repeat1] = STATE(379),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(6183),
+    [sym_generic_command_name] = ACTIONS(6183),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(3908),
@@ -41357,7 +41357,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(374),
     [aux_sym_subparagraph_repeat1] = STATE(374),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4208),
@@ -41435,7 +41435,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(395),
     [aux_sym_enum_item_repeat1] = STATE(395),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(4683),
@@ -41514,7 +41514,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(391),
     [aux_sym_subparagraph_repeat1] = STATE(391),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(4001),
@@ -41591,7 +41591,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(387),
     [aux_sym_enum_item_repeat1] = STATE(387),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4224),
@@ -41669,7 +41669,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(401),
     [aux_sym_enum_item_repeat1] = STATE(401),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4224),
@@ -41747,7 +41747,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(393),
     [aux_sym_enum_item_repeat1] = STATE(393),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4224),
@@ -41828,7 +41828,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(396),
     [aux_sym_subsubsection_repeat1] = STATE(396),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(5559),
+    [sym_generic_command_name] = ACTIONS(5559),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(2478),
@@ -41903,7 +41903,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(387),
     [aux_sym_enum_item_repeat1] = STATE(387),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(6284),
+    [sym_generic_command_name] = ACTIONS(6284),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4338),
@@ -41981,7 +41981,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(384),
     [aux_sym_enum_item_repeat1] = STATE(384),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4683),
@@ -42061,7 +42061,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(389),
     [aux_sym_paragraph_repeat1] = STATE(389),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(6370),
+    [sym_generic_command_name] = ACTIONS(6370),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(3400),
@@ -42137,7 +42137,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(390),
     [aux_sym_enum_item_repeat1] = STATE(390),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(6460),
+    [sym_generic_command_name] = ACTIONS(6460),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(4338),
@@ -42216,7 +42216,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(405),
     [aux_sym_subparagraph_repeat1] = STATE(405),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(4208),
@@ -42293,7 +42293,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(407),
     [aux_sym_enum_item_repeat1] = STATE(407),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(4327),
@@ -42371,7 +42371,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(393),
     [aux_sym_enum_item_repeat1] = STATE(393),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(6550),
+    [sym_generic_command_name] = ACTIONS(6550),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4338),
@@ -42449,7 +42449,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(385),
     [aux_sym_enum_item_repeat1] = STATE(385),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4683),
@@ -42527,7 +42527,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(390),
     [aux_sym_enum_item_repeat1] = STATE(390),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(4224),
@@ -42608,7 +42608,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(408),
     [aux_sym_subsubsection_repeat1] = STATE(408),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(5559),
+    [sym_generic_command_name] = ACTIONS(5559),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(2906),
@@ -42683,7 +42683,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(401),
     [aux_sym_enum_item_repeat1] = STATE(401),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4689),
@@ -42761,7 +42761,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(397),
     [aux_sym_enum_item_repeat1] = STATE(397),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(360),
+    [sym_generic_command_name] = ACTIONS(360),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4327),
@@ -42839,7 +42839,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(387),
     [aux_sym_enum_item_repeat1] = STATE(387),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4689),
@@ -42919,7 +42919,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(404),
     [aux_sym_paragraph_repeat1] = STATE(404),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(3496),
@@ -42995,7 +42995,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(401),
     [aux_sym_enum_item_repeat1] = STATE(401),
     [aux_sym_text_repeat1] = STATE(571),
-    [sym__generic_command_name] = ACTIONS(6646),
+    [sym_generic_command_name] = ACTIONS(6646),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4338),
@@ -43073,7 +43073,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(393),
     [aux_sym_enum_item_repeat1] = STATE(393),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4689),
@@ -43151,7 +43151,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(402),
     [aux_sym_enum_item_repeat1] = STATE(402),
     [aux_sym_text_repeat1] = STATE(575),
-    [sym__generic_command_name] = ACTIONS(228),
+    [sym_generic_command_name] = ACTIONS(228),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4327),
@@ -43231,7 +43231,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(389),
     [aux_sym_paragraph_repeat1] = STATE(389),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(3013),
@@ -43308,7 +43308,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(405),
     [aux_sym_subparagraph_repeat1] = STATE(405),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(6736),
+    [sym_generic_command_name] = ACTIONS(6736),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(3908),
@@ -43385,7 +43385,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(399),
     [aux_sym_enum_item_repeat1] = STATE(399),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4327),
@@ -43463,7 +43463,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(390),
     [aux_sym_enum_item_repeat1] = STATE(390),
     [aux_sym_text_repeat1] = STATE(576),
-    [sym__generic_command_name] = ACTIONS(2056),
+    [sym_generic_command_name] = ACTIONS(2056),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_chapter_token1] = ACTIONS(4689),
@@ -43544,7 +43544,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(408),
     [aux_sym_subsubsection_repeat1] = STATE(408),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(6827),
+    [sym_generic_command_name] = ACTIONS(6827),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(2809),
@@ -43619,7 +43619,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(383),
     [aux_sym_enum_item_repeat1] = STATE(383),
     [aux_sym_text_repeat1] = STATE(572),
-    [sym__generic_command_name] = ACTIONS(304),
+    [sym_generic_command_name] = ACTIONS(304),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_part_token1] = ACTIONS(4683),
@@ -43697,7 +43697,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(411),
     [aux_sym_enum_item_repeat1] = STATE(411),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(4327),
@@ -43774,7 +43774,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(414),
     [aux_sym_enum_item_repeat1] = STATE(414),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(4689),
@@ -43853,7 +43853,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(423),
     [aux_sym_paragraph_repeat1] = STATE(423),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(5559),
+    [sym_generic_command_name] = ACTIONS(5559),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(3496),
@@ -43930,7 +43930,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(413),
     [aux_sym_paragraph_repeat1] = STATE(413),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(6930),
+    [sym_generic_command_name] = ACTIONS(6930),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(3400),
@@ -44005,7 +44005,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(414),
     [aux_sym_enum_item_repeat1] = STATE(414),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(7020),
+    [sym_generic_command_name] = ACTIONS(7020),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(4338),
@@ -44083,7 +44083,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(419),
     [aux_sym_subparagraph_repeat1] = STATE(419),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(4001),
@@ -44159,7 +44159,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(414),
     [aux_sym_enum_item_repeat1] = STATE(414),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(4224),
@@ -44239,7 +44239,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(422),
     [aux_sym_subsubsection_repeat1] = STATE(422),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7106),
+    [sym_generic_command_name] = ACTIONS(7106),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(7108),
@@ -44313,7 +44313,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(416),
     [aux_sym_enum_item_repeat1] = STATE(416),
     [aux_sym_text_repeat1] = STATE(586),
-    [sym__generic_command_name] = ACTIONS(3123),
+    [sym_generic_command_name] = ACTIONS(3123),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_section_token1] = ACTIONS(4683),
@@ -44391,7 +44391,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(420),
     [aux_sym_subparagraph_repeat1] = STATE(420),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(4208),
@@ -44468,7 +44468,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(420),
     [aux_sym_subparagraph_repeat1] = STATE(420),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(7172),
+    [sym_generic_command_name] = ACTIONS(7172),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(3908),
@@ -44547,7 +44547,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(421),
     [aux_sym_subsubsection_repeat1] = STATE(421),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7259),
+    [sym_generic_command_name] = ACTIONS(7259),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(7262),
@@ -44624,7 +44624,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(421),
     [aux_sym_subsubsection_repeat1] = STATE(421),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7106),
+    [sym_generic_command_name] = ACTIONS(7106),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(7108),
@@ -44700,7 +44700,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(413),
     [aux_sym_paragraph_repeat1] = STATE(413),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(5559),
+    [sym_generic_command_name] = ACTIONS(5559),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(3013),
@@ -44776,7 +44776,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(425),
     [aux_sym_subparagraph_repeat1] = STATE(425),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(5559),
+    [sym_generic_command_name] = ACTIONS(5559),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(4208),
@@ -44852,7 +44852,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(425),
     [aux_sym_subparagraph_repeat1] = STATE(425),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(7358),
+    [sym_generic_command_name] = ACTIONS(7358),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(3908),
@@ -44927,7 +44927,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(428),
     [aux_sym_enum_item_repeat1] = STATE(428),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(4224),
@@ -45005,7 +45005,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(429),
     [aux_sym_paragraph_repeat1] = STATE(429),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7106),
+    [sym_generic_command_name] = ACTIONS(7106),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(3013),
@@ -45079,7 +45079,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(428),
     [aux_sym_enum_item_repeat1] = STATE(428),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(7449),
+    [sym_generic_command_name] = ACTIONS(7449),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(4338),
@@ -45157,7 +45157,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(429),
     [aux_sym_paragraph_repeat1] = STATE(429),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7533),
+    [sym_generic_command_name] = ACTIONS(7533),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(3400),
@@ -45233,7 +45233,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(427),
     [aux_sym_paragraph_repeat1] = STATE(427),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7106),
+    [sym_generic_command_name] = ACTIONS(7106),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(3496),
@@ -45307,7 +45307,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(433),
     [aux_sym_enum_item_repeat1] = STATE(433),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(4327),
@@ -45384,7 +45384,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(424),
     [aux_sym_subparagraph_repeat1] = STATE(424),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(5559),
+    [sym_generic_command_name] = ACTIONS(5559),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(4001),
@@ -45459,7 +45459,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(428),
     [aux_sym_enum_item_repeat1] = STATE(428),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(4689),
@@ -45535,7 +45535,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(426),
     [aux_sym_enum_item_repeat1] = STATE(426),
     [aux_sym_text_repeat1] = STATE(912),
-    [sym__generic_command_name] = ACTIONS(4426),
+    [sym_generic_command_name] = ACTIONS(4426),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsection_token1] = ACTIONS(4683),
@@ -45611,7 +45611,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(443),
     [aux_sym_enum_item_repeat1] = STATE(443),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(5559),
+    [sym_generic_command_name] = ACTIONS(5559),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(4224),
@@ -45687,7 +45687,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(436),
     [aux_sym_subparagraph_repeat1] = STATE(436),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7635),
+    [sym_generic_command_name] = ACTIONS(7635),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(3908),
@@ -45763,7 +45763,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(441),
     [aux_sym_paragraph_repeat1] = STATE(441),
     [aux_sym_text_repeat1] = STATE(1101),
-    [sym__generic_command_name] = ACTIONS(7722),
+    [sym_generic_command_name] = ACTIONS(7722),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subparagraph_token1] = ACTIONS(7724),
@@ -45836,7 +45836,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(435),
     [aux_sym_enum_item_repeat1] = STATE(435),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(5559),
+    [sym_generic_command_name] = ACTIONS(5559),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(4683),
@@ -45913,7 +45913,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(439),
     [aux_sym_paragraph_repeat1] = STATE(439),
     [aux_sym_text_repeat1] = STATE(1101),
-    [sym__generic_command_name] = ACTIONS(7784),
+    [sym_generic_command_name] = ACTIONS(7784),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subparagraph_token1] = ACTIONS(7787),
@@ -45987,7 +45987,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(442),
     [aux_sym_subparagraph_repeat1] = STATE(442),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7106),
+    [sym_generic_command_name] = ACTIONS(7106),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(4001),
@@ -46063,7 +46063,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(439),
     [aux_sym_paragraph_repeat1] = STATE(439),
     [aux_sym_text_repeat1] = STATE(1101),
-    [sym__generic_command_name] = ACTIONS(7722),
+    [sym_generic_command_name] = ACTIONS(7722),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subparagraph_token1] = ACTIONS(7724),
@@ -46137,7 +46137,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(436),
     [aux_sym_subparagraph_repeat1] = STATE(436),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7106),
+    [sym_generic_command_name] = ACTIONS(7106),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(4208),
@@ -46211,7 +46211,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(443),
     [aux_sym_enum_item_repeat1] = STATE(443),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(7880),
+    [sym_generic_command_name] = ACTIONS(7880),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(4338),
@@ -46286,7 +46286,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(445),
     [aux_sym_enum_item_repeat1] = STATE(445),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(5559),
+    [sym_generic_command_name] = ACTIONS(5559),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(4327),
@@ -46361,7 +46361,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(443),
     [aux_sym_enum_item_repeat1] = STATE(443),
     [aux_sym_text_repeat1] = STATE(987),
-    [sym__generic_command_name] = ACTIONS(5559),
+    [sym_generic_command_name] = ACTIONS(5559),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subsubsection_token1] = ACTIONS(4689),
@@ -46437,7 +46437,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(453),
     [aux_sym_subparagraph_repeat1] = STATE(453),
     [aux_sym_text_repeat1] = STATE(1101),
-    [sym__generic_command_name] = ACTIONS(7722),
+    [sym_generic_command_name] = ACTIONS(7722),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subparagraph_token1] = ACTIONS(4208),
@@ -46510,7 +46510,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(449),
     [aux_sym_enum_item_repeat1] = STATE(449),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7106),
+    [sym_generic_command_name] = ACTIONS(7106),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(4224),
@@ -46584,7 +46584,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(447),
     [aux_sym_enum_item_repeat1] = STATE(447),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7106),
+    [sym_generic_command_name] = ACTIONS(7106),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(4683),
@@ -46658,7 +46658,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(449),
     [aux_sym_enum_item_repeat1] = STATE(449),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7974),
+    [sym_generic_command_name] = ACTIONS(7974),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(4338),
@@ -46732,7 +46732,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(449),
     [aux_sym_enum_item_repeat1] = STATE(449),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7106),
+    [sym_generic_command_name] = ACTIONS(7106),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(4689),
@@ -46807,7 +46807,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(446),
     [aux_sym_subparagraph_repeat1] = STATE(446),
     [aux_sym_text_repeat1] = STATE(1101),
-    [sym__generic_command_name] = ACTIONS(7722),
+    [sym_generic_command_name] = ACTIONS(7722),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subparagraph_token1] = ACTIONS(4001),
@@ -46880,7 +46880,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(450),
     [aux_sym_enum_item_repeat1] = STATE(450),
     [aux_sym_text_repeat1] = STATE(1019),
-    [sym__generic_command_name] = ACTIONS(7106),
+    [sym_generic_command_name] = ACTIONS(7106),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_paragraph_token1] = ACTIONS(4327),
@@ -46955,7 +46955,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(453),
     [aux_sym_subparagraph_repeat1] = STATE(453),
     [aux_sym_text_repeat1] = STATE(1101),
-    [sym__generic_command_name] = ACTIONS(8064),
+    [sym_generic_command_name] = ACTIONS(8064),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subparagraph_token1] = ACTIONS(3908),
@@ -47029,7 +47029,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(458),
     [aux_sym_subparagraph_repeat1] = STATE(458),
     [aux_sym_text_repeat1] = STATE(1179),
-    [sym__generic_command_name] = ACTIONS(8151),
+    [sym_generic_command_name] = ACTIONS(8151),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [anon_sym_BSLASHitem] = ACTIONS(8153),
@@ -47101,7 +47101,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(455),
     [aux_sym_enum_item_repeat1] = STATE(455),
     [aux_sym_text_repeat1] = STATE(1101),
-    [sym__generic_command_name] = ACTIONS(8209),
+    [sym_generic_command_name] = ACTIONS(8209),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subparagraph_token1] = ACTIONS(4338),
@@ -47174,7 +47174,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(455),
     [aux_sym_enum_item_repeat1] = STATE(455),
     [aux_sym_text_repeat1] = STATE(1101),
-    [sym__generic_command_name] = ACTIONS(7722),
+    [sym_generic_command_name] = ACTIONS(7722),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subparagraph_token1] = ACTIONS(4689),
@@ -47247,7 +47247,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(456),
     [aux_sym_enum_item_repeat1] = STATE(456),
     [aux_sym_text_repeat1] = STATE(1101),
-    [sym__generic_command_name] = ACTIONS(7722),
+    [sym_generic_command_name] = ACTIONS(7722),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subparagraph_token1] = ACTIONS(4327),
@@ -47321,7 +47321,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(458),
     [aux_sym_subparagraph_repeat1] = STATE(458),
     [aux_sym_text_repeat1] = STATE(1179),
-    [sym__generic_command_name] = ACTIONS(8299),
+    [sym_generic_command_name] = ACTIONS(8299),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [anon_sym_BSLASHitem] = ACTIONS(8302),
@@ -47393,7 +47393,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(460),
     [aux_sym_enum_item_repeat1] = STATE(460),
     [aux_sym_text_repeat1] = STATE(1101),
-    [sym__generic_command_name] = ACTIONS(7722),
+    [sym_generic_command_name] = ACTIONS(7722),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subparagraph_token1] = ACTIONS(4683),
@@ -47466,7 +47466,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(455),
     [aux_sym_enum_item_repeat1] = STATE(455),
     [aux_sym_text_repeat1] = STATE(1101),
-    [sym__generic_command_name] = ACTIONS(7722),
+    [sym_generic_command_name] = ACTIONS(7722),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [aux_sym_subparagraph_token1] = ACTIONS(4224),
@@ -47540,7 +47540,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(454),
     [aux_sym_subparagraph_repeat1] = STATE(454),
     [aux_sym_text_repeat1] = STATE(1179),
-    [sym__generic_command_name] = ACTIONS(8151),
+    [sym_generic_command_name] = ACTIONS(8151),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [anon_sym_BSLASHitem] = ACTIONS(8153),
@@ -47612,7 +47612,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(462),
     [aux_sym_enum_item_repeat1] = STATE(462),
     [aux_sym_text_repeat1] = STATE(1179),
-    [sym__generic_command_name] = ACTIONS(8390),
+    [sym_generic_command_name] = ACTIONS(8390),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [anon_sym_BSLASHitem] = ACTIONS(4338),
@@ -47684,7 +47684,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(465),
     [aux_sym_enum_item_repeat1] = STATE(465),
     [aux_sym_text_repeat1] = STATE(1179),
-    [sym__generic_command_name] = ACTIONS(8151),
+    [sym_generic_command_name] = ACTIONS(8151),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [anon_sym_BSLASHitem] = ACTIONS(4327),
@@ -47756,7 +47756,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(462),
     [aux_sym_enum_item_repeat1] = STATE(462),
     [aux_sym_text_repeat1] = STATE(1179),
-    [sym__generic_command_name] = ACTIONS(8151),
+    [sym_generic_command_name] = ACTIONS(8151),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [anon_sym_BSLASHitem] = ACTIONS(4224),
@@ -47828,7 +47828,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(462),
     [aux_sym_enum_item_repeat1] = STATE(462),
     [aux_sym_text_repeat1] = STATE(1179),
-    [sym__generic_command_name] = ACTIONS(8151),
+    [sym_generic_command_name] = ACTIONS(8151),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [anon_sym_BSLASHitem] = ACTIONS(4689),
@@ -47900,7 +47900,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(464),
     [aux_sym_enum_item_repeat1] = STATE(464),
     [aux_sym_text_repeat1] = STATE(1179),
-    [sym__generic_command_name] = ACTIONS(8151),
+    [sym_generic_command_name] = ACTIONS(8151),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [anon_sym_BSLASHitem] = ACTIONS(4683),
@@ -47972,7 +47972,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(470),
     [aux_sym_enum_item_repeat1] = STATE(470),
     [aux_sym_text_repeat1] = STATE(1258),
-    [sym__generic_command_name] = ACTIONS(8482),
+    [sym_generic_command_name] = ACTIONS(8482),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [anon_sym_LBRACK] = ACTIONS(8484),
@@ -48043,7 +48043,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(468),
     [aux_sym_enum_item_repeat1] = STATE(468),
     [aux_sym_text_repeat1] = STATE(1258),
-    [sym__generic_command_name] = ACTIONS(8538),
+    [sym_generic_command_name] = ACTIONS(8538),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [anon_sym_LBRACK] = ACTIONS(8541),
@@ -48114,7 +48114,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(468),
     [aux_sym_enum_item_repeat1] = STATE(468),
     [aux_sym_text_repeat1] = STATE(1258),
-    [sym__generic_command_name] = ACTIONS(8482),
+    [sym_generic_command_name] = ACTIONS(8482),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [anon_sym_LBRACK] = ACTIONS(8484),
@@ -48185,7 +48185,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(468),
     [aux_sym_enum_item_repeat1] = STATE(468),
     [aux_sym_text_repeat1] = STATE(1258),
-    [sym__generic_command_name] = ACTIONS(8482),
+    [sym_generic_command_name] = ACTIONS(8482),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [anon_sym_LBRACK] = ACTIONS(8484),
@@ -48256,7 +48256,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_generic_command] = STATE(469),
     [aux_sym_enum_item_repeat1] = STATE(469),
     [aux_sym_text_repeat1] = STATE(1258),
-    [sym__generic_command_name] = ACTIONS(8482),
+    [sym_generic_command_name] = ACTIONS(8482),
     [sym__whitespace] = ACTIONS(3),
     [sym__comment] = ACTIONS(3),
     [anon_sym_LBRACK] = ACTIONS(8624),
@@ -48355,7 +48355,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [66] = 7,
     ACTIONS(27), 1,
       anon_sym_LBRACE,
@@ -48414,7 +48414,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [132] = 7,
     ACTIONS(27), 1,
       anon_sym_LBRACE,
@@ -48473,7 +48473,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [198] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -48528,7 +48528,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [258] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -48583,7 +48583,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [318] = 7,
     ACTIONS(380), 1,
       anon_sym_LBRACE,
@@ -48639,7 +48639,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [381] = 7,
     ACTIONS(8670), 1,
       anon_sym_LBRACK,
@@ -48695,7 +48695,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [444] = 7,
     ACTIONS(2074), 1,
       anon_sym_LBRACE,
@@ -48751,7 +48751,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [507] = 7,
     ACTIONS(8683), 1,
       anon_sym_LBRACK,
@@ -48807,7 +48807,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [570] = 7,
     ACTIONS(244), 1,
       anon_sym_LBRACE,
@@ -48863,7 +48863,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [633] = 7,
     ACTIONS(8696), 1,
       anon_sym_LBRACK,
@@ -48919,7 +48919,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [696] = 7,
     ACTIONS(308), 1,
       anon_sym_LBRACE,
@@ -48975,7 +48975,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [759] = 7,
     ACTIONS(8709), 1,
       anon_sym_LBRACK,
@@ -49031,7 +49031,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [822] = 7,
     ACTIONS(308), 1,
       anon_sym_LBRACE,
@@ -49087,7 +49087,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [885] = 7,
     ACTIONS(244), 1,
       anon_sym_LBRACE,
@@ -49143,7 +49143,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [948] = 7,
     ACTIONS(380), 1,
       anon_sym_LBRACE,
@@ -49199,7 +49199,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1011] = 7,
     ACTIONS(2074), 1,
       anon_sym_LBRACE,
@@ -49255,7 +49255,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1074] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49306,7 +49306,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1128] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49357,7 +49357,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1182] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49408,7 +49408,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1236] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49459,7 +49459,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1290] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49510,7 +49510,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1344] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49561,7 +49561,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1398] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49612,7 +49612,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1452] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49663,7 +49663,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1506] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49714,7 +49714,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1560] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49765,7 +49765,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1614] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49816,7 +49816,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1668] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49867,7 +49867,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1722] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49918,7 +49918,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1776] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -49969,7 +49969,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1830] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50020,7 +50020,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1884] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50071,7 +50071,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1938] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50122,7 +50122,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [1992] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50173,7 +50173,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2046] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50224,7 +50224,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2100] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50275,7 +50275,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2154] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50326,7 +50326,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2208] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50377,7 +50377,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2262] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50428,7 +50428,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2316] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50479,7 +50479,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2370] = 7,
     ACTIONS(8798), 1,
       anon_sym_LBRACK,
@@ -50534,7 +50534,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2432] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50585,7 +50585,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2486] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50636,7 +50636,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2540] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50687,7 +50687,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2594] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50738,7 +50738,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2648] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50789,7 +50789,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2702] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50840,7 +50840,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2756] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50891,7 +50891,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2810] = 7,
     ACTIONS(3139), 1,
       anon_sym_LBRACE,
@@ -50946,7 +50946,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2872] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -50997,7 +50997,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2926] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51048,7 +51048,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [2980] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51099,7 +51099,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3034] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51150,7 +51150,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3088] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51201,7 +51201,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3142] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51252,7 +51252,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3196] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51303,7 +51303,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3250] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51354,7 +51354,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3304] = 7,
     ACTIONS(3139), 1,
       anon_sym_LBRACE,
@@ -51409,7 +51409,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3366] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51460,7 +51460,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3420] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51511,7 +51511,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3474] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51562,7 +51562,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3528] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51613,7 +51613,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3582] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51664,7 +51664,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3636] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51715,7 +51715,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3690] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51766,7 +51766,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3744] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51817,7 +51817,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3798] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51868,7 +51868,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3852] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51919,7 +51919,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3906] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -51970,7 +51970,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [3960] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52021,7 +52021,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4014] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52072,7 +52072,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4068] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52123,7 +52123,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4122] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52174,7 +52174,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4176] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52225,7 +52225,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4230] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52276,7 +52276,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4284] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52327,7 +52327,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4338] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52378,7 +52378,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4392] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52429,7 +52429,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4446] = 4,
     ACTIONS(8955), 1,
       anon_sym_LBRACK,
@@ -52481,7 +52481,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4502] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52532,7 +52532,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4556] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52583,7 +52583,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4610] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52634,7 +52634,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4664] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52685,7 +52685,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4718] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52736,7 +52736,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4772] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52787,7 +52787,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4826] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52838,7 +52838,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4880] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52889,7 +52889,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4934] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52940,7 +52940,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [4988] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -52991,7 +52991,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5042] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53042,7 +53042,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5096] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53093,7 +53093,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5150] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53144,7 +53144,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5204] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53195,7 +53195,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5258] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53246,7 +53246,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5312] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53297,7 +53297,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5366] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53348,7 +53348,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5420] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53399,7 +53399,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5474] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53450,7 +53450,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5528] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53502,7 +53502,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5585] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53554,7 +53554,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5642] = 7,
     ACTIONS(9037), 1,
       anon_sym_LBRACK,
@@ -53608,7 +53608,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5703] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53660,7 +53660,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5760] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53712,7 +53712,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5817] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53764,7 +53764,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5874] = 7,
     ACTIONS(4440), 1,
       anon_sym_LBRACE,
@@ -53818,7 +53818,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5935] = 5,
     ACTIONS(9059), 1,
       anon_sym_LBRACK,
@@ -53870,7 +53870,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [5992] = 7,
     ACTIONS(4440), 1,
       anon_sym_LBRACE,
@@ -53924,7 +53924,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6053] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -53976,7 +53976,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6110] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -54028,7 +54028,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6167] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -54080,7 +54080,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6224] = 5,
     ACTIONS(8666), 1,
       anon_sym_LBRACK,
@@ -54132,7 +54132,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6281] = 5,
     ACTIONS(8666), 1,
       anon_sym_LBRACK,
@@ -54184,7 +54184,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6338] = 7,
     ACTIONS(5571), 1,
       anon_sym_LBRACE,
@@ -54237,7 +54237,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6398] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -54288,7 +54288,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6454] = 4,
     ACTIONS(9091), 1,
       anon_sym_RBRACK,
@@ -54338,7 +54338,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6508] = 4,
     ACTIONS(9093), 1,
       anon_sym_RBRACK,
@@ -54388,7 +54388,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6562] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -54439,7 +54439,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6618] = 4,
     ACTIONS(9098), 1,
       anon_sym_RBRACK,
@@ -54489,7 +54489,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6672] = 4,
     ACTIONS(9100), 1,
       anon_sym_RBRACK,
@@ -54539,7 +54539,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6726] = 4,
     ACTIONS(9102), 1,
       anon_sym_RBRACK,
@@ -54589,7 +54589,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6780] = 4,
     ACTIONS(9104), 1,
       anon_sym_RBRACK,
@@ -54639,7 +54639,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6834] = 4,
     ACTIONS(9106), 1,
       anon_sym_RBRACK,
@@ -54689,7 +54689,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6888] = 4,
     ACTIONS(9108), 1,
       anon_sym_RBRACK,
@@ -54739,7 +54739,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [6942] = 7,
     ACTIONS(5571), 1,
       anon_sym_LBRACE,
@@ -54792,7 +54792,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7002] = 7,
     ACTIONS(9110), 1,
       anon_sym_LBRACK,
@@ -54845,7 +54845,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7062] = 4,
     ACTIONS(9119), 1,
       anon_sym_RBRACK,
@@ -54895,7 +54895,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7116] = 4,
     ACTIONS(9121), 1,
       anon_sym_RBRACK,
@@ -54945,7 +54945,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7170] = 4,
     ACTIONS(9123), 1,
       anon_sym_RBRACK,
@@ -54995,7 +54995,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7224] = 4,
     ACTIONS(9125), 1,
       anon_sym_RBRACK,
@@ -55045,7 +55045,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7278] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55093,7 +55093,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7329] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55141,7 +55141,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7380] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55189,7 +55189,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7431] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55237,7 +55237,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7482] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55285,7 +55285,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7533] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55333,7 +55333,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7584] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55381,7 +55381,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7635] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55429,7 +55429,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7686] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55477,7 +55477,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7737] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55525,7 +55525,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7788] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55573,7 +55573,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7839] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55621,7 +55621,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7890] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55669,7 +55669,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7941] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55717,7 +55717,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [7992] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55765,7 +55765,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8043] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55813,7 +55813,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8094] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55861,7 +55861,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8145] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55909,7 +55909,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8196] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -55957,7 +55957,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8247] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56005,7 +56005,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8298] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56053,7 +56053,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8349] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56101,7 +56101,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8400] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56149,7 +56149,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8451] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56197,7 +56197,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8502] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56245,7 +56245,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8553] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56293,7 +56293,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8604] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56341,7 +56341,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8655] = 4,
     ACTIONS(9127), 1,
       anon_sym_LBRACK,
@@ -56390,7 +56390,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8708] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56438,7 +56438,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8759] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56486,7 +56486,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8810] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56534,7 +56534,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8861] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56582,7 +56582,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8912] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56630,7 +56630,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [8963] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56678,7 +56678,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9014] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56726,7 +56726,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9065] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56774,7 +56774,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9116] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56822,7 +56822,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9167] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56870,7 +56870,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9218] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56918,7 +56918,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9269] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -56966,7 +56966,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9320] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57014,7 +57014,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9371] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57062,7 +57062,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9422] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57110,7 +57110,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9473] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57158,7 +57158,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9524] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57206,7 +57206,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9575] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57254,7 +57254,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9626] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57302,7 +57302,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9677] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57350,7 +57350,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9728] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57398,7 +57398,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9779] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57446,7 +57446,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9830] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57494,7 +57494,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9881] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57542,7 +57542,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9932] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57590,7 +57590,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [9983] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57638,7 +57638,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10034] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57686,7 +57686,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10085] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57734,7 +57734,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10136] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57782,7 +57782,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10187] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57830,7 +57830,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10238] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57878,7 +57878,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10289] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57926,7 +57926,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10340] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -57974,7 +57974,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10391] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58022,7 +58022,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10442] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58070,7 +58070,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10493] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58118,7 +58118,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10544] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58166,7 +58166,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10595] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58214,7 +58214,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10646] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58262,7 +58262,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10697] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58310,7 +58310,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10748] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58358,7 +58358,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10799] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58406,7 +58406,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10850] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58454,7 +58454,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10901] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58502,7 +58502,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [10952] = 4,
     ACTIONS(9129), 1,
       anon_sym_LBRACK,
@@ -58551,7 +58551,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11005] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58599,7 +58599,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11056] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58647,7 +58647,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11107] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58695,7 +58695,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11158] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58743,7 +58743,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11209] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58791,7 +58791,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11260] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58839,7 +58839,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11311] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58887,7 +58887,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11362] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58935,7 +58935,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11413] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -58983,7 +58983,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11464] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59031,7 +59031,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11515] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59079,7 +59079,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11566] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59127,7 +59127,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11617] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59175,7 +59175,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11668] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59223,7 +59223,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11719] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59271,7 +59271,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11770] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59319,7 +59319,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11821] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59367,7 +59367,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11872] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59415,7 +59415,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11923] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59463,7 +59463,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [11974] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59511,7 +59511,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12025] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59559,7 +59559,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12076] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59607,7 +59607,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12127] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59655,7 +59655,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12178] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59703,7 +59703,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12229] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59751,7 +59751,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12280] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59799,7 +59799,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12331] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59847,7 +59847,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12382] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59895,7 +59895,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12433] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59943,7 +59943,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12484] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -59991,7 +59991,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12535] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60039,7 +60039,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12586] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60087,7 +60087,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12637] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60135,7 +60135,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12688] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60183,7 +60183,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12739] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60231,7 +60231,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12790] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60279,7 +60279,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12841] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60327,7 +60327,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12892] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60375,7 +60375,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12943] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60423,7 +60423,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [12994] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60471,7 +60471,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13045] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60519,7 +60519,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13096] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60567,7 +60567,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13147] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60615,7 +60615,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13198] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60663,7 +60663,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13249] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60711,7 +60711,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13300] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60759,7 +60759,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13351] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60807,7 +60807,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13402] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60855,7 +60855,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13453] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60903,7 +60903,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13504] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60951,7 +60951,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13555] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -60999,7 +60999,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13606] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61047,7 +61047,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13657] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61095,7 +61095,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13708] = 7,
     ACTIONS(9131), 1,
       anon_sym_LBRACK,
@@ -61147,7 +61147,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13767] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61195,7 +61195,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13818] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61243,7 +61243,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13869] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61291,7 +61291,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13920] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61339,7 +61339,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [13971] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61387,7 +61387,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14022] = 7,
     ACTIONS(7116), 1,
       anon_sym_LBRACE,
@@ -61439,7 +61439,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14081] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61487,7 +61487,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14132] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61535,7 +61535,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14183] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61583,7 +61583,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14234] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61631,7 +61631,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14285] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61679,7 +61679,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14336] = 7,
     ACTIONS(7116), 1,
       anon_sym_LBRACE,
@@ -61731,7 +61731,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14395] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61779,7 +61779,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14446] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61827,7 +61827,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14497] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61875,7 +61875,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14548] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61923,7 +61923,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14599] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -61971,7 +61971,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14650] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62019,7 +62019,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14701] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62067,7 +62067,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14752] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62115,7 +62115,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14803] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62163,7 +62163,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14854] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62211,7 +62211,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14905] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62259,7 +62259,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [14956] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62307,7 +62307,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15007] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62355,7 +62355,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15058] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62403,7 +62403,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15109] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62451,7 +62451,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15160] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62499,7 +62499,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15211] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62547,7 +62547,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15262] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62595,7 +62595,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15313] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62643,7 +62643,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15364] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62691,7 +62691,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15415] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62739,7 +62739,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15466] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62787,7 +62787,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15517] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62835,7 +62835,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15568] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62883,7 +62883,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15619] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62931,7 +62931,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15670] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -62979,7 +62979,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15721] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63027,7 +63027,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15772] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63075,7 +63075,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15823] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63123,7 +63123,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15874] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63171,7 +63171,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15925] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63219,7 +63219,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [15976] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63267,7 +63267,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16027] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63315,7 +63315,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16078] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63363,7 +63363,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16129] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63411,7 +63411,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16180] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63459,7 +63459,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16231] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63507,7 +63507,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16282] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63555,7 +63555,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16333] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63603,7 +63603,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16384] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63651,7 +63651,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16435] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63699,7 +63699,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16486] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63747,7 +63747,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16537] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63795,7 +63795,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16588] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63843,7 +63843,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16639] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63891,7 +63891,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16690] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63939,7 +63939,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16741] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -63987,7 +63987,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16792] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64035,7 +64035,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16843] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64083,7 +64083,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16894] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64131,7 +64131,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16945] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64179,7 +64179,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [16996] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64227,7 +64227,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17047] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64275,7 +64275,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17098] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64323,7 +64323,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17149] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64371,7 +64371,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17200] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64419,7 +64419,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17251] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64467,7 +64467,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17302] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64515,7 +64515,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17353] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64563,7 +64563,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17404] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64611,7 +64611,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17455] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64659,7 +64659,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17506] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64707,7 +64707,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17557] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64755,7 +64755,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17608] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64803,7 +64803,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17659] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64851,7 +64851,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17710] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64899,7 +64899,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17761] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64947,7 +64947,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17812] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -64995,7 +64995,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17863] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65043,7 +65043,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17914] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65091,7 +65091,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [17965] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65139,7 +65139,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18016] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65187,7 +65187,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18067] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65235,7 +65235,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18118] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65283,7 +65283,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18169] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65331,7 +65331,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18220] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65379,7 +65379,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18271] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65427,7 +65427,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18322] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65475,7 +65475,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18373] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65523,7 +65523,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18424] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65571,7 +65571,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18475] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65619,7 +65619,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18526] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65667,7 +65667,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18577] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65715,7 +65715,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18628] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65763,7 +65763,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18679] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65811,7 +65811,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18730] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65859,7 +65859,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18781] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65907,7 +65907,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18832] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -65955,7 +65955,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18883] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66003,7 +66003,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18934] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66051,7 +66051,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [18985] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66099,7 +66099,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19036] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66147,7 +66147,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19087] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66195,7 +66195,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19138] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66243,7 +66243,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19189] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66291,7 +66291,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19240] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66339,7 +66339,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19291] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66387,7 +66387,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19342] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66435,7 +66435,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19393] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66483,7 +66483,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19444] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66531,7 +66531,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19495] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66579,7 +66579,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19546] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66627,7 +66627,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19597] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66675,7 +66675,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19648] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66723,7 +66723,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19699] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66771,7 +66771,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19750] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66819,7 +66819,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19801] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66867,7 +66867,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19852] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66915,7 +66915,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19903] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -66963,7 +66963,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [19954] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67011,7 +67011,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20005] = 4,
     ACTIONS(9144), 1,
       anon_sym_LBRACK,
@@ -67060,7 +67060,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20058] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67108,7 +67108,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20109] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67156,7 +67156,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20160] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67204,7 +67204,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20211] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67252,7 +67252,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20262] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67300,7 +67300,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20313] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67348,7 +67348,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20364] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67396,7 +67396,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20415] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67444,7 +67444,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20466] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67492,7 +67492,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20517] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67540,7 +67540,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20568] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67588,7 +67588,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20619] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67636,7 +67636,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20670] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67684,7 +67684,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20721] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67732,7 +67732,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20772] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67780,7 +67780,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20823] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67828,7 +67828,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20874] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67876,7 +67876,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20925] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67924,7 +67924,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [20976] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -67972,7 +67972,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21027] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68020,7 +68020,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21078] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68068,7 +68068,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21129] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68116,7 +68116,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21180] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68164,7 +68164,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21231] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68212,7 +68212,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21282] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68260,7 +68260,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21333] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68308,7 +68308,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21384] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68356,7 +68356,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21435] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68404,7 +68404,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21486] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68452,7 +68452,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21537] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68500,7 +68500,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21588] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68548,7 +68548,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21639] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68596,7 +68596,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21690] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68644,7 +68644,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21741] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68692,7 +68692,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21792] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68740,7 +68740,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21843] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68788,7 +68788,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21894] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68836,7 +68836,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21945] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68884,7 +68884,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [21996] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68932,7 +68932,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22047] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -68980,7 +68980,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22098] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69028,7 +69028,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22149] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69076,7 +69076,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22200] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69124,7 +69124,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22251] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69172,7 +69172,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22302] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69220,7 +69220,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22353] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69268,7 +69268,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22404] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69318,7 +69318,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22459] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69366,7 +69366,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22510] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69414,7 +69414,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22561] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69462,7 +69462,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22612] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69510,7 +69510,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22663] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69558,7 +69558,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22714] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69606,7 +69606,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22765] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69654,7 +69654,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22816] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69702,7 +69702,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22867] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69750,7 +69750,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22918] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69798,7 +69798,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [22969] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69846,7 +69846,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23020] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69894,7 +69894,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23071] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69942,7 +69942,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23122] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -69992,7 +69992,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23177] = 4,
     ACTIONS(9151), 1,
       anon_sym_LBRACK,
@@ -70041,7 +70041,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23230] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70089,7 +70089,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23281] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70137,7 +70137,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23332] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70185,7 +70185,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23383] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70233,7 +70233,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23434] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70281,7 +70281,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23485] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70329,7 +70329,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23536] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70377,7 +70377,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23587] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70425,7 +70425,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23638] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70473,7 +70473,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23689] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70520,7 +70520,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23739] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70567,7 +70567,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23789] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70614,7 +70614,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23839] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70661,7 +70661,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23889] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70708,7 +70708,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23939] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70755,7 +70755,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [23989] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70802,7 +70802,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24039] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70849,7 +70849,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24089] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70896,7 +70896,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24139] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70943,7 +70943,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24189] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -70990,7 +70990,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24239] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71037,7 +71037,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24289] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71084,7 +71084,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24339] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71131,7 +71131,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24389] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71178,7 +71178,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24439] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71225,7 +71225,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24489] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71272,7 +71272,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24539] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71319,7 +71319,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24589] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71366,7 +71366,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24639] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71413,7 +71413,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24689] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71460,7 +71460,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24739] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71507,7 +71507,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24789] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71554,7 +71554,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24839] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71601,7 +71601,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24889] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71648,7 +71648,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24939] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71695,7 +71695,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [24989] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71742,7 +71742,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25039] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71789,7 +71789,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25089] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71836,7 +71836,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25139] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71883,7 +71883,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25189] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71930,7 +71930,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25239] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -71977,7 +71977,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25289] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72024,7 +72024,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25339] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72071,7 +72071,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25389] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72118,7 +72118,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25439] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72165,7 +72165,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25489] = 4,
     ACTIONS(9153), 1,
       anon_sym_LBRACK,
@@ -72213,7 +72213,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25541] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72260,7 +72260,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25591] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72307,7 +72307,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25641] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72354,7 +72354,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25691] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72401,7 +72401,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25741] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72448,7 +72448,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25791] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72495,7 +72495,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25841] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72542,7 +72542,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25891] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72589,7 +72589,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25941] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72636,7 +72636,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [25991] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72683,7 +72683,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26041] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72730,7 +72730,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26091] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72777,7 +72777,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26141] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72824,7 +72824,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26191] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72871,7 +72871,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26241] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72918,7 +72918,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26291] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -72965,7 +72965,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26341] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73012,7 +73012,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26391] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73059,7 +73059,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26441] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73106,7 +73106,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26491] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73153,7 +73153,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26541] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73200,7 +73200,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26591] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73247,7 +73247,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26641] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73294,7 +73294,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26691] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73341,7 +73341,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26741] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73388,7 +73388,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26791] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73435,7 +73435,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26841] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73482,7 +73482,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26891] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73531,7 +73531,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26945] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73578,7 +73578,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [26995] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73625,7 +73625,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27045] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73672,7 +73672,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27095] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73719,7 +73719,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27145] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73766,7 +73766,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27195] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73813,7 +73813,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27245] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73860,7 +73860,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27295] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73907,7 +73907,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27345] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -73954,7 +73954,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27395] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74001,7 +74001,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27445] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74048,7 +74048,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27495] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74095,7 +74095,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27545] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74142,7 +74142,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27595] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74189,7 +74189,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27645] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74236,7 +74236,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27695] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74285,7 +74285,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27749] = 7,
     ACTIONS(7730), 1,
       anon_sym_LBRACE,
@@ -74336,7 +74336,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27807] = 7,
     ACTIONS(7730), 1,
       anon_sym_LBRACE,
@@ -74387,7 +74387,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27865] = 7,
     ACTIONS(9164), 1,
       anon_sym_LBRACK,
@@ -74438,7 +74438,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27923] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74484,7 +74484,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [27972] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74530,7 +74530,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28021] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74576,7 +74576,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28070] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74622,7 +74622,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28119] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74668,7 +74668,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28168] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74714,7 +74714,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28217] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74760,7 +74760,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28266] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74806,7 +74806,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28315] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74852,7 +74852,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28364] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74898,7 +74898,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28413] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74944,7 +74944,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28462] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -74990,7 +74990,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28511] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75038,7 +75038,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28564] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75084,7 +75084,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28613] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75130,7 +75130,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28662] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75176,7 +75176,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28711] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75222,7 +75222,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28760] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75268,7 +75268,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28809] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75314,7 +75314,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28858] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75360,7 +75360,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28907] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75406,7 +75406,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [28956] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75452,7 +75452,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29005] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75498,7 +75498,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29054] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75544,7 +75544,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29103] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75590,7 +75590,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29152] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75636,7 +75636,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29201] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75682,7 +75682,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29250] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75728,7 +75728,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29299] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75774,7 +75774,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29348] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75820,7 +75820,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29397] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75866,7 +75866,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29446] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75912,7 +75912,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29495] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -75958,7 +75958,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29544] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76004,7 +76004,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29593] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76050,7 +76050,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29642] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76096,7 +76096,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29691] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76142,7 +76142,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29740] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76188,7 +76188,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29789] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76234,7 +76234,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29838] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76280,7 +76280,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29887] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76326,7 +76326,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29936] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76374,7 +76374,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [29989] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76420,7 +76420,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30038] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76466,7 +76466,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30087] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76512,7 +76512,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30136] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76558,7 +76558,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30185] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76604,7 +76604,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30234] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76650,7 +76650,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30283] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76696,7 +76696,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30332] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76742,7 +76742,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30381] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76788,7 +76788,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30430] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76834,7 +76834,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30479] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76880,7 +76880,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30528] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76926,7 +76926,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30577] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -76972,7 +76972,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30626] = 4,
     ACTIONS(9178), 1,
       anon_sym_LBRACK,
@@ -77019,7 +77019,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30677] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77065,7 +77065,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30726] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77111,7 +77111,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30775] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77157,7 +77157,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30824] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77203,7 +77203,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30873] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77249,7 +77249,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30922] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77295,7 +77295,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [30971] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77341,7 +77341,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31020] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77387,7 +77387,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31069] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77433,7 +77433,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31118] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77479,7 +77479,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31167] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77525,7 +77525,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31216] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77571,7 +77571,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31265] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77617,7 +77617,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31314] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77663,7 +77663,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31363] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77709,7 +77709,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31412] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77755,7 +77755,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31461] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77801,7 +77801,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31510] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77847,7 +77847,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31559] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77893,7 +77893,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31608] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77939,7 +77939,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31657] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -77985,7 +77985,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31706] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78031,7 +78031,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31755] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78077,7 +78077,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31804] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78123,7 +78123,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31853] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78169,7 +78169,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31902] = 7,
     ACTIONS(9180), 1,
       anon_sym_LBRACK,
@@ -78219,7 +78219,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [31959] = 7,
     ACTIONS(8157), 1,
       anon_sym_LBRACE,
@@ -78269,7 +78269,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32016] = 7,
     ACTIONS(8157), 1,
       anon_sym_LBRACE,
@@ -78319,7 +78319,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32073] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78364,7 +78364,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32121] = 7,
     ACTIONS(9193), 1,
       anon_sym_LBRACK,
@@ -78413,7 +78413,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32177] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78458,7 +78458,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32225] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78503,7 +78503,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32273] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78548,7 +78548,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32321] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78593,7 +78593,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32369] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78638,7 +78638,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32417] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78683,7 +78683,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32465] = 7,
     ACTIONS(8486), 1,
       anon_sym_LBRACE,
@@ -78732,7 +78732,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32521] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78779,7 +78779,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32573] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78826,7 +78826,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32625] = 7,
     ACTIONS(8486), 1,
       anon_sym_LBRACE,
@@ -78875,7 +78875,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32681] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78920,7 +78920,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32729] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -78965,7 +78965,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32777] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79010,7 +79010,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32825] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79055,7 +79055,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32873] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79100,7 +79100,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32921] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79145,7 +79145,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [32969] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79190,7 +79190,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33017] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79235,7 +79235,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33065] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79280,7 +79280,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33113] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79325,7 +79325,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33161] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79370,7 +79370,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33209] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79415,7 +79415,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33257] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79460,7 +79460,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33305] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79505,7 +79505,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33353] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79550,7 +79550,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33401] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79595,7 +79595,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33449] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79640,7 +79640,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33497] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79685,7 +79685,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33545] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79730,7 +79730,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33593] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79775,7 +79775,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33641] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79820,7 +79820,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33689] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79865,7 +79865,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33737] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79910,7 +79910,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33785] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -79955,7 +79955,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33833] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80000,7 +80000,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33881] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80045,7 +80045,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33929] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80090,7 +80090,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [33977] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80135,7 +80135,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34025] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80180,7 +80180,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34073] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80225,7 +80225,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34121] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80270,7 +80270,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34169] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80315,7 +80315,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34217] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80360,7 +80360,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34265] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80405,7 +80405,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34313] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80450,7 +80450,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34361] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80495,7 +80495,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34409] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80540,7 +80540,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34457] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80585,7 +80585,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34505] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80630,7 +80630,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34553] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80675,7 +80675,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34601] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80720,7 +80720,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34649] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80765,7 +80765,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34697] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80810,7 +80810,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34745] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80855,7 +80855,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34793] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80900,7 +80900,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34841] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80945,7 +80945,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34889] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -80990,7 +80990,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34937] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81035,7 +81035,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [34985] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81080,7 +81080,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35033] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81125,7 +81125,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35081] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81170,7 +81170,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35129] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81215,7 +81215,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35177] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81260,7 +81260,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35225] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81305,7 +81305,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35273] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81350,7 +81350,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35321] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81395,7 +81395,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35369] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81440,7 +81440,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35417] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81485,7 +81485,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35465] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81530,7 +81530,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35513] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81575,7 +81575,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35561] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81620,7 +81620,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35609] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81665,7 +81665,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35657] = 4,
     ACTIONS(9211), 1,
       anon_sym_LBRACK,
@@ -81711,7 +81711,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35707] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81756,7 +81756,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35755] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81801,7 +81801,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35803] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81846,7 +81846,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35851] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81891,7 +81891,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35899] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81936,7 +81936,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35947] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -81981,7 +81981,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [35995] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82026,7 +82026,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36043] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82071,7 +82071,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36091] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82116,7 +82116,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36139] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82160,7 +82160,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36186] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82204,7 +82204,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36233] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82248,7 +82248,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36280] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82294,7 +82294,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36331] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82340,7 +82340,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36382] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82384,7 +82384,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36429] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82428,7 +82428,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36476] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82472,7 +82472,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36523] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82516,7 +82516,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36570] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82560,7 +82560,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36617] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82604,7 +82604,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36664] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82648,7 +82648,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36711] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82692,7 +82692,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36758] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82736,7 +82736,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36805] = 4,
     ACTIONS(9218), 1,
       anon_sym_LBRACK,
@@ -82781,7 +82781,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36854] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82825,7 +82825,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36901] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82869,7 +82869,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36948] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82913,7 +82913,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [36995] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -82957,7 +82957,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37042] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83001,7 +83001,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37089] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83045,7 +83045,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37136] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83089,7 +83089,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37183] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83133,7 +83133,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37230] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83177,7 +83177,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37277] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83221,7 +83221,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37324] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83265,7 +83265,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37371] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83309,7 +83309,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37418] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83353,7 +83353,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37465] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83397,7 +83397,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37512] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83441,7 +83441,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37559] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83485,7 +83485,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37606] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83529,7 +83529,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37653] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83573,7 +83573,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37700] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83617,7 +83617,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37747] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83661,7 +83661,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37794] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83705,7 +83705,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37841] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83749,7 +83749,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37888] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83793,7 +83793,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37935] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83837,7 +83837,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [37982] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83881,7 +83881,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38029] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83925,7 +83925,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38076] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -83969,7 +83969,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38123] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84013,7 +84013,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38170] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84057,7 +84057,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38217] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84101,7 +84101,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38264] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84145,7 +84145,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38311] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84189,7 +84189,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38358] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84233,7 +84233,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38405] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84277,7 +84277,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38452] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84321,7 +84321,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38499] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84365,7 +84365,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38546] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84409,7 +84409,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38593] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84453,7 +84453,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38640] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84497,7 +84497,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38687] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84541,7 +84541,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38734] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84585,7 +84585,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38781] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84629,7 +84629,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38828] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84673,7 +84673,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38875] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84717,7 +84717,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38922] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84761,7 +84761,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [38969] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84805,7 +84805,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39016] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84849,7 +84849,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39063] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84893,7 +84893,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39110] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84937,7 +84937,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39157] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -84981,7 +84981,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39204] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85025,7 +85025,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39251] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85069,7 +85069,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39298] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85113,7 +85113,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39345] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85157,7 +85157,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39392] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85201,7 +85201,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39439] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85245,7 +85245,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39486] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85289,7 +85289,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39533] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85333,7 +85333,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39580] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85377,7 +85377,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39627] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85421,7 +85421,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39674] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85465,7 +85465,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39721] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85509,7 +85509,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39768] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85553,7 +85553,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39815] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85597,7 +85597,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39862] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85641,7 +85641,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39909] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85685,7 +85685,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [39956] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85728,7 +85728,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40002] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85771,7 +85771,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40048] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85816,7 +85816,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40098] = 5,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85861,7 +85861,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40148] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85904,7 +85904,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40194] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85947,7 +85947,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40240] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -85990,7 +85990,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40286] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86033,7 +86033,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40332] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86076,7 +86076,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40378] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86119,7 +86119,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40424] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86162,7 +86162,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40470] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86205,7 +86205,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40516] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86248,7 +86248,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40562] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86291,7 +86291,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40608] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86334,7 +86334,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40654] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86377,7 +86377,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40700] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86420,7 +86420,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40746] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86463,7 +86463,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40792] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86506,7 +86506,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40838] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86549,7 +86549,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40884] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86592,7 +86592,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40930] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86635,7 +86635,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [40976] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86678,7 +86678,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41022] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86721,7 +86721,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41068] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86764,7 +86764,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41114] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86807,7 +86807,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41160] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86850,7 +86850,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41206] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86893,7 +86893,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41252] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -86936,7 +86936,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41298] = 4,
     ACTIONS(9225), 1,
       anon_sym_LBRACK,
@@ -86980,7 +86980,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41346] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87023,7 +87023,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41392] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87066,7 +87066,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41438] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87109,7 +87109,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41484] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87152,7 +87152,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41530] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87195,7 +87195,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41576] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87238,7 +87238,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41622] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87281,7 +87281,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41668] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87324,7 +87324,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41714] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87367,7 +87367,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41760] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87410,7 +87410,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41806] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87453,7 +87453,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41852] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87496,7 +87496,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41898] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87539,7 +87539,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41944] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87582,7 +87582,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [41990] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87625,7 +87625,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42036] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87668,7 +87668,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42082] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87711,7 +87711,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42128] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87754,7 +87754,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42174] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87797,7 +87797,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42220] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87840,7 +87840,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42266] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87883,7 +87883,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42312] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87926,7 +87926,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42358] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -87969,7 +87969,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42404] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88012,7 +88012,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42450] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88055,7 +88055,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42496] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88098,7 +88098,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42542] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88141,7 +88141,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42588] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88184,7 +88184,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42634] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88227,7 +88227,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42680] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88270,7 +88270,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42726] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88313,7 +88313,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42772] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88356,7 +88356,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42818] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88399,7 +88399,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42864] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88442,7 +88442,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42910] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88485,7 +88485,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [42956] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88528,7 +88528,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43002] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88571,7 +88571,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43048] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88614,7 +88614,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43094] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88657,7 +88657,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43140] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88700,7 +88700,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43186] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88743,7 +88743,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43232] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88786,7 +88786,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43278] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88829,7 +88829,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43324] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88872,7 +88872,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43370] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88915,7 +88915,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43416] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -88958,7 +88958,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43462] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89001,7 +89001,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43508] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89044,7 +89044,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43554] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89087,7 +89087,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43600] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89130,7 +89130,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43646] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89173,7 +89173,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43692] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89215,7 +89215,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43737] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89257,7 +89257,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43782] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89299,7 +89299,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43827] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89341,7 +89341,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43872] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89383,7 +89383,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43917] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89425,7 +89425,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [43962] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89467,7 +89467,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44007] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89509,7 +89509,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44052] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89551,7 +89551,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44097] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89593,7 +89593,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44142] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89635,7 +89635,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44187] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89677,7 +89677,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44232] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89719,7 +89719,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44277] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89761,7 +89761,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44322] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89803,7 +89803,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44367] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89845,7 +89845,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44412] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89887,7 +89887,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44457] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89929,7 +89929,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44502] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -89971,7 +89971,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44547] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90013,7 +90013,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44592] = 4,
     ACTIONS(9227), 1,
       anon_sym_LBRACK,
@@ -90056,7 +90056,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44639] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90098,7 +90098,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44684] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90140,7 +90140,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44729] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90182,7 +90182,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44774] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90224,7 +90224,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44819] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90266,7 +90266,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44864] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90308,7 +90308,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44909] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90350,7 +90350,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44954] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90392,7 +90392,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [44999] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90434,7 +90434,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45044] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90476,7 +90476,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45089] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90518,7 +90518,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45134] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90560,7 +90560,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45179] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90602,7 +90602,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45224] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90644,7 +90644,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45269] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90686,7 +90686,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45314] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90728,7 +90728,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45359] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90770,7 +90770,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45404] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90812,7 +90812,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45449] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90854,7 +90854,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45494] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90896,7 +90896,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45539] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90938,7 +90938,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45584] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -90980,7 +90980,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45629] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91022,7 +91022,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45674] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91064,7 +91064,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45719] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91106,7 +91106,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45764] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91148,7 +91148,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45809] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91190,7 +91190,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45854] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91232,7 +91232,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45899] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91274,7 +91274,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45944] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91316,7 +91316,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [45989] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91358,7 +91358,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46034] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91400,7 +91400,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46079] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91442,7 +91442,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46124] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91484,7 +91484,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46169] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91526,7 +91526,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46214] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91568,7 +91568,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46259] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91610,7 +91610,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46304] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91652,7 +91652,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46349] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91694,7 +91694,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46394] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91736,7 +91736,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46439] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91778,7 +91778,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46484] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91820,7 +91820,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46529] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91862,7 +91862,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46574] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91904,7 +91904,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46619] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91946,7 +91946,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46664] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -91988,7 +91988,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46709] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92030,7 +92030,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46754] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92072,7 +92072,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46799] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92114,7 +92114,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46844] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92156,7 +92156,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46889] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92198,7 +92198,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46934] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92240,7 +92240,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [46979] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92282,7 +92282,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47024] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92324,7 +92324,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47069] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92366,7 +92366,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47114] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92408,7 +92408,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47159] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92450,7 +92450,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47204] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92492,7 +92492,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47249] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92533,7 +92533,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47293] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92574,7 +92574,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47337] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92615,7 +92615,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47381] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92656,7 +92656,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47425] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92697,7 +92697,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47469] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92738,7 +92738,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47513] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92779,7 +92779,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47557] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92820,7 +92820,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47601] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92861,7 +92861,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47645] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92902,7 +92902,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47689] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92943,7 +92943,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47733] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -92984,7 +92984,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47777] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93025,7 +93025,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47821] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93066,7 +93066,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47865] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93107,7 +93107,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47909] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93148,7 +93148,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47953] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93189,7 +93189,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [47997] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93230,7 +93230,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48041] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93271,7 +93271,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48085] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93312,7 +93312,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48129] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93353,7 +93353,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48173] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93394,7 +93394,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48217] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93435,7 +93435,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48261] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93476,7 +93476,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48305] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93517,7 +93517,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48349] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93558,7 +93558,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48393] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93599,7 +93599,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48437] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93640,7 +93640,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48481] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93681,7 +93681,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48525] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93722,7 +93722,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48569] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93763,7 +93763,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48613] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93804,7 +93804,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48657] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93845,7 +93845,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48701] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93886,7 +93886,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48745] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93927,7 +93927,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48789] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -93968,7 +93968,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48833] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94009,7 +94009,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48877] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94050,7 +94050,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48921] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94091,7 +94091,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [48965] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94132,7 +94132,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49009] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94173,7 +94173,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49053] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94214,7 +94214,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49097] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94255,7 +94255,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49141] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94296,7 +94296,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49185] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94337,7 +94337,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49229] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94378,7 +94378,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49273] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94419,7 +94419,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49317] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94460,7 +94460,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49361] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94501,7 +94501,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49405] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94542,7 +94542,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49449] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94583,7 +94583,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49493] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94624,7 +94624,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49537] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94665,7 +94665,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49581] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94706,7 +94706,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49625] = 4,
     ACTIONS(9229), 1,
       anon_sym_LBRACK,
@@ -94748,7 +94748,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49671] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94789,7 +94789,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49715] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94830,7 +94830,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49759] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94871,7 +94871,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49803] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94912,7 +94912,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49847] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94953,7 +94953,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49891] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -94994,7 +94994,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49935] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95035,7 +95035,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [49979] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95076,7 +95076,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50023] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95117,7 +95117,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50067] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95158,7 +95158,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50111] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95199,7 +95199,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50155] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95240,7 +95240,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50199] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95281,7 +95281,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50243] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95322,7 +95322,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50287] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95363,7 +95363,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50331] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95404,7 +95404,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50375] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95445,7 +95445,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50419] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95486,7 +95486,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50463] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95527,7 +95527,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50507] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95568,7 +95568,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50551] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95609,7 +95609,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50595] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95650,7 +95650,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50639] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95691,7 +95691,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50683] = 3,
     ACTIONS(3), 2,
       sym__whitespace,
@@ -95732,7 +95732,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym_glossary_entry_reference_token1,
       anon_sym_BSLASHnewacronym,
       aux_sym_theorem_definition_token1,
-      sym__generic_command_name,
+      sym_generic_command_name,
   [50727] = 5,
     ACTIONS(9233), 1,
       anon_sym_EQ,
@@ -104040,7 +104040,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [62278] = 2,
     ACTIONS(11068), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -104136,7 +104136,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [62406] = 2,
     ACTIONS(11100), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -105534,7 +105534,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [64270] = 2,
     ACTIONS(11566), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -105552,7 +105552,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [64294] = 2,
     ACTIONS(11572), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106266,7 +106266,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [65246] = 2,
     ACTIONS(11810), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106320,7 +106320,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [65318] = 2,
     ACTIONS(11828), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106350,13 +106350,13 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [65358] = 2,
     ACTIONS(11838), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
   [65366] = 2,
     ACTIONS(11840), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106410,7 +106410,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [65438] = 2,
     ACTIONS(11858), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106440,13 +106440,13 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [65478] = 2,
     ACTIONS(11868), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
   [65486] = 2,
     ACTIONS(11870), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106500,7 +106500,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [65558] = 2,
     ACTIONS(11888), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106530,13 +106530,13 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [65598] = 2,
     ACTIONS(11898), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
   [65606] = 2,
     ACTIONS(11900), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106590,7 +106590,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [65678] = 2,
     ACTIONS(11918), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106620,13 +106620,13 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [65718] = 2,
     ACTIONS(11928), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
   [65726] = 2,
     ACTIONS(11930), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106680,7 +106680,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [65798] = 2,
     ACTIONS(11948), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106710,13 +106710,13 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [65838] = 2,
     ACTIONS(11958), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
   [65846] = 2,
     ACTIONS(11960), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106770,7 +106770,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [65918] = 2,
     ACTIONS(11978), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106800,13 +106800,13 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [65958] = 2,
     ACTIONS(11988), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
   [65966] = 2,
     ACTIONS(11990), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106860,7 +106860,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [66038] = 2,
     ACTIONS(12008), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106890,13 +106890,13 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [66078] = 2,
     ACTIONS(12018), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
   [66086] = 2,
     ACTIONS(12020), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106950,7 +106950,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [66158] = 2,
     ACTIONS(12038), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -106980,13 +106980,13 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [66198] = 2,
     ACTIONS(12048), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
   [66206] = 2,
     ACTIONS(12050), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -107040,7 +107040,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [66278] = 2,
     ACTIONS(12068), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -107070,13 +107070,13 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [66318] = 2,
     ACTIONS(12078), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
   [66326] = 2,
     ACTIONS(12080), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -107130,7 +107130,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [66398] = 2,
     ACTIONS(12098), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -107160,13 +107160,13 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [66438] = 2,
     ACTIONS(12108), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
   [66446] = 2,
     ACTIONS(12110), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -107220,7 +107220,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__comment,
   [66518] = 2,
     ACTIONS(12128), 1,
-      sym__generic_command_name,
+      sym_generic_command_name,
     ACTIONS(3), 2,
       sym__whitespace,
       sym__comment,
@@ -116301,7 +116301,7 @@ extern const TSLanguage *tree_sitter_latex(void) {
     .max_alias_sequence_length = MAX_ALIAS_SEQUENCE_LENGTH,
     .lex_fn = ts_lex,
     .keyword_lex_fn = ts_lex_keywords,
-    .keyword_capture_token = sym__generic_command_name,
+    .keyword_capture_token = sym_generic_command_name,
     .field_count = FIELD_COUNT,
     .field_map_slices = (const TSFieldMapSlice *)ts_field_map_slices,
     .field_map_entries = (const TSFieldMapEntry *)ts_field_map_entries,

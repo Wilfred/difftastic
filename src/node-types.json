@@ -788,6 +788,16 @@
             "named": true
           }
         ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "generic_command_name",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -1497,6 +1507,16 @@
             "named": true
           }
         ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "generic_command_name",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -2140,6 +2160,16 @@
         "types": [
           {
             "type": "brace_group",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "generic_command_name",
             "named": true
           }
         ]
@@ -3582,6 +3612,10 @@
   {
     "type": "]",
     "named": false
+  },
+  {
+    "type": "generic_command_name",
+    "named": true
   },
   {
     "type": "param",

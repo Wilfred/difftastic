@@ -1,6 +1,6 @@
 {
   "name": "latex",
-  "word": "_generic_command_name",
+  "word": "generic_command_name",
   "rules": {
     "document": {
       "type": "REPEAT",
@@ -2491,7 +2491,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "_generic_command_name"
+            "name": "generic_command_name"
           }
         },
         {
@@ -2540,7 +2540,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "_generic_command_name"
+            "name": "generic_command_name"
           }
         },
         {
@@ -3229,7 +3229,7 @@
             "name": "name",
             "content": {
               "type": "SYMBOL",
-              "name": "_generic_command_name"
+              "name": "generic_command_name"
             }
           },
           {
@@ -3259,7 +3259,7 @@
         ]
       }
     },
-    "_generic_command_name": {
+    "generic_command_name": {
       "type": "PATTERN",
       "value": "\\\\([^\\r\\n]|[@a-zA-Z]+\\*?)?"
     }

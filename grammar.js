@@ -10,7 +10,7 @@ const sepBy = (rule, sep) => optional(sepBy1(rule, sep));
 module.exports = grammar({
   name: 'latex',
   extras: $ => [$._whitespace, $._comment],
-  word: $ => $._generic_command_name,
+  word: $ => $.generic_command_name,
   rules: {
     document: $ => repeat($._content),
 
@@ -461,7 +461,7 @@ module.exports = grammar({
         ),
         field('argc', optional(seq('[', /\d/, ']'))),
         '{',
-        field('name', $._generic_command_name),
+        field('name', $.generic_command_name),
         '}',
         field('implementation', $.brace_group)
       ),
@@ -473,7 +473,7 @@ module.exports = grammar({
           token(choice('\\DeclareMathOperator', '\\DeclareMathOperator*'))
         ),
         '{',
-        field('name', $._generic_command_name),
+        field('name', $.generic_command_name),
         '}',
         field('implementation', $.brace_group)
       ),
@@ -536,7 +536,7 @@ module.exports = grammar({
     generic_command: $ =>
       prec.right(
         seq(
-          field('name', $._generic_command_name),
+          field('name', $.generic_command_name),
           field(
             'arg',
             repeat(choice($.brace_group, $.bracket_group, $.paren_group))
@@ -544,6 +544,6 @@ module.exports = grammar({
         )
       ),
 
-    _generic_command_name: $ => /\\([^\r\n]|[@a-zA-Z]+\*?)?/,
+    generic_command_name: $ => /\\([^\r\n]|[@a-zA-Z]+\*?)?/,
   },
 });
