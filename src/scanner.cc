@@ -224,7 +224,7 @@ struct Scanner {
           }
           break;
         default:
-          if (crossed_newline && lexer->lookahead != '.' && lexer->lookahead != '&') {
+          if (crossed_newline && lexer->lookahead != '.' && lexer->lookahead != '&' && lexer->lookahead != '#') {
             lexer->result_symbol = LINE_BREAK;
           }
           return true;

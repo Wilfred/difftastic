@@ -1099,12 +1099,18 @@ Foo \
   &.bar
   &.baz
 
+Foo
+  # a comment
+  .bar
+  .baz
+
 ---
 
 (program
   (call (call (constant) (identifier)) (identifier))
   (call (constant) (identifier))
-  (call (call (constant) (identifier)) (identifier)))
+  (call (call (constant) (identifier)) (identifier))
+  (call (call (constant) (comment) (identifier)) (identifier)))
 
 ======================================
 method call with block argument do end
