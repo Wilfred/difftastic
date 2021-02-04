@@ -4,7 +4,7 @@
   "description": "Tree-sitter Grammar for LaTeX",
   "main": "index.js",
   "scripts": {
-    "build": "tree-sitter build",
+    "build": "tree-sitter generate",
     "test": "tree-sitter test"
   },
   "repository": {
