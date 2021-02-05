@@ -2346,11 +2346,13 @@
             }
           },
           {
-            "type": "IMMEDIATE_TOKEN",
+            "type": "ALIAS",
             "content": {
-              "type": "STRING",
-              "value": "["
-            }
+              "type": "SYMBOL",
+              "name": "_element_reference_bracket"
+            },
+            "named": false,
+            "value": "["
           },
           {
             "type": "CHOICE",
@@ -6078,6 +6080,10 @@
     {
       "type": "SYMBOL",
       "name": "_binary_star_star"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_element_reference_bracket"
     }
   ],
   "inline": [],

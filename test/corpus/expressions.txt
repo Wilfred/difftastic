@@ -1263,9 +1263,9 @@ end
       (destructured_parameter (identifier) (identifier) (splat_parameter (identifier)) (destructured_parameter (identifier) (identifier)))
       (splat_parameter (identifier))))))
 
-===============================
-method call with array arguments
-===============================
+==================================================
+element reference and method with array arguments
+==================================================
 
 foo []
 foo [1]
@@ -1274,9 +1274,60 @@ foo[1]
 ---
 
 (program
-  (call (identifier) (argument_list (array)))
-  (call (identifier) (argument_list (array (integer))))
-  (element_reference (identifier) (integer)))
+  (call method: (identifier) arguments: (argument_list (array)))
+  (call method: (identifier) arguments: (argument_list (array (integer))))
+  (element_reference object: (identifier) (integer)))
+
+=====================================
+element reference on call expression
+=====================================
+
+d(a) [0]
+d.find { |x| x > 1 } [0]
+d.find { |x| x > 1 } [0] == 0
+
+---
+
+(program
+  (element_reference (call (identifier) (argument_list (identifier))) (integer))
+  (element_reference
+    (call
+      (identifier)
+      (identifier)
+      (block (block_parameters (identifier)) (binary (identifier) (integer))))
+    (integer))
+  (binary
+    (element_reference
+      (call
+        (identifier)
+        (identifier)
+        (block (block_parameters (identifier)) (binary (identifier) (integer))))
+      (integer))
+    (integer)))
+
+======================================
+call with array and block
+======================================
+
+fun [0] { |x| x }
+
+fun [0] do
+  puts 1
+end
+
+---
+
+(program
+  (call
+    (identifier)
+    (argument_list (array (integer)))
+    (block (block_parameters (identifier)) (identifier)))
+  (call
+    (identifier)
+    (argument_list (array (integer)))
+    (do_block
+      (call (identifier) (argument_list (integer))))))
+
 
 ==============
 empty lambda expression

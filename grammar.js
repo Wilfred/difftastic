@@ -62,7 +62,8 @@ module.exports = grammar({
     $._singleton_class_left_angle_left_langle,
     $.hash_key_symbol,
     $._hash_splat_star_star,
-    $._binary_star_star
+    $._binary_star_star,
+    $._element_reference_bracket,
   ],
 
   extras: $ => [
@@ -469,7 +470,7 @@ module.exports = grammar({
 
     element_reference: $ => prec.left(1, seq(
       field('object', $._primary),
-      token.immediate('['),
+      alias($._element_reference_bracket, '['),
       optional($._argument_list_with_trailing_comma),
       ']'
     )),
