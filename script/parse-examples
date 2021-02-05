@@ -3,28 +3,50 @@
 set -e
 
 cd "$(dirname "$0")/.."
+root="$PWD"
 
-function clone_repo {
-  owner=$1
-  name=$2
-  sha=$3
+clone_repo() {
+  local owner=$1
+  local name=$2
+  local sha=$3
+  local folder="$4"
+  local path="$root/examples/$name"
 
-  path=examples/$name
-  if [ ! -d "$path" ]; then
+  if [ -d "$path" ]; then
+    pushd "$path" > /dev/null
+    if [ "$(git rev-parse HEAD 2>/dev/null)" == "$sha"  ]; then
+      popd > /dev/null
+      return
+    else
+      popd > /dev/null
+      rm -rf "$path"
+      echo "Updating $owner/$name to $sha"
+    fi
+  else
     echo "Cloning $owner/$name"
-    git clone "https://github.com/$owner/$name" "$path"
   fi
 
+  mkdir -p "$path"
   pushd "$path" > /dev/null
-  if [ "$(git rev-parse head)" != "$sha"  ]; then
-    echo "Updating $owner/$name to $sha"
-    git fetch
-    git reset --hard $sha
+  git init
+  git remote add origin "https://github.com/$owner/$name"
+  git pull --ff-only --depth 1 origin "$sha"
+  if [ "${folder:-}" ]; then
+    while IFS= read -r file; do
+      echo "${folder}" "$file"
+      if [ "$file" != "$folder" ]; then
+        rm -r "$file"
+      fi
+    done < <(ls -A "$path")
   fi
   popd > /dev/null
 }
 
 clone_repo desktop desktop d1324f56d02dd9afca5d2e9da545905a7d41d671
+clone_repo reduxjs redux 45111a63d39a0c0fbd8b5417b2ad623718d42d66
+# commented out due to too many errors
+#clone_repo microsoft vscode bead496a613e475819f89f08e9e882b841bc1fe8
+#clone_repo microsoft TypeScript 05e2f74fbef4a935f1e7daea9c9eb152e3956085 src
 
 known_failures="$(cat script/known_failures.txt)"
 
