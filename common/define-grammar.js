@@ -522,7 +522,8 @@ module.exports = function defineGrammar(dialect) {
         $.union_type,
         $.intersection_type,
         $.function_type,
-        $.constructor_type
+        $.constructor_type,
+        $.infer_type
       ),
 
       optional_identifier: $ => seq($.identifier, '?'),
@@ -566,6 +567,8 @@ module.exports = function defineGrammar(dialect) {
         $.lookup_type,
         $.conditional_type,
       ),
+
+      infer_type: $ => seq("infer", $._type_identifier),
 
       conditional_type: $ => prec.left(PREC.CONDITIONAL_TYPE, seq(
         field('left', $._type),

@@ -7826,6 +7826,10 @@
         {
           "type": "SYMBOL",
           "name": "constructor_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "infer_type"
         }
       ]
     },
@@ -7988,6 +7992,19 @@
         {
           "type": "SYMBOL",
           "name": "conditional_type"
+        }
+      ]
+    },
+    "infer_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "infer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type_identifier"
         }
       ]
     },

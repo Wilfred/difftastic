@@ -501,6 +501,10 @@
           "named": true
         },
         {
+          "type": "infer_type",
+          "named": true
+        },
+        {
           "type": "intersection_type",
           "named": true
         },
@@ -808,6 +812,10 @@
           "named": true
         },
         {
+          "type": "infer_type",
+          "named": true
+        },
+        {
           "type": "intersection_type",
           "named": true
         },
@@ -896,6 +904,10 @@
         },
         {
           "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "infer_type",
           "named": true
         },
         {
@@ -1566,6 +1578,10 @@
             "named": true
           },
           {
+            "type": "infer_type",
+            "named": true
+          },
+          {
             "type": "intersection_type",
             "named": true
           },
@@ -1649,6 +1665,10 @@
           },
           {
             "type": "index_type_query",
+            "named": true
+          },
+          {
+            "type": "infer_type",
             "named": true
           },
           {
@@ -1738,6 +1758,10 @@
             "named": true
           },
           {
+            "type": "infer_type",
+            "named": true
+          },
+          {
             "type": "intersection_type",
             "named": true
           },
@@ -1821,6 +1845,10 @@
           },
           {
             "type": "index_type_query",
+            "named": true
+          },
+          {
+            "type": "infer_type",
             "named": true
           },
           {
@@ -1913,6 +1941,10 @@
         },
         {
           "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "infer_type",
           "named": true
         },
         {
@@ -2031,6 +2063,10 @@
         },
         {
           "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "infer_type",
           "named": true
         },
         {
@@ -2170,6 +2206,10 @@
         },
         {
           "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "infer_type",
           "named": true
         },
         {
@@ -2998,6 +3038,10 @@
           "named": true
         },
         {
+          "type": "infer_type",
+          "named": true
+        },
+        {
           "type": "intersection_type",
           "named": true
         },
@@ -3280,6 +3324,10 @@
           "named": true
         },
         {
+          "type": "infer_type",
+          "named": true
+        },
+        {
           "type": "intersection_type",
           "named": true
         },
@@ -3512,6 +3560,10 @@
           "named": true
         },
         {
+          "type": "infer_type",
+          "named": true
+        },
+        {
           "type": "intersection_type",
           "named": true
         },
@@ -3604,6 +3656,21 @@
         },
         {
           "type": "type_query",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "infer_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]
@@ -3727,6 +3794,10 @@
         },
         {
           "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "infer_type",
           "named": true
         },
         {
@@ -4200,6 +4271,10 @@
           "named": true
         },
         {
+          "type": "infer_type",
+          "named": true
+        },
+        {
           "type": "intersection_type",
           "named": true
         },
@@ -4288,6 +4363,10 @@
         },
         {
           "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "infer_type",
           "named": true
         },
         {
@@ -4932,6 +5011,10 @@
           "named": true
         },
         {
+          "type": "infer_type",
+          "named": true
+        },
+        {
           "type": "intersection_type",
           "named": true
         },
@@ -5020,6 +5103,10 @@
         },
         {
           "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "infer_type",
           "named": true
         },
         {
@@ -5233,6 +5320,10 @@
         },
         {
           "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "infer_type",
           "named": true
         },
         {
@@ -5965,6 +6056,10 @@
             "named": true
           },
           {
+            "type": "infer_type",
+            "named": true
+          },
+          {
             "type": "intersection_type",
             "named": true
           },
@@ -6057,6 +6152,10 @@
           "named": true
         },
         {
+          "type": "infer_type",
+          "named": true
+        },
+        {
           "type": "intersection_type",
           "named": true
         },
@@ -6145,6 +6244,10 @@
         },
         {
           "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "infer_type",
           "named": true
         },
         {
@@ -6278,6 +6381,10 @@
         },
         {
           "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "infer_type",
           "named": true
         },
         {
@@ -6457,6 +6564,10 @@
         },
         {
           "type": "index_type_query",
+          "named": true
+        },
+        {
+          "type": "infer_type",
           "named": true
         },
         {
@@ -7036,6 +7147,10 @@
   },
   {
     "type": "in",
+    "named": false
+  },
+  {
+    "type": "infer",
     "named": false
   },
   {
