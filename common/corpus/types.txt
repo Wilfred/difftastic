@@ -776,7 +776,7 @@ function isT(t: T): t is T {
     (formal_parameters
     (required_parameter
       (identifier) (type_annotation (predefined_type))))
-    (asserts (type_predicate (identifier) (predefined_type)))
+    (asserts (identifier) (predefined_type))
     (statement_block))
   (class_declaration
     (type_identifier)

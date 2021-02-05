@@ -38,6 +38,7 @@ module.exports = function defineGrammar(dialect) {
       // slightly different when parsing types. Any binary-only operator would
       // work.
       '||',
+      $._function_signature_automatic_semicolon,
     ]),
 
     conflicts: ($, previous) => previous.concat([
@@ -203,7 +204,8 @@ module.exports = function defineGrammar(dialect) {
       export_statement: ($, previous) => prec(PREC.DECLARATION, choice(
         previous,
         seq('export', '=', $.identifier, $._semicolon),
-        seq('export', 'as', 'namespace', $.identifier, $._semicolon)
+        seq('export', 'as', 'namespace', $.identifier, $._semicolon),
+        seq('export', optional("default"), $.function_signature)
       )),
 
       non_null_expression: $ => prec.left(PREC.NON_NULL, seq(
@@ -266,7 +268,7 @@ module.exports = function defineGrammar(dialect) {
         'function',
         field('name', $.identifier),
         $._call_signature,
-        $._semicolon
+        choice($._semicolon, $._function_signature_automatic_semicolon),
       ),
 
       class_body: $ => seq(
@@ -506,9 +508,12 @@ module.exports = function defineGrammar(dialect) {
       asserts: $ => seq(
         ':',
         'asserts',
-        choice(
-          $.identifier,
-          $.type_predicate
+        choice($.identifier, $.this),
+        optional(
+          seq(
+            'is',
+            $._type
+          )
         )
       ),
 

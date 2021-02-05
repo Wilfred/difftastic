@@ -201,6 +201,31 @@
                 "name": "_semicolon"
               }
             ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "export"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "default"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "function_signature"
+              }
+            ]
           }
         ]
       }
@@ -4920,7 +4945,7 @@
                 },
                 {
                   "type": "PATTERN",
-                  "value": "[^*]*\\*+([^\\/*][^*]*\\*+)*"
+                  "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
                 },
                 {
                   "type": "STRING",
@@ -5082,7 +5107,7 @@
             },
             {
               "type": "PATTERN",
-              "value": "[^\\/\\\\\\[\\n]"
+              "value": "[^/\\\\\\[\\n]"
             }
           ]
         }
@@ -5591,13 +5616,13 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "[^\\x00-\\x1F\\s0-9:;`\"'@#.,|^&<=>+\\-*\\/\\\\%?!~()\\[\\]{}\\uFEFF\\u2060\\u200B\\u00A0]|\\\\u[0-9a-fA-F]{4}|\\\\u\\{[0-9a-fA-F]+\\}"
+            "value": "[^\\x00-\\x1F\\s0-9:;`\"'@#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}\\uFEFF\\u2060\\u200B\\u00A0]|\\\\u[0-9a-fA-F]{4}|\\\\u\\{[0-9a-fA-F]+\\}"
           },
           {
             "type": "REPEAT",
             "content": {
               "type": "PATTERN",
-              "value": "[^\\x00-\\x1F\\s:;`\"'@#.,|^&<=>+\\-*\\/\\\\%?!~()\\[\\]{}\\uFEFF\\u2060\\u200B\\u00A0]|\\\\u[0-9a-fA-F]{4}|\\\\u\\{[0-9a-fA-F]+\\}"
+              "value": "[^\\x00-\\x1F\\s:;`\"'@#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}\\uFEFF\\u2060\\u200B\\u00A0]|\\\\u[0-9a-fA-F]{4}|\\\\u\\{[0-9a-fA-F]+\\}"
             }
           }
         ]
@@ -6806,8 +6831,17 @@
           "name": "_call_signature"
         },
         {
-          "type": "SYMBOL",
-          "name": "_semicolon"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_semicolon"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_function_signature_automatic_semicolon"
+            }
+          ]
         }
       ]
     },
@@ -7743,7 +7777,28 @@
             },
             {
               "type": "SYMBOL",
-              "name": "type_predicate"
+              "name": "this"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "is"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_type"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
             }
           ]
         }
@@ -9278,6 +9333,10 @@
     {
       "type": "STRING",
       "value": "||"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_function_signature_automatic_semicolon"
     }
   ],
   "inline": [

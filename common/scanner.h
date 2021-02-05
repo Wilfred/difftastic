@@ -5,6 +5,7 @@ enum TokenType {
   AUTOMATIC_SEMICOLON,
   TEMPLATE_CHARS,
   BINARY_OPERATORS,
+  FUNCTION_SIGNATURE_AUTOMATIC_SEMICOLON,
 };
 
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
@@ -68,7 +69,10 @@ static inline bool external_scanner_scan(void *payload, TSLexer *lexer, const bo
           advance(lexer);
       }
     }
-  } else if (valid_symbols[AUTOMATIC_SEMICOLON]) {
+  } else if (
+    valid_symbols[AUTOMATIC_SEMICOLON] ||
+    valid_symbols[FUNCTION_SIGNATURE_AUTOMATIC_SEMICOLON]
+  ) {
     lexer->result_symbol = AUTOMATIC_SEMICOLON;
     lexer->mark_end(lexer);
 
@@ -100,6 +104,10 @@ static inline bool external_scanner_scan(void *payload, TSLexer *lexer, const bo
       case '/':
       case ':':
         return false;
+
+      case '{':
+        if (valid_symbols[FUNCTION_SIGNATURE_AUTOMATIC_SEMICOLON]) return false;
+        break;
 
       // Don't insert a semicolon before a '[' or '(', unless we're parsing
       // a type. Detect whether we're parsing a type or an expression using

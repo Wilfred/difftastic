@@ -188,3 +188,108 @@ class A extends B {
               right: (member_expression
                 object: (this)
                 property: (property_identifier)))))))))
+
+
+==================
+Function signature
+==================
+
+export default function foo(): bar
+
+---
+
+(program
+  (export_statement
+    (function_signature
+      (identifier)
+      (formal_parameters)
+      (type_annotation (type_identifier)))))
+
+=============================================================
+Ambiguity between function signature and function declaration
+=============================================================
+
+function foo()
+{}
+
+function foo(bar)
+function foo(bar): baz;
+function foo(bar)
+
+function foo(): () => { [key: foo]: bar }
+function foo(): () => { [key: foo]: bar } {}
+
+---
+
+(program
+  (function_declaration
+    (identifier)
+    (formal_parameters)
+    (statement_block))
+  (function_signature
+    (identifier)
+    (formal_parameters (required_parameter (identifier))))
+  (function_signature
+    (identifier)
+    (formal_parameters (required_parameter (identifier)))
+    (type_annotation (type_identifier)))
+  (function_signature
+    (identifier)
+    (formal_parameters
+      (required_parameter (identifier))))
+  (function_signature
+    (identifier)
+    (formal_parameters)
+    (type_annotation
+      (function_type
+        (formal_parameters)
+        (object_type
+          (index_signature
+            (identifier)
+            (type_identifier)
+            (type_annotation (type_identifier)))))))
+  (function_declaration
+    (identifier)
+    (formal_parameters)
+    (type_annotation
+      (function_type
+        (formal_parameters)
+        (object_type
+          (index_signature
+            (identifier)
+            (type_identifier)
+            (type_annotation (type_identifier))))))
+    (statement_block)))
+
+====================================================================================
+Ambiguity between function signature and function declaration: comments and newlines
+====================================================================================
+
+function foo()
+  // above is a signature
+foo();
+
+function bar()
+  // above is a function declaration
+{}
+
+function foo()
+  : number;
+
+---
+
+(program
+  (function_signature (identifier) (formal_parameters))
+  (comment)
+  (expression_statement (call_expression (identifier) (arguments)))
+
+  (function_declaration
+    (identifier)
+    (formal_parameters)
+    (comment)
+    (statement_block))
+
+  (function_signature
+    (identifier)
+    (formal_parameters)
+    (type_annotation (predefined_type))))

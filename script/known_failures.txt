@@ -1,0 +1,3 @@
+examples/redux/src/types/middleware.ts
+examples/redux/src/types/reducers.ts
+examples/redux/src/types/store.ts
