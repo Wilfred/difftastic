@@ -912,6 +912,9 @@ type T = X extends Y ? Z : Y
 type T = X extends ?Y ? ?X : Y
 type F<T, X, Y> = ((t: T) => X extends Y ? X : Y) extends ((t: T) => X extends Y ? Y : X) ? X : Y
 type F<T, X, Y> = (t: T) => X extends Y ? X : Y extends (t: T) => X extends Y ? Y : X ? X : Y
+type T<X, Y> = T extends X<infer Y> ? Y : X
+type T<X> = X extends (infer X)[] ? X : never;
+type T<X> = T extends { x: infer X } ? X : never;
 
 ---
 (program
@@ -986,4 +989,39 @@ type F<T, X, Y> = (t: T) => X extends Y ? X : Y extends (t: T) => X extends Y ? 
             (type_identifier)
             (type_identifier)))
         (type_identifier)
-        (type_identifier)))))
+        (type_identifier))))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter (type_identifier))
+      (type_parameter (type_identifier)))
+    (conditional_type
+      (type_identifier)
+      (generic_type
+        (type_identifier)
+        (type_arguments
+          (infer_type (type_identifier))))
+      (type_identifier)
+      (type_identifier))) 
+    (type_alias_declaration
+      (type_identifier)
+      (type_parameters
+        (type_parameter (type_identifier)))
+      (conditional_type
+        (type_identifier)
+        (array_type
+          (parenthesized_type (infer_type (type_identifier))))
+        (type_identifier)
+        (type_identifier)))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter (type_identifier)))
+      (conditional_type
+        (type_identifier)
+        (object_type
+          (property_signature
+            (property_identifier)
+            (type_annotation (infer_type (type_identifier)))))
+      (type_identifier)
+      (type_identifier))))
