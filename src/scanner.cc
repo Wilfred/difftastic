@@ -38,6 +38,7 @@ enum TokenType {
   HASH_KEY_SYMBOL,
   HASH_SPLAT_STAR_STAR,
   BINARY_STAR_STAR,
+  ELEMENT_REFERENCE_BRACKET,
 
   NONE
 };
@@ -321,7 +322,6 @@ struct Scanner {
   }
 
   bool scan_symbol_identifier(TSLexer *lexer) {
-
     if (lexer->lookahead == '@') {
       advance(lexer);
       if (lexer->lookahead == '@') {
@@ -873,6 +873,20 @@ struct Scanner {
           }
 
           return false;
+        }
+        break;
+
+      case '[':
+        // Treat a square bracket as an element reference if either:
+        // * the bracket is not preceded by any whitespace
+        // * an arbitrary expression is not valid at the current position.
+        if (valid_symbols[ELEMENT_REFERENCE_BRACKET] && (
+          !has_leading_whitespace ||
+          !valid_symbols[STRING_START]
+        )) {
+          advance(lexer);
+          lexer->result_symbol = ELEMENT_REFERENCE_BRACKET;
+          return true;
         }
         break;
 
