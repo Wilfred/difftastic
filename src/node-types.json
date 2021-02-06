@@ -470,7 +470,15 @@
           "named": true
         },
         {
+          "type": "left_parenthesis",
+          "named": true
+        },
+        {
           "type": "of",
+          "named": true
+        },
+        {
+          "type": "right_parenthesis",
           "named": true
         }
       ]
