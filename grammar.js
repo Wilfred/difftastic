@@ -5,11 +5,11 @@ module.exports = grammar({
   name: "elm",
 
   conflicts: ($) => [
-    [$._case_of_tail2],
     [$.upper_case_qid, $.value_qid],
     [$._more_case_of_branches],
     [$.function_call_expr],
     [$.field_access_expr],
+    [$.case_of_expr],
   ],
 
   externals: ($) => [
@@ -532,16 +532,27 @@ module.exports = grammar({
       ),
 
     case_of_expr: ($) =>
-      seq($.case, field("expr", $._expression), $._case_of_tail),
-
-    _case_of_tail: ($) => seq($.of, $._case_of_tail2),
-
-    _case_of_tail2: ($) =>
-      seq(
-        $._virtual_open_section,
-        field("branch", $.case_of_branch),
-        optional($._more_case_of_branches),
-        $._virtual_end_section
+      choice(
+        seq(
+          $.left_parenthesis,
+          $.case,
+          field("expr", $._expression),
+          $.of,
+          $._virtual_open_section,
+          field("branch", $.case_of_branch),
+          optional($._more_case_of_branches),
+          optional($._virtual_end_section),
+          $.right_parenthesis
+        ),
+        seq(
+          $.case,
+          field("expr", $._expression),
+          $.of,
+          $._virtual_open_section,
+          field("branch", $.case_of_branch),
+          optional($._more_case_of_branches),
+          $._virtual_end_section
+        )
       ),
 
     _more_case_of_branches: ($) =>
