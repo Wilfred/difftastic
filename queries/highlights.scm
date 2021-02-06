@@ -110,6 +110,7 @@
 
 [
   ";"
+  "?."
   "."
   ","
 ] @punctuation.delimiter
