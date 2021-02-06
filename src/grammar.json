@@ -1948,69 +1948,121 @@
       ]
     },
     "case_of_expr": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "case"
-        },
-        {
-          "type": "FIELD",
-          "name": "expr",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_expression"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_case_of_tail"
-        }
-      ]
-    },
-    "_case_of_tail": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "of"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_case_of_tail2"
-        }
-      ]
-    },
-    "_case_of_tail2": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_virtual_open_section"
-        },
-        {
-          "type": "FIELD",
-          "name": "branch",
-          "content": {
-            "type": "SYMBOL",
-            "name": "case_of_branch"
-          }
-        },
-        {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_more_case_of_branches"
+              "name": "left_parenthesis"
             },
             {
-              "type": "BLANK"
+              "type": "SYMBOL",
+              "name": "case"
+            },
+            {
+              "type": "FIELD",
+              "name": "expr",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_expression"
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "of"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_virtual_open_section"
+            },
+            {
+              "type": "FIELD",
+              "name": "branch",
+              "content": {
+                "type": "SYMBOL",
+                "name": "case_of_branch"
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_more_case_of_branches"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_virtual_end_section"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "right_parenthesis"
             }
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_virtual_end_section"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "case"
+            },
+            {
+              "type": "FIELD",
+              "name": "expr",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_expression"
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "of"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_virtual_open_section"
+            },
+            {
+              "type": "FIELD",
+              "name": "branch",
+              "content": {
+                "type": "SYMBOL",
+                "name": "case_of_branch"
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_more_case_of_branches"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_virtual_end_section"
+            }
+          ]
         }
       ]
     },
@@ -3062,9 +3114,6 @@
   ],
   "conflicts": [
     [
-      "_case_of_tail2"
-    ],
-    [
       "upper_case_qid",
       "value_qid"
     ],
@@ -3076,6 +3125,9 @@
     ],
     [
       "field_access_expr"
+    ],
+    [
+      "case_of_expr"
     ]
   ],
   "externals": [
