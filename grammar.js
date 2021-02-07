@@ -229,33 +229,38 @@ module.exports = grammar({
 
     dots: $ => '...',
 
-    unary: $ => choice(
-      prec.left(PREC.NEG, seq('-', $._expression)),
-      prec.left(PREC.NEG, seq('+', $._expression)),
-      prec.left(PREC.NOT, seq('!', $._expression)),
-      prec.left(PREC.TILDE, seq('~', $._expression))
-    ),
+    unary: $ => {
+      const operators = [
+        [PREC.NEG, choice('-', '+')],
+        [PREC.NOT, '!'],
+        [PREC.TILDE, '~'],
+      ];
 
-    binary: $ => choice(
-      prec.left(PREC.PLUS, seq($._expression, '+', $._expression)),
-      prec.left(PREC.PLUS, seq($._expression, '-', $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, '*', $._expression)),
-      prec.left(PREC.TIMES, seq($._expression, '/', $._expression)),
-      prec.right(PREC.EXP, seq($._expression, '^', $._expression)),
-      prec.left(PREC.REL, seq($._expression, '<', $._expression)),
-      prec.left(PREC.REL, seq($._expression, '>', $._expression)),
-      prec.left(PREC.REL, seq($._expression, '<=', $._expression)),
-      prec.left(PREC.REL, seq($._expression, '>=', $._expression)),
-      prec.left(PREC.REL, seq($._expression, '==', $._expression)),
-      prec.left(PREC.REL, seq($._expression, '!=', $._expression)),
-      prec.left(PREC.OR, seq($._expression, '||', $._expression)),
-      prec.left(PREC.OR, seq($._expression, '|', $._expression)),
-      prec.left(PREC.AND, seq($._expression, '&&', $._expression)),
-      prec.left(PREC.AND, seq($._expression, '&', $._expression)),
-      prec.left(PREC.SPECIAL, seq($._expression, $.special, $._expression)),
-      prec.left(PREC.COLON, seq($._expression, ':', $._expression)),
-      prec.left(PREC.TILDE, seq($._expression, '~', $._expression))
-    ),
+      return choice(...operators.map(([precedence, operator]) => prec.left(precedence, seq(
+        field('operator', operator),
+        field('operand', $._expression)
+      ))));
+    },
+
+    binary: $ => {
+      const operators = [
+        [prec.left, PREC.PLUS, choice('+', '-')],
+        [prec.left, PREC.TIMES, choice('*', '/')],
+        [prec.right, PREC.EXP, '^'],
+        [prec.left, PREC.REL, choice('<', '>', '<=', '>=', '==', '!=')],
+        [prec.left, PREC.OR, choice('||', '|')],
+        [prec.left, PREC.AND, choice('&&', '&')],
+        [prec.left, PREC.SPECIAL, $.special],
+        [prec.left, PREC.COLON, ':'],
+        [prec.left, PREC.TILDE, '~'],
+      ];
+
+      return choice(...operators.map(([fn, precedence, operator]) => fn(precedence, seq(
+        field('left', $._expression),
+        field('operator', operator),
+        field('right', $._expression)
+      ))));
+    },
 
     break: $ => 'break',
 
