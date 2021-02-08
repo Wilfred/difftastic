@@ -74,8 +74,8 @@ module.exports = function defineGrammar(dialect) {
       [$._expression, $.generic_type],
       [$._expression, $.predefined_type],
       [$._expression, $._rest_identifier],
-      [$._expression, $._tuple_type_identifier],
-      [$._expression, $.optional_identifier],
+      [$.optional_identifier, $._primary_type],
+      [$.optional_identifier, $._primary_type, $._expression],
 
       [$.object, $.object_type],
       [$.object, $._property_name],
@@ -530,15 +530,23 @@ module.exports = function defineGrammar(dialect) {
 
       _tuple_type_identifier: $ => choice(
         $.identifier,
-        $.optional_identifier,
-        $.rest_identifier
+        $.rest_identifier,
+        $.optional_identifier
       ),
 
-      labeled_tuple_type_member: $ => seq($._tuple_type_identifier, $.type_annotation),
+      labeled_tuple_type_member: $ => seq(
+        $._tuple_type_identifier,
+        $.type_annotation
+      ),
+
+      optional_type: $ => seq($._type, '?'),
+      rest_type: $ => seq('...', $._type),
 
       _tuple_type_member: $ => choice(
-        $._tuple_type_identifier,
         $.labeled_tuple_type_member,
+        $.optional_type,
+        $.rest_type,
+        $._type,
       ),
 
       constructor_type: $ => prec.left(PREC.CONSTRUCTOR_TYPE, seq(
@@ -600,7 +608,7 @@ module.exports = function defineGrammar(dialect) {
 
       type_query: $ => prec(PREC.TYPEOF, seq(
         'typeof',
-        choice($.identifier, $.nested_identifier, $.generic_type)
+        choice($.identifier, $.nested_identifier, $.generic_type, $.call_expression)
       )),
 
       index_type_query: $ => seq(

@@ -675,6 +675,7 @@ type T = keyof Person<P>;
 type T = typeof Person;
 type T = typeof Person.P;
 type T = typeof Person<P>;
+type T = typeof import('person');
 
 type T = keyof typeof Person;
 
@@ -693,6 +694,8 @@ type T = keyof typeof Person;
     (type_query (nested_identifier (identifier) (identifier))))
   (type_alias_declaration (type_identifier)
     (type_query (generic_type (type_identifier) (type_arguments (type_identifier)))))
+  (type_alias_declaration (type_identifier)
+    (type_query (call_expression (import) (arguments (string)))))
   (type_alias_declaration (type_identifier)
     (index_type_query (type_query (identifier)))))
 
@@ -851,12 +854,13 @@ Tuple types
 ==================================
 
 type t = []
-type t = [a, b]
-type t = readonly [a, b]
-type t = [...b]
-type t = [a, ...b]
-type t = [a, b, ...c]
-type t = [a, b?]
+type t = [A|B, C]
+type t = readonly [A[], B.C]
+
+// special optional and rest type syntax
+type t = [string?, ...B]
+
+// labeled elements
 type t = [a: A, b?: B, ...c: C[]]
 
 ---
@@ -868,29 +872,25 @@ type t = [a: A, b?: B, ...c: C[]]
   (type_alias_declaration
     (type_identifier)
     (tuple_type
-      (identifier)
-      (identifier)))
+      (union_type
+        (type_identifier)
+        (type_identifier))
+      (type_identifier)))
   (type_alias_declaration
     (type_identifier)
     (tuple_type
       (readonly)
-      (identifier)
-      (identifier)))
-  (type_alias_declaration
-    (type_identifier)
-    (tuple_type (rest_identifier (identifier))))
-  (type_alias_declaration
-    (type_identifier)
-    (tuple_type (identifier) (rest_identifier (identifier))))
+      (array_type (type_identifier))
+      (nested_type_identifier
+        (identifier)
+        (type_identifier))))
+  (comment)
   (type_alias_declaration
     (type_identifier)
     (tuple_type
-      (identifier)
-      (identifier)
-      (rest_identifier (identifier))))
-  (type_alias_declaration
-    (type_identifier)
-    (tuple_type (identifier) (optional_identifier (identifier))))
+      (optional_type (predefined_type))
+      (rest_type (type_identifier))))
+  (comment)
   (type_alias_declaration
     (type_identifier)
     (tuple_type
@@ -1002,7 +1002,7 @@ type T<X> = T extends { x: infer X } ? X : never;
         (type_arguments
           (infer_type (type_identifier))))
       (type_identifier)
-      (type_identifier))) 
+      (type_identifier)))
     (type_alias_declaration
       (type_identifier)
       (type_parameters
