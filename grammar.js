@@ -50,6 +50,7 @@ module.exports = grammar({
         $.glossary_entry_definition,
         $.glossary_entry_reference,
         $.acronym_definition,
+        $.acronym_reference,
         $.theorem_definition,
         $.color_reference,
         $.color_definition,
@@ -512,6 +513,14 @@ module.exports = grammar({
         field('long', $.brace_group)
       ),
 
+    acronym_reference: $ =>
+      seq(
+        field('command', token(choice(...commands.acronymReference))),
+        field('option', optional($.key_val_options)),
+        '{',
+        field('name', $.word),
+        '}'
+      ),
     theorem_definition: $ =>
       prec.right(
         seq(
@@ -557,9 +566,8 @@ module.exports = grammar({
           '{',
           field('model', $.word),
           '}',
-          '{',
-          field('spec', $.text),
-          '}'
+          // optional to improve error handling
+          optional(seq('{', field('spec', $.text), '}'))
         )
       ),
 
@@ -571,9 +579,14 @@ module.exports = grammar({
           '{',
           sepBy(field('model', $.word), ','),
           '}',
-          field('head', $.brace_group),
-          field('tail', $.brace_group),
-          field('spec', $.brace_group)
+          optional(
+            // optional to improve error handling
+            seq(
+              field('head', $.brace_group),
+              field('tail', $.brace_group),
+              field('spec', $.brace_group)
+            )
+          )
         )
       ),
 

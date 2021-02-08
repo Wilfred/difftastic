@@ -46,6 +46,32 @@
     }
   },
   {
+    "type": "acronym_reference",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "option": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "key_val_options",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "begin",
     "named": true,
     "fields": {
@@ -153,6 +179,10 @@
         "types": [
           {
             "type": "acronym_definition",
+            "named": true
+          },
+          {
+            "type": "acronym_reference",
             "named": true
           },
           {
@@ -341,6 +371,10 @@
         "types": [
           {
             "type": "acronym_definition",
+            "named": true
+          },
+          {
+            "type": "acronym_reference",
             "named": true
           },
           {
@@ -565,6 +599,10 @@
         "types": [
           {
             "type": "acronym_definition",
+            "named": true
+          },
+          {
+            "type": "acronym_reference",
             "named": true
           },
           {
@@ -833,7 +871,7 @@
       },
       "spec": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "text",
@@ -875,7 +913,7 @@
       },
       "head": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "brace_group",
@@ -895,7 +933,7 @@
       },
       "spec": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "brace_group",
@@ -905,7 +943,7 @@
       },
       "tail": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "brace_group",
@@ -975,6 +1013,10 @@
         "types": [
           {
             "type": "acronym_definition",
+            "named": true
+          },
+          {
+            "type": "acronym_reference",
             "named": true
           },
           {
@@ -1174,6 +1216,10 @@
           "named": true
         },
         {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
           "type": "biblatex_include",
           "named": true
         },
@@ -1367,6 +1413,10 @@
             "named": true
           },
           {
+            "type": "acronym_reference",
+            "named": true
+          },
+          {
             "type": "biblatex_include",
             "named": true
           },
@@ -1530,6 +1580,10 @@
         "types": [
           {
             "type": "acronym_definition",
+            "named": true
+          },
+          {
+            "type": "acronym_reference",
             "named": true
           },
           {
@@ -1859,6 +1913,10 @@
             "named": true
           },
           {
+            "type": "acronym_reference",
+            "named": true
+          },
+          {
             "type": "biblatex_include",
             "named": true
           },
@@ -2108,6 +2166,10 @@
         "types": [
           {
             "type": "acronym_definition",
+            "named": true
+          },
+          {
+            "type": "acronym_reference",
             "named": true
           },
           {
@@ -2425,6 +2487,10 @@
             "named": true
           },
           {
+            "type": "acronym_reference",
+            "named": true
+          },
+          {
             "type": "biblatex_include",
             "named": true
           },
@@ -2647,6 +2713,10 @@
             "named": true
           },
           {
+            "type": "acronym_reference",
+            "named": true
+          },
+          {
             "type": "biblatex_include",
             "named": true
           },
@@ -2798,6 +2868,10 @@
         "types": [
           {
             "type": "acronym_definition",
+            "named": true
+          },
+          {
+            "type": "acronym_reference",
             "named": true
           },
           {
@@ -2989,6 +3063,10 @@
             "named": true
           },
           {
+            "type": "acronym_reference",
+            "named": true
+          },
+          {
             "type": "biblatex_include",
             "named": true
           },
@@ -3163,6 +3241,10 @@
             "named": true
           },
           {
+            "type": "acronym_reference",
+            "named": true
+          },
+          {
             "type": "biblatex_include",
             "named": true
           },
@@ -3329,6 +3411,10 @@
             "named": true
           },
           {
+            "type": "acronym_reference",
+            "named": true
+          },
+          {
             "type": "biblatex_include",
             "named": true
           },
@@ -3476,6 +3562,10 @@
         "types": [
           {
             "type": "acronym_definition",
+            "named": true
+          },
+          {
+            "type": "acronym_reference",
             "named": true
           },
           {
@@ -3638,6 +3728,10 @@
         "types": [
           {
             "type": "acronym_definition",
+            "named": true
+          },
+          {
+            "type": "acronym_reference",
             "named": true
           },
           {
