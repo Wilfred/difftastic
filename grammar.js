@@ -51,6 +51,9 @@ module.exports = grammar({
         $.glossary_entry_reference,
         $.acronym_definition,
         $.theorem_definition,
+        $.color_reference,
+        $.color_definition,
+        $.color_set_definition,
         $.generic_command
       ),
 
@@ -528,6 +531,49 @@ module.exports = grammar({
               field('title', $.brace_group)
             )
           )
+        )
+      ),
+
+    color_reference: $ =>
+      prec.right(
+        seq(
+          field(
+            'command',
+            token(choice('\\color', '\\colorbox', '\\textcolor', '\\pagecolor'))
+          ),
+          '{',
+          field('name', $.word),
+          '}'
+        )
+      ),
+
+    color_definition: $ =>
+      prec.right(
+        seq(
+          field('command', '\\definecolor'),
+          '{',
+          field('name', $.word),
+          '}',
+          '{',
+          field('model', $.word),
+          '}',
+          '{',
+          field('spec', $.text),
+          '}'
+        )
+      ),
+
+    color_set_definition: $ =>
+      prec.right(
+        seq(
+          field('command', '\\definecolorset'),
+          optional(seq('[', field('ty', $.word), ']')),
+          '{',
+          sepBy(field('model', $.word), ','),
+          '}',
+          field('head', $.brace_group),
+          field('tail', $.brace_group),
+          field('spec', $.brace_group)
         )
       ),
 

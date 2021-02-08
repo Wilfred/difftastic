@@ -184,6 +184,18 @@
             "named": true
           },
           {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
+            "named": true
+          },
+          {
             "type": "command_definition",
             "named": true
           },
@@ -357,6 +369,18 @@
           },
           {
             "type": "class_include",
+            "named": true
+          },
+          {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
             "named": true
           },
           {
@@ -568,6 +592,18 @@
             "named": true
           },
           {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
+            "named": true
+          },
+          {
             "type": "command_definition",
             "named": true
           },
@@ -762,6 +798,134 @@
     }
   },
   {
+    "type": "color_definition",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\definecolor",
+            "named": false
+          }
+        ]
+      },
+      "model": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "color_reference",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "color_set_definition",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\definecolorset",
+            "named": false
+          }
+        ]
+      },
+      "head": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "brace_group",
+            "named": true
+          }
+        ]
+      },
+      "model": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "brace_group",
+            "named": true
+          }
+        ]
+      },
+      "tail": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "brace_group",
+            "named": true
+          }
+        ]
+      },
+      "ty": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "command_definition",
     "named": true,
     "fields": {
@@ -839,6 +1003,18 @@
           },
           {
             "type": "class_include",
+            "named": true
+          },
+          {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
             "named": true
           },
           {
@@ -1026,6 +1202,18 @@
           "named": true
         },
         {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
           "type": "command_definition",
           "named": true
         },
@@ -1203,6 +1391,18 @@
             "named": true
           },
           {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
+            "named": true
+          },
+          {
             "type": "command_definition",
             "named": true
           },
@@ -1358,6 +1558,18 @@
           },
           {
             "type": "class_include",
+            "named": true
+          },
+          {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
             "named": true
           },
           {
@@ -1675,6 +1887,18 @@
             "named": true
           },
           {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
+            "named": true
+          },
+          {
             "type": "command_definition",
             "named": true
           },
@@ -1912,6 +2136,18 @@
           },
           {
             "type": "class_include",
+            "named": true
+          },
+          {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
             "named": true
           },
           {
@@ -2217,6 +2453,18 @@
             "named": true
           },
           {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
+            "named": true
+          },
+          {
             "type": "command_definition",
             "named": true
           },
@@ -2423,6 +2671,18 @@
             "named": true
           },
           {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
+            "named": true
+          },
+          {
             "type": "command_definition",
             "named": true
           },
@@ -2566,6 +2826,18 @@
           },
           {
             "type": "class_include",
+            "named": true
+          },
+          {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
             "named": true
           },
           {
@@ -2745,6 +3017,18 @@
             "named": true
           },
           {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
+            "named": true
+          },
+          {
             "type": "command_definition",
             "named": true
           },
@@ -2903,6 +3187,18 @@
             "named": true
           },
           {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
+            "named": true
+          },
+          {
             "type": "command_definition",
             "named": true
           },
@@ -3057,6 +3353,18 @@
             "named": true
           },
           {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
+            "named": true
+          },
+          {
             "type": "command_definition",
             "named": true
           },
@@ -3192,6 +3500,18 @@
           },
           {
             "type": "class_include",
+            "named": true
+          },
+          {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
             "named": true
           },
           {
@@ -3342,6 +3662,18 @@
           },
           {
             "type": "class_include",
+            "named": true
+          },
+          {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
             "named": true
           },
           {
@@ -3579,6 +3911,14 @@
   },
   {
     "type": "\\caption",
+    "named": false
+  },
+  {
+    "type": "\\definecolor",
+    "named": false
+  },
+  {
+    "type": "\\definecolorset",
     "named": false
   },
   {
