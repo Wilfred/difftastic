@@ -29,9 +29,3 @@ jobs:
 
       - name: Test corpus
         run: npm test
-
-      - name: Parse examples
-        run: |
-          PATH=$(npm bin):$PATH
-          script/fetch-examples
-          script/parse-examples
