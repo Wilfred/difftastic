@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -eu
 
 cd "$(dirname "$0")/.."
 
@@ -16,7 +16,8 @@ function clone_repo {
   fi
 
   pushd "$path" > /dev/null
-  if [ "$(git rev-parse head)" != "$sha"  ]; then
+  actual_sha=$(git rev-parse HEAD)
+  if [ "$actual_sha" != "$sha"  ]; then
     echo "Updating $owner/$name to $sha"
     git fetch
     git reset --hard $sha
