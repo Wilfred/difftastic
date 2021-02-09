@@ -65,31 +65,31 @@ module.exports = grammar({
     ),
 
     function: $ => choice(
-      seq($.identifier, ':', $._expr_function),
-      seq($.formals, ":", $._expr_function),
-      seq($.formals, '@', $.identifier, ':', $._expr_function),
-      seq($.identifier, '@', $.formals, ':', $._expr_function),
+      seq(field('universal', $.identifier), ':', field('body', $._expr_function)),
+      seq(field('formals', $.formals), ":", field('body', $._expr_function)),
+      seq(field('formals', $.formals), '@', field('universal', $.identifier), ':', field('body', $._expr_function)),
+      seq(field('universal', $.identifier), '@', field('formals', $.formals), ':', field('body', $._expr_function)),
     ),
 
     formals: $ => choice(
       seq('{', '}'),
-      seq('{', commaSep1($.formal), '}'),
-      seq('{', commaSep1($.formal), ',', $.ellipses, '}'),
-      seq('{', $.ellipses, '}'),
+      seq('{', commaSep1(field('formal', $.formal)), '}'),
+      seq('{', commaSep1(field('formal', $.formal)), ',', field('ellipses', $.ellipses), '}'),
+      seq('{', field('ellipses', $.ellipses), '}'),
     ),
-    formal: $ => seq($.identifier, optional(seq('?', $._expr))),
+    formal: $ => seq(field("name", $.identifier), optional(seq('?', field('default', $._expr)))),
     ellipses: $ => '...',
 
-    assert: $ => seq('assert', $._expr, ';', $._expr_function),
-    with: $ => seq('with', $._expr, ';', $._expr_function),
-    let: $ => seq('let', optional($._binds), 'in', $._expr_function),
+    assert: $ => seq('assert', field('condition', $._expr), ';', field('body', $._expr_function)),
+    with: $ => seq('with', field('environment', $._expr), ';', field('body', $._expr_function)),
+    let: $ => seq('let', optional($._binds), 'in', field('body', $._expr_function)),
 
     _expr_if: $ => choice(
       $.if,
       $._expr_op
     ),
 
-    if: $ => seq('if', $._expr, 'then', $._expr, 'else', $._expr),
+    if: $ => seq('if', field('condition', $._expr), 'then', field('consequence', $._expr), 'else', field('alternative', $._expr)),
 
     _expr_op: $ => choice(
       $.unary,
@@ -98,28 +98,50 @@ module.exports = grammar({
     ),
 
     unary: $ => choice(
-      prec(PREC.not, seq('!', $._expr_op)),
-      prec(PREC.negate, seq('-', $._expr_op)),
-
+      ...[
+        ['!', PREC.not],
+        ['-', PREC.negate],
+      ].map(([operator, precedence]) =>
+        prec(precedence, seq(
+          field('operator', operator),
+          field('argument', $._expr_op)
+        ))
+      )
     ),
 
     binary: $ => choice(
-      prec.left(PREC.eq, seq($._expr_op, '==', $._expr_op)),
-      prec.left(PREC.neq, seq($._expr_op, '!=', $._expr_op)),
-      prec.left(PREC['<'], seq($._expr_op, '<', $._expr_op)),
-      prec.left(PREC.leq, seq($._expr_op, '<=', $._expr_op)),
-      prec.left(PREC['>'], seq($._expr_op, '>', $._expr_op)),
-      prec.left(PREC.geq, seq($._expr_op, '>=', $._expr_op)),
-      prec.left(PREC.and, seq($._expr_op, '&&', $._expr_op)),
-      prec.left(PREC.or, seq($._expr_op, '||', $._expr_op)),
-      prec.right(PREC.impl, seq($._expr_op, '->', $._expr_op)),
-      prec.right(PREC.update, seq($._expr_op, '//', $._expr_op)),
-      prec.left(PREC['?'], seq($._expr_op, '?', $._expr_op)),
-      prec.left(PREC['+'], seq($._expr_op, '+', $._expr_op)),
-      prec.left(PREC['-'], seq($._expr_op, '-', $._expr_op)),
-      prec.left(PREC['*'], seq($._expr_op, '*', $._expr_op)),
-      prec.left(PREC['/'], seq($._expr_op, '/', $._expr_op)),
-      prec.right(PREC.concat, seq($._expr_op, '++', $._expr_op)),
+      // left assoc.
+      ...[
+        ['==', PREC.eq],
+        ['!=', PREC.neq],
+        ['<', PREC['<']],
+        ['<=', PREC.leq],
+        ['>', PREC['>']],
+        ['>=', PREC.geq],
+        ['&&', PREC.and],
+        ['||', PREC.or],
+        ['?', PREC['?']],
+        ['+', PREC['+']],
+        ['-', PREC['-']],
+        ['*', PREC['*']],
+        ['/', PREC['/']],
+      ].map(([operator, precedence]) =>
+      prec.left(precedence, seq(
+        field('left', $._expr_op),
+        field('operator', operator),
+        field('right', $._expr_op)
+      ))),
+      // right assoc.
+      ...[
+        ['->', PREC.impl],
+        ['//', PREC.update],
+        ['++', PREC.concat],
+      ].map(([operator, precedence]) =>
+      prec.right(precedence, seq(
+        field('left', $._expr_op),
+        field('operator', operator),
+        field('right', $._expr_op)
+      )))
     ),
 
     _expr_app: $ => choice(
@@ -127,7 +149,7 @@ module.exports = grammar({
       $._expr_select
     ),
 
-    app: $ => (seq($._expr_app, $._expr_select)),
+    app: $ => seq(field('function', $._expr_app), field('argument', $._expr_select)),
 
     _expr_select: $ => choice(
       $.select,
@@ -135,8 +157,8 @@ module.exports = grammar({
     ),
 
     select: $ => choice(
-      seq($._expr_simple, '.', $.attrpath),
-      seq($._expr_simple, '.', $.attrpath, 'or', $._expr_select),
+      seq(field('expression', $._expr_simple), '.', field('attrpath', $.attrpath)),
+      seq(field('expression', $._expr_simple), '.', field('attrpath', $.attrpath), 'or', field('default', $._expr_select)),
     ),
 
     _expr_simple: $ => choice(
@@ -156,7 +178,7 @@ module.exports = grammar({
       $.list
     ),
 
-    parenthesized: $ => seq('(', $._expr, ')'),
+    parenthesized: $ => seq('(', field('expression', $._expr), ')'),
 
     attrset: $ => seq('{', optional($._binds), '}'),
     let_attrset: $ => seq('let', '{', optional($._binds), '}'),
@@ -181,16 +203,16 @@ module.exports = grammar({
       )
     ),
 
-    _binds: $ => repeat1(choice($.bind, $.inherit)),
-    bind: $ => seq($.attrpath, '=', $._expr, ';'),
+    _binds: $ => repeat1(field('bind', choice($.bind, $.inherit))),
+    bind: $ => seq(field('attrpath', $.attrpath), '=', field('expression', $._expr), ';'),
     inherit: $ => choice(
-      seq("inherit", $.attrs, ';'),
-      seq("inherit", $.parenthesized, $.attrs, ';'),
+      seq('inherit', field('attrs', $.attrs), ';'),
+      seq('inherit', '(', field('expression', $._expr), ')', field('attrs', $.attrs), ';'),
     ),
 
-    attrpath: $ => sep1($._attr, "."),
+    attrpath: $ => sep1(field('attr', $._attr), "."),
 
-    attrs: $ => repeat1($._attr),
+    attrs: $ => repeat1(field('attr', $._attr)),
 
     _attr: $ => choice(
       $.identifier,
@@ -198,9 +220,9 @@ module.exports = grammar({
       $.interpolation,
     ),
 
-    interpolation: $ => seq('${', $._expr, '}'),
+    interpolation: $ => seq('${', field('expression', $._expr), '}'),
 
-    list: $ => seq('[', repeat($._expr_select), ']'),
+    list: $ => seq('[', repeat(field('element', $._expr_select)), ']'),
 
     comment: $ => token(choice(
       seq('#', /.*/),
