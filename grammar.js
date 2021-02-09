@@ -44,12 +44,12 @@ module.exports = grammar({
   word: $ => $.identifier,
 
   conflicts: $ => [
-    [$.attrpath, $.attrs],
-    [$.formals],
+    //[$.attrpath, $.attrs_inherited],
+    //[$.formals],
   ],
 
   rules: {
-    source_expression: $ => field("expression", $._expression),
+    source_expression: $ => field('expression', $._expression),
     _expression: $ => $._expr_function,
 
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_\'\-]*/,
@@ -207,22 +207,41 @@ module.exports = grammar({
       )
     ),
 
-    _binds: $ => repeat1(field('bind', choice($.bind, $.inherit))),
+    _binds: $ => repeat1(field('bind', choice($.bind, $.inherit, $.inherit_from))),
     bind: $ => seq(field('attrpath', $.attrpath), '=', field('expression', $._expression), ';'),
-    inherit: $ => choice(
-      seq('inherit', field('attrs', $.attrs), ';'),
-      seq('inherit', '(', field('expression', $._expression), ')', field('attrs', $.attrs), ';'),
-    ),
+    inherit: $ => seq('inherit', field('attrs', $.attrs_inherited), ';'),
+    inherit_from: $ =>
+      seq('inherit', '(', field('expression', $._expression), ')', field('attrs', $.attrs_inherited_from), ';'),
 
-    attrpath: $ => sep1(field('attr', $._attr), "."),
+    attrpath: $ => sep1(field('attr', choice(
+      alias($.identifier, $.attr_identifier),
+      $.string,
+      $.interpolation,
+    )), "."),
 
-    attrs: $ => repeat1(field('attr', $._attr)),
-
-    _attr: $ => choice(
+    attrs_inherited: $ => repeat1(field('attr', choice(
       $.identifier,
       $.string,
       $.interpolation,
-    ),
+    ))),
+
+    attrs_inherited_from: $ => repeat1(field('attr', choice(
+      alias($.identifier, $.attr_identifier),
+      $.string,
+      $.interpolation,
+    ))),
+
+
+    // attrpath: $ => sep1(field('attr', $._attr), "."),
+
+    // attrs: $ => repeat1(field('attr', $._attr)),
+
+    // _attr: $ => choice(
+    //   alias($.identifier, $.attr_identifier),
+    //   $.string,
+    //   $.interpolation,
+    // ),
+
 
     interpolation: $ => seq('${', field('expression', $._expression), '}'),
 

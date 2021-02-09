@@ -362,6 +362,30 @@
         "required": true,
         "types": [
           {
+            "type": "attr_identifier",
+            "named": true
+          },
+          {
+            "type": "interpolation",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "attrs_inherited",
+    "named": true,
+    "fields": {
+      "attr": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
             "type": "identifier",
             "named": true
           },
@@ -378,7 +402,7 @@
     }
   },
   {
-    "type": "attrs",
+    "type": "attrs_inherited_from",
     "named": true,
     "fields": {
       "attr": {
@@ -386,7 +410,7 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "attr_identifier",
             "named": true
           },
           {
@@ -415,6 +439,10 @@
           },
           {
             "type": "inherit",
+            "named": true
+          },
+          {
+            "type": "inherit_from",
             "named": true
           }
         ]
@@ -919,14 +947,30 @@
         "required": true,
         "types": [
           {
-            "type": "attrs",
+            "type": "attrs_inherited",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "inherit_from",
+    "named": true,
+    "fields": {
+      "attrs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "attrs_inherited_from",
             "named": true
           }
         ]
       },
       "expression": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "_expression",
@@ -966,6 +1010,10 @@
           },
           {
             "type": "inherit",
+            "named": true
+          },
+          {
+            "type": "inherit_from",
             "named": true
           }
         ]
@@ -1085,6 +1133,10 @@
           {
             "type": "inherit",
             "named": true
+          },
+          {
+            "type": "inherit_from",
+            "named": true
           }
         ]
       }
@@ -1192,6 +1244,10 @@
           },
           {
             "type": "inherit",
+            "named": true
+          },
+          {
+            "type": "inherit_from",
             "named": true
           }
         ]
@@ -1708,6 +1764,10 @@
   {
     "type": "assert",
     "named": false
+  },
+  {
+    "type": "attr_identifier",
+    "named": true
   },
   {
     "type": "comment",
