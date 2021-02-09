@@ -11,7 +11,7 @@ sub hello {
 (source_file
   (function_definition (identifier)
     (block
-      (return_statement (string_single_quoted))
+      (return_statement (string_single_quoted) (semi_colon))
     )
   )
 )
@@ -26,5 +26,5 @@ hello();
 
 (source_file
   (call_expression
-    function_name: (identifier) args: (parenthesized_arguments))
+    function_name: (identifier) args: (parenthesized_arguments)) (semi_colon)
 )

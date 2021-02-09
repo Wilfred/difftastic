@@ -841,6 +841,10 @@
           "named": true
         },
         {
+          "type": "semi_colon",
+          "named": true
+        },
+        {
           "type": "string_double_quoted",
           "named": true
         },
@@ -1237,11 +1241,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "package_name",
+          "named": true
+        },
+        {
+          "type": "semi_colon",
           "named": true
         }
       ]
@@ -1252,8 +1260,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
           "type": "array",
@@ -1313,6 +1321,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "semi_colon",
           "named": true
         },
         {
@@ -1535,6 +1547,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "semi_colon",
           "named": true
         },
         {
@@ -2035,11 +2051,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "package_name",
+          "named": true
+        },
+        {
+          "type": "semi_colon",
           "named": true
         }
       ]
@@ -2059,6 +2079,10 @@
         },
         {
           "type": "scope",
+          "named": true
+        },
+        {
+          "type": "semi_colon",
           "named": true
         },
         {
@@ -2508,6 +2532,10 @@
   },
   {
     "type": "scientific_notation",
+    "named": true
+  },
+  {
+    "type": "semi_colon",
     "named": true
   },
   {

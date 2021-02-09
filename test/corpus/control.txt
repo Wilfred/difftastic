@@ -11,7 +11,7 @@ if (1) {
 (source_file
   (if_statement (parenthesized_expression (integer))
     (block
-      (call_expression (identifier) (arguments (string_double_quoted)))
+      (call_expression (identifier) (arguments (string_double_quoted))) (semi_colon)
     )
   )
 )
@@ -32,10 +32,10 @@ else {
 (source_file
   (if_statement (parenthesized_expression (integer))
     (block
-      (call_expression (identifier) (arguments (string_double_quoted)))
+      (call_expression (identifier) (arguments (string_double_quoted))) (semi_colon)
     )
     (block
-      (call_expression (identifier) (arguments (string_double_quoted)))
+      (call_expression (identifier) (arguments (string_double_quoted))) (semi_colon)
     )
   )
 )
