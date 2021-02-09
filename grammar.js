@@ -44,8 +44,6 @@ module.exports = grammar({
   word: $ => $.identifier,
 
   conflicts: $ => [
-    //[$.attrpath, $.attrs_inherited],
-    //[$.formals],
   ],
 
   rules: {
