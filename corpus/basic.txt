@@ -236,7 +236,7 @@ let inherit (a) b "c" ${d}; in 123
 (expression
     (let
         (inherit
-            (parenthesized (identifier))
+            (identifier)
             (attrs (identifier) (string) (interpolation (identifier))))
         (integer)))
 
