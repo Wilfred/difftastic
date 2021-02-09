@@ -1,5 +1,103 @@
 [
   {
+    "type": "_expr",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "app",
+        "named": true
+      },
+      {
+        "type": "assert",
+        "named": true
+      },
+      {
+        "type": "attrset",
+        "named": true
+      },
+      {
+        "type": "binary",
+        "named": true
+      },
+      {
+        "type": "float",
+        "named": true
+      },
+      {
+        "type": "function",
+        "named": true
+      },
+      {
+        "type": "hpath",
+        "named": true
+      },
+      {
+        "type": "identifier",
+        "named": true
+      },
+      {
+        "type": "if",
+        "named": true
+      },
+      {
+        "type": "indented_string",
+        "named": true
+      },
+      {
+        "type": "integer",
+        "named": true
+      },
+      {
+        "type": "let",
+        "named": true
+      },
+      {
+        "type": "let_attrset",
+        "named": true
+      },
+      {
+        "type": "list",
+        "named": true
+      },
+      {
+        "type": "parenthesized",
+        "named": true
+      },
+      {
+        "type": "path",
+        "named": true
+      },
+      {
+        "type": "rec_attrset",
+        "named": true
+      },
+      {
+        "type": "select",
+        "named": true
+      },
+      {
+        "type": "spath",
+        "named": true
+      },
+      {
+        "type": "string",
+        "named": true
+      },
+      {
+        "type": "unary",
+        "named": true
+      },
+      {
+        "type": "uri",
+        "named": true
+      },
+      {
+        "type": "with",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "app",
     "named": true,
     "fields": {
@@ -248,95 +346,7 @@
         "required": true,
         "types": [
           {
-            "type": "app",
-            "named": true
-          },
-          {
-            "type": "assert",
-            "named": true
-          },
-          {
-            "type": "attrset",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "hpath",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "indented_string",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
-            "type": "let_attrset",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "path",
-            "named": true
-          },
-          {
-            "type": "rec_attrset",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          },
-          {
-            "type": "spath",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "uri",
-            "named": true
-          },
-          {
-            "type": "with",
+            "type": "_expr",
             "named": true
           }
         ]
@@ -662,202 +672,11 @@
         "required": true,
         "types": [
           {
-            "type": "app",
-            "named": true
-          },
-          {
-            "type": "assert",
-            "named": true
-          },
-          {
-            "type": "attrset",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "hpath",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "indented_string",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
-            "type": "let_attrset",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "path",
-            "named": true
-          },
-          {
-            "type": "rec_attrset",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          },
-          {
-            "type": "spath",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "uri",
-            "named": true
-          },
-          {
-            "type": "with",
+            "type": "_expr",
             "named": true
           }
         ]
       }
-    }
-  },
-  {
-    "type": "expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "app",
-          "named": true
-        },
-        {
-          "type": "assert",
-          "named": true
-        },
-        {
-          "type": "attrset",
-          "named": true
-        },
-        {
-          "type": "binary",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "hpath",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "indented_string",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "let",
-          "named": true
-        },
-        {
-          "type": "let_attrset",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "parenthesized",
-          "named": true
-        },
-        {
-          "type": "path",
-          "named": true
-        },
-        {
-          "type": "rec_attrset",
-          "named": true
-        },
-        {
-          "type": "select",
-          "named": true
-        },
-        {
-          "type": "spath",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "unary",
-          "named": true
-        },
-        {
-          "type": "uri",
-          "named": true
-        },
-        {
-          "type": "with",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -869,95 +688,7 @@
         "required": false,
         "types": [
           {
-            "type": "app",
-            "named": true
-          },
-          {
-            "type": "assert",
-            "named": true
-          },
-          {
-            "type": "attrset",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "hpath",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "indented_string",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
-            "type": "let_attrset",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "path",
-            "named": true
-          },
-          {
-            "type": "rec_attrset",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          },
-          {
-            "type": "spath",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "uri",
-            "named": true
-          },
-          {
-            "type": "with",
+            "type": "_expr",
             "named": true
           }
         ]
@@ -1133,95 +864,7 @@
         "required": true,
         "types": [
           {
-            "type": "app",
-            "named": true
-          },
-          {
-            "type": "assert",
-            "named": true
-          },
-          {
-            "type": "attrset",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "hpath",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "indented_string",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
-            "type": "let_attrset",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "path",
-            "named": true
-          },
-          {
-            "type": "rec_attrset",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          },
-          {
-            "type": "spath",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "uri",
-            "named": true
-          },
-          {
-            "type": "with",
+            "type": "_expr",
             "named": true
           }
         ]
@@ -1231,95 +874,7 @@
         "required": true,
         "types": [
           {
-            "type": "app",
-            "named": true
-          },
-          {
-            "type": "assert",
-            "named": true
-          },
-          {
-            "type": "attrset",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "hpath",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "indented_string",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
-            "type": "let_attrset",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "path",
-            "named": true
-          },
-          {
-            "type": "rec_attrset",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          },
-          {
-            "type": "spath",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "uri",
-            "named": true
-          },
-          {
-            "type": "with",
+            "type": "_expr",
             "named": true
           }
         ]
@@ -1329,95 +884,7 @@
         "required": true,
         "types": [
           {
-            "type": "app",
-            "named": true
-          },
-          {
-            "type": "assert",
-            "named": true
-          },
-          {
-            "type": "attrset",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "hpath",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "indented_string",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
-            "type": "let_attrset",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "path",
-            "named": true
-          },
-          {
-            "type": "rec_attrset",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          },
-          {
-            "type": "spath",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "uri",
-            "named": true
-          },
-          {
-            "type": "with",
+            "type": "_expr",
             "named": true
           }
         ]
@@ -1462,95 +929,7 @@
         "required": false,
         "types": [
           {
-            "type": "app",
-            "named": true
-          },
-          {
-            "type": "assert",
-            "named": true
-          },
-          {
-            "type": "attrset",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "hpath",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "indented_string",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
-            "type": "let_attrset",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "path",
-            "named": true
-          },
-          {
-            "type": "rec_attrset",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          },
-          {
-            "type": "spath",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "uri",
-            "named": true
-          },
-          {
-            "type": "with",
+            "type": "_expr",
             "named": true
           }
         ]
@@ -1566,95 +945,7 @@
         "required": true,
         "types": [
           {
-            "type": "app",
-            "named": true
-          },
-          {
-            "type": "assert",
-            "named": true
-          },
-          {
-            "type": "attrset",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "hpath",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "indented_string",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
-            "type": "let_attrset",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "path",
-            "named": true
-          },
-          {
-            "type": "rec_attrset",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          },
-          {
-            "type": "spath",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "uri",
-            "named": true
-          },
-          {
-            "type": "with",
+            "type": "_expr",
             "named": true
           }
         ]
@@ -1880,95 +1171,7 @@
         "required": true,
         "types": [
           {
-            "type": "app",
-            "named": true
-          },
-          {
-            "type": "assert",
-            "named": true
-          },
-          {
-            "type": "attrset",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "hpath",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "indented_string",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
-            "type": "let_attrset",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "path",
-            "named": true
-          },
-          {
-            "type": "rec_attrset",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          },
-          {
-            "type": "spath",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "uri",
-            "named": true
-          },
-          {
-            "type": "with",
+            "type": "_expr",
             "named": true
           }
         ]
@@ -2137,6 +1340,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "source_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expr",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2363,95 +1581,7 @@
         "required": true,
         "types": [
           {
-            "type": "app",
-            "named": true
-          },
-          {
-            "type": "assert",
-            "named": true
-          },
-          {
-            "type": "attrset",
-            "named": true
-          },
-          {
-            "type": "binary",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "hpath",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "indented_string",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
-            "type": "let_attrset",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "parenthesized",
-            "named": true
-          },
-          {
-            "type": "path",
-            "named": true
-          },
-          {
-            "type": "rec_attrset",
-            "named": true
-          },
-          {
-            "type": "select",
-            "named": true
-          },
-          {
-            "type": "spath",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "unary",
-            "named": true
-          },
-          {
-            "type": "uri",
-            "named": true
-          },
-          {
-            "type": "with",
+            "type": "_expr",
             "named": true
           }
         ]
