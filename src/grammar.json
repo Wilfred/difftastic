@@ -3,8 +3,12 @@
   "word": "identifier",
   "rules": {
     "source_expression": {
-      "type": "SYMBOL",
-      "name": "_expression"
+      "type": "FIELD",
+      "name": "expression",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_expression"
+      }
     },
     "_expression": {
       "type": "SYMBOL",
