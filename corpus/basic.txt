@@ -183,7 +183,7 @@ let a = b; in c
 (source_expression
     (let
         (bind
-            (attrpath (identifier))
+            (attrpath (attr_identifier))
             (identifier))
         (identifier)))
 
@@ -205,9 +205,9 @@ let
 (source_expression
     (let
         (comment)
-        (bind (attrpath (identifier)) (identifier))
+        (bind (attrpath (attr_identifier)) (identifier))
         (comment)
-        (bind (attrpath (identifier)) (identifier))
+        (bind (attrpath (attr_identifier)) (identifier))
         (comment)
         (identifier)))
 
@@ -222,7 +222,7 @@ let inherit a; in c
 (source_expression
     (let
         (inherit
-            (attrs (identifier)))
+            (attrs_inherited (identifier)))
         (identifier)))
 
 ====================
@@ -235,9 +235,9 @@ let inherit (a) b "c" ${d}; in 123
 
 (source_expression
     (let
-        (inherit
+        (inherit_from
             (identifier)
-            (attrs (identifier) (string) (interpolation (identifier))))
+            (attrs_inherited_from (attr_identifier) (string) (interpolation (identifier))))
         (integer)))
 
 ====================
@@ -310,10 +310,10 @@ attr set
 
 (source_expression
     (attrset
-        (bind (attrpath (identifier)) (integer))
+        (bind (attrpath (attr_identifier)) (integer))
         (bind (attrpath (interpolation (identifier))) (string))
         (bind (attrpath (string)) (float))
-        (bind (attrpath (identifier) (identifier) (identifier)) (spath))))
+        (bind (attrpath (attr_identifier) (attr_identifier) (attr_identifier)) (spath))))
 
 ====================
 select
@@ -327,7 +327,7 @@ u.v.${w}."x${y}z"
     (select
         (identifier)
         (attrpath
-            (identifier)
+            (attr_identifier)
             (interpolation (identifier))
             (string (interpolation (identifier))))))
 

@@ -25,12 +25,18 @@
   },
   "tree-sitter": [
     {
-      "scope": "source.nix",
       "file-types": [
         "nix"
       ],
-      "highlights": "src/highlights.json",
-      "injection-regex": "^(nix)$"
+
+      "highlights": [
+        "queries/highlights.scm"
+      ],
+      "injection-regex": "^(nix)$",
+      "locals": [
+        "queries/locals.scm"
+      ],
+      "scope": "source.nix"
     }
   ]
 }
