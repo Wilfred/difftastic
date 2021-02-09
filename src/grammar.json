@@ -4,9 +4,9 @@
   "rules": {
     "source_expression": {
       "type": "SYMBOL",
-      "name": "_expr"
+      "name": "_expression"
     },
-    "_expr": {
+    "_expression": {
       "type": "SYMBOL",
       "name": "_expr_function"
     },
@@ -361,7 +361,7 @@
                   "name": "default",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_expr"
+                    "name": "_expression"
                   }
                 }
               ]
@@ -389,7 +389,7 @@
           "name": "condition",
           "content": {
             "type": "SYMBOL",
-            "name": "_expr"
+            "name": "_expression"
           }
         },
         {
@@ -418,7 +418,7 @@
           "name": "environment",
           "content": {
             "type": "SYMBOL",
-            "name": "_expr"
+            "name": "_expression"
           }
         },
         {
@@ -493,7 +493,7 @@
           "name": "condition",
           "content": {
             "type": "SYMBOL",
-            "name": "_expr"
+            "name": "_expression"
           }
         },
         {
@@ -505,7 +505,7 @@
           "name": "consequence",
           "content": {
             "type": "SYMBOL",
-            "name": "_expr"
+            "name": "_expression"
           }
         },
         {
@@ -517,7 +517,7 @@
           "name": "alternative",
           "content": {
             "type": "SYMBOL",
-            "name": "_expr"
+            "name": "_expression"
           }
         }
       ]
@@ -1314,7 +1314,7 @@
           "name": "expression",
           "content": {
             "type": "SYMBOL",
-            "name": "_expr"
+            "name": "_expression"
           }
         },
         {
@@ -1541,7 +1541,7 @@
           "name": "expression",
           "content": {
             "type": "SYMBOL",
-            "name": "_expr"
+            "name": "_expression"
           }
         },
         {
@@ -1590,7 +1590,7 @@
               "name": "expression",
               "content": {
                 "type": "SYMBOL",
-                "name": "_expr"
+                "name": "_expression"
               }
             },
             {
@@ -1686,7 +1686,7 @@
           "name": "expression",
           "content": {
             "type": "SYMBOL",
-            "name": "_expr"
+            "name": "_expression"
           }
         },
         {
@@ -1809,7 +1809,7 @@
   ],
   "inline": [],
   "supertypes": [
-    "_expr"
+    "_expression"
   ]
 }
 
