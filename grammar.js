@@ -28,7 +28,7 @@ module.exports = grammar({
   ],
 
   supertypes: $ => [
-    $._expr
+    $._expression
   ],
 
   inline: $ => [
@@ -49,8 +49,8 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_expression: $ => $._expr,
-    _expr: $ => $._expr_function,
+    source_expression: $ => $._expression,
+    _expression: $ => $._expr_function,
 
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_\'\-]*/,
     integer: $ => /[0-9]+/,
@@ -81,11 +81,11 @@ module.exports = grammar({
       seq('{', commaSep1(field('formal', $.formal)), ',', field('ellipses', $.ellipses), '}'),
       seq('{', field('ellipses', $.ellipses), '}'),
     ),
-    formal: $ => seq(field("name", $.identifier), optional(seq('?', field('default', $._expr)))),
+    formal: $ => seq(field("name", $.identifier), optional(seq('?', field('default', $._expression)))),
     ellipses: $ => '...',
 
-    assert: $ => seq('assert', field('condition', $._expr), ';', field('body', $._expr_function)),
-    with: $ => seq('with', field('environment', $._expr), ';', field('body', $._expr_function)),
+    assert: $ => seq('assert', field('condition', $._expression), ';', field('body', $._expr_function)),
+    with: $ => seq('with', field('environment', $._expression), ';', field('body', $._expr_function)),
     let: $ => seq('let', optional($._binds), 'in', field('body', $._expr_function)),
 
     _expr_if: $ => choice(
@@ -93,7 +93,7 @@ module.exports = grammar({
       $._expr_op
     ),
 
-    if: $ => seq('if', field('condition', $._expr), 'then', field('consequence', $._expr), 'else', field('alternative', $._expr)),
+    if: $ => seq('if', field('condition', $._expression), 'then', field('consequence', $._expression), 'else', field('alternative', $._expression)),
 
     _expr_op: $ => choice(
       $.unary,
@@ -182,7 +182,7 @@ module.exports = grammar({
       $.list
     ),
 
-    parenthesized: $ => seq('(', field('expression', $._expr), ')'),
+    parenthesized: $ => seq('(', field('expression', $._expression), ')'),
 
     attrset: $ => seq('{', optional($._binds), '}'),
     let_attrset: $ => seq('let', '{', optional($._binds), '}'),
@@ -208,10 +208,10 @@ module.exports = grammar({
     ),
 
     _binds: $ => repeat1(field('bind', choice($.bind, $.inherit))),
-    bind: $ => seq(field('attrpath', $.attrpath), '=', field('expression', $._expr), ';'),
+    bind: $ => seq(field('attrpath', $.attrpath), '=', field('expression', $._expression), ';'),
     inherit: $ => choice(
       seq('inherit', field('attrs', $.attrs), ';'),
-      seq('inherit', '(', field('expression', $._expr), ')', field('attrs', $.attrs), ';'),
+      seq('inherit', '(', field('expression', $._expression), ')', field('attrs', $.attrs), ';'),
     ),
 
     attrpath: $ => sep1(field('attr', $._attr), "."),
@@ -224,7 +224,7 @@ module.exports = grammar({
       $.interpolation,
     ),
 
-    interpolation: $ => seq('${', field('expression', $._expr), '}'),
+    interpolation: $ => seq('${', field('expression', $._expression), '}'),
 
     list: $ => seq('[', repeat(field('element', $._expr_select)), ']'),
 
