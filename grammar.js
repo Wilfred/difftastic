@@ -49,7 +49,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_expression: $ => $._expression,
+    source_expression: $ => field("expression", $._expression),
     _expression: $ => $._expr_function,
 
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_\'\-]*/,
