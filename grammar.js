@@ -27,6 +27,10 @@ module.exports = grammar({
     $.comment,
   ],
 
+  supertypes: $ => [
+    $._expr
+  ],
+
   inline: $ => [
   ],
 
@@ -45,7 +49,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    expression: $ => $._expr,
+    source_expression: $ => $._expr,
     _expr: $ => $._expr_function,
 
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_\'\-]*/,

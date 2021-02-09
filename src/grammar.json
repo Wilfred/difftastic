@@ -2,7 +2,7 @@
   "name": "nix",
   "word": "identifier",
   "rules": {
-    "expression": {
+    "source_expression": {
       "type": "SYMBOL",
       "name": "_expr"
     },
@@ -1808,6 +1808,8 @@
     }
   ],
   "inline": [],
-  "supertypes": []
+  "supertypes": [
+    "_expr"
+  ]
 }
 

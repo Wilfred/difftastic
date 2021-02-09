@@ -12,7 +12,7 @@ This is also a comment.
 
 ---
 
-(expression (comment) (comment) (string))
+(source_expression (comment) (comment) (string))
 
 ====================
 identifier
@@ -22,7 +22,7 @@ abc
 
 ---
 
-(expression (identifier))
+(source_expression (identifier))
 
 ====================
 integer
@@ -32,7 +32,7 @@ integer
 
 ---
 
-(expression (integer))
+(source_expression (integer))
 
 ====================
 float
@@ -42,7 +42,7 @@ float
 
 ---
 
-(expression (float))
+(source_expression (float))
 
 ====================
 string
@@ -52,7 +52,7 @@ string
 
 ---
 
-(expression (string))
+(source_expression (string))
 
 ====================
 string (complex)
@@ -62,7 +62,7 @@ string (complex)
 
 ---
 
-(expression
+(source_expression
     (string
         (interpolation (identifier))
         (escape_sequence)))
@@ -79,7 +79,7 @@ ghi
 
 ---
 
-(expression (indented_string))
+(source_expression (indented_string))
 
 ====================
 indented string (complex)
@@ -95,7 +95,7 @@ This works, too:  ''$
 
 ---
 
-(expression
+(source_expression
     (indented_string
         (escape_sequence)
         (escape_sequence)
@@ -110,7 +110,7 @@ http://foobar.com:80?baz=quux&blarg=etc
 
 ---
 
-(expression (uri))
+(source_expression (uri))
 
 ====================
 list (empty)
@@ -120,7 +120,7 @@ list (empty)
 
 ---
 
-(expression (list))
+(source_expression (list))
 
 ====================
 list
@@ -130,7 +130,7 @@ list
 
 ---
 
-(expression (list (identifier) (integer) (float)))
+(source_expression (list (identifier) (integer) (float)))
 
 ====================
 if
@@ -140,7 +140,7 @@ if a then b else c
 
 ---
 
-(expression (if (identifier) (identifier) (identifier)))
+(source_expression (if (identifier) (identifier) (identifier)))
 
 ====================
 assert
@@ -150,7 +150,7 @@ assert a; b
 
 ---
 
-(expression (assert (identifier) (identifier)))
+(source_expression (assert (identifier) (identifier)))
 
 ====================
 with
@@ -160,7 +160,7 @@ with a; b
 
 ---
 
-(expression (with (identifier) (identifier)))
+(source_expression (with (identifier) (identifier)))
 
 ====================
 let (empty)
@@ -170,7 +170,7 @@ let in a
 
 ---
 
-(expression (let (identifier)))
+(source_expression (let (identifier)))
 
 ====================
 let (bind)
@@ -180,7 +180,7 @@ let a = b; in c
 
 ---
 
-(expression
+(source_expression
     (let
         (bind
             (attrpath (identifier))
@@ -202,7 +202,7 @@ let
 
 ---
 
-(expression
+(source_expression
     (let
         (comment)
         (bind (attrpath (identifier)) (identifier))
@@ -219,7 +219,7 @@ let inherit a; in c
 
 ---
 
-(expression
+(source_expression
     (let
         (inherit
             (attrs (identifier)))
@@ -233,7 +233,7 @@ let inherit (a) b "c" ${d}; in 123
 
 ---
 
-(expression
+(source_expression
     (let
         (inherit
             (identifier)
@@ -248,7 +248,7 @@ a: b
 
 ---
 
-(expression (function (identifier) (identifier)))
+(source_expression (function (identifier) (identifier)))
 
 ====================
 function (with formals)
@@ -258,7 +258,7 @@ a@{ /*1*/ b, /*2*/ c ? 123, /*3*/ ... }: 1.234
 
 ---
 
-(expression
+(source_expression
     (function
         (identifier)
         (formals
@@ -278,7 +278,7 @@ rec { }
 
 ---
 
-(expression (rec_attrset))
+(source_expression (rec_attrset))
 
 ====================
 let attrset (empty)
@@ -288,7 +288,7 @@ let { }
 
 ---
 
-(expression (let_attrset))
+(source_expression (let_attrset))
 
 ====================
 attrset (empty)
@@ -298,7 +298,7 @@ attrset (empty)
 
 ---
 
-(expression (attrset))
+(source_expression (attrset))
 
 ====================
 attr set
@@ -308,7 +308,7 @@ attr set
 
 ---
 
-(expression
+(source_expression
     (attrset
         (bind (attrpath (identifier)) (integer))
         (bind (attrpath (interpolation (identifier))) (string))
@@ -323,7 +323,7 @@ u.v.${w}."x${y}z"
 
 ---
 
-(expression
+(source_expression
     (select
         (identifier)
         (attrpath
@@ -339,7 +339,7 @@ a 1 2.0
 
 ---
 
-(expression
+(source_expression
     (app
         (app
             (identifier)
@@ -354,7 +354,7 @@ square 2 + -pi - 42.0
 
 ---
 
-(expression
+(source_expression
     (binary
         (binary
             (app (identifier) (integer))
@@ -369,5 +369,5 @@ parens
 
 ---
 
-(expression
+(source_expression
     (parenthesized (integer)))
