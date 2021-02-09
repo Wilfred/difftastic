@@ -83,7 +83,7 @@ module.exports = grammar({
 
     _expression_statement: $ => seq(
       $._expression,
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     comments: $ => token(prec(PRECEDENCE.COMMENTS, choice(
@@ -93,13 +93,13 @@ module.exports = grammar({
     use_statement: $ => seq(
       'use',
       $.package_name,
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     require_statement: $ => seq(
       'require',
       $.package_name,
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     // TODO: should be a boolean expression and not the current one?
@@ -161,7 +161,7 @@ module.exports = grammar({
       // multi declaration
       // or single declaration without brackets
       choice($.multi_var_declaration, $.single_var_declaration),
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     multi_var_declaration: $ => seq(
@@ -214,7 +214,7 @@ module.exports = grammar({
     return_statement: $ => seq(
       'return',
       optional($._expression),
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     _expression: $ => choice(
@@ -607,7 +607,7 @@ module.exports = grammar({
 
     package_name: $ => /[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/,
 
-    _semi_colon: $ => ';',
+    semi_colon: $ => ';',
 
     string_single_quoted: $ => /\'.*\'/,
 

@@ -50,7 +50,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_semi_colon"
+          "name": "semi_colon"
         }
       ]
     },
@@ -83,7 +83,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_semi_colon"
+          "name": "semi_colon"
         }
       ]
     },
@@ -100,7 +100,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_semi_colon"
+          "name": "semi_colon"
         }
       ]
     },
@@ -319,7 +319,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_semi_colon"
+          "name": "semi_colon"
         }
       ]
     },
@@ -533,7 +533,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_semi_colon"
+          "name": "semi_colon"
         }
       ]
     },
@@ -2780,7 +2780,7 @@
       "type": "PATTERN",
       "value": "[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*"
     },
-    "_semi_colon": {
+    "semi_colon": {
       "type": "STRING",
       "value": ";"
     },

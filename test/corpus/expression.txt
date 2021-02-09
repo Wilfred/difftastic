@@ -9,7 +9,7 @@ my $a;
 (source_file
   (variable_declaration (scope) (single_var_declaration
     (scalar_variable)
-  ))
+  ) (semi_colon))
 )
 
 
@@ -24,7 +24,7 @@ my $a = 3;
 (source_file
   (variable_declaration (scope) (single_var_declaration
     (scalar_variable) (integer)
-  ))
+  ) (semi_colon))
 )
 
 =================================================
@@ -38,7 +38,7 @@ my @array;
 (source_file
   (variable_declaration (scope) (single_var_declaration
     (array_variable)
-  ))
+  ) (semi_colon))
 )
 
 =================================================
@@ -52,7 +52,7 @@ my @array = ('meow', 'woof', 'burp');
 (source_file
   (variable_declaration (scope) (single_var_declaration
     (array_variable) (array (string_single_quoted))
-  ))
+  ) (semi_colon))
 )
 
 =================================================
@@ -64,7 +64,7 @@ use Data::Dumper;
 ---
 
 (source_file
-  (use_statement (package_name))
+  (use_statement (package_name) (semi_colon))
 )
 
 =================================================
@@ -76,7 +76,7 @@ require Data::Dumper;
 ---
 
 (source_file
-  (require_statement (package_name))
+  (require_statement (package_name) (semi_colon))
 )
 
 =================================================
