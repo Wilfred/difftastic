@@ -56,6 +56,7 @@ static bool scan_str(TSLexer *lexer) {
         if (lexer->eof(lexer)) {
           return false;
         }
+        advance(lexer);
         has_content = true;
         break;
       default:
@@ -126,6 +127,7 @@ static bool scan_ind_str(TSLexer *lexer) {
         if (lexer->eof(lexer)) {
           return false;
         }
+        advance(lexer);
         has_content = true;
         break;
       default:
