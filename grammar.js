@@ -231,18 +231,6 @@ module.exports = grammar({
       $.interpolation,
     ))),
 
-
-    // attrpath: $ => sep1(field('attr', $._attr), "."),
-
-    // attrs: $ => repeat1(field('attr', $._attr)),
-
-    // _attr: $ => choice(
-    //   alias($.identifier, $.attr_identifier),
-    //   $.string,
-    //   $.interpolation,
-    // ),
-
-
     interpolation: $ => seq('${', field('expression', $._expression), '}'),
 
     list: $ => seq('[', repeat(field('element', $._expr_select)), ']'),
