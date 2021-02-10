@@ -93,8 +93,7 @@ assert forall i in boolean: f(i);
       Property: (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (expression
-            (simple_name)))))))
+          expression: (simple_name))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties II
@@ -116,8 +115,7 @@ assert forall i in {j to k} : f(i);
       Property: (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (expression
-            (simple_name)))))))
+          expression: (simple_name))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties III
@@ -143,8 +141,7 @@ assert forall i (0 to 1) in boolean : f(i);
       Property: (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (expression
-            (simple_name)))))))
+          expression: (simple_name))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties IV
@@ -175,8 +172,7 @@ assert forall i (0 to 2) in {4,5} : f(i);
       Property: (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (expression
-            (simple_name)))))))
+          expression: (simple_name))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties V
@@ -254,12 +250,9 @@ assert forall i in boolean:
           Property: (ambiguous_name
             prefix: (simple_name)
             (expression_list
-              expression: (expression
-                (simple_name))
-              expression: (expression
-                (simple_name))
-              expression: (expression
-                (simple_name)))))))))
+              expression: (simple_name)
+              expression: (simple_name)
+              expression: (simple_name))))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties VI
@@ -295,8 +288,7 @@ assert forall j in {0 to 7}:
         Property: (ambiguous_name
           prefix: (simple_name)
           (expression_list
-            expression: (expression
-              (simple_name))))))))
+            expression: (simple_name)))))))
 
 ===================================================
 PSL LRM 6.3.1 PSL formal parameter type classes
@@ -493,8 +485,7 @@ property ResultAfterN
                 (ambiguous_name
                   prefix: (simple_name)
                   (expression_list
-                    expression: (expression
-                      (simple_name)))))))
+                    expression: (simple_name))))))
           right: (simple_name))))))
 
 ===================================================
@@ -538,8 +529,7 @@ property ResultAfterN
                 (ambiguous_name
                   prefix: (simple_name)
                   (expression_list
-                    expression: (expression
-                      (simple_name)))))))
+                    expression: (simple_name))))))
           right: (simple_name))))))
 
 ===================================================
@@ -610,13 +600,10 @@ restrict ReadCycle(BusArb(breq, back, 5), breq, ardy, drdy);
             (ambiguous_name
               prefix: (simple_name)
               (expression_list
-                expression: (expression
-                  (simple_name))
-                expression: (expression
-                  (simple_name))
-                expression: (expression
-                  (integer_decimal
-                    (integer)))))))
+                expression: (simple_name)
+                expression: (simple_name)
+                expression: (integer_decimal
+                  (integer))))))
         (PSL_Actual_Parameter
           (expression
             (simple_name)))
@@ -729,6 +716,5 @@ assert always ((write_req -> next[3] (eventually! ack))
                 (ambiguous_name
                   prefix: (simple_name)
                   (expression_list
-                    expression: (expression
-                      (simple_name)))))))
+                    expression: (simple_name))))))
           right: (simple_name))))))

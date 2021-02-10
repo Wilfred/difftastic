@@ -41,19 +41,30 @@ Function call - Next
 ================================
 assert next(x);
 assert foo(x);
+
+foo <= next(x);
 ---
 
 (design_file
   (PSL_Assert_Directive
     (PSL_Built_In_Function_Call
-      (expression (simple_name))))
+      (expression
+        (simple_name))))
   (assertion_statement
     (condition
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (expression
-            (simple_name)))))))
+          expression: (simple_name)))))
+  (concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (ambiguous_name
+            prefix: (simple_name)
+            (expression_list
+              expression: (simple_name))))))))
 
 ================================
 Function call - Sequence I

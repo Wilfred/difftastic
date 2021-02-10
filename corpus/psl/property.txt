@@ -461,8 +461,7 @@ assert p(a);
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (expression
-            (simple_name)))))))
+          expression: (simple_name))))))
 
 ==================================
 Property Instantiation III

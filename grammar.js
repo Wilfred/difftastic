@@ -1813,7 +1813,7 @@ module.exports = grammar({
             ')'
         ),
 
-        expression_list: $ => sepBy1(',', field('expression', $._expression)),
+        expression_list: $ => sepBy1(',', field('expression', $._expr)),
         // }}}
         // 8.5 Slice name {{{
         slice_name: $ => seq(

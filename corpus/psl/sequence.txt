@@ -137,13 +137,10 @@ restrict ReadCycle(BusArb(breq, back, 5), breq, ardy, drdy);
             (ambiguous_name
               prefix: (simple_name)
               (expression_list
-                expression: (expression
-                  (simple_name))
-                expression: (expression
-                  (simple_name))
-                expression: (expression
-                  (integer_decimal
-                    (integer)))))))
+                expression: (simple_name)
+                expression: (simple_name)
+                expression: (integer_decimal
+                  (integer))))))
         (PSL_Actual_Parameter
           (expression
             (simple_name)))

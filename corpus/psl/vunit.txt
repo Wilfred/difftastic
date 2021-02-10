@@ -209,10 +209,8 @@ vmode Bmode (blockB) {
           (ambiguous_name
             prefix: (simple_name)
             (expression_list
-              expression: (expression
-                (simple_name))
-              expression: (expression
-                (simple_name))))))))
+              expression: (simple_name)
+              expression: (simple_name)))))))
   (design_unit
     (PSL_VMode
       (PSL_Identifier)
@@ -225,10 +223,8 @@ vmode Bmode (blockB) {
           (ambiguous_name
             prefix: (simple_name)
             (expression_list
-              expression: (expression
-                (simple_name))
-              expression: (expression
-                (simple_name)))))))))
+              expression: (simple_name)
+              expression: (simple_name))))))))
 
 ================================
 LRM 7.2.2 - III
@@ -254,10 +250,8 @@ vunit Aprops (blockA) {
             (ambiguous_name
               prefix: (simple_name)
               (expression_list
-                expression: (expression
-                  (simple_name))
-                expression: (expression
-                  (simple_name))))))))))
+                expression: (simple_name)
+                expression: (simple_name)))))))))
 
 ================================
 LRM 7.2.2 - IV
@@ -283,10 +277,8 @@ vunit Bprops (blockB) {
             (ambiguous_name
               prefix: (simple_name)
               (expression_list
-                expression: (expression
-                  (simple_name))
-                expression: (expression
-                  (simple_name))))))))))
+                expression: (simple_name)
+                expression: (simple_name)))))))))
 
 ================================
 LRM 7.2.3 - I
@@ -399,16 +391,15 @@ vunit ex5d(top_block.i1) {
                 (ambiguous_name
                   prefix: (simple_name)
                   (expression_list
-                    expression: (expression
-                      (aggregate
-                        (positional_element_association
-                          (expression
-                            (integer_decimal
-                              (integer))))
-                        (positional_element_association
-                          (expression
-                            (integer_decimal
-                              (integer))))))))))))
+                    expression: (aggregate
+                      (positional_element_association
+                        (expression
+                          (integer_decimal
+                            (integer))))
+                      (positional_element_association
+                        (expression
+                          (integer_decimal
+                            (integer)))))))))))
         (PSL_Assert_Directive
           (label
             (identifier))
