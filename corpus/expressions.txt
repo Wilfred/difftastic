@@ -57,42 +57,44 @@ class Foo {
               right: (integer_literal))))))))
 
 =====================================
-Ternary expressions vs nullable types
+Ternary expressions is type
 =====================================
 
-class Foo {
-  void Test() {
-    x is int?;
-    x is int
-      ? a
-      : b;
-    x is int?
-      ? a
-      : b;
-  }
-}
+var t = x is int
+  ? a
+  : b;
 
 ---
 
 (compilation_unit
-  (class_declaration
-    (identifier)
-    (declaration_list
-      (method_declaration
-        (void_keyword)
-        (identifier)
-        (parameter_list)
-        (block
-          (expression_statement
-            (binary_expression (identifier) (nullable_type (predefined_type))))
-          (expression_statement
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration (implicit_type)
+        (variable_declarator (identifier)
+          (equals_value_clause
             (conditional_expression
-              (binary_expression (identifier) (predefined_type))
+              (is_expression (identifier) (predefined_type))
               (identifier)
-              (identifier)))
-          (expression_statement
+              (identifier))))))))
+
+=====================================
+Ternary expressions is nullable type
+=====================================
+
+var u = x is int?
+  ? a
+  : b;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration (implicit_type)
+        (variable_declarator (identifier)
+          (equals_value_clause
             (conditional_expression
-              (binary_expression (identifier) (nullable_type (predefined_type)))
+              (is_expression (identifier) (nullable_type (predefined_type)))
               (identifier)
               (identifier))))))))
 
@@ -495,7 +497,7 @@ void a() {
               (invocation_expression
                 (member_access_expression (identifier) (identifier))
                 (argument_list (argument (identifier))))))))))))
-         
+
 ============================
 Async Lambda
 ============================
@@ -1477,7 +1479,7 @@ var b = s is string;
         (variable_declarator
           (identifier)
           (equals_value_clause
-            (binary_expression
+            (is_expression
               (identifier)
               (predefined_type))))))))
 
@@ -1664,11 +1666,11 @@ var x = operand is ILiteralOperation { ConstantValue: { HasValue: true, Value: n
               (recursive_pattern
                 (identifier)
                 (property_pattern_clause
-                  (subpattern 
+                  (subpattern
                     (name_colon (identifier))
-                    (recursive_pattern 
+                    (recursive_pattern
                       (property_pattern_clause
-                        (subpattern 
+                        (subpattern
                           (name_colon (identifier))
                           (constant_pattern (boolean_literal)))
                         (subpattern
@@ -1723,7 +1725,7 @@ Type patterns
 =====================================
 
 var b = o is int or string; //is_pattern_expression with type_pattern
-var c = o is int; //binary_expression ("IsExpression" in Roslyn)
+var c = o is int; //is_expression with type
 
 ---
 
@@ -1747,10 +1749,10 @@ var c = o is int; //binary_expression ("IsExpression" in Roslyn)
           (variable_declarator
             (identifier)
             (equals_value_clause
-              (binary_expression
+              (is_expression
                 (identifier)
                 (predefined_type))))))) (comment))
-                
+
 
 =====================================
 Conditional expression with member accesses
@@ -1835,7 +1837,7 @@ if (a?.B != 1) { }
 =====================================
 Conditional access expression with simple member access
 =====================================
-      
+
 if ((p as Person[])?[0]._Age != 1) { }
 
 ---
@@ -1847,7 +1849,7 @@ if ((p as Person[])?[0]._Age != 1) { }
           (member_access_expression
             (conditional_access_expression
               (parenthesized_expression
-                (binary_expression (identifier) (array_type (identifier) (array_rank_specifier))))
+                (as_expression (identifier) (array_type (identifier) (array_rank_specifier))))
               (element_binding_expression
                 (bracketed_argument_list (argument (integer_literal)))))
             (identifier))
