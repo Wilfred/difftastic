@@ -1116,10 +1116,10 @@ module.exports = grammar({
       ))
     )),
 
-    element_access_expression: $ => seq(
+    element_access_expression: $ => prec.right(PREC.UNARY, seq(
       field('expression', $._expression),
       field('subscript', $.bracketed_argument_list)
-    ),
+    )),
 
     element_binding_expression: $ => $.bracketed_argument_list,
 
