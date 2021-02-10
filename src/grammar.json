@@ -6117,25 +6117,29 @@
       }
     },
     "element_access_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "expression",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_expression"
+      "type": "PREC_RIGHT",
+      "value": 15,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "expression",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "subscript",
+            "content": {
+              "type": "SYMBOL",
+              "name": "bracketed_argument_list"
+            }
           }
-        },
-        {
-          "type": "FIELD",
-          "name": "subscript",
-          "content": {
-            "type": "SYMBOL",
-            "name": "bracketed_argument_list"
-          }
-        }
-      ]
+        ]
+      }
     },
     "element_binding_expression": {
       "type": "SYMBOL",
