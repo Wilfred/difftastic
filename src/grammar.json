@@ -98,6 +98,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "equation_label_reference"
+        },
+        {
+          "type": "SYMBOL",
           "name": "label_reference_range"
         },
         {
@@ -2219,10 +2223,6 @@
                 },
                 {
                   "type": "STRING",
-                  "value": "\\eqref"
-                },
-                {
-                  "type": "STRING",
                   "value": "\\cref"
                 },
                 {
@@ -2315,6 +2315,60 @@
             },
             {
               "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "equation_label_reference": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\eqref"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "label",
+              "content": {
+                "type": "SYMBOL",
+                "name": "word"
+              }
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "FIELD",
+                    "name": "label",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "word"
+                    }
+                  }
+                ]
+              }
             }
           ]
         },

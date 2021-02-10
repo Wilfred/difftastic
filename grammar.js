@@ -43,6 +43,7 @@ module.exports = grammar({
         $.import,
         $.label_definition,
         $.label_reference,
+        $.equation_label_reference,
         $.label_reference_range,
         $.label_number,
         $.command_definition,
@@ -432,6 +433,14 @@ module.exports = grammar({
         field('command', token(choice(...commands.labelReference))),
         '{',
         sepBy(field('label', $.word), ','),
+        '}'
+      ),
+
+    equation_label_reference: $ =>
+      seq(
+        field('command', '\\eqref'),
+        '{',
+        sepBy1(field('label', $.word), ','),
         '}'
       ),
 

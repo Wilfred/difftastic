@@ -242,6 +242,10 @@
             "named": true
           },
           {
+            "type": "equation_label_reference",
+            "named": true
+          },
+          {
             "type": "generic_command",
             "named": true
           },
@@ -431,6 +435,10 @@
           },
           {
             "type": "environment",
+            "named": true
+          },
+          {
+            "type": "equation_label_reference",
             "named": true
           },
           {
@@ -655,6 +663,10 @@
           },
           {
             "type": "environment",
+            "named": true
+          },
+          {
+            "type": "equation_label_reference",
             "named": true
           },
           {
@@ -1076,6 +1088,10 @@
             "named": true
           },
           {
+            "type": "equation_label_reference",
+            "named": true
+          },
+          {
             "type": "generic_command",
             "named": true
           },
@@ -1276,6 +1292,10 @@
           "named": true
         },
         {
+          "type": "equation_label_reference",
+          "named": true
+        },
+        {
           "type": "generic_command",
           "named": true
         },
@@ -1465,6 +1485,10 @@
             "named": true
           },
           {
+            "type": "equation_label_reference",
+            "named": true
+          },
+          {
             "type": "generic_command",
             "named": true
           },
@@ -1643,6 +1667,10 @@
             "named": true
           },
           {
+            "type": "equation_label_reference",
+            "named": true
+          },
+          {
             "type": "generic_command",
             "named": true
           },
@@ -1746,6 +1774,32 @@
         "types": [
           {
             "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "equation_label_reference",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\eqref",
+            "named": false
+          }
+        ]
+      },
+      "label": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
             "named": true
           }
         ]
@@ -1970,6 +2024,10 @@
           },
           {
             "type": "environment",
+            "named": true
+          },
+          {
+            "type": "equation_label_reference",
             "named": true
           },
           {
@@ -2226,6 +2284,10 @@
           },
           {
             "type": "environment",
+            "named": true
+          },
+          {
+            "type": "equation_label_reference",
             "named": true
           },
           {
@@ -2547,6 +2609,10 @@
             "named": true
           },
           {
+            "type": "equation_label_reference",
+            "named": true
+          },
+          {
             "type": "generic_command",
             "named": true
           },
@@ -2769,6 +2835,10 @@
             "named": true
           },
           {
+            "type": "equation_label_reference",
+            "named": true
+          },
+          {
             "type": "generic_command",
             "named": true
           },
@@ -2928,6 +2998,10 @@
           },
           {
             "type": "environment",
+            "named": true
+          },
+          {
+            "type": "equation_label_reference",
             "named": true
           },
           {
@@ -3123,6 +3197,10 @@
             "named": true
           },
           {
+            "type": "equation_label_reference",
+            "named": true
+          },
+          {
             "type": "generic_command",
             "named": true
           },
@@ -3297,6 +3375,10 @@
             "named": true
           },
           {
+            "type": "equation_label_reference",
+            "named": true
+          },
+          {
             "type": "generic_command",
             "named": true
           },
@@ -3467,6 +3549,10 @@
             "named": true
           },
           {
+            "type": "equation_label_reference",
+            "named": true
+          },
+          {
             "type": "generic_command",
             "named": true
           },
@@ -3618,6 +3704,10 @@
           },
           {
             "type": "environment",
+            "named": true
+          },
+          {
+            "type": "equation_label_reference",
             "named": true
           },
           {
@@ -3784,6 +3874,10 @@
           },
           {
             "type": "environment",
+            "named": true
+          },
+          {
+            "type": "equation_label_reference",
             "named": true
           },
           {
@@ -4021,6 +4115,10 @@
   },
   {
     "type": "\\end",
+    "named": false
+  },
+  {
+    "type": "\\eqref",
     "named": false
   },
   {
