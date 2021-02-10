@@ -18,6 +18,7 @@ const PREC = {
   COND: 3,
   ASSIGN: 2,
   SEQ: 1,
+  TERNARY: 1,  
   SELECT: 0,
   TYPE_PATTERN: -2,
 };
@@ -1437,25 +1438,25 @@ module.exports = grammar({
 
     binary_expression: $ => choice(
       ...[
-        ['&&', PREC.LOGAND],
-        ['||', PREC.LOGOR],
-        ['>>', PREC.SHIFT],
-        ['<<', PREC.SHIFT],
-        ['&', PREC.AND],
-        ['^', PREC.OR],
-        ['|', PREC.OR],
-        ['+', PREC.ADD],
-        ['-', PREC.ADD],
-        ['*', PREC.MULT],
-        ['/', PREC.MULT],
-        ['%', PREC.MULT],
-        ['<', PREC.REL],
-        ['<=', PREC.REL],
-        ['==', PREC.EQUAL],
-        ['!=', PREC.EQUAL],
-        ['>=', PREC.REL],
-        ['>', PREC.REL],
-        ['??', PREC.EQUAL],
+        ['&&', PREC.LOGAND], // logical_and_expression
+        ['||', PREC.LOGOR], // logical_or_expression
+        ['>>', PREC.SHIFT], // right_shift_expression
+        ['<<', PREC.SHIFT], // left_shift_expression
+        ['&', PREC.AND],  // bitwise_and_expression
+        ['^', PREC.OR], // exclusive_or_expression
+        ['|', PREC.OR], // bitwise_or_expression
+        ['+', PREC.ADD], // add_expression
+        ['-', PREC.ADD], // subtract_expression
+        ['*', PREC.MULT], // multiply_expression
+        ['/', PREC.MULT], // divide_expression
+        ['%', PREC.MULT], // modulo_expression
+        ['<', PREC.REL], // less_than_expression
+        ['<=', PREC.REL], // less_than_or_equal_expression
+        ['==', PREC.EQUAL], // equals_expression
+        ['!=', PREC.EQUAL], // not_equals_expression
+        ['>=', PREC.REL], // greater_than_or_equal_expression
+        ['>', PREC.REL], //  greater_than_expression
+        ['??', PREC.TERNARY], // coalesce_expression
       ].map(([operator, precedence]) =>
         prec.left(precedence, seq(
           field('left', $._expression),

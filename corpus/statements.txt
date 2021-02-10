@@ -1524,6 +1524,22 @@ numbers ??= new List<int>();
           (argument_list))))))
 
 =====================================
+Null-coalescing
+=====================================
+
+b = obj ?? a == 0;
+
+---
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression (identifier) (assignment_operator)
+        (binary_expression
+          (identifier)
+          (binary_expression (identifier) (integer_literal)))))))
+
+=====================================
 Null literal arguments
 =====================================
 
