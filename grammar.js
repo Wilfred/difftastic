@@ -49,8 +49,9 @@ module.exports = grammar({
 
     [$.event_declaration, $.variable_declarator],
 
-    [$.nullable_type, $.binary_expression],
-    [$.nullable_type, $.binary_expression, $.type_pattern],
+    [$.nullable_type, $.as_expression],
+    [$.nullable_type, $.is_expression, $.type_pattern],
+    [$.nullable_type, $.as_expression, $.type_pattern],
 
     [$._name, $._expression],
     [$._simple_name, $.type_parameter],
@@ -1388,6 +1389,7 @@ module.exports = grammar({
       $.anonymous_method_expression,
       $.anonymous_object_creation_expression,
       $.array_creation_expression,
+      $.as_expression,
       $.assignment_expression,
       $.await_expression,
       $.base_expression,
@@ -1405,6 +1407,7 @@ module.exports = grammar({
       $.initializer_expression,
       $.interpolated_string_expression,
       $.invocation_expression,
+      $.is_expression,
       $.is_pattern_expression,
       $.lambda_expression,
       $.make_ref_expression,
@@ -1459,14 +1462,20 @@ module.exports = grammar({
           field('operator', operator),
           field('right', $._expression)
         ))
-      ).concat(
-        prec.left(PREC.EQUAL, seq(
-          field('left', $._expression),
-          field('operator', choice('is', 'as')),
-          field('right', $._type)
-        ))
       )
     ),
+
+    as_expression: $ => prec.left(PREC.EQUAL, seq(
+      field('left', $._expression),
+      field('operator', 'as'),
+      field('right', $._type)
+    )),
+
+    is_expression: $ => prec.left(PREC.EQUAL, seq(
+      field('left', $._expression),
+      field('operator', 'is'),
+      field('right', $._type)
+    )),
 
     _identifier_token: $ => token(seq(optional('@'), /[a-zA-Zα-ωΑ-Ωµ_][a-zA-Zα-ωΑ-Ωµ_0-9]*/)), // identifier_token in Roslyn
     identifier: $ => choice($._identifier_token, $._contextual_keywords),
