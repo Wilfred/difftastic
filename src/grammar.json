@@ -8314,7 +8314,7 @@
         },
         {
           "type": "PREC_LEFT",
-          "value": 9,
+          "value": 1,
           "content": {
             "type": "SEQ",
             "members": [
