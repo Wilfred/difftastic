@@ -58,3 +58,88 @@ Strings containing comment-like content
 
 (program
   (expression_statement (string (escape_sequence))))
+
+==========================================
+Quote escaping
+==========================================
+
+"";
+'';
+"\"";
+"a\"b";
+'\'';
+'a\'b';
+"it's a tiny tiny world";
+'"hello"';
+
+---
+
+(program
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string (escape_sequence)))
+  (expression_statement (string (escape_sequence)))
+  (expression_statement (string (escape_sequence)))
+  (expression_statement (string (escape_sequence)))
+  (expression_statement (string))
+  (expression_statement (string)))
+
+==========================================
+Line continuations
+==========================================
+
+"hello\
+world";
+
+'hello\
+world';
+
+---
+
+(program
+  (expression_statement (string (escape_sequence)))
+  (expression_statement (string (escape_sequence))))
+
+============================================================
+Non-standard unescaped newlines legal in TSX attributes
+============================================================
+
+"hello
+world";
+
+'hello
+world';
+
+---
+
+(program
+  (expression_statement (string))
+  (expression_statement (string)))
+
+=========================================================
+JSX strings with unescaped newlines for TSX attributes
+=========================================================
+
+<Element Attribute="hello
+                    world"></Element>;
+
+<Element Attribute='hello
+                    world'></Element>;
+
+---
+
+(program
+  (expression_statement
+    (jsx_element
+      (jsx_opening_element
+        (identifier)
+        (jsx_attribute (property_identifier) (string)))
+      (jsx_closing_element
+        (identifier))))
+ (expression_statement
+   (jsx_element
+     (jsx_opening_element
+       (identifier)
+       (jsx_attribute (property_identifier) (string)))
+     (jsx_closing_element
+       (identifier)))))
