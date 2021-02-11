@@ -35,7 +35,7 @@ a == b
 ---
 (program
   (binary
-    (identifier) (identifier)))
+    left: (identifier) right: (identifier)))
 
 ========
 Additive
@@ -47,7 +47,7 @@ a + b
 
 (program
   (binary
-    (identifier) (identifier)))
+    left: (identifier) right: (identifier)))
 
 ========
 Multiplicative
@@ -59,7 +59,7 @@ a * b
 
 (program
   (binary
-    (identifier) (identifier)))
+    left: (identifier) right: (identifier)))
 
 ==============
 Binary operations
@@ -71,10 +71,10 @@ Binary operations
 
 (program
   (binary
-    (float)
-    (binary
-       (float)
-       (float))))
+    left: (float)
+    right: (binary
+      left: (float)
+      right: (float))))
 
 ===========
 Unary minus
@@ -86,11 +86,12 @@ foo(-a, bar)
 ---
 
 (program
-  (unary (identifier))
-  (call (identifier) 
-    (arguments
-      (unary (identifier))
-      (identifier))))
+  (unary operand: (identifier))
+  (call
+    function: (identifier)
+    arguments: (arguments
+      value: (unary operand: (identifier))
+      value: (identifier))))
 
 ===========
 Binary minus
@@ -101,7 +102,7 @@ foo-a
 ---
 
 (program
-  (binary (identifier) (identifier)))
+  (binary left: (identifier) right: (identifier)))
 
 
 ===================
@@ -118,29 +119,35 @@ val <- foo %>% bar(1) %>% baz()
 (program
 
   (binary
-    (binary (identifier) (identifier))
-    (binary (identifier) (identifier)))
+    left: (binary left: (identifier) right: (identifier))
+    right: (binary left: (identifier) right: (identifier)))
 
   (left_assignment
-   name: (subset (identifier) (arguments value: (float)))
-   value: (binary (identifier) (identifier)))
+    name: (subset (identifier) (arguments value: (float)))
+    value: (binary left: (identifier) right: (identifier)))
 
   (binary
-     (binary (identifier) (call function: (identifier) arguments: (arguments value: (identifier))))
-     (identifier))
+    left: (binary
+      left: (identifier)
+      right: (call
+        function: (identifier)
+        arguments: (arguments
+          value: (identifier))))
+    right: (identifier))
 
   (left_assignment
-   name: (identifier)
-   value: (binary
-     (binary
-      (identifier)
-      (special)
-      (call
-       function: (identifier)
-       arguments: (arguments value: (float))))
-     (special)
-     (call
-      function: (identifier)))))
+    name: (identifier)
+    value: (binary
+      left: (binary
+        left: (identifier)
+        operator: (special)
+        right: (call
+          function: (identifier)
+          arguments: (arguments
+            value: (float))))
+      operator: (special)
+      right: (call
+        function: (identifier)))))
 
 ========
 Specials
@@ -159,11 +166,11 @@ x %some \% escaped text% y
 ---
 
 (program
-  (binary (identifier) (special) (identifier))
-  (binary (identifier) (special) (identifier))
-  (binary (identifier) (special) (identifier))
-  (binary (identifier) (special) (identifier))
-  (binary (identifier) (special (escape_sequence)) (identifier)))
+  (binary left: (identifier) operator: (special) right: (identifier))
+  (binary left: (identifier) operator: (special) right: (identifier))
+  (binary left: (identifier) operator: (special) right: (identifier))
+  (binary left: (identifier) operator: (special) right: (identifier))
+  (binary left: (identifier) operator: (special (escape_sequence)) right: (identifier)))
 
 ===========
 Subset
@@ -308,8 +315,14 @@ while(TRUE)
     body: (identifier))
 
   (while
-    condition: (binary (identifier) (float))
-    body: (left_assignment name: (identifier) value: (binary (identifier) (float))))
+    condition: (binary
+      left: (identifier)
+      right: (float))
+    body: (left_assignment
+      name: (identifier)
+      value: (binary
+        left: (identifier)
+        right: (float))))
 
   (while
     condition: (true)
@@ -500,15 +513,15 @@ f(,y=)
    function: (identifier)
    arguments: (arguments
      value: (binary
-       (float)
-       (float))))
+       left: (float)
+       right: (float))))
 
   (call
    function: (identifier)
    arguments: (arguments
      value: (binary
-       (float)
-       (float))))
+       left: (float)
+       right: (float))))
 
   (call
     function: (identifier)
@@ -524,7 +537,7 @@ f(,y=)
 
   (call
     function: (identifier)
-    arguments: (arguments name: (identifier) value: (binary (float) (float))))
+    arguments: (arguments name: (identifier) value: (binary left: (float) right: (float))))
 
   (call
     function: (identifier)
@@ -607,11 +620,15 @@ Colon
 ---
 
 (program
-  (binary (float) (float))
+  (binary left: (float) right: (float))
 
   (binary
-    (paren_list (binary (float) (float)))
-    (unary (float))))
+    left: (paren_list
+      (binary
+        left: (float)
+        right: (float)))
+    right: (unary
+      operand: (float))))
 
 =====
 Formulas
@@ -624,6 +641,6 @@ y~x
 
 (program
 
-  (unary (identifier))
+  (unary operand: (identifier))
 
-  (binary (identifier) (identifier)))
+  (binary left: (identifier) right: (identifier)))
