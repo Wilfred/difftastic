@@ -1,6 +1,6 @@
 # tree-sitter-vhdl
 
-Tree-sitter-vhdl is a highligting parser for VHDL.
+Tree-sitter-vhdl is a VHDL parser for syntax highlighting.
 
 ## Missing features
 
