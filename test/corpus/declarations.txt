@@ -594,3 +594,34 @@ enum HandSign {
       (enum_constant name: (identifier))
       (enum_constant name: (identifier))
       (enum_constant name: (identifier)))))
+
+==============================================
+class declaration with dollar-sign identifiers
+==============================================
+
+class A$B {
+  void func() {
+    $object.$property;
+    $hello();
+  }
+}
+
+---
+
+(program
+  (class_declaration
+    (identifier)
+    (class_body
+      (method_declaration
+        (void_type)
+        (identifier)
+        (formal_parameters)
+        (block
+          (expression_statement
+            (field_access
+              (identifier)
+              (identifier)))
+          (expression_statement
+            (method_invocation
+              (identifier)
+              (argument_list))))))))
