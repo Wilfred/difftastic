@@ -445,14 +445,15 @@ module.exports = grammar({
       ),
 
     label_reference_range: $ =>
-      seq(
-        field('command', token(choice(...commands.labelRangeReference))),
-        '{',
-        field('label1', $.word),
-        '}',
-        '{',
-        field('label2', $.word),
-        '}'
+      prec.right(
+        seq(
+          field('command', token(choice(...commands.labelRangeReference))),
+          '{',
+          field('label1', $.word),
+          '}',
+          // optional to improve error handling
+          optional(seq('{', field('label2', $.word), '}'))
+        )
       ),
 
     label_number: $ =>

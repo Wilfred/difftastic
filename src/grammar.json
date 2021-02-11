@@ -2379,85 +2379,102 @@
       ]
     },
     "label_reference_range": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "command",
-          "content": {
-            "type": "TOKEN",
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "command",
             "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\\crefrange"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\crefrange"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\Crefrange"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\Crefrange"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\crefrange*"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\crefrange*"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\Crefrange*"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\Crefrange*"
-                }
-              ]
+              "type": "TOKEN",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "\\crefrange"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "\\crefrange"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "\\Crefrange"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "\\Crefrange"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "\\crefrange*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "\\crefrange*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "\\Crefrange*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "\\Crefrange*"
+                  }
+                ]
+              }
             }
+          },
+          {
+            "type": "STRING",
+            "value": "{"
+          },
+          {
+            "type": "FIELD",
+            "name": "label1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "word"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "}"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "{"
+                  },
+                  {
+                    "type": "FIELD",
+                    "name": "label2",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "word"
+                    }
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "}"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
-        },
-        {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "FIELD",
-          "name": "label1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "word"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "}"
-        },
-        {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "FIELD",
-          "name": "label2",
-          "content": {
-            "type": "SYMBOL",
-            "name": "word"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "}"
-        }
-      ]
+        ]
+      }
     },
     "label_number": {
       "type": "SEQ",

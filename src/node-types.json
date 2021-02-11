@@ -2484,7 +2484,7 @@
       },
       "label2": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "word",
