@@ -1443,7 +1443,7 @@ module.exports = grammar({
         ['>>', PREC.SHIFT], // right_shift_expression
         ['<<', PREC.SHIFT], // left_shift_expression
         ['&', PREC.AND],  // bitwise_and_expression
-        ['^', PREC.OR], // exclusive_or_expression
+        ['^', PREC.XOR], // exclusive_or_expression
         ['|', PREC.OR], // bitwise_or_expression
         ['+', PREC.ADD], // add_expression
         ['-', PREC.ADD], // subtract_expression

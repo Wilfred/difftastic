@@ -1172,6 +1172,24 @@ class Foo {
                 (identifier)
                 (throw_expression (identifier))))))))))
 
+
+=====================================
+Pecedence with OR and XOR
+=====================================
+
+b = 4 | 5 ^ 6;
+
+---
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression (identifier) (assignment_operator)
+        (binary_expression
+          (integer_literal)
+            (binary_expression
+              (integer_literal)
+              (integer_literal)))))))
+
 =====================================
 range expressions full
 =====================================
