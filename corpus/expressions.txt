@@ -167,6 +167,22 @@ b = (float)a[0];
           (element_access_expression (identifier)
             (bracketed_argument_list (argument (integer_literal)))))))))
 
+=====================================
+Precedence of unary prefix operator and element access
+=====================================
+
+b = +a[0];
+
+---
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression (identifier) (assignment_operator)
+        (prefix_unary_expression
+          (element_access_expression (identifier)
+            (bracketed_argument_list (argument (integer_literal)))))))))
+
 ============================
 Anonymous object creation with empty body
 ============================
@@ -1889,4 +1905,3 @@ if ((p as Person[])?[0]._Age != 1) { }
             (identifier))
           (integer_literal))
       (block))))
-      
