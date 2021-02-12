@@ -183,6 +183,27 @@ b = +a[0];
           (element_access_expression (identifier)
             (bracketed_argument_list (argument (integer_literal)))))))))
 
+=====================================
+Precedence of switch_expression and binary_expression 
+=====================================
+
+b = 2 * a switch
+{
+    1 => 1,
+    _ => 0,
+};
+
+---
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression (identifier) (assignment_operator)
+        (binary_expression (integer_literal)
+          (switch_expression (identifier)
+            (switch_expression_arm (constant_pattern (integer_literal)) (integer_literal))
+            (switch_expression_arm (discard) (integer_literal))))))))
+
 ============================
 Anonymous object creation with empty body
 ============================

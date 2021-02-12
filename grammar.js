@@ -1350,14 +1350,14 @@ module.exports = grammar({
       optional($.initializer_expression)
     ),
 
-    switch_expression: $ => seq(
+    switch_expression: $ => prec(PREC.UNARY, seq(
       $._expression,
       'switch',
       '{',
       commaSep($.switch_expression_arm),
       optional(','),
       '}',
-    ),
+    )),
 
     switch_expression_arm: $ => seq(
       $._pattern,
