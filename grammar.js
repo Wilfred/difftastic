@@ -56,6 +56,8 @@ module.exports = grammar({
         $.color_reference,
         $.color_definition,
         $.color_set_definition,
+        $.pgf_library_import,
+        $.tikz_library_import,
         $.generic_command
       ),
 
@@ -598,6 +600,22 @@ module.exports = grammar({
             )
           )
         )
+      ),
+
+    pgf_library_import: $ =>
+      seq(
+        field('command', '\\usepgflibrary'),
+        '{',
+        sepBy(field('name', $.word), ','),
+        '}'
+      ),
+
+    tikz_library_import: $ =>
+      seq(
+        field('command', '\\usetikzlibrary'),
+        '{',
+        sepBy(field('name', $.word), ','),
+        '}'
       ),
 
     //--- Generic commands ---//
