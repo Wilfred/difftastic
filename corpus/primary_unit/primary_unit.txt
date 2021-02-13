@@ -49,15 +49,16 @@ end context project_context;
 (design_file
   (design_unit
     (context_declaration
-      (identifier)
+      name: (identifier)
       (context_clause
         (library_clause
           (logical_name_list
             (simple_name)))
         (use_clause
           (expanded_name
-            library: (simple_name)
-            package: (simple_name)
+            prefix: (selected_name
+              prefix: (simple_name)
+              suffix: (simple_name))
             suffix: (all)))
         (library_clause
           (logical_name_list
@@ -65,6 +66,6 @@ end context project_context;
         (context_reference
           (context_list
             (expanded_name
-              library: (simple_name)
+              prefix: (simple_name)
               suffix: (simple_name)))))
       at_end: (simple_name))))

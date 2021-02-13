@@ -7,11 +7,11 @@ procedure p is new u;
 
 (design_file
   (function_instantiation_declaration
-    (identifier)
-    (simple_name))
+    designator: (identifier)
+    uninstantiated: (simple_name))
   (procedure_instantiation_declaration
-    (identifier)
-    (simple_name)))
+    designator: (identifier)
+    uninstantiated: (simple_name)))
 
 ====================================
 Subprogram - Signature
@@ -22,15 +22,15 @@ procedure p is new u [t];
 
 (design_file
   (function_instantiation_declaration
-    (identifier)
-    (simple_name)
+    designator: (identifier)
+    uninstantiated: (simple_name)
     (signature
       (return
         (type_mark
           (simple_name)))))
   (procedure_instantiation_declaration
-    (identifier)
-    (simple_name)
+    designator: (identifier)
+    uninstantiated: (simple_name)
     (signature
       (type_mark
         (simple_name)))))
@@ -47,8 +47,8 @@ procedure p is new u
 
 (design_file
   (function_instantiation_declaration
-    (identifier)
-    (simple_name)
+    designator: (identifier)
+    uninstantiated: (simple_name)
     (instantiation_declaration_map_aspect
       (generic_map_aspect
         (association_list
@@ -56,8 +56,8 @@ procedure p is new u
             actual_part: (expression
               (simple_name)))))))
   (procedure_instantiation_declaration
-    (identifier)
-    (simple_name)
+    designator: (identifier)
+    uninstantiated: (simple_name)
     (instantiation_declaration_map_aspect
       (generic_map_aspect
         (association_list
@@ -74,10 +74,10 @@ procedure p;
 
 (design_file
   (procedure_instantiation_declaration
-    (identifier)
-    (simple_name))
+    designator: (identifier)
+    uninstantiated: (simple_name))
   (procedure_declaration
-    (identifier)))
+    designator: (identifier)))
 
 ============================================
 Subprogram - Conflict resolution - Function
@@ -88,10 +88,10 @@ function f return t;
 
 (design_file
   (function_instantiation_declaration
-    (identifier)
-    (simple_name))
+    designator: (identifier)
+    uninstantiated: (simple_name))
   (function_declaration
-    (identifier)
+    designator: (identifier)
     (return
       (type_mark
         (simple_name)))))
@@ -104,8 +104,8 @@ package p is new u;
 
 (design_file
   (package_instantiation_declaration
-    (identifier)
-    (simple_name)))
+    name: (identifier)
+    uninstantiated: (simple_name)))
 
 ====================================
 Package - Generic map aspect
@@ -116,9 +116,9 @@ package p is new u
 
 (design_file
   (package_instantiation_declaration
-    (identifier)
-    (simple_name)
-    (instantiation_declaration_map_aspect
+    name: (identifier)
+    uninstantiated: (simple_name)
+    (map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element

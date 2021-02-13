@@ -7,11 +7,11 @@ type enum_t is (foo);
 
 (design_file
   (full_type_declaration
-    (identifier)
+    name: (identifier)
     (enumeration_type_definition
       (character_literal)))
   (full_type_declaration
-    (identifier)
+    name: (identifier)
     (enumeration_type_definition
       (identifier))))
 
@@ -23,7 +23,7 @@ type enum_t is ('a', foo, bar);
 
 (design_file
   (full_type_declaration
-    (identifier)
+    name: (identifier)
     (enumeration_type_definition
       (character_literal)
       (identifier)
@@ -37,7 +37,7 @@ type int_t is range 0 to 255;
 
 (design_file
   (full_type_declaration
-    (identifier)
+    name: (identifier)
     (numeric_type_definition
       (ascending_range
         low: (simple_expression
@@ -55,7 +55,7 @@ type float_t is range 2.0 to 8.0;
 
 (design_file
   (full_type_declaration
-    (identifier)
+    name: (identifier)
     (numeric_type_definition
       (ascending_range
         low: (simple_expression
@@ -78,7 +78,7 @@ type phy_t is range l to h
 
 (design_file
   (full_type_declaration
-    (identifier)
+    name: (identifier)
     (physical_type_definition
       (range_constraint
         (ascending_range
@@ -101,7 +101,7 @@ type phy_t is range l to h
 
 (design_file
   (full_type_declaration
-    (identifier)
+    name: (identifier)
     (physical_type_definition
       (range_constraint
         (ascending_range
@@ -136,7 +136,7 @@ type byte_t is range 0 to 1E16
 
 (design_file
   (full_type_declaration
-    (identifier)
+    name: (identifier)
     (physical_type_definition
       (range_constraint
         (ascending_range

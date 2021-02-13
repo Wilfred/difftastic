@@ -9,7 +9,7 @@ end entity e;
 (design_file
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (port_clause
           (signal_interface_declaration
@@ -56,7 +56,7 @@ end component c;
 
 (design_file
   (component_declaration
-    (identifier)
+    name: (identifier)
     (header
       (port_clause
         (signal_interface_declaration
@@ -89,7 +89,7 @@ end entity e;
 (design_file
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (port_clause
           (signal_interface_declaration
@@ -213,7 +213,7 @@ end entity e;
 (design_file
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (port_clause
           (constant_interface_declaration
@@ -261,7 +261,7 @@ end entity e;
       at_end: (simple_name)))
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (port_clause
           (variable_interface_declaration
@@ -309,7 +309,7 @@ end entity e;
       at_end: (simple_name)))
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (port_clause
           (file_interface_declaration
@@ -357,21 +357,21 @@ end entity e;
       at_end: (simple_name)))
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (port_clause
           (procedure_interface_declaration
-            (identifier))
+            designator: (identifier))
           (semicolon)))
       at_end: (simple_name)))
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (port_clause
           (package_interface_declaration
-            (identifier)
-            (simple_name)
+            name: (identifier)
+            uninstantiated: (simple_name)
             (map_aspect
               (generic_map_aspect
                 (any))))

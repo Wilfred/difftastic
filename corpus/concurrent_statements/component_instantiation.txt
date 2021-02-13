@@ -32,7 +32,7 @@ L1: entity lib.e;
     (label
       (identifier))
     entity: (expanded_name
-      library: (simple_name)
+      prefix: (simple_name)
       suffix: (simple_name))))
 
 ===============================
@@ -46,7 +46,7 @@ L1: entity lib.e(rtl);
     (label
       (identifier))
     entity: (expanded_name
-      library: (simple_name)
+      prefix: (simple_name)
       suffix: (simple_name))
     architecture: (simple_name)))
 
@@ -61,7 +61,7 @@ L1: configuration lib.cfg;
     (label
       (identifier))
     configuration: (expanded_name
-      library: (simple_name)
+      prefix: (simple_name)
       suffix: (simple_name))))
 
 ===================================
@@ -76,7 +76,7 @@ generic map (a,b,c);
     (label
       (identifier))
     component: (simple_name)
-    (component_instantiation_map_aspect
+    (map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
@@ -101,7 +101,7 @@ port map (a,b,c);
     (label
       (identifier))
     component: (simple_name)
-    (component_instantiation_map_aspect
+    (map_aspect
       (port_map_aspect
         (association_list
           (positional_association_element
@@ -127,7 +127,7 @@ generic map (a,b,c)
     (label
       (identifier))
     component: (simple_name)
-    (component_instantiation_map_aspect
+    (map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
@@ -159,7 +159,7 @@ generic map (integer range 0 to 7);
     (label
       (identifier))
     component: (simple_name)
-    (component_instantiation_map_aspect
+    (map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
@@ -187,7 +187,7 @@ port map (a.b => c);
     (label
       (identifier))
     component: (simple_name)
-    (component_instantiation_map_aspect
+    (map_aspect
       (port_map_aspect
         (association_list
           (named_association_element

@@ -9,7 +9,7 @@ procedure f (constant k :    t;
 
 (design_file
   (procedure_declaration
-      (identifier)
+      designator: (identifier)
       (procedure_parameter_clause
         (constant_interface_declaration
           (identifier_list
@@ -49,7 +49,7 @@ procedure f (signal s :         t;
 
 (design_file
   (procedure_declaration
-      (identifier)
+      designator: (identifier)
       (procedure_parameter_clause
         (signal_interface_declaration
           (identifier_list
@@ -91,7 +91,7 @@ procedure f (variable v : in      t := x;
 
 (design_file
   (procedure_declaration
-      (identifier)
+      designator: (identifier)
       (procedure_parameter_clause
         (variable_interface_declaration
           (identifier_list
@@ -139,7 +139,7 @@ procedure f (file f : t);
 
 (design_file
   (procedure_declaration
-      (identifier)
+      designator: (identifier)
       (procedure_parameter_clause
         (file_interface_declaration
           (identifier_list
@@ -159,7 +159,7 @@ procedure f (constant k : out     t;
 
 (design_file
   (procedure_declaration
-      (identifier)
+      designator: (identifier)
       (procedure_parameter_clause
         (constant_interface_declaration
           (identifier_list
@@ -203,7 +203,7 @@ procedure f (signal s :         t := x;
 
 (design_file
   (procedure_declaration
-      (identifier)
+      designator: (identifier)
       (procedure_parameter_clause
         (signal_interface_declaration
           (identifier_list
@@ -266,7 +266,7 @@ procedure f (variable k : out     t := x;
 
 (design_file
   (procedure_declaration
-      (identifier)
+      designator: (identifier)
       (procedure_parameter_clause
         (variable_interface_declaration
           (identifier_list
@@ -313,7 +313,7 @@ procedure f (file v : in      t;
 
 (design_file
   (procedure_declaration
-      (identifier)
+      designator: (identifier)
       (procedure_parameter_clause
         (file_interface_declaration
           (identifier_list
@@ -359,10 +359,10 @@ procedure f (type t);
 
 (design_file
   (procedure_declaration
-      (identifier)
-      (procedure_parameter_clause
-        (type_interface_declaration
-          (identifier)))))
+    designator: (identifier)
+    (procedure_parameter_clause
+      (type_interface_declaration
+        name: (identifier)))))
 
 ============================================================================
 LINT: Illegal subprogram interface declarations
@@ -372,10 +372,10 @@ procedure f (procedure p);
 
 (design_file
   (procedure_declaration
-    (identifier)
+    designator: (identifier)
     (procedure_parameter_clause
       (procedure_interface_declaration
-        (identifier)))))
+        designator: (identifier)))))
 
 ============================================================================
 LINT: Illegal package interface declarations
@@ -385,11 +385,11 @@ procedure f (package pkg is new pkg generic map (<>));
 
 (design_file
   (procedure_declaration
-      (identifier)
-      (procedure_parameter_clause
-        (package_interface_declaration
-          (identifier)
-          (simple_name)
-          (map_aspect
-            (generic_map_aspect
-              (any)))))))
+    designator: (identifier)
+    (procedure_parameter_clause
+      (package_interface_declaration
+        name: (identifier)
+        uninstantiated: (simple_name)
+        (map_aspect
+          (generic_map_aspect
+            (any)))))))

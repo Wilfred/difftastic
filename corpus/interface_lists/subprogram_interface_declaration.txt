@@ -10,24 +10,24 @@ end;
 (design_file
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (generic_clause
           (function_interface_declaration
-            (identifier)
+            designator: (identifier)
             (return
               (type_mark
                 (simple_name)))
             (interface_subprogram_default
               (same)))
           (function_interface_declaration
-            (identifier)
+            designator: (identifier)
             (return
               (type_mark
                 (simple_name)))
             (interface_subprogram_default
               (expanded_name
-                library: (simple_name)
+                prefix: (simple_name)
                 suffix: (simple_name))))
           (semicolon))))))
 

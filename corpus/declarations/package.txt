@@ -16,14 +16,14 @@ end package pkg;
 
 (design_file
   (package_declaration
-    (identifier))
+    name: (identifier))
   (package_declaration
-    (identifier))
+    name: (identifier))
   (package_declaration
-    (identifier)
+    name: (identifier)
     at_end: (simple_name))
   (package_declaration
-    (identifier)
+    name: (identifier)
     at_end: (simple_name)))
 
 ==========================
@@ -61,7 +61,7 @@ end package pkg;
 
 (design_file
   (package_declaration
-    (identifier)
+    name: (identifier)
     (header
       (generic_clause
         (constant_interface_declaration
@@ -95,11 +95,11 @@ end package pkg;
 LINT: Package declaration - Header (semicolon)
 ====================================
 package pkg is
-    generic (k:t); -- here
+    generic (k:t)  -- here
 end package;
 
 package pkg is
-    generic (k:t); -- here
+    generic (k:t)  -- here
     generic map (x);
 end package;
 
@@ -109,9 +109,10 @@ package pkg is
 end package;
 ---
 
+
 (design_file
   (package_declaration
-    (identifier)
+    name: (identifier)
     (header
       (generic_clause
         (constant_interface_declaration
@@ -119,11 +120,10 @@ end package;
             (identifier))
           (subtype_indication
             (type_mark
-              (simple_name))))
-        (semicolon)))
+              (simple_name))))))
     (comment))
   (package_declaration
-    (identifier)
+    name: (identifier)
     (header
       (generic_clause
         (constant_interface_declaration
@@ -131,8 +131,7 @@ end package;
             (identifier))
           (subtype_indication
             (type_mark
-              (simple_name))))
-        (semicolon))
+              (simple_name)))))
       (comment)
       (generic_map_aspect
         (association_list
@@ -141,7 +140,7 @@ end package;
               (simple_name))))
         (semicolon))))
   (package_declaration
-    (identifier)
+    name: (identifier)
     (header
       (generic_clause
         (constant_interface_declaration
@@ -156,4 +155,3 @@ end package;
             actual_part: (expression
               (simple_name))))))
     (comment)))
-

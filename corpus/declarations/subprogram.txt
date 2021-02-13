@@ -16,11 +16,11 @@ end procedure p;
 
 (design_file
   (procedure_body
-    (identifier))
+    designator: (identifier))
   (procedure_body
-    (identifier))
+    designator: (identifier))
   (procedure_body
-    (identifier)
+    designator: (identifier)
     at_end: (simple_name)))
 
 ==========================
@@ -41,17 +41,17 @@ end function f;
 
 (design_file
   (function_body
-    (identifier)
+    designator: (identifier)
     (return
       (type_mark
         (simple_name))))
   (function_body
-    (identifier)
+    designator: (identifier)
     (return
       (type_mark
         (simple_name))))
   (function_body
-    (identifier)
+    designator: (identifier)
     (return
       (type_mark
         (simple_name)))
@@ -75,17 +75,17 @@ end function f;
 
 (design_file
   (function_body
-    (identifier)
+    designator: (identifier)
     (return
       (type_mark
         (simple_name))))
   (function_body
-    (identifier)
+    designator: (identifier)
     (return
       (type_mark
         (simple_name))))
   (function_body
-    (identifier)
+    designator: (identifier)
     (return
       (type_mark
         (simple_name)))
@@ -109,17 +109,17 @@ end function f;
 
 (design_file
   (function_body
-    (identifier)
+    designator: (identifier)
     (return
       (type_mark
         (simple_name))))
   (function_body
-    (identifier)
+    designator: (identifier)
     (return
       (type_mark
         (simple_name))))
   (function_body
-    (identifier)
+    designator: (identifier)
     (return
       (type_mark
         (simple_name)))
@@ -137,7 +137,7 @@ procedure p
 
 (design_file
   (procedure_declaration
-    (identifier)
+    designator: (identifier)
     (subprogram_header
       (generic_clause
         (constant_interface_declaration
@@ -186,7 +186,7 @@ procedure p
 
 (design_file
   (procedure_declaration
-    (identifier)
+    designator: (identifier)
     (subprogram_header
       (generic_clause
         (constant_interface_declaration
@@ -196,7 +196,7 @@ procedure p
             (type_mark
               (simple_name)))))))
   (procedure_declaration
-    (identifier)
+    designator: (identifier)
     (subprogram_header
       (generic_map_aspect
         (association_list
@@ -204,7 +204,7 @@ procedure p
             actual_part: (expression
               (simple_name)))))))
   (procedure_declaration
-    (identifier)
+    designator: (identifier)
     (subprogram_header
       (generic_clause
         (constant_interface_declaration
@@ -219,7 +219,7 @@ procedure p
             actual_part: (expression
               (simple_name)))))))
   (procedure_declaration
-    (identifier)
+    designator: (identifier)
     (subprogram_header
       (generic_clause
         (constant_interface_declaration

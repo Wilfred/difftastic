@@ -6,7 +6,7 @@ group g is (signal);
 
 (design_file
   (group_template_declaration
-    (identifier)
+    name: (identifier)
     (entity_class_entry_list
       (entity_class_entry
         (entity_class)))))
@@ -20,14 +20,14 @@ group g is (group <>);
 
 (design_file
   (group_template_declaration
-    (identifier)
+    name: (identifier)
     (entity_class_entry_list
       (entity_class_entry
         (entity_class))
       (entity_class_entry
         (entity_class))))
   (group_template_declaration
-    (identifier)
+    name: (identifier)
     (entity_class_entry_list
       (entity_class_entry
         (entity_class)
@@ -41,10 +41,10 @@ group G1 : E (L2);
 
 (design_file
   (group_declaration
-    (identifier)
-    group_template: (simple_name)
+    name: (identifier)
+    template: (simple_name)
     (group_constituent_list
-      group_constituent: (simple_name))))
+      (simple_name))))
 
 ====================================
 Group declaration - LRM I
@@ -55,18 +55,18 @@ group G2: RESOURCE (L3, L4, L5);
 
 (design_file
   (group_declaration
-    (identifier)
-    group_template: (simple_name)
+    name: (identifier)
+    template: (simple_name)
     (group_constituent_list
-      group_constituent: (simple_name)
-      group_constituent: (simple_name)))
+      (simple_name)
+      (simple_name)))
   (group_declaration
-    (identifier)
-    group_template: (simple_name)
+    name: (identifier)
+    template: (simple_name)
     (group_constituent_list
-      group_constituent: (simple_name)
-      group_constituent: (simple_name)
-      group_constituent: (simple_name))))
+      (simple_name)
+      (simple_name)
+      (simple_name))))
 
 ====================================
 Group declaration - LRM II
@@ -76,14 +76,15 @@ group C2Q: PIN2PIN (PROJECT.GLOBALS.CK, Q);
 
 (design_file
   (group_declaration
-    (identifier)
-    group_template: (simple_name)
+    name: (identifier)
+    template: (simple_name)
     (group_constituent_list
-      group_constituent: (expanded_name
-        library: (simple_name)
-        package: (simple_name)
+      (expanded_name
+        prefix: (selected_name
+          prefix: (simple_name)
+          suffix: (simple_name))
         suffix: (simple_name))
-      group_constituent: (simple_name))))
+      (simple_name))))
 
 ====================================
 Group declaration - LRM III
@@ -93,9 +94,9 @@ group CONSTRAINT1: DIFF_CYCLES (G1, G3);
 
 (design_file
   (group_declaration
-    (identifier)
-    group_template: (simple_name)
+    name: (identifier)
+    template: (simple_name)
     (group_constituent_list
-      group_constituent: (simple_name)
-      group_constituent: (simple_name))))
+      (simple_name)
+      (simple_name))))
 

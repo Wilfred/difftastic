@@ -27,8 +27,9 @@ alias '0' is STD.STANDARD.'0' [return STD.STANDARD.BIT];
       (return
         (type_mark
           (expanded_name
-            library: (simple_name)
-            package: (simple_name)
+            prefix: (selected_name
+              prefix: (simple_name)
+              suffix: (simple_name))
             suffix: (simple_name)))))))
 
 ==============================
@@ -50,17 +51,20 @@ alias "or" is STD.STANDARD."or" [STD.STANDARD.BIT,
     (signature
       (type_mark
         (expanded_name
-          library: (simple_name)
-          package: (simple_name)
+          prefix: (selected_name
+            prefix: (simple_name)
+            suffix: (simple_name))
           suffix: (simple_name)))
       (type_mark
         (expanded_name
-          library: (simple_name)
-          package: (simple_name)
+          prefix: (selected_name
+            prefix: (simple_name)
+            suffix: (simple_name))
           suffix: (simple_name)))
       (return
         (type_mark
           (expanded_name
-            library: (simple_name)
-            package: (simple_name)
+            prefix: (selected_name
+              prefix: (simple_name)
+              suffix: (simple_name))
             suffix: (simple_name)))))))

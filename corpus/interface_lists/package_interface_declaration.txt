@@ -12,18 +12,18 @@ end entity e;
 (design_file
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (generic_clause
           (package_interface_declaration
-            (identifier)
-            (simple_name)
+            name: (identifier)
+            uninstantiated: (simple_name)
             (map_aspect
               (generic_map_aspect
                 (default))))
           (package_interface_declaration
-            (identifier)
-            (simple_name)
+            name: (identifier)
+            uninstantiated: (simple_name)
             (map_aspect
               (generic_map_aspect
                 (any))))

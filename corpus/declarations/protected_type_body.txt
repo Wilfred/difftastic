@@ -12,10 +12,10 @@ type t is
 
 (design_file
   (full_type_declaration
-    (identifier)
+    name: (identifier)
     (protected_type_body))
   (full_type_declaration
-    (identifier)
+    name: (identifier)
     (protected_type_body
       at_end: (simple_name))))
 
@@ -36,7 +36,7 @@ end protected body SharedCounter;
 
 (design_file
   (full_type_declaration
-    (identifier)
+    name: (identifier)
     (protected_type_body
       (declarative_part
         (variable_declaration
@@ -49,7 +49,7 @@ end protected body SharedCounter;
             (integer_decimal
               (integer))))
         (procedure_body
-          (identifier)
+          designator: (identifier)
           (procedure_parameter_clause
             (constant_interface_declaration
               (identifier_list

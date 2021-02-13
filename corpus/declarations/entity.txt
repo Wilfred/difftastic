@@ -17,17 +17,17 @@ end entity e;
 (design_file
   (design_unit
     (entity_declaration
-      (identifier)))
+      name: (identifier)))
   (design_unit
     (entity_declaration
-      (identifier)))
+      name: (identifier)))
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       at_end: (simple_name)))
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       at_end: (simple_name))))
 
 ================================
@@ -44,7 +44,7 @@ end;
 (design_file
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (generic_clause
           (constant_interface_declaration
@@ -107,7 +107,7 @@ end;
 (design_file
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (generic_clause
           (constant_interface_declaration
@@ -119,7 +119,7 @@ end;
       (comment)))
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (port_clause
           (signal_interface_declaration
@@ -131,7 +131,7 @@ end;
       (comment)))
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (generic_clause
           (constant_interface_declaration
@@ -151,7 +151,7 @@ end;
       (comment)))
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (generic_clause
           (constant_interface_declaration
@@ -171,7 +171,7 @@ end;
       (comment)))
   (design_unit
     (entity_declaration
-      (identifier)
+      name: (identifier)
       (header
         (generic_clause
           (constant_interface_declaration

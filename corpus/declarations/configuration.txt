@@ -14,15 +14,15 @@ end configuration cfg;
 (design_file
   (design_unit
     (configuration_declaration
-      (identifier)
+      name: (identifier)
       entity: (simple_name)))
   (design_unit
     (configuration_declaration
-      (identifier)
+      name: (identifier)
       entity: (simple_name)))
   (design_unit
     (configuration_declaration
-      (identifier)
+      name: (identifier)
       entity: (simple_name)
       at_end: (simple_name))))
 
@@ -36,9 +36,9 @@ end;
 (design_file
   (design_unit
     (configuration_declaration
-      (identifier)
+      name: (identifier)
       entity: (expanded_name
-        library: (simple_name)
+        prefix: (simple_name)
         suffix: (simple_name)))))
 
 =====================================
@@ -68,14 +68,14 @@ end;
 (design_file
   (design_unit
     (configuration_declaration
-      (identifier)
+      name: (identifier)
       entity: (simple_name)
       (block_configuration
         (block_specification
           name_or_label: (simple_name)))))
   (design_unit
     (configuration_declaration
-      (identifier)
+      name: (identifier)
       entity: (simple_name)
       (block_configuration
         (block_specification
@@ -84,7 +84,7 @@ end;
             specification: (simple_name))))))
   (design_unit
     (configuration_declaration
-      (identifier)
+      name: (identifier)
       entity: (simple_name)
       (block_configuration
         (block_specification
@@ -99,7 +99,7 @@ end;
                   (integer)))))))))
   (design_unit
     (configuration_declaration
-      (identifier)
+      name: (identifier)
       entity: (simple_name)
       (block_configuration
         (block_specification
@@ -140,12 +140,12 @@ end configuration V4_27_87;
           (simple_name)
           (simple_name))))
     (configuration_declaration
-      (identifier)
+      name: (identifier)
       entity: (simple_name)
       (declarative_part
         (use_clause
           (expanded_name
-            library: (simple_name)
+            prefix: (simple_name)
             suffix: (all))))
       (block_configuration
         (block_specification
@@ -157,7 +157,7 @@ end configuration V4_27_87;
           (binding_indication
             (entity_aspect
               configuration: (expanded_name
-                library: (simple_name)
+                prefix: (simple_name)
                 suffix: (simple_name))))
           (semicolon))
         (component_configuration
