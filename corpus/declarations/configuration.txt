@@ -155,8 +155,8 @@ end configuration V4_27_87;
             label: (simple_name))
           component: (simple_name)
           (binding_indication
-            (entity_aspect
-              configuration: (expanded_name
+            (configuration_instantiation
+              (expanded_name
                 prefix: (simple_name)
                 suffix: (simple_name))))
           (semicolon))
@@ -167,9 +167,9 @@ end configuration V4_27_87;
             label: (simple_name))
           component: (simple_name)
           (binding_indication
-            (entity_aspect
-              entity: (simple_name)
-              architecture: (simple_name)))
+            (entity_instantiation
+              (simple_name)
+              (simple_name)))
           (semicolon))
         (component_configuration
           (instantiation_list

@@ -146,7 +146,7 @@ type byte_t is range 0 to 1E16
           high: (simple_expression
             (integer_decimal
               (integer)
-              (positive_exponent)))))
+              (exponent)))))
       (primary_unit_declaration
         (identifier))
       (comment)

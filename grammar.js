@@ -235,7 +235,6 @@ module.exports = grammar({
         $._sensitivity_clause, // 10.2
         $._condition_clause, // 10.2
         $._timeout_clause, // 10.2
-        $._exponent, // 10.5.2
         $._simple_signal_assignment, // 10.5.4
         $._conditional_signal_assignment, // 10.5.4
         $._selected_signal_assignment, // 10.5.4
@@ -329,7 +328,7 @@ module.exports = grammar({
 
         // type_mark is ambiguos with simple_name in many contexts
         [$.type_mark, $._primary],
-        [$.type_mark, $._primary, $._entity_instantiation],
+        [$.type_mark, $._primary, $.entity_instantiation],
         [$.type_mark, $._primary, $.PSL_Hierarchical_HDL_Name],
         [$.type_mark, $.function_call],
         [$.type_mark, $.ambiguous_name, $.function_call],
@@ -1573,7 +1572,7 @@ module.exports = grammar({
         // 7.2 Specifications {{{
         attribute_specification: $ => seq(
             reservedWord('attribute'),
-            $._simple_name,
+            field('name',$._simple_name),
             reservedWord('of'),
             $.entity_specification,
             reservedWord('is'),
@@ -1684,14 +1683,17 @@ module.exports = grammar({
             $._map_aspect,
             seq(
                 reservedWord('use'),
-                $.entity_aspect,
+                $._entity_aspect,
                 optional($._map_aspect),
             ),
         ),
 
-        entity_aspect: $ => choice(
-            $._entity_instantiation,
-            $._configuration_instantiation,
+       // LINT: component_instantiation shall not be present in
+       // binding indication
+        _entity_aspect: $ => choice(
+            $.entity_instantiation,
+            $.configuration_instantiation,
+            $.component_instantiation,
             $.open
         ),
         // }}}
@@ -1704,10 +1706,10 @@ module.exports = grammar({
 
         verification_unit_list: $ => sepBy1(
             ',',
-            field('verification_unit', choice(
+            choice(
                 $._simple_name,
                 $._expanded_name,
-            ))
+            )
         ),
         // }}}
         // 7.4 Disconnection specification {{{
@@ -2740,57 +2742,40 @@ module.exports = grammar({
         )),
         // }}}
         // 11.7 Component instantiation statements {{{
+       // LINT entity aspect shall not be open
         component_instantiation_statement: $ => seq(
             optional($.label),
-            $._instantiated_unit,
+            $._entity_aspect,
             optional($._map_aspect),
             ';'
         ),
 
-        _instantiated_unit: $ => choice(
-            $._entity_instantiation,
-            $._configuration_instantiation,
-            $._component_instantiation
-        ),
-
-        _entity_instantiation: $ => seq(
+        entity_instantiation: $ => seq(
             reservedWord('entity'),
-            field(
-                'entity',
-                choice(
-                    $._simple_name,
-                    $._expanded_name,
-                ),
+            choice(
+                $._simple_name,
+                $._expanded_name,
             ),
             optional(seq(
                 '(',
-                field(
-                    'architecture',
-                    $._simple_name
-                ),
+                $._simple_name,
                 ')'
             ))
         ),
 
-        _configuration_instantiation: $ => seq(
+        configuration_instantiation: $ => seq(
             reservedWord('configuration'),
-            field(
-                'configuration',
-                choice(
-                    $._simple_name,
-                    $._expanded_name,
-                ),
+            choice(
+                $._simple_name,
+                $._expanded_name,
             ),
         ),
 
-        _component_instantiation: $ => seq(
+        component_instantiation: $ => seq(
             optional(reservedWord('component')),
-            field(
-                'component',
-                choice(
-                    $._simple_name,
-                    $._expanded_name,
-                ),
+            choice(
+                $._simple_name,
+                $._expanded_name,
             ),
         ),
         // }}}
@@ -3015,14 +3000,14 @@ module.exports = grammar({
         // 15.5.2 Decimal literals {{{
         integer_decimal: $ => seq(
             $.integer,
-            optional($._exponent)
+            optional($.exponent)
         ),
 
         real_decimal: $ => seq(
             $.integer,
             token.immediate('.'),
             alias($._integer_immed, $.integer),
-            optional($._exponent)
+            optional($.exponent)
         ),
 
         separator: $ => token.immediate(UNDERLINE),
@@ -3046,20 +3031,9 @@ module.exports = grammar({
             ))
         ),
 
-        _exponent: $ => choice(
-            $.positive_exponent,
-            $.negative_exponent
-        ),
-
-        positive_exponent: $ => token.immediate(prec(1, seq(
+        exponent: $ => token.immediate(prec(1, seq(
             choice('e', 'E'),
-            optional('+'),
-            repeat1(choice(...DIGIT))
-        ))),
-
-        negative_exponent: $ => token.immediate(prec(1, seq(
-            choice('e', 'E'),
-            '-',
+            optional(choice('+','-')),
             repeat1(choice(...DIGIT))
         ))),
         // }}}
@@ -3082,7 +3056,7 @@ module.exports = grammar({
                 based_integer_gen($, $.base15, $.extended_digit_base15),
                 based_integer_gen($, $.base16, $.extended_digit_base16),
             ),
-            optional($._exponent)
+            optional($.exponent)
         ),
 
         based_real: $ => seq(
@@ -3104,7 +3078,7 @@ module.exports = grammar({
                 based_real_gen($, $.base16, $.extended_digit_base16),
             ),
             // FIXME (immediate not working)
-            optional($._exponent)
+            optional($.exponent)
         ),
 
         // DO NOT INLINE

@@ -17,9 +17,9 @@ L1: component unit;
 
 (design_file
   (component_instantiation_statement
-    (label
-      (identifier))
-    component: (simple_name)))
+    (label (identifier))
+    (component_instantiation
+      (simple_name))))
 
 ===============================
 Instantiation unit - Entity I
@@ -29,11 +29,11 @@ L1: entity lib.e;
 
 (design_file
   (component_instantiation_statement
-    (label
-      (identifier))
-    entity: (expanded_name
-      prefix: (simple_name)
-      suffix: (simple_name))))
+    (label (identifier))
+    (entity_instantiation
+      (expanded_name
+        prefix: (simple_name)
+        suffix: (simple_name)))))
 
 ===============================
 Instantiation unit - Entity II
@@ -43,12 +43,12 @@ L1: entity lib.e(rtl);
 
 (design_file
   (component_instantiation_statement
-    (label
-      (identifier))
-    entity: (expanded_name
-      prefix: (simple_name)
-      suffix: (simple_name))
-    architecture: (simple_name)))
+    (label (identifier))
+    (entity_instantiation
+      (expanded_name
+        prefix: (simple_name)
+        suffix: (simple_name))
+      (simple_name))))
 
 ===================================
 Instantiation unit - Configuration
@@ -58,11 +58,11 @@ L1: configuration lib.cfg;
 
 (design_file
   (component_instantiation_statement
-    (label
-      (identifier))
-    configuration: (expanded_name
-      prefix: (simple_name)
-      suffix: (simple_name))))
+    (label (identifier))
+    (configuration_instantiation
+      (expanded_name
+        prefix: (simple_name)
+        suffix: (simple_name)))))
 
 ===================================
 Generic map aspect
@@ -73,9 +73,9 @@ generic map (a,b,c);
 
 (design_file
   (component_instantiation_statement
-    (label
-      (identifier))
-    component: (simple_name)
+    (label (identifier))
+    (component_instantiation
+      (simple_name))
     (map_aspect
       (generic_map_aspect
         (association_list
@@ -98,9 +98,9 @@ port map (a,b,c);
 
 (design_file
   (component_instantiation_statement
-    (label
-      (identifier))
-    component: (simple_name)
+    (label (identifier))
+    (component_instantiation
+      (simple_name))
     (map_aspect
       (port_map_aspect
         (association_list
@@ -124,9 +124,9 @@ generic map (a,b,c)
 
 (design_file
   (component_instantiation_statement
-    (label
-      (identifier))
-    component: (simple_name)
+    (label (identifier))
+    (component_instantiation
+      (simple_name))
     (map_aspect
       (generic_map_aspect
         (association_list
@@ -156,9 +156,9 @@ generic map (integer range 0 to 7);
 
 (design_file
   (component_instantiation_statement
-    (label
-      (identifier))
-    component: (simple_name)
+    (label (identifier))
+    (component_instantiation
+      (simple_name))
     (map_aspect
       (generic_map_aspect
         (association_list
@@ -184,9 +184,9 @@ port map (a.b => c);
 
 (design_file
   (component_instantiation_statement
-    (label
-      (identifier))
-    component: (simple_name)
+    (label (identifier))
+    (component_instantiation
+      (simple_name))
     (map_aspect
       (port_map_aspect
         (association_list

@@ -8583,7 +8583,22 @@
   {
     "type": "attribute_specification",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -8594,14 +8609,6 @@
         },
         {
           "type": "expression",
-          "named": true
-        },
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "simple_name",
           "named": true
         }
       ]
@@ -8629,11 +8636,7 @@
           "named": true
         },
         {
-          "type": "negative_exponent",
-          "named": true
-        },
-        {
-          "type": "positive_exponent",
+          "type": "exponent",
           "named": true
         }
       ]
@@ -8675,11 +8678,7 @@
           "named": true
         },
         {
-          "type": "negative_exponent",
-          "named": true
-        },
-        {
-          "type": "positive_exponent",
+          "type": "exponent",
           "named": true
         }
       ]
@@ -8694,11 +8693,23 @@
       "required": true,
       "types": [
         {
-          "type": "entity_aspect",
+          "type": "component_instantiation",
+          "named": true
+        },
+        {
+          "type": "configuration_instantiation",
+          "named": true
+        },
+        {
+          "type": "entity_instantiation",
           "named": true
         },
         {
           "type": "map_aspect",
+          "named": true
+        },
+        {
+          "type": "open",
           "named": true
         }
       ]
@@ -9118,88 +9129,58 @@
     }
   },
   {
+    "type": "component_instantiation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expanded_name",
+          "named": true
+        },
+        {
+          "type": "extended_simple_name",
+          "named": true
+        },
+        {
+          "type": "simple_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "component_instantiation_statement",
     "named": true,
-    "fields": {
-      "architecture": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          }
-        ]
-      },
-      "component": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "expanded_name",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          }
-        ]
-      },
-      "configuration": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "expanded_name",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          }
-        ]
-      },
-      "entity": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "expanded_name",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "component_instantiation",
+          "named": true
+        },
+        {
+          "type": "configuration_instantiation",
+          "named": true
+        },
+        {
+          "type": "entity_instantiation",
+          "named": true
+        },
         {
           "type": "label",
           "named": true
         },
         {
           "type": "map_aspect",
+          "named": true
+        },
+        {
+          "type": "open",
           "named": true
         }
       ]
@@ -10093,6 +10074,29 @@
         },
         {
           "type": "verification_unit_binding_indication",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "configuration_instantiation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expanded_name",
+          "named": true
+        },
+        {
+          "type": "extended_simple_name",
+          "named": true
+        },
+        {
+          "type": "simple_name",
           "named": true
         }
       ]
@@ -11075,72 +11079,6 @@
     }
   },
   {
-    "type": "entity_aspect",
-    "named": true,
-    "fields": {
-      "architecture": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          }
-        ]
-      },
-      "configuration": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "expanded_name",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          }
-        ]
-      },
-      "entity": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "expanded_name",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "open",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "entity_class",
     "named": true,
     "fields": {}
@@ -11253,6 +11191,29 @@
         },
         {
           "type": "signature",
+          "named": true
+        },
+        {
+          "type": "simple_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "entity_instantiation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expanded_name",
+          "named": true
+        },
+        {
+          "type": "extended_simple_name",
           "named": true
         },
         {
@@ -13713,15 +13674,11 @@
       "required": true,
       "types": [
         {
+          "type": "exponent",
+          "named": true
+        },
+        {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "negative_exponent",
-          "named": true
-        },
-        {
-          "type": "positive_exponent",
           "named": true
         }
       ]
@@ -15572,15 +15529,11 @@
       "required": true,
       "types": [
         {
+          "type": "exponent",
+          "named": true
+        },
+        {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "negative_exponent",
-          "named": true
-        },
-        {
-          "type": "positive_exponent",
           "named": true
         }
       ]
@@ -18974,25 +18927,24 @@
   {
     "type": "verification_unit_list",
     "named": true,
-    "fields": {
-      "verification_unit": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "expanded_name",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expanded_name",
+          "named": true
+        },
+        {
+          "type": "extended_simple_name",
+          "named": true
+        },
+        {
+          "type": "simple_name",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -19528,6 +19480,10 @@
     "named": false
   },
   {
+    "type": "exponent",
+    "named": true
+  },
+  {
     "type": "extended_identifier",
     "named": true
   },
@@ -19692,10 +19648,6 @@
     "named": false
   },
   {
-    "type": "negative_exponent",
-    "named": true
-  },
-  {
     "type": "never",
     "named": false
   },
@@ -19802,10 +19754,6 @@
   {
     "type": "pos",
     "named": false
-  },
-  {
-    "type": "positive_exponent",
-    "named": true
   },
   {
     "type": "postponed",
@@ -19937,11 +19885,11 @@
   },
   {
     "type": "simple_name",
-    "named": true
+    "named": false
   },
   {
     "type": "simple_name",
-    "named": false
+    "named": true
   },
   {
     "type": "sla",

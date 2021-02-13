@@ -58,40 +58,40 @@ assert 12_34e+1234;
     (condition
       (integer_decimal
         (integer)
-        (positive_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (integer_decimal
         (integer)
-        (positive_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (integer_decimal
         (integer)
-        (positive_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (integer_decimal
         (integer)
-        (positive_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (integer_decimal
         (integer
           (separator))
-        (positive_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (integer_decimal
         (integer
           (separator))
-        (positive_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (integer_decimal
         (integer
           (separator))
-        (positive_exponent)))))
+        (exponent)))))
 
 ======================================================================
 Real decimal literals
@@ -176,20 +176,20 @@ assert 12_34.56_78e-1245;
       (real_decimal
         (integer)
         (integer)
-        (negative_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (real_decimal
         (integer)
         (integer)
-        (negative_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (real_decimal
         (integer
           (separator))
         (integer)
-        (negative_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (real_decimal
@@ -197,7 +197,7 @@ assert 12_34.56_78e-1245;
           (separator))
         (integer
           (separator))
-        (negative_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (real_decimal
@@ -205,7 +205,7 @@ assert 12_34.56_78e-1245;
           (separator))
         (integer
           (separator))
-        (negative_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (real_decimal
@@ -213,7 +213,7 @@ assert 12_34.56_78e-1245;
           (separator))
         (integer
           (separator))
-        (negative_exponent)))))
+        (exponent)))))
 
 ======================================================================
 Integer based literals - Base I
@@ -357,19 +357,19 @@ assert 16#e1#e-1;
       (based_integer
         (base)
         (based_literal)
-        (positive_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (based_integer
         (base)
         (based_literal)
-        (positive_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (based_integer
         (base)
         (based_literal)
-        (negative_exponent)))))
+        (exponent)))))
 
 ======================================================================
 Real based literals
@@ -422,21 +422,21 @@ assert 16#E1.E1#E-1;
         (base)
         (based_literal)
         (based_literal)
-        (positive_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (based_real
         (base)
         (based_literal)
         (based_literal)
-        (positive_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (based_real
         (base)
         (based_literal)
         (based_literal)
-        (negative_exponent)))))
+        (exponent)))))
 
 ======================================================================
 Physical literals I
@@ -458,7 +458,7 @@ assert 16#E1#E1 MIN;
         (based_integer
           (base)
           (based_literal)
-          (positive_exponent))
+          (exponent))
         (simple_name)))))
 
 ======================================================================
@@ -481,7 +481,7 @@ assert 16#E1#E1MIN;
         (based_integer
           (base)
           (based_literal)
-          (positive_exponent))
+          (exponent))
         unit: (simple_name)))))
 
 ======================================================================
@@ -499,13 +499,13 @@ assert 16#E1#E1 E1;
     (condition
       (integer_decimal
         (integer)
-        (positive_exponent))))
+        (exponent))))
   (assertion_statement
     (condition
       (physical_literal
         (integer_decimal
           (integer)
-          (positive_exponent))
+          (exponent))
         unit: (simple_name))))
   (assertion_statement
     (condition
@@ -519,7 +519,7 @@ assert 16#E1#E1 E1;
         (based_integer
           (base)
           (based_literal)
-          (positive_exponent))
+          (exponent))
         unit: (simple_name)))))
 
 ======================================================================

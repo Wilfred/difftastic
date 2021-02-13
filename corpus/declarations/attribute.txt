@@ -76,10 +76,9 @@ attribute CAPACITANCE of all: signal is 15 pF;
 
 (design_file
   (attribute_specification
-    (simple_name)
+    name: (simple_name)
     (entity_specification
-      (entity_name_list
-        (all))
+      (entity_name_list (all))
       (entity_class))
     (expression
       (physical_literal
