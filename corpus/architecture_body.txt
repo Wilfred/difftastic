@@ -17,14 +17,14 @@ end architecture rtl;
 (design_file
   (design_unit
     (architecture_body
-      (identifier)
-      (simple_name)))
+      name: (identifier)
+      entity: (simple_name)))
   (design_unit
     (architecture_body
-      (identifier)
-      (simple_name)))
+      name: (identifier)
+      entity: (simple_name)))
   (design_unit
     (architecture_body
-      (identifier)
-      (simple_name)
+      name: (identifier)
+      entity: (simple_name)
       at_end: (simple_name))))

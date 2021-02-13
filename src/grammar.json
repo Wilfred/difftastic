@@ -1657,13 +1657,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "header"
-              },
-              "named": true,
-              "value": "instantiation_declaration_map_aspect"
+              "type": "SYMBOL",
+              "name": "_map_aspect"
             },
             {
               "type": "BLANK"
@@ -1796,13 +1791,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "header"
-              },
-              "named": true,
-              "value": "instantiation_declaration_map_aspect"
+              "type": "SYMBOL",
+              "name": "_map_aspect"
             },
             {
               "type": "BLANK"

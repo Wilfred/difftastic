@@ -683,7 +683,7 @@ module.exports = grammar({
             reservedWord('new'),
             $._uninstantiated_name,
             optional($.signature),
-            optional(alias($.header, $.instantiation_declaration_map_aspect)),
+            optional($._map_aspect),
             ';'
         ),
 
@@ -698,7 +698,7 @@ module.exports = grammar({
             reservedWord('new'),
             $._uninstantiated_name,
             optional($.signature),
-            optional(alias($.header, $.instantiation_declaration_map_aspect)),
+            optional($._map_aspect),
             ';'
         ),
 
