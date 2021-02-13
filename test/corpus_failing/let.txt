@@ -1,0 +1,29 @@
+
+=====================================
+Let with block comment
+=====================================
+
+oops =
+    let
+        x =
+            1
+        {- evil comment -}
+    in
+    x
+
+---
+
+
+(file
+  (value_declaration
+    (function_declaration_left (lower_case_identifier))
+    (eq)
+    (let_in_expr (value_declaration (function_declaration_left (lower_case_identifier))
+      (eq)
+      (number_constant_expr (number_literal)))
+      (block_comment)
+      (value_expr (value_qid (lower_case_identifier)))
+    )
+  )
+)
+
