@@ -1846,11 +1846,6 @@
     }
   },
   {
-    "type": "number_literal",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "open_char",
     "named": true,
     "fields": {}
@@ -2283,11 +2278,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "regular_string_part",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "string_constant_expr",
@@ -3305,6 +3295,10 @@
     "named": true
   },
   {
+    "type": "number_literal",
+    "named": true
+  },
+  {
     "type": "of",
     "named": true
   },
@@ -3318,6 +3312,10 @@
   },
   {
     "type": "port",
+    "named": true
+  },
+  {
+    "type": "regular_string_part",
     "named": true
   },
   {
