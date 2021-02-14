@@ -13,24 +13,24 @@ toStringCase enumValue =
 
 ---
 
-(file 
-    (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier))) 
-        (eq) 
-        (function_call_expr 
-            (value_expr (value_qid (lower_case_identifier))) 
-            (string_constant_expr 
-                (open_quote) 
-                (regular_string_part) 
-                (regular_string_part) 
-                (regular_string_part) 
-                (regular_string_part) 
+(file
+    (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)))
+        (eq)
+        (function_call_expr
+            (value_expr (value_qid (lower_case_identifier)))
+            (string_constant_expr
+                (open_quote)
+                (regular_string_part)
+                (regular_string_part)
+                (regular_string_part)
+                (regular_string_part)
                 (close_quote)
             )
-            (list_expr (left_square_bracket) 
-            (bin_op_expr (field_access_expr (value_expr (value_qid (lower_case_identifier))) (dot) (lower_case_identifier)) 
-            (operator (operator_identifier)) (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))) (comma) 
-            (bin_op_expr (field_access_expr (value_expr (value_qid (lower_case_identifier))) (dot) (lower_case_identifier)) 
-            (operator (operator_identifier)) (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))) 
+            (list_expr (left_square_bracket)
+            (bin_op_expr (field_access_expr (value_expr (value_qid (lower_case_identifier))) (dot) (lower_case_identifier))
+            (operator (operator_identifier)) (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))) (comma)
+            (bin_op_expr (field_access_expr (value_expr (value_qid (lower_case_identifier))) (dot) (lower_case_identifier))
+            (operator (operator_identifier)) (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))))
             (right_square_bracket)
             )
         )
@@ -110,7 +110,6 @@ json =
                 (string_constant_expr
                         (open_quote)
                         (regular_string_part)
-                        (regular_string_part)
                         (close_quote)
                 )
         )
@@ -159,7 +158,8 @@ json =
                         (string_constant_expr
                                 (open_quote)
                                 (regular_string_part)
-                                (regular_string_part) (regular_string_part)
+                                (regular_string_part)
+                                (regular_string_part)
                                 (regular_string_part)
                                 (regular_string_part)
                                 (regular_string_part)
