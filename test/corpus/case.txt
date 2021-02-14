@@ -14,7 +14,7 @@ update msg =
     (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)))
     (eq)
     (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of)
-      
+
         (case_of_branch
             (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
             (arrow)
@@ -22,7 +22,7 @@ update msg =
         )
     )
   )
-  
+
 )
 =====================================
 Case with one branch and comment
@@ -40,11 +40,13 @@ update msg value =
     (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)) (lower_pattern (lower_case_identifier)))
     (eq)
     (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of)
-      
+
         (case_of_branch
             (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
             (arrow)
-            (value_expr (value_qid (lower_case_identifier)))))) (line_comment)
+            (value_expr (value_qid (lower_case_identifier)))) (line_comment)
+    )
+  )
 )
 
 
@@ -68,15 +70,15 @@ update msg model =
     (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)) (lower_pattern (lower_case_identifier)))
     (eq)
     (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of)
-      
+
         (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)))) (arrow)
                 (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (number_constant_expr (number_literal))))
-        
+
         (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)))) (arrow)
                 (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (number_constant_expr (number_literal))))
     )
   )
-  
+
 )
 
 =====================================
@@ -106,7 +108,7 @@ enum =
                 (case)
                 (value_expr (value_qid (lower_case_identifier)))
                 (of)
-                
+
                 (case_of_branch
                     (pattern
                         (list_pattern
@@ -122,7 +124,7 @@ enum =
                         (value_expr (value_qid (lower_case_identifier)))
                     )
                 )
-                
+
                 (case_of_branch
                     (pattern (anything_pattern (underscore)))
                     (arrow)
@@ -131,7 +133,7 @@ enum =
             )
         )
     )
-    
+
 )
 
 
@@ -168,7 +170,7 @@ src (Avatar maybeUrl)=
             )
         )
     )
-    
+
     (value_declaration
         (function_declaration_left
             (lower_case_identifier)
@@ -186,7 +188,7 @@ src (Avatar maybeUrl)=
             (case)
             (value_expr (value_qid (lower_case_identifier)))
             (of)
-            
+
             (case_of_branch
                 (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                 (arrow)
@@ -195,7 +197,7 @@ src (Avatar maybeUrl)=
                     (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
                 )
             )
-            
+
             (case_of_branch
                 (pattern
                     (union_pattern
@@ -209,7 +211,7 @@ src (Avatar maybeUrl)=
                     (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
                 )
             )
-            
+
             (case_of_branch
                 (pattern
                     (union_pattern
@@ -233,7 +235,7 @@ src (Avatar maybeUrl)=
             )
         )
     )
-    
+
 )
 
 
@@ -281,13 +283,13 @@ map4 func ma mb mc md =
             (case)
             (value_expr (value_qid (lower_case_identifier)))
             (of)
-            
+
             (case_of_branch
                 (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                 (arrow)
                 (value_expr (upper_case_qid (upper_case_identifier)))
             )
-            
+
             (case_of_branch
                 (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
                 (arrow)
@@ -295,25 +297,25 @@ map4 func ma mb mc md =
                     (case)
                     (value_expr (value_qid (lower_case_identifier)))
                     (of)
-                    
+
                     (case_of_branch
                         (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                         (arrow)
                         (value_expr (upper_case_qid (upper_case_identifier)))
                     )
-                    
+
                     (case_of_branch
                         (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
                         (arrow)
                         (value_expr (value_qid (lower_case_identifier)))
                     )
-                    
+
                 )
             )
-            
+
         )
     )
-    
+
     (value_declaration
         (function_declaration_left
             (lower_case_identifier)
@@ -328,13 +330,13 @@ map4 func ma mb mc md =
             (case)
             (value_expr (value_qid (lower_case_identifier)))
             (of)
-            
+
             (case_of_branch
                 (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
                 (arrow)
                 (value_expr (upper_case_qid (upper_case_identifier)))
             )
-            
+
             (case_of_branch
                 (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
                 (arrow)
@@ -342,7 +344,7 @@ map4 func ma mb mc md =
             )
         )
     )
-    
+
 )
 
 =====================================
@@ -372,7 +374,7 @@ toIntResult s =
                 (value_expr (value_qid (lower_case_identifier)))
             )
             (of)
-            
+
             (case_of_branch
                 (pattern
                     (union_pattern
@@ -386,7 +388,7 @@ toIntResult s =
                     (value_expr (value_qid (lower_case_identifier)))
                 )
             )
-            
+
             (case_of_branch
                 (pattern
                     (union_pattern (upper_case_qid (upper_case_identifier))))
@@ -403,7 +405,7 @@ toIntResult s =
             )
         )
     )
-    
+
 )
 
 
@@ -420,62 +422,432 @@ enum key dict =
         Nothing
 
 ---
-(file 
-    (value_declaration 
-        (function_declaration_left 
-            (lower_case_identifier) 
-            (lower_pattern (lower_case_identifier)) 
+(file
+    (value_declaration
+        (function_declaration_left
+            (lower_case_identifier)
             (lower_pattern (lower_case_identifier))
-        ) 
-        (eq) 
-        (bin_op_expr 
-            (function_call_expr 
-            (value_expr 
-            (value_qid 
-            (lower_case_identifier))) 
-            (value_expr 
-            (value_qid 
-            (lower_case_identifier)))) 
-            (operator 
-            (operator_identifier)) 
-            (anonymous_function_expr 
-                (backslash) 
-                (pattern (lower_pattern (lower_case_identifier))) 
-                (arrow) 
-                (case_of_expr 
-                    (case) 
-                    (value_expr 
+            (lower_pattern (lower_case_identifier))
+        )
+        (eq)
+        (bin_op_expr
+            (function_call_expr
+            (value_expr
+            (value_qid
+            (lower_case_identifier)))
+            (value_expr
+            (value_qid
+            (lower_case_identifier))))
+            (operator
+            (operator_identifier))
+            (anonymous_function_expr
+                (backslash)
+                (pattern (lower_pattern (lower_case_identifier)))
+                (arrow)
+                (case_of_expr
+                    (case)
+                    (value_expr
                         (value_qid (lower_case_identifier))
                     )
-                    (of) 
-                    (case_of_branch 
-                        (pattern 
-                        (list_pattern 
-                        (left_square_bracket) 
-                        (pattern 
-                        (lower_pattern 
-                        (lower_case_identifier))) 
-                        (right_square_bracket))) 
-                        (arrow) 
-                        (function_call_expr 
-                            (value_expr 
-                            (value_qid 
-                            (upper_case_identifier) 
-                            (dot) 
-                            (lower_case_identifier))) 
-                            (value_expr (value_qid (lower_case_identifier))) 
+                    (of)
+                    (case_of_branch
+                        (pattern
+                        (list_pattern
+                        (left_square_bracket)
+                        (pattern
+                        (lower_pattern
+                        (lower_case_identifier)))
+                        (right_square_bracket)))
+                        (arrow)
+                        (function_call_expr
+                            (value_expr
+                            (value_qid
+                            (upper_case_identifier)
+                            (dot)
+                            (lower_case_identifier)))
+                            (value_expr (value_qid (lower_case_identifier)))
                             (value_expr (value_qid (lower_case_identifier)))
                         )
                     )
-                    (case_of_branch 
-                        (pattern 
+                    (case_of_branch
+                        (pattern
                             (anything_pattern (underscore))
-                        ) 
+                        )
                         (arrow) (value_expr (upper_case_qid (upper_case_identifier)))
                     )
                 )
             )
         )
     )
-) 
+)
 
+
+=====================================
+Nested case
+=====================================
+
+func a b =
+    case a of
+        Nothing ->
+            case b of
+                1 ->
+                    ""
+                2 ->
+                    ""
+                3 ->
+                    ""
+
+---
+
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern (lower_case_identifier))
+      (lower_pattern (lower_case_identifier))
+    )
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr (value_qid (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+        (arrow)
+        (case_of_expr
+          (case)
+          (value_expr (value_qid (lower_case_identifier)))
+          (of)
+          (case_of_branch
+            (pattern (number_constant_expr (number_literal)))
+            (arrow)
+            (string_constant_expr (open_quote) (close_quote))
+          )
+          (case_of_branch
+            (pattern (number_constant_expr (number_literal)))
+            (arrow)
+            (string_constant_expr (open_quote) (close_quote))
+          )
+          (case_of_branch
+            (pattern (number_constant_expr (number_literal)))
+            (arrow)
+            (string_constant_expr (open_quote) (close_quote))
+          )
+        )
+      )
+    )
+  )
+)
+
+=====================================
+Nested case are all closed?
+=====================================
+
+func a b =
+    case a of
+        Nothing ->
+            case b of
+                1 ->
+                    ""
+                2 ->
+                    ""
+                3 ->
+                    case b of
+                        1 ->
+                            ""
+                        2 ->
+                            ""
+                        3 ->
+                            case b of
+                                1 ->
+                                    ""
+                                2 ->
+                                    ""
+                                3 ->
+                                    ""
+
+---
+
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern (lower_case_identifier))
+      (lower_pattern (lower_case_identifier))
+    )
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr (value_qid (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+        (arrow)
+        (case_of_expr
+          (case)
+          (value_expr (value_qid (lower_case_identifier)))
+          (of)
+          (case_of_branch
+            (pattern (number_constant_expr (number_literal)))
+            (arrow)
+            (string_constant_expr (open_quote) (close_quote))
+          )
+          (case_of_branch
+            (pattern (number_constant_expr (number_literal)))
+            (arrow)
+            (string_constant_expr (open_quote) (close_quote))
+          )
+          (case_of_branch
+            (pattern (number_constant_expr (number_literal)))
+            (arrow)
+            (case_of_expr (case) (value_expr (value_qid (lower_case_identifier))) (of)
+            (case_of_branch (pattern (number_constant_expr (number_literal))) (arrow) (string_constant_expr (open_quote) (close_quote)))
+            (case_of_branch (pattern (number_constant_expr (number_literal))) (arrow) (string_constant_expr (open_quote) (close_quote)))
+            (case_of_branch (pattern (number_constant_expr (number_literal))) (arrow) (case_of_expr (case)
+                (value_expr (value_qid (lower_case_identifier))) (of)
+                    (case_of_branch (pattern (number_constant_expr (number_literal))) (arrow) (string_constant_expr (open_quote) (close_quote)))
+                    (case_of_branch (pattern (number_constant_expr (number_literal))) (arrow) (string_constant_expr (open_quote) (close_quote)))
+                    (case_of_branch (pattern (number_constant_expr (number_literal))) (arrow) (string_constant_expr (open_quote) (close_quote))))))
+          )
+        )
+      )
+    )
+  )
+)
+
+
+
+=====================================
+Complex case
+=====================================
+
+makeEdit cursor desc =
+    case desc of
+        OneOf details ->
+            case cursor.makeEdit cursor.indentation (foundStart details.child) desc of
+                NoIdFound ->
+                    -- dive further
+                    case makeFoundEdit (increaseIndent cursor) details.child of
+                        EditMade maybeSeed maybePush newFound ->
+                            EditMade maybeSeed
+                                maybePush
+                                (OneOf
+                                    { details
+                                        | child = expandFound maybePush newFound
+                                    }
+                                )
+
+                        NoIdFound ->
+                            NoIdFound
+
+                        ErrorMakingEdit err ->
+                            ErrorMakingEdit err
+
+                otherwise ->
+                    otherwise
+
+---
+
+
+  (file
+    (value_declaration
+        (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)) (lower_pattern (lower_case_identifier)))
+        (eq)
+        (case_of_expr
+            (case)
+            (value_expr (value_qid (lower_case_identifier)))
+            (of)
+            (case_of_branch
+                (pattern
+                    (union_pattern
+                        (upper_case_qid (upper_case_identifier))
+                        (lower_pattern (lower_case_identifier))
+                    )
+                )
+                (arrow)
+                (case_of_expr
+                    (case)
+                    (function_call_expr
+                        (field_access_expr
+                            (value_expr (value_qid (lower_case_identifier)))
+                            (dot)
+                            (lower_case_identifier)
+                        )
+                        (field_access_expr
+                            (value_expr (value_qid (lower_case_identifier)))
+                            (dot)
+                            (lower_case_identifier)
+                        )
+                        (parenthesized_expr
+                            (left_parenthesis)
+                            (function_call_expr
+                                (value_expr
+                                    (value_qid (lower_case_identifier))
+                                )
+                                (field_access_expr
+                                    (value_expr (value_qid (lower_case_identifier)))
+                                    (dot)
+                                    (lower_case_identifier)
+                                )
+                            )
+                            (right_parenthesis)
+                        )
+                        (value_expr (value_qid (lower_case_identifier)))
+                    )
+                    (of)
+                    (case_of_branch
+                        (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+                        (arrow)
+                        (line_comment)
+                        (case_of_expr
+                            (case)
+                            (function_call_expr
+                                (value_expr (value_qid (lower_case_identifier)))
+                                (parenthesized_expr
+                                    (left_parenthesis)
+                                    (function_call_expr (value_expr (value_qid (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
+                                    (right_parenthesis)
+                                )
+                                (field_access_expr (value_expr (value_qid (lower_case_identifier))) (dot) (lower_case_identifier))
+                            )
+                            (of)
+                            (case_of_branch
+                                (pattern
+                                    (union_pattern
+                                        (upper_case_qid (upper_case_identifier))
+                                        (lower_pattern (lower_case_identifier))
+                                        (lower_pattern (lower_case_identifier))
+                                        (lower_pattern (lower_case_identifier))
+                                    )
+                                )
+                                (arrow)
+                                (function_call_expr
+                                    (value_expr (upper_case_qid (upper_case_identifier)))
+                                    (value_expr (value_qid (lower_case_identifier)))
+                                    (value_expr (value_qid (lower_case_identifier)))
+                                    (parenthesized_expr
+                                        (left_parenthesis)
+                                        (function_call_expr
+                                            (value_expr (upper_case_qid (upper_case_identifier)))
+                                            (record_expr
+                                                (left_brace)
+                                                (record_base_identifier (lower_case_identifier))
+                                                (pipe)
+                                                (field
+                                                    (lower_case_identifier)
+                                                    (eq)
+                                                    (function_call_expr
+                                                        (value_expr (value_qid (lower_case_identifier)))
+                                                        (value_expr (value_qid (lower_case_identifier)))
+                                                        (value_expr (value_qid (lower_case_identifier)))
+                                                    )
+                                                )
+                                                (right_brace)
+                                            )
+                                        )
+                                        (right_parenthesis)
+                                    )
+                                )
+                            )
+                            (case_of_branch
+                                (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
+                                (arrow)
+                                (value_expr (upper_case_qid (upper_case_identifier)))
+                            )
+                            (case_of_branch
+                                (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier))))
+                                (arrow)
+                                (function_call_expr (value_expr (upper_case_qid (upper_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
+                            )
+                        )
+                    )
+                    (case_of_branch
+                        (pattern (lower_pattern (lower_case_identifier)))
+                        (arrow)
+                        (value_expr (value_qid (lower_case_identifier)))
+                    )
+                )
+            )
+        )
+    )
+)
+
+=====================================
+Case with one line let
+=====================================
+
+all = describe "parsering"
+  [ describe "builtin"
+    [ it "does handle suffixed int" <|
+      case (Parser.run parserInt "11h22m33s") of
+        Err err -> let _ = Debug.log "err" err in isTrue False
+        Ok i -> eql 11 i
+    ]
+  ]
+
+
+---
+
+    (file
+        (value_declaration
+            (function_declaration_left (lower_case_identifier))
+            (eq)
+            (function_call_expr (value_expr (value_qid (lower_case_identifier))) (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+            (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+            (list_expr (left_square_bracket) (bin_op_expr (function_call_expr (value_expr (value_qid (lower_case_identifier))) (string_constant_expr (open_quote) (regular_string_part) (close_quote)))
+            (operator (operator_identifier))
+            (case_of_expr (case) (parenthesized_expr (left_parenthesis) (function_call_expr
+            (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier))) (string_constant_expr (open_quote) (regular_string_part) (close_quote))) (right_parenthesis)) (of)
+            (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier)))) (arrow)
+            (let_in_expr (value_declaration (pattern (anything_pattern (underscore))) (eq) (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
+            (string_constant_expr (open_quote) (regular_string_part) (close_quote)) (value_expr (value_qid (lower_case_identifier))))) (function_call_expr (value_expr (value_qid (lower_case_identifier)))
+            (value_expr (upper_case_qid (upper_case_identifier))))))
+            (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)) (lower_pattern (lower_case_identifier)))) (arrow)
+            (function_call_expr (value_expr (value_qid (lower_case_identifier))) (number_constant_expr (number_literal)) (value_expr (value_qid (lower_case_identifier))))))) (right_square_bracket)))
+            (right_square_bracket)))))
+
+=====================================
+Case wrapped in parenthesis
+=====================================
+
+flipBy how (Plane (width, height) _ as plane) =
+    plane |>
+        transform
+            (case how of
+                Horizontal -> \(x, y) -> (width - 1 - x, y)
+                Vertical -> \(x, y) -> (x, height - 1 - y))
+
+
+---
+
+    (file
+        (value_declaration
+        (function_declaration_left
+        (lower_case_identifier)
+        (lower_pattern (lower_case_identifier))
+        (left_parenthesis) (pattern (union_pattern (upper_case_qid (upper_case_identifier))
+        (tuple_pattern (left_parenthesis) (pattern (lower_pattern (lower_case_identifier)))
+        (comma)
+        (pattern (lower_pattern (lower_case_identifier))) (right_parenthesis))
+        (anything_pattern (underscore))) (as)
+        (lower_pattern (lower_case_identifier))) (right_parenthesis))
+        (eq) (bin_op_expr (value_expr (value_qid (lower_case_identifier)))
+        (operator (operator_identifier)) (function_call_expr (value_expr
+        (value_qid (lower_case_identifier))) (case_of_expr (left_parenthesis)
+        (case) (value_expr (value_qid (lower_case_identifier))) (of) (case_of_branch (pattern
+        (union_pattern (upper_case_qid (upper_case_identifier)))) (arrow) (anonymous_function_expr (backslash)
+        (pattern (tuple_pattern (left_parenthesis) (pattern (lower_pattern (lower_case_identifier))) (comma)
+        (pattern (lower_pattern (lower_case_identifier))) (right_parenthesis))) (arrow)
+        (tuple_expr (left_parenthesis) (bin_op_expr (value_expr (value_qid (lower_case_identifier)))
+        (operator (operator_identifier)) (number_constant_expr (number_literal)) (operator (operator_identifier))
+        (value_expr (value_qid (lower_case_identifier)))) (comma) (value_expr (value_qid (lower_case_identifier)))
+        (right_parenthesis)))) (case_of_branch (pattern (union_pattern (upper_case_qid (upper_case_identifier)))) (arrow)
+        (anonymous_function_expr (backslash) (pattern (tuple_pattern (left_parenthesis)
+        (pattern (lower_pattern (lower_case_identifier))) (comma) (pattern (lower_pattern (lower_case_identifier)))
+        (right_parenthesis))) (arrow) (tuple_expr (left_parenthesis) (value_expr (value_qid (lower_case_identifier)))
+        (comma) (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier))
+        (number_constant_expr (number_literal)) (operator (operator_identifier))
+        (value_expr (value_qid (lower_case_identifier)))) (right_parenthesis)))) (right_parenthesis)))))
+        )

@@ -1,62 +1,29 @@
 
-
 =====================================
-Let with block comment on last line (should be indentation sensitive - indented)
+Let with block comment
 =====================================
 
-letExample =
+oops =
     let
-        { title } =
-            Article.metadata article
-        {-- test --}
+        x =
+            1
+        {- evil comment -}
     in
-    title
+    x
 
 ---
 
+
 (file
   (value_declaration
-    (function_declaration_left
-      (lower_case_identifier)
-    )
+    (function_declaration_left (lower_case_identifier))
     (eq)
-    (let_in_expr
-      (let
-        (value_declaration
-          (pattern
-            (record_pattern
-              (left_brace)
-              (lower_pattern
-                (lower_case_identifier)
-              )
-              (right_brace)
-            )
-          )
-          (eq)
-          (function_call_expr
-            (value_expr
-              (value_qid
-                (upper_case_identifier)
-                (dot)
-                (lower_case_identifier)
-              )
-            )
-            (value_expr
-              (value_qid
-                (lower_case_identifier)
-              )
-            )
-          )
-        )
-        (block_comment)
-      )
-      (in
-        (value_expr
-          (value_qid
-            (lower_case_identifier)
-          )
-        )
-      )
+    (let_in_expr (value_declaration (function_declaration_left (lower_case_identifier))
+      (eq)
+      (number_constant_expr (number_literal)))
+      (block_comment)
+      (value_expr (value_qid (lower_case_identifier)))
     )
   )
 )
+
