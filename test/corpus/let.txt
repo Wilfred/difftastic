@@ -399,3 +399,375 @@ i =
     )
 
 )
+
+=====================================
+Let with block comment on last line (should be indentation sensitive - indented)
+=====================================
+
+letExample =
+    let
+        { title } =
+            Article.metadata article
+            {-- test --}
+    in
+    title
+
+---
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+    )
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (pattern
+          (record_pattern
+            (left_brace)
+            (lower_pattern
+              (lower_case_identifier)
+            )
+            (right_brace)
+          )
+        )
+        (eq)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)
+            )
+          )
+          (value_expr
+            (value_qid
+              (lower_case_identifier)
+            )
+          )
+        )
+      )
+      (block_comment)
+        (value_expr
+          (value_qid
+            (lower_case_identifier)
+          )
+        )
+    )
+  )
+)
+
+=====================================
+Let in same line in in next
+=====================================
+
+testLet =
+    let color = "x"
+    in
+    color
+
+---
+
+(file
+  (value_declaration (function_declaration_left (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration (function_declaration_left (lower_case_identifier))
+      (eq)
+      (string_constant_expr (open_quote) (regular_string_part) (close_quote))) (value_expr (value_qid (lower_case_identifier)))
+    )
+  )
+)
+
+=====================================
+Let in same line as name and multiple declarations
+=====================================
+
+viewHorizontal =
+    let viewConfig =
+          Decrement
+
+        at x =
+          Increment
+    in
+    update
+
+
+---
+
+(file
+  (value_declaration
+    (function_declaration_left (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (value_expr (upper_case_qid (upper_case_identifier))))
+      (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier))) (eq) (value_expr (upper_case_qid (upper_case_identifier))))
+      (value_expr (value_qid (lower_case_identifier)))
+    )
+  )
+)
+
+=====================================
+Let with unit in body
+=====================================
+
+view =
+    let
+        styles =
+            "x"
+    in
+    div
+        (
+        )
+
+
+---
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+    )
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left (lower_case_identifier))
+        (eq)
+        (string_constant_expr (open_quote) (regular_string_part) (close_quote))
+      )
+      (function_call_expr (value_expr (value_qid (lower_case_identifier))) (unit_expr (left_parenthesis) (right_parenthesis)))
+    )
+  )
+)
+
+
+=====================================
+Nested let with function and list in body
+=====================================
+
+
+main =
+    let
+        arcLengths =
+            List.map
+                    (\n ->
+                        let
+                            fraction =
+                                toFloat n
+                                    / toFloat numSegments
+                        in
+                        fraction * overallArcLength
+                    )
+
+    in
+    toHtml
+        []
+
+
+
+---
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+    )
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier)
+        )
+        (eq)
+        (function_call_expr
+          (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
+          (parenthesized_expr (left_parenthesis)
+            (anonymous_function_expr (backslash)
+              (pattern (lower_pattern (lower_case_identifier)))
+              (arrow)
+              (let_in_expr
+                (value_declaration (function_declaration_left (lower_case_identifier))
+                  (eq)
+                  (bin_op_expr
+                    (function_call_expr
+                      (value_expr (value_qid (lower_case_identifier)))
+                      (value_expr (value_qid (lower_case_identifier)))
+                    )
+                    (operator (operator_identifier))
+                    (function_call_expr (value_expr (value_qid (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier))))
+                  )
+                )
+                (bin_op_expr (value_expr (value_qid (lower_case_identifier)))
+                (operator (operator_identifier))
+                (value_expr (value_qid (lower_case_identifier)))))
+            )
+            (right_parenthesis)
+          )
+        )
+      )
+      (function_call_expr
+        (value_expr (value_qid (lower_case_identifier)))
+        (list_expr (left_square_bracket) (right_square_bracket))
+      )
+    )
+  )
+)
+
+=====================================
+Let with comment after in
+=====================================
+
+pyramidMesh =
+    let
+        frontLeft =
+            10
+
+    in
+    -- Comment
+    frontLeft
+
+
+
+---
+
+(file
+  (value_declaration
+    (function_declaration_left (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration (function_declaration_left (lower_case_identifier))
+        (eq)
+        (number_constant_expr (number_literal))
+      )
+      (line_comment)
+      (value_expr (value_qid (lower_case_identifier)))
+    )
+  )
+)
+
+
+=====================================
+Let with annotation
+=====================================
+
+displayEmoji : Color
+displayEmoji =
+    let native = 10
+    in
+      20
+
+---
+
+
+(file
+  (type_annotation
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (type_ref (upper_case_qid (upper_case_identifier)))
+    )
+  )
+  (value_declaration
+    (function_declaration_left (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration (function_declaration_left (lower_case_identifier))
+        (eq)
+        (number_constant_expr (number_literal))
+      )
+      (number_constant_expr (number_literal))
+    )
+  )
+)
+
+
+=====================================
+Let with trailing spaces
+=====================================
+
+init maybeSavedGame =
+    let
+        toolUseBuilder1 =
+            Dict.empty
+
+        game1 =
+            Game.makeGame "Spaceship"
+
+    in
+    game
+
+---
+
+
+(file
+  (value_declaration
+    (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)))
+    (eq)
+    (let_in_expr
+      (value_declaration (function_declaration_left (lower_case_identifier))
+      (eq)
+      (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))))
+      (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (function_call_expr
+      (value_expr (value_qid (upper_case_identifier) (dot)
+      (lower_case_identifier))) (string_constant_expr (open_quote) (regular_string_part) (close_quote))))
+      (value_expr (value_qid (lower_case_identifier)))
+    )
+  )
+)
+
+=====================================
+Let with line comment
+=====================================
+
+oops =
+    let
+        x =
+            1
+        -- evil comment
+    in
+    x
+
+---
+
+
+(file
+  (value_declaration
+    (function_declaration_left (lower_case_identifier))
+    (eq)
+    (let_in_expr (value_declaration (function_declaration_left (lower_case_identifier))
+      (eq)
+      (number_constant_expr (number_literal)))
+      (line_comment)
+      (value_expr (value_qid (lower_case_identifier)))
+    )
+  )
+)
+
+
+=====================================
+Let one line destructoring
+=====================================
+
+base col =
+  let
+    { toTop, toBottom, toLeft, toRight } = distances col
+    tx = (toRight - toLeft) / 2
+  in
+    tx
+
+
+---
+
+ (file
+  (value_declaration
+  (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier)))
+  (eq)
+  (let_in_expr (value_declaration (pattern (record_pattern (left_brace) (lower_pattern (lower_case_identifier)) (comma) (lower_pattern (lower_case_identifier))
+  (comma) (lower_pattern (lower_case_identifier))
+  (comma) (lower_pattern (lower_case_identifier)) (right_brace))) (eq)
+  (function_call_expr (value_expr (value_qid (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier)))))
+  (value_declaration (function_declaration_left (lower_case_identifier)) (eq) (bin_op_expr (parenthesized_expr (left_parenthesis)
+  (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (value_expr (value_qid (lower_case_identifier)))) (right_parenthesis)) (operator (operator_identifier))
+  (number_constant_expr (number_literal)))) (value_expr (value_qid (lower_case_identifier)))))
+)
+

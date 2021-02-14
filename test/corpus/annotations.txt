@@ -88,3 +88,26 @@ init maybeViewer url navKey =
     )
     
 )
+
+=====================================
+Annotation with trailing whitespace
+=====================================
+test : Int 
+test = 
+    1
+---
+
+(file 
+    (type_annotation 
+        (lower_case_identifier) 
+        (colon) 
+        (type_expression 
+            (type_ref (upper_case_qid (upper_case_identifier)))
+        )
+    ) 
+    (value_declaration 
+        (function_declaration_left (lower_case_identifier)) 
+        (eq) 
+        (number_constant_expr (number_literal))
+    )
+)

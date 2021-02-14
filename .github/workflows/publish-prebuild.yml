@@ -1,22 +1,18 @@
-name: Test full Linux
+name: Publish prebuilds
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  release:
+    types: [created]
 
 jobs:
-  build:
+  prebuild:
     runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        node-version: [10]
+        os: [ubuntu-latest, windows-latest]
+        node-version: [14]
 
     steps:
       - uses: actions/checkout@v2
@@ -27,10 +23,7 @@ jobs:
       - name: Npm install
         run: |
           npm i
-      - name: Unit tests
-        run: |
-          npx tree-sitter test
-      - name: Test examples
-        continue-on-error: true
-        run: |
-          script/parse-examples-full
+      - run: npm run prebuild && npm run prebuild:upload -u ${PREBUILD_UPLOAD}
+        env:
+          PREBUILD_UPLOAD: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
