@@ -11,12 +11,12 @@
   "license": "MIT",
   "dependencies": {
     "nan": "^2.14.2",
-    "prebuild-install": "^6.0.0"
+    "prebuild-install": "^6.0.1"
   },
   "devDependencies": {
     "@asgerf/dts-tree-sitter": "^0.1.0",
     "prebuild": "^10.0.1",
-    "tree-sitter-cli": "^0.18.0"
+    "tree-sitter-cli": "^0.18.1"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build --debug",
@@ -27,7 +27,9 @@
     "parse-test": "tree-sitter parse --debug ./examples/test.elm",
     "test": "tree-sitter test && script/parse-examples",
     "test-full": "tree-sitter test && script/parse-examples-full",
-    "test-only": "tree-sitter test"
+    "test-only": "tree-sitter test",
+    "test-highlighting": "tree-sitter highlight test/highlight/basic.elm",
+    "test-tags": "tree-sitter tags test/highlight/basic.elm"
   },
   "repository": "https://github.com/razzeee/tree-sitter-elm",
   "tree-sitter": [
