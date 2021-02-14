@@ -1402,6 +1402,7 @@ module.exports = grammar({
             'actual_part',
             choice(
                 $._expression,
+                $.inertial_expression,
                 prec.dynamic(-1, $.subtype_indication),
                 prec.dynamic(99, $.open),
                 // used to resolve conflicts
@@ -2025,10 +2026,7 @@ module.exports = grammar({
 
         default_expression: $ => seq(
             ':=',
-            choice(
-                $._expr,
-                $.inertial_expression,
-            )
+            $._expr,
         ),
 
         inertial_expression: $ => seq(
@@ -2742,7 +2740,7 @@ module.exports = grammar({
         )),
         // }}}
         // 11.7 Component instantiation statements {{{
-       // LINT entity aspect shall not be open
+        // LINT entity aspect shall not be open
         component_instantiation_statement: $ => seq(
             optional($.label),
             $._entity_aspect,
