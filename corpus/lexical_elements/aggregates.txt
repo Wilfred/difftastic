@@ -7,7 +7,7 @@ assert (a,b,c);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
           (positional_element_association
             (expression
@@ -16,7 +16,7 @@ assert (a,b,c);
             (expression
               (simple_name))))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
           (positional_element_association
             (expression
@@ -36,7 +36,7 @@ assert (a=>b,c=>d,e=>f);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (named_element_association
           (choices
@@ -65,7 +65,7 @@ assert (a|b|c=>d);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (named_element_association
           (choices
@@ -87,7 +87,7 @@ assert (a,b=>c,others=>d);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (named_element_association
           (choices
@@ -95,7 +95,7 @@ assert (a,b=>c,others=>d);
           (expression
             (simple_name))))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (positional_element_association
           (expression
@@ -122,7 +122,7 @@ assert (a,b,c|d=>e,f|g=>h);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (positional_element_association
           (expression
@@ -134,7 +134,7 @@ assert (a,b,c|d=>e,f|g=>h);
           (expression
             (simple_name))))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (positional_element_association
           (expression
@@ -155,7 +155,7 @@ assert (a,b,c|d=>e,f|g=>h);
           (expression
             (simple_name))))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (positional_element_association
           (expression
@@ -188,7 +188,7 @@ assert (a'high=>b);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (named_element_association
           (choices
@@ -208,7 +208,7 @@ assert (l to h=>a);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (named_element_association
           (choices
@@ -220,7 +220,7 @@ assert (l to h=>a);
           (expression
             (simple_name))))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (named_element_association
           (choices
@@ -241,7 +241,7 @@ assert (t'reverse_range=>a);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (named_element_association
           (choices
@@ -251,7 +251,7 @@ assert (t'reverse_range=>a);
           (expression
             (simple_name))))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (named_element_association
           (choices
@@ -270,7 +270,7 @@ assert (t'reverse_range(1)=>a);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (named_element_association
           (choices
@@ -283,7 +283,7 @@ assert (t'reverse_range(1)=>a);
           (expression
             (simple_name))))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (aggregate
         (named_element_association
           (choices

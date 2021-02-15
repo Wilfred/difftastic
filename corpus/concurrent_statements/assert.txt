@@ -7,12 +7,12 @@ A1: assert a;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (simple_name)))
   (assertion_statement
     (label
       (identifier))
-    (condition
+    (conditional_expression
       (simple_name))))
 
 ==============================
@@ -23,7 +23,7 @@ assert a report "str";
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (simple_name))
     (string_expression
       (string_literal))))
@@ -36,7 +36,7 @@ assert a severity note;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (simple_name))
     (severity_expression
       (simple_name))))
@@ -49,7 +49,7 @@ assert a report K_MSG severity failure;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (simple_name))
     (string_expression
       (simple_name))

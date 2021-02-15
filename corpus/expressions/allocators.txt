@@ -6,7 +6,7 @@ assert new Node;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -21,7 +21,7 @@ assert new Node'(Delay => 5 ns,
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (qualified_expression
           (type_mark
@@ -51,7 +51,7 @@ assert new CELL'(0, null, null);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (qualified_expression
           (type_mark
@@ -77,13 +77,13 @@ assert new String (1 to 10);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
             (simple_name))))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -106,7 +106,7 @@ assert new bit_vector (1 to index);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark

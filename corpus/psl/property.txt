@@ -152,7 +152,7 @@ assert a @ clk;
   (PSL_Assert_Directive
     (PSL_Clocked_FL_Property
       left: (simple_name)
-      right: (condition
+      right: (conditional_expression
         (simple_name)))))
 
 ===============================
@@ -446,7 +446,7 @@ assert p;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (simple_name))))
 
 ==================================
@@ -457,7 +457,7 @@ assert p(a);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
@@ -516,7 +516,7 @@ assert (c and next! (a until! b)@clk1)@clk2 ;
                 (PSL_Bounding_FL_Property
                   left: (simple_name)
                   right: (simple_name)))
-              right: (condition
+              right: (conditional_expression
                 (simple_name))))))
-      right: (condition
+      right: (conditional_expression
         (simple_name)))))

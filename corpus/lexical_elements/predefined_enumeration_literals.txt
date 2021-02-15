@@ -40,12 +40,12 @@ report '"' & '"';
 ==============================================================
 Character literal - Backtick
 ==============================================================
-assert '`';
+report '`';
 ---
 
 (design_file
-  (assertion_statement
-    (condition
+  (report_statement
+    (string_expression
       (character_literal))))
 
 ==============================================================

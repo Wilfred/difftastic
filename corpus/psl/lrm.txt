@@ -480,7 +480,7 @@ property ResultAfterN
                     (simple_expression
                       (simple_name)))
                   Property: (simple_name))))
-            right: (condition
+            right: (conditional_expression
               (parenthesized_expression
                 (ambiguous_name
                   prefix: (simple_name)
@@ -524,7 +524,7 @@ property ResultAfterN
                     (simple_expression
                       (simple_name)))
                   Property: (simple_name))))
-            right: (condition
+            right: (conditional_expression
               (parenthesized_expression
                 (ambiguous_name
                   prefix: (simple_name)
@@ -711,7 +711,7 @@ assert always ((write_req -> next[3] (eventually! ack))
                         (integer))))
                   Property: (PSL_Ocurrence_FL_Property
                     argument: (simple_name)))))
-            right: (condition
+            right: (conditional_expression
               (parenthesized_expression
                 (ambiguous_name
                   prefix: (simple_name)

@@ -6,7 +6,7 @@ assert foo'(a);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (qualified_expression
         (type_mark
           (simple_name))
@@ -21,7 +21,7 @@ assert foo'(a,b);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (qualified_expression
         (type_mark
           (simple_name))
@@ -41,7 +41,7 @@ assert foo'(a=>b);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (qualified_expression
         (type_mark
           (simple_name))

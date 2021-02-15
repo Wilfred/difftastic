@@ -6,7 +6,7 @@ assert arr (st);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
@@ -20,7 +20,7 @@ assert arr (h downto l);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (slice_name
         prefix: (simple_name)
         (descending_range
@@ -37,7 +37,7 @@ assert arr (h to l);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (slice_name
         prefix: (simple_name)
         (ascending_range
@@ -55,14 +55,14 @@ assert arr (st'reverse_range);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (slice_name
         prefix: (simple_name)
         (attribute_name
           prefix: (simple_name)
           designator: (predefined_designator)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (slice_name
         prefix: (simple_name)
         (attribute_name
@@ -77,7 +77,7 @@ assert amb (amb)(h downto l);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (slice_name
         prefix: (ambiguous_name
           prefix: (simple_name)
@@ -97,7 +97,7 @@ assert MAC_CONFIG(i).TypeSwitch(0 to SWITCH_COUNT - 1);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (slice_name
         prefix: (selected_name
           prefix: (ambiguous_name

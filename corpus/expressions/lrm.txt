@@ -8,21 +8,21 @@ assert and (and A);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (logical_expression
         left: (parenthesized_expression
           (reduction
             argument: (simple_name)))
         right: (simple_name))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (logical_expression
         left: (simple_name)
         right: (parenthesized_expression
           (reduction
             argument: (simple_name))))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (reduction
         argument: (parenthesized_expression
           (reduction
@@ -36,7 +36,7 @@ assert -5 rem 2 >= 0;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (relation
         left: (sign
           argument: (term
@@ -56,7 +56,7 @@ assert A**(-B) > 0;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (relation
         left: (term
           left: (simple_name)
@@ -66,7 +66,7 @@ assert A**(-B) > 0;
         right: (integer_decimal
           (integer)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (relation
         left: (exponentiation
           left: (simple_name)
@@ -84,7 +84,7 @@ assert not Sunny or Warm;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (logical_expression
         left: (factor
           argument: (simple_name))
@@ -98,7 +98,7 @@ assert and A and B;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (logical_expression
         left: (reduction
           argument: (simple_name))
@@ -112,7 +112,7 @@ assert A and and B;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (logical_expression
         left: (simple_name)
         right: (reduction
@@ -126,7 +126,7 @@ assert and and A;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (reduction
         argument: (reduction
           argument: (simple_name))))))
@@ -139,7 +139,7 @@ assert A/+B > 0;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (relation
         left: (term
           left: (simple_name)
@@ -157,7 +157,7 @@ assert Y**+3 > 0;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (relation
         left: (exponentiation
           left: (simple_name)
@@ -167,7 +167,7 @@ assert Y**+3 > 0;
         right: (integer_decimal
           (integer)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (relation
         left: (exponentiation
           left: (simple_name)
@@ -186,7 +186,7 @@ assert Y**-3 > 0;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (relation
         left: (exponentiation
           left: (simple_name)
@@ -196,7 +196,7 @@ assert Y**-3 > 0;
         right: (integer_decimal
           (integer)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (relation
         left: (exponentiation
           left: (simple_name)

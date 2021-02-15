@@ -6,7 +6,7 @@ assert t'base'left;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (attribute_name
         prefix: (attribute_name
           prefix: (simple_name)
@@ -21,7 +21,7 @@ assert << constant a : foo >>'subtype;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (attribute_name
         prefix: (external_constant_name
           (relative_pathname
@@ -39,7 +39,7 @@ assert foo(a => b)'high;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (attribute_name
         prefix: (function_call
           function: (simple_name)

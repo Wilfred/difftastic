@@ -8,6 +8,7 @@ const PREC = { // {{{
     SHIFT_EXPRESSION: 23,
     RELATION: 22,
     LOGICAL: 21,
+    CONDITION: 20,
     // PSL EXPRESSION
     PSL_UNION: 20,
     PSL_CLOCK: 19,
@@ -1980,7 +1981,7 @@ module.exports = grammar({
 
         _condition: $ => alias(
             $._expr,
-            $.condition
+            $.conditional_expression
         ),
 
         _simple_expression: $ => alias(
@@ -2034,7 +2035,7 @@ module.exports = grammar({
             $._expr
         ),
 
-        condition: $ => prec.left(PREC.REDUCTION, seq(
+        condition: $ => prec.left(PREC.CONDITION, seq(
             field('operator', delimiter('??')),
             field('argument', $._expr)
         )),
@@ -2094,7 +2095,7 @@ module.exports = grammar({
             field('right', $._expr)
         )),
 
-        exponentiation: $ => prec.left(PREC.TERM, seq(
+        exponentiation: $ => prec.left(PREC.FACTOR, seq(
             field('left', $._expr),
             field('operator', delimiter('**')),
             field('right', $._expr)

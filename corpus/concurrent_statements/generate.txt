@@ -198,7 +198,7 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (condition
+      (conditional_expression
         (simple_name)))))
 
 ====================================
@@ -215,10 +215,10 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (condition
+      (conditional_expression
         (simple_name)))
     (elsif_generate
-      (condition
+      (conditional_expression
         (simple_name)))))
 
 ====================================
@@ -236,13 +236,13 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (condition
+      (conditional_expression
         (simple_name)))
     (elsif_generate
-      (condition
+      (conditional_expression
         (simple_name)))
     (elsif_generate
-      (condition
+      (conditional_expression
         (simple_name)))))
 
 ====================================
@@ -259,7 +259,7 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (condition
+      (conditional_expression
         (simple_name)))
     (else_generate)))
 
@@ -278,10 +278,10 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (condition
+      (conditional_expression
         (simple_name)))
     (elsif_generate
-      (condition
+      (conditional_expression
         (simple_name)))
     (else_generate)))
 
@@ -310,21 +310,21 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (condition
+      (conditional_expression
         (simple_name))
       (generate_statement_body)))
   (if_generate_statement
     (label
       (identifier))
     (if_generate
-      (condition
+      (conditional_expression
         (simple_name))
       (generate_statement_body)))
   (if_generate_statement
     (label
       (identifier))
     (if_generate
-      (condition
+      (conditional_expression
         (simple_name))
       (generate_statement_body))))
 
@@ -348,18 +348,18 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (condition
+      (conditional_expression
         (simple_name)))
     (elsif_generate
-      (condition
+      (conditional_expression
         (simple_name))
       (generate_statement_body))
     (elsif_generate
-      (condition
+      (conditional_expression
         (simple_name))
       (generate_statement_body))
     (elsif_generate
-      (condition
+      (conditional_expression
         (simple_name))
       (generate_statement_body))))
 
@@ -391,7 +391,7 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (condition
+      (conditional_expression
         (simple_name)))
     (else_generate
       (generate_statement_body)))
@@ -399,7 +399,7 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (condition
+      (conditional_expression
         (simple_name)))
     (else_generate
       (generate_statement_body)))
@@ -407,7 +407,7 @@ end generate;
     (label
       (identifier))
     (if_generate
-      (condition
+      (conditional_expression
         (simple_name)))
     (else_generate
       (generate_statement_body))))
@@ -429,12 +429,12 @@ end generate G1;
     (if_generate
       (label
         (identifier))
-      (condition
+      (conditional_expression
         (simple_name)))
     (elsif_generate
       (label
         (identifier))
-      (condition
+      (conditional_expression
         (simple_name)))
     (else_generate
       (label
@@ -461,12 +461,12 @@ end generate G1;
     (if_generate
       (label
         (identifier))
-      (condition
+      (conditional_expression
         (simple_name)))
     (elsif_generate
       (label
         (identifier))
-      (condition
+      (conditional_expression
         (simple_name))
       (generate_statement_body
         at_end: (simple_name)))

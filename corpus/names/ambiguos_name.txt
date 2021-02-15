@@ -39,7 +39,7 @@ assert foo(bar);
   (comment)
   (comment)
   (assertion_statement
-    (condition
+    (conditional_expression
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
@@ -74,7 +74,7 @@ assert foo(bar, baz);
   (comment)
   (comment)
   (assertion_statement
-    (condition
+    (conditional_expression
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
@@ -106,7 +106,7 @@ assert foobar(foo=>bar)(bar);
   (comment)
   (comment)
   (assertion_statement
-    (condition
+    (conditional_expression
       (ambiguous_name
         prefix: (function_call
           function: (simple_name)
@@ -126,7 +126,7 @@ assert foo(bar(x));
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (ambiguous_name
         prefix: (simple_name)
         (expression_list

@@ -6,7 +6,7 @@ assert (foo (open));
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (parenthesized_expression
         (function_call
           function: (simple_name)
@@ -22,7 +22,7 @@ assert new foobar (foo (open));
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -42,7 +42,7 @@ assert (foo (h downto l));
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (parenthesized_expression
         (slice_name
           prefix: (simple_name)
@@ -60,7 +60,7 @@ assert new foobar (foo (h downto l));
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark

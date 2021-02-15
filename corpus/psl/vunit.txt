@@ -246,7 +246,7 @@ vunit Aprops (blockA) {
           (simple_name)
           (simple_name))
         (assertion_statement
-          (condition
+          (conditional_expression
             (ambiguous_name
               prefix: (simple_name)
               (expression_list
@@ -273,7 +273,7 @@ vunit Bprops (blockB) {
           (simple_name)
           (simple_name))
         (assertion_statement
-          (condition
+          (conditional_expression
             (ambiguous_name
               prefix: (simple_name)
               (expression_list

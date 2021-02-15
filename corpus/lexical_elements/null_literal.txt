@@ -6,5 +6,5 @@ assert null;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (null))))

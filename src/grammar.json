@@ -5399,6 +5399,10 @@
             "name": "_expression"
           },
           {
+            "type": "SYMBOL",
+            "name": "inertial_expression"
+          },
+          {
             "type": "PREC_DYNAMIC",
             "value": -1,
             "content": {
@@ -8936,7 +8940,7 @@
         "name": "_expr"
       },
       "named": true,
-      "value": "condition"
+      "value": "conditional_expression"
     },
     "_simple_expression": {
       "type": "ALIAS",
@@ -9041,17 +9045,8 @@
           "value": ":="
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_expr"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "inertial_expression"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_expr"
         }
       ]
     },
@@ -9082,7 +9077,7 @@
     },
     "condition": {
       "type": "PREC_LEFT",
-      "value": 28,
+      "value": 20,
       "content": {
         "type": "SEQ",
         "members": [
@@ -9951,7 +9946,7 @@
     },
     "exponentiation": {
       "type": "PREC_LEFT",
-      "value": 26,
+      "value": 27,
       "content": {
         "type": "SEQ",
         "members": [

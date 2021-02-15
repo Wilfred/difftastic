@@ -13,7 +13,7 @@ L: t <= w when true;
         (waveform_element
           (expression
             (simple_name))))
-      (condition
+      (conditional_expression
         (simple_name))))
   (concurrent_signal_assignment
     (label
@@ -24,7 +24,7 @@ L: t <= w when true;
         (waveform_element
           (expression
             (simple_name))))
-      (condition
+      (conditional_expression
         (simple_name)))))
 
 ===========================================
@@ -45,7 +45,7 @@ t <= reject 10 ns inertial w when true;
         (waveform_element
           (expression
             (simple_name))))
-      (condition
+      (conditional_expression
         (simple_name))))
   (concurrent_signal_assignment
     target: (simple_name)
@@ -56,7 +56,7 @@ t <= reject 10 ns inertial w when true;
         (waveform_element
           (expression
             (simple_name))))
-      (condition
+      (conditional_expression
         (simple_name))))
   (concurrent_signal_assignment
     target: (simple_name)
@@ -72,7 +72,7 @@ t <= reject 10 ns inertial w when true;
         (waveform_element
           (expression
             (simple_name))))
-      (condition
+      (conditional_expression
         (simple_name)))))
 
 ===========================================
@@ -90,14 +90,14 @@ t <= w1 when true else
         (waveform_element
           (expression
             (simple_name))))
-      (condition
+      (conditional_expression
         (simple_name))
       (alternative_conditional_waveforms
         (waveforms
           (waveform_element
             (expression
               (simple_name))))
-        (condition
+        (conditional_expression
           (simple_name))))))
 
 ===========================================
@@ -117,21 +117,21 @@ t <= w1 when cond1 else
         (waveform_element
           (expression
             (simple_name))))
-      (condition
+      (conditional_expression
         (simple_name))
       (alternative_conditional_waveforms
         (waveforms
           (waveform_element
             (expression
               (simple_name))))
-        (condition
+        (conditional_expression
           (simple_name)))
       (alternative_conditional_waveforms
         (waveforms
           (waveform_element
             (expression
               (simple_name))))
-        (condition
+        (conditional_expression
           (simple_name)))
       (alternative_conditional_waveforms
         (waveforms
@@ -158,7 +158,7 @@ t <= w1 after 10 ns when cond1 else w2;
               (integer_decimal
                 (integer))
               unit: (simple_name)))))
-      (condition
+      (conditional_expression
         (simple_name))
       (alternative_conditional_waveforms
         (waveforms
@@ -180,7 +180,7 @@ t <= force out w when true;
     (conditional_expressions
       (expression
         (simple_name))
-      (condition
+      (conditional_expression
         (simple_name))))
   (signal_assignment_statement
     target: (simple_name)
@@ -188,7 +188,7 @@ t <= force out w when true;
     (conditional_expressions
       (expression
         (simple_name))
-      (condition
+      (conditional_expression
         (simple_name))))
   (signal_assignment_statement
     target: (simple_name)
@@ -196,7 +196,7 @@ t <= force out w when true;
     (conditional_expressions
       (expression
         (simple_name))
-      (condition
+      (conditional_expression
         (simple_name)))))
 
 ===========================================
@@ -212,7 +212,7 @@ S <= unaffected when Input_pin = S'Driving_Value else
     (conditional_waveforms
       (waveforms
         (unaffected))
-      (condition
+      (conditional_expression
         (relation
           left: (simple_name)
           right: (attribute_name
@@ -240,7 +240,7 @@ t <= guarded w when cond;
         (waveform_element
           (expression
             (simple_name))))
-      (condition
+      (conditional_expression
         (simple_name)))))
 
 ===========================================
@@ -261,7 +261,7 @@ t <= guarded reject 10 ns inertial w when cond;
         (waveform_element
           (expression
             (simple_name))))
-      (condition
+      (conditional_expression
         (simple_name))))
   (concurrent_signal_assignment
     target: (simple_name)
@@ -272,7 +272,7 @@ t <= guarded reject 10 ns inertial w when cond;
         (waveform_element
           (expression
             (simple_name))))
-      (condition
+      (conditional_expression
         (simple_name))))
   (concurrent_signal_assignment
     target: (simple_name)
@@ -288,5 +288,5 @@ t <= guarded reject 10 ns inertial w when cond;
         (waveform_element
           (expression
             (simple_name))))
-      (condition
+      (conditional_expression
         (simple_name)))))

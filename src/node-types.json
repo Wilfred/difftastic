@@ -1601,7 +1601,7 @@
           "named": true
         },
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         }
       ]
@@ -1836,7 +1836,7 @@
             "named": true
           },
           {
-            "type": "condition",
+            "type": "conditional_expression",
             "named": true
           }
         ]
@@ -1925,6 +1925,10 @@
         },
         {
           "type": "condition",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -8204,7 +8208,7 @@
       "required": true,
       "types": [
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -8223,7 +8227,7 @@
       "required": true,
       "types": [
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -8433,7 +8437,7 @@
       "required": true,
       "types": [
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -8845,7 +8849,7 @@
         "required": false,
         "types": [
           {
-            "type": "condition",
+            "type": "conditional_expression",
             "named": true
           }
         ]
@@ -9669,7 +9673,7 @@
     "fields": {
       "argument": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "aggregate",
@@ -9811,7 +9815,7 @@
       },
       "operator": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "??",
@@ -9819,10 +9823,15 @@
           }
         ]
       }
-    },
+    }
+  },
+  {
+    "type": "conditional_expression",
+    "named": true,
+    "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "aggregate",
@@ -9976,7 +9985,7 @@
           "named": true
         },
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -9999,7 +10008,7 @@
           "named": true
         },
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -10547,10 +10556,6 @@
           "named": true
         },
         {
-          "type": "inertial_expression",
-          "named": true
-        },
-        {
           "type": "integer_decimal",
           "named": true
         },
@@ -11045,7 +11050,7 @@
       "required": true,
       "types": [
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -11064,7 +11069,7 @@
       "required": true,
       "types": [
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -11312,7 +11317,7 @@
       "required": false,
       "types": [
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -13261,7 +13266,7 @@
       "required": true,
       "types": [
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -13280,7 +13285,7 @@
       "required": true,
       "types": [
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -14194,6 +14199,10 @@
             "named": true
           },
           {
+            "type": "inertial_expression",
+            "named": true
+          },
+          {
             "type": "open",
             "named": true
           },
@@ -14302,7 +14311,7 @@
       "required": false,
       "types": [
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -15022,6 +15031,10 @@
           },
           {
             "type": "expression",
+            "named": true
+          },
+          {
+            "type": "inertial_expression",
             "named": true
           },
           {
@@ -18956,7 +18969,7 @@
       "required": false,
       "types": [
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         },
         {
@@ -19021,7 +19034,7 @@
       "required": true,
       "types": [
         {
-          "type": "condition",
+          "type": "conditional_expression",
           "named": true
         }
       ]
@@ -19885,11 +19898,11 @@
   },
   {
     "type": "simple_name",
-    "named": false
+    "named": true
   },
   {
     "type": "simple_name",
-    "named": true
+    "named": false
   },
   {
     "type": "sla",

@@ -29,7 +29,7 @@ end block;
   (block_statement
     (label
       (identifier))
-    guard: (condition
+    guard: (conditional_expression
       (simple_name))))
 
 ==============================

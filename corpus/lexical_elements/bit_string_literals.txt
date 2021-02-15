@@ -16,39 +16,39 @@ assert sx"";
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)))))
 
@@ -70,55 +70,55 @@ assert 0016sx"0";
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (length)
         (base_specifier)
         (bit_value))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (length)
         (base_specifier)
         (bit_value))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (length)
         (base_specifier)
         (bit_value))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (length)
         (base_specifier)
         (bit_value))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (length)
         (base_specifier)
         (bit_value))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (length)
         (base_specifier)
         (bit_value))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (length)
         (base_specifier)
         (bit_value))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (length)
         (base_specifier)
         (bit_value))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (length)
         (base_specifier)
@@ -142,46 +142,46 @@ assert sx"0123_4567_89AB_CDEF";
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
           (separator)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
           (separator)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
           (separator)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
           (separator)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
@@ -189,7 +189,7 @@ assert sx"0123_4567_89AB_CDEF";
           (separator)
           (separator)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
@@ -205,7 +205,7 @@ assert  b"--";
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
@@ -224,27 +224,27 @@ assert b"0__-";
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
           (illegal)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value)
         (ERROR
           (separator)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
           (separator)
           (illegal)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
@@ -252,7 +252,7 @@ assert b"0__-";
           (illegal)
           (unresolved)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
@@ -270,20 +270,20 @@ assert b"_-";
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
           (illegal)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
           (illegal)
           (unresolved)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
@@ -299,14 +299,14 @@ assert b"___c";
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value
           (illegal)
           (separator)))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (bit_string_literal
         (base_specifier)
         (bit_value

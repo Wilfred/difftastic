@@ -6,7 +6,7 @@ assert new resolved ut;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (resolution_function
@@ -22,7 +22,7 @@ assert new (elem resolved) ut;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (record_resolution
@@ -41,7 +41,7 @@ assert new (elem1 resolved, elem2 resolved) ut;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (record_resolution
@@ -64,7 +64,7 @@ assert new (resolved) ut;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (parenthesized_resolution
@@ -81,7 +81,7 @@ assert new ((elem resolved)) ut;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (parenthesized_resolution
@@ -101,7 +101,7 @@ assert new range_t range l to h;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -121,7 +121,7 @@ assert new range_t range st'range;
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -139,7 +139,7 @@ assert new arr_t (open);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -157,7 +157,7 @@ assert new arr_t (l     to h);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -170,7 +170,7 @@ assert new arr_t (l     to h);
                 low: (simple_expression
                   (simple_name)))))))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -191,7 +191,7 @@ assert new rec_t (elem1 (open));
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -212,7 +212,7 @@ assert new rec_t (elem1 (h downto l),
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -245,7 +245,7 @@ assert new rec_t (elem1 (elem2 (open)));
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -269,7 +269,7 @@ assert new arr_t (open)(open)(open);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -281,7 +281,7 @@ assert new arr_t (open)(open)(open);
               (index_constraint
                 (open))))))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -304,7 +304,7 @@ assert new arr_t (open)(elem (open));
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -327,7 +327,7 @@ assert new arr_t (elem (open));
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -347,7 +347,7 @@ assert new arr_t (elem (elem (open)));
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (type_mark
@@ -370,7 +370,7 @@ assert new resolved ut(h downto l);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (resolution_function
@@ -394,7 +394,7 @@ assert new (elem1 resolved, elem2 resolved) ut (elem1 (h downto l),
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (record_resolution
@@ -436,7 +436,7 @@ assert new ((elem1 resolved)) ut(h downto l)(elem1 (h downto 0));
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (allocator
         (subtype_indication
           (parenthesized_resolution

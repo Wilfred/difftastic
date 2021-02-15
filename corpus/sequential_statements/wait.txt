@@ -30,7 +30,7 @@ wait until rising_edge(clk);
 
 (design_file
   (wait_statement
-    (condition
+    (conditional_expression
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
@@ -63,7 +63,7 @@ L1: wait on foo, bar until cond for 1 ms;
     (sensitivity_list
       (simple_name)
       (simple_name))
-    (condition
+    (conditional_expression
       (simple_name))
     (time_expression
       (physical_literal

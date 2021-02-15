@@ -7,12 +7,12 @@ assert (a and b);
 
 (design_file
   (assertion_statement
-    (condition
+    (conditional_expression
       (logical_expression
         left: (simple_name)
         right: (simple_name))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (parenthesized_expression
         (logical_expression
           left: (simple_name)
@@ -51,7 +51,7 @@ foo <= next(x);
       (expression
         (simple_name))))
   (assertion_statement
-    (condition
+    (conditional_expression
       (ambiguous_name
         prefix: (simple_name)
         (expression_list

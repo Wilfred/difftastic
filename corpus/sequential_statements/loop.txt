@@ -32,7 +32,7 @@ while cond
 (design_file
   (loop_statement
     (while_loop
-      (condition
+      (conditional_expression
         (simple_name)))))
 
 ===================================
@@ -84,7 +84,7 @@ for c in st
             (simple_name)))))
     (sequence_of_statements
       (next_statement
-        (condition
+        (conditional_expression
           (simple_name))))))
 
 ===================================
@@ -112,5 +112,5 @@ end loop;
   (loop_statement
     (sequence_of_statements
       (exit_statement
-        (condition
+        (conditional_expression
           (simple_name))))))
