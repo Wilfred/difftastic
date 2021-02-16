@@ -8,7 +8,8 @@ restrict {a[*2]};
   (PSL_Restrict_Directive
     (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        (simple_name)
+        (conditional_expression
+          (simple_name))
         (PSL_Count
           (simple_expression
             (integer_decimal
@@ -24,7 +25,8 @@ restrict {a[+]};
   (PSL_Restrict_Directive
     (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        (simple_name)
+        (conditional_expression
+          (simple_name))
         (PSL_Count)))))
 
 ==================================
@@ -37,7 +39,8 @@ restrict {a[*]};
   (PSL_Restrict_Directive
     (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        (simple_name)
+        (conditional_expression
+          (simple_name))
         (PSL_Count)))))
 
 ==================================
@@ -62,7 +65,8 @@ restrict {a[=2]};
   (PSL_Restrict_Directive
     (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        (simple_name)
+        (conditional_expression
+          (simple_name))
         (PSL_Count
           (simple_expression
             (integer_decimal
@@ -78,7 +82,8 @@ restrict {a[*1 to 3]};
   (PSL_Restrict_Directive
     (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        (simple_name)
+        (conditional_expression
+          (simple_name))
         (PSL_Count
           (ascending_range
             low: (simple_expression

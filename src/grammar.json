@@ -9012,7 +9012,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "parenthesized_expression"
+          "name": "_parenthesized_expression"
         },
         {
           "type": "SYMBOL",
@@ -9020,7 +9020,7 @@
         }
       ]
     },
-    "parenthesized_expression": {
+    "_parenthesized_expression": {
       "type": "SEQ",
       "members": [
         {
@@ -10286,8 +10286,13 @@
               "name": "aggregate"
             },
             {
-              "type": "SYMBOL",
-              "name": "parenthesized_expression"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_parenthesized_expression"
+              },
+              "named": true,
+              "value": "expression"
             }
           ]
         }
@@ -21408,7 +21413,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_expr"
+          "name": "_condition"
         },
         {
           "type": "SYMBOL",
@@ -21417,23 +21422,6 @@
         {
           "type": "SYMBOL",
           "name": "PSL_Built_In_Function_Call"
-        }
-      ]
-    },
-    "PSL_Parenthesized_Boolean": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_PSL_Boolean"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
         }
       ]
     },
@@ -22580,7 +22568,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "PSL_Parenthesized_FL_Property"
+            "name": "_PSL_Parenthesized_FL_Property"
           },
           {
             "type": "SYMBOL",
@@ -22637,7 +22625,7 @@
         ]
       }
     },
-    "PSL_Parenthesized_FL_Property": {
+    "_PSL_Parenthesized_FL_Property": {
       "type": "SEQ",
       "members": [
         {
@@ -25303,11 +25291,11 @@
       "PSL_Logical_FL_Property"
     ],
     [
-      "parenthesized_expression",
-      "PSL_Parenthesized_FL_Property"
+      "_parenthesized_expression",
+      "_PSL_Parenthesized_FL_Property"
     ],
     [
-      "parenthesized_expression",
+      "_parenthesized_expression",
       "PSL_Extended_Ocurrence_FL_Property"
     ],
     [
