@@ -36,9 +36,12 @@ module.exports = grammar({
         $.package_include,
         $.class_include,
         $.latex_include,
+        $.latex_input,
         $.biblatex_include,
         $.bibtex_include,
         $.graphics_include,
+        $.svg_include,
+        $.inkscape_include,
         $.verbatim_include,
         $.import,
         $.label_definition,
@@ -356,10 +359,15 @@ module.exports = grammar({
 
     latex_include: $ =>
       seq(
-        field(
-          'command',
-          token(choice('\\input', '\\include', '\\subfile', '\\subfileinclude'))
-        ),
+        field('command', token(choice('\\include', '\\subfileinclude'))),
+        '{',
+        sepBy(field('path', $.word), ','),
+        '}'
+      ),
+
+    latex_input: $ =>
+      seq(
+        field('command', token(choice('\\input', '\\subfile'))),
         '{',
         sepBy(field('path', $.word), ','),
         '}'
@@ -384,12 +392,25 @@ module.exports = grammar({
 
     graphics_include: $ =>
       seq(
-        field(
-          'command',
-          token(
-            choice('\\includegraphics', '\\includesvg', '\\includeinkscape')
-          )
-        ),
+        field('command', '\\includegraphics'),
+        field('option', optional($.key_val_options)),
+        '{',
+        sepBy(field('path', $.word), ','),
+        '}'
+      ),
+
+    svg_include: $ =>
+      seq(
+        field('command', '\\includesvg'),
+        field('option', optional($.key_val_options)),
+        '{',
+        sepBy(field('path', $.word), ','),
+        '}'
+      ),
+
+    inkscape_include: $ =>
+      seq(
+        field('command', '\\includeinkscape'),
         field('option', optional($.key_val_options)),
         '{',
         sepBy(field('path', $.word), ','),

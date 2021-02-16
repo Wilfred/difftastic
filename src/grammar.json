@@ -70,6 +70,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "latex_input"
+        },
+        {
+          "type": "SYMBOL",
           "name": "biblatex_include"
         },
         {
@@ -79,6 +83,14 @@
         {
           "type": "SYMBOL",
           "name": "graphics_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "svg_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "inkscape_include"
         },
         {
           "type": "SYMBOL",
@@ -1719,19 +1731,85 @@
               "members": [
                 {
                   "type": "STRING",
-                  "value": "\\input"
-                },
-                {
-                  "type": "STRING",
                   "value": "\\include"
                 },
                 {
                   "type": "STRING",
-                  "value": "\\subfile"
+                  "value": "\\subfileinclude"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "path",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "word"
+                  }
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "FIELD",
+                        "name": "path",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "word"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "latex_input": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\input"
                 },
                 {
                   "type": "STRING",
-                  "value": "\\subfileinclude"
+                  "value": "\\subfile"
                 }
               ]
             }
@@ -1935,24 +2013,164 @@
           "type": "FIELD",
           "name": "command",
           "content": {
-            "type": "TOKEN",
-            "content": {
-              "type": "CHOICE",
+            "type": "STRING",
+            "value": "\\includegraphics"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "option",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "key_val_options"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "\\includegraphics"
+                  "type": "FIELD",
+                  "name": "path",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "word"
+                  }
                 },
                 {
-                  "type": "STRING",
-                  "value": "\\includesvg"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\includeinkscape"
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "FIELD",
+                        "name": "path",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "word"
+                        }
+                      }
+                    ]
+                  }
                 }
               ]
+            },
+            {
+              "type": "BLANK"
             }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "svg_include": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\includesvg"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "option",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "key_val_options"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "path",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "word"
+                  }
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "FIELD",
+                        "name": "path",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "word"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "inkscape_include": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\includeinkscape"
           }
         },
         {

@@ -266,6 +266,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -287,6 +291,10 @@
           },
           {
             "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "latex_input",
             "named": true
           },
           {
@@ -331,6 +339,10 @@
           },
           {
             "type": "subsubsection",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -470,6 +482,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -491,6 +507,10 @@
           },
           {
             "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "latex_input",
             "named": true
           },
           {
@@ -535,6 +555,10 @@
           },
           {
             "type": "subsubsection",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -706,6 +730,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -727,6 +755,10 @@
           },
           {
             "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "latex_input",
             "named": true
           },
           {
@@ -767,6 +799,10 @@
           },
           {
             "type": "subsubsection",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -1136,6 +1172,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -1157,6 +1197,10 @@
           },
           {
             "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "latex_input",
             "named": true
           },
           {
@@ -1201,6 +1245,10 @@
           },
           {
             "type": "subsubsection",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -1348,6 +1396,10 @@
           "named": true
         },
         {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
           "type": "inline_formula",
           "named": true
         },
@@ -1369,6 +1421,10 @@
         },
         {
           "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "latex_input",
           "named": true
         },
         {
@@ -1413,6 +1469,10 @@
         },
         {
           "type": "subsubsection",
+          "named": true
+        },
+        {
+          "type": "svg_include",
           "named": true
         },
         {
@@ -1549,6 +1609,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -1573,6 +1637,10 @@
             "named": true
           },
           {
+            "type": "latex_input",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -1590,6 +1658,10 @@
           },
           {
             "type": "pgf_library_import",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -1739,6 +1811,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -1760,6 +1836,10 @@
           },
           {
             "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "latex_input",
             "named": true
           },
           {
@@ -1804,6 +1884,10 @@
           },
           {
             "type": "subsubsection",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -1962,6 +2046,16 @@
     "type": "graphics_include",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\includegraphics",
+            "named": false
+          }
+        ]
+      },
       "option": {
         "multiple": false,
         "required": false,
@@ -2001,6 +2095,42 @@
       "file": {
         "multiple": false,
         "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "inkscape_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\includeinkscape",
+            "named": false
+          }
+        ]
+      },
+      "option": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "key_val_options",
+            "named": true
+          }
+        ]
+      },
+      "path": {
+        "multiple": true,
+        "required": false,
         "types": [
           {
             "type": "word",
@@ -2107,6 +2237,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -2128,6 +2262,10 @@
           },
           {
             "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "latex_input",
             "named": true
           },
           {
@@ -2172,6 +2310,10 @@
           },
           {
             "type": "subsubsection",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -2375,6 +2517,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -2396,6 +2542,10 @@
           },
           {
             "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "latex_input",
             "named": true
           },
           {
@@ -2440,6 +2590,10 @@
           },
           {
             "type": "subsubsection",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -2583,6 +2737,22 @@
     }
   },
   {
+    "type": "latex_input",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "math_operator",
     "named": true,
     "fields": {
@@ -2705,6 +2875,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -2726,6 +2900,10 @@
           },
           {
             "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "latex_input",
             "named": true
           },
           {
@@ -2770,6 +2948,10 @@
           },
           {
             "type": "subsubsection",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -2939,6 +3121,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -2963,6 +3149,10 @@
             "named": true
           },
           {
+            "type": "latex_input",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -2984,6 +3174,10 @@
           },
           {
             "type": "subparagraph",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -3113,6 +3307,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -3134,6 +3332,10 @@
           },
           {
             "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "latex_input",
             "named": true
           },
           {
@@ -3178,6 +3380,10 @@
           },
           {
             "type": "subsubsection",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -3317,6 +3523,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -3338,6 +3548,10 @@
           },
           {
             "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "latex_input",
             "named": true
           },
           {
@@ -3378,6 +3592,10 @@
           },
           {
             "type": "subsubsection",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -3529,6 +3747,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -3550,6 +3772,10 @@
           },
           {
             "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "latex_input",
             "named": true
           },
           {
@@ -3586,6 +3812,10 @@
           },
           {
             "type": "subsubsection",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -3711,6 +3941,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -3735,6 +3969,10 @@
             "named": true
           },
           {
+            "type": "latex_input",
+            "named": true
+          },
+          {
             "type": "math_operator",
             "named": true
           },
@@ -3752,6 +3990,10 @@
           },
           {
             "type": "pgf_library_import",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -3877,6 +4119,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -3898,6 +4144,10 @@
           },
           {
             "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "latex_input",
             "named": true
           },
           {
@@ -3930,6 +4180,10 @@
           },
           {
             "type": "subsubsection",
+            "named": true
+          },
+          {
+            "type": "svg_include",
             "named": true
           },
           {
@@ -4055,6 +4309,10 @@
             "named": true
           },
           {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
             "type": "inline_formula",
             "named": true
           },
@@ -4076,6 +4334,10 @@
           },
           {
             "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "latex_input",
             "named": true
           },
           {
@@ -4107,6 +4369,10 @@
             "named": true
           },
           {
+            "type": "svg_include",
+            "named": true
+          },
+          {
             "type": "text",
             "named": true
           },
@@ -4130,6 +4396,42 @@
         "types": [
           {
             "type": "brace_group",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "svg_include",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\includesvg",
+            "named": false
+          }
+        ]
+      },
+      "option": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "key_val_options",
+            "named": true
+          }
+        ]
+      },
+      "path": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "word",
             "named": true
           }
         ]
@@ -4307,6 +4609,18 @@
   },
   {
     "type": "\\eqref",
+    "named": false
+  },
+  {
+    "type": "\\includegraphics",
+    "named": false
+  },
+  {
+    "type": "\\includeinkscape",
+    "named": false
+  },
+  {
+    "type": "\\includesvg",
     "named": false
   },
   {
