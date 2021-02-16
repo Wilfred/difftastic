@@ -623,11 +623,16 @@ module.exports = grammar({
       field('alternative', $._arg)
     )),
 
-    range: $ => prec.right(PREC.RANGE, choice(
-      seq($._arg, choice('..', '...'), $._arg),
-      seq(choice('..', '...'), $._arg),
-      seq($._arg, choice('..', '...')),
-    )),
+    range: $ => {
+      const begin = field('begin', $._arg);
+      const end = field('end', $._arg);
+      const operator = field('operator', choice('..', '...'));
+      return prec.right(PREC.RANGE, choice(
+        seq(begin, operator, end),
+        seq(operator, end),
+        seq(begin, operator)
+      ));
+    },
 
     binary: $ => {
       const operators = [
