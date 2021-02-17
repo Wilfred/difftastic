@@ -1,6 +1,6 @@
-=====================================
+================================================================================
 Type statement
-=====================================
+================================================================================
 
 type Msg
     = Increment
@@ -14,29 +14,40 @@ type Msg
     | Decrement
     | NoOp
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (type_declaration (type) (upper_case_identifier) 
-    (eq) (union_variant (upper_case_identifier)))
-  
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier)))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier))
+    (pipe)
+    (union_variant
+      (upper_case_identifier)))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier))
+    (pipe)
+    (union_variant
+      (upper_case_identifier))
+    (pipe)
+    (union_variant
+      (upper_case_identifier))))
 
-  (type_declaration (type) (upper_case_identifier) 
-    (eq) (union_variant (upper_case_identifier)) 
-    (pipe) (union_variant (upper_case_identifier)))
-  
-
-  (type_declaration (type) (upper_case_identifier) 
-    (eq) (union_variant (upper_case_identifier)) 
-    (pipe) (union_variant (upper_case_identifier)) 
-    (pipe) (union_variant (upper_case_identifier)))
-  
-
-)
-
-=====================================
+================================================================================
 Type statement with payload
-=====================================
+================================================================================
 
 type Problem
     = ContentProblem ValidationProblem
@@ -61,34 +72,83 @@ type ElementProblem
     | InvalidScreenTarget
     | InvalidScreenTargetCausesCycle
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (type_declaration (type) (upper_case_identifier) 
-  (eq) (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier))))
-  (pipe) (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier))))
-  (pipe) (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier))))
-  )
-  
-
-  (type_declaration (type) (upper_case_identifier) 
-  (eq) (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier))) (type_ref  (upper_case_qid (upper_case_identifier))))
-  (pipe) (union_variant (upper_case_identifier))
-  (pipe) (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier))))
-  )
-  
-
-  (type_declaration (type) (upper_case_identifier) 
-  (eq) (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier))) (type_ref (upper_case_qid (upper_case_identifier))))
-  (pipe) (union_variant (upper_case_identifier))
-  (pipe) (union_variant (upper_case_identifier))
-  )
-  
-
-  (type_declaration (type) (upper_case_identifier) 
-  (eq) (union_variant (upper_case_identifier) (type_ref (upper_case_qid (upper_case_identifier))))
-  (pipe) (union_variant (upper_case_identifier))
-  (pipe) (union_variant (upper_case_identifier))
-  )
-  
-)
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))))
+    (pipe)
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))))
+    (pipe)
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))))
+    (pipe)
+    (union_variant
+      (upper_case_identifier))
+    (pipe)
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)
+          (dot)
+          (upper_case_identifier)))))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))))
+    (pipe)
+    (union_variant
+      (upper_case_identifier))
+    (pipe)
+    (union_variant
+      (upper_case_identifier)))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))))
+    (pipe)
+    (union_variant
+      (upper_case_identifier))
+    (pipe)
+    (union_variant
+      (upper_case_identifier))))
