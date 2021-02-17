@@ -1,6 +1,6 @@
-=====================================
+================================================================================
 Complete function example
-=====================================
+================================================================================
 
 {-| An animation frame triggers about 60 times per second. Get the POSIX time
 on each frame. (See [`elm/time`](/packages/elm/time/latest) for more info on
@@ -14,48 +14,44 @@ sync up with the browsers natural refresh rate. This hooks into JavaScript's
 onAnimationFrame : (Time.Posix -> msg) -> Sub msg
 onAnimationFrame =
   AM.onAnimationFrame
----
+--------------------------------------------------------------------------------
 
 (file
-    (block_comment)
-    (type_annotation
-        (lower_case_identifier)
-        (colon)
-        (type_expression
-            (left_parenthesis)
-            (type_expression
-                (type_ref
-                    (upper_case_qid
-                        (upper_case_identifier)
-                        (dot)
-                        (upper_case_identifier)
-                    )
-                )
-                (arrow)
-                (type_variable (lower_case_identifier))
-            )
-            (right_parenthesis)
-            (arrow)
-            (type_ref
-                (upper_case_qid (upper_case_identifier))
-                (type_variable (lower_case_identifier))
-            )
-        )
-    )
-    
-    (value_declaration
-        (function_declaration_left
-            (lower_case_identifier)
-        )
-        (eq)
-        (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
-    )
-    
-)
+  (block_comment)
+  (type_annotation
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (left_parenthesis)
+      (type_expression
+        (type_ref
+          (upper_case_qid
+            (upper_case_identifier)
+            (dot)
+            (upper_case_identifier)))
+        (arrow)
+        (type_variable
+          (lower_case_identifier)))
+      (right_parenthesis)
+      (arrow)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))
+        (type_variable
+          (lower_case_identifier)))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (value_expr
+      (value_qid
+        (upper_case_identifier)
+        (dot)
+        (lower_case_identifier)))))
 
-=====================================
+================================================================================
 Complete counter example
-=====================================
+================================================================================
 
 module Main exposing (Msg(..), main, update, view)
 
@@ -91,169 +87,242 @@ view model =
 
 
 
----
+--------------------------------------------------------------------------------
 
 (file
-    (module_declaration (module) (upper_case_qid (upper_case_identifier))
-        (exposing_list
-            (exposing)
-            (left_parenthesis)
-            (exposed_type (upper_case_identifier) (exposed_union_constructors (left_parenthesis) (double_dot) (right_parenthesis)))
-            (comma)
-            (exposed_value (lower_case_identifier))
-            (comma)
-            (exposed_value (lower_case_identifier))
-            (comma)
-            (exposed_value (lower_case_identifier))
-            (right_parenthesis)
-        )
-    )
-    
-    (import_clause (import) (upper_case_qid (upper_case_identifier)))
-    
-    (import_clause (import) (upper_case_qid (upper_case_identifier))
-        (exposing_list
-            (exposing)
-            (left_parenthesis)
-            (exposed_type (upper_case_identifier))
-            (comma)
-            (exposed_value (lower_case_identifier))
-            (comma)
-            (exposed_value (lower_case_identifier))
-            (comma)
-            (exposed_value (lower_case_identifier))
-            (right_parenthesis)
-        )
-    )
-    
-    (import_clause (import) (upper_case_qid (upper_case_identifier) (dot) (upper_case_identifier))
-        (exposing_list
-            (exposing)
-            (left_parenthesis)
-            (exposed_value (lower_case_identifier))
-            (right_parenthesis)
-        )
-    )
-    
-    (value_declaration
-        (function_declaration_left (lower_case_identifier))
-        (eq)
+  (module_declaration
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (left_parenthesis)
+      (exposed_type
+        (upper_case_identifier)
+        (exposed_union_constructors
+          (left_parenthesis)
+          (double_dot)
+          (right_parenthesis)))
+      (comma)
+      (exposed_value
+        (lower_case_identifier))
+      (comma)
+      (exposed_value
+        (lower_case_identifier))
+      (comma)
+      (exposed_value
+        (lower_case_identifier))
+      (right_parenthesis)))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (left_parenthesis)
+      (exposed_type
+        (upper_case_identifier))
+      (comma)
+      (exposed_value
+        (lower_case_identifier))
+      (comma)
+      (exposed_value
+        (lower_case_identifier))
+      (comma)
+      (exposed_value
+        (lower_case_identifier))
+      (right_parenthesis)))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (left_parenthesis)
+      (exposed_value
+        (lower_case_identifier))
+      (right_parenthesis)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (upper_case_identifier)
+          (dot)
+          (lower_case_identifier)))
+      (record_expr
+        (left_brace)
+        (field
+          (lower_case_identifier)
+          (eq)
+          (number_constant_expr
+            (number_literal)))
+        (comma)
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))
+        (comma)
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))
+        (right_brace))))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier))
+    (pipe)
+    (union_variant
+      (upper_case_identifier)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (bin_op_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (operator
+            (operator_identifier))
+          (number_constant_expr
+            (number_literal))))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (bin_op_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (operator
+            (operator_identifier))
+          (number_constant_expr
+            (number_literal))))))
+  (block_comment)
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (list_expr
+        (left_square_bracket)
+        (right_square_bracket))
+      (list_expr
+        (left_square_bracket)
         (function_call_expr
-            (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
-            (record_expr
-                (left_brace)
-                (field (lower_case_identifier) (eq) (number_constant_expr (number_literal)))
-                (comma)
-                (field
-                    (lower_case_identifier)
-                    (eq)
-                    (value_expr (value_qid (lower_case_identifier)))
-                )
-                (comma)
-                (field
-                    (lower_case_identifier)
-                    (eq)
-                    (value_expr (value_qid (lower_case_identifier)))
-                )
-                (right_brace)
-            )
-        )
-    )
-    
-    (type_declaration (type) (upper_case_identifier) (eq) (union_variant (upper_case_identifier)) (pipe) (union_variant (upper_case_identifier)))
-    
-    (value_declaration
-        (function_declaration_left
-            (lower_case_identifier)
-            (lower_pattern (lower_case_identifier))
-            (lower_pattern (lower_case_identifier))
-        )
-        (eq)
-        (case_of_expr
-            (case)
-            (value_expr (value_qid (lower_case_identifier)))
-            (of)
-            
-            (case_of_branch
-                (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
-                (arrow)
-                (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (number_constant_expr (number_literal)))
-            )
-            
-            (case_of_branch
-                (pattern (union_pattern (upper_case_qid (upper_case_identifier))))
-                (arrow)
-                (bin_op_expr (value_expr (value_qid (lower_case_identifier))) (operator (operator_identifier)) (number_constant_expr (number_literal)))
-            )
-            
-        )
-    )
-    
-    (block_comment)
-    (value_declaration
-        (function_declaration_left
-            (lower_case_identifier)
-            (lower_pattern (lower_case_identifier))
-        )
-        (eq)
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (list_expr
+            (left_square_bracket)
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (value_expr
+                (upper_case_qid
+                  (upper_case_identifier))))
+            (right_square_bracket))
+          (list_expr
+            (left_square_bracket)
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (string_constant_expr
+                (open_quote)
+                (regular_string_part)
+                (close_quote)))
+            (right_square_bracket)))
+        (comma)
         (function_call_expr
-            (value_expr (value_qid (lower_case_identifier)))
-            (list_expr (left_square_bracket) (right_square_bracket))
-            (list_expr
-                (left_square_bracket)
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (list_expr
+            (left_square_bracket)
+            (right_square_bracket))
+          (list_expr
+            (left_square_bracket)
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (parenthesized_expr
+                (left_parenthesis)
                 (function_call_expr
-                    (value_expr (value_qid (lower_case_identifier)))
-                    (list_expr
-                        (left_square_bracket)
-                        (function_call_expr (value_expr (value_qid (lower_case_identifier))) (value_expr (upper_case_qid (upper_case_identifier))))
-                        (right_square_bracket)
-                    )
-                    (list_expr
-                        (left_square_bracket)
-                        (function_call_expr
-                            (value_expr (value_qid (lower_case_identifier)))
-                            (string_constant_expr (open_quote) (regular_string_part) (close_quote))
-                        )
-                        (right_square_bracket)
-                    )
-                )
-                (comma)
-                (function_call_expr
-                    (value_expr (value_qid (lower_case_identifier)))
-                    (list_expr (left_square_bracket) (right_square_bracket))
-                    (list_expr
-                        (left_square_bracket)
-                        (function_call_expr
-                            (value_expr (value_qid (lower_case_identifier)))
-                            (parenthesized_expr
-                                (left_parenthesis)
-                                (function_call_expr
-                                    (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
-                                    (value_expr (value_qid (lower_case_identifier)))
-                                )
-                                (right_parenthesis)
-                            )
-                        )
-                        (right_square_bracket)
-                    )
-                )
-                (comma)
-                (function_call_expr
-                    (value_expr (value_qid (lower_case_identifier)))
-                    (list_expr
-                        (left_square_bracket)
-                        (function_call_expr (value_expr (value_qid (lower_case_identifier))) (value_expr (upper_case_qid (upper_case_identifier))))
-                        (right_square_bracket)
-                    )
-                    (list_expr
-                        (left_square_bracket)
-                        (function_call_expr (value_expr (value_qid (lower_case_identifier))) (string_constant_expr (open_quote) (regular_string_part) (close_quote)))
-                        (right_square_bracket)
-                    )
-                )
-                (right_square_bracket)
-            )
-        )
-    )
-    
-)
+                  (value_expr
+                    (value_qid
+                      (upper_case_identifier)
+                      (dot)
+                      (lower_case_identifier)))
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier))))
+                (right_parenthesis)))
+            (right_square_bracket)))
+        (comma)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (list_expr
+            (left_square_bracket)
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (value_expr
+                (upper_case_qid
+                  (upper_case_identifier))))
+            (right_square_bracket))
+          (list_expr
+            (left_square_bracket)
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (string_constant_expr
+                (open_quote)
+                (regular_string_part)
+                (close_quote)))
+            (right_square_bracket)))
+        (right_square_bracket)))))

@@ -1,33 +1,32 @@
-=====================================
+================================================================================
 One line comment without linebreak
-=====================================
+================================================================================
 --
----
+--------------------------------------------------------------------------------
 
 (file
-  (line_comment)
-)
-=====================================
+  (line_comment))
+
+================================================================================
 One line comments
-=====================================
+================================================================================
 
 -- MODEL
 -- update
 -- more words
 -- note: (isOkay x || any isOkay xs) would not get TCO
 
----
+--------------------------------------------------------------------------------
 
 (file
   (line_comment)
   (line_comment)
   (line_comment)
-  (line_comment)
-)
+  (line_comment))
 
-=====================================
+================================================================================
 Block comments
-=====================================
+================================================================================
 
 {- one line -}
 {- a multiline comment
@@ -39,7 +38,7 @@ Block comments
 -- add x y = x + y
 --}
 
----
+--------------------------------------------------------------------------------
 
 (file
   (block_comment)
@@ -47,27 +46,25 @@ Block comments
   (block_comment)
   (block_comment)
   (line_comment)
-  (line_comment)
-)
+  (line_comment))
 
-=====================================
+================================================================================
 Complex Block comment
-=====================================
+================================================================================
 
 {-| Works just like [`Parser.Nestable`](Parser#nestable) to help distinguish
 between unnestable `/*` `*/` comments like in JS and nestable `{-` `-}`
 comments like in Elm.
 -}
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (block_comment)
-)
+  (block_comment))
 
-=====================================
+================================================================================
 Comment syntax within a string
-=====================================
+================================================================================
 
 module Main exposing ( ..)
 one="\"{-"
@@ -84,30 +81,30 @@ four{--}=--{-
 five = something
 --}
 
----
+--------------------------------------------------------------------------------
+
 (file
   (module_declaration
     (module)
-    (upper_case_qid (upper_case_identifier))
+    (upper_case_qid
+      (upper_case_identifier))
     (exposing_list
       (exposing)
       (left_parenthesis)
       (double_dot)
-      (right_parenthesis)
-    )
-  )
+      (right_parenthesis)))
   (value_declaration
-    (function_declaration_left (lower_case_identifier))
+    (function_declaration_left
+      (lower_case_identifier))
     (eq)
     (string_constant_expr
       (open_quote)
       (string_escape)
       (regular_string_part)
-      (close_quote)
-    )
-  )
+      (close_quote)))
   (value_declaration
-    (function_declaration_left (lower_case_identifier))
+    (function_declaration_left
+      (lower_case_identifier))
     (eq)
     (string_constant_expr
       (open_quote)
@@ -115,29 +112,29 @@ five = something
       (string_escape)
       (regular_string_part)
       (regular_string_part)
-      (close_quote)
-    )
-  )
+      (close_quote)))
   (value_declaration
-    (function_declaration_left (lower_case_identifier))
+    (function_declaration_left
+      (lower_case_identifier))
     (eq)
     (char_constant_expr
       (open_char)
       (regular_string_part)
-      (close_char)
-    )
-  )
+      (close_char)))
   (block_comment)
   (value_declaration
-    (function_declaration_left (lower_case_identifier))
+    (function_declaration_left
+      (lower_case_identifier))
     (block_comment)
     (eq)
     (line_comment)
-    (number_constant_expr (number_literal))
-  )
+    (number_constant_expr
+      (number_literal)))
   (value_declaration
-    (function_declaration_left (lower_case_identifier))
+    (function_declaration_left
+      (lower_case_identifier))
     (eq)
-    (value_expr (value_qid (lower_case_identifier))))
-  (line_comment)
-)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (line_comment))

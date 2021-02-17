@@ -1,25 +1,27 @@
-
-=====================================
+================================================================================
 Type alias number
-=====================================
+================================================================================
 
 type alias Number =
     Int
 
 
----
+--------------------------------------------------------------------------------
 
-(file 
-  (type_alias_declaration (type) (alias) (upper_case_identifier) (eq)
-  (type_expression (type_ref (upper_case_qid (upper_case_identifier)))
-    )
-  )
-  
-)
+(file
+  (type_alias_declaration
+    (type)
+    (alias)
+    (upper_case_identifier)
+    (eq)
+    (type_expression
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))))))
 
-=====================================
+================================================================================
 Type alias
-=====================================
+================================================================================
 
 type alias ListItem =
     { name : String
@@ -28,16 +30,38 @@ type alias ListItem =
     }
 
 
----
+--------------------------------------------------------------------------------
 
-(file 
-  (type_alias_declaration (type) (alias) (upper_case_identifier) (eq)
-  (type_expression (record_type 
-    (left_brace) (field_type (lower_case_identifier) (colon) (type_expression (type_ref (upper_case_qid (upper_case_identifier)))))
-    (comma) (field_type (lower_case_identifier) (colon) (type_expression (type_ref (upper_case_qid (upper_case_identifier))))) 
-    (comma) (field_type (lower_case_identifier) (colon) (type_expression (type_ref (upper_case_qid (upper_case_identifier))))) 
-    (right_brace))
-    )
-  )
-  
-)
+(file
+  (type_alias_declaration
+    (type)
+    (alias)
+    (upper_case_identifier)
+    (eq)
+    (type_expression
+      (record_type
+        (left_brace)
+        (field_type
+          (lower_case_identifier)
+          (colon)
+          (type_expression
+            (type_ref
+              (upper_case_qid
+                (upper_case_identifier)))))
+        (comma)
+        (field_type
+          (lower_case_identifier)
+          (colon)
+          (type_expression
+            (type_ref
+              (upper_case_qid
+                (upper_case_identifier)))))
+        (comma)
+        (field_type
+          (lower_case_identifier)
+          (colon)
+          (type_expression
+            (type_ref
+              (upper_case_qid
+                (upper_case_identifier)))))
+        (right_brace)))))
