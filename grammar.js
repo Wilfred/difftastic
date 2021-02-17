@@ -1,4 +1,5 @@
 const PREC = {
+  range: 15,
   call: 14,
   field: 13,
   unary: 11,
@@ -11,7 +12,6 @@ const PREC = {
   comparative: 4,
   and: 3,
   or: 2,
-  range: 1,
   assign: 0,
   closure: -1,
 }
@@ -914,7 +914,10 @@ module.exports = grammar({
     ),
 
     range_expression: $ => prec.left(PREC.range, choice(
-      seq($._expression, choice('..', '...', '..='), $._expression),
+      prec.left(
+        PREC.range + 1,
+        seq($._expression, choice('..', '...', '..='), $._expression)
+      ),
       seq($._expression, '..'),
       seq('..', $._expression),
       '..'

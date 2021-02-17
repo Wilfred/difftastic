@@ -125,6 +125,9 @@ Range expressions
 ..;
 1..b;
 a..b;
+1..(1);
+(1)..1;
+(1)..(1);
 
 ---
 
@@ -134,7 +137,16 @@ a..b;
   (range_expression (integer_literal))
   (range_expression)
   (range_expression (integer_literal) (identifier))
-  (range_expression (identifier) (identifier)))
+  (range_expression (identifier) (identifier))
+  (range_expression
+    (integer_literal)
+    (parenthesized_expression (integer_literal)))
+  (range_expression
+    (parenthesized_expression (integer_literal))
+    (integer_literal))
+  (range_expression
+    (parenthesized_expression (integer_literal))
+    (parenthesized_expression (integer_literal))))
 
 ============================================
 Assignment expressions
