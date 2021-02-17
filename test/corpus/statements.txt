@@ -1,6 +1,6 @@
-=====================================
+================================================================================
 Function statement with function call and inline record
-=====================================
+================================================================================
 
 main =
     Browser.sandbox 
@@ -8,23 +8,45 @@ main =
     , update = update
     , view = view }
 
----
+--------------------------------------------------------------------------------
 
 (file
- (value_declaration (function_declaration_left (lower_case_identifier)) (eq)
-    (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier)))
-        (record_expr (left_brace) (field (lower_case_identifier) (eq) (number_constant_expr (number_literal))) 
-        (comma) (field (lower_case_identifier) (eq) (value_expr (value_qid (lower_case_identifier)))) 
-        (comma) (field (lower_case_identifier) (eq) (value_expr (value_qid (lower_case_identifier)))) (right_brace)
-        )
-    )
-  )
-  
-)
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (upper_case_identifier)
+          (dot)
+          (lower_case_identifier)))
+      (record_expr
+        (left_brace)
+        (field
+          (lower_case_identifier)
+          (eq)
+          (number_constant_expr
+            (number_literal)))
+        (comma)
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))
+        (comma)
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))
+        (right_brace)))))
 
-=====================================
+================================================================================
 Function statement with list
-=====================================
+================================================================================
 
 view model =
     div []
@@ -33,23 +55,100 @@ view model =
         , button [ onClick Increment ] [ text "+" ]
         ]
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (value_declaration (function_declaration_left (lower_case_identifier) (lower_pattern (lower_case_identifier))) (eq)
-    (function_call_expr (value_expr (value_qid (lower_case_identifier))) (list_expr (left_square_bracket) (right_square_bracket))
-    (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) 
-      (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) 
-      (value_expr (upper_case_qid (upper_case_identifier)))) (right_square_bracket))
-      (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) (string_constant_expr (open_quote) (regular_string_part) (close_quote))) (right_square_bracket)))
-      (comma) (function_call_expr (value_expr (value_qid (lower_case_identifier))) (list_expr (left_square_bracket) (right_square_bracket))
-      (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) 
-      (parenthesized_expr (left_parenthesis) (function_call_expr (value_expr (value_qid (upper_case_identifier) (dot) (lower_case_identifier))) (value_expr (value_qid (lower_case_identifier)))) (right_parenthesis))) (right_square_bracket)))
-      (comma) (function_call_expr (value_expr (value_qid (lower_case_identifier))) (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) (value_expr (upper_case_qid (upper_case_identifier)))) (right_square_bracket))
-      (list_expr (left_square_bracket) (function_call_expr (value_expr (value_qid (lower_case_identifier))) (string_constant_expr (open_quote)
-    (regular_string_part) (close_quote))) (right_square_bracket)))
-    (right_square_bracket))
-    )
-  )
-  
-)
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (list_expr
+        (left_square_bracket)
+        (right_square_bracket))
+      (list_expr
+        (left_square_bracket)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (list_expr
+            (left_square_bracket)
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (value_expr
+                (upper_case_qid
+                  (upper_case_identifier))))
+            (right_square_bracket))
+          (list_expr
+            (left_square_bracket)
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (string_constant_expr
+                (open_quote)
+                (regular_string_part)
+                (close_quote)))
+            (right_square_bracket)))
+        (comma)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (list_expr
+            (left_square_bracket)
+            (right_square_bracket))
+          (list_expr
+            (left_square_bracket)
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (parenthesized_expr
+                (left_parenthesis)
+                (function_call_expr
+                  (value_expr
+                    (value_qid
+                      (upper_case_identifier)
+                      (dot)
+                      (lower_case_identifier)))
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier))))
+                (right_parenthesis)))
+            (right_square_bracket)))
+        (comma)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (list_expr
+            (left_square_bracket)
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (value_expr
+                (upper_case_qid
+                  (upper_case_identifier))))
+            (right_square_bracket))
+          (list_expr
+            (left_square_bracket)
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (string_constant_expr
+                (open_quote)
+                (regular_string_part)
+                (close_quote)))
+            (right_square_bracket)))
+        (right_square_bracket)))))
