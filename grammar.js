@@ -405,8 +405,8 @@ module.exports = grammar({
         // 'assert' _expression 'and' _expression
         [$.logical_expression, $.PSL_Logical_FL_Property],
 
-        [$._parenthesized_expression, $._PSL_Parenthesized_FL_Property],
-        [$._parenthesized_expression, $.PSL_Extended_Ocurrence_FL_Property],
+        [$.parenthesized_expression, $.PSL_Parenthesized_FL_Property],
+        [$.parenthesized_expression, $.PSL_Extended_Ocurrence_FL_Property],
 
         // `assert id
         // `restrict id;`
@@ -2015,11 +2015,11 @@ module.exports = grammar({
             $.aggregate,
             $.qualified_expression,
             $.allocator,
-            $._parenthesized_expression,
+            $.parenthesized_expression,
             $.function_call,
         ),
 
-        _parenthesized_expression: $ => seq(
+        parenthesized_expression: $ => seq(
             '(',
             $._expr,
             ')'
@@ -2184,7 +2184,7 @@ module.exports = grammar({
             token('\''),
             choice(
                 $.aggregate,
-                alias($._parenthesized_expression, $.expression)
+                $.parenthesized_expression
             ),
         ),
         // }}}
@@ -3193,9 +3193,15 @@ module.exports = grammar({
         ),
 
         _PSL_Boolean: $ => choice(
-            $._condition,
+            $._expr,
             $.PSL_Expression,
             $.PSL_Built_In_Function_Call
+        ),
+
+        PSL_Parenthesized_Boolean: $ => seq(
+            '(',
+            $._PSL_Boolean,
+            ')'
         ),
 
         _PSL_Number: $ => choice(
@@ -3392,7 +3398,7 @@ module.exports = grammar({
 
         _PSL_FL_Property: $ => prec.dynamic(-1, choice(
             $.PSL_Property_Instance,
-            $._PSL_Parenthesized_FL_Property,
+            $.PSL_Parenthesized_FL_Property,
             $.PSL_Sequential_FL_Property,
             $.PSL_Clocked_FL_Property,
             $.PSL_Invariant_FL_Property,
@@ -3408,7 +3414,7 @@ module.exports = grammar({
             $._PSL_Boolean
         )),
 
-        _PSL_Parenthesized_FL_Property: $ => seq(
+        PSL_Parenthesized_FL_Property: $ => seq(
             '(',
             $._PSL_FL_Property,
             ')',

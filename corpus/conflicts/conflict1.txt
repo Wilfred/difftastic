@@ -7,11 +7,12 @@ assert (foo (open));
 (design_file
   (assertion_statement
     (conditional_expression
-      (function_call
-        function: (simple_name)
-        (association_list
-          (positional_association_element
-            actual_part: (open)))))))
+      (parenthesized_expression
+        (function_call
+          function: (simple_name)
+          (association_list
+            (positional_association_element
+              actual_part: (open))))))))
 
 ===================================
 Conflict I - Subtype indication constraint
@@ -42,13 +43,14 @@ assert (foo (h downto l));
 (design_file
   (assertion_statement
     (conditional_expression
-      (slice_name
-        prefix: (simple_name)
-        (descending_range
-          high: (simple_expression
-            (simple_name))
-          low: (simple_expression
-            (simple_name)))))))
+      (parenthesized_expression
+        (slice_name
+          prefix: (simple_name)
+          (descending_range
+            high: (simple_expression
+              (simple_name))
+            low: (simple_expression
+              (simple_name))))))))
 
 ===================================
 Conflict II - Subtype indication constraint

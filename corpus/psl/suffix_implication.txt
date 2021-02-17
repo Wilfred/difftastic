@@ -9,24 +9,18 @@ assert always {a} |=> {b; b; b; b; c};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
               left: (PSL_Simple_SERE
                 left: (PSL_Simple_SERE
                   left: (PSL_Simple_SERE
-                    left: (conditional_expression
-                      (simple_name))
-                    right: (conditional_expression
-                      (simple_name)))
-                  right: (conditional_expression
-                    (simple_name)))
-                right: (conditional_expression
-                  (simple_name)))
-              right: (conditional_expression
-                (simple_name)))))))))
+                    left: (simple_name)
+                    right: (simple_name))
+                  right: (simple_name))
+                right: (simple_name))
+              right: (simple_name))))))))
 
 =============================================
 SERE_1_a
@@ -39,20 +33,17 @@ assert always {a} |=> {b[*4]; c};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
               left: (PSL_Repeated_SERE
-                (conditional_expression
-                  (simple_name))
+                (simple_name)
                 (PSL_Count
                   (simple_expression
                     (integer_decimal
                       (integer)))))
-              right: (conditional_expression
-                (simple_name)))))))))
+              right: (simple_name))))))))
 
 =============================================
 SERE_2_a
@@ -65,14 +56,12 @@ assert always {a} |=> {b[*3 to 5]; c};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
               left: (PSL_Repeated_SERE
-                (conditional_expression
-                  (simple_name))
+                (simple_name)
                 (PSL_Count
                   (ascending_range
                     low: (simple_expression
@@ -81,8 +70,7 @@ assert always {a} |=> {b[*3 to 5]; c};
                     high: (simple_expression
                       (integer_decimal
                         (integer))))))
-              right: (conditional_expression
-                (simple_name)))))))))
+              right: (simple_name))))))))
 
 =============================================
 SERE_3_a
@@ -95,17 +83,14 @@ assert always {a} |=> {b[*]; c};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
               left: (PSL_Repeated_SERE
-                (conditional_expression
-                  (simple_name))
+                (simple_name)
                 (PSL_Count))
-              right: (conditional_expression
-                (simple_name)))))))))
+              right: (simple_name))))))))
 
 =============================================
 SERE_4_a
@@ -118,17 +103,14 @@ assert always {a} |=> {b[+]; c};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
               left: (PSL_Repeated_SERE
-                (conditional_expression
-                  (simple_name))
+                (simple_name)
                 (PSL_Count))
-              right: (conditional_expression
-                (simple_name)))))))))
+              right: (simple_name))))))))
 
 =============================================
 SERE_5_a
@@ -141,17 +123,14 @@ assert always {d} |=> {e[*]; f};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
               left: (PSL_Repeated_SERE
-                (conditional_expression
-                  (simple_name))
+                (simple_name)
                 (PSL_Count))
-              right: (conditional_expression
-                (simple_name)))))))))
+              right: (simple_name))))))))
 
 =============================================
 SERE_6_a
@@ -164,17 +143,14 @@ assert always {d} |=> {e[+]; f};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
               left: (PSL_Repeated_SERE
-                (conditional_expression
-                  (simple_name))
+                (simple_name)
                 (PSL_Count))
-              right: (conditional_expression
-                (simple_name)))))))))
+              right: (simple_name))))))))
 
 =============================================
 SERE_7_a
@@ -187,20 +163,17 @@ assert always {g} |=> {h[*3]; i};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
               left: (PSL_Repeated_SERE
-                (conditional_expression
-                  (simple_name))
+                (simple_name)
                 (PSL_Count
                   (simple_expression
                     (integer_decimal
                       (integer)))))
-              right: (conditional_expression
-                (simple_name)))))))))
+              right: (simple_name))))))))
 
 =============================================
 SERE_8_a
@@ -213,14 +186,12 @@ assert always {g} |=> {h[*2 to 4]; i};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
               left: (PSL_Repeated_SERE
-                (conditional_expression
-                  (simple_name))
+                (simple_name)
                 (PSL_Count
                   (ascending_range
                     low: (simple_expression
@@ -229,8 +200,7 @@ assert always {g} |=> {h[*2 to 4]; i};
                     high: (simple_expression
                       (integer_decimal
                         (integer))))))
-              right: (conditional_expression
-                (simple_name)))))))))
+              right: (simple_name))))))))
 
 =============================================
 SERE_9_a
@@ -243,17 +213,14 @@ assert always {g} |=> {h[*]; i};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
               left: (PSL_Repeated_SERE
-                (conditional_expression
-                  (simple_name))
+                (simple_name)
                 (PSL_Count))
-              right: (conditional_expression
-                (simple_name)))))))))
+              right: (simple_name))))))))
 
 =============================================
 SERE_10_a
@@ -266,17 +233,14 @@ assert always {g} |=> {h[+]; i};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
               left: (PSL_Repeated_SERE
-                (conditional_expression
-                  (simple_name))
+                (simple_name)
                 (PSL_Count))
-              right: (conditional_expression
-                (simple_name)))))))))
+              right: (simple_name))))))))
 
 =============================================
 SERE_11_a
@@ -289,8 +253,7 @@ assert always {g} |=> {[*6]; i};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
@@ -299,8 +262,7 @@ assert always {g} |=> {[*6]; i};
                   (simple_expression
                     (integer_decimal
                       (integer)))))
-              right: (conditional_expression
-                (simple_name)))))))))
+              right: (simple_name))))))))
 
 =============================================
 SERE_12_a
@@ -313,8 +275,7 @@ assert always {g} |=> {[*6]; i; not i[*1 to inf]};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
@@ -324,12 +285,10 @@ assert always {g} |=> {[*6]; i; not i[*1 to inf]};
                     (simple_expression
                       (integer_decimal
                         (integer)))))
-                right: (conditional_expression
-                  (simple_name)))
+                right: (simple_name))
               right: (PSL_Repeated_SERE
-                (conditional_expression
-                  (factor
-                    argument: (simple_name)))
+                (factor
+                  argument: (simple_name))
                 (PSL_Count
                   (ascending_range
                     low: (simple_expression
@@ -349,22 +308,18 @@ assert always {g} |=> {{h; not h}[*3]; i};
     (PSL_Invariant_FL_Property
       argument: (PSL_Suffix_Implication_FL_Property
         Sequence: (PSL_Braced_SERE
-          (conditional_expression
-            (simple_name)))
+          (simple_name))
         Property: (PSL_Sequential_FL_Property
           (PSL_Braced_SERE
             (PSL_Simple_SERE
               left: (PSL_Repeated_SERE
                 (PSL_Braced_SERE
                   (PSL_Simple_SERE
-                    left: (conditional_expression
-                      (simple_name))
-                    right: (conditional_expression
-                      (factor
-                        argument: (simple_name)))))
+                    left: (simple_name)
+                    right: (factor
+                      argument: (simple_name))))
                 (PSL_Count
                   (simple_expression
                     (integer_decimal
                       (integer)))))
-              right: (conditional_expression
-                (simple_name)))))))))
+              right: (simple_name))))))))

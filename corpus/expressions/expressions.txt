@@ -198,13 +198,16 @@ t <= ((x));
     (waveforms
       (waveform_element
         (expression
-          (simple_name)))))
+          (parenthesized_expression
+            (simple_name))))))
   (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
         (expression
-          (simple_name))))))
+          (parenthesized_expression
+            (parenthesized_expression
+              (simple_name))))))))
 
 ===================================
 Parenthesized expression II
@@ -219,21 +222,24 @@ t <= ((x(foo'range)));
     (waveforms
       (waveform_element
         (expression
-          (slice_name
-            prefix: (simple_name)
-            (attribute_name
+          (parenthesized_expression
+            (slice_name
               prefix: (simple_name)
-              designator: (predefined_designator)))))))
+              (attribute_name
+                prefix: (simple_name)
+                designator: (predefined_designator))))))))
   (concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
         (expression
-          (slice_name
-            prefix: (simple_name)
-            (attribute_name
-              prefix: (simple_name)
-              designator: (predefined_designator))))))))
+          (parenthesized_expression
+            (parenthesized_expression
+              (slice_name
+                prefix: (simple_name)
+                (attribute_name
+                  prefix: (simple_name)
+                  designator: (predefined_designator))))))))))
 
 ===========================================
 LINT: ILLEGAL - Association - Logical expression I

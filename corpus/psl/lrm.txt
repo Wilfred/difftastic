@@ -11,14 +11,11 @@ assert always {req; ack_n; not cancel} |=> (ena or enb);
         Sequence: (PSL_Braced_SERE
           (PSL_Simple_SERE
             left: (PSL_Simple_SERE
-              left: (conditional_expression
-                (simple_name))
-              right: (conditional_expression
-                (simple_name)))
-            right: (conditional_expression
-              (factor
-                argument: (simple_name)))))
-        Property: (conditional_expression
+              left: (simple_name)
+              right: (simple_name))
+            right: (factor
+              argument: (simple_name))))
+        Property: (parenthesized_expression
           (logical_expression
             left: (simple_name)
             right: (simple_name)))))))
@@ -32,12 +29,11 @@ assert always (req -> next not req);
 (design_file
   (PSL_Assert_Directive
     (PSL_Invariant_FL_Property
-      argument: (PSL_Implication_FL_Property
-        left: (conditional_expression
-          (simple_name))
-        right: (PSL_Ocurrence_FL_Property
-          argument: (conditional_expression
-            (factor
+      argument: (PSL_Parenthesized_FL_Property
+        (PSL_Implication_FL_Property
+          left: (simple_name)
+          right: (PSL_Ocurrence_FL_Property
+            argument: (factor
               argument: (simple_name))))))))
 
 ===================================================
@@ -49,16 +45,15 @@ assert always (a -> next[3] (b));
 (design_file
   (PSL_Assert_Directive
     (PSL_Invariant_FL_Property
-      argument: (PSL_Implication_FL_Property
-        left: (conditional_expression
-          (simple_name))
-        right: (PSL_Extended_Ocurrence_FL_Property
-          (PSL_Count
-            (simple_expression
-              (integer_decimal
-                (integer))))
-          Property: (conditional_expression
-            (simple_name)))))))
+      argument: (PSL_Parenthesized_FL_Property
+        (PSL_Implication_FL_Property
+          left: (simple_name)
+          right: (PSL_Extended_Ocurrence_FL_Property
+            (PSL_Count
+              (simple_expression
+                (integer_decimal
+                  (integer))))
+            Property: (simple_name)))))))
 
 ===================================================
 PSL LRM 1.3.2.1 Simulation (Property 3)
@@ -69,19 +64,18 @@ assert always ((a and next[3] (b)) -> c);
 (design_file
   (PSL_Assert_Directive
     (PSL_Invariant_FL_Property
-      argument: (PSL_Implication_FL_Property
-        left: (PSL_Logical_FL_Property
-          left: (conditional_expression
-            (simple_name))
-          right: (PSL_Extended_Ocurrence_FL_Property
-            (PSL_Count
-              (simple_expression
-                (integer_decimal
-                  (integer))))
-            Property: (conditional_expression
-              (simple_name))))
-        right: (conditional_expression
-          (simple_name))))))
+      argument: (PSL_Parenthesized_FL_Property
+        (PSL_Implication_FL_Property
+          left: (PSL_Parenthesized_FL_Property
+            (PSL_Logical_FL_Property
+              left: (simple_name)
+              right: (PSL_Extended_Ocurrence_FL_Property
+                (PSL_Count
+                  (simple_expression
+                    (integer_decimal
+                      (integer))))
+                Property: (simple_name))))
+          right: (simple_name))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties I
@@ -96,11 +90,10 @@ assert forall i in boolean: f(i);
         (PSL_Identifier)
         (PSL_Value_Set
           (boolean)))
-      Property: (conditional_expression
-        (ambiguous_name
-          prefix: (simple_name)
-          (expression_list
-            expression: (simple_name)))))))
+      Property: (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (simple_name))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties II
@@ -119,11 +112,10 @@ assert forall i in {j to k} : f(i);
               (simple_name))
             high: (simple_expression
               (simple_name)))))
-      Property: (conditional_expression
-        (ambiguous_name
-          prefix: (simple_name)
-          (expression_list
-            expression: (simple_name)))))))
+      Property: (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (simple_name))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties III
@@ -146,11 +138,10 @@ assert forall i (0 to 1) in boolean : f(i);
                 (integer)))))
         (PSL_Value_Set
           (boolean)))
-      Property: (conditional_expression
-        (ambiguous_name
-          prefix: (simple_name)
-          (expression_list
-            expression: (simple_name)))))))
+      Property: (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (simple_name))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties IV
@@ -178,11 +169,10 @@ assert forall i (0 to 2) in {4,5} : f(i);
           (expression
             (integer_decimal
               (integer)))))
-      Property: (conditional_expression
-        (ambiguous_name
-          prefix: (simple_name)
-          (expression_list
-            expression: (simple_name)))))))
+      Property: (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          expression: (simple_name))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties V
@@ -207,10 +197,10 @@ assert forall i(0 to 3) in boolean:
         (PSL_Value_Set
           (boolean)))
       Property: (PSL_Expression
-        left: (conditional_expression
-          (logical_expression
-            left: (simple_name)
-            right: (relation
+        left: (logical_expression
+          left: (simple_name)
+          right: (parenthesized_expression
+            (relation
               left: (simple_name)
               right: (simple_name))))
         right: (PSL_Built_In_Function_Call
@@ -257,13 +247,12 @@ assert forall i in boolean:
                 high: (simple_expression
                   (integer_decimal
                     (integer))))))
-          Property: (conditional_expression
-            (ambiguous_name
-              prefix: (simple_name)
-              (expression_list
-                expression: (simple_name)
-                expression: (simple_name)
-                expression: (simple_name)))))))))
+          Property: (ambiguous_name
+            prefix: (simple_name)
+            (expression_list
+              expression: (simple_name)
+              expression: (simple_name)
+              expression: (simple_name))))))))
 
 ===================================================
 PSL LRM 6.2.3 Replicated properties VI
@@ -296,11 +285,10 @@ assert forall j in {0 to 7}:
                   (integer)))
               high: (simple_expression
                 (simple_name)))))
-        Property: (conditional_expression
-          (ambiguous_name
-            prefix: (simple_name)
-            (expression_list
-              expression: (simple_name))))))))
+        Property: (ambiguous_name
+          prefix: (simple_name)
+          (expression_list
+            expression: (simple_name)))))))
 
 ===================================================
 PSL LRM 6.3.1 PSL formal parameter type classes
@@ -318,10 +306,9 @@ sequence s (boolean b0, b1) is {b0 = b1};
         (PSL_Identifier)
         (PSL_Identifier)))
     (PSL_Braced_SERE
-      (conditional_expression
-        (relation
-          left: (simple_name)
-          right: (simple_name))))))
+      (relation
+        left: (simple_name)
+        right: (simple_name)))))
 
 ===================================================
 PSL LRM 6.3.2 HDL formal parameter types I
@@ -341,10 +328,9 @@ sequence color_is_red (hdltype COLOR c) is {c = RED};
                 (simple_name)))))
         (PSL_Identifier)))
     (PSL_Braced_SERE
-      (conditional_expression
-        (relation
-          left: (simple_name)
-          right: (simple_name))))))
+      (relation
+        left: (simple_name)
+        right: (simple_name)))))
 
 ===================================================
 PSL LRM 6.3.2 HDL formal parameter types II
@@ -364,17 +350,17 @@ sequence slope_is_1 (hdltype COORDINATE_RECORD c) is {(c.x / c.y) = 1};
                 (simple_name)))))
         (PSL_Identifier)))
     (PSL_Braced_SERE
-      (conditional_expression
-        (relation
-          left: (term
+      (relation
+        left: (parenthesized_expression
+          (term
             left: (selected_name
               prefix: (simple_name)
               suffix: (simple_name))
             right: (selected_name
               prefix: (simple_name)
-              suffix: (simple_name)))
-          right: (integer_decimal
-            (integer)))))))
+              suffix: (simple_name))))
+        right: (integer_decimal
+          (integer))))))
 
 ===================================================
 PSL LRM 6.3.2.1 - Sequence declaration  I
@@ -398,10 +384,9 @@ sequence BusArb (boolean br, bg; const n) is
     (PSL_Braced_SERE
       (PSL_Simple_SERE
         left: (PSL_Simple_SERE
-          left: (conditional_expression
-            (simple_name))
+          left: (simple_name)
           right: (PSL_Repeated_SERE
-            (conditional_expression
+            (parenthesized_expression
               (logical_expression
                 left: (simple_name)
                 right: (factor
@@ -413,10 +398,9 @@ sequence BusArb (boolean br, bg; const n) is
                     (integer)))
                 high: (simple_expression
                   (simple_name))))))
-        right: (conditional_expression
-          (logical_expression
-            left: (simple_name)
-            right: (simple_name)))))))
+        right: (logical_expression
+          left: (simple_name)
+          right: (simple_name))))))
 
 ===================================================
 PSL LRM 6.3.2.1 - Sequence declaration II
@@ -441,27 +425,22 @@ sequence ReadCycle (sequence ba; boolean bb, ar, dr) is
     (PSL_Braced_SERE
       (PSL_Simple_SERE
         left: (PSL_Simple_SERE
-          left: (conditional_expression
-            (simple_name))
+          left: (simple_name)
           right: (PSL_Compound_SERE
             left: (PSL_Braced_SERE
               (PSL_Repeated_SERE
-                (conditional_expression
-                  (simple_name))
+                (simple_name)
                 (PSL_Count)))
             right: (PSL_Braced_SERE
               (PSL_Simple_SERE
                 left: (PSL_Repeated_SERE
-                  (conditional_expression
-                    (simple_name))
+                  (simple_name)
                   (PSL_Count))
                 right: (PSL_Repeated_SERE
-                  (conditional_expression
-                    (simple_name))
+                  (simple_name)
                   (PSL_Count))))))
-        right: (conditional_expression
-          (factor
-            argument: (simple_name)))))))
+        right: (factor
+          argument: (simple_name))))))
 
 ===================================================
 PSL LRM 6.3.2.2 - Property declaration I
@@ -490,24 +469,24 @@ property ResultAfterN
           (PSL_Type_Class))
         (PSL_Identifier)))
     (PSL_Invariant_FL_Property
-      argument: (PSL_Termination_FL_Property
-        left: (PSL_Clocked_FL_Property
-          left: (PSL_Implication_FL_Property
-            left: (conditional_expression
-              (simple_name))
-            right: (PSL_Extended_Ocurrence_FL_Property
-              (PSL_Count
-                (simple_expression
-                  (simple_name)))
-              Property: (conditional_expression
-                (simple_name))))
-          right: (conditional_expression
-            (ambiguous_name
-              prefix: (simple_name)
-              (expression_list
-                expression: (simple_name)))))
-        right: (conditional_expression
-          (simple_name))))))
+      argument: (PSL_Parenthesized_FL_Property
+        (PSL_Termination_FL_Property
+          left: (PSL_Clocked_FL_Property
+            left: (PSL_Parenthesized_FL_Property
+              (PSL_Implication_FL_Property
+                left: (simple_name)
+                right: (PSL_Extended_Ocurrence_FL_Property
+                  (PSL_Count
+                    (simple_expression
+                      (simple_name)))
+                  Property: (simple_name))))
+            right: (conditional_expression
+              (parenthesized_expression
+                (ambiguous_name
+                  prefix: (simple_name)
+                  (expression_list
+                    expression: (simple_name))))))
+          right: (simple_name))))))
 
 ===================================================
 PSL LRM 6.3.2.2 - Property declaration II
@@ -534,24 +513,24 @@ property ResultAfterN
         (PSL_Constant_Parameter_Specification)
         (PSL_Identifier)))
     (PSL_Invariant_FL_Property
-      argument: (PSL_Termination_FL_Property
-        left: (PSL_Clocked_FL_Property
-          left: (PSL_Implication_FL_Property
-            left: (conditional_expression
-              (simple_name))
-            right: (PSL_Extended_Ocurrence_FL_Property
-              (PSL_Count
-                (simple_expression
-                  (simple_name)))
-              Property: (conditional_expression
-                (simple_name))))
-          right: (conditional_expression
-            (ambiguous_name
-              prefix: (simple_name)
-              (expression_list
-                expression: (simple_name)))))
-        right: (conditional_expression
-          (simple_name))))))
+      argument: (PSL_Parenthesized_FL_Property
+        (PSL_Termination_FL_Property
+          left: (PSL_Clocked_FL_Property
+            left: (PSL_Parenthesized_FL_Property
+              (PSL_Implication_FL_Property
+                left: (simple_name)
+                right: (PSL_Extended_Ocurrence_FL_Property
+                  (PSL_Count
+                    (simple_expression
+                      (simple_name)))
+                  Property: (simple_name))))
+            right: (conditional_expression
+              (parenthesized_expression
+                (ambiguous_name
+                  prefix: (simple_name)
+                  (expression_list
+                    expression: (simple_name))))))
+          right: (simple_name))))))
 
 ===================================================
 PSL LRM 6.3.3.1 - Sequence instantiation I
@@ -586,10 +565,9 @@ restrict { breq; (breq and not back)[*0 to 3]; breq and back };
     (PSL_Braced_SERE
       (PSL_Simple_SERE
         left: (PSL_Simple_SERE
-          left: (conditional_expression
-            (simple_name))
+          left: (simple_name)
           right: (PSL_Repeated_SERE
-            (conditional_expression
+            (parenthesized_expression
               (logical_expression
                 left: (simple_name)
                 right: (factor
@@ -602,10 +580,9 @@ restrict { breq; (breq and not back)[*0 to 3]; breq and back };
                 high: (simple_expression
                   (integer_decimal
                     (integer)))))))
-        right: (conditional_expression
-          (logical_expression
-            left: (simple_name)
-            right: (simple_name)))))))
+        right: (logical_expression
+          left: (simple_name)
+          right: (simple_name))))))
 
 ===================================================
 PSL LRM 6.3.3.1 - Sequence instantiation III
@@ -653,10 +630,9 @@ restrict { { breq; (breq and not back)[*0 to 5]; breq and back };
             left: (PSL_Braced_SERE
               (PSL_Simple_SERE
                 left: (PSL_Simple_SERE
-                  left: (conditional_expression
-                    (simple_name))
+                  left: (simple_name)
                   right: (PSL_Repeated_SERE
-                    (conditional_expression
+                    (parenthesized_expression
                       (logical_expression
                         left: (simple_name)
                         right: (factor
@@ -669,28 +645,23 @@ restrict { { breq; (breq and not back)[*0 to 5]; breq and back };
                         high: (simple_expression
                           (integer_decimal
                             (integer)))))))
-                right: (conditional_expression
-                  (logical_expression
-                    left: (simple_name)
-                    right: (simple_name)))))
+                right: (logical_expression
+                  left: (simple_name)
+                  right: (simple_name))))
             right: (PSL_Compound_SERE
               left: (PSL_Braced_SERE
                 (PSL_Repeated_SERE
-                  (conditional_expression
-                    (simple_name))
+                  (simple_name)
                   (PSL_Count)))
               right: (PSL_Braced_SERE
                 (PSL_Repeated_SERE
-                  (conditional_expression
-                    (simple_name))
+                  (simple_name)
                   (PSL_Count)))))
           right: (PSL_Repeated_SERE
-            (conditional_expression
-              (simple_name))
+            (simple_name)
             (PSL_Count)))
-        right: (conditional_expression
-          (factor
-            argument: (simple_name)))))))
+        right: (factor
+          argument: (simple_name))))))
 
 ===================================================
 PSL LRM 6.3.3.2 - Property instantiation I
@@ -708,8 +679,7 @@ assert ResultAfterN (write_req, eventually! ack, 3, cancel);
             (simple_name)))
         (PSL_Actual_Parameter
           (PSL_Ocurrence_FL_Property
-            argument: (conditional_expression
-              (simple_name))))
+            argument: (simple_name)))
         (PSL_Actual_Parameter
           (expression
             (integer_decimal
@@ -728,23 +698,23 @@ assert always ((write_req -> next[3] (eventually! ack))
 (design_file
   (PSL_Assert_Directive
     (PSL_Invariant_FL_Property
-      argument: (PSL_Termination_FL_Property
-        left: (PSL_Clocked_FL_Property
-          left: (PSL_Implication_FL_Property
-            left: (conditional_expression
-              (simple_name))
-            right: (PSL_Extended_Ocurrence_FL_Property
-              (PSL_Count
-                (simple_expression
-                  (integer_decimal
-                    (integer))))
-              Property: (PSL_Ocurrence_FL_Property
-                argument: (conditional_expression
-                  (simple_name)))))
-          right: (conditional_expression
-            (ambiguous_name
-              prefix: (simple_name)
-              (expression_list
-                expression: (simple_name)))))
-        right: (conditional_expression
-          (simple_name))))))
+      argument: (PSL_Parenthesized_FL_Property
+        (PSL_Termination_FL_Property
+          left: (PSL_Clocked_FL_Property
+            left: (PSL_Parenthesized_FL_Property
+              (PSL_Implication_FL_Property
+                left: (simple_name)
+                right: (PSL_Extended_Ocurrence_FL_Property
+                  (PSL_Count
+                    (simple_expression
+                      (integer_decimal
+                        (integer))))
+                  Property: (PSL_Ocurrence_FL_Property
+                    argument: (simple_name)))))
+            right: (conditional_expression
+              (parenthesized_expression
+                (ambiguous_name
+                  prefix: (simple_name)
+                  (expression_list
+                    expression: (simple_name))))))
+          right: (simple_name))))))

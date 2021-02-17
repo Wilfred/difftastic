@@ -11,9 +11,7 @@ sequence s (const c) is {c};
       (PSL_Formal_Parameter
         (PSL_Constant_Parameter_Specification)
         (PSL_Identifier)))
-    (PSL_Braced_SERE
-      (conditional_expression
-        (simple_name)))))
+    (PSL_Braced_SERE (simple_name))))
 
 ====================================
 Constant Parameter Specification II
@@ -29,9 +27,7 @@ sequence s (boolean b) is {b};
         (PSL_Constant_Parameter_Specification
           (PSL_Type_Class))
         (PSL_Identifier)))
-    (PSL_Braced_SERE
-      (conditional_expression
-        (simple_name)))))
+    (PSL_Braced_SERE (simple_name))))
 
 ====================================
 Constant Parameter Specification III
@@ -47,9 +43,7 @@ sequence s (const boolean b) is {b};
         (PSL_Constant_Parameter_Specification
           (PSL_Type_Class))
         (PSL_Identifier)))
-    (PSL_Braced_SERE
-      (conditional_expression
-        (simple_name)))))
+    (PSL_Braced_SERE (simple_name))))
 
 ====================================
 Constant Parameter Specification IV
@@ -65,12 +59,9 @@ sequence s (hdltype t o) is {o};
         (PSL_Constant_Parameter_Specification
           (PSL_HDL_Type
             (subtype_indication
-              (type_mark
-                (simple_name)))))
+              (type_mark (simple_name)))))
         (PSL_Identifier)))
-    (PSL_Braced_SERE
-      (conditional_expression
-        (simple_name)))))
+    (PSL_Braced_SERE (simple_name))))
 
 ====================================
 Constant Parameter Specification V
@@ -86,12 +77,9 @@ sequence s (const hdltype t o) is {o};
         (PSL_Constant_Parameter_Specification
           (PSL_HDL_Type
             (subtype_indication
-              (type_mark
-                (simple_name)))))
+              (type_mark (simple_name)))))
         (PSL_Identifier)))
-    (PSL_Braced_SERE
-      (conditional_expression
-        (simple_name)))))
+    (PSL_Braced_SERE (simple_name))))
 
 ====================================
 Temporal Parameter Specification I
