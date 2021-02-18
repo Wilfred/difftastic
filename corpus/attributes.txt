@@ -241,6 +241,35 @@ class Zzz {
           (accessor_declaration (block)))))))
 
 =======================================
+Attributes on type parameters
+=======================================
+
+class Class<[A, B][C()]T1> {
+  void Method<[E] [F, G(1)] T2>() {
+  }
+}
+
+---
+(compilation_unit
+  (class_declaration (identifier)
+    (type_parameter_list
+      (type_parameter
+        (attribute_list (attribute (identifier)) (attribute (identifier)))
+        (attribute_list (attribute (identifier) (attribute_argument_list)))
+        (identifier)))
+      (declaration_list
+        (method_declaration (void_keyword) (identifier)
+          (type_parameter_list
+            (type_parameter
+              (attribute_list (attribute (identifier)))
+              (attribute_list (attribute (identifier))
+                (attribute (identifier)
+                  (attribute_argument_list (attribute_argument (integer_literal)))))
+              (identifier)))
+          (parameter_list)
+          (block)))))
+
+=======================================
 Attributes on event accessors
 =======================================
 

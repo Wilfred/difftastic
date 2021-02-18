@@ -382,7 +382,7 @@ module.exports = grammar({
     type_parameter_list: $ => seq('<', commaSep1($.type_parameter), '>'),
 
     type_parameter: $ => seq(
-      optional($.attribute_list),
+      repeat($.attribute_list),
       optional(choice('in', 'out')),
       $.identifier
     ),
