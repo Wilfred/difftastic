@@ -9,8 +9,10 @@ assert forall p in boolean : p;
     (PSL_Property_Replicator
       (PSL_Parameter_Specification
         (PSL_Identifier)
-        (PSL_Value_Set (boolean)))
-      Property: (simple_name))))
+        (PSL_Value_Set
+          (boolean)))
+      Property: (PSL_Boolean
+        (simple_name)))))
 
 =============================
 Property replicator - Index Range I
@@ -33,7 +35,8 @@ assert forall p (0 to 1) in boolean : p;
                 (integer)))))
         (PSL_Value_Set
           (boolean)))
-      Property: (simple_name))))
+      Property: (PSL_Boolean
+        (simple_name)))))
 
 =============================
 Replicator - Index Range II
@@ -56,7 +59,8 @@ assert forall p (1 downto 0) in boolean : p;
                 (integer)))))
         (PSL_Value_Set
           (boolean)))
-      Property: (simple_name))))
+      Property: (PSL_Boolean
+        (simple_name)))))
 
 =============================
 Replicator - Index Range - VHDL Range III
@@ -75,7 +79,8 @@ assert forall p (foo'range) in boolean : p;
             designator: (predefined_designator)))
         (PSL_Value_Set
           (boolean)))
-      Property: (simple_name))))
+      Property: (PSL_Boolean
+        (simple_name)))))
 
 =============================
 Replicator - Value Set I
@@ -96,7 +101,8 @@ assert forall p in {0 to 1} : p;
             high: (simple_expression
               (integer_decimal
                 (integer))))))
-      Property: (simple_name))))
+      Property: (PSL_Boolean
+        (simple_name)))))
 
 =============================
 Replicator - Value Set II
@@ -124,7 +130,8 @@ assert forall p in {0 to 1, 0 to 1} : p;
             high: (simple_expression
               (integer_decimal
                 (integer))))))
-      Property: (simple_name))))
+      Property: (PSL_Boolean
+        (simple_name)))))
 
 =============================
 Replicator - Value Set - Value
@@ -138,9 +145,10 @@ assert forall p in {val} : p;
       (PSL_Parameter_Specification
         (PSL_Identifier)
         (PSL_Value_Set
-          (expression
+          (PSL_Any_Type
             (simple_name))))
-      Property: (simple_name))))
+      Property: (PSL_Boolean
+        (simple_name)))))
 
 ===============================
 Clock property
@@ -151,7 +159,8 @@ assert a @ clk;
 (design_file
   (PSL_Assert_Directive
     (PSL_Clocked_FL_Property
-      left: (simple_name)
+      left: (PSL_Boolean
+        (simple_name))
       right: (conditional_expression
         (simple_name)))))
 
@@ -164,8 +173,10 @@ assert a abort b;
 (design_file
   (PSL_Assert_Directive
     (PSL_Termination_FL_Property
-      left: (simple_name)
-      right: (simple_name))))
+      left: (PSL_Boolean
+        (simple_name))
+      right: (PSL_Boolean
+        (simple_name)))))
 
 ===============================
 Logical expression (binary) property
@@ -179,16 +190,22 @@ assert a or (a->b);
     (PSL_Logical_FL_Property
       left: (PSL_Parenthesized_FL_Property
         (PSL_Expression
-          left: (simple_name)
-          right: (simple_name)))
-      right: (simple_name)))
+          left: (PSL_Boolean
+            (simple_name))
+          right: (PSL_Boolean
+            (simple_name))))
+      right: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Logical_FL_Property
-      left: (simple_name)
+      left: (PSL_Boolean
+        (simple_name))
       right: (PSL_Parenthesized_FL_Property
         (PSL_Expression
-          left: (simple_name)
-          right: (simple_name))))))
+          left: (PSL_Boolean
+            (simple_name))
+          right: (PSL_Boolean
+            (simple_name)))))))
 
 ===============================
 Implication property
@@ -202,16 +219,22 @@ assert a <-> (a->b);
     (PSL_Implication_FL_Property
       left: (PSL_Parenthesized_FL_Property
         (PSL_Expression
-          left: (simple_name)
-          right: (simple_name)))
-      right: (simple_name)))
+          left: (PSL_Boolean
+            (simple_name))
+          right: (PSL_Boolean
+            (simple_name))))
+      right: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Implication_FL_Property
-      left: (simple_name)
+      left: (PSL_Boolean
+        (simple_name))
       right: (PSL_Parenthesized_FL_Property
         (PSL_Expression
-          left: (simple_name)
-          right: (simple_name))))))
+          left: (PSL_Boolean
+            (simple_name))
+          right: (PSL_Boolean
+            (simple_name)))))))
 
 ===============================
 Logical expression (unary) property
@@ -224,8 +247,10 @@ assert not (a->b);
     (PSL_Factor_FL_Property
       argument: (PSL_Parenthesized_FL_Property
         (PSL_Expression
-          left: (simple_name)
-          right: (simple_name))))))
+          left: (PSL_Boolean
+            (simple_name))
+          right: (PSL_Boolean
+            (simple_name)))))))
 
 ===============================
 Logical expression (combined) property
@@ -239,9 +264,12 @@ assert not (a->b) and b;
       left: (PSL_Factor_FL_Property
         argument: (PSL_Parenthesized_FL_Property
           (PSL_Expression
-            left: (simple_name)
-            right: (simple_name))))
-      right: (simple_name))))
+            left: (PSL_Boolean
+              (simple_name))
+            right: (PSL_Boolean
+              (simple_name)))))
+      right: (PSL_Boolean
+        (simple_name)))))
 
 ===============================
 Invariance property
@@ -253,10 +281,12 @@ assert never p;
 (design_file
   (PSL_Assert_Directive
     (PSL_Invariant_FL_Property
-      argument: (simple_name)))
+      argument: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Invariant_FL_Property
-      argument: (simple_name))))
+      argument: (PSL_Boolean
+        (simple_name)))))
 
 ===============================
 Ocurrence property
@@ -269,13 +299,16 @@ assert eventually! p;
 (design_file
   (PSL_Assert_Directive
     (PSL_Ocurrence_FL_Property
-      argument: (simple_name)))
+      argument: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Ocurrence_FL_Property
-      argument: (simple_name)))
+      argument: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Ocurrence_FL_Property
-      argument: (simple_name))))
+      argument: (PSL_Boolean
+        (simple_name)))))
 
 ===============================
 Bounding property
@@ -294,36 +327,52 @@ assert p before p;
 (design_file
   (PSL_Assert_Directive
     (PSL_Bounding_FL_Property
-      left: (simple_name)
-      right: (simple_name)))
+      left: (PSL_Boolean
+        (simple_name))
+      right: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Bounding_FL_Property
-      left: (simple_name)
-      right: (simple_name)))
+      left: (PSL_Boolean
+        (simple_name))
+      right: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Bounding_FL_Property
-      left: (simple_name)
-      right: (simple_name)))
+      left: (PSL_Boolean
+        (simple_name))
+      right: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Bounding_FL_Property
-      left: (simple_name)
-      right: (simple_name)))
+      left: (PSL_Boolean
+        (simple_name))
+      right: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Bounding_FL_Property
-      left: (simple_name)
-      right: (simple_name)))
+      left: (PSL_Boolean
+        (simple_name))
+      right: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Bounding_FL_Property
-      left: (simple_name)
-      right: (simple_name)))
+      left: (PSL_Boolean
+        (simple_name))
+      right: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Bounding_FL_Property
-      left: (simple_name)
-      right: (simple_name)))
+      left: (PSL_Boolean
+        (simple_name))
+      right: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Bounding_FL_Property
-      left: (simple_name)
-      right: (simple_name))))
+      left: (PSL_Boolean
+        (simple_name))
+      right: (PSL_Boolean
+        (simple_name)))))
 
 ===============================
 Extended ocurrence property I
@@ -335,12 +384,13 @@ assert next! (p);
 (design_file
   (PSL_Assert_Directive
     (PSL_Built_In_Function_Call
-      (expression
+      (PSL_Any_Type
         (simple_name))))
   (PSL_Assert_Directive
     (PSL_Ocurrence_FL_Property
-      argument: (parenthesized_expression
-        (simple_name)))))
+      argument: (PSL_Boolean
+        (parenthesized_expression
+          (simple_name))))))
 
 ===============================
 Extended ocurrence property II
@@ -353,17 +403,19 @@ assert next! [2] (p);
   (PSL_Assert_Directive
     (PSL_Extended_Ocurrence_FL_Property
       (PSL_Count
-        (simple_expression
+        (PSL_Number
           (integer_decimal
             (integer))))
-      Property: (simple_name)))
+      Property: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Extended_Ocurrence_FL_Property
       (PSL_Count
-        (simple_expression
+        (PSL_Number
           (integer_decimal
             (integer))))
-      Property: (simple_name))))
+      Property: (PSL_Boolean
+        (simple_name)))))
 
 ===============================
 Extended ocurrence (all) property I
@@ -383,7 +435,8 @@ assert next_a! [0 to 1] (p);
           high: (simple_expression
             (integer_decimal
               (integer)))))
-      Property: (simple_name)))
+      Property: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Extended_Ocurrence_FL_Property
       (PSL_Count
@@ -394,7 +447,8 @@ assert next_a! [0 to 1] (p);
           high: (simple_expression
             (integer_decimal
               (integer)))))
-      Property: (simple_name))))
+      Property: (PSL_Boolean
+        (simple_name)))))
 
 ===============================
 Extended ocurrence event property I
@@ -406,12 +460,16 @@ assert next_event! (b) (p);
 (design_file
   (PSL_Assert_Directive
     (PSL_Extended_Ocurrence_FL_Property
-      Boolean: (simple_name)
-      Property: (simple_name)))
+      Boolean: (PSL_Boolean
+        (simple_name))
+      Property: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Extended_Ocurrence_FL_Property
-      Boolean: (simple_name)
-      Property: (simple_name))))
+      Boolean: (PSL_Boolean
+        (simple_name))
+      Property: (PSL_Boolean
+        (simple_name)))))
 
 ===============================
 Extended ocurrence event property II
@@ -423,20 +481,24 @@ assert next_event! (b) [1] (p);
 (design_file
   (PSL_Assert_Directive
     (PSL_Extended_Ocurrence_FL_Property
-      Boolean: (simple_name)
+      Boolean: (PSL_Boolean
+        (simple_name))
       (PSL_Count
-        (simple_expression
+        (PSL_Number
           (integer_decimal
             (integer))))
-      Property: (simple_name)))
+      Property: (PSL_Boolean
+        (simple_name))))
   (PSL_Assert_Directive
     (PSL_Extended_Ocurrence_FL_Property
-      Boolean: (simple_name)
+      Boolean: (PSL_Boolean
+        (simple_name))
       (PSL_Count
-        (simple_expression
+        (PSL_Number
           (integer_decimal
             (integer))))
-      Property: (simple_name))))
+      Property: (PSL_Boolean
+        (simple_name)))))
 
 ==================================
 Sequence Instantiation I (Ambiguos)
@@ -461,7 +523,8 @@ assert p(a);
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (simple_name))))))
+          (expression
+            (simple_name)))))))
 
 ==================================
 Property Instantiation III
@@ -476,12 +539,16 @@ assert p (a -> b, a -> b);
       (PSL_Actual_Parameter_List
         (PSL_Actual_Parameter
           (PSL_Expression
-            left: (simple_name)
-            right: (simple_name)))
+            left: (PSL_Boolean
+              (simple_name))
+            right: (PSL_Boolean
+              (simple_name))))
         (PSL_Actual_Parameter
           (PSL_Expression
-            left: (simple_name)
-            right: (simple_name)))))))
+            left: (PSL_Boolean
+              (simple_name))
+            right: (PSL_Boolean
+              (simple_name))))))))
 
 ==================================
 Property Instantiation IV
@@ -496,7 +563,8 @@ assert ResultAfterN (eventually! ack);
       (PSL_Actual_Parameter_List
         (PSL_Actual_Parameter
           (PSL_Ocurrence_FL_Property
-            argument: (simple_name)))))))
+            argument: (PSL_Boolean
+              (simple_name))))))))
 
 ==================================
 Clocked property
@@ -509,13 +577,16 @@ assert (c and next! (a until! b)@clk1)@clk2 ;
     (PSL_Clocked_FL_Property
       left: (PSL_Parenthesized_FL_Property
         (PSL_Logical_FL_Property
-          left: (simple_name)
+          left: (PSL_Boolean
+            (simple_name))
           right: (PSL_Ocurrence_FL_Property
             argument: (PSL_Clocked_FL_Property
               left: (PSL_Parenthesized_FL_Property
                 (PSL_Bounding_FL_Property
-                  left: (simple_name)
-                  right: (simple_name)))
+                  left: (PSL_Boolean
+                    (simple_name))
+                  right: (PSL_Boolean
+                    (simple_name))))
               right: (conditional_expression
                 (simple_name))))))
       right: (conditional_expression

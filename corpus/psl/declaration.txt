@@ -11,7 +11,9 @@ sequence s (const c) is {c};
       (PSL_Formal_Parameter
         (PSL_Constant_Parameter_Specification)
         (PSL_Identifier)))
-    (PSL_Braced_SERE (simple_name))))
+    (PSL_Braced_SERE
+      (PSL_Boolean
+        (simple_name)))))
 
 ====================================
 Constant Parameter Specification II
@@ -27,7 +29,9 @@ sequence s (boolean b) is {b};
         (PSL_Constant_Parameter_Specification
           (PSL_Type_Class))
         (PSL_Identifier)))
-    (PSL_Braced_SERE (simple_name))))
+    (PSL_Braced_SERE
+      (PSL_Boolean
+        (simple_name)))))
 
 ====================================
 Constant Parameter Specification III
@@ -43,7 +47,9 @@ sequence s (const boolean b) is {b};
         (PSL_Constant_Parameter_Specification
           (PSL_Type_Class))
         (PSL_Identifier)))
-    (PSL_Braced_SERE (simple_name))))
+    (PSL_Braced_SERE
+      (PSL_Boolean
+        (simple_name)))))
 
 ====================================
 Constant Parameter Specification IV
@@ -59,9 +65,12 @@ sequence s (hdltype t o) is {o};
         (PSL_Constant_Parameter_Specification
           (PSL_HDL_Type
             (subtype_indication
-              (type_mark (simple_name)))))
+              (type_mark
+                (simple_name)))))
         (PSL_Identifier)))
-    (PSL_Braced_SERE (simple_name))))
+    (PSL_Braced_SERE
+      (PSL_Boolean
+        (simple_name)))))
 
 ====================================
 Constant Parameter Specification V
@@ -77,9 +86,12 @@ sequence s (const hdltype t o) is {o};
         (PSL_Constant_Parameter_Specification
           (PSL_HDL_Type
             (subtype_indication
-              (type_mark (simple_name)))))
+              (type_mark
+                (simple_name)))))
         (PSL_Identifier)))
-    (PSL_Braced_SERE (simple_name))))
+    (PSL_Braced_SERE
+      (PSL_Boolean
+        (simple_name)))))
 
 ====================================
 Temporal Parameter Specification I
@@ -120,6 +132,9 @@ property s1 (property p; sequence s; const k) is p(s,k);
       (PSL_Identifier)
       (PSL_Actual_Parameter_List
         (PSL_Actual_Parameter
-          (expression (simple_name)))
+          (PSL_Any_Type
+            (simple_name)))
         (PSL_Actual_Parameter
-          (expression (simple_name)))))))
+          (PSL_Any_Type
+            (simple_name)))))))
+

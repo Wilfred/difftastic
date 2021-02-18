@@ -1667,7 +1667,7 @@ module.exports = grammar({
         ),
 
         instantiation_list: $ => choice(
-            sepBy1(',', field('label', $._simple_name)),
+            sepBy1(',', $._simple_name),
             $.others,
             $.all
         ),
@@ -1804,7 +1804,7 @@ module.exports = grammar({
             ')'
         ),
 
-        expression_list: $ => sepBy1(',', field('expression', $._expr)),
+        expression_list: $ => sepBy1(',', $._expression),
         // }}}
         // 8.5 Slice name {{{
         slice_name: $ => seq(
@@ -2184,7 +2184,7 @@ module.exports = grammar({
             token('\''),
             choice(
                 $.aggregate,
-                $.parenthesized_expression
+                alias($.parenthesized_expression,$.expression),
             ),
         ),
         // }}}
@@ -3186,14 +3186,14 @@ module.exports = grammar({
         ),
 
         _PSL_Any_Type: $ => choice(
-            $._expression,
+            alias($._expr, $.PSL_Any_Type),
             $.PSL_Expression,
             $.PSL_Built_In_Function_Call,
             $.PSL_Union_Expression,
         ),
 
         _PSL_Boolean: $ => choice(
-            $._expr,
+            alias($._expr, $.PSL_Boolean),
             $.PSL_Expression,
             $.PSL_Built_In_Function_Call
         ),
@@ -3205,7 +3205,7 @@ module.exports = grammar({
         ),
 
         _PSL_Number: $ => choice(
-            $._simple_expression,
+            alias($._expr, $.PSL_Number),
             $.PSL_Built_In_Function_Call
         ),
 

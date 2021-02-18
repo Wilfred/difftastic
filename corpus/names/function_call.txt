@@ -10,7 +10,8 @@ assert fun (obj);
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (simple_name))))))
+          (expression
+            (simple_name)))))))
 
 ===================================
 Ambiguous name II
@@ -24,8 +25,10 @@ assert fun (bar, baz);
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (simple_name)
-          expression: (simple_name))))))
+          (expression
+            (simple_name))
+          (expression
+            (simple_name)))))))
 
 ===================================
 Predefine enumeration literal on actual I
@@ -178,11 +181,12 @@ assert fun (fun (open));
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (function_call
-            function: (simple_name)
-            (association_list
-              (positional_association_element
-                actual_part: (open)))))))))
+          (expression
+            (function_call
+              function: (simple_name)
+              (association_list
+                (positional_association_element
+                  actual_part: (open))))))))))
 
 ===================================
 Prefix - Operator symbol
@@ -237,6 +241,7 @@ assert fun (t(param) => obj);
             formal_part: (ambiguous_name
               prefix: (simple_name)
               (expression_list
-                expression: (simple_name)))
+                (expression
+                  (simple_name))))
             actual_part: (expression
               (simple_name))))))))

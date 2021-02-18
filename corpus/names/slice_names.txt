@@ -10,7 +10,8 @@ assert arr (st);
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (simple_name))))))
+          (expression
+            (simple_name)))))))
 
 ============================
 Descending range
@@ -82,7 +83,8 @@ assert amb (amb)(h downto l);
         prefix: (ambiguous_name
           prefix: (simple_name)
           (expression_list
-            expression: (simple_name)))
+            (expression
+              (simple_name))))
         (descending_range
           high: (simple_expression
             (simple_name))
@@ -103,7 +105,8 @@ assert MAC_CONFIG(i).TypeSwitch(0 to SWITCH_COUNT - 1);
           prefix: (ambiguous_name
             prefix: (simple_name)
             (expression_list
-              expression: (simple_name)))
+              (expression
+                (simple_name))))
           suffix: (simple_name))
         (ascending_range
           low: (simple_expression

@@ -8,9 +8,10 @@ restrict {a[*2]};
   (PSL_Restrict_Directive
     (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        (simple_name)
+        (PSL_Boolean
+          (simple_name))
         (PSL_Count
-          (simple_expression
+          (PSL_Number
             (integer_decimal
               (integer))))))))
 
@@ -24,7 +25,8 @@ restrict {a[+]};
   (PSL_Restrict_Directive
     (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        (simple_name)
+        (PSL_Boolean
+          (simple_name))
         (PSL_Count)))))
 
 ==================================
@@ -37,7 +39,8 @@ restrict {a[*]};
   (PSL_Restrict_Directive
     (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        (simple_name)
+        (PSL_Boolean
+          (simple_name))
         (PSL_Count)))))
 
 ==================================
@@ -62,9 +65,10 @@ restrict {a[=2]};
   (PSL_Restrict_Directive
     (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        (simple_name)
+        (PSL_Boolean
+          (simple_name))
         (PSL_Count
-          (simple_expression
+          (PSL_Number
             (integer_decimal
               (integer))))))))
 
@@ -78,7 +82,8 @@ restrict {a[*1 to 3]};
   (PSL_Restrict_Directive
     (PSL_Braced_SERE
       (PSL_Repeated_SERE
-        (simple_name)
+        (PSL_Boolean
+          (simple_name))
         (PSL_Count
           (ascending_range
             low: (simple_expression
@@ -111,13 +116,13 @@ restrict BusArb(breq, back, 3);
       (PSL_Identifier)
       (PSL_Actual_Parameter_List
         (PSL_Actual_Parameter
-          (expression
+          (PSL_Any_Type
             (simple_name)))
         (PSL_Actual_Parameter
-          (expression
+          (PSL_Any_Type
             (simple_name)))
         (PSL_Actual_Parameter
-          (expression
+          (PSL_Any_Type
             (integer_decimal
               (integer))))))))
 
@@ -133,20 +138,23 @@ restrict ReadCycle(BusArb(breq, back, 5), breq, ardy, drdy);
       (PSL_Identifier)
       (PSL_Actual_Parameter_List
         (PSL_Actual_Parameter
-          (expression
+          (PSL_Any_Type
             (ambiguous_name
               prefix: (simple_name)
               (expression_list
-                expression: (simple_name)
-                expression: (simple_name)
-                expression: (integer_decimal
-                  (integer))))))
+                (expression
+                  (simple_name))
+                (expression
+                  (simple_name))
+                (expression
+                  (integer_decimal
+                    (integer)))))))
         (PSL_Actual_Parameter
-          (expression
+          (PSL_Any_Type
             (simple_name)))
         (PSL_Actual_Parameter
-          (expression
+          (PSL_Any_Type
             (simple_name)))
         (PSL_Actual_Parameter
-          (expression
+          (PSL_Any_Type
             (simple_name)))))))

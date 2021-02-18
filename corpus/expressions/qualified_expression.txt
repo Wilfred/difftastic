@@ -10,7 +10,7 @@ assert foo'(a);
       (qualified_expression
         (type_mark
           (simple_name))
-        (parenthesized_expression
+        (expression
           (simple_name))))))
 
 ==========================================================

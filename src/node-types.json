@@ -8,6 +8,14 @@
       "required": true,
       "types": [
         {
+          "type": "PSL_Any_Type",
+          "named": true
+        },
+        {
+          "type": "PSL_Boolean",
+          "named": true
+        },
+        {
           "type": "PSL_Bounding_FL_Property",
           "named": true
         },
@@ -94,146 +102,6 @@
         {
           "type": "PSL_Union_Expression",
           "named": true
-        },
-        {
-          "type": "aggregate",
-          "named": true
-        },
-        {
-          "type": "allocator",
-          "named": true
-        },
-        {
-          "type": "ambiguous_name",
-          "named": true
-        },
-        {
-          "type": "attribute_name",
-          "named": true
-        },
-        {
-          "type": "based_integer",
-          "named": true
-        },
-        {
-          "type": "based_real",
-          "named": true
-        },
-        {
-          "type": "bit_string_literal",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "condition",
-          "named": true
-        },
-        {
-          "type": "exponentiation",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "external_constant_name",
-          "named": true
-        },
-        {
-          "type": "external_signal_name",
-          "named": true
-        },
-        {
-          "type": "external_variable_name",
-          "named": true
-        },
-        {
-          "type": "factor",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "integer_decimal",
-          "named": true
-        },
-        {
-          "type": "logical_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "physical_literal",
-          "named": true
-        },
-        {
-          "type": "qualified_expression",
-          "named": true
-        },
-        {
-          "type": "real_decimal",
-          "named": true
-        },
-        {
-          "type": "reduction",
-          "named": true
-        },
-        {
-          "type": "relation",
-          "named": true
-        },
-        {
-          "type": "selected_name",
-          "named": true
-        },
-        {
-          "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "sign",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        },
-        {
-          "type": "slice_name",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "term",
-          "named": true
         }
       ]
     }
@@ -254,81 +122,13 @@
     }
   },
   {
-    "type": "PSL_Assert_Directive",
+    "type": "PSL_Any_Type",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "PSL_Bounding_FL_Property",
-          "named": true
-        },
-        {
-          "type": "PSL_Built_In_Function_Call",
-          "named": true
-        },
-        {
-          "type": "PSL_Clocked_FL_Property",
-          "named": true
-        },
-        {
-          "type": "PSL_Expression",
-          "named": true
-        },
-        {
-          "type": "PSL_Extended_Ocurrence_FL_Property",
-          "named": true
-        },
-        {
-          "type": "PSL_Factor_FL_Property",
-          "named": true
-        },
-        {
-          "type": "PSL_Implication_FL_Property",
-          "named": true
-        },
-        {
-          "type": "PSL_Invariant_FL_Property",
-          "named": true
-        },
-        {
-          "type": "PSL_Logical_FL_Property",
-          "named": true
-        },
-        {
-          "type": "PSL_Ocurrence_FL_Property",
-          "named": true
-        },
-        {
-          "type": "PSL_Parameterized_Property",
-          "named": true
-        },
-        {
-          "type": "PSL_Parenthesized_FL_Property",
-          "named": true
-        },
-        {
-          "type": "PSL_Property_Instance",
-          "named": true
-        },
-        {
-          "type": "PSL_Property_Replicator",
-          "named": true
-        },
-        {
-          "type": "PSL_Sequential_FL_Property",
-          "named": true
-        },
-        {
-          "type": "PSL_Suffix_Implication_FL_Property",
-          "named": true
-        },
-        {
-          "type": "PSL_Termination_FL_Property",
-          "named": true
-        },
         {
           "type": "aggregate",
           "named": true
@@ -402,10 +202,6 @@
           "named": true
         },
         {
-          "type": "label",
-          "named": true
-        },
-        {
           "type": "logical_expression",
           "named": true
         },
@@ -462,15 +258,102 @@
           "named": true
         },
         {
-          "type": "string_expression",
-          "named": true
-        },
-        {
           "type": "string_literal",
           "named": true
         },
         {
           "type": "term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PSL_Assert_Directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "PSL_Boolean",
+          "named": true
+        },
+        {
+          "type": "PSL_Bounding_FL_Property",
+          "named": true
+        },
+        {
+          "type": "PSL_Built_In_Function_Call",
+          "named": true
+        },
+        {
+          "type": "PSL_Clocked_FL_Property",
+          "named": true
+        },
+        {
+          "type": "PSL_Expression",
+          "named": true
+        },
+        {
+          "type": "PSL_Extended_Ocurrence_FL_Property",
+          "named": true
+        },
+        {
+          "type": "PSL_Factor_FL_Property",
+          "named": true
+        },
+        {
+          "type": "PSL_Implication_FL_Property",
+          "named": true
+        },
+        {
+          "type": "PSL_Invariant_FL_Property",
+          "named": true
+        },
+        {
+          "type": "PSL_Logical_FL_Property",
+          "named": true
+        },
+        {
+          "type": "PSL_Ocurrence_FL_Property",
+          "named": true
+        },
+        {
+          "type": "PSL_Parameterized_Property",
+          "named": true
+        },
+        {
+          "type": "PSL_Parenthesized_FL_Property",
+          "named": true
+        },
+        {
+          "type": "PSL_Property_Instance",
+          "named": true
+        },
+        {
+          "type": "PSL_Property_Replicator",
+          "named": true
+        },
+        {
+          "type": "PSL_Sequential_FL_Property",
+          "named": true
+        },
+        {
+          "type": "PSL_Suffix_Implication_FL_Property",
+          "named": true
+        },
+        {
+          "type": "PSL_Termination_FL_Property",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "string_expression",
           "named": true
         }
       ]
@@ -485,6 +368,10 @@
       "required": true,
       "types": [
         {
+          "type": "PSL_Boolean",
+          "named": true
+        },
+        {
           "type": "PSL_Bounding_FL_Property",
           "named": true
         },
@@ -553,143 +440,7 @@
           "named": true
         },
         {
-          "type": "aggregate",
-          "named": true
-        },
-        {
-          "type": "allocator",
-          "named": true
-        },
-        {
-          "type": "ambiguous_name",
-          "named": true
-        },
-        {
-          "type": "attribute_name",
-          "named": true
-        },
-        {
-          "type": "based_integer",
-          "named": true
-        },
-        {
-          "type": "based_real",
-          "named": true
-        },
-        {
-          "type": "bit_string_literal",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "condition",
-          "named": true
-        },
-        {
-          "type": "exponentiation",
-          "named": true
-        },
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "external_constant_name",
-          "named": true
-        },
-        {
-          "type": "external_signal_name",
-          "named": true
-        },
-        {
-          "type": "external_variable_name",
-          "named": true
-        },
-        {
-          "type": "factor",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "integer_decimal",
-          "named": true
-        },
-        {
           "type": "label",
-          "named": true
-        },
-        {
-          "type": "logical_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "physical_literal",
-          "named": true
-        },
-        {
-          "type": "qualified_expression",
-          "named": true
-        },
-        {
-          "type": "real_decimal",
-          "named": true
-        },
-        {
-          "type": "reduction",
-          "named": true
-        },
-        {
-          "type": "relation",
-          "named": true
-        },
-        {
-          "type": "selected_name",
-          "named": true
-        },
-        {
-          "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "sign",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        },
-        {
-          "type": "slice_name",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "term",
           "named": true
         }
       ]
@@ -704,6 +455,10 @@
       "required": true,
       "types": [
         {
+          "type": "PSL_Boolean",
+          "named": true
+        },
+        {
           "type": "PSL_Bounding_FL_Property",
           "named": true
         },
@@ -771,6 +526,25 @@
           "type": "PSL_Termination_FL_Property",
           "named": true
         },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "string_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PSL_Boolean",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
           "type": "aggregate",
           "named": true
@@ -844,10 +618,6 @@
           "named": true
         },
         {
-          "type": "label",
-          "named": true
-        },
-        {
           "type": "logical_expression",
           "named": true
         },
@@ -901,10 +671,6 @@
         },
         {
           "type": "slice_name",
-          "named": true
-        },
-        {
-          "type": "string_expression",
           "named": true
         },
         {
@@ -926,6 +692,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "PSL_Boolean",
+            "named": true
+          },
           {
             "type": "PSL_Bounding_FL_Property",
             "named": true
@@ -988,142 +758,6 @@
           },
           {
             "type": "PSL_Termination_FL_Property",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -1155,6 +789,10 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Bounding_FL_Property",
             "named": true
           },
@@ -1217,142 +855,6 @@
           {
             "type": "PSL_Termination_FL_Property",
             "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
-            "named": true
           }
         ]
       }
@@ -1366,6 +868,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "PSL_Boolean",
+          "named": true
+        },
         {
           "type": "PSL_Braced_SERE",
           "named": true
@@ -1401,142 +907,6 @@
         {
           "type": "PSL_Simple_SERE",
           "named": true
-        },
-        {
-          "type": "aggregate",
-          "named": true
-        },
-        {
-          "type": "allocator",
-          "named": true
-        },
-        {
-          "type": "ambiguous_name",
-          "named": true
-        },
-        {
-          "type": "attribute_name",
-          "named": true
-        },
-        {
-          "type": "based_integer",
-          "named": true
-        },
-        {
-          "type": "based_real",
-          "named": true
-        },
-        {
-          "type": "bit_string_literal",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "condition",
-          "named": true
-        },
-        {
-          "type": "exponentiation",
-          "named": true
-        },
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "external_constant_name",
-          "named": true
-        },
-        {
-          "type": "external_signal_name",
-          "named": true
-        },
-        {
-          "type": "external_variable_name",
-          "named": true
-        },
-        {
-          "type": "factor",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "integer_decimal",
-          "named": true
-        },
-        {
-          "type": "logical_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "physical_literal",
-          "named": true
-        },
-        {
-          "type": "qualified_expression",
-          "named": true
-        },
-        {
-          "type": "real_decimal",
-          "named": true
-        },
-        {
-          "type": "reduction",
-          "named": true
-        },
-        {
-          "type": "relation",
-          "named": true
-        },
-        {
-          "type": "selected_name",
-          "named": true
-        },
-        {
-          "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "sign",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        },
-        {
-          "type": "slice_name",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "term",
-          "named": true
         }
       ]
     }
@@ -1549,6 +919,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "PSL_Any_Type",
+          "named": true
+        },
         {
           "type": "PSL_Braced_SERE",
           "named": true
@@ -1579,10 +953,6 @@
         },
         {
           "type": "PSL_Value_Set",
-          "named": true
-        },
-        {
-          "type": "expression",
           "named": true
         }
       ]
@@ -1615,6 +985,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "PSL_Boolean",
+            "named": true
+          },
           {
             "type": "PSL_Bounding_FL_Property",
             "named": true
@@ -1677,142 +1051,6 @@
           },
           {
             "type": "PSL_Termination_FL_Property",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -1852,6 +1090,10 @@
       "required": true,
       "types": [
         {
+          "type": "PSL_Boolean",
+          "named": true
+        },
+        {
           "type": "PSL_Braced_SERE",
           "named": true
         },
@@ -1888,143 +1130,7 @@
           "named": true
         },
         {
-          "type": "aggregate",
-          "named": true
-        },
-        {
-          "type": "allocator",
-          "named": true
-        },
-        {
-          "type": "ambiguous_name",
-          "named": true
-        },
-        {
-          "type": "attribute_name",
-          "named": true
-        },
-        {
-          "type": "based_integer",
-          "named": true
-        },
-        {
-          "type": "based_real",
-          "named": true
-        },
-        {
-          "type": "bit_string_literal",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "condition",
-          "named": true
-        },
-        {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "exponentiation",
-          "named": true
-        },
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "external_constant_name",
-          "named": true
-        },
-        {
-          "type": "external_signal_name",
-          "named": true
-        },
-        {
-          "type": "external_variable_name",
-          "named": true
-        },
-        {
-          "type": "factor",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "integer_decimal",
-          "named": true
-        },
-        {
-          "type": "logical_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "physical_literal",
-          "named": true
-        },
-        {
-          "type": "qualified_expression",
-          "named": true
-        },
-        {
-          "type": "real_decimal",
-          "named": true
-        },
-        {
-          "type": "reduction",
-          "named": true
-        },
-        {
-          "type": "relation",
-          "named": true
-        },
-        {
-          "type": "selected_name",
-          "named": true
-        },
-        {
-          "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "sign",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        },
-        {
-          "type": "slice_name",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "term",
           "named": true
         }
       ]
@@ -2165,6 +1271,10 @@
           "named": true
         },
         {
+          "type": "PSL_Number",
+          "named": true
+        },
+        {
           "type": "ascending_range",
           "named": true
         },
@@ -2174,10 +1284,6 @@
         },
         {
           "type": "descending_range",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
           "named": true
         }
       ]
@@ -2227,147 +1333,15 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Built_In_Function_Call",
             "named": true
           },
           {
             "type": "PSL_Expression",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -2391,147 +1365,15 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Built_In_Function_Call",
             "named": true
           },
           {
             "type": "PSL_Expression",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -2547,147 +1389,15 @@
         "required": false,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Built_In_Function_Call",
             "named": true
           },
           {
             "type": "PSL_Expression",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -2696,6 +1406,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "PSL_Boolean",
+            "named": true
+          },
           {
             "type": "PSL_Bounding_FL_Property",
             "named": true
@@ -2758,142 +1472,6 @@
           },
           {
             "type": "PSL_Termination_FL_Property",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -2957,6 +1535,10 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Bounding_FL_Property",
             "named": true
           },
@@ -3019,142 +1601,6 @@
           {
             "type": "PSL_Termination_FL_Property",
             "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
-            "named": true
           }
         ]
       },
@@ -3179,6 +1625,10 @@
       "required": true,
       "types": [
         {
+          "type": "PSL_Boolean",
+          "named": true
+        },
+        {
           "type": "PSL_Built_In_Function_Call",
           "named": true
         },
@@ -3187,143 +1637,7 @@
           "named": true
         },
         {
-          "type": "aggregate",
-          "named": true
-        },
-        {
-          "type": "allocator",
-          "named": true
-        },
-        {
-          "type": "ambiguous_name",
-          "named": true
-        },
-        {
-          "type": "attribute_name",
-          "named": true
-        },
-        {
-          "type": "based_integer",
-          "named": true
-        },
-        {
-          "type": "based_real",
-          "named": true
-        },
-        {
-          "type": "bit_string_literal",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "condition",
-          "named": true
-        },
-        {
-          "type": "exponentiation",
-          "named": true
-        },
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "external_constant_name",
-          "named": true
-        },
-        {
-          "type": "external_signal_name",
-          "named": true
-        },
-        {
-          "type": "external_variable_name",
-          "named": true
-        },
-        {
-          "type": "factor",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "integer_decimal",
-          "named": true
-        },
-        {
           "type": "label",
-          "named": true
-        },
-        {
-          "type": "logical_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "physical_literal",
-          "named": true
-        },
-        {
-          "type": "qualified_expression",
-          "named": true
-        },
-        {
-          "type": "real_decimal",
-          "named": true
-        },
-        {
-          "type": "reduction",
-          "named": true
-        },
-        {
-          "type": "relation",
-          "named": true
-        },
-        {
-          "type": "selected_name",
-          "named": true
-        },
-        {
-          "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "sign",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        },
-        {
-          "type": "slice_name",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "term",
           "named": true
         }
       ]
@@ -3443,6 +1757,10 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Bounding_FL_Property",
             "named": true
           },
@@ -3504,142 +1822,6 @@
           },
           {
             "type": "PSL_Termination_FL_Property",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -3663,6 +1845,10 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Bounding_FL_Property",
             "named": true
           },
@@ -3724,142 +1910,6 @@
           },
           {
             "type": "PSL_Termination_FL_Property",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -3949,6 +1999,10 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Bounding_FL_Property",
             "named": true
           },
@@ -4010,142 +2064,6 @@
           },
           {
             "type": "PSL_Termination_FL_Property",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -4175,6 +2093,10 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Bounding_FL_Property",
             "named": true
           },
@@ -4236,142 +2158,6 @@
           },
           {
             "type": "PSL_Termination_FL_Property",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -4395,6 +2181,10 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Bounding_FL_Property",
             "named": true
           },
@@ -4457,145 +2247,156 @@
           {
             "type": "PSL_Termination_FL_Property",
             "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
-            "named": true
           }
         ]
       }
+    }
+  },
+  {
+    "type": "PSL_Number",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "aggregate",
+          "named": true
+        },
+        {
+          "type": "allocator",
+          "named": true
+        },
+        {
+          "type": "ambiguous_name",
+          "named": true
+        },
+        {
+          "type": "attribute_name",
+          "named": true
+        },
+        {
+          "type": "based_integer",
+          "named": true
+        },
+        {
+          "type": "based_real",
+          "named": true
+        },
+        {
+          "type": "bit_string_literal",
+          "named": true
+        },
+        {
+          "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "condition",
+          "named": true
+        },
+        {
+          "type": "exponentiation",
+          "named": true
+        },
+        {
+          "type": "extended_simple_name",
+          "named": true
+        },
+        {
+          "type": "external_constant_name",
+          "named": true
+        },
+        {
+          "type": "external_signal_name",
+          "named": true
+        },
+        {
+          "type": "external_variable_name",
+          "named": true
+        },
+        {
+          "type": "factor",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "integer_decimal",
+          "named": true
+        },
+        {
+          "type": "logical_expression",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "physical_literal",
+          "named": true
+        },
+        {
+          "type": "qualified_expression",
+          "named": true
+        },
+        {
+          "type": "real_decimal",
+          "named": true
+        },
+        {
+          "type": "reduction",
+          "named": true
+        },
+        {
+          "type": "relation",
+          "named": true
+        },
+        {
+          "type": "selected_name",
+          "named": true
+        },
+        {
+          "type": "shift_expression",
+          "named": true
+        },
+        {
+          "type": "sign",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
+          "named": true
+        },
+        {
+          "type": "simple_name",
+          "named": true
+        },
+        {
+          "type": "slice_name",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "term",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -4607,6 +2408,10 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Bounding_FL_Property",
             "named": true
           },
@@ -4668,142 +2473,6 @@
           },
           {
             "type": "PSL_Termination_FL_Property",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -4875,6 +2544,10 @@
       "required": true,
       "types": [
         {
+          "type": "PSL_Boolean",
+          "named": true
+        },
+        {
           "type": "PSL_Bounding_FL_Property",
           "named": true
         },
@@ -4941,142 +2614,6 @@
         {
           "type": "PSL_Termination_FL_Property",
           "named": true
-        },
-        {
-          "type": "aggregate",
-          "named": true
-        },
-        {
-          "type": "allocator",
-          "named": true
-        },
-        {
-          "type": "ambiguous_name",
-          "named": true
-        },
-        {
-          "type": "attribute_name",
-          "named": true
-        },
-        {
-          "type": "based_integer",
-          "named": true
-        },
-        {
-          "type": "based_real",
-          "named": true
-        },
-        {
-          "type": "bit_string_literal",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "condition",
-          "named": true
-        },
-        {
-          "type": "exponentiation",
-          "named": true
-        },
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "external_constant_name",
-          "named": true
-        },
-        {
-          "type": "external_signal_name",
-          "named": true
-        },
-        {
-          "type": "external_variable_name",
-          "named": true
-        },
-        {
-          "type": "factor",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "integer_decimal",
-          "named": true
-        },
-        {
-          "type": "logical_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "physical_literal",
-          "named": true
-        },
-        {
-          "type": "qualified_expression",
-          "named": true
-        },
-        {
-          "type": "real_decimal",
-          "named": true
-        },
-        {
-          "type": "reduction",
-          "named": true
-        },
-        {
-          "type": "relation",
-          "named": true
-        },
-        {
-          "type": "selected_name",
-          "named": true
-        },
-        {
-          "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "sign",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        },
-        {
-          "type": "slice_name",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "term",
-          "named": true
         }
       ]
     }
@@ -5089,6 +2626,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "PSL_Boolean",
+            "named": true
+          },
           {
             "type": "PSL_Braced_SERE",
             "named": true
@@ -5123,142 +2664,6 @@
           },
           {
             "type": "PSL_Simple_SERE",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -5317,6 +2722,10 @@
       "required": true,
       "types": [
         {
+          "type": "PSL_Boolean",
+          "named": true
+        },
+        {
           "type": "PSL_Bounding_FL_Property",
           "named": true
         },
@@ -5379,142 +2788,6 @@
         {
           "type": "PSL_Termination_FL_Property",
           "named": true
-        },
-        {
-          "type": "aggregate",
-          "named": true
-        },
-        {
-          "type": "allocator",
-          "named": true
-        },
-        {
-          "type": "ambiguous_name",
-          "named": true
-        },
-        {
-          "type": "attribute_name",
-          "named": true
-        },
-        {
-          "type": "based_integer",
-          "named": true
-        },
-        {
-          "type": "based_real",
-          "named": true
-        },
-        {
-          "type": "bit_string_literal",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "condition",
-          "named": true
-        },
-        {
-          "type": "exponentiation",
-          "named": true
-        },
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "external_constant_name",
-          "named": true
-        },
-        {
-          "type": "external_signal_name",
-          "named": true
-        },
-        {
-          "type": "external_variable_name",
-          "named": true
-        },
-        {
-          "type": "factor",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "integer_decimal",
-          "named": true
-        },
-        {
-          "type": "logical_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "physical_literal",
-          "named": true
-        },
-        {
-          "type": "qualified_expression",
-          "named": true
-        },
-        {
-          "type": "real_decimal",
-          "named": true
-        },
-        {
-          "type": "reduction",
-          "named": true
-        },
-        {
-          "type": "relation",
-          "named": true
-        },
-        {
-          "type": "selected_name",
-          "named": true
-        },
-        {
-          "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "sign",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        },
-        {
-          "type": "slice_name",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "term",
-          "named": true
         }
       ]
     }
@@ -5527,6 +2800,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "PSL_Boolean",
+          "named": true
+        },
         {
           "type": "PSL_Bounding_FL_Property",
           "named": true
@@ -5602,142 +2879,6 @@
         {
           "type": "PSL_Termination_FL_Property",
           "named": true
-        },
-        {
-          "type": "aggregate",
-          "named": true
-        },
-        {
-          "type": "allocator",
-          "named": true
-        },
-        {
-          "type": "ambiguous_name",
-          "named": true
-        },
-        {
-          "type": "attribute_name",
-          "named": true
-        },
-        {
-          "type": "based_integer",
-          "named": true
-        },
-        {
-          "type": "based_real",
-          "named": true
-        },
-        {
-          "type": "bit_string_literal",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "condition",
-          "named": true
-        },
-        {
-          "type": "exponentiation",
-          "named": true
-        },
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "external_constant_name",
-          "named": true
-        },
-        {
-          "type": "external_signal_name",
-          "named": true
-        },
-        {
-          "type": "external_variable_name",
-          "named": true
-        },
-        {
-          "type": "factor",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "integer_decimal",
-          "named": true
-        },
-        {
-          "type": "logical_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "physical_literal",
-          "named": true
-        },
-        {
-          "type": "qualified_expression",
-          "named": true
-        },
-        {
-          "type": "real_decimal",
-          "named": true
-        },
-        {
-          "type": "reduction",
-          "named": true
-        },
-        {
-          "type": "relation",
-          "named": true
-        },
-        {
-          "type": "selected_name",
-          "named": true
-        },
-        {
-          "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "sign",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        },
-        {
-          "type": "slice_name",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "term",
-          "named": true
         }
       ]
     }
@@ -5769,6 +2910,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "PSL_Boolean",
+            "named": true
+          },
           {
             "type": "PSL_Bounding_FL_Property",
             "named": true
@@ -5836,142 +2981,6 @@
           {
             "type": "PSL_Termination_FL_Property",
             "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
-            "named": true
           }
         ]
       }
@@ -5995,6 +3004,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "PSL_Boolean",
+          "named": true
+        },
         {
           "type": "PSL_Braced_SERE",
           "named": true
@@ -6021,142 +3034,6 @@
         },
         {
           "type": "PSL_Sequence_Instance",
-          "named": true
-        },
-        {
-          "type": "aggregate",
-          "named": true
-        },
-        {
-          "type": "allocator",
-          "named": true
-        },
-        {
-          "type": "ambiguous_name",
-          "named": true
-        },
-        {
-          "type": "attribute_name",
-          "named": true
-        },
-        {
-          "type": "based_integer",
-          "named": true
-        },
-        {
-          "type": "based_real",
-          "named": true
-        },
-        {
-          "type": "bit_string_literal",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "condition",
-          "named": true
-        },
-        {
-          "type": "exponentiation",
-          "named": true
-        },
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "external_constant_name",
-          "named": true
-        },
-        {
-          "type": "external_signal_name",
-          "named": true
-        },
-        {
-          "type": "external_variable_name",
-          "named": true
-        },
-        {
-          "type": "factor",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "integer_decimal",
-          "named": true
-        },
-        {
-          "type": "logical_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "physical_literal",
-          "named": true
-        },
-        {
-          "type": "qualified_expression",
-          "named": true
-        },
-        {
-          "type": "real_decimal",
-          "named": true
-        },
-        {
-          "type": "reduction",
-          "named": true
-        },
-        {
-          "type": "relation",
-          "named": true
-        },
-        {
-          "type": "selected_name",
-          "named": true
-        },
-        {
-          "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "sign",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        },
-        {
-          "type": "slice_name",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "term",
           "named": true
         }
       ]
@@ -6318,6 +3195,10 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Braced_SERE",
             "named": true
           },
@@ -6351,142 +3232,6 @@
           },
           {
             "type": "PSL_Simple_SERE",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -6510,6 +3255,10 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Braced_SERE",
             "named": true
           },
@@ -6544,142 +3293,6 @@
           {
             "type": "PSL_Simple_SERE",
             "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
-            "named": true
           }
         ]
       }
@@ -6694,6 +3307,10 @@
       "required": true,
       "types": [
         {
+          "type": "PSL_Boolean",
+          "named": true
+        },
+        {
           "type": "PSL_Built_In_Function_Call",
           "named": true
         },
@@ -6702,143 +3319,7 @@
           "named": true
         },
         {
-          "type": "aggregate",
-          "named": true
-        },
-        {
-          "type": "allocator",
-          "named": true
-        },
-        {
-          "type": "ambiguous_name",
-          "named": true
-        },
-        {
-          "type": "attribute_name",
-          "named": true
-        },
-        {
-          "type": "based_integer",
-          "named": true
-        },
-        {
-          "type": "based_real",
-          "named": true
-        },
-        {
-          "type": "bit_string_literal",
-          "named": true
-        },
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "condition",
-          "named": true
-        },
-        {
-          "type": "exponentiation",
-          "named": true
-        },
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "external_constant_name",
-          "named": true
-        },
-        {
-          "type": "external_signal_name",
-          "named": true
-        },
-        {
-          "type": "external_variable_name",
-          "named": true
-        },
-        {
-          "type": "factor",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "integer_decimal",
-          "named": true
-        },
-        {
           "type": "label",
-          "named": true
-        },
-        {
-          "type": "logical_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "physical_literal",
-          "named": true
-        },
-        {
-          "type": "qualified_expression",
-          "named": true
-        },
-        {
-          "type": "real_decimal",
-          "named": true
-        },
-        {
-          "type": "reduction",
-          "named": true
-        },
-        {
-          "type": "relation",
-          "named": true
-        },
-        {
-          "type": "selected_name",
-          "named": true
-        },
-        {
-          "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "sign",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        },
-        {
-          "type": "slice_name",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "term",
           "named": true
         }
       ]
@@ -6852,6 +3333,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "PSL_Boolean",
+            "named": true
+          },
           {
             "type": "PSL_Bounding_FL_Property",
             "named": true
@@ -6915,142 +3400,6 @@
           {
             "type": "PSL_Termination_FL_Property",
             "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
-            "named": true
           }
         ]
       },
@@ -7058,6 +3407,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "PSL_Boolean",
+            "named": true
+          },
           {
             "type": "PSL_Braced_SERE",
             "named": true
@@ -7092,142 +3445,6 @@
           },
           {
             "type": "PSL_Simple_SERE",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -7284,6 +3501,10 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Bounding_FL_Property",
             "named": true
           },
@@ -7346,142 +3567,6 @@
           {
             "type": "PSL_Termination_FL_Property",
             "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
-            "named": true
           }
         ]
       },
@@ -7508,147 +3593,15 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Boolean",
+            "named": true
+          },
+          {
             "type": "PSL_Built_In_Function_Call",
             "named": true
           },
           {
             "type": "PSL_Expression",
-            "named": true
-          },
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
             "named": true
           }
         ]
@@ -7669,6 +3622,10 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Any_Type",
+            "named": true
+          },
+          {
             "type": "PSL_Built_In_Function_Call",
             "named": true
           },
@@ -7678,10 +3635,6 @@
           },
           {
             "type": "PSL_Union_Expression",
-            "named": true
-          },
-          {
-            "type": "expression",
             "named": true
           }
         ]
@@ -7701,6 +3654,10 @@
         "required": true,
         "types": [
           {
+            "type": "PSL_Any_Type",
+            "named": true
+          },
+          {
             "type": "PSL_Built_In_Function_Call",
             "named": true
           },
@@ -7710,10 +3667,6 @@
           },
           {
             "type": "PSL_Union_Expression",
-            "named": true
-          },
-          {
-            "type": "expression",
             "named": true
           }
         ]
@@ -7786,6 +3739,10 @@
       "required": true,
       "types": [
         {
+          "type": "PSL_Any_Type",
+          "named": true
+        },
+        {
           "type": "PSL_Built_In_Function_Call",
           "named": true
         },
@@ -7811,10 +3768,6 @@
         },
         {
           "type": "descending_range",
-          "named": true
-        },
-        {
-          "type": "expression",
           "named": true
         }
       ]
@@ -11847,149 +7800,16 @@
   {
     "type": "expression_list",
     "named": true,
-    "fields": {
-      "expression": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "allocator",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "based_integer",
-            "named": true
-          },
-          {
-            "type": "based_real",
-            "named": true
-          },
-          {
-            "type": "bit_string_literal",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "condition",
-            "named": true
-          },
-          {
-            "type": "exponentiation",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "factor",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "integer_decimal",
-            "named": true
-          },
-          {
-            "type": "logical_expression",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "physical_literal",
-            "named": true
-          },
-          {
-            "type": "qualified_expression",
-            "named": true
-          },
-          {
-            "type": "real_decimal",
-            "named": true
-          },
-          {
-            "type": "reduction",
-            "named": true
-          },
-          {
-            "type": "relation",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "sign",
-            "named": true
-          },
-          {
-            "type": "simple_expression",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "term",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -13624,32 +9444,25 @@
   {
     "type": "instantiation_list",
     "named": true,
-    "fields": {
-      "label": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
           "type": "all",
           "named": true
         },
         {
+          "type": "extended_simple_name",
+          "named": true
+        },
+        {
           "type": "others",
+          "named": true
+        },
+        {
+          "type": "simple_name",
           "named": true
         }
       ]
@@ -15500,7 +11313,7 @@
           "named": true
         },
         {
-          "type": "parenthesized_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -19898,11 +15711,11 @@
   },
   {
     "type": "simple_name",
-    "named": true
+    "named": false
   },
   {
     "type": "simple_name",
-    "named": false
+    "named": true
   },
   {
     "type": "sla",

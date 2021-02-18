@@ -43,7 +43,8 @@ assert foo(bar);
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (simple_name))))))
+          (expression
+            (simple_name)))))))
 
 ==============================================================
 Ambiguity II
@@ -78,8 +79,10 @@ assert foo(bar, baz);
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (simple_name)
-          expression: (simple_name))))))
+          (expression
+            (simple_name))
+          (expression
+            (simple_name)))))))
 
 ==============================================================
 Ambiguity III
@@ -116,7 +119,8 @@ assert foobar(foo=>bar)(bar);
               actual_part: (expression
                 (simple_name)))))
         (expression_list
-          expression: (simple_name))))))
+          (expression
+            (simple_name)))))))
 
 ==============================================================
 Ambiguous name on ambiguous name
@@ -130,10 +134,12 @@ assert foo(bar(x));
       (ambiguous_name
         prefix: (simple_name)
         (expression_list
-          expression: (ambiguous_name
-            prefix: (simple_name)
-            (expression_list
-              expression: (simple_name))))))))
+          (expression
+            (ambiguous_name
+              prefix: (simple_name)
+              (expression_list
+                (expression
+                  (simple_name))))))))))
 
 ==============================================================
 PSL Built-ins functions names (not reserved words)
@@ -150,4 +156,5 @@ t <= prev(x);
           (ambiguous_name
             prefix: (simple_name)
             (expression_list
-              expression: (simple_name))))))))
+              (expression
+                (simple_name)))))))))

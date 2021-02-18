@@ -12,12 +12,12 @@ end for;
 (design_file
   (configuration_specification
     (instantiation_list
-      label: (simple_name))
+      (simple_name))
     component: (simple_name)
     (binding_indication (open)))
   (configuration_specification
     (instantiation_list
-      label: (simple_name))
+      (simple_name))
     component: (simple_name)
     (binding_indication (open))))
 
@@ -33,7 +33,7 @@ end for;
 (design_file
   (configuration_specification
     (instantiation_list
-      label: (simple_name))
+      (simple_name))
     component: (simple_name)
     (binding_indication (open))
     (verification_unit_binding_indication
@@ -56,8 +56,8 @@ for all : c
 (design_file
   (configuration_specification
     (instantiation_list
-      label: (simple_name)
-      label: (simple_name))
+      (simple_name)
+      (simple_name))
     component: (simple_name)
     (binding_indication (open)))
   (configuration_specification

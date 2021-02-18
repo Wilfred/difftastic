@@ -20,10 +20,11 @@ vunit ex1a(top_block.i1.i2) {
           (label
             (identifier))
           (PSL_Invariant_FL_Property
-            argument: (parenthesized_expression
-              (logical_expression
-                left: (simple_name)
-                right: (simple_name)))))))))
+            argument: (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  left: (simple_name)
+                  right: (simple_name))))))))))
 
 ================================
 LRM 7.2.1 - II
@@ -42,10 +43,11 @@ vunit ex2a(mod1) {
           entity: (simple_name))
         (PSL_Assert_Directive
           (PSL_Invariant_FL_Property
-            argument: (parenthesized_expression
-              (logical_expression
-                left: (simple_name)
-                right: (simple_name)))))))))
+            argument: (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  left: (simple_name)
+                  right: (simple_name))))))))))
 
 ================================
 LRM 7.2.1 - III
@@ -66,24 +68,26 @@ vunit ex2b(top_block.i1) {
           instance: (simple_name))
         (PSL_Assert_Directive
           (PSL_Invariant_FL_Property
-            argument: (parenthesized_expression
-              (logical_expression
-                left: (selected_name
-                  prefix: (simple_name)
-                  suffix: (simple_name))
-                right: (selected_name
-                  prefix: (simple_name)
-                  suffix: (simple_name))))))
+            argument: (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  left: (selected_name
+                    prefix: (simple_name)
+                    suffix: (simple_name))
+                  right: (selected_name
+                    prefix: (simple_name)
+                    suffix: (simple_name)))))))
         (PSL_Assert_Directive
           (PSL_Invariant_FL_Property
-            argument: (parenthesized_expression
-              (logical_expression
-                left: (selected_name
-                  prefix: (simple_name)
-                  suffix: (simple_name))
-                right: (selected_name
-                  prefix: (simple_name)
-                  suffix: (simple_name))))))))))
+            argument: (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  left: (selected_name
+                    prefix: (simple_name)
+                    suffix: (simple_name))
+                  right: (selected_name
+                    prefix: (simple_name)
+                    suffix: (simple_name)))))))))))
 
 ================================
 LRM 7.2.1 - IV
@@ -102,10 +106,11 @@ vunit ex3 {
           (label
             (identifier))
           (PSL_Invariant_FL_Property
-            argument: (parenthesized_expression
-              (logical_expression
-                left: (simple_name)
-                right: (simple_name)))))))))
+            argument: (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  left: (simple_name)
+                  right: (simple_name))))))))))
 
 ================================
 LRM 7.2.1 - V
@@ -129,10 +134,11 @@ vunit ex4 {
               (PSL_Identifier)
               (PSL_Identifier)))
           (PSL_Invariant_FL_Property
-            argument: (parenthesized_expression
-              (logical_expression
-                left: (simple_name)
-                right: (simple_name)))))))))
+            argument: (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  left: (simple_name)
+                  right: (simple_name))))))))))
 
 ================================
 LRM 7.2.2 - I
@@ -157,9 +163,10 @@ vmode Common {
               (PSL_Identifier)
               (PSL_Identifier)))
           (PSL_Invariant_FL_Property
-            argument: (logical_expression
-              left: (simple_name)
-              right: (simple_name))))
+            argument: (PSL_Boolean
+              (logical_expression
+                left: (simple_name)
+                right: (simple_name)))))
         (PSL_Property_Declaration
           (PSL_Identifier)
           (PSL_Formal_Parameter_List
@@ -169,18 +176,18 @@ vmode Common {
               (PSL_Identifier)
               (PSL_Identifier)))
           (PSL_Invariant_FL_Property
-            argument: (parenthesized_expression
-              (logical_expression
-                left: (parenthesized_expression
-                  (logical_expression
-                    left: (simple_name)
-                    right: (simple_name)))
-                right: (parenthesized_expression
-                  (logical_expression
-                    left: (simple_name)
-                    right: (factor
-                      argument: (simple_name))))))))))))
-
+            argument: (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  left: (parenthesized_expression
+                    (logical_expression
+                      left: (simple_name)
+                      right: (simple_name)))
+                  right: (parenthesized_expression
+                    (logical_expression
+                      left: (simple_name)
+                      right: (factor
+                        argument: (simple_name)))))))))))))
 
 ================================
 LRM 7.2.2 - II
@@ -206,11 +213,14 @@ vmode Bmode (blockB) {
         (PSL_Inherit_Spec
           (simple_name))
         (PSL_Assume_Directive
-          (ambiguous_name
-            prefix: (simple_name)
-            (expression_list
-              expression: (simple_name)
-              expression: (simple_name)))))))
+          (PSL_Boolean
+            (ambiguous_name
+              prefix: (simple_name)
+              (expression_list
+                (expression
+                  (simple_name))
+                (expression
+                  (simple_name)))))))))
   (design_unit
     (PSL_VMode
       (PSL_Identifier)
@@ -220,11 +230,14 @@ vmode Bmode (blockB) {
         (PSL_Inherit_Spec
           (simple_name))
         (PSL_Assume_Directive
-          (ambiguous_name
-            prefix: (simple_name)
-            (expression_list
-              expression: (simple_name)
-              expression: (simple_name))))))))
+          (PSL_Boolean
+            (ambiguous_name
+              prefix: (simple_name)
+              (expression_list
+                (expression
+                  (simple_name))
+                (expression
+                  (simple_name))))))))))
 
 ================================
 LRM 7.2.2 - III
@@ -250,8 +263,10 @@ vunit Aprops (blockA) {
             (ambiguous_name
               prefix: (simple_name)
               (expression_list
-                expression: (simple_name)
-                expression: (simple_name)))))))))
+                (expression
+                  (simple_name))
+                (expression
+                  (simple_name))))))))))
 
 ================================
 LRM 7.2.2 - IV
@@ -277,8 +292,10 @@ vunit Bprops (blockB) {
             (ambiguous_name
               prefix: (simple_name)
               (expression_list
-                expression: (simple_name)
-                expression: (simple_name)))))))))
+                (expression
+                  (simple_name))
+                (expression
+                  (simple_name))))))))))
 
 ================================
 LRM 7.2.3 - I
@@ -311,9 +328,11 @@ vunit ex5a(top_block.i1) {
           (PSL_Invariant_FL_Property
             argument: (PSL_Parenthesized_FL_Property
               (PSL_Implication_FL_Property
-                left: (simple_name)
+                left: (PSL_Boolean
+                  (simple_name))
                 right: (PSL_Ocurrence_FL_Property
-                  argument: (simple_name))))))))))
+                  argument: (PSL_Boolean
+                    (simple_name)))))))))))
 
 ================================
 LRM 7.2.3 - II
@@ -354,9 +373,11 @@ vunit ex5b(top_block.i1) {
           (PSL_Invariant_FL_Property
             argument: (PSL_Parenthesized_FL_Property
               (PSL_Implication_FL_Property
-                left: (simple_name)
+                left: (PSL_Boolean
+                  (simple_name))
                 right: (PSL_Ocurrence_FL_Property
-                  argument: (simple_name))))))))))
+                  argument: (PSL_Boolean
+                    (simple_name)))))))))))
 
 ================================
 LRM 7.2.3 - III
@@ -391,24 +412,27 @@ vunit ex5d(top_block.i1) {
                 (ambiguous_name
                   prefix: (simple_name)
                   (expression_list
-                    expression: (aggregate
-                      (positional_element_association
-                        (expression
-                          (integer_decimal
-                            (integer))))
-                      (positional_element_association
-                        (expression
-                          (integer_decimal
-                            (integer)))))))))))
+                    (expression
+                      (aggregate
+                        (positional_element_association
+                          (expression
+                            (integer_decimal
+                              (integer))))
+                        (positional_element_association
+                          (expression
+                            (integer_decimal
+                              (integer))))))))))))
         (PSL_Assert_Directive
           (label
             (identifier))
           (PSL_Invariant_FL_Property
             argument: (PSL_Parenthesized_FL_Property
               (PSL_Implication_FL_Property
-                left: (parenthesized_expression
-                  (logical_expression
-                    left: (simple_name)
-                    right: (simple_name)))
+                left: (PSL_Boolean
+                  (parenthesized_expression
+                    (logical_expression
+                      left: (simple_name)
+                      right: (simple_name))))
                 right: (PSL_Ocurrence_FL_Property
-                  argument: (simple_name))))))))))
+                  argument: (PSL_Boolean
+                    (simple_name)))))))))))
