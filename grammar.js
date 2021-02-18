@@ -1,6 +1,11 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
+const PREC = {
+  COMMENT: 1,
+  STRING: 2, // In a string, prefer string characters over comments
+};
+
 module.exports = grammar({
   name: "elm",
 
@@ -17,13 +22,8 @@ module.exports = grammar({
     $._virtual_open_section,
     $._virtual_end_section,
     $.minus_without_trailing_whitespace,
-    $.block_comment,
-    $.line_comment,
-    $.open_quote,
-    $.close_quote,
-    $.open_quote_multiline,
-    $.close_quote_multiline,
     $.glsl_content,
+    $._block_comment_content,
   ],
 
   extras: ($) => [
@@ -46,6 +46,11 @@ module.exports = grammar({
         optional($._import_list),
         optional($._top_decl_list)
       ),
+
+    block_comment: ($) =>
+      prec(PREC.COMMENT, seq("{-", $._block_comment_content, "-}")),
+
+    line_comment: ($) => token(prec(PREC.COMMENT, seq(/--/, repeat(/[^\n]/)))),
 
     module_declaration: ($) =>
       prec.left(
@@ -439,46 +444,51 @@ module.exports = grammar({
 
     char_constant_expr: ($) =>
       seq(
-        $.open_char,
+        alias("'", $.open_char),
         choice(
-          alias($.regular_char, $.regular_string_part),
+          alias(token(/[^\\\n']/), $.regular_string_part),
           $.string_escape,
           $.invalid_string_escape
         ),
-        $.close_char
+        alias("'", $.close_char)
       ),
-
-    open_char: ($) => $._char_quote,
-
-    close_char: ($) => $._char_quote,
 
     number_constant_expr: ($) => $.number_literal,
 
     string_constant_expr: ($) =>
       choice(
-        seq($.open_quote, optional($._string_parts), $.close_quote),
         seq(
-          alias($.open_quote_multiline, $.open_quote),
-          optional($._string_parts_multiline),
-          alias($.close_quote_multiline, $.close_quote)
-        )
-      ),
-
-    _string_parts: ($) =>
-      repeat1(
-        choice(
-          alias(token(choice(/[^\\\"\n]+/, /\"/)), $.regular_string_part),
-          $.string_escape,
-          $.invalid_string_escape
-        )
-      ),
-
-    _string_parts_multiline: ($) =>
-      repeat1(
-        choice(
-          alias(token(choice(/[^\\\"]+/, /\"\"?/)), $.regular_string_part),
-          $.string_escape,
-          $.invalid_string_escape
+          alias('"""', $.open_quote),
+          repeat(
+            choice(
+              alias(
+                token.immediate(
+                  prec(
+                    PREC.STRING,
+                    repeat1(choice(/[^\\"]/, /"[^"]/, /""[^"]/))
+                  )
+                ),
+                $.regular_string_part
+              ),
+              $.string_escape,
+              $.invalid_string_escape
+            )
+          ),
+          alias('"""', $.close_quote)
+        ),
+        seq(
+          alias('"', $.open_quote),
+          repeat(
+            choice(
+              alias(
+                token.immediate(prec(PREC.STRING, repeat1(/[^\\"\n]/))),
+                $.regular_string_part
+              ),
+              $.string_escape,
+              $.invalid_string_escape
+            )
+          ),
+          alias('"', $.close_quote)
         )
       ),
 
@@ -704,8 +714,6 @@ module.exports = grammar({
 
     number_literal: ($) =>
       token(choice(/-?[0-9]+(\.[0-9]+)?(e-?[0-9]+)?/, /0x[0-9A-Fa-f]+/)),
-
-    regular_char: ($) => /[^\\\n']/,
 
     string_escape: ($) => /\\(u\{[0-9A-Fa-f]{4,6}\}|[nrt\"'\\])/,
 
