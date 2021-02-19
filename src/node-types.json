@@ -1722,11 +1722,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
           "type": "_statement",
+          "named": true
+        },
+        {
+          "type": "empty_statement",
           "named": true
         }
       ]

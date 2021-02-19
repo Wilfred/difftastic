@@ -936,7 +936,7 @@ heredocs with method calls and interpolation with method calls
 ==============================================================
 
 foo(<<-STR.strip_heredoc.tr()
-    content #{bar().foo}
+    content #{ foo; bar().foo}
   STR
 )
 
@@ -951,7 +951,7 @@ foo(<<-STR.strip_heredoc.tr()
         method: (identifier)
         arguments: (argument_list))
       (heredoc_body (heredoc_content)
-        (interpolation (call
+        (interpolation (identifier) (call
           receiver: (call
             method: (identifier)
             arguments: (argument_list))

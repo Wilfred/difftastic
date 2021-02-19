@@ -793,7 +793,7 @@ module.exports = grammar({
     character: $ => /\?(\\\S({[0-9A-Fa-f]*}|[0-9A-Fa-f]*|-\S([MC]-\S)?)?|\S)/,
 
     interpolation: $ => seq(
-      '#{', optional($._statement),'}'
+      '#{', optional($._statements),'}'
     ),
 
     string: $ => seq(
