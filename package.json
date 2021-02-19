@@ -1,5 +1,5 @@
 {
-  "name": "tree-sitter-elm",
+  "name": "@elm-tooling/tree-sitter-elm",
   "version": "4.5.0",
   "description": "Tree sitter definitions for elm",
   "main": "index.js",
@@ -31,7 +31,7 @@
     "test-highlighting": "tree-sitter highlight test/highlight/basic.elm",
     "test-tags": "tree-sitter tags test/highlight/basic.elm"
   },
-  "repository": "https://github.com/razzeee/tree-sitter-elm",
+  "repository": "https://github.com/elm-tooling/tree-sitter-elm",
   "tree-sitter": [
     {
       "scope": "source.elm",
