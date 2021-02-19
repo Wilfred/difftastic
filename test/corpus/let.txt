@@ -732,6 +732,51 @@ displayEmoji =
         (number_literal)))))
 
 ================================================================================
+Let with annotation 2
+================================================================================
+
+test : Int
+test =
+  let finish = y
+      next = x
+  in
+  x
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_annotation
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (value_expr
+          (value_qid
+            (lower_case_identifier))))
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (value_expr
+          (value_qid
+            (lower_case_identifier))))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
 Let with trailing spaces
 ================================================================================
 
