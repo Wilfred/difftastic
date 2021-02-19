@@ -109,6 +109,41 @@ namespace
             return 0;
         }
 
+        bool scan_block_comment(TSLexer *lexer)
+        {
+            lexer->mark_end(lexer);
+            if (lexer->lookahead != '{')
+                return false;
+
+            advance(lexer);
+            if (lexer->lookahead != '-')
+                return false;
+
+            advance(lexer);
+
+            while (true)
+            {
+                switch (lexer->lookahead)
+                {
+                case '{':
+                    scan_block_comment(lexer);
+                    break;
+                case '-':
+                    advance(lexer);
+                    if (lexer->lookahead == '}')
+                    {
+                        advance(lexer);
+                        return true;
+                    }
+                    break;
+                case '\0':
+                    return true;
+                default:
+                    advance(lexer);
+                }
+            }
+        }
+
         bool scan(TSLexer *lexer, const bool *valid_symbols)
         {
             // First handle eventual runback tokens, we saved on a previous scan op
@@ -193,6 +228,7 @@ namespace
                 else
                 {
                     lexer->result_symbol = VIRTUAL_END_SECTION;
+                    indent_length_stack.pop_back();
                     return true;
                 }
             }
@@ -218,11 +254,8 @@ namespace
             // Open section if the grammar lets us but only push to indent stack if we go further down in the stack
             if (valid_symbols[VIRTUAL_OPEN_SECTION])
             {
-                if (indent_length > indent_length_stack.back())
-                {
-                    // lexer->mark_end(lexer); // We might want this, but this is changing error behavior as well
-                    indent_length_stack.push_back(lexer->get_column(lexer));
-                }
+                indent_length_stack.push_back(lexer->get_column(lexer));
+
                 lexer->result_symbol = VIRTUAL_OPEN_SECTION;
                 return true;
             }
@@ -276,6 +309,7 @@ namespace
                     runback.push_back(1);
                     found_in = false;
                 }
+
                 // Our list is the wrong way around, reverse it
                 std::reverse(runback.begin(), runback.end());
                 // Handle the first runback token if we have them, if there are more they will be handled on the next scan operation
@@ -361,41 +395,6 @@ namespace
             }
 
             return false;
-        }
-
-        bool scan_block_comment(TSLexer *lexer)
-        {
-            lexer->mark_end(lexer);
-            if (lexer->lookahead != '{')
-                return false;
-
-            advance(lexer);
-            if (lexer->lookahead != '-')
-                return false;
-
-            advance(lexer);
-
-            while (true)
-            {
-                switch (lexer->lookahead)
-                {
-                case '{':
-                    scan_block_comment(lexer);
-                    break;
-                case '-':
-                    advance(lexer);
-                    if (lexer->lookahead == '}')
-                    {
-                        advance(lexer);
-                        return true;
-                    }
-                    break;
-                case '\0':
-                    return true;
-                default:
-                    advance(lexer);
-                }
-            }
         }
 
         // The indention of the current line
