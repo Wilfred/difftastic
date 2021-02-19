@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "prebuild": "^10.0.1",
-    "tree-sitter-cli": "^0.17.3"
+    "tree-sitter-cli": "^0.18.2"
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
