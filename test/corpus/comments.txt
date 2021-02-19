@@ -111,7 +111,6 @@ five = something
       (regular_string_part)
       (string_escape)
       (regular_string_part)
-      (regular_string_part)
       (close_quote)))
   (value_declaration
     (function_declaration_left
@@ -138,3 +137,14 @@ five = something
       (value_qid
         (lower_case_identifier))))
   (line_comment))
+
+================================================================================
+Nested block comment are not nested for now
+================================================================================
+
+{- comment {- nested comment -} -}
+
+--------------------------------------------------------------------------------
+
+(file
+  (block_comment))
