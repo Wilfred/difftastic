@@ -249,6 +249,11 @@
     }
   },
   {
+    "type": "block_comment",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "case_of_branch",
     "named": true,
     "fields": {
@@ -514,11 +519,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "close_char",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "cons_pattern",
@@ -1846,11 +1846,6 @@
     }
   },
   {
-    "type": "open_char",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "operator",
     "named": true,
     "fields": {},
@@ -3099,6 +3094,10 @@
     "named": false
   },
   {
+    "type": "'",
+    "named": false
+  },
+  {
     "type": "*",
     "named": false
   },
@@ -3112,6 +3111,10 @@
   },
   {
     "type": "-",
+    "named": false
+  },
+  {
+    "type": "-}",
     "named": false
   },
   {
@@ -3191,11 +3194,11 @@
     "named": true
   },
   {
-    "type": "block_comment",
+    "type": "case",
     "named": true
   },
   {
-    "type": "case",
+    "type": "close_char",
     "named": true
   },
   {
@@ -3303,6 +3306,10 @@
     "named": true
   },
   {
+    "type": "open_char",
+    "named": true
+  },
+  {
     "type": "open_quote",
     "named": true
   },
@@ -3353,6 +3360,10 @@
   {
     "type": "where",
     "named": true
+  },
+  {
+    "type": "{-",
+    "named": false
   },
   {
     "type": "|.",
