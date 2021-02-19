@@ -1968,2102 +1968,2388 @@ static uint16_t ts_non_terminal_alias_map[] = {
   0,
 };
 
-static inline bool sym_upper_case_identifier_character_set_1(int32_t lookahead) {
-  return
-    ('A' <= lookahead && lookahead <= 'Z') ||
-    (192 <= lookahead && lookahead <= 214) ||
-    (216 <= lookahead && lookahead <= 222) ||
-    lookahead == 256 ||
-    lookahead == 258 ||
-    lookahead == 260 ||
-    lookahead == 262 ||
-    lookahead == 264 ||
-    lookahead == 266 ||
-    lookahead == 268 ||
-    lookahead == 270 ||
-    lookahead == 272 ||
-    lookahead == 274 ||
-    lookahead == 276 ||
-    lookahead == 278 ||
-    lookahead == 280 ||
-    lookahead == 282 ||
-    lookahead == 284 ||
-    lookahead == 286 ||
-    lookahead == 288 ||
-    lookahead == 290 ||
-    lookahead == 292 ||
-    lookahead == 294 ||
-    lookahead == 296 ||
-    lookahead == 298 ||
-    lookahead == 300 ||
-    lookahead == 302 ||
-    lookahead == 304 ||
-    lookahead == 306 ||
-    lookahead == 308 ||
-    lookahead == 310 ||
-    lookahead == 313 ||
-    lookahead == 315 ||
-    lookahead == 317 ||
-    lookahead == 319 ||
-    lookahead == 321 ||
-    lookahead == 323 ||
-    lookahead == 325 ||
-    lookahead == 327 ||
-    lookahead == 330 ||
-    lookahead == 332 ||
-    lookahead == 334 ||
-    lookahead == 336 ||
-    lookahead == 338 ||
-    lookahead == 340 ||
-    lookahead == 342 ||
-    lookahead == 344 ||
-    lookahead == 346 ||
-    lookahead == 348 ||
-    lookahead == 350 ||
-    lookahead == 352 ||
-    lookahead == 354 ||
-    lookahead == 356 ||
-    lookahead == 358 ||
-    lookahead == 360 ||
-    lookahead == 362 ||
-    lookahead == 364 ||
-    lookahead == 366 ||
-    lookahead == 368 ||
-    lookahead == 370 ||
-    lookahead == 372 ||
-    lookahead == 374 ||
-    lookahead == 376 ||
-    lookahead == 377 ||
-    lookahead == 379 ||
-    lookahead == 381 ||
-    lookahead == 385 ||
-    lookahead == 386 ||
-    lookahead == 388 ||
-    lookahead == 390 ||
-    lookahead == 391 ||
-    (393 <= lookahead && lookahead <= 395) ||
-    (398 <= lookahead && lookahead <= 401) ||
-    lookahead == 403 ||
-    lookahead == 404 ||
-    (406 <= lookahead && lookahead <= 408) ||
-    lookahead == 412 ||
-    lookahead == 413 ||
-    lookahead == 415 ||
-    lookahead == 416 ||
-    lookahead == 418 ||
-    lookahead == 420 ||
-    lookahead == 422 ||
-    lookahead == 423 ||
-    lookahead == 425 ||
-    lookahead == 428 ||
-    lookahead == 430 ||
-    lookahead == 431 ||
-    (433 <= lookahead && lookahead <= 435) ||
-    lookahead == 437 ||
-    lookahead == 439 ||
-    lookahead == 440 ||
-    lookahead == 444 ||
-    lookahead == 452 ||
-    lookahead == 455 ||
-    lookahead == 458 ||
-    lookahead == 461 ||
-    lookahead == 463 ||
-    lookahead == 465 ||
-    lookahead == 467 ||
-    lookahead == 469 ||
-    lookahead == 471 ||
-    lookahead == 473 ||
-    lookahead == 475 ||
-    lookahead == 478 ||
-    lookahead == 480 ||
-    lookahead == 482 ||
-    lookahead == 484 ||
-    lookahead == 486 ||
-    lookahead == 488 ||
-    lookahead == 490 ||
-    lookahead == 492 ||
-    lookahead == 494 ||
-    lookahead == 497 ||
-    lookahead == 500 ||
-    (502 <= lookahead && lookahead <= 504) ||
-    lookahead == 506 ||
-    lookahead == 508 ||
-    lookahead == 510 ||
-    lookahead == 512 ||
-    lookahead == 514 ||
-    lookahead == 516 ||
-    lookahead == 518 ||
-    lookahead == 520 ||
-    lookahead == 522 ||
-    lookahead == 524 ||
-    lookahead == 526 ||
-    lookahead == 528 ||
-    lookahead == 530 ||
-    lookahead == 532 ||
-    lookahead == 534 ||
-    lookahead == 536 ||
-    lookahead == 538 ||
-    lookahead == 540 ||
-    lookahead == 542 ||
-    lookahead == 544 ||
-    lookahead == 546 ||
-    lookahead == 548 ||
-    lookahead == 550 ||
-    lookahead == 552 ||
-    lookahead == 554 ||
-    lookahead == 556 ||
-    lookahead == 558 ||
-    lookahead == 560 ||
-    lookahead == 562 ||
-    lookahead == 570 ||
-    lookahead == 571 ||
-    lookahead == 573 ||
-    lookahead == 574 ||
-    lookahead == 577 ||
-    (579 <= lookahead && lookahead <= 582) ||
-    lookahead == 584 ||
-    lookahead == 586 ||
-    lookahead == 588 ||
-    lookahead == 590 ||
-    lookahead == 880 ||
-    lookahead == 882 ||
-    lookahead == 886 ||
-    lookahead == 895 ||
-    lookahead == 902 ||
-    (904 <= lookahead && lookahead <= 906) ||
-    lookahead == 908 ||
-    lookahead == 910 ||
-    lookahead == 911 ||
-    (913 <= lookahead && lookahead <= 929) ||
-    (931 <= lookahead && lookahead <= 939) ||
-    lookahead == 975 ||
-    (978 <= lookahead && lookahead <= 980) ||
-    lookahead == 984 ||
-    lookahead == 986 ||
-    lookahead == 988 ||
-    lookahead == 990 ||
-    lookahead == 992 ||
-    lookahead == 994 ||
-    lookahead == 996 ||
-    lookahead == 998 ||
-    lookahead == 1000 ||
-    lookahead == 1002 ||
-    lookahead == 1004 ||
-    lookahead == 1006 ||
-    lookahead == 1012 ||
-    lookahead == 1015 ||
-    lookahead == 1017 ||
-    lookahead == 1018 ||
-    (1021 <= lookahead && lookahead <= 1071) ||
-    lookahead == 1120 ||
-    lookahead == 1122 ||
-    lookahead == 1124 ||
-    lookahead == 1126 ||
-    lookahead == 1128 ||
-    lookahead == 1130 ||
-    lookahead == 1132 ||
-    lookahead == 1134 ||
-    lookahead == 1136 ||
-    lookahead == 1138 ||
-    lookahead == 1140 ||
-    lookahead == 1142 ||
-    lookahead == 1144 ||
-    lookahead == 1146 ||
-    lookahead == 1148 ||
-    lookahead == 1150 ||
-    lookahead == 1152 ||
-    lookahead == 1162 ||
-    lookahead == 1164 ||
-    lookahead == 1166 ||
-    lookahead == 1168 ||
-    lookahead == 1170 ||
-    lookahead == 1172 ||
-    lookahead == 1174 ||
-    lookahead == 1176 ||
-    lookahead == 1178 ||
-    lookahead == 1180 ||
-    lookahead == 1182 ||
-    lookahead == 1184 ||
-    lookahead == 1186 ||
-    lookahead == 1188 ||
-    lookahead == 1190 ||
-    lookahead == 1192 ||
-    lookahead == 1194 ||
-    lookahead == 1196 ||
-    lookahead == 1198 ||
-    lookahead == 1200 ||
-    lookahead == 1202 ||
-    lookahead == 1204 ||
-    lookahead == 1206 ||
-    lookahead == 1208 ||
-    lookahead == 1210 ||
-    lookahead == 1212 ||
-    lookahead == 1214 ||
-    lookahead == 1216 ||
-    lookahead == 1217 ||
-    lookahead == 1219 ||
-    lookahead == 1221 ||
-    lookahead == 1223 ||
-    lookahead == 1225 ||
-    lookahead == 1227 ||
-    lookahead == 1229 ||
-    lookahead == 1232 ||
-    lookahead == 1234 ||
-    lookahead == 1236 ||
-    lookahead == 1238 ||
-    lookahead == 1240 ||
-    lookahead == 1242 ||
-    lookahead == 1244 ||
-    lookahead == 1246 ||
-    lookahead == 1248 ||
-    lookahead == 1250 ||
-    lookahead == 1252 ||
-    lookahead == 1254 ||
-    lookahead == 1256 ||
-    lookahead == 1258 ||
-    lookahead == 1260 ||
-    lookahead == 1262 ||
-    lookahead == 1264 ||
-    lookahead == 1266 ||
-    lookahead == 1268 ||
-    lookahead == 1270 ||
-    lookahead == 1272 ||
-    lookahead == 1274 ||
-    lookahead == 1276 ||
-    lookahead == 1278 ||
-    lookahead == 1280 ||
-    lookahead == 1282 ||
-    lookahead == 1284 ||
-    lookahead == 1286 ||
-    lookahead == 1288 ||
-    lookahead == 1290 ||
-    lookahead == 1292 ||
-    lookahead == 1294 ||
-    lookahead == 1296 ||
-    lookahead == 1298 ||
-    lookahead == 1300 ||
-    lookahead == 1302 ||
-    lookahead == 1304 ||
-    lookahead == 1306 ||
-    lookahead == 1308 ||
-    lookahead == 1310 ||
-    lookahead == 1312 ||
-    lookahead == 1314 ||
-    lookahead == 1316 ||
-    lookahead == 1318 ||
-    lookahead == 1320 ||
-    lookahead == 1322 ||
-    lookahead == 1324 ||
-    lookahead == 1326 ||
-    (1329 <= lookahead && lookahead <= 1366) ||
-    (4256 <= lookahead && lookahead <= 4293) ||
-    lookahead == 4295 ||
-    lookahead == 4301 ||
-    (5024 <= lookahead && lookahead <= 5109) ||
-    (7312 <= lookahead && lookahead <= 7354) ||
-    (7357 <= lookahead && lookahead <= 7359) ||
-    lookahead == 7680 ||
-    lookahead == 7682 ||
-    lookahead == 7684 ||
-    lookahead == 7686 ||
-    lookahead == 7688 ||
-    lookahead == 7690 ||
-    lookahead == 7692 ||
-    lookahead == 7694 ||
-    lookahead == 7696 ||
-    lookahead == 7698 ||
-    lookahead == 7700 ||
-    lookahead == 7702 ||
-    lookahead == 7704 ||
-    lookahead == 7706 ||
-    lookahead == 7708 ||
-    lookahead == 7710 ||
-    lookahead == 7712 ||
-    lookahead == 7714 ||
-    lookahead == 7716 ||
-    lookahead == 7718 ||
-    lookahead == 7720 ||
-    lookahead == 7722 ||
-    lookahead == 7724 ||
-    lookahead == 7726 ||
-    lookahead == 7728 ||
-    lookahead == 7730 ||
-    lookahead == 7732 ||
-    lookahead == 7734 ||
-    lookahead == 7736 ||
-    lookahead == 7738 ||
-    lookahead == 7740 ||
-    lookahead == 7742 ||
-    lookahead == 7744 ||
-    lookahead == 7746 ||
-    lookahead == 7748 ||
-    lookahead == 7750 ||
-    lookahead == 7752 ||
-    lookahead == 7754 ||
-    lookahead == 7756 ||
-    lookahead == 7758 ||
-    lookahead == 7760 ||
-    lookahead == 7762 ||
-    lookahead == 7764 ||
-    lookahead == 7766 ||
-    lookahead == 7768 ||
-    lookahead == 7770 ||
-    lookahead == 7772 ||
-    lookahead == 7774 ||
-    lookahead == 7776 ||
-    lookahead == 7778 ||
-    lookahead == 7780 ||
-    lookahead == 7782 ||
-    lookahead == 7784 ||
-    lookahead == 7786 ||
-    lookahead == 7788 ||
-    lookahead == 7790 ||
-    lookahead == 7792 ||
-    lookahead == 7794 ||
-    lookahead == 7796 ||
-    lookahead == 7798 ||
-    lookahead == 7800 ||
-    lookahead == 7802 ||
-    lookahead == 7804 ||
-    lookahead == 7806 ||
-    lookahead == 7808 ||
-    lookahead == 7810 ||
-    lookahead == 7812 ||
-    lookahead == 7814 ||
-    lookahead == 7816 ||
-    lookahead == 7818 ||
-    lookahead == 7820 ||
-    lookahead == 7822 ||
-    lookahead == 7824 ||
-    lookahead == 7826 ||
-    lookahead == 7828 ||
-    lookahead == 7838 ||
-    lookahead == 7840 ||
-    lookahead == 7842 ||
-    lookahead == 7844 ||
-    lookahead == 7846 ||
-    lookahead == 7848 ||
-    lookahead == 7850 ||
-    lookahead == 7852 ||
-    lookahead == 7854 ||
-    lookahead == 7856 ||
-    lookahead == 7858 ||
-    lookahead == 7860 ||
-    lookahead == 7862 ||
-    lookahead == 7864 ||
-    lookahead == 7866 ||
-    lookahead == 7868 ||
-    lookahead == 7870 ||
-    lookahead == 7872 ||
-    lookahead == 7874 ||
-    lookahead == 7876 ||
-    lookahead == 7878 ||
-    lookahead == 7880 ||
-    lookahead == 7882 ||
-    lookahead == 7884 ||
-    lookahead == 7886 ||
-    lookahead == 7888 ||
-    lookahead == 7890 ||
-    lookahead == 7892 ||
-    lookahead == 7894 ||
-    lookahead == 7896 ||
-    lookahead == 7898 ||
-    lookahead == 7900 ||
-    lookahead == 7902 ||
-    lookahead == 7904 ||
-    lookahead == 7906 ||
-    lookahead == 7908 ||
-    lookahead == 7910 ||
-    lookahead == 7912 ||
-    lookahead == 7914 ||
-    lookahead == 7916 ||
-    lookahead == 7918 ||
-    lookahead == 7920 ||
-    lookahead == 7922 ||
-    lookahead == 7924 ||
-    lookahead == 7926 ||
-    lookahead == 7928 ||
-    lookahead == 7930 ||
-    lookahead == 7932 ||
-    lookahead == 7934 ||
-    (7944 <= lookahead && lookahead <= 7951) ||
-    (7960 <= lookahead && lookahead <= 7965) ||
-    (7976 <= lookahead && lookahead <= 7983) ||
-    (7992 <= lookahead && lookahead <= 7999) ||
-    (8008 <= lookahead && lookahead <= 8013) ||
-    lookahead == 8025 ||
-    lookahead == 8027 ||
-    lookahead == 8029 ||
-    lookahead == 8031 ||
-    (8040 <= lookahead && lookahead <= 8047) ||
-    (8120 <= lookahead && lookahead <= 8123) ||
-    (8136 <= lookahead && lookahead <= 8139) ||
-    (8152 <= lookahead && lookahead <= 8155) ||
-    (8168 <= lookahead && lookahead <= 8172) ||
-    (8184 <= lookahead && lookahead <= 8187) ||
-    lookahead == 8450 ||
-    lookahead == 8455 ||
-    (8459 <= lookahead && lookahead <= 8461) ||
-    (8464 <= lookahead && lookahead <= 8466) ||
-    lookahead == 8469 ||
-    (8473 <= lookahead && lookahead <= 8477) ||
-    lookahead == 8484 ||
-    lookahead == 8486 ||
-    lookahead == 8488 ||
-    (8490 <= lookahead && lookahead <= 8493) ||
-    (8496 <= lookahead && lookahead <= 8499) ||
-    lookahead == 8510 ||
-    lookahead == 8511 ||
-    lookahead == 8517 ||
-    lookahead == 8579 ||
-    (11264 <= lookahead && lookahead <= 11310) ||
-    lookahead == 11360 ||
-    (11362 <= lookahead && lookahead <= 11364) ||
-    lookahead == 11367 ||
-    lookahead == 11369 ||
-    lookahead == 11371 ||
-    (11373 <= lookahead && lookahead <= 11376) ||
-    lookahead == 11378 ||
-    lookahead == 11381 ||
-    (11390 <= lookahead && lookahead <= 11392) ||
-    lookahead == 11394 ||
-    lookahead == 11396 ||
-    lookahead == 11398 ||
-    lookahead == 11400 ||
-    lookahead == 11402 ||
-    lookahead == 11404 ||
-    lookahead == 11406 ||
-    lookahead == 11408 ||
-    lookahead == 11410 ||
-    lookahead == 11412 ||
-    lookahead == 11414 ||
-    lookahead == 11416 ||
-    lookahead == 11418 ||
-    lookahead == 11420 ||
-    lookahead == 11422 ||
-    lookahead == 11424 ||
-    lookahead == 11426 ||
-    lookahead == 11428 ||
-    lookahead == 11430 ||
-    lookahead == 11432 ||
-    lookahead == 11434 ||
-    lookahead == 11436 ||
-    lookahead == 11438 ||
-    lookahead == 11440 ||
-    lookahead == 11442 ||
-    lookahead == 11444 ||
-    lookahead == 11446 ||
-    lookahead == 11448 ||
-    lookahead == 11450 ||
-    lookahead == 11452 ||
-    lookahead == 11454 ||
-    lookahead == 11456 ||
-    lookahead == 11458 ||
-    lookahead == 11460 ||
-    lookahead == 11462 ||
-    lookahead == 11464 ||
-    lookahead == 11466 ||
-    lookahead == 11468 ||
-    lookahead == 11470 ||
-    lookahead == 11472 ||
-    lookahead == 11474 ||
-    lookahead == 11476 ||
-    lookahead == 11478 ||
-    lookahead == 11480 ||
-    lookahead == 11482 ||
-    lookahead == 11484 ||
-    lookahead == 11486 ||
-    lookahead == 11488 ||
-    lookahead == 11490 ||
-    lookahead == 11499 ||
-    lookahead == 11501 ||
-    lookahead == 11506 ||
-    lookahead == 42560 ||
-    lookahead == 42562 ||
-    lookahead == 42564 ||
-    lookahead == 42566 ||
-    lookahead == 42568 ||
-    lookahead == 42570 ||
-    lookahead == 42572 ||
-    lookahead == 42574 ||
-    lookahead == 42576 ||
-    lookahead == 42578 ||
-    lookahead == 42580 ||
-    lookahead == 42582 ||
-    lookahead == 42584 ||
-    lookahead == 42586 ||
-    lookahead == 42588 ||
-    lookahead == 42590 ||
-    lookahead == 42592 ||
-    lookahead == 42594 ||
-    lookahead == 42596 ||
-    lookahead == 42598 ||
-    lookahead == 42600 ||
-    lookahead == 42602 ||
-    lookahead == 42604 ||
-    lookahead == 42624 ||
-    lookahead == 42626 ||
-    lookahead == 42628 ||
-    lookahead == 42630 ||
-    lookahead == 42632 ||
-    lookahead == 42634 ||
-    lookahead == 42636 ||
-    lookahead == 42638 ||
-    lookahead == 42640 ||
-    lookahead == 42642 ||
-    lookahead == 42644 ||
-    lookahead == 42646 ||
-    lookahead == 42648 ||
-    lookahead == 42650 ||
-    lookahead == 42786 ||
-    lookahead == 42788 ||
-    lookahead == 42790 ||
-    lookahead == 42792 ||
-    lookahead == 42794 ||
-    lookahead == 42796 ||
-    lookahead == 42798 ||
-    lookahead == 42802 ||
-    lookahead == 42804 ||
-    lookahead == 42806 ||
-    lookahead == 42808 ||
-    lookahead == 42810 ||
-    lookahead == 42812 ||
-    lookahead == 42814 ||
-    lookahead == 42816 ||
-    lookahead == 42818 ||
-    lookahead == 42820 ||
-    lookahead == 42822 ||
-    lookahead == 42824 ||
-    lookahead == 42826 ||
-    lookahead == 42828 ||
-    lookahead == 42830 ||
-    lookahead == 42832 ||
-    lookahead == 42834 ||
-    lookahead == 42836 ||
-    lookahead == 42838 ||
-    lookahead == 42840 ||
-    lookahead == 42842 ||
-    lookahead == 42844 ||
-    lookahead == 42846 ||
-    lookahead == 42848 ||
-    lookahead == 42850 ||
-    lookahead == 42852 ||
-    lookahead == 42854 ||
-    lookahead == 42856 ||
-    lookahead == 42858 ||
-    lookahead == 42860 ||
-    lookahead == 42862 ||
-    lookahead == 42873 ||
-    lookahead == 42875 ||
-    lookahead == 42877 ||
-    lookahead == 42878 ||
-    lookahead == 42880 ||
-    lookahead == 42882 ||
-    lookahead == 42884 ||
-    lookahead == 42886 ||
-    lookahead == 42891 ||
-    lookahead == 42893 ||
-    lookahead == 42896 ||
-    lookahead == 42898 ||
-    lookahead == 42902 ||
-    lookahead == 42904 ||
-    lookahead == 42906 ||
-    lookahead == 42908 ||
-    lookahead == 42910 ||
-    lookahead == 42912 ||
-    lookahead == 42914 ||
-    lookahead == 42916 ||
-    lookahead == 42918 ||
-    lookahead == 42920 ||
-    (42922 <= lookahead && lookahead <= 42926) ||
-    (42928 <= lookahead && lookahead <= 42932) ||
-    lookahead == 42934 ||
-    lookahead == 42936 ||
-    lookahead == 42938 ||
-    lookahead == 42940 ||
-    lookahead == 42942 ||
-    lookahead == 42946 ||
-    (42948 <= lookahead && lookahead <= 42950) ||
-    (65313 <= lookahead && lookahead <= 65338) ||
-    (66560 <= lookahead && lookahead <= 66599) ||
-    (66736 <= lookahead && lookahead <= 66771) ||
-    (68736 <= lookahead && lookahead <= 68786) ||
-    (71840 <= lookahead && lookahead <= 71871) ||
-    (93760 <= lookahead && lookahead <= 93791) ||
-    (119808 <= lookahead && lookahead <= 119833) ||
-    (119860 <= lookahead && lookahead <= 119885) ||
-    (119912 <= lookahead && lookahead <= 119937) ||
-    lookahead == 119964 ||
-    lookahead == 119966 ||
-    lookahead == 119967 ||
-    lookahead == 119970 ||
-    lookahead == 119973 ||
-    lookahead == 119974 ||
-    (119977 <= lookahead && lookahead <= 119980) ||
-    (119982 <= lookahead && lookahead <= 119989) ||
-    (120016 <= lookahead && lookahead <= 120041) ||
-    lookahead == 120068 ||
-    lookahead == 120069 ||
-    (120071 <= lookahead && lookahead <= 120074) ||
-    (120077 <= lookahead && lookahead <= 120084) ||
-    (120086 <= lookahead && lookahead <= 120092) ||
-    lookahead == 120120 ||
-    lookahead == 120121 ||
-    (120123 <= lookahead && lookahead <= 120126) ||
-    (120128 <= lookahead && lookahead <= 120132) ||
-    lookahead == 120134 ||
-    (120138 <= lookahead && lookahead <= 120144) ||
-    (120172 <= lookahead && lookahead <= 120197) ||
-    (120224 <= lookahead && lookahead <= 120249) ||
-    (120276 <= lookahead && lookahead <= 120301) ||
-    (120328 <= lookahead && lookahead <= 120353) ||
-    (120380 <= lookahead && lookahead <= 120405) ||
-    (120432 <= lookahead && lookahead <= 120457) ||
-    (120488 <= lookahead && lookahead <= 120512) ||
-    (120546 <= lookahead && lookahead <= 120570) ||
-    (120604 <= lookahead && lookahead <= 120628) ||
-    (120662 <= lookahead && lookahead <= 120686) ||
-    (120720 <= lookahead && lookahead <= 120744) ||
-    lookahead == 120778 ||
-    (125184 <= lookahead && lookahead <= 125217);
+static inline bool sym_upper_case_identifier_character_set_1(int32_t c) {
+  return (c < 7760
+    ? (c < 990
+      ? (c < 430
+        ? (c < 330
+          ? (c < 288
+            ? (c < 268
+              ? (c < 258
+                ? (c < 216
+                  ? (c < 192
+                    ? (c >= 'A' && c <= 'Z')
+                    : c <= 214)
+                  : (c <= 222 || c == 256))
+                : (c <= 258 || (c < 264
+                  ? (c < 262
+                    ? c == 260
+                    : c <= 262)
+                  : (c <= 264 || c == 266))))
+              : (c <= 268 || (c < 278
+                ? (c < 274
+                  ? (c < 272
+                    ? c == 270
+                    : c <= 272)
+                  : (c <= 274 || c == 276))
+                : (c <= 278 || (c < 284
+                  ? (c < 282
+                    ? c == 280
+                    : c <= 282)
+                  : (c <= 284 || c == 286))))))
+            : (c <= 288 || (c < 308
+              ? (c < 298
+                ? (c < 294
+                  ? (c < 292
+                    ? c == 290
+                    : c <= 292)
+                  : (c <= 294 || c == 296))
+                : (c <= 298 || (c < 304
+                  ? (c < 302
+                    ? c == 300
+                    : c <= 302)
+                  : (c <= 304 || c == 306))))
+              : (c <= 308 || (c < 319
+                ? (c < 315
+                  ? (c < 313
+                    ? c == 310
+                    : c <= 313)
+                  : (c <= 315 || c == 317))
+                : (c <= 319 || (c < 325
+                  ? (c < 323
+                    ? c == 321
+                    : c <= 323)
+                  : (c <= 325 || c == 327))))))))
+          : (c <= 330 || (c < 370
+            ? (c < 350
+              ? (c < 340
+                ? (c < 336
+                  ? (c < 334
+                    ? c == 332
+                    : c <= 334)
+                  : (c <= 336 || c == 338))
+                : (c <= 340 || (c < 346
+                  ? (c < 344
+                    ? c == 342
+                    : c <= 344)
+                  : (c <= 346 || c == 348))))
+              : (c <= 350 || (c < 360
+                ? (c < 356
+                  ? (c < 354
+                    ? c == 352
+                    : c <= 354)
+                  : (c <= 356 || c == 358))
+                : (c <= 360 || (c < 366
+                  ? (c < 364
+                    ? c == 362
+                    : c <= 364)
+                  : (c <= 366 || c == 368))))))
+            : (c <= 370 || (c < 398
+              ? (c < 381
+                ? (c < 376
+                  ? (c < 374
+                    ? c == 372
+                    : c <= 374)
+                  : (c <= 377 || c == 379))
+                : (c <= 381 || (c < 390
+                  ? (c < 388
+                    ? (c >= 385 && c <= 386)
+                    : c <= 388)
+                  : (c <= 391 || (c >= 393 && c <= 395)))))
+              : (c <= 401 || (c < 418
+                ? (c < 412
+                  ? (c < 406
+                    ? (c >= 403 && c <= 404)
+                    : c <= 408)
+                  : (c <= 413 || (c >= 415 && c <= 416)))
+                : (c <= 418 || (c < 425
+                  ? (c < 422
+                    ? c == 420
+                    : c <= 423)
+                  : (c <= 425 || c == 428))))))))))
+        : (c <= 431 || (c < 530
+          ? (c < 486
+            ? (c < 465
+              ? (c < 452
+                ? (c < 439
+                  ? (c < 437
+                    ? (c >= 433 && c <= 435)
+                    : c <= 437)
+                  : (c <= 440 || c == 444))
+                : (c <= 452 || (c < 461
+                  ? (c < 458
+                    ? c == 455
+                    : c <= 458)
+                  : (c <= 461 || c == 463))))
+              : (c <= 465 || (c < 475
+                ? (c < 471
+                  ? (c < 469
+                    ? c == 467
+                    : c <= 469)
+                  : (c <= 471 || c == 473))
+                : (c <= 475 || (c < 482
+                  ? (c < 480
+                    ? c == 478
+                    : c <= 480)
+                  : (c <= 482 || c == 484))))))
+            : (c <= 486 || (c < 510
+              ? (c < 497
+                ? (c < 492
+                  ? (c < 490
+                    ? c == 488
+                    : c <= 490)
+                  : (c <= 492 || c == 494))
+                : (c <= 497 || (c < 506
+                  ? (c < 502
+                    ? c == 500
+                    : c <= 504)
+                  : (c <= 506 || c == 508))))
+              : (c <= 510 || (c < 520
+                ? (c < 516
+                  ? (c < 514
+                    ? c == 512
+                    : c <= 514)
+                  : (c <= 516 || c == 518))
+                : (c <= 520 || (c < 526
+                  ? (c < 524
+                    ? c == 522
+                    : c <= 524)
+                  : (c <= 526 || c == 528))))))))
+          : (c <= 530 || (c < 579
+            ? (c < 550
+              ? (c < 540
+                ? (c < 536
+                  ? (c < 534
+                    ? c == 532
+                    : c <= 534)
+                  : (c <= 536 || c == 538))
+                : (c <= 540 || (c < 546
+                  ? (c < 544
+                    ? c == 542
+                    : c <= 544)
+                  : (c <= 546 || c == 548))))
+              : (c <= 550 || (c < 560
+                ? (c < 556
+                  ? (c < 554
+                    ? c == 552
+                    : c <= 554)
+                  : (c <= 556 || c == 558))
+                : (c <= 560 || (c < 573
+                  ? (c < 570
+                    ? c == 562
+                    : c <= 571)
+                  : (c <= 574 || c == 577))))))
+            : (c <= 582 || (c < 904
+              ? (c < 880
+                ? (c < 588
+                  ? (c < 586
+                    ? c == 584
+                    : c <= 586)
+                  : (c <= 588 || c == 590))
+                : (c <= 880 || (c < 895
+                  ? (c < 886
+                    ? c == 882
+                    : c <= 886)
+                  : (c <= 895 || c == 902))))
+              : (c <= 906 || (c < 975
+                ? (c < 913
+                  ? (c < 910
+                    ? c == 908
+                    : c <= 911)
+                  : (c <= 929 || (c >= 931 && c <= 939)))
+                : (c <= 975 || (c < 986
+                  ? (c < 984
+                    ? (c >= 978 && c <= 980)
+                    : c <= 984)
+                  : (c <= 986 || c == 988))))))))))))
+      : (c <= 990 || (c < 1264
+        ? (c < 1182
+          ? (c < 1134
+            ? (c < 1015
+              ? (c < 1000
+                ? (c < 996
+                  ? (c < 994
+                    ? c == 992
+                    : c <= 994)
+                  : (c <= 996 || c == 998))
+                : (c <= 1000 || (c < 1006
+                  ? (c < 1004
+                    ? c == 1002
+                    : c <= 1004)
+                  : (c <= 1006 || c == 1012))))
+              : (c <= 1015 || (c < 1124
+                ? (c < 1120
+                  ? (c < 1021
+                    ? (c >= 1017 && c <= 1018)
+                    : c <= 1071)
+                  : (c <= 1120 || c == 1122))
+                : (c <= 1124 || (c < 1130
+                  ? (c < 1128
+                    ? c == 1126
+                    : c <= 1128)
+                  : (c <= 1130 || c == 1132))))))
+            : (c <= 1134 || (c < 1162
+              ? (c < 1144
+                ? (c < 1140
+                  ? (c < 1138
+                    ? c == 1136
+                    : c <= 1138)
+                  : (c <= 1140 || c == 1142))
+                : (c <= 1144 || (c < 1150
+                  ? (c < 1148
+                    ? c == 1146
+                    : c <= 1148)
+                  : (c <= 1150 || c == 1152))))
+              : (c <= 1162 || (c < 1172
+                ? (c < 1168
+                  ? (c < 1166
+                    ? c == 1164
+                    : c <= 1166)
+                  : (c <= 1168 || c == 1170))
+                : (c <= 1172 || (c < 1178
+                  ? (c < 1176
+                    ? c == 1174
+                    : c <= 1176)
+                  : (c <= 1178 || c == 1180))))))))
+          : (c <= 1182 || (c < 1223
+            ? (c < 1202
+              ? (c < 1192
+                ? (c < 1188
+                  ? (c < 1186
+                    ? c == 1184
+                    : c <= 1186)
+                  : (c <= 1188 || c == 1190))
+                : (c <= 1192 || (c < 1198
+                  ? (c < 1196
+                    ? c == 1194
+                    : c <= 1196)
+                  : (c <= 1198 || c == 1200))))
+              : (c <= 1202 || (c < 1212
+                ? (c < 1208
+                  ? (c < 1206
+                    ? c == 1204
+                    : c <= 1206)
+                  : (c <= 1208 || c == 1210))
+                : (c <= 1212 || (c < 1219
+                  ? (c < 1216
+                    ? c == 1214
+                    : c <= 1217)
+                  : (c <= 1219 || c == 1221))))))
+            : (c <= 1223 || (c < 1244
+              ? (c < 1234
+                ? (c < 1229
+                  ? (c < 1227
+                    ? c == 1225
+                    : c <= 1227)
+                  : (c <= 1229 || c == 1232))
+                : (c <= 1234 || (c < 1240
+                  ? (c < 1238
+                    ? c == 1236
+                    : c <= 1238)
+                  : (c <= 1240 || c == 1242))))
+              : (c <= 1244 || (c < 1254
+                ? (c < 1250
+                  ? (c < 1248
+                    ? c == 1246
+                    : c <= 1248)
+                  : (c <= 1250 || c == 1252))
+                : (c <= 1254 || (c < 1260
+                  ? (c < 1258
+                    ? c == 1256
+                    : c <= 1258)
+                  : (c <= 1260 || c == 1262))))))))))
+        : (c <= 1264 || (c < 7682
+          ? (c < 1304
+            ? (c < 1284
+              ? (c < 1274
+                ? (c < 1270
+                  ? (c < 1268
+                    ? c == 1266
+                    : c <= 1268)
+                  : (c <= 1270 || c == 1272))
+                : (c <= 1274 || (c < 1280
+                  ? (c < 1278
+                    ? c == 1276
+                    : c <= 1278)
+                  : (c <= 1280 || c == 1282))))
+              : (c <= 1284 || (c < 1294
+                ? (c < 1290
+                  ? (c < 1288
+                    ? c == 1286
+                    : c <= 1288)
+                  : (c <= 1290 || c == 1292))
+                : (c <= 1294 || (c < 1300
+                  ? (c < 1298
+                    ? c == 1296
+                    : c <= 1298)
+                  : (c <= 1300 || c == 1302))))))
+            : (c <= 1304 || (c < 1324
+              ? (c < 1314
+                ? (c < 1310
+                  ? (c < 1308
+                    ? c == 1306
+                    : c <= 1308)
+                  : (c <= 1310 || c == 1312))
+                : (c <= 1314 || (c < 1320
+                  ? (c < 1318
+                    ? c == 1316
+                    : c <= 1318)
+                  : (c <= 1320 || c == 1322))))
+              : (c <= 1324 || (c < 4301
+                ? (c < 4256
+                  ? (c < 1329
+                    ? c == 1326
+                    : c <= 1366)
+                  : (c <= 4293 || c == 4295))
+                : (c <= 4301 || (c < 7357
+                  ? (c < 7312
+                    ? (c >= 5024 && c <= 5109)
+                    : c <= 7354)
+                  : (c <= 7359 || c == 7680))))))))
+          : (c <= 7682 || (c < 7722
+            ? (c < 7702
+              ? (c < 7692
+                ? (c < 7688
+                  ? (c < 7686
+                    ? c == 7684
+                    : c <= 7686)
+                  : (c <= 7688 || c == 7690))
+                : (c <= 7692 || (c < 7698
+                  ? (c < 7696
+                    ? c == 7694
+                    : c <= 7696)
+                  : (c <= 7698 || c == 7700))))
+              : (c <= 7702 || (c < 7712
+                ? (c < 7708
+                  ? (c < 7706
+                    ? c == 7704
+                    : c <= 7706)
+                  : (c <= 7708 || c == 7710))
+                : (c <= 7712 || (c < 7718
+                  ? (c < 7716
+                    ? c == 7714
+                    : c <= 7716)
+                  : (c <= 7718 || c == 7720))))))
+            : (c <= 7722 || (c < 7742
+              ? (c < 7732
+                ? (c < 7728
+                  ? (c < 7726
+                    ? c == 7724
+                    : c <= 7726)
+                  : (c <= 7728 || c == 7730))
+                : (c <= 7732 || (c < 7738
+                  ? (c < 7736
+                    ? c == 7734
+                    : c <= 7736)
+                  : (c <= 7738 || c == 7740))))
+              : (c <= 7742 || (c < 7752
+                ? (c < 7748
+                  ? (c < 7746
+                    ? c == 7744
+                    : c <= 7746)
+                  : (c <= 7748 || c == 7750))
+                : (c <= 7752 || (c < 7756
+                  ? c == 7754
+                  : (c <= 7756 || c == 7758))))))))))))))
+    : (c <= 7760 || (c < 11466
+      ? (c < 7928
+        ? (c < 7848
+          ? (c < 7800
+            ? (c < 7780
+              ? (c < 7770
+                ? (c < 7766
+                  ? (c < 7764
+                    ? c == 7762
+                    : c <= 7764)
+                  : (c <= 7766 || c == 7768))
+                : (c <= 7770 || (c < 7776
+                  ? (c < 7774
+                    ? c == 7772
+                    : c <= 7774)
+                  : (c <= 7776 || c == 7778))))
+              : (c <= 7780 || (c < 7790
+                ? (c < 7786
+                  ? (c < 7784
+                    ? c == 7782
+                    : c <= 7784)
+                  : (c <= 7786 || c == 7788))
+                : (c <= 7790 || (c < 7796
+                  ? (c < 7794
+                    ? c == 7792
+                    : c <= 7794)
+                  : (c <= 7796 || c == 7798))))))
+            : (c <= 7800 || (c < 7820
+              ? (c < 7810
+                ? (c < 7806
+                  ? (c < 7804
+                    ? c == 7802
+                    : c <= 7804)
+                  : (c <= 7806 || c == 7808))
+                : (c <= 7810 || (c < 7816
+                  ? (c < 7814
+                    ? c == 7812
+                    : c <= 7814)
+                  : (c <= 7816 || c == 7818))))
+              : (c <= 7820 || (c < 7838
+                ? (c < 7826
+                  ? (c < 7824
+                    ? c == 7822
+                    : c <= 7824)
+                  : (c <= 7826 || c == 7828))
+                : (c <= 7838 || (c < 7844
+                  ? (c < 7842
+                    ? c == 7840
+                    : c <= 7842)
+                  : (c <= 7844 || c == 7846))))))))
+          : (c <= 7848 || (c < 7888
+            ? (c < 7868
+              ? (c < 7858
+                ? (c < 7854
+                  ? (c < 7852
+                    ? c == 7850
+                    : c <= 7852)
+                  : (c <= 7854 || c == 7856))
+                : (c <= 7858 || (c < 7864
+                  ? (c < 7862
+                    ? c == 7860
+                    : c <= 7862)
+                  : (c <= 7864 || c == 7866))))
+              : (c <= 7868 || (c < 7878
+                ? (c < 7874
+                  ? (c < 7872
+                    ? c == 7870
+                    : c <= 7872)
+                  : (c <= 7874 || c == 7876))
+                : (c <= 7878 || (c < 7884
+                  ? (c < 7882
+                    ? c == 7880
+                    : c <= 7882)
+                  : (c <= 7884 || c == 7886))))))
+            : (c <= 7888 || (c < 7908
+              ? (c < 7898
+                ? (c < 7894
+                  ? (c < 7892
+                    ? c == 7890
+                    : c <= 7892)
+                  : (c <= 7894 || c == 7896))
+                : (c <= 7898 || (c < 7904
+                  ? (c < 7902
+                    ? c == 7900
+                    : c <= 7902)
+                  : (c <= 7904 || c == 7906))))
+              : (c <= 7908 || (c < 7918
+                ? (c < 7914
+                  ? (c < 7912
+                    ? c == 7910
+                    : c <= 7912)
+                  : (c <= 7914 || c == 7916))
+                : (c <= 7918 || (c < 7924
+                  ? (c < 7922
+                    ? c == 7920
+                    : c <= 7922)
+                  : (c <= 7924 || c == 7926))))))))))
+        : (c <= 7928 || (c < 11378
+          ? (c < 8455
+            ? (c < 8027
+              ? (c < 7960
+                ? (c < 7934
+                  ? (c < 7932
+                    ? c == 7930
+                    : c <= 7932)
+                  : (c <= 7934 || (c >= 7944 && c <= 7951)))
+                : (c <= 7965 || (c < 8008
+                  ? (c < 7992
+                    ? (c >= 7976 && c <= 7983)
+                    : c <= 7999)
+                  : (c <= 8013 || c == 8025))))
+              : (c <= 8027 || (c < 8136
+                ? (c < 8040
+                  ? (c < 8031
+                    ? c == 8029
+                    : c <= 8031)
+                  : (c <= 8047 || (c >= 8120 && c <= 8123)))
+                : (c <= 8139 || (c < 8184
+                  ? (c < 8168
+                    ? (c >= 8152 && c <= 8155)
+                    : c <= 8172)
+                  : (c <= 8187 || c == 8450))))))
+            : (c <= 8455 || (c < 8510
+              ? (c < 8484
+                ? (c < 8469
+                  ? (c < 8464
+                    ? (c >= 8459 && c <= 8461)
+                    : c <= 8466)
+                  : (c <= 8469 || (c >= 8473 && c <= 8477)))
+                : (c <= 8484 || (c < 8490
+                  ? (c < 8488
+                    ? c == 8486
+                    : c <= 8488)
+                  : (c <= 8493 || (c >= 8496 && c <= 8499)))))
+              : (c <= 8511 || (c < 11362
+                ? (c < 11264
+                  ? (c < 8579
+                    ? c == 8517
+                    : c <= 8579)
+                  : (c <= 11310 || c == 11360))
+                : (c <= 11364 || (c < 11371
+                  ? (c < 11369
+                    ? c == 11367
+                    : c <= 11369)
+                  : (c <= 11371 || (c >= 11373 && c <= 11376)))))))))
+          : (c <= 11378 || (c < 11428
+            ? (c < 11408
+              ? (c < 11398
+                ? (c < 11394
+                  ? (c < 11390
+                    ? c == 11381
+                    : c <= 11392)
+                  : (c <= 11394 || c == 11396))
+                : (c <= 11398 || (c < 11404
+                  ? (c < 11402
+                    ? c == 11400
+                    : c <= 11402)
+                  : (c <= 11404 || c == 11406))))
+              : (c <= 11408 || (c < 11418
+                ? (c < 11414
+                  ? (c < 11412
+                    ? c == 11410
+                    : c <= 11412)
+                  : (c <= 11414 || c == 11416))
+                : (c <= 11418 || (c < 11424
+                  ? (c < 11422
+                    ? c == 11420
+                    : c <= 11422)
+                  : (c <= 11424 || c == 11426))))))
+            : (c <= 11428 || (c < 11448
+              ? (c < 11438
+                ? (c < 11434
+                  ? (c < 11432
+                    ? c == 11430
+                    : c <= 11432)
+                  : (c <= 11434 || c == 11436))
+                : (c <= 11438 || (c < 11444
+                  ? (c < 11442
+                    ? c == 11440
+                    : c <= 11442)
+                  : (c <= 11444 || c == 11446))))
+              : (c <= 11448 || (c < 11458
+                ? (c < 11454
+                  ? (c < 11452
+                    ? c == 11450
+                    : c <= 11452)
+                  : (c <= 11454 || c == 11456))
+                : (c <= 11458 || (c < 11462
+                  ? c == 11460
+                  : (c <= 11462 || c == 11464))))))))))))
+      : (c <= 11466 || (c < 42842
+        ? (c < 42626
+          ? (c < 42568
+            ? (c < 11486
+              ? (c < 11476
+                ? (c < 11472
+                  ? (c < 11470
+                    ? c == 11468
+                    : c <= 11470)
+                  : (c <= 11472 || c == 11474))
+                : (c <= 11476 || (c < 11482
+                  ? (c < 11480
+                    ? c == 11478
+                    : c <= 11480)
+                  : (c <= 11482 || c == 11484))))
+              : (c <= 11486 || (c < 11506
+                ? (c < 11499
+                  ? (c < 11490
+                    ? c == 11488
+                    : c <= 11490)
+                  : (c <= 11499 || c == 11501))
+                : (c <= 11506 || (c < 42564
+                  ? (c < 42562
+                    ? c == 42560
+                    : c <= 42562)
+                  : (c <= 42564 || c == 42566))))))
+            : (c <= 42568 || (c < 42588
+              ? (c < 42578
+                ? (c < 42574
+                  ? (c < 42572
+                    ? c == 42570
+                    : c <= 42572)
+                  : (c <= 42574 || c == 42576))
+                : (c <= 42578 || (c < 42584
+                  ? (c < 42582
+                    ? c == 42580
+                    : c <= 42582)
+                  : (c <= 42584 || c == 42586))))
+              : (c <= 42588 || (c < 42598
+                ? (c < 42594
+                  ? (c < 42592
+                    ? c == 42590
+                    : c <= 42592)
+                  : (c <= 42594 || c == 42596))
+                : (c <= 42598 || (c < 42604
+                  ? (c < 42602
+                    ? c == 42600
+                    : c <= 42602)
+                  : (c <= 42604 || c == 42624))))))))
+          : (c <= 42626 || (c < 42802
+            ? (c < 42646
+              ? (c < 42636
+                ? (c < 42632
+                  ? (c < 42630
+                    ? c == 42628
+                    : c <= 42630)
+                  : (c <= 42632 || c == 42634))
+                : (c <= 42636 || (c < 42642
+                  ? (c < 42640
+                    ? c == 42638
+                    : c <= 42640)
+                  : (c <= 42642 || c == 42644))))
+              : (c <= 42646 || (c < 42790
+                ? (c < 42786
+                  ? (c < 42650
+                    ? c == 42648
+                    : c <= 42650)
+                  : (c <= 42786 || c == 42788))
+                : (c <= 42790 || (c < 42796
+                  ? (c < 42794
+                    ? c == 42792
+                    : c <= 42794)
+                  : (c <= 42796 || c == 42798))))))
+            : (c <= 42802 || (c < 42822
+              ? (c < 42812
+                ? (c < 42808
+                  ? (c < 42806
+                    ? c == 42804
+                    : c <= 42806)
+                  : (c <= 42808 || c == 42810))
+                : (c <= 42812 || (c < 42818
+                  ? (c < 42816
+                    ? c == 42814
+                    : c <= 42816)
+                  : (c <= 42818 || c == 42820))))
+              : (c <= 42822 || (c < 42832
+                ? (c < 42828
+                  ? (c < 42826
+                    ? c == 42824
+                    : c <= 42826)
+                  : (c <= 42828 || c == 42830))
+                : (c <= 42832 || (c < 42838
+                  ? (c < 42836
+                    ? c == 42834
+                    : c <= 42836)
+                  : (c <= 42838 || c == 42840))))))))))
+        : (c <= 42842 || (c < 42948
+          ? (c < 42896
+            ? (c < 42862
+              ? (c < 42852
+                ? (c < 42848
+                  ? (c < 42846
+                    ? c == 42844
+                    : c <= 42846)
+                  : (c <= 42848 || c == 42850))
+                : (c <= 42852 || (c < 42858
+                  ? (c < 42856
+                    ? c == 42854
+                    : c <= 42856)
+                  : (c <= 42858 || c == 42860))))
+              : (c <= 42862 || (c < 42882
+                ? (c < 42877
+                  ? (c < 42875
+                    ? c == 42873
+                    : c <= 42875)
+                  : (c <= 42878 || c == 42880))
+                : (c <= 42882 || (c < 42891
+                  ? (c < 42886
+                    ? c == 42884
+                    : c <= 42886)
+                  : (c <= 42891 || c == 42893))))))
+            : (c <= 42896 || (c < 42918
+              ? (c < 42908
+                ? (c < 42904
+                  ? (c < 42902
+                    ? c == 42898
+                    : c <= 42902)
+                  : (c <= 42904 || c == 42906))
+                : (c <= 42908 || (c < 42914
+                  ? (c < 42912
+                    ? c == 42910
+                    : c <= 42912)
+                  : (c <= 42914 || c == 42916))))
+              : (c <= 42918 || (c < 42936
+                ? (c < 42928
+                  ? (c < 42922
+                    ? c == 42920
+                    : c <= 42926)
+                  : (c <= 42932 || c == 42934))
+                : (c <= 42936 || (c < 42942
+                  ? (c < 42940
+                    ? c == 42938
+                    : c <= 42940)
+                  : (c <= 42942 || c == 42946))))))))
+          : (c <= 42950 || (c < 120086
+            ? (c < 119964
+              ? (c < 71840
+                ? (c < 66736
+                  ? (c < 66560
+                    ? (c >= 65313 && c <= 65338)
+                    : c <= 66599)
+                  : (c <= 66771 || (c >= 68736 && c <= 68786)))
+                : (c <= 71871 || (c < 119860
+                  ? (c < 119808
+                    ? (c >= 93760 && c <= 93791)
+                    : c <= 119833)
+                  : (c <= 119885 || (c >= 119912 && c <= 119937)))))
+              : (c <= 119964 || (c < 119982
+                ? (c < 119973
+                  ? (c < 119970
+                    ? (c >= 119966 && c <= 119967)
+                    : c <= 119970)
+                  : (c <= 119974 || (c >= 119977 && c <= 119980)))
+                : (c <= 119989 || (c < 120071
+                  ? (c < 120068
+                    ? (c >= 120016 && c <= 120041)
+                    : c <= 120069)
+                  : (c <= 120074 || (c >= 120077 && c <= 120084)))))))
+            : (c <= 120092 || (c < 120380
+              ? (c < 120138
+                ? (c < 120128
+                  ? (c < 120123
+                    ? (c >= 120120 && c <= 120121)
+                    : c <= 120126)
+                  : (c <= 120132 || c == 120134))
+                : (c <= 120144 || (c < 120276
+                  ? (c < 120224
+                    ? (c >= 120172 && c <= 120197)
+                    : c <= 120249)
+                  : (c <= 120301 || (c >= 120328 && c <= 120353)))))
+              : (c <= 120405 || (c < 120662
+                ? (c < 120546
+                  ? (c < 120488
+                    ? (c >= 120432 && c <= 120457)
+                    : c <= 120512)
+                  : (c <= 120570 || (c >= 120604 && c <= 120628)))
+                : (c <= 120686 || (c < 120778
+                  ? (c >= 120720 && c <= 120744)
+                  : (c <= 120778 || (c >= 125184 && c <= 125217)))))))))))))))));
 }
 
-static inline bool sym_upper_case_identifier_character_set_2(int32_t lookahead) {
-  return
-    ('0' <= lookahead && lookahead <= '9') ||
-    ('A' <= lookahead && lookahead <= 'Z') ||
-    lookahead == '_' ||
-    ('a' <= lookahead && lookahead <= 'z') ||
-    lookahead == 170 ||
-    lookahead == 181 ||
-    lookahead == 186 ||
-    (192 <= lookahead && lookahead <= 214) ||
-    (216 <= lookahead && lookahead <= 246) ||
-    (248 <= lookahead && lookahead <= 705) ||
-    (710 <= lookahead && lookahead <= 721) ||
-    (736 <= lookahead && lookahead <= 740) ||
-    lookahead == 748 ||
-    lookahead == 750 ||
-    (880 <= lookahead && lookahead <= 884) ||
-    lookahead == 886 ||
-    lookahead == 887 ||
-    (890 <= lookahead && lookahead <= 893) ||
-    lookahead == 895 ||
-    lookahead == 902 ||
-    (904 <= lookahead && lookahead <= 906) ||
-    lookahead == 908 ||
-    (910 <= lookahead && lookahead <= 929) ||
-    (931 <= lookahead && lookahead <= 1013) ||
-    (1015 <= lookahead && lookahead <= 1153) ||
-    (1162 <= lookahead && lookahead <= 1327) ||
-    (1329 <= lookahead && lookahead <= 1366) ||
-    lookahead == 1369 ||
-    (1376 <= lookahead && lookahead <= 1416) ||
-    (1488 <= lookahead && lookahead <= 1514) ||
-    (1519 <= lookahead && lookahead <= 1522) ||
-    (1568 <= lookahead && lookahead <= 1610) ||
-    lookahead == 1646 ||
-    lookahead == 1647 ||
-    (1649 <= lookahead && lookahead <= 1747) ||
-    lookahead == 1749 ||
-    lookahead == 1765 ||
-    lookahead == 1766 ||
-    lookahead == 1774 ||
-    lookahead == 1775 ||
-    (1786 <= lookahead && lookahead <= 1788) ||
-    lookahead == 1791 ||
-    lookahead == 1808 ||
-    (1810 <= lookahead && lookahead <= 1839) ||
-    (1869 <= lookahead && lookahead <= 1957) ||
-    lookahead == 1969 ||
-    (1994 <= lookahead && lookahead <= 2026) ||
-    lookahead == 2036 ||
-    lookahead == 2037 ||
-    lookahead == 2042 ||
-    (2048 <= lookahead && lookahead <= 2069) ||
-    lookahead == 2074 ||
-    lookahead == 2084 ||
-    lookahead == 2088 ||
-    (2112 <= lookahead && lookahead <= 2136) ||
-    (2144 <= lookahead && lookahead <= 2154) ||
-    (2208 <= lookahead && lookahead <= 2228) ||
-    (2230 <= lookahead && lookahead <= 2237) ||
-    (2308 <= lookahead && lookahead <= 2361) ||
-    lookahead == 2365 ||
-    lookahead == 2384 ||
-    (2392 <= lookahead && lookahead <= 2401) ||
-    (2417 <= lookahead && lookahead <= 2432) ||
-    (2437 <= lookahead && lookahead <= 2444) ||
-    lookahead == 2447 ||
-    lookahead == 2448 ||
-    (2451 <= lookahead && lookahead <= 2472) ||
-    (2474 <= lookahead && lookahead <= 2480) ||
-    lookahead == 2482 ||
-    (2486 <= lookahead && lookahead <= 2489) ||
-    lookahead == 2493 ||
-    lookahead == 2510 ||
-    lookahead == 2524 ||
-    lookahead == 2525 ||
-    (2527 <= lookahead && lookahead <= 2529) ||
-    lookahead == 2544 ||
-    lookahead == 2545 ||
-    lookahead == 2556 ||
-    (2565 <= lookahead && lookahead <= 2570) ||
-    lookahead == 2575 ||
-    lookahead == 2576 ||
-    (2579 <= lookahead && lookahead <= 2600) ||
-    (2602 <= lookahead && lookahead <= 2608) ||
-    lookahead == 2610 ||
-    lookahead == 2611 ||
-    lookahead == 2613 ||
-    lookahead == 2614 ||
-    lookahead == 2616 ||
-    lookahead == 2617 ||
-    (2649 <= lookahead && lookahead <= 2652) ||
-    lookahead == 2654 ||
-    (2674 <= lookahead && lookahead <= 2676) ||
-    (2693 <= lookahead && lookahead <= 2701) ||
-    (2703 <= lookahead && lookahead <= 2705) ||
-    (2707 <= lookahead && lookahead <= 2728) ||
-    (2730 <= lookahead && lookahead <= 2736) ||
-    lookahead == 2738 ||
-    lookahead == 2739 ||
-    (2741 <= lookahead && lookahead <= 2745) ||
-    lookahead == 2749 ||
-    lookahead == 2768 ||
-    lookahead == 2784 ||
-    lookahead == 2785 ||
-    lookahead == 2809 ||
-    (2821 <= lookahead && lookahead <= 2828) ||
-    lookahead == 2831 ||
-    lookahead == 2832 ||
-    (2835 <= lookahead && lookahead <= 2856) ||
-    (2858 <= lookahead && lookahead <= 2864) ||
-    lookahead == 2866 ||
-    lookahead == 2867 ||
-    (2869 <= lookahead && lookahead <= 2873) ||
-    lookahead == 2877 ||
-    lookahead == 2908 ||
-    lookahead == 2909 ||
-    (2911 <= lookahead && lookahead <= 2913) ||
-    lookahead == 2929 ||
-    lookahead == 2947 ||
-    (2949 <= lookahead && lookahead <= 2954) ||
-    (2958 <= lookahead && lookahead <= 2960) ||
-    (2962 <= lookahead && lookahead <= 2965) ||
-    lookahead == 2969 ||
-    lookahead == 2970 ||
-    lookahead == 2972 ||
-    lookahead == 2974 ||
-    lookahead == 2975 ||
-    lookahead == 2979 ||
-    lookahead == 2980 ||
-    (2984 <= lookahead && lookahead <= 2986) ||
-    (2990 <= lookahead && lookahead <= 3001) ||
-    lookahead == 3024 ||
-    (3077 <= lookahead && lookahead <= 3084) ||
-    (3086 <= lookahead && lookahead <= 3088) ||
-    (3090 <= lookahead && lookahead <= 3112) ||
-    (3114 <= lookahead && lookahead <= 3129) ||
-    lookahead == 3133 ||
-    (3160 <= lookahead && lookahead <= 3162) ||
-    lookahead == 3168 ||
-    lookahead == 3169 ||
-    lookahead == 3200 ||
-    (3205 <= lookahead && lookahead <= 3212) ||
-    (3214 <= lookahead && lookahead <= 3216) ||
-    (3218 <= lookahead && lookahead <= 3240) ||
-    (3242 <= lookahead && lookahead <= 3251) ||
-    (3253 <= lookahead && lookahead <= 3257) ||
-    lookahead == 3261 ||
-    lookahead == 3294 ||
-    lookahead == 3296 ||
-    lookahead == 3297 ||
-    lookahead == 3313 ||
-    lookahead == 3314 ||
-    (3333 <= lookahead && lookahead <= 3340) ||
-    (3342 <= lookahead && lookahead <= 3344) ||
-    (3346 <= lookahead && lookahead <= 3386) ||
-    lookahead == 3389 ||
-    lookahead == 3406 ||
-    (3412 <= lookahead && lookahead <= 3414) ||
-    (3423 <= lookahead && lookahead <= 3425) ||
-    (3450 <= lookahead && lookahead <= 3455) ||
-    (3461 <= lookahead && lookahead <= 3478) ||
-    (3482 <= lookahead && lookahead <= 3505) ||
-    (3507 <= lookahead && lookahead <= 3515) ||
-    lookahead == 3517 ||
-    (3520 <= lookahead && lookahead <= 3526) ||
-    (3585 <= lookahead && lookahead <= 3632) ||
-    lookahead == 3634 ||
-    lookahead == 3635 ||
-    (3648 <= lookahead && lookahead <= 3654) ||
-    lookahead == 3713 ||
-    lookahead == 3714 ||
-    lookahead == 3716 ||
-    (3718 <= lookahead && lookahead <= 3722) ||
-    (3724 <= lookahead && lookahead <= 3747) ||
-    lookahead == 3749 ||
-    (3751 <= lookahead && lookahead <= 3760) ||
-    lookahead == 3762 ||
-    lookahead == 3763 ||
-    lookahead == 3773 ||
-    (3776 <= lookahead && lookahead <= 3780) ||
-    lookahead == 3782 ||
-    (3804 <= lookahead && lookahead <= 3807) ||
-    lookahead == 3840 ||
-    (3904 <= lookahead && lookahead <= 3911) ||
-    (3913 <= lookahead && lookahead <= 3948) ||
-    (3976 <= lookahead && lookahead <= 3980) ||
-    (4096 <= lookahead && lookahead <= 4138) ||
-    lookahead == 4159 ||
-    (4176 <= lookahead && lookahead <= 4181) ||
-    (4186 <= lookahead && lookahead <= 4189) ||
-    lookahead == 4193 ||
-    lookahead == 4197 ||
-    lookahead == 4198 ||
-    (4206 <= lookahead && lookahead <= 4208) ||
-    (4213 <= lookahead && lookahead <= 4225) ||
-    lookahead == 4238 ||
-    (4256 <= lookahead && lookahead <= 4293) ||
-    lookahead == 4295 ||
-    lookahead == 4301 ||
-    (4304 <= lookahead && lookahead <= 4346) ||
-    (4348 <= lookahead && lookahead <= 4680) ||
-    (4682 <= lookahead && lookahead <= 4685) ||
-    (4688 <= lookahead && lookahead <= 4694) ||
-    lookahead == 4696 ||
-    (4698 <= lookahead && lookahead <= 4701) ||
-    (4704 <= lookahead && lookahead <= 4744) ||
-    (4746 <= lookahead && lookahead <= 4749) ||
-    (4752 <= lookahead && lookahead <= 4784) ||
-    (4786 <= lookahead && lookahead <= 4789) ||
-    (4792 <= lookahead && lookahead <= 4798) ||
-    lookahead == 4800 ||
-    (4802 <= lookahead && lookahead <= 4805) ||
-    (4808 <= lookahead && lookahead <= 4822) ||
-    (4824 <= lookahead && lookahead <= 4880) ||
-    (4882 <= lookahead && lookahead <= 4885) ||
-    (4888 <= lookahead && lookahead <= 4954) ||
-    (4992 <= lookahead && lookahead <= 5007) ||
-    (5024 <= lookahead && lookahead <= 5109) ||
-    (5112 <= lookahead && lookahead <= 5117) ||
-    (5121 <= lookahead && lookahead <= 5740) ||
-    (5743 <= lookahead && lookahead <= 5759) ||
-    (5761 <= lookahead && lookahead <= 5786) ||
-    (5792 <= lookahead && lookahead <= 5866) ||
-    (5873 <= lookahead && lookahead <= 5880) ||
-    (5888 <= lookahead && lookahead <= 5900) ||
-    (5902 <= lookahead && lookahead <= 5905) ||
-    (5920 <= lookahead && lookahead <= 5937) ||
-    (5952 <= lookahead && lookahead <= 5969) ||
-    (5984 <= lookahead && lookahead <= 5996) ||
-    (5998 <= lookahead && lookahead <= 6000) ||
-    (6016 <= lookahead && lookahead <= 6067) ||
-    lookahead == 6103 ||
-    lookahead == 6108 ||
-    (6176 <= lookahead && lookahead <= 6264) ||
-    (6272 <= lookahead && lookahead <= 6276) ||
-    (6279 <= lookahead && lookahead <= 6312) ||
-    lookahead == 6314 ||
-    (6320 <= lookahead && lookahead <= 6389) ||
-    (6400 <= lookahead && lookahead <= 6430) ||
-    (6480 <= lookahead && lookahead <= 6509) ||
-    (6512 <= lookahead && lookahead <= 6516) ||
-    (6528 <= lookahead && lookahead <= 6571) ||
-    (6576 <= lookahead && lookahead <= 6601) ||
-    (6656 <= lookahead && lookahead <= 6678) ||
-    (6688 <= lookahead && lookahead <= 6740) ||
-    lookahead == 6823 ||
-    (6917 <= lookahead && lookahead <= 6963) ||
-    (6981 <= lookahead && lookahead <= 6987) ||
-    (7043 <= lookahead && lookahead <= 7072) ||
-    lookahead == 7086 ||
-    lookahead == 7087 ||
-    (7098 <= lookahead && lookahead <= 7141) ||
-    (7168 <= lookahead && lookahead <= 7203) ||
-    (7245 <= lookahead && lookahead <= 7247) ||
-    (7258 <= lookahead && lookahead <= 7293) ||
-    (7296 <= lookahead && lookahead <= 7304) ||
-    (7312 <= lookahead && lookahead <= 7354) ||
-    (7357 <= lookahead && lookahead <= 7359) ||
-    (7401 <= lookahead && lookahead <= 7404) ||
-    (7406 <= lookahead && lookahead <= 7411) ||
-    lookahead == 7413 ||
-    lookahead == 7414 ||
-    lookahead == 7418 ||
-    (7424 <= lookahead && lookahead <= 7615) ||
-    (7680 <= lookahead && lookahead <= 7957) ||
-    (7960 <= lookahead && lookahead <= 7965) ||
-    (7968 <= lookahead && lookahead <= 8005) ||
-    (8008 <= lookahead && lookahead <= 8013) ||
-    (8016 <= lookahead && lookahead <= 8023) ||
-    lookahead == 8025 ||
-    lookahead == 8027 ||
-    lookahead == 8029 ||
-    (8031 <= lookahead && lookahead <= 8061) ||
-    (8064 <= lookahead && lookahead <= 8116) ||
-    (8118 <= lookahead && lookahead <= 8124) ||
-    lookahead == 8126 ||
-    (8130 <= lookahead && lookahead <= 8132) ||
-    (8134 <= lookahead && lookahead <= 8140) ||
-    (8144 <= lookahead && lookahead <= 8147) ||
-    (8150 <= lookahead && lookahead <= 8155) ||
-    (8160 <= lookahead && lookahead <= 8172) ||
-    (8178 <= lookahead && lookahead <= 8180) ||
-    (8182 <= lookahead && lookahead <= 8188) ||
-    lookahead == 8305 ||
-    lookahead == 8319 ||
-    (8336 <= lookahead && lookahead <= 8348) ||
-    lookahead == 8450 ||
-    lookahead == 8455 ||
-    (8458 <= lookahead && lookahead <= 8467) ||
-    lookahead == 8469 ||
-    (8473 <= lookahead && lookahead <= 8477) ||
-    lookahead == 8484 ||
-    lookahead == 8486 ||
-    lookahead == 8488 ||
-    (8490 <= lookahead && lookahead <= 8493) ||
-    (8495 <= lookahead && lookahead <= 8505) ||
-    (8508 <= lookahead && lookahead <= 8511) ||
-    (8517 <= lookahead && lookahead <= 8521) ||
-    lookahead == 8526 ||
-    lookahead == 8579 ||
-    lookahead == 8580 ||
-    (11264 <= lookahead && lookahead <= 11310) ||
-    (11312 <= lookahead && lookahead <= 11358) ||
-    (11360 <= lookahead && lookahead <= 11492) ||
-    (11499 <= lookahead && lookahead <= 11502) ||
-    lookahead == 11506 ||
-    lookahead == 11507 ||
-    (11520 <= lookahead && lookahead <= 11557) ||
-    lookahead == 11559 ||
-    lookahead == 11565 ||
-    (11568 <= lookahead && lookahead <= 11623) ||
-    lookahead == 11631 ||
-    (11648 <= lookahead && lookahead <= 11670) ||
-    (11680 <= lookahead && lookahead <= 11686) ||
-    (11688 <= lookahead && lookahead <= 11694) ||
-    (11696 <= lookahead && lookahead <= 11702) ||
-    (11704 <= lookahead && lookahead <= 11710) ||
-    (11712 <= lookahead && lookahead <= 11718) ||
-    (11720 <= lookahead && lookahead <= 11726) ||
-    (11728 <= lookahead && lookahead <= 11734) ||
-    (11736 <= lookahead && lookahead <= 11742) ||
-    lookahead == 11823 ||
-    lookahead == 12293 ||
-    lookahead == 12294 ||
-    (12337 <= lookahead && lookahead <= 12341) ||
-    lookahead == 12347 ||
-    lookahead == 12348 ||
-    (12353 <= lookahead && lookahead <= 12438) ||
-    (12445 <= lookahead && lookahead <= 12447) ||
-    (12449 <= lookahead && lookahead <= 12538) ||
-    (12540 <= lookahead && lookahead <= 12543) ||
-    (12549 <= lookahead && lookahead <= 12591) ||
-    (12593 <= lookahead && lookahead <= 12686) ||
-    (12704 <= lookahead && lookahead <= 12730) ||
-    (12784 <= lookahead && lookahead <= 12799) ||
-    (13312 <= lookahead && lookahead <= 19893) ||
-    (19968 <= lookahead && lookahead <= 40943) ||
-    (40960 <= lookahead && lookahead <= 42124) ||
-    (42192 <= lookahead && lookahead <= 42237) ||
-    (42240 <= lookahead && lookahead <= 42508) ||
-    (42512 <= lookahead && lookahead <= 42527) ||
-    lookahead == 42538 ||
-    lookahead == 42539 ||
-    (42560 <= lookahead && lookahead <= 42606) ||
-    (42623 <= lookahead && lookahead <= 42653) ||
-    (42656 <= lookahead && lookahead <= 42725) ||
-    (42775 <= lookahead && lookahead <= 42783) ||
-    (42786 <= lookahead && lookahead <= 42888) ||
-    (42891 <= lookahead && lookahead <= 42943) ||
-    (42946 <= lookahead && lookahead <= 42950) ||
-    (42999 <= lookahead && lookahead <= 43009) ||
-    (43011 <= lookahead && lookahead <= 43013) ||
-    (43015 <= lookahead && lookahead <= 43018) ||
-    (43020 <= lookahead && lookahead <= 43042) ||
-    (43072 <= lookahead && lookahead <= 43123) ||
-    (43138 <= lookahead && lookahead <= 43187) ||
-    (43250 <= lookahead && lookahead <= 43255) ||
-    lookahead == 43259 ||
-    lookahead == 43261 ||
-    lookahead == 43262 ||
-    (43274 <= lookahead && lookahead <= 43301) ||
-    (43312 <= lookahead && lookahead <= 43334) ||
-    (43360 <= lookahead && lookahead <= 43388) ||
-    (43396 <= lookahead && lookahead <= 43442) ||
-    lookahead == 43471 ||
-    (43488 <= lookahead && lookahead <= 43492) ||
-    (43494 <= lookahead && lookahead <= 43503) ||
-    (43514 <= lookahead && lookahead <= 43518) ||
-    (43520 <= lookahead && lookahead <= 43560) ||
-    (43584 <= lookahead && lookahead <= 43586) ||
-    (43588 <= lookahead && lookahead <= 43595) ||
-    (43616 <= lookahead && lookahead <= 43638) ||
-    lookahead == 43642 ||
-    (43646 <= lookahead && lookahead <= 43695) ||
-    lookahead == 43697 ||
-    lookahead == 43701 ||
-    lookahead == 43702 ||
-    (43705 <= lookahead && lookahead <= 43709) ||
-    lookahead == 43712 ||
-    lookahead == 43714 ||
-    (43739 <= lookahead && lookahead <= 43741) ||
-    (43744 <= lookahead && lookahead <= 43754) ||
-    (43762 <= lookahead && lookahead <= 43764) ||
-    (43777 <= lookahead && lookahead <= 43782) ||
-    (43785 <= lookahead && lookahead <= 43790) ||
-    (43793 <= lookahead && lookahead <= 43798) ||
-    (43808 <= lookahead && lookahead <= 43814) ||
-    (43816 <= lookahead && lookahead <= 43822) ||
-    (43824 <= lookahead && lookahead <= 43866) ||
-    (43868 <= lookahead && lookahead <= 43879) ||
-    (43888 <= lookahead && lookahead <= 44002) ||
-    (44032 <= lookahead && lookahead <= 55203) ||
-    (55216 <= lookahead && lookahead <= 55238) ||
-    (55243 <= lookahead && lookahead <= 55291) ||
-    (63744 <= lookahead && lookahead <= 64109) ||
-    (64112 <= lookahead && lookahead <= 64217) ||
-    (64256 <= lookahead && lookahead <= 64262) ||
-    (64275 <= lookahead && lookahead <= 64279) ||
-    lookahead == 64285 ||
-    (64287 <= lookahead && lookahead <= 64296) ||
-    (64298 <= lookahead && lookahead <= 64310) ||
-    (64312 <= lookahead && lookahead <= 64316) ||
-    lookahead == 64318 ||
-    lookahead == 64320 ||
-    lookahead == 64321 ||
-    lookahead == 64323 ||
-    lookahead == 64324 ||
-    (64326 <= lookahead && lookahead <= 64433) ||
-    (64467 <= lookahead && lookahead <= 64829) ||
-    (64848 <= lookahead && lookahead <= 64911) ||
-    (64914 <= lookahead && lookahead <= 64967) ||
-    (65008 <= lookahead && lookahead <= 65019) ||
-    (65136 <= lookahead && lookahead <= 65140) ||
-    (65142 <= lookahead && lookahead <= 65276) ||
-    (65313 <= lookahead && lookahead <= 65338) ||
-    (65345 <= lookahead && lookahead <= 65370) ||
-    (65382 <= lookahead && lookahead <= 65470) ||
-    (65474 <= lookahead && lookahead <= 65479) ||
-    (65482 <= lookahead && lookahead <= 65487) ||
-    (65490 <= lookahead && lookahead <= 65495) ||
-    (65498 <= lookahead && lookahead <= 65500) ||
-    (65536 <= lookahead && lookahead <= 65547) ||
-    (65549 <= lookahead && lookahead <= 65574) ||
-    (65576 <= lookahead && lookahead <= 65594) ||
-    lookahead == 65596 ||
-    lookahead == 65597 ||
-    (65599 <= lookahead && lookahead <= 65613) ||
-    (65616 <= lookahead && lookahead <= 65629) ||
-    (65664 <= lookahead && lookahead <= 65786) ||
-    (66176 <= lookahead && lookahead <= 66204) ||
-    (66208 <= lookahead && lookahead <= 66256) ||
-    (66304 <= lookahead && lookahead <= 66335) ||
-    (66349 <= lookahead && lookahead <= 66368) ||
-    (66370 <= lookahead && lookahead <= 66377) ||
-    (66384 <= lookahead && lookahead <= 66421) ||
-    (66432 <= lookahead && lookahead <= 66461) ||
-    (66464 <= lookahead && lookahead <= 66499) ||
-    (66504 <= lookahead && lookahead <= 66511) ||
-    (66560 <= lookahead && lookahead <= 66717) ||
-    (66736 <= lookahead && lookahead <= 66771) ||
-    (66776 <= lookahead && lookahead <= 66811) ||
-    (66816 <= lookahead && lookahead <= 66855) ||
-    (66864 <= lookahead && lookahead <= 66915) ||
-    (67072 <= lookahead && lookahead <= 67382) ||
-    (67392 <= lookahead && lookahead <= 67413) ||
-    (67424 <= lookahead && lookahead <= 67431) ||
-    (67584 <= lookahead && lookahead <= 67589) ||
-    lookahead == 67592 ||
-    (67594 <= lookahead && lookahead <= 67637) ||
-    lookahead == 67639 ||
-    lookahead == 67640 ||
-    lookahead == 67644 ||
-    (67647 <= lookahead && lookahead <= 67669) ||
-    (67680 <= lookahead && lookahead <= 67702) ||
-    (67712 <= lookahead && lookahead <= 67742) ||
-    (67808 <= lookahead && lookahead <= 67826) ||
-    lookahead == 67828 ||
-    lookahead == 67829 ||
-    (67840 <= lookahead && lookahead <= 67861) ||
-    (67872 <= lookahead && lookahead <= 67897) ||
-    (67968 <= lookahead && lookahead <= 68023) ||
-    lookahead == 68030 ||
-    lookahead == 68031 ||
-    lookahead == 68096 ||
-    (68112 <= lookahead && lookahead <= 68115) ||
-    (68117 <= lookahead && lookahead <= 68119) ||
-    (68121 <= lookahead && lookahead <= 68149) ||
-    (68192 <= lookahead && lookahead <= 68220) ||
-    (68224 <= lookahead && lookahead <= 68252) ||
-    (68288 <= lookahead && lookahead <= 68295) ||
-    (68297 <= lookahead && lookahead <= 68324) ||
-    (68352 <= lookahead && lookahead <= 68405) ||
-    (68416 <= lookahead && lookahead <= 68437) ||
-    (68448 <= lookahead && lookahead <= 68466) ||
-    (68480 <= lookahead && lookahead <= 68497) ||
-    (68608 <= lookahead && lookahead <= 68680) ||
-    (68736 <= lookahead && lookahead <= 68786) ||
-    (68800 <= lookahead && lookahead <= 68850) ||
-    (68864 <= lookahead && lookahead <= 68899) ||
-    (69376 <= lookahead && lookahead <= 69404) ||
-    lookahead == 69415 ||
-    (69424 <= lookahead && lookahead <= 69445) ||
-    (69600 <= lookahead && lookahead <= 69622) ||
-    (69635 <= lookahead && lookahead <= 69687) ||
-    (69763 <= lookahead && lookahead <= 69807) ||
-    (69840 <= lookahead && lookahead <= 69864) ||
-    (69891 <= lookahead && lookahead <= 69926) ||
-    lookahead == 69956 ||
-    (69968 <= lookahead && lookahead <= 70002) ||
-    lookahead == 70006 ||
-    (70019 <= lookahead && lookahead <= 70066) ||
-    (70081 <= lookahead && lookahead <= 70084) ||
-    lookahead == 70106 ||
-    lookahead == 70108 ||
-    (70144 <= lookahead && lookahead <= 70161) ||
-    (70163 <= lookahead && lookahead <= 70187) ||
-    (70272 <= lookahead && lookahead <= 70278) ||
-    lookahead == 70280 ||
-    (70282 <= lookahead && lookahead <= 70285) ||
-    (70287 <= lookahead && lookahead <= 70301) ||
-    (70303 <= lookahead && lookahead <= 70312) ||
-    (70320 <= lookahead && lookahead <= 70366) ||
-    (70405 <= lookahead && lookahead <= 70412) ||
-    lookahead == 70415 ||
-    lookahead == 70416 ||
-    (70419 <= lookahead && lookahead <= 70440) ||
-    (70442 <= lookahead && lookahead <= 70448) ||
-    lookahead == 70450 ||
-    lookahead == 70451 ||
-    (70453 <= lookahead && lookahead <= 70457) ||
-    lookahead == 70461 ||
-    lookahead == 70480 ||
-    (70493 <= lookahead && lookahead <= 70497) ||
-    (70656 <= lookahead && lookahead <= 70708) ||
-    (70727 <= lookahead && lookahead <= 70730) ||
-    lookahead == 70751 ||
-    (70784 <= lookahead && lookahead <= 70831) ||
-    lookahead == 70852 ||
-    lookahead == 70853 ||
-    lookahead == 70855 ||
-    (71040 <= lookahead && lookahead <= 71086) ||
-    (71128 <= lookahead && lookahead <= 71131) ||
-    (71168 <= lookahead && lookahead <= 71215) ||
-    lookahead == 71236 ||
-    (71296 <= lookahead && lookahead <= 71338) ||
-    lookahead == 71352 ||
-    (71424 <= lookahead && lookahead <= 71450) ||
-    (71680 <= lookahead && lookahead <= 71723) ||
-    (71840 <= lookahead && lookahead <= 71903) ||
-    lookahead == 71935 ||
-    (72096 <= lookahead && lookahead <= 72103) ||
-    (72106 <= lookahead && lookahead <= 72144) ||
-    lookahead == 72161 ||
-    lookahead == 72163 ||
-    lookahead == 72192 ||
-    (72203 <= lookahead && lookahead <= 72242) ||
-    lookahead == 72250 ||
-    lookahead == 72272 ||
-    (72284 <= lookahead && lookahead <= 72329) ||
-    lookahead == 72349 ||
-    (72384 <= lookahead && lookahead <= 72440) ||
-    (72704 <= lookahead && lookahead <= 72712) ||
-    (72714 <= lookahead && lookahead <= 72750) ||
-    lookahead == 72768 ||
-    (72818 <= lookahead && lookahead <= 72847) ||
-    (72960 <= lookahead && lookahead <= 72966) ||
-    lookahead == 72968 ||
-    lookahead == 72969 ||
-    (72971 <= lookahead && lookahead <= 73008) ||
-    lookahead == 73030 ||
-    (73056 <= lookahead && lookahead <= 73061) ||
-    lookahead == 73063 ||
-    lookahead == 73064 ||
-    (73066 <= lookahead && lookahead <= 73097) ||
-    lookahead == 73112 ||
-    (73440 <= lookahead && lookahead <= 73458) ||
-    (73728 <= lookahead && lookahead <= 74649) ||
-    (74880 <= lookahead && lookahead <= 75075) ||
-    (77824 <= lookahead && lookahead <= 78894) ||
-    (82944 <= lookahead && lookahead <= 83526) ||
-    (92160 <= lookahead && lookahead <= 92728) ||
-    (92736 <= lookahead && lookahead <= 92766) ||
-    (92880 <= lookahead && lookahead <= 92909) ||
-    (92928 <= lookahead && lookahead <= 92975) ||
-    (92992 <= lookahead && lookahead <= 92995) ||
-    (93027 <= lookahead && lookahead <= 93047) ||
-    (93053 <= lookahead && lookahead <= 93071) ||
-    (93760 <= lookahead && lookahead <= 93823) ||
-    (93952 <= lookahead && lookahead <= 94026) ||
-    lookahead == 94032 ||
-    (94099 <= lookahead && lookahead <= 94111) ||
-    lookahead == 94176 ||
-    lookahead == 94177 ||
-    lookahead == 94179 ||
-    (94208 <= lookahead && lookahead <= 100343) ||
-    (100352 <= lookahead && lookahead <= 101106) ||
-    (110592 <= lookahead && lookahead <= 110878) ||
-    (110928 <= lookahead && lookahead <= 110930) ||
-    (110948 <= lookahead && lookahead <= 110951) ||
-    (110960 <= lookahead && lookahead <= 111355) ||
-    (113664 <= lookahead && lookahead <= 113770) ||
-    (113776 <= lookahead && lookahead <= 113788) ||
-    (113792 <= lookahead && lookahead <= 113800) ||
-    (113808 <= lookahead && lookahead <= 113817) ||
-    (119808 <= lookahead && lookahead <= 119892) ||
-    (119894 <= lookahead && lookahead <= 119964) ||
-    lookahead == 119966 ||
-    lookahead == 119967 ||
-    lookahead == 119970 ||
-    lookahead == 119973 ||
-    lookahead == 119974 ||
-    (119977 <= lookahead && lookahead <= 119980) ||
-    (119982 <= lookahead && lookahead <= 119993) ||
-    lookahead == 119995 ||
-    (119997 <= lookahead && lookahead <= 120003) ||
-    (120005 <= lookahead && lookahead <= 120069) ||
-    (120071 <= lookahead && lookahead <= 120074) ||
-    (120077 <= lookahead && lookahead <= 120084) ||
-    (120086 <= lookahead && lookahead <= 120092) ||
-    (120094 <= lookahead && lookahead <= 120121) ||
-    (120123 <= lookahead && lookahead <= 120126) ||
-    (120128 <= lookahead && lookahead <= 120132) ||
-    lookahead == 120134 ||
-    (120138 <= lookahead && lookahead <= 120144) ||
-    (120146 <= lookahead && lookahead <= 120485) ||
-    (120488 <= lookahead && lookahead <= 120512) ||
-    (120514 <= lookahead && lookahead <= 120538) ||
-    (120540 <= lookahead && lookahead <= 120570) ||
-    (120572 <= lookahead && lookahead <= 120596) ||
-    (120598 <= lookahead && lookahead <= 120628) ||
-    (120630 <= lookahead && lookahead <= 120654) ||
-    (120656 <= lookahead && lookahead <= 120686) ||
-    (120688 <= lookahead && lookahead <= 120712) ||
-    (120714 <= lookahead && lookahead <= 120744) ||
-    (120746 <= lookahead && lookahead <= 120770) ||
-    (120772 <= lookahead && lookahead <= 120779) ||
-    (123136 <= lookahead && lookahead <= 123180) ||
-    (123191 <= lookahead && lookahead <= 123197) ||
-    lookahead == 123214 ||
-    (123584 <= lookahead && lookahead <= 123627) ||
-    (124928 <= lookahead && lookahead <= 125124) ||
-    (125184 <= lookahead && lookahead <= 125251) ||
-    lookahead == 125259 ||
-    (126464 <= lookahead && lookahead <= 126467) ||
-    (126469 <= lookahead && lookahead <= 126495) ||
-    lookahead == 126497 ||
-    lookahead == 126498 ||
-    lookahead == 126500 ||
-    lookahead == 126503 ||
-    (126505 <= lookahead && lookahead <= 126514) ||
-    (126516 <= lookahead && lookahead <= 126519) ||
-    lookahead == 126521 ||
-    lookahead == 126523 ||
-    lookahead == 126530 ||
-    lookahead == 126535 ||
-    lookahead == 126537 ||
-    lookahead == 126539 ||
-    (126541 <= lookahead && lookahead <= 126543) ||
-    lookahead == 126545 ||
-    lookahead == 126546 ||
-    lookahead == 126548 ||
-    lookahead == 126551 ||
-    lookahead == 126553 ||
-    lookahead == 126555 ||
-    lookahead == 126557 ||
-    lookahead == 126559 ||
-    lookahead == 126561 ||
-    lookahead == 126562 ||
-    lookahead == 126564 ||
-    (126567 <= lookahead && lookahead <= 126570) ||
-    (126572 <= lookahead && lookahead <= 126578) ||
-    (126580 <= lookahead && lookahead <= 126583) ||
-    (126585 <= lookahead && lookahead <= 126588) ||
-    lookahead == 126590 ||
-    (126592 <= lookahead && lookahead <= 126601) ||
-    (126603 <= lookahead && lookahead <= 126619) ||
-    (126625 <= lookahead && lookahead <= 126627) ||
-    (126629 <= lookahead && lookahead <= 126633) ||
-    (126635 <= lookahead && lookahead <= 126651) ||
-    (131072 <= lookahead && lookahead <= 173782) ||
-    (173824 <= lookahead && lookahead <= 177972) ||
-    (177984 <= lookahead && lookahead <= 178205) ||
-    (178208 <= lookahead && lookahead <= 183969) ||
-    (183984 <= lookahead && lookahead <= 191456) ||
-    (194560 <= lookahead && lookahead <= 195101);
+static inline bool sym_upper_case_identifier_character_set_2(int32_t c) {
+  return (c < 42240
+    ? (c < 3776
+      ? (c < 2616
+        ? (c < 1808
+          ? (c < 904
+            ? (c < 248
+              ? (c < 170
+                ? (c < '_'
+                  ? (c < 'A'
+                    ? (c >= '0' && c <= '9')
+                    : c <= 'Z')
+                  : (c <= '_' || (c >= 'a' && c <= 'z')))
+                : (c <= 170 || (c < 192
+                  ? (c < 186
+                    ? c == 181
+                    : c <= 186)
+                  : (c <= 214 || (c >= 216 && c <= 246)))))
+              : (c <= 705 || (c < 880
+                ? (c < 748
+                  ? (c < 736
+                    ? (c >= 710 && c <= 721)
+                    : c <= 740)
+                  : (c <= 748 || c == 750))
+                : (c <= 884 || (c < 895
+                  ? (c < 890
+                    ? (c >= 886 && c <= 887)
+                    : c <= 893)
+                  : (c <= 895 || c == 902))))))
+            : (c <= 906 || (c < 1519
+              ? (c < 1162
+                ? (c < 931
+                  ? (c < 910
+                    ? c == 908
+                    : c <= 929)
+                  : (c <= 1013 || (c >= 1015 && c <= 1153)))
+                : (c <= 1327 || (c < 1376
+                  ? (c < 1369
+                    ? (c >= 1329 && c <= 1366)
+                    : c <= 1369)
+                  : (c <= 1416 || (c >= 1488 && c <= 1514)))))
+              : (c <= 1522 || (c < 1765
+                ? (c < 1649
+                  ? (c < 1646
+                    ? (c >= 1568 && c <= 1610)
+                    : c <= 1647)
+                  : (c <= 1747 || c == 1749))
+                : (c <= 1766 || (c < 1786
+                  ? (c >= 1774 && c <= 1775)
+                  : (c <= 1788 || c == 1791))))))))
+          : (c <= 1808 || (c < 2417
+            ? (c < 2088
+              ? (c < 2036
+                ? (c < 1969
+                  ? (c < 1869
+                    ? (c >= 1810 && c <= 1839)
+                    : c <= 1957)
+                  : (c <= 1969 || (c >= 1994 && c <= 2026)))
+                : (c <= 2037 || (c < 2074
+                  ? (c < 2048
+                    ? c == 2042
+                    : c <= 2069)
+                  : (c <= 2074 || c == 2084))))
+              : (c <= 2088 || (c < 2308
+                ? (c < 2208
+                  ? (c < 2144
+                    ? (c >= 2112 && c <= 2136)
+                    : c <= 2154)
+                  : (c <= 2228 || (c >= 2230 && c <= 2237)))
+                : (c <= 2361 || (c < 2384
+                  ? c == 2365
+                  : (c <= 2384 || (c >= 2392 && c <= 2401)))))))
+            : (c <= 2432 || (c < 2527
+              ? (c < 2482
+                ? (c < 2451
+                  ? (c < 2447
+                    ? (c >= 2437 && c <= 2444)
+                    : c <= 2448)
+                  : (c <= 2472 || (c >= 2474 && c <= 2480)))
+                : (c <= 2482 || (c < 2510
+                  ? (c < 2493
+                    ? (c >= 2486 && c <= 2489)
+                    : c <= 2493)
+                  : (c <= 2510 || (c >= 2524 && c <= 2525)))))
+              : (c <= 2529 || (c < 2579
+                ? (c < 2565
+                  ? (c < 2556
+                    ? (c >= 2544 && c <= 2545)
+                    : c <= 2556)
+                  : (c <= 2570 || (c >= 2575 && c <= 2576)))
+                : (c <= 2600 || (c < 2610
+                  ? (c >= 2602 && c <= 2608)
+                  : (c <= 2611 || (c >= 2613 && c <= 2614)))))))))))
+        : (c <= 2617 || (c < 3114
+          ? (c < 2869
+            ? (c < 2749
+              ? (c < 2703
+                ? (c < 2674
+                  ? (c < 2654
+                    ? (c >= 2649 && c <= 2652)
+                    : c <= 2654)
+                  : (c <= 2676 || (c >= 2693 && c <= 2701)))
+                : (c <= 2705 || (c < 2738
+                  ? (c < 2730
+                    ? (c >= 2707 && c <= 2728)
+                    : c <= 2736)
+                  : (c <= 2739 || (c >= 2741 && c <= 2745)))))
+              : (c <= 2749 || (c < 2831
+                ? (c < 2809
+                  ? (c < 2784
+                    ? c == 2768
+                    : c <= 2785)
+                  : (c <= 2809 || (c >= 2821 && c <= 2828)))
+                : (c <= 2832 || (c < 2858
+                  ? (c >= 2835 && c <= 2856)
+                  : (c <= 2864 || (c >= 2866 && c <= 2867)))))))
+            : (c <= 2873 || (c < 2972
+              ? (c < 2947
+                ? (c < 2911
+                  ? (c < 2908
+                    ? c == 2877
+                    : c <= 2909)
+                  : (c <= 2913 || c == 2929))
+                : (c <= 2947 || (c < 2962
+                  ? (c < 2958
+                    ? (c >= 2949 && c <= 2954)
+                    : c <= 2960)
+                  : (c <= 2965 || (c >= 2969 && c <= 2970)))))
+              : (c <= 2972 || (c < 3024
+                ? (c < 2984
+                  ? (c < 2979
+                    ? (c >= 2974 && c <= 2975)
+                    : c <= 2980)
+                  : (c <= 2986 || (c >= 2990 && c <= 3001)))
+                : (c <= 3024 || (c < 3086
+                  ? (c >= 3077 && c <= 3084)
+                  : (c <= 3088 || (c >= 3090 && c <= 3112)))))))))
+          : (c <= 3129 || (c < 3412
+            ? (c < 3261
+              ? (c < 3205
+                ? (c < 3168
+                  ? (c < 3160
+                    ? c == 3133
+                    : c <= 3162)
+                  : (c <= 3169 || c == 3200))
+                : (c <= 3212 || (c < 3242
+                  ? (c < 3218
+                    ? (c >= 3214 && c <= 3216)
+                    : c <= 3240)
+                  : (c <= 3251 || (c >= 3253 && c <= 3257)))))
+              : (c <= 3261 || (c < 3342
+                ? (c < 3313
+                  ? (c < 3296
+                    ? c == 3294
+                    : c <= 3297)
+                  : (c <= 3314 || (c >= 3333 && c <= 3340)))
+                : (c <= 3344 || (c < 3389
+                  ? (c >= 3346 && c <= 3386)
+                  : (c <= 3389 || c == 3406))))))
+            : (c <= 3414 || (c < 3648
+              ? (c < 3507
+                ? (c < 3461
+                  ? (c < 3450
+                    ? (c >= 3423 && c <= 3425)
+                    : c <= 3455)
+                  : (c <= 3478 || (c >= 3482 && c <= 3505)))
+                : (c <= 3515 || (c < 3585
+                  ? (c < 3520
+                    ? c == 3517
+                    : c <= 3526)
+                  : (c <= 3632 || (c >= 3634 && c <= 3635)))))
+              : (c <= 3654 || (c < 3749
+                ? (c < 3718
+                  ? (c < 3716
+                    ? (c >= 3713 && c <= 3714)
+                    : c <= 3716)
+                  : (c <= 3722 || (c >= 3724 && c <= 3747)))
+                : (c <= 3749 || (c < 3762
+                  ? (c >= 3751 && c <= 3760)
+                  : (c <= 3763 || c == 3773))))))))))))
+      : (c <= 3780 || (c < 7401
+        ? (c < 5121
+          ? (c < 4348
+            ? (c < 4186
+              ? (c < 3913
+                ? (c < 3840
+                  ? (c < 3804
+                    ? c == 3782
+                    : c <= 3807)
+                  : (c <= 3840 || (c >= 3904 && c <= 3911)))
+                : (c <= 3948 || (c < 4159
+                  ? (c < 4096
+                    ? (c >= 3976 && c <= 3980)
+                    : c <= 4138)
+                  : (c <= 4159 || (c >= 4176 && c <= 4181)))))
+              : (c <= 4189 || (c < 4238
+                ? (c < 4206
+                  ? (c < 4197
+                    ? c == 4193
+                    : c <= 4198)
+                  : (c <= 4208 || (c >= 4213 && c <= 4225)))
+                : (c <= 4238 || (c < 4301
+                  ? (c < 4295
+                    ? (c >= 4256 && c <= 4293)
+                    : c <= 4295)
+                  : (c <= 4301 || (c >= 4304 && c <= 4346)))))))
+            : (c <= 4680 || (c < 4800
+              ? (c < 4704
+                ? (c < 4696
+                  ? (c < 4688
+                    ? (c >= 4682 && c <= 4685)
+                    : c <= 4694)
+                  : (c <= 4696 || (c >= 4698 && c <= 4701)))
+                : (c <= 4744 || (c < 4786
+                  ? (c < 4752
+                    ? (c >= 4746 && c <= 4749)
+                    : c <= 4784)
+                  : (c <= 4789 || (c >= 4792 && c <= 4798)))))
+              : (c <= 4800 || (c < 4888
+                ? (c < 4824
+                  ? (c < 4808
+                    ? (c >= 4802 && c <= 4805)
+                    : c <= 4822)
+                  : (c <= 4880 || (c >= 4882 && c <= 4885)))
+                : (c <= 4954 || (c < 5024
+                  ? (c >= 4992 && c <= 5007)
+                  : (c <= 5109 || (c >= 5112 && c <= 5117)))))))))
+          : (c <= 5740 || (c < 6400
+            ? (c < 5998
+              ? (c < 5888
+                ? (c < 5792
+                  ? (c < 5761
+                    ? (c >= 5743 && c <= 5759)
+                    : c <= 5786)
+                  : (c <= 5866 || (c >= 5873 && c <= 5880)))
+                : (c <= 5900 || (c < 5952
+                  ? (c < 5920
+                    ? (c >= 5902 && c <= 5905)
+                    : c <= 5937)
+                  : (c <= 5969 || (c >= 5984 && c <= 5996)))))
+              : (c <= 6000 || (c < 6272
+                ? (c < 6108
+                  ? (c < 6103
+                    ? (c >= 6016 && c <= 6067)
+                    : c <= 6103)
+                  : (c <= 6108 || (c >= 6176 && c <= 6264)))
+                : (c <= 6276 || (c < 6314
+                  ? (c >= 6279 && c <= 6312)
+                  : (c <= 6314 || (c >= 6320 && c <= 6389)))))))
+            : (c <= 6430 || (c < 7043
+              ? (c < 6656
+                ? (c < 6528
+                  ? (c < 6512
+                    ? (c >= 6480 && c <= 6509)
+                    : c <= 6516)
+                  : (c <= 6571 || (c >= 6576 && c <= 6601)))
+                : (c <= 6678 || (c < 6917
+                  ? (c < 6823
+                    ? (c >= 6688 && c <= 6740)
+                    : c <= 6823)
+                  : (c <= 6963 || (c >= 6981 && c <= 6987)))))
+              : (c <= 7072 || (c < 7258
+                ? (c < 7168
+                  ? (c < 7098
+                    ? (c >= 7086 && c <= 7087)
+                    : c <= 7141)
+                  : (c <= 7203 || (c >= 7245 && c <= 7247)))
+                : (c <= 7293 || (c < 7312
+                  ? (c >= 7296 && c <= 7304)
+                  : (c <= 7354 || (c >= 7357 && c <= 7359)))))))))))
+        : (c <= 7404 || (c < 8517
+          ? (c < 8144
+            ? (c < 8025
+              ? (c < 7680
+                ? (c < 7418
+                  ? (c < 7413
+                    ? (c >= 7406 && c <= 7411)
+                    : c <= 7414)
+                  : (c <= 7418 || (c >= 7424 && c <= 7615)))
+                : (c <= 7957 || (c < 8008
+                  ? (c < 7968
+                    ? (c >= 7960 && c <= 7965)
+                    : c <= 8005)
+                  : (c <= 8013 || (c >= 8016 && c <= 8023)))))
+              : (c <= 8025 || (c < 8118
+                ? (c < 8031
+                  ? (c < 8029
+                    ? c == 8027
+                    : c <= 8029)
+                  : (c <= 8061 || (c >= 8064 && c <= 8116)))
+                : (c <= 8124 || (c < 8130
+                  ? c == 8126
+                  : (c <= 8132 || (c >= 8134 && c <= 8140)))))))
+            : (c <= 8147 || (c < 8458
+              ? (c < 8305
+                ? (c < 8178
+                  ? (c < 8160
+                    ? (c >= 8150 && c <= 8155)
+                    : c <= 8172)
+                  : (c <= 8180 || (c >= 8182 && c <= 8188)))
+                : (c <= 8305 || (c < 8450
+                  ? (c < 8336
+                    ? c == 8319
+                    : c <= 8348)
+                  : (c <= 8450 || c == 8455))))
+              : (c <= 8467 || (c < 8488
+                ? (c < 8484
+                  ? (c < 8473
+                    ? c == 8469
+                    : c <= 8477)
+                  : (c <= 8484 || c == 8486))
+                : (c <= 8488 || (c < 8495
+                  ? (c >= 8490 && c <= 8493)
+                  : (c <= 8505 || (c >= 8508 && c <= 8511)))))))))
+          : (c <= 8521 || (c < 11720
+            ? (c < 11565
+              ? (c < 11360
+                ? (c < 11264
+                  ? (c < 8579
+                    ? c == 8526
+                    : c <= 8580)
+                  : (c <= 11310 || (c >= 11312 && c <= 11358)))
+                : (c <= 11492 || (c < 11520
+                  ? (c < 11506
+                    ? (c >= 11499 && c <= 11502)
+                    : c <= 11507)
+                  : (c <= 11557 || c == 11559))))
+              : (c <= 11565 || (c < 11688
+                ? (c < 11648
+                  ? (c < 11631
+                    ? (c >= 11568 && c <= 11623)
+                    : c <= 11631)
+                  : (c <= 11670 || (c >= 11680 && c <= 11686)))
+                : (c <= 11694 || (c < 11704
+                  ? (c >= 11696 && c <= 11702)
+                  : (c <= 11710 || (c >= 11712 && c <= 11718)))))))
+            : (c <= 11726 || (c < 12540
+              ? (c < 12337
+                ? (c < 11823
+                  ? (c < 11736
+                    ? (c >= 11728 && c <= 11734)
+                    : c <= 11742)
+                  : (c <= 11823 || (c >= 12293 && c <= 12294)))
+                : (c <= 12341 || (c < 12445
+                  ? (c < 12353
+                    ? (c >= 12347 && c <= 12348)
+                    : c <= 12438)
+                  : (c <= 12447 || (c >= 12449 && c <= 12538)))))
+              : (c <= 12543 || (c < 13312
+                ? (c < 12704
+                  ? (c < 12593
+                    ? (c >= 12549 && c <= 12591)
+                    : c <= 12686)
+                  : (c <= 12730 || (c >= 12784 && c <= 12799)))
+                : (c <= 19893 || (c < 40960
+                  ? (c >= 19968 && c <= 40943)
+                  : (c <= 42124 || (c >= 42192 && c <= 42237)))))))))))))))
+    : (c <= 42508 || (c < 70320
+      ? (c < 65536
+        ? (c < 43744
+          ? (c < 43312
+            ? (c < 42999
+              ? (c < 42656
+                ? (c < 42560
+                  ? (c < 42538
+                    ? (c >= 42512 && c <= 42527)
+                    : c <= 42539)
+                  : (c <= 42606 || (c >= 42623 && c <= 42653)))
+                : (c <= 42725 || (c < 42891
+                  ? (c < 42786
+                    ? (c >= 42775 && c <= 42783)
+                    : c <= 42888)
+                  : (c <= 42943 || (c >= 42946 && c <= 42950)))))
+              : (c <= 43009 || (c < 43138
+                ? (c < 43020
+                  ? (c < 43015
+                    ? (c >= 43011 && c <= 43013)
+                    : c <= 43018)
+                  : (c <= 43042 || (c >= 43072 && c <= 43123)))
+                : (c <= 43187 || (c < 43261
+                  ? (c < 43259
+                    ? (c >= 43250 && c <= 43255)
+                    : c <= 43259)
+                  : (c <= 43262 || (c >= 43274 && c <= 43301)))))))
+            : (c <= 43334 || (c < 43616
+              ? (c < 43494
+                ? (c < 43471
+                  ? (c < 43396
+                    ? (c >= 43360 && c <= 43388)
+                    : c <= 43442)
+                  : (c <= 43471 || (c >= 43488 && c <= 43492)))
+                : (c <= 43503 || (c < 43584
+                  ? (c < 43520
+                    ? (c >= 43514 && c <= 43518)
+                    : c <= 43560)
+                  : (c <= 43586 || (c >= 43588 && c <= 43595)))))
+              : (c <= 43638 || (c < 43705
+                ? (c < 43697
+                  ? (c < 43646
+                    ? c == 43642
+                    : c <= 43695)
+                  : (c <= 43697 || (c >= 43701 && c <= 43702)))
+                : (c <= 43709 || (c < 43714
+                  ? c == 43712
+                  : (c <= 43714 || (c >= 43739 && c <= 43741)))))))))
+          : (c <= 43754 || (c < 64298
+            ? (c < 44032
+              ? (c < 43808
+                ? (c < 43785
+                  ? (c < 43777
+                    ? (c >= 43762 && c <= 43764)
+                    : c <= 43782)
+                  : (c <= 43790 || (c >= 43793 && c <= 43798)))
+                : (c <= 43814 || (c < 43868
+                  ? (c < 43824
+                    ? (c >= 43816 && c <= 43822)
+                    : c <= 43866)
+                  : (c <= 43879 || (c >= 43888 && c <= 44002)))))
+              : (c <= 55203 || (c < 64256
+                ? (c < 63744
+                  ? (c < 55243
+                    ? (c >= 55216 && c <= 55238)
+                    : c <= 55291)
+                  : (c <= 64109 || (c >= 64112 && c <= 64217)))
+                : (c <= 64262 || (c < 64285
+                  ? (c >= 64275 && c <= 64279)
+                  : (c <= 64285 || (c >= 64287 && c <= 64296)))))))
+            : (c <= 64310 || (c < 65136
+              ? (c < 64326
+                ? (c < 64320
+                  ? (c < 64318
+                    ? (c >= 64312 && c <= 64316)
+                    : c <= 64318)
+                  : (c <= 64321 || (c >= 64323 && c <= 64324)))
+                : (c <= 64433 || (c < 64914
+                  ? (c < 64848
+                    ? (c >= 64467 && c <= 64829)
+                    : c <= 64911)
+                  : (c <= 64967 || (c >= 65008 && c <= 65019)))))
+              : (c <= 65140 || (c < 65474
+                ? (c < 65345
+                  ? (c < 65313
+                    ? (c >= 65142 && c <= 65276)
+                    : c <= 65338)
+                  : (c <= 65370 || (c >= 65382 && c <= 65470)))
+                : (c <= 65479 || (c < 65490
+                  ? (c >= 65482 && c <= 65487)
+                  : (c <= 65495 || (c >= 65498 && c <= 65500)))))))))))
+        : (c <= 65547 || (c < 68096
+          ? (c < 66816
+            ? (c < 66349
+              ? (c < 65616
+                ? (c < 65596
+                  ? (c < 65576
+                    ? (c >= 65549 && c <= 65574)
+                    : c <= 65594)
+                  : (c <= 65597 || (c >= 65599 && c <= 65613)))
+                : (c <= 65629 || (c < 66208
+                  ? (c < 66176
+                    ? (c >= 65664 && c <= 65786)
+                    : c <= 66204)
+                  : (c <= 66256 || (c >= 66304 && c <= 66335)))))
+              : (c <= 66368 || (c < 66504
+                ? (c < 66432
+                  ? (c < 66384
+                    ? (c >= 66370 && c <= 66377)
+                    : c <= 66421)
+                  : (c <= 66461 || (c >= 66464 && c <= 66499)))
+                : (c <= 66511 || (c < 66736
+                  ? (c >= 66560 && c <= 66717)
+                  : (c <= 66771 || (c >= 66776 && c <= 66811)))))))
+            : (c <= 66855 || (c < 67647
+              ? (c < 67584
+                ? (c < 67392
+                  ? (c < 67072
+                    ? (c >= 66864 && c <= 66915)
+                    : c <= 67382)
+                  : (c <= 67413 || (c >= 67424 && c <= 67431)))
+                : (c <= 67589 || (c < 67639
+                  ? (c < 67594
+                    ? c == 67592
+                    : c <= 67637)
+                  : (c <= 67640 || c == 67644))))
+              : (c <= 67669 || (c < 67840
+                ? (c < 67808
+                  ? (c < 67712
+                    ? (c >= 67680 && c <= 67702)
+                    : c <= 67742)
+                  : (c <= 67826 || (c >= 67828 && c <= 67829)))
+                : (c <= 67861 || (c < 67968
+                  ? (c >= 67872 && c <= 67897)
+                  : (c <= 68023 || (c >= 68030 && c <= 68031)))))))))
+          : (c <= 68096 || (c < 69600
+            ? (c < 68448
+              ? (c < 68224
+                ? (c < 68121
+                  ? (c < 68117
+                    ? (c >= 68112 && c <= 68115)
+                    : c <= 68119)
+                  : (c <= 68149 || (c >= 68192 && c <= 68220)))
+                : (c <= 68252 || (c < 68352
+                  ? (c < 68297
+                    ? (c >= 68288 && c <= 68295)
+                    : c <= 68324)
+                  : (c <= 68405 || (c >= 68416 && c <= 68437)))))
+              : (c <= 68466 || (c < 68864
+                ? (c < 68736
+                  ? (c < 68608
+                    ? (c >= 68480 && c <= 68497)
+                    : c <= 68680)
+                  : (c <= 68786 || (c >= 68800 && c <= 68850)))
+                : (c <= 68899 || (c < 69415
+                  ? (c >= 69376 && c <= 69404)
+                  : (c <= 69415 || (c >= 69424 && c <= 69445)))))))
+            : (c <= 69622 || (c < 70106
+              ? (c < 69956
+                ? (c < 69840
+                  ? (c < 69763
+                    ? (c >= 69635 && c <= 69687)
+                    : c <= 69807)
+                  : (c <= 69864 || (c >= 69891 && c <= 69926)))
+                : (c <= 69956 || (c < 70019
+                  ? (c < 70006
+                    ? (c >= 69968 && c <= 70002)
+                    : c <= 70006)
+                  : (c <= 70066 || (c >= 70081 && c <= 70084)))))
+              : (c <= 70106 || (c < 70280
+                ? (c < 70163
+                  ? (c < 70144
+                    ? c == 70108
+                    : c <= 70161)
+                  : (c <= 70187 || (c >= 70272 && c <= 70278)))
+                : (c <= 70280 || (c < 70287
+                  ? (c >= 70282 && c <= 70285)
+                  : (c <= 70301 || (c >= 70303 && c <= 70312)))))))))))))
+      : (c <= 70366 || (c < 119808
+        ? (c < 72768
+          ? (c < 71296
+            ? (c < 70656
+              ? (c < 70450
+                ? (c < 70419
+                  ? (c < 70415
+                    ? (c >= 70405 && c <= 70412)
+                    : c <= 70416)
+                  : (c <= 70440 || (c >= 70442 && c <= 70448)))
+                : (c <= 70451 || (c < 70480
+                  ? (c < 70461
+                    ? (c >= 70453 && c <= 70457)
+                    : c <= 70461)
+                  : (c <= 70480 || (c >= 70493 && c <= 70497)))))
+              : (c <= 70708 || (c < 70855
+                ? (c < 70784
+                  ? (c < 70751
+                    ? (c >= 70727 && c <= 70730)
+                    : c <= 70751)
+                  : (c <= 70831 || (c >= 70852 && c <= 70853)))
+                : (c <= 70855 || (c < 71168
+                  ? (c < 71128
+                    ? (c >= 71040 && c <= 71086)
+                    : c <= 71131)
+                  : (c <= 71215 || c == 71236))))))
+            : (c <= 71338 || (c < 72192
+              ? (c < 71935
+                ? (c < 71680
+                  ? (c < 71424
+                    ? c == 71352
+                    : c <= 71450)
+                  : (c <= 71723 || (c >= 71840 && c <= 71903)))
+                : (c <= 71935 || (c < 72161
+                  ? (c < 72106
+                    ? (c >= 72096 && c <= 72103)
+                    : c <= 72144)
+                  : (c <= 72161 || c == 72163))))
+              : (c <= 72192 || (c < 72349
+                ? (c < 72272
+                  ? (c < 72250
+                    ? (c >= 72203 && c <= 72242)
+                    : c <= 72250)
+                  : (c <= 72272 || (c >= 72284 && c <= 72329)))
+                : (c <= 72349 || (c < 72704
+                  ? (c >= 72384 && c <= 72440)
+                  : (c <= 72712 || (c >= 72714 && c <= 72750)))))))))
+          : (c <= 72768 || (c < 92992
+            ? (c < 73440
+              ? (c < 73030
+                ? (c < 72968
+                  ? (c < 72960
+                    ? (c >= 72818 && c <= 72847)
+                    : c <= 72966)
+                  : (c <= 72969 || (c >= 72971 && c <= 73008)))
+                : (c <= 73030 || (c < 73066
+                  ? (c < 73063
+                    ? (c >= 73056 && c <= 73061)
+                    : c <= 73064)
+                  : (c <= 73097 || c == 73112))))
+              : (c <= 73458 || (c < 92160
+                ? (c < 77824
+                  ? (c < 74880
+                    ? (c >= 73728 && c <= 74649)
+                    : c <= 75075)
+                  : (c <= 78894 || (c >= 82944 && c <= 83526)))
+                : (c <= 92728 || (c < 92880
+                  ? (c >= 92736 && c <= 92766)
+                  : (c <= 92909 || (c >= 92928 && c <= 92975)))))))
+            : (c <= 92995 || (c < 100352
+              ? (c < 94032
+                ? (c < 93760
+                  ? (c < 93053
+                    ? (c >= 93027 && c <= 93047)
+                    : c <= 93071)
+                  : (c <= 93823 || (c >= 93952 && c <= 94026)))
+                : (c <= 94032 || (c < 94179
+                  ? (c < 94176
+                    ? (c >= 94099 && c <= 94111)
+                    : c <= 94177)
+                  : (c <= 94179 || (c >= 94208 && c <= 100343)))))
+              : (c <= 101106 || (c < 113664
+                ? (c < 110948
+                  ? (c < 110928
+                    ? (c >= 110592 && c <= 110878)
+                    : c <= 110930)
+                  : (c <= 110951 || (c >= 110960 && c <= 111355)))
+                : (c <= 113770 || (c < 113792
+                  ? (c >= 113776 && c <= 113788)
+                  : (c <= 113800 || (c >= 113808 && c <= 113817)))))))))))
+        : (c <= 119892 || (c < 126469
+          ? (c < 120488
+            ? (c < 120071
+              ? (c < 119977
+                ? (c < 119970
+                  ? (c < 119966
+                    ? (c >= 119894 && c <= 119964)
+                    : c <= 119967)
+                  : (c <= 119970 || (c >= 119973 && c <= 119974)))
+                : (c <= 119980 || (c < 119997
+                  ? (c < 119995
+                    ? (c >= 119982 && c <= 119993)
+                    : c <= 119995)
+                  : (c <= 120003 || (c >= 120005 && c <= 120069)))))
+              : (c <= 120074 || (c < 120128
+                ? (c < 120094
+                  ? (c < 120086
+                    ? (c >= 120077 && c <= 120084)
+                    : c <= 120092)
+                  : (c <= 120121 || (c >= 120123 && c <= 120126)))
+                : (c <= 120132 || (c < 120138
+                  ? c == 120134
+                  : (c <= 120144 || (c >= 120146 && c <= 120485)))))))
+            : (c <= 120512 || (c < 120772
+              ? (c < 120630
+                ? (c < 120572
+                  ? (c < 120540
+                    ? (c >= 120514 && c <= 120538)
+                    : c <= 120570)
+                  : (c <= 120596 || (c >= 120598 && c <= 120628)))
+                : (c <= 120654 || (c < 120714
+                  ? (c < 120688
+                    ? (c >= 120656 && c <= 120686)
+                    : c <= 120712)
+                  : (c <= 120744 || (c >= 120746 && c <= 120770)))))
+              : (c <= 120779 || (c < 124928
+                ? (c < 123214
+                  ? (c < 123191
+                    ? (c >= 123136 && c <= 123180)
+                    : c <= 123197)
+                  : (c <= 123214 || (c >= 123584 && c <= 123627)))
+                : (c <= 125124 || (c < 125259
+                  ? (c >= 125184 && c <= 125251)
+                  : (c <= 125259 || (c >= 126464 && c <= 126467)))))))))
+          : (c <= 126495 || (c < 126559
+            ? (c < 126537
+              ? (c < 126516
+                ? (c < 126503
+                  ? (c < 126500
+                    ? (c >= 126497 && c <= 126498)
+                    : c <= 126500)
+                  : (c <= 126503 || (c >= 126505 && c <= 126514)))
+                : (c <= 126519 || (c < 126530
+                  ? (c < 126523
+                    ? c == 126521
+                    : c <= 126523)
+                  : (c <= 126530 || c == 126535))))
+              : (c <= 126537 || (c < 126551
+                ? (c < 126545
+                  ? (c < 126541
+                    ? c == 126539
+                    : c <= 126543)
+                  : (c <= 126546 || c == 126548))
+                : (c <= 126551 || (c < 126555
+                  ? c == 126553
+                  : (c <= 126555 || c == 126557))))))
+            : (c <= 126559 || (c < 126625
+              ? (c < 126580
+                ? (c < 126567
+                  ? (c < 126564
+                    ? (c >= 126561 && c <= 126562)
+                    : c <= 126564)
+                  : (c <= 126570 || (c >= 126572 && c <= 126578)))
+                : (c <= 126583 || (c < 126592
+                  ? (c < 126590
+                    ? (c >= 126585 && c <= 126588)
+                    : c <= 126590)
+                  : (c <= 126601 || (c >= 126603 && c <= 126619)))))
+              : (c <= 126627 || (c < 177984
+                ? (c < 131072
+                  ? (c < 126635
+                    ? (c >= 126629 && c <= 126633)
+                    : c <= 126651)
+                  : (c <= 173782 || (c >= 173824 && c <= 177972)))
+                : (c <= 178205 || (c < 183984
+                  ? (c >= 178208 && c <= 183969)
+                  : (c <= 191456 || (c >= 194560 && c <= 195101)))))))))))))))));
 }
 
-static inline bool sym_lower_case_identifier_character_set_1(int32_t lookahead) {
-  return
-    ('a' <= lookahead && lookahead <= 'z') ||
-    lookahead == 181 ||
-    (223 <= lookahead && lookahead <= 246) ||
-    (248 <= lookahead && lookahead <= 255) ||
-    lookahead == 257 ||
-    lookahead == 259 ||
-    lookahead == 261 ||
-    lookahead == 263 ||
-    lookahead == 265 ||
-    lookahead == 267 ||
-    lookahead == 269 ||
-    lookahead == 271 ||
-    lookahead == 273 ||
-    lookahead == 275 ||
-    lookahead == 277 ||
-    lookahead == 279 ||
-    lookahead == 281 ||
-    lookahead == 283 ||
-    lookahead == 285 ||
-    lookahead == 287 ||
-    lookahead == 289 ||
-    lookahead == 291 ||
-    lookahead == 293 ||
-    lookahead == 295 ||
-    lookahead == 297 ||
-    lookahead == 299 ||
-    lookahead == 301 ||
-    lookahead == 303 ||
-    lookahead == 305 ||
-    lookahead == 307 ||
-    lookahead == 309 ||
-    lookahead == 311 ||
-    lookahead == 312 ||
-    lookahead == 314 ||
-    lookahead == 316 ||
-    lookahead == 318 ||
-    lookahead == 320 ||
-    lookahead == 322 ||
-    lookahead == 324 ||
-    lookahead == 326 ||
-    lookahead == 328 ||
-    lookahead == 329 ||
-    lookahead == 331 ||
-    lookahead == 333 ||
-    lookahead == 335 ||
-    lookahead == 337 ||
-    lookahead == 339 ||
-    lookahead == 341 ||
-    lookahead == 343 ||
-    lookahead == 345 ||
-    lookahead == 347 ||
-    lookahead == 349 ||
-    lookahead == 351 ||
-    lookahead == 353 ||
-    lookahead == 355 ||
-    lookahead == 357 ||
-    lookahead == 359 ||
-    lookahead == 361 ||
-    lookahead == 363 ||
-    lookahead == 365 ||
-    lookahead == 367 ||
-    lookahead == 369 ||
-    lookahead == 371 ||
-    lookahead == 373 ||
-    lookahead == 375 ||
-    lookahead == 378 ||
-    lookahead == 380 ||
-    (382 <= lookahead && lookahead <= 384) ||
-    lookahead == 387 ||
-    lookahead == 389 ||
-    lookahead == 392 ||
-    lookahead == 396 ||
-    lookahead == 397 ||
-    lookahead == 402 ||
-    lookahead == 405 ||
-    (409 <= lookahead && lookahead <= 411) ||
-    lookahead == 414 ||
-    lookahead == 417 ||
-    lookahead == 419 ||
-    lookahead == 421 ||
-    lookahead == 424 ||
-    lookahead == 426 ||
-    lookahead == 427 ||
-    lookahead == 429 ||
-    lookahead == 432 ||
-    lookahead == 436 ||
-    lookahead == 438 ||
-    lookahead == 441 ||
-    lookahead == 442 ||
-    (445 <= lookahead && lookahead <= 447) ||
-    lookahead == 454 ||
-    lookahead == 457 ||
-    lookahead == 460 ||
-    lookahead == 462 ||
-    lookahead == 464 ||
-    lookahead == 466 ||
-    lookahead == 468 ||
-    lookahead == 470 ||
-    lookahead == 472 ||
-    lookahead == 474 ||
-    lookahead == 476 ||
-    lookahead == 477 ||
-    lookahead == 479 ||
-    lookahead == 481 ||
-    lookahead == 483 ||
-    lookahead == 485 ||
-    lookahead == 487 ||
-    lookahead == 489 ||
-    lookahead == 491 ||
-    lookahead == 493 ||
-    lookahead == 495 ||
-    lookahead == 496 ||
-    lookahead == 499 ||
-    lookahead == 501 ||
-    lookahead == 505 ||
-    lookahead == 507 ||
-    lookahead == 509 ||
-    lookahead == 511 ||
-    lookahead == 513 ||
-    lookahead == 515 ||
-    lookahead == 517 ||
-    lookahead == 519 ||
-    lookahead == 521 ||
-    lookahead == 523 ||
-    lookahead == 525 ||
-    lookahead == 527 ||
-    lookahead == 529 ||
-    lookahead == 531 ||
-    lookahead == 533 ||
-    lookahead == 535 ||
-    lookahead == 537 ||
-    lookahead == 539 ||
-    lookahead == 541 ||
-    lookahead == 543 ||
-    lookahead == 545 ||
-    lookahead == 547 ||
-    lookahead == 549 ||
-    lookahead == 551 ||
-    lookahead == 553 ||
-    lookahead == 555 ||
-    lookahead == 557 ||
-    lookahead == 559 ||
-    lookahead == 561 ||
-    (563 <= lookahead && lookahead <= 569) ||
-    lookahead == 572 ||
-    lookahead == 575 ||
-    lookahead == 576 ||
-    lookahead == 578 ||
-    lookahead == 583 ||
-    lookahead == 585 ||
-    lookahead == 587 ||
-    lookahead == 589 ||
-    (591 <= lookahead && lookahead <= 659) ||
-    (661 <= lookahead && lookahead <= 687) ||
-    lookahead == 881 ||
-    lookahead == 883 ||
-    lookahead == 887 ||
-    (891 <= lookahead && lookahead <= 893) ||
-    lookahead == 912 ||
-    (940 <= lookahead && lookahead <= 974) ||
-    lookahead == 976 ||
-    lookahead == 977 ||
-    (981 <= lookahead && lookahead <= 983) ||
-    lookahead == 985 ||
-    lookahead == 987 ||
-    lookahead == 989 ||
-    lookahead == 991 ||
-    lookahead == 993 ||
-    lookahead == 995 ||
-    lookahead == 997 ||
-    lookahead == 999 ||
-    lookahead == 1001 ||
-    lookahead == 1003 ||
-    lookahead == 1005 ||
-    (1007 <= lookahead && lookahead <= 1011) ||
-    lookahead == 1013 ||
-    lookahead == 1016 ||
-    lookahead == 1019 ||
-    lookahead == 1020 ||
-    (1072 <= lookahead && lookahead <= 1119) ||
-    lookahead == 1121 ||
-    lookahead == 1123 ||
-    lookahead == 1125 ||
-    lookahead == 1127 ||
-    lookahead == 1129 ||
-    lookahead == 1131 ||
-    lookahead == 1133 ||
-    lookahead == 1135 ||
-    lookahead == 1137 ||
-    lookahead == 1139 ||
-    lookahead == 1141 ||
-    lookahead == 1143 ||
-    lookahead == 1145 ||
-    lookahead == 1147 ||
-    lookahead == 1149 ||
-    lookahead == 1151 ||
-    lookahead == 1153 ||
-    lookahead == 1163 ||
-    lookahead == 1165 ||
-    lookahead == 1167 ||
-    lookahead == 1169 ||
-    lookahead == 1171 ||
-    lookahead == 1173 ||
-    lookahead == 1175 ||
-    lookahead == 1177 ||
-    lookahead == 1179 ||
-    lookahead == 1181 ||
-    lookahead == 1183 ||
-    lookahead == 1185 ||
-    lookahead == 1187 ||
-    lookahead == 1189 ||
-    lookahead == 1191 ||
-    lookahead == 1193 ||
-    lookahead == 1195 ||
-    lookahead == 1197 ||
-    lookahead == 1199 ||
-    lookahead == 1201 ||
-    lookahead == 1203 ||
-    lookahead == 1205 ||
-    lookahead == 1207 ||
-    lookahead == 1209 ||
-    lookahead == 1211 ||
-    lookahead == 1213 ||
-    lookahead == 1215 ||
-    lookahead == 1218 ||
-    lookahead == 1220 ||
-    lookahead == 1222 ||
-    lookahead == 1224 ||
-    lookahead == 1226 ||
-    lookahead == 1228 ||
-    lookahead == 1230 ||
-    lookahead == 1231 ||
-    lookahead == 1233 ||
-    lookahead == 1235 ||
-    lookahead == 1237 ||
-    lookahead == 1239 ||
-    lookahead == 1241 ||
-    lookahead == 1243 ||
-    lookahead == 1245 ||
-    lookahead == 1247 ||
-    lookahead == 1249 ||
-    lookahead == 1251 ||
-    lookahead == 1253 ||
-    lookahead == 1255 ||
-    lookahead == 1257 ||
-    lookahead == 1259 ||
-    lookahead == 1261 ||
-    lookahead == 1263 ||
-    lookahead == 1265 ||
-    lookahead == 1267 ||
-    lookahead == 1269 ||
-    lookahead == 1271 ||
-    lookahead == 1273 ||
-    lookahead == 1275 ||
-    lookahead == 1277 ||
-    lookahead == 1279 ||
-    lookahead == 1281 ||
-    lookahead == 1283 ||
-    lookahead == 1285 ||
-    lookahead == 1287 ||
-    lookahead == 1289 ||
-    lookahead == 1291 ||
-    lookahead == 1293 ||
-    lookahead == 1295 ||
-    lookahead == 1297 ||
-    lookahead == 1299 ||
-    lookahead == 1301 ||
-    lookahead == 1303 ||
-    lookahead == 1305 ||
-    lookahead == 1307 ||
-    lookahead == 1309 ||
-    lookahead == 1311 ||
-    lookahead == 1313 ||
-    lookahead == 1315 ||
-    lookahead == 1317 ||
-    lookahead == 1319 ||
-    lookahead == 1321 ||
-    lookahead == 1323 ||
-    lookahead == 1325 ||
-    lookahead == 1327 ||
-    (1376 <= lookahead && lookahead <= 1416) ||
-    (4304 <= lookahead && lookahead <= 4346) ||
-    (4349 <= lookahead && lookahead <= 4351) ||
-    (5112 <= lookahead && lookahead <= 5117) ||
-    (7296 <= lookahead && lookahead <= 7304) ||
-    (7424 <= lookahead && lookahead <= 7467) ||
-    (7531 <= lookahead && lookahead <= 7543) ||
-    (7545 <= lookahead && lookahead <= 7578) ||
-    lookahead == 7681 ||
-    lookahead == 7683 ||
-    lookahead == 7685 ||
-    lookahead == 7687 ||
-    lookahead == 7689 ||
-    lookahead == 7691 ||
-    lookahead == 7693 ||
-    lookahead == 7695 ||
-    lookahead == 7697 ||
-    lookahead == 7699 ||
-    lookahead == 7701 ||
-    lookahead == 7703 ||
-    lookahead == 7705 ||
-    lookahead == 7707 ||
-    lookahead == 7709 ||
-    lookahead == 7711 ||
-    lookahead == 7713 ||
-    lookahead == 7715 ||
-    lookahead == 7717 ||
-    lookahead == 7719 ||
-    lookahead == 7721 ||
-    lookahead == 7723 ||
-    lookahead == 7725 ||
-    lookahead == 7727 ||
-    lookahead == 7729 ||
-    lookahead == 7731 ||
-    lookahead == 7733 ||
-    lookahead == 7735 ||
-    lookahead == 7737 ||
-    lookahead == 7739 ||
-    lookahead == 7741 ||
-    lookahead == 7743 ||
-    lookahead == 7745 ||
-    lookahead == 7747 ||
-    lookahead == 7749 ||
-    lookahead == 7751 ||
-    lookahead == 7753 ||
-    lookahead == 7755 ||
-    lookahead == 7757 ||
-    lookahead == 7759 ||
-    lookahead == 7761 ||
-    lookahead == 7763 ||
-    lookahead == 7765 ||
-    lookahead == 7767 ||
-    lookahead == 7769 ||
-    lookahead == 7771 ||
-    lookahead == 7773 ||
-    lookahead == 7775 ||
-    lookahead == 7777 ||
-    lookahead == 7779 ||
-    lookahead == 7781 ||
-    lookahead == 7783 ||
-    lookahead == 7785 ||
-    lookahead == 7787 ||
-    lookahead == 7789 ||
-    lookahead == 7791 ||
-    lookahead == 7793 ||
-    lookahead == 7795 ||
-    lookahead == 7797 ||
-    lookahead == 7799 ||
-    lookahead == 7801 ||
-    lookahead == 7803 ||
-    lookahead == 7805 ||
-    lookahead == 7807 ||
-    lookahead == 7809 ||
-    lookahead == 7811 ||
-    lookahead == 7813 ||
-    lookahead == 7815 ||
-    lookahead == 7817 ||
-    lookahead == 7819 ||
-    lookahead == 7821 ||
-    lookahead == 7823 ||
-    lookahead == 7825 ||
-    lookahead == 7827 ||
-    (7829 <= lookahead && lookahead <= 7837) ||
-    lookahead == 7839 ||
-    lookahead == 7841 ||
-    lookahead == 7843 ||
-    lookahead == 7845 ||
-    lookahead == 7847 ||
-    lookahead == 7849 ||
-    lookahead == 7851 ||
-    lookahead == 7853 ||
-    lookahead == 7855 ||
-    lookahead == 7857 ||
-    lookahead == 7859 ||
-    lookahead == 7861 ||
-    lookahead == 7863 ||
-    lookahead == 7865 ||
-    lookahead == 7867 ||
-    lookahead == 7869 ||
-    lookahead == 7871 ||
-    lookahead == 7873 ||
-    lookahead == 7875 ||
-    lookahead == 7877 ||
-    lookahead == 7879 ||
-    lookahead == 7881 ||
-    lookahead == 7883 ||
-    lookahead == 7885 ||
-    lookahead == 7887 ||
-    lookahead == 7889 ||
-    lookahead == 7891 ||
-    lookahead == 7893 ||
-    lookahead == 7895 ||
-    lookahead == 7897 ||
-    lookahead == 7899 ||
-    lookahead == 7901 ||
-    lookahead == 7903 ||
-    lookahead == 7905 ||
-    lookahead == 7907 ||
-    lookahead == 7909 ||
-    lookahead == 7911 ||
-    lookahead == 7913 ||
-    lookahead == 7915 ||
-    lookahead == 7917 ||
-    lookahead == 7919 ||
-    lookahead == 7921 ||
-    lookahead == 7923 ||
-    lookahead == 7925 ||
-    lookahead == 7927 ||
-    lookahead == 7929 ||
-    lookahead == 7931 ||
-    lookahead == 7933 ||
-    (7935 <= lookahead && lookahead <= 7943) ||
-    (7952 <= lookahead && lookahead <= 7957) ||
-    (7968 <= lookahead && lookahead <= 7975) ||
-    (7984 <= lookahead && lookahead <= 7991) ||
-    (8000 <= lookahead && lookahead <= 8005) ||
-    (8016 <= lookahead && lookahead <= 8023) ||
-    (8032 <= lookahead && lookahead <= 8039) ||
-    (8048 <= lookahead && lookahead <= 8061) ||
-    (8064 <= lookahead && lookahead <= 8071) ||
-    (8080 <= lookahead && lookahead <= 8087) ||
-    (8096 <= lookahead && lookahead <= 8103) ||
-    (8112 <= lookahead && lookahead <= 8116) ||
-    lookahead == 8118 ||
-    lookahead == 8119 ||
-    lookahead == 8126 ||
-    (8130 <= lookahead && lookahead <= 8132) ||
-    lookahead == 8134 ||
-    lookahead == 8135 ||
-    (8144 <= lookahead && lookahead <= 8147) ||
-    lookahead == 8150 ||
-    lookahead == 8151 ||
-    (8160 <= lookahead && lookahead <= 8167) ||
-    (8178 <= lookahead && lookahead <= 8180) ||
-    lookahead == 8182 ||
-    lookahead == 8183 ||
-    lookahead == 8458 ||
-    lookahead == 8462 ||
-    lookahead == 8463 ||
-    lookahead == 8467 ||
-    lookahead == 8495 ||
-    lookahead == 8500 ||
-    lookahead == 8505 ||
-    lookahead == 8508 ||
-    lookahead == 8509 ||
-    (8518 <= lookahead && lookahead <= 8521) ||
-    lookahead == 8526 ||
-    lookahead == 8580 ||
-    (11312 <= lookahead && lookahead <= 11358) ||
-    lookahead == 11361 ||
-    lookahead == 11365 ||
-    lookahead == 11366 ||
-    lookahead == 11368 ||
-    lookahead == 11370 ||
-    lookahead == 11372 ||
-    lookahead == 11377 ||
-    lookahead == 11379 ||
-    lookahead == 11380 ||
-    (11382 <= lookahead && lookahead <= 11387) ||
-    lookahead == 11393 ||
-    lookahead == 11395 ||
-    lookahead == 11397 ||
-    lookahead == 11399 ||
-    lookahead == 11401 ||
-    lookahead == 11403 ||
-    lookahead == 11405 ||
-    lookahead == 11407 ||
-    lookahead == 11409 ||
-    lookahead == 11411 ||
-    lookahead == 11413 ||
-    lookahead == 11415 ||
-    lookahead == 11417 ||
-    lookahead == 11419 ||
-    lookahead == 11421 ||
-    lookahead == 11423 ||
-    lookahead == 11425 ||
-    lookahead == 11427 ||
-    lookahead == 11429 ||
-    lookahead == 11431 ||
-    lookahead == 11433 ||
-    lookahead == 11435 ||
-    lookahead == 11437 ||
-    lookahead == 11439 ||
-    lookahead == 11441 ||
-    lookahead == 11443 ||
-    lookahead == 11445 ||
-    lookahead == 11447 ||
-    lookahead == 11449 ||
-    lookahead == 11451 ||
-    lookahead == 11453 ||
-    lookahead == 11455 ||
-    lookahead == 11457 ||
-    lookahead == 11459 ||
-    lookahead == 11461 ||
-    lookahead == 11463 ||
-    lookahead == 11465 ||
-    lookahead == 11467 ||
-    lookahead == 11469 ||
-    lookahead == 11471 ||
-    lookahead == 11473 ||
-    lookahead == 11475 ||
-    lookahead == 11477 ||
-    lookahead == 11479 ||
-    lookahead == 11481 ||
-    lookahead == 11483 ||
-    lookahead == 11485 ||
-    lookahead == 11487 ||
-    lookahead == 11489 ||
-    lookahead == 11491 ||
-    lookahead == 11492 ||
-    lookahead == 11500 ||
-    lookahead == 11502 ||
-    lookahead == 11507 ||
-    (11520 <= lookahead && lookahead <= 11557) ||
-    lookahead == 11559 ||
-    lookahead == 11565 ||
-    lookahead == 42561 ||
-    lookahead == 42563 ||
-    lookahead == 42565 ||
-    lookahead == 42567 ||
-    lookahead == 42569 ||
-    lookahead == 42571 ||
-    lookahead == 42573 ||
-    lookahead == 42575 ||
-    lookahead == 42577 ||
-    lookahead == 42579 ||
-    lookahead == 42581 ||
-    lookahead == 42583 ||
-    lookahead == 42585 ||
-    lookahead == 42587 ||
-    lookahead == 42589 ||
-    lookahead == 42591 ||
-    lookahead == 42593 ||
-    lookahead == 42595 ||
-    lookahead == 42597 ||
-    lookahead == 42599 ||
-    lookahead == 42601 ||
-    lookahead == 42603 ||
-    lookahead == 42605 ||
-    lookahead == 42625 ||
-    lookahead == 42627 ||
-    lookahead == 42629 ||
-    lookahead == 42631 ||
-    lookahead == 42633 ||
-    lookahead == 42635 ||
-    lookahead == 42637 ||
-    lookahead == 42639 ||
-    lookahead == 42641 ||
-    lookahead == 42643 ||
-    lookahead == 42645 ||
-    lookahead == 42647 ||
-    lookahead == 42649 ||
-    lookahead == 42651 ||
-    lookahead == 42787 ||
-    lookahead == 42789 ||
-    lookahead == 42791 ||
-    lookahead == 42793 ||
-    lookahead == 42795 ||
-    lookahead == 42797 ||
-    (42799 <= lookahead && lookahead <= 42801) ||
-    lookahead == 42803 ||
-    lookahead == 42805 ||
-    lookahead == 42807 ||
-    lookahead == 42809 ||
-    lookahead == 42811 ||
-    lookahead == 42813 ||
-    lookahead == 42815 ||
-    lookahead == 42817 ||
-    lookahead == 42819 ||
-    lookahead == 42821 ||
-    lookahead == 42823 ||
-    lookahead == 42825 ||
-    lookahead == 42827 ||
-    lookahead == 42829 ||
-    lookahead == 42831 ||
-    lookahead == 42833 ||
-    lookahead == 42835 ||
-    lookahead == 42837 ||
-    lookahead == 42839 ||
-    lookahead == 42841 ||
-    lookahead == 42843 ||
-    lookahead == 42845 ||
-    lookahead == 42847 ||
-    lookahead == 42849 ||
-    lookahead == 42851 ||
-    lookahead == 42853 ||
-    lookahead == 42855 ||
-    lookahead == 42857 ||
-    lookahead == 42859 ||
-    lookahead == 42861 ||
-    lookahead == 42863 ||
-    (42865 <= lookahead && lookahead <= 42872) ||
-    lookahead == 42874 ||
-    lookahead == 42876 ||
-    lookahead == 42879 ||
-    lookahead == 42881 ||
-    lookahead == 42883 ||
-    lookahead == 42885 ||
-    lookahead == 42887 ||
-    lookahead == 42892 ||
-    lookahead == 42894 ||
-    lookahead == 42897 ||
-    (42899 <= lookahead && lookahead <= 42901) ||
-    lookahead == 42903 ||
-    lookahead == 42905 ||
-    lookahead == 42907 ||
-    lookahead == 42909 ||
-    lookahead == 42911 ||
-    lookahead == 42913 ||
-    lookahead == 42915 ||
-    lookahead == 42917 ||
-    lookahead == 42919 ||
-    lookahead == 42921 ||
-    lookahead == 42927 ||
-    lookahead == 42933 ||
-    lookahead == 42935 ||
-    lookahead == 42937 ||
-    lookahead == 42939 ||
-    lookahead == 42941 ||
-    lookahead == 42943 ||
-    lookahead == 42947 ||
-    lookahead == 43002 ||
-    (43824 <= lookahead && lookahead <= 43866) ||
-    (43872 <= lookahead && lookahead <= 43879) ||
-    (43888 <= lookahead && lookahead <= 43967) ||
-    (64256 <= lookahead && lookahead <= 64262) ||
-    (64275 <= lookahead && lookahead <= 64279) ||
-    (65345 <= lookahead && lookahead <= 65370) ||
-    (66600 <= lookahead && lookahead <= 66639) ||
-    (66776 <= lookahead && lookahead <= 66811) ||
-    (68800 <= lookahead && lookahead <= 68850) ||
-    (71872 <= lookahead && lookahead <= 71903) ||
-    (93792 <= lookahead && lookahead <= 93823) ||
-    (119834 <= lookahead && lookahead <= 119859) ||
-    (119886 <= lookahead && lookahead <= 119892) ||
-    (119894 <= lookahead && lookahead <= 119911) ||
-    (119938 <= lookahead && lookahead <= 119963) ||
-    (119990 <= lookahead && lookahead <= 119993) ||
-    lookahead == 119995 ||
-    (119997 <= lookahead && lookahead <= 120003) ||
-    (120005 <= lookahead && lookahead <= 120015) ||
-    (120042 <= lookahead && lookahead <= 120067) ||
-    (120094 <= lookahead && lookahead <= 120119) ||
-    (120146 <= lookahead && lookahead <= 120171) ||
-    (120198 <= lookahead && lookahead <= 120223) ||
-    (120250 <= lookahead && lookahead <= 120275) ||
-    (120302 <= lookahead && lookahead <= 120327) ||
-    (120354 <= lookahead && lookahead <= 120379) ||
-    (120406 <= lookahead && lookahead <= 120431) ||
-    (120458 <= lookahead && lookahead <= 120485) ||
-    (120514 <= lookahead && lookahead <= 120538) ||
-    (120540 <= lookahead && lookahead <= 120545) ||
-    (120572 <= lookahead && lookahead <= 120596) ||
-    (120598 <= lookahead && lookahead <= 120603) ||
-    (120630 <= lookahead && lookahead <= 120654) ||
-    (120656 <= lookahead && lookahead <= 120661) ||
-    (120688 <= lookahead && lookahead <= 120712) ||
-    (120714 <= lookahead && lookahead <= 120719) ||
-    (120746 <= lookahead && lookahead <= 120770) ||
-    (120772 <= lookahead && lookahead <= 120777) ||
-    lookahead == 120779 ||
-    (125218 <= lookahead && lookahead <= 125251);
+static inline bool sym_lower_case_identifier_character_set_1(int32_t c) {
+  return (c < 7769
+    ? (c < 997
+      ? (c < 432
+        ? (c < 331
+          ? (c < 289
+            ? (c < 269
+              ? (c < 259
+                ? (c < 223
+                  ? (c < 181
+                    ? (c >= 'a' && c <= 'z')
+                    : c <= 181)
+                  : (c <= 246 || (c < 257
+                    ? (c >= 248 && c <= 255)
+                    : c <= 257)))
+                : (c <= 259 || (c < 265
+                  ? (c < 263
+                    ? c == 261
+                    : c <= 263)
+                  : (c <= 265 || c == 267))))
+              : (c <= 269 || (c < 279
+                ? (c < 275
+                  ? (c < 273
+                    ? c == 271
+                    : c <= 273)
+                  : (c <= 275 || c == 277))
+                : (c <= 279 || (c < 285
+                  ? (c < 283
+                    ? c == 281
+                    : c <= 283)
+                  : (c <= 285 || c == 287))))))
+            : (c <= 289 || (c < 309
+              ? (c < 299
+                ? (c < 295
+                  ? (c < 293
+                    ? c == 291
+                    : c <= 293)
+                  : (c <= 295 || c == 297))
+                : (c <= 299 || (c < 305
+                  ? (c < 303
+                    ? c == 301
+                    : c <= 303)
+                  : (c <= 305 || c == 307))))
+              : (c <= 309 || (c < 320
+                ? (c < 316
+                  ? (c < 314
+                    ? (c >= 311 && c <= 312)
+                    : c <= 314)
+                  : (c <= 316 || c == 318))
+                : (c <= 320 || (c < 326
+                  ? (c < 324
+                    ? c == 322
+                    : c <= 324)
+                  : (c <= 326 || (c >= 328 && c <= 329)))))))))
+          : (c <= 331 || (c < 371
+            ? (c < 351
+              ? (c < 341
+                ? (c < 337
+                  ? (c < 335
+                    ? c == 333
+                    : c <= 335)
+                  : (c <= 337 || c == 339))
+                : (c <= 341 || (c < 347
+                  ? (c < 345
+                    ? c == 343
+                    : c <= 345)
+                  : (c <= 347 || c == 349))))
+              : (c <= 351 || (c < 361
+                ? (c < 357
+                  ? (c < 355
+                    ? c == 353
+                    : c <= 355)
+                  : (c <= 357 || c == 359))
+                : (c <= 361 || (c < 367
+                  ? (c < 365
+                    ? c == 363
+                    : c <= 365)
+                  : (c <= 367 || c == 369))))))
+            : (c <= 371 || (c < 402
+              ? (c < 382
+                ? (c < 378
+                  ? (c < 375
+                    ? c == 373
+                    : c <= 375)
+                  : (c <= 378 || c == 380))
+                : (c <= 384 || (c < 392
+                  ? (c < 389
+                    ? c == 387
+                    : c <= 389)
+                  : (c <= 392 || (c >= 396 && c <= 397)))))
+              : (c <= 402 || (c < 419
+                ? (c < 414
+                  ? (c < 409
+                    ? c == 405
+                    : c <= 411)
+                  : (c <= 414 || c == 417))
+                : (c <= 419 || (c < 426
+                  ? (c < 424
+                    ? c == 421
+                    : c <= 424)
+                  : (c <= 427 || c == 429))))))))))
+        : (c <= 432 || (c < 531
+          ? (c < 487
+            ? (c < 466
+              ? (c < 454
+                ? (c < 441
+                  ? (c < 438
+                    ? c == 436
+                    : c <= 438)
+                  : (c <= 442 || (c >= 445 && c <= 447)))
+                : (c <= 454 || (c < 462
+                  ? (c < 460
+                    ? c == 457
+                    : c <= 460)
+                  : (c <= 462 || c == 464))))
+              : (c <= 466 || (c < 476
+                ? (c < 472
+                  ? (c < 470
+                    ? c == 468
+                    : c <= 470)
+                  : (c <= 472 || c == 474))
+                : (c <= 477 || (c < 483
+                  ? (c < 481
+                    ? c == 479
+                    : c <= 481)
+                  : (c <= 483 || c == 485))))))
+            : (c <= 487 || (c < 511
+              ? (c < 499
+                ? (c < 493
+                  ? (c < 491
+                    ? c == 489
+                    : c <= 491)
+                  : (c <= 493 || (c >= 495 && c <= 496)))
+                : (c <= 499 || (c < 507
+                  ? (c < 505
+                    ? c == 501
+                    : c <= 505)
+                  : (c <= 507 || c == 509))))
+              : (c <= 511 || (c < 521
+                ? (c < 517
+                  ? (c < 515
+                    ? c == 513
+                    : c <= 515)
+                  : (c <= 517 || c == 519))
+                : (c <= 521 || (c < 527
+                  ? (c < 525
+                    ? c == 523
+                    : c <= 525)
+                  : (c <= 527 || c == 529))))))))
+          : (c <= 531 || (c < 583
+            ? (c < 551
+              ? (c < 541
+                ? (c < 537
+                  ? (c < 535
+                    ? c == 533
+                    : c <= 535)
+                  : (c <= 537 || c == 539))
+                : (c <= 541 || (c < 547
+                  ? (c < 545
+                    ? c == 543
+                    : c <= 545)
+                  : (c <= 547 || c == 549))))
+              : (c <= 551 || (c < 561
+                ? (c < 557
+                  ? (c < 555
+                    ? c == 553
+                    : c <= 555)
+                  : (c <= 557 || c == 559))
+                : (c <= 561 || (c < 575
+                  ? (c < 572
+                    ? (c >= 563 && c <= 569)
+                    : c <= 572)
+                  : (c <= 576 || c == 578))))))
+            : (c <= 583 || (c < 912
+              ? (c < 661
+                ? (c < 589
+                  ? (c < 587
+                    ? c == 585
+                    : c <= 587)
+                  : (c <= 589 || (c >= 591 && c <= 659)))
+                : (c <= 687 || (c < 887
+                  ? (c < 883
+                    ? c == 881
+                    : c <= 883)
+                  : (c <= 887 || (c >= 891 && c <= 893)))))
+              : (c <= 912 || (c < 987
+                ? (c < 981
+                  ? (c < 976
+                    ? (c >= 940 && c <= 974)
+                    : c <= 977)
+                  : (c <= 983 || c == 985))
+                : (c <= 987 || (c < 993
+                  ? (c < 991
+                    ? c == 989
+                    : c <= 991)
+                  : (c <= 993 || c == 995))))))))))))
+      : (c <= 997 || (c < 1273
+        ? (c < 1191
+          ? (c < 1143
+            ? (c < 1123
+              ? (c < 1013
+                ? (c < 1003
+                  ? (c < 1001
+                    ? c == 999
+                    : c <= 1001)
+                  : (c <= 1003 || (c < 1007
+                    ? c == 1005
+                    : c <= 1011)))
+                : (c <= 1013 || (c < 1072
+                  ? (c < 1019
+                    ? c == 1016
+                    : c <= 1020)
+                  : (c <= 1119 || c == 1121))))
+              : (c <= 1123 || (c < 1133
+                ? (c < 1129
+                  ? (c < 1127
+                    ? c == 1125
+                    : c <= 1127)
+                  : (c <= 1129 || c == 1131))
+                : (c <= 1133 || (c < 1139
+                  ? (c < 1137
+                    ? c == 1135
+                    : c <= 1137)
+                  : (c <= 1139 || c == 1141))))))
+            : (c <= 1143 || (c < 1171
+              ? (c < 1153
+                ? (c < 1149
+                  ? (c < 1147
+                    ? c == 1145
+                    : c <= 1147)
+                  : (c <= 1149 || c == 1151))
+                : (c <= 1153 || (c < 1167
+                  ? (c < 1165
+                    ? c == 1163
+                    : c <= 1165)
+                  : (c <= 1167 || c == 1169))))
+              : (c <= 1171 || (c < 1181
+                ? (c < 1177
+                  ? (c < 1175
+                    ? c == 1173
+                    : c <= 1175)
+                  : (c <= 1177 || c == 1179))
+                : (c <= 1181 || (c < 1187
+                  ? (c < 1185
+                    ? c == 1183
+                    : c <= 1185)
+                  : (c <= 1187 || c == 1189))))))))
+          : (c <= 1191 || (c < 1233
+            ? (c < 1211
+              ? (c < 1201
+                ? (c < 1197
+                  ? (c < 1195
+                    ? c == 1193
+                    : c <= 1195)
+                  : (c <= 1197 || c == 1199))
+                : (c <= 1201 || (c < 1207
+                  ? (c < 1205
+                    ? c == 1203
+                    : c <= 1205)
+                  : (c <= 1207 || c == 1209))))
+              : (c <= 1211 || (c < 1222
+                ? (c < 1218
+                  ? (c < 1215
+                    ? c == 1213
+                    : c <= 1215)
+                  : (c <= 1218 || c == 1220))
+                : (c <= 1222 || (c < 1228
+                  ? (c < 1226
+                    ? c == 1224
+                    : c <= 1226)
+                  : (c <= 1228 || (c >= 1230 && c <= 1231)))))))
+            : (c <= 1233 || (c < 1253
+              ? (c < 1243
+                ? (c < 1239
+                  ? (c < 1237
+                    ? c == 1235
+                    : c <= 1237)
+                  : (c <= 1239 || c == 1241))
+                : (c <= 1243 || (c < 1249
+                  ? (c < 1247
+                    ? c == 1245
+                    : c <= 1247)
+                  : (c <= 1249 || c == 1251))))
+              : (c <= 1253 || (c < 1263
+                ? (c < 1259
+                  ? (c < 1257
+                    ? c == 1255
+                    : c <= 1257)
+                  : (c <= 1259 || c == 1261))
+                : (c <= 1263 || (c < 1269
+                  ? (c < 1267
+                    ? c == 1265
+                    : c <= 1267)
+                  : (c <= 1269 || c == 1271))))))))))
+        : (c <= 1273 || (c < 7689
+          ? (c < 1313
+            ? (c < 1293
+              ? (c < 1283
+                ? (c < 1279
+                  ? (c < 1277
+                    ? c == 1275
+                    : c <= 1277)
+                  : (c <= 1279 || c == 1281))
+                : (c <= 1283 || (c < 1289
+                  ? (c < 1287
+                    ? c == 1285
+                    : c <= 1287)
+                  : (c <= 1289 || c == 1291))))
+              : (c <= 1293 || (c < 1303
+                ? (c < 1299
+                  ? (c < 1297
+                    ? c == 1295
+                    : c <= 1297)
+                  : (c <= 1299 || c == 1301))
+                : (c <= 1303 || (c < 1309
+                  ? (c < 1307
+                    ? c == 1305
+                    : c <= 1307)
+                  : (c <= 1309 || c == 1311))))))
+            : (c <= 1313 || (c < 4349
+              ? (c < 1323
+                ? (c < 1319
+                  ? (c < 1317
+                    ? c == 1315
+                    : c <= 1317)
+                  : (c <= 1319 || c == 1321))
+                : (c <= 1323 || (c < 1376
+                  ? (c < 1327
+                    ? c == 1325
+                    : c <= 1327)
+                  : (c <= 1416 || (c >= 4304 && c <= 4346)))))
+              : (c <= 4351 || (c < 7545
+                ? (c < 7424
+                  ? (c < 7296
+                    ? (c >= 5112 && c <= 5117)
+                    : c <= 7304)
+                  : (c <= 7467 || (c >= 7531 && c <= 7543)))
+                : (c <= 7578 || (c < 7685
+                  ? (c < 7683
+                    ? c == 7681
+                    : c <= 7683)
+                  : (c <= 7685 || c == 7687))))))))
+          : (c <= 7689 || (c < 7729
+            ? (c < 7709
+              ? (c < 7699
+                ? (c < 7695
+                  ? (c < 7693
+                    ? c == 7691
+                    : c <= 7693)
+                  : (c <= 7695 || c == 7697))
+                : (c <= 7699 || (c < 7705
+                  ? (c < 7703
+                    ? c == 7701
+                    : c <= 7703)
+                  : (c <= 7705 || c == 7707))))
+              : (c <= 7709 || (c < 7719
+                ? (c < 7715
+                  ? (c < 7713
+                    ? c == 7711
+                    : c <= 7713)
+                  : (c <= 7715 || c == 7717))
+                : (c <= 7719 || (c < 7725
+                  ? (c < 7723
+                    ? c == 7721
+                    : c <= 7723)
+                  : (c <= 7725 || c == 7727))))))
+            : (c <= 7729 || (c < 7749
+              ? (c < 7739
+                ? (c < 7735
+                  ? (c < 7733
+                    ? c == 7731
+                    : c <= 7733)
+                  : (c <= 7735 || c == 7737))
+                : (c <= 7739 || (c < 7745
+                  ? (c < 7743
+                    ? c == 7741
+                    : c <= 7743)
+                  : (c <= 7745 || c == 7747))))
+              : (c <= 7749 || (c < 7759
+                ? (c < 7755
+                  ? (c < 7753
+                    ? c == 7751
+                    : c <= 7753)
+                  : (c <= 7755 || c == 7757))
+                : (c <= 7759 || (c < 7765
+                  ? (c < 7763
+                    ? c == 7761
+                    : c <= 7763)
+                  : (c <= 7765 || c == 7767))))))))))))))
+    : (c <= 7769 || (c < 11477
+      ? (c < 7968
+        ? (c < 7859
+          ? (c < 7811
+            ? (c < 7791
+              ? (c < 7781
+                ? (c < 7775
+                  ? (c < 7773
+                    ? c == 7771
+                    : c <= 7773)
+                  : (c <= 7775 || (c < 7779
+                    ? c == 7777
+                    : c <= 7779)))
+                : (c <= 7781 || (c < 7787
+                  ? (c < 7785
+                    ? c == 7783
+                    : c <= 7785)
+                  : (c <= 7787 || c == 7789))))
+              : (c <= 7791 || (c < 7801
+                ? (c < 7797
+                  ? (c < 7795
+                    ? c == 7793
+                    : c <= 7795)
+                  : (c <= 7797 || c == 7799))
+                : (c <= 7801 || (c < 7807
+                  ? (c < 7805
+                    ? c == 7803
+                    : c <= 7805)
+                  : (c <= 7807 || c == 7809))))))
+            : (c <= 7811 || (c < 7839
+              ? (c < 7821
+                ? (c < 7817
+                  ? (c < 7815
+                    ? c == 7813
+                    : c <= 7815)
+                  : (c <= 7817 || c == 7819))
+                : (c <= 7821 || (c < 7827
+                  ? (c < 7825
+                    ? c == 7823
+                    : c <= 7825)
+                  : (c <= 7827 || (c >= 7829 && c <= 7837)))))
+              : (c <= 7839 || (c < 7849
+                ? (c < 7845
+                  ? (c < 7843
+                    ? c == 7841
+                    : c <= 7843)
+                  : (c <= 7845 || c == 7847))
+                : (c <= 7849 || (c < 7855
+                  ? (c < 7853
+                    ? c == 7851
+                    : c <= 7853)
+                  : (c <= 7855 || c == 7857))))))))
+          : (c <= 7859 || (c < 7899
+            ? (c < 7879
+              ? (c < 7869
+                ? (c < 7865
+                  ? (c < 7863
+                    ? c == 7861
+                    : c <= 7863)
+                  : (c <= 7865 || c == 7867))
+                : (c <= 7869 || (c < 7875
+                  ? (c < 7873
+                    ? c == 7871
+                    : c <= 7873)
+                  : (c <= 7875 || c == 7877))))
+              : (c <= 7879 || (c < 7889
+                ? (c < 7885
+                  ? (c < 7883
+                    ? c == 7881
+                    : c <= 7883)
+                  : (c <= 7885 || c == 7887))
+                : (c <= 7889 || (c < 7895
+                  ? (c < 7893
+                    ? c == 7891
+                    : c <= 7893)
+                  : (c <= 7895 || c == 7897))))))
+            : (c <= 7899 || (c < 7919
+              ? (c < 7909
+                ? (c < 7905
+                  ? (c < 7903
+                    ? c == 7901
+                    : c <= 7903)
+                  : (c <= 7905 || c == 7907))
+                : (c <= 7909 || (c < 7915
+                  ? (c < 7913
+                    ? c == 7911
+                    : c <= 7913)
+                  : (c <= 7915 || c == 7917))))
+              : (c <= 7919 || (c < 7929
+                ? (c < 7925
+                  ? (c < 7923
+                    ? c == 7921
+                    : c <= 7923)
+                  : (c <= 7925 || c == 7927))
+                : (c <= 7929 || (c < 7935
+                  ? (c < 7933
+                    ? c == 7931
+                    : c <= 7933)
+                  : (c <= 7943 || (c >= 7952 && c <= 7957)))))))))))
+        : (c <= 7975 || (c < 11397
+          ? (c < 8462
+            ? (c < 8118
+              ? (c < 8048
+                ? (c < 8016
+                  ? (c < 8000
+                    ? (c >= 7984 && c <= 7991)
+                    : c <= 8005)
+                  : (c <= 8023 || (c >= 8032 && c <= 8039)))
+                : (c <= 8061 || (c < 8096
+                  ? (c < 8080
+                    ? (c >= 8064 && c <= 8071)
+                    : c <= 8087)
+                  : (c <= 8103 || (c >= 8112 && c <= 8116)))))
+              : (c <= 8119 || (c < 8150
+                ? (c < 8134
+                  ? (c < 8130
+                    ? c == 8126
+                    : c <= 8132)
+                  : (c <= 8135 || (c >= 8144 && c <= 8147)))
+                : (c <= 8151 || (c < 8182
+                  ? (c < 8178
+                    ? (c >= 8160 && c <= 8167)
+                    : c <= 8180)
+                  : (c <= 8183 || c == 8458))))))
+            : (c <= 8463 || (c < 11361
+              ? (c < 8508
+                ? (c < 8500
+                  ? (c < 8495
+                    ? c == 8467
+                    : c <= 8495)
+                  : (c <= 8500 || c == 8505))
+                : (c <= 8509 || (c < 8580
+                  ? (c < 8526
+                    ? (c >= 8518 && c <= 8521)
+                    : c <= 8526)
+                  : (c <= 8580 || (c >= 11312 && c <= 11358)))))
+              : (c <= 11361 || (c < 11377
+                ? (c < 11370
+                  ? (c < 11368
+                    ? (c >= 11365 && c <= 11366)
+                    : c <= 11368)
+                  : (c <= 11370 || c == 11372))
+                : (c <= 11377 || (c < 11393
+                  ? (c < 11382
+                    ? (c >= 11379 && c <= 11380)
+                    : c <= 11387)
+                  : (c <= 11393 || c == 11395))))))))
+          : (c <= 11397 || (c < 11437
+            ? (c < 11417
+              ? (c < 11407
+                ? (c < 11403
+                  ? (c < 11401
+                    ? c == 11399
+                    : c <= 11401)
+                  : (c <= 11403 || c == 11405))
+                : (c <= 11407 || (c < 11413
+                  ? (c < 11411
+                    ? c == 11409
+                    : c <= 11411)
+                  : (c <= 11413 || c == 11415))))
+              : (c <= 11417 || (c < 11427
+                ? (c < 11423
+                  ? (c < 11421
+                    ? c == 11419
+                    : c <= 11421)
+                  : (c <= 11423 || c == 11425))
+                : (c <= 11427 || (c < 11433
+                  ? (c < 11431
+                    ? c == 11429
+                    : c <= 11431)
+                  : (c <= 11433 || c == 11435))))))
+            : (c <= 11437 || (c < 11457
+              ? (c < 11447
+                ? (c < 11443
+                  ? (c < 11441
+                    ? c == 11439
+                    : c <= 11441)
+                  : (c <= 11443 || c == 11445))
+                : (c <= 11447 || (c < 11453
+                  ? (c < 11451
+                    ? c == 11449
+                    : c <= 11451)
+                  : (c <= 11453 || c == 11455))))
+              : (c <= 11457 || (c < 11467
+                ? (c < 11463
+                  ? (c < 11461
+                    ? c == 11459
+                    : c <= 11461)
+                  : (c <= 11463 || c == 11465))
+                : (c <= 11467 || (c < 11473
+                  ? (c < 11471
+                    ? c == 11469
+                    : c <= 11471)
+                  : (c <= 11473 || c == 11475))))))))))))
+      : (c <= 11477 || (c < 42847
+        ? (c < 42631
+          ? (c < 42573
+            ? (c < 11507
+              ? (c < 11487
+                ? (c < 11483
+                  ? (c < 11481
+                    ? c == 11479
+                    : c <= 11481)
+                  : (c <= 11483 || c == 11485))
+                : (c <= 11487 || (c < 11500
+                  ? (c < 11491
+                    ? c == 11489
+                    : c <= 11492)
+                  : (c <= 11500 || c == 11502))))
+              : (c <= 11507 || (c < 42563
+                ? (c < 11565
+                  ? (c < 11559
+                    ? (c >= 11520 && c <= 11557)
+                    : c <= 11559)
+                  : (c <= 11565 || c == 42561))
+                : (c <= 42563 || (c < 42569
+                  ? (c < 42567
+                    ? c == 42565
+                    : c <= 42567)
+                  : (c <= 42569 || c == 42571))))))
+            : (c <= 42573 || (c < 42593
+              ? (c < 42583
+                ? (c < 42579
+                  ? (c < 42577
+                    ? c == 42575
+                    : c <= 42577)
+                  : (c <= 42579 || c == 42581))
+                : (c <= 42583 || (c < 42589
+                  ? (c < 42587
+                    ? c == 42585
+                    : c <= 42587)
+                  : (c <= 42589 || c == 42591))))
+              : (c <= 42593 || (c < 42603
+                ? (c < 42599
+                  ? (c < 42597
+                    ? c == 42595
+                    : c <= 42597)
+                  : (c <= 42599 || c == 42601))
+                : (c <= 42603 || (c < 42627
+                  ? (c < 42625
+                    ? c == 42605
+                    : c <= 42625)
+                  : (c <= 42627 || c == 42629))))))))
+          : (c <= 42631 || (c < 42807
+            ? (c < 42651
+              ? (c < 42641
+                ? (c < 42637
+                  ? (c < 42635
+                    ? c == 42633
+                    : c <= 42635)
+                  : (c <= 42637 || c == 42639))
+                : (c <= 42641 || (c < 42647
+                  ? (c < 42645
+                    ? c == 42643
+                    : c <= 42645)
+                  : (c <= 42647 || c == 42649))))
+              : (c <= 42651 || (c < 42795
+                ? (c < 42791
+                  ? (c < 42789
+                    ? c == 42787
+                    : c <= 42789)
+                  : (c <= 42791 || c == 42793))
+                : (c <= 42795 || (c < 42803
+                  ? (c < 42799
+                    ? c == 42797
+                    : c <= 42801)
+                  : (c <= 42803 || c == 42805))))))
+            : (c <= 42807 || (c < 42827
+              ? (c < 42817
+                ? (c < 42813
+                  ? (c < 42811
+                    ? c == 42809
+                    : c <= 42811)
+                  : (c <= 42813 || c == 42815))
+                : (c <= 42817 || (c < 42823
+                  ? (c < 42821
+                    ? c == 42819
+                    : c <= 42821)
+                  : (c <= 42823 || c == 42825))))
+              : (c <= 42827 || (c < 42837
+                ? (c < 42833
+                  ? (c < 42831
+                    ? c == 42829
+                    : c <= 42831)
+                  : (c <= 42833 || c == 42835))
+                : (c <= 42837 || (c < 42843
+                  ? (c < 42841
+                    ? c == 42839
+                    : c <= 42841)
+                  : (c <= 42843 || c == 42845))))))))))
+        : (c <= 42847 || (c < 43824
+          ? (c < 42899
+            ? (c < 42874
+              ? (c < 42857
+                ? (c < 42853
+                  ? (c < 42851
+                    ? c == 42849
+                    : c <= 42851)
+                  : (c <= 42853 || c == 42855))
+                : (c <= 42857 || (c < 42863
+                  ? (c < 42861
+                    ? c == 42859
+                    : c <= 42861)
+                  : (c <= 42863 || (c >= 42865 && c <= 42872)))))
+              : (c <= 42874 || (c < 42885
+                ? (c < 42881
+                  ? (c < 42879
+                    ? c == 42876
+                    : c <= 42879)
+                  : (c <= 42881 || c == 42883))
+                : (c <= 42885 || (c < 42894
+                  ? (c < 42892
+                    ? c == 42887
+                    : c <= 42892)
+                  : (c <= 42894 || c == 42897))))))
+            : (c <= 42901 || (c < 42921
+              ? (c < 42911
+                ? (c < 42907
+                  ? (c < 42905
+                    ? c == 42903
+                    : c <= 42905)
+                  : (c <= 42907 || c == 42909))
+                : (c <= 42911 || (c < 42917
+                  ? (c < 42915
+                    ? c == 42913
+                    : c <= 42915)
+                  : (c <= 42917 || c == 42919))))
+              : (c <= 42921 || (c < 42939
+                ? (c < 42935
+                  ? (c < 42933
+                    ? c == 42927
+                    : c <= 42933)
+                  : (c <= 42935 || c == 42937))
+                : (c <= 42939 || (c < 42947
+                  ? (c < 42943
+                    ? c == 42941
+                    : c <= 42943)
+                  : (c <= 42947 || c == 43002))))))))
+          : (c <= 43866 || (c < 120094
+            ? (c < 93792
+              ? (c < 65345
+                ? (c < 64256
+                  ? (c < 43888
+                    ? (c >= 43872 && c <= 43879)
+                    : c <= 43967)
+                  : (c <= 64262 || (c >= 64275 && c <= 64279)))
+                : (c <= 65370 || (c < 68800
+                  ? (c < 66776
+                    ? (c >= 66600 && c <= 66639)
+                    : c <= 66811)
+                  : (c <= 68850 || (c >= 71872 && c <= 71903)))))
+              : (c <= 93823 || (c < 119990
+                ? (c < 119894
+                  ? (c < 119886
+                    ? (c >= 119834 && c <= 119859)
+                    : c <= 119892)
+                  : (c <= 119911 || (c >= 119938 && c <= 119963)))
+                : (c <= 119993 || (c < 120005
+                  ? (c < 119997
+                    ? c == 119995
+                    : c <= 120003)
+                  : (c <= 120015 || (c >= 120042 && c <= 120067)))))))
+            : (c <= 120119 || (c < 120572
+              ? (c < 120354
+                ? (c < 120250
+                  ? (c < 120198
+                    ? (c >= 120146 && c <= 120171)
+                    : c <= 120223)
+                  : (c <= 120275 || (c >= 120302 && c <= 120327)))
+                : (c <= 120379 || (c < 120514
+                  ? (c < 120458
+                    ? (c >= 120406 && c <= 120431)
+                    : c <= 120485)
+                  : (c <= 120538 || (c >= 120540 && c <= 120545)))))
+              : (c <= 120596 || (c < 120714
+                ? (c < 120656
+                  ? (c < 120630
+                    ? (c >= 120598 && c <= 120603)
+                    : c <= 120654)
+                  : (c <= 120661 || (c >= 120688 && c <= 120712)))
+                : (c <= 120719 || (c < 120779
+                  ? (c < 120772
+                    ? (c >= 120746 && c <= 120770)
+                    : c <= 120777)
+                  : (c <= 120779 || (c >= 125218 && c <= 125251)))))))))))))))));
 }
 
-static inline bool sym_lower_case_identifier_character_set_2(int32_t lookahead) {
-  return
-    ('a' <= lookahead && lookahead <= 'z') ||
-    lookahead == 181 ||
-    (223 <= lookahead && lookahead <= 246) ||
-    (248 <= lookahead && lookahead <= 442) ||
-    (445 <= lookahead && lookahead <= 447) ||
-    lookahead == 454 ||
-    lookahead == 457 ||
-    (460 <= lookahead && lookahead <= 496) ||
-    (499 <= lookahead && lookahead <= 659) ||
-    (661 <= lookahead && lookahead <= 687) ||
-    (881 <= lookahead && lookahead <= 883) ||
-    lookahead == 887 ||
-    (891 <= lookahead && lookahead <= 893) ||
-    lookahead == 912 ||
-    (940 <= lookahead && lookahead <= 1013) ||
-    (1016 <= lookahead && lookahead <= 1153) ||
-    (1163 <= lookahead && lookahead <= 1327) ||
-    (1376 <= lookahead && lookahead <= 1416) ||
-    (4304 <= lookahead && lookahead <= 4346) ||
-    (4349 <= lookahead && lookahead <= 4351) ||
-    (5112 <= lookahead && lookahead <= 5117) ||
-    (7296 <= lookahead && lookahead <= 7304) ||
-    (7424 <= lookahead && lookahead <= 7467) ||
-    (7531 <= lookahead && lookahead <= 7543) ||
-    (7545 <= lookahead && lookahead <= 7578) ||
-    (7681 <= lookahead && lookahead <= 7957) ||
-    (7968 <= lookahead && lookahead <= 8005) ||
-    (8016 <= lookahead && lookahead <= 8023) ||
-    (8032 <= lookahead && lookahead <= 8061) ||
-    (8064 <= lookahead && lookahead <= 8071) ||
-    (8080 <= lookahead && lookahead <= 8087) ||
-    (8096 <= lookahead && lookahead <= 8103) ||
-    (8112 <= lookahead && lookahead <= 8116) ||
-    lookahead == 8118 ||
-    lookahead == 8119 ||
-    lookahead == 8126 ||
-    (8130 <= lookahead && lookahead <= 8132) ||
-    lookahead == 8134 ||
-    lookahead == 8135 ||
-    (8144 <= lookahead && lookahead <= 8147) ||
-    lookahead == 8150 ||
-    lookahead == 8151 ||
-    (8160 <= lookahead && lookahead <= 8167) ||
-    (8178 <= lookahead && lookahead <= 8180) ||
-    lookahead == 8182 ||
-    lookahead == 8183 ||
-    (8458 <= lookahead && lookahead <= 8467) ||
-    (8495 <= lookahead && lookahead <= 8500) ||
-    lookahead == 8505 ||
-    lookahead == 8508 ||
-    lookahead == 8509 ||
-    (8518 <= lookahead && lookahead <= 8521) ||
-    lookahead == 8526 ||
-    lookahead == 8580 ||
-    (11312 <= lookahead && lookahead <= 11358) ||
-    (11361 <= lookahead && lookahead <= 11387) ||
-    (11393 <= lookahead && lookahead <= 11492) ||
-    (11500 <= lookahead && lookahead <= 11502) ||
-    lookahead == 11507 ||
-    (11520 <= lookahead && lookahead <= 11557) ||
-    lookahead == 11559 ||
-    lookahead == 11565 ||
-    (42561 <= lookahead && lookahead <= 42605) ||
-    (42625 <= lookahead && lookahead <= 42651) ||
-    (42787 <= lookahead && lookahead <= 42863) ||
-    (42865 <= lookahead && lookahead <= 42887) ||
-    (42892 <= lookahead && lookahead <= 42894) ||
-    (42897 <= lookahead && lookahead <= 42943) ||
-    lookahead == 42947 ||
-    lookahead == 43002 ||
-    (43824 <= lookahead && lookahead <= 43866) ||
-    (43872 <= lookahead && lookahead <= 43879) ||
-    (43888 <= lookahead && lookahead <= 43967) ||
-    (64256 <= lookahead && lookahead <= 64262) ||
-    (64275 <= lookahead && lookahead <= 64279) ||
-    (65345 <= lookahead && lookahead <= 65370) ||
-    (66600 <= lookahead && lookahead <= 66639) ||
-    (66776 <= lookahead && lookahead <= 66811) ||
-    (68800 <= lookahead && lookahead <= 68850) ||
-    (71872 <= lookahead && lookahead <= 71903) ||
-    (93792 <= lookahead && lookahead <= 93823) ||
-    (119834 <= lookahead && lookahead <= 119892) ||
-    (119894 <= lookahead && lookahead <= 119963) ||
-    (119990 <= lookahead && lookahead <= 119993) ||
-    lookahead == 119995 ||
-    (119997 <= lookahead && lookahead <= 120003) ||
-    (120005 <= lookahead && lookahead <= 120067) ||
-    (120094 <= lookahead && lookahead <= 120119) ||
-    (120146 <= lookahead && lookahead <= 120485) ||
-    (120514 <= lookahead && lookahead <= 120538) ||
-    (120540 <= lookahead && lookahead <= 120545) ||
-    (120572 <= lookahead && lookahead <= 120596) ||
-    (120598 <= lookahead && lookahead <= 120603) ||
-    (120630 <= lookahead && lookahead <= 120654) ||
-    (120656 <= lookahead && lookahead <= 120661) ||
-    (120688 <= lookahead && lookahead <= 120712) ||
-    (120714 <= lookahead && lookahead <= 120719) ||
-    (120746 <= lookahead && lookahead <= 120770) ||
-    (120772 <= lookahead && lookahead <= 120779) ||
-    (125218 <= lookahead && lookahead <= 125251);
+static inline bool sym_lower_case_identifier_character_set_2(int32_t c) {
+  return (c < 8526
+    ? (c < 7531
+      ? (c < 887
+        ? (c < 454
+          ? (c < 223
+            ? (c < 181
+              ? (c >= 'a' && c <= 'z')
+              : c <= 181)
+            : (c <= 246 || (c < 445
+              ? (c >= 248 && c <= 442)
+              : c <= 447)))
+          : (c <= 454 || (c < 499
+            ? (c < 460
+              ? c == 457
+              : c <= 496)
+            : (c <= 659 || (c < 881
+              ? (c >= 661 && c <= 687)
+              : c <= 883)))))
+        : (c <= 887 || (c < 1376
+          ? (c < 940
+            ? (c < 912
+              ? (c >= 891 && c <= 893)
+              : c <= 912)
+            : (c <= 1013 || (c < 1163
+              ? (c >= 1016 && c <= 1153)
+              : c <= 1327)))
+          : (c <= 1416 || (c < 5112
+            ? (c < 4349
+              ? (c >= 4304 && c <= 4346)
+              : c <= 4351)
+            : (c <= 5117 || (c < 7424
+              ? (c >= 7296 && c <= 7304)
+              : c <= 7467)))))))
+      : (c <= 7543 || (c < 8130
+        ? (c < 8064
+          ? (c < 7968
+            ? (c < 7681
+              ? (c >= 7545 && c <= 7578)
+              : c <= 7957)
+            : (c <= 8005 || (c < 8032
+              ? (c >= 8016 && c <= 8023)
+              : c <= 8061)))
+          : (c <= 8071 || (c < 8112
+            ? (c < 8096
+              ? (c >= 8080 && c <= 8087)
+              : c <= 8103)
+            : (c <= 8116 || (c < 8126
+              ? (c >= 8118 && c <= 8119)
+              : c <= 8126)))))
+        : (c <= 8132 || (c < 8182
+          ? (c < 8150
+            ? (c < 8144
+              ? (c >= 8134 && c <= 8135)
+              : c <= 8147)
+            : (c <= 8151 || (c < 8178
+              ? (c >= 8160 && c <= 8167)
+              : c <= 8180)))
+          : (c <= 8183 || (c < 8505
+            ? (c < 8495
+              ? (c >= 8458 && c <= 8467)
+              : c <= 8500)
+            : (c <= 8505 || (c < 8518
+              ? (c >= 8508 && c <= 8509)
+              : c <= 8521)))))))))
+    : (c <= 8526 || (c < 66600
+      ? (c < 42787
+        ? (c < 11507
+          ? (c < 11361
+            ? (c < 11312
+              ? c == 8580
+              : c <= 11358)
+            : (c <= 11387 || (c < 11500
+              ? (c >= 11393 && c <= 11492)
+              : c <= 11502)))
+          : (c <= 11507 || (c < 11565
+            ? (c < 11559
+              ? (c >= 11520 && c <= 11557)
+              : c <= 11559)
+            : (c <= 11565 || (c < 42625
+              ? (c >= 42561 && c <= 42605)
+              : c <= 42651)))))
+        : (c <= 42863 || (c < 43824
+          ? (c < 42897
+            ? (c < 42892
+              ? (c >= 42865 && c <= 42887)
+              : c <= 42894)
+            : (c <= 42943 || (c < 43002
+              ? c == 42947
+              : c <= 43002)))
+          : (c <= 43866 || (c < 64256
+            ? (c < 43888
+              ? (c >= 43872 && c <= 43879)
+              : c <= 43967)
+            : (c <= 64262 || (c < 65345
+              ? (c >= 64275 && c <= 64279)
+              : c <= 65370)))))))
+      : (c <= 66639 || (c < 120146
+        ? (c < 119894
+          ? (c < 71872
+            ? (c < 68800
+              ? (c >= 66776 && c <= 66811)
+              : c <= 68850)
+            : (c <= 71903 || (c < 119834
+              ? (c >= 93792 && c <= 93823)
+              : c <= 119892)))
+          : (c <= 119963 || (c < 119997
+            ? (c < 119995
+              ? (c >= 119990 && c <= 119993)
+              : c <= 119995)
+            : (c <= 120003 || (c < 120094
+              ? (c >= 120005 && c <= 120067)
+              : c <= 120119)))))
+        : (c <= 120485 || (c < 120656
+          ? (c < 120572
+            ? (c < 120540
+              ? (c >= 120514 && c <= 120538)
+              : c <= 120545)
+            : (c <= 120596 || (c < 120630
+              ? (c >= 120598 && c <= 120603)
+              : c <= 120654)))
+          : (c <= 120661 || (c < 120746
+            ? (c < 120714
+              ? (c >= 120688 && c <= 120712)
+              : c <= 120719)
+            : (c <= 120770 || (c < 125218
+              ? (c >= 120772 && c <= 120779)
+              : c <= 125251)))))))))));
 }
 
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
@@ -6371,10 +6657,10 @@ static TSLexMode ts_lex_modes[STATE_COUNT] = {
   [858] = {.lex_state = 0},
   [859] = {.lex_state = 0, .external_lex_state = 5},
   [860] = {.lex_state = 0, .external_lex_state = 7},
-  [861] = {.lex_state = 0},
+  [861] = {.lex_state = 0, .external_lex_state = 8},
   [862] = {.lex_state = 0},
   [863] = {.lex_state = 39},
-  [864] = {.lex_state = 0, .external_lex_state = 8},
+  [864] = {.lex_state = 0, .external_lex_state = 9},
   [865] = {.lex_state = 0, .external_lex_state = 5},
   [866] = {.lex_state = 0, .external_lex_state = 5},
   [867] = {.lex_state = 0},
@@ -6383,7 +6669,7 @@ static TSLexMode ts_lex_modes[STATE_COUNT] = {
   [870] = {.lex_state = 0},
   [871] = {.lex_state = 0, .external_lex_state = 5},
   [872] = {.lex_state = 0},
-  [873] = {.lex_state = 0, .external_lex_state = 9},
+  [873] = {.lex_state = 0, .external_lex_state = 10},
   [874] = {.lex_state = 0},
   [875] = {.lex_state = 39},
   [876] = {.lex_state = 0, .external_lex_state = 5},
@@ -6398,7 +6684,7 @@ static TSLexMode ts_lex_modes[STATE_COUNT] = {
   [885] = {.lex_state = 0, .external_lex_state = 5},
   [886] = {.lex_state = 74},
   [887] = {.lex_state = 0},
-  [888] = {.lex_state = 0, .external_lex_state = 8},
+  [888] = {.lex_state = 0, .external_lex_state = 9},
   [889] = {.lex_state = 0, .external_lex_state = 7},
   [890] = {.lex_state = 0},
   [891] = {.lex_state = 0, .external_lex_state = 7},
@@ -6420,7 +6706,7 @@ static TSLexMode ts_lex_modes[STATE_COUNT] = {
   [907] = {.lex_state = 0},
   [908] = {.lex_state = 0},
   [909] = {.lex_state = 0},
-  [910] = {.lex_state = 0, .external_lex_state = 9},
+  [910] = {.lex_state = 0, .external_lex_state = 10},
   [911] = {.lex_state = 0, .external_lex_state = 5},
   [912] = {.lex_state = 0},
   [913] = {.lex_state = 0},
@@ -6428,11 +6714,11 @@ static TSLexMode ts_lex_modes[STATE_COUNT] = {
   [915] = {.lex_state = 0, .external_lex_state = 5},
   [916] = {.lex_state = 39},
   [917] = {.lex_state = 0, .external_lex_state = 5},
-  [918] = {.lex_state = 0, .external_lex_state = 8},
+  [918] = {.lex_state = 0, .external_lex_state = 9},
   [919] = {.lex_state = 0, .external_lex_state = 5},
   [920] = {.lex_state = 74},
   [921] = {.lex_state = 0},
-  [922] = {.lex_state = 0, .external_lex_state = 9},
+  [922] = {.lex_state = 0, .external_lex_state = 10},
   [923] = {.lex_state = 0, .external_lex_state = 5},
   [924] = {.lex_state = 74},
   [925] = {.lex_state = 0},
@@ -6440,36 +6726,36 @@ static TSLexMode ts_lex_modes[STATE_COUNT] = {
   [927] = {.lex_state = 0},
   [928] = {.lex_state = 0, .external_lex_state = 7},
   [929] = {.lex_state = 0},
-  [930] = {.lex_state = 0, .external_lex_state = 9},
+  [930] = {.lex_state = 0, .external_lex_state = 10},
   [931] = {.lex_state = 0, .external_lex_state = 7},
-  [932] = {.lex_state = 0},
+  [932] = {.lex_state = 74},
   [933] = {.lex_state = 39},
   [934] = {.lex_state = 27},
   [935] = {.lex_state = 0},
   [936] = {.lex_state = 74},
-  [937] = {.lex_state = 0, .external_lex_state = 9},
+  [937] = {.lex_state = 0, .external_lex_state = 10},
   [938] = {.lex_state = 0},
   [939] = {.lex_state = 74},
   [940] = {.lex_state = 0},
   [941] = {.lex_state = 74},
   [942] = {.lex_state = 0, .external_lex_state = 7},
-  [943] = {.lex_state = 0, .external_lex_state = 9},
+  [943] = {.lex_state = 0, .external_lex_state = 10},
   [944] = {.lex_state = 0},
   [945] = {.lex_state = 0, .external_lex_state = 5},
   [946] = {.lex_state = 39},
   [947] = {.lex_state = 0, .external_lex_state = 5},
   [948] = {.lex_state = 27},
   [949] = {.lex_state = 0, .external_lex_state = 5},
-  [950] = {.lex_state = 0, .external_lex_state = 8},
-  [951] = {.lex_state = 0, .external_lex_state = 8},
-  [952] = {.lex_state = 0, .external_lex_state = 8},
-  [953] = {.lex_state = 0, .external_lex_state = 8},
-  [954] = {.lex_state = 0, .external_lex_state = 8},
-  [955] = {.lex_state = 0, .external_lex_state = 8},
-  [956] = {.lex_state = 0, .external_lex_state = 8},
-  [957] = {.lex_state = 0, .external_lex_state = 8},
-  [958] = {.lex_state = 0, .external_lex_state = 8},
-  [959] = {.lex_state = 0, .external_lex_state = 8},
+  [950] = {.lex_state = 0, .external_lex_state = 9},
+  [951] = {.lex_state = 0, .external_lex_state = 9},
+  [952] = {.lex_state = 0, .external_lex_state = 9},
+  [953] = {.lex_state = 0, .external_lex_state = 9},
+  [954] = {.lex_state = 0, .external_lex_state = 9},
+  [955] = {.lex_state = 0, .external_lex_state = 9},
+  [956] = {.lex_state = 0, .external_lex_state = 9},
+  [957] = {.lex_state = 0, .external_lex_state = 9},
+  [958] = {.lex_state = 0, .external_lex_state = 9},
+  [959] = {.lex_state = 0, .external_lex_state = 9},
   [960] = {.lex_state = 0},
   [961] = {.lex_state = 0},
   [962] = {.lex_state = 0},
@@ -6487,9 +6773,9 @@ static TSLexMode ts_lex_modes[STATE_COUNT] = {
   [974] = {.lex_state = 0},
   [975] = {.lex_state = 39},
   [976] = {.lex_state = 0},
-  [977] = {.lex_state = 74},
-  [978] = {(TSStateId)(-1)},
-  [979] = {.lex_state = 0, .external_lex_state = 10},
+  [977] = {.lex_state = 0},
+  [978] = {.lex_state = 0},
+  [979] = {(TSStateId)(-1)},
 };
 
 enum {
@@ -6542,13 +6828,13 @@ static bool ts_external_scanner_states[11][EXTERNAL_TOKEN_COUNT] = {
     [ts_external_token__virtual_end_section] = true,
   },
   [8] = {
-    [ts_external_token__virtual_open_section] = true,
+    [ts_external_token__block_comment_content] = true,
   },
   [9] = {
-    [ts_external_token_glsl_content] = true,
+    [ts_external_token__virtual_open_section] = true,
   },
   [10] = {
-    [ts_external_token__block_comment_content] = true,
+    [ts_external_token_glsl_content] = true,
   },
 };
 
@@ -13695,7 +13981,7 @@ static uint16_t ts_small_parse_table[] = {
       sym__if,
     STATE(808), 1,
       sym__let,
-    STATE(895), 1,
+    STATE(978), 1,
       sym__expression,
     STATE(39), 2,
       sym_upper_case_qid,
@@ -36463,7 +36749,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_then,
     STATE(772), 1,
       sym_block_comment,
-    STATE(861), 1,
+    STATE(895), 1,
       sym__then,
   [35467] = 5,
     ACTIONS(3), 1,
@@ -37381,8 +37667,8 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1495), 1,
-      anon_sym_else,
+    ACTIONS(1902), 1,
+      sym__block_comment_content,
     STATE(861), 1,
       sym_block_comment,
   [36788] = 4,
@@ -37390,7 +37676,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1902), 1,
+    ACTIONS(1904), 1,
       anon_sym_SQUOTE,
     STATE(862), 1,
       sym_block_comment,
@@ -37399,7 +37685,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1904), 1,
+    ACTIONS(1906), 1,
       sym__lower_case_identifier_without_leading_whitespace,
     STATE(863), 1,
       sym_block_comment,
@@ -37408,7 +37694,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1906), 1,
+    ACTIONS(1908), 1,
       sym__virtual_open_section,
     STATE(864), 1,
       sym_block_comment,
@@ -37417,7 +37703,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1908), 1,
+    ACTIONS(1910), 1,
       sym__virtual_end_decl,
     STATE(865), 1,
       sym_block_comment,
@@ -37426,7 +37712,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1910), 1,
+    ACTIONS(1912), 1,
       sym__virtual_end_decl,
     STATE(866), 1,
       sym_block_comment,
@@ -37435,7 +37721,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1912), 1,
+    ACTIONS(1914), 1,
       anon_sym_SQUOTE,
     STATE(867), 1,
       sym_block_comment,
@@ -37444,7 +37730,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1914), 1,
+    ACTIONS(1916), 1,
       sym_upper_case_identifier,
     STATE(868), 1,
       sym_block_comment,
@@ -37453,7 +37739,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1916), 1,
+    ACTIONS(1918), 1,
       sym_where,
     STATE(869), 1,
       sym_block_comment,
@@ -37462,7 +37748,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1918), 1,
+    ACTIONS(1920), 1,
       sym__upper_case_identifier_without_leading_whitespace,
     STATE(870), 1,
       sym_block_comment,
@@ -37471,7 +37757,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1920), 1,
+    ACTIONS(1922), 1,
       sym__virtual_end_decl,
     STATE(871), 1,
       sym_block_comment,
@@ -37480,7 +37766,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1922), 1,
+    ACTIONS(1924), 1,
       sym_right_brace,
     STATE(872), 1,
       sym_block_comment,
@@ -37489,7 +37775,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1924), 1,
+    ACTIONS(1926), 1,
       sym_glsl_content,
     STATE(873), 1,
       sym_block_comment,
@@ -37498,7 +37784,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1926), 1,
+    ACTIONS(1928), 1,
       sym_colon,
     STATE(874), 1,
       sym_block_comment,
@@ -37507,7 +37793,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1928), 1,
+    ACTIONS(1930), 1,
       sym__lower_case_identifier_without_leading_whitespace,
     STATE(875), 1,
       sym_block_comment,
@@ -37525,7 +37811,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1930), 1,
+    ACTIONS(1932), 1,
       anon_sym_SQUOTE,
     STATE(877), 1,
       sym_block_comment,
@@ -37534,7 +37820,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1932), 1,
+    ACTIONS(1934), 1,
       sym__virtual_end_decl,
     STATE(878), 1,
       sym_block_comment,
@@ -37543,7 +37829,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1934), 1,
+    ACTIONS(1936), 1,
       sym__virtual_end_decl,
     STATE(879), 1,
       sym_block_comment,
@@ -37552,7 +37838,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1936), 1,
+    ACTIONS(1938), 1,
       sym_right_parenthesis,
     STATE(880), 1,
       sym_block_comment,
@@ -37561,7 +37847,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1938), 1,
+    ACTIONS(1940), 1,
       sym__upper_case_identifier_without_leading_whitespace,
     STATE(881), 1,
       sym_block_comment,
@@ -37570,7 +37856,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1940), 1,
+    ACTIONS(1942), 1,
       sym_right_brace,
     STATE(882), 1,
       sym_block_comment,
@@ -37579,7 +37865,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1942), 1,
+    ACTIONS(1944), 1,
       sym_glsl_end,
     STATE(883), 1,
       sym_block_comment,
@@ -37588,7 +37874,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1944), 1,
+    ACTIONS(1946), 1,
       sym__lower_case_identifier_without_leading_whitespace,
     STATE(884), 1,
       sym_block_comment,
@@ -37597,7 +37883,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1946), 1,
+    ACTIONS(1948), 1,
       sym__virtual_end_decl,
     STATE(885), 1,
       sym_block_comment,
@@ -37606,7 +37892,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1948), 1,
+    ACTIONS(1950), 1,
       sym__dot_without_leading_whitespace,
     STATE(886), 1,
       sym_block_comment,
@@ -37615,7 +37901,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1950), 1,
+    ACTIONS(1952), 1,
       anon_sym_in,
     STATE(887), 1,
       sym_block_comment,
@@ -37624,7 +37910,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1952), 1,
+    ACTIONS(1954), 1,
       sym__virtual_open_section,
     STATE(888), 1,
       sym_block_comment,
@@ -37633,7 +37919,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1954), 1,
+    ACTIONS(1956), 1,
       sym__virtual_end_section,
     STATE(889), 1,
       sym_block_comment,
@@ -37642,7 +37928,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1956), 1,
+    ACTIONS(1958), 1,
       sym_right_parenthesis,
     STATE(890), 1,
       sym_block_comment,
@@ -37651,7 +37937,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1958), 1,
+    ACTIONS(1960), 1,
       sym__virtual_end_section,
     STATE(891), 1,
       sym_block_comment,
@@ -37669,7 +37955,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1960), 1,
+    ACTIONS(1962), 1,
       sym__lower_case_identifier_without_leading_whitespace,
     STATE(893), 1,
       sym_block_comment,
@@ -37678,7 +37964,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1962), 1,
+    ACTIONS(1964), 1,
       sym_glsl_end,
     STATE(894), 1,
       sym_block_comment,
@@ -37687,8 +37973,8 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LBRACE_DASH,
     ACTIONS(5), 1,
       sym_line_comment,
-    ACTIONS(1964), 1,
-      anon_sym_then,
+    ACTIONS(1495), 1,
+      anon_sym_else,
     STATE(895), 1,
       sym_block_comment,
   [37230] = 4,
@@ -38021,7 +38307,7 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(5), 1,
       sym_line_comment,
     ACTIONS(2038), 1,
-      sym_module,
+      anon_sym_DASH_RBRACE,
     STATE(932), 1,
       sym_block_comment,
   [37711] = 4,
@@ -38420,15 +38706,27 @@ static uint16_t ts_small_parse_table[] = {
       sym__upper_case_identifier_without_leading_whitespace,
     STATE(976), 1,
       sym_block_comment,
-  [38283] = 1,
+  [38283] = 4,
+    ACTIONS(3), 1,
+      anon_sym_LBRACE_DASH,
+    ACTIONS(5), 1,
+      sym_line_comment,
     ACTIONS(2126), 1,
-      anon_sym_DASH_RBRACE,
-  [38287] = 1,
+      sym_module,
+    STATE(977), 1,
+      sym_block_comment,
+  [38296] = 4,
+    ACTIONS(3), 1,
+      anon_sym_LBRACE_DASH,
+    ACTIONS(5), 1,
+      sym_line_comment,
     ACTIONS(2128), 1,
-      ts_builtin_sym_end,
-  [38291] = 1,
+      anon_sym_then,
+    STATE(978), 1,
+      sym_block_comment,
+  [38309] = 1,
     ACTIONS(2130), 1,
-      sym__block_comment_content,
+      ts_builtin_sym_end,
 };
 
 static uint32_t ts_small_parse_table_map[] = {
@@ -39390,14 +39688,14 @@ static uint32_t ts_small_parse_table_map[] = {
   [SMALL_STATE(975)] = 38257,
   [SMALL_STATE(976)] = 38270,
   [SMALL_STATE(977)] = 38283,
-  [SMALL_STATE(978)] = 38287,
-  [SMALL_STATE(979)] = 38291,
+  [SMALL_STATE(978)] = 38296,
+  [SMALL_STATE(979)] = 38309,
 };
 
 static TSParseActionEntry ts_parse_actions[] = {
   [0] = {.entry = {.count = 0, .reusable = false}},
   [1] = {.entry = {.count = 1, .reusable = false}}, RECOVER(),
-  [3] = {.entry = {.count = 1, .reusable = true}}, SHIFT(979),
+  [3] = {.entry = {.count = 1, .reusable = true}}, SHIFT(861),
   [5] = {.entry = {.count = 1, .reusable = true}}, SHIFT_EXTRA(),
   [7] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_file, 0),
   [9] = {.entry = {.count = 1, .reusable = false}}, SHIFT(407),
@@ -39407,7 +39705,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [17] = {.entry = {.count = 1, .reusable = true}}, SHIFT(459),
   [19] = {.entry = {.count = 1, .reusable = true}}, SHIFT(481),
   [21] = {.entry = {.count = 1, .reusable = false}}, SHIFT(765),
-  [23] = {.entry = {.count = 1, .reusable = false}}, SHIFT(932),
+  [23] = {.entry = {.count = 1, .reusable = false}}, SHIFT(977),
   [25] = {.entry = {.count = 1, .reusable = false}}, SHIFT(766),
   [27] = {.entry = {.count = 1, .reusable = false}}, SHIFT(767),
   [29] = {.entry = {.count = 1, .reusable = false}}, SHIFT(768),
@@ -39417,7 +39715,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [37] = {.entry = {.count = 1, .reusable = false}}, SHIFT(770),
   [39] = {.entry = {.count = 1, .reusable = true}}, SHIFT(467),
   [41] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym_function_call_expr_repeat1, 2), SHIFT_REPEAT(40),
-  [44] = {.entry = {.count = 1, .reusable = false}}, SHIFT(979),
+  [44] = {.entry = {.count = 1, .reusable = false}}, SHIFT(861),
   [46] = {.entry = {.count = 1, .reusable = false}}, SHIFT_EXTRA(),
   [48] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym_function_call_expr_repeat1, 2), SHIFT_REPEAT(703),
   [51] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym_function_call_expr_repeat1, 2), SHIFT_REPEAT(590),
@@ -40249,38 +40547,38 @@ static TSParseActionEntry ts_parse_actions[] = {
   [1896] = {.entry = {.count = 1, .reusable = true}}, SHIFT(279),
   [1898] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_exposing_list, 4, .production_id = 70),
   [1900] = {.entry = {.count = 1, .reusable = true}}, SHIFT(396),
-  [1902] = {.entry = {.count = 1, .reusable = true}}, SHIFT(116),
-  [1904] = {.entry = {.count = 1, .reusable = true}}, SHIFT(217),
-  [1906] = {.entry = {.count = 1, .reusable = true}}, SHIFT(342),
-  [1908] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_exposing_list, 4),
-  [1910] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_import_clause, 3, .production_id = 21),
-  [1912] = {.entry = {.count = 1, .reusable = true}}, SHIFT(392),
-  [1914] = {.entry = {.count = 1, .reusable = true}}, SHIFT(801),
-  [1916] = {.entry = {.count = 1, .reusable = true}}, SHIFT(802),
-  [1918] = {.entry = {.count = 1, .reusable = true}}, SHIFT(260),
-  [1920] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_module_declaration, 3, .production_id = 20),
-  [1922] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__record_inner, 2, .production_id = 58),
-  [1924] = {.entry = {.count = 1, .reusable = true}}, SHIFT(934),
-  [1926] = {.entry = {.count = 1, .reusable = true}}, SHIFT(514),
-  [1928] = {.entry = {.count = 1, .reusable = true}}, SHIFT(375),
-  [1930] = {.entry = {.count = 1, .reusable = true}}, SHIFT(432),
-  [1932] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_type_alias_declaration, 6, .production_id = 75),
-  [1934] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_infix_declaration, 6, .production_id = 76),
-  [1936] = {.entry = {.count = 1, .reusable = true}}, SHIFT(368),
-  [1938] = {.entry = {.count = 1, .reusable = true}}, SHIFT(257),
-  [1940] = {.entry = {.count = 1, .reusable = true}}, SHIFT(140),
-  [1942] = {.entry = {.count = 1, .reusable = true}}, SHIFT(177),
-  [1944] = {.entry = {.count = 1, .reusable = true}}, SHIFT(354),
-  [1946] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_type_alias_declaration, 5, .production_id = 53),
-  [1948] = {.entry = {.count = 1, .reusable = true}}, SHIFT(823),
-  [1950] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__let, 4, .production_id = 79),
-  [1952] = {.entry = {.count = 1, .reusable = true}}, SHIFT(343),
-  [1954] = {.entry = {.count = 1, .reusable = true}}, SHIFT(62),
-  [1956] = {.entry = {.count = 1, .reusable = true}}, SHIFT(859),
-  [1958] = {.entry = {.count = 1, .reusable = true}}, SHIFT(188),
-  [1960] = {.entry = {.count = 1, .reusable = true}}, SHIFT(275),
-  [1962] = {.entry = {.count = 1, .reusable = true}}, SHIFT(80),
-  [1964] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__if, 2, .production_id = 40),
+  [1902] = {.entry = {.count = 1, .reusable = true}}, SHIFT(932),
+  [1904] = {.entry = {.count = 1, .reusable = true}}, SHIFT(116),
+  [1906] = {.entry = {.count = 1, .reusable = true}}, SHIFT(217),
+  [1908] = {.entry = {.count = 1, .reusable = true}}, SHIFT(342),
+  [1910] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_exposing_list, 4),
+  [1912] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_import_clause, 3, .production_id = 21),
+  [1914] = {.entry = {.count = 1, .reusable = true}}, SHIFT(392),
+  [1916] = {.entry = {.count = 1, .reusable = true}}, SHIFT(801),
+  [1918] = {.entry = {.count = 1, .reusable = true}}, SHIFT(802),
+  [1920] = {.entry = {.count = 1, .reusable = true}}, SHIFT(260),
+  [1922] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_module_declaration, 3, .production_id = 20),
+  [1924] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__record_inner, 2, .production_id = 58),
+  [1926] = {.entry = {.count = 1, .reusable = true}}, SHIFT(934),
+  [1928] = {.entry = {.count = 1, .reusable = true}}, SHIFT(514),
+  [1930] = {.entry = {.count = 1, .reusable = true}}, SHIFT(375),
+  [1932] = {.entry = {.count = 1, .reusable = true}}, SHIFT(432),
+  [1934] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_type_alias_declaration, 6, .production_id = 75),
+  [1936] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_infix_declaration, 6, .production_id = 76),
+  [1938] = {.entry = {.count = 1, .reusable = true}}, SHIFT(368),
+  [1940] = {.entry = {.count = 1, .reusable = true}}, SHIFT(257),
+  [1942] = {.entry = {.count = 1, .reusable = true}}, SHIFT(140),
+  [1944] = {.entry = {.count = 1, .reusable = true}}, SHIFT(177),
+  [1946] = {.entry = {.count = 1, .reusable = true}}, SHIFT(354),
+  [1948] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_type_alias_declaration, 5, .production_id = 53),
+  [1950] = {.entry = {.count = 1, .reusable = true}}, SHIFT(823),
+  [1952] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__let, 4, .production_id = 79),
+  [1954] = {.entry = {.count = 1, .reusable = true}}, SHIFT(343),
+  [1956] = {.entry = {.count = 1, .reusable = true}}, SHIFT(62),
+  [1958] = {.entry = {.count = 1, .reusable = true}}, SHIFT(859),
+  [1960] = {.entry = {.count = 1, .reusable = true}}, SHIFT(188),
+  [1962] = {.entry = {.count = 1, .reusable = true}}, SHIFT(275),
+  [1964] = {.entry = {.count = 1, .reusable = true}}, SHIFT(80),
   [1966] = {.entry = {.count = 1, .reusable = true}}, SHIFT(925),
   [1968] = {.entry = {.count = 1, .reusable = true}}, SHIFT(874),
   [1970] = {.entry = {.count = 1, .reusable = true}}, SHIFT(161),
@@ -40317,7 +40615,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [2032] = {.entry = {.count = 1, .reusable = true}}, SHIFT(478),
   [2034] = {.entry = {.count = 1, .reusable = true}}, SHIFT(894),
   [2036] = {.entry = {.count = 1, .reusable = true}}, SHIFT(244),
-  [2038] = {.entry = {.count = 1, .reusable = true}}, SHIFT(793),
+  [2038] = {.entry = {.count = 1, .reusable = true}}, SHIFT(979),
   [2040] = {.entry = {.count = 1, .reusable = true}}, SHIFT(201),
   [2042] = {.entry = {.count = 1, .reusable = true}}, SHIFT(438),
   [2044] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__record_inner, 1, .production_id = 41),
@@ -40361,9 +40659,9 @@ static TSParseActionEntry ts_parse_actions[] = {
   [2120] = {.entry = {.count = 1, .reusable = true}}, SHIFT(426),
   [2122] = {.entry = {.count = 1, .reusable = true}}, SHIFT(103),
   [2124] = {.entry = {.count = 1, .reusable = true}}, SHIFT(214),
-  [2126] = {.entry = {.count = 1, .reusable = true}}, SHIFT(978),
-  [2128] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_block_comment, 3),
-  [2130] = {.entry = {.count = 1, .reusable = true}}, SHIFT(977),
+  [2126] = {.entry = {.count = 1, .reusable = true}}, SHIFT(793),
+  [2128] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__if, 2, .production_id = 40),
+  [2130] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_block_comment, 3),
 };
 
 #ifdef __cplusplus
