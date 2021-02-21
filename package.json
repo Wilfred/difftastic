@@ -1,6 +1,6 @@
 {
   "name": "@elm-tooling/tree-sitter-elm",
-  "version": "4.5.0",
+  "version": "5.0.0",
   "description": "Tree sitter definitions for elm",
   "main": "index.js",
   "keywords": [
@@ -29,7 +29,8 @@
     "test-full": "tree-sitter test && script/parse-examples-full",
     "test-only": "tree-sitter test",
     "test-highlighting": "tree-sitter highlight test/highlight/basic.elm",
-    "test-tags": "tree-sitter tags test/highlight/basic.elm"
+    "test-tags": "tree-sitter tags test/highlight/basic.elm",
+    "generate-types": "node ./node_modules/@asgerf/dts-tree-sitter/build/src/index.js src > index.d.ts"
   },
   "repository": "https://github.com/elm-tooling/tree-sitter-elm",
   "tree-sitter": [
