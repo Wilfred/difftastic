@@ -274,9 +274,6 @@ export const enum SyntaxType {
   Import = "import",
   Infix = "infix",
   InvalidStringEscape = "invalid_string_escape",
-  LeftBrace = "left_brace",
-  LeftParenthesis = "left_parenthesis",
-  LeftSquareBracket = "left_square_bracket",
   LineComment = "line_comment",
   LowerCaseIdentifier = "lower_case_identifier",
   Module = "module",
@@ -287,9 +284,6 @@ export const enum SyntaxType {
   Pipe = "pipe",
   Port = "port",
   RegularStringPart = "regular_string_part",
-  RightBrace = "right_brace",
-  RightParenthesis = "right_parenthesis",
-  RightSquareBracket = "right_square_bracket",
   StringEscape = "string_escape",
   Type = "type",
   Underscore = "underscore",
@@ -299,7 +293,8 @@ export const enum SyntaxType {
 
 export type UnnamedType =
   | "&&"
-  | "'"
+  | "("
+  | ")"
   | "*"
   | "+"
   | "++"
@@ -319,17 +314,21 @@ export type UnnamedType =
   | ">"
   | ">="
   | ">>"
+  | "["
+  | "]"
   | "^"
   | "else"
   | "if"
   | "in"
   | "let"
   | "then"
+  | "{"
   | "{-"
   | "|."
   | "|="
   | "|>"
-  | "||";
+  | "||"
+  | "}";
 
 export type TypeString = SyntaxType | UnnamedType;
 
@@ -396,7 +395,8 @@ export type SyntaxNode =
   | ValueExprNode
   | ValueQidNode
   | UnnamedNode<"&&">
-  | UnnamedNode<"'">
+  | UnnamedNode<"(">
+  | UnnamedNode<")">
   | UnnamedNode<"*">
   | UnnamedNode<"+">
   | UnnamedNode<"++">
@@ -416,6 +416,8 @@ export type SyntaxNode =
   | UnnamedNode<">">
   | UnnamedNode<">=">
   | UnnamedNode<">>">
+  | UnnamedNode<"[">
+  | UnnamedNode<"]">
   | UnnamedNode<"^">
   | AliasNode
   | ArrowNode
@@ -440,9 +442,6 @@ export type SyntaxNode =
   | UnnamedNode<"in">
   | InfixNode
   | InvalidStringEscapeNode
-  | LeftBraceNode
-  | LeftParenthesisNode
-  | LeftSquareBracketNode
   | UnnamedNode<"let">
   | LineCommentNode
   | LowerCaseIdentifierNode
@@ -454,20 +453,19 @@ export type SyntaxNode =
   | PipeNode
   | PortNode
   | RegularStringPartNode
-  | RightBraceNode
-  | RightParenthesisNode
-  | RightSquareBracketNode
   | StringEscapeNode
   | UnnamedNode<"then">
   | TypeNode
   | UnderscoreNode
   | UpperCaseIdentifierNode
   | WhereNode
+  | UnnamedNode<"{">
   | UnnamedNode<"{-">
   | UnnamedNode<"|.">
   | UnnamedNode<"|=">
   | UnnamedNode<"|>">
   | UnnamedNode<"||">
+  | UnnamedNode<"}">
   | ErrorNode;
 
 export interface AnonymousFunctionExprNode extends NamedNodeBase {
@@ -594,15 +592,15 @@ export interface CharConstantExprNode extends NamedNodeBase {
 export interface ConsPatternNode extends NamedNodeBase {
   type: SyntaxType.ConsPattern;
   partNodes: (
+    | UnnamedNode<"(">
+    | UnnamedNode<")">
     | AnythingPatternNode
     | CharConstantExprNode
-    | LeftParenthesisNode
     | ListPatternNode
     | LowerPatternNode
     | NumberConstantExprNode
     | PatternNode
     | RecordPatternNode
-    | RightParenthesisNode
     | StringConstantExprNode
     | TuplePatternNode
     | UnionPatternNode
@@ -715,15 +713,15 @@ export interface FunctionCallExprNode extends NamedNodeBase {
 export interface FunctionDeclarationLeftNode extends NamedNodeBase {
   type: SyntaxType.FunctionDeclarationLeft;
   patternNodes: (
+    | UnnamedNode<"(">
+    | UnnamedNode<")">
     | AnythingPatternNode
     | CharConstantExprNode
-    | LeftParenthesisNode
     | ListPatternNode
     | LowerPatternNode
     | NumberConstantExprNode
     | PatternNode
     | RecordPatternNode
-    | RightParenthesisNode
     | StringConstantExprNode
     | TuplePatternNode
     | UnitExprNode
@@ -1031,16 +1029,16 @@ export interface TypeVariableNode extends NamedNodeBase {
 export interface UnionPatternNode extends NamedNodeBase {
   type: SyntaxType.UnionPattern;
   argPatternNodes: (
+    | UnnamedNode<"(">
+    | UnnamedNode<")">
     | AnythingPatternNode
     | CharConstantExprNode
-    | LeftParenthesisNode
     | ListPatternNode
     | LowerPatternNode
     | NullaryConstructorArgumentPatternNode
     | NumberConstantExprNode
     | PatternNode
     | RecordPatternNode
-    | RightParenthesisNode
     | StringConstantExprNode
     | TuplePatternNode
     | UnitExprNode
@@ -1184,18 +1182,6 @@ export interface InvalidStringEscapeNode extends NamedNodeBase {
   type: SyntaxType.InvalidStringEscape;
 }
 
-export interface LeftBraceNode extends NamedNodeBase {
-  type: SyntaxType.LeftBrace;
-}
-
-export interface LeftParenthesisNode extends NamedNodeBase {
-  type: SyntaxType.LeftParenthesis;
-}
-
-export interface LeftSquareBracketNode extends NamedNodeBase {
-  type: SyntaxType.LeftSquareBracket;
-}
-
 export interface LineCommentNode extends NamedNodeBase {
   type: SyntaxType.LineComment;
 }
@@ -1234,18 +1220,6 @@ export interface PortNode extends NamedNodeBase {
 
 export interface RegularStringPartNode extends NamedNodeBase {
   type: SyntaxType.RegularStringPart;
-}
-
-export interface RightBraceNode extends NamedNodeBase {
-  type: SyntaxType.RightBrace;
-}
-
-export interface RightParenthesisNode extends NamedNodeBase {
-  type: SyntaxType.RightParenthesis;
-}
-
-export interface RightSquareBracketNode extends NamedNodeBase {
-  type: SyntaxType.RightSquareBracket;
 }
 
 export interface StringEscapeNode extends NamedNodeBase {
