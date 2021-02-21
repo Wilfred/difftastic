@@ -13,24 +13,41 @@ function checkout() {
   popd
 }
 
-echo "Getting libs"
+# Define list of arguments expected in the input
+optstring="s"
+
+while getopts ${optstring} arg; do
+  case ${arg} in
+    s)
+      SKIP_DOWNLOAD='true'
+      echo "Skip download"
+      ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      ;;
+  esac
+done
+
+echo "Finding libs"
 libs_to_parse=$(grep -Po '"name":.*?[^\\]",' ./script/search.json | perl -pe 's/"name": "//; s/^"//; s/",$//')
 libs_not_to_parse=$(grep -Po '".+"' ./script/error-packages.json | perl -pe 's/^"//; s/"$//')
 
 for lib in $libs_to_parse; do
-    if [[ ! $libs_not_to_parse == *$lib* ]]; then
+    if [[ $libs_not_to_parse != *$lib* && $SKIP_DOWNLOAD != 'true' ]]; then
       echo $lib
       checkout "examples-full/$lib" "$lib"
     fi
 done
 
-echo "Getting applications"
+echo "Finding applications"
 applications_to_parse=$(grep -Po '".+"' ./script/applications.json | perl -pe 's/^"//; s/"$//')
 
-for project in $applications_to_parse; do
-      echo $project
-      checkout "examples-full/$project" "$project"
-done
+if [[ $SKIP_DOWNLOAD != 'true' ]]; then
+  for project in $applications_to_parse; do
+        echo $project
+        checkout "examples-full/$project" "$project"
+  done
+fi
 
 
 start=`date +%s.%N`
