@@ -27,9 +27,6 @@ jobs:
       - name: Npm install
         run: |
           npm i
-      - name: Npm build
-        run: |
-          npm run build
       - name: Unit tests
         run: |
           npx tree-sitter test
