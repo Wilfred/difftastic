@@ -837,13 +837,10 @@ base col =
           (record_pattern
             (lower_pattern
               (lower_case_identifier))
-            (comma)
             (lower_pattern
               (lower_case_identifier))
-            (comma)
             (lower_pattern
               (lower_case_identifier))
-            (comma)
             (lower_pattern
               (lower_case_identifier))))
         (eq)

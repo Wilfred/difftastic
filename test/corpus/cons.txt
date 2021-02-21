@@ -38,7 +38,6 @@ test listList =
               (pattern
                 (lower_pattern
                   (lower_case_identifier)))
-              (comma)
               (pattern
                 (lower_pattern
                   (lower_case_identifier))))

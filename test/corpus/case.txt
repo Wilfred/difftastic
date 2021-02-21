@@ -917,7 +917,6 @@ makeEdit cursor desc =
                       (record_expr
                         (record_base_identifier
                           (lower_case_identifier))
-                        (pipe)
                         (field
                           (lower_case_identifier)
                           (eq)
@@ -1111,7 +1110,6 @@ flipBy how (Plane (width, height) _ as plane) =
             (pattern
               (lower_pattern
                 (lower_case_identifier)))
-            (comma)
             (pattern
               (lower_pattern
                 (lower_case_identifier))))
@@ -1150,7 +1148,6 @@ flipBy how (Plane (width, height) _ as plane) =
                   (pattern
                     (lower_pattern
                       (lower_case_identifier)))
-                  (comma)
                   (pattern
                     (lower_pattern
                       (lower_case_identifier)))))
@@ -1169,7 +1166,6 @@ flipBy how (Plane (width, height) _ as plane) =
                   (value_expr
                     (value_qid
                       (lower_case_identifier))))
-                (comma)
                 (value_expr
                   (value_qid
                     (lower_case_identifier))))))
@@ -1186,7 +1182,6 @@ flipBy how (Plane (width, height) _ as plane) =
                   (pattern
                     (lower_pattern
                       (lower_case_identifier)))
-                  (comma)
                   (pattern
                     (lower_pattern
                       (lower_case_identifier)))))
@@ -1195,7 +1190,6 @@ flipBy how (Plane (width, height) _ as plane) =
                 (value_expr
                   (value_qid
                     (lower_case_identifier)))
-                (comma)
                 (bin_op_expr
                   (value_expr
                     (value_qid
