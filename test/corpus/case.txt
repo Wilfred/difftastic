@@ -162,11 +162,9 @@ enum =
         (case_of_branch
           (pattern
             (list_pattern
-              (left_square_bracket)
               (pattern
                 (lower_pattern
-                  (lower_case_identifier)))
-              (right_square_bracket)))
+                  (lower_case_identifier)))))
           (arrow)
           (function_call_expr
             (value_expr
@@ -223,14 +221,12 @@ src (Avatar maybeUrl)=
   (value_declaration
     (function_declaration_left
       (lower_case_identifier)
-      (left_parenthesis)
       (pattern
         (union_pattern
           (upper_case_qid
             (upper_case_identifier))
           (lower_pattern
-            (lower_case_identifier))))
-      (right_parenthesis))
+            (lower_case_identifier)))))
     (eq)
     (case_of_expr
       (case)
@@ -550,11 +546,9 @@ enum key dict =
           (case_of_branch
             (pattern
               (list_pattern
-                (left_square_bracket)
                 (pattern
                   (lower_pattern
-                    (lower_case_identifier)))
-                (right_square_bracket)))
+                    (lower_case_identifier)))))
             (arrow)
             (function_call_expr
               (value_expr
@@ -851,7 +845,6 @@ makeEdit cursor desc =
               (dot)
               (lower_case_identifier))
             (parenthesized_expr
-              (left_parenthesis)
               (function_call_expr
                 (value_expr
                   (value_qid
@@ -861,8 +854,7 @@ makeEdit cursor desc =
                     (value_qid
                       (lower_case_identifier)))
                   (dot)
-                  (lower_case_identifier)))
-              (right_parenthesis))
+                  (lower_case_identifier))))
             (value_expr
               (value_qid
                 (lower_case_identifier))))
@@ -881,15 +873,13 @@ makeEdit cursor desc =
                   (value_qid
                     (lower_case_identifier)))
                 (parenthesized_expr
-                  (left_parenthesis)
                   (function_call_expr
                     (value_expr
                       (value_qid
                         (lower_case_identifier)))
                     (value_expr
                       (value_qid
-                        (lower_case_identifier))))
-                  (right_parenthesis))
+                        (lower_case_identifier)))))
                 (field_access_expr
                   (value_expr
                     (value_qid
@@ -920,13 +910,11 @@ makeEdit cursor desc =
                     (value_qid
                       (lower_case_identifier)))
                   (parenthesized_expr
-                    (left_parenthesis)
                     (function_call_expr
                       (value_expr
                         (upper_case_qid
                           (upper_case_identifier)))
                       (record_expr
-                        (left_brace)
                         (record_base_identifier
                           (lower_case_identifier))
                         (pipe)
@@ -942,9 +930,7 @@ makeEdit cursor desc =
                                 (lower_case_identifier)))
                             (value_expr
                               (value_qid
-                                (lower_case_identifier)))))
-                        (right_brace)))
-                    (right_parenthesis))))
+                                (lower_case_identifier))))))))))
               (case_of_branch
                 (pattern
                   (union_pattern
@@ -1008,7 +994,6 @@ all = describe "parsering"
         (regular_string_part)
         (close_quote))
       (list_expr
-        (left_square_bracket)
         (function_call_expr
           (value_expr
             (value_qid
@@ -1018,7 +1003,6 @@ all = describe "parsering"
             (regular_string_part)
             (close_quote))
           (list_expr
-            (left_square_bracket)
             (bin_op_expr
               (function_call_expr
                 (value_expr
@@ -1033,7 +1017,6 @@ all = describe "parsering"
               (case_of_expr
                 (case)
                 (parenthesized_expr
-                  (left_parenthesis)
                   (function_call_expr
                     (value_expr
                       (value_qid
@@ -1046,8 +1029,7 @@ all = describe "parsering"
                     (string_constant_expr
                       (open_quote)
                       (regular_string_part)
-                      (close_quote)))
-                  (right_parenthesis))
+                      (close_quote))))
                 (of)
                 (case_of_branch
                   (pattern
@@ -1099,9 +1081,7 @@ all = describe "parsering"
                       (number_literal))
                     (value_expr
                       (value_qid
-                        (lower_case_identifier)))))))
-            (right_square_bracket)))
-        (right_square_bracket)))))
+                        (lower_case_identifier)))))))))))))
 
 ================================================================================
 Case wrapped in parenthesis
@@ -1123,27 +1103,23 @@ flipBy how (Plane (width, height) _ as plane) =
       (lower_case_identifier)
       (lower_pattern
         (lower_case_identifier))
-      (left_parenthesis)
       (pattern
         (union_pattern
           (upper_case_qid
             (upper_case_identifier))
           (tuple_pattern
-            (left_parenthesis)
             (pattern
               (lower_pattern
                 (lower_case_identifier)))
             (comma)
             (pattern
               (lower_pattern
-                (lower_case_identifier)))
-            (right_parenthesis))
+                (lower_case_identifier))))
           (anything_pattern
             (underscore)))
         (as)
         (lower_pattern
-          (lower_case_identifier)))
-      (right_parenthesis))
+          (lower_case_identifier))))
     (eq)
     (bin_op_expr
       (value_expr
@@ -1156,7 +1132,6 @@ flipBy how (Plane (width, height) _ as plane) =
           (value_qid
             (lower_case_identifier)))
         (case_of_expr
-          (left_parenthesis)
           (case)
           (value_expr
             (value_qid
@@ -1172,18 +1147,15 @@ flipBy how (Plane (width, height) _ as plane) =
               (backslash)
               (pattern
                 (tuple_pattern
-                  (left_parenthesis)
                   (pattern
                     (lower_pattern
                       (lower_case_identifier)))
                   (comma)
                   (pattern
                     (lower_pattern
-                      (lower_case_identifier)))
-                  (right_parenthesis)))
+                      (lower_case_identifier)))))
               (arrow)
               (tuple_expr
-                (left_parenthesis)
                 (bin_op_expr
                   (value_expr
                     (value_qid
@@ -1200,8 +1172,7 @@ flipBy how (Plane (width, height) _ as plane) =
                 (comma)
                 (value_expr
                   (value_qid
-                    (lower_case_identifier)))
-                (right_parenthesis))))
+                    (lower_case_identifier))))))
           (case_of_branch
             (pattern
               (union_pattern
@@ -1212,18 +1183,15 @@ flipBy how (Plane (width, height) _ as plane) =
               (backslash)
               (pattern
                 (tuple_pattern
-                  (left_parenthesis)
                   (pattern
                     (lower_pattern
                       (lower_case_identifier)))
                   (comma)
                   (pattern
                     (lower_pattern
-                      (lower_case_identifier)))
-                  (right_parenthesis)))
+                      (lower_case_identifier)))))
               (arrow)
               (tuple_expr
-                (left_parenthesis)
                 (value_expr
                   (value_qid
                     (lower_case_identifier)))
@@ -1240,6 +1208,4 @@ flipBy how (Plane (width, height) _ as plane) =
                     (operator_identifier))
                   (value_expr
                     (value_qid
-                      (lower_case_identifier))))
-                (right_parenthesis))))
-          (right_parenthesis))))))
+                      (lower_case_identifier))))))))))))

@@ -80,12 +80,12 @@ module.exports = grammar({
     exposing_list: ($) =>
       seq(
         $.exposing,
-        $.left_parenthesis,
+        "(",
         choice(
           field("doubleDot", $.double_dot),
           commaSep1($._exposed_item, $.comma)
         ),
-        $.right_parenthesis
+        ")"
       ),
 
     _exposed_item: ($) =>
@@ -96,8 +96,7 @@ module.exports = grammar({
     exposed_type: ($) =>
       seq($.upper_case_identifier, optional($.exposed_union_constructors)),
 
-    exposed_union_constructors: ($) =>
-      seq($.left_parenthesis, $.double_dot, $.right_parenthesis),
+    exposed_union_constructors: ($) => seq("(", $.double_dot, ")"),
 
     exposed_union_constructor: ($) => $.upper_case_identifier,
 
@@ -268,11 +267,7 @@ module.exports = grammar({
         field("part", $.type_variable),
         field("part", $.record_type),
         field("part", $.tuple_type),
-        seq(
-          $.left_parenthesis,
-          field("part", $.type_expression),
-          $.right_parenthesis
-        )
+        seq("(", field("part", $.type_expression), ")")
       ),
 
     type_ref_without_args: ($) => $.upper_case_qid,
@@ -281,14 +276,14 @@ module.exports = grammar({
 
     record_type: ($) =>
       seq(
-        $.left_brace,
+        "{",
         optional(
           seq(
             optional($._record_base),
             commaSep1(field("fieldType", $.field_type), $.comma)
           )
         ),
-        $.right_brace
+        "}"
       ),
 
     field_type: ($) =>
@@ -302,10 +297,10 @@ module.exports = grammar({
       choice(
         field("unitExpr", $.unit_expr),
         seq(
-          $.left_parenthesis,
+          "(",
           field("typeExpression", $.type_expression),
           repeat1(seq($.comma, field("typeExpression", $.type_expression))),
-          $.right_parenthesis
+          ")"
         )
       ),
 
@@ -345,11 +340,7 @@ module.exports = grammar({
     operator_as_function_expr: ($) => $._operator_as_function_inner,
 
     _operator_as_function_inner: ($) =>
-      seq(
-        $.left_parenthesis,
-        field("operator", $.operator_identifier),
-        $.right_parenthesis
-      ),
+      seq("(", field("operator", $.operator_identifier), ")"),
 
     _call_or_atom: ($) => choice($.function_call_expr, $._atom),
 
@@ -429,11 +420,7 @@ module.exports = grammar({
       ), // todo disallow whitespace
 
     parenthesized_expr: ($) =>
-      seq(
-        $.left_parenthesis,
-        field("expression", $._expression),
-        $.right_parenthesis
-      ),
+      seq("(", field("expression", $._expression), ")"),
 
     _literal_expr_group: ($) =>
       choice(
@@ -504,23 +491,22 @@ module.exports = grammar({
 
     tuple_expr: ($) =>
       seq(
-        $.left_parenthesis,
+        "(",
         field("expr", $._expression),
         repeat1(seq($.comma, field("expr", $._expression))),
-        $.right_parenthesis
+        ")"
       ),
 
-    unit_expr: ($) => seq($.left_parenthesis, $.right_parenthesis),
+    unit_expr: ($) => seq("(", ")"),
 
     list_expr: ($) =>
       seq(
-        $.left_square_bracket,
+        "[",
         optional(commaSep1(field("exprList", $._expression), $.comma)),
-        $.right_square_bracket
+        "]"
       ),
 
-    record_expr: ($) =>
-      seq($.left_brace, optional($._record_inner), $.right_brace),
+    record_expr: ($) => seq("{", optional($._record_inner), "}"),
 
     record_base_identifier: ($) => $.lower_case_identifier,
 
@@ -549,7 +535,7 @@ module.exports = grammar({
     case_of_expr: ($) =>
       choice(
         seq(
-          $.left_parenthesis,
+          "(",
           $.case,
           field("expr", $._expression),
           $.of,
@@ -557,7 +543,7 @@ module.exports = grammar({
           field("branch", $.case_of_branch),
           optional($._more_case_of_branches),
           optional($._virtual_end_section),
-          $.right_parenthesis
+          ")"
         ),
         seq(
           $.case,
@@ -630,25 +616,17 @@ module.exports = grammar({
       ),
 
     _parenthesized_single_pattern: ($) =>
-      seq($.left_parenthesis, field("child", $.pattern), $.right_parenthesis),
+      seq("(", field("child", $.pattern), ")"),
 
     lower_pattern: ($) => $.lower_case_identifier,
 
     anything_pattern: ($) => $.underscore,
 
     record_pattern: ($) =>
-      seq(
-        $.left_brace,
-        commaSep1(field("patternList", $.lower_pattern), $.comma),
-        $.right_brace
-      ),
+      seq("{", commaSep1(field("patternList", $.lower_pattern), $.comma), "}"),
 
     list_pattern: ($) =>
-      seq(
-        $.left_square_bracket,
-        optional(commaSep1(field("part", $.pattern), $.comma)),
-        $.right_square_bracket
-      ),
+      seq("[", optional(commaSep1(field("part", $.pattern), $.comma)), "]"),
 
     union_pattern: ($) =>
       prec.left(
@@ -675,15 +653,14 @@ module.exports = grammar({
 
     tuple_pattern: ($) =>
       seq(
-        $.left_parenthesis,
+        "(",
         field("pattern", $.pattern),
         $.comma,
         commaSep1(field("pattern", $.pattern), $.comma),
-        $.right_parenthesis
+        ")"
       ),
 
-    _parenthesized_pattern: ($) =>
-      seq($.left_parenthesis, $.pattern, $.right_parenthesis),
+    _parenthesized_pattern: ($) => seq("(", $.pattern, ")"),
 
     // MISC
     infix_declaration: ($) =>
@@ -743,12 +720,6 @@ module.exports = grammar({
     alias: ($) => "alias",
     port: ($) => "port",
     infix: ($) => "infix",
-    left_parenthesis: ($) => "(",
-    right_parenthesis: ($) => ")",
-    left_square_bracket: ($) => "[",
-    right_square_bracket: ($) => "]",
-    left_brace: ($) => "{",
-    right_brace: ($) => "}",
     double_dot: ($) => "..",
     comma: ($) => ",",
     eq: ($) => "=",
@@ -787,8 +758,6 @@ module.exports = grammar({
       ),
     glsl_begin: ($) => "[glsl|",
     glsl_end: ($) => "|]",
-
-    _char_quote: ($) => "'",
   },
 });
 

@@ -40,7 +40,6 @@ type alias ListItem =
     (eq)
     (type_expression
       (record_type
-        (left_brace)
         (field_type
           (lower_case_identifier)
           (colon)
@@ -63,5 +62,4 @@ type alias ListItem =
           (type_expression
             (type_ref
               (upper_case_qid
-                (upper_case_identifier)))))
-        (right_brace)))))
+                (upper_case_identifier)))))))))

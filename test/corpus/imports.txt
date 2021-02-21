@@ -48,10 +48,8 @@ import Html exposing (Html, button, div, text)
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_value
-        (lower_case_identifier))
-      (right_parenthesis)))
+        (lower_case_identifier))))
   (import_clause
     (import)
     (upper_case_qid
@@ -60,9 +58,7 @@ import Html exposing (Html, button, div, text)
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
-      (double_dot)
-      (right_parenthesis)))
+      (double_dot)))
   (import_clause
     (import)
     (upper_case_qid
@@ -71,20 +67,17 @@ import Html exposing (Html, button, div, text)
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_value
         (lower_case_identifier))
       (comma)
       (exposed_value
-        (lower_case_identifier))
-      (right_parenthesis)))
+        (lower_case_identifier))))
   (import_clause
     (import)
     (upper_case_qid
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_type
         (upper_case_identifier))
       (comma)
@@ -95,8 +88,7 @@ import Html exposing (Html, button, div, text)
         (lower_case_identifier))
       (comma)
       (exposed_value
-        (lower_case_identifier))
-      (right_parenthesis))))
+        (lower_case_identifier)))))
 
 ================================================================================
 Import statements prefixed with module and docs
@@ -125,7 +117,6 @@ import Html.Attributes as Attr
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_type
         (upper_case_identifier))
       (comma)
@@ -139,8 +130,7 @@ import Html.Attributes as Attr
         (lower_case_identifier))
       (comma)
       (exposed_value
-        (lower_case_identifier))
-      (right_parenthesis)))
+        (lower_case_identifier))))
   (block_comment)
   (import_clause
     (import)
@@ -148,13 +138,11 @@ import Html.Attributes as Attr
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_type
         (upper_case_identifier))
       (comma)
       (exposed_type
-        (upper_case_identifier))
-      (right_parenthesis)))
+        (upper_case_identifier))))
   (import_clause
     (import)
     (upper_case_qid
@@ -187,10 +175,8 @@ import Remedy.ScreenList as ScreenList
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_type
-        (upper_case_identifier))
-      (right_parenthesis)))
+        (upper_case_identifier))))
   (import_clause
     (import)
     (upper_case_qid
@@ -202,10 +188,8 @@ import Remedy.ScreenList as ScreenList
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_type
-        (upper_case_identifier))
-      (right_parenthesis)))
+        (upper_case_identifier))))
   (import_clause
     (import)
     (upper_case_qid
@@ -236,11 +220,8 @@ import Url.Parser as Parser exposing ((</>), Parser, oneOf, s, string)
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_operator
-        (left_parenthesis)
-        (operator_identifier)
-        (right_parenthesis))
+        (operator_identifier))
       (comma)
       (exposed_type
         (upper_case_identifier))
@@ -252,8 +233,7 @@ import Url.Parser as Parser exposing ((</>), Parser, oneOf, s, string)
         (lower_case_identifier))
       (comma)
       (exposed_value
-        (lower_case_identifier))
-      (right_parenthesis))))
+        (lower_case_identifier)))))
 
 ================================================================================
 Import statements with type trying to expose all constructors
@@ -270,14 +250,10 @@ import Element exposing (DeviceClass(..))
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_type
         (upper_case_identifier)
         (exposed_union_constructors
-          (left_parenthesis)
-          (double_dot)
-          (right_parenthesis)))
-      (right_parenthesis))))
+          (double_dot))))))
 
 ================================================================================
 Import statements with type trying to expose single constructor - should fail
@@ -294,11 +270,7 @@ import Element exposing (DeviceClass(Phone))
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_type
         (upper_case_identifier))
       (ERROR
-        (left_parenthesis)
-        (upper_case_identifier)
-        (right_parenthesis))
-      (right_parenthesis))))
+        (upper_case_identifier)))))

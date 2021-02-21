@@ -22,7 +22,6 @@ main =
           (dot)
           (lower_case_identifier)))
       (record_expr
-        (left_brace)
         (field
           (lower_case_identifier)
           (eq)
@@ -41,8 +40,7 @@ main =
           (eq)
           (value_expr
             (value_qid
-              (lower_case_identifier))))
-        (right_brace)))))
+              (lower_case_identifier))))))))
 
 ================================================================================
 Function statement with list
@@ -68,27 +66,21 @@ view model =
       (value_expr
         (value_qid
           (lower_case_identifier)))
+      (list_expr)
       (list_expr
-        (left_square_bracket)
-        (right_square_bracket))
-      (list_expr
-        (left_square_bracket)
         (function_call_expr
           (value_expr
             (value_qid
               (lower_case_identifier)))
           (list_expr
-            (left_square_bracket)
             (function_call_expr
               (value_expr
                 (value_qid
                   (lower_case_identifier)))
               (value_expr
                 (upper_case_qid
-                  (upper_case_identifier))))
-            (right_square_bracket))
+                  (upper_case_identifier)))))
           (list_expr
-            (left_square_bracket)
             (function_call_expr
               (value_expr
                 (value_qid
@@ -96,24 +88,19 @@ view model =
               (string_constant_expr
                 (open_quote)
                 (regular_string_part)
-                (close_quote)))
-            (right_square_bracket)))
+                (close_quote)))))
         (comma)
         (function_call_expr
           (value_expr
             (value_qid
               (lower_case_identifier)))
+          (list_expr)
           (list_expr
-            (left_square_bracket)
-            (right_square_bracket))
-          (list_expr
-            (left_square_bracket)
             (function_call_expr
               (value_expr
                 (value_qid
                   (lower_case_identifier)))
               (parenthesized_expr
-                (left_parenthesis)
                 (function_call_expr
                   (value_expr
                     (value_qid
@@ -122,26 +109,21 @@ view model =
                       (lower_case_identifier)))
                   (value_expr
                     (value_qid
-                      (lower_case_identifier))))
-                (right_parenthesis)))
-            (right_square_bracket)))
+                      (lower_case_identifier))))))))
         (comma)
         (function_call_expr
           (value_expr
             (value_qid
               (lower_case_identifier)))
           (list_expr
-            (left_square_bracket)
             (function_call_expr
               (value_expr
                 (value_qid
                   (lower_case_identifier)))
               (value_expr
                 (upper_case_qid
-                  (upper_case_identifier))))
-            (right_square_bracket))
+                  (upper_case_identifier)))))
           (list_expr
-            (left_square_bracket)
             (function_call_expr
               (value_expr
                 (value_qid
@@ -149,6 +131,4 @@ view model =
               (string_constant_expr
                 (open_quote)
                 (regular_string_part)
-                (close_quote)))
-            (right_square_bracket)))
-        (right_square_bracket)))))
+                (close_quote)))))))))
