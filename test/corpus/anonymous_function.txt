@@ -11,7 +11,6 @@ func =
       (lower_case_identifier))
     (eq)
     (parenthesized_expr
-      (left_parenthesis)
       (anonymous_function_expr
         (backslash)
         (pattern
@@ -27,8 +26,7 @@ func =
               (lower_case_identifier)))
           (value_expr
             (value_qid
-              (lower_case_identifier)))))
-      (right_parenthesis))))
+              (lower_case_identifier))))))))
 
 ================================================================================
 Function containing an anonymous function that's called
@@ -43,7 +41,6 @@ f6 = (\a -> a) 1
     (eq)
     (function_call_expr
       (parenthesized_expr
-        (left_parenthesis)
         (anonymous_function_expr
           (backslash)
           (pattern
@@ -52,8 +49,7 @@ f6 = (\a -> a) 1
           (arrow)
           (value_expr
             (value_qid
-              (lower_case_identifier))))
-        (right_parenthesis))
+              (lower_case_identifier)))))
       (number_constant_expr
         (number_literal)))))
 

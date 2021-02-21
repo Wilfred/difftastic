@@ -13,9 +13,7 @@ module Main exposing (..)
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
-      (double_dot)
-      (right_parenthesis))))
+      (double_dot))))
 
 ================================================================================
 module statement sub dir exposing all
@@ -34,9 +32,7 @@ module Page.View exposing (..)
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
-      (double_dot)
-      (right_parenthesis))))
+      (double_dot))))
 
 ================================================================================
 module statement exposing single function
@@ -53,10 +49,8 @@ module Main exposing (view)
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_value
-        (lower_case_identifier))
-      (right_parenthesis))))
+        (lower_case_identifier)))))
 
 ================================================================================
 module statement exposing multiple functions
@@ -73,7 +67,6 @@ module Main exposing (main, update, view)
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_value
         (lower_case_identifier))
       (comma)
@@ -81,8 +74,7 @@ module Main exposing (main, update, view)
         (lower_case_identifier))
       (comma)
       (exposed_value
-        (lower_case_identifier))
-      (right_parenthesis))))
+        (lower_case_identifier)))))
 
 ================================================================================
 module statement exposing type with all constructors and functions
@@ -99,13 +91,10 @@ module Main exposing (Msg(..), main, update, view)
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_type
         (upper_case_identifier)
         (exposed_union_constructors
-          (left_parenthesis)
-          (double_dot)
-          (right_parenthesis)))
+          (double_dot)))
       (comma)
       (exposed_value
         (lower_case_identifier))
@@ -114,8 +103,7 @@ module Main exposing (Msg(..), main, update, view)
         (lower_case_identifier))
       (comma)
       (exposed_value
-        (lower_case_identifier))
-      (right_parenthesis))))
+        (lower_case_identifier)))))
 
 ================================================================================
 module statement exposing type with no constructors and functions
@@ -132,7 +120,6 @@ module Main exposing (Msg, main, update, view)
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_type
         (upper_case_identifier))
       (comma)
@@ -143,8 +130,7 @@ module Main exposing (Msg, main, update, view)
         (lower_case_identifier))
       (comma)
       (exposed_value
-        (lower_case_identifier))
-      (right_parenthesis))))
+        (lower_case_identifier)))))
 
 ================================================================================
 module statement exposing type with all constructors and functions
@@ -161,13 +147,10 @@ module Main exposing (Msg(..), main, update, view)
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_type
         (upper_case_identifier)
         (exposed_union_constructors
-          (left_parenthesis)
-          (double_dot)
-          (right_parenthesis)))
+          (double_dot)))
       (comma)
       (exposed_value
         (lower_case_identifier))
@@ -176,8 +159,7 @@ module Main exposing (Msg(..), main, update, view)
         (lower_case_identifier))
       (comma)
       (exposed_value
-        (lower_case_identifier))
-      (right_parenthesis))))
+        (lower_case_identifier)))))
 
 ================================================================================
 module statement exposing type with one constructors and functions - not valid in elm 0.19 - should error
@@ -194,13 +176,10 @@ module Main exposing (Msg(One), main, update, view)
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_type
         (upper_case_identifier))
       (ERROR
-        (left_parenthesis)
-        (upper_case_identifier)
-        (right_parenthesis))
+        (upper_case_identifier))
       (comma)
       (exposed_value
         (lower_case_identifier))
@@ -209,8 +188,7 @@ module Main exposing (Msg(One), main, update, view)
         (lower_case_identifier))
       (comma)
       (exposed_value
-        (lower_case_identifier))
-      (right_parenthesis))))
+        (lower_case_identifier)))))
 
 ================================================================================
 effect module statement exposing
@@ -235,17 +213,14 @@ effect module Task where { command = MyCmd } exposing
       (upper_case_identifier))
     (where)
     (record_expr
-      (left_brace)
       (field
         (lower_case_identifier)
         (eq)
         (value_expr
           (upper_case_qid
-            (upper_case_identifier))))
-      (right_brace))
+            (upper_case_identifier)))))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_type
         (upper_case_identifier))
       (comma)
@@ -286,5 +261,4 @@ effect module Task where { command = MyCmd } exposing
         (lower_case_identifier))
       (comma)
       (exposed_value
-        (lower_case_identifier))
-      (right_parenthesis))))
+        (lower_case_identifier)))))

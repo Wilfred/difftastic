@@ -90,9 +90,7 @@ five = something
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
-      (double_dot)
-      (right_parenthesis)))
+      (double_dot)))
   (value_declaration
     (function_declaration_left
       (lower_case_identifier))

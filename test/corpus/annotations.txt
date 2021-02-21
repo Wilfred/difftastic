@@ -46,7 +46,6 @@ main =
           (dot)
           (lower_case_identifier)))
       (record_expr
-        (left_brace)
         (field
           (lower_case_identifier)
           (eq)
@@ -87,8 +86,7 @@ main =
           (eq)
           (value_expr
             (value_qid
-              (lower_case_identifier))))
-        (right_brace)))))
+              (lower_case_identifier))))))))
 
 ================================================================================
 Annotation for func with parameters returning tuple
@@ -122,7 +120,6 @@ init maybeViewer url navKey =
           (upper_case_identifier)))
       (arrow)
       (tuple_type
-        (left_parenthesis)
         (type_expression
           (type_ref
             (upper_case_qid
@@ -134,8 +131,7 @@ init maybeViewer url navKey =
               (upper_case_identifier))
             (type_ref
               (upper_case_qid
-                (upper_case_identifier)))))
-        (right_parenthesis))))
+                (upper_case_identifier))))))))
   (value_declaration
     (function_declaration_left
       (lower_case_identifier)
@@ -151,7 +147,6 @@ init maybeViewer url navKey =
         (value_qid
           (lower_case_identifier)))
       (parenthesized_expr
-        (left_parenthesis)
         (function_call_expr
           (value_expr
             (value_qid
@@ -160,16 +155,13 @@ init maybeViewer url navKey =
               (lower_case_identifier)))
           (value_expr
             (value_qid
-              (lower_case_identifier))))
-        (right_parenthesis))
+              (lower_case_identifier)))))
       (parenthesized_expr
-        (left_parenthesis)
         (function_call_expr
           (value_expr
             (upper_case_qid
               (upper_case_identifier)))
           (parenthesized_expr
-            (left_parenthesis)
             (function_call_expr
               (value_expr
                 (value_qid
@@ -181,9 +173,7 @@ init maybeViewer url navKey =
                   (lower_case_identifier)))
               (value_expr
                 (value_qid
-                  (lower_case_identifier))))
-            (right_parenthesis)))
-        (right_parenthesis)))))
+                  (lower_case_identifier))))))))))
 
 ================================================================================
 Annotation with trailing whitespace

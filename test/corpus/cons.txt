@@ -35,15 +35,13 @@ test listList =
         (pattern
           (cons_pattern
             (list_pattern
-              (left_square_bracket)
               (pattern
                 (lower_pattern
                   (lower_case_identifier)))
               (comma)
               (pattern
                 (lower_pattern
-                  (lower_case_identifier)))
-              (right_square_bracket))
+                  (lower_case_identifier))))
             (anything_pattern
               (underscore))))
         (arrow)
