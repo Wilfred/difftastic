@@ -288,8 +288,8 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "comma"
+                        "type": "STRING",
+                        "value": ","
                       },
                       {
                         "type": "CHOICE",
@@ -755,8 +755,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "pipe"
+          "type": "STRING",
+          "value": "|"
         },
         {
           "type": "FIELD",
@@ -983,8 +983,8 @@
                         "type": "SEQ",
                         "members": [
                           {
-                            "type": "SYMBOL",
-                            "name": "comma"
+                            "type": "STRING",
+                            "value": ","
                           },
                           {
                             "type": "FIELD",
@@ -1069,8 +1069,8 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "comma"
+                    "type": "STRING",
+                    "value": ","
                   },
                   {
                     "type": "FIELD",
@@ -1756,8 +1756,8 @@
             "type": "SEQ",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "comma"
+                "type": "STRING",
+                "value": ","
               },
               {
                 "type": "FIELD",
@@ -1816,8 +1816,8 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "comma"
+                        "type": "STRING",
+                        "value": ","
                       },
                       {
                         "type": "FIELD",
@@ -1884,8 +1884,8 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "pipe"
+          "type": "STRING",
+          "value": "|"
         }
       ]
     },
@@ -1921,8 +1921,8 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "comma"
+                    "type": "STRING",
+                    "value": ","
                   },
                   {
                     "type": "FIELD",
@@ -2541,8 +2541,8 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "comma"
+                    "type": "STRING",
+                    "value": ","
                   },
                   {
                     "type": "FIELD",
@@ -2590,8 +2590,8 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "comma"
+                        "type": "STRING",
+                        "value": ","
                       },
                       {
                         "type": "FIELD",
@@ -2706,8 +2706,8 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "comma"
+          "type": "STRING",
+          "value": ","
         },
         {
           "type": "SEQ",
@@ -2726,8 +2726,8 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "comma"
+                    "type": "STRING",
+                    "value": ","
                   },
                   {
                     "type": "FIELD",
@@ -2933,10 +2933,6 @@
       "type": "STRING",
       "value": ".."
     },
-    "comma": {
-      "type": "STRING",
-      "value": ","
-    },
     "eq": {
       "type": "STRING",
       "value": "="
@@ -2948,10 +2944,6 @@
     "colon": {
       "type": "STRING",
       "value": ":"
-    },
-    "pipe": {
-      "type": "STRING",
-      "value": "|"
     },
     "backslash": {
       "type": "STRING",

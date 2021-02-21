@@ -29,7 +29,6 @@ type Msg
     (eq)
     (union_variant
       (upper_case_identifier))
-    (pipe)
     (union_variant
       (upper_case_identifier)))
   (type_declaration
@@ -38,10 +37,8 @@ type Msg
     (eq)
     (union_variant
       (upper_case_identifier))
-    (pipe)
     (union_variant
       (upper_case_identifier))
-    (pipe)
     (union_variant
       (upper_case_identifier))))
 
@@ -84,13 +81,11 @@ type ElementProblem
       (type_ref
         (upper_case_qid
           (upper_case_identifier))))
-    (pipe)
     (union_variant
       (upper_case_identifier)
       (type_ref
         (upper_case_qid
           (upper_case_identifier))))
-    (pipe)
     (union_variant
       (upper_case_identifier)
       (type_ref
@@ -108,10 +103,8 @@ type ElementProblem
       (type_ref
         (upper_case_qid
           (upper_case_identifier))))
-    (pipe)
     (union_variant
       (upper_case_identifier))
-    (pipe)
     (union_variant
       (upper_case_identifier)
       (type_ref
@@ -131,10 +124,8 @@ type ElementProblem
       (type_ref
         (upper_case_qid
           (upper_case_identifier))))
-    (pipe)
     (union_variant
       (upper_case_identifier))
-    (pipe)
     (union_variant
       (upper_case_identifier)))
   (type_declaration
@@ -146,9 +137,7 @@ type ElementProblem
       (type_ref
         (upper_case_qid
           (upper_case_identifier))))
-    (pipe)
     (union_variant
       (upper_case_identifier))
-    (pipe)
     (union_variant
       (upper_case_identifier))))
