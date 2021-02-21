@@ -2,7 +2,7 @@
 Simple glsl function
 ================================================================================
 
-textures_skies_tim_hell_fragment_1 = 
+textures_skies_tim_hell_fragment_1 =
     [glsl|
 precision mediump float;
 
@@ -29,15 +29,13 @@ void main
       (lower_case_identifier))
     (eq)
     (glsl_code_expr
-      (glsl_begin)
-      (glsl_content)
-      (glsl_end))))
+      (glsl_content))))
 
 ================================================================================
 Simple glsl function no end
 ================================================================================
 
-textures_skies_tim_hell_fragment_1 = 
+textures_skies_tim_hell_fragment_1 =
     [glsl|
 precision mediump float;
 
@@ -62,5 +60,4 @@ void main
     (function_declaration_left
       (lower_case_identifier))
     (eq)
-    (glsl_begin)
     (glsl_content)))

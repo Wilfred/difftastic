@@ -1136,20 +1136,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "glsl_begin",
-          "named": true
-        },
-        {
-          "type": "glsl_end",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -3060,15 +3046,7 @@
     "named": true
   },
   {
-    "type": "glsl_begin",
-    "named": true
-  },
-  {
     "type": "glsl_content",
-    "named": true
-  },
-  {
-    "type": "glsl_end",
     "named": true
   },
   {

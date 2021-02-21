@@ -60,8 +60,4 @@
 
 
 ; glsl
-(glsl_begin) @entity.glsl.bracket.elm
-
 (glsl_content) @source.glsl
-
-(glsl_end) @entity.glsl.bracket.elm

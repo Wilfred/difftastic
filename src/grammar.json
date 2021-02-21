@@ -2825,7 +2825,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "glsl_begin"
+          "name": "_glsl_begin"
         },
         {
           "type": "FIELD",
@@ -2837,15 +2837,15 @@
         },
         {
           "type": "SYMBOL",
-          "name": "glsl_end"
+          "name": "_glsl_end"
         }
       ]
     },
-    "glsl_begin": {
+    "_glsl_begin": {
       "type": "STRING",
       "value": "[glsl|"
     },
-    "glsl_end": {
+    "_glsl_end": {
       "type": "STRING",
       "value": "|]"
     },
