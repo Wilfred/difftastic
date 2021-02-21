@@ -73,7 +73,20 @@ module.exports = grammar({
       ),
 
     _import_list: ($) => repeat1(seq($.import_clause, $._virtual_end_decl)),
-    _top_decl_list: ($) => repeat1(seq($._declaration, $._virtual_end_decl)),
+    _top_decl_list: ($) =>
+      repeat1(
+        seq(
+          choice(
+            $.value_declaration,
+            $.type_alias_declaration,
+            $.type_declaration,
+            $.type_annotation,
+            $.port_annotation,
+            $.infix_declaration
+          ),
+          $._virtual_end_decl
+        )
+      ),
 
     // MODULE DECLARATION
 
@@ -83,13 +96,13 @@ module.exports = grammar({
         "(",
         choice(
           field("doubleDot", $.double_dot),
-          commaSep1($._exposed_item, $.comma)
+          commaSep1(
+            choice($.exposed_value, $.exposed_type, $.exposed_operator),
+            $.comma
+          )
         ),
         ")"
       ),
-
-    _exposed_item: ($) =>
-      choice($.exposed_value, $.exposed_type, $.exposed_operator),
 
     exposed_value: ($) => $.lower_case_identifier,
 
@@ -172,27 +185,14 @@ module.exports = grammar({
 
     // TOP-LEVEL DECLARATION
 
-    _declaration: ($) =>
-      choice(
-        $.value_declaration,
-        $.type_alias_declaration,
-        $.type_declaration,
-        $.type_annotation,
-        $.port_annotation,
-        $.infix_declaration
-      ),
-
     value_declaration: ($) =>
       seq(
-        $._internal_value_declaration_left,
+        choice(
+          field("functionDeclarationLeft", $.function_declaration_left),
+          field("pattern", $.pattern)
+        ),
         $.eq,
         field("body", $._expression)
-      ),
-
-    _internal_value_declaration_left: ($) =>
-      choice(
-        field("functionDeclarationLeft", $.function_declaration_left),
-        field("pattern", $.pattern)
       ),
 
     function_declaration_left: ($) =>
@@ -200,20 +200,22 @@ module.exports = grammar({
         3,
         seq(
           $.lower_case_identifier,
-          field("pattern", repeat($._function_declaration_pattern))
+          field(
+            "pattern",
+            repeat(
+              choice(
+                $.anything_pattern,
+                $.lower_pattern,
+                $.tuple_pattern,
+                $.unit_expr,
+                $.list_pattern,
+                $.record_pattern,
+                $._literal_expr_group,
+                $._parenthesized_pattern
+              )
+            )
+          )
         )
-      ),
-
-    _function_declaration_pattern: ($) =>
-      choice(
-        $.anything_pattern,
-        $.lower_pattern,
-        $.tuple_pattern,
-        $.unit_expr,
-        $.list_pattern,
-        $.record_pattern,
-        $._literal_expr_group,
-        $._parenthesized_pattern
       ),
 
     // TYPE DECLARATIONS AND REFERENCES
@@ -513,9 +515,11 @@ module.exports = grammar({
     _record_base: ($) =>
       seq(field("baseRecord", $.record_base_identifier), $.pipe),
 
-    _record_inner: ($) => seq(optional($._record_base), $._record_inner_fields),
-
-    _record_inner_fields: ($) => commaSep1(field("field", $.field), $.comma),
+    _record_inner: ($) =>
+      seq(
+        optional($._record_base),
+        commaSep1(field("field", $.field), $.comma)
+      ),
 
     field: ($) =>
       seq(
@@ -531,6 +535,10 @@ module.exports = grammar({
         repeat(prec.left(seq("else", $._if, $._then))),
         $._else
       ),
+
+    _if: ($) => seq("if", field("exprList", $._expression)),
+    _then: ($) => seq("then", field("exprList", $._expression)),
+    _else: ($) => seq("else", field("exprList", $._expression)),
 
     case_of_expr: ($) =>
       choice(
@@ -565,23 +573,27 @@ module.exports = grammar({
     case_of_branch: ($) =>
       seq(field("pattern", $.pattern), $.arrow, field("expr", $._expression)),
 
-    let_in_expr: ($) => seq($._let, $._in),
+    let_in_expr: ($) =>
+      seq(
+        "let",
+        $._virtual_open_section,
+        $._inner_declaration,
+        optional(repeat1(seq($._virtual_end_decl, $._inner_declaration))),
+        $._virtual_end_section,
+        "in",
+        field("body", $._expression)
+      ),
 
     _inner_declaration: ($) =>
       choice(field("valueDeclaration", $.value_declaration), $.type_annotation),
-
-    _more_inner_declarations: ($) =>
-      repeat1(seq($._virtual_end_decl, $._inner_declaration)),
 
     // PATTERNS
 
     pattern: ($) =>
       seq(
         choice(field("child", $.cons_pattern), $._single_pattern),
-        optional($._pattern_as)
+        optional(seq($.as, field("patternAs", $.lower_pattern)))
       ),
-
-    _pattern_as: ($) => seq($.as, field("patternAs", $.lower_pattern)),
 
     cons_pattern: ($) =>
       seq(
@@ -604,7 +616,7 @@ module.exports = grammar({
 
     _single_pattern: ($) =>
       choice(
-        $._parenthesized_single_pattern,
+        seq("(", field("child", $.pattern), ")"),
         field("child", $.anything_pattern),
         field("child", $.lower_pattern),
         field("child", $.union_pattern),
@@ -614,9 +626,6 @@ module.exports = grammar({
         field("child", $.record_pattern),
         field("child", $._literal_expr_group)
       ),
-
-    _parenthesized_single_pattern: ($) =>
-      seq("(", field("child", $.pattern), ")"),
 
     lower_pattern: ($) => $.lower_case_identifier,
 
@@ -677,7 +686,10 @@ module.exports = grammar({
       ),
 
     glsl_code_expr: ($) =>
-      seq($.glsl_begin, field("content", $.glsl_content), $.glsl_end),
+      seq($._glsl_begin, field("content", $.glsl_content), $._glsl_end),
+
+    _glsl_begin: ($) => "[glsl|",
+    _glsl_end: ($) => "|]",
 
     // Stuff from lexer
 
@@ -702,20 +714,8 @@ module.exports = grammar({
     import: ($) => "import",
     as: ($) => "as",
     exposing: ($) => "exposing",
-    _if: ($) => seq("if", field("exprList", $._expression)),
-    _then: ($) => seq("then", field("exprList", $._expression)),
-    _else: ($) => seq("else", field("exprList", $._expression)),
     case: ($) => "case",
     of: ($) => "of",
-    _let: ($) =>
-      seq(
-        "let",
-        $._virtual_open_section,
-        $._inner_declaration,
-        optional($._more_inner_declarations),
-        $._virtual_end_section
-      ),
-    _in: ($) => seq("in", field("body", $._expression)),
     type: ($) => "type",
     alias: ($) => "alias",
     port: ($) => "port",
@@ -756,8 +756,6 @@ module.exports = grammar({
         "|.",
         "|="
       ),
-    glsl_begin: ($) => "[glsl|",
-    glsl_end: ($) => "|]",
   },
 });
 
