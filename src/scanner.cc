@@ -252,10 +252,9 @@ namespace
             }
 
             // Open section if the grammar lets us but only push to indent stack if we go further down in the stack
-            if (valid_symbols[VIRTUAL_OPEN_SECTION])
+            if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer))
             {
-                indent_length_stack.push_back(lexer->get_column(lexer));
-
+                indent_length_stack.push_back(lexer->get_column(lexer)); // This needs a `!lexer->eof(lexer)` check or it will get stuck
                 lexer->result_symbol = VIRTUAL_OPEN_SECTION;
                 return true;
             }
