@@ -3,7 +3,13 @@
   "version": "5.0.0",
   "description": "Tree sitter definitions for elm",
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
+    "elm",
+    "elm-lang",
+    "tree-sitter",
     "parser",
     "lexer"
   ],
