@@ -268,9 +268,7 @@ export const enum SyntaxType {
   Effect = "effect",
   Eq = "eq",
   Exposing = "exposing",
-  GlslBegin = "glsl_begin",
   GlslContent = "glsl_content",
-  GlslEnd = "glsl_end",
   Import = "import",
   Infix = "infix",
   InvalidStringEscape = "invalid_string_escape",
@@ -434,9 +432,7 @@ export type SyntaxNode =
   | UnnamedNode<"else">
   | EqNode
   | ExposingNode
-  | GlslBeginNode
   | GlslContentNode
-  | GlslEndNode
   | UnnamedNode<"if">
   | ImportNode
   | UnnamedNode<"in">
@@ -1158,16 +1154,8 @@ export interface ExposingNode extends NamedNodeBase {
   type: SyntaxType.Exposing;
 }
 
-export interface GlslBeginNode extends NamedNodeBase {
-  type: SyntaxType.GlslBegin;
-}
-
 export interface GlslContentNode extends NamedNodeBase {
   type: SyntaxType.GlslContent;
-}
-
-export interface GlslEndNode extends NamedNodeBase {
-  type: SyntaxType.GlslEnd;
 }
 
 export interface ImportNode extends NamedNodeBase {
