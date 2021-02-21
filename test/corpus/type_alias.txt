@@ -47,7 +47,6 @@ type alias ListItem =
             (type_ref
               (upper_case_qid
                 (upper_case_identifier)))))
-        (comma)
         (field_type
           (lower_case_identifier)
           (colon)
@@ -55,7 +54,6 @@ type alias ListItem =
             (type_ref
               (upper_case_qid
                 (upper_case_identifier)))))
-        (comma)
         (field_type
           (lower_case_identifier)
           (colon)

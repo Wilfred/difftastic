@@ -43,7 +43,6 @@ toStringCase enumValue =
               (upper_case_identifier)
               (dot)
               (lower_case_identifier))))
-        (comma)
         (bin_op_expr
           (field_access_expr
             (value_expr

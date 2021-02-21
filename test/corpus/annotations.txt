@@ -52,35 +52,30 @@ main =
           (value_expr
             (value_qid
               (lower_case_identifier))))
-        (comma)
         (field
           (lower_case_identifier)
           (eq)
           (value_expr
             (upper_case_qid
               (upper_case_identifier))))
-        (comma)
         (field
           (lower_case_identifier)
           (eq)
           (value_expr
             (upper_case_qid
               (upper_case_identifier))))
-        (comma)
         (field
           (lower_case_identifier)
           (eq)
           (value_expr
             (value_qid
               (lower_case_identifier))))
-        (comma)
         (field
           (lower_case_identifier)
           (eq)
           (value_expr
             (value_qid
               (lower_case_identifier))))
-        (comma)
         (field
           (lower_case_identifier)
           (eq)
@@ -124,7 +119,6 @@ init maybeViewer url navKey =
           (type_ref
             (upper_case_qid
               (upper_case_identifier))))
-        (comma)
         (type_expression
           (type_ref
             (upper_case_qid

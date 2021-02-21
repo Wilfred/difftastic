@@ -661,10 +661,6 @@
       "required": true,
       "types": [
         {
-          "type": "comma",
-          "named": true
-        },
-        {
           "type": "exposed_operator",
           "named": true
         },
@@ -1532,16 +1528,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comma",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1558,16 +1544,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comma",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2056,20 +2032,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comma",
-          "named": true
-        },
-        {
-          "type": "pipe",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2086,16 +2048,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comma",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2122,20 +2074,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comma",
-          "named": true
-        },
-        {
-          "type": "pipe",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2259,16 +2197,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comma",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2285,16 +2213,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comma",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2321,16 +2239,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comma",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2464,10 +2372,6 @@
       "types": [
         {
           "type": "eq",
-          "named": true
-        },
-        {
-          "type": "pipe",
           "named": true
         },
         {
@@ -2910,6 +2814,10 @@
     "named": false
   },
   {
+    "type": ",",
+    "named": false
+  },
+  {
     "type": "-",
     "named": false
   },
@@ -3018,10 +2926,6 @@
     "named": true
   },
   {
-    "type": "comma",
-    "named": true
-  },
-  {
     "type": "dot",
     "named": true
   },
@@ -3102,10 +3006,6 @@
     "named": true
   },
   {
-    "type": "pipe",
-    "named": true
-  },
-  {
     "type": "port",
     "named": true
   },
@@ -3143,6 +3043,10 @@
   },
   {
     "type": "{-",
+    "named": false
+  },
+  {
+    "type": "|",
     "named": false
   },
   {

@@ -174,127 +174,102 @@ dec =
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
@@ -308,127 +283,102 @@ dec =
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
@@ -442,47 +392,38 @@ dec =
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
         (close_char))
-      (comma)
       (char_constant_expr
         (open_char)
         (regular_string_part)
@@ -653,7 +594,6 @@ tuple4 =
     (tuple_expr
       (number_constant_expr
         (number_literal))
-      (comma)
       (number_constant_expr
         (number_literal))))
   (value_declaration
@@ -663,7 +603,6 @@ tuple4 =
     (tuple_expr
       (number_constant_expr
         (number_literal))
-      (comma)
       (number_constant_expr
         (number_literal))))
   (value_declaration
@@ -675,7 +614,6 @@ tuple4 =
         (open_quote)
         (regular_string_part)
         (close_quote))
-      (comma)
       (string_constant_expr
         (open_quote)
         (regular_string_part)

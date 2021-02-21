@@ -98,7 +98,7 @@ module.exports = grammar({
           field("doubleDot", $.double_dot),
           commaSep1(
             choice($.exposed_value, $.exposed_type, $.exposed_operator),
-            $.comma
+            ","
           )
         ),
         ")"
@@ -243,7 +243,7 @@ module.exports = grammar({
       ),
 
     _more_union_variants: ($) =>
-      seq($.pipe, field("unionVariant", $.union_variant)),
+      seq("|", field("unionVariant", $.union_variant)),
 
     type_alias_declaration: ($) =>
       seq(
@@ -282,7 +282,7 @@ module.exports = grammar({
         optional(
           seq(
             optional($._record_base),
-            commaSep1(field("fieldType", $.field_type), $.comma)
+            commaSep1(field("fieldType", $.field_type), ",")
           )
         ),
         "}"
@@ -301,7 +301,7 @@ module.exports = grammar({
         seq(
           "(",
           field("typeExpression", $.type_expression),
-          repeat1(seq($.comma, field("typeExpression", $.type_expression))),
+          repeat1(seq(",", field("typeExpression", $.type_expression))),
           ")"
         )
       ),
@@ -495,31 +495,24 @@ module.exports = grammar({
       seq(
         "(",
         field("expr", $._expression),
-        repeat1(seq($.comma, field("expr", $._expression))),
+        repeat1(seq(",", field("expr", $._expression))),
         ")"
       ),
 
     unit_expr: ($) => seq("(", ")"),
 
     list_expr: ($) =>
-      seq(
-        "[",
-        optional(commaSep1(field("exprList", $._expression), $.comma)),
-        "]"
-      ),
+      seq("[", optional(commaSep1(field("exprList", $._expression), ",")), "]"),
 
     record_expr: ($) => seq("{", optional($._record_inner), "}"),
 
     record_base_identifier: ($) => $.lower_case_identifier,
 
     _record_base: ($) =>
-      seq(field("baseRecord", $.record_base_identifier), $.pipe),
+      seq(field("baseRecord", $.record_base_identifier), "|"),
 
     _record_inner: ($) =>
-      seq(
-        optional($._record_base),
-        commaSep1(field("field", $.field), $.comma)
-      ),
+      seq(optional($._record_base), commaSep1(field("field", $.field), ",")),
 
     field: ($) =>
       seq(
@@ -632,10 +625,10 @@ module.exports = grammar({
     anything_pattern: ($) => $.underscore,
 
     record_pattern: ($) =>
-      seq("{", commaSep1(field("patternList", $.lower_pattern), $.comma), "}"),
+      seq("{", commaSep1(field("patternList", $.lower_pattern), ","), "}"),
 
     list_pattern: ($) =>
-      seq("[", optional(commaSep1(field("part", $.pattern), $.comma)), "]"),
+      seq("[", optional(commaSep1(field("part", $.pattern), ",")), "]"),
 
     union_pattern: ($) =>
       prec.left(
@@ -664,8 +657,8 @@ module.exports = grammar({
       seq(
         "(",
         field("pattern", $.pattern),
-        $.comma,
-        commaSep1(field("pattern", $.pattern), $.comma),
+        ",",
+        commaSep1(field("pattern", $.pattern), ","),
         ")"
       ),
 
@@ -721,11 +714,9 @@ module.exports = grammar({
     port: ($) => "port",
     infix: ($) => "infix",
     double_dot: ($) => "..",
-    comma: ($) => ",",
     eq: ($) => "=",
     arrow: ($) => "->",
     colon: ($) => ":",
-    pipe: ($) => "|",
     backslash: ($) => "\\",
     underscore: ($) => "_",
     dot: ($) => ".",
