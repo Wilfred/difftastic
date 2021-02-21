@@ -1,6 +1,6 @@
 {
   "name": "@elm-tooling/tree-sitter-elm",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Tree sitter definitions for elm",
   "main": "index.js",
   "publishConfig": {
@@ -32,7 +32,9 @@
     "parse-basic": "tree-sitter parse ./examples/Basic.elm",
     "parse-test": "tree-sitter parse --debug ./examples/test.elm",
     "test": "tree-sitter test && script/parse-examples",
+    "test-skip-download": "tree-sitter test && script/parse-examples -s",
     "test-full": "tree-sitter test && script/parse-examples-full",
+    "test-full-skip-download": "tree-sitter test && script/parse-examples-full -s",
     "test-only": "tree-sitter test",
     "test-highlighting": "tree-sitter highlight test/highlight/basic.elm",
     "test-tags": "tree-sitter tags test/highlight/basic.elm",
