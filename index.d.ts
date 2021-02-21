@@ -262,7 +262,6 @@ export const enum SyntaxType {
   CloseChar = "close_char",
   CloseQuote = "close_quote",
   Colon = "colon",
-  Comma = "comma",
   Dot = "dot",
   DoubleDot = "double_dot",
   Effect = "effect",
@@ -279,7 +278,6 @@ export const enum SyntaxType {
   Of = "of",
   OpenChar = "open_char",
   OpenQuote = "open_quote",
-  Pipe = "pipe",
   Port = "port",
   RegularStringPart = "regular_string_part",
   StringEscape = "string_escape",
@@ -296,6 +294,7 @@ export type UnnamedType =
   | "*"
   | "+"
   | "++"
+  | ","
   | "-"
   | "-}"
   | "/"
@@ -322,6 +321,7 @@ export type UnnamedType =
   | "then"
   | "{"
   | "{-"
+  | "|"
   | "|."
   | "|="
   | "|>"
@@ -398,6 +398,7 @@ export type SyntaxNode =
   | UnnamedNode<"*">
   | UnnamedNode<"+">
   | UnnamedNode<"++">
+  | UnnamedNode<",">
   | UnnamedNode<"-">
   | UnnamedNode<"-}">
   | UnnamedNode<"/">
@@ -425,7 +426,6 @@ export type SyntaxNode =
   | CloseCharNode
   | CloseQuoteNode
   | ColonNode
-  | CommaNode
   | DotNode
   | DoubleDotNode
   | EffectNode
@@ -446,7 +446,6 @@ export type SyntaxNode =
   | OfNode
   | OpenCharNode
   | OpenQuoteNode
-  | PipeNode
   | PortNode
   | RegularStringPartNode
   | StringEscapeNode
@@ -457,6 +456,7 @@ export type SyntaxNode =
   | WhereNode
   | UnnamedNode<"{">
   | UnnamedNode<"{-">
+  | UnnamedNode<"|">
   | UnnamedNode<"|.">
   | UnnamedNode<"|=">
   | UnnamedNode<"|>">
@@ -1130,10 +1130,6 @@ export interface ColonNode extends NamedNodeBase {
   type: SyntaxType.Colon;
 }
 
-export interface CommaNode extends NamedNodeBase {
-  type: SyntaxType.Comma;
-}
-
 export interface DotNode extends NamedNodeBase {
   type: SyntaxType.Dot;
 }
@@ -1196,10 +1192,6 @@ export interface OpenCharNode extends NamedNodeBase {
 
 export interface OpenQuoteNode extends NamedNodeBase {
   type: SyntaxType.OpenQuote;
-}
-
-export interface PipeNode extends NamedNodeBase {
-  type: SyntaxType.Pipe;
 }
 
 export interface PortNode extends NamedNodeBase {
