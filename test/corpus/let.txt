@@ -45,10 +45,8 @@ letExample =
       (value_declaration
         (pattern
           (record_pattern
-            (left_brace)
             (lower_pattern
-              (lower_case_identifier))
-            (right_brace)))
+              (lower_case_identifier))))
         (eq)
         (function_call_expr
           (value_expr
@@ -87,10 +85,8 @@ letExample =
       (value_declaration
         (pattern
           (record_pattern
-            (left_brace)
             (lower_pattern
-              (lower_case_identifier))
-            (right_brace)))
+              (lower_case_identifier))))
         (eq)
         (function_call_expr
           (value_expr
@@ -126,7 +122,6 @@ i = let f = (\a b c d -> a + b + c + d) in
           (lower_case_identifier))
         (eq)
         (parenthesized_expr
-          (left_parenthesis)
           (anonymous_function_expr
             (backslash)
             (pattern
@@ -160,8 +155,7 @@ i = let f = (\a b c d -> a + b + c + d) in
                 (operator_identifier))
               (value_expr
                 (value_qid
-                  (lower_case_identifier)))))
-          (right_parenthesis)))
+                  (lower_case_identifier)))))))
       (value_expr
         (value_qid
           (lower_case_identifier))))))
@@ -220,18 +214,14 @@ routeToString page =
                 (upper_case_qid
                   (upper_case_identifier))))
             (arrow)
-            (list_expr
-              (left_square_bracket)
-              (right_square_bracket)))
+            (list_expr))
           (case_of_branch
             (pattern
               (union_pattern
                 (upper_case_qid
                   (upper_case_identifier))))
             (arrow)
-            (list_expr
-              (left_square_bracket)
-              (right_square_bracket)))))
+            (list_expr))))
       (bin_op_expr
         (string_constant_expr
           (open_quote)
@@ -445,10 +435,8 @@ letExample =
       (value_declaration
         (pattern
           (record_pattern
-            (left_brace)
             (lower_pattern
-              (lower_case_identifier))
-            (right_brace)))
+              (lower_case_identifier))))
         (eq)
         (function_call_expr
           (value_expr
@@ -569,9 +557,7 @@ view =
         (value_expr
           (value_qid
             (lower_case_identifier)))
-        (unit_expr
-          (left_parenthesis)
-          (right_parenthesis))))))
+        (unit_expr)))))
 
 ================================================================================
 Nested let with function and list in body
@@ -616,7 +602,6 @@ main =
               (dot)
               (lower_case_identifier)))
           (parenthesized_expr
-            (left_parenthesis)
             (anonymous_function_expr
               (backslash)
               (pattern
@@ -653,15 +638,12 @@ main =
                     (operator_identifier))
                   (value_expr
                     (value_qid
-                      (lower_case_identifier))))))
-            (right_parenthesis))))
+                      (lower_case_identifier)))))))))
       (function_call_expr
         (value_expr
           (value_qid
             (lower_case_identifier)))
-        (list_expr
-          (left_square_bracket)
-          (right_square_bracket))))))
+        (list_expr)))))
 
 ================================================================================
 Let with comment after in
@@ -853,7 +835,6 @@ base col =
       (value_declaration
         (pattern
           (record_pattern
-            (left_brace)
             (lower_pattern
               (lower_case_identifier))
             (comma)
@@ -864,8 +845,7 @@ base col =
               (lower_case_identifier))
             (comma)
             (lower_pattern
-              (lower_case_identifier))
-            (right_brace)))
+              (lower_case_identifier))))
         (eq)
         (function_call_expr
           (value_expr
@@ -880,7 +860,6 @@ base col =
         (eq)
         (bin_op_expr
           (parenthesized_expr
-            (left_parenthesis)
             (bin_op_expr
               (value_expr
                 (value_qid
@@ -889,8 +868,7 @@ base col =
                 (operator_identifier))
               (value_expr
                 (value_qid
-                  (lower_case_identifier))))
-            (right_parenthesis))
+                  (lower_case_identifier)))))
           (operator
             (operator_identifier))
           (number_constant_expr
