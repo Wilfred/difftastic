@@ -10,7 +10,6 @@
 (of) @keyword.control.elm
 
 (colon) @keyword.other.elm
-(pipe) @keyword.other.elm
 (backslash) @keyword.other.elm
 (as) @keyword.other.elm
 (port) @keyword.other.elm
@@ -32,13 +31,14 @@
 "(" @punctuation.section.braces.begin
 ")" @punctuation.section.braces.end
 
+"|" @keyword.other.elm
+"," @punctuation.separator.comma.elm
 
 (import) @meta.import.elm
 (module) @keyword.other.elm
 
 (number_constant_expr) @constant.numeric.elm
 
-(comma) @punctuation.separator.comma.elm
 
 (type) @keyword.type.elm
 (type_declaration(upper_case_identifier) @storage.type.elm)

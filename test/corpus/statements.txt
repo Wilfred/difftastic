@@ -27,14 +27,12 @@ main =
           (eq)
           (number_constant_expr
             (number_literal)))
-        (comma)
         (field
           (lower_case_identifier)
           (eq)
           (value_expr
             (value_qid
               (lower_case_identifier))))
-        (comma)
         (field
           (lower_case_identifier)
           (eq)
@@ -89,7 +87,6 @@ view model =
                 (open_quote)
                 (regular_string_part)
                 (close_quote)))))
-        (comma)
         (function_call_expr
           (value_expr
             (value_qid
@@ -110,7 +107,6 @@ view model =
                   (value_expr
                     (value_qid
                       (lower_case_identifier))))))))
-        (comma)
         (function_call_expr
           (value_expr
             (value_qid

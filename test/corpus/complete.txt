@@ -98,13 +98,10 @@ view model =
         (upper_case_identifier)
         (exposed_union_constructors
           (double_dot)))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))))
   (import_clause
@@ -119,13 +116,10 @@ view model =
       (exposing)
       (exposed_type
         (upper_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))))
   (import_clause
@@ -154,14 +148,12 @@ view model =
           (eq)
           (number_constant_expr
             (number_literal)))
-        (comma)
         (field
           (lower_case_identifier)
           (eq)
           (value_expr
             (value_qid
               (lower_case_identifier))))
-        (comma)
         (field
           (lower_case_identifier)
           (eq)
@@ -174,7 +166,6 @@ view model =
     (eq)
     (union_variant
       (upper_case_identifier))
-    (pipe)
     (union_variant
       (upper_case_identifier)))
   (value_declaration
@@ -253,7 +244,6 @@ view model =
                 (open_quote)
                 (regular_string_part)
                 (close_quote)))))
-        (comma)
         (function_call_expr
           (value_expr
             (value_qid
@@ -274,7 +264,6 @@ view model =
                   (value_expr
                     (value_qid
                       (lower_case_identifier))))))))
-        (comma)
         (function_call_expr
           (value_expr
             (value_qid

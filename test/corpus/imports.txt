@@ -69,7 +69,6 @@ import Html exposing (Html, button, div, text)
       (exposing)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))))
   (import_clause
@@ -80,13 +79,10 @@ import Html exposing (Html, button, div, text)
       (exposing)
       (exposed_type
         (upper_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier)))))
 
@@ -119,16 +115,12 @@ import Html.Attributes as Attr
       (exposing)
       (exposed_type
         (upper_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))))
   (block_comment)
@@ -140,7 +132,6 @@ import Html.Attributes as Attr
       (exposing)
       (exposed_type
         (upper_case_identifier))
-      (comma)
       (exposed_type
         (upper_case_identifier))))
   (import_clause
@@ -222,16 +213,12 @@ import Url.Parser as Parser exposing ((</>), Parser, oneOf, s, string)
       (exposing)
       (exposed_operator
         (operator_identifier))
-      (comma)
       (exposed_type
         (upper_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier)))))
 

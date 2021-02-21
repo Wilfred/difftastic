@@ -69,10 +69,8 @@ module Main exposing (main, update, view)
       (exposing)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier)))))
 
@@ -95,13 +93,10 @@ module Main exposing (Msg(..), main, update, view)
         (upper_case_identifier)
         (exposed_union_constructors
           (double_dot)))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier)))))
 
@@ -122,13 +117,10 @@ module Main exposing (Msg, main, update, view)
       (exposing)
       (exposed_type
         (upper_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier)))))
 
@@ -151,13 +143,10 @@ module Main exposing (Msg(..), main, update, view)
         (upper_case_identifier)
         (exposed_union_constructors
           (double_dot)))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier)))))
 
@@ -180,13 +169,10 @@ module Main exposing (Msg(One), main, update, view)
         (upper_case_identifier))
       (ERROR
         (upper_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier)))))
 
@@ -223,42 +209,29 @@ effect module Task where { command = MyCmd } exposing
       (exposing)
       (exposed_type
         (upper_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier))
-      (comma)
       (exposed_value
         (lower_case_identifier)))))
