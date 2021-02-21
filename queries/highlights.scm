@@ -29,8 +29,8 @@
 (eq) @keyword.operator.assignment.elm
 
 
-(record_type(left_brace) @punctuation.section.braces.begin)
-(record_type(right_brace) @punctuation.section.braces.end)
+"(" @punctuation.section.braces.begin
+")" @punctuation.section.braces.end
 
 
 (import) @meta.import.elm

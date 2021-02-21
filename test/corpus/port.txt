@@ -19,10 +19,8 @@ port foo : String -> Cmd msg
       (upper_case_identifier))
     (exposing_list
       (exposing)
-      (left_parenthesis)
       (exposed_value
-        (lower_case_identifier))
-      (right_parenthesis)))
+        (lower_case_identifier))))
   (port_annotation
     (port)
     (lower_case_identifier)

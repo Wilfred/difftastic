@@ -29,7 +29,6 @@ toStringCase enumValue =
         (regular_string_part)
         (close_quote))
       (list_expr
-        (left_square_bracket)
         (bin_op_expr
           (field_access_expr
             (value_expr
@@ -58,8 +57,7 @@ toStringCase enumValue =
             (value_qid
               (upper_case_identifier)
               (dot)
-              (lower_case_identifier))))
-        (right_square_bracket)))))
+              (lower_case_identifier))))))))
 
 ================================================================================
 Strings multiline
