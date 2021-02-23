@@ -1203,3 +1203,77 @@ flipBy how (Plane (width, height) _ as plane) =
                   (value_expr
                     (value_qid
                       (lower_case_identifier))))))))))))
+
+================================================================================
+Case with of followed by comment
+================================================================================
+
+module Test exposing (..)
+type Maybe a = Just a | Nothing
+func result =
+    case result of
+    --^
+        Nothing ->
+            ""
+        Just (Just a) ->
+            a
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (double_dot)))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (lower_type_name
+      (lower_case_identifier))
+    (eq)
+    (union_variant
+      (upper_case_identifier)
+      (type_variable
+        (lower_case_identifier)))
+    (union_variant
+      (upper_case_identifier)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (line_comment)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (string_constant_expr
+          (open_quote)
+          (close_quote)))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (pattern
+              (union_pattern
+                (upper_case_qid
+                  (upper_case_identifier))
+                (lower_pattern
+                  (lower_case_identifier))))))
+        (arrow)
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))))))

@@ -935,3 +935,34 @@ oops =
       (value_expr
         (value_qid
           (lower_case_identifier))))))
+
+================================================================================
+Let with line comment at start
+================================================================================
+
+oops =
+    let
+        -- evil comment
+        x =
+            1
+    in
+    x
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (line_comment)
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
