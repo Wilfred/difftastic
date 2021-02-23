@@ -254,6 +254,12 @@ namespace
             // Open section if the grammar lets us but only push to indent stack if we go further down in the stack
             if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer))
             {
+                // If there is a comment, don't proceed, we don't
+                // need to check more as case branches/let variables can't start with a `-`
+                if (lexer->lookahead == '-')
+                {
+                    return false;
+                }
                 indent_length_stack.push_back(lexer->get_column(lexer)); // This needs a `!lexer->eof(lexer)` check or it will get stuck
                 lexer->result_symbol = VIRTUAL_OPEN_SECTION;
                 return true;
