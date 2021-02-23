@@ -591,7 +591,7 @@ module.exports = grammar({
     cons_pattern: ($) =>
       seq(
         field("part", $._single_pattern_cons),
-        repeat1(seq("::", field("part", $._single_pattern_cons)))
+        seq("::", field("part", choice($.cons_pattern, $._single_pattern_cons)))
       ),
 
     _single_pattern_cons: ($) =>
