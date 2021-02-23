@@ -592,6 +592,7 @@ export interface ConsPatternNode extends NamedNodeBase {
     | UnnamedNode<")">
     | AnythingPatternNode
     | CharConstantExprNode
+    | ConsPatternNode
     | ListPatternNode
     | LowerPatternNode
     | NumberConstantExprNode
