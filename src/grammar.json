@@ -2357,24 +2357,30 @@
           }
         },
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "::"
-              },
-              {
-                "type": "FIELD",
-                "name": "part",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_single_pattern_cons"
-                }
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "::"
+            },
+            {
+              "type": "FIELD",
+              "name": "part",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "cons_pattern"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_single_pattern_cons"
+                  }
+                ]
               }
-            ]
-          }
+            }
+          ]
         }
       ]
     },
