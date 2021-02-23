@@ -537,6 +537,10 @@
             "named": true
           },
           {
+            "type": "cons_pattern",
+            "named": true
+          },
+          {
             "type": "list_pattern",
             "named": true
           },
