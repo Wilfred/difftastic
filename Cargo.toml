@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "bindings/rust/typescript",
+    "bindings/rust/tsx",
+]
