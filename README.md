@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/Razzeee/tree-sitter-elm.svg?branch=master)](https://travis-ci.org/Razzeee/tree-sitter-elm)
-[![Build status](https://ci.appveyor.com/api/projects/status/tif3gafcxp85swih/branch/master?svg=true)](https://ci.appveyor.com/project/Razzeee/tree-sitter-elm/branch/master)
+[![Build Status](https://github.com/elm-tooling/tree-sitter-elm/actions/workflows/test.yml/badge.svg)](https://github.com/elm-tooling/tree-sitter-elm/actions/workflows/test.yml)
 
 # Elm tree sitter
 
