@@ -204,9 +204,6 @@ struct Scanner {
   }
 
   bool scan_quoted_string(TSLexer *lexer) {
-    std::string id;
-    size_t i;
-
     if (!scan_left_quoted_string_delimiter(lexer)) return false;
 
     for (;;) {
