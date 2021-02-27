@@ -1,7 +1,7 @@
 tree-sitter-ocaml
 =================
 
-[![Build Status](https://travis-ci.org/tree-sitter/tree-sitter-ocaml.svg?branch=master)](https://travis-ci.org/tree-sitter/tree-sitter-ocaml)
+[![Build Status](https://github.com/tree-sitter/tree-sitter-ocaml/workflows/build/badge.svg)](https://github.com/tree-sitter/tree-sitter-ocaml/actions?query=workflow%3Abuild)
 
 OCaml grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
 
