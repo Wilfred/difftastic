@@ -31,9 +31,9 @@ function 1 | +1.0 | 'x' | "x" | {|x|} | true | () -> ()
                   (or_pattern
                     (number)
                     (signed_number))
-                  (character))
-                (string))
-              (quoted_string))
+                  (character (character_content)))
+                (string (string_content)))
+              (quoted_string (quoted_string_content)))
             (boolean))
           (unit))
         (unit)))))
@@ -202,7 +202,7 @@ function 'a' .. 'z' -> ()
   (expression_item
     (function_expression
       (match_case
-        (range_pattern (character) (character))
+        (range_pattern (character (character_content)) (character (character_content)))
         (unit)))))
 
 ============================

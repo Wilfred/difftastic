@@ -10,7 +10,7 @@ external x : int = "x"
   (external
     (value_name)
     (type_constructor_path (type_constructor))
-    (string)))
+    (string (string_content))))
 
 ==============================
 Type definition

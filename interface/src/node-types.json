@@ -1181,6 +1181,21 @@
     "fields": {},
     "children": {
       "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "character_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "character_content",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
       "required": false,
       "types": [
         {
@@ -4334,7 +4349,7 @@
           "named": true
         },
         {
-          "type": "quoted_string",
+          "type": "quoted_string_content",
           "named": true
         }
       ]
@@ -4357,7 +4372,7 @@
           "named": true
         },
         {
-          "type": "quoted_string",
+          "type": "quoted_string_content",
           "named": true
         }
       ]
@@ -4366,7 +4381,36 @@
   {
     "type": "quoted_string",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "quoted_string_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "quoted_string_content",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "conversion_specification",
+          "named": true
+        },
+        {
+          "type": "pretty_printing_indication",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "range_pattern",
@@ -4612,6 +4656,21 @@
   },
   {
     "type": "string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "string_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string_content",
     "named": true,
     "fields": {},
     "children": {
@@ -5277,6 +5336,14 @@
         }
       ]
     }
+  },
+  {
+    "type": "\t",
+    "named": false
+  },
+  {
+    "type": "\n",
+    "named": false
   },
   {
     "type": " ",
