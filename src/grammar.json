@@ -617,7 +617,7 @@
     },
     "function_declaration_left": {
       "type": "PREC",
-      "value": 3,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -851,24 +851,20 @@
       ]
     },
     "type_ref": {
-      "type": "PREC",
-      "value": 2,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "upper_case_qid"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
             "type": "SYMBOL",
-            "name": "upper_case_qid"
-          },
-          {
-            "type": "REPEAT1",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_single_type_expression"
-            }
+            "name": "_single_type_expression"
           }
-        ]
-      }
+        }
+      ]
     },
     "_single_type_expression": {
       "type": "CHOICE",
@@ -1163,7 +1159,7 @@
       "name": "part",
       "content": {
         "type": "PREC",
-        "value": 5,
+        "value": 1,
         "content": {
           "type": "SEQ",
           "members": [
@@ -1266,33 +1262,29 @@
       }
     },
     "_function_call_target": {
-      "type": "PREC",
-      "value": 2,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "field_access_expr"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "value_expr"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "field_accessor_function_expr"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "operator_as_function_expr"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "parenthesized_expr"
-          }
-        ]
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "field_access_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "value_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "field_accessor_function_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "operator_as_function_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parenthesized_expr"
+        }
+      ]
     },
     "_atom": {
       "type": "CHOICE",
@@ -1389,7 +1381,7 @@
     },
     "_field_access_start": {
       "type": "PREC",
-      "value": 3,
+      "value": 1,
       "content": {
         "type": "CHOICE",
         "members": [
@@ -3085,16 +3077,14 @@
       "value_qid"
     ],
     [
-      "_more_case_of_branches"
-    ],
-    [
       "function_call_expr"
     ],
     [
-      "field_access_expr"
+      "case_of_expr"
     ],
     [
-      "case_of_expr"
+      "_function_call_target",
+      "_atom"
     ]
   ],
   "precedences": [],

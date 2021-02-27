@@ -4,6 +4,9 @@
 const PREC = {
   COMMENT: 1,
   STRING: 2, // In a string, prefer string characters over comments
+  FIELD_ACCESS_START: 1,
+  PART: 1,
+  FUNCTION_START: 1,
 };
 
 module.exports = grammar({
@@ -11,10 +14,9 @@ module.exports = grammar({
 
   conflicts: ($) => [
     [$.upper_case_qid, $.value_qid],
-    [$._more_case_of_branches],
     [$.function_call_expr],
-    [$.field_access_expr],
     [$.case_of_expr],
+    [$._function_call_target, $._atom],
   ],
 
   externals: ($) => [
@@ -197,7 +199,7 @@ module.exports = grammar({
 
     function_declaration_left: ($) =>
       prec(
-        3,
+        PREC.FUNCTION_START,
         seq(
           $.lower_case_identifier,
           field(
@@ -260,8 +262,7 @@ module.exports = grammar({
     _type_expression_inner: ($) =>
       choice($.type_ref, $._single_type_expression),
 
-    type_ref: ($) =>
-      prec(2, seq($.upper_case_qid, repeat1($._single_type_expression))),
+    type_ref: ($) => seq($.upper_case_qid, repeat1($._single_type_expression)),
 
     _single_type_expression: ($) =>
       choice(
@@ -329,7 +330,7 @@ module.exports = grammar({
       field(
         "part",
         prec(
-          5,
+          PREC.PART,
           seq(
             $._call_or_atom,
             prec.right(repeat1(seq($.operator, $._call_or_atom)))
@@ -356,15 +357,12 @@ module.exports = grammar({
       ),
 
     _function_call_target: ($) =>
-      prec(
-        2,
-        choice(
-          $.field_access_expr,
-          $.value_expr,
-          $.field_accessor_function_expr,
-          $.operator_as_function_expr,
-          $.parenthesized_expr
-        )
+      choice(
+        $.field_access_expr,
+        $.value_expr,
+        $.field_accessor_function_expr,
+        $.operator_as_function_expr,
+        $.parenthesized_expr
       ),
 
     _atom: ($) =>
@@ -397,7 +395,7 @@ module.exports = grammar({
 
     _field_access_start: ($) =>
       prec(
-        3,
+        PREC.FIELD_ACCESS_START,
         choice(
           $.field_access_expr,
           choice($.value_expr, $.parenthesized_expr, $.record_expr)
