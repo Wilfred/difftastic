@@ -50,9 +50,15 @@ Constants
 "@[%s@ %d@]@.";;
 "
 ";;
+" ";;
+"";;
 {|OCaml|};;
 {id||id};;
 {id|{|}id}|idd||id};;
+{|%d@.|};;
+{|
+|};;
+{| |};;
 true;;
 ();;
 
@@ -67,28 +73,35 @@ true;;
   (expression_item (number))
   (expression_item (number))
   (expression_item (number))
-  (expression_item (character))
-  (expression_item (character (escape_sequence)))
-  (expression_item (character (escape_sequence)))
-  (expression_item (character (escape_sequence)))
-  (expression_item (character (escape_sequence)))
-  (expression_item (character (escape_sequence)))
-  (expression_item (character))
-  (expression_item (string))
-  (expression_item (string (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence)))
-  (expression_item (string (escape_sequence)))
-  (expression_item (string (conversion_specification) (conversion_specification)))
-  (expression_item (string
+  (expression_item (character (character_content)))
+  (expression_item (character (character_content (escape_sequence))))
+  (expression_item (character (character_content (escape_sequence))))
+  (expression_item (character (character_content (escape_sequence))))
+  (expression_item (character (character_content (escape_sequence))))
+  (expression_item (character (character_content (escape_sequence))))
+  (expression_item (character (character_content)))
+  (expression_item (string (string_content)))
+  (expression_item (string (string_content (escape_sequence) (escape_sequence) (escape_sequence) (escape_sequence))))
+  (expression_item (string (string_content (escape_sequence))))
+  (expression_item (string (string_content (conversion_specification) (conversion_specification))))
+  (expression_item (string (string_content
     (pretty_printing_indication)
     (conversion_specification)
     (pretty_printing_indication)
     (conversion_specification)
     (pretty_printing_indication)
-    (pretty_printing_indication)))
+    (pretty_printing_indication))))
+  (expression_item (string (string_content)))
+  (expression_item (string (string_content)))
   (expression_item (string))
+  (expression_item (quoted_string (quoted_string_content)))
   (expression_item (quoted_string))
-  (expression_item (quoted_string))
-  (expression_item (quoted_string))
+  (expression_item (quoted_string (quoted_string_content)))
+  (expression_item (quoted_string (quoted_string_content
+    (conversion_specification)
+    (pretty_printing_indication))))
+  (expression_item (quoted_string (quoted_string_content)))
+  (expression_item (quoted_string (quoted_string_content)))
   (expression_item (boolean))
   (expression_item (unit)))
 

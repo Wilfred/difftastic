@@ -6,7 +6,8 @@ namespace {
 
 enum {
   COMMENT,
-  QUOTED_STRING,
+  LEFT_QUOTED_STRING_DELIM,
+  RIGHT_QUOTED_STRING_DELIM,
   STRING_DELIM,
   LINE_NUMBER_DIRECTIVE,
   NULL_CHARACTER
@@ -14,14 +15,21 @@ enum {
 
 struct Scanner {
   bool in_string = false;
+  std::string quoted_string_id;
 
   unsigned serialize(char *buffer) {
-    *buffer = in_string;
-    return 1;
+    size_t size = quoted_string_id.size();
+
+    buffer[0] = in_string;
+    quoted_string_id.copy(&buffer[1], size);
+    return size + 1;
   }
 
   void deserialize(const char *buffer, unsigned length) {
-    in_string = (length > 0) && *buffer;
+    if (length > 0) {
+      in_string = buffer[0];
+      quoted_string_id.assign(&buffer[1], length - 1);
+    }
   }
 
   void advance(TSLexer *lexer) {
@@ -33,9 +41,18 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    if (valid_symbols[QUOTED_STRING] && (iswlower(lexer->lookahead) || lexer->lookahead == '_' || lexer->lookahead == '|')) {
-      lexer->result_symbol = QUOTED_STRING;
-      return scan_quoted_string(lexer);
+    if (valid_symbols[LEFT_QUOTED_STRING_DELIM] && (iswlower(lexer->lookahead) || lexer->lookahead == '_' || lexer->lookahead == '|')) {
+      lexer->result_symbol = LEFT_QUOTED_STRING_DELIM;
+      return scan_left_quoted_string_delimiter(lexer);
+    } else if (valid_symbols[RIGHT_QUOTED_STRING_DELIM] && (lexer->lookahead == '|')) {
+      advance(lexer);
+      lexer->result_symbol = RIGHT_QUOTED_STRING_DELIM;
+      return scan_right_quoted_string_delimiter(lexer);
+    } else if (in_string && valid_symbols[STRING_DELIM] && lexer->lookahead == '"') {
+      advance(lexer);
+      in_string = false;
+      lexer->result_symbol = STRING_DELIM;
+      return true;
     }
 
     while (iswspace(lexer->lookahead)) {
@@ -64,9 +81,9 @@ struct Scanner {
       advance(lexer);
       lexer->result_symbol = COMMENT;
       return scan_comment(lexer);
-    } else if (valid_symbols[STRING_DELIM] && lexer->lookahead == '"') {
+    } else if (!in_string && valid_symbols[STRING_DELIM] && lexer->lookahead == '"') {
       advance(lexer);
-      in_string = !in_string;
+      in_string = true;
       lexer->result_symbol = STRING_DELIM;
       return true;
     } else if (valid_symbols[NULL_CHARACTER] && lexer->lookahead == '\0') {
@@ -159,27 +176,44 @@ struct Scanner {
     }
   }
 
-  bool scan_quoted_string(TSLexer *lexer) {
-    std::string id;
-    size_t i;
+  bool scan_left_quoted_string_delimiter(TSLexer *lexer) {
+    quoted_string_id.clear();
 
     while (iswlower(lexer->lookahead) || lexer->lookahead == '_') {
-      id.push_back(lexer->lookahead);
+      quoted_string_id.push_back(lexer->lookahead);
       advance(lexer);
     }
 
     if (lexer->lookahead != '|') return false;
+
     advance(lexer);
+    in_string = true;
+    return true;
+  }
+
+  bool scan_right_quoted_string_delimiter(TSLexer *lexer) {
+    for (size_t i = 0; i < quoted_string_id.size(); i++) {
+      if (lexer->lookahead != quoted_string_id[i]) return false;
+      advance(lexer);
+    }
+
+    if (lexer->lookahead != '}') return false;
+
+    in_string = false;
+    return true;
+  }
+
+  bool scan_quoted_string(TSLexer *lexer) {
+    std::string id;
+    size_t i;
+
+    if (!scan_left_quoted_string_delimiter(lexer)) return false;
 
     for (;;) {
       switch (lexer->lookahead) {
         case '|':
           advance(lexer);
-          for (i = 0; i < id.size(); i++) {
-            if (lexer->lookahead != id[i]) break;
-            advance(lexer);
-          }
-          if (i == id.size() && lexer->lookahead == '}') return true;
+          if (scan_right_quoted_string_delimiter(lexer)) return true;
           break;
         case '\0':
           if (lexer->eof(lexer)) return false;

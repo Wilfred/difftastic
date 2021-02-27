@@ -129,8 +129,8 @@ Item extension
 
 (compilation_unit
   (item_extension (attribute_id))
-  (quoted_item_extension (attribute_id) (quoted_string))
-  (quoted_item_extension (attribute_id) (quoted_string)))
+  (quoted_item_extension (attribute_id) (quoted_string_content))
+  (quoted_item_extension (attribute_id) (quoted_string_content)))
 
 ===========================
 Extension
@@ -164,8 +164,8 @@ let x = {%id ab|payload|ab};;
   (value_definition
     (let_binding
       (value_name)
-      (quoted_extension (attribute_id) (quoted_string))))
+      (quoted_extension (attribute_id) (quoted_string_content))))
   (value_definition
     (let_binding
       (value_name)
-      (quoted_extension (attribute_id) (quoted_string)))))
+      (quoted_extension (attribute_id) (quoted_string_content)))))

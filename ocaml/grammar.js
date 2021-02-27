@@ -44,6 +44,7 @@ module.exports = grammar({
     $._simple_type_ext,
     $._simple_expression_ext,
     $._expression_ext,
+    $._quoted_string,
     $._label_name,
     $._field_name,
     $._class_name,
@@ -1723,7 +1724,7 @@ module.exports = grammar({
       '{%',
       $.attribute_id,
       optional(/\s+/),
-      alias($._quoted_string, $.quoted_string),
+      $._quoted_string,
       '}'
     ),
 
@@ -1744,7 +1745,7 @@ module.exports = grammar({
       '{%%',
       $.attribute_id,
       optional(/\s+/),
-      alias($._quoted_string, $.quoted_string),
+      $._quoted_string,
       '}',
       repeat($.item_attribute)
     ),
@@ -1774,39 +1775,52 @@ module.exports = grammar({
       NUMBER
     ),
 
-    character: $ => seq(
-      "'",
-      choice(
-        /[^\\']/,
-        $._null,
-        $.escape_sequence
-      ),
-      "'"
+    character: $ => seq("'", $.character_content, "'"),
+
+    character_content: $ => choice(
+      /[^\\']/,
+      $._null,
+      $.escape_sequence
     ),
 
-    string: $ => seq(
-      '"',
-      repeat(choice(
-        token.immediate(' '),
-        token.immediate('[@'),
-        token.immediate('[@@'),
-        token.immediate('[@@@'),
-        /[^\\"%@]+|%|@/,
-        $._null,
-        $.escape_sequence,
-        alias(/\\u\{[0-9A-Fa-f]+\}/, $.escape_sequence),
-        alias(/\\\n[\t ]*/, $.escape_sequence),
-        $.conversion_specification,
-        $.pretty_printing_indication
-      )),
-      '"'
+    string: $ => seq('"', optional($.string_content), '"'),
+
+    string_content: $ => repeat1(choice(
+      token.immediate(' '),
+      token.immediate('\n'),
+      token.immediate('\t'),
+      token.immediate('[@'),
+      token.immediate('[@@'),
+      token.immediate('[@@@'),
+      /[^\\"%@]+|%|@/,
+      $._null,
+      $.escape_sequence,
+      alias(/\\u\{[0-9A-Fa-f]+\}/, $.escape_sequence),
+      alias(/\\\n[\t ]*/, $.escape_sequence),
+      $.conversion_specification,
+      $.pretty_printing_indication
+    )),
+
+    quoted_string: $ => seq('{', $._quoted_string, '}'),
+
+    _quoted_string: $ => seq(
+      $._left_quoted_string_delimiter,
+      optional($.quoted_string_content),
+      $._right_quoted_string_delimiter,
     ),
 
-    quoted_string: $ => seq(
-      '{',
-      $._quoted_string,
-      '}'
-    ),
+    quoted_string_content: $ => repeat1(choice(
+      token.immediate(' '),
+      token.immediate('\n'),
+      token.immediate('\t'),
+      token.immediate('[@'),
+      token.immediate('[@@'),
+      token.immediate('[@@@'),
+      /[^%@|]+|%|@|\|/,
+      $._null,
+      $.conversion_specification,
+      $.pretty_printing_indication
+    )),
 
     escape_sequence: $ => choice(
       /\\[\\"'ntbr ]/,
@@ -1991,7 +2005,8 @@ module.exports = grammar({
 
   externals: $ => [
     $.comment,
-    $._quoted_string,
+    $._left_quoted_string_delimiter,
+    $._right_quoted_string_delimiter,
     '"',
     $.line_number_directive,
     $._null
