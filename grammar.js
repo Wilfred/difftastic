@@ -18,7 +18,7 @@ module.exports = grammar({
 
     _whitespace: $ => /\s+/,
 
-    _comment: $ => /%[^\r\n]+/,
+    _comment: $ => /%[^\r\n]*/,
 
     //--- Content ---//
 
