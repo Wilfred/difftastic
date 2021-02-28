@@ -4,7 +4,7 @@
 
 using namespace v8;
 
-extern "C" TSLanguage * tree_sitter_ocaml();
+extern "C" TSLanguage * tree_sitter_ocaml_interface();
 
 namespace {
 
@@ -17,12 +17,12 @@ void Init(Local<Object> exports, Local<Object> module) {
 
   Local<Function> constructor = Nan::GetFunction(tpl).ToLocalChecked();
   Local<Object> instance = constructor->NewInstance(Nan::GetCurrentContext()).ToLocalChecked();
-  Nan::SetInternalFieldPointer(instance, 0, tree_sitter_ocaml());
+  Nan::SetInternalFieldPointer(instance, 0, tree_sitter_ocaml_interface());
 
-  Nan::Set(instance, Nan::New("name").ToLocalChecked(), Nan::New("ocaml").ToLocalChecked());
+  Nan::Set(instance, Nan::New("name").ToLocalChecked(), Nan::New("ocaml_interface").ToLocalChecked());
   Nan::Set(module, Nan::New("exports").ToLocalChecked(), instance);
 }
 
-NODE_MODULE(tree_sitter_ocaml_binding, Init)
+NODE_MODULE(tree_sitter_ocaml_interface_binding, Init)
 
 }  // namespace
