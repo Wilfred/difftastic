@@ -1,0 +1,3 @@
+node_modules
+binding.gyp
+tree-sitter-elixir.wasm
