@@ -37,11 +37,11 @@ module.exports = grammar({
     ),
 
     expr: $ => choice(
+      $.module_attr,
       $.integer,
       $.float,
       $.module,
       $.atom,
-      $.module_attr,
       $.list,
       $.map,
       $.keyword_list,
@@ -55,7 +55,7 @@ module.exports = grammar({
     ),
 
     bare_call: $ => prec.right(5, seq(
-      field('name', $.identifier),
+      field('name', choice($.identifier, $.module_attr)),
       choice(
         prec.right(5, field('args', $.statement)),
         seq(commaSep1($.expr), optional(seq(',', $.bare_keyword_list)), optional($.block)),
@@ -76,7 +76,7 @@ module.exports = grammar({
     ),
 
     dot_call: $ => seq(
-      field('object', choice($.module, $.identifier, $.atom)),
+      field('object', choice($.module, $.identifier, $.atom, $.dot_call)),
       '.',
       field('function', $.func_name_identifier),
       $.args
@@ -89,8 +89,7 @@ module.exports = grammar({
     ),
 
     args: $ => choice(
-      seq('(', $.expr, ',', $.bare_keyword_list, ')'),
-      seq('(', commaSep($.expr), ')'),
+      seq('(', commaSep($.expr), optional(seq(',', $.bare_keyword_list)), ')'),
     ),
 
     map: $ => prec.left(5, seq(
