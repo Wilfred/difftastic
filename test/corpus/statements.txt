@@ -306,7 +306,7 @@ for ((a) in b) {}
   (for_in_statement (identifier) (binary_expression (identifier) (object))
     (expression_statement (call_expression (identifier) (arguments))))
   (for_in_statement
-    (object_pattern (shorthand_property_identifier))
+    (object_pattern (shorthand_property_identifier_pattern))
     (identifier)
     (expression_statement (call_expression (identifier) (arguments))))
   (for_in_statement
@@ -368,7 +368,7 @@ for (let {a, b} of items || [])
     (identifier)
     (expression_statement (call_expression (identifier) (arguments (identifier)))))
   (for_in_statement
-    (object_pattern (shorthand_property_identifier) (shorthand_property_identifier))
+    (object_pattern (shorthand_property_identifier_pattern) (shorthand_property_identifier_pattern))
     (binary_expression (identifier) (array))
     (expression_statement (call_expression (identifier) (arguments (identifier) (identifier))))))
 

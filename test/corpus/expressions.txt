@@ -523,7 +523,7 @@ Functions
       (statement_block))
     (function
       (identifier)
-      (formal_parameters (rest_parameter (array_pattern (assignment_expression (identifier) (identifier)))))
+      (formal_parameters (rest_parameter (array_pattern (assignment_pattern (identifier) (identifier)))))
       (statement_block)))))
 
 ===================================================
@@ -610,10 +610,10 @@ function a({b}, c = d, e = f, async = true) {
   (function_declaration
     (identifier)
     (formal_parameters
-      (object_pattern (shorthand_property_identifier))
-      (assignment_pattern (shorthand_property_identifier) (identifier))
-      (assignment_pattern (shorthand_property_identifier) (identifier))
-      (assignment_pattern (shorthand_property_identifier) (true)))
+      (object_pattern (shorthand_property_identifier_pattern))
+      (assignment_pattern (identifier) (identifier))
+      (assignment_pattern (identifier) (identifier))
+      (assignment_pattern (identifier) (true)))
     (statement_block)))
 
 ============================================
