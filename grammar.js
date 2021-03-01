@@ -37,6 +37,8 @@ module.exports = grammar({
     ),
 
     expr: $ => choice(
+      $.integer,
+      $.float,
       $.module,
       $.atom,
       $.module_attr,
@@ -69,12 +71,12 @@ module.exports = grammar({
       binaryOp($, prec.left, 40, choice('\\\\', '<-')),
       binaryOp($, prec.right, 70, '|'),
       binaryOp($, prec.right, 100, '='),
-      binaryOp($, prec.left, 150, '=='),
-      binaryOp($, prec.left, 190, '>'),
+      binaryOp($, prec.left, 150, choice('==', '!=', '=~', '===', '!==')),
+      binaryOp($, prec.left, 190, '|>'),
     ),
 
     dot_call: $ => seq(
-      field('object', choice($.module, $.identifier)),
+      field('object', choice($.module, $.identifier, $.atom)),
       '.',
       field('function', $.func_name_identifier),
       $.args
@@ -87,6 +89,7 @@ module.exports = grammar({
     ),
 
     args: $ => choice(
+      seq('(', $.expr, ',', $.bare_keyword_list, ')'),
       seq('(', commaSep($.expr), ')'),
     ),
 
@@ -119,9 +122,11 @@ module.exports = grammar({
       '}'
     ),
 
-    atom: $ => /:[_a-z][_a-zA-Z0-9]*/,
+    integer: $ => /0[bB][01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0[dD])?\d(_?\d)*|0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/,
+    float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE][\+-]?\d(_?\d)*)?/,
+    atom: $ => /:[_a-z!][?!_a-zA-Z0-9]*/,
     module_attr: $ => /@[_a-z][_a-zA-Z0-9]*/,
-    keyword: $ => /[_a-z][_a-zA-Z0-9]*:/,
+    keyword: $ => /[_a-z!][?!_a-zA-Z0-9]*:/,
     string: $ => /"[^"]*"/,
     here_string: $ => /"""\n.*\n[\s]*"""/,
     module: $ => /[A-Z][_a-zA-Z0-9]*(\.[A-Z][_a-zA-Z0-9]*)*/,
