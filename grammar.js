@@ -35,7 +35,7 @@ module.exports = grammar({
       seq($.keyword_list, "\n"),
       seq($.string, "\n"),
       seq($.tuple, "\n"),
-      seq($.identifier, "\n"),
+      seq($.binary_op),
       $.bare_call,
       $.dot_call,
       $.call
@@ -65,9 +65,20 @@ module.exports = grammar({
       field('args', $.args)
     )),
 
-    binary_op: $ => prec.left(150, seq(
+    binary_op: $ => choice(
+      $.comp_op,
+      $.pipe_op
+    ),
+
+    comp_op: $ => prec.left(150, seq(
       $.expr,
       choice('=='),
+      $.expr
+    )),
+
+    pipe_op: $ => prec.left(190, seq(
+      $.expr,
+      choice('|>'),
       $.expr
     )),
 

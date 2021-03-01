@@ -72,11 +72,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "comp_op",
+          "named": true
+        },
+        {
+          "type": "pipe_op",
           "named": true
         }
       ]
@@ -121,6 +125,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "comp_op",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -272,6 +291,21 @@
     }
   },
   {
+    "type": "pipe_op",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "source_file",
     "named": true,
     "fields": {},
@@ -303,15 +337,15 @@
           "named": true
         },
         {
+          "type": "binary_op",
+          "named": true
+        },
+        {
           "type": "call",
           "named": true
         },
         {
           "type": "dot_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -434,6 +468,10 @@
   },
   {
     "type": "{",
+    "named": false
+  },
+  {
+    "type": "|>",
     "named": false
   },
   {

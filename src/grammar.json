@@ -108,11 +108,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "STRING",
-              "value": "\n"
+              "name": "binary_op"
             }
           ]
         },
@@ -230,6 +226,19 @@
       }
     },
     "binary_op": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "comp_op"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pipe_op"
+        }
+      ]
+    },
+    "comp_op": {
       "type": "PREC_LEFT",
       "value": 150,
       "content": {
@@ -245,6 +254,32 @@
               {
                 "type": "STRING",
                 "value": "=="
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "expr"
+          }
+        ]
+      }
+    },
+    "pipe_op": {
+      "type": "PREC_LEFT",
+      "value": 190,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "expr"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "|>"
               }
             ]
           },
