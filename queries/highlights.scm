@@ -1,11 +1,13 @@
 ; Special identifiers
 ;--------------------
 
-((identifier) @constant
+([
+    (identifier)
+    (shorthand_property_identifier)
+    (shorthand_property_identifier_pattern)
+ ] @constant
  (#match? @constant "^[A-Z_][A-Z\\d_]+$"))
 
-((shorthand_property_identifier) @constant
- (#match? @constant "^[A-Z_][A-Z\\d_]+$"))
 
 ((identifier) @constructor
  (#match? @constructor "^[A-Z]"))
@@ -65,8 +67,8 @@
       (identifier) @variable.parameter)
     (object_pattern
       [
-        (pair value: (identifier) @variable.parameter)
-        (shorthand_property_identifier) @variable.parameter
+        (pair_pattern value: (identifier) @variable.parameter)
+        (shorthand_property_identifier_pattern) @variable.parameter
       ])
   ]
 )
