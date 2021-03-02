@@ -22490,7 +22490,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "PSL_Sequence_Instance"
+          "name": "_PSL_Sequence_Instance"
         },
         {
           "type": "SYMBOL",
@@ -22702,7 +22702,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "PSL_Ambiguous_Instance"
+          "name": "_PSL_Ambiguous_Instance"
         }
       ]
     },
@@ -22711,7 +22711,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "PSL_Property_Instance"
+          "name": "_PSL_Property_Instance"
         },
         {
           "type": "SYMBOL",
@@ -23800,7 +23800,7 @@
                 "value": 3,
                 "content": {
                   "type": "SYMBOL",
-                  "name": "PSL_Property_Instance"
+                  "name": "_PSL_Property_Instance"
                 }
               },
               {
@@ -23972,7 +23972,7 @@
               "value": 3,
               "content": {
                 "type": "SYMBOL",
-                "name": "PSL_Property_Instance"
+                "name": "_PSL_Property_Instance"
               }
             },
             {
@@ -24343,118 +24343,82 @@
         }
       ]
     },
-    "PSL_Ambiguous_Instance": {
+    "PSL_Instance": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_PSL_Identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "PSL_Actual_Parameter_List"
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "_PSL_Ambiguous_Instance": {
       "type": "PREC_DYNAMIC",
       "value": -1,
       "content": {
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_PSL_Identifier"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "("
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "PSL_Actual_Parameter_List"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ")"
-                  }
-                ]
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "PSL_Instance"
+            },
+            "named": true,
+            "value": "PSL_Ambiguous_Instance"
           }
         ]
       }
     },
-    "PSL_Sequence_Instance": {
+    "_PSL_Sequence_Instance": {
       "type": "PREC_DYNAMIC",
       "value": -2,
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_PSL_Identifier"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "("
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "PSL_Actual_Parameter_List"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ")"
-                  }
-                ]
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
+        "type": "ALIAS",
+        "content": {
+          "type": "SYMBOL",
+          "name": "PSL_Instance"
+        },
+        "named": true,
+        "value": "PSL_Sequence_Instance"
       }
     },
-    "PSL_Property_Instance": {
+    "_PSL_Property_Instance": {
       "type": "PREC_DYNAMIC",
       "value": -2,
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_PSL_Identifier"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "("
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "PSL_Actual_Parameter_List"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ")"
-                  }
-                ]
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
+        "type": "ALIAS",
+        "content": {
+          "type": "SYMBOL",
+          "name": "PSL_Instance"
+        },
+        "named": true,
+        "value": "PSL_Property_Instance"
       }
     },
     "PSL_Actual_Parameter_List": {
@@ -25467,32 +25431,17 @@
       "case_generate_alternative"
     ],
     [
-      "PSL_Property_Instance",
+      "PSL_Instance",
       "_simple_name"
     ],
     [
-      "PSL_Sequence_Instance",
-      "_simple_name"
+      "_PSL_Property_Instance",
+      "_PSL_Sequence_Instance",
+      "_PSL_Ambiguous_Instance"
     ],
     [
-      "PSL_Property_Instance",
-      "PSL_Sequence_Instance"
-    ],
-    [
-      "PSL_Property_Instance",
-      "PSL_Sequence_Instance",
-      "PSL_Ambiguous_Instance"
-    ],
-    [
-      "PSL_Property_Instance",
-      "PSL_Sequence_Instance",
-      "_simple_name"
-    ],
-    [
-      "PSL_Property_Instance",
-      "PSL_Sequence_Instance",
-      "PSL_Ambiguous_Instance",
-      "_simple_name"
+      "_PSL_Property_Instance",
+      "_PSL_Sequence_Instance"
     ],
     [
       "PSL_Property_Replicator"

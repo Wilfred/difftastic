@@ -334,7 +334,6 @@ module.exports = grammar({
         //
         [$.positional_association_element, $.index_constraint],
         [$.positional_association_element, $._primary],
-
         [$.named_association_element, $._primary],
 
         // 6.2
@@ -367,12 +366,9 @@ module.exports = grammar({
 
         // `assert id
         // `restrict id;`
-        [$.PSL_Property_Instance, $._simple_name],
-        [$.PSL_Sequence_Instance, $._simple_name],
-        [$.PSL_Property_Instance, $.PSL_Sequence_Instance],
-        [$.PSL_Property_Instance, $.PSL_Sequence_Instance, $.PSL_Ambiguous_Instance],
-        [$.PSL_Property_Instance, $.PSL_Sequence_Instance, $._simple_name],
-        [$.PSL_Property_Instance, $.PSL_Sequence_Instance, $.PSL_Ambiguous_Instance, $._simple_name],
+        [$.PSL_Instance, $._simple_name],
+        [$._PSL_Property_Instance, $._PSL_Sequence_Instance, $._PSL_Ambiguous_Instance],
+        [$._PSL_Property_Instance, $._PSL_Sequence_Instance],
 
         [$.PSL_Property_Replicator],
         [$.PSL_Property_Declaration],
@@ -3406,7 +3402,7 @@ module.exports = grammar({
         // }}}
         // PSL 6.1.2 Sequences {{{
         _PSL_Sequence: $ => choice(
-            $.PSL_Sequence_Instance,
+            $._PSL_Sequence_Instance,
             $.PSL_Repeated_SERE,
             $.PSL_Braced_SERE,
             $.PSL_Clocked_SERE
@@ -3458,11 +3454,11 @@ module.exports = grammar({
         _PSL_Property: $ => choice(
             $.PSL_Property_Replicator,
             $._PSL_FL_Property,
-            $.PSL_Ambiguous_Instance,
+            $._PSL_Ambiguous_Instance,
         ),
 
         _PSL_FL_Property: $ => choice(
-            $.PSL_Property_Instance,
+            $._PSL_Property_Instance,
             $.PSL_Parenthesized_FL_Property,
             $.PSL_Sequential_FL_Property,
             $.PSL_Clocked_FL_Property,
@@ -3622,7 +3618,7 @@ module.exports = grammar({
             ':',
             field('Property',
                 choice(
-                    prec.dynamic(3,$.PSL_Property_Instance),
+                    prec.dynamic(3,$._PSL_Property_Instance),
                     $._PSL_Property
                 )
             )
@@ -3664,7 +3660,7 @@ module.exports = grammar({
             )),
             reservedWord('is'),
             choice(
-                prec.dynamic(3, $.PSL_Property_Instance),
+                prec.dynamic(3, $._PSL_Property_Instance),
                 $._PSL_Property,
             ),
             ';'
@@ -3725,32 +3721,26 @@ module.exports = grammar({
         ),
         // }}}
         // PSL 6.3.3 Instantiation {{{
-        PSL_Ambiguous_Instance: $ => prec.dynamic(-1,seq(
+        PSL_Instance: $ => seq(
             $._PSL_Identifier,
             optional(seq(
                 '(',
                 $.PSL_Actual_Parameter_List,
                 ')'
             ))
+        ),
+
+        _PSL_Ambiguous_Instance: $ => prec.dynamic(-1,seq(
+            alias($.PSL_Instance, $.PSL_Ambiguous_Instance)
         )),
 
-        PSL_Sequence_Instance: $ => prec.dynamic(-2, seq(
-            $._PSL_Identifier,
-            optional(seq(
-                '(',
-                $.PSL_Actual_Parameter_List,
-                ')'
-            ))
-        )),
+        _PSL_Sequence_Instance: $ => prec.dynamic(-2, 
+            alias($.PSL_Instance, $.PSL_Sequence_Instance)
+        ),
 
-        PSL_Property_Instance: $ => prec.dynamic(-2,seq(
-            $._PSL_Identifier,
-            optional(seq(
-                '(',
-                $.PSL_Actual_Parameter_List,
-                ')'
-            ))
-        )),
+        _PSL_Property_Instance: $ => prec.dynamic(-2, 
+            alias($.PSL_Instance, $.PSL_Property_Instance)
+        ),
 
         PSL_Actual_Parameter_List: $ => sepBy1(',', $.PSL_Actual_Parameter),
 
