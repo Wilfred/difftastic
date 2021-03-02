@@ -17,10 +17,10 @@ module.exports = {
   _qvarsym: $ => choice($.qualified_operator, $._operator_minus),
   _qvarsym_nominus: $ => choice($.qualified_operator, $.operator),
 
-  _var: $ => choice($.variable, parens($.operator)),
+  _var: $ => choice($.variable, parens($._operator_minus)),
   _qvar: $ => choice($._qvarid, parens($._qvarsym)),
 
-  varop: $ => choice($.operator, ticked($.variable)),
+  varop: $ => choice($._operator_minus, ticked($.variable)),
   _qvarop: $ => choice($._qvarsym, ticked($._qvarid)),
   _qvarop_nominus: $ => choice($._qvarsym_nominus, ticked($._qvarid)),
 
