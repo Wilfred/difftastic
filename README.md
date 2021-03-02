@@ -1,6 +1,6 @@
 # tree-sitter-haskell
 
-[![Build Status](https://travis-ci.org/tree-sitter/tree-sitter-haskell.svg?branch=master)](https://travis-ci.org/tree-sitter/tree-sitter-haskell)
+[![Build Status](https://github.com/tree-sitter/tree-sitter-haskell/workflows/build/badge.svg)](https://github.com/tree-sitter/tree-sitter-haskell/actions?query=workflow%3Atest)
 
 Haskell grammar for [tree-sitter].
 
