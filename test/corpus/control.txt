@@ -39,3 +39,26 @@ else {
     )
   )
 )
+
+=================================================
+Simple while statement
+=================================================
+
+my $i = 0;
+while ($i < 10) {
+  print "hello $i";
+
+  $i++;
+}
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration (scalar_variable) (integer)) (semi_colon))
+  (while_statement (empty_parenthesized_expression (binary_expression (scalar_variable) (integer)))
+    (block
+      (call_expression (identifier) (arguments (string_double_quoted))) (semi_colon)
+      (unary_expression (scalar_variable)) (semi_colon)
+    )
+  )
+)

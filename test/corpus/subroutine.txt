@@ -1,18 +1,15 @@
 =================================================
-Subroutine
+Subroutine with empty block
 =================================================
 
 sub hello {
-  return 'hello';
 }
 
 ---
 
 (source_file
   (function_definition (identifier)
-    (block
-      (return_statement (string_single_quoted) (semi_colon))
-    )
+    (block)
   )
 )
 
