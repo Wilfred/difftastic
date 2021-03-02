@@ -1665,6 +1665,14 @@
           "named": true
         },
         {
+          "type": "exp_case",
+          "named": true
+        },
+        {
+          "type": "exp_cond",
+          "named": true
+        },
+        {
           "type": "exp_do",
           "named": true
         },
@@ -1674,6 +1682,10 @@
         },
         {
           "type": "exp_lambda_case",
+          "named": true
+        },
+        {
+          "type": "exp_let",
           "named": true
         },
         {

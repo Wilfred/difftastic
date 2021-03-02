@@ -3725,6 +3725,45 @@
               "name": "exp_lambda"
             }
           ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_aexp"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "exp_let"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_aexp"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "exp_cond"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_aexp"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "exp_case"
+            }
+          ]
         }
       ]
     },
