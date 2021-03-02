@@ -73,12 +73,34 @@ module.exports = grammar({
 
       $._declaration,
 
-      $.return_statement,
+      $._statement_modifiers,
 
+      $._compound_statement,
+    ),
+
+    _expression_or_return_expression: $ => choice(
+      $._expression,
+      $.return_expression,
+    ),
+
+    _statement_modifiers: $ => choice(
+      $.if_simple_statement,
+      // $.unless_simple_statement,
+      // $.while_simple_statement,
+      // $.until_simple_statement,
+      // $.for_simple_statement,
+      // $.foreach_simple_statement,
+      // $.when_simple_statement,
+    ),
+
+    _compound_statement: $ => choice(
       // conditional statements
       $.if_statement,
       $.unless_statement,
       // $.given_statement,
+
+      // loops
+      $.while_statement,
     ),
 
     _expression_statement: $ => seq(
@@ -101,6 +123,19 @@ module.exports = grammar({
       $.package_name,
       $.semi_colon,
     ),
+
+    if_simple_statement: $ => prec.right(seq(
+      $._expression_or_return_expression,
+      'if',
+      field('condition', choice($.parenthesized_expression, $._expression)),
+      $.semi_colon,
+    )),
+    // unless_simple_statement,
+    // while_simple_statement,
+    // until_simple_statement,
+    // for_simple_statement,
+    // foreach_simple_statement,
+    // when_simple_statement,
 
     // TODO: should be a boolean expression and not the current one?
     if_statement: $ => prec.right(seq(
@@ -151,6 +186,13 @@ module.exports = grammar({
     //   $.block,
     // ),
 
+    while_statement: $ => seq(
+      optional(seq(field('label', $.identifier), ':')),
+      'while',
+      field('condition', $.empty_parenthesized_expression),
+      field('body', $.block),
+    ),
+
     _declaration: $ => choice(
       $.function_definition,
       $.variable_declaration,
@@ -195,7 +237,7 @@ module.exports = grammar({
 
     block: $ => seq(
       '{',
-      repeat($._statement),
+      optional(repeat($._statement)),
       '}'
     ),
 
@@ -205,16 +247,21 @@ module.exports = grammar({
       ')'
     ),
 
+    empty_parenthesized_expression: $ => seq(
+      '(',
+      optional($._expression),
+      ')'
+    ),
+
     // TODO: do this
     // parenthesized_condition: $ => seq(
     //   '(',
     //   ')'
     // ),
 
-    return_statement: $ => seq(
+    return_expression: $ => seq(
       'return',
       optional($._expression),
-      $.semi_colon,
     ),
 
     _expression: $ => choice(
