@@ -201,6 +201,9 @@ module.exports = {
     $._aexp,
     seq($._aexp, $._exp_apply),
     seq($._aexp, $.exp_lambda),
+    seq($._aexp, $.exp_let),
+    seq($._aexp, $.exp_cond),
+    seq($._aexp, $.exp_case),
   ),
 
   /**

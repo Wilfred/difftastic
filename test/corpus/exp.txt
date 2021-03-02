@@ -914,6 +914,49 @@ a = a do a
   (exp_apply (exp_name (variable)) (exp_do (stmt (exp_name (variable)))))))
 
 ================================================================================
+exp: block argument: let
+================================================================================
+
+a = a let a = a in a
+
+---
+
+(module
+ (function (variable)
+  (exp_apply
+  (exp_name (variable))
+   (exp_let (let (decls (function (variable) (exp_name (variable))))) (exp_in (exp_name (variable)))))))
+
+================================================================================
+exp: block argument: if
+================================================================================
+
+a = a if a then a else a
+
+---
+
+(module
+ (function
+  (variable)
+  (exp_apply
+  (exp_name (variable))
+   (exp_cond (exp_name (variable)) (exp_name (variable)) (exp_name (variable))))))
+
+================================================================================
+exp: block argument: case
+================================================================================
+
+a = a case a of a -> a
+
+---
+
+(module
+ (function (variable)
+  (exp_apply
+   (exp_name (variable))
+   (exp_case (exp_name (variable)) (alts (alt (pat_name (variable)) (exp_name (variable))))))))
+
+================================================================================
 exp: empty lambda case
 ================================================================================
 
