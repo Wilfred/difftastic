@@ -225,7 +225,7 @@ A a == A a = a == a
 
 (module
  (function
-  pattern: (infix
+  infix: (infix
    lhs: (pat_apply (pat_name (constructor)) (pat_name (variable)))
    op: (varop (operator))
    rhs: (pat_apply (pat_name (constructor)) (pat_name (variable))))

@@ -7026,13 +7026,17 @@
           "type": "PREC_DYNAMIC",
           "value": 1,
           "content": {
-            "type": "ALIAS",
+            "type": "FIELD",
+            "name": "infix",
             "content": {
-              "type": "SYMBOL",
-              "name": "_funpat_infix"
-            },
-            "named": true,
-            "value": "infix"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_funpat_infix"
+              },
+              "named": true,
+              "value": "infix"
+            }
           }
         }
       ]

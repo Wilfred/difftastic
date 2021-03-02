@@ -42,7 +42,7 @@ module.exports = {
 
   _funlhs: $ => choice(
     prec.dynamic(2, $._funvar),
-    prec.dynamic(1, alias($._funpat_infix, $.infix)),
+    prec.dynamic(1, field('infix', alias($._funpat_infix, $.infix))),
   ),
 
   function: $ => seq(
@@ -72,7 +72,7 @@ module.exports = {
     * let Just 5 = prog
     * let a = prog
     * Since patterns can be `variable`s, the `funpat` lhs of the second example cannot be distinguished from a `funvar`.
-    * These precedences solve this.
+    * The precedences here and in `_funlhs` solve this.
     */
   _decl_fun: $ => choice(
     $.function,

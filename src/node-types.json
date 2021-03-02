@@ -5389,6 +5389,16 @@
     "type": "function",
     "named": true,
     "fields": {
+      "infix": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "infix",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": true,
         "required": false,
@@ -5702,10 +5712,6 @@
         },
         {
           "type": "guard_equation",
-          "named": true
-        },
-        {
-          "type": "infix",
           "named": true
         },
         {
