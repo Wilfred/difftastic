@@ -119,7 +119,7 @@ module.exports = {
   decl_newtype: $ => seq(
     'newtype',
     $._context_newtype,
-    $._newtype
+    choice($._newtype, $._gadt_rhs),
   ),
 
   // ------------------------------------------------------------------------

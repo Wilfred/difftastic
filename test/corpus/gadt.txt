@@ -167,3 +167,14 @@ data a +++ b where
       (type_name (type_variable))
       (tyconop (type_operator))
       (type_name (type_variable))))))))
+
+================================================================================
+gadt: newtype
+================================================================================
+
+newtype A where
+  A :: A
+
+---
+
+(module (newtype (type) (where) (gadt_constructor (constructor) (type_name (type)))))

@@ -5958,8 +5958,17 @@
           "name": "_context_newtype"
         },
         {
-          "type": "SYMBOL",
-          "name": "_newtype"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_newtype"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_gadt_rhs"
+            }
+          ]
         }
       ]
     },
