@@ -25317,14 +25317,6 @@
       "positional_association_element"
     ],
     [
-      "positional_association_element",
-      "_expr"
-    ],
-    [
-      "named_association_element",
-      "_expr"
-    ],
-    [
       "index_constraint",
       "slice_name"
     ],

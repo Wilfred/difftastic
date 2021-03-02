@@ -272,12 +272,6 @@ module.exports = grammar({
         // `foo ("str")` -> function_call (see _actual_part)
         [$.expression_list, $.positional_association_element],
 
-        // `assert foo (bar, '+')`
-        // `assert foo (bar, true)`
-        // `assert foo (bar, "str")`
-        [$.positional_association_element, $._expr],
-        [$.named_association_element, $._expr],
-
         // `(id (discrete_range))`
         // slice name:
         //      `assert (arr (id'range))`
@@ -352,7 +346,7 @@ module.exports = grammar({
          $.signal_interface_declaration,
          $.variable_interface_declaration ],
 
-        [$._constant_mode, $._signal_mode, $._variable_mode ],
+        [$._constant_mode, $._signal_mode, $._variable_mode],
 
         // Generate statement body
         // see corpus/declarations/generate.txt
