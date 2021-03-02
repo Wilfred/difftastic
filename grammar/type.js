@@ -16,7 +16,7 @@ module.exports = {
 
   _forall_kw: _ => choice('forall', '∀'),
 
-  _forall_dot: $ => choice('.', '->'),
+  _forall_dot: _ => choice('.', '->'),
 
   _forall: $ => seq(
     $._forall_kw,

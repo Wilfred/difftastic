@@ -7174,6 +7174,10 @@
           "named": true
         },
         {
+          "type": "gadt_constructor",
+          "named": true
+        },
+        {
           "type": "newtype_constructor",
           "named": true
         },
@@ -7183,6 +7187,10 @@
         },
         {
           "type": "type_variable",
+          "named": true
+        },
+        {
+          "type": "where",
           "named": true
         }
       ]
