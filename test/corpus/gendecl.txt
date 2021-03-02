@@ -1,0 +1,202 @@
+================================================================================
+gendecl: basic
+================================================================================
+
+a :: a -> A -> A a
+
+---
+
+(module
+ (signature
+  name: (variable)
+  type: (fun
+   (type_name (type_variable))
+   (fun
+    (type_name (type))
+    (type_apply (type_name (type)) (type_name (type_variable)))))))
+
+================================================================================
+gendecl: forall
+================================================================================
+
+a :: forall a (a :: * -> Type) . (∀ a . a -> a) -> A a
+
+---
+
+(module
+ (signature
+  (variable)
+  (forall
+   (quantifiers
+    (type_variable)
+    (annotated_type_variable (type_variable) (fun (type_star) (type_name (type)))))
+   (fun
+    (type_parens
+     (forall
+      (quantifiers (type_variable))
+      (fun (type_name (type_variable)) (type_name (type_variable)))))
+    (type_apply (type_name (type)) (type_name (type_variable)))))))
+
+================================================================================
+gendecl: multi context, multi line
+================================================================================
+a ::
+  A a a =>
+  (A a, A a) =>
+  (A => a a) ->
+  A a ->
+  a
+
+---
+
+(module
+ (signature
+  (variable)
+  (context
+   (constraint (class_name (type)) (type_name (type_variable)) (type_name (type_variable)))
+   (context
+    (constraint (class_name (type)) (type_name (type_variable)))
+    (comma)
+    (constraint (class_name (type)) (type_name (type_variable)))
+    (fun
+     (type_parens
+      (context (constraint (class_name (type)))
+      (type_apply (type_name (type_variable)) (type_name (type_variable)))))
+     (fun (type_apply (type_name (type)) (type_name (type_variable))) (type_name (type_variable))))))))
+
+================================================================================
+gendecl: multi context, single line
+================================================================================
+
+a :: A a a => (A a, A a) => a
+
+---
+
+(module
+ (signature
+  (variable)
+  (context
+   (constraint (class_name (type)) (type_name (type_variable)) (type_name (type_variable)))
+   (context
+    (constraint (class_name (type)) (type_name (type_variable)))
+    (comma)
+    (constraint (class_name (type)) (type_name (type_variable)))
+    (type_name (type_variable))))))
+
+================================================================================
+gendecl: operator context
+================================================================================
+
+a :: a ++ a => a
+
+---
+
+(module
+ (signature
+  name: (variable)
+  type: (context
+   (constraint (type_infix left: (type_name (type_variable)) op: (tyconop (type_operator)) right: (type_name (type_variable))))
+   (type_name (type_variable)))))
+
+================================================================================
+gendecl: implicit
+================================================================================
+
+sort :: (?aaa :: a -> a -> a) => [a] -> [a]
+
+---
+
+(module
+ (signature
+  (variable)
+  (context
+   (implicit_param
+    (implicit_parid)
+    (fun (type_name (type_variable)) (fun (type_name (type_variable)) (type_name (type_variable)))))
+   (fun
+    (type_list (type_name (type_variable)))
+    (type_list (type_name (type_variable)))))))
+
+
+================================================================================
+gendecl: multi method operator
+================================================================================
+
+(<), (<=), (>=), (>) :: a
+
+---
+
+(module
+ (signature
+  (operator)
+  (comma)
+  (operator)
+  (comma)
+  (operator)
+  (comma)
+  (operator)
+  (type_name (type_variable))))
+
+
+================================================================================
+gendecl: alternating forall/context/_arrow
+================================================================================
+
+a :: A a => ∀ a . a ++ a => a -> ∀ a . a -> A => A => A a
+
+---
+
+(module
+ (signature
+  name: (variable)
+  type: (context
+   (constraint class: (class_name (type)) (type_name (type_variable)))
+   (forall
+    (quantifiers (type_variable))
+    (context
+     (constraint
+     (type_infix
+      left: (type_name (type_variable))
+      op: (tyconop (type_operator))
+      right: (type_name (type_variable))))
+     (fun
+      (type_name (type_variable))
+      (forall
+       (quantifiers (type_variable))
+       (fun
+        (type_name (type_variable))
+        (context
+         (constraint class: (class_name (type)))
+         (context
+          (constraint class: (class_name (type)))
+          (type_apply (type_name (type)) (type_name (type_variable)))))))))))))
+
+================================================================================
+gendecl: parenthesized operator fun
+================================================================================
+
+(<>) = a
+
+---
+
+(module (function (operator) (exp_name (variable))))
+
+================================================================================
+gendecl: HKT annotation
+================================================================================
+
+a :: (a :: (* -> *) -> *) -> a
+
+---
+
+(module
+ (signature
+  (variable)
+  (fun
+   (type_name
+    (annotated_type_variable
+     (type_variable)
+     (fun
+      (type_parens (fun (type_star) (type_star)))
+      (type_star))))
+   (type_name (type_variable)))))

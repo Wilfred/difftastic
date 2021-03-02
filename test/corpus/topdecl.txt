@@ -1,0 +1,48 @@
+================================================================================
+topdecl: default decl
+================================================================================
+
+default ()
+default (A, A)
+
+---
+
+(module
+ (default_declaration)
+ (default_declaration (type_name (type)) (comma) (type_name (type))))
+
+================================================================================
+topdecl: standalone deriving
+================================================================================
+
+deriving instance A (A a)
+deriving instance A ++ A
+deriving instance A a => A (A a)
+deriving instance (A a, A a a) => A (A a)
+
+---
+
+(module
+ (deriving_declaration (instance_head
+   (class_name (type))
+   (type_parens (type_apply (type_name (type)) (type_name (type_variable))))))
+ (deriving_declaration
+  (instance_head
+   (type_infix
+    (type_name (type))
+    (tyconop (type_operator))
+    (type_name (type)))))
+ (deriving_declaration
+  (context (constraint (class_name (type)) (type_name (type_variable))))
+  (instance_head
+   (class_name (type))
+   (type_parens (type_apply (type_name (type)) (type_name (type_variable))))))
+ (deriving_declaration
+  (context
+   (constraint (class_name (type)) (type_name (type_variable)))
+   (comma)
+   (constraint (class_name (type)) (type_name (type_variable)) (type_name (type_variable)))
+  )
+  (instance_head
+   (class_name (type))
+   (type_parens (type_apply (type_name (type)) (type_name (type_variable)))))))

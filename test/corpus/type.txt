@@ -1,0 +1,373 @@
+================================================================================
+type decl: basic
+================================================================================
+
+type A = A
+type A a = A a
+type A = A A
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_name (type)))
+ (type_alias
+  (type)
+  (type_variable)
+  (type_apply (type_name (type)) (type_name (type_variable))))
+ (type_alias
+  (type)
+  (type_apply (type_name (type)) (type_name (type)))))
+
+================================================================================
+type decl: two tycons
+================================================================================
+
+type A = A A
+
+---
+
+(module (type_alias (type) (type_apply (type_name (type)) (type_name (type)))))
+
+================================================================================
+type decl: promoted constructor
+================================================================================
+
+type A = ' A
+type A = 'A
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_name (promoted (type))))
+ (type_alias
+  (type)
+  (type_name (promoted (type)))))
+
+================================================================================
+type decl: list plain
+================================================================================
+
+type A = []
+type A = [A a]
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_literal (con_list)))
+ (type_alias
+  (type)
+  (type_list (type_apply (type_name (type)) (type_name (type_variable))))))
+
+================================================================================
+type decl: parens
+================================================================================
+
+type A = ()
+type A = (,)
+type A = (,,)
+type A = (->)
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_literal (con_unit)))
+ (type_alias
+  (type)
+  (type_literal (con_tuple (comma))))
+ (type_alias
+  (type)
+  (type_literal (con_tuple (comma) (comma))))
+ (type_alias
+  (type)
+  (type_name (tycon_arrow))))
+
+================================================================================
+type decl: consym
+================================================================================
+
+type A = A :++ A ':++ A
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (tyconop (type_operator))
+   (type_infix
+    (type_name (type))
+    (tyconop (promoted (type_operator)))
+    (type_name (type))))))
+
+================================================================================
+type decl: list cons
+================================================================================
+
+type A = A : A
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (tyconop (type_operator))
+   (type_name (type)))))
+
+================================================================================
+type decl: promoted list cons
+================================================================================
+
+type A = A ': A
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (tyconop (promoted (type_operator)))
+   (type_name (type)))))
+
+================================================================================
+type decl: promoted list nil
+================================================================================
+
+type A = '[]
+
+---
+
+(module (type_alias (type) (promoted (type_literal (con_list)))))
+
+================================================================================
+type decl: qualified consym
+================================================================================
+
+type A = A A.A.:++ A
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (tyconop (qualified_type_operator (modid (constructor)) (modid (constructor)) (type_operator)))
+   (type_name (type)))))
+
+================================================================================
+type decl: promoted consym
+================================================================================
+
+type A = A ':++ A
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (tyconop (promoted (type_operator)))
+   (type_name (type)))))
+
+================================================================================
+type decl: qualified promoted consym
+================================================================================
+
+type A = A 'A.:++ A
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (tyconop (promoted (qualified_type_operator (modid (constructor)) (type_operator))))
+   (type_name (type)))))
+
+================================================================================
+type decl: qualified ticked
+================================================================================
+
+type A = A `A.A` A
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (tyconop (ticked (qualified_type (modid (constructor)) (type))))
+   (type_name (type)))))
+
+================================================================================
+type decl: promoted tuple
+================================================================================
+
+type A = '(A a, A)
+
+---
+
+(module
+ (type_alias
+  (type)
+  (promoted
+   (type_tuple
+    (type_apply (type_name (type)) (type_name (type_variable)))
+    (comma)
+    (type_name (type))))))
+
+================================================================================
+type decl: equality
+================================================================================
+
+type A = A ~ A
+type A = A ~~ A
+type A = ∀ a . (A a ~ A a) => A
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_infix (type_name (type)) (tyconop (type_operator)) (type_name (type))))
+ (type_alias
+  (type)
+  (type_infix (type_name (type)) (tyconop (type_operator)) (type_name (type))))
+ (type_alias
+  (type)
+  (forall
+   (quantifiers (type_variable))
+   (context
+    (constraint
+     (type_infix
+      (type_apply (type_name (type)) (type_name (type_variable)))
+      (tyconop (type_operator))
+      (type_apply (type_name (type)) (type_name (type_variable))))
+    )
+    (type_name (type))))))
+
+================================================================================
+type decl: mixed infix
+================================================================================
+
+type A = A :++ A A ': A (A A a) : '[] ':++ A `A.A` '[]
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (tyconop (type_operator))
+   (type_infix
+    (type_apply
+     (type_name (type))
+     (type_name (type)))
+    (tyconop (promoted (type_operator)))
+    (type_infix
+     (type_apply
+      (type_name (type))
+      (type_parens (type_apply (type_name (type)) (type_name (type)) (type_name (type_variable)))))
+     (tyconop (type_operator))
+     (type_infix
+      (promoted (type_literal (con_list)))
+      (tyconop (promoted (type_operator)))
+      (type_infix
+       (type_name (type))
+       (tyconop (ticked (qualified_type (modid (constructor)) (type))))
+       (promoted (type_literal (con_list))))))))))
+
+================================================================================
+type decl: symbol
+================================================================================
+
+type A = "a"
+type A = A (A "a")
+
+---
+
+(module
+ (type_alias (type) (type_literal (string)))
+ (type_alias
+  (type)
+  (type_apply
+   (type_name (type))
+   (type_parens (type_apply (type_name (type)) (type_literal (string)))))))
+
+================================================================================
+type decl: prefix notation symbol
+================================================================================
+
+type A = (++) a a
+
+---
+
+(module
+ (type_alias
+  (type)
+  (type_apply
+   (type_name (type_operator))
+   (type_name (type_variable))
+   (type_name (type_variable)))))
+
+================================================================================
+type decl: nullary context
+================================================================================
+
+type A = A => A
+
+---
+
+(module
+ (type_alias
+  (type)
+  (context (constraint (class_name (type))) (type_name (type)))))
+
+================================================================================
+type decl: forall
+================================================================================
+
+type A = ∀ a a . A => A
+type A = forall a a . A a => [A]
+
+---
+
+(module
+ (type_alias
+  (type)
+  (forall
+   (quantifiers (type_variable) (type_variable))
+   (context (constraint (class_name (type))) (type_name (type)))))
+  (type_alias
+   (type)
+   (forall
+    (quantifiers (type_variable) (type_variable))
+    (context
+     (constraint (class_name (type)) (type_name (type_variable)))
+     (type_list (type_name (type)))))))
+
+================================================================================
+type decl: lhs parens
+================================================================================
+
+type (A a a) = A
+
+---
+
+(module (type_alias (type) (type_variable) (type_variable) (type_name (type))))

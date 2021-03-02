@@ -1,0 +1,237 @@
+================================================================================
+varsym: error: |
+================================================================================
+
+f = a | a
+
+---
+
+(module (function (variable) (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable)))))
+
+================================================================================
+varsym: error: lambda
+================================================================================
+
+f = a \\ a
+f = a \ a
+
+---
+
+(module
+ (function
+  (variable)
+  (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))
+ (function
+  (variable)
+  (exp_name (variable))) (ERROR (variable)))
+
+================================================================================
+varsym: error: ..
+================================================================================
+
+f = a .. a
+f = a ... a
+f = a . a
+
+---
+
+(module
+  (function (variable) (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable))))
+  (function (variable) (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))
+  (function (variable) (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))
+)
+
+================================================================================
+varsym: error: arrow
+================================================================================
+
+f = a -> a
+f = a |> a
+
+---
+
+(module
+ (function
+  (variable)
+  (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable))))
+ (function
+  (variable)
+  (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable)))))
+
+================================================================================
+varsym: error: carrow
+================================================================================
+
+f = a => a
+f = a =>> a
+
+---
+
+(module
+  (function (variable) (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable))))
+  (function (variable) (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))
+)
+
+================================================================================
+varsym: error: larrow
+================================================================================
+
+f = a < a
+f = a <- a
+f = a <-- a
+
+---
+
+(module
+  (function (variable) (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))
+  (function (variable) (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable))))
+  (function (variable) (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))
+)
+
+================================================================================
+varsym: error: @
+================================================================================
+
+f = a @ a
+f = a @@ a
+
+---
+
+(module
+  (function (variable) (exp_apply (exp_name (variable)) (exp_type_application (type_name (type_variable)))))
+  (function (variable) (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))
+)
+
+================================================================================
+varsym: error: ~
+================================================================================
+
+f = a ~ a
+f = a ~~ a
+
+---
+
+(module
+  (function (variable) (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable))))
+  (function (variable) (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))
+)
+
+================================================================================
+varsym: error: equals
+================================================================================
+
+f = a = a
+f = a == a
+
+---
+
+(module
+  (function (variable) (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable))))
+  (function (variable) (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))
+)
+
+================================================================================
+varsym: error: leading :
+================================================================================
+
+f = a :+ a
+f = a +: a
+
+---
+
+(module
+  (function (variable) (exp_infix (exp_name (variable)) (consym) (exp_name (variable))))
+  (function (variable) (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))
+)
+
+================================================================================
+varsym: dollar
+================================================================================
+
+f = a $ a
+
+---
+
+(module (function (variable) (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable)))))
+
+================================================================================
+varsym: two-symbol dollar operator
+================================================================================
+
+a = a $! a
+
+---
+
+(module (function (variable) (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable)))))
+
+================================================================================
+varsym: comment with more than two dashes
+================================================================================
+
+a --- a
+a ----- a
+
+---
+
+(module (top_splice (exp_name (variable))) (comment) (top_splice (exp_name (variable))) (comment))
+
+================================================================================
+varsym: operator with large number of dashes
+================================================================================
+
+a = a ------> a ----- %
+
+---
+
+(module
+ (function
+  (variable)
+  (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))
+ (comment))
+
+================================================================================
+varsym: implicit parameter
+================================================================================
+
+a = ?a
+(?) = a
+a = a ? a
+
+---
+
+(module
+ (function
+  (variable)
+  (exp_name (implicit_parid)))
+ (function
+  (operator)
+  (exp_name (variable)))
+ (function
+  (variable)
+  (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable)))))
+
+================================================================================
+varsym: dollar terminated by opening bracket
+================================================================================
+
+a = a $[a]
+
+---
+
+(module
+ (function
+  (variable)
+  (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_list (exp_name (variable))))))
+
+================================================================================
+varsym: bang as operator decl
+================================================================================
+
+(!) :: A
+(!) = a
+
+---
+
+(module
+ (signature (operator) (type_name (type)))
+ (function (operator) (exp_name (variable))))

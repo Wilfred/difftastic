@@ -1,0 +1,329 @@
+================================================================================
+pat: basic
+================================================================================
+
+a a (a:a : as) (a, a, (a, [a])) = a
+
+---
+
+(module
+ (function
+   name: (variable)
+   patterns: (patterns
+    (pat_name (variable))
+    (pat_parens
+     (pat_infix
+      (pat_name (variable))
+      (consym)
+      (pat_infix (pat_name (variable)) (consym) (pat_name (variable)))))
+    (pat_tuple
+     (pat_name (variable))
+     (comma)
+     (pat_name (variable))
+     (comma)
+     (pat_tuple (pat_name (variable)) (comma) (pat_list (pat_name (variable))))))
+  rhs: (exp_name (variable))))
+
+================================================================================
+pat: con
+================================================================================
+
+a A = a
+a (A a) = a
+
+---
+
+(module
+ (function (variable) (patterns (pat_name (constructor))) (exp_name (variable)))
+ (function
+  (variable)
+  (patterns (pat_parens (pat_apply (pat_name (constructor)) (pat_name (variable)))))
+  (exp_name (variable))))
+
+================================================================================
+pat: consym
+================================================================================
+
+a (a :++ a) = a
+
+---
+
+(module
+ (function
+  (variable)
+  (patterns (pat_parens (pat_infix (pat_name (variable)) (consym) (pat_name (variable)))))
+  (exp_name (variable))))
+
+================================================================================
+pat: as
+================================================================================
+
+a a@(A a) a@(A a) = a
+
+---
+
+(module
+ (function
+  (variable)
+  (patterns
+   (pat_as (variable) (pat_parens (pat_apply (pat_name (constructor)) (pat_name (variable)))))
+   (pat_as (variable) (pat_parens (pat_apply (pat_name (constructor)) (pat_name (variable))))))
+  (exp_name (variable))))
+
+================================================================================
+pat: wildcard
+================================================================================
+
+a (A _) _ = a
+
+---
+
+(module
+ (function
+  (variable)
+  (patterns
+   (pat_parens (pat_apply (pat_name (constructor)) (pat_wildcard)))
+   (pat_wildcard))
+  (exp_name (variable))))
+
+================================================================================
+pat: literal
+================================================================================
+
+a 1 2 = 3
+a "a" "a" = a
+a 'a' 'b' = a
+a 1.0 2.0 = 3.0
+
+---
+
+(module
+ (function (variable) (patterns (pat_literal (integer)) (pat_literal (integer))) (exp_literal (integer)))
+ (function (variable) (patterns (pat_literal (string)) (pat_literal (string))) (exp_name (variable)))
+ (function (variable) (patterns (pat_literal (char)) (pat_literal (char))) (exp_name (variable)))
+ (function (variable) (patterns (pat_literal (float)) (pat_literal (float))) (exp_literal (float))))
+
+================================================================================
+pat: record
+================================================================================
+
+f A {} = a
+f A {..} = a
+f a@A { a = a, b = a, a, .. } = a
+
+---
+
+(module
+ (function (variable) (patterns (pat_name (constructor)) (pat_record)) (exp_name (variable)))
+ (function
+  (variable)
+  (patterns
+   (pat_name (constructor))
+   (pat_record (pat_record_binder (wildcard)))) (exp_name (variable)))
+ (function
+  (variable)
+  (patterns
+   (pat_as
+    (variable)
+    (pat_name (constructor))
+    (pat_record
+     (pat_record_binder (variable) (pat_name (variable)))
+     (comma)
+     (pat_record_binder (variable) (pat_name (variable)))
+     (comma)
+     (pat_record_binder (variable)) (comma) (pat_record_binder (wildcard)))))
+  (exp_name (variable))))
+
+================================================================================
+pat: irrefutable
+================================================================================
+
+a ~a = a
+a ~(~a) = a
+a ~(~(a, a), a) = a
+
+---
+
+(module
+ (function
+  (variable) (patterns (pat_irrefutable (pat_name (variable)))) (exp_name (variable)))
+ (function
+  (variable) (patterns (pat_irrefutable (pat_parens (pat_irrefutable (pat_name (variable))))))
+  (exp_name (variable)))
+ (function
+  (variable)
+  (patterns (pat_irrefutable
+    (pat_tuple
+     (pat_irrefutable (pat_tuple (pat_name (variable)) (comma) (pat_name (variable))))
+     (comma)
+     (pat_name (variable)))))
+  (exp_name (variable))))
+
+================================================================================
+pat: view pattern in function lhs
+================================================================================
+
+a (a a -> Aa a a) = a
+a (a -> a, a -> a) = a
+
+---
+
+(module
+ (function
+  (variable)
+  (patterns
+   (pat_parens
+    (pat_view
+     (exp_apply (exp_name (variable)) (exp_name (variable)))
+     (pat_apply (pat_name (constructor)) (pat_name (variable)) (pat_name (variable))))))
+  (exp_name (variable)))
+  (function
+   (variable)
+   (patterns
+    (pat_tuple
+     (pat_view (exp_name (variable)) (pat_name (variable)))
+     (comma)
+     (pat_view (exp_name (variable)) (pat_name (variable)))))
+   (exp_name (variable))))
+
+================================================================================
+pat: view pattern in lambda
+================================================================================
+
+a = \ (a -> a) -> a
+
+---
+
+(module
+ (function
+  (variable)
+  (exp_lambda
+   (pat_parens (pat_view (exp_name (variable)) (pat_name (variable))))
+   (exp_name (variable)))))
+
+================================================================================
+pat: annotation
+================================================================================
+
+a (a :: A a) = a
+
+---
+
+(module
+ (function
+  (variable)
+  (patterns (pat_parens (pat_name (variable)) (type_apply (type_name (type)) (type_name (type_variable)))))
+  (exp_name (variable))))
+
+================================================================================
+pat: infix pattern in decl lhs
+================================================================================
+
+A a == A a = a == a
+
+---
+
+(module
+ (function
+  pattern: (infix
+   lhs: (pat_apply (pat_name (constructor)) (pat_name (variable)))
+   op: (varop (operator))
+   rhs: (pat_apply (pat_name (constructor)) (pat_name (variable))))
+  rhs: (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable)))))
+
+================================================================================
+pat: infix pattern variable
+================================================================================
+
+a |> a = a
+
+---
+
+(module
+ (function
+  (infix (pat_name (variable)) (varop (operator)) (pat_name (variable)))
+  (exp_name (variable))))
+
+================================================================================
+pat: tuple pattern function
+================================================================================
+
+(a, a) = a
+
+---
+
+(module (function (pat_tuple (pat_name (variable)) (comma) (pat_name (variable))) (exp_name (variable))))
+
+================================================================================
+pat: con application pattern function
+================================================================================
+
+A a = a
+
+---
+
+(module (function (pat_apply (pat_name (constructor)) (pat_name (variable))) (exp_name (variable))))
+
+================================================================================
+pat: parens con application pattern function
+================================================================================
+
+(A a) = a
+
+---
+
+(module
+ (function
+  pattern: (pat_parens (pat_apply (pat_name (constructor)) (pat_name (variable))))
+  rhs: (exp_name (variable))))
+
+================================================================================
+pat: parenthesized record
+================================================================================
+
+a (A{}) = a
+
+
+---
+
+(module
+ (function
+  (variable) (patterns (pat_parens (pat_name (constructor)) (pat_record)))
+  (exp_name (variable))))
+
+================================================================================
+pat: guards
+================================================================================
+
+a a | a < 1, a > 1 = A
+    | A (A A {..} _) : a <- a = A
+    | otherwise = A
+
+---
+
+(module
+ (function
+  name: (variable)
+  patterns: (patterns (pat_name (variable)))
+  (guard_equation
+   (guards
+    (guard (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_literal (integer))))
+    (comma)
+    (guard (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_literal (integer)))))
+   (exp_name (constructor)))
+  (guard_equation
+   (guards
+    (guard
+     (pattern_guard
+      (pat_infix
+       (pat_apply
+        (pat_name (constructor))
+        (pat_parens
+         (pat_apply (pat_name (constructor)) (pat_name (constructor)) (pat_record (pat_record_binder (wildcard))) (pat_wildcard))))
+       (consym)
+       (pat_name (variable)))
+      (exp_name (variable)))))
+   (exp_name (constructor)))
+  (guard_equation
+   (guards (guard (exp_name (variable))))
+   (exp_name (constructor)))))

@@ -1,0 +1,203 @@
+================================================================================
+instance: minimal
+================================================================================
+
+instance A a
+
+---
+
+(module (instance (instance_head (class_name (type)) (type_name (type_variable)))))
+
+================================================================================
+instance: type
+================================================================================
+
+instance A A a A
+
+---
+
+(module
+ (instance
+  (instance_head
+   (class_name (type))
+   (type_name (type))
+   (type_name (type_variable))
+   (type_name (type)))))
+
+================================================================================
+instance: forall
+================================================================================
+
+instance forall a (a :: *) . A
+
+---
+
+(module
+ (instance
+  (forall
+   (type_variable)
+   (annotated_type_variable (type_variable) (type_star))
+  )
+  (instance_head (class_name (type)))))
+
+================================================================================
+instance: context
+================================================================================
+
+instance A a => A
+instance (A a, A a) => A
+
+---
+
+(module
+ (instance
+  (context (constraint (class_name (type)) (type_name (type_variable))))
+  (instance_head (class_name (type))))
+ (instance
+  (context
+   (constraint (class_name (type)) (type_name (type_variable)))
+   (comma)
+   (constraint (class_name (type)) (type_name (type_variable)))
+  )
+  (instance_head (class_name (type)))))
+
+================================================================================
+instance: method
+================================================================================
+
+instance A a where a a = Just a
+
+---
+
+(module
+ (instance
+  (instance_head (class_name (type)) (type_name (type_variable)))
+  (where)
+  (function
+   (variable)
+   (patterns (pat_name (variable)))
+   (exp_apply (exp_name (constructor)) (exp_name (variable))))))
+
+================================================================================
+instance: signature
+================================================================================
+
+instance A a where
+  a :: A a => a -> a
+  a a = a
+
+---
+
+(module
+ (instance
+  (instance_head (class_name (type)) (type_name (type_variable)))
+  (where)
+  (signature
+   (variable)
+   (context
+    (constraint (class_name (type)) (type_name (type_variable)))
+    (fun (type_name (type_variable)) (type_name (type_variable)))))
+  (function
+   (variable)
+   (patterns (pat_name (variable)))
+   (exp_name (variable)))))
+
+================================================================================
+instance: equality constraint
+================================================================================
+
+instance A a ~ A a => A a
+instance A ~~ A => A a
+
+---
+
+(module
+ (instance
+  (context
+   (constraint
+    (type_infix
+     left: (type_apply (type_name (type)) (type_name (type_variable)))
+     op: (tyconop (type_operator))
+     right: (type_apply (type_name (type)) (type_name (type_variable)))))
+  )
+  (instance_head class: (class_name (type)) (type_name (type_variable))))
+ (instance
+  (context
+   (constraint
+    (type_infix
+     left: (type_name (type))
+     op: (tyconop (type_operator))
+     right: (type_name (type))))
+  )
+  (instance_head class: (class_name (type)) (type_name (type_variable)))))
+
+================================================================================
+instance: associated type instance
+================================================================================
+
+instance A where
+  type A A a = A a
+  type instance A a = A
+
+---
+
+(module
+ (instance
+  (instance_head
+   (class_name (type)))
+  (where)
+  (inst_tyinst
+   (type_name (type))
+   (type_name (type))
+   (type_name (type_variable))
+   (type_apply (type_name (type)) (type_name (type_variable))))
+  (inst_tyinst
+   (type_name (type))
+   (type_name (type_variable))
+   (type_name (type)))))
+
+================================================================================
+instance: associated data instance
+================================================================================
+
+instance A where
+  data A a = A a | A { a :: A }
+  data instance A a = A
+
+---
+
+(module
+ (instance
+  (instance_head (class_name (type)))
+  (where)
+  (inst_datainst
+   (type_apply
+    (type_name (type))
+    (type_name (type_variable)))
+   (constrs
+    (data_constructor (constructor) (type_name (type_variable)))
+    (data_constructor_record
+     (constructor)
+     (record_fields (field (variable) (type_name (type)))))))
+  (inst_datainst
+   (type_apply
+    (type_name (type))
+    (type_name (type_variable)))
+   (constrs (data_constructor (constructor))))))
+
+================================================================================
+instance: infix pattern lhs method
+================================================================================
+
+instance A where
+  a == a = a
+
+---
+
+(module
+ (instance
+  (instance_head (class_name (type)))
+  (where)
+  (function
+   (infix (pat_name (variable)) (varop (operator)) (pat_name (variable)))
+   (exp_name (variable)))))
