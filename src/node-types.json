@@ -3264,6 +3264,10 @@
           "named": true
         },
         {
+          "type": "operator",
+          "named": true
+        },
+        {
           "type": "qconsym",
           "named": true
         },
@@ -3272,11 +3276,19 @@
           "named": true
         },
         {
-          "type": "qvarop",
+          "type": "qualified_operator",
+          "named": true
+        },
+        {
+          "type": "qualified_variable",
           "named": true
         },
         {
           "type": "splice",
+          "named": true
+        },
+        {
+          "type": "variable",
           "named": true
         }
       ]
@@ -4388,6 +4400,10 @@
           "named": true
         },
         {
+          "type": "operator",
+          "named": true
+        },
+        {
           "type": "qconsym",
           "named": true
         },
@@ -4396,11 +4412,19 @@
           "named": true
         },
         {
-          "type": "qvarop",
+          "type": "qualified_operator",
+          "named": true
+        },
+        {
+          "type": "qualified_variable",
           "named": true
         },
         {
           "type": "splice",
+          "named": true
+        },
+        {
+          "type": "variable",
           "named": true
         }
       ]
@@ -4515,6 +4539,10 @@
           "named": true
         },
         {
+          "type": "operator",
+          "named": true
+        },
+        {
           "type": "qconsym",
           "named": true
         },
@@ -4523,11 +4551,19 @@
           "named": true
         },
         {
-          "type": "qvarop",
+          "type": "qualified_operator",
+          "named": true
+        },
+        {
+          "type": "qualified_variable",
           "named": true
         },
         {
           "type": "splice",
+          "named": true
+        },
+        {
+          "type": "variable",
           "named": true
         }
       ]
@@ -9123,33 +9159,6 @@
         },
         {
           "type": "type_variable",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "qvarop",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "operator",
-          "named": true
-        },
-        {
-          "type": "qualified_operator",
-          "named": true
-        },
-        {
-          "type": "qualified_variable",
-          "named": true
-        },
-        {
-          "type": "variable",
           "named": true
         }
       ]

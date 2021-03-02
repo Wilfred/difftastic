@@ -52,7 +52,9 @@ module.exports = grammar({
 
   inline: $ => [
     $._qvarid,
+    $._operator_minus,
     $._qvarsym,
+    $._qvarsym_nominus,
     $._var,
     $._qvar,
     $._tyvar,
@@ -62,6 +64,7 @@ module.exports = grammar({
     $._conop,
     $._qconop,
     $._op,
+    $._qop_nominus,
     $._gcon_literal,
     $._gcon,
     $._tycon,

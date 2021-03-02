@@ -57,7 +57,7 @@ module.exports = {
   ),
 
   exp_section_right: $ => parens(
-    $._qop,
+    $._qop_nominus,
     $._exp_infix,
   ),
 

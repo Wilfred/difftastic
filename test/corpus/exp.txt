@@ -184,7 +184,7 @@ a = (a $)
   (exp_section_left (exp_name (variable)) (consym)))
  (function
   (variable)
-  (exp_section_left (exp_name (variable)) (qvarop (operator)))))
+  (exp_section_left (exp_name (variable)) (operator))))
 
 ================================================================================
 exp: infix operator
@@ -204,21 +204,21 @@ a = do
   (variable)
   (exp_infix
    (exp_infix
-    (exp_infix (exp_name (constructor)) (qvarop (operator)) (exp_name (variable)))
-    (qvarop (operator))
+    (exp_infix (exp_name (constructor)) (operator) (exp_name (variable)))
+    (operator)
     (exp_literal (string)))
-   (qvarop (operator)) (exp_name (variable))))
+   (operator) (exp_name (variable))))
  (function
   (variable)
   (exp_do
    (stmt
     (bind_pattern
      (pat_name (variable))
-     (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable)))))
+     (exp_infix (exp_name (variable)) (operator) (exp_name (variable)))))
    (stmt
     (bind_pattern
      (pat_name (variable))
-     (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))))))
+     (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))))))
 
 ================================================================================
 exp: infix con/var
@@ -233,10 +233,10 @@ a = a `A` a
 (module
  (function
   (variable)
-  (exp_infix (exp_name (variable)) (qvarop (variable)) (exp_name (variable))))
+  (exp_infix (exp_name (variable)) (variable) (exp_name (variable))))
  (function
   (variable)
-  (exp_infix (exp_name (variable)) (qvarop (qualified_variable (modid (constructor)) (variable))) (exp_name (variable))))
+  (exp_infix (exp_name (variable)) (qualified_variable (modid (constructor)) (variable)) (exp_name (variable))))
  (function
   (variable)
   (exp_infix (exp_name (variable)) (constructor) (exp_name (variable)))))
@@ -284,7 +284,7 @@ a = \ a -> a >>= \ a -> a
    (pat_name (variable))
    (exp_infix
     (exp_name (variable))
-    (qvarop (operator))
+    (operator)
     (exp_lambda (pat_name (variable)) (exp_name (variable)))))))
 
 ================================================================================
@@ -312,8 +312,8 @@ a = \ a a a -> a <$> a <*> a
    (pat_name (variable))
    (pat_name (variable))
    (exp_infix
-    (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable)))
-    (qvarop (operator))
+    (exp_infix (exp_name (variable)) (operator) (exp_name (variable)))
+    (operator)
     (exp_name (variable))))))
 
 ================================================================================
@@ -327,7 +327,7 @@ a = (a <$> a)
 (module
  (function
   (variable)
-  (exp_parens (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))))
+  (exp_parens (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))))
 
 ================================================================================
 exp: minus
@@ -347,10 +347,10 @@ a = -(a)
   (exp_name (operator)))
  (function
   (variable)
-  (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))
+  (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
  (function
   (variable)
-  (exp_section_right (qvarop (operator)) (exp_name (variable))))
+  (exp_parens (exp_negation (exp_name (variable)))))
  (function
   (variable)
   (exp_negation (exp_name (variable))))
@@ -561,7 +561,7 @@ a = a >>= \case
   (variable)
   (exp_infix
    (exp_name (variable))
-   (qvarop (operator))
+   (operator)
    (exp_lambda_case
     (alts
      (alt
@@ -712,7 +712,7 @@ a = A { a = a } {a = a}
    (exp_name (variable))
    (fbind (variable) (exp_name (variable)))
    (comma)
-   (fbind (variable) (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable))))))
+   (fbind (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))))
  (function
   (variable)
   (exp_record
@@ -771,85 +771,85 @@ a = A.A.A .A.aa
   (variable)
   (exp_infix
    (exp_name (qualified_variable (modid (constructor)) (modid (constructor)) (variable)))
-   (qvarop (operator))
+   (operator)
    (exp_name (variable))))
  (function
   (variable)
   (exp_infix
    (exp_name (qualified_variable (modid (constructor)) (modid (constructor)) (variable)))
-   (qvarop (operator))
+   (operator)
    (exp_name (qualified_variable (modid (constructor)) (variable)))))
  (function
   (variable)
   (exp_infix
    (exp_name (qualified_variable (modid (constructor)) (modid (constructor)) (variable)))
-   (qvarop (operator))
+   (operator)
    (exp_name (variable))))
  (function
   (variable)
   (exp_infix
    (exp_name (qualified_variable (modid (constructor)) (modid (constructor)) (variable)))
-   (qvarop (operator))
+   (operator)
    (exp_name (qualified_variable (modid (constructor)) (variable)))))
  (function
   (variable)
   (exp_infix
    (exp_name (qualified_variable (modid (constructor)) (modid (constructor)) (variable)))
-   (qvarop (operator))
+   (operator)
    (exp_name (variable))))
  (function
   (variable)
   (exp_infix
    (exp_name (qualified_variable (modid (constructor)) (modid (constructor)) (variable)))
-   (qvarop (operator))
+   (operator)
    (exp_name (qualified_variable (modid (constructor)) (variable)))))
  (function
   (variable)
   (exp_infix
    (exp_name (qualified_variable (modid (constructor)) (modid (constructor)) (variable)))
-   (qvarop (operator))
+   (operator)
    (exp_name (variable))))
  (function
   (variable)
   (exp_infix
    (exp_name (qualified_variable (modid (constructor)) (modid (constructor)) (variable)))
-   (qvarop (operator))
+   (operator)
    (exp_name (qualified_variable (modid (constructor)) (variable)))))
  (function
   (variable)
   (exp_infix
    (exp_name (qualified_constructor (modid (constructor)) (modid (constructor)) (constructor)))
-   (qvarop (operator))
+   (operator)
    (exp_name (variable))))
  (function
   (variable)
   (exp_infix
    (exp_name (qualified_constructor (modid (constructor)) (modid (constructor)) (constructor)))
-   (qvarop (operator))
+   (operator)
    (exp_name (qualified_variable (modid (constructor)) (variable)))))
  (function
   (variable)
   (exp_infix
    (exp_name (qualified_constructor (modid (constructor)) (modid (constructor)) (constructor)))
-   (qvarop (operator))
+   (operator)
    (exp_name (variable))))
  (function
   (variable)
   (exp_infix
    (exp_name (qualified_constructor (modid (constructor)) (modid (constructor)) (constructor)))
-   (qvarop (operator))
+   (operator)
    (exp_name (qualified_variable (modid (constructor)) (variable)))))
  (function
   (variable)
   (exp_infix
    (exp_name (qualified_constructor (modid (constructor)) (modid (constructor)) (constructor)))
-   (qvarop (operator))
+   (operator)
    (exp_name (variable))))
  (function
   (variable)
   (exp_infix
    (exp_name (qualified_constructor (modid (constructor)) (modid (constructor)) (constructor)))
-   (qvarop (operator))
+   (operator)
    (exp_name (qualified_variable (modid (constructor)) (variable))))))
 
 ================================================================================
@@ -1039,7 +1039,7 @@ a = (A..!?)
   (variable)
   (exp_infix
    (exp_name (variable))
-   (qvarop (qualified_operator (modid (constructor)) (operator)))
+   (qualified_operator (modid (constructor)) (operator))
    (exp_name (variable))))
  (function
   (variable)
@@ -1073,6 +1073,16 @@ a = do
   (variable)
   (exp_do (stmt (let (decls (function (implicit_parid) (exp_name (variable))))))
    (stmt (exp_name (variable))))))
+
+================================================================================
+exp: negation in tuple
+================================================================================
+
+spec = (-a, a)
+
+---
+
+(module (function (variable) (exp_tuple (exp_negation (exp_name (variable))) (comma) (exp_name (variable)))))
 
 ================================================================================
 exp: test

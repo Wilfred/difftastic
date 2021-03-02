@@ -427,7 +427,7 @@ a =
   (variable)
   (exp_infix
    (exp_parens (exp_lambda_case (alts (alt (pat_name (variable)) (exp_name (variable))))))
-   (qvarop (operator))
+   (operator)
    (exp_name (variable)))))
 
 ================================================================================
@@ -445,7 +445,7 @@ a =
   (variable)
   (exp_infix
    (exp_parens (exp_lambda_case (alts (alt (pat_name (variable)) (exp_name (variable))))))
-   (qvarop (operator))
+   (operator)
    (exp_name (variable)))))
 
 ================================================================================

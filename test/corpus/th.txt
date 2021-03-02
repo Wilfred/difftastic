@@ -65,8 +65,8 @@ f = $(a . a $ a)
   (splice
    (exp_parens
     (exp_infix
-     (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable)))
-     (qvarop (operator))
+     (exp_infix (exp_name (variable)) (operator) (exp_name (variable)))
+     (operator)
      (exp_name (variable)))))))
 
 ================================================================================
