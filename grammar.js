@@ -210,10 +210,10 @@ module.exports = grammar({
         $._sensitivity_clause, // 10.2
         $._condition_clause, // 10.2
         $._timeout_clause, // 10.2
-        $._simple_signal_assignment, // 10.5.4
-        $._conditional_signal_assignment, // 10.5.4
-        $._selected_signal_assignment, // 10.5.4
+        $._signal_assignment_statement, // 10.5
+        $._variable_assignment_statement, // 10.6
         $._iteration_scheme, // 10.10
+        $._concurrent_signal_assignment, // 11.6
         $._instantiated_unit, // 11.7
         $._generate_statement, // 11.8
         $._library_unit, // 13.1
@@ -2246,8 +2246,8 @@ module.exports = grammar({
             $.wait_statement,
             $.assertion_statement,
             $.report_statement,
-            $.signal_assignment_statement,
-            $.variable_assignment_statement,
+            $._signal_assignment_statement,
+            $._variable_assignment_statement,
             $.procedure_call_statement,
             $.if_statement,
             $.case_statement,
@@ -2322,14 +2322,14 @@ module.exports = grammar({
         ),
         // }}}
         // 10.5 Signal assignments {{{
-        signal_assignment_statement: $ => choice(
-            $._simple_signal_assignment,
-            $._conditional_signal_assignment,
-            $._selected_signal_assignment,
+        _signal_assignment_statement: $ => choice(
+            $.simple_signal_assignment,
+            $.conditional_signal_assignment,
+            $.selected_signal_assignment,
         ),
         // }}}
         // 10.5.2 Simple signal assignments {{{
-        _simple_signal_assignment: $ => choice(
+        simple_signal_assignment: $ => choice(
             $._simple_waveform_assignment,
             $._simple_force_assignment,
             $._simple_release_assignment
@@ -2414,7 +2414,7 @@ module.exports = grammar({
         ),
         // }}}
         // 10.5.3 Conditional signal assignments {{{
-        _conditional_signal_assignment: $ => choice(
+        conditional_signal_assignment: $ => choice(
             $._conditional_waveform_assignment,
             $._conditional_force_assignment
         ),
@@ -2468,7 +2468,7 @@ module.exports = grammar({
         ),
         // }}}
         // 10.5.4 Selected signal assignments {{{
-        _selected_signal_assignment: $ => choice(
+        selected_signal_assignment: $ => choice(
             $._selected_waveform_assignment,
             $._selected_force_assignment
         ),
@@ -2532,14 +2532,14 @@ module.exports = grammar({
         ),
         // }}}
         // 10.6 Variable assignments {{{
-        variable_assignment_statement: $ => choice(
-            $._simple_variable_assignment,
-            $._conditional_variable_assignment,
-            $._selected_variable_assignment,
+        _variable_assignment_statement: $ => choice(
+            $.simple_variable_assignment,
+            $.conditional_variable_assignment,
+            $.selected_variable_assignment,
         ),
         // }}}
         // 10.6.2 Simple variable assignments {{{
-        _simple_variable_assignment: $ => seq(
+        simple_variable_assignment: $ => seq(
             optional($.label),
             $._target,
             ':=',
@@ -2548,7 +2548,7 @@ module.exports = grammar({
         ),
         // }}}
         // 10.6.3 Conditional variable assignments {{{
-        _conditional_variable_assignment: $ => seq(
+        conditional_variable_assignment: $ => seq(
             optional($.label),
             $._target,
             ':=',
@@ -2557,7 +2557,7 @@ module.exports = grammar({
         ),
         // }}}
         // 10.6.4 Selected variable assignments {{{
-        _selected_variable_assignment: $ => seq(
+        selected_variable_assignment: $ => seq(
             optional($.label),
             reservedWord('with'),
             $._with,
@@ -2720,7 +2720,7 @@ module.exports = grammar({
             $.component_instantiation_statement,
             $.procedure_call_statement,
             $.assertion_statement,
-            $.concurrent_signal_assignment,
+            $._concurrent_signal_assignment,
             $._generate_statement,
             $._PSL_Directive,
             $._PSL_Declaration
@@ -2773,10 +2773,19 @@ module.exports = grammar({
         ),
         // }}}
         // 11.6 Concurrent signal assignments {{{
-        concurrent_signal_assignment: $ => prec(1, choice(
-            $._simple_waveform_assignment,
-            $._conditional_waveform_assignment,
-            $._selected_waveform_assignment,
+        _concurrent_signal_assignment: $ => prec(1, choice(
+            alias(
+                $._simple_waveform_assignment,
+                $.simple_concurrent_signal_assignment
+            ),
+            alias(
+                $._conditional_waveform_assignment,
+                $.conditional_concurrent_signal_assignment
+            ),
+            alias(
+                $._selected_waveform_assignment,
+                $.selected_concurrent_signal_assignment
+            )
         )),
         // }}}
         // 11.7 Component instantiation statements {{{

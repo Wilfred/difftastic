@@ -6,7 +6,7 @@ L: t <= w when true;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (conditional_concurrent_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveforms
@@ -15,7 +15,7 @@ L: t <= w when true;
             (simple_name))))
       (conditional_expression
         (simple_name))))
-  (concurrent_signal_assignment
+  (conditional_concurrent_signal_assignment
     (label
       (identifier))
     target: (simple_name)
@@ -36,7 +36,7 @@ t <= reject 10 ns inertial w when true;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (conditional_concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (transport))
@@ -47,7 +47,7 @@ t <= reject 10 ns inertial w when true;
             (simple_name))))
       (conditional_expression
         (simple_name))))
-  (concurrent_signal_assignment
+  (conditional_concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (inertial))
@@ -58,7 +58,7 @@ t <= reject 10 ns inertial w when true;
             (simple_name))))
       (conditional_expression
         (simple_name))))
-  (concurrent_signal_assignment
+  (conditional_concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (inertial
@@ -83,7 +83,7 @@ t <= w1 when true else
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (conditional_concurrent_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveforms
@@ -110,7 +110,7 @@ t <= w1 when cond1 else
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (conditional_concurrent_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveforms
@@ -146,7 +146,7 @@ t <= w1 after 10 ns when cond1 else w2;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (conditional_concurrent_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveforms
@@ -175,14 +175,14 @@ t <= force out w when true;
 ---
 
 (design_file
-  (signal_assignment_statement
+  (conditional_signal_assignment
     target: (simple_name)
     (conditional_expressions
       (expression
         (simple_name))
       (conditional_expression
         (simple_name))))
-  (signal_assignment_statement
+  (conditional_signal_assignment
     target: (simple_name)
     (force_mode)
     (conditional_expressions
@@ -190,7 +190,7 @@ t <= force out w when true;
         (simple_name))
       (conditional_expression
         (simple_name))))
-  (signal_assignment_statement
+  (conditional_signal_assignment
     target: (simple_name)
     (force_mode)
     (conditional_expressions
@@ -207,7 +207,7 @@ S <= unaffected when Input_pin = S'Driving_Value else
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (conditional_concurrent_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveforms (unaffected))
@@ -230,7 +230,7 @@ t <= guarded w when cond;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (conditional_concurrent_signal_assignment
     target: (simple_name)
     (conditional_waveforms
       (waveforms
@@ -249,7 +249,7 @@ t <= guarded reject 10 ns inertial w when cond;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (conditional_concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (transport))
@@ -260,7 +260,7 @@ t <= guarded reject 10 ns inertial w when cond;
             (simple_name))))
       (conditional_expression
         (simple_name))))
-  (concurrent_signal_assignment
+  (conditional_concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (inertial))
@@ -271,7 +271,7 @@ t <= guarded reject 10 ns inertial w when cond;
             (simple_name))))
       (conditional_expression
         (simple_name))))
-  (concurrent_signal_assignment
+  (conditional_concurrent_signal_assignment
     target: (simple_name)
     (delay_mechanism
       (inertial

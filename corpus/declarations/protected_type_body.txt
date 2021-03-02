@@ -61,7 +61,7 @@ end protected body SharedCounter;
                 (integer_decimal
                   (integer)))))
           (sequence_of_statements
-            (variable_assignment_statement
+            (simple_variable_assignment
               target: (simple_name)
               (expression
                 (simple_expression

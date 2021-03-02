@@ -3535,7 +3535,7 @@
           "named": true
         },
         {
-          "type": "concurrent_signal_assignment",
+          "type": "conditional_concurrent_signal_assignment",
           "named": true
         },
         {
@@ -3623,11 +3623,19 @@
           "named": true
         },
         {
+          "type": "selected_concurrent_signal_assignment",
+          "named": true
+        },
+        {
           "type": "shared_variable_declaration",
           "named": true
         },
         {
           "type": "signal_declaration",
+          "named": true
+        },
+        {
+          "type": "simple_concurrent_signal_assignment",
           "named": true
         },
         {
@@ -4813,92 +4821,6 @@
     }
   },
   {
-    "type": "concurrent_signal_assignment",
-    "named": true,
-    "fields": {
-      "target": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "conditional_waveforms",
-          "named": true
-        },
-        {
-          "type": "delay_mechanism",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "selected_waveforms",
-          "named": true
-        },
-        {
-          "type": "waveforms",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "concurrent_statement_part",
     "named": true,
     "fields": {},
@@ -4967,7 +4889,7 @@
           "named": true
         },
         {
-          "type": "concurrent_signal_assignment",
+          "type": "conditional_concurrent_signal_assignment",
           "named": true
         },
         {
@@ -4984,6 +4906,14 @@
         },
         {
           "type": "process_statement",
+          "named": true
+        },
+        {
+          "type": "selected_concurrent_signal_assignment",
+          "named": true
+        },
+        {
+          "type": "simple_concurrent_signal_assignment",
           "named": true
         }
       ]
@@ -5098,6 +5028,80 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "conditional_concurrent_signal_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "conditional_waveforms",
+          "named": true
+        },
+        {
+          "type": "delay_mechanism",
+          "named": true
+        },
+        {
+          "type": "label",
           "named": true
         }
       ]
@@ -5264,6 +5268,158 @@
         },
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "conditional_signal_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "conditional_expressions",
+          "named": true
+        },
+        {
+          "type": "conditional_waveforms",
+          "named": true
+        },
+        {
+          "type": "delay_mechanism",
+          "named": true
+        },
+        {
+          "type": "force_mode",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "conditional_variable_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "conditional_expressions",
+          "named": true
+        },
+        {
+          "type": "label",
           "named": true
         }
       ]
@@ -6030,7 +6186,15 @@
           "named": true
         },
         {
-          "type": "concurrent_signal_assignment",
+          "type": "conditional_concurrent_signal_assignment",
+          "named": true
+        },
+        {
+          "type": "conditional_signal_assignment",
+          "named": true
+        },
+        {
+          "type": "conditional_variable_assignment",
           "named": true
         },
         {
@@ -6150,15 +6314,35 @@
           "named": true
         },
         {
+          "type": "selected_concurrent_signal_assignment",
+          "named": true
+        },
+        {
+          "type": "selected_signal_assignment",
+          "named": true
+        },
+        {
+          "type": "selected_variable_assignment",
+          "named": true
+        },
+        {
           "type": "shared_variable_declaration",
           "named": true
         },
         {
-          "type": "signal_assignment_statement",
+          "type": "signal_declaration",
           "named": true
         },
         {
-          "type": "signal_declaration",
+          "type": "simple_concurrent_signal_assignment",
+          "named": true
+        },
+        {
+          "type": "simple_signal_assignment",
+          "named": true
+        },
+        {
+          "type": "simple_variable_assignment",
           "named": true
         },
         {
@@ -6167,10 +6351,6 @@
         },
         {
           "type": "use_clause",
-          "named": true
-        },
-        {
-          "type": "variable_assignment_statement",
           "named": true
         },
         {
@@ -7906,7 +8086,7 @@
           "named": true
         },
         {
-          "type": "concurrent_signal_assignment",
+          "type": "conditional_concurrent_signal_assignment",
           "named": true
         },
         {
@@ -7927,6 +8107,14 @@
         },
         {
           "type": "process_statement",
+          "named": true
+        },
+        {
+          "type": "selected_concurrent_signal_assignment",
+          "named": true
+        },
+        {
+          "type": "simple_concurrent_signal_assignment",
           "named": true
         }
       ]
@@ -11020,6 +11208,84 @@
     }
   },
   {
+    "type": "selected_concurrent_signal_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "delay_mechanism",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "selected_waveforms",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "selected_expressions",
     "named": true,
     "fields": {},
@@ -11110,6 +11376,166 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "selected_signal_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "delay_mechanism",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "force_mode",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "selected_expressions",
+          "named": true
+        },
+        {
+          "type": "selected_waveforms",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "selected_variable_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "selected_expressions",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -11256,6 +11682,14 @@
           "named": true
         },
         {
+          "type": "conditional_signal_assignment",
+          "named": true
+        },
+        {
+          "type": "conditional_variable_assignment",
+          "named": true
+        },
+        {
           "type": "exit_statement",
           "named": true
         },
@@ -11292,11 +11726,19 @@
           "named": true
         },
         {
-          "type": "signal_assignment_statement",
+          "type": "selected_signal_assignment",
           "named": true
         },
         {
-          "type": "variable_assignment_statement",
+          "type": "selected_variable_assignment",
+          "named": true
+        },
+        {
+          "type": "simple_signal_assignment",
+          "named": true
+        },
+        {
+          "type": "simple_variable_assignment",
           "named": true
         },
         {
@@ -11765,104 +12207,6 @@
     }
   },
   {
-    "type": "signal_assignment_statement",
-    "named": true,
-    "fields": {
-      "target": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "conditional_expressions",
-          "named": true
-        },
-        {
-          "type": "conditional_waveforms",
-          "named": true
-        },
-        {
-          "type": "delay_mechanism",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "force_mode",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "selected_expressions",
-          "named": true
-        },
-        {
-          "type": "selected_waveforms",
-          "named": true
-        },
-        {
-          "type": "waveforms",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "signal_declaration",
     "named": true,
     "fields": {},
@@ -11998,6 +12342,80 @@
         },
         {
           "type": "type_mark",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "simple_concurrent_signal_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "delay_mechanism",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "waveforms",
           "named": true
         }
       ]
@@ -12160,6 +12578,158 @@
         },
         {
           "type": "term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "simple_signal_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "delay_mechanism",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "force_mode",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "waveforms",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "simple_variable_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "label",
           "named": true
         }
       ]
@@ -12873,84 +13443,6 @@
       "types": [
         {
           "type": "expanded_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "variable_assignment_statement",
-    "named": true,
-    "fields": {
-      "target": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "conditional_expressions",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "selected_expressions",
           "named": true
         }
       ]

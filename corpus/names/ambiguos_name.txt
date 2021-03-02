@@ -148,7 +148,7 @@ t <= prev(x);
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element

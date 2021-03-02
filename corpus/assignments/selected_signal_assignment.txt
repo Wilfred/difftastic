@@ -17,7 +17,7 @@ with expr select?
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -29,7 +29,7 @@ with expr select?
       (choices
         (simple_expression
           (simple_name)))))
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (label
       (identifier))
     (expression
@@ -43,7 +43,7 @@ with expr select?
       (choices
         (simple_expression
           (simple_name)))))
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -55,7 +55,7 @@ with expr select?
       (choices
         (simple_expression
           (simple_name)))))
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (label
       (identifier))
     (expression
@@ -84,7 +84,7 @@ with expr select
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -98,7 +98,7 @@ with expr select
       (choices
         (simple_expression
           (simple_name)))))
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -112,7 +112,7 @@ with expr select
       (choices
         (simple_expression
           (simple_name)))))
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -141,7 +141,7 @@ with expr select
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -171,7 +171,7 @@ with expr select
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -202,7 +202,7 @@ with expr select
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -241,7 +241,7 @@ with expr select
 ---
 
 (design_file
-  (signal_assignment_statement
+  (selected_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -251,7 +251,7 @@ with expr select
       (choices
         (simple_expression
           (simple_name)))))
-  (signal_assignment_statement
+  (selected_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -262,7 +262,7 @@ with expr select
       (choices
         (simple_expression
           (simple_name)))))
-  (signal_assignment_statement
+  (selected_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -282,7 +282,7 @@ with expr select
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -309,7 +309,7 @@ with expr select
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -323,7 +323,7 @@ with expr select
       (choices
         (simple_expression
           (simple_name)))))
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -337,7 +337,7 @@ with expr select
       (choices
         (simple_expression
           (simple_name)))))
-  (concurrent_signal_assignment
+  (selected_concurrent_signal_assignment
     (expression
       (simple_name))
     target: (simple_name)

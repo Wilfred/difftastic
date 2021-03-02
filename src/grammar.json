@@ -10437,11 +10437,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "signal_assignment_statement"
+          "name": "_signal_assignment_statement"
         },
         {
           "type": "SYMBOL",
-          "name": "variable_assignment_statement"
+          "name": "_variable_assignment_statement"
         },
         {
           "type": "SYMBOL",
@@ -10851,24 +10851,24 @@
         }
       ]
     },
-    "signal_assignment_statement": {
+    "_signal_assignment_statement": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_simple_signal_assignment"
+          "name": "simple_signal_assignment"
         },
         {
           "type": "SYMBOL",
-          "name": "_conditional_signal_assignment"
+          "name": "conditional_signal_assignment"
         },
         {
           "type": "SYMBOL",
-          "name": "_selected_signal_assignment"
+          "name": "selected_signal_assignment"
         }
       ]
     },
-    "_simple_signal_assignment": {
+    "simple_signal_assignment": {
       "type": "CHOICE",
       "members": [
         {
@@ -11337,7 +11337,7 @@
         }
       ]
     },
-    "_conditional_signal_assignment": {
+    "conditional_signal_assignment": {
       "type": "CHOICE",
       "members": [
         {
@@ -11607,7 +11607,7 @@
         }
       ]
     },
-    "_selected_signal_assignment": {
+    "selected_signal_assignment": {
       "type": "CHOICE",
       "members": [
         {
@@ -12018,24 +12018,24 @@
         }
       ]
     },
-    "variable_assignment_statement": {
+    "_variable_assignment_statement": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_simple_variable_assignment"
+          "name": "simple_variable_assignment"
         },
         {
           "type": "SYMBOL",
-          "name": "_conditional_variable_assignment"
+          "name": "conditional_variable_assignment"
         },
         {
           "type": "SYMBOL",
-          "name": "_selected_variable_assignment"
+          "name": "selected_variable_assignment"
         }
       ]
     },
-    "_simple_variable_assignment": {
+    "simple_variable_assignment": {
       "type": "SEQ",
       "members": [
         {
@@ -12068,7 +12068,7 @@
         }
       ]
     },
-    "_conditional_variable_assignment": {
+    "conditional_variable_assignment": {
       "type": "SEQ",
       "members": [
         {
@@ -12101,7 +12101,7 @@
         }
       ]
     },
-    "_selected_variable_assignment": {
+    "selected_variable_assignment": {
       "type": "SEQ",
       "members": [
         {
@@ -13153,7 +13153,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "concurrent_signal_assignment"
+            "name": "_concurrent_signal_assignment"
           },
           {
             "type": "SYMBOL",
@@ -13578,23 +13578,38 @@
         }
       ]
     },
-    "concurrent_signal_assignment": {
+    "_concurrent_signal_assignment": {
       "type": "PREC",
       "value": 1,
       "content": {
         "type": "CHOICE",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_simple_waveform_assignment"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_simple_waveform_assignment"
+            },
+            "named": true,
+            "value": "simple_concurrent_signal_assignment"
           },
           {
-            "type": "SYMBOL",
-            "name": "_conditional_waveform_assignment"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_conditional_waveform_assignment"
+            },
+            "named": true,
+            "value": "conditional_concurrent_signal_assignment"
           },
           {
-            "type": "SYMBOL",
-            "name": "_selected_waveform_assignment"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_selected_waveform_assignment"
+            },
+            "named": true,
+            "value": "selected_concurrent_signal_assignment"
           }
         ]
       }
@@ -25574,10 +25589,10 @@
     "_sensitivity_clause",
     "_condition_clause",
     "_timeout_clause",
-    "_simple_signal_assignment",
-    "_conditional_signal_assignment",
-    "_selected_signal_assignment",
+    "_signal_assignment_statement",
+    "_variable_assignment_statement",
     "_iteration_scheme",
+    "_concurrent_signal_assignment",
     "ReferenceError",
     "_generate_statement",
     "_library_unit",

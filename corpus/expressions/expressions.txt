@@ -6,7 +6,7 @@ t <= abs a,
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -25,7 +25,7 @@ t <= a**b;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -46,7 +46,7 @@ t <= and a,
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -81,7 +81,7 @@ t <= a and b and c;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -101,7 +101,7 @@ t <= a * b,
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -132,7 +132,7 @@ t <= a * b / c mod d rem e;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -151,7 +151,7 @@ t <= a + b - c;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -168,7 +168,7 @@ t <= -a, -b;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -190,7 +190,7 @@ t <= - a * b,
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -224,14 +224,14 @@ t <= ((x));
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
         (expression
           (parenthesized_expression
             (simple_name))))))
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -248,7 +248,7 @@ t <= ((x(foo'range)));
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -259,7 +259,7 @@ t <= ((x(foo'range)));
               (attribute_name
                 prefix: (simple_name)
                 designator: (predefined_designator))))))))
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -279,7 +279,7 @@ t <= a nand b nand c;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -297,7 +297,7 @@ t <= a and b nand c;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -315,7 +315,7 @@ t <= a or b and c;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element
@@ -333,7 +333,7 @@ t <= -1 + -1;
 ---
 
 (design_file
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element

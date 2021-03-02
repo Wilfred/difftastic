@@ -61,7 +61,7 @@ foo <= next(x);
         (expression_list
           (expression
             (simple_name))))))
-  (concurrent_signal_assignment
+  (simple_concurrent_signal_assignment
     target: (simple_name)
     (waveforms
       (waveform_element

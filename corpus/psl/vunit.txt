@@ -359,7 +359,7 @@ vunit ex5b(top_block.i1) {
           (subtype_indication
             (type_mark
               (simple_name))))
-        (concurrent_signal_assignment
+        (simple_concurrent_signal_assignment
           target: (simple_name)
           (waveforms
             (waveform_element
@@ -404,7 +404,7 @@ vunit ex5d(top_block.i1) {
           (subtype_indication
             (type_mark
               (simple_name))))
-        (concurrent_signal_assignment
+        (simple_concurrent_signal_assignment
           target: (simple_name)
           (waveforms
             (waveform_element
