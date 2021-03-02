@@ -21,14 +21,16 @@
     "test": "tree-sitter test",
     "examples": "script/parse-examples"
   },
-  "tree-sitter": {
-    "scope": "source.hs",
-    "file-types": [
-      "hs"
-    ],
-    "highlights": [
-      "queries/highlights.scm"
-    ],
-    "injection-regex": "^(hs|haskell)$"
-  }
+  "tree-sitter": [
+    {
+      "scope": "source.haskell",
+      "file-types": [
+        "hs"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ],
+      "injection-regex": "^(hs|haskell)$"
+    }
+  ]
 }
