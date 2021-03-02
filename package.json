@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-perl",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "a tree-sitter for perl language.",
   "main": "index.js",
   "scripts": {
@@ -8,11 +8,15 @@
     "test": "tree-sitter test",
     "example": "tree-sitter parse examples/*"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "keywords": [
     "perl",
     "parser",
     "nodejs"
   ],
+  "repository": "https://github.com/ganezdragon/tree-sitter-perl.git",
   "author": "ganezdragon",
   "license": "MIT",
   "dependencies": {
