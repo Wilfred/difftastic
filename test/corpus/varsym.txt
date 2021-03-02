@@ -235,3 +235,13 @@ varsym: bang as operator decl
 (module
  (signature (operator) (type_name (type)))
  (function (operator) (exp_name (variable))))
+
+================================================================================
+varsym: minus as operator decl
+================================================================================
+
+(-) = (-)
+
+---
+
+(module (function (operator) (exp_name (operator))))

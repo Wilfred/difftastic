@@ -516,7 +516,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "operator"
+              "name": "_operator_minus"
             },
             {
               "type": "STRING",
@@ -557,7 +557,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "operator"
+          "name": "_operator_minus"
         },
         {
           "type": "SEQ",
