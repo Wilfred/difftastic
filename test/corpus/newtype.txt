@@ -1,0 +1,87 @@
+================================================================================
+newtype: basic
+================================================================================
+
+newtype A = A A
+
+---
+
+(module
+ (newtype
+  (type)
+  (newtype_constructor (constructor) (type_name (type)))))
+
+================================================================================
+newtype: context
+================================================================================
+
+newtype A a => A a = A a
+
+---
+
+(module
+ (newtype
+  (context (constraint (class_name (type)) (type_name (type_variable))))
+  (type)
+  (type_variable)
+  (newtype_constructor (constructor) (type_name (type_variable)))))
+
+================================================================================
+newtype: record
+================================================================================
+
+newtype A = A { a :: A a }
+
+---
+
+(module
+ (newtype
+  (type)
+  (newtype_constructor
+   (constructor)
+   (field (variable) (type_apply (type_name (type)) (type_name (type_variable)))))))
+
+================================================================================
+newtype: type_variable kind
+================================================================================
+
+newtype A a (a :: [* -> *]) a =
+  A a
+
+---
+
+(module
+ (newtype
+  (type)
+  (type_variable)
+  (annotated_type_variable
+   (type_variable)
+   (type_list (fun (type_star) (type_star))))
+  (type_variable)
+  (newtype_constructor (constructor) (type_name (type_variable)))))
+
+================================================================================
+newtype: deriving
+================================================================================
+
+newtype A = A a deriving A
+newtype A a =
+  A { a :: A }
+  deriving (A, A)
+  deriving newtype A
+  deriving A via (A a)
+
+---
+
+(module
+ (newtype
+  (type)
+  (newtype_constructor (constructor) (type_name (type_variable)))
+  (deriving (type)))
+ (newtype
+  (type)
+  (type_variable)
+  (newtype_constructor (constructor) (field (variable) (type_name (type))))
+  (deriving (type) (comma) (type))
+  (deriving (deriving_strategy) (type))
+  (deriving (type) (via (type_parens (type_apply (type_name (type)) (type_name (type_variable))))))))

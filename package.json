@@ -1,8 +1,9 @@
 {
   "name": "tree-sitter-haskell",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Haskell grammar for tree-sitter",
-  "main": "index.js",
+  "repository": "github:tree-sitter/tree-sitter-haskell",
+  "main": "bindings/node",
   "keywords": [
     "parser",
     "haskell"
@@ -10,41 +11,24 @@
   "author": "Rick Winfrey",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.4.0"
+    "nan": "^2.12.1",
+    "node-gyp": "^7.1.2"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.13.1"
-  },
-  "watch": {
-    "test": {
-      "patterns": [
-        "corpus"
-      ],
-      "extensions": "txt",
-      "quiet": true
-    },
-    "build-grammar": {
-      "patterns": [
-        "./"
-      ],
-      "extensions": "js",
-      "quiet": true
-    },
-    "build-scanner": {
-      "patterns": [
-        "src"
-      ],
-      "extensions": "cc",
-      "quiet": true
-    }
+    "tree-sitter-cli": "^0.19.0"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test && script/parse-examples",
-    "build-scanner": "node-gyp build --debug && tree-sitter test",
-    "build-grammar": "tree-sitter generate && node-gyp build --debug && tree-sitter test",
-    "watch-test": "npm-watch test",
-    "watch-grammar": "npm-watch build-grammar",
-    "watch-scanner": "npm-watch build-scanner"
+    "test": "tree-sitter test",
+    "examples": "script/parse-examples"
+  },
+  "tree-sitter": {
+    "scope": "source.hs",
+    "file-types": [
+      "hs"
+    ],
+    "highlights": [
+      "queries/highlights.scm"
+    ],
+    "injection-regex": "^(hs|haskell)$"
   }
 }

@@ -1,0 +1,245 @@
+const {parens, brackets, braces, sep1, layouted} = require('./util.js')
+
+module.exports = {
+  // ------------------------------------------------------------------------
+  // expression
+  // ------------------------------------------------------------------------
+
+  exp_parens: $ => parens($._exp),
+
+  /**
+    * This needs to be disambiguated from `gcon_tuple`, which is a constructor with _only_ commas.
+    * Tuple sections aren't allowed in patterns.
+    *
+    * Since tuple expressions can contain singular expressions in sections like `(a,)` and `(,a)`, it has to be ensured
+    * that there is _at least_ each one comma and one expression in there, but the comma may be on either side and be
+    * preceded by any number of further commas, like `(,,,a)`.
+    *
+    * The final `repeat` is simpler, it just has to ensure that no two `_exp`s can be successive, but this encoding
+    * means that the optional `_exp` after `(5,)` needs to be included in the `choice`, otherwise a simple pair would be
+    * impossible.
+    */
+  exp_tuple: $ => parens(
+    choice(seq(repeat1($.comma), $._exp), seq($._exp, $.comma, optional($._exp))),
+    repeat(seq($.comma, optional($._exp)))
+  ),
+
+  exp_list: $ => brackets(sep1($.comma, $._exp)),
+
+  bind_pattern: $ => seq(
+    $._pat,
+    '<-',
+    $._exp,
+  ),
+
+  exp_arithmetic_sequence: $ => brackets(
+    field('from', $._exp),
+    optional(seq($.comma, field('step', $._exp))),
+    '..',
+    optional(field('to', $._exp)),
+  ),
+
+  qual: $ => choice(
+    $.bind_pattern,
+    $.let,
+    $._exp,
+  ),
+
+  exp_list_comprehension: $ => brackets(
+    $._exp,
+    '|',
+    sep1($.comma, $.qual),
+  ),
+
+  exp_section_left: $ => parens(
+    $._exp_infix,
+    $._qop,
+  ),
+
+  exp_section_right: $ => parens(
+    $._qop,
+    $._exp_infix,
+  ),
+
+  quasiquote_body: _ => token(repeat1(choice(/[^|]/, /\|[^\]]/))),
+
+  /**
+   * `_qq_start` is determined by the scanner.
+   * While the quoter and the bar may not be preceded by whitespace, this is not necessary to ensure here with
+   * `token.immediate` since the scanner already verifies it.
+   */
+  exp_quasiquote: $ => seq(
+    $._qq_start,
+    optional(alias($._varid, $.quoter)),
+    '|',
+    optional($.quasiquote_body),
+    token('|]'),
+  ),
+
+  exp_th_quoted_name: $ => choice(
+    seq(quote, choice($._qvar, $._qcon)),
+    seq(quote + quote, $._atype),
+  ),
+
+  fbind: $ => choice(
+    alias('..', $.wildcard),
+    seq($._qvar, seq('=', $._exp))
+  ),
+
+  exp_type_application: $ => seq('@', $._atype),
+
+  exp_lambda: $ => seq(
+    '\\',
+    repeat1($._apat),
+    '->',
+    $._exp,
+  ),
+
+  exp_in: $ => seq('in', $._exp),
+
+  let: $ => seq('let', optional($.decls)),
+
+  exp_let: $ => seq($.let, $.exp_in),
+
+  exp_cond: $ => seq(
+    'if',
+    field('if', $._exp),
+    optional(';'),
+    'then',
+    field('then', $._exp),
+    optional(';'),
+    'else',
+    field('else', $._exp),
+  ),
+
+  exp_if_guard: $ => seq('if', prec.left(repeat1($.gdpat))),
+
+  pattern_guard: $ => seq(
+    $._pat,
+    '<-',
+    $._exp_infix,
+  ),
+
+  guard: $ => choice(
+    $.pattern_guard,
+    $.let,
+    $._exp_infix,
+  ),
+
+  guards: $ => seq('|', sep1($.comma, $.guard)),
+
+  gdpat: $ => seq($.guards, '->', $._exp),
+
+  _alt_variants: $ => choice(
+    seq('->', $._exp),
+    repeat1($.gdpat),
+  ),
+
+  alt: $ => seq($._pat, $._alt_variants, optional(seq($.where, optional($.decls)))),
+
+  alts: $ => layouted($, $.alt),
+
+  exp_case: $ => seq('case', $._exp, 'of', $.alts),
+
+  exp_lambda_case: $ => prec.left(seq(
+    '\\',
+    'case',
+    optional($.alts),
+  )),
+
+  rec: $ => seq(
+    'rec',
+    layouted($, $.stmt),
+  ),
+
+  stmt: $ => choice(
+    $._exp,
+    $.bind_pattern,
+    $.let,
+    $.rec,
+  ),
+
+  exp_do: $ => seq(choice('mdo', 'do'), layouted($, seq($.stmt))),
+
+  exp_negation: $ => seq('-', $._aexp),
+
+  exp_record: $ => seq($._aexp, braces(sep1($.comma, $.fbind))),
+
+  exp_name: $ => choice(
+    $._qvar,
+    $._qcon,
+    $.implicit_parid,
+  ),
+
+  _aexp: $ => choice(
+    $.exp_parens,
+    $.exp_tuple,
+    $.exp_list,
+    $.exp_arithmetic_sequence,
+    $.exp_list_comprehension,
+    $.exp_section_left,
+    $.exp_section_right,
+    $.exp_quasiquote,
+    $.exp_th_quoted_name,
+    $.exp_type_application,
+    $.exp_lambda_case,
+    $.exp_do,
+    $.splice,
+    $.exp_record,
+    alias($.literal, $.exp_literal),
+    $.exp_name,
+  ),
+
+  /**
+   * Function application.
+   *
+   * This convoluted rule is necessary because of BlockArguments with lambda – if `exp_lambda` is in `lexp` as is stated
+   * in the reference, it can only occur after an infix operator; if it is in `aexp`, it causes lots of problems.
+   * Furthermore, the strange way the recursion is done here is to avoid local conflicts.
+   */
+  _exp_apply: $ => choice(
+    $._aexp,
+    seq($._aexp, $._exp_apply),
+    seq($._aexp, $.exp_lambda),
+  ),
+
+  /**
+   * The point of this `choice` is to get a node for function application only if there is more than one expression
+   * present.
+   */
+  _fexp: $ => choice(
+    $._aexp,
+    alias($._exp_apply, $.exp_apply),
+  ),
+
+  _lexp: $ => choice(
+    $.exp_let,
+    $.exp_cond,
+    $.exp_if_guard,
+    $.exp_case,
+    $.exp_negation,
+    $._fexp,
+    $.exp_lambda,
+  ),
+
+  /**
+   * This is left-associative, although in reality this would depend on the fixity declaration for the operator.
+   * The default is left, even though the reerence specifies it the other way around.
+   * In any case, this seems to be more stable.
+   */
+  exp_infix: $ => seq($._exp_infix, $._qop, $._lexp),
+
+  _exp_infix: $ => choice(
+    $.exp_infix,
+    $._lexp,
+  ),
+
+  /**
+   * `prec.right` because:
+   *
+   * let x = 1 in x :: Int
+   *
+   * here the type annotation binds to `x`, not the entire expression
+   */
+  _exp: $ => prec.right(seq($._exp_infix, optional($._type_annotation))),
+}

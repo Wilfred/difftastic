@@ -1,10 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
-
-# TODO: Fix these known issues:
-#  - [ ] Don't parse `#` as a cpp directive when it is a variable operator.
-
 
 cd "$(dirname "$0")/.."
 
@@ -30,7 +26,6 @@ function parse_examples {
 
   repo=examples/$name
 
-  # TODO: Fix known issues in known_failures_*.txt
   known_failures=$(cat "script/known-failures-$name.txt")
   examples_to_parse=$(
     for example in $(find "$repo" -name '*.hs'); do

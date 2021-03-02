@@ -1,0 +1,57 @@
+================================================================================
+cpp: restore layout
+================================================================================
+
+a = do
+  do
+    do
+      a <- a
+#ifndef Aaaa
+    a <- a
+#elif Aaa
+    a <- a
+    a
+  a
+#else
+    a <- a
+    a
+  a
+#endif
+    a <- a
+    a
+  a
+
+---
+
+(module
+ (function
+  (variable)
+  (exp_do
+   (stmt
+    (exp_do
+     (stmt
+      (exp_do
+       (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+       (cpp)))
+     (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+     (cpp)
+     (cpp)
+     (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+     (stmt (exp_name (variable)))))
+   (stmt (exp_name (variable))))))
+
+================================================================================
+cpp: multiline
+================================================================================
+
+#if a \
+a \
+a
+
+a = a
+
+#endif
+
+---
+
+(module (cpp) (function (variable) (exp_name (variable))) (cpp))
