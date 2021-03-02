@@ -1,21 +1,4 @@
 const PREC = { // {{{
-    // VHDL EXPRESSION
-    // PSL EXPRESSION
-    //PSL_UNION: 20,
-    //PSL_CLOCK: 19,
-    //PSL_SERE_REPEAT: 18,
-    //PSL_SERE_WITHIN: 17,
-    //PSL_SERE_AND: 16,
-    //PSL_SERE_OR: 15,
-    //PSL_FUSION: 14,
-    //PSL_CONCAT: 13,
-    //PSL_TERMINATION: 12,
-    //PSL_OCURRENCE: 11,
-    //PSL_BOUNDING: 10,
-    //PSL_SEQ_IMPLICATION: 9,
-    //PSL_LOGICAL_IMPLICATION: 8,
-    //PSL_INVARIANCE: 7,
-    // INTERFACES
     CONSTANT_INTERFACE: 3,
     VARIABLE_INTERFACE: 2,
     SIGNAL_INTERFACE: 1,
@@ -242,23 +225,13 @@ module.exports = grammar({
         $._abstract_literal, // 15.5
         // PSL
         $._PSL_Identifier, // PSL
-        //$._PSL_Number, // PSL 5
-        $._PSL_Range, // PSL 6.1.1.2
-        $._PSL_Extended_Ocurrence_argument, // PSL 6.3
-        //$._PSL_Parameter_Specification, // PSL 6.3
         $._PSL_Boolean, // PSL 5
         $._PSL_Any_Type, // PSL 5
         $._PSL_Clock_Expression, // PSL 5.3
         $._PSL_Value, // PSL 5
         $._PSL_FL_Property, // PSL 6.2
-        $._PSL_SERE, // PSL 6.1.1
         $._PSL_Property, // PSL 6.2
-        //$._PSL_Value_Range, // PSL 6.2.3
-        $._PSL_Verification_Unit, // PSL 7.2
-        $._PSL_VUnit_Item, // PSL 7.2
         $._PSL_HDL_Module_NAME, // PSL 7.2
-        //$._PSL_Extended_Ocurrence_FL_Property_Count_Specification,
-        //$._PSL_Extended_Ocurrence_FL_Property_Until_Specification,
     ], // }}}
     conflicts: $ => [ // {{{
 
@@ -269,15 +242,17 @@ module.exports = grammar({
         // procedure_declaration:
         //      procedure foo is new bar;
         [$._procedure_specification, $.procedure_instantiation_declaration],
-        [$._function_specification, $.function_instantiation_declaration],
-        // NOTE: This conflict can be solved inlining the rules, but it has
-        // a significate size overhead
+        [$._function_specification , $.function_instantiation_declaration ],
+        // NOTE: This conflict can be solved inlining the rules, but there
+        // is a large penalty on the generated parser size (that is already
+        // quite large)
 
+        // Based literal are parsed according to the base
         // Leading zeros on base of based literals and integer
         // '0'  '0'  •  '0'
-        [$.integer, $.base2, $.base3, $.base4, $.base5, $.base6,
-            $.base7, $.base8, $.base9, $.base10, $.base11,
-            $.base12, $.base13, $.base14, $.base15, $.base16 ],
+        [$.integer, $.base2 , $.base3 , $.base4 , $.base5 , $.base6 ,
+                    $.base7 , $.base8 , $.base9 , $.base10, $.base11,
+                    $.base12, $.base13, $.base14, $.base15, $.base16 ],
 
         // '0'  '1'  •  '0'
         [$.integer, $.base10],
@@ -372,11 +347,11 @@ module.exports = grammar({
         [$.generic_map_aspect],
         [$.port_map_aspect],
 
-        // interfaces declarations without explicit object kind
+        // interfaces declarations defaults depends on context
         // see corpus/interface_lists/
         [$.constant_interface_declaration,
-            $.signal_interface_declaration,
-            $.variable_interface_declaration ],
+         $.signal_interface_declaration,
+         $.variable_interface_declaration ],
 
         [$._constant_mode, $._signal_mode, $._variable_mode ],
 
@@ -390,14 +365,6 @@ module.exports = grammar({
         [$.generate_statement_body],
         [$.case_generate_alternative],
 
-        // PSL
-        // 'assert' _expression 'and' _expression
-        //[$.logical_expression, $.PSL_Logical_FL_Property],
-
-        //[$.parenthesized_expression, $.PSL_Parenthesized_FL_Property],
-        //[$.parenthesized_expression, $.PSL_Extended_Ocurrence_FL_Property],
-
-        // TODO: precedence
         // `assert id
         // `restrict id;`
         [$.PSL_Property_Instance, $._simple_name],
@@ -408,25 +375,15 @@ module.exports = grammar({
         [$.PSL_Property_Instance, $.PSL_Sequence_Instance, $.PSL_Ambiguous_Instance, $._simple_name],
 
         [$.PSL_Property_Replicator],
-
-        //// vhdl: `assert 1+1;`
-        //// vhdl: `assert (id -> id);`
-        //[$.PSL_Implication_FL_Property, $.PSL_Expression],
-        //[$.PSL_Actual_Parameter],
-
-        // `property p (property p2) is p2;`
         [$.PSL_Property_Declaration],
 
         // assert '{' ... '}' 
         [$._PSL_Compound_SERE, $._PSL_Sequence],
-
-        //[$.PSL_Value_Set, $.PSL_Braced_SERE],
     ], // }}}
     precedences: () => [ // {{{
         // VHDL operands precedence
         [
             'range',
-            // VHDL operator precedence
             'condition',
             'reduction',
             'factor',
@@ -436,7 +393,9 @@ module.exports = grammar({
             'shift_expression',
             'relation',
             'logical_expression',
-            // PSL operator precedence
+        ],
+        // PSL operands precedence
+        [
             'union',
             'clocked',
             'SERE_repetition',
@@ -449,7 +408,7 @@ module.exports = grammar({
             'occurrence_property',
             'bounding_property',
             'sequence_implication',
-            'boolean_implication',
+            'property_implication',
             'invariant_property',
         ],
         [
@@ -473,7 +432,7 @@ module.exports = grammar({
             'property_factor'
         ],
         [
-            'boolean_implication',
+            'implication',
             'property_implication',
         ],
     ], // }}}
@@ -1423,6 +1382,15 @@ module.exports = grammar({
         ),
         // }}}
         // 6.5.7 Association lists {{{
+        // LINT: NAMED association element shall NOT be followed by
+        //       POSITIONAL association element.
+        // NOTE: The correct ordering is deliberatedly not enforced
+        //       by the parser. Tree-sitter does not support custom
+        //       error recovery yet.
+        //       the query.
+        // NOTE: Having different rules for positional and named
+        //       association simplifies writing queries.
+
         association_list: $ => sepBy1(',', $._association_element),
 
         _association_element: $ => choice(
@@ -2175,72 +2143,6 @@ module.exports = grammar({
             field('operator', choice(...['**'].map(op => delimiter(op)))),
             $._expr
         )),
-
-        //condition: $ => prec.left(PREC.CONDITION, seq(
-        //    field('operator', delimiter('??')),
-        //    field('argument', $._expr)
-        //)),
-
-        //sign: $ => prec.left(PREC.SIGN, seq(
-        //    field('operator', choice(...['+', '-'].map(op => delimiter(op)))),
-        //    field('argument', $._expr)
-        //)),
-
-        //factor: $ => prec.left(PREC.FACTOR, seq(
-        //    field('operator', choice(...['not', 'abs'].map(op => reservedWord(op)))),
-        //    field('argument', $._expr)
-        //)),
-
-        //reduction: $ => prec.left(PREC.REDUCTION, seq(
-        //    field('operator', choice(...['and', 'or', 'xor', 'nand', 'nor', 'xnor'].map(op => reservedWord(op)))),
-        //    field('argument', $._expr)
-        //)),
-
-        //// binary expressions
-        //logical_expression: $ => prec.left(PREC.LOGICAL, seq(
-        //    field('left', $._expr),
-        //    field('operator', choice(...['and', 'or', 'xor', 'nand', 'nor', 'xnor'].map(op => reservedWord(op)))),
-        //    field('right', $._expr)
-        //)),
-
-        //relation: $ => prec.left(PREC.RELATION, seq(
-        //    field('left', $._expr),
-        //    field('operator', choice(...['<', '>', '=', '<=', '>=', '/=', '?<', '?>', '?=', '?<=', '?>=', '?/=', '==', '!='].map(op => delimiter(op)))),
-        //    field('right', $._expr)
-        //)),
-
-        //shift_expression: $ => prec.left(PREC.SHIFT_EXPRESSION, seq(
-        //    field('left', $._expr),
-        //    field('operator', choice(...['sll', 'srl', 'sla', 'sra', 'rol', 'ror'].map(op => delimiter(op)))),
-        //    field('right', $._expr)
-        //)),
-
-        //simple_expression: $ => prec.left(PREC.SIMPLE_EXPRESSION, seq(
-        //    field('left', $._expr),
-        //    field('operator', choice(...['-', '+'].map(op => delimiter(op)))),
-        //    field('right', $._expr)
-        //)),
-
-        //concatenation: $ => prec.left(PREC.SIMPLE_EXPRESSION, seq(
-        //    field('left', $._expr),
-        //    field('operator', '&'),
-        //    field('right', $._expr)
-        //)),
-
-        //term: $ => prec.left(PREC.TERM, seq(
-        //    field('left', $._expr),
-        //    choice(
-        //        field('operator', choice(...['*', '/'].map(op => delimiter(op)))),
-        //        field('operator', choice(...['rem', 'mod'].map(op => reservedWord(op)))),
-        //    ),
-        //    field('right', $._expr)
-        //)),
-
-        //exponentiation: $ => prec.left(PREC.FACTOR, seq(
-        //    field('left', $._expr),
-        //    field('operator', delimiter('**')),
-        //    field('right', $._expr)
-        //)),
         // }}}
         // 9.3.2 Literals {{{
         _literal: $ => choice(
@@ -3352,7 +3254,7 @@ module.exports = grammar({
 
         _PSL_Value: $ => $._PSL_Any_Type,
 
-        PSL_Expression: $ => prec.right('boolean_implication', seq(
+        PSL_Expression: $ => prec.right('implication', seq(
             $._PSL_Boolean,
             field('operator', choice(...['->', '<->'].map(op => delimiter(op)))),
             $._PSL_Boolean,
@@ -3854,7 +3756,7 @@ module.exports = grammar({
 
         PSL_Actual_Parameter: $ => choice(
             $._PSL_Any_Type,
-            //$._PSL_Sequence,
+            $._PSL_Sequence,
             $._PSL_Property
         ),
         // }}}
@@ -4126,21 +4028,13 @@ function bit_string_literal_gen($, specifier, bitval) {
     )
 }
 
-function operator(opset, name = "") {
-    return alias(token(prec(2, new RegExp(opset))), name)
-}
-
-function operator_immed(opset, name = "") {
-    return alias(token.immediate(prec(2, new RegExp(opset))), name)
-}
-
 function delimiter(delim, precedence = 2) {
     return token(prec(precedence, delim))
 }
 
 function reservedWord(word) {
-    return word
-    //return alias(reserved(caseInsensitive(word)), word)
+    //return word
+    return alias(reserved(caseInsensitive(word)), word)
 }
 
 function reserved(regex) {

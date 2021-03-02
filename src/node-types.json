@@ -24,11 +24,19 @@
           "named": true
         },
         {
+          "type": "PSL_Braced_SERE",
+          "named": true
+        },
+        {
           "type": "PSL_Built_In_Function_Call",
           "named": true
         },
         {
           "type": "PSL_Clocked_FL_Property",
+          "named": true
+        },
+        {
+          "type": "PSL_Clocked_SERE",
           "named": true
         },
         {
@@ -73,6 +81,14 @@
         },
         {
           "type": "PSL_Property_Replicator",
+          "named": true
+        },
+        {
+          "type": "PSL_Repeated_SERE",
+          "named": true
+        },
+        {
+          "type": "PSL_Sequence_Instance",
           "named": true
         },
         {
@@ -3780,6 +3796,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "all",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "allocator",
@@ -9190,6 +9211,11 @@
     }
   },
   {
+    "type": "others",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "package_body",
     "named": true,
     "fields": {
@@ -12762,6 +12788,11 @@
     "fields": {}
   },
   {
+    "type": "transport",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "type_interface_declaration",
     "named": true,
     "fields": {
@@ -12807,6 +12838,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "unaffected",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "unbounded_array_definition",
@@ -13342,7 +13378,7 @@
   },
   {
     "type": "all",
-    "named": true
+    "named": false
   },
   {
     "type": "always",
@@ -13422,6 +13458,10 @@
   },
   {
     "type": "boolean",
+    "named": false
+  },
+  {
+    "type": "buffer",
     "named": false
   },
   {
@@ -13629,6 +13669,10 @@
     "named": false
   },
   {
+    "type": "inout",
+    "named": false
+  },
+  {
     "type": "instance_name",
     "named": false
   },
@@ -13670,6 +13714,10 @@
   },
   {
     "type": "library",
+    "named": false
+  },
+  {
+    "type": "linkage",
     "named": false
   },
   {
@@ -13778,7 +13826,11 @@
   },
   {
     "type": "others",
-    "named": true
+    "named": false
+  },
+  {
+    "type": "out",
+    "named": false
   },
   {
     "type": "package",
@@ -13990,7 +14042,7 @@
   },
   {
     "type": "transport",
-    "named": true
+    "named": false
   },
   {
     "type": "type",
@@ -13998,7 +14050,7 @@
   },
   {
     "type": "unaffected",
-    "named": true
+    "named": false
   },
   {
     "type": "union",
