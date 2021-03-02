@@ -107,9 +107,9 @@ end;
             label: (simple_name)
             specification: (expression
               (simple_expression
-                left: (integer_decimal
+                (integer_decimal
                   (integer))
-                right: (integer_decimal
+                (integer_decimal
                   (integer))))))))))
 
 =====================================
@@ -140,8 +140,8 @@ end configuration V4_27_87;
           (simple_name)
           (simple_name))))
     (configuration_declaration
-      (simple_name)
-      (simple_name)
+      name: (identifier)
+      entity: (simple_name)
       (declarative_part
         (use_clause
           (expanded_name

@@ -1,29 +1,20 @@
 const PREC = { // {{{
     // VHDL EXPRESSION
-    REDUCTION: 28,
-    FACTOR: 27,
-    TERM: 26,
-    SIGN: 25,
-    SIMPLE_EXPRESSION: 24,
-    SHIFT_EXPRESSION: 23,
-    RELATION: 22,
-    LOGICAL: 21,
-    CONDITION: 20,
     // PSL EXPRESSION
-    PSL_UNION: 20,
-    PSL_CLOCK: 19,
-    PSL_SERE_REPEAT: 18,
-    PSL_SERE_WITHIN: 17,
-    PSL_SERE_AND: 16,
-    PSL_SERE_OR: 15,
-    PSL_FUSION: 14,
-    PSL_CONCAT: 13,
-    PSL_TERMINATION: 12,
-    PSL_OCURRENCE: 11,
-    PSL_BOUNDING: 10,
-    PSL_SEQ_IMPLICATION: 9,
-    PSL_LOGICAL_IMPLICATION: 8,
-    PSL_INVARIANCE: 7,
+    //PSL_UNION: 20,
+    //PSL_CLOCK: 19,
+    //PSL_SERE_REPEAT: 18,
+    //PSL_SERE_WITHIN: 17,
+    //PSL_SERE_AND: 16,
+    //PSL_SERE_OR: 15,
+    //PSL_FUSION: 14,
+    //PSL_CONCAT: 13,
+    //PSL_TERMINATION: 12,
+    //PSL_OCURRENCE: 11,
+    //PSL_BOUNDING: 10,
+    //PSL_SEQ_IMPLICATION: 9,
+    //PSL_LOGICAL_IMPLICATION: 8,
+    //PSL_INVARIANCE: 7,
     // INTERFACES
     CONSTANT_INTERFACE: 3,
     VARIABLE_INTERFACE: 2,
@@ -251,22 +242,23 @@ module.exports = grammar({
         $._abstract_literal, // 15.5
         // PSL
         $._PSL_Identifier, // PSL
-        $._PSL_Number, // PSL 5
+        //$._PSL_Number, // PSL 5
         $._PSL_Range, // PSL 6.1.1.2
         $._PSL_Extended_Ocurrence_argument, // PSL 6.3
-        $._PSL_Parameter_Specification, // PSL 6.3
+        //$._PSL_Parameter_Specification, // PSL 6.3
         $._PSL_Boolean, // PSL 5
         $._PSL_Any_Type, // PSL 5
-        $._PSL_FL_Property, // PSL 6.2
+        $._PSL_Clock_Expression, // PSL 5.3
         $._PSL_Value, // PSL 5
+        $._PSL_FL_Property, // PSL 6.2
         $._PSL_SERE, // PSL 6.1.1
         $._PSL_Property, // PSL 6.2
-        $._PSL_Value_Range, // PSL 6.2.3
+        //$._PSL_Value_Range, // PSL 6.2.3
         $._PSL_Verification_Unit, // PSL 7.2
         $._PSL_VUnit_Item, // PSL 7.2
         $._PSL_HDL_Module_NAME, // PSL 7.2
-        $._PSL_Extended_Ocurrence_FL_Property_Count_Specification,
-        $._PSL_Extended_Ocurrence_FL_Property_Until_Specification,
+        //$._PSL_Extended_Ocurrence_FL_Property_Count_Specification,
+        //$._PSL_Extended_Ocurrence_FL_Property_Until_Specification,
     ], // }}}
     conflicts: $ => [ // {{{
 
@@ -278,13 +270,14 @@ module.exports = grammar({
         //      procedure foo is new bar;
         [$._procedure_specification, $.procedure_instantiation_declaration],
         [$._function_specification, $.function_instantiation_declaration],
+        // NOTE: This conflict can be solved inlining the rules, but it has
+        // a significate size overhead
 
         // Leading zeros on base of based literals and integer
         // '0'  '0'  •  '0'
         [$.integer, $.base2, $.base3, $.base4, $.base5, $.base6,
             $.base7, $.base8, $.base9, $.base10, $.base11,
-            $.base12, $.base13, $.base14, $.base15, $.base16
-        ],
+            $.base12, $.base13, $.base14, $.base15, $.base16 ],
 
         // '0'  '1'  •  '0'
         [$.integer, $.base10],
@@ -383,13 +376,9 @@ module.exports = grammar({
         // see corpus/interface_lists/
         [$.constant_interface_declaration,
             $.signal_interface_declaration,
-            $.variable_interface_declaration
-        ],
+            $.variable_interface_declaration ],
 
-        [$._constant_mode,
-            $._signal_mode,
-            $._variable_mode
-        ],
+        [$._constant_mode, $._signal_mode, $._variable_mode ],
 
         // Generate statement body
         // see corpus/declarations/generate.txt
@@ -403,22 +392,27 @@ module.exports = grammar({
 
         // PSL
         // 'assert' _expression 'and' _expression
-        [$.logical_expression, $.PSL_Logical_FL_Property],
+        //[$.logical_expression, $.PSL_Logical_FL_Property],
 
-        [$.parenthesized_expression, $.PSL_Parenthesized_FL_Property],
-        [$.parenthesized_expression, $.PSL_Extended_Ocurrence_FL_Property],
+        //[$.parenthesized_expression, $.PSL_Parenthesized_FL_Property],
+        //[$.parenthesized_expression, $.PSL_Extended_Ocurrence_FL_Property],
 
+        // TODO: precedence
         // `assert id
         // `restrict id;`
         [$.PSL_Property_Instance, $._simple_name],
         [$.PSL_Sequence_Instance, $._simple_name],
         [$.PSL_Property_Instance, $.PSL_Sequence_Instance],
+        [$.PSL_Property_Instance, $.PSL_Sequence_Instance, $.PSL_Ambiguous_Instance],
         [$.PSL_Property_Instance, $.PSL_Sequence_Instance, $._simple_name],
+        [$.PSL_Property_Instance, $.PSL_Sequence_Instance, $.PSL_Ambiguous_Instance, $._simple_name],
 
-        // vhdl: `assert 1+1;`
-        // vhdl: `assert (id -> id);`
-        [$.PSL_Implication_FL_Property, $.PSL_Expression],
-        [$.PSL_Actual_Parameter],
+        [$.PSL_Property_Replicator],
+
+        //// vhdl: `assert 1+1;`
+        //// vhdl: `assert (id -> id);`
+        //[$.PSL_Implication_FL_Property, $.PSL_Expression],
+        //[$.PSL_Actual_Parameter],
 
         // `property p (property p2) is p2;`
         [$.PSL_Property_Declaration],
@@ -426,7 +420,62 @@ module.exports = grammar({
         // assert '{' ... '}' 
         [$._PSL_Compound_SERE, $._PSL_Sequence],
 
-        [$.PSL_Value_Set, $.PSL_Braced_SERE],
+        //[$.PSL_Value_Set, $.PSL_Braced_SERE],
+    ], // }}}
+    precedences: () => [ // {{{
+        // VHDL operands precedence
+        [
+            'range',
+            // VHDL operator precedence
+            'condition',
+            'reduction',
+            'factor',
+            'term',
+            'sign',
+            'simple_expression',
+            'shift_expression',
+            'relation',
+            'logical_expression',
+            // PSL operator precedence
+            'union',
+            'clocked',
+            'SERE_repetition',
+            'sequence_within',
+            'sequence_and',
+            'sequence_or',
+            'sequence_fusion',
+            'sequence_concatenation',
+            'termination_property',
+            'occurrence_property',
+            'bounding_property',
+            'sequence_implication',
+            'boolean_implication',
+            'invariant_property',
+        ],
+        [
+            'vhdl_assertion',
+            'psl_assertion',
+        ],
+        [
+            // "next" "(" ... ")" is psl function
+            'psl_function_call',
+            'parenthesized_boolean',
+            'parenthesized_expression',
+            'occurrence_property',
+            'parenthesized_property',
+        ],
+        [
+            'logical_expression',
+            'logical_property',
+        ],
+        [
+            'factor',
+            'property_factor'
+        ],
+        [
+            'boolean_implication',
+            'property_implication',
+        ],
     ], // }}}
 
     rules: {
@@ -796,17 +845,17 @@ module.exports = grammar({
             $._range_attribute_designator,
         ),
 
-        ascending_range: $ => seq(
+        ascending_range: $ => prec('range',seq(
             field('low', $._simple_expression),
             reservedWord('to'),
             field('high', $._simple_expression),
-        ),
+        )),
 
-        descending_range: $ => seq(
+        descending_range: $ => prec('range',seq(
             field('high', $._simple_expression),
             reservedWord('downto'),
             field('low', $._simple_expression),
-        ),
+        )),
         // }}}
         // 5.2.2 Enumeration types {{{
         enumeration_type_definition: $ => seq(
@@ -1086,11 +1135,11 @@ module.exports = grammar({
             $._resolution_indication
         ),
 
-        type_mark: $ => prec.dynamic(-1, choice(
+        type_mark: $ =>  choice(
             $._simple_name,
             $._expanded_name,
             $.attribute_name
-        )),
+        ),
 
         _constraint: $ => choice(
             $.range_constraint,
@@ -1960,20 +2009,38 @@ module.exports = grammar({
         // }}}
         // 9. Expressions {{{
         _expr: $ => choice(
-            $.condition,
-            $.logical_expression,
-            $.relation,
-            $.shift_expression,
-            $.concatenation,
-            $.simple_expression,
-            $.sign,
-            $.term,
-            $.factor,
-            $.exponentiation,
-            $.reduction,
+            $._unary_expression,
+            $._binary_expression,
             $._primary
         ),
 
+        _unary_expression: $ => choice(
+            $.condition,
+            $.reduction,
+            $.sign,
+            $.factor
+        ),
+
+        _binary_expression: $ => choice(
+            $.logical_expression,
+            $.relation,
+            $.shift_expression,
+            $.simple_expression,
+            $.term,
+            $.exponentiation,
+        ),
+
+        _primary: $ => choice(
+            $._name,
+            $._literal,
+            $.aggregate,
+            $.qualified_expression,
+            $.allocator,
+            $.parenthesized_expression,
+            $.function_call,
+        ),
+
+        // Named expressions
         _expression: $ => alias(
             $._expr,
             $.expression
@@ -2009,22 +2076,7 @@ module.exports = grammar({
             $.file_open_kind
         ),
 
-        _primary: $ => choice(
-            $._name,
-            $._literal,
-            $.aggregate,
-            $.qualified_expression,
-            $.allocator,
-            $.parenthesized_expression,
-            $.function_call,
-        ),
-
-        parenthesized_expression: $ => seq(
-            '(',
-            $._expr,
-            ')'
-        ),
-
+        // Special expressions
         default_expression: $ => seq(
             ':=',
             $._expr,
@@ -2035,71 +2087,160 @@ module.exports = grammar({
             $._expr
         ),
 
-        condition: $ => prec.left(PREC.CONDITION, seq(
+        parenthesized_expression: $ => prec('parenthesized_expression',seq(
+            '(',
+            $._expr,
+            ')'
+        )),
+
+        // Unary expressions
+        // LINT: condition shall not have expression as parent
+        condition: $ => prec('condition', seq(
             field('operator', delimiter('??')),
-            field('argument', $._expr)
+            $._primary
         )),
 
-        sign: $ => prec.left(PREC.SIGN, seq(
-            field('operator', choice(...['+', '-'].map(op => delimiter(op)))),
-            field('argument', $._expr)
+        // LINT: reduction shall not have expression as parent
+        reduction: $ => prec('reduction', seq(
+            field('operator', choice(...['and', 'or', 'xor', 'nand', 'nor', 'xnor'].map(op => reservedWord(op)))),
+            $._expr
         )),
 
-        factor: $ => prec.left(PREC.FACTOR, seq(
+        // LINT: factor shall not have SOME expression as parent
+        factor: $ => prec.right('factor', seq(
             field('operator', choice(...['not', 'abs'].map(op => reservedWord(op)))),
-            field('argument', $._expr)
+            $._expr
         )),
 
-        reduction: $ => prec.left(PREC.REDUCTION, seq(
-            field('operator', choice(...['and', 'or', 'xor', 'nand', 'nor', 'xnor'].map(op => reservedWord(op)))),
-            field('argument', $._expr)
+        // LINT: sign shall not have SOME expression as parent
+        sign: $ => prec('sign', seq(
+            field('operator', choice(...['+', '-'].map(op => delimiter(op)))),
+            $._expr
         )),
 
-        // binary expressions
-        logical_expression: $ => prec.left(PREC.LOGICAL, seq(
-            field('left', $._expr),
-            field('operator', choice(...['and', 'or', 'xor', 'nand', 'nor', 'xnor'].map(op => reservedWord(op)))),
-            field('right', $._expr)
-        )),
-
-        relation: $ => prec.left(PREC.RELATION, seq(
-            field('left', $._expr),
-            field('operator', choice(...['<', '>', '=', '<=', '>=', '/=', '?<', '?>', '?=', '?<=', '?>=', '?/=', '==', '!='].map(op => delimiter(op)))),
-            field('right', $._expr)
-        )),
-
-        shift_expression: $ => prec.left(PREC.SHIFT_EXPRESSION, seq(
-            field('left', $._expr),
-            field('operator', choice(...['sll', 'srl', 'sla', 'sra', 'rol', 'ror'].map(op => delimiter(op)))),
-            field('right', $._expr)
-        )),
-
-        simple_expression: $ => prec.left(PREC.SIMPLE_EXPRESSION, seq(
-            field('left', $._expr),
-            field('operator', choice(...['-', '+'].map(op => delimiter(op)))),
-            field('right', $._expr)
-        )),
-
-        concatenation: $ => prec.left(PREC.SIMPLE_EXPRESSION, seq(
-            field('left', $._expr),
-            field('operator', '&'),
-            field('right', $._expr)
-        )),
-
-        term: $ => prec.left(PREC.TERM, seq(
-            field('left', $._expr),
+        // Binary expressions
+        // LINT: nor and nand are non associative
+        // LINT: other operators are only associative with themselves
+        logical_expression: $ => prec.right('logical_expression',seq(
+            $._expr,
             choice(
-                field('operator', choice(...['*', '/'].map(op => delimiter(op)))),
-                field('operator', choice(...['rem', 'mod'].map(op => reservedWord(op)))),
+                // associative operators
+                repeat1(prec.left('logical_expression',seq(field('operator', reservedWord('and' )), $._expr))),
+                repeat1(prec.left('logical_expression',seq(field('operator', reservedWord('or'  )), $._expr))),
+                repeat1(prec.left('logical_expression',seq(field('operator', reservedWord('xor' )), $._expr))),
+                repeat1(prec.left('logical_expression',seq(field('operator', reservedWord('xnor')), $._expr))),
+                // non associative operators
+                seq(field('operator', reservedWord('nand')), $._expr),
+                seq(field('operator', reservedWord('nor' )), $._expr),
             ),
-            field('right', $._expr)
         )),
 
-        exponentiation: $ => prec.left(PREC.FACTOR, seq(
-            field('left', $._expr),
-            field('operator', delimiter('**')),
-            field('right', $._expr)
+        // LINT: relations are not associative
+        relation: $ => prec.right('relation', seq(
+            $._expr,
+            field('operator', choice(...['<', '>', '=', '<=', '>=', '/=', '?<', '?>', '?=', '?<=', '?>=', '?/=', '==', '!='].map(op => delimiter(op)))),
+            $._expr
         )),
+
+        // LINT: shift expressions are not associative
+        shift_expression: $ => prec.right('shift_expression', seq(
+            $._expr,
+            field('operator', choice(...['sll', 'srl', 'sla', 'sra', 'rol', 'ror'].map(op => reservedWord(op)))),
+            $._expr,
+        )),
+
+        // LINT: operand shall not be sign
+        simple_expression: $ => prec.right('simple_expression', seq(
+            $._expr,
+            repeat1(prec.left(seq(
+                field('operator', choice(...['+', '-', '&'].map(op => delimiter(op)))),
+                $._expr
+            ))),
+        )),
+
+        term: $ => prec.right('term', seq(
+            $._expr,
+            repeat1(prec.left(seq(
+                choice(
+                    field('operator', choice(...['rem', 'mod'].map(op => reservedWord(op)))),
+                    field('operator', choice(...['*', '/'].map(op => delimiter(op)))),
+                ),
+                $._expr
+            ))),
+        )),
+
+        // LINT: exponentiation are not associative
+        exponentiation: $ => prec.right('factor', seq(
+            $._expr,
+            field('operator', choice(...['**'].map(op => delimiter(op)))),
+            $._expr
+        )),
+
+        //condition: $ => prec.left(PREC.CONDITION, seq(
+        //    field('operator', delimiter('??')),
+        //    field('argument', $._expr)
+        //)),
+
+        //sign: $ => prec.left(PREC.SIGN, seq(
+        //    field('operator', choice(...['+', '-'].map(op => delimiter(op)))),
+        //    field('argument', $._expr)
+        //)),
+
+        //factor: $ => prec.left(PREC.FACTOR, seq(
+        //    field('operator', choice(...['not', 'abs'].map(op => reservedWord(op)))),
+        //    field('argument', $._expr)
+        //)),
+
+        //reduction: $ => prec.left(PREC.REDUCTION, seq(
+        //    field('operator', choice(...['and', 'or', 'xor', 'nand', 'nor', 'xnor'].map(op => reservedWord(op)))),
+        //    field('argument', $._expr)
+        //)),
+
+        //// binary expressions
+        //logical_expression: $ => prec.left(PREC.LOGICAL, seq(
+        //    field('left', $._expr),
+        //    field('operator', choice(...['and', 'or', 'xor', 'nand', 'nor', 'xnor'].map(op => reservedWord(op)))),
+        //    field('right', $._expr)
+        //)),
+
+        //relation: $ => prec.left(PREC.RELATION, seq(
+        //    field('left', $._expr),
+        //    field('operator', choice(...['<', '>', '=', '<=', '>=', '/=', '?<', '?>', '?=', '?<=', '?>=', '?/=', '==', '!='].map(op => delimiter(op)))),
+        //    field('right', $._expr)
+        //)),
+
+        //shift_expression: $ => prec.left(PREC.SHIFT_EXPRESSION, seq(
+        //    field('left', $._expr),
+        //    field('operator', choice(...['sll', 'srl', 'sla', 'sra', 'rol', 'ror'].map(op => delimiter(op)))),
+        //    field('right', $._expr)
+        //)),
+
+        //simple_expression: $ => prec.left(PREC.SIMPLE_EXPRESSION, seq(
+        //    field('left', $._expr),
+        //    field('operator', choice(...['-', '+'].map(op => delimiter(op)))),
+        //    field('right', $._expr)
+        //)),
+
+        //concatenation: $ => prec.left(PREC.SIMPLE_EXPRESSION, seq(
+        //    field('left', $._expr),
+        //    field('operator', '&'),
+        //    field('right', $._expr)
+        //)),
+
+        //term: $ => prec.left(PREC.TERM, seq(
+        //    field('left', $._expr),
+        //    choice(
+        //        field('operator', choice(...['*', '/'].map(op => delimiter(op)))),
+        //        field('operator', choice(...['rem', 'mod'].map(op => reservedWord(op)))),
+        //    ),
+        //    field('right', $._expr)
+        //)),
+
+        //exponentiation: $ => prec.left(PREC.FACTOR, seq(
+        //    field('left', $._expr),
+        //    field('operator', delimiter('**')),
+        //    field('right', $._expr)
+        //)),
         // }}}
         // 9.3.2 Literals {{{
         _literal: $ => choice(
@@ -2254,7 +2395,7 @@ module.exports = grammar({
         _signal_name: $ => $._name,
         // }}}
         // 10.3 Assertion statement {{{
-        assertion_statement: $ => prec(1, seq(
+        assertion_statement: $ => prec('vhdl_assertion',seq(
             optional($.label),
             optional(reservedWord('postponed')),
             reservedWord('assert'),
@@ -3185,12 +3326,12 @@ module.exports = grammar({
             $.PSL_Identifier
         ),
 
-        _PSL_Any_Type: $ => choice(
+        _PSL_Any_Type: $ => prec(1,choice(
             alias($._expr, $.PSL_Any_Type),
             $.PSL_Expression,
             $.PSL_Built_In_Function_Call,
             $.PSL_Union_Expression,
-        ),
+        )),
 
         _PSL_Boolean: $ => choice(
             alias($._expr, $.PSL_Boolean),
@@ -3211,14 +3352,14 @@ module.exports = grammar({
 
         _PSL_Value: $ => $._PSL_Any_Type,
 
-        PSL_Expression: $ => prec.right(PREC.PSL_LOGICAL_IMPLICATION, seq(
-            field('left', $._PSL_Boolean),
+        PSL_Expression: $ => prec.right('boolean_implication', seq(
+            $._PSL_Boolean,
             field('operator', choice(...['->', '<->'].map(op => delimiter(op)))),
-            field('right', $._PSL_Boolean),
+            $._PSL_Boolean,
         )),
         // }}}
         // PSL 5.2.3 Built-in functions {{{
-        PSL_Built_In_Function_Call: $ => prec(2, choice(
+        PSL_Built_In_Function_Call: $ => prec('psl_function_call', choice(
             seq(
                 choice(
                     reservedWord('prev'),
@@ -3234,7 +3375,7 @@ module.exports = grammar({
                     reservedWord('nondet_vector'),
                 ),
                 '(',
-                sepBy1(',', prec(1, choice($._PSL_Any_Type, $.PSL_Value_Set))),
+                sepBy1(',', choice($._PSL_Any_Type, $.PSL_Value_Set)),
                 ')',
             ),
             seq(
@@ -3252,10 +3393,10 @@ module.exports = grammar({
         ),
         // }}}
         // PSL 5.3 Union expressions {{{
-        PSL_Union_Expression: $ => prec.left(PREC.PSL_UNION, seq(
-            field('left', $._PSL_Any_Type),
+        PSL_Union_Expression: $ => prec.left('union', seq(
+            $._PSL_Any_Type,
             field('operator', reservedWord('union')),
-            field('right', $._PSL_Any_Type),
+            $._PSL_Any_Type,
         )),
         // }}}
         // PSL 5.4 Default clock declaration {{{
@@ -3281,10 +3422,25 @@ module.exports = grammar({
             $._PSL_Compound_SERE,
         ),
 
-        PSL_Simple_SERE: $ => prec.left(PREC.PSL_CONCAT, seq(
-            field('left', $._PSL_SERE),
-            field('operator', choice(...[';', ':'].map(op => delimiter(op)))),
-            field('right', $._PSL_SERE),
+        PSL_Simple_SERE: $ => choice(
+            $._PSL_Fusion_SERE,
+            $._PSL_Concat_SERE,
+        ),
+
+        _PSL_Fusion_SERE: $ => prec.right('sequence_fusion', seq(
+            $._PSL_SERE,
+            repeat1(prec.left(seq(
+                field('operator', delimiter(':')),
+                $._PSL_SERE,
+            ))),
+        )),
+
+        _PSL_Concat_SERE: $ => prec.right('sequence_concatenation', seq(
+            $._PSL_SERE,
+            repeat1(prec.left(seq(
+                field('operator', delimiter(';')),
+                $._PSL_SERE,
+            ))),
         )),
         // }}}
         // PSL 6.1.1.2 Compound SEREs {{{
@@ -3303,22 +3459,28 @@ module.exports = grammar({
             $.PSL_Parameterized_SERE,
         )),
 
-        PSL_Compound_SERE_Or: $ => prec.left(PREC.PSL_SERE_OR, seq(
-            field('left', $._PSL_Compound_SERE),
-            field('operator', delimiter('|')),
-            field('right', $._PSL_Compound_SERE),
+        PSL_Compound_SERE_Or: $ => prec.right('sequence_or', seq(
+            $._PSL_Compound_SERE,
+            repeat1(prec.left(seq(
+                field('operator', delimiter('|')),
+                $._PSL_Compound_SERE,
+            )))
         )),
 
-        PSL_Compound_SERE_And: $ => prec.left(PREC.PSL_SERE_AND, seq(
-            field('left', $._PSL_Compound_SERE),
-            field('operator', choice(...['&', '&&'].map(op => delimiter(op)))),
-            field('right', $._PSL_Compound_SERE),
+        PSL_Compound_SERE_And: $ => prec.right('sequence_and', seq(
+            $._PSL_Compound_SERE,
+            repeat1(prec.left(seq(
+                field('operator', choice(...['&', '&&'].map(op => delimiter(op)))),
+                $._PSL_Compound_SERE,
+            )))
         )),
 
-        PSL_Compound_SERE_Within: $ => prec.left(PREC.PSL_SERE_WITHIN, seq(
-            field('left', $._PSL_Compound_SERE),
-            field('operator', reservedWord('within')),
-            field('right', $._PSL_Compound_SERE),
+        PSL_Compound_SERE_Within: $ => prec.right('sequence_within', seq(
+            $._PSL_Compound_SERE,
+            repeat1(prec.left(seq(
+                field('operator', reservedWord('within')),
+                $._PSL_Compound_SERE,
+            )))
         )),
 
         PSL_Parameterized_SERE: $ => seq(
@@ -3349,7 +3511,7 @@ module.exports = grammar({
         ),
 
         PSL_Repeated_SERE: $ => prec.left(
-            PREC.PSL_SERE_REPEAT,
+            'SERE_repetition',
             seq(
                 optional(choice(
                     $._PSL_Boolean,
@@ -3380,7 +3542,7 @@ module.exports = grammar({
         )),
 
         PSL_Clocked_SERE: $ => prec.left(
-            PREC.PSL_CLOCK,
+            'clocked',
             seq(
                 '{',
                 $._PSL_SERE,
@@ -3393,10 +3555,11 @@ module.exports = grammar({
         // PSL 6.2 Properties {{{
         _PSL_Property: $ => choice(
             $.PSL_Property_Replicator,
-            $._PSL_FL_Property
+            $._PSL_FL_Property,
+            $.PSL_Ambiguous_Instance,
         ),
 
-        _PSL_FL_Property: $ => prec.dynamic(-1, choice(
+        _PSL_FL_Property: $ => choice(
             $.PSL_Property_Instance,
             $.PSL_Parenthesized_FL_Property,
             $.PSL_Sequential_FL_Property,
@@ -3412,55 +3575,62 @@ module.exports = grammar({
             $.PSL_Logical_FL_Property,
             $.PSL_Factor_FL_Property,
             $._PSL_Boolean
-        )),
+        ),
 
-        PSL_Parenthesized_FL_Property: $ => seq(
+        PSL_Parenthesized_FL_Property: $ => prec('parenthesized_property',seq(
             '(',
             $._PSL_FL_Property,
             ')',
-        ),
+        )),
 
         PSL_Sequential_FL_Property: $ => prec.left(-1, seq(
             $._PSL_Sequence,
             optional('!')
         )),
 
-        PSL_Clocked_FL_Property: $ => prec.left(PREC.PSL_CLOCK, seq(
-            field('left', $._PSL_FL_Property),
-            field('operator', delimiter('@')),
-            field('right', $._PSL_Clock_Expression)
+        PSL_Clocked_FL_Property: $ => prec.right('clocked', seq(
+            $._PSL_FL_Property,
+            repeat1(prec.left('clocked',seq(
+                field('operator', delimiter('@')),
+                $._PSL_Clock_Expression
+            ))),
         )),
 
-        PSL_Invariant_FL_Property: $ => prec.right(PREC.PSL_INVARIANCE, seq(
+        PSL_Invariant_FL_Property: $ => prec.right('invariant_property', seq(
             field('operator', choice(...['always', 'never'].map(op => reservedWord(op)))),
-            field('argument', $._PSL_FL_Property)
+            $._PSL_FL_Property
         )),
 
-        PSL_Ocurrence_FL_Property: $ => prec.right(PREC.PSL_OCURRENCE, seq(
+        PSL_Ocurrence_FL_Property: $ => prec.right('occurrence_property', seq(
             field('operator', seq(
                 choice(...['next', 'eventually'].map(op => reservedWord(op))),
                 optional(token.immediate('!'))
             )),
-            field('argument', $._PSL_FL_Property),
+            $._PSL_FL_Property
         )),
 
-        PSL_Implication_FL_Property: $ => prec.right(PREC.PSL_LOGICAL_IMPLICATION, seq(
-            field('left', $._PSL_FL_Property),
-            field('operator', choice(...['->', '<->'].map(op => delimiter(op)))),
-            field('right', $._PSL_FL_Property),
+        PSL_Implication_FL_Property: $ => prec.right('property_implication', seq(
+            $._PSL_FL_Property,
+            repeat1(prec.left('property_implication',seq(
+                field('operator', choice(...['->', '<->'].map(op => delimiter(op)))),
+                $._PSL_FL_Property,
+            ))),
         )),
 
-        PSL_Logical_FL_Property: $ => prec.left(PREC.LOGICAL, seq(
-            field('left', $._PSL_FL_Property),
-            field('operator', choice(...['and', 'or'].map(op => reservedWord(op)))),
-            field('right', $._PSL_FL_Property),
+        PSL_Logical_FL_Property: $ => prec.right('logical_property', seq(
+            $._PSL_FL_Property,
+            repeat1(prec.left('logical_property',seq(
+                field('operator', choice(...['and', 'or'].map(op => reservedWord(op)))),
+                $._PSL_FL_Property,
+            ))),
         )),
 
-        PSL_Factor_FL_Property: $ => prec.left(PREC.TERM, seq(
+        PSL_Factor_FL_Property: $ => prec.left('property_factor', seq(
             field('operator', reservedWord('not')),
-            field('argument', $._PSL_FL_Property)), ),
+            $._PSL_FL_Property,
+        )),
 
-        PSL_Extended_Ocurrence_FL_Property: $ => prec.right(PREC.PSL_OCURRENCE, seq(
+        PSL_Extended_Ocurrence_FL_Property: $ => prec.right('occurrence_property', seq(
             field('operator', seq(
                 choice(...[
                     'eventually',
@@ -3490,28 +3660,27 @@ module.exports = grammar({
             $.PSL_Count,
         ),
 
-        _PSL_Extended_Ocurrence_FL_Property_Until_Specification: $ => seq(
+        _PSL_Extended_Ocurrence_FL_Property_Until_Specification: $ => prec('parenthesized_boolean',seq(
             '(',
             field('Boolean', $._PSL_Boolean),
             ')',
             optional($.PSL_Count),
-        ),
-
-        PSL_Termination_FL_Property: $ => prec.left(PREC.PSL_TERMINATION, seq(
-            field('left', $._PSL_FL_Property),
-            field('operator', choice(...['async_abort', 'sync_abort', 'abort'].map(op => reservedWord(op)))),
-            field('right', $._PSL_Boolean)
         )),
 
-        PSL_Bounding_FL_Property: $ => prec.right(PREC.PSL_OCURRENCE, seq(
-            field('left', $._PSL_FL_Property),
+        PSL_Termination_FL_Property: $ => prec.left('termination_property', seq(
+            $._PSL_FL_Property,
+            field('operator', choice(...['async_abort', 'sync_abort', 'abort'].map(op => reservedWord(op)))),
+            $._PSL_Boolean
+        )),
+
+        PSL_Bounding_FL_Property: $ => prec.right('bounding_property', seq(
+            $._PSL_FL_Property,
             field('operator', seq(
                 choice(...['until', 'before'].map(op => reservedWord(op))),
                 optional(token.immediate('!')),
                 optional(token.immediate('_'))
             )),
-            field('right', $._PSL_FL_Property),
-
+            $._PSL_FL_Property,
         )),
 
         PSL_Suffix_Implication_FL_Property: $ => choice(
@@ -3523,8 +3692,7 @@ module.exports = grammar({
                 field('Property', $._PSL_FL_Property),
                 ')',
             )),
-            // TODO
-            prec.right(PREC.PSL_SEQ_IMPLICATION, choice(
+            prec.right('sequence_implication', choice(
                 ...['|=>', '|->'].map(op => {
                     return seq(
                         field('Sequence', $._PSL_Sequence),
@@ -3550,13 +3718,12 @@ module.exports = grammar({
             reservedWord('forall'),
             $.PSL_Parameter_Specification,
             ':',
-            field(
-                'Property',
+            field('Property',
                 choice(
-                    prec.dynamic(-1, $.PSL_Property_Instance),
+                    prec.dynamic(3,$.PSL_Property_Instance),
                     $._PSL_Property
-                ),
-            ),
+                )
+            )
         ),
 
         PSL_Index_Range: $ => seq(
@@ -3656,6 +3823,15 @@ module.exports = grammar({
         ),
         // }}}
         // PSL 6.3.3 Instantiation {{{
+        PSL_Ambiguous_Instance: $ => prec.dynamic(-1,seq(
+            $._PSL_Identifier,
+            optional(seq(
+                '(',
+                $.PSL_Actual_Parameter_List,
+                ')'
+            ))
+        )),
+
         PSL_Sequence_Instance: $ => prec.dynamic(-2, seq(
             $._PSL_Identifier,
             optional(seq(
@@ -3665,7 +3841,7 @@ module.exports = grammar({
             ))
         )),
 
-        PSL_Property_Instance: $ => prec.dynamic(-1, seq(
+        PSL_Property_Instance: $ => prec.dynamic(-2,seq(
             $._PSL_Identifier,
             optional(seq(
                 '(',
@@ -3678,7 +3854,7 @@ module.exports = grammar({
 
         PSL_Actual_Parameter: $ => choice(
             $._PSL_Any_Type,
-            $._PSL_Sequence,
+            //$._PSL_Sequence,
             $._PSL_Property
         ),
         // }}}
@@ -3694,13 +3870,13 @@ module.exports = grammar({
             $.PSL_Strong_Fairness_Directive,
         ),
 
-        PSL_Assert_Directive: $ => seq(
+        PSL_Assert_Directive: $ => prec('psl_assertion',seq(
             optional($.label),
             reservedWord('assert'),
             $._PSL_Property,
             optional($._report),
             ';'
-        ),
+        )),
 
         PSL_Assume_Directive: $ => seq(
             optional($.label),
@@ -3963,7 +4139,8 @@ function delimiter(delim, precedence = 2) {
 }
 
 function reservedWord(word) {
-    return alias(reserved(caseInsensitive(word)), word)
+    return word
+    //return alias(reserved(caseInsensitive(word)), word)
 }
 
 function reserved(regex) {

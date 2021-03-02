@@ -210,21 +210,18 @@ S <= unaffected when Input_pin = S'Driving_Value else
   (concurrent_signal_assignment
     target: (simple_name)
     (conditional_waveforms
-      (waveforms
-        (unaffected))
+      (waveforms (unaffected))
       (conditional_expression
         (relation
-          left: (simple_name)
-          right: (attribute_name
-            prefix: (simple_name)
+          (simple_name)
+          (attribute_name
+                prefix: (simple_name)
             designator: (predefined_designator))))
       (alternative_conditional_waveforms
         (waveforms
           (waveform_element
-            (expression
-              (simple_name))
-            (time_expression
-              (simple_name))))))))
+            (expression (simple_name))
+            (time_expression (simple_name))))))))
 
 ===========================================
 Guarded assignment

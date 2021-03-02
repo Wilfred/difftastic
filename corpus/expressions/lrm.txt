@@ -10,23 +10,23 @@ assert and (and A);
   (assertion_statement
     (conditional_expression
       (logical_expression
-        left: (parenthesized_expression
+         (parenthesized_expression
           (reduction
-            argument: (simple_name)))
-        right: (simple_name))))
+             (simple_name)))
+         (simple_name))))
   (assertion_statement
     (conditional_expression
       (logical_expression
-        left: (simple_name)
-        right: (parenthesized_expression
+         (simple_name)
+         (parenthesized_expression
           (reduction
-            argument: (simple_name))))))
+             (simple_name))))))
   (assertion_statement
     (conditional_expression
       (reduction
-        argument: (parenthesized_expression
+         (parenthesized_expression
           (reduction
-            argument: (simple_name)))))))
+             (simple_name)))))))
 
 ===================================
 VHDL LRM 9.2.7 NOTE
@@ -38,13 +38,13 @@ assert -5 rem 2 >= 0;
   (assertion_statement
     (conditional_expression
       (relation
-        left: (sign
-          argument: (term
-            left: (integer_decimal
+         (sign
+           (term
+             (integer_decimal
               (integer))
-            right: (integer_decimal
+             (integer_decimal
               (integer))))
-        right: (integer_decimal
+         (integer_decimal
           (integer))))))
 
 ===================================
@@ -58,22 +58,22 @@ assert A**(-B) > 0;
   (assertion_statement
     (conditional_expression
       (relation
-        left: (term
-          left: (simple_name)
-          right: (parenthesized_expression
+         (term
+           (simple_name)
+           (parenthesized_expression
             (sign
-              argument: (simple_name))))
-        right: (integer_decimal
+               (simple_name))))
+         (integer_decimal
           (integer)))))
   (assertion_statement
     (conditional_expression
       (relation
-        left: (exponentiation
-          left: (simple_name)
-          right: (parenthesized_expression
+         (exponentiation
+           (simple_name)
+           (parenthesized_expression
             (sign
-              argument: (simple_name))))
-        right: (integer_decimal
+               (simple_name))))
+         (integer_decimal
           (integer))))))
 
 ===================================
@@ -86,9 +86,9 @@ assert not Sunny or Warm;
   (assertion_statement
     (conditional_expression
       (logical_expression
-        left: (factor
-          argument: (simple_name))
-        right: (simple_name)))))
+         (factor
+           (simple_name))
+         (simple_name)))))
 
 ===================================
 LINT: ILLEGAL - VHDL LRM 9.1 NOTE 2 I
@@ -100,9 +100,9 @@ assert and A and B;
   (assertion_statement
     (conditional_expression
       (logical_expression
-        left: (reduction
-          argument: (simple_name))
-        right: (simple_name)))))
+         (reduction
+           (simple_name))
+         (simple_name)))))
 
 ===================================
 LINT: ILLEGAL - VHDL LRM 9.1 NOTE 2 II
@@ -114,9 +114,9 @@ assert A and and B;
   (assertion_statement
     (conditional_expression
       (logical_expression
-        left: (simple_name)
-        right: (reduction
-          argument: (simple_name))))))
+         (simple_name)
+         (reduction
+           (simple_name))))))
 
 ===================================
 ERROR: ILLEGAL - VHDL LRM 9.1 NOTE 2 III
@@ -128,8 +128,8 @@ assert and and A;
   (assertion_statement
     (conditional_expression
       (reduction
-        argument: (reduction
-          argument: (simple_name))))))
+         (reduction
+           (simple_name))))))
 
 ===================================
 ERROR: ILLEGAL - VHDL LRM 9.2.6 NOTE IV
@@ -141,11 +141,11 @@ assert A/+B > 0;
   (assertion_statement
     (conditional_expression
       (relation
-        left: (term
-          left: (simple_name)
-          right: (sign
-            argument: (simple_name)))
-        right: (integer_decimal
+         (term
+           (simple_name)
+           (sign
+             (simple_name)))
+         (integer_decimal
           (integer))))))
 
 ===================================
@@ -159,22 +159,22 @@ assert Y**+3 > 0;
   (assertion_statement
     (conditional_expression
       (relation
-        left: (exponentiation
-          left: (simple_name)
-          right: (sign
-            argument: (integer_decimal
+         (exponentiation
+           (simple_name)
+           (sign
+             (integer_decimal
               (integer))))
-        right: (integer_decimal
+         (integer_decimal
           (integer)))))
   (assertion_statement
     (conditional_expression
       (relation
-        left: (exponentiation
-          left: (simple_name)
-          right: (sign
-            argument: (integer_decimal
+         (exponentiation
+           (simple_name)
+           (sign
+             (integer_decimal
               (integer))))
-        right: (integer_decimal
+         (integer_decimal
           (integer))))))
 
 ===================================
@@ -188,20 +188,20 @@ assert Y**-3 > 0;
   (assertion_statement
     (conditional_expression
       (relation
-        left: (exponentiation
-          left: (simple_name)
-          right: (sign
-            argument: (integer_decimal
+         (exponentiation
+           (simple_name)
+           (sign
+             (integer_decimal
               (integer))))
-        right: (integer_decimal
+         (integer_decimal
           (integer)))))
   (assertion_statement
     (conditional_expression
       (relation
-        left: (exponentiation
-          left: (simple_name)
-          right: (sign
-            argument: (integer_decimal
+         (exponentiation
+           (simple_name)
+           (sign
+             (integer_decimal
               (integer))))
-        right: (integer_decimal
+         (integer_decimal
           (integer))))))

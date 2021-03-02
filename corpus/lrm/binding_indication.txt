@@ -10,7 +10,7 @@ end entity XOR_GATE;
 
 package MY_GATES is
    component AND_GATE is
-      generic I1toO, I2toO: DELAY_LENGTH := 4 ns);
+      generic (I1toO, I2toO: DELAY_LENGTH := 4 ns);
       port (I1, I2: in BIT; O: out BIT);
    end component AND_GATE;
    component XOR_GATE is

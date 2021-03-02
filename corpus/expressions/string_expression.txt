@@ -37,6 +37,21 @@ report "a" & "b";
 (design_file
   (report_statement
     (string_expression
-      (concatenation
-        left: (string_literal)
-        right: (string_literal)))))
+      (simple_expression
+        (string_literal)
+        (string_literal)))))
+
+=========================
+Concatenation II
+=========================
+report "a" & "b" & "c";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (simple_expression
+        (string_literal)
+        (string_literal)
+        (string_literal)))))
+

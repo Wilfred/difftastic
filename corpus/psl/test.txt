@@ -9,14 +9,14 @@ assert (a and b);
   (assertion_statement
     (conditional_expression
       (logical_expression
-        left: (simple_name)
-        right: (simple_name))))
+        (simple_name)
+        (simple_name))))
   (assertion_statement
     (conditional_expression
       (parenthesized_expression
         (logical_expression
-          left: (simple_name)
-          right: (simple_name))))))
+          (simple_name)
+          (simple_name))))))
 
 ================================
 Assert Directive - Implication
@@ -28,16 +28,16 @@ assert (a -> b);
 (design_file
   (PSL_Assert_Directive
     (PSL_Expression
-      left: (PSL_Boolean
+       (PSL_Boolean
         (simple_name))
-      right: (PSL_Boolean
+       (PSL_Boolean
         (simple_name))))
   (PSL_Assert_Directive
     (PSL_Parenthesized_FL_Property
       (PSL_Expression
-        left: (PSL_Boolean
+         (PSL_Boolean
           (simple_name))
-        right: (PSL_Boolean
+         (PSL_Boolean
           (simple_name))))))
 
 ================================
@@ -122,9 +122,9 @@ assert next (x) (y);
   (PSL_Assert_Directive
     (PSL_Built_In_Function_Call
       (PSL_Expression
-        left: (PSL_Boolean
+         (PSL_Boolean
           (simple_name))
-        right: (PSL_Boolean
+         (PSL_Boolean
           (simple_name)))))
   (PSL_Assert_Directive
     (PSL_Extended_Ocurrence_FL_Property
@@ -144,16 +144,16 @@ assert next! (x) (y);
 (design_file
   (PSL_Assert_Directive
     (PSL_Ocurrence_FL_Property
-      argument: (PSL_Boolean
+       (PSL_Boolean
         (parenthesized_expression
           (simple_name)))))
   (PSL_Assert_Directive
     (PSL_Ocurrence_FL_Property
-      argument: (PSL_Parenthesized_FL_Property
+       (PSL_Parenthesized_FL_Property
         (PSL_Expression
-          left: (PSL_Boolean
+           (PSL_Boolean
             (simple_name))
-          right: (PSL_Boolean
+           (PSL_Boolean
             (simple_name))))))
   (PSL_Assert_Directive
     (PSL_Extended_Ocurrence_FL_Property
@@ -171,11 +171,11 @@ assert next (a before b);
 (design_file
   (PSL_Assert_Directive
     (PSL_Ocurrence_FL_Property
-      argument: (PSL_Parenthesized_FL_Property
+       (PSL_Parenthesized_FL_Property
         (PSL_Bounding_FL_Property
-          left: (PSL_Boolean
+           (PSL_Boolean
             (simple_name))
-          right: (PSL_Boolean
+           (PSL_Boolean
             (simple_name)))))))
 
 ================================
@@ -189,22 +189,22 @@ assert c -> next(x);
 (design_file
   (PSL_Assert_Directive
     (PSL_Expression
-      left: (PSL_Boolean
+       (PSL_Boolean
         (simple_name))
-      right: (PSL_Boolean
+       (PSL_Boolean
         (simple_name))))
   (PSL_Assert_Directive
     (PSL_Expression
-      left: (PSL_Boolean
+       (PSL_Boolean
         (simple_name))
-      right: (PSL_Boolean
+       (PSL_Boolean
         (parenthesized_expression
           (simple_name)))))
   (PSL_Assert_Directive
     (PSL_Expression
-      left: (PSL_Boolean
+       (PSL_Boolean
         (simple_name))
-      right: (PSL_Built_In_Function_Call
+       (PSL_Built_In_Function_Call
         (PSL_Any_Type
           (simple_name))))))
 
@@ -219,24 +219,24 @@ assert c -> (next (x));
 (design_file
   (PSL_Assert_Directive
     (PSL_Implication_FL_Property
-      left: (PSL_Boolean
+       (PSL_Boolean
         (simple_name))
-      right: (PSL_Ocurrence_FL_Property
-        argument: (PSL_Boolean
+       (PSL_Ocurrence_FL_Property
+         (PSL_Boolean
           (simple_name)))))
   (PSL_Assert_Directive
     (PSL_Implication_FL_Property
-      left: (PSL_Boolean
+       (PSL_Boolean
         (simple_name))
-      right: (PSL_Parenthesized_FL_Property
+       (PSL_Parenthesized_FL_Property
         (PSL_Ocurrence_FL_Property
-          argument: (PSL_Boolean
+           (PSL_Boolean
             (simple_name))))))
   (PSL_Assert_Directive
     (PSL_Implication_FL_Property
-      left: (PSL_Boolean
+       (PSL_Boolean
         (simple_name))
-      right: (PSL_Parenthesized_FL_Property
+       (PSL_Parenthesized_FL_Property
         (PSL_Built_In_Function_Call
           (PSL_Any_Type
             (simple_name)))))))
@@ -250,18 +250,18 @@ assert always (e -> (f or next (f before e)));
 (design_file
   (PSL_Assert_Directive
     (PSL_Invariant_FL_Property
-      argument: (PSL_Parenthesized_FL_Property
+       (PSL_Parenthesized_FL_Property
         (PSL_Implication_FL_Property
-          left: (PSL_Boolean
+           (PSL_Boolean
             (simple_name))
-          right: (PSL_Parenthesized_FL_Property
+           (PSL_Parenthesized_FL_Property
             (PSL_Logical_FL_Property
-              left: (PSL_Boolean
+               (PSL_Boolean
                 (simple_name))
-              right: (PSL_Ocurrence_FL_Property
-                argument: (PSL_Parenthesized_FL_Property
+               (PSL_Ocurrence_FL_Property
+                 (PSL_Parenthesized_FL_Property
                   (PSL_Bounding_FL_Property
-                    left: (PSL_Boolean
+                     (PSL_Boolean
                       (simple_name))
-                    right: (PSL_Boolean
+                     (PSL_Boolean
                       (simple_name))))))))))))

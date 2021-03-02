@@ -12,11 +12,11 @@ t <= abs a,
       (waveform_element
         (expression
           (factor
-            argument: (simple_name))))
+             (simple_name))))
       (waveform_element
         (expression
           (factor
-            argument: (simple_name)))))))
+             (simple_name)))))))
 
 ===================================
 Factor - exponentiation
@@ -31,8 +31,8 @@ t <= a**b;
       (waveform_element
         (expression
           (exponentiation
-            left: (simple_name)
-            right: (simple_name)))))))
+             (simple_name)
+             (simple_name)))))))
 
 ===================================
 Factor - logical reduction operation
@@ -52,27 +52,27 @@ t <= and a,
       (waveform_element
         (expression
           (reduction
-            argument: (simple_name))))
+             (simple_name))))
       (waveform_element
         (expression
           (reduction
-            argument: (simple_name))))
+             (simple_name))))
       (waveform_element
         (expression
           (reduction
-            argument: (simple_name))))
+             (simple_name))))
       (waveform_element
         (expression
           (reduction
-            argument: (simple_name))))
+             (simple_name))))
       (waveform_element
         (expression
           (reduction
-            argument: (simple_name))))
+             (simple_name))))
       (waveform_element
         (expression
           (reduction
-            argument: (simple_name)))))))
+             (simple_name)))))))
 
 ===================================
 Associative logical expression
@@ -87,10 +87,9 @@ t <= a and b and c;
       (waveform_element
         (expression
           (logical_expression
-            left: (logical_expression
-              left: (simple_name)
-              right: (simple_name))
-            right: (simple_name)))))))
+            (simple_name)
+            (simple_name)
+            (simple_name)))))))
 
 ===================================
 Term I
@@ -108,23 +107,23 @@ t <= a * b,
       (waveform_element
         (expression
           (term
-            left: (simple_name)
-            right: (simple_name))))
+             (simple_name)
+             (simple_name))))
       (waveform_element
         (expression
           (term
-            left: (simple_name)
-            right: (simple_name))))
+             (simple_name)
+             (simple_name))))
       (waveform_element
         (expression
           (term
-            left: (simple_name)
-            right: (simple_name))))
+             (simple_name)
+             (simple_name))))
       (waveform_element
         (expression
           (term
-            left: (simple_name)
-            right: (simple_name)))))))
+             (simple_name)
+             (simple_name)))))))
 
 ===================================
 Term II
@@ -139,14 +138,11 @@ t <= a * b / c mod d rem e;
       (waveform_element
         (expression
           (term
-            left: (term
-              left: (term
-                left: (term
-                  left: (simple_name)
-                  right: (simple_name))
-                right: (simple_name))
-              right: (simple_name))
-            right: (simple_name)))))))
+            (simple_name)
+            (simple_name)
+            (simple_name)
+            (simple_name)
+            (simple_name)))))))
 
 ===================================
 Simple expression
@@ -161,10 +157,9 @@ t <= a + b - c;
       (waveform_element
         (expression
           (simple_expression
-            left: (simple_expression
-              left: (simple_name)
-              right: (simple_name))
-            right: (simple_name)))))))
+            (simple_name)
+            (simple_name)
+            (simple_name)))))))
 
 ===================================
 Simple expression - Sign
@@ -179,11 +174,47 @@ t <= -a, -b;
       (waveform_element
         (expression
           (sign
-            argument: (simple_name))))
+             (simple_name))))
       (waveform_element
         (expression
           (sign
-            argument: (simple_name)))))))
+             (simple_name)))))))
+
+===================================
+Sign
+===================================
+t <= - a * b,
+     - abs a,
+     - abs b,
+     - a ** b;
+---
+
+(design_file
+  (concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (sign
+            (term
+              (simple_name)
+              (simple_name)))))
+      (waveform_element
+        (expression
+          (sign
+            (factor
+              (simple_name)))))
+      (waveform_element
+        (expression
+          (sign
+            (factor
+              (simple_name)))))
+      (waveform_element
+        (expression
+          (sign
+            (exponentiation
+              (simple_name)
+              (simple_name))))))))
 
 ===================================
 Parenthesized expression I
@@ -254,10 +285,10 @@ t <= a nand b nand c;
       (waveform_element
         (expression
           (logical_expression
-            left: (logical_expression
-              left: (simple_name)
-              right: (simple_name))
-            right: (simple_name)))))))
+            (simple_name)
+            (logical_expression
+              (simple_name)
+              (simple_name))))))))
 
 ===========================================
 LINT: ILLEGAL Association - Logical expression II
@@ -272,10 +303,10 @@ t <= a and b nand c;
       (waveform_element
         (expression
           (logical_expression
-            left: (logical_expression
-              left: (simple_name)
-              right: (simple_name))
-            right: (simple_name)))))))
+             (logical_expression
+               (simple_name)
+               (simple_name))
+             (simple_name)))))))
 
 ============================================
 LINT: ILLEGAL - Association - Logical expression III
@@ -290,10 +321,10 @@ t <= a or b and c;
       (waveform_element
         (expression
           (logical_expression
-            left: (logical_expression
-              left: (simple_name)
-              right: (simple_name))
-            right: (simple_name)))))))
+             (logical_expression
+               (simple_name)
+               (simple_name))
+             (simple_name)))))))
 
 ============================================
 LINT: ILLEGAL - Sign on right
@@ -308,9 +339,9 @@ t <= -1 + -1;
       (waveform_element
         (expression
           (simple_expression
-            left: (sign
-              argument: (integer_decimal
+             (sign
+               (integer_decimal
                 (integer)))
-            right: (sign
-              argument: (integer_decimal
+             (sign
+               (integer_decimal
                 (integer)))))))))

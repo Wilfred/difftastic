@@ -65,7 +65,7 @@ end protected body SharedCounter;
               target: (simple_name)
               (expression
                 (simple_expression
-                  left: (simple_name)
-                  right: (simple_name)))))
+                  (simple_name)
+                  (simple_name)))))
           at_end: (simple_name)))
       at_end: (simple_name))))

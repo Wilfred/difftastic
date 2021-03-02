@@ -114,6 +114,6 @@ assert MAC_CONFIG(i).TypeSwitch(0 to SWITCH_COUNT - 1);
               (integer)))
           high: (simple_expression
             (simple_expression
-              left: (simple_name)
-              right: (integer_decimal
+              (simple_name)
+              (integer_decimal
                 (integer)))))))))
