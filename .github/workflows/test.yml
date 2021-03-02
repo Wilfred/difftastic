@@ -1,7 +1,8 @@
 name: Test the grammar
 on:
   push:
-    branches: [rewrite]
+    branches:
+      - "**"
 jobs:
   test:
     runs-on: ubuntu-latest
