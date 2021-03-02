@@ -1,7 +1,7 @@
 // the constant contains the order of precedence.
 // the higher the value, higher the precedence.
 const PRECEDENCE = {
-  COMMENTS: 1, // comments over anything
+  COMMENTS: 1, // comments over anything. TODO: is it so? refer - https://perldoc.perl.org/perlsyn#Comments
 
   HASH: 1,
   ARRAY: 2,
@@ -55,6 +55,7 @@ module.exports = grammar({
     [$.binary_expression, $._bodmas_2, $._logical_verbal_or_xor],
     [$._range_exp],
     [$._class_instance_exp],
+    [$._primitive_expression, $._list],
   ],
 
   extras: $ => [
@@ -85,12 +86,12 @@ module.exports = grammar({
 
     _statement_modifiers: $ => choice(
       $.if_simple_statement,
-      // $.unless_simple_statement,
-      // $.while_simple_statement,
-      // $.until_simple_statement,
-      // $.for_simple_statement,
-      // $.foreach_simple_statement,
-      // $.when_simple_statement,
+      $.unless_simple_statement,
+      $.while_simple_statement,
+      $.until_simple_statement,
+      $.for_simple_statement,
+      $.foreach_simple_statement,
+      $.when_simple_statement,
     ),
 
     _compound_statement: $ => choice(
@@ -130,12 +131,42 @@ module.exports = grammar({
       field('condition', choice($.parenthesized_expression, $._expression)),
       $.semi_colon,
     )),
-    // unless_simple_statement,
-    // while_simple_statement,
-    // until_simple_statement,
-    // for_simple_statement,
-    // foreach_simple_statement,
-    // when_simple_statement,
+    unless_simple_statement: $ => prec.right(seq(
+      $._expression_or_return_expression,
+      'unless',
+      field('condition', choice($.parenthesized_expression, $._expression)),
+      $.semi_colon,
+    )),
+    while_simple_statement: $ => prec.right(seq(
+      $._expression_or_return_expression,
+      'while',
+      field('condition', choice($.parenthesized_expression, $._expression)),
+      $.semi_colon,
+    )),
+    until_simple_statement: $ => prec.right(seq(
+      $._expression_or_return_expression,
+      'until',
+      field('condition', choice($.parenthesized_expression, $._expression)),
+      $.semi_colon,
+    )),
+    for_simple_statement: $ => prec.right(seq(
+      $._expression_or_return_expression,
+      'for',
+      field('list', with_or_without_brackets($._list)),
+      $.semi_colon,
+    )),
+    foreach_simple_statement: $ => prec.right(seq(
+      $._expression_or_return_expression,
+      'foreach',
+      field('list', with_or_without_brackets($._list)),
+      $.semi_colon,
+    )),
+    when_simple_statement: $ => prec.right(seq(
+      $._expression_or_return_expression,
+      'when',
+      field('condition', choice($.parenthesized_expression, $._expression)),
+      $.semi_colon,
+    )),
 
     // TODO: should be a boolean expression and not the current one?
     if_statement: $ => prec.right(seq(
@@ -674,6 +705,12 @@ module.exports = grammar({
 
     hash_variable: $ => /%[a-zA-z0-9_]+/,
 
+    _list: $ => choice(
+      $.array,
+      $.array_variable,
+      // TODO: array casted reference
+    ),
+
     array: $ => prec(PRECEDENCE.ARRAY, seq(
       '(',
       optional(commaSeparated($._primitive_expression)),
@@ -721,5 +758,12 @@ function commaSeparated(rule) {
     rule,
     repeat(seq(',', rule)),
     optional(','), // in perl so far you could have this
+  );
+}
+
+function with_or_without_brackets(rule) {
+  return choice(
+    rule,
+    seq('(', rule, ')'),
   );
 }
