@@ -1,5 +1,2 @@
-my $a = 1;
-++$a;
-# print "$a";
-
-print 20 << 20 + 30;
+my @array = (1, 3, 4);
+print "in a loop" for (@array);
