@@ -45,3 +45,16 @@ comment: newline termination
 ---
 
 (module (comment) (empty_file))
+
+================================================================================
+comment: nested
+================================================================================
+
+{- comment
+{- nested
+-}
+-}
+
+---
+
+(module (comment) (empty_file))
