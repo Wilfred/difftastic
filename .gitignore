@@ -1,2 +1,7 @@
 # node stuffs
 node_modules/
+
+# some build stuff
+9.3.5/
+bin/
+build/
