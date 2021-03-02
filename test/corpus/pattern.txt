@@ -75,7 +75,7 @@ pattern A { a } <- A a where
   (where)
   (pat_apply (pat_name (constructor)) (pat_name (variable)))
   rhs: (exp_cond
-   if: (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_literal (integer)))
+   if: (exp_infix (exp_name (variable)) (operator) (exp_literal (integer)))
    then: (exp_name (variable))
    else: (exp_name (variable)))))
 
@@ -97,7 +97,7 @@ pattern A a <- A a where
   (where)
   (pat_apply (pat_name (constructor)) (pat_name (variable)))
   (guard_equation
-   (guards (guard (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_literal (integer)))))
+   (guards (guard (exp_infix (exp_name (variable)) (operator) (exp_literal (integer)))))
    (exp_parens (exp_apply (exp_name (constructor)) (exp_name (variable)))))
   (guard_equation
    (guards (guard (exp_name (variable))))

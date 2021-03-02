@@ -439,6 +439,28 @@
       "type": "SYMBOL",
       "name": "_varsym"
     },
+    "_minus": {
+      "type": "ALIAS",
+      "content": {
+        "type": "STRING",
+        "value": "-"
+      },
+      "named": true,
+      "value": "operator"
+    },
+    "_operator_minus": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "operator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_minus"
+        }
+      ]
+    },
     "qualified_operator": {
       "type": "SEQ",
       "members": [
@@ -448,11 +470,24 @@
         },
         {
           "type": "SYMBOL",
-          "name": "operator"
+          "name": "_operator_minus"
         }
       ]
     },
     "_qvarsym": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "qualified_operator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_operator_minus"
+        }
+      ]
+    },
+    "_qvarsym_nominus": {
       "type": "CHOICE",
       "members": [
         {
@@ -543,12 +578,38 @@
         }
       ]
     },
-    "qvarop": {
+    "_qvarop": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
           "name": "_qvarsym"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "`"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_qvarid"
+            },
+            {
+              "type": "STRING",
+              "value": "`"
+            }
+          ]
+        }
+      ]
+    },
+    "_qvarop_nominus": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_qvarsym_nominus"
         },
         {
           "type": "SEQ",
@@ -759,7 +820,20 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "qvarop"
+          "name": "_qvarop"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_qconop"
+        }
+      ]
+    },
+    "_qop_nominus": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_qvarop_nominus"
         },
         {
           "type": "SYMBOL",
@@ -2503,7 +2577,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_qop"
+          "name": "_qop_nominus"
         },
         {
           "type": "SYMBOL",
@@ -8067,7 +8141,9 @@
   ],
   "inline": [
     "_qvarid",
+    "_operator_minus",
     "_qvarsym",
+    "_qvarsym_nominus",
     "_var",
     "_qvar",
     "_tyvar",
@@ -8077,6 +8153,7 @@
     "_conop",
     "_qconop",
     "_op",
+    "_qop_nominus",
     "_gcon_literal",
     "_gcon",
     "_tycon",

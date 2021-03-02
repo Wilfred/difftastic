@@ -511,7 +511,6 @@ bool valid_varsym_one_char(const char c) {
     case '>':
     case '?':
     case '^':
-    case '-':
     case '.':
     case '$':
       return true;

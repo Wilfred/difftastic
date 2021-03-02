@@ -229,7 +229,7 @@ A a == A a = a == a
    lhs: (pat_apply (pat_name (constructor)) (pat_name (variable)))
    op: (varop (operator))
    rhs: (pat_apply (pat_name (constructor)) (pat_name (variable))))
-  rhs: (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_name (variable)))))
+  rhs: (exp_infix (exp_name (variable)) (operator) (exp_name (variable)))))
 
 ================================================================================
 pat: infix pattern variable
@@ -307,9 +307,9 @@ a a | a < 1, a > 1 = A
   patterns: (patterns (pat_name (variable)))
   (guard_equation
    (guards
-    (guard (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_literal (integer))))
+    (guard (exp_infix (exp_name (variable)) (operator) (exp_literal (integer))))
     (comma)
-    (guard (exp_infix (exp_name (variable)) (qvarop (operator)) (exp_literal (integer)))))
+    (guard (exp_infix (exp_name (variable)) (operator) (exp_literal (integer)))))
    (exp_name (constructor)))
   (guard_equation
    (guards

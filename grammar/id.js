@@ -11,16 +11,18 @@ module.exports = {
   _qvarid: $ => choice($.qualified_variable, $.variable),
 
   operator: $ => $._varsym,
-  qualified_operator: $ => qualified($, $.operator),
-  _qvarsym: $ => choice($.qualified_operator, $.operator),
+  _minus: $ => alias('-', $.operator),
+  _operator_minus: $ => choice($.operator, $._minus),
+  qualified_operator: $ => qualified($, $._operator_minus),
+  _qvarsym: $ => choice($.qualified_operator, $._operator_minus),
+  _qvarsym_nominus: $ => choice($.qualified_operator, $.operator),
 
   _var: $ => choice($.variable, parens($.operator)),
-
   _qvar: $ => choice($._qvarid, parens($._qvarsym)),
 
   varop: $ => choice($.operator, ticked($.variable)),
-
-  qvarop: $ => choice($._qvarsym, ticked($._qvarid)),
+  _qvarop: $ => choice($._qvarsym, ticked($._qvarid)),
+  _qvarop_nominus: $ => choice($._qvarsym_nominus, ticked($._qvarid)),
 
   implicit_parid: _ => /\?[_a-z](\w|')*/,
 
@@ -42,7 +44,9 @@ module.exports = {
   _conop: $ => choice($.consym, ticked($.constructor)),
   _qconop: $ => choice($._qconsym, ticked($._qconid)),
   _op: $ => choice($.varop, $._conop),
-  _qop: $ => choice($.qvarop, $._qconop),
+  _qop: $ => choice($._qvarop, $._qconop),
+
+  _qop_nominus: $ => choice($._qvarop_nominus, $._qconop),
 
   _gcon_literal: $ => choice(
     $.con_unit,
