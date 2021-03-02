@@ -502,7 +502,7 @@ Functions
       (formal_parameters)
       (statement_block))
     (function
-      (formal_parameters (identifier) (rest_parameter (identifier)))
+      (formal_parameters (identifier) (rest_pattern (identifier)))
       (statement_block
         (expression_statement (identifier))))
     (function
@@ -523,7 +523,7 @@ Functions
       (statement_block))
     (function
       (identifier)
-      (formal_parameters (rest_parameter (array_pattern (assignment_pattern (identifier) (identifier)))))
+      (formal_parameters (rest_pattern (array_pattern (assignment_pattern (identifier) (identifier)))))
       (statement_block)))))
 
 ===================================================
