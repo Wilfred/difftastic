@@ -82,6 +82,8 @@ newtype A a =
   (type)
   (type_variable)
   (newtype_constructor (constructor) (field (variable) (type_name (type))))
-  (deriving (type) (comma) (type))
+  (deriving (constraint (class_name (type))) (comma) (constraint (class_name (type))))
   (deriving (deriving_strategy) (type))
-  (deriving (type) (via (type_parens (type_apply (type_name (type)) (type_name (type_variable))))))))
+  (deriving
+   (type)
+   (via (type_parens (type_apply (type_name (type)) (type_name (type_variable))))))))

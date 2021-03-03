@@ -168,8 +168,8 @@ data A = A deriving (A, A) deriving stock (A)
  (adt
   (type)
   (constructors (data_constructor (constructor)))
-  (deriving (type) (comma) (type))
-  (deriving (deriving_strategy) (type))))
+  (deriving (constraint (class_name (type))) (comma) (constraint (class_name (type))))
+  (deriving (deriving_strategy) (constraint (class_name (type))))))
 
 ================================================================================
 plain adt: deriving via
@@ -184,7 +184,7 @@ data A = A deriving (A) via (A A)
   (type)
   (constructors (data_constructor (constructor)))
   (deriving
-   (type)
+   (constraint (class_name (type)))
    (via (type_parens (type_apply (type_name (type)) (type_name (type))))))))
 
 ================================================================================
@@ -213,6 +213,24 @@ data A =
   (constructors (data_constructor (constructor)))
   (deriving (type))
   (deriving (type))))
+
+================================================================================
+plain adt: deriving with forall/context
+================================================================================
+
+data A = A deriving (∀ a . A => A)
+
+---
+
+(haskell
+ (adt
+  (type)
+  (constructors (data_constructor (constructor)))
+  (deriving
+   (forall
+    (quantifiers (type_variable))
+    (context (constraint (class_name (type)))
+     (constraint (class_name (type))))))))
 
 ================================================================================
 plain adt: context
