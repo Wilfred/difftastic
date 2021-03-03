@@ -256,8 +256,17 @@
       }
     },
     "char": {
-      "type": "PATTERN",
-      "value": "'([A-Za-z0-9();\\[\\]`ʹ{}_!#$%&⋆+,./<=>?@^\" |\\-~:\\\\*]|\\\\[a-zA-Z0-9\\\\\"'&]*|\\\\\\^[0-9A-Z@\\[\\]\\\\\\^_])'"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "'[^']'"
+        },
+        {
+          "type": "PATTERN",
+          "value": "'\\\\.*'"
+        }
+      ]
     },
     "string": {
       "type": "TOKEN",

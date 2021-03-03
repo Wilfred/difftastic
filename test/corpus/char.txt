@@ -237,3 +237,14 @@ a = '\^_'
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char))))
+
+
+================================================================================
+char: non-ascii unicode
+================================================================================
+
+a = '‘'
+
+---
+
+(haskell (function (variable) (exp_literal (char))))
