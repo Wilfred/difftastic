@@ -6441,6 +6441,10 @@
           "name": "decl_type_sig"
         },
         {
+          "type": "SYMBOL",
+          "name": "decl_type"
+        },
+        {
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",

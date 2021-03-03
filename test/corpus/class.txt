@@ -178,6 +178,7 @@ class: associated family
 
 class A a where
   type A a :: a
+  type A a = A
   type family A a :: a
 
 ---
@@ -188,6 +189,7 @@ class A a where
   (class_body
    (where)
    (decl_type_sig (type) (type_variable) (type_name (type_variable)))
+   (decl_type (type) (type_variable) (type_name (type)))
    (decl_type_sig (type) (type_variable) (type_name (type_variable))))))
 
 ================================================================================
