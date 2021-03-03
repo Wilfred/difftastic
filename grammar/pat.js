@@ -10,7 +10,7 @@ module.exports = {
 
   pat_as: $ => seq(field('var', $.variable), token.immediate('@'), field('pat', $._apat)),
 
-  pat_parens: $ => parens($._nested_pat, optional($._type_annotation)),
+  pat_parens: $ => parens($._nested_pat),
 
   pat_view: $ => seq($._exp, '->', $._nested_pat),
 
@@ -78,6 +78,7 @@ module.exports = {
    */
   _nested_pat: $ => choice(
     $._pat,
+    seq($._pat, $._type_annotation),
     $.pat_view,
   )
 }
