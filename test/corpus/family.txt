@@ -179,7 +179,7 @@ data instance A a where
   (gadt_constructor
    (constructor)
    (fun (type_name (type)) (type_apply (type_name (type)) (type_name (type_variable)))))
-  (deriving (type) (comma) (type))))
+  (deriving (constraint (class_name (type))) (comma) (constraint (class_name (type))))))
 
 ================================================================================
 family: data instance newtype

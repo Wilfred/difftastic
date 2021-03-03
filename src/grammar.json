@@ -5609,7 +5609,7 @@
                           "name": "class",
                           "content": {
                             "type": "SYMBOL",
-                            "name": "_qtyconid"
+                            "name": "_constraint"
                           }
                         },
                         {
@@ -5626,7 +5626,7 @@
                                 "name": "class",
                                 "content": {
                                   "type": "SYMBOL",
-                                  "name": "_qtyconid"
+                                  "name": "_constraint"
                                 }
                               }
                             ]
