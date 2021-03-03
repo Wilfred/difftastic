@@ -8108,7 +8108,7 @@
   "extras": [
     {
       "type": "PATTERN",
-      "value": "\\s"
+      "value": "\\p{Zs}"
     },
     {
       "type": "PATTERN",
