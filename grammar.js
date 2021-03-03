@@ -18,8 +18,18 @@ function binaryOp($, assoc, precedence, operator) {
   return assoc(precedence, seq($.expr, operator, $.expr));
 }
 
+const PREC = {
+  COMMENT: -2,
+};
+
 module.exports = grammar({
   name: 'elixir',
+
+  externals: $ => [
+    $.heredoc_start,
+    $.heredoc_content,
+    $.heredoc_end,
+  ],
 
   extras: $ => [
     $.comment,
@@ -33,7 +43,7 @@ module.exports = grammar({
 
     statement: $ => choice(
       $.bare_call,
-      seq($.expr, "\n")
+      $.expr,
     ),
 
     expr: $ => choice(
@@ -46,7 +56,7 @@ module.exports = grammar({
       $.map,
       $.keyword_list,
       $.string,
-      $.here_string,
+      $.heredoc,
       $.tuple,
       $.identifier,
       $.binary_op,
@@ -121,16 +131,28 @@ module.exports = grammar({
       '}'
     ),
 
+    heredoc: $ => seq(
+      $.heredoc_start,
+      repeat(choice(
+        $.heredoc_content,
+        $.interpolation
+      )),
+      $.heredoc_end
+    ),
+
+    interpolation: $ => seq(
+      '#{', optional($.statement), '}'
+    ),
+
     integer: $ => /0[bB][01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0[dD])?\d(_?\d)*|0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/,
     float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE][\+-]?\d(_?\d)*)?/,
     atom: $ => /:[_a-z!][?!_a-zA-Z0-9]*/,
     module_attr: $ => /@[_a-z][_a-zA-Z0-9]*/,
     keyword: $ => /[_a-z!][?!_a-zA-Z0-9]*:/,
     string: $ => /"[^"]*"/,
-    here_string: $ => /"""\n.*\n[\s]*"""/,
     module: $ => /[A-Z][_a-zA-Z0-9]*(\.[A-Z][_a-zA-Z0-9]*)*/,
     identifier: $ => /[_a-z][_a-zA-Z0-9]*/,
     func_name_identifier: $ => /[_a-z!][?!_a-zA-Z0-9]*/,
-    comment: $ => /#[^\n]*/,
+    comment: $ => token(prec(PREC.COMMENT, seq('#', /.*/))),
   }
 })
