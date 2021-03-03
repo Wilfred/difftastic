@@ -6,7 +6,7 @@ a :: a -> A -> A a
 
 ---
 
-(module
+(haskell
  (signature
   name: (variable)
   type: (fun
@@ -23,7 +23,7 @@ a :: forall a (a :: * -> Type) . (∀ a . a -> a) -> A a
 
 ---
 
-(module
+(haskell
  (signature
   (variable)
   (forall
@@ -49,7 +49,7 @@ a ::
 
 ---
 
-(module
+(haskell
  (signature
   (variable)
   (context
@@ -72,7 +72,7 @@ a :: A a a => (A a, A a) => a
 
 ---
 
-(module
+(haskell
  (signature
   (variable)
   (context
@@ -91,7 +91,7 @@ a :: a ++ a => a
 
 ---
 
-(module
+(haskell
  (signature
   name: (variable)
   type: (context
@@ -106,7 +106,7 @@ sort :: (?aaa :: a -> a -> a) => [a] -> [a]
 
 ---
 
-(module
+(haskell
  (signature
   (variable)
   (context
@@ -126,7 +126,7 @@ gendecl: multi method operator
 
 ---
 
-(module
+(haskell
  (signature
   (operator)
   (comma)
@@ -146,7 +146,7 @@ a :: A a => ∀ a . a ++ a => a -> ∀ a . a -> A => A => A a
 
 ---
 
-(module
+(haskell
  (signature
   name: (variable)
   type: (context
@@ -179,7 +179,7 @@ gendecl: parenthesized operator fun
 
 ---
 
-(module (function (operator) (exp_name (variable))))
+(haskell (function (operator) (exp_name (variable))))
 
 ================================================================================
 gendecl: HKT annotation
@@ -189,7 +189,7 @@ a :: (a :: (* -> *) -> *) -> a
 
 ---
 
-(module
+(haskell
  (signature
   (variable)
   (fun

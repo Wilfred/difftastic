@@ -5,7 +5,7 @@ module A where
 
 ---
 
-(module module: (modid (constructor)) (where))
+(haskell module: (module) (where))
 
 ================================================================================
 module: starting on second line
@@ -15,7 +15,7 @@ module A where
 
 ---
 
-(module (modid (constructor)) (where))
+(haskell (module) (where))
 
 ================================================================================
 module: exports empty
@@ -25,7 +25,7 @@ module A () where
 
 ---
 
-(module (modid (constructor)) (module_exports) (where))
+(haskell (module) (exports) (where))
 
 ================================================================================
 module: exports regular
@@ -40,9 +40,9 @@ module A (
 
 ---
 
-(module
- (modid (constructor))
- (module_exports
+(haskell
+ (module)
+ (exports
   (export (variable))
   (comma)
   (export (type))
@@ -62,9 +62,9 @@ module A (
 
 ---
 
-(module
- (modid (constructor))
- (module_exports (export (type_operator) (export_names (constructor_operator) (comma) (constructor))) (comma))
+(haskell
+ (module)
+ (exports (export (type_operator) (export_names (constructor_operator) (comma) (constructor))) (comma))
  (where))
 
 ================================================================================
@@ -78,9 +78,9 @@ module A (
 
 ---
 
-(module
- (modid (constructor))
- (module_exports
+(haskell
+ (module)
+ (exports
   (export (namespace) (type))
   (comma)
   (export (namespace) (type_operator))
@@ -98,9 +98,9 @@ module A (
 
 ---
 
-(module
- (modid (constructor))
- (module_exports
+(haskell
+ (module)
+ (exports
   (export (namespace) (type))
   (comma)
   (export (namespace) (type_operator))
@@ -119,14 +119,14 @@ module A (
 
 ---
 
-(module
- (modid (constructor))
- (module_exports
+(haskell
+ (module)
+ (exports
   (export (variable))
   (comma)
-  (export (modid (constructor)))
+  (export (module))
   (comma)
-  (export (qmodid (modid (constructor)) (modid (constructor)) (modid (constructor))))
+  (export (qualified_module (module) (module) (module)))
   (comma))
  (where))
 
@@ -146,24 +146,24 @@ module A (
 
 ---
 
-(module
- (modid (constructor))
- (module_exports
-  (export (qualified_variable (modid (constructor)) (modid (constructor)) (variable)))
+(haskell
+ (module)
+ (exports
+  (export (qualified_variable (module) (module) (variable)))
   (comma)
-  (export (namespace) (qualified_type_operator (modid (constructor)) (modid (constructor)) (type_operator)))
+  (export (namespace) (qualified_type_operator (module) (module) (type_operator)))
   (comma)
-  (export (namespace) (qualified_type_operator (modid (constructor)) (modid (constructor)) (type_operator)))
+  (export (namespace) (qualified_type_operator (module) (module) (type_operator)))
   (comma)
-  (export (qualified_type (modid (constructor)) (modid (constructor)) (type)))
+  (export (qualified_type (module) (module) (type)))
   (comma)
   (export
-   (qualified_type (modid (constructor)) (modid (constructor)) (type))
+   (qualified_type (module) (module) (type))
    (export_names (operator) (comma) (constructor_operator) (comma) (constructor) (comma) (variable)))
   (comma)
-  (export (namespace) (qualified_type (modid (constructor)) (type)) (export_names (operator) (comma) (constructor)))
+  (export (namespace) (qualified_type (module) (type)) (export_names (operator) (comma) (constructor)))
   (comma)
-  (export (namespace) (qualified_type (modid (constructor)) (type)) (export_names (operator) (comma) (constructor)))
+  (export (namespace) (qualified_type (module) (type)) (export_names (operator) (comma) (constructor)))
   (comma))
  (where))
 
@@ -175,4 +175,4 @@ module A.A'.A where
 
 ---
 
-(module (qmodid (modid (constructor)) (modid (constructor)) (modid (constructor))) (where))
+(haskell (qualified_module (module) (module) (module)) (where))

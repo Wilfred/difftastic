@@ -11,7 +11,7 @@ a = a
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_name (variable)))
  (pragma)
  (function (variable) (exp_name (variable)))
@@ -28,7 +28,7 @@ pragma: without module
 
 ---
 
-(module (pragma) (pragma) (empty_file))
+(haskell (pragma) (pragma) (empty_file))
 
 ================================================================================
 pragma: before module
@@ -40,10 +40,10 @@ module A where
 
 ---
 
-(module
+(haskell
   (pragma)
   (pragma)
-  (modid (constructor))
+  (module)
   (where))
 
 ================================================================================
@@ -54,7 +54,7 @@ instance {-# overlappable #-} A where
 
 ---
 
-(module (instance (pragma) (instance_head (class_name (type))) (where)))
+(haskell (instance (pragma) (instance_head (class_name (type))) (where)))
 
 ================================================================================
 pragma: multiline
@@ -67,4 +67,4 @@ module A where
 
 ---
 
-(module (modid (constructor)) (where) (pragma))
+(haskell (module) (where) (pragma))

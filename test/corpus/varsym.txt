@@ -6,7 +6,7 @@ f = a | a
 
 ---
 
-(module (function (variable) (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable)))))
+(haskell (function (variable) (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable)))))
 
 ================================================================================
 varsym: error: lambda
@@ -17,7 +17,7 @@ f = a \ a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
@@ -35,7 +35,7 @@ f = a . a
 
 ---
 
-(module
+(haskell
   (function (variable) (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable))))
   (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
   (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
@@ -50,7 +50,7 @@ f = a |> a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable))))
@@ -67,7 +67,7 @@ f = a =>> a
 
 ---
 
-(module
+(haskell
   (function (variable) (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable))))
   (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
 )
@@ -82,7 +82,7 @@ f = a <-- a
 
 ---
 
-(module
+(haskell
   (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
   (function (variable) (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable))))
   (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
@@ -97,7 +97,7 @@ f = a @@ a
 
 ---
 
-(module
+(haskell
   (function (variable) (exp_apply (exp_name (variable)) (exp_type_application (type_name (type_variable)))))
   (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
 )
@@ -111,7 +111,7 @@ f = a ~~ a
 
 ---
 
-(module
+(haskell
   (function (variable) (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable))))
   (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
 )
@@ -125,7 +125,7 @@ f = a == a
 
 ---
 
-(module
+(haskell
   (function (variable) (exp_apply (exp_name (variable)) (ERROR) (exp_name (variable))))
   (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
 )
@@ -139,7 +139,7 @@ f = a +: a
 
 ---
 
-(module
+(haskell
   (function (variable) (exp_infix (exp_name (variable)) (constructor_operator) (exp_name (variable))))
   (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
 )
@@ -152,7 +152,7 @@ f = a $ a
 
 ---
 
-(module (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable)))))
+(haskell (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable)))))
 
 ================================================================================
 varsym: two-symbol dollar operator
@@ -162,7 +162,7 @@ a = a $! a
 
 ---
 
-(module (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable)))))
+(haskell (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable)))))
 
 ================================================================================
 varsym: comment with more than two dashes
@@ -173,7 +173,7 @@ a ----- a
 
 ---
 
-(module (top_splice (exp_name (variable))) (comment) (top_splice (exp_name (variable))) (comment))
+(haskell (top_splice (exp_name (variable))) (comment) (top_splice (exp_name (variable))) (comment))
 
 ================================================================================
 varsym: operator with large number of dashes
@@ -183,7 +183,7 @@ a = a ------> a ----- %
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
@@ -199,7 +199,7 @@ a = a ? a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_name (implicit_parid)))
@@ -218,7 +218,7 @@ a = a $[a]
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_infix (exp_name (variable)) (operator) (exp_list (exp_name (variable))))))
@@ -232,7 +232,7 @@ varsym: bang as operator decl
 
 ---
 
-(module
+(haskell
  (signature (operator) (type_name (type)))
  (function (operator) (exp_name (variable))))
 
@@ -244,4 +244,4 @@ varsym: minus as operator decl
 
 ---
 
-(module (function (operator) (exp_name (operator))))
+(haskell (function (operator) (exp_name (operator))))

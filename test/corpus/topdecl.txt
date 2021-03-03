@@ -7,7 +7,7 @@ default (A, A)
 
 ---
 
-(module
+(haskell
  (default_declaration)
  (default_declaration (type_name (type)) (comma) (type_name (type))))
 
@@ -22,7 +22,7 @@ deriving instance (A a, A a a) => A (A a)
 
 ---
 
-(module
+(haskell
  (deriving_declaration (instance_head
    (class_name (type))
    (type_parens (type_apply (type_name (type)) (type_name (type_variable))))))

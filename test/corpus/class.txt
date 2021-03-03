@@ -6,7 +6,7 @@ class A a
 
 ---
 
-(module (class (class_head class: (class_name (type)) (type_name (type_variable)))))
+(haskell (class (class_head class: (class_name (type)) (type_name (type_variable)))))
 
 ================================================================================
 class: context variants
@@ -17,7 +17,7 @@ class (A a, A a) => A a
 
 ---
 
-(module
+(haskell
  (class
   (context
    (constraint (class_name (type)) (type_name (type_variable)))
@@ -39,7 +39,7 @@ class A a where a :: A a => a -> a
 
 ---
 
-(module
+(haskell
  (class
   (class_head class: (class_name (type)) (type_name (type_variable)))
   (class_body
@@ -61,7 +61,7 @@ class Foo a where {
 
 ---
 
-(module
+(haskell
  (class
   (class_head (class_name (type)) (type_name (type_variable)))
   (class_body
@@ -87,7 +87,7 @@ class A where
 
 ---
 
-(module
+(haskell
  (class
   (class_head (class_name (type)))
   (class_body
@@ -112,7 +112,7 @@ class A where
 
 ---
 
-(module
+(haskell
  (class
   (class_head (class_name (type)))
   (class_body
@@ -135,7 +135,7 @@ class A a a a
 
 ---
 
-(module (class (class_head (class_name (type)) (type_name (type_variable)) (type_name (type_variable)) (type_name (type_variable)))))
+(haskell (class (class_head (class_name (type)) (type_name (type_variable)) (type_name (type_variable)) (type_name (type_variable)))))
 
 ================================================================================
 class: default signature
@@ -147,7 +147,7 @@ class A where
 
 ---
 
-(module
+(haskell
  (class
   (class_head (class_name (type)))
   (class_body
@@ -163,7 +163,7 @@ class A (a :: [*] -> k)
 
 ---
 
-(module
+(haskell
  (class
   (class_head
    (class_name (type))
@@ -182,7 +182,7 @@ class A a where
 
 ---
 
-(module
+(haskell
  (class
   (class_head (class_name (type)) (type_name (type_variable)))
   (class_body
@@ -200,7 +200,7 @@ class A a where
 
 ---
 
-(module
+(haskell
  (class
   (class_head (class_name (type)) (type_name (type_variable)))
   (class_body
@@ -219,7 +219,7 @@ class A | a -> a a, a a -> a
 
 ---
 
-(module
+(haskell
  (class
   (class_head class: (class_name (type)))
   (fundeps
@@ -235,7 +235,7 @@ class a ++ b
 
 ---
 
-(module
+(haskell
  (class
   (class_head
    (type_infix

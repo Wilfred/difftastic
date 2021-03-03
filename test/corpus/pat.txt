@@ -6,7 +6,7 @@ a a (a:a : as) (a, a, (a, [a])) = a
 
 ---
 
-(module
+(haskell
  (function
    name: (variable)
    patterns: (patterns
@@ -33,7 +33,7 @@ a (A a) = a
 
 ---
 
-(module
+(haskell
  (function (variable) (patterns (pat_name (constructor))) (exp_name (variable)))
  (function
   (variable)
@@ -48,7 +48,7 @@ a (a :++ a) = a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (patterns (pat_parens (pat_infix (pat_name (variable)) (constructor_operator) (pat_name (variable)))))
@@ -62,7 +62,7 @@ a a@(A a) a@(A a) = a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (patterns
@@ -78,7 +78,7 @@ a (A _) _ = a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (patterns
@@ -97,7 +97,7 @@ a 1.0 2.0 = 3.0
 
 ---
 
-(module
+(haskell
  (function (variable) (patterns (pat_literal (integer)) (pat_literal (integer))) (exp_literal (integer)))
  (function (variable) (patterns (pat_literal (string)) (pat_literal (string))) (exp_name (variable)))
  (function (variable) (patterns (pat_literal (char)) (pat_literal (char))) (exp_name (variable)))
@@ -113,7 +113,7 @@ f a@A { a = a, b = a, a, .. } = a
 
 ---
 
-(module
+(haskell
  (function (variable) (patterns (pat_name (constructor)) (pat_record)) (exp_name (variable)))
  (function
   (variable)
@@ -144,7 +144,7 @@ a ~(~(a, a), a) = a
 
 ---
 
-(module
+(haskell
  (function
   (variable) (patterns (pat_irrefutable (pat_name (variable)))) (exp_name (variable)))
  (function
@@ -168,7 +168,7 @@ a (a -> a, a -> a) = a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (patterns
@@ -194,7 +194,7 @@ a = \ (a -> a) -> a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_lambda
@@ -209,7 +209,7 @@ a (a :: A a) = a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (patterns (pat_parens (pat_name (variable)) (type_apply (type_name (type)) (type_name (type_variable)))))
@@ -223,7 +223,7 @@ A a == A a = a == a
 
 ---
 
-(module
+(haskell
  (function
   infix: (infix
    lhs: (pat_apply (pat_name (constructor)) (pat_name (variable)))
@@ -239,7 +239,7 @@ a |> a = a
 
 ---
 
-(module
+(haskell
  (function
   (infix (pat_name (variable)) (varop (operator)) (pat_name (variable)))
   (exp_name (variable))))
@@ -252,7 +252,7 @@ pat: tuple pattern function
 
 ---
 
-(module (function (pat_tuple (pat_name (variable)) (comma) (pat_name (variable))) (exp_name (variable))))
+(haskell (function (pat_tuple (pat_name (variable)) (comma) (pat_name (variable))) (exp_name (variable))))
 
 ================================================================================
 pat: con application pattern function
@@ -262,7 +262,7 @@ A a = a
 
 ---
 
-(module (function (pat_apply (pat_name (constructor)) (pat_name (variable))) (exp_name (variable))))
+(haskell (function (pat_apply (pat_name (constructor)) (pat_name (variable))) (exp_name (variable))))
 
 ================================================================================
 pat: parens con application pattern function
@@ -272,7 +272,7 @@ pat: parens con application pattern function
 
 ---
 
-(module
+(haskell
  (function
   pattern: (pat_parens (pat_apply (pat_name (constructor)) (pat_name (variable))))
   rhs: (exp_name (variable))))
@@ -286,7 +286,7 @@ a (A{}) = a
 
 ---
 
-(module
+(haskell
  (function
   (variable) (patterns (pat_parens (pat_name (constructor)) (pat_record)))
   (exp_name (variable))))
@@ -301,7 +301,7 @@ a a | a < 1, a > 1 = A
 
 ---
 
-(module
+(haskell
  (function
   name: (variable)
   patterns: (patterns (pat_name (variable)))

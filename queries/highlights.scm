@@ -2,7 +2,7 @@
 (operator) @operator
 (exp_name (constructor) @constructor)
 (constructor_operator) @operator
-(modid (constructor) @module_name)
+(module) @module_name
 (type) @type
 (type) @class
 (constructor) @constructor

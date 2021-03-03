@@ -6,7 +6,7 @@ pattern A a <- a:as
 
 ---
 
-(module
+(haskell
  (pattern_synonym
   (pat_apply (pat_name (constructor)) (pat_name (variable)))
   (pat_infix (pat_name (variable)) (constructor_operator) (pat_name (variable)))))
@@ -19,7 +19,7 @@ pattern A a = A !a
 
 ---
 
-(module
+(haskell
  (pattern_synonym
   (pat_apply (pat_name (constructor)) (pat_name (variable)))
   (pat_apply (pat_name (constructor)) (pat_strict (pat_name (variable))))))
@@ -33,7 +33,7 @@ pattern HeadC a <- a:as where
 
 ---
 
-(module
+(haskell
  (pattern_synonym
   (pat_apply (pat_name (constructor)) (pat_name (variable)))
   (pat_infix (pat_name (variable)) (constructor_operator) (pat_name (variable)))
@@ -50,7 +50,7 @@ pattern A a <- A !a where
 
 ---
 
-(module
+(haskell
  (pattern_synonym
   (pat_apply (pat_name (constructor)) (pat_name (variable)))
   (pat_apply (pat_name (constructor)) (pat_strict (pat_name (variable))))
@@ -67,7 +67,7 @@ pattern A { a } <- A a where
 
 ---
 
-(module
+(haskell
  (pattern_synonym
   (pat_name (constructor))
   (pat_record (pat_record_binder (variable)))
@@ -90,7 +90,7 @@ pattern A a <- A a where
 
 ---
 
-(module
+(haskell
  (pattern_synonym
   (pat_apply (pat_name (constructor)) (pat_name (variable)))
   (pat_apply (pat_name (constructor)) (pat_name (variable)))
@@ -111,7 +111,7 @@ pattern A :: A -> A -> (A, A)
 
 ---
 
-(module
+(haskell
  (pattern_synonym
   (constructor)
   (fun
@@ -131,7 +131,7 @@ pattern A {a, a} = (a, a)
 
 ---
 
-(module
+(haskell
  (pattern_synonym
   (pat_name (constructor)) (pat_record (pat_record_binder (variable)) (comma) (pat_record_binder (variable)))
   (pat_tuple (pat_name (variable)) (comma) (pat_name (variable)))))
