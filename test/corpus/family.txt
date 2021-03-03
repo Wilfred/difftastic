@@ -197,3 +197,20 @@ newtype instance A a a = A a deriving A
    (type_name (type_variable)))
   (newtype_constructor (constructor) (type_name (type_variable)))
   (deriving (type))))
+
+================================================================================
+family: symbolic equation
+================================================================================
+
+type family A a where
+  a <> a = a
+
+---
+
+(haskell
+ (type_family
+  (head (type) (type_variable))
+  (where)
+  (equation
+   (pattern (type_name (type_variable)) (type_operator) (type_name (type_variable)))
+   (type_name (type_variable)))))

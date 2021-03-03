@@ -177,9 +177,20 @@ module.exports = {
 
   tyfam_head: $ => $._simpletype,
 
-  tyfam_pat: $ => seq(
+  _tyfam_pat_prefix: $ => seq(
     field('name', $._qtyconid),
     repeat($._atype),
+  ),
+
+  _tyfam_pat_infix: $ => seq(
+    $._atype,
+    field('op', $._qtyconop),
+    $._atype,
+  ),
+
+  tyfam_pat: $ => choice(
+    $._tyfam_pat_prefix,
+    $._tyfam_pat_infix,
   ),
 
   tyfam_eq: $ => seq(

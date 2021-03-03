@@ -2086,7 +2086,7 @@
       "type": "SYMBOL",
       "name": "_simpletype"
     },
-    "tyfam_pat": {
+    "_tyfam_pat_prefix": {
       "type": "SEQ",
       "members": [
         {
@@ -2103,6 +2103,40 @@
             "type": "SYMBOL",
             "name": "_atype"
           }
+        }
+      ]
+    },
+    "_tyfam_pat_infix": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_atype"
+        },
+        {
+          "type": "FIELD",
+          "name": "op",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_qtyconop"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_atype"
+        }
+      ]
+    },
+    "tyfam_pat": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_tyfam_pat_prefix"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_tyfam_pat_infix"
         }
       ]
     },
@@ -8209,6 +8243,10 @@
     ],
     [
       "type_apply"
+    ],
+    [
+      "type_name",
+      "tyfam_pat"
     ]
   ],
   "precedences": [
@@ -8322,7 +8360,9 @@
     "ReferenceError",
     "ReferenceError",
     "ReferenceError",
-    "_quantifiers"
+    "_quantifiers",
+    "_tyfam_pat_prefix",
+    "_tyfam_pat_infix"
   ],
   "supertypes": []
 }

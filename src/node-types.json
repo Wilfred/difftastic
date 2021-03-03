@@ -8772,7 +8772,7 @@
     "fields": {
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "qualified_type",
@@ -8780,6 +8780,36 @@
           },
           {
             "type": "type",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "constructor_operator",
+            "named": true
+          },
+          {
+            "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "qualified_constructor_operator",
+            "named": true
+          },
+          {
+            "type": "qualified_type_operator",
+            "named": true
+          },
+          {
+            "type": "ticked",
+            "named": true
+          },
+          {
+            "type": "type_operator",
             "named": true
           }
         ]
