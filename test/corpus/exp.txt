@@ -705,7 +705,7 @@ a = A { .. }
 
 ---
 
-(haskell (function (variable) (exp_record (exp_name (constructor)) (fbind (wildcard)))))
+(haskell (function (variable) (exp_record (exp_name (constructor)) (exp_field (wildcard)))))
 
 ================================================================================
 exp: record update
@@ -721,14 +721,27 @@ a = A { a = a } {a = a}
   (variable)
   (exp_record
    (exp_name (variable))
-   (fbind (variable) (exp_name (variable)))
+   (exp_field (variable) (exp_name (variable)))
    (comma)
-   (fbind (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))))
+   (exp_field (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))))
  (function
   (variable)
   (exp_record
-   (exp_record (exp_name (constructor)) (fbind (variable) (exp_name (variable))))
-   (fbind (variable) (exp_name (variable))))))
+   (exp_record (exp_name (constructor)) (exp_field (variable) (exp_name (variable))))
+   (exp_field (variable) (exp_name (variable))))))
+
+================================================================================
+exp: record field pun
+================================================================================
+
+a = A { A.a }
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_record (exp_name (constructor)) (exp_field (qualified_variable (module) (variable))))))
 
 ================================================================================
 exp: type application

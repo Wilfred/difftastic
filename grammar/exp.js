@@ -81,9 +81,9 @@ module.exports = {
     seq(quote + quote, $._atype),
   ),
 
-  fbind: $ => choice(
+  exp_field: $ => choice(
     alias('..', $.wildcard),
-    seq($._qvar, seq('=', $._exp))
+    seq($._qvar, optional(seq('=', $._exp)))
   ),
 
   exp_type_application: $ => seq('@', $._atype),
@@ -170,7 +170,7 @@ module.exports = {
 
   exp_negation: $ => seq('-', $._aexp),
 
-  exp_record: $ => seq($._aexp, braces(sep1($.comma, $.fbind))),
+  exp_record: $ => seq($._aexp, braces(sep1($.comma, $.exp_field))),
 
   exp_name: $ => choice(
     $._qvar,
