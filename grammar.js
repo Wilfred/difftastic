@@ -380,16 +380,23 @@ module.exports = grammar({
         [ 'declaration'          , 'context_item'        ],
         [ 'concurrent_statement' , 'sequential_statement'],
         [ 'concurrent_statement' , 'declaration'         ],
-        // Relational precedences
+        // Subtype indication
         [ 'record_element_constraint' , 'type_mark'           ],
+        [ 'record_element_resolution' , 'resolution_function' ],
         [ 'type_mark'                 , 'resolution_function' ],
         [ 'primary'                   , 'resolution_function' ],
+        // Physical literal
         [ 'primary'                   , 'physical_literal'    ],
-        [ 'generate_statement_element', 'primary'             ],
-        [ 'record_element_resolution' , 'resolution_function' ],
         [ 'attribute_name'            , 'physical_literal'    ],
+        // Group constituent
         [ 'group_constituent_list'    , 'primary'             ],
         [ 'group_constituent_list'    , 'type_mark'           ],
+        // Generate statatement element
+        [ 'generate_statement_element', 'primary'             ],
+        // Assertion
+        // VHDL LRM states that ambiguos VHDL/PSL assertions shall
+        // be parsed as VHDL assertion
+        [ 'vhdl_assertion', 'psl_assertion' ],
         // VHDL operands precedence
         [
             'range',
@@ -421,10 +428,6 @@ module.exports = grammar({
             'invariant_property',
         ],
         [
-            'vhdl_assertion',
-            'psl_assertion',
-        ],
-        [
             // "next" "(" ... ")" is psl function
             'psl_function_call',
             'parenthesized_boolean',
@@ -432,18 +435,13 @@ module.exports = grammar({
             'occurrence_property',
             'parenthesized_property',
         ],
-        [
-            'logical_expression',
-            'logical_property',
-        ],
-        [
-            'factor',
-            'property_factor'
-        ],
-        [
-            'implication',
-            'property_implication',
-        ],
+        // Conflicts between VHDL expression and PSL expression
+        [ 'logical_expression', 'logical_property' ],
+        [ 'factor'            , 'property_factor'  ],
+        // PSL Expression implication has the same precedence as
+        // VHDL expressions, therefore property implication shall
+        // have lower precedence than implication.
+        [ 'implication', 'property_implication' ],
     ], // }}}
 
     rules: {

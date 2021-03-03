@@ -25524,6 +25524,10 @@
       "type_mark"
     ],
     [
+      "record_element_resolution",
+      "resolution_function"
+    ],
+    [
       "type_mark",
       "resolution_function"
     ],
@@ -25536,14 +25540,6 @@
       "physical_literal"
     ],
     [
-      "generate_statement_element",
-      "primary"
-    ],
-    [
-      "record_element_resolution",
-      "resolution_function"
-    ],
-    [
       "attribute_name",
       "physical_literal"
     ],
@@ -25554,6 +25550,14 @@
     [
       "group_constituent_list",
       "type_mark"
+    ],
+    [
+      "generate_statement_element",
+      "primary"
+    ],
+    [
+      "vhdl_assertion",
+      "psl_assertion"
     ],
     [
       "range",
@@ -25582,10 +25586,6 @@
       "sequence_implication",
       "property_implication",
       "invariant_property"
-    ],
-    [
-      "vhdl_assertion",
-      "psl_assertion"
     ],
     [
       "psl_function_call",
