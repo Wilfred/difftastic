@@ -8075,6 +8075,10 @@
           "named": true
         },
         {
+          "type": "pat_view",
+          "named": true
+        },
+        {
           "type": "pat_wildcard",
           "named": true
         },

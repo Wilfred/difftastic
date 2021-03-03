@@ -333,3 +333,20 @@ a a | a < 1, a > 1 = A
   (guard_equation
    (guards (guard (exp_name (variable))))
    (exp_name (constructor)))))
+
+================================================================================
+pat: view pattern in record
+================================================================================
+
+a A { a = a -> a } = a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (patterns
+   (pat_record
+    (pat_name (constructor))
+    (pat_fields (pat_field (variable) (pat_view (exp_name (variable)) (pat_name (variable)))))))
+  (exp_name (variable))))

@@ -3,7 +3,7 @@ const {parens} = require('./util.js')
 module.exports = {
   pat_field: $ => choice(
     alias('..', $.wildcard),
-    seq($._qvar, optional(seq('=', $._pat))),
+    seq($._qvar, optional(seq('=', $._nested_pat))),
   ),
 
   pat_fields: $ => braces(optional(sep1($.comma, $.pat_field))),
