@@ -102,10 +102,10 @@ type A = A :++ A ':++ A
   (type)
   (type_infix
    (type_name (type))
-   (tyconop (type_operator))
+   (type_operator)
    (type_infix
     (type_name (type))
-    (tyconop (promoted (type_operator)))
+    (promoted (type_operator))
     (type_name (type))))))
 
 ================================================================================
@@ -121,7 +121,7 @@ type A = A : A
   (type)
   (type_infix
    (type_name (type))
-   (tyconop (type_operator))
+   (type_operator)
    (type_name (type)))))
 
 ================================================================================
@@ -137,7 +137,7 @@ type A = A ': A
   (type)
   (type_infix
    (type_name (type))
-   (tyconop (promoted (type_operator)))
+   (promoted (type_operator))
    (type_name (type)))))
 
 ================================================================================
@@ -163,7 +163,7 @@ type A = A A.A.:++ A
   (type)
   (type_infix
    (type_name (type))
-   (tyconop (qualified_type_operator (modid (constructor)) (modid (constructor)) (type_operator)))
+   (qualified_type_operator (modid (constructor)) (modid (constructor)) (type_operator))
    (type_name (type)))))
 
 ================================================================================
@@ -179,7 +179,7 @@ type A = A ':++ A
   (type)
   (type_infix
    (type_name (type))
-   (tyconop (promoted (type_operator)))
+   (promoted (type_operator))
    (type_name (type)))))
 
 ================================================================================
@@ -195,7 +195,7 @@ type A = A 'A.:++ A
   (type)
   (type_infix
    (type_name (type))
-   (tyconop (promoted (qualified_type_operator (modid (constructor)) (type_operator))))
+   (promoted (qualified_type_operator (modid (constructor)) (type_operator)))
    (type_name (type)))))
 
 ================================================================================
@@ -211,7 +211,7 @@ type A = A `A.A` A
   (type)
   (type_infix
    (type_name (type))
-   (tyconop (ticked (qualified_type (modid (constructor)) (type))))
+   (ticked (qualified_type (modid (constructor)) (type)))
    (type_name (type)))))
 
 ================================================================================
@@ -244,10 +244,10 @@ type A = ∀ a . (A a ~ A a) => A
 (module
  (type_alias
   (type)
-  (type_infix (type_name (type)) (tyconop (type_operator)) (type_name (type))))
+  (type_infix (type_name (type)) (type_operator) (type_name (type))))
  (type_alias
   (type)
-  (type_infix (type_name (type)) (tyconop (type_operator)) (type_name (type))))
+  (type_infix (type_name (type)) (type_operator) (type_name (type))))
  (type_alias
   (type)
   (forall
@@ -256,7 +256,7 @@ type A = ∀ a . (A a ~ A a) => A
     (constraint
      (type_infix
       (type_apply (type_name (type)) (type_name (type_variable)))
-      (tyconop (type_operator))
+      (type_operator)
       (type_apply (type_name (type)) (type_name (type_variable))))
     )
     (type_name (type))))))
@@ -274,23 +274,23 @@ type A = A :++ A A ': A (A A a) : '[] ':++ A `A.A` '[]
   (type)
   (type_infix
    (type_name (type))
-   (tyconop (type_operator))
+   (type_operator)
    (type_infix
     (type_apply
      (type_name (type))
      (type_name (type)))
-    (tyconop (promoted (type_operator)))
+    (promoted (type_operator))
     (type_infix
      (type_apply
       (type_name (type))
       (type_parens (type_apply (type_name (type)) (type_name (type)) (type_name (type_variable)))))
-     (tyconop (type_operator))
+     (type_operator)
      (type_infix
       (promoted (type_literal (con_list)))
-      (tyconop (promoted (type_operator)))
+      (promoted (type_operator))
       (type_infix
        (type_name (type))
-       (tyconop (ticked (qualified_type (modid (constructor)) (type))))
+       (ticked (qualified_type (modid (constructor)) (type)))
        (promoted (type_literal (con_list))))))))))
 
 ================================================================================

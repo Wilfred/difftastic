@@ -14,8 +14,8 @@ a a (a:a : as) (a, a, (a, [a])) = a
     (pat_parens
      (pat_infix
       (pat_name (variable))
-      (consym)
-      (pat_infix (pat_name (variable)) (consym) (pat_name (variable)))))
+      (constructor_operator)
+      (pat_infix (pat_name (variable)) (constructor_operator) (pat_name (variable)))))
     (pat_tuple
      (pat_name (variable))
      (comma)
@@ -51,7 +51,7 @@ a (a :++ a) = a
 (module
  (function
   (variable)
-  (patterns (pat_parens (pat_infix (pat_name (variable)) (consym) (pat_name (variable)))))
+  (patterns (pat_parens (pat_infix (pat_name (variable)) (constructor_operator) (pat_name (variable)))))
   (exp_name (variable))))
 
 ================================================================================
@@ -320,7 +320,7 @@ a a | a < 1, a > 1 = A
         (pat_name (constructor))
         (pat_parens
          (pat_apply (pat_name (constructor)) (pat_name (constructor)) (pat_record (pat_record_binder (wildcard))) (pat_wildcard))))
-       (consym)
+       (constructor_operator)
        (pat_name (variable)))
       (exp_name (variable)))))
    (exp_name (constructor)))

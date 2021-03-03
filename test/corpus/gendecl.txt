@@ -95,7 +95,7 @@ a :: a ++ a => a
  (signature
   name: (variable)
   type: (context
-   (constraint (type_infix left: (type_name (type_variable)) op: (tyconop (type_operator)) right: (type_name (type_variable))))
+   (constraint (type_infix left: (type_name (type_variable)) op: (type_operator) right: (type_name (type_variable))))
    (type_name (type_variable)))))
 
 ================================================================================
@@ -157,7 +157,7 @@ a :: A a => ∀ a . a ++ a => a -> ∀ a . a -> A => A => A a
      (constraint
      (type_infix
       left: (type_name (type_variable))
-      op: (tyconop (type_operator))
+      op: (type_operator)
       right: (type_name (type_variable))))
      (fun
       (type_name (type_variable))

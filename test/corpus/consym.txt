@@ -12,7 +12,7 @@ data A = Int :+ Int
   (constructors
    (data_constructor_infix
     (type_name (type))
-    (consym)
+    (constructor_operator)
     (type_name (type))))))
 
 

@@ -117,7 +117,7 @@ instance A ~~ A => A a
    (constraint
     (type_infix
      left: (type_apply (type_name (type)) (type_name (type_variable)))
-     op: (tyconop (type_operator))
+     op: (type_operator)
      right: (type_apply (type_name (type)) (type_name (type_variable)))))
   )
   (instance_head class: (class_name (type)) (type_name (type_variable))))
@@ -126,7 +126,7 @@ instance A ~~ A => A a
    (constraint
     (type_infix
      left: (type_name (type))
-     op: (tyconop (type_operator))
+     op: (type_operator)
      right: (type_name (type))))
   )
   (instance_head class: (class_name (type)) (type_name (type_variable)))))

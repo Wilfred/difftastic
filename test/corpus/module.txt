@@ -64,7 +64,7 @@ module A (
 
 (module
  (modid (constructor))
- (module_exports (export (type_operator) (export_names (consym) (comma) (constructor))) (comma))
+ (module_exports (export (type_operator) (export_names (constructor_operator) (comma) (constructor))) (comma))
  (where))
 
 ================================================================================
@@ -159,7 +159,7 @@ module A (
   (comma)
   (export
    (qualified_type (modid (constructor)) (modid (constructor)) (type))
-   (export_names (operator) (comma) (consym) (comma) (constructor) (comma) (variable)))
+   (export_names (operator) (comma) (constructor_operator) (comma) (constructor) (comma) (variable)))
   (comma)
   (export (namespace) (qualified_type (modid (constructor)) (type)) (export_names (operator) (comma) (constructor)))
   (comma)

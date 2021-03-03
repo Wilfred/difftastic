@@ -332,4 +332,4 @@ data a +++ b = a :+++ b
 (module
  (adt
   (type_infix (type_variable) (type_operator) (type_variable))
-  (constructors (data_constructor_infix (type_name (type_variable)) (consym) (type_name (type_variable))))))
+  (constructors (data_constructor_infix (type_name (type_variable)) (constructor_operator) (type_name (type_variable))))))

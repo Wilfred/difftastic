@@ -35,13 +35,13 @@ module.exports = {
   qualified_constructor: $ => qualified($, $.constructor),
   _qconid: $ => choice($.qualified_constructor, $.constructor),
 
-  consym: $ => $._consym,
-  qconsym: $ => qualified($, $.consym),
-  _qconsym: $ => choice($.qconsym, $.consym),
+  constructor_operator: $ => $._consym,
+  qualified_constructor_operator: $ => qualified($, $.constructor_operator),
+  _qconsym: $ => choice($.qualified_constructor_operator, $.constructor_operator),
 
-  _con: $ => choice($.constructor, parens($.consym)),
+  _con: $ => choice($.constructor, parens($.constructor_operator)),
   _qcon: $ => choice($._qconid, parens($._qconsym)),
-  _conop: $ => choice($.consym, ticked($.constructor)),
+  _conop: $ => choice($.constructor_operator, ticked($.constructor)),
   _qconop: $ => choice($._qconsym, ticked($._qconid)),
   _op: $ => choice($.varop, $._conop),
   _qop: $ => choice($._qvarop, $._qconop),
@@ -81,7 +81,7 @@ module.exports = {
   _ticked_qtycon: $ => ticked($._qtyconid),
   _tyconops: $ => choice(alias($._ticked_qtycon, $.ticked), $._qtyconsym),
   _promoted_tyconop: $ => seq(quote, $._tyconops),
-  tyconop: $ => choice(
+  _tyconop: $ => choice(
     alias($._promoted_tyconop, $.promoted),
     $._tyconops,
   ),

@@ -897,6 +897,11 @@
     "fields": {}
   },
   {
+    "type": "constructor_operator",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "constructors",
     "named": true,
     "fields": {},
@@ -926,11 +931,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "consym",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "context",
@@ -1063,7 +1063,7 @@
           "named": true
         },
         {
-          "type": "consym",
+          "type": "constructor_operator",
           "named": true
         },
         {
@@ -3192,7 +3192,7 @@
           "named": true
         },
         {
-          "type": "consym",
+          "type": "constructor_operator",
           "named": true
         },
         {
@@ -3292,11 +3292,11 @@
           "named": true
         },
         {
-          "type": "qconsym",
+          "type": "qualified_constructor",
           "named": true
         },
         {
-          "type": "qualified_constructor",
+          "type": "qualified_constructor_operator",
           "named": true
         },
         {
@@ -3942,7 +3942,7 @@
           "named": true
         },
         {
-          "type": "consym",
+          "type": "constructor_operator",
           "named": true
         },
         {
@@ -3954,11 +3954,11 @@
           "named": true
         },
         {
-          "type": "qconsym",
+          "type": "qualified_constructor",
           "named": true
         },
         {
-          "type": "qualified_constructor",
+          "type": "qualified_constructor_operator",
           "named": true
         },
         {
@@ -4328,7 +4328,7 @@
           "named": true
         },
         {
-          "type": "consym",
+          "type": "constructor_operator",
           "named": true
         },
         {
@@ -4428,11 +4428,11 @@
           "named": true
         },
         {
-          "type": "qconsym",
+          "type": "qualified_constructor",
           "named": true
         },
         {
-          "type": "qualified_constructor",
+          "type": "qualified_constructor_operator",
           "named": true
         },
         {
@@ -4467,7 +4467,7 @@
           "named": true
         },
         {
-          "type": "consym",
+          "type": "constructor_operator",
           "named": true
         },
         {
@@ -4567,11 +4567,11 @@
           "named": true
         },
         {
-          "type": "qconsym",
+          "type": "qualified_constructor",
           "named": true
         },
         {
-          "type": "qualified_constructor",
+          "type": "qualified_constructor_operator",
           "named": true
         },
         {
@@ -4606,7 +4606,7 @@
           "named": true
         },
         {
-          "type": "consym",
+          "type": "constructor_operator",
           "named": true
         },
         {
@@ -4618,11 +4618,11 @@
           "named": true
         },
         {
-          "type": "qconsym",
+          "type": "qualified_constructor",
           "named": true
         },
         {
-          "type": "qualified_constructor",
+          "type": "qualified_constructor_operator",
           "named": true
         },
         {
@@ -4971,7 +4971,7 @@
           "named": true
         },
         {
-          "type": "consym",
+          "type": "constructor_operator",
           "named": true
         },
         {
@@ -5255,7 +5255,7 @@
           "named": true
         },
         {
-          "type": "consym",
+          "type": "constructor_operator",
           "named": true
         },
         {
@@ -5840,7 +5840,7 @@
           "named": true
         },
         {
-          "type": "consym",
+          "type": "constructor_operator",
           "named": true
         },
         {
@@ -6547,7 +6547,7 @@
           "named": true
         },
         {
-          "type": "consym",
+          "type": "constructor_operator",
           "named": true
         },
         {
@@ -6574,7 +6574,7 @@
           "named": true
         },
         {
-          "type": "consym",
+          "type": "constructor_operator",
           "named": true
         },
         {
@@ -7450,7 +7450,7 @@
           "named": true
         },
         {
-          "type": "consym",
+          "type": "constructor_operator",
           "named": true
         },
         {
@@ -7506,11 +7506,11 @@
           "named": true
         },
         {
-          "type": "qconsym",
+          "type": "qualified_constructor",
           "named": true
         },
         {
-          "type": "qualified_constructor",
+          "type": "qualified_constructor_operator",
           "named": true
         }
       ]
@@ -7690,15 +7690,15 @@
           "named": true
         },
         {
-          "type": "consym",
-          "named": true
-        },
-        {
-          "type": "qconsym",
+          "type": "constructor_operator",
           "named": true
         },
         {
           "type": "qualified_constructor",
+          "named": true
+        },
+        {
+          "type": "qualified_constructor_operator",
           "named": true
         },
         {
@@ -8887,25 +8887,6 @@
     }
   },
   {
-    "type": "qconsym",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "consym",
-          "named": true
-        },
-        {
-          "type": "modid",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "qmodid",
     "named": true,
     "fields": {},
@@ -9100,6 +9081,25 @@
       "types": [
         {
           "type": "constructor",
+          "named": true
+        },
+        {
+          "type": "modid",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "qualified_constructor_operator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constructor_operator",
           "named": true
         },
         {
@@ -9829,33 +9829,6 @@
     "fields": {}
   },
   {
-    "type": "tyconop",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "promoted",
-          "named": true
-        },
-        {
-          "type": "qualified_type_operator",
-          "named": true
-        },
-        {
-          "type": "ticked",
-          "named": true
-        },
-        {
-          "type": "type_operator",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "type",
     "named": true,
     "fields": {}
@@ -10073,7 +10046,19 @@
         "required": false,
         "types": [
           {
-            "type": "tyconop",
+            "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "qualified_type_operator",
+            "named": true
+          },
+          {
+            "type": "ticked",
+            "named": true
+          },
+          {
+            "type": "type_operator",
             "named": true
           }
         ]

@@ -668,11 +668,11 @@
         }
       ]
     },
-    "consym": {
+    "constructor_operator": {
       "type": "SYMBOL",
       "name": "_consym"
     },
-    "qconsym": {
+    "qualified_constructor_operator": {
       "type": "SEQ",
       "members": [
         {
@@ -681,7 +681,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "consym"
+          "name": "constructor_operator"
         }
       ]
     },
@@ -690,11 +690,11 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "qconsym"
+          "name": "qualified_constructor_operator"
         },
         {
           "type": "SYMBOL",
-          "name": "consym"
+          "name": "constructor_operator"
         }
       ]
     },
@@ -714,7 +714,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "consym"
+              "name": "constructor_operator"
             },
             {
               "type": "STRING",
@@ -755,7 +755,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "consym"
+          "name": "constructor_operator"
         },
         {
           "type": "SEQ",
@@ -1032,7 +1032,7 @@
         }
       ]
     },
-    "tyconop": {
+    "_tyconop": {
       "type": "CHOICE",
       "members": [
         {
@@ -1555,7 +1555,7 @@
           "name": "op",
           "content": {
             "type": "SYMBOL",
-            "name": "tyconop"
+            "name": "_tyconop"
           }
         },
         {

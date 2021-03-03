@@ -158,14 +158,14 @@ data a +++ b where
   (type_infix (type_variable) (type_operator) (type_variable))
   (where)
   (gadt_constructor
-   (consym)
+   (constructor_operator)
    (fun
     (type_name (type_variable))
     (fun
      (type_name (type_variable))
      (type_infix
       (type_name (type_variable))
-      (tyconop (type_operator))
+      (type_operator)
       (type_name (type_variable))))))))
 
 ================================================================================
