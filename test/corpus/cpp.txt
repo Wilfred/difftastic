@@ -55,3 +55,16 @@ a = a
 ---
 
 (haskell (cpp) (function (variable) (exp_name (variable))) (cpp))
+
+================================================================================
+cpp: newline after decl in layout with one-way if
+================================================================================
+
+instance A where
+  a = a
+
+#if
+  a = a
+#endif
+
+---
