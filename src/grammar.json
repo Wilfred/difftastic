@@ -967,7 +967,42 @@
         }
       ]
     },
-    "_tycon": {
+    "_ticked_tycon": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "`"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_tyconid"
+        },
+        {
+          "type": "STRING",
+          "value": "`"
+        }
+      ]
+    },
+    "_simple_tyconop": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_ticked_tycon"
+          },
+          "named": true,
+          "value": "ticked"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_operator"
+        }
+      ]
+    },
+    "_simple_tycon": {
       "type": "CHOICE",
       "members": [
         {
@@ -1010,7 +1045,7 @@
         }
       ]
     },
-    "_tyconops": {
+    "_qtyconops": {
       "type": "CHOICE",
       "members": [
         {
@@ -1037,11 +1072,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_tyconops"
+          "name": "_qtyconops"
         }
       ]
     },
-    "_tyconop": {
+    "_qtyconop": {
       "type": "CHOICE",
       "members": [
         {
@@ -1055,7 +1090,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_tyconops"
+          "name": "_qtyconops"
         }
       ]
     },
@@ -1564,7 +1599,7 @@
           "name": "op",
           "content": {
             "type": "SYMBOL",
-            "name": "_tyconop"
+            "name": "_qtyconop"
           }
         },
         {
@@ -1860,13 +1895,8 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_tyconsym"
-            },
-            "named": true,
-            "value": "type_operator"
+            "type": "SYMBOL",
+            "name": "_simple_tyconop"
           }
         },
         {
@@ -1912,7 +1942,7 @@
               "name": "name",
               "content": {
                 "type": "SYMBOL",
-                "name": "_tycon"
+                "name": "_simple_tycon"
               }
             },
             {
@@ -8247,11 +8277,13 @@
     "_tyconid",
     "_qtyconid",
     "_qtyconsym",
-    "_tycon",
-    "_tyconops",
+    "ReferenceError",
+    "ReferenceError",
     "_qtycon",
     "_gtycon",
     "ReferenceError",
+    "_simple_tycon",
+    "_simple_tyconop",
     "ReferenceError",
     "ReferenceError",
     "ReferenceError",

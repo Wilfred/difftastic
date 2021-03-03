@@ -10198,6 +10198,10 @@
         "required": false,
         "types": [
           {
+            "type": "ticked",
+            "named": true
+          },
+          {
             "type": "type_operator",
             "named": true
           }
