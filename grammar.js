@@ -186,8 +186,6 @@ module.exports = grammar({
         $._component_name, // 7.3
         $._component_specification, // 7.3
         $._name, // 8
-        $._suffix, // 8.3
-        $._expanded_name, // 8.3
         $._range_attribute_designator, // 8.6
         $._external_object_name, // 8.7
         $._name_or_label, // 8.7
@@ -233,6 +231,8 @@ module.exports = grammar({
         $._PSL_HDL_Module_NAME, // PSL 7.2
     ], // }}}
     conflicts: $ => [ // {{{
+        [$.selected_name, $.expanded_name],
+
         // 'procedure'  _identifier  •  'is'  …
         //
         // procedure_declaration:
@@ -381,10 +381,10 @@ module.exports = grammar({
         [ 'concurrent_statement' , 'declaration'         ],
         // Component declarations vs component instantiation
         [ 'component_declaration', 'simple_name'         ],
-        // NOTE
-        // This is ambiguos. Usually procedure_call_statement,
+        // This following relation is ambiguos. Usually procedure_call_statement,
         // but component_instantiation is also legal.
         [ 'procedure_call', 'component_instantiation' ],
+        // Expanded name
         // Subtype indication
         [ 'record_element_constraint' , 'type_mark'           ],
         [ 'record_element_resolution' , 'resolution_function' ],
@@ -478,7 +478,7 @@ module.exports = grammar({
 
         _entity_name: $ => field('entity', choice(
             $._simple_name,
-            $._expanded_name
+            $.expanded_name
         )),
         // }}}
         // 3.3 Architecture bodies {{{
@@ -724,7 +724,7 @@ module.exports = grammar({
         ),
 
         _uninstantiated_name: $ => field('uninstantiated', choice(
-            $._expanded_name,
+            $.expanded_name,
             $._simple_name
         )),
         // }}}
@@ -881,7 +881,7 @@ module.exports = grammar({
 
         _unit: $ => field('unit', prec('physical_literal',choice(
             $._simple_name,
-            $._expanded_name
+            $.expanded_name
         ))),
         // }}}
         // 5.3 Composite types {{{
@@ -1087,7 +1087,7 @@ module.exports = grammar({
 
         resolution_function: $ => prec('resolution_function', choice(
             $._simple_name,
-            $._expanded_name
+            $.expanded_name
         )),
 
         parenthesized_resolution: $ => seq(
@@ -1109,7 +1109,7 @@ module.exports = grammar({
 
         type_mark: $ => prec('type_mark',choice(
             $._simple_name,
-            $._expanded_name,
+            $.expanded_name,
             $.attribute_name
         )),
 
@@ -1353,7 +1353,7 @@ module.exports = grammar({
 
         interface_subprogram_default: $ => choice(
             $._simple_name,
-            $._expanded_name,
+            $.expanded_name,
             $._operator_symbol,
             alias('<>', $.same),
         ),
@@ -1507,25 +1507,26 @@ module.exports = grammar({
             ';'
         ),
 
-        _alias_denotator: $ => field(
-            'denotator',
-            choice(
-                $._simple_name,
-                $.character_literal,
-                $.selected_name,
-                $.ambiguous_name,
-                $.slice_name,
-                $.attribute_name,
-                $._external_object_name,
-            )
-        ),
-
         _alias_designator: $ => field(
             'designator',
             choice(
                 $._identifier,
                 $.character_literal,
                 $._operator_symbol
+            )
+        ),
+
+        _alias_denotator: $ => field(
+            'denotator',
+            choice(
+                $._simple_name,
+                $.character_literal,
+                $.selected_name,
+                $.expanded_name,
+                $.ambiguous_name,
+                $.slice_name,
+                $.attribute_name,
+                $._external_object_name,
             )
         ),
 
@@ -1592,7 +1593,7 @@ module.exports = grammar({
 
         _group_constituent: $ => choice(
             $._simple_name,
-            $._expanded_name,
+            $.expanded_name,
             $.character_literal
         ),
 
@@ -1600,7 +1601,7 @@ module.exports = grammar({
             'template',
             choice(
                 $._simple_name,
-                $._expanded_name
+                $.expanded_name
             )
         ),
         // }}}
@@ -1743,7 +1744,7 @@ module.exports = grammar({
             ',',
             choice(
                 $._simple_name,
-                $._expanded_name,
+                $.expanded_name,
             )
         ),
         // }}}
@@ -1798,19 +1799,24 @@ module.exports = grammar({
                 $._external_object_name,
             )),
             token.immediate('.'),
-            $._suffix
+            field('suffix', choice(
+                $._simple_name,
+                $.all // allowed on access value
+            )),
         ),
 
-        _expanded_name: $ => alias($.selected_name, $.expanded_name),
-
-        _suffix: $ => field(
-            'suffix',
-            choice(
+        expanded_name: $ => seq(
+            field('prefix', choice(
+                $._simple_name,
+                $.selected_name,
+            )),
+            token.immediate('.'),
+            field('suffix', choice(
                 $._simple_name,
                 $.character_literal,
                 $._operator_symbol,
                 $.all
-            ),
+            )),
         ),
         // }}}
         // 8.4 Indexed name (Ambiguos name) {{{
@@ -2232,7 +2238,7 @@ module.exports = grammar({
             choice(
                 $._simple_name,
                 $._operator_symbol,
-                $._expanded_name,
+                $.expanded_name,
                 $.attribute_name,
             )
         ),
@@ -2595,7 +2601,7 @@ module.exports = grammar({
             optional(reservedWord('postponed')),
             field('procedure', choice(
                 $._simple_name,
-                $._expanded_name
+                $.expanded_name
             )),
             optional(seq(
                 '(',
@@ -2821,7 +2827,7 @@ module.exports = grammar({
             reservedWord('entity'),
             choice(
                 $._simple_name,
-                $._expanded_name,
+                $.expanded_name,
             ),
             optional(seq(
                 '(',
@@ -2834,7 +2840,7 @@ module.exports = grammar({
             reservedWord('configuration'),
             choice(
                 $._simple_name,
-                $._expanded_name,
+                $.expanded_name,
             ),
         ),
 
@@ -2842,7 +2848,7 @@ module.exports = grammar({
             optional(reservedWord('component')),
             choice(
                 $._simple_name,
-                $._expanded_name,
+                $.expanded_name,
             ),
         )),
         // }}}
@@ -2954,7 +2960,7 @@ module.exports = grammar({
         // 12.4 Use clauses {{{
         use_clause: $ => seq(
             reservedWord('use'),
-            sepBy1(',', $._expanded_name),
+            sepBy1(',', $.expanded_name),
             ';'
         ),
         // }}}
@@ -3024,7 +3030,7 @@ module.exports = grammar({
             ';'
         ),
 
-        context_list: $ => sepBy1(',', $._expanded_name),
+        context_list: $ => sepBy1(',', $.expanded_name),
         // }}}
         // 15.3 Separators {{{
         _separator: $ => token(choice(...FORMAT_EFFECTOR, ...SPACE_CHARACTER)),
@@ -3891,22 +3897,19 @@ module.exports = grammar({
             '}'
         ),
 
-        PSL_Hierarchical_HDL_Name: $ => prec(1, seq(
+        PSL_Hierarchical_HDL_Name: $ => seq(
             $._PSL_HDL_Module_NAME,
-            optional(seq(
+            repeat(seq(
                 choice(
                     token.immediate('.'),
                     token.immediate('/'),
                 ),
                 field('instance', $._simple_name)
             ))
-        )),
+        ),
 
         _PSL_HDL_Module_NAME: $ => seq(
-            field('entity', choice(
-                $._simple_name,
-                $._expanded_name
-            )),
+            field('entity', $._simple_name),
             optional(seq(
                 '(',
                 field('architecture', $._simple_name),

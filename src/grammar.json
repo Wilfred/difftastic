@@ -192,7 +192,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_expanded_name"
+            "name": "expanded_name"
           }
         ]
       }
@@ -1813,7 +1813,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_expanded_name"
+            "name": "expanded_name"
           },
           {
             "type": "SYMBOL",
@@ -2657,7 +2657,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_expanded_name"
+              "name": "expanded_name"
             }
           ]
         }
@@ -3719,7 +3719,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_expanded_name"
+            "name": "expanded_name"
           }
         ]
       }
@@ -3812,7 +3812,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_expanded_name"
+            "name": "expanded_name"
           },
           {
             "type": "SYMBOL",
@@ -5003,7 +5003,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expanded_name"
+          "name": "expanded_name"
         },
         {
           "type": "SYMBOL",
@@ -5782,6 +5782,27 @@
         }
       ]
     },
+    "_alias_designator": {
+      "type": "FIELD",
+      "name": "designator",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "character_literal"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_operator_symbol"
+          }
+        ]
+      }
+    },
     "_alias_denotator": {
       "type": "FIELD",
       "name": "denotator",
@@ -5802,6 +5823,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "expanded_name"
+          },
+          {
+            "type": "SYMBOL",
             "name": "ambiguous_name"
           },
           {
@@ -5815,27 +5840,6 @@
           {
             "type": "SYMBOL",
             "name": "_external_object_name"
-          }
-        ]
-      }
-    },
-    "_alias_designator": {
-      "type": "FIELD",
-      "name": "designator",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_identifier"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "character_literal"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_operator_symbol"
           }
         ]
       }
@@ -6205,7 +6209,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expanded_name"
+          "name": "expanded_name"
         },
         {
           "type": "SYMBOL",
@@ -6225,7 +6229,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_expanded_name"
+            "name": "expanded_name"
           }
         ]
       }
@@ -7122,7 +7126,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_expanded_name"
+              "name": "expanded_name"
             }
           ]
         },
@@ -7144,7 +7148,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_expanded_name"
+                    "name": "expanded_name"
                   }
                 ]
               }
@@ -7349,44 +7353,77 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_suffix"
+          "type": "FIELD",
+          "name": "suffix",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_simple_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "all"
+              }
+            ]
+          }
         }
       ]
     },
-    "_expanded_name": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "selected_name"
-      },
-      "named": true,
-      "value": "expanded_name"
-    },
-    "_suffix": {
-      "type": "FIELD",
-      "name": "suffix",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_simple_name"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "character_literal"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_operator_symbol"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "all"
+    "expanded_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "prefix",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_simple_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "selected_name"
+              }
+            ]
           }
-        ]
-      }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "."
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "suffix",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_simple_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "character_literal"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_operator_symbol"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "all"
+              }
+            ]
+          }
+        }
+      ]
     },
     "ambiguous_name": {
       "type": "SEQ",
@@ -10352,7 +10389,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_expanded_name"
+            "name": "expanded_name"
           },
           {
             "type": "SYMBOL",
@@ -12267,7 +12304,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_expanded_name"
+                  "name": "expanded_name"
                 }
               ]
             }
@@ -13703,7 +13740,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_expanded_name"
+              "name": "expanded_name"
             }
           ]
         },
@@ -13762,7 +13799,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_expanded_name"
+              "name": "expanded_name"
             }
           ]
         }
@@ -13807,7 +13844,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expanded_name"
+                "name": "expanded_name"
               }
             ]
           }
@@ -14610,7 +14647,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_expanded_name"
+              "name": "expanded_name"
             },
             {
               "type": "REPEAT",
@@ -14623,7 +14660,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_expanded_name"
+                    "name": "expanded_name"
                   }
                 ]
               }
@@ -14966,7 +15003,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_expanded_name"
+          "name": "expanded_name"
         },
         {
           "type": "REPEAT",
@@ -14979,7 +15016,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expanded_name"
+                "name": "expanded_name"
               }
             ]
           }
@@ -25116,57 +25153,48 @@
       ]
     },
     "PSL_Hierarchical_HDL_Name": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_PSL_HDL_Module_NAME"
-          },
-          {
-            "type": "CHOICE",
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_PSL_HDL_Module_NAME"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
             "members": [
               {
-                "type": "SEQ",
+                "type": "CHOICE",
                 "members": [
                   {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "IMMEDIATE_TOKEN",
-                        "content": {
-                          "type": "STRING",
-                          "value": "."
-                        }
-                      },
-                      {
-                        "type": "IMMEDIATE_TOKEN",
-                        "content": {
-                          "type": "STRING",
-                          "value": "/"
-                        }
-                      }
-                    ]
+                    "type": "IMMEDIATE_TOKEN",
+                    "content": {
+                      "type": "STRING",
+                      "value": "."
+                    }
                   },
                   {
-                    "type": "FIELD",
-                    "name": "instance",
+                    "type": "IMMEDIATE_TOKEN",
                     "content": {
-                      "type": "SYMBOL",
-                      "name": "_simple_name"
+                      "type": "STRING",
+                      "value": "/"
                     }
                   }
                 ]
               },
               {
-                "type": "BLANK"
+                "type": "FIELD",
+                "name": "instance",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_simple_name"
+                }
               }
             ]
           }
-        ]
-      }
+        }
+      ]
     },
     "_PSL_HDL_Module_NAME": {
       "type": "SEQ",
@@ -25175,17 +25203,8 @@
           "type": "FIELD",
           "name": "entity",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_simple_name"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_expanded_name"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_simple_name"
           }
         },
         {
@@ -25298,6 +25317,10 @@
     }
   ],
   "conflicts": [
+    [
+      "selected_name",
+      "expanded_name"
+    ],
     [
       "_procedure_specification",
       "procedure_instantiation_declaration"
@@ -25666,8 +25689,6 @@
     "_component_name",
     "_component_specification",
     "_name",
-    "_suffix",
-    "_expanded_name",
     "_range_attribute_designator",
     "_external_object_name",
     "_name_or_label",
