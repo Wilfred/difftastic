@@ -82,6 +82,8 @@ module.exports = grammar({
     $._exp_qvar,
     $._exp_qcon,
     $._quantifiers,
+    $._tyfam_pat_prefix,
+    $._tyfam_pat_infix,
   ],
 
   precedences: _ => [
@@ -170,6 +172,11 @@ module.exports = grammar({
      * both start with two tycons.
      */
     [$.type_name, $.data_constructor],
+
+    /**
+     * Ambiguity between symbolic and regular type family equations.
+     */
+    [$.type_name, $.tyfam_pat],
 
     /**
      * For getting a node for function application, and no extra node if the expression only consists of one term.
