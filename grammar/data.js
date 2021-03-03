@@ -31,7 +31,7 @@ module.exports = {
     $.record_fields,
   ),
 
-  constrs: $ => sep1(
+  constructors: $ => sep1(
     '|',
     seq(
       optional($.forall),
@@ -60,7 +60,7 @@ module.exports = {
 
   _adt_rhs: $ => seq(
     '=',
-    $.constrs,
+    $.constructors,
     repeat($.deriving),
   ),
 

@@ -37,7 +37,7 @@ data B = A
 (module
  (adt
   (type)
-  (constrs
+  (constructors
    (data_constructor (constructor))
    (data_constructor (constructor))
    (data_constructor (constructor))

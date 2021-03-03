@@ -174,7 +174,7 @@ instance A where
    (type_apply
     (type_name (type))
     (type_name (type_variable)))
-   (constrs
+   (constructors
     (data_constructor (constructor) (type_name (type_variable)))
     (data_constructor_record
      (constructor)
@@ -183,7 +183,7 @@ instance A where
    (type_apply
     (type_name (type))
     (type_name (type_variable)))
-   (constrs (data_constructor (constructor))))))
+   (constructors (data_constructor (constructor))))))
 
 ================================================================================
 instance: infix pattern lhs method

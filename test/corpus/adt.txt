@@ -16,7 +16,7 @@ data A = A
 
 ---
 
-(module (adt (type) (constrs (data_constructor (constructor)))))
+(module (adt (type) (constructors (data_constructor (constructor)))))
 
 ================================================================================
 plain adt: one unary con
@@ -26,7 +26,7 @@ data A = A A
 
 ---
 
-(module (adt (type) (constrs (data_constructor (constructor) (type_name (type))))))
+(module (adt (type) (constructors (data_constructor (constructor) (type_name (type))))))
 
 ================================================================================
 plain adt: strict
@@ -39,7 +39,7 @@ data A = A !A !(A A)
 (module
  (adt
   (type)
-  (constrs
+  (constructors
    (data_constructor
     (constructor)
     (strict_type (type_name (type)))
@@ -59,7 +59,7 @@ data A a a a = A a !a [a]
   (type_variable)
   (type_variable)
   (type_variable)
-  (constrs
+  (constructors
    (data_constructor (constructor) (type_name (type_variable)) (strict_type (type_name (type_variable))) (type_list (type_name (type_variable)))))))
 
 ================================================================================
@@ -73,7 +73,7 @@ data A = A {-# unpack #-} !A
 (module
  (adt
   (type)
-  (constrs
+  (constructors
    (data_constructor (constructor) (pragma) (strict_type (type_name (type)))))))
 
 ================================================================================
@@ -88,7 +88,7 @@ data A a = A { a :: A, a, a :: A, a :: {-# unpack #-} !a, a :: !A }
  (adt
   (type)
   (type_variable)
-  (constrs
+  (constructors
    (data_constructor_record
     (constructor)
     (record_fields
@@ -111,7 +111,7 @@ data A = A | A A | A !A A
 (module
  (adt
   (type)
-  (constrs
+  (constructors
    (data_constructor (constructor))
    (data_constructor (constructor) (type_name (type)))
    (data_constructor (constructor) (strict_type (type_name (type))) (type_name (type))))))
@@ -130,7 +130,7 @@ data A =
 (module
  (adt
   (type)
-  (constrs
+  (constructors
    (data_constructor_record
     (constructor)
     (record_fields
@@ -153,7 +153,7 @@ data A = A deriving A
 (module
  (adt
   (type)
-  (constrs (data_constructor (constructor)))
+  (constructors (data_constructor (constructor)))
   (deriving (type))))
 
 ================================================================================
@@ -167,7 +167,7 @@ data A = A deriving (A, A) deriving stock (A)
 (module
  (adt
   (type)
-  (constrs (data_constructor (constructor)))
+  (constructors (data_constructor (constructor)))
   (deriving (type) (comma) (type))
   (deriving (deriving_strategy) (type))))
 
@@ -182,7 +182,7 @@ data A = A deriving (A) via (A A)
 (module
  (adt
   (type)
-  (constrs (data_constructor (constructor)))
+  (constructors (data_constructor (constructor)))
   (deriving
    (type)
    (via (type_parens (type_apply (type_name (type)) (type_name (type))))))))
@@ -205,12 +205,12 @@ data A =
 (module
  (adt
   (type)
-  (constrs (data_constructor (constructor)))
+  (constructors (data_constructor (constructor)))
   (deriving (type))
   (deriving (type)))
  (adt
   (type)
-  (constrs (data_constructor (constructor)))
+  (constructors (data_constructor (constructor)))
   (deriving (type))
   (deriving (type))))
 
@@ -232,7 +232,7 @@ data (A a, A a) => A = A
     (type_parens (type_apply (type_name (type)) (type_name (type_variable)))))
    )
   (type)
-  (constrs (data_constructor (constructor))))
+  (constructors (data_constructor (constructor))))
  (adt
   (context
    (constraint (class_name (type)) (type_name (type_variable)))
@@ -240,7 +240,7 @@ data (A a, A a) => A = A
    (constraint (class_name (type)) (type_name (type_variable)))
   )
   (type)
-  (constrs (data_constructor (constructor)))))
+  (constructors (data_constructor (constructor)))))
 
 ================================================================================
 plain adt: prim
@@ -253,7 +253,7 @@ data A = A !A#
 (module
  (adt
   (type)
-  (constrs (data_constructor (constructor) (strict_type (type_name (type)))))))
+  (constructors (data_constructor (constructor) (strict_type (type_name (type)))))))
 
 ================================================================================
 plain adt: forall
@@ -266,7 +266,7 @@ data A = forall a . A | ∀ a . A
 (module
  (adt
   (type)
-  (constrs
+  (constructors
    (forall (type_variable))
    (data_constructor (constructor))
    (forall (type_variable))
@@ -283,7 +283,7 @@ data A = ∀ a . A a => A
 (module
  (adt
   (type)
-  (constrs
+  (constructors
    (forall (type_variable))
    (context (constraint (class_name (type)) (type_name (type_variable))))
    (data_constructor (constructor)))))
@@ -332,4 +332,4 @@ data a +++ b = a :+++ b
 (module
  (adt
   (type_infix (type_variable) (type_operator) (type_variable))
-  (constrs (data_constructor_infix (type_name (type_variable)) (consym) (type_name (type_variable))))))
+  (constructors (data_constructor_infix (type_name (type_variable)) (consym) (type_name (type_variable))))))

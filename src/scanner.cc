@@ -1366,7 +1366,7 @@ void debug_lookahead(State & state) {
   for (;;) {
     if (cond::peekws(state) || cond::peekeof(state)) break;
     else {
-      s+= state::next_char(state);
+      s += state::next_char(state);
       state::advance(state);
     }
   }

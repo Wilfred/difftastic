@@ -156,7 +156,7 @@ data instance ∀ a . A a A =
    (type_name (type))
    (type_name (type_variable))
    (type_name (type)))
-  (constrs
+  (constructors
    (data_constructor (constructor) (type_name (type_variable)) (type_name (type)) (type_name (type_variable)))
    (data_constructor_record
     (constructor)
