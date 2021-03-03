@@ -2817,7 +2817,7 @@
         }
       ]
     },
-    "fbind": {
+    "exp_field": {
       "type": "CHOICE",
       "members": [
         {
@@ -2837,15 +2837,23 @@
               "name": "_qvar"
             },
             {
-              "type": "SEQ",
+              "type": "CHOICE",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "="
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "="
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_exp"
+                    }
+                  ]
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_exp"
+                  "type": "BLANK"
                 }
               ]
             }
@@ -3794,7 +3802,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "fbind"
+                  "name": "exp_field"
                 },
                 {
                   "type": "REPEAT",
@@ -3807,7 +3815,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "fbind"
+                        "name": "exp_field"
                       }
                     ]
                   }
