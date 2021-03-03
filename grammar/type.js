@@ -219,4 +219,18 @@ module.exports = {
     '=',
     $._type_or_implicit,
   ),
+
+  type_role: _ => choice(
+    'representational',
+    'nominal',
+    'phantom',
+    '_',
+  ),
+
+  decl_role: $ => seq(
+    'type',
+    'role',
+    $._qtycon,
+    repeat1($.type_role),
+  )
 }

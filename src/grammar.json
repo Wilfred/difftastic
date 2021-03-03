@@ -113,6 +113,15 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
+            "name": "decl_role"
+          },
+          "named": true,
+          "value": "role_annotation"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
             "name": "decl_adt"
           },
           "named": true,
@@ -2427,6 +2436,51 @@
         {
           "type": "SYMBOL",
           "name": "_type_or_implicit"
+        }
+      ]
+    },
+    "type_role": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "representational"
+        },
+        {
+          "type": "STRING",
+          "value": "nominal"
+        },
+        {
+          "type": "STRING",
+          "value": "phantom"
+        },
+        {
+          "type": "STRING",
+          "value": "_"
+        }
+      ]
+    },
+    "decl_role": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "STRING",
+          "value": "role"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_qtycon"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "type_role"
+          }
         }
       ]
     },

@@ -68,3 +68,12 @@ instance A where
 #endif
 
 ---
+
+(haskell
+ (instance
+  (instance_head (class_name (type)))
+  (where)
+  (function (variable) (exp_name (variable)))
+  (cpp)
+  (function (variable) (exp_name (variable)))
+  (cpp)))

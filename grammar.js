@@ -215,6 +215,7 @@ module.exports = grammar({
       alias($.decl_type, $.type_alias),
       alias($.decl_tyfam, $.type_family),
       alias($.decl_tyinst, $.type_instance),
+      alias($.decl_role, $.role_annotation),
       alias($.decl_adt, $.adt),
       alias($.decl_newtype, $.newtype),
       alias($.decl_datafam, $.data_family),
