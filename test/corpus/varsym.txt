@@ -140,7 +140,7 @@ f = a +: a
 ---
 
 (module
-  (function (variable) (exp_infix (exp_name (variable)) (consym) (exp_name (variable))))
+  (function (variable) (exp_infix (exp_name (variable)) (constructor_operator) (exp_name (variable))))
   (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
 )
 

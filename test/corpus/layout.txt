@@ -322,7 +322,7 @@ a (i:a) = a
    (pat_parens
     (pat_infix
      (pat_name (variable))
-     (consym)
+     (constructor_operator)
      (pat_name (variable)))))
   (exp_name (variable))))
 

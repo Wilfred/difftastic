@@ -78,7 +78,7 @@ module.exports = {
 
   type_infix: $ => seq(
     field('left', $._btype),
-    field('op', $.tyconop),
+    field('op', $._tyconop),
     field('right', $._type_infix),
   ),
 

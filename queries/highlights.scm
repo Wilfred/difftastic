@@ -1,7 +1,7 @@
 (variable) @variable
 (operator) @operator
 (exp_name (constructor) @constructor)
-(consym) @operator
+(constructor_operator) @operator
 (modid (constructor) @module_name)
 (type) @type
 (type) @class

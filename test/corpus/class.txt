@@ -99,9 +99,9 @@ class A where
    (fixity (integer) (varop (variable)) (comma) (varop (variable)) (comma) (varop (variable)))
    (fixity (varop (operator)))
    (fixity (integer) (varop (operator)))
-   (fixity (integer) (consym))
-   (fixity (integer) (consym))
-   (fixity (integer) (consym)))))
+   (fixity (integer) (constructor_operator))
+   (fixity (integer) (constructor_operator))
+   (fixity (integer) (constructor_operator)))))
 
 ================================================================================
 class: multi method operator
@@ -240,5 +240,5 @@ class a ++ b
   (class_head
    (type_infix
     left: (type_name (type_variable))
-    op: (tyconop (type_operator))
+    op: (type_operator)
     right: (type_name (type_variable))))))

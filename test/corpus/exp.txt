@@ -160,10 +160,10 @@ a = (:< a)
 (module
  (function
   (variable)
-  (exp_section_right (consym) (exp_name (variable))))
+  (exp_section_right (constructor_operator) (exp_name (variable))))
  (function
   (variable)
-  (exp_section_right (consym) (exp_name (variable)))))
+  (exp_section_right (constructor_operator) (exp_name (variable)))))
 
 ================================================================================
 exp: operator section left
@@ -178,10 +178,10 @@ a = (a $)
 (module
  (function
   (variable)
-  (exp_section_left (exp_name (variable)) (consym)))
+  (exp_section_left (exp_name (variable)) (constructor_operator)))
  (function
   (variable)
-  (exp_section_left (exp_name (variable)) (consym)))
+  (exp_section_left (exp_name (variable)) (constructor_operator)))
  (function
   (variable)
   (exp_section_left (exp_name (variable)) (operator))))
@@ -302,8 +302,8 @@ a = \ a a a -> a <$> a <*> a
   (exp_lambda
    (pat_name (variable))
    (exp_infix
-    (exp_infix (exp_name (variable)) (consym) (exp_name (variable)))
-    (consym)
+    (exp_infix (exp_name (variable)) (constructor_operator) (exp_name (variable)))
+    (constructor_operator)
     (exp_name (variable)))))
  (function
   (variable)
@@ -588,7 +588,7 @@ a = \case a -> a : a
    (alts
     (alt
      (pat_name (variable))
-     (exp_infix (exp_name (variable)) (consym) (exp_name (variable))))))))
+     (exp_infix (exp_name (variable)) (constructor_operator) (exp_name (variable))))))))
 
 ================================================================================
 exp: do and where

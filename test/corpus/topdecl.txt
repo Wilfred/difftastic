@@ -30,7 +30,7 @@ deriving instance (A a, A a a) => A (A a)
   (instance_head
    (type_infix
     (type_name (type))
-    (tyconop (type_operator))
+    (type_operator)
     (type_name (type)))))
  (deriving_declaration
   (context (constraint (class_name (type)) (type_name (type_variable))))
