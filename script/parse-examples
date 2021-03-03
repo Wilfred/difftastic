@@ -9,7 +9,6 @@ clone_repo() {
   local owner=$1
   local name=$2
   local sha=$3
-  local folder="$4"
   local path="$root/examples/$name"
 
   if [ -d "$path" ]; then
@@ -31,30 +30,21 @@ clone_repo() {
   git init
   git remote add origin "https://github.com/$owner/$name"
   git pull --ff-only --depth 1 origin "$sha"
-  if [ "${folder:-}" ]; then
-    while IFS= read -r file; do
-      echo "${folder}" "$file"
-      if [ "$file" != "$folder" ]; then
-        rm -r "$file"
-      fi
-    done < <(ls -A "$path")
-  fi
   popd > /dev/null
 }
 
 clone_repo desktop desktop d1324f56d02dd9afca5d2e9da545905a7d41d671
 clone_repo reduxjs redux 45111a63d39a0c0fbd8b5417b2ad623718d42d66
-# commented out due to too many errors
-#clone_repo microsoft vscode bead496a613e475819f89f08e9e882b841bc1fe8
-#clone_repo microsoft TypeScript 05e2f74fbef4a935f1e7daea9c9eb152e3956085 src
+clone_repo microsoft vscode bead496a613e475819f89f08e9e882b841bc1fe8
 
-known_failures="$(cat script/known_failures.txt)"
+known_failures="$(cat script/known-failures.txt)"
 
 tree-sitter parse -q \
-  'examples/**/*.ts*' \
+  'examples/**/*.ts' \
+  'examples/**/*.tsx' \
   $(for failure in $known_failures; do echo "!${failure}"; done)
 
-example_count=$(find examples -name '*.ts*' | wc -l)
+example_count=$(find examples -name '*.ts*' -or -name '*.tx' | wc -l)
 failure_count=$(wc -w <<< "$known_failures")
 success_count=$(( $example_count - $failure_count ))
 success_percent=$(bc -l <<< "100*${success_count}/${example_count}")

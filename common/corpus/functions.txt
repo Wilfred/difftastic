@@ -53,7 +53,9 @@ function foo<T, U>(this: T[]): U[] {
     name: (identifier)
     type_parameters: (type_parameters (type_parameter (type_identifier)) (type_parameter (type_identifier)))
     parameters: (formal_parameters
-      (required_parameter (this) (type_annotation (array_type (type_identifier)))))
+      (required_parameter
+        (this)
+        (type_annotation (array_type (type_identifier)))))
     return_type: (type_annotation (array_type (type_identifier)))
     body: (statement_block (return_statement (array)))))
 
@@ -74,9 +76,35 @@ const lines = new Array<DiffLine>()
         (type_arguments (type_identifier))
         (arguments)))))
 
-==================================
+===================================================
+Function calls with array and tuple type arguments
+===================================================
+
+a.b<[C]>();
+a<C.D[]>();
+
+---
+
+(program
+  (expression_statement
+    (call_expression
+      function: (member_expression
+        object: (identifier)
+        property: (property_identifier))
+      type_arguments: (type_arguments (tuple_type (type_identifier)))
+      arguments: (arguments)))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      type_arguments: (type_arguments
+        (array_type (nested_type_identifier
+          module: (identifier)
+          name: (type_identifier))))
+    arguments: (arguments))))
+
+=========================================================
 Function calls with optional chaining and type arguments
-==================================
+=========================================================
 
 A?.<B>();
 
