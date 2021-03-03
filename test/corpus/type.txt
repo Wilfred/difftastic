@@ -397,3 +397,25 @@ type A = ?a :: A
 ---
 
 (haskell (type_alias (type) (implicit_param (implicit_parid) (type_name (type)))))
+
+================================================================================
+type decl: role
+================================================================================
+
+type role A phantom
+type role A.A _ representational nominal _ phantom _
+type role (A.>>) nominal nominal
+
+---
+
+(haskell
+ (role_annotation (type) (type_role))
+ (role_annotation
+  (qualified_type (module) (type))
+  (type_role)
+  (type_role)
+  (type_role)
+  (type_role)
+  (type_role)
+  (type_role))
+ (role_annotation (qualified_type_operator (module) (type_operator)) (type_role) (type_role)))

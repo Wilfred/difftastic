@@ -7148,6 +7148,10 @@
           "named": true
         },
         {
+          "type": "role_annotation",
+          "named": true
+        },
+        {
           "type": "signature",
           "named": true
         },
@@ -9009,6 +9013,11 @@
     }
   },
   {
+    "type": "pat_wildcard",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "pattern",
     "named": true,
     "fields": {
@@ -9723,6 +9732,45 @@
         },
         {
           "type": "field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "role_annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constructor_operator",
+          "named": true
+        },
+        {
+          "type": "qualified_constructor_operator",
+          "named": true
+        },
+        {
+          "type": "qualified_type",
+          "named": true
+        },
+        {
+          "type": "qualified_type_operator",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_operator",
+          "named": true
+        },
+        {
+          "type": "type_role",
           "named": true
         }
       ]
@@ -10942,6 +10990,11 @@
     }
   },
   {
+    "type": "type_role",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "type_tuple",
     "named": true,
     "fields": {},
@@ -11145,6 +11198,10 @@
     "named": false
   },
   {
+    "type": "_",
+    "named": false
+  },
+  {
     "type": "`",
     "named": false
   },
@@ -11297,15 +11354,19 @@
     "named": false
   },
   {
+    "type": "nominal",
+    "named": false
+  },
+  {
     "type": "of",
     "named": false
   },
   {
-    "type": "pat_wildcard",
-    "named": true
+    "type": "pattern",
+    "named": false
   },
   {
-    "type": "pattern",
+    "type": "phantom",
     "named": false
   },
   {
@@ -11326,6 +11387,14 @@
   },
   {
     "type": "rec",
+    "named": false
+  },
+  {
+    "type": "representational",
+    "named": false
+  },
+  {
+    "type": "role",
     "named": false
   },
   {
