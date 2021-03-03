@@ -270,7 +270,8 @@ module.exports = grammar({
         //
         // `foo ('+')`   -> function_call (see _actual_part)
         // `foo ("str")` -> function_call (see _actual_part)
-        [$.expression_list, $.positional_association_element],
+        [$.positional_association_element, $.expression_list],
+        [$.positional_association_element, $.group_constituent_list, $._primary],
 
         // `(id (discrete_range))`
         // slice name:
@@ -371,6 +372,16 @@ module.exports = grammar({
         [$._PSL_Compound_SERE, $._PSL_Sequence],
     ], // }}}
     precedences: () => [ // {{{
+        // Relational precedences
+        [ 'record_element_constraint' , 'type_mark'           ],
+        [ 'type_mark'                 , 'resolution_function' ],
+        [ 'primary'                   , 'resolution_function' ],
+        [ 'primary'                   , 'physical_literal'    ],
+        [ 'generate_statement_element', 'primary'             ],
+        [ 'record_element_resolution' , 'resolution_function' ],
+        [ 'attribute_name'            , 'physical_literal'    ],
+        [ 'group_constituent_list'    , 'primary'             ],
+        [ 'group_constituent_list'    , 'type_mark'           ],
         // VHDL operands precedence
         [
             'range',
@@ -509,21 +520,21 @@ module.exports = grammar({
             $.block_specification
         ),
 
-        generate_statement_element: $ => seq(
+        generate_statement_element: $ => prec('generate_statement_element',seq(
             field('label', $._simple_name),
             '(',
             $._generate_specification,
             ')'
-        ),
+        )),
 
-        _generate_specification: $ => prec(1, field(
+        _generate_specification: $ => field(
             'specification',
             choice(
                 $._expression,
                 $._range,
                 $._name_or_label
             )
-        )),
+        ),
 
         _configuration_item: $ => choice(
             $.block_configuration,
@@ -851,12 +862,12 @@ module.exports = grammar({
             $._unit
         ),
 
-        physical_literal: $ => prec(-1, seq(
+        physical_literal: $ => prec('physical_literal', seq(
             $._abstract_literal,
             $._unit,
         )),
 
-        _unit: $ => field('unit', prec(-1,choice(
+        _unit: $ => field('unit', prec('physical_literal',choice(
             $._simple_name,
             $._expanded_name
         ))),
@@ -943,7 +954,7 @@ module.exports = grammar({
             ')'
         ),
 
-        record_element_constraint: $ => prec(1, seq(
+        record_element_constraint: $ => prec('record_element_constraint', seq(
             field('record_element', $._simple_name),
             $._element_constraint
         )),
@@ -1062,7 +1073,7 @@ module.exports = grammar({
             $.parenthesized_resolution,
         ),
 
-        resolution_function: $ => prec(-1, choice(
+        resolution_function: $ => prec('resolution_function', choice(
             $._simple_name,
             $._expanded_name
         )),
@@ -1079,16 +1090,16 @@ module.exports = grammar({
             ')'
         ),
 
-        record_element_resolution: $ => seq(
+        record_element_resolution: $ => prec('record_element_resolution', seq(
             field('record_element', $._simple_name),
             $._resolution_indication
-        ),
+        )),
 
-        type_mark: $ =>  choice(
+        type_mark: $ => prec('type_mark',choice(
             $._simple_name,
             $._expanded_name,
             $.attribute_name
-        ),
+        )),
 
         _constraint: $ => choice(
             $.range_constraint,
@@ -1562,7 +1573,10 @@ module.exports = grammar({
             ';'
         ),
 
-        group_constituent_list: $ => prec(1, sepBy1(',', $._group_constituent)),
+        group_constituent_list: $ => prec(
+            'group_constituent_list',
+            sepBy1(',', $._group_constituent),
+        ),
 
         _group_constituent: $ => choice(
             $._simple_name,
@@ -1828,7 +1842,7 @@ module.exports = grammar({
         ),
         // }}}
         // 8.6 Attribute names {{{
-        attribute_name: $ => seq(
+        attribute_name: $ => prec('attribute_name',seq(
             field('prefix', choice(
                 $._simple_name,
                 $.selected_name,
@@ -1843,7 +1857,7 @@ module.exports = grammar({
                 $._predefined_attribute_designator,
                 $._predefined_attribute_designator_with_expression,
             ),
-        ),
+        )),
 
 
         _attribute_designator: $ => seq(
@@ -1988,7 +2002,7 @@ module.exports = grammar({
             $.exponentiation,
         ),
 
-        _primary: $ => choice(
+        _primary: $ => prec('primary',choice(
             $._name,
             $._literal,
             $.aggregate,
@@ -1996,7 +2010,7 @@ module.exports = grammar({
             $.allocator,
             $.parenthesized_expression,
             $.function_call,
-        ),
+        )),
 
         // Named expressions
         _expression: $ => alias(
