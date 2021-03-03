@@ -7,7 +7,7 @@ a = 100_00_532
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_literal (integer)))
@@ -24,7 +24,7 @@ a = 0O77
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_literal (integer)))
  (function (variable) (exp_literal (integer))))
 
@@ -38,7 +38,7 @@ a = 0xa_e_123_4
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_literal (integer)))
  (function (variable) (exp_literal (integer)))
  (function (variable) (exp_literal (integer))))
@@ -57,7 +57,7 @@ a = 99E-01
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_literal (float)))
  (function (variable) (exp_literal (float)))
  (function (variable) (exp_literal (float)))
@@ -75,6 +75,6 @@ a = 0B10010
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_literal (integer)))
  (function (variable) (exp_literal (integer))))

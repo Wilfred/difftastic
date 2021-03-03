@@ -6,7 +6,7 @@ a = "\\\"\a\b\f\n\r\t\v\&\NUL\SOH\STX\ETX\EOT\ENQ\ACK\BEL\BS\HT\LF\VT\FF\CR\SO\S
 
 ---
 
-(module (function (variable) (exp_literal (string))))
+(haskell (function (variable) (exp_literal (string))))
 
 ================================================================================
 string: gap
@@ -20,6 +20,6 @@ a = "start\
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_literal (string)))
  (function (variable) (exp_literal (string))))

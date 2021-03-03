@@ -6,7 +6,7 @@ newtype A = A A
 
 ---
 
-(module
+(haskell
  (newtype
   (type)
   (newtype_constructor (constructor) (type_name (type)))))
@@ -19,7 +19,7 @@ newtype A a => A a = A a
 
 ---
 
-(module
+(haskell
  (newtype
   (context (constraint (class_name (type)) (type_name (type_variable))))
   (type)
@@ -34,7 +34,7 @@ newtype A = A { a :: A a }
 
 ---
 
-(module
+(haskell
  (newtype
   (type)
   (newtype_constructor
@@ -50,7 +50,7 @@ newtype A a (a :: [* -> *]) a =
 
 ---
 
-(module
+(haskell
  (newtype
   (type)
   (type_variable)
@@ -73,7 +73,7 @@ newtype A a =
 
 ---
 
-(module
+(haskell
  (newtype
   (type)
   (newtype_constructor (constructor) (type_name (type_variable)))

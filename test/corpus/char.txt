@@ -13,7 +13,7 @@ a = ','
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char)))
@@ -49,7 +49,7 @@ a = '"'
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char)))
@@ -85,7 +85,7 @@ a = '}'
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char)))
@@ -113,7 +113,7 @@ a = '\&'
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char)))
@@ -134,7 +134,7 @@ a = ' '
 
 ---
 
-(module (function (variable) (exp_literal (char))))
+(haskell (function (variable) (exp_literal (char))))
 
 ================================================================================
 char: escape ascii
@@ -177,7 +177,7 @@ a = '\DEL'
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char)))
@@ -228,7 +228,7 @@ a = '\^_'
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char)))
  (function (variable) (exp_literal (char)))

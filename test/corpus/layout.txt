@@ -9,7 +9,7 @@ a =
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_case (exp_name (variable)) (alts (alt (pat_name (variable)) (exp_name (variable)))))
@@ -28,7 +28,7 @@ a = case a of
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_case (exp_name (variable)) (alts (alt (pat_name (variable)) (exp_name (variable)))))
@@ -48,7 +48,7 @@ a = case b of
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_case
@@ -69,7 +69,7 @@ a = a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_name (variable))
@@ -88,7 +88,7 @@ a = a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_name (variable))
@@ -107,7 +107,7 @@ x = do a <- b
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_do
@@ -139,7 +139,7 @@ a = do
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_do
@@ -164,7 +164,7 @@ f = case a of
   where a = a
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_case
@@ -192,7 +192,7 @@ x = do a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_do
@@ -219,7 +219,7 @@ a = do
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_do (stmt (exp_name (variable))))
@@ -238,7 +238,7 @@ a = do
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_do
@@ -259,7 +259,7 @@ f = mdo
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_do
@@ -279,7 +279,7 @@ a = let a = a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_let
@@ -299,7 +299,7 @@ a =
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_case
@@ -315,7 +315,7 @@ a (i:a) = a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (patterns
@@ -333,7 +333,7 @@ layout: empty file
 
 ---
 
-(module (empty_file))
+(haskell (empty_file))
 
 ================================================================================
 layout: indented let/in
@@ -349,7 +349,7 @@ a = let
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_let
@@ -377,7 +377,7 @@ a = do
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_do (stmt (exp_name (variable))))
@@ -400,7 +400,7 @@ i = j
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_name (variable)) (where))
@@ -422,7 +422,7 @@ a =
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_infix
@@ -440,7 +440,7 @@ a =
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_infix
@@ -469,7 +469,7 @@ a = b where -1 = a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_name (variable))
@@ -519,7 +519,7 @@ c = d
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_name (variable)) (where))
  (pragma)
  (function (variable) (exp_name (variable)) (where))
@@ -539,8 +539,8 @@ a = a
 
 ---
 
-(module
- (modid (constructor))
+(haskell
+ (module)
  (where)
  (function (variable) (exp_name (variable))))
 
@@ -553,8 +553,8 @@ layout: indented module keyword, decls further left
 
 ---
 
-(module
- (modid (constructor))
+(haskell
+ (module)
  (where)
  (function (variable) (exp_name (variable))))
 
@@ -568,7 +568,7 @@ a :: a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_case (exp_name (variable)) (alts (alt (pat_name (variable)) (exp_do (stmt (exp_name (variable))))))))
@@ -584,7 +584,7 @@ a = [case a of a -> a
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_list (exp_case (exp_name (variable)) (alts (alt (pat_name (variable)) (exp_name (variable)))))))
@@ -601,7 +601,7 @@ a = [case a of a -> a, a]
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_list

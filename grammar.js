@@ -190,7 +190,7 @@ module.exports = grammar({
   word: $ => $._varid,
 
   rules: {
-    module: $ => choice(
+    haskell: $ => choice(
       $.empty_file,
       $._module,
       terminated($, $._topdecl),

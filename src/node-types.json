@@ -4893,11 +4893,11 @@
         "required": false,
         "types": [
           {
-            "type": "modid",
+            "type": "module",
             "named": true
           },
           {
-            "type": "qmodid",
+            "type": "qualified_module",
             "named": true
           }
         ]
@@ -4980,6 +4980,25 @@
         },
         {
           "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exports",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "export",
           "named": true
         }
       ]
@@ -6369,6 +6388,120 @@
     }
   },
   {
+    "type": "haskell",
+    "named": true,
+    "fields": {
+      "module": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "module",
+            "named": true
+          },
+          {
+            "type": "qualified_module",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "adt",
+          "named": true
+        },
+        {
+          "type": "class",
+          "named": true
+        },
+        {
+          "type": "data_family",
+          "named": true
+        },
+        {
+          "type": "data_instance",
+          "named": true
+        },
+        {
+          "type": "default_declaration",
+          "named": true
+        },
+        {
+          "type": "deriving_declaration",
+          "named": true
+        },
+        {
+          "type": "empty_file",
+          "named": true
+        },
+        {
+          "type": "exports",
+          "named": true
+        },
+        {
+          "type": "fixity",
+          "named": true
+        },
+        {
+          "type": "foreign_export",
+          "named": true
+        },
+        {
+          "type": "foreign_import",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "instance",
+          "named": true
+        },
+        {
+          "type": "newtype",
+          "named": true
+        },
+        {
+          "type": "pattern_synonym",
+          "named": true
+        },
+        {
+          "type": "signature",
+          "named": true
+        },
+        {
+          "type": "top_splice",
+          "named": true
+        },
+        {
+          "type": "type_alias",
+          "named": true
+        },
+        {
+          "type": "type_family",
+          "named": true
+        },
+        {
+          "type": "type_instance",
+          "named": true
+        },
+        {
+          "type": "where",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "head",
     "named": true,
     "fields": {
@@ -6516,11 +6649,11 @@
           "named": true
         },
         {
-          "type": "modid",
+          "type": "module",
           "named": true
         },
         {
-          "type": "qmodid",
+          "type": "qualified_module",
           "named": true
         }
       ]
@@ -7054,152 +7187,9 @@
     }
   },
   {
-    "type": "modid",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "constructor",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "module",
     "named": true,
-    "fields": {
-      "module": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "modid",
-            "named": true
-          },
-          {
-            "type": "qmodid",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "adt",
-          "named": true
-        },
-        {
-          "type": "class",
-          "named": true
-        },
-        {
-          "type": "data_family",
-          "named": true
-        },
-        {
-          "type": "data_instance",
-          "named": true
-        },
-        {
-          "type": "default_declaration",
-          "named": true
-        },
-        {
-          "type": "deriving_declaration",
-          "named": true
-        },
-        {
-          "type": "empty_file",
-          "named": true
-        },
-        {
-          "type": "fixity",
-          "named": true
-        },
-        {
-          "type": "foreign_export",
-          "named": true
-        },
-        {
-          "type": "foreign_import",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "instance",
-          "named": true
-        },
-        {
-          "type": "module_exports",
-          "named": true
-        },
-        {
-          "type": "newtype",
-          "named": true
-        },
-        {
-          "type": "pattern_synonym",
-          "named": true
-        },
-        {
-          "type": "signature",
-          "named": true
-        },
-        {
-          "type": "top_splice",
-          "named": true
-        },
-        {
-          "type": "type_alias",
-          "named": true
-        },
-        {
-          "type": "type_family",
-          "named": true
-        },
-        {
-          "type": "type_instance",
-          "named": true
-        },
-        {
-          "type": "where",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "module_exports",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comma",
-          "named": true
-        },
-        {
-          "type": "export",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "namespace",
@@ -8887,21 +8877,6 @@
     }
   },
   {
-    "type": "qmodid",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "modid",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "qual",
     "named": true,
     "fields": {
@@ -9084,7 +9059,7 @@
           "named": true
         },
         {
-          "type": "modid",
+          "type": "module",
           "named": true
         }
       ]
@@ -9103,7 +9078,22 @@
           "named": true
         },
         {
-          "type": "modid",
+          "type": "module",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "qualified_module",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "module",
           "named": true
         }
       ]
@@ -9118,7 +9108,7 @@
       "required": true,
       "types": [
         {
-          "type": "modid",
+          "type": "module",
           "named": true
         },
         {
@@ -9137,7 +9127,7 @@
       "required": true,
       "types": [
         {
-          "type": "modid",
+          "type": "module",
           "named": true
         },
         {
@@ -9156,7 +9146,7 @@
       "required": true,
       "types": [
         {
-          "type": "modid",
+          "type": "module",
           "named": true
         },
         {
@@ -9175,7 +9165,7 @@
       "required": true,
       "types": [
         {
-          "type": "modid",
+          "type": "module",
           "named": true
         },
         {

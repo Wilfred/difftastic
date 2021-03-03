@@ -10,7 +10,7 @@ foreign import dotnet unsafe "unsafe import" a :: A
 
 ---
 
-(module
+(haskell
  (foreign_import
   (calling_convention)
   (safety)

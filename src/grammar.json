@@ -2,7 +2,7 @@
   "name": "haskell",
   "word": "_varid",
   "rules": {
-    "module": {
+    "haskell": {
       "type": "CHOICE",
       "members": [
         {
@@ -4714,9 +4714,14 @@
         }
       ]
     },
-    "modid": {
-      "type": "SYMBOL",
-      "name": "constructor"
+    "_modid": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "constructor"
+      },
+      "named": true,
+      "value": "module"
     },
     "_qualifying_module": {
       "type": "REPEAT1",
@@ -4725,7 +4730,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "modid"
+            "name": "_modid"
           },
           {
             "type": "SYMBOL",
@@ -4734,7 +4739,7 @@
         ]
       }
     },
-    "qmodid": {
+    "qualified_module": {
       "type": "SEQ",
       "members": [
         {
@@ -4743,7 +4748,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "modid"
+          "name": "_modid"
         }
       ]
     },
@@ -4752,11 +4757,11 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "qmodid"
+          "name": "qualified_module"
         },
         {
           "type": "SYMBOL",
-          "name": "modid"
+          "name": "_modid"
         }
       ]
     },
@@ -4887,7 +4892,7 @@
         }
       ]
     },
-    "module_exports": {
+    "exports": {
       "type": "SEQ",
       "members": [
         {
@@ -4965,7 +4970,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "module_exports"
+              "name": "exports"
             },
             {
               "type": "BLANK"

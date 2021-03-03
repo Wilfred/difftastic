@@ -12,7 +12,7 @@ aZ' = a
 
 ---
 
-(module
+(haskell
  (function (variable) (exp_name (variable)))
  (function (variable) (exp_name (variable)))
  (function (variable) (exp_name (variable)))
@@ -34,7 +34,7 @@ data B = A
 
 ---
 
-(module
+(haskell
  (adt
   (type)
   (constructors

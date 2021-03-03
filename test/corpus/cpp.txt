@@ -23,7 +23,7 @@ a = do
 
 ---
 
-(module
+(haskell
  (function
   (variable)
   (exp_do
@@ -54,4 +54,4 @@ a = a
 
 ---
 
-(module (cpp) (function (variable) (exp_name (variable))) (cpp))
+(haskell (cpp) (function (variable) (exp_name (variable))) (cpp))

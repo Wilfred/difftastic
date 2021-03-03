@@ -6,7 +6,7 @@ data A = Int :+ Int
 
 ---
 
-(module
+(haskell
  (adt
   (type)
   (constructors
@@ -24,4 +24,4 @@ data A = Int :: Int
 
 ---
 
-(module (adt (type) (constructors (data_constructor (constructor) (ERROR) (type_name (type))))))
+(haskell (adt (type) (constructors (data_constructor (constructor) (ERROR) (type_name (type))))))

@@ -5,12 +5,12 @@ module.exports = {
   // module
   // ------------------------------------------------------------------------
 
-  modid: $ => $.constructor,
+  _modid: $ => alias($.constructor, $.module),
 
-  _qualifying_module: $ => repeat1(seq($.modid, $._dot)),
+  _qualifying_module: $ => repeat1(seq($._modid, $._dot)),
 
-  qmodid: $ => qualified($, $.modid),
-  _qmodid: $ => choice($.qmodid, $.modid),
+  qualified_module: $ => qualified($, $._modid),
+  _qmodid: $ => choice($.qualified_module, $._modid),
 
   export_names: $ => parens(optional(choice(alias('..', $.all_names), sep($.comma, $._name)))),
 
@@ -24,7 +24,7 @@ module.exports = {
     seq('module', field('module', $._qmodid)),
   ),
 
-  module_exports: $ => parens(
+  exports: $ => parens(
     optional(sep1($.comma, $.export)),
     optional($.comma), // for trailing commas at the end of an export list
   ),
@@ -32,7 +32,7 @@ module.exports = {
   _module: $ => seq(
     'module',
     field('module', $._qmodid),
-    optional($.module_exports),
+    optional($.exports),
     where($, $._topdecl),
   ),
 }

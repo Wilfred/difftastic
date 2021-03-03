@@ -9,7 +9,7 @@ comment: line
 
 ---
 
-(module (comment) (comment) (comment) (comment) (empty_file))
+(haskell (comment) (comment) (comment) (comment) (empty_file))
 
 ================================================================================
 comment: multi
@@ -24,7 +24,7 @@ f = a
 
 ---
 
-(module (comment) (function (variable) (exp_name (variable))) (comment))
+(haskell (comment) (function (variable) (exp_name (variable))) (comment))
 
 ================================================================================
 comment: hash inside
@@ -34,7 +34,7 @@ comment: hash inside
 
 ---
 
-(module (comment) (empty_file))
+(haskell (comment) (empty_file))
 
 ================================================================================
 comment: newline termination
@@ -44,7 +44,7 @@ comment: newline termination
 
 ---
 
-(module (comment) (empty_file))
+(haskell (comment) (empty_file))
 
 ================================================================================
 comment: nested
@@ -57,7 +57,7 @@ comment: nested
 
 ---
 
-(module (comment) (empty_file))
+(haskell (comment) (empty_file))
 
 ================================================================================
 comment: unicode symbol
@@ -67,4 +67,4 @@ comment: unicode symbol
 
 ---
 
-(module (comment) (empty_file))
+(haskell (comment) (empty_file))

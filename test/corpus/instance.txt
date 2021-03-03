@@ -6,7 +6,7 @@ instance A a
 
 ---
 
-(module (instance (instance_head (class_name (type)) (type_name (type_variable)))))
+(haskell (instance (instance_head (class_name (type)) (type_name (type_variable)))))
 
 ================================================================================
 instance: type
@@ -16,7 +16,7 @@ instance A A a A
 
 ---
 
-(module
+(haskell
  (instance
   (instance_head
    (class_name (type))
@@ -32,7 +32,7 @@ instance forall a (a :: *) . A
 
 ---
 
-(module
+(haskell
  (instance
   (forall
    (type_variable)
@@ -49,7 +49,7 @@ instance (A a, A a) => A
 
 ---
 
-(module
+(haskell
  (instance
   (context (constraint (class_name (type)) (type_name (type_variable))))
   (instance_head (class_name (type))))
@@ -69,7 +69,7 @@ instance A a where a a = Just a
 
 ---
 
-(module
+(haskell
  (instance
   (instance_head (class_name (type)) (type_name (type_variable)))
   (where)
@@ -88,7 +88,7 @@ instance A a where
 
 ---
 
-(module
+(haskell
  (instance
   (instance_head (class_name (type)) (type_name (type_variable)))
   (where)
@@ -111,7 +111,7 @@ instance A ~~ A => A a
 
 ---
 
-(module
+(haskell
  (instance
   (context
    (constraint
@@ -141,7 +141,7 @@ instance A where
 
 ---
 
-(module
+(haskell
  (instance
   (instance_head
    (class_name (type)))
@@ -166,7 +166,7 @@ instance A where
 
 ---
 
-(module
+(haskell
  (instance
   (instance_head (class_name (type)))
   (where)
@@ -194,7 +194,7 @@ instance A where
 
 ---
 
-(module
+(haskell
  (instance
   (instance_head (class_name (type)))
   (where)

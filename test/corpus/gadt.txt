@@ -6,7 +6,7 @@ data A where
 
 ---
 
-(module (adt (type) (where)))
+(haskell (adt (type) (where)))
 
 ================================================================================
 gadt: basic
@@ -19,7 +19,7 @@ data A a where
 
 ---
 
-(module
+(haskell
  (adt
   (type)
   (type_variable)
@@ -47,7 +47,7 @@ data A where
 
 ---
 
-(module
+(haskell
  (adt
   (type)
   (where)
@@ -67,7 +67,7 @@ data A :: [*] -> * where
 
 ---
 
-(module
+(haskell
  (adt
   (type)
   (fun
@@ -83,7 +83,7 @@ data A a => A where
 
 ---
 
-(module
+(haskell
  (adt
   (context (constraint (class_name (type)) (type_name (type_variable))))
   (type)
@@ -98,7 +98,7 @@ data A where
 
 ---
 
-(module
+(haskell
  (adt
   (type)
   (where)
@@ -118,7 +118,7 @@ data A where
 
 ---
 
-(module
+(haskell
  (adt
   (type)
   (where)
@@ -137,7 +137,7 @@ data A where
 
 ---
 
-(module
+(haskell
  (adt
   (type)
   (where)
@@ -153,7 +153,7 @@ data a +++ b where
 
 ---
 
-(module
+(haskell
  (adt
   (type_infix (type_variable) (type_operator) (type_variable))
   (where)
@@ -177,7 +177,7 @@ newtype A where
 
 ---
 
-(module (newtype (type) (where) (gadt_constructor (constructor) (type_name (type)))))
+(haskell (newtype (type) (where) (gadt_constructor (constructor) (type_name (type)))))
 
 ================================================================================
 gadt: symbolic type
@@ -187,4 +187,4 @@ data (:#) a where
 
 ---
 
-(module (adt (type_operator) (type_variable) (where)))
+(haskell (adt (type_operator) (type_variable) (where)))

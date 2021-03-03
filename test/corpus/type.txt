@@ -8,7 +8,7 @@ type A = A A
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_name (type)))
@@ -28,7 +28,7 @@ type A = A A
 
 ---
 
-(module (type_alias (type) (type_apply (type_name (type)) (type_name (type)))))
+(haskell (type_alias (type) (type_apply (type_name (type)) (type_name (type)))))
 
 ================================================================================
 type decl: promoted constructor
@@ -39,7 +39,7 @@ type A = 'A
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_name (promoted (type))))
@@ -56,7 +56,7 @@ type A = [A a]
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_literal (con_list)))
@@ -75,7 +75,7 @@ type A = (->)
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_literal (con_unit)))
@@ -97,7 +97,7 @@ type A = A :++ A ':++ A
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_infix
@@ -116,7 +116,7 @@ type A = A : A
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_infix
@@ -132,7 +132,7 @@ type A = A ': A
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_infix
@@ -148,7 +148,7 @@ type A = '[]
 
 ---
 
-(module (type_alias (type) (promoted (type_literal (con_list)))))
+(haskell (type_alias (type) (promoted (type_literal (con_list)))))
 
 ================================================================================
 type decl: qualified consym
@@ -158,12 +158,12 @@ type A = A A.A.:++ A
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_infix
    (type_name (type))
-   (qualified_type_operator (modid (constructor)) (modid (constructor)) (type_operator))
+   (qualified_type_operator (module) (module) (type_operator))
    (type_name (type)))))
 
 ================================================================================
@@ -174,7 +174,7 @@ type A = A ':++ A
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_infix
@@ -190,12 +190,12 @@ type A = A 'A.:++ A
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_infix
    (type_name (type))
-   (promoted (qualified_type_operator (modid (constructor)) (type_operator)))
+   (promoted (qualified_type_operator (module) (type_operator)))
    (type_name (type)))))
 
 ================================================================================
@@ -206,12 +206,12 @@ type A = A `A.A` A
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_infix
    (type_name (type))
-   (ticked (qualified_type (modid (constructor)) (type)))
+   (ticked (qualified_type (module) (type)))
    (type_name (type)))))
 
 ================================================================================
@@ -222,7 +222,7 @@ type A = '(A a, A)
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (promoted
@@ -241,7 +241,7 @@ type A = ∀ a . (A a ~ A a) => A
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_infix (type_name (type)) (type_operator) (type_name (type))))
@@ -269,7 +269,7 @@ type A = A :++ A A ': A (A A a) : '[] ':++ A `A.A` '[]
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_infix
@@ -290,7 +290,7 @@ type A = A :++ A A ': A (A A a) : '[] ':++ A `A.A` '[]
       (promoted (type_operator))
       (type_infix
        (type_name (type))
-       (ticked (qualified_type (modid (constructor)) (type)))
+       (ticked (qualified_type (module) (type)))
        (promoted (type_literal (con_list))))))))))
 
 ================================================================================
@@ -302,7 +302,7 @@ type A = A (A "a")
 
 ---
 
-(module
+(haskell
  (type_alias (type) (type_literal (string)))
  (type_alias
   (type)
@@ -318,7 +318,7 @@ type A = (++) a a
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (type_apply
@@ -334,7 +334,7 @@ type A = A => A
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (context (constraint (class_name (type))) (type_name (type)))))
@@ -348,7 +348,7 @@ type A = forall a a . A a => [A]
 
 ---
 
-(module
+(haskell
  (type_alias
   (type)
   (forall
@@ -370,4 +370,4 @@ type (A a a) = A
 
 ---
 
-(module (type_alias (type) (type_variable) (type_variable) (type_name (type))))
+(haskell (type_alias (type) (type_variable) (type_variable) (type_name (type))))

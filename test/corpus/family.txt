@@ -7,7 +7,7 @@ type family A where
 
 ---
 
-(module
+(haskell
  (type_family
   (head (type))
   (where)
@@ -24,7 +24,7 @@ type family A a b c where
 
 ---
 
-(module
+(haskell
  (type_family
   (head name: (type) (type_variable) (type_variable) (type_variable))
   (where)
@@ -41,7 +41,7 @@ type family A a b c where
 
 ---
 
-(module
+(haskell
  (type_family
   (head (type) (type_variable) (type_variable) (type_variable))
   (where)
@@ -61,7 +61,7 @@ type family A a :: (k -> *) -> 'Just k where
 
 ---
 
-(module
+(haskell
  (type_family
   (head (type) (type_variable))
   (signature
@@ -82,7 +82,7 @@ type family A (a :: ([k] -> *) -> k) where
 
 ---
 
-(module
+(haskell
  (type_family
   (head
    (type)
@@ -104,7 +104,7 @@ type instance A (A A) = A
 
 ---
 
-(module
+(haskell
  (type_family
   (head
    (type)
@@ -131,7 +131,7 @@ data family A a (a :: [a]) :: Type -> *
 
 ---
 
-(module
+(haskell
  (data_family
   (type)
   (type_variable)
@@ -149,7 +149,7 @@ data instance ∀ a . A a A =
 
 ---
 
-(module
+(haskell
  (data_instance
   (forall (type_variable))
   (type_apply
@@ -172,7 +172,7 @@ data instance A a where
 
 ---
 
-(module
+(haskell
  (data_instance
   (type_apply
    (type_name (type))
@@ -191,7 +191,7 @@ newtype instance A a a = A a deriving A
 
 ---
 
-(module
+(haskell
  (data_instance
   (type_apply
    (type_name (type))
