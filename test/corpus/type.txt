@@ -371,3 +371,29 @@ type (A a a) = A
 ---
 
 (haskell (type_alias (type) (type_variable) (type_variable) (type_name (type))))
+
+================================================================================
+type decl: contraint tuple with implicit parameter
+================================================================================
+
+type A = (?a :: A.A, A)
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_tuple
+   (implicit_param (implicit_parid) (type_name (qualified_type (module) (type))))
+   (comma)
+   (type_name (type)))))
+
+================================================================================
+type decl: implicit parameter constraint
+================================================================================
+
+type A = ?a :: A
+
+---
+
+(haskell (type_alias (type) (implicit_param (implicit_parid) (type_name (type)))))
