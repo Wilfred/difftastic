@@ -22,7 +22,16 @@ module.exports = {
     ),
   ),
 
-  import_list: $ => seq(optional('hiding'), parens(optional(sep1($.comma, $.import_item)))),
+  import_list: $ => seq(
+    optional('hiding'),
+    parens(optional(seq(
+      sep1(
+        $.comma,
+        $.import_item
+      ),
+      optional($.comma), // for trailing commas at the end of an import list
+    ))),
+  ),
 
   decl_import: $ => seq(
     'import',
