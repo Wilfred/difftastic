@@ -1,6 +1,6 @@
 {
     "name": "tree-sitter-vhdl",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "VHDL grammar for tree-sitter",
     "main": "index.js",
     "scripts": {
@@ -27,7 +27,7 @@
         "nan": "^2.14.1"
     },
     "devDependencies": {
-        "tree-sitter-cli": "^0.17.1"
+        "tree-sitter-cli": "^0.18.2"
     },
     "tree-sitter": [
         {
