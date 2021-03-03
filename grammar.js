@@ -233,11 +233,10 @@ module.exports = grammar({
         $._PSL_HDL_Module_NAME, // PSL 7.2
     ], // }}}
     conflicts: $ => [ // {{{
-
         // 'procedure'  _identifier  •  'is'  …
         //
         // procedure_declaration:
-        //      procedure foo is begin end procedure;;
+        //      procedure foo is begin end procedure;
         // procedure_declaration:
         //      procedure foo is new bar;
         [$._procedure_specification, $.procedure_instantiation_declaration],
@@ -374,12 +373,18 @@ module.exports = grammar({
         // Top level precedence
         // Used when declarations and/or statements are outside of sequential
         // statements, library unit or context clause.
-        // Use case: snippets of code on web (eg. declarative part w/ body)
+        // Use case: snippets of code on web (eg. declarative part w/o body)
         [ 'declaration'          , 'primary_unit'        ],
         [ 'declaration'          , 'secondary_unit'      ],
         [ 'declaration'          , 'context_item'        ],
         [ 'concurrent_statement' , 'sequential_statement'],
         [ 'concurrent_statement' , 'declaration'         ],
+        // Component declarations vs component instantiation
+        [ 'component_declaration', 'simple_name'         ],
+        // NOTE
+        // This is ambiguos. Usually procedure_call_statement,
+        // but component_instantiation is also legal.
+        [ 'procedure_call', 'component_instantiation' ],
         // Subtype indication
         [ 'record_element_constraint' , 'type_mark'           ],
         [ 'record_element_resolution' , 'resolution_function' ],
@@ -394,6 +399,7 @@ module.exports = grammar({
         // Generate statatement element
         [ 'generate_statement_element', 'primary'             ],
         // Assertion
+        // NOTE
         // VHDL LRM states that ambiguos VHDL/PSL assertions shall
         // be parsed as VHDL assertion
         [ 'vhdl_assertion', 'psl_assertion' ],
@@ -439,7 +445,7 @@ module.exports = grammar({
         [ 'logical_expression', 'logical_property' ],
         [ 'factor'            , 'property_factor'  ],
         // PSL Expression implication has the same precedence as
-        // VHDL expressions, therefore property implication shall
+        // VHDL expressions, therefore property_implication shall
         // have lower precedence than implication.
         [ 'implication', 'property_implication' ],
     ], // }}}
@@ -1538,7 +1544,7 @@ module.exports = grammar({
         ),
         // }}}
         // 6.8 Component declarations {{{
-        component_declaration: $ => prec(1, seq(
+        component_declaration: $ => prec('component_declaration',seq(
             reservedWord('component'),
             field('name',$._identifier),
             optional(reservedWord('is')),
@@ -1772,10 +1778,10 @@ module.exports = grammar({
             $._external_object_name,
         ),
 
-        _simple_name: $ => choice(
+        _simple_name: $ => prec('simple_name',choice(
             alias($.basic_identifier, $.simple_name),
             alias($.extended_identifier, $.extended_simple_name)
-        ),
+        )),
 
         _end_simple_name: $ => field(
             'at_end',
@@ -2584,7 +2590,7 @@ module.exports = grammar({
         ),
         // }}}
         // 10.7 Procedure call statement {{{
-        procedure_call_statement: $ => prec(1, seq(
+        procedure_call_statement: $ => prec('procedure_call', seq(
             optional($.label),
             optional(reservedWord('postponed')),
             field('procedure', choice(
@@ -2832,13 +2838,13 @@ module.exports = grammar({
             ),
         ),
 
-        component_instantiation: $ => seq(
+        component_instantiation: $ => prec('component_instantiation',seq(
             optional(reservedWord('component')),
             choice(
                 $._simple_name,
                 $._expanded_name,
             ),
-        ),
+        )),
         // }}}
         // 11.8 Generate statements {{{
         _generate_statement: $ => choice(

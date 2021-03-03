@@ -5892,7 +5892,7 @@
     },
     "component_declaration": {
       "type": "PREC",
-      "value": 1,
+      "value": "component_declaration",
       "content": {
         "type": "SEQ",
         "members": [
@@ -7275,27 +7275,31 @@
       ]
     },
     "_simple_name": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "basic_identifier"
+      "type": "PREC",
+      "value": "simple_name",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "basic_identifier"
+            },
+            "named": true,
+            "value": "simple_name"
           },
-          "named": true,
-          "value": "simple_name"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "extended_identifier"
-          },
-          "named": true,
-          "value": "extended_simple_name"
-        }
-      ]
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "extended_identifier"
+            },
+            "named": true,
+            "value": "extended_simple_name"
+          }
+        ]
+      }
     },
     "_end_simple_name": {
       "type": "FIELD",
@@ -12211,7 +12215,7 @@
     },
     "procedure_call_statement": {
       "type": "PREC",
-      "value": 1,
+      "value": "procedure_call",
       "content": {
         "type": "SEQ",
         "members": [
@@ -13765,46 +13769,50 @@
       ]
     },
     "component_instantiation": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "TOKEN",
+      "type": "PREC",
+      "value": "component_instantiation",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
                 "content": {
-                  "type": "PREC",
-                  "value": 2,
+                  "type": "TOKEN",
                   "content": {
-                    "type": "PATTERN",
-                    "value": "[cC][oO][mM][pP][oO][nN][eE][nN][tT]"
+                    "type": "PREC",
+                    "value": 2,
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[cC][oO][mM][pP][oO][nN][eE][nN][tT]"
+                    }
                   }
-                }
+                },
+                "named": false,
+                "value": "component"
               },
-              "named": false,
-              "value": "component"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_simple_name"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_expanded_name"
-            }
-          ]
-        }
-      ]
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_simple_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expanded_name"
+              }
+            ]
+          }
+        ]
+      }
     },
     "_generate_statement": {
       "type": "CHOICE",
@@ -25518,6 +25526,14 @@
     [
       "concurrent_statement",
       "declaration"
+    ],
+    [
+      "component_declaration",
+      "simple_name"
+    ],
+    [
+      "procedure_call",
+      "component_instantiation"
     ],
     [
       "record_element_constraint",
