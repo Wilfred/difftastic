@@ -72,13 +72,14 @@ module.exports = {
   qualified_type: $ => qualified($, $._tyconid),
   _qtyconid: $ => choice($.qualified_type, $._tyconid),
 
-  type_operator: $ => choice($._tyconsym, $._consym),
-  qualified_type_operator: $ => qualified($, $.type_operator),
-  _qtyconsym: $ => choice($.qualified_type_operator, $.type_operator),
+  _type_operator: $ => choice(alias($._tyconsym, $.type_operator), $.constructor_operator),
+  qualified_type_operator: $ => qualified($, alias($._tyconsym, $.type_operator)),
+  _qualified_type_operator: $ => choice($.qualified_type_operator, $.qualified_constructor_operator),
+  _qtyconsym: $ => choice($._qualified_type_operator, $._type_operator),
 
   _ticked_tycon: $ => ticked($._tyconid),
-  _simple_tyconop: $ => choice(alias($._ticked_tycon, $.ticked), $.type_operator),
-  _simple_tycon: $ => choice($._tyconid, parens($.type_operator)),
+  _simple_tyconop: $ => choice(alias($._ticked_tycon, $.ticked), $._type_operator),
+  _simple_tycon: $ => choice($._tyconid, parens($._type_operator)),
 
   _ticked_qtycon: $ => ticked($._qtyconid),
   _qtyconops: $ => choice(alias($._ticked_qtycon, $.ticked), $._qtyconsym),

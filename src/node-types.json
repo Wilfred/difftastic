@@ -16,6 +16,10 @@
             "named": false
           },
           {
+            "type": "constructor_operator",
+            "named": true
+          },
+          {
             "type": "type",
             "named": true
           },
@@ -787,7 +791,15 @@
           "named": true
         },
         {
+          "type": "constructor_operator",
+          "named": true
+        },
+        {
           "type": "promoted",
+          "named": true
+        },
+        {
+          "type": "qualified_constructor_operator",
           "named": true
         },
         {
@@ -1150,6 +1162,10 @@
             "named": false
           },
           {
+            "type": "constructor_operator",
+            "named": true
+          },
+          {
             "type": "type",
             "named": true
           },
@@ -1378,6 +1394,10 @@
           {
             "type": ")",
             "named": false
+          },
+          {
+            "type": "constructor_operator",
+            "named": true
           },
           {
             "type": "type",
@@ -5327,6 +5347,10 @@
       "required": false,
       "types": [
         {
+          "type": "constructor_operator",
+          "named": true
+        },
+        {
           "type": "export_names",
           "named": true
         },
@@ -5336,6 +5360,10 @@
         },
         {
           "type": "operator",
+          "named": true
+        },
+        {
+          "type": "qualified_constructor_operator",
           "named": true
         },
         {
@@ -6933,6 +6961,10 @@
             "named": false
           },
           {
+            "type": "constructor_operator",
+            "named": true
+          },
+          {
             "type": "type",
             "named": true
           },
@@ -7626,6 +7658,10 @@
           {
             "type": ")",
             "named": false
+          },
+          {
+            "type": "constructor_operator",
+            "named": true
           },
           {
             "type": "type",
@@ -9014,6 +9050,14 @@
       "required": true,
       "types": [
         {
+          "type": "constructor_operator",
+          "named": true
+        },
+        {
+          "type": "qualified_constructor_operator",
+          "named": true
+        },
+        {
           "type": "qualified_type",
           "named": true
         },
@@ -9972,6 +10016,10 @@
             "named": false
           },
           {
+            "type": "constructor_operator",
+            "named": true
+          },
+          {
             "type": "type",
             "named": true
           },
@@ -10209,6 +10257,10 @@
         "required": false,
         "types": [
           {
+            "type": "constructor_operator",
+            "named": true
+          },
+          {
             "type": "ticked",
             "named": true
           },
@@ -10223,7 +10275,15 @@
         "required": false,
         "types": [
           {
+            "type": "constructor_operator",
+            "named": true
+          },
+          {
             "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "qualified_constructor_operator",
             "named": true
           },
           {
@@ -10472,7 +10532,15 @@
           "named": true
         },
         {
+          "type": "constructor_operator",
+          "named": true
+        },
+        {
           "type": "promoted",
+          "named": true
+        },
+        {
+          "type": "qualified_constructor_operator",
           "named": true
         },
         {
@@ -10501,11 +10569,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "type_operator",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "type_parens",
@@ -10972,6 +11035,10 @@
   {
     "type": "type",
     "named": false
+  },
+  {
+    "type": "type_operator",
+    "named": true
   },
   {
     "type": "type_star",

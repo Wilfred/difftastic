@@ -527,6 +527,7 @@ bool valid_tyconsym_one_char(const char c) {
       return false;
     case '~':
     case ':':
+    case '-':
       return true;
     default:
       return valid_varsym_one_char(c);

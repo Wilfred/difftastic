@@ -153,7 +153,7 @@ module A (
   (comma)
   (export (namespace) (qualified_type_operator (module) (module) (type_operator)))
   (comma)
-  (export (namespace) (qualified_type_operator (module) (module) (type_operator)))
+  (export (namespace) (qualified_constructor_operator (module) (module) (constructor_operator)))
   (comma)
   (export (qualified_type (module) (module) (type)))
   (comma)
@@ -176,3 +176,13 @@ module A.A'.A where
 ---
 
 (haskell (qualified_module (module) (module) (module)) (where))
+
+================================================================================
+module: export minus
+================================================================================
+
+module A (type(-), (-)) where
+
+---
+
+(haskell (module) (exports (export (namespace) (type_operator)) (comma) (export (type_operator))) (where))
