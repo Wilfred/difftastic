@@ -48,7 +48,8 @@ function parse_examples {
 clone_repo joshvera effects 08f5f36f2600362685af593f4b327e933b60bf97
 clone_repo PostgRest postgrest f80cfbf165f951a062b3cbedac4556019905ca49
 clone_repo GaloisInc ivory 3d00324ad1c113c7e70957ff6a6d636d271d0fc4
+clone_repo polysemy-research polysemy c37d485b614e98622f5e7473a478b781a6ad5c45
 
-for name in effects postgrest ivory; do
+for name in effects postgrest ivory polysemy; do
   parse_examples $name
 done
