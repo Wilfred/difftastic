@@ -67,11 +67,12 @@ module.exports = grammar({
     $._qop_nominus,
     $._gcon_literal,
     $._gcon,
-    $._tycon,
-    $._qtycon,
+    $._tyconid,
+    $._qtyconid,
     $._qtyconsym,
+    $._tycon,
     $._tyconops,
-    $._promotable_tycon,
+    $._qtycon,
     $._gtycon,
     $._class_tycon,
     $._fun_apat,
@@ -96,6 +97,13 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
+    /**
+     * This could be done with the second named precedence further up, but it somehow overrides symbolic infix
+     * constructors.
+     * Needs more investigation.
+     */
+    [$._type_infix, $.type_infix],
+
     /**
      * Optional context for a data/newtype decl with infix types:
      *

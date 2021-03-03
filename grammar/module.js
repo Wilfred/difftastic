@@ -12,18 +12,13 @@ module.exports = {
   qmodid: $ => qualified($, $.modid),
   _qmodid: $ => choice($.qmodid, $.modid),
 
-  _export_con: $ => choice(
-    $._qtycon,
-    $._qatyconsym,
-  ),
-
   export_names: $ => parens(optional(choice(alias('..', $.all_names), sep($.comma, $._name)))),
 
   export: $ => choice(
     $._qvar,
     seq(
       optional($.namespace),
-      $._export_con,
+      $._qtycon,
       optional($.export_names),
     ),
     seq('module', field('module', $._qmodid)),

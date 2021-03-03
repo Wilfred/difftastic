@@ -1113,7 +1113,7 @@ Parser single_tyconsym(const char c) {
   ) + fail;
 }
 
-Parser tyconsym = symop(cond::symbolic, Sym::tyconsym, single_tyconsym);
+Parser tyconsym = symop(cond::symbolic & not_(cond::eq(':')), Sym::tyconsym, single_tyconsym);
 
 /**
  * Succeed if the symbolic character doesn't match a reserved operator, otherwise fail.

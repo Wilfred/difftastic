@@ -76,15 +76,15 @@ module.exports = {
     $.type_apply,
   ),
 
-  type_infix: $ => prec('infix-type', seq(
+  type_infix: $ => seq(
     field('left', $._btype),
     field('op', $.tyconop),
     field('right', $._type_infix),
-  )),
+  ),
 
   _type_infix: $ => choice(
     $.type_infix,
-    prec('btype', $._btype),
+    $._btype,
   ),
 
   implicit_param: $ => seq(
@@ -142,7 +142,7 @@ module.exports = {
     parens($._simpletype),
     alias($._simpletype_infix, $.type_infix),
     seq(
-      field('name', $._qtycon),
+      field('name', $._tycon),
       repeat($._tyvar),
     ),
   ),
@@ -179,7 +179,7 @@ module.exports = {
   tyfam_head: $ => $._simpletype,
 
   tyfam_pat: $ => seq(
-    field('name', $._qtycon),
+    field('name', $._qtyconid),
     repeat($._atype),
   ),
 
