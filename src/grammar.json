@@ -3462,6 +3462,32 @@
         }
       ]
     },
+    "_do_keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "mdo"
+        },
+        {
+          "type": "STRING",
+          "value": "do"
+        }
+      ]
+    },
+    "do_module": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_qualifying_module"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_do_keyword"
+        }
+      ]
+    },
     "exp_do": {
       "type": "SEQ",
       "members": [
@@ -3469,12 +3495,12 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "mdo"
+              "type": "SYMBOL",
+              "name": "do_module"
             },
             {
-              "type": "STRING",
-              "value": "do"
+              "type": "SYMBOL",
+              "name": "_do_keyword"
             }
           ]
         },
