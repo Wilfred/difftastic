@@ -75,6 +75,8 @@ module.exports = grammar({
     $._qtycon,
     $._gtycon,
     $._class_tycon,
+    $._simple_tycon,
+    $._simple_tyconop,
     $._fun_apat,
     $._fun_lpat,
     $._exp_qvar,

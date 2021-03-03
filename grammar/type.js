@@ -78,7 +78,7 @@ module.exports = {
 
   type_infix: $ => seq(
     field('left', $._btype),
-    field('op', $._tyconop),
+    field('op', $._qtyconop),
     field('right', $._type_infix),
   ),
 
@@ -134,7 +134,7 @@ module.exports = {
 
   _simpletype_infix: $ => seq(
     $._tyvar,
-    field('name', alias($._tyconsym, $.type_operator)),
+    field('name', $._simple_tyconop),
     $._tyvar,
   ),
 
@@ -142,7 +142,7 @@ module.exports = {
     parens($._simpletype),
     alias($._simpletype_infix, $.type_infix),
     seq(
-      field('name', $._tycon),
+      field('name', $._simple_tycon),
       repeat($._tyvar),
     ),
   ),

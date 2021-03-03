@@ -322,7 +322,7 @@ data A :: (k -> '[ 'A]) -> *
    (type_star))))
 
 ================================================================================
-plain adt: symbolic
+plain adt: type operator varsym
 ================================================================================
 
 data a +++ b = a :+++ b
@@ -332,4 +332,25 @@ data a +++ b = a :+++ b
 (haskell
  (adt
   (type_infix (type_variable) (type_operator) (type_variable))
-  (constructors (data_constructor_infix (type_name (type_variable)) (constructor_operator) (type_name (type_variable))))))
+  (constructors
+   (data_constructor_infix
+    (type_name (type_variable))
+    (constructor_operator)
+    (type_name (type_variable))))))
+
+================================================================================
+plain adt: type operator consym
+================================================================================
+
+data a :<- b = a :<- b
+
+---
+
+(haskell
+ (adt
+  (type_infix (type_variable) (type_operator) (type_variable))
+  (constructors
+   (data_constructor_infix
+    (type_name (type_variable))
+    (constructor_operator)
+    (type_name (type_variable))))))
