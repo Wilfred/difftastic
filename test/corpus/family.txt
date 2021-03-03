@@ -69,7 +69,7 @@ type family A a :: (k -> *) -> 'Just k where
    (type_apply (type_name (promoted (type))) (type_name (type_variable))))
 (where)
   (equation
-   (pattern (type) (type_name (type_variable)))
+   (pattern name: (type) (type_name (type_variable)))
    (type_name (type_variable)))))
 
 ================================================================================
