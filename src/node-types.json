@@ -4,15 +4,23 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
-            "type": "qualified_type",
-            "named": true
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
           },
           {
             "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_operator",
             "named": true
           }
         ]
@@ -81,7 +89,7 @@
           "named": true
         },
         {
-          "type": "constrs",
+          "type": "constructors",
           "named": true
         },
         {
@@ -884,7 +892,12 @@
     }
   },
   {
-    "type": "constrs",
+    "type": "constructor",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "constructors",
     "named": true,
     "fields": {},
     "children": {
@@ -913,11 +926,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "constructor",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "consym",
@@ -1125,15 +1133,23 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
-            "type": "qualified_type",
-            "named": true
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
           },
           {
             "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_operator",
             "named": true
           }
         ]
@@ -1276,7 +1292,7 @@
       "required": true,
       "types": [
         {
-          "type": "constrs",
+          "type": "constructors",
           "named": true
         },
         {
@@ -1347,15 +1363,23 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
-            "type": "qualified_type",
-            "named": true
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
           },
           {
             "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_operator",
             "named": true
           }
         ]
@@ -6349,15 +6373,23 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
-            "type": "qualified_type",
-            "named": true
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
           },
           {
             "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_operator",
             "named": true
           }
         ]
@@ -6779,7 +6811,7 @@
       "required": true,
       "types": [
         {
-          "type": "constrs",
+          "type": "constructors",
           "named": true
         },
         {
@@ -7179,15 +7211,23 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
-            "type": "qualified_type",
-            "named": true
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
           },
           {
             "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_operator",
             "named": true
           }
         ]
@@ -9825,15 +9865,23 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
-            "type": "qualified_type",
-            "named": true
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
           },
           {
             "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_operator",
             "named": true
           }
         ]

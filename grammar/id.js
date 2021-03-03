@@ -68,16 +68,17 @@ module.exports = {
   // tycon
   // ------------------------------------------------------------------------
 
-  _tycon: $ => alias($.constructor, $.type),
-  qualified_type: $ => qualified($, $._tycon),
-  _qtycon: $ => choice($.qualified_type, $._tycon),
+  _tyconid: $ => alias($.constructor, $.type),
+  qualified_type: $ => qualified($, $._tyconid),
+  _qtyconid: $ => choice($.qualified_type, $._tyconid),
 
-  type_operator: $ => $._tyconsym,
+  type_operator: $ => choice($._tyconsym, $._consym),
   qualified_type_operator: $ => qualified($, $.type_operator),
   _qtyconsym: $ => choice($.qualified_type_operator, $.type_operator),
-  _qatyconsym: $ => parens($._qtyconsym),
 
-  _ticked_qtycon: $ => ticked($._qtycon),
+  _tycon: $ => choice($._tyconid, parens($.type_operator)),
+
+  _ticked_qtycon: $ => ticked($._qtyconid),
   _tyconops: $ => choice(alias($._ticked_qtycon, $.ticked), $._qtyconsym),
   _promoted_tyconop: $ => seq(quote, $._tyconops),
   tyconop: $ => choice(
@@ -97,16 +98,13 @@ module.exports = {
     $.con_tuple,
   ),
 
-  _promotable_tycon: $ => choice(
-    $._qatyconsym,
-    $._qtycon,
-  ),
+  _qtycon: $ => choice($._qtyconid, parens($._qtyconsym)),
 
-  _promoted_tycon: $ => seq(quote, $._promotable_tycon),
+  _promoted_tycon: $ => seq(quote, $._qtycon),
 
   _gtycon: $ => choice(
     alias($._promoted_tycon, $.promoted),
-    $._promotable_tycon,
+    $._qtycon,
     $.tycon_arrow,
   ),
 

@@ -52,8 +52,8 @@ module.exports = {
     'deriving',
     optional($.deriving_strategy),
     choice(
-      field('class', $._qtycon),
-      parens(optional(sep1($.comma, field('class', $._qtycon))))
+      field('class', $._qtyconid),
+      parens(optional(sep1($.comma, field('class', $._qtyconid))))
     ),
     optional($.via),
   ),

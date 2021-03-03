@@ -178,3 +178,13 @@ newtype A where
 ---
 
 (module (newtype (type) (where) (gadt_constructor (constructor) (type_name (type)))))
+
+================================================================================
+gadt: symbolic type
+================================================================================
+
+data (:#) a where
+
+---
+
+(module (adt (type_operator) (type_variable) (where)))
