@@ -18,7 +18,7 @@ module.exports = {
 
   char: _ => choice(
     /'[^']'/,
-    /'\\.*'/,
+    /'\\[^ ]*'/,
   ),
 
   string: _ => token(seq(
