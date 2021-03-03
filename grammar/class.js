@@ -38,14 +38,6 @@ module.exports = {
   // instance
   // ------------------------------------------------------------------------
 
-  decl_deriving: $ => seq(
-    'deriving',
-    optional($.deriving_strategy),
-    'instance',
-    optional($.context),
-    alias($.constraint, $.instance_head),
-  ),
-
   inst_datainst: $ => choice(
     seq(
       'data',
@@ -79,11 +71,21 @@ module.exports = {
   /**
    * instances only allow single foralls and contexts
    */
-  decl_instance: $ => seq(
+  _instance: $ => seq(
     'instance',
     optional($.forall),
     optional($.context),
     alias($.constraint, $.instance_head),
+  ),
+
+  decl_instance: $ => seq(
+    $._instance,
     optional(where($, $._idecl)),
+  ),
+
+  decl_deriving: $ => seq(
+    'deriving',
+    optional(choice($.deriving_strategy, $.via)),
+    $._instance,
   ),
 }

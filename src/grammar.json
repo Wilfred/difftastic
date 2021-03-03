@@ -6672,52 +6672,6 @@
         }
       ]
     },
-    "decl_deriving": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "deriving"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "deriving_strategy"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "instance"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "context"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "constraint"
-          },
-          "named": true,
-          "value": "instance_head"
-        }
-      ]
-    },
     "inst_datainst": {
       "type": "CHOICE",
       "members": [
@@ -6846,7 +6800,7 @@
         }
       ]
     },
-    "decl_instance": {
+    "_instance": {
       "type": "SEQ",
       "members": [
         {
@@ -6885,6 +6839,15 @@
           },
           "named": true,
           "value": "instance_head"
+        }
+      ]
+    },
+    "decl_instance": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_instance"
         },
         {
           "type": "CHOICE",
@@ -7058,6 +7021,40 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "decl_deriving": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "deriving"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "deriving_strategy"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "via"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_instance"
         }
       ]
     },
