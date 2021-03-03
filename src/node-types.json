@@ -1619,6 +1619,21 @@
     "fields": {}
   },
   {
+    "type": "do_module",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "module",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "equation",
     "named": true,
     "fields": {
@@ -3383,6 +3398,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "do_module",
+          "named": true
+        },
         {
           "type": "stmt",
           "named": true

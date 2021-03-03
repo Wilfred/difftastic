@@ -1,4 +1,4 @@
-const {parens, brackets, braces, sep1, layouted} = require('./util.js')
+const {parens, brackets, braces, sep1, layouted, qualified} = require('./util.js')
 
 module.exports = {
   // ------------------------------------------------------------------------
@@ -159,7 +159,14 @@ module.exports = {
     $.rec,
   ),
 
-  exp_do: $ => seq(choice('mdo', 'do'), layouted($, seq($.stmt))),
+  /**
+   * TODO does this hide the keyword entirely?
+   */
+  _do_keyword: _ => choice('mdo', 'do'),
+
+  do_module: $ => qualified($, $._do_keyword),
+
+  exp_do: $ => seq(choice($.do_module, $._do_keyword), layouted($, seq($.stmt))),
 
   exp_negation: $ => seq('-', $._aexp),
 
