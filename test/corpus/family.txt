@@ -63,11 +63,10 @@ type family A a :: (k -> *) -> 'Just k where
 
 (haskell
  (type_family
-  (head (type) (type_variable))
-  (signature
-   (fun
-    (type_parens (fun (type_name (type_variable)) (type_star)))
-    (type_apply (type_name (promoted (type))) (type_name (type_variable)))))
+  (head name: (type) (type_variable))
+  type: (fun
+   (type_parens (fun (type_name (type_variable)) (type_star)))
+   (type_apply (type_name (promoted (type))) (type_name (type_variable))))
 (where)
   (equation
    (pattern (type) (type_name (type_variable)))
@@ -107,10 +106,9 @@ type instance A (A A) = A
 (haskell
  (type_family
   (head
-   (type)
-   (annotated_type_variable (type_variable) (type_name (type_variable))))
-  (signature
-   (type_star)))
+   name: (type)
+   (annotated_type_variable (type_variable) type: (type_name (type_variable))))
+  type: (type_star))
  (type_instance
   (type_name (type))
   (type_list (type_name (type)))
@@ -151,7 +149,7 @@ data instance ∀ a . A a A =
 
 (haskell
  (data_instance
-  (forall (type_variable))
+  (forall (quantifiers (type_variable)))
   (type_apply
    (type_name (type))
    (type_name (type_variable))

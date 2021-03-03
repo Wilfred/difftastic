@@ -23,10 +23,12 @@ module.exports = {
     repeat1($._tyvar),
   ),
 
-  forall: $ => seq(
-    $._forall,
+  _quantifiers: $ => seq(
+    alias($._forall, $.quantifiers),
     $._forall_dot,
   ),
+
+  forall: $ => $._quantifiers,
 
   type_parens: $ => parens($._type),
 
@@ -97,26 +99,30 @@ module.exports = {
     $.type_infix,
   ),
 
-  _context: $ => seq(
+  _quantified_constraint: $ => seq($._quantifiers, $._constraint),
+
+  _constraint_context: $ => seq($._context, $._constraint),
+
+  _constraint: $ => choice(
+    alias($._quantified_constraint, $.forall),
+    alias($._constraint_context, $.context),
+    $.constraint,
+  ),
+
+  _context_constraints: $ => seq(
     choice(
       $.constraint,
-      prec('context-empty', parens(optional(sep1($.comma, choice($.constraint, $.implicit_param))))),
+      prec('context-empty', parens(optional(sep1($.comma, choice($._constraint, $.implicit_param))))),
     ),
   ),
 
-  context: $ => seq($._context, '=>'),
+  _context: $ => seq($._context_constraints, '=>'),
 
-  _type_quantifiers: $ => seq(
-    alias($._forall, $.quantifiers),
-    $._forall_dot,
-    $._type,
-  ),
+  context: $ => $._context,
 
-  _type_context: $ => seq(
-    $._context,
-    '=>',
-    $._type,
-  ),
+  _type_quantifiers: $ => seq($._quantifiers, $._type),
+
+  _type_context: $ => seq($._context, $._type),
 
   _type_fun: $ => prec('function-type', seq($._type_infix, '->', $._type)),
 
@@ -169,13 +175,6 @@ module.exports = {
   // type family
   // ------------------------------------------------------------------------
 
-  // TODO what's this?
-  tyfam_sig: $ => seq(
-    // optional(sep1($.comma, choice($._variable, $.implicit_parid))),
-    '::',
-    $._type
-  ),
-
   tyfam_head: $ => $._simpletype,
 
   tyfam_pat: $ => seq(
@@ -193,7 +192,7 @@ module.exports = {
     'type',
     'family',
     alias($.tyfam_head, $.head),
-    optional(alias($.tyfam_sig, $.signature)),
+    optional($._type_annotation),
     optional(where($, alias($.tyfam_eq, $.equation))),
   ),
 

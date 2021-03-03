@@ -1349,18 +1349,27 @@
         }
       ]
     },
-    "forall": {
+    "_quantifiers": {
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_forall"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_forall"
+          },
+          "named": true,
+          "value": "quantifiers"
         },
         {
           "type": "SYMBOL",
           "name": "_forall_dot"
         }
       ]
+    },
+    "forall": {
+      "type": "SYMBOL",
+      "name": "_quantifiers"
     },
     "type_parens": {
       "type": "SEQ",
@@ -1672,7 +1681,60 @@
         }
       ]
     },
-    "_context": {
+    "_quantified_constraint": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_quantifiers"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_constraint"
+        }
+      ]
+    },
+    "_constraint_context": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_context"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_constraint"
+        }
+      ]
+    },
+    "_constraint": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_quantified_constraint"
+          },
+          "named": true,
+          "value": "forall"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_constraint_context"
+          },
+          "named": true,
+          "value": "context"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "constraint"
+        }
+      ]
+    },
+    "_context_constraints": {
       "type": "SEQ",
       "members": [
         {
@@ -1703,7 +1765,7 @@
                             "members": [
                               {
                                 "type": "SYMBOL",
-                                "name": "constraint"
+                                "name": "_constraint"
                               },
                               {
                                 "type": "SYMBOL",
@@ -1725,7 +1787,7 @@
                                   "members": [
                                     {
                                       "type": "SYMBOL",
-                                      "name": "constraint"
+                                      "name": "_constraint"
                                     },
                                     {
                                       "type": "SYMBOL",
@@ -1754,12 +1816,12 @@
         }
       ]
     },
-    "context": {
+    "_context": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_context"
+          "name": "_context_constraints"
         },
         {
           "type": "STRING",
@@ -1767,21 +1829,16 @@
         }
       ]
     },
+    "context": {
+      "type": "SYMBOL",
+      "name": "_context"
+    },
     "_type_quantifiers": {
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_forall"
-          },
-          "named": true,
-          "value": "quantifiers"
-        },
-        {
           "type": "SYMBOL",
-          "name": "_forall_dot"
+          "name": "_quantifiers"
         },
         {
           "type": "SYMBOL",
@@ -1795,10 +1852,6 @@
         {
           "type": "SYMBOL",
           "name": "_context"
-        },
-        {
-          "type": "STRING",
-          "value": "=>"
         },
         {
           "type": "SYMBOL",
@@ -2006,19 +2059,6 @@
         }
       ]
     },
-    "tyfam_sig": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "::"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_type"
-        }
-      ]
-    },
     "tyfam_head": {
       "type": "SYMBOL",
       "name": "_simpletype"
@@ -2089,13 +2129,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "tyfam_sig"
-              },
-              "named": true,
-              "value": "signature"
+              "type": "SYMBOL",
+              "name": "_type_annotation"
             },
             {
               "type": "BLANK"
@@ -6162,10 +6197,6 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "instance"
-        },
-        {
           "type": "CHOICE",
           "members": [
             {
@@ -6218,6 +6249,10 @@
               "value": "data"
             },
             {
+              "type": "STRING",
+              "value": "instance"
+            },
+            {
               "type": "SYMBOL",
               "name": "_datainst"
             },
@@ -6241,6 +6276,10 @@
             {
               "type": "STRING",
               "value": "newtype"
+            },
+            {
+              "type": "STRING",
+              "value": "instance"
             },
             {
               "type": "SYMBOL",
@@ -6656,63 +6695,6 @@
         }
       ]
     },
-    "_inst_datainst": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "instance"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "forall"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "context"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_type_infix"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_type_annotation"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
     "inst_datainst": {
       "type": "CHOICE",
       "members": [
@@ -6724,8 +6706,20 @@
               "value": "data"
             },
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "instance"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
               "type": "SYMBOL",
-              "name": "_inst_datainst"
+              "name": "_datainst"
             },
             {
               "type": "CHOICE",
@@ -6749,8 +6743,20 @@
               "value": "newtype"
             },
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "instance"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
               "type": "SYMBOL",
-              "name": "_inst_datainst"
+              "name": "_datainst"
             },
             {
               "type": "SYMBOL",
@@ -8287,7 +8293,8 @@
     "ReferenceError",
     "ReferenceError",
     "ReferenceError",
-    "ReferenceError"
+    "ReferenceError",
+    "_quantifiers"
   ],
   "supertypes": []
 }

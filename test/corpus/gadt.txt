@@ -124,7 +124,7 @@ data A where
   (where)
   (gadt_constructor
    (constructor)
-   (forall (type_variable))
+   (forall (quantifiers (type_variable)))
    (type_name (type)))))
 
 ================================================================================

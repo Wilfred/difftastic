@@ -35,8 +35,9 @@ instance forall a (a :: *) . A
 (haskell
  (instance
   (forall
-   (type_variable)
-   (annotated_type_variable (type_variable) (type_star))
+   (quantifiers
+    (type_variable)
+    (annotated_type_variable (type_variable) (type_star)))
   )
   (instance_head (class_name (type)))))
 
@@ -162,7 +163,7 @@ instance: associated data instance
 
 instance A where
   data A a = A a | A { a :: A }
-  data instance A a = A
+  data instance ∀ a . A a => A a = A
 
 ---
 
@@ -180,6 +181,8 @@ instance A where
      (constructor)
      (record_fields (field (variable) (type_name (type)))))))
   (inst_datainst
+   (forall (quantifiers (type_variable)))
+   (context (constraint (class_name (type)) (type_name (type_variable))))
    (type_apply
     (type_name (type))
     (type_name (type_variable)))

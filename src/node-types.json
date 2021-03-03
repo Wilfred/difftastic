@@ -5701,10 +5701,10 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "annotated_type_variable",
+          "type": "constraint",
           "named": true
         },
         {
@@ -5757,10 +5757,6 @@
         },
         {
           "type": "type_tuple",
-          "named": true
-        },
-        {
-          "type": "type_variable",
           "named": true
         }
       ]
@@ -9451,7 +9447,7 @@
       },
       "type": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "::",
@@ -9518,54 +9514,6 @@
         },
         {
           "type": "constructor_operator",
-          "named": true
-        },
-        {
-          "type": "context",
-          "named": true
-        },
-        {
-          "type": "forall",
-          "named": true
-        },
-        {
-          "type": "fun",
-          "named": true
-        },
-        {
-          "type": "promoted",
-          "named": true
-        },
-        {
-          "type": "type_apply",
-          "named": true
-        },
-        {
-          "type": "type_infix",
-          "named": true
-        },
-        {
-          "type": "type_list",
-          "named": true
-        },
-        {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
-          "named": true
-        },
-        {
-          "type": "type_tuple",
           "named": true
         }
       ]
@@ -10127,7 +10075,62 @@
   {
     "type": "type_family",
     "named": true,
-    "fields": {},
+    "fields": {
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "context",
+            "named": true
+          },
+          {
+            "type": "forall",
+            "named": true
+          },
+          {
+            "type": "fun",
+            "named": true
+          },
+          {
+            "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "type_apply",
+            "named": true
+          },
+          {
+            "type": "type_infix",
+            "named": true
+          },
+          {
+            "type": "type_list",
+            "named": true
+          },
+          {
+            "type": "type_literal",
+            "named": true
+          },
+          {
+            "type": "type_name",
+            "named": true
+          },
+          {
+            "type": "type_parens",
+            "named": true
+          },
+          {
+            "type": "type_star",
+            "named": true
+          },
+          {
+            "type": "type_tuple",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -10138,10 +10141,6 @@
         },
         {
           "type": "head",
-          "named": true
-        },
-        {
-          "type": "signature",
           "named": true
         },
         {
