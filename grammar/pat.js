@@ -1,12 +1,12 @@
 const {parens} = require('./util.js')
 
 module.exports = {
-  pat_record_binder: $ => choice(
+  pat_field: $ => choice(
     alias('..', $.wildcard),
     seq($._qvar, optional(seq('=', $._pat))),
   ),
 
-  pat_record: $ => braces(optional(sep1($.comma, $.pat_record_binder))),
+  pat_fields: $ => braces(optional(sep1($.comma, $.pat_field))),
 
   pat_as: $ => seq(field('var', $.variable), token.immediate('@'), field('pat', $._apat)),
 
@@ -26,14 +26,20 @@ module.exports = {
 
   pat_name: $ => $.variable,
 
-  pat_constructor: $ => $._qcon,
+  /**
+   * Needed non-inlined for conflict definition.
+   */
+  _pat_constructor: $ => alias($._qcon, $.pat_name),
 
   pat_wildcard: _ => '_',
+
+  pat_record: $ => seq(field('con', $._pat_constructor), field('fields', $.pat_fields)),
 
   _apat: $ => choice(
     $.pat_name,
     $.pat_as,
-    seq(alias($.pat_constructor, $.pat_name), optional($.pat_record)),
+    $._pat_constructor,
+    $.pat_record,
     alias($.literal, $.pat_literal),
     $.pat_wildcard,
     $.pat_parens,
@@ -46,7 +52,7 @@ module.exports = {
   /**
    * In patterns, application is only legal if the first element is a con.
    */
-  pat_apply: $ => seq(alias($.pat_constructor, $.pat_name), repeat1($._apat)),
+  pat_apply: $ => seq($._pat_constructor, repeat1($._apat)),
 
   _lpat: $ => choice(
     $._apat,

@@ -114,24 +114,27 @@ f a@A { a = a, b = a, a, .. } = a
 ---
 
 (haskell
- (function (variable) (patterns (pat_name (constructor)) (pat_record)) (exp_name (variable)))
+ (function (variable) (patterns (pat_record (pat_name (constructor)) (pat_fields))) (exp_name (variable)))
  (function
   (variable)
   (patterns
-   (pat_name (constructor))
-   (pat_record (pat_record_binder (wildcard)))) (exp_name (variable)))
+   (pat_record
+    (pat_name (constructor))
+    (pat_fields (pat_field (wildcard)))))
+   (exp_name (variable)))
  (function
   (variable)
   (patterns
    (pat_as
     (variable)
-    (pat_name (constructor))
     (pat_record
-     (pat_record_binder (variable) (pat_name (variable)))
-     (comma)
-     (pat_record_binder (variable) (pat_name (variable)))
-     (comma)
-     (pat_record_binder (variable)) (comma) (pat_record_binder (wildcard)))))
+     (pat_name (constructor))
+     (pat_fields
+      (pat_field (variable) (pat_name (variable)))
+      (comma)
+      (pat_field (variable) (pat_name (variable)))
+      (comma)
+      (pat_field (variable)) (comma) (pat_field (wildcard))))))
   (exp_name (variable))))
 
 ================================================================================
@@ -288,7 +291,7 @@ a (A{}) = a
 
 (haskell
  (function
-  (variable) (patterns (pat_parens (pat_name (constructor)) (pat_record)))
+  (variable) (patterns (pat_parens (pat_record (pat_name (constructor)) (pat_fields))))
   (exp_name (variable))))
 
 ================================================================================
@@ -319,7 +322,10 @@ a a | a < 1, a > 1 = A
        (pat_apply
         (pat_name (constructor))
         (pat_parens
-         (pat_apply (pat_name (constructor)) (pat_name (constructor)) (pat_record (pat_record_binder (wildcard))) (pat_wildcard))))
+         (pat_apply
+         (pat_name (constructor))
+         (pat_record con: (pat_name (constructor)) fields: (pat_fields (pat_field (wildcard))))
+         (pat_wildcard))))
        (constructor_operator)
        (pat_name (variable)))
       (exp_name (variable)))))

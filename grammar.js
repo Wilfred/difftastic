@@ -153,7 +153,7 @@ module.exports = grammar({
     [$._fun_name, $.exp_name],
     [$._fun_name, $.pat_name],
     [$._fun_name, $.pat_name, $.exp_name],
-    [$.exp_name, $.pat_constructor],
+    [$.exp_name, $._pat_constructor],
     [$.exp_name, $.pat_name],
     [$._aexp, $._apat],
     [$.pat_negation, $._literal],

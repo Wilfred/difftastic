@@ -6,14 +6,14 @@ module.exports = {
   // ------------------------------------------------------------------------
 
   _pattern_type: $ => seq(
-    $.constructor,
+    $._con,
     $._type_annotation,
   ),
 
   _pattern_equals: $ => seq(
-    $._pat,
+    field('lhs', $._pat),
     '=',
-    $._pat,
+    field('rhs', $._pat),
   ),
 
   _pattern_decl: $ => seq(
@@ -21,12 +21,22 @@ module.exports = {
     $._funrhs,
   ),
 
+  /**
+   * `where` may not be empty
+   */
   _pattern_arrow: $ => seq(
-    $._pat,
+    field('lhs', $._pat),
     '<-',
-    $._pat,
+    field('rhs', $._pat),
     optional(seq($.where, layouted($, $._pattern_decl))),
   ),
 
-  decl_pattern: $ => seq('pattern', choice($._pattern_type, $._pattern_equals, $._pattern_arrow)),
+  decl_pattern: $ => seq(
+    'pattern',
+    choice(
+      alias($._pattern_type, $.signature),
+      alias($._pattern_equals, $.equation),
+      alias($._pattern_arrow, $.equation),
+    ),
+  ),
 }

@@ -8,8 +8,9 @@ pattern A a <- a:as
 
 (haskell
  (pattern_synonym
-  (pat_apply (pat_name (constructor)) (pat_name (variable)))
-  (pat_infix (pat_name (variable)) (constructor_operator) (pat_name (variable)))))
+  (equation
+   (pat_apply (pat_name (constructor)) (pat_name (variable)))
+   (pat_infix (pat_name (variable)) (constructor_operator) (pat_name (variable))))))
 
 ================================================================================
 pattern synonym: unidirectional strict
@@ -21,8 +22,9 @@ pattern A a = A !a
 
 (haskell
  (pattern_synonym
-  (pat_apply (pat_name (constructor)) (pat_name (variable)))
-  (pat_apply (pat_name (constructor)) (pat_strict (pat_name (variable))))))
+  (equation
+   (pat_apply (pat_name (constructor)) (pat_name (variable)))
+   (pat_apply (pat_name (constructor)) (pat_strict (pat_name (variable)))))))
 
 ================================================================================
 pattern synonym: explicit bidirectional list
@@ -35,11 +37,12 @@ pattern HeadC a <- a:as where
 
 (haskell
  (pattern_synonym
-  (pat_apply (pat_name (constructor)) (pat_name (variable)))
-  (pat_infix (pat_name (variable)) (constructor_operator) (pat_name (variable)))
-  (where)
-  (pat_apply (pat_name (constructor)) (pat_name (variable)))
-  (exp_list (exp_name (variable)))))
+  (equation
+   (pat_apply (pat_name (constructor)) (pat_name (variable)))
+   (pat_infix (pat_name (variable)) (constructor_operator) (pat_name (variable)))
+   (where)
+   (pat_apply (pat_name (constructor)) (pat_name (variable)))
+   (exp_list (exp_name (variable))))))
 
 ================================================================================
 pattern synonym: explicit bidirectional strict
@@ -52,11 +55,12 @@ pattern A a <- A !a where
 
 (haskell
  (pattern_synonym
-  (pat_apply (pat_name (constructor)) (pat_name (variable)))
-  (pat_apply (pat_name (constructor)) (pat_strict (pat_name (variable))))
-  (where)
-  (pat_apply (pat_name (constructor)) (pat_strict (pat_name (variable))))
-  (exp_apply (exp_name (constructor)) (exp_name (variable)))))
+  (equation
+   (pat_apply (pat_name (constructor)) (pat_name (variable)))
+   (pat_apply (pat_name (constructor)) (pat_strict (pat_name (variable))))
+   (where)
+   (pat_apply (pat_name (constructor)) (pat_strict (pat_name (variable))))
+   (exp_apply (exp_name (constructor)) (exp_name (variable))))))
 
 ================================================================================
 pattern synonym: explicit bidirectional record
@@ -69,15 +73,17 @@ pattern A { a } <- A a where
 
 (haskell
  (pattern_synonym
-  (pat_name (constructor))
-  (pat_record (pat_record_binder (variable)))
-  (pat_apply (pat_name (constructor)) (pat_name (variable)))
-  (where)
-  (pat_apply (pat_name (constructor)) (pat_name (variable)))
-  rhs: (exp_cond
-   if: (exp_infix (exp_name (variable)) (operator) (exp_literal (integer)))
-   then: (exp_name (variable))
-   else: (exp_name (variable)))))
+  (equation
+   lhs: (pat_record
+    con: (pat_name (constructor))
+    fields: (pat_fields (pat_field (variable))))
+   rhs: (pat_apply (pat_name (constructor)) (pat_name (variable)))
+   (where)
+   (pat_apply (pat_name (constructor)) (pat_name (variable)))
+   rhs: (exp_cond
+     if: (exp_infix (exp_name (variable)) (operator) (exp_literal (integer)))
+     then: (exp_name (variable))
+     else: (exp_name (variable))))))
 
 ================================================================================
 pattern synonym: explicit bidirectional guards
@@ -92,16 +98,17 @@ pattern A a <- A a where
 
 (haskell
  (pattern_synonym
-  (pat_apply (pat_name (constructor)) (pat_name (variable)))
-  (pat_apply (pat_name (constructor)) (pat_name (variable)))
-  (where)
-  (pat_apply (pat_name (constructor)) (pat_name (variable)))
-  (guard_equation
-   (guards (guard (exp_infix (exp_name (variable)) (operator) (exp_literal (integer)))))
-   (exp_parens (exp_apply (exp_name (constructor)) (exp_name (variable)))))
-  (guard_equation
-   (guards (guard (exp_name (variable))))
-   (exp_parens (exp_apply (exp_name (constructor)) (exp_name (variable)))))))
+  (equation
+   (pat_apply (pat_name (constructor)) (pat_name (variable)))
+   (pat_apply (pat_name (constructor)) (pat_name (variable)))
+   (where)
+   (pat_apply (pat_name (constructor)) (pat_name (variable)))
+   (guard_equation
+    (guards (guard (exp_infix (exp_name (variable)) (operator) (exp_literal (integer)))))
+    (exp_parens (exp_apply (exp_name (constructor)) (exp_name (variable)))))
+   (guard_equation
+    (guards (guard (exp_name (variable))))
+    (exp_parens (exp_apply (exp_name (constructor)) (exp_name (variable))))))))
 
 ================================================================================
 pattern synonym: signature
@@ -113,15 +120,16 @@ pattern A :: A -> A -> (A, A)
 
 (haskell
  (pattern_synonym
-  (constructor)
-  (fun
-   (type_name (type))
+  (signature
+   (constructor)
    (fun
     (type_name (type))
-    (type_tuple
+    (fun
      (type_name (type))
-     (comma)
-     (type_name (type)))))))
+     (type_tuple
+      (type_name (type))
+      (comma)
+      (type_name (type))))))))
 
 ================================================================================
 pattern synonym: unidirectional record
@@ -133,5 +141,22 @@ pattern A {a, a} = (a, a)
 
 (haskell
  (pattern_synonym
-  (pat_name (constructor)) (pat_record (pat_record_binder (variable)) (comma) (pat_record_binder (variable)))
-  (pat_tuple (pat_name (variable)) (comma) (pat_name (variable)))))
+  (equation
+   (pat_record (pat_name (constructor)) (pat_fields (pat_field (variable)) (comma) (pat_field (variable))))
+   (pat_tuple (pat_name (variable)) (comma) (pat_name (variable))))))
+
+================================================================================
+pattern synonym: operator
+================================================================================
+
+pattern (:->) :: A
+pattern a :-> b <- a
+
+---
+
+(haskell
+ (pattern_synonym (signature (constructor_operator) type: (type_name (type))))
+ (pattern_synonym
+  (equation
+   lhs: (pat_infix (pat_name (variable)) (constructor_operator) (pat_name (variable)))
+   rhs: (pat_name (variable)))))
