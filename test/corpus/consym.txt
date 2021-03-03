@@ -9,7 +9,7 @@ data A = Int :+ Int
 (module
  (adt
   (type)
-  (constrs
+  (constructors
    (data_constructor_infix
     (type_name (type))
     (consym)
@@ -24,4 +24,4 @@ data A = Int :: Int
 
 ---
 
-(module (adt (type) (constrs (data_constructor (constructor) (ERROR) (type_name (type))))))
+(module (adt (type) (constructors (data_constructor (constructor) (ERROR) (type_name (type))))))
