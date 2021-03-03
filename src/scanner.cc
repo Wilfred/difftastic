@@ -1295,6 +1295,7 @@ Parser repeat_end(uint32_t column) {
 Parser newline(uint32_t indent) {
   return
     eof +
+    cpp_workaround + 
     comment +
     dedent(indent) +
     newline_where(indent) +
@@ -1340,7 +1341,7 @@ Parser main =
   mark +
   either(
     cond::consume('\n'),
-    cpp_workaround + with(count_indent)(newline),
+    with(count_indent)(newline),
     with(state::column)(immediate)
   );
 
