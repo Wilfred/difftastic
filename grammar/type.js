@@ -30,11 +30,11 @@ module.exports = {
 
   forall: $ => $._quantifiers,
 
-  type_parens: $ => parens($._type),
+  type_parens: $ => parens($._type_or_implicit),
 
-  type_list: $ => brackets(sep1($.comma, $._type)),
+  type_list: $ => brackets(sep1($.comma, $._type_or_implicit)),
 
-  type_tuple: $ => parens(sep2($.comma, $._type)),
+  type_tuple: $ => parens(sep2($.comma, $._type_or_implicit)),
 
   _type_promotable_literal: $ => choice(
     $.type_literal,
@@ -78,6 +78,11 @@ module.exports = {
     $.type_apply,
   ),
 
+  implicit_param: $ => seq(
+    $.implicit_parid,
+    $._type_annotation,
+  ),
+
   type_infix: $ => seq(
     field('left', $._btype),
     field('op', $._qtyconop),
@@ -87,11 +92,6 @@ module.exports = {
   _type_infix: $ => choice(
     $.type_infix,
     $._btype,
-  ),
-
-  implicit_param: $ => seq(
-    $.implicit_parid,
-    $._type_annotation,
   ),
 
   constraint: $ => choice(
@@ -133,9 +133,14 @@ module.exports = {
     $._type_infix,
   )),
 
+  _type_or_implicit: $ => choice(
+    $.implicit_param,
+    $._type,
+  ),
+
   _type_annotation: $ => seq(
     '::',
-    field('type', $._type),
+    field('type', $._type_or_implicit),
   ),
 
   _simpletype_infix: $ => seq(
@@ -161,7 +166,7 @@ module.exports = {
     'type',
     $._simpletype,
     '=',
-    $._type,
+    $._type_or_implicit,
   ),
 
   decl_type_sig: $ => seq(
@@ -196,7 +201,7 @@ module.exports = {
   tyfam_eq: $ => seq(
     alias($.tyfam_pat, $.pattern),
     '=',
-    $._type,
+    $._type_or_implicit,
   ),
 
   decl_tyfam: $ => seq(
@@ -212,6 +217,6 @@ module.exports = {
     'instance',
     repeat($._atype),
     '=',
-    $._type,
+    $._type_or_implicit,
   ),
 }

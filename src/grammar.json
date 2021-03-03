@@ -1403,7 +1403,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_type"
+          "name": "_type_or_implicit"
         },
         {
           "type": "STRING",
@@ -1423,7 +1423,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_type"
+              "name": "_type_or_implicit"
             },
             {
               "type": "REPEAT",
@@ -1436,7 +1436,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_type"
+                    "name": "_type_or_implicit"
                   }
                 ]
               }
@@ -1461,7 +1461,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_type"
+              "name": "_type_or_implicit"
             },
             {
               "type": "REPEAT1",
@@ -1474,7 +1474,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_type"
+                    "name": "_type_or_implicit"
                   }
                 ]
               }
@@ -1615,6 +1615,19 @@
         }
       ]
     },
+    "implicit_param": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "implicit_parid"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type_annotation"
+        }
+      ]
+    },
     "type_infix": {
       "type": "SEQ",
       "members": [
@@ -1654,19 +1667,6 @@
         {
           "type": "SYMBOL",
           "name": "_btype"
-        }
-      ]
-    },
-    "implicit_param": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "implicit_parid"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_type_annotation"
         }
       ]
     },
@@ -1943,6 +1943,19 @@
         ]
       }
     },
+    "_type_or_implicit": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "implicit_param"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        }
+      ]
+    },
     "_type_annotation": {
       "type": "SEQ",
       "members": [
@@ -1955,7 +1968,7 @@
           "name": "type",
           "content": {
             "type": "SYMBOL",
-            "name": "_type"
+            "name": "_type_or_implicit"
           }
         }
       ]
@@ -2049,7 +2062,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_type"
+          "name": "_type_or_implicit"
         }
       ]
     },
@@ -2158,7 +2171,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_type"
+          "name": "_type_or_implicit"
         }
       ]
     },
@@ -2413,7 +2426,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_type"
+          "name": "_type_or_implicit"
         }
       ]
     },
@@ -8224,6 +8237,10 @@
       "data_constructor"
     ],
     [
+      "type_name",
+      "tyfam_pat"
+    ],
+    [
       "_exp_apply",
       "_fexp"
     ],
@@ -8245,8 +8262,8 @@
       "type_apply"
     ],
     [
-      "type_name",
-      "tyfam_pat"
+      "_type_or_implicit",
+      "_context_constraints"
     ]
   ],
   "precedences": [

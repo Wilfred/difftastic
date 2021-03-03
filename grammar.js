@@ -195,6 +195,11 @@ module.exports = grammar({
      */
     [$.type_apply, $._btype],
     [$.type_apply],
+
+    /**
+     * Implicit parameters have slightly weird restrictions.
+     */
+    [$._type_or_implicit, $._context_constraints],
   ],
 
   word: $ => $._varid,
