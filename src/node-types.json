@@ -650,6 +650,11 @@
     "fields": {}
   },
   {
+    "type": "char",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "class",
     "named": true,
     "fields": {},
@@ -10601,10 +10606,6 @@
   {
     "type": "ccall",
     "named": false
-  },
-  {
-    "type": "char",
-    "named": true
   },
   {
     "type": "class",
