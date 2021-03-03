@@ -23,3 +23,14 @@ a = "start\
 (haskell
  (function (variable) (exp_literal (string)))
  (function (variable) (exp_literal (string))))
+
+================================================================================
+string: magic hash
+================================================================================
+
+a = "a"#
+a = "a"##
+
+---
+
+(haskell (function (variable) (exp_literal (string))) (function (variable) (exp_literal (string))))

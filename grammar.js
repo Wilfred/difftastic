@@ -52,6 +52,8 @@ module.exports = grammar({
   ],
 
   inline: $ => [
+    $._number,
+    $._stringly,
     $._qvarid,
     $._operator_minus,
     $._qvarsym,

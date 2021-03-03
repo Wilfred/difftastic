@@ -258,3 +258,14 @@ a = a a
 ---
 
 (haskell (function (variable) (exp_apply (exp_name (variable)) (exp_name (variable)))))
+
+================================================================================
+char: magic hash
+================================================================================
+
+a = 'a'#
+a = 'a'##
+
+---
+
+(haskell (function (variable) (exp_literal (char))) (function (variable) (exp_literal (char))))
