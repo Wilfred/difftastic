@@ -1639,7 +1639,15 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "instance_head",
+          "named": true
+        },
+        {
+          "type": "via",
           "named": true
         }
       ]
