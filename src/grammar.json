@@ -4179,7 +4179,7 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "_pat"
+                      "name": "_nested_pat"
                     }
                   ]
                 },
