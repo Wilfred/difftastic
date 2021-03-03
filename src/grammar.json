@@ -2501,13 +2501,9 @@
         }
       ]
     },
-    "exp_tuple": {
+    "_tuple": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
         {
           "type": "CHOICE",
           "members": [
@@ -2577,10 +2573,40 @@
               }
             ]
           }
+        }
+      ]
+    },
+    "exp_tuple": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_tuple"
         },
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "exp_unboxed_tuple": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "(# "
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_tuple"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_unboxed_tuple_close"
         }
       ]
     },
@@ -3953,6 +3979,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "exp_unboxed_tuple"
+        },
+        {
+          "type": "SYMBOL",
           "name": "exp_parens"
         },
         {
@@ -4404,6 +4434,44 @@
         }
       ]
     },
+    "pat_unboxed_tuple": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "(# "
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_nested_pat"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "comma"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_nested_pat"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_unboxed_tuple_close"
+        }
+      ]
+    },
     "pat_list": {
       "type": "SEQ",
       "members": [
@@ -4567,6 +4635,10 @@
         {
           "type": "SYMBOL",
           "name": "pat_tuple"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pat_unboxed_tuple"
         },
         {
           "type": "SYMBOL",
@@ -8394,6 +8466,10 @@
     {
       "type": "SYMBOL",
       "name": "_strict"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_unboxed_tuple_close"
     },
     {
       "type": "PATTERN",

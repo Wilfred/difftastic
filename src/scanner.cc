@@ -122,6 +122,7 @@ namespace syms {
  *   - comma: Needed to terminate inline layouts like `of`, `do`
  *   - qq_start: Disambiguate the opening oxford bracket from list comprehension
  *   - strict: Disambiguate strictness annotation `!` from symbolic operators
+ *   - unboxed_tuple_close: Disambiguate the closing parens for unboxed tuples `#)` from symbolic operators
  *   - empty: The empty file
  *   - fail: special indicator of failure
  */
@@ -140,6 +141,7 @@ enum Sym: uint16_t {
   comma,
   qq_start,
   strict,
+  unboxed_tuple_close,
   indent,
   empty,
   fail,
@@ -1026,6 +1028,9 @@ Parser qq_start =
 Parser splice =
   iff(cond::peek_with(cond::varid_start_char) | cond::peek('('))(mark + success_sym(Sym::splice, "splice") + fail);
 
+Parser unboxed_tuple_close =
+  sym(Sym::unboxed_tuple_close)(consume(')')(mark + finish(Sym::unboxed_tuple_close, "unboxed_tuple_close")));
+
 /**
  * Consume all characters up to the end of line and succeed with `Sym::commment`.
  */
@@ -1127,6 +1132,7 @@ Parser single_varsym(const char c) {
   return when(cond::valid_varsym_one_char(c))(
     mark +
     when(c == '!')(iff(not_(cond::peek(')')))(success_sym(Sym::strict, "single_varsym"))) +
+    when(c == '#')(unboxed_tuple_close) +
     when(cond::symop_needs_token_end(c))(
       when(c == '$')(splice) +
       iff(cond::token_end)(finish(Sym::varsym, "single_varsym")) +
@@ -1295,7 +1301,7 @@ Parser repeat_end(uint32_t column) {
 Parser newline(uint32_t indent) {
   return
     eof +
-    cpp_workaround + 
+    cpp_workaround +
     comment +
     dedent(indent) +
     newline_where(indent) +

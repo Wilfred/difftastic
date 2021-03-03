@@ -16,6 +16,8 @@ module.exports = {
 
   pat_tuple: $ => parens(sep2($.comma, $._nested_pat)),
 
+  pat_unboxed_tuple: $ => seq('(# ', sep1($.comma, $._nested_pat), $._unboxed_tuple_close),
+
   pat_list: $ => brackets(sep1($.comma, $._nested_pat)),
 
   pat_strict: $ => seq($._strict, $._apat),
@@ -44,6 +46,7 @@ module.exports = {
     $.pat_wildcard,
     $.pat_parens,
     $.pat_tuple,
+    $.pat_unboxed_tuple,
     $.pat_list,
     $.pat_strict,
     $.pat_irrefutable,

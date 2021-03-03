@@ -350,3 +350,17 @@ a A { a = a -> a } = a
     (pat_name (constructor))
     (pat_fields (pat_field (variable) (pat_view (exp_name (variable)) (pat_name (variable)))))))
   (exp_name (variable))))
+
+================================================================================
+pat: unboxed tuple
+================================================================================
+
+a (# a, a, a #) = a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (patterns (pat_unboxed_tuple (pat_name (variable)) (comma) (pat_name (variable)) (comma) (pat_name (variable))))
+  (exp_name (variable))))
