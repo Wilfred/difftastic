@@ -18,7 +18,7 @@ module.exports = grammar({
    * These rules may occur anywhere in the grammar and don't have to be specified.
    */
   extras: $ => [
-    /\s/,
+    /\p{Zs}/,
     /\n/,
     $.cpp,
     $.comment,

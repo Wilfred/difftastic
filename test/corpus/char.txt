@@ -248,3 +248,13 @@ a = '‘'
 ---
 
 (haskell (function (variable) (exp_literal (char))))
+
+================================================================================
+char: unicode whitespace
+================================================================================
+
+a = a a
+
+---
+
+(haskell (function (variable) (exp_apply (exp_name (variable)) (exp_name (variable)))))
