@@ -226,3 +226,13 @@ import A (pattern A, type A)
    (import_item (namespace) (constructor))
    (comma)
    (import_item (namespace) (constructor)))))
+
+================================================================================
+import: trailing comma
+================================================================================
+
+import A (A,)
+
+---
+
+(haskell (import (module) (import_list (import_item (constructor)) (comma))))
