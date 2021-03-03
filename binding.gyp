@@ -9,7 +9,7 @@
       "sources": [
         "typescript/src/parser.c",
         "typescript/src/scanner.c",
-        "typescript/src/binding.cc"
+        "typescript/bindings/node/binding.cc"
       ],
       "cflags_c": [
         "-std=c99",
@@ -24,7 +24,7 @@
       "sources": [
         "tsx/src/parser.c",
         "tsx/src/scanner.c",
-        "tsx/src/binding.cc"
+        "tsx/bindings/node/binding.cc"
       ],
       "cflags_c": [
         "-std=c99",

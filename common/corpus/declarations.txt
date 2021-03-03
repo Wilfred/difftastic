@@ -346,7 +346,6 @@ export class CloningRepository {
       (object_type
         (property_signature
           (accessibility_modifier)
-          (readonly)
           (property_identifier)
           (type_annotation (generic_type (type_identifier) (type_arguments (type_identifier))))))))
   (export_statement
@@ -355,7 +354,6 @@ export class CloningRepository {
       (class_body
         (public_field_definition
         (accessibility_modifier)
-        (readonly)
         (property_identifier) (update_expression (identifier)))))))
 
 ==================================
@@ -611,7 +609,6 @@ class Foo {
         (type_annotation (generic_type (type_identifier) (type_arguments (type_identifier)))))
       (method_signature
         (accessibility_modifier)
-        (readonly)
         (property_identifier)
         (type_parameters (type_parameter (type_identifier)))
         (formal_parameters))
@@ -645,9 +642,9 @@ class Foo {
     (class_body
       (public_field_definition (number) (type_annotation (predefined_type)))
       (public_field_definition (accessibility_modifier) (number) (type_annotation (predefined_type)) (string))
-      (public_field_definition (accessibility_modifier) (readonly) (string) (type_annotation (type_identifier)) (string))
-      (public_field_definition (readonly) (string) (type_annotation (type_identifier)) (string))
-      (public_field_definition (readonly) (string) (type_annotation (type_identifier)) (string)))))
+      (public_field_definition (accessibility_modifier) (string) (type_annotation (type_identifier)) (string))
+      (public_field_definition (string) (type_annotation (type_identifier)) (string))
+      (public_field_definition (string) (type_annotation (type_identifier)) (string)))))
 
 =======================================
 Classes with decorators
@@ -676,16 +673,20 @@ Classes with decorators
       (public_field_definition (accessibility_modifier) (number) (type_annotation (predefined_type)) (string))
 
       (decorator (identifier))
-      (public_field_definition (readonly) (string) (type_annotation (type_identifier)) (string))
+      (public_field_definition (string) (type_annotation (type_identifier)) (string))
 
       (decorator (identifier))
       (method_definition
         (property_identifier)
         (formal_parameters
-          (decorator (identifier))
-          (required_parameter (identifier) (type_annotation (predefined_type)))
-          (decorator (identifier))
-          (optional_parameter (identifier) (type_annotation (predefined_type))))
+          (required_parameter
+            (decorator (identifier))
+            (identifier)
+            (type_annotation (predefined_type)))
+          (optional_parameter
+            (decorator (identifier))
+            (identifier)
+            (type_annotation (predefined_type))))
         (statement_block)))))
 
 =======================================
@@ -758,7 +759,6 @@ abstract class Foo {
     name: (type_identifier)
     body: (class_body
       (public_field_definition
-        (readonly)
         name: (property_identifier)
         type: (type_annotation (predefined_type)))
       (public_field_definition

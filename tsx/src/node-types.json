@@ -1,6 +1,76 @@
 [
   {
-    "type": "_declaration",
+    "type": "_primary_type",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "array_type",
+        "named": true
+      },
+      {
+        "type": "conditional_type",
+        "named": true
+      },
+      {
+        "type": "existential_type",
+        "named": true
+      },
+      {
+        "type": "flow_maybe_type",
+        "named": true
+      },
+      {
+        "type": "generic_type",
+        "named": true
+      },
+      {
+        "type": "index_type_query",
+        "named": true
+      },
+      {
+        "type": "literal_type",
+        "named": true
+      },
+      {
+        "type": "lookup_type",
+        "named": true
+      },
+      {
+        "type": "nested_type_identifier",
+        "named": true
+      },
+      {
+        "type": "object_type",
+        "named": true
+      },
+      {
+        "type": "parenthesized_type",
+        "named": true
+      },
+      {
+        "type": "predefined_type",
+        "named": true
+      },
+      {
+        "type": "this",
+        "named": true
+      },
+      {
+        "type": "tuple_type",
+        "named": true
+      },
+      {
+        "type": "type_identifier",
+        "named": true
+      },
+      {
+        "type": "type_query",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "declaration",
     "named": true,
     "subtypes": [
       {
@@ -62,31 +132,9 @@
     ]
   },
   {
-    "type": "_destructuring_pattern",
+    "type": "expression",
     "named": true,
     "subtypes": [
-      {
-        "type": "array_pattern",
-        "named": true
-      },
-      {
-        "type": "object_pattern",
-        "named": true
-      }
-    ]
-  },
-  {
-    "type": "_expression",
-    "named": true,
-    "subtypes": [
-      {
-        "type": "array",
-        "named": true
-      },
-      {
-        "type": "arrow_function",
-        "named": true
-      },
       {
         "type": "as_expression",
         "named": true
@@ -105,6 +153,82 @@
       },
       {
         "type": "binary_expression",
+        "named": true
+      },
+      {
+        "type": "internal_module",
+        "named": true
+      },
+      {
+        "type": "jsx_element",
+        "named": true
+      },
+      {
+        "type": "jsx_fragment",
+        "named": true
+      },
+      {
+        "type": "jsx_self_closing_element",
+        "named": true
+      },
+      {
+        "type": "new_expression",
+        "named": true
+      },
+      {
+        "type": "primary_expression",
+        "named": true
+      },
+      {
+        "type": "ternary_expression",
+        "named": true
+      },
+      {
+        "type": "unary_expression",
+        "named": true
+      },
+      {
+        "type": "update_expression",
+        "named": true
+      },
+      {
+        "type": "yield_expression",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "pattern",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "array_pattern",
+        "named": true
+      },
+      {
+        "type": "identifier",
+        "named": true
+      },
+      {
+        "type": "object_pattern",
+        "named": true
+      },
+      {
+        "type": "rest_pattern",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "primary_expression",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "array",
+        "named": true
+      },
+      {
+        "type": "arrow_function",
         "named": true
       },
       {
@@ -136,31 +260,11 @@
         "named": true
       },
       {
-        "type": "internal_module",
-        "named": true
-      },
-      {
-        "type": "jsx_element",
-        "named": true
-      },
-      {
-        "type": "jsx_fragment",
-        "named": true
-      },
-      {
-        "type": "jsx_self_closing_element",
-        "named": true
-      },
-      {
         "type": "member_expression",
         "named": true
       },
       {
         "type": "meta_property",
-        "named": true
-      },
-      {
-        "type": "new_expression",
         "named": true
       },
       {
@@ -204,10 +308,6 @@
         "named": true
       },
       {
-        "type": "ternary_expression",
-        "named": true
-      },
-      {
         "type": "this",
         "named": true
       },
@@ -216,31 +316,15 @@
         "named": true
       },
       {
-        "type": "unary_expression",
-        "named": true
-      },
-      {
         "type": "undefined",
-        "named": true
-      },
-      {
-        "type": "update_expression",
-        "named": true
-      },
-      {
-        "type": "yield_expression",
         "named": true
       }
     ]
   },
   {
-    "type": "_statement",
+    "type": "statement",
     "named": true,
     "subtypes": [
-      {
-        "type": "_declaration",
-        "named": true
-      },
       {
         "type": "break_statement",
         "named": true
@@ -251,6 +335,10 @@
       },
       {
         "type": "debugger_statement",
+        "named": true
+      },
+      {
+        "type": "declaration",
         "named": true
       },
       {
@@ -465,15 +553,7 @@
       "required": true,
       "types": [
         {
-          "type": "_declaration",
-          "named": true
-        },
-        {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -481,23 +561,11 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
+          "type": "declaration",
           "named": true
         },
         {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -509,51 +577,15 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
           "type": "property_identifier",
           "named": true
         },
         {
+          "type": "readonly_type",
+          "named": true
+        },
+        {
           "type": "statement_block",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
           "named": true
         },
         {
@@ -572,7 +604,7 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -591,7 +623,7 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -610,11 +642,11 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "assignment_pattern",
           "named": true
         },
         {
-          "type": "spread_element",
+          "type": "pattern",
           "named": true
         }
       ]
@@ -625,75 +657,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
-          "named": true
-        },
-        {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
-          "named": true
-        },
-        {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "readonly",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "_primary_type",
           "named": true
         }
       ]
@@ -708,7 +676,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           },
           {
@@ -776,15 +744,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -792,23 +752,11 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
+          "type": "expression",
           "named": true
         },
         {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -820,39 +768,11 @@
           "named": true
         },
         {
-          "type": "literal_type",
+          "type": "readonly_type",
           "named": true
         },
         {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "template_string",
           "named": true
         },
         {
@@ -867,75 +787,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
-          "named": true
-        },
-        {
-          "type": "constructor_type",
-          "named": true
-        },
-        {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
-          "named": true
-        },
-        {
-          "type": "infer_type",
-          "named": true
-        },
-        {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
           "named": true
         },
         {
@@ -943,19 +799,7 @@
           "named": true
         },
         {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
-          "named": true
-        },
-        {
-          "type": "union_type",
+          "type": "type_predicate",
           "named": true
         }
       ]
@@ -970,7 +814,7 @@
         "required": true,
         "types": [
           {
-            "type": "_destructuring_pattern",
+            "type": "array_pattern",
             "named": true
           },
           {
@@ -983,6 +827,10 @@
           },
           {
             "type": "non_null_expression",
+            "named": true
+          },
+          {
+            "type": "object_pattern",
             "named": true
           },
           {
@@ -1000,7 +848,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1016,11 +864,7 @@
         "required": true,
         "types": [
           {
-            "type": "_destructuring_pattern",
-            "named": true
-          },
-          {
-            "type": "shorthand_property_identifier",
+            "type": "pattern",
             "named": true
           }
         ]
@@ -1030,7 +874,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1072,7 +916,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1088,7 +932,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -1103,7 +947,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1219,7 +1063,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -1265,7 +1109,15 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           }
         ]
@@ -1345,11 +1197,15 @@
         "required": false,
         "types": [
           {
-            "type": "_destructuring_pattern",
+            "type": "array_pattern",
             "named": true
           },
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "object_pattern",
             "named": true
           }
         ]
@@ -1531,7 +1387,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -1546,11 +1402,7 @@
         "required": true,
         "types": [
           {
-            "type": "array_type",
-            "named": true
-          },
-          {
-            "type": "conditional_type",
+            "type": "_primary_type",
             "named": true
           },
           {
@@ -1558,23 +1410,7 @@
             "named": true
           },
           {
-            "type": "existential_type",
-            "named": true
-          },
-          {
-            "type": "flow_maybe_type",
-            "named": true
-          },
-          {
             "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "generic_type",
-            "named": true
-          },
-          {
-            "type": "index_type_query",
             "named": true
           },
           {
@@ -1586,43 +1422,7 @@
             "named": true
           },
           {
-            "type": "literal_type",
-            "named": true
-          },
-          {
-            "type": "lookup_type",
-            "named": true
-          },
-          {
-            "type": "nested_type_identifier",
-            "named": true
-          },
-          {
-            "type": "object_type",
-            "named": true
-          },
-          {
-            "type": "parenthesized_type",
-            "named": true
-          },
-          {
-            "type": "predefined_type",
-            "named": true
-          },
-          {
-            "type": "this",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "type_query",
+            "type": "readonly_type",
             "named": true
           },
           {
@@ -1636,11 +1436,7 @@
         "required": true,
         "types": [
           {
-            "type": "array_type",
-            "named": true
-          },
-          {
-            "type": "conditional_type",
+            "type": "_primary_type",
             "named": true
           },
           {
@@ -1648,23 +1444,7 @@
             "named": true
           },
           {
-            "type": "existential_type",
-            "named": true
-          },
-          {
-            "type": "flow_maybe_type",
-            "named": true
-          },
-          {
             "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "generic_type",
-            "named": true
-          },
-          {
-            "type": "index_type_query",
             "named": true
           },
           {
@@ -1676,43 +1456,7 @@
             "named": true
           },
           {
-            "type": "literal_type",
-            "named": true
-          },
-          {
-            "type": "lookup_type",
-            "named": true
-          },
-          {
-            "type": "nested_type_identifier",
-            "named": true
-          },
-          {
-            "type": "object_type",
-            "named": true
-          },
-          {
-            "type": "parenthesized_type",
-            "named": true
-          },
-          {
-            "type": "predefined_type",
-            "named": true
-          },
-          {
-            "type": "this",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "type_query",
+            "type": "readonly_type",
             "named": true
           },
           {
@@ -1726,11 +1470,7 @@
         "required": true,
         "types": [
           {
-            "type": "array_type",
-            "named": true
-          },
-          {
-            "type": "conditional_type",
+            "type": "_primary_type",
             "named": true
           },
           {
@@ -1738,23 +1478,7 @@
             "named": true
           },
           {
-            "type": "existential_type",
-            "named": true
-          },
-          {
-            "type": "flow_maybe_type",
-            "named": true
-          },
-          {
             "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "generic_type",
-            "named": true
-          },
-          {
-            "type": "index_type_query",
             "named": true
           },
           {
@@ -1766,43 +1490,7 @@
             "named": true
           },
           {
-            "type": "literal_type",
-            "named": true
-          },
-          {
-            "type": "lookup_type",
-            "named": true
-          },
-          {
-            "type": "nested_type_identifier",
-            "named": true
-          },
-          {
-            "type": "object_type",
-            "named": true
-          },
-          {
-            "type": "parenthesized_type",
-            "named": true
-          },
-          {
-            "type": "predefined_type",
-            "named": true
-          },
-          {
-            "type": "this",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "type_query",
+            "type": "readonly_type",
             "named": true
           },
           {
@@ -1816,11 +1504,7 @@
         "required": true,
         "types": [
           {
-            "type": "array_type",
-            "named": true
-          },
-          {
-            "type": "conditional_type",
+            "type": "_primary_type",
             "named": true
           },
           {
@@ -1828,23 +1512,7 @@
             "named": true
           },
           {
-            "type": "existential_type",
-            "named": true
-          },
-          {
-            "type": "flow_maybe_type",
-            "named": true
-          },
-          {
             "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "generic_type",
-            "named": true
-          },
-          {
-            "type": "index_type_query",
             "named": true
           },
           {
@@ -1856,43 +1524,7 @@
             "named": true
           },
           {
-            "type": "literal_type",
-            "named": true
-          },
-          {
-            "type": "lookup_type",
-            "named": true
-          },
-          {
-            "type": "nested_type_identifier",
-            "named": true
-          },
-          {
-            "type": "object_type",
-            "named": true
-          },
-          {
-            "type": "parenthesized_type",
-            "named": true
-          },
-          {
-            "type": "predefined_type",
-            "named": true
-          },
-          {
-            "type": "this",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "type_query",
+            "type": "readonly_type",
             "named": true
           },
           {
@@ -1912,11 +1544,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -1924,23 +1552,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -1952,43 +1564,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -2030,23 +1606,11 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
           "type": "constructor_type",
-          "named": true
-        },
-        {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
           "named": true
         },
         {
@@ -2058,14 +1622,6 @@
           "named": true
         },
         {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
-          "named": true
-        },
-        {
           "type": "infer_type",
           "named": true
         },
@@ -2074,47 +1630,11 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "readonly_type",
           "named": true
         },
         {
           "type": "type_parameters",
-          "named": true
-        },
-        {
-          "type": "type_query",
           "named": true
         },
         {
@@ -2177,11 +1697,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -2189,23 +1705,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -2217,43 +1717,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -2272,7 +1736,7 @@
         "required": true,
         "types": [
           {
-            "type": "_statement",
+            "type": "statement",
             "named": true
           }
         ]
@@ -2298,7 +1762,7 @@
       "required": true,
       "types": [
         {
-          "type": "_statement",
+          "type": "statement",
           "named": true
         }
       ]
@@ -2318,7 +1782,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -2459,7 +1923,7 @@
         "required": false,
         "types": [
           {
-            "type": "_declaration",
+            "type": "declaration",
             "named": true
           }
         ]
@@ -2489,7 +1953,7 @@
         "required": false,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -2523,7 +1987,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -2542,7 +2006,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -2585,67 +2049,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
-          "named": true
-        },
-        {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
-          "named": true
-        },
-        {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "_primary_type",
           "named": true
         }
       ]
@@ -2660,7 +2064,7 @@
         "required": true,
         "types": [
           {
-            "type": "_statement",
+            "type": "statement",
             "named": true
           }
         ]
@@ -2670,7 +2074,7 @@
         "required": true,
         "types": [
           {
-            "type": "_destructuring_pattern",
+            "type": "array_pattern",
             "named": true
           },
           {
@@ -2683,6 +2087,10 @@
           },
           {
             "type": "non_null_expression",
+            "named": true
+          },
+          {
+            "type": "object_pattern",
             "named": true
           },
           {
@@ -2700,7 +2108,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           },
           {
@@ -2720,7 +2128,7 @@
         "required": true,
         "types": [
           {
-            "type": "_statement",
+            "type": "statement",
             "named": true
           }
         ]
@@ -2744,7 +2152,7 @@
         "required": false,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           },
           {
@@ -2780,18 +2188,7 @@
   {
     "type": "formal_parameters",
     "named": true,
-    "fields": {
-      "decorator": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "decorator",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
@@ -2802,10 +2199,6 @@
         },
         {
           "type": "required_parameter",
-          "named": true
-        },
-        {
-          "type": "rest_parameter",
           "named": true
         }
       ]
@@ -3002,23 +2395,11 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
           "type": "constructor_type",
-          "named": true
-        },
-        {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
           "named": true
         },
         {
@@ -3030,14 +2411,6 @@
           "named": true
         },
         {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
-          "named": true
-        },
-        {
           "type": "infer_type",
           "named": true
         },
@@ -3046,39 +2419,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -3086,7 +2427,7 @@
           "named": true
         },
         {
-          "type": "type_query",
+          "type": "type_predicate",
           "named": true
         },
         {
@@ -3276,7 +2617,7 @@
         "required": true,
         "types": [
           {
-            "type": "_statement",
+            "type": "statement",
             "named": true
           }
         ]
@@ -3292,11 +2633,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -3304,23 +2641,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -3332,43 +2653,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -3524,11 +2809,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -3536,27 +2817,11 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
           "named": true
         },
         {
-          "type": "generic_type",
-          "named": true
-        },
-        {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -3568,23 +2833,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
           "type": "mapped_type_clause",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
           "named": true
         },
         {
@@ -3596,35 +2845,11 @@
           "named": true
         },
         {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "readonly",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
+          "type": "readonly_type",
           "named": true
         },
         {
           "type": "type_annotation",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
           "named": true
         },
         {
@@ -3765,11 +2990,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -3777,23 +2998,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -3805,43 +3010,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -3975,7 +3144,7 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -4151,34 +3320,7 @@
       "required": true,
       "types": [
         {
-          "type": "_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "labeled_tuple_type_member",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "optional_identifier",
-          "named": true
-        },
-        {
-          "type": "rest_identifier",
-          "named": true
-        },
-        {
-          "type": "type_annotation",
+          "type": "statement",
           "named": true
         }
       ]
@@ -4239,11 +3381,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -4251,23 +3389,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -4279,43 +3401,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -4334,11 +3420,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -4346,23 +3428,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -4374,43 +3440,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -4429,7 +3459,15 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           }
         ]
@@ -4527,15 +3565,11 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
           "type": "accessibility_modifier",
-          "named": true
-        },
-        {
-          "type": "readonly",
           "named": true
         }
       ]
@@ -4607,15 +3641,11 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
           "type": "accessibility_modifier",
-          "named": true
-        },
-        {
-          "type": "readonly",
           "named": true
         }
       ]
@@ -4753,95 +3783,7 @@
         "required": true,
         "types": [
           {
-            "type": "array",
-            "named": true
-          },
-          {
-            "type": "arrow_function",
-            "named": true
-          },
-          {
-            "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "class",
-            "named": true
-          },
-          {
-            "type": "false",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "generator_function",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "import",
-            "named": true
-          },
-          {
-            "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "meta_property",
-            "named": true
-          },
-          {
-            "type": "null",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "object",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "regex",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "subscript_expression",
-            "named": true
-          },
-          {
-            "type": "super",
-            "named": true
-          },
-          {
-            "type": "template_string",
-            "named": true
-          },
-          {
-            "type": "this",
-            "named": true
-          },
-          {
-            "type": "true",
-            "named": true
-          },
-          {
-            "type": "undefined",
+            "type": "primary_expression",
             "named": true
           }
         ]
@@ -4867,7 +3809,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -4882,10 +3824,6 @@
       "required": false,
       "types": [
         {
-          "type": "assignment_pattern",
-          "named": true
-        },
-        {
           "type": "method_definition",
           "named": true
         },
@@ -4905,6 +3843,40 @@
     }
   },
   {
+    "type": "object_assignment_pattern",
+    "named": true,
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_pattern",
+            "named": true
+          },
+          {
+            "type": "object_pattern",
+            "named": true
+          },
+          {
+            "type": "shorthand_property_identifier_pattern",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "object_pattern",
     "named": true,
     "fields": {},
@@ -4913,23 +3885,19 @@
       "required": false,
       "types": [
         {
-          "type": "assignment_pattern",
+          "type": "object_assignment_pattern",
           "named": true
         },
         {
-          "type": "method_definition",
+          "type": "pair_pattern",
           "named": true
         },
         {
-          "type": "pair",
+          "type": "rest_pattern",
           "named": true
         },
         {
-          "type": "shorthand_property_identifier",
-          "named": true
-        },
-        {
-          "type": "spread_element",
+          "type": "shorthand_property_identifier_pattern",
           "named": true
         }
       ]
@@ -4979,11 +3947,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -4991,23 +3955,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -5019,43 +3967,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -5074,11 +3986,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -5086,23 +3994,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -5114,43 +4006,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -5161,30 +4017,25 @@
     }
   },
   {
-    "type": "optional_identifier",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "optional_parameter",
     "named": true,
     "fields": {
+      "decorator": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "decorator",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -5195,19 +4046,11 @@
       "required": true,
       "types": [
         {
-          "type": "_destructuring_pattern",
-          "named": true
-        },
-        {
           "type": "accessibility_modifier",
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "readonly",
+          "type": "pattern",
           "named": true
         },
         {
@@ -5230,11 +4073,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -5242,23 +4081,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -5270,43 +4093,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -5347,7 +4134,45 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "pair_pattern",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "computed_property_name",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "property_identifier",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "pattern",
             "named": true
           }
         ]
@@ -5363,7 +4188,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -5386,11 +4211,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -5398,23 +4219,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -5426,43 +4231,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -5486,11 +4255,11 @@
       "required": false,
       "types": [
         {
-          "type": "_statement",
+          "type": "hash_bang_line",
           "named": true
         },
         {
-          "type": "hash_bang_line",
+          "type": "statement",
           "named": true
         }
       ]
@@ -5534,15 +4303,11 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
           "type": "accessibility_modifier",
-          "named": true
-        },
-        {
-          "type": "readonly",
           "named": true
         }
       ]
@@ -5589,22 +4354,57 @@
         "required": false,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
           "type": "accessibility_modifier",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "readonly_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_primary_type",
+          "named": true
         },
         {
-          "type": "readonly",
+          "type": "constructor_type",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "infer_type",
+          "named": true
+        },
+        {
+          "type": "intersection_type",
+          "named": true
+        },
+        {
+          "type": "readonly_type",
+          "named": true
+        },
+        {
+          "type": "union_type",
           "named": true
         }
       ]
@@ -5640,12 +4440,22 @@
     "type": "required_parameter",
     "named": true,
     "fields": {
+      "decorator": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "decorator",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -5656,19 +4466,11 @@
       "required": true,
       "types": [
         {
-          "type": "_destructuring_pattern",
-          "named": true
-        },
-        {
           "type": "accessibility_modifier",
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "readonly",
+          "type": "pattern",
           "named": true
         },
         {
@@ -5683,7 +4485,7 @@
     }
   },
   {
-    "type": "rest_identifier",
+    "type": "rest_pattern",
     "named": true,
     "fields": {},
     "children": {
@@ -5691,26 +4493,15 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "array_pattern",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "rest_parameter",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
+        },
         {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "type_annotation",
+          "type": "object_pattern",
           "named": true
         }
       ]
@@ -5725,11 +4516,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -5737,23 +4524,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -5765,43 +4536,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -5820,7 +4555,7 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -5839,7 +4574,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -5849,7 +4584,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           },
           {
@@ -5869,7 +4604,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -5884,7 +4619,7 @@
       "required": false,
       "types": [
         {
-          "type": "_statement",
+          "type": "statement",
           "named": true
         }
       ]
@@ -5914,7 +4649,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           },
           {
@@ -5928,7 +4663,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -5963,7 +4698,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           },
           {
@@ -5978,7 +4713,7 @@
       "required": false,
       "types": [
         {
-          "type": "_statement",
+          "type": "statement",
           "named": true
         }
       ]
@@ -5993,7 +4728,7 @@
       "required": false,
       "types": [
         {
-          "type": "_statement",
+          "type": "statement",
           "named": true
         }
       ]
@@ -6053,7 +4788,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -6072,7 +4807,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -6082,7 +4817,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -6092,7 +4827,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -6108,7 +4843,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         },
         {
@@ -6163,11 +4898,7 @@
       "required": false,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -6175,23 +4906,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -6203,23 +4918,7 @@
           "named": true
         },
         {
-          "type": "labeled_tuple_type_member",
-          "named": true
-        },
-        {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
+          "type": "optional_parameter",
           "named": true
         },
         {
@@ -6227,35 +4926,15 @@
           "named": true
         },
         {
-          "type": "parenthesized_type",
+          "type": "readonly_type",
           "named": true
         },
         {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "readonly",
+          "type": "required_parameter",
           "named": true
         },
         {
           "type": "rest_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
           "named": true
         },
         {
@@ -6294,11 +4973,7 @@
         "required": true,
         "types": [
           {
-            "type": "array_type",
-            "named": true
-          },
-          {
-            "type": "conditional_type",
+            "type": "_primary_type",
             "named": true
           },
           {
@@ -6306,23 +4981,7 @@
             "named": true
           },
           {
-            "type": "existential_type",
-            "named": true
-          },
-          {
-            "type": "flow_maybe_type",
-            "named": true
-          },
-          {
             "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "generic_type",
-            "named": true
-          },
-          {
-            "type": "index_type_query",
             "named": true
           },
           {
@@ -6334,43 +4993,7 @@
             "named": true
           },
           {
-            "type": "literal_type",
-            "named": true
-          },
-          {
-            "type": "lookup_type",
-            "named": true
-          },
-          {
-            "type": "nested_type_identifier",
-            "named": true
-          },
-          {
-            "type": "object_type",
-            "named": true
-          },
-          {
-            "type": "parenthesized_type",
-            "named": true
-          },
-          {
-            "type": "predefined_type",
-            "named": true
-          },
-          {
-            "type": "this",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "type_query",
+            "type": "readonly_type",
             "named": true
           },
           {
@@ -6390,11 +5013,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -6402,23 +5021,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -6430,43 +5033,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -6485,11 +5052,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -6497,23 +5060,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -6525,43 +5072,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -6618,11 +5129,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -6630,27 +5137,11 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
           "named": true
         },
         {
-          "type": "generic_type",
-          "named": true
-        },
-        {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -6662,43 +5153,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -6732,19 +5187,11 @@
       "required": true,
       "types": [
         {
-          "type": "call_expression",
-          "named": true
-        },
-        {
           "type": "generic_type",
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "nested_identifier",
+          "type": "primary_expression",
           "named": true
         }
       ]
@@ -6759,7 +5206,11 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "number",
             "named": true
           }
         ]
@@ -6809,11 +5260,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "conditional_type",
+          "type": "_primary_type",
           "named": true
         },
         {
@@ -6821,23 +5268,7 @@
           "named": true
         },
         {
-          "type": "existential_type",
-          "named": true
-        },
-        {
-          "type": "flow_maybe_type",
-          "named": true
-        },
-        {
           "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "index_type_query",
           "named": true
         },
         {
@@ -6849,43 +5280,7 @@
           "named": true
         },
         {
-          "type": "literal_type",
-          "named": true
-        },
-        {
-          "type": "lookup_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_type",
-          "named": true
-        },
-        {
-          "type": "predefined_type",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "readonly_type",
           "named": true
         },
         {
@@ -6904,7 +5299,7 @@
         "required": true,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -6949,11 +5344,15 @@
         "required": true,
         "types": [
           {
-            "type": "_destructuring_pattern",
+            "type": "array_pattern",
             "named": true
           },
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "object_pattern",
             "named": true
           }
         ]
@@ -6973,7 +5372,7 @@
         "required": false,
         "types": [
           {
-            "type": "_expression",
+            "type": "expression",
             "named": true
           }
         ]
@@ -6989,7 +5388,7 @@
         "required": true,
         "types": [
           {
-            "type": "_statement",
+            "type": "statement",
             "named": true
           }
         ]
@@ -7015,7 +5414,7 @@
         "required": true,
         "types": [
           {
-            "type": "_statement",
+            "type": "statement",
             "named": true
           }
         ]
@@ -7041,7 +5440,7 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -7469,11 +5868,11 @@
   },
   {
     "type": "number",
-    "named": false
+    "named": true
   },
   {
     "type": "number",
-    "named": true
+    "named": false
   },
   {
     "type": "of",
@@ -7497,7 +5896,7 @@
   },
   {
     "type": "readonly",
-    "named": true
+    "named": false
   },
   {
     "type": "regex_flags",
@@ -7521,6 +5920,10 @@
   },
   {
     "type": "shorthand_property_identifier",
+    "named": true
+  },
+  {
+    "type": "shorthand_property_identifier_pattern",
     "named": true
   },
   {
