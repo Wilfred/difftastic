@@ -251,7 +251,7 @@ uint32_t column(const State & state) { return state.lexer->get_column(state.lexe
  * The next character that would be parsed.
  * Does not advance the parser position (consume the character).
  */
-char next_char(const State & state) { return static_cast<char>(state.lexer->lookahead); }
+uint32_t next_char(const State & state) { return state.lexer->lookahead; }
 
 /**
  * Move the parser position one character to the right, treating the consumed character as part of the parsed token.
