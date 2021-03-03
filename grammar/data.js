@@ -31,6 +31,9 @@ module.exports = {
     $.record_fields,
   ),
 
+  /**
+   * data constructors only allow single foralls and contexts
+   */
   constructors: $ => sep1(
     '|',
     seq(
@@ -71,6 +74,9 @@ module.exports = {
     choice($.strict_type, $._type_infix)
   ),
 
+  /**
+   * gadt constructors only allow single foralls and contexts
+   */
   _gadt_constr_type: $ => seq(
     '::',
     optional($.forall),
@@ -133,8 +139,10 @@ module.exports = {
     optional($._type_annotation),
   ),
 
+  /**
+   * data instances only allow single foralls and contexts
+   */
   _datainst: $ => seq(
-    'instance',
     optional($.forall),
     optional($.context),
     $._type_infix,
@@ -144,11 +152,13 @@ module.exports = {
   decl_datainst: $ => choice(
     seq(
       'data',
+      'instance',
       $._datainst,
       optional($._adt),
     ),
     seq(
       'newtype',
+      'instance',
       $._datainst,
       $._newtype
     ),

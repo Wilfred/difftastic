@@ -46,23 +46,17 @@ module.exports = {
     alias($.constraint, $.instance_head),
   ),
 
-  _inst_datainst: $ => seq(
-    optional('instance'),
-    optional($.forall),
-    optional($.context),
-    $._type_infix,
-    optional($._type_annotation),
-  ),
-
   inst_datainst: $ => choice(
     seq(
       'data',
-      $._inst_datainst,
+      optional('instance'),
+      $._datainst,
       optional($._adt),
     ),
     seq(
       'newtype',
-      $._inst_datainst,
+      optional('instance'),
+      $._datainst,
       $._newtype
     ),
   ),
@@ -82,6 +76,9 @@ module.exports = {
     $.inst_tyinst,
   ),
 
+  /**
+   * instances only allow single foralls and contexts
+   */
   decl_instance: $ => seq(
     'instance',
     optional($.forall),

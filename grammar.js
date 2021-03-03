@@ -81,6 +81,7 @@ module.exports = grammar({
     $._fun_lpat,
     $._exp_qvar,
     $._exp_qcon,
+    $._quantifiers,
   ],
 
   precedences: _ => [

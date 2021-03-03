@@ -267,9 +267,9 @@ data A = forall a . A | ∀ a . A
  (adt
   (type)
   (constructors
-   (forall (type_variable))
+   (forall (quantifiers (type_variable)))
    (data_constructor (constructor))
-   (forall (type_variable))
+   (forall (quantifiers (type_variable)))
    (data_constructor (constructor)))))
 
 ================================================================================
@@ -284,7 +284,7 @@ data A = ∀ a . A a => A
  (adt
   (type)
   (constructors
-   (forall (type_variable))
+   (forall (quantifiers (type_variable)))
    (context (constraint (class_name (type)) (type_name (type_variable))))
    (data_constructor (constructor)))))
 
