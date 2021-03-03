@@ -145,7 +145,7 @@ data A where
   (deriving (type))))
 
 ================================================================================
-gadt: symbolic
+gadt: symbolic operator
 ================================================================================
 
 data a +++ b where
@@ -187,4 +187,4 @@ data (:#) a where
 
 ---
 
-(haskell (adt (type_operator) (type_variable) (where)))
+(haskell (adt (constructor_operator) (type_variable) (where)))

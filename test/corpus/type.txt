@@ -102,10 +102,10 @@ type A = A :++ A ':++ A
   (type)
   (type_infix
    (type_name (type))
-   (type_operator)
+   (constructor_operator)
    (type_infix
     (type_name (type))
-    (promoted (type_operator))
+    (promoted (constructor_operator))
     (type_name (type))))))
 
 ================================================================================
@@ -121,7 +121,7 @@ type A = A : A
   (type)
   (type_infix
    (type_name (type))
-   (type_operator)
+   (constructor_operator)
    (type_name (type)))))
 
 ================================================================================
@@ -137,7 +137,7 @@ type A = A ': A
   (type)
   (type_infix
    (type_name (type))
-   (promoted (type_operator))
+   (promoted (constructor_operator))
    (type_name (type)))))
 
 ================================================================================
@@ -163,7 +163,7 @@ type A = A A.A.:++ A
   (type)
   (type_infix
    (type_name (type))
-   (qualified_type_operator (module) (module) (type_operator))
+   (qualified_constructor_operator (module) (module) (constructor_operator))
    (type_name (type)))))
 
 ================================================================================
@@ -179,7 +179,7 @@ type A = A ':++ A
   (type)
   (type_infix
    (type_name (type))
-   (promoted (type_operator))
+   (promoted (constructor_operator))
    (type_name (type)))))
 
 ================================================================================
@@ -195,7 +195,7 @@ type A = A 'A.:++ A
   (type)
   (type_infix
    (type_name (type))
-   (promoted (qualified_type_operator (module) (type_operator)))
+   (promoted (qualified_constructor_operator (module) (constructor_operator)))
    (type_name (type)))))
 
 ================================================================================
@@ -274,20 +274,20 @@ type A = A :++ A A ': A (A A a) : '[] ':++ A `A.A` '[]
   (type)
   (type_infix
    (type_name (type))
-   (type_operator)
+   (constructor_operator)
    (type_infix
     (type_apply
      (type_name (type))
      (type_name (type)))
-    (promoted (type_operator))
+    (promoted (constructor_operator))
     (type_infix
      (type_apply
       (type_name (type))
       (type_parens (type_apply (type_name (type)) (type_name (type)) (type_name (type_variable)))))
-     (type_operator)
+     (constructor_operator)
      (type_infix
       (promoted (type_literal (con_list)))
-      (promoted (type_operator))
+      (promoted (constructor_operator))
       (type_infix
        (type_name (type))
        (ticked (qualified_type (module) (type)))

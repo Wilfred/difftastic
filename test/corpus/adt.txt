@@ -366,7 +366,7 @@ data a :<- b = a :<- b
 
 (haskell
  (adt
-  (type_infix (type_variable) (type_operator) (type_variable))
+  (type_infix (type_variable) (constructor_operator) (type_variable))
   (constructors
    (data_constructor_infix
     (type_name (type_variable))
