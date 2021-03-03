@@ -3422,7 +3422,7 @@
     },
     "_declaration": {
       "type": "PREC",
-      "value": 1,
+      "value": "declaration",
       "content": {
         "type": "CHOICE",
         "members": [
@@ -10433,73 +10433,77 @@
       }
     },
     "_sequential_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "process_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "wait_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "assertion_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "report_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_signal_assignment_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_variable_assignment_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "procedure_call_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "if_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "case_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "loop_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "next_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "exit_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "return_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "null_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_PSL_Directive"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_PSL_Declaration"
-        }
-      ]
+      "type": "PREC",
+      "value": "sequential_statement",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "process_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "wait_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "assertion_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "report_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_signal_assignment_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_variable_assignment_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "procedure_call_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "if_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "case_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "loop_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "next_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "exit_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "return_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "null_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_PSL_Directive"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_PSL_Declaration"
+          }
+        ]
+      }
     },
     "wait_statement": {
       "type": "SEQ",
@@ -13143,7 +13147,7 @@
     },
     "_concurrent_statement": {
       "type": "PREC",
-      "value": 2,
+      "value": "concurrent_statement",
       "content": {
         "type": "CHOICE",
         "members": [
@@ -14672,46 +14676,54 @@
       ]
     },
     "_primary_unit": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "entity_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "configuration_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "package_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "package_instantiation_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "context_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_PSL_Verification_Unit"
-        }
-      ]
+      "type": "PREC",
+      "value": "primary_unit",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "entity_declaration"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "configuration_declaration"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "package_declaration"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "package_instantiation_declaration"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "context_declaration"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_PSL_Verification_Unit"
+          }
+        ]
+      }
     },
     "_secondary_unit": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "architecture_body"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "package_body"
-        }
-      ]
+      "type": "PREC",
+      "value": "secondary_unit",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "architecture_body"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "package_body"
+          }
+        ]
+      }
     },
     "library_clause": {
       "type": "SEQ",
@@ -14892,21 +14904,25 @@
       }
     },
     "_context_item": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "library_clause"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "use_clause"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "context_reference"
-        }
-      ]
+      "type": "PREC",
+      "value": "context_item",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "library_clause"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "use_clause"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "context_reference"
+          }
+        ]
+      }
     },
     "context_reference": {
       "type": "SEQ",
@@ -25484,6 +25500,26 @@
   ],
   "precedences": [
     [
+      "declaration",
+      "primary_unit"
+    ],
+    [
+      "declaration",
+      "secondary_unit"
+    ],
+    [
+      "declaration",
+      "context_item"
+    ],
+    [
+      "concurrent_statement",
+      "sequential_statement"
+    ],
+    [
+      "concurrent_statement",
+      "declaration"
+    ],
+    [
       "record_element_constraint",
       "type_mark"
     ],
@@ -25510,6 +25546,10 @@
     [
       "attribute_name",
       "physical_literal"
+    ],
+    [
+      "group_constituent_list",
+      "primary"
     ],
     [
       "group_constituent_list",
@@ -25641,7 +25681,6 @@
     "ReferenceError",
     "_generate_statement",
     "_library_unit",
-    "_context_item",
     "ReferenceError",
     "_digit",
     "_digit_immed",

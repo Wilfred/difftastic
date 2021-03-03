@@ -217,7 +217,6 @@ module.exports = grammar({
         $._instantiated_unit, // 11.7
         $._generate_statement, // 11.8
         $._library_unit, // 13.1
-        $._context_item, // 13.1
         $._context_list, // 13.4
         $._digit, // 15.5.2
         $._digit_immed, // 15.5.2
@@ -372,6 +371,15 @@ module.exports = grammar({
         [$._PSL_Compound_SERE, $._PSL_Sequence],
     ], // }}}
     precedences: () => [ // {{{
+        // Top level precedence
+        // Used when declarations and/or statements are outside of sequential
+        // statements, library unit or context clause.
+        // Use case: snippets of code on web (eg. declarative part w/ body)
+        [ 'declaration'          , 'primary_unit'        ],
+        [ 'declaration'          , 'secondary_unit'      ],
+        [ 'declaration'          , 'context_item'        ],
+        [ 'concurrent_statement' , 'sequential_statement'],
+        [ 'concurrent_statement' , 'declaration'         ],
         // Relational precedences
         [ 'record_element_constraint' , 'type_mark'           ],
         [ 'type_mark'                 , 'resolution_function' ],
@@ -1006,7 +1014,7 @@ module.exports = grammar({
             $._declaration
         )),
 
-        _declaration: $ => prec(1, choice(
+        _declaration: $ => prec('declaration',choice(
             $._subprogram_declaration,
             $._subprogram_body,
             $._subprogram_instantiation_declaration,
@@ -2249,7 +2257,7 @@ module.exports = grammar({
             $._sequential_statement
         ),
 
-        _sequential_statement: $ => choice(
+        _sequential_statement: $ => prec('sequential_statement',choice(
             $.process_statement,
             $.wait_statement,
             $.assertion_statement,
@@ -2266,7 +2274,7 @@ module.exports = grammar({
             $.null_statement,
             $._PSL_Directive,
             $._PSL_Declaration,
-        ),
+        )),
         // }}}
         // 10.2 Wait statement {{{
         wait_statement: $ => seq(
@@ -2722,7 +2730,7 @@ module.exports = grammar({
             $._concurrent_statement
         ),
 
-        _concurrent_statement: $ => prec(2, choice(
+        _concurrent_statement: $ => prec('concurrent_statement', choice(
             $.block_statement,
             $.process_statement,
             $.component_instantiation_statement,
@@ -2960,19 +2968,19 @@ module.exports = grammar({
             $._secondary_unit
         ),
 
-        _primary_unit: $ => choice(
+        _primary_unit: $ => prec('primary_unit',choice(
             $.entity_declaration,
             $.configuration_declaration,
             $.package_declaration,
             $.package_instantiation_declaration,
             $.context_declaration,
             $._PSL_Verification_Unit,
-        ),
+        )),
 
-        _secondary_unit: $ => choice(
+        _secondary_unit: $ => prec('secondary_unit',choice(
             $.architecture_body,
             $.package_body
-        ),
+        )),
         // }}}
         // 13.2 Design libraries {{{
         library_clause: $ => seq(
@@ -3000,11 +3008,11 @@ module.exports = grammar({
             $._context_item
         )),
 
-        _context_item: $ => choice(
+        _context_item: $ => prec('context_item',choice(
             $.library_clause,
             $.use_clause,
             $.context_reference
-        ),
+        )),
 
         context_reference: $ => seq(
             reservedWord('context'),
@@ -3917,6 +3925,8 @@ module.exports = grammar({
     },
     supertype: $ => [
         $._primary_unit,
+        $._secondary_unit,
+        $._context_item,
         $._sequential_statement,
         $._concurrent_statement,
         $._PSL_Verification_Unit,
