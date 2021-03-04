@@ -6497,7 +6497,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[^*]*\\*+([^\\/*][^*]*\\*+)*"
+                "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
               },
               {
                 "type": "STRING",
@@ -6564,6 +6564,7 @@
       "namespace_name_as_prefix"
     ]
   ],
+  "precedences": [],
   "externals": [
     {
       "type": "SYMBOL",
