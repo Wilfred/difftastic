@@ -1728,6 +1728,10 @@
     "named": true
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "feature_name",
     "named": true
   },
