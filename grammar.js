@@ -1432,7 +1432,7 @@ module.exports = grammar({
       $.scoped_identifier
     ),
 
-    identifier: $ => /(r#)?[a-zA-Zα-ωΑ-Ωµ_][a-zA-Zα-ωΑ-Ωµ\d_]*/,
+    identifier: $ => /(r#)?[_\p{XID_Start}][_\p{XID_Continue}]*/,
 
     _reserved_identifier: $ => alias(choice(
       'default',

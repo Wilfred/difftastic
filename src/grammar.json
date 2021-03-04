@@ -8218,7 +8218,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "(r#)?[a-zA-Zα-ωΑ-Ωµ_][a-zA-Zα-ωΑ-Ωµ\\d_]*"
+      "value": "(r#)?[_\\p{XID_Start}][_\\p{XID_Continue}]*"
     },
     "_reserved_identifier": {
       "type": "ALIAS",
@@ -8313,6 +8313,7 @@
       "for_lifetimes"
     ]
   ],
+  "precedences": [],
   "externals": [
     {
       "type": "SYMBOL",
