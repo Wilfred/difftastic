@@ -2,7 +2,7 @@
   "name": "tree-sitter-scala",
   "version": "0.13.0",
   "description": "Scala grammar for tree-sitter",
-  "main": "index.js",
+  "main": "bindings/node",
   "keywords": [
     "parser",
     "scala"
@@ -10,10 +10,10 @@
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.0"
+    "nan": "^2.14.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.16.8"
+    "tree-sitter-cli": "^0.19.1"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
