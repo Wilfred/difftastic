@@ -15,7 +15,7 @@ const
   comparative_operators = ['==', '!=', '<', '<=', '>', '>='],
   assignment_operators = multiplicative_operators.concat(additive_operators).map(operator => operator + '=').concat('='),
 
-  unicodeLetter = /[a-zA-Zα-ωΑ-Ωµ]/,
+  unicodeLetter = /\p{L}/,
   unicodeDigit = /[0-9]/,
   unicodeChar = /./,
   unicodeValue = unicodeChar,
