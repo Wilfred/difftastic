@@ -3,3 +3,5 @@ build
 script
 examples
 *.tgz
+target
+Cargo.lock
