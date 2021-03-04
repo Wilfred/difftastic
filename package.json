@@ -2,7 +2,7 @@
   "name": "tree-sitter-ruby",
   "version": "0.17.0",
   "description": "Ruby grammar for tree-sitter",
-  "main": "index.js",
+  "main": "bindings/node",
   "keywords": [
     "parser",
     "lexer"
@@ -10,12 +10,12 @@
   "author": "Rob Rix",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.12.1",
+    "nan": "^2.14.1",
     "prebuild-install": "^5.0.0"
   },
   "devDependencies": {
     "prebuild": "^10.0.1",
-    "tree-sitter-cli": "^0.18.2"
+    "tree-sitter-cli": "^0.19.1"
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
