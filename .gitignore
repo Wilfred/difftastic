@@ -4,3 +4,5 @@ build
 *.log
 examples/*
 !examples/.gitkeep
+target
+Cargo.lock

@@ -2086,6 +2086,10 @@
     "named": false
   },
   {
+    "type": "block_comment",
+    "named": true
+  },
+  {
     "type": "break_statement",
     "named": true
   },
@@ -2099,6 +2103,10 @@
   },
   {
     "type": "command_string",
+    "named": true
+  },
+  {
+    "type": "comment",
     "named": true
   },
   {
