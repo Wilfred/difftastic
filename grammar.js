@@ -333,7 +333,7 @@ module.exports = grammar({
       ')'
     ),
 
-    identifier: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
+    identifier: $ => /(--|-?[a-zA-Z_])[a-zA-Z0-9-_]*/,
 
     at_keyword: $ => /@[a-zA-Z-_]+/,
 
