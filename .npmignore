@@ -4,3 +4,4 @@ build
 script
 .travis.yml
 .gitattributes
+target
