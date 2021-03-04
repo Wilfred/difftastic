@@ -1103,14 +1103,6 @@
           {
             "type": "expression",
             "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "member_expression",
-            "named": true
           }
         ]
       },
@@ -3452,14 +3444,6 @@
         "types": [
           {
             "type": "expression",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "member_expression",
             "named": true
           }
         ]
