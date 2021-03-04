@@ -2,7 +2,7 @@
   "name": "tree-sitter-bash",
   "version": "0.16.1",
   "description": "Bash grammar for tree-sitter",
-  "main": "index.js",
+  "main": "bindings/node",
   "keywords": [
     "parser",
     "lexer"
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "prebuild": "^10.0.0",
-    "tree-sitter-cli": "^0.16.7"
+    "tree-sitter-cli": "^0.19.1"
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
