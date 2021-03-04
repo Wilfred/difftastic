@@ -361,7 +361,7 @@
     },
     "attribute_name": {
       "type": "PATTERN",
-      "value": "[^<>\"'\\/=\\s]+"
+      "value": "[^<>\"'/=\\s]+"
     },
     "attribute_value": {
       "type": "PATTERN",
@@ -448,6 +448,7 @@
     }
   ],
   "conflicts": [],
+  "precedences": [],
   "externals": [
     {
       "type": "SYMBOL",
