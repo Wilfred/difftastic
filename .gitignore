@@ -10,3 +10,4 @@ package-lock.json
 examples/desktop
 examples/redux
 examples/vscode
+log.html
