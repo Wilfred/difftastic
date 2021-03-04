@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-ruby",
-  "version": "0.17.0",
+  "version": "0.19.0",
   "description": "Ruby grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
