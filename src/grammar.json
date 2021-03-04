@@ -6599,7 +6599,7 @@
                 },
                 {
                   "type": "PATTERN",
-                  "value": "[^*]*\\*+([^\\/*][^*]*\\*+)*"
+                  "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
                 },
                 {
                   "type": "STRING",
@@ -6661,6 +6661,7 @@
       "primary_expression"
     ]
   ],
+  "precedences": [],
   "externals": [],
   "inline": [
     "_name",
