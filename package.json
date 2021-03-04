@@ -24,5 +24,14 @@
     "test": "tree-sitter test && script/parse-examples.sh",
     "test-windows": "tree-sitter test"
   },
-  "repository": "https://github.com/tree-sitter/tree-sitter-bash"
+  "repository": "https://github.com/tree-sitter/tree-sitter-bash",
+  "tree-sitter": [
+    {
+      "scope": "source.bash",
+      "file-types": [
+        "sh",
+        "bash"
+      ]
+    }
+  ]
 }
