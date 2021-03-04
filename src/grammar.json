@@ -4902,6 +4902,7 @@
       "_collection_elements"
     ]
   ],
+  "precedences": [],
   "externals": [
     {
       "type": "SYMBOL",
