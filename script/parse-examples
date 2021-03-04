@@ -20,7 +20,7 @@ checkout_at "examples/moby" "moby/moby" "f57f260b49b6142366e6bc1274204ee0a120594
 
 known_failures="$(cat script/known-failures.txt | egrep -v '^#')"
 
-tree-sitter parse -q \
+time tree-sitter parse -q \
   'examples/**/*.go'  \
   '!**/testdata/**/*' \
   '!**/go/test/**/*'  \
