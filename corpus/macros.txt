@@ -54,6 +54,22 @@ a!('lifetime)
     (identifier)
     (token_tree (identifier))))
 
+=====================================
+Macro invocation with comments
+=====================================
+
+ok! {
+  // one
+  /* two */
+}
+
+---
+
+(source_file
+  (macro_invocation
+    (identifier)
+    (token_tree (line_comment) (block_comment))))
+
 ============================================
 Macro definition
 ============================================
