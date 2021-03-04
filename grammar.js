@@ -29,6 +29,9 @@ module.exports = grammar({
     $.heredoc_start,
     $.heredoc_content,
     $.heredoc_end,
+    $.sigil_start,
+    $.sigil_content,
+    $.sigil_end,
   ],
 
   extras: $ => [
@@ -56,6 +59,7 @@ module.exports = grammar({
       $.map,
       $.keyword_list,
       $.string,
+      $.sigil,
       $.heredoc,
       $.tuple,
       $.identifier,
@@ -79,6 +83,7 @@ module.exports = grammar({
 
     binary_op: $ => choice(
       binaryOp($, prec.left, 40, choice('\\\\', '<-')),
+      binaryOp($, prec.right, 60, '::'),
       binaryOp($, prec.right, 70, '|'),
       binaryOp($, prec.right, 100, '='),
       binaryOp($, prec.left, 150, choice('==', '!=', '=~', '===', '!==')),
@@ -138,6 +143,15 @@ module.exports = grammar({
         $.interpolation
       )),
       $.heredoc_end
+    ),
+
+    sigil: $ => seq(
+      $.sigil_start,
+      repeat(choice(
+        $.sigil_content,
+        $.interpolation
+      )),
+      $.sigil_end
     ),
 
     interpolation: $ => seq(
