@@ -11,7 +11,7 @@ end;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (generic_clause
           (function_interface_declaration
             designator: (identifier)

@@ -76,7 +76,7 @@ generic map (a,b,c);
     (label (identifier))
     (component_instantiation
       (simple_name))
-    (map_aspect
+    (component_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
@@ -101,7 +101,7 @@ port map (a,b,c);
     (label (identifier))
     (component_instantiation
       (simple_name))
-    (map_aspect
+    (component_map_aspect
       (port_map_aspect
         (association_list
           (positional_association_element
@@ -127,7 +127,7 @@ generic map (a,b,c)
     (label (identifier))
     (component_instantiation
       (simple_name))
-    (map_aspect
+    (component_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
@@ -159,7 +159,7 @@ generic map (integer range 0 to 7);
     (label (identifier))
     (component_instantiation
       (simple_name))
-    (map_aspect
+    (component_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
@@ -187,7 +187,7 @@ port map (a.b => c);
     (label (identifier))
     (component_instantiation
       (simple_name))
-    (map_aspect
+    (component_map_aspect
       (port_map_aspect
         (association_list
           (named_association_element

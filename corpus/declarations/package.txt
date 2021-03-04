@@ -62,7 +62,7 @@ end package pkg;
 (design_file
   (package_declaration
     name: (identifier)
-    (header
+    (package_header
       (generic_clause
         (constant_interface_declaration
           (identifier_list
@@ -113,7 +113,7 @@ end package;
 (design_file
   (package_declaration
     name: (identifier)
-    (header
+    (package_header
       (generic_clause
         (constant_interface_declaration
           (identifier_list
@@ -124,7 +124,7 @@ end package;
     (comment))
   (package_declaration
     name: (identifier)
-    (header
+    (package_header
       (generic_clause
         (constant_interface_declaration
           (identifier_list
@@ -141,7 +141,7 @@ end package;
         (semicolon))))
   (package_declaration
     name: (identifier)
-    (header
+    (package_header
       (generic_clause
         (constant_interface_declaration
           (identifier_list

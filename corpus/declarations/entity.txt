@@ -45,7 +45,7 @@ end;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (generic_clause
           (constant_interface_declaration
             (identifier_list
@@ -108,7 +108,7 @@ end;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (generic_clause
           (constant_interface_declaration
             (identifier_list
@@ -120,7 +120,7 @@ end;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (port_clause
           (signal_interface_declaration
             (identifier_list
@@ -132,7 +132,7 @@ end;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (generic_clause
           (constant_interface_declaration
             (identifier_list
@@ -152,7 +152,7 @@ end;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (generic_clause
           (constant_interface_declaration
             (identifier_list
@@ -172,7 +172,7 @@ end;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (generic_clause
           (constant_interface_declaration
             (identifier_list

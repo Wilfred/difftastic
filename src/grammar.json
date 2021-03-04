@@ -73,8 +73,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "header"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_header"
+              },
+              "named": true,
+              "value": "entity_header"
             },
             {
               "type": "BLANK"
@@ -890,7 +895,7 @@
               "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
-                "name": "header"
+                "name": "_header"
               },
               "named": true,
               "value": "subprogram_header"
@@ -1001,7 +1006,7 @@
               "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
-                "name": "header"
+                "name": "_header"
               },
               "named": true,
               "value": "subprogram_header"
@@ -1657,8 +1662,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_map_aspect"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_header"
+              },
+              "named": true,
+              "value": "subprogram_map_aspect"
             },
             {
               "type": "BLANK"
@@ -1791,8 +1801,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_map_aspect"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_header"
+              },
+              "named": true,
+              "value": "subprogram_map_aspect"
             },
             {
               "type": "BLANK"
@@ -1927,8 +1942,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "header"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_header"
+              },
+              "named": true,
+              "value": "package_header"
             },
             {
               "type": "BLANK"
@@ -2226,8 +2246,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_map_aspect"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_header"
+              },
+              "named": true,
+              "value": "package_map_aspect"
             },
             {
               "type": "BLANK"
@@ -2572,8 +2597,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_identifier"
+          }
         },
         {
           "type": "STRING",
@@ -2585,8 +2614,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_identifier"
+          }
         },
         {
           "type": "STRING",
@@ -5087,8 +5120,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_map_aspect"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_header"
+              },
+              "named": true,
+              "value": "package_instantiation_map_aspect"
             },
             {
               "type": "BLANK"
@@ -5625,7 +5663,7 @@
         }
       ]
     },
-    "header": {
+    "_header": {
       "type": "SEQ",
       "members": [
         {
@@ -5669,15 +5707,6 @@
           ]
         }
       ]
-    },
-    "_map_aspect": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "header"
-      },
-      "named": true,
-      "value": "map_aspect"
     },
     "_clause": {
       "type": "CHOICE",
@@ -5952,8 +5981,13 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "header"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_header"
+                },
+                "named": true,
+                "value": "component_header"
               },
               {
                 "type": "BLANK"
@@ -7011,7 +7045,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_map_aspect"
+          "name": "_header"
         },
         {
           "type": "SEQ",
@@ -7041,7 +7075,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_map_aspect"
+                  "name": "_header"
                 },
                 {
                   "type": "BLANK"
@@ -13315,8 +13349,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "header"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_header"
+              },
+              "named": true,
+              "value": "block_header"
             },
             {
               "type": "BLANK"
@@ -13698,8 +13737,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_map_aspect"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_header"
+              },
+              "named": true,
+              "value": "component_map_aspect"
             },
             {
               "type": "BLANK"

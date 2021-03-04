@@ -10,7 +10,7 @@ end entity e;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (port_clause
           (signal_interface_declaration
             (identifier_list
@@ -35,7 +35,7 @@ end block B1;
   (block_statement
     (label
       (identifier))
-    (header
+    (block_header
       (port_clause
         (signal_interface_declaration
           (identifier_list
@@ -57,7 +57,7 @@ end component c;
 (design_file
   (component_declaration
     name: (identifier)
-    (header
+    (component_header
       (port_clause
         (signal_interface_declaration
           (identifier_list
@@ -90,7 +90,7 @@ end entity e;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (port_clause
           (signal_interface_declaration
             (identifier_list
@@ -214,7 +214,7 @@ end entity e;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (port_clause
           (constant_interface_declaration
             (identifier_list
@@ -262,7 +262,7 @@ end entity e;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (port_clause
           (variable_interface_declaration
             (identifier_list
@@ -310,7 +310,7 @@ end entity e;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (port_clause
           (file_interface_declaration
             (identifier_list
@@ -358,7 +358,7 @@ end entity e;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (port_clause
           (procedure_interface_declaration
             designator: (identifier))
@@ -367,12 +367,12 @@ end entity e;
   (design_unit
     (entity_declaration
       name: (identifier)
-      (header
+      (entity_header
         (port_clause
           (package_interface_declaration
             name: (identifier)
             uninstantiated: (simple_name)
-            (map_aspect
+            (package_instantiation_map_aspect
               (generic_map_aspect
                 (any))))
           (semicolon)))

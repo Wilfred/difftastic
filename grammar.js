@@ -464,7 +464,7 @@ module.exports = grammar({
             reservedWord('entity'),
             field('name',$._identifier),
             reservedWord('is'),
-            optional($.header),
+            optional(alias($._header,$.entity_header)),
             optional($.declarative_part),
             optional(seq(
                 'begin',
@@ -594,7 +594,7 @@ module.exports = grammar({
             )),
             reservedWord('procedure'),
             $._designator,
-            optional(alias($.header, $.subprogram_header)),
+            optional(alias($._header, $.subprogram_header)),
             optional($.procedure_parameter_clause),
             optional($.return)
         ),
@@ -606,7 +606,7 @@ module.exports = grammar({
             )),
             reservedWord('function'),
             $._designator,
-            optional(alias($.header, $.subprogram_header)),
+            optional(alias($._header, $.subprogram_header)),
             optional($.function_parameter_clause),
             optional($.return)
         ),
@@ -693,6 +693,8 @@ module.exports = grammar({
             $.function_instantiation_declaration
         ),
 
+        // LINT
+        // Procedure shall not habe purity
         procedure_instantiation_declaration: $ => seq(
             optional(choice(
                 reservedWord('pure'),
@@ -704,7 +706,7 @@ module.exports = grammar({
             reservedWord('new'),
             $._uninstantiated_name,
             optional($.signature),
-            optional($._map_aspect),
+            optional(alias($._header,$.subprogram_map_aspect)),
             ';'
         ),
 
@@ -719,7 +721,7 @@ module.exports = grammar({
             reservedWord('new'),
             $._uninstantiated_name,
             optional($.signature),
-            optional($._map_aspect),
+            optional(alias($._header,$.subprogram_map_aspect)),
             ';'
         ),
 
@@ -741,7 +743,7 @@ module.exports = grammar({
             reservedWord('package'),
             field('name',$._identifier),
             reservedWord('is'),
-            optional($.header),
+            optional(alias($._header,$.package_header)),
             optional($.declarative_part),
             reservedWord('end'),
             optional(reservedWord('package')),
@@ -774,7 +776,7 @@ module.exports = grammar({
             reservedWord('is'),
             reservedWord('new'),
             $._uninstantiated_name,
-            optional($._map_aspect),
+            optional(alias($._header,$.package_map_aspect)),
             ';'
         ),
         // }}}
@@ -853,12 +855,12 @@ module.exports = grammar({
         ),
 
         primary_unit_declaration: $ => seq(
-            $._identifier,
+            field('name',$._identifier),
             ';'
         ),
 
         secondary_unit_declaration: $ => seq(
-            $._identifier,
+            field('name',$._identifier),
             '=',
             choice(
                 $.physical_literal,
@@ -1365,7 +1367,7 @@ module.exports = grammar({
             reservedWord('is'),
             reservedWord('new'),
             $._uninstantiated_name,
-            optional($._map_aspect),
+            optional(alias($._header,$.package_instantiation_map_aspect)),
         ),
         // }}}
         // 6.5.6.1 Interface lists {{{
@@ -1474,16 +1476,11 @@ module.exports = grammar({
         ),
         // }}}
         // HEADER and MAP_ASPECTS {{{
-        header: $ => seq(
+        _header: $ => seq(
             $._clause,
             optional($._clause),
             optional($._clause),
             optional($._clause),
-        ),
-
-        _map_aspect: $ => alias(
-            $.header,
-            $.map_aspect
         ),
 
         _clause: $ => choice(
@@ -1549,7 +1546,7 @@ module.exports = grammar({
             reservedWord('component'),
             field('name',$._identifier),
             optional(reservedWord('is')),
-            optional($.header),
+            optional(alias($._header,$.component_header)),
             reservedWord('end'),
             reservedWord('component'),
             optional($._end_simple_name),
@@ -1716,11 +1713,11 @@ module.exports = grammar({
         // }}}
         // 7.3.2 Binding indication {{{
         binding_indication: $ => choice(
-            $._map_aspect,
+            $._header,
             seq(
                 reservedWord('use'),
                 $._entity_aspect,
-                optional($._map_aspect),
+                optional($._header),
             ),
         ),
 
@@ -2762,7 +2759,7 @@ module.exports = grammar({
                 ')'
             )),
             optional(reservedWord('is')),
-            optional($.header),
+            optional(alias($._header,$.block_header)),
             optional($.declarative_part),
             reservedWord('begin'),
             optional($.concurrent_statement_part),
@@ -2819,7 +2816,7 @@ module.exports = grammar({
         component_instantiation_statement: $ => seq(
             optional($.label),
             $._entity_aspect,
-            optional($._map_aspect),
+            optional(alias($._header,$.component_map_aspect)),
             ';'
         ),
 

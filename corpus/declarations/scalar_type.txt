@@ -87,7 +87,7 @@ type phy_t is range l to h
           high: (simple_expression
             (simple_name))))
       (primary_unit_declaration
-        (identifier)))))
+       name: (identifier)))))
 
 ======================================
 Physical type definition
@@ -110,9 +110,9 @@ type phy_t is range l to h
           high: (simple_expression
             (simple_name))))
       (primary_unit_declaration
-        (identifier))
+       name: (identifier))
       (secondary_unit_declaration
-        (identifier)
+       name: (identifier)
         (physical_literal
           unit: (simple_name))))))
 
@@ -148,47 +148,47 @@ type byte_t is range 0 to 1E16
               (integer)
               (exponent)))))
       (primary_unit_declaration
-        (identifier))
+       name: (identifier))
       (comment)
       (secondary_unit_declaration
-        (identifier)
+       name: (identifier)
         (physical_literal
           (integer_decimal
             (integer))
           unit: (simple_name)))
       (secondary_unit_declaration
-        (identifier)
+       name: (identifier)
         (physical_literal
           (integer_decimal
             (integer))
           unit: (simple_name)))
       (secondary_unit_declaration
-        (identifier)
+       name: (identifier)
         (physical_literal
           (integer_decimal
             (integer))
           unit: (simple_name)))
       (secondary_unit_declaration
-        (identifier)
+       name: (identifier)
         (physical_literal
           (integer_decimal
             (integer))
           unit: (simple_name)))
       (comment)
       (secondary_unit_declaration
-        (identifier)
+       name: (identifier)
         (physical_literal
           (integer_decimal
             (integer))
           unit: (simple_name)))
       (secondary_unit_declaration
-        (identifier)
+       name: (identifier)
         (physical_literal
           (integer_decimal
             (integer))
           unit: (simple_name)))
       (secondary_unit_declaration
-        (identifier)
+       name: (identifier)
         (physical_literal
           (integer_decimal
             (integer))

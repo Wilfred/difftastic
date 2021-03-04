@@ -4324,7 +4324,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "component_instantiation",
@@ -4339,11 +4339,23 @@
           "named": true
         },
         {
-          "type": "map_aspect",
+          "type": "generic_clause",
+          "named": true
+        },
+        {
+          "type": "generic_map_aspect",
           "named": true
         },
         {
           "type": "open",
+          "named": true
+        },
+        {
+          "type": "port_clause",
+          "named": true
+        },
+        {
+          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -4427,6 +4439,33 @@
     }
   },
   {
+    "type": "block_header",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_clause",
+          "named": true
+        },
+        {
+          "type": "generic_map_aspect",
+          "named": true
+        },
+        {
+          "type": "port_clause",
+          "named": true
+        },
+        {
+          "type": "port_map_aspect",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "block_specification",
     "named": true,
     "fields": {
@@ -4490,15 +4529,15 @@
       "required": false,
       "types": [
         {
+          "type": "block_header",
+          "named": true
+        },
+        {
           "type": "concurrent_statement_part",
           "named": true
         },
         {
           "type": "declarative_part",
-          "named": true
-        },
-        {
-          "type": "header",
           "named": true
         },
         {
@@ -4756,7 +4795,34 @@
       "required": false,
       "types": [
         {
-          "type": "header",
+          "type": "component_header",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "component_header",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_clause",
+          "named": true
+        },
+        {
+          "type": "generic_map_aspect",
+          "named": true
+        },
+        {
+          "type": "port_clause",
+          "named": true
+        },
+        {
+          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -4798,6 +4864,10 @@
           "named": true
         },
         {
+          "type": "component_map_aspect",
+          "named": true
+        },
+        {
           "type": "configuration_instantiation",
           "named": true
         },
@@ -4810,11 +4880,34 @@
           "named": true
         },
         {
-          "type": "map_aspect",
+          "type": "open",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "component_map_aspect",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_clause",
           "named": true
         },
         {
-          "type": "open",
+          "type": "generic_map_aspect",
+          "named": true
+        },
+        {
+          "type": "port_clause",
+          "named": true
+        },
+        {
+          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -6614,7 +6707,7 @@
           "named": true
         },
         {
-          "type": "header",
+          "type": "entity_header",
           "named": true
         },
         {
@@ -6650,6 +6743,33 @@
         },
         {
           "type": "simple_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "entity_header",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_clause",
+          "named": true
+        },
+        {
+          "type": "generic_map_aspect",
+          "named": true
+        },
+        {
+          "type": "port_clause",
+          "named": true
+        },
+        {
+          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -7883,11 +8003,11 @@
       "required": false,
       "types": [
         {
-          "type": "map_aspect",
+          "type": "signature",
           "named": true
         },
         {
-          "type": "signature",
+          "type": "subprogram_map_aspect",
           "named": true
         }
       ]
@@ -8357,33 +8477,6 @@
         },
         {
           "type": "type_mark",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "header",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_clause",
-          "named": true
-        },
-        {
-          "type": "generic_map_aspect",
-          "named": true
-        },
-        {
-          "type": "port_clause",
-          "named": true
-        },
-        {
-          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -9145,33 +9238,6 @@
     }
   },
   {
-    "type": "map_aspect",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_clause",
-          "named": true
-        },
-        {
-          "type": "generic_map_aspect",
-          "named": true
-        },
-        {
-          "type": "port_clause",
-          "named": true
-        },
-        {
-          "type": "port_map_aspect",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "mode",
     "named": true,
     "fields": {}
@@ -9469,7 +9535,34 @@
           "named": true
         },
         {
-          "type": "header",
+          "type": "package_header",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_header",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_clause",
+          "named": true
+        },
+        {
+          "type": "generic_map_aspect",
+          "named": true
+        },
+        {
+          "type": "port_clause",
+          "named": true
+        },
+        {
+          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -9517,7 +9610,34 @@
       "required": false,
       "types": [
         {
-          "type": "map_aspect",
+          "type": "package_map_aspect",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_instantiation_map_aspect",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_clause",
+          "named": true
+        },
+        {
+          "type": "generic_map_aspect",
+          "named": true
+        },
+        {
+          "type": "port_clause",
+          "named": true
+        },
+        {
+          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -9565,7 +9685,34 @@
       "required": false,
       "types": [
         {
-          "type": "map_aspect",
+          "type": "package_instantiation_map_aspect",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_map_aspect",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_clause",
+          "named": true
+        },
+        {
+          "type": "generic_map_aspect",
+          "named": true
+        },
+        {
+          "type": "port_clause",
+          "named": true
+        },
+        {
+          "type": "port_map_aspect",
           "named": true
         }
       ]
@@ -10066,20 +10213,21 @@
   {
     "type": "primary_unit_declaration",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "extended_identifier",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "extended_identifier",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -10276,11 +10424,11 @@
       "required": false,
       "types": [
         {
-          "type": "map_aspect",
+          "type": "signature",
           "named": true
         },
         {
-          "type": "signature",
+          "type": "subprogram_map_aspect",
           "named": true
         }
       ]
@@ -11167,19 +11315,26 @@
   {
     "type": "secondary_unit_declaration",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "extended_identifier",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "extended_identifier",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
         {
           "type": "physical_literal",
           "named": true
@@ -12921,6 +13076,33 @@
   },
   {
     "type": "subprogram_header",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_clause",
+          "named": true
+        },
+        {
+          "type": "generic_map_aspect",
+          "named": true
+        },
+        {
+          "type": "port_clause",
+          "named": true
+        },
+        {
+          "type": "port_map_aspect",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subprogram_map_aspect",
     "named": true,
     "fields": {},
     "children": {

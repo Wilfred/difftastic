@@ -123,12 +123,11 @@ for all : c
       (all))
     component: (simple_name)
     (binding_indication
-      (map_aspect
-        (generic_map_aspect
-          (association_list
-            (positional_association_element
-              actual_part: (expression
-                (simple_name)))))))))
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))))))
 
 =============================================
 Binding indication - Port map aspects
@@ -143,12 +142,11 @@ for all : c
       (all))
     component: (simple_name)
     (binding_indication
-      (map_aspect
-        (port_map_aspect
-          (association_list
-            (positional_association_element
-              actual_part: (expression
-                (simple_name)))))))))
+      (port_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))))))
 
 =============================================
 Binding indication - Both map aspects
@@ -164,17 +162,16 @@ for all : c
       (all))
     component: (simple_name)
     (binding_indication
-      (map_aspect
-        (generic_map_aspect
-          (association_list
-            (positional_association_element
-              actual_part: (expression
-                (simple_name)))))
-        (port_map_aspect
-          (association_list
-            (positional_association_element
-              actual_part: (expression
-                (simple_name)))))))))
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name)))))
+      (port_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))))))
 
 =============================================
 LINT: Binding indication (open)
@@ -192,16 +189,15 @@ for all : c
     component: (simple_name)
     (binding_indication
       (open)
-      (map_aspect
-        (generic_map_aspect
-          (association_list
-            (positional_association_element
-              actual_part: (expression
-                (simple_name)))))
-        (comment)
-        (port_map_aspect
-          (association_list
-            (positional_association_element
-              actual_part: (expression
-                (simple_name))))))))
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name)))))
+      (comment)
+      (port_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name)))))))
   (comment))

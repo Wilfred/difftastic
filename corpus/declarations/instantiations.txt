@@ -49,7 +49,7 @@ procedure p is new u
   (function_instantiation_declaration
     designator: (identifier)
     uninstantiated: (simple_name)
-    (map_aspect
+    (subprogram_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
@@ -58,7 +58,7 @@ procedure p is new u
   (procedure_instantiation_declaration
     designator: (identifier)
     uninstantiated: (simple_name)
-    (map_aspect
+    (subprogram_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
@@ -118,7 +118,7 @@ package p is new u
   (package_instantiation_declaration
     name: (identifier)
     uninstantiated: (simple_name)
-    (map_aspect
+    (package_map_aspect
       (generic_map_aspect
         (association_list
           (positional_association_element
