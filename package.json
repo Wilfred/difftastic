@@ -2,7 +2,7 @@
   "name": "tree-sitter-html",
   "version": "0.16.0",
   "description": "HTML grammar for tree-sitter",
-  "main": "index.js",
+  "main": "bindings/node",
   "keywords": [
     "parser",
     "lexer"
@@ -16,7 +16,7 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.16.9"
+    "tree-sitter-cli": "^0.19.1"
   },
   "scripts": {
     "test": "tree-sitter test && tree-sitter parse examples/*.html --quiet --time",

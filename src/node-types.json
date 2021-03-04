@@ -279,6 +279,10 @@
     "named": true
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "doctype",
     "named": false
   },
