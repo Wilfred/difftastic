@@ -2,7 +2,7 @@
   "name": "tree-sitter-c-sharp",
   "version": "0.16.1",
   "description": "C# grammar for tree-sitter",
-  "main": "index.js",
+  "main": "bindings/node",
   "keywords": [
     "parser",
     "lexer"
@@ -10,10 +10,10 @@
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.12.0"
+    "nan": "^2.14.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.17.1"
+    "tree-sitter-cli": "^0.19.1"
   },
   "scripts": {
     "test": "tree-sitter test && node test.js"
