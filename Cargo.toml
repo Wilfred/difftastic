@@ -1,10 +1,10 @@
 [package]
 name = "tree-sitter-ruby"
 description = "Ruby grammar for the tree-sitter parsing library"
-version = "0.17.0"
+version = "0.19.0"
 authors = [
     "Douglas Creager <dcreager@dcreager.net>",
-    "Rob Rix <robrix@github.com>",
+    "Max Brunsfeld <maxbrunsfeld@gmail.com>",
 ]
 license = "MIT"
 readme = "bindings/rust/README.md"
@@ -25,7 +25,7 @@ include = [
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "0.17"
+tree-sitter = "0.19"
 
 [build-dependencies]
 cc = "1.0"
