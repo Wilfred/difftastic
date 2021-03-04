@@ -702,7 +702,7 @@
         ]
       },
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -823,7 +823,7 @@
     "named": true,
     "fields": {
       "condition": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -1008,7 +1008,7 @@
         ]
       },
       "redirect": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -1283,7 +1283,7 @@
         ]
       },
       "condition": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -1534,6 +1534,10 @@
   {
     "type": "case",
     "named": false
+  },
+  {
+    "type": "comment",
+    "named": true
   },
   {
     "type": "declare",
