@@ -9141,6 +9141,7 @@
       "variable_declarator"
     ]
   ],
+  "precedences": [],
   "externals": [
     {
       "type": "SYMBOL",
