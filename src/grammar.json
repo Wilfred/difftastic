@@ -3516,6 +3516,7 @@
       "parameter_types"
     ]
   ],
+  "precedences": [],
   "externals": [
     {
       "type": "SYMBOL",
