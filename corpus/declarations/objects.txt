@@ -205,7 +205,7 @@ signal S : STANDARD.BIT_VECTOR (1 to 10);
       (identifier))
     (subtype_indication
       (type_mark
-        (expanded_name
+        (selected_name
           prefix: (simple_name)
           suffix: (simple_name)))
       (array_constraint

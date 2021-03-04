@@ -31,7 +31,7 @@ L1: entity lib.e;
   (component_instantiation_statement
     (label (identifier))
     (entity_instantiation
-      (expanded_name
+      (selected_name
         prefix: (simple_name)
         suffix: (simple_name)))))
 
@@ -45,7 +45,7 @@ L1: entity lib.e(rtl);
   (component_instantiation_statement
     (label (identifier))
     (entity_instantiation
-      (expanded_name
+      (selected_name
         prefix: (simple_name)
         suffix: (simple_name))
       (simple_name))))
@@ -60,7 +60,7 @@ L1: configuration lib.cfg;
   (component_instantiation_statement
     (label (identifier))
     (configuration_instantiation
-      (expanded_name
+      (selected_name
         prefix: (simple_name)
         suffix: (simple_name)))))
 

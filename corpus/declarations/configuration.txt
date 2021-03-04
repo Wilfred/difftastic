@@ -37,7 +37,7 @@ end;
   (design_unit
     (configuration_declaration
       name: (identifier)
-      entity: (expanded_name
+      entity: (selected_name
         prefix: (simple_name)
         suffix: (simple_name)))))
 
@@ -144,7 +144,7 @@ end configuration V4_27_87;
       entity: (simple_name)
       (declarative_part
         (use_clause
-          (expanded_name
+          (selected_name
             prefix: (simple_name)
             suffix: (all))))
       (block_configuration
@@ -156,7 +156,7 @@ end configuration V4_27_87;
           component: (simple_name)
           (binding_indication
             (configuration_instantiation
-              (expanded_name
+              (selected_name
                 prefix: (simple_name)
                 suffix: (simple_name))))
           (semicolon))

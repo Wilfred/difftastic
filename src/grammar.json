@@ -197,7 +197,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "expanded_name"
+            "name": "selected_name"
           }
         ]
       }
@@ -1828,7 +1828,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "expanded_name"
+            "name": "selected_name"
           },
           {
             "type": "SYMBOL",
@@ -2690,7 +2690,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "expanded_name"
+              "name": "selected_name"
             }
           ]
         }
@@ -3752,7 +3752,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "expanded_name"
+            "name": "selected_name"
           }
         ]
       }
@@ -3845,7 +3845,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "expanded_name"
+            "name": "selected_name"
           },
           {
             "type": "SYMBOL",
@@ -5036,7 +5036,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expanded_name"
+          "name": "selected_name"
         },
         {
           "type": "SYMBOL",
@@ -5852,10 +5852,6 @@
           },
           {
             "type": "SYMBOL",
-            "name": "expanded_name"
-          },
-          {
-            "type": "SYMBOL",
             "name": "ambiguous_name"
           },
           {
@@ -6243,7 +6239,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expanded_name"
+          "name": "selected_name"
         },
         {
           "type": "SYMBOL",
@@ -6263,7 +6259,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "expanded_name"
+            "name": "selected_name"
           }
         ]
       }
@@ -7160,7 +7156,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "expanded_name"
+              "name": "selected_name"
             }
           ]
         },
@@ -7182,7 +7178,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "expanded_name"
+                    "name": "selected_name"
                   }
                 ]
               }
@@ -7375,52 +7371,6 @@
               {
                 "type": "SYMBOL",
                 "name": "_external_object_name"
-              }
-            ]
-          }
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "."
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "suffix",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_simple_name"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "all"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    "expanded_name": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "prefix",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_simple_name"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "selected_name"
               }
             ]
           }
@@ -10423,7 +10373,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "expanded_name"
+            "name": "selected_name"
           },
           {
             "type": "SYMBOL",
@@ -12338,7 +12288,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "expanded_name"
+                  "name": "selected_name"
                 }
               ]
             }
@@ -13784,7 +13734,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "expanded_name"
+              "name": "selected_name"
             }
           ]
         },
@@ -13843,7 +13793,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "expanded_name"
+              "name": "selected_name"
             }
           ]
         }
@@ -13888,7 +13838,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "expanded_name"
+                "name": "selected_name"
               }
             ]
           }
@@ -14691,7 +14641,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "expanded_name"
+              "name": "selected_name"
             },
             {
               "type": "REPEAT",
@@ -14704,7 +14654,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "expanded_name"
+                    "name": "selected_name"
                   }
                 ]
               }
@@ -15047,7 +14997,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "expanded_name"
+          "name": "selected_name"
         },
         {
           "type": "REPEAT",
@@ -15060,7 +15010,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "expanded_name"
+                "name": "selected_name"
               }
             ]
           }
@@ -25361,10 +25311,6 @@
     }
   ],
   "conflicts": [
-    [
-      "selected_name",
-      "expanded_name"
-    ],
     [
       "_procedure_specification",
       "procedure_instantiation_declaration"
