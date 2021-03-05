@@ -130,6 +130,9 @@ module.exports = {
 
   exp_case: $ => seq('case', $._exp, 'of', $.alts),
 
+  /**
+   * left associative because the alts are optional
+   */
   exp_lambda_case: $ => prec.left(seq(
     '\\',
     'case',
