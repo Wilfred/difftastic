@@ -2814,7 +2814,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_pat"
+          "name": "_typed_pat"
         },
         {
           "type": "STRING",
@@ -4845,7 +4845,24 @@
         }
       ]
     },
-    "_nested_pat": {
+    "pat_typed": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "pattern",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_pat"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type_annotation"
+        }
+      ]
+    },
+    "_typed_pat": {
       "type": "CHOICE",
       "members": [
         {
@@ -4853,17 +4870,17 @@
           "name": "_pat"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_pat"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_type_annotation"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "pat_typed"
+        }
+      ]
+    },
+    "_nested_pat": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_typed_pat"
         },
         {
           "type": "SYMBOL",

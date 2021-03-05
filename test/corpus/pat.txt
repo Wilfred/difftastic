@@ -205,20 +205,6 @@ a = \ (a -> a) -> a
    (exp_name (variable)))))
 
 ================================================================================
-pat: annotation
-================================================================================
-
-a (a :: A a) = a
-
----
-
-(haskell
- (function
-  (variable)
-  (patterns (pat_parens (pat_name (variable)) (type_apply (type_name (type)) (type_name (type_variable)))))
-  (exp_name (variable))))
-
-================================================================================
 pat: infix pattern in decl lhs
 ================================================================================
 
@@ -378,7 +364,7 @@ a = do
 (haskell
  (function
   (variable)
-  (patterns (pat_parens (pat_name (variable)) (type_name (type))))
+  (patterns (pat_parens (pat_typed (pat_name (variable)) (type_name (type)))))
   (exp_name (variable)))
  (function
   (variable)
@@ -387,5 +373,38 @@ a = do
     (let
      (decls
       (function
-       (pat_tuple (pat_name (variable)) (type_name (type)) (comma) (pat_name (variable)))
+       (pat_tuple (pat_typed (pat_name (variable)) (type_name (type))) (comma) (pat_name (variable)))
        (exp_name (variable)))))))))
+
+================================================================================
+pat: do binder signature
+================================================================================
+
+a = do
+  a :: A <- a
+
+---
+
+(haskell
+ (function
+  name: (variable)
+  rhs: (exp_do
+   (stmt (bind_pattern (pat_typed pattern: (pat_name (variable)) type: (type_name (type))) (exp_name (variable)))))))
+
+================================================================================
+pat: do binder view pattern
+================================================================================
+
+a = do
+  (a -> a) <- a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do
+   (stmt
+    (bind_pattern
+     (pat_parens (pat_view (exp_name (variable)) (pat_name (variable))))
+     (exp_name (variable)))))))

@@ -73,12 +73,18 @@ module.exports = {
     prec(1, $._lpat),
   ),
 
+  pat_typed: $ => seq(field('pattern', $._pat), $._type_annotation),
+
+  _typed_pat: $ => choice(
+    $._pat,
+    $.pat_typed,
+  ),
+
   /**
-   *
+   * Patterns that occur inside parentheses, and thus can always have view patterns and type annotations.
    */
   _nested_pat: $ => choice(
-    $._pat,
-    seq($._pat, $._type_annotation),
+    $._typed_pat,
     $.pat_view,
   )
 }
