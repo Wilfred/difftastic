@@ -6523,6 +6523,10 @@
             "named": true
           },
           {
+            "type": "pat_typed",
+            "named": true
+          },
+          {
             "type": "pat_unboxed_tuple",
             "named": true
           },
