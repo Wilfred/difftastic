@@ -4629,7 +4629,7 @@
     },
     "pat_name": {
       "type": "SYMBOL",
-      "name": "variable"
+      "name": "_var"
     },
     "_pat_constructor": {
       "type": "ALIAS",
