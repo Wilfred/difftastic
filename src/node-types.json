@@ -1889,6 +1889,10 @@
           {
             "type": "pat_wildcard",
             "named": true
+          },
+          {
+            "type": "splice",
+            "named": true
           }
         ]
       },
@@ -2259,6 +2263,10 @@
         },
         {
           "type": "promoted",
+          "named": true
+        },
+        {
+          "type": "splice",
           "named": true
         },
         {
@@ -6533,6 +6541,10 @@
           {
             "type": "pat_wildcard",
             "named": true
+          },
+          {
+            "type": "splice",
+            "named": true
           }
         ]
       },
@@ -7821,6 +7833,10 @@
           {
             "type": "pat_wildcard",
             "named": true
+          },
+          {
+            "type": "splice",
+            "named": true
           }
         ]
       },
@@ -7892,6 +7908,10 @@
           },
           {
             "type": "pat_wildcard",
+            "named": true
+          },
+          {
+            "type": "splice",
             "named": true
           }
         ]
@@ -8391,6 +8411,10 @@
         {
           "type": "pat_wildcard",
           "named": true
+        },
+        {
+          "type": "splice",
+          "named": true
         }
       ]
     }
@@ -8445,6 +8469,10 @@
           },
           {
             "type": "pat_wildcard",
+            "named": true
+          },
+          {
+            "type": "splice",
             "named": true
           }
         ]
@@ -8543,6 +8571,10 @@
         },
         {
           "type": "qualified_variable",
+          "named": true
+        },
+        {
+          "type": "splice",
           "named": true
         },
         {
@@ -8654,6 +8686,10 @@
         {
           "type": "qualified_constructor_operator",
           "named": true
+        },
+        {
+          "type": "splice",
+          "named": true
         }
       ]
     }
@@ -8708,6 +8744,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "splice",
           "named": true
         }
       ]
@@ -8787,6 +8827,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "splice",
           "named": true
         }
       ]
@@ -8952,6 +8996,10 @@
         {
           "type": "pat_wildcard",
           "named": true
+        },
+        {
+          "type": "splice",
+          "named": true
         }
       ]
     }
@@ -9033,6 +9081,10 @@
         {
           "type": "pat_wildcard",
           "named": true
+        },
+        {
+          "type": "splice",
+          "named": true
         }
       ]
     }
@@ -9112,6 +9164,10 @@
         {
           "type": "pat_wildcard",
           "named": true
+        },
+        {
+          "type": "splice",
+          "named": true
         }
       ]
     }
@@ -9178,6 +9234,10 @@
           },
           {
             "type": "pat_wildcard",
+            "named": true
+          },
+          {
+            "type": "splice",
             "named": true
           }
         ]
@@ -9316,6 +9376,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "splice",
           "named": true
         }
       ]
@@ -9880,6 +9944,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "splice",
           "named": true
         }
       ]
