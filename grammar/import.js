@@ -18,7 +18,7 @@ module.exports = {
     optional($.namespace),
     choice(
       $._var,
-      seq($._con, optional($.import_con_names)),
+      seq($._simple_tycon, optional($.import_con_names)),
     ),
   ),
 
