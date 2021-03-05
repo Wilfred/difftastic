@@ -1182,6 +1182,11 @@ Parser where = token("where")(sym(Sym::where)(mark("where") + finish(Sym::where,
 Parser in = token("in")(end_or_semicolon("in"));
 
 /**
+ * An `else` token may end a layout opened in the body of a `then`.
+ */
+Parser else_ = token("else")(end_or_semicolon("else"));
+
+/**
  * Detect the start of a quasiquote: An opening bracket followed by an optional varid and a vertical bar, all without
  * whitespace in between.
  */
@@ -1346,6 +1351,7 @@ Parser close_layout_in_list =
 Parser inline_tokens =
   peek('w')(where + fail) +
   peek('i')(in + fail) +
+  peek('e')(else_ + fail) +
   peek(')')(layout_end(")") + fail) +
   sym(Sym::qq_start)(peek('[')(qq_start + fail)) +
   peeks(cond::symbolic)(with(read_symop)(symop)) +

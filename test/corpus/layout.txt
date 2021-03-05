@@ -625,34 +625,50 @@ a = [case a of a -> a | a <- a]
    (qual (bind_pattern (pat_name (variable)) (exp_name (variable)))))))
 
 ================================================================================
-layout: nondecreasing indent for do in if-then ////// ERROR //////
+layout: do in an if-then block
 ================================================================================
 
-a :: IO Int
-a = do a <- pure 1
-       if True then do
-       b <- pure 2
-       pure 5
-       else pure 3
-       c <- pure 3
-       pure 6
+a = if a then do a; a else a
 
 ---
 
 (haskell
- (signature
+ (function
   (variable)
-  (type_apply (type_name (type)) (type_name (type))))
- (ERROR
+  (exp_cond
+   (exp_name (variable))
+   (exp_do (stmt (exp_name (variable))) (stmt (exp_name (variable))))
+   (exp_name (variable)))))
+
+================================================================================
+layout: nondecreasing indent for do in if-then
+================================================================================
+
+a = do
+  a <- a
+  if a then do
+  a <- a
+  pure a
+  else a
+  a <- a
+  pure a
+
+---
+
+(haskell
+ (function
   (variable)
-  (stmt (bind_pattern (pat_name (variable)) (exp_apply (exp_name (variable)) (exp_literal (integer)))))
-  (exp_name (constructor))
   (exp_do
-   (stmt (bind_pattern (pat_name (variable)) (exp_apply (exp_name (variable)) (exp_literal (integer)))))
-   (stmt (exp_apply (exp_name (variable)) (exp_literal (integer))))
-   (stmt (exp_apply (exp_name (variable)) (exp_name (variable)) (exp_literal (integer))))
-   (stmt (bind_pattern (pat_name (variable)) (exp_apply (exp_name (variable)) (exp_literal (integer)))))
-   (stmt (exp_apply (exp_name (variable)) (exp_literal (integer)))))))
+   (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+   (stmt
+    (exp_cond
+     (exp_name (variable))
+     (exp_do
+      (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+      (stmt (exp_apply (exp_name (variable)) (exp_name (variable)))))
+     (exp_name (variable))))
+   (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+   (stmt (exp_apply (exp_name (variable)) (exp_name (variable)))))))
 
 ================================================================================
 layout: infix in statement position ends layout
