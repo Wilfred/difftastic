@@ -1,14 +1,11 @@
-#include <tree_sitter/parser.h>
+#include "tree_sitter/parser.h"
 #include <vector>
-#include <cwctype>
-#include <cassert>
 #include <cstdio>
 #include <iostream>
 #include <functional>
 #include <algorithm>
 
 using namespace std;
-using std::placeholders::_1;
 
 /**
  * The scanner is abstracted for compositionality as functions of the type:
@@ -711,7 +708,10 @@ function<Symbolic(State &)> symop(string s) {
       }
     } else {
       if (all_of(s.begin(), s.end(), cond::eq('-'))) return Symbolic::comment;
-      if (s.size() == 2 && !cond::valid_symop_two_chars(s[0], s[1])) return Symbolic::invalid;
+      if (s.size() == 2) {
+        if (s == "$$" && cond::valid_splice(state)) return Symbolic::splice;
+        if (!cond::valid_symop_two_chars(s[0], s[1])) return Symbolic::invalid;
+      }
     }
     return con_or_var(c);
   };

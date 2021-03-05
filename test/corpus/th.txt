@@ -70,6 +70,19 @@ f = $(a . a $ a)
      (exp_name (variable)))))))
 
 ================================================================================
+template haskell: inline splice double
+================================================================================
+
+a = $$a
+a = $$(a)
+
+---
+
+(haskell
+ (function (variable) (splice (exp_name (variable))))
+ (function (variable) (splice (exp_parens (exp_name (variable))))))
+
+================================================================================
 template haskell: inline splice in function application
 ================================================================================
 
