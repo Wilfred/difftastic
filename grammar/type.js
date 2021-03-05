@@ -106,6 +106,7 @@ module.exports = {
   _constraint: $ => choice(
     alias($._quantified_constraint, $.forall),
     alias($._constraint_context, $.context),
+    parens($._constraint),
     $.constraint,
   ),
 

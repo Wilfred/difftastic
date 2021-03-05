@@ -125,3 +125,13 @@ a :: (forall a . forall a . (forall a . A => A) => forall a . A => A) => A
         (constraint (class_name (type)))
         (constraint (class_name (type))))))))
    (type_name (type)))))
+
+================================================================================
+context: double parenthesis
+================================================================================
+
+a :: ((A)) => A
+
+---
+
+(haskell (signature (variable) (context (constraint (class_name (type))) (type_name (type)))))
