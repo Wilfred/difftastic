@@ -1778,6 +1778,14 @@
         {
           "type": "SYMBOL",
           "name": "type_unboxed_tuple"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "splice"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quasiquote"
         }
       ]
     },
@@ -4094,7 +4102,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "exp_unboxed_tuple"
+          "name": "exp_name"
         },
         {
           "type": "SYMBOL",
@@ -4107,22 +4115,6 @@
         {
           "type": "SYMBOL",
           "name": "exp_list"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "exp_arithmetic_sequence"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "exp_list_comprehension"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "exp_section_left"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "exp_section_right"
         },
         {
           "type": "SYMBOL",
@@ -4146,7 +4138,31 @@
         },
         {
           "type": "SYMBOL",
-          "name": "exp_name"
+          "name": "exp_arithmetic_sequence"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exp_list_comprehension"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exp_section_left"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exp_section_right"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exp_unboxed_tuple"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "splice"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quasiquote"
         },
         {
           "type": "ALIAS",
@@ -4156,14 +4172,6 @@
           },
           "named": true,
           "value": "exp_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "splice"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quasiquote"
         }
       ]
     },
@@ -8417,22 +8425,31 @@
         }
       ]
     },
+    "_splice_exp": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "exp_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exp_parens"
+        }
+      ]
+    },
     "splice": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_splice_dollar"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_aexp"
-          }
-        ]
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_splice_dollar"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_splice_exp"
+        }
+      ]
     },
     "top_splice": {
       "type": "SYMBOL",
