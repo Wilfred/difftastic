@@ -34,7 +34,9 @@ module.exports = {
 
   type_list: $ => brackets(sep1($.comma, $._type_or_implicit)),
 
-  type_tuple: $ => parens(sep2($.comma, $._type_or_implicit)),
+  _type_tuple: $ => sep2($.comma, $._type_or_implicit),
+
+  type_tuple: $ => parens($._type_tuple),
 
   _type_promotable_literal: $ => choice(
     $.type_literal,
@@ -58,11 +60,14 @@ module.exports = {
 
   type_star: _ => '*',
 
+  type_unboxed_tuple: $ => seq('(# ', $._type_tuple, $._unboxed_tuple_close),
+
   _atype: $ => choice(
     $.type_name,
     $.type_star,
     $._type_literal,
     $.type_parens,
+    $.type_unboxed_tuple,
   ),
 
   /**

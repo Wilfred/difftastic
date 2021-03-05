@@ -120,3 +120,32 @@ a :: (a :: (* -> *) -> *) -> a
       (type_parens (fun (type_star) (type_star)))
       (type_star))))
    (type_name (type_variable)))))
+
+================================================================================
+gendecl: partial
+================================================================================
+
+a :: A -> _ -> (_, a) -> _a
+
+---
+
+(haskell
+ (signature
+  (variable)
+  (fun
+   (type_name (type))
+   (fun
+    (type_name (type_variable))
+    (fun
+     (type_tuple (type_name (type_variable)) (comma) (type_name (type_variable)))
+     (type_name (type_variable)))))))
+
+================================================================================
+gendecl: unboxed tuple
+================================================================================
+
+a :: (# A, A #)
+
+---
+
+(haskell (signature (variable) (type_unboxed_tuple (type_name (type)) (comma) (type_name (type)))))

@@ -419,22 +419,3 @@ type role (A.>>) nominal nominal
   (type_role)
   (type_role))
  (role_annotation (qualified_type_operator (module) (type_operator)) (type_role) (type_role)))
-
-================================================================================
-type decl: partial
-================================================================================
-
-a :: A -> _ -> (_, a) -> _a
-
----
-
-(haskell
- (signature
-  (variable)
-  (fun
-   (type_name (type))
-   (fun
-    (type_name (type_variable))
-    (fun
-     (type_tuple (type_name (type_variable)) (comma) (type_name (type_variable)))
-     (type_name (type_variable)))))))
