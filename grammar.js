@@ -674,7 +674,7 @@ module.exports = grammar({
             ';'
         ),
 
-        _subprogram_kind: $ => seq(
+        _subprogram_kind: $ => field('at_end',seq(
             optional(choice(
                 reservedWord('pure'),
                 reservedWord('impure')
@@ -683,7 +683,7 @@ module.exports = grammar({
                 reservedWord('procedure'),
                 reservedWord('function')
             ),
-        ),
+        )),
         // }}}
         // 4.4 Subprogram instantiation declarations {{{
         _subprogram_instantiation_declaration: $ => choice(
