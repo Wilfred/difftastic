@@ -666,7 +666,6 @@ bool expression_op(Symbolic type) {
     case Symbolic::op:
     case Symbolic::con:
     case Symbolic::star:
-    case Symbolic::strict:
       return true;
     default:
       return false;
@@ -692,7 +691,7 @@ function<Symbolic(State &)> symop(string s) {
     if (s.empty()) return Symbolic::invalid;
     auto c = s[0];
     if (s.size() == 1) {
-      if (c == '!' && !cond::peek(')')(state)) return Symbolic::strict;
+      if (c == '!' && !(cond::peekws(state) || cond::peek(')')(state))) return Symbolic::strict;
       if (c == '#' && cond::peek(')')(state)) return Symbolic::unboxed_tuple_close;
       if (c == '$' && cond::valid_splice(state)) return Symbolic::splice;
       if (c == '?' && cond::varid(state)) return Symbolic::implicit;
