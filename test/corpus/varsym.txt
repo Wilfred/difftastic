@@ -237,6 +237,16 @@ varsym: bang as operator decl
  (function (operator) (exp_name (variable))))
 
 ================================================================================
+varsym: bang as infix
+================================================================================
+
+a = a ! a
+
+---
+
+(haskell (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable)))))
+
+================================================================================
 varsym: minus as operator decl
 ================================================================================
 

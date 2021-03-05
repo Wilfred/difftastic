@@ -170,7 +170,7 @@ module.exports = {
 
   do_module: $ => qualified($, $._do_keyword),
 
-  exp_do: $ => seq(choice($.do_module, $._do_keyword), layouted($, seq($.stmt))),
+  exp_do: $ => seq(choice($.do_module, $._do_keyword), layouted($, $.stmt)),
 
   exp_negation: $ => seq('-', $._aexp),
 

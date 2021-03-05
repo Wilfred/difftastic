@@ -608,3 +608,55 @@ a = [case a of a -> a, a]
    (exp_case (exp_name (variable)) (alts (alt (pat_name (variable)) (exp_name (variable)))))
    (comma)
    (exp_name (variable)))))
+
+================================================================================
+layout: nondecreasing indent for do in if-then ////// ERROR //////
+================================================================================
+
+a :: IO Int
+a = do a <- pure 1
+       if True then do
+       b <- pure 2
+       pure 5
+       else pure 3
+       c <- pure 3
+       pure 6
+
+---
+
+(haskell
+ (signature
+  (variable)
+  (type_apply (type_name (type)) (type_name (type))))
+ (ERROR
+  (variable)
+  (stmt (bind_pattern (pat_name (variable)) (exp_apply (exp_name (variable)) (exp_literal (integer)))))
+  (exp_name (constructor))
+  (exp_do
+   (stmt (bind_pattern (pat_name (variable)) (exp_apply (exp_name (variable)) (exp_literal (integer)))))
+   (stmt (exp_apply (exp_name (variable)) (exp_literal (integer))))
+   (stmt (exp_apply (exp_name (variable)) (exp_name (variable)) (exp_literal (integer))))
+   (stmt (bind_pattern (pat_name (variable)) (exp_apply (exp_name (variable)) (exp_literal (integer)))))
+   (stmt (exp_apply (exp_name (variable)) (exp_literal (integer)))))))
+
+================================================================================
+layout: symop in statement position ends layout
+================================================================================
+
+a = do
+  a
+  >>= a
+
+a = do
+  a
+  `a` a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_infix (exp_do (stmt (exp_name (variable)))) (operator) (exp_name (variable))))
+ (function
+  (variable)
+  (exp_infix (exp_do (stmt (exp_name (variable)))) (variable) (exp_name (variable)))))
