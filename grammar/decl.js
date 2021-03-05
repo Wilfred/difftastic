@@ -14,7 +14,7 @@ module.exports = {
   _funpat_infix: $ => seq(field('lhs', $._pat), field('op', $.varop), field('rhs', $._pat)),
 
   _funpat: $ => seq(
-    field('pattern', $._pat),
+    field('pattern', $._typed_pat),
     $._funrhs,
   ),
 
