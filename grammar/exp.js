@@ -31,7 +31,7 @@ module.exports = {
   exp_list: $ => brackets(sep1($.comma, $._exp)),
 
   bind_pattern: $ => seq(
-    $._pat,
+    $._typed_pat,
     '<-',
     $._exp,
   ),

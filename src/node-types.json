@@ -666,6 +666,10 @@
           "named": true
         },
         {
+          "type": "pat_typed",
+          "named": true
+        },
+        {
           "type": "pat_unboxed_tuple",
           "named": true
         },
@@ -8444,66 +8448,7 @@
   {
     "type": "pat_field",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_list",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
-            "named": true
-          },
-          {
-            "type": "type_tuple",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -8558,6 +8503,10 @@
         },
         {
           "type": "pat_tuple",
+          "named": true
+        },
+        {
+          "type": "pat_typed",
           "named": true
         },
         {
@@ -8751,66 +8700,7 @@
   {
     "type": "pat_list",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_list",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
-            "named": true
-          },
-          {
-            "type": "type_tuple",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -8865,6 +8755,10 @@
         },
         {
           "type": "pat_tuple",
+          "named": true
+        },
+        {
+          "type": "pat_typed",
           "named": true
         },
         {
@@ -8974,66 +8868,7 @@
   {
     "type": "pat_parens",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_list",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
-            "named": true
-          },
-          {
-            "type": "type_tuple",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": false,
       "required": true,
@@ -9084,6 +8919,10 @@
         },
         {
           "type": "pat_tuple",
+          "named": true
+        },
+        {
+          "type": "pat_typed",
           "named": true
         },
         {
@@ -9185,66 +9024,7 @@
   {
     "type": "pat_tuple",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_list",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
-            "named": true
-          },
-          {
-            "type": "type_tuple",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -9299,6 +9079,10 @@
         },
         {
           "type": "pat_tuple",
+          "named": true
+        },
+        {
+          "type": "pat_typed",
           "named": true
         },
         {
@@ -9317,12 +9101,74 @@
     }
   },
   {
-    "type": "pat_unboxed_tuple",
+    "type": "pat_typed",
     "named": true,
     "fields": {
+      "pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "pat_apply",
+            "named": true
+          },
+          {
+            "type": "pat_as",
+            "named": true
+          },
+          {
+            "type": "pat_infix",
+            "named": true
+          },
+          {
+            "type": "pat_irrefutable",
+            "named": true
+          },
+          {
+            "type": "pat_list",
+            "named": true
+          },
+          {
+            "type": "pat_literal",
+            "named": true
+          },
+          {
+            "type": "pat_name",
+            "named": true
+          },
+          {
+            "type": "pat_negation",
+            "named": true
+          },
+          {
+            "type": "pat_parens",
+            "named": true
+          },
+          {
+            "type": "pat_record",
+            "named": true
+          },
+          {
+            "type": "pat_strict",
+            "named": true
+          },
+          {
+            "type": "pat_tuple",
+            "named": true
+          },
+          {
+            "type": "pat_unboxed_tuple",
+            "named": true
+          },
+          {
+            "type": "pat_wildcard",
+            "named": true
+          }
+        ]
+      },
       "type": {
-        "multiple": true,
-        "required": false,
+        "multiple": false,
+        "required": true,
         "types": [
           {
             "type": "context",
@@ -9378,7 +9224,12 @@
           }
         ]
       }
-    },
+    }
+  },
+  {
+    "type": "pat_unboxed_tuple",
+    "named": true,
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -9433,6 +9284,10 @@
         },
         {
           "type": "pat_tuple",
+          "named": true
+        },
+        {
+          "type": "pat_typed",
           "named": true
         },
         {
@@ -9455,7 +9310,7 @@
     "named": true,
     "fields": {
       "type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -9659,6 +9514,10 @@
         },
         {
           "type": "pat_tuple",
+          "named": true
+        },
+        {
+          "type": "pat_typed",
           "named": true
         },
         {

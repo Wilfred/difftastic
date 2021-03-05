@@ -640,7 +640,7 @@ a = do a <- pure 1
    (stmt (exp_apply (exp_name (variable)) (exp_literal (integer)))))))
 
 ================================================================================
-layout: symop in statement position ends layout
+layout: infix in statement position ends layout
 ================================================================================
 
 a = do
