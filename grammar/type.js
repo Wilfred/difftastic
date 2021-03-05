@@ -68,6 +68,8 @@ module.exports = {
     $._type_literal,
     $.type_parens,
     $.type_unboxed_tuple,
+    $.splice,
+    $.quasiquote,
   ),
 
   /**

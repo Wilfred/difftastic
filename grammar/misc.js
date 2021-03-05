@@ -4,9 +4,18 @@ module.exports = {
   decl_default: $ => seq('default', parens(optional(sep1($.comma, $._type_infix)))),
 
   /**
+   * Even though the doc states "arbitrary expression", using any others than these two not only makes little sense,
+   * it also incurs a >100% increase in generation time and parser size.
+   */
+  _splice_exp: $ => choice(
+    $.exp_name,
+    $.exp_parens,
+  ),
+
+  /**
     * Right precedence because of double splices `$$a`
     */
-  splice: $ => prec.right(seq($._splice_dollar, $._aexp)),
+  splice: $ => seq($._splice_dollar, $._splice_exp),
 
   /**
    * Since `_aexp` includes `splice`, this allows for a top level dollar splice as well.
