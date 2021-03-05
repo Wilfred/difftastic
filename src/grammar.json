@@ -5001,7 +5001,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_con"
+                  "name": "_simple_tycon"
                 },
                 {
                   "type": "CHOICE",

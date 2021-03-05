@@ -51,17 +51,17 @@ import Aaa.A (aa)
 (haskell (import (qualified_module (module) (module)) (import_list (import_item (variable)))))
 
 ================================================================================
-import: con only
+import: type only
 ================================================================================
 
 import Aaa.A (A)
 
 ---
 
-(haskell (import (qualified_module (module) (module)) (import_list (import_item (constructor)))))
+(haskell (import (qualified_module (module) (module)) (import_list (import_item (type)))))
 
 ================================================================================
-import: con with constructor
+import: type with constructor
 ================================================================================
 
 import Aaa.A (A(A))
@@ -71,10 +71,10 @@ import Aaa.A (A(A))
 (haskell
  (import
   (qualified_module (module) (module))
-  (import_list (import_item (constructor) (import_con_names (constructor))))))
+  (import_list (import_item (type) (import_con_names (constructor))))))
 
 ================================================================================
-import: con with var
+import: type with var
 ================================================================================
 
 import Aaa.A (A(aa))
@@ -84,10 +84,10 @@ import Aaa.A (A(aa))
 (haskell
  (import
   (qualified_module (module) (module))
-  (import_list (import_item (constructor) (import_con_names (variable))))))
+  (import_list (import_item (type) (import_con_names (variable))))))
 
 ================================================================================
-import: con with symbolic var
+import: type with symbolic var
 ================================================================================
 
 import Aaa.A (A((<>)))
@@ -97,10 +97,10 @@ import Aaa.A (A((<>)))
 (haskell
  (import
   (qualified_module (module) (module))
-  (import_list (import_item (constructor) (import_con_names (operator))))))
+  (import_list (import_item (type) (import_con_names (operator))))))
 
 ================================================================================
-import: con dotdot
+import: type dotdot
 ================================================================================
 
 import Aaa.A (A(..))
@@ -110,7 +110,7 @@ import Aaa.A (A(..))
 (haskell
  (import
   (qualified_module (module) (module))
-  (import_list (import_item (constructor) (import_con_names (all_names))))))
+  (import_list (import_item (type) (import_con_names (all_names))))))
 
 ================================================================================
 import: qualified basic
@@ -131,7 +131,7 @@ import qualified Aaa.A hiding (A, a)
  (import (qualified_module (module) (module)) (import_list (import_item (variable))))
  (import
   (qualified_module (module) (module))
-  (import_list (import_item (constructor)) (comma) (import_item (variable)))))
+  (import_list (import_item (type)) (comma) (import_item (variable)))))
 
 ================================================================================
 import: qualified as
@@ -155,7 +155,10 @@ import qualified Aaa.A as A hiding (a)
  (import
   (qualified_module (module) (module))
   (module)
-  (import_list (import_item (constructor) (import_con_names (constructor) (comma) (variable))) (comma) (import_item (variable))))
+  (import_list
+   (import_item (type) (import_con_names (constructor) (comma) (variable)))
+   (comma)
+   (import_item (variable))))
  (import (module) (module) (import_list))
  (import (qualified_module (module) (module)) (module))
  (import (qualified_module (module) (module)) (qualified_module (module) (module)))
@@ -172,7 +175,7 @@ import Aaa.Aa (Aa#, aa#)
 (haskell
  (import
   (qualified_module (module) (module))
-  (import_list (import_item (constructor)) (comma) (import_item (variable)))))
+  (import_list (import_item (type)) (comma) (import_item (variable)))))
 
 ================================================================================
 import: package
@@ -189,7 +192,7 @@ import qualified "a" Aaa.Aa as Aa (Aa(a))
   (import_package)
   (qualified_module (module) (module))
   (module)
-  (import_list (import_item (constructor) (import_con_names (variable))))))
+  (import_list (import_item (type) (import_con_names (variable))))))
 
 ================================================================================
 import: consym
@@ -209,7 +212,7 @@ import A ((<=<))
 
 ---
 
-(haskell (import (module) (import_list (import_item (operator)))))
+(haskell (import (module) (import_list (import_item (type_operator)))))
 
 ================================================================================
 import: pattern/type
@@ -223,9 +226,9 @@ import A (pattern A, type A)
  (import
   (module)
   (import_list
-   (import_item (namespace) (constructor))
+   (import_item (namespace) (type))
    (comma)
-   (import_item (namespace) (constructor)))))
+   (import_item (namespace) (type)))))
 
 ================================================================================
 import: trailing comma
@@ -235,4 +238,14 @@ import A (A,)
 
 ---
 
-(haskell (import (module) (import_list (import_item (constructor)) (comma))))
+(haskell (import (module) (import_list (import_item (type)) (comma))))
+
+================================================================================
+import: type operator with namespace
+================================================================================
+
+import A (type (++)(..))
+
+---
+
+(haskell (import (module) (import_list (import_item (namespace) (type_operator) (import_con_names (all_names))))))
