@@ -3014,74 +3014,6 @@
         }
       ]
     },
-    "quasiquote_body": {
-      "type": "TOKEN",
-      "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "[^|]"
-            },
-            {
-              "type": "PATTERN",
-              "value": "\\|[^\\]]"
-            }
-          ]
-        }
-      }
-    },
-    "exp_quasiquote": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_qq_start"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_varid"
-              },
-              "named": true,
-              "value": "quoter"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "|"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "quasiquote_body"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "|]"
-          }
-        }
-      ]
-    },
     "exp_th_quoted_name": {
       "type": "CHOICE",
       "members": [
@@ -4169,10 +4101,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "exp_quasiquote"
-        },
-        {
-          "type": "SYMBOL",
           "name": "exp_th_quoted_name"
         },
         {
@@ -4189,11 +4117,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "splice"
+          "name": "exp_record"
         },
         {
           "type": "SYMBOL",
-          "name": "exp_record"
+          "name": "exp_name"
         },
         {
           "type": "ALIAS",
@@ -4206,7 +4134,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "exp_name"
+          "name": "splice"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quasiquote"
         }
       ]
     },
@@ -4792,6 +4724,10 @@
         {
           "type": "SYMBOL",
           "name": "splice"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quasiquote"
         }
       ]
     },
@@ -8476,6 +8412,74 @@
     "top_splice": {
       "type": "SYMBOL",
       "name": "_exp_infix"
+    },
+    "quasiquote_body": {
+      "type": "TOKEN",
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[^|]"
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\|[^\\]]"
+            }
+          ]
+        }
+      }
+    },
+    "quasiquote": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_qq_start"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_varid"
+              },
+              "named": true,
+              "value": "quoter"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "|"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "quasiquote_body"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "|]"
+          }
+        }
+      ]
     }
   },
   "extras": [

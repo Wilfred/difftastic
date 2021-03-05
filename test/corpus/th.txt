@@ -14,14 +14,9 @@ and newline|]
  (function
   (variable)
   (exp_apply
-   (exp_quasiquote
-    (quasiquote_body))
-   (exp_quasiquote
-    (quoter)
-    (quasiquote_body))
-   (exp_quasiquote
-    (quoter)
-    (quasiquote_body)))))
+   (quasiquote (quasiquote_body))
+   (quasiquote (quoter) (quasiquote_body))
+   (quasiquote (quoter) (quasiquote_body)))))
 
 ================================================================================
 template haskell: top level splice with parens
