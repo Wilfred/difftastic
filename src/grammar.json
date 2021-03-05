@@ -8639,6 +8639,10 @@
       "name": "_unboxed_tuple_close"
     },
     {
+      "type": "STRING",
+      "value": "|"
+    },
+    {
       "type": "PATTERN",
       "value": "\\n"
     },

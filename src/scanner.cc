@@ -123,6 +123,9 @@ namespace syms {
  *   - qq_start: Disambiguate the opening oxford bracket from list comprehension
  *   - strict: Disambiguate strictness annotation `!` from symbolic operators
  *   - unboxed_tuple_close: Disambiguate the closing parens for unboxed tuples `#)` from symbolic operators
+ *   - bar: The vertical bar `|`, used for guards and list comprehension
+ *   - indent: Used as a dummy symbol for initialization; uses newline in the grammar to ensure the scanner is called
+ *     for each token
  *   - empty: The empty file
  *   - fail: special indicator of failure
  */
@@ -142,6 +145,7 @@ enum Sym: uint16_t {
   qq_start,
   strict,
   unboxed_tuple_close,
+  bar,
   indent,
   empty,
   fail,
@@ -163,6 +167,7 @@ vector<string> names = {
   "qq_start",
   "strict",
   "unboxed_tuple_close",
+  "bar",
   "indent",
   "empty",
 };
@@ -621,6 +626,7 @@ enum Symbolic: uint16_t {
   implicit,
   minus,
   unboxed_tuple_close,
+  bar,
   comment,
   invalid,
 };
@@ -690,6 +696,7 @@ function<Symbolic(State &)> symop(string s) {
       if (c == '#' && cond::peek(')')(state)) return Symbolic::unboxed_tuple_close;
       if (c == '$' && cond::valid_splice(state)) return Symbolic::splice;
       if (c == '?' && cond::varid(state)) return Symbolic::implicit;
+      if (c == '|') return Symbolic::bar;
       switch (c) {
         case '*':
           return Symbolic::star;
@@ -698,7 +705,6 @@ function<Symbolic(State &)> symop(string s) {
         case '-':
           return Symbolic::minus;
         case '=':
-        case '|':
         case '@':
         case '\\':
           return Symbolic::invalid;
@@ -1228,6 +1234,11 @@ Symbolic read_symop(State & state) { return symbolic::symop(cond::read_string(co
  */
 Parser symop(Symbolic type) {
   return
+    when(type == Symbolic::bar)(
+      sym(Sym::bar)(mark("bar") + finish(Sym::bar, "bar")) +
+      layout_end("bar") +
+      fail
+    ) +
     mark("symop") +
     when(type == Symbolic::invalid)(fail) +
     sym(Sym::tyconsym)(
@@ -1308,8 +1319,9 @@ Parser comment = peek('-')(minus + fail) + peek('{')(brace);
  * `case` can open a layout in a list:
  *
  * [case a of a -> a, case a of a -> a]
+ * [case a of a -> a | a <- a]
  *
- * Both commas and closing brackets are able to close those.
+ * Commas, vertical bars and closing brackets are able to close those.
  *
  * Because commas can also occur in class layouts at the top level, e.g. in fixity decls, the comma rule has to be
  * parsed here as well.
@@ -1317,7 +1329,7 @@ Parser comment = peek('-')(minus + fail) + peek('{')(brace);
 Parser close_layout_in_list =
   peek(']')(layout_end("bracket")) +
   consume(',')(
-    sym(Sym::comma)(mark("close_layout_in_list") + finish(Sym::comma, "commma")) +
+    sym(Sym::comma)(mark("comma") + finish(Sym::comma, "comma")) +
     layout_end("comma") +
     fail
   );
