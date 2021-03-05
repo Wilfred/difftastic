@@ -19,7 +19,11 @@ function atleastOnce (rule) {
 }
 
 function binaryOp($, assoc, precedence, operator) {
-  return assoc(precedence, seq($.expr, operator, $.expr));
+  return assoc(precedence, seq($.expr, operator, optional($._newline), $.expr));
+}
+
+function unaryOp($, assoc, precedence, operator) {
+  return assoc(precedence, seq(operator, $.expr));
 }
 
 const PREC = {
@@ -40,24 +44,25 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /\s|\\\n/
+    /[ \t]/
   ],
 
   conflicts: $ => [
-    [$.inline_fn]
+    [$.inline_fn],
   ],
 
   word: $ => $.identifier,
 
   rules: {
-    source_file: $ => repeat($.statement),
+    source_file: $ => seq(repeat($.statement), optional($._newline)),
 
-    statement: $ => choice(
-      $.bare_call,
-      $.expr,
+    statement: $ => seq(
+      optional($._newline), $.expr, $._newline
     ),
 
     expr: $ => choice(
+      $.call,
+      $.module_assign,
       $.module_attr,
       $.integer,
       $.float,
@@ -70,34 +75,39 @@ module.exports = grammar({
       $.sigil,
       $.heredoc,
       $.tuple,
-      $.identifier,
       $.binary_op,
       $.dot_call,
-      $.call,
-      $.inline_fn
+      $.inline_fn,
+      $.identifier,
     ),
 
-    bare_call: $ => prec.right(5, seq(
-      field('name', choice($.identifier, $.module_attr)),
+
+    call: $ => prec.left(5, seq(
+      prec(6, field('name', $.identifier)),
       choice(
-        prec.right(5, field('args', $.statement)),
-        seq(commaSep1($.expr), optional(seq(',', $.bare_keyword_list)), optional($.block)),
+        prec.right(seq(choice($.expr), optional(seq(',', optional($._newline), $.bare_keyword_list)))),
+        seq(optional('.'), $.args),
         $.bare_keyword_list
-      )
+      ),
+      optional($.when),
+      optional($.block)
     )),
 
-    call: $ => prec.right(4, seq(
-      field('name', $.identifier),
-      field('args', $.args)
+    module_assign: $ => prec(1, seq(
+      $.module_attr,
+      $.expr
     )),
 
     binary_op: $ => choice(
+      binaryOp($, prec.right, 10, choice('->')),
       binaryOp($, prec.left, 40, choice('\\\\', '<-')),
       binaryOp($, prec.right, 60, '::'),
       binaryOp($, prec.right, 70, '|'),
+      unaryOp($, prec, 90, '&'),
       binaryOp($, prec.right, 100, '='),
       binaryOp($, prec.left, 130, choice('||', '|||', 'or')),
       binaryOp($, prec.left, 150, choice('==', '!=', '=~', '===', '!==')),
+      binaryOp($, prec.right, 200, choice('++', '--', '..', '<>', '+++', '---')),
       binaryOp($, prec.left, 190, '|>'),
     ),
 
@@ -121,11 +131,11 @@ module.exports = grammar({
       choice(
         seq(optional(choice($.args, $.bare_args)),
             '->',
-            atleastOnce($.statement)),
+            atleastOnce($.expr)),
         atleastOnce(
           seq(choice($.args, $.bare_args),
               '->',
-              atleastOnce($.statement)))
+              atleastOnce($.expr)))
       ),
       'end'
     ),
@@ -133,10 +143,10 @@ module.exports = grammar({
     args: $ => choice(
       seq(
         '(',
-        choice(
+        optional(choice(
           seq(commaSep($.expr), optional(seq(',', $.bare_keyword_list))),
           $.bare_keyword_list
-        ),
+        )),
         ')'
       ),
     ),
@@ -167,11 +177,11 @@ module.exports = grammar({
 
     keyword_list: $ => prec.left(4, seq(
       '[',
-      commaSep1(seq($.keyword, $.expr)),
+      commaSep1(seq($.keyword, $.statement)),
       ']'
     )),
 
-    bare_keyword_list: $ => prec.left(1, commaSep1(seq($.keyword, $.expr))),
+    bare_keyword_list: $ => prec.left(1, commaSep1(seq($.keyword, optional($._newline), $.expr))),
 
     tuple: $ => seq(
       '{',
@@ -203,7 +213,7 @@ module.exports = grammar({
 
     integer: $ => /0[bB][01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0[dD])?\d(_?\d)*|0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/,
     float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE][\+-]?\d(_?\d)*)?/,
-    atom: $ => /:[_a-z!][?!_a-zA-Z0-9]*/,
+    atom: $ => /:[_a-z!.][?!_a-zA-Z0-9]*/,
     module_attr: $ => /@[_a-z][_a-zA-Z0-9]*/,
     keyword: $ => /[_a-z!][?!_a-zA-Z0-9]*:/,
     string: $ => /"[^"]*"/,
@@ -211,5 +221,6 @@ module.exports = grammar({
     identifier: $ => /[_a-z][_a-zA-Z0-9]*/,
     func_name_identifier: $ => /[_a-z!][?!_a-zA-Z0-9]*/,
     comment: $ => token(prec(PREC.COMMENT, seq('#', /.*/))),
+    _newline: $ => /[\n\r]+/
   }
 })
