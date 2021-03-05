@@ -47,6 +47,7 @@ module.exports = grammar({
     $._qq_start,
     $._strict,
     $._unboxed_tuple_close,
+    '|',
     /\n/,
     $.empty_file,
   ],
