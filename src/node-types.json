@@ -263,10 +263,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -352,6 +348,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -586,10 +586,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -675,6 +671,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -1891,6 +1891,10 @@
             "named": true
           },
           {
+            "type": "quasiquote",
+            "named": true
+          },
+          {
             "type": "splice",
             "named": true
           }
@@ -1970,10 +1974,6 @@
           },
           {
             "type": "exp_parens",
-            "named": true
-          },
-          {
-            "type": "exp_quasiquote",
             "named": true
           },
           {
@@ -2074,6 +2074,10 @@
           },
           {
             "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
             "named": true
           },
           {
@@ -2266,6 +2270,10 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
           "type": "splice",
           "named": true
         },
@@ -2365,10 +2373,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -2394,6 +2398,10 @@
         },
         {
           "type": "exp_unboxed_tuple",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -2484,10 +2492,6 @@
             "named": true
           },
           {
-            "type": "exp_quasiquote",
-            "named": true
-          },
-          {
             "type": "exp_record",
             "named": true
           },
@@ -2529,6 +2533,10 @@
           },
           {
             "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
             "named": true
           },
           {
@@ -2646,10 +2654,6 @@
             "named": true
           },
           {
-            "type": "exp_quasiquote",
-            "named": true
-          },
-          {
             "type": "exp_record",
             "named": true
           },
@@ -2691,6 +2695,10 @@
           },
           {
             "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
             "named": true
           },
           {
@@ -2808,10 +2816,6 @@
             "named": true
           },
           {
-            "type": "exp_quasiquote",
-            "named": true
-          },
-          {
             "type": "exp_record",
             "named": true
           },
@@ -2853,6 +2857,10 @@
           },
           {
             "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
             "named": true
           },
           {
@@ -3099,10 +3107,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -3128,6 +3132,10 @@
         },
         {
           "type": "exp_unboxed_tuple",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -3218,10 +3226,6 @@
             "named": true
           },
           {
-            "type": "exp_quasiquote",
-            "named": true
-          },
-          {
             "type": "exp_record",
             "named": true
           },
@@ -3263,6 +3267,10 @@
           },
           {
             "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
             "named": true
           },
           {
@@ -3380,10 +3388,6 @@
             "named": true
           },
           {
-            "type": "exp_quasiquote",
-            "named": true
-          },
-          {
             "type": "exp_record",
             "named": true
           },
@@ -3425,6 +3429,10 @@
           },
           {
             "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
             "named": true
           },
           {
@@ -3542,10 +3550,6 @@
             "named": true
           },
           {
-            "type": "exp_quasiquote",
-            "named": true
-          },
-          {
             "type": "exp_record",
             "named": true
           },
@@ -3587,6 +3591,10 @@
           },
           {
             "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
             "named": true
           },
           {
@@ -3838,10 +3846,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -3879,6 +3883,10 @@
         },
         {
           "type": "qualified_variable",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -4043,10 +4051,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -4072,6 +4076,10 @@
         },
         {
           "type": "exp_unboxed_tuple",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -4162,10 +4170,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -4211,6 +4215,10 @@
         },
         {
           "type": "qualified_variable",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -4356,10 +4364,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -4429,6 +4433,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -4608,10 +4616,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -4637,6 +4641,10 @@
         },
         {
           "type": "exp_unboxed_tuple",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -4782,10 +4790,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -4815,6 +4819,10 @@
         },
         {
           "type": "qual",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -4951,10 +4959,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -4980,6 +4984,10 @@
         },
         {
           "type": "exp_unboxed_tuple",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -5121,10 +5129,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -5153,26 +5157,11 @@
           "named": true
         },
         {
-          "type": "splice",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exp_quasiquote",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "quasiquote_body",
+          "type": "quasiquote",
           "named": true
         },
         {
-          "type": "quoter",
+          "type": "splice",
           "named": true
         }
       ]
@@ -5227,10 +5216,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -5256,6 +5241,10 @@
         },
         {
           "type": "exp_unboxed_tuple",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -5346,10 +5335,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -5395,6 +5380,10 @@
         },
         {
           "type": "qualified_variable",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -5489,10 +5478,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -5538,6 +5523,10 @@
         },
         {
           "type": "qualified_variable",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -5758,10 +5747,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -5787,6 +5772,10 @@
         },
         {
           "type": "exp_unboxed_tuple",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -5971,10 +5960,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -6000,6 +5985,10 @@
         },
         {
           "type": "exp_unboxed_tuple",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -6543,6 +6532,10 @@
             "named": true
           },
           {
+            "type": "quasiquote",
+            "named": true
+          },
+          {
             "type": "splice",
             "named": true
           }
@@ -6635,10 +6628,6 @@
             "named": true
           },
           {
-            "type": "exp_quasiquote",
-            "named": true
-          },
-          {
             "type": "exp_record",
             "named": true
           },
@@ -6680,6 +6669,10 @@
           },
           {
             "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
             "named": true
           },
           {
@@ -7039,10 +7032,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -7072,6 +7061,10 @@
         },
         {
           "type": "guards",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -7154,10 +7147,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -7191,6 +7180,10 @@
         },
         {
           "type": "pattern_guard",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -7332,10 +7325,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -7365,6 +7354,10 @@
         },
         {
           "type": "guards",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -7835,6 +7828,10 @@
             "named": true
           },
           {
+            "type": "quasiquote",
+            "named": true
+          },
+          {
             "type": "splice",
             "named": true
           }
@@ -7908,6 +7905,10 @@
           },
           {
             "type": "pat_wildcard",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
             "named": true
           },
           {
@@ -8413,6 +8414,10 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
           "type": "splice",
           "named": true
         }
@@ -8469,6 +8474,10 @@
           },
           {
             "type": "pat_wildcard",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
             "named": true
           },
           {
@@ -8571,6 +8580,10 @@
         },
         {
           "type": "qualified_variable",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -8688,6 +8701,10 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
           "type": "splice",
           "named": true
         }
@@ -8744,6 +8761,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -8827,6 +8848,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -8998,6 +9023,10 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
           "type": "splice",
           "named": true
         }
@@ -9080,6 +9109,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -9166,6 +9199,10 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
           "type": "splice",
           "named": true
         }
@@ -9234,6 +9271,10 @@
           },
           {
             "type": "pat_wildcard",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
             "named": true
           },
           {
@@ -9379,6 +9420,10 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
           "type": "splice",
           "named": true
         }
@@ -9517,10 +9562,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -9610,6 +9651,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -9781,10 +9826,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -9869,6 +9910,10 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
           "type": "splice",
           "named": true
         }
@@ -9944,6 +9989,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -10140,10 +10189,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -10173,6 +10218,10 @@
         },
         {
           "type": "let",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -10325,6 +10374,25 @@
         },
         {
           "type": "type_variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "quasiquote",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "quasiquote_body",
+          "named": true
+        },
+        {
+          "type": "quoter",
           "named": true
         }
       ]
@@ -10579,10 +10647,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -10608,6 +10672,10 @@
         },
         {
           "type": "exp_unboxed_tuple",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -10753,10 +10821,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -10786,6 +10850,10 @@
         },
         {
           "type": "let",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {
@@ -10930,10 +10998,6 @@
           "named": true
         },
         {
-          "type": "exp_quasiquote",
-          "named": true
-        },
-        {
           "type": "exp_record",
           "named": true
         },
@@ -10959,6 +11023,10 @@
         },
         {
           "type": "exp_unboxed_tuple",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
           "named": true
         },
         {

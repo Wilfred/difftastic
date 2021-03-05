@@ -51,6 +51,7 @@ module.exports = {
     $.pat_strict,
     $.pat_irrefutable,
     $.splice,
+    $.quasiquote,
   ),
 
   /**

@@ -65,21 +65,6 @@ module.exports = {
     $._exp_infix,
   ),
 
-  quasiquote_body: _ => token(repeat1(choice(/[^|]/, /\|[^\]]/))),
-
-  /**
-   * `_qq_start` is determined by the scanner.
-   * While the quoter and the bar may not be preceded by whitespace, this is not necessary to ensure here with
-   * `token.immediate` since the scanner already verifies it.
-   */
-  exp_quasiquote: $ => seq(
-    $._qq_start,
-    optional(alias($._varid, $.quoter)),
-    '|',
-    optional($.quasiquote_body),
-    token('|]'),
-  ),
-
   exp_th_quoted_name: $ => choice(
     seq(quote, choice($._qvar, $._qcon)),
     seq(quote + quote, $._atype),
@@ -191,15 +176,15 @@ module.exports = {
     $.exp_list_comprehension,
     $.exp_section_left,
     $.exp_section_right,
-    $.exp_quasiquote,
     $.exp_th_quoted_name,
     $.exp_type_application,
     $.exp_lambda_case,
     $.exp_do,
-    $.splice,
     $.exp_record,
-    alias($.literal, $.exp_literal),
     $.exp_name,
+    alias($.literal, $.exp_literal),
+    $.splice,
+    $.quasiquote,
   ),
 
   /**
