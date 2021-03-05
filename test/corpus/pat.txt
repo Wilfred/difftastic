@@ -438,3 +438,13 @@ a [a|a|] = a
 ---
 
 (haskell (function (variable) (patterns (quasiquote (quoter) (quasiquote_body))) (exp_name (variable))))
+
+================================================================================
+pat: operator
+================================================================================
+
+a (++) = a
+
+---
+
+(haskell (function (variable) (patterns (pat_name (operator))) (exp_name (variable))))

@@ -26,7 +26,7 @@ module.exports = {
 
   pat_negation: $ => seq('-', $._number),
 
-  pat_name: $ => $.variable,
+  pat_name: $ => $._var,
 
   /**
    * Needed non-inlined for conflict definition.
