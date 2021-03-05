@@ -50,6 +50,7 @@ module.exports = {
     $.pat_list,
     $.pat_strict,
     $.pat_irrefutable,
+    $.splice,
   ),
 
   /**

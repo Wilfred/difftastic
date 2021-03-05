@@ -418,3 +418,14 @@ a = do
     (bind_pattern
      (pat_parens (pat_view (exp_name (variable)) (pat_name (variable))))
      (exp_name (variable)))))))
+
+
+================================================================================
+pat: splice
+================================================================================
+
+a $(a) = a
+
+---
+
+(haskell (function (variable) (patterns (splice (exp_parens (exp_name (variable))))) (exp_name (variable))))

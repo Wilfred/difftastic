@@ -4788,6 +4788,10 @@
         {
           "type": "SYMBOL",
           "name": "pat_irrefutable"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "splice"
         }
       ]
     },

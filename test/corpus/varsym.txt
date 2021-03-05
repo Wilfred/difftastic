@@ -145,14 +145,19 @@ f = a +: a
 )
 
 ================================================================================
-varsym: dollar
+varsym: dollar operator
 ================================================================================
 
 f = a $ a
+f = a $$ a
+f = a $$$ a
 
 ---
 
-(haskell (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable)))))
+(haskell
+ (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
+ (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable))))
+ (function (variable) (exp_infix (exp_name (variable)) (operator) (exp_name (variable)))))
 
 ================================================================================
 varsym: two-symbol dollar operator
