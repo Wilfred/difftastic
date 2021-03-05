@@ -14,6 +14,10 @@ function commaSep (rule) {
   return optional(commaSep1(rule));
 }
 
+function atleastOnce (rule) {
+  return seq(rule, repeat(rule));
+}
+
 function binaryOp($, assoc, precedence, operator) {
   return assoc(precedence, seq($.expr, operator, $.expr));
 }
@@ -37,6 +41,10 @@ module.exports = grammar({
   extras: $ => [
     $.comment,
     /\s|\\\n/
+  ],
+
+  conflicts: $ => [
+    [$.inline_fn]
   ],
 
   word: $ => $.identifier,
@@ -66,6 +74,7 @@ module.exports = grammar({
       $.binary_op,
       $.dot_call,
       $.call,
+      $.inline_fn
     ),
 
     bare_call: $ => prec.right(5, seq(
@@ -73,6 +82,7 @@ module.exports = grammar({
       choice(
         prec.right(5, field('args', $.statement)),
         seq(commaSep1($.expr), optional(seq(',', $.bare_keyword_list)), optional($.block)),
+        $.bare_keyword_list
       )
     )),
 
@@ -86,6 +96,7 @@ module.exports = grammar({
       binaryOp($, prec.right, 60, '::'),
       binaryOp($, prec.right, 70, '|'),
       binaryOp($, prec.right, 100, '='),
+      binaryOp($, prec.left, 130, choice('||', '|||', 'or')),
       binaryOp($, prec.left, 150, choice('==', '!=', '=~', '===', '!==')),
       binaryOp($, prec.left, 190, '|>'),
     ),
@@ -93,8 +104,10 @@ module.exports = grammar({
     dot_call: $ => seq(
       field('object', choice($.module, $.identifier, $.atom, $.dot_call)),
       '.',
-      field('function', $.func_name_identifier),
-      $.args
+      choice(
+        seq(field('function', $.func_name_identifier), $.args),
+        $.module
+      )
     ),
 
     block: $ => seq(
@@ -103,8 +116,38 @@ module.exports = grammar({
       'end'
     ),
 
+    inline_fn: $ => seq(
+      'fn',
+      choice(
+        seq(optional(choice($.args, $.bare_args)),
+            '->',
+            atleastOnce($.statement)),
+        atleastOnce(
+          seq(choice($.args, $.bare_args),
+              '->',
+              atleastOnce($.statement)))
+      ),
+      'end'
+    ),
+
     args: $ => choice(
-      seq('(', commaSep($.expr), optional(seq(',', $.bare_keyword_list)), ')'),
+      seq(
+        '(',
+        choice(
+          seq(commaSep($.expr), optional(seq(',', $.bare_keyword_list))),
+          $.bare_keyword_list
+        ),
+        ')'
+      ),
+    ),
+
+    bare_args: $ => choice(
+      seq(commaSep1($.expr), optional(seq(',', $.bare_keyword_list)), optional($.when)),
+    ),
+
+    when: $ => seq(
+      'when',
+      $.expr
     ),
 
     map: $ => prec.left(5, seq(
