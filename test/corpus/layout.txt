@@ -687,3 +687,20 @@ m1 = a
 (haskell
  (signature (variable) (fun (type_name (type_variable)) (type_name (type_variable))))
  (function (variable) (exp_name (variable))))
+
+================================================================================
+layout: do not end do layout with strictness annotation
+================================================================================
+
+a = do
+  a <- a
+  !a <- a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do
+   (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+   (stmt (bind_pattern (pat_strict (pat_name (variable))) (exp_name (variable)))))))
