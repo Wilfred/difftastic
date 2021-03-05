@@ -660,3 +660,15 @@ a = do
  (function
   (variable)
   (exp_infix (exp_do (stmt (exp_name (variable)))) (variable) (exp_name (variable)))))
+
+================================================================================
+layout: two lines starting with m without leading newline or module
+================================================================================
+m1 :: a -> a
+m1 = a
+
+---
+
+(haskell
+ (signature (variable) (fun (type_name (type_variable)) (type_name (type_variable))))
+ (function (variable) (exp_name (variable))))

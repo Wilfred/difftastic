@@ -1060,20 +1060,19 @@ uint32_t count_indent(State & state) {
 Parser eof = peek(0)(sym(Sym::empty)(finish(Sym::empty, "eof")) + end_or_semicolon("eof") + fail);
 
 /**
- * Push the initial indentation at the beginning of the file or module decl to the column of first nonwhite character,
+ * Set the initial indentation at the beginning of the file or module decl to the column of first nonwhite character,
  * then succeed with the dummy symbol `Sym::indent`.
+ *
+ * If there is a `module` declaration, this will be handled by the grammar.
  */
 Parser initialize(uint32_t column) {
-  return when(column == 0)(skip_ws + mark("initialize") + push(column) + finish(Sym::indent, "init"));
+  return mark("initialize") + token("module")(fail) + push(column) + finish(Sym::indent, "init");
 }
 
 /**
- * Ensure that the first token of the file isn't `module`, then initialize the indentation stack.
- *
- * If there is a `module`, this will succeed when the parser is on the next line.
+ * Initialize the indentation stack if the first token of the file isn't `module`.
  */
-Parser initialize_without_module =
-  iff(cond::uninitialized)(token("module")(fail) + with(state::column)(initialize));
+Parser initialize_without_module = iff(cond::uninitialized)(skip_ws + with(state::column)(initialize));
 
 /**
  * If a dot is neither preceded nor succeded by whitespace, it may be parsed as a qualified module dot.
