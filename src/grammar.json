@@ -3905,13 +3905,8 @@
                       "type": "SEQ",
                       "members": [
                         {
-                          "type": "SEQ",
-                          "members": [
-                            {
-                              "type": "SYMBOL",
-                              "name": "stmt"
-                            }
-                          ]
+                          "type": "SYMBOL",
+                          "name": "stmt"
                         },
                         {
                           "type": "REPEAT",
@@ -3923,13 +3918,8 @@
                                 "value": ";"
                               },
                               {
-                                "type": "SEQ",
-                                "members": [
-                                  {
-                                    "type": "SYMBOL",
-                                    "name": "stmt"
-                                  }
-                                ]
+                                "type": "SYMBOL",
+                                "name": "stmt"
                               }
                             ]
                           }
@@ -3976,13 +3966,8 @@
                           "type": "SEQ",
                           "members": [
                             {
-                              "type": "SEQ",
-                              "members": [
-                                {
-                                  "type": "SYMBOL",
-                                  "name": "stmt"
-                                }
-                              ]
+                              "type": "SYMBOL",
+                              "name": "stmt"
                             },
                             {
                               "type": "REPEAT",
@@ -4007,13 +3992,8 @@
                                     }
                                   },
                                   {
-                                    "type": "SEQ",
-                                    "members": [
-                                      {
-                                        "type": "SYMBOL",
-                                        "name": "stmt"
-                                      }
-                                    ]
+                                    "type": "SYMBOL",
+                                    "name": "stmt"
                                   }
                                 ]
                               }
