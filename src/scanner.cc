@@ -3,6 +3,7 @@
 #include <string>
 #include <cwctype>
 #include <cstring>
+#include <iostream>
 
 namespace {
 
@@ -10,6 +11,8 @@ using std::vector;
 using std::string;
 
 enum TokenType {
+  LINE_BREAK,
+
   HEREDOC_START,
   HEREDOC_CONTENT,
   HEREDOC_END,
@@ -39,9 +42,22 @@ const char SIGIL_CHARS[] = {
   '/', '<', '"', '\'', '[', '(', '{', '|'
 };
 
+// TODO: need to lookahead operators only
+const char OPERATORS[] = {
+  ':', '|', '=', '&', '!', '<', '>', '+', '-', '*', '/'
+};
+
 struct Scanner {
   void reset() {
     stack.clear();
+  }
+
+  bool is_whitespace(char c) {
+    return c == ' ' || c == '\t' || c == '\v';
+  }
+
+  bool is_newline(char c) {
+    return c == '\n' || c == '\f' || c == '\r';
   }
 
   bool is_quote_char(char c) {
@@ -272,8 +288,22 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    if (valid_symbols[HEREDOC_START] || valid_symbols[SIGIL_START]) {
-      while (iswspace(lexer->lookahead)) skip(lexer);
+    if (valid_symbols[HEREDOC_START] || valid_symbols[SIGIL_START] || valid_symbols[LINE_BREAK]) {
+      while (is_whitespace(lexer->lookahead)) skip(lexer);
+    }
+
+    if ((valid_symbols[LINE_BREAK]) &&
+        is_newline(lexer->lookahead)) {
+      skip(lexer);
+      while (is_whitespace(lexer->lookahead) || is_newline(lexer->lookahead)) skip(lexer);
+      if (memchr(&OPERATORS, lexer->lookahead, sizeof(OPERATORS)) != NULL) {
+        skip(lexer);
+        return false;
+      } else {
+        lexer->mark_end(lexer);
+        lexer->result_symbol = LINE_BREAK;
+        return true;
+      }
     }
 
     if (valid_symbols[HEREDOC_START] &&
