@@ -1,8 +1,8 @@
 {
   "name": "tree-sitter-clojure",
-  "version": "0.0.1",
+  "version": "0.0.8",
   "description": "Clojure grammar for tree-sitter",
-  "main": "index.js",
+  "main": "bindings/node",
   "scripts": {
     "build": "npx tree-sitter generate && npx node-gyp build",
     "test": "npx tree-sitter test"
@@ -10,11 +10,11 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "nan": "2.14.0",
-    "web-tree-sitter": "0.16.4"
+    "nan": "2.14.2",
+    "web-tree-sitter": "0.19.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "0.16.9"
+    "tree-sitter-cli": "0.19.2"
   },
   "tree-sitter": [
     {

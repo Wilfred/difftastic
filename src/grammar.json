@@ -1666,6 +1666,7 @@
   },
   "extras": [],
   "conflicts": [],
+  "precedences": [],
   "externals": [],
   "inline": [],
   "supertypes": []
