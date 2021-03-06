@@ -31,6 +31,13 @@ function unaryOp($, assoc, precedence, operator) {
 
 const PREC = {
   COMMENT: -2,
+  CALL: 5,
+  CALL_NAME: 6,
+  GUARD: 6,
+  MAP: 5,
+  LIST: 5,
+  KW: 4,
+  BARE_KW: 1,
 };
 
 module.exports = grammar({
@@ -51,6 +58,7 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
+    [$.clause_body]
   ],
 
   word: $ => $.identifier,
@@ -80,12 +88,12 @@ module.exports = grammar({
       $.binary_op,
       $.dot_call,
       $.anonymous_function,
+      $.case,
       $.identifier,
     ),
 
-
-    call: $ => prec.left(5, seq(
-      prec(6, field('name', $.identifier)),
+    call: $ => prec.left(PREC.CALL, seq(
+      prec(PREC.CALL_NAME, field('name', $.identifier)),
       choice(
         prec.right(seq(choice($.expr), optional(seq(',', optional($._newline), $.bare_keyword_list)))),
         seq(optional('.'), $.args),
@@ -131,11 +139,11 @@ module.exports = grammar({
     anonymous_function: $ => seq(
       'fn',
       optional($._newline),
-      atleastOnce(
-        seq(choice($.args, optional($.bare_args)),
-            '->',
-            optional($._newline),
-            prec.right(1, sep1($.expr, $._newline)))),
+      atleastOnce(seq(
+        choice($.args, optional($.bare_args)),
+        '->',
+        optional($._newline),
+        prec.right(1, sep1($.expr, $._newline)))),
       optional($._newline),
       'end'
     ),
@@ -155,12 +163,12 @@ module.exports = grammar({
       seq(commaSep1($.expr), optional(seq(',', $.bare_keyword_list)), optional($.when)),
     ),
 
-    when: $ => seq(
+    when: $ => prec.left(PREC.GUARD, seq(
       'when',
       $.expr
-    ),
+    )),
 
-    map: $ => prec.left(5, seq(
+    map: $ => prec.left(PREC.MAP, seq(
       '%{',
       commaSep(choice(
         seq($.expr, '=>', $.expr),
@@ -169,25 +177,49 @@ module.exports = grammar({
       '}'
     )),
 
-    list: $ => prec.left(5, seq(
+    list: $ => prec.left(PREC.LIST, seq(
       '[',
       commaSep($.expr),
       ']'
     )),
 
-    keyword_list: $ => prec.left(4, seq(
+    keyword_list: $ => prec.left(PREC.KW, seq(
       '[',
       commaSep1(seq($.keyword, $.statement)),
       ']'
     )),
 
-    bare_keyword_list: $ => prec.left(1, commaSep1(seq($.keyword, optional($._newline), $.expr))),
+    bare_keyword_list: $ => prec.left(PREC.BARE_KW, commaSep1(seq($.keyword, optional($._newline), $.expr))),
 
     tuple: $ => seq(
       '{',
       commaSep(choice($.bare_keyword_list, $.expr)),
       '}'
     ),
+
+    case: $ => seq(
+      'case',
+      $.expr,
+      $._case_block,
+    ),
+
+    _case_block: $ => seq(
+      'do',
+      atleastOnce($.case_clause),
+      optional($._newline),
+      'end'
+    ),
+
+    case_clause: $ => seq(
+      optional($._newline),
+      $.expr,
+      optional($.when),
+      '->',
+      optional($._newline),
+      $.clause_body,
+    ),
+
+    clause_body: $ => seq($.expr, $._newline, optional($.clause_body)),
 
     heredoc: $ => seq(
       $.heredoc_start,
