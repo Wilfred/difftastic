@@ -172,6 +172,7 @@ module.exports = {
     $._qvar,
     $._qcon,
     $.implicit_parid,
+    $.label,
   ),
 
   _aexp: $ => choice(

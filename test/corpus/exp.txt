@@ -1120,3 +1120,13 @@ a = (# a, a #)
 (haskell
  (signature (variable) (type_tuple (type_name (type)) (comma) (type_name (type))))
  (function (variable) (exp_unboxed_tuple (exp_name (variable)) (comma) (exp_name (variable)))))
+
+================================================================================
+exp: label
+================================================================================
+
+a = a #a a
+
+---
+
+(haskell (function (variable) (exp_apply (exp_name (variable)) (exp_name (label)) (exp_name (variable)))))
