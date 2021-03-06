@@ -282,8 +282,8 @@ a = let a = a
 (haskell
  (function
   (variable)
-  (exp_let
-   (let
+  (exp_let_in
+   (exp_let
     (decls
      (function (variable) (exp_name (variable)))))
    (exp_in (exp_name (variable))))))
@@ -352,13 +352,13 @@ a = let
 (haskell
  (function
   (variable)
-  (exp_let
-   (let
+  (exp_let_in
+   (exp_let
     (decls
      (function
       (variable)
-      (exp_let
-       (let
+      (exp_let_in
+       (exp_let
         (decls (function (variable) (exp_name (variable)))))
        (exp_in (exp_name (variable)))))))
    (exp_in (exp_do (stmt (bind_pattern (pat_name (variable)) (exp_name (variable)))) (stmt (exp_name (variable))))))))
@@ -720,3 +720,40 @@ a = do
   (exp_do
    (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
    (stmt (bind_pattern (pat_strict (pat_name (variable))) (exp_name (variable)))))))
+
+================================================================================
+layout: let/in after do
+================================================================================
+
+a = do
+  let g = a
+   in a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do
+   (stmt
+    (exp_let_in
+     (exp_let (decls (function (variable) (exp_name (variable)))))
+     (exp_in (exp_name (variable))))))))
+
+================================================================================
+layout: instance after where, triggers rule for "in" token
+================================================================================
+
+class A where
+
+instance A
+
+---
+
+(haskell
+ (class (class_head (class_name (type))) (class_body (where)))
+ (instance (instance_head (class_name (type)))))
+
+================================================================================
+layout: test
+================================================================================

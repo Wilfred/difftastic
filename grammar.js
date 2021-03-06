@@ -48,6 +48,7 @@ module.exports = grammar({
     $._strict,
     $._unboxed_tuple_close,
     '|',
+    'in',
     /\n/,
     $.empty_file,
   ],

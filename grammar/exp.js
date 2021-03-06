@@ -88,7 +88,11 @@ module.exports = {
 
   let: $ => seq('let', optional($.decls)),
 
-  exp_let: $ => seq($.let, $.exp_in),
+  _let_decls: $ => layouted_without_end($, $._decl),
+
+  exp_let: $ => seq('let', optional(alias($._let_decls, $.decls))),
+
+  exp_let_in: $ => seq($.exp_let, $.exp_in),
 
   exp_cond: $ => seq(
     'if',
@@ -201,7 +205,7 @@ module.exports = {
     $._aexp,
     seq($._aexp, $._exp_apply),
     seq($._aexp, $.exp_lambda),
-    seq($._aexp, $.exp_let),
+    seq($._aexp, $.exp_let_in),
     seq($._aexp, $.exp_cond),
     seq($._aexp, $.exp_case),
   ),
@@ -216,7 +220,7 @@ module.exports = {
   ),
 
   _lexp: $ => choice(
-    $.exp_let,
+    $.exp_let_in,
     $.exp_cond,
     $.exp_if_guard,
     $.exp_case,
