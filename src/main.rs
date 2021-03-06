@@ -1,5 +1,3 @@
-use term_size;
-
 mod diffs;
 mod language;
 mod lines;
@@ -13,14 +11,13 @@ use clap::{App, Arg};
 use colored::*;
 use std::collections::HashMap;
 use std::fs;
-use std::iter::FromIterator;
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
 }
 
 fn index_map(lines: &[MatchedLine]) -> HashMap<usize, MatchedLine> {
-    HashMap::from_iter(lines.iter().map(|ml| (ml.line.number, *ml)))
+    lines.into_iter().map(|ml| (ml.line.number, *ml)).collect()
 }
 
 /// Vertically concat the desired lines of `left` and `right`, lining
@@ -67,7 +64,7 @@ fn filter_concat(
                 result.push_str(left_str_lines[left_i]);
                 result.push_str(spacer);
                 result.push_str(right_str_lines[right_i]);
-                result.push_str("\n");
+                result.push('\n');
 
                 left_i += 1;
                 right_i += 1;
@@ -83,7 +80,7 @@ fn filter_concat(
                     // There's no matching line of code on the other
                     // side, so just print this side.
                     result.push_str(left_str_lines[left_i]);
-                    result.push_str("\n");
+                    result.push('\n');
 
                     left_i += 1;
                 }
@@ -98,7 +95,7 @@ fn filter_concat(
                     result.push_str(&" ".repeat(max_left_length));
                     result.push_str(spacer);
                     result.push_str(right_str_lines[right_i]);
-                    result.push_str("\n");
+                    result.push('\n');
 
                     right_i += 1;
                 }
@@ -119,7 +116,7 @@ fn filter_concat(
 
 fn read_or_die(path: &str) -> String {
     match fs::read_to_string(path) {
-        Ok(src) => src.to_owned(),
+        Ok(src) => src,
         Err(e) => {
             match e.kind() {
                 std::io::ErrorKind::NotFound => {

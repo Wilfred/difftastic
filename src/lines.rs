@@ -21,7 +21,7 @@ pub struct LineNumber {
 
 impl LineNumber {
     pub fn from(number: usize) -> LineNumber {
-        LineNumber { number: number }
+        LineNumber { number }
     }
 }
 
@@ -59,9 +59,7 @@ impl NewlinePositions {
         positions.push(0);
         positions.extend(&newlines);
 
-        NewlinePositions {
-            positions: positions,
-        }
+        NewlinePositions { positions }
     }
 
     pub fn from_offset(self: &NewlinePositions, offset: usize) -> LinePosition {
@@ -326,7 +324,7 @@ pub fn enforce_length(s: &str, line_length: usize) -> String {
         if line.len() > line_length {
             // Truncate.
             result.push_str(&line[0..line_length]);
-            result.push_str("\n");
+            result.push('\n');
         } else {
             // Pad with spaces.
             result.push_str(&format!("{:width$}\n", line, width = line_length));

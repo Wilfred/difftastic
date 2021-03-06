@@ -195,7 +195,7 @@ pub fn added(differences: &[Change]) -> Vec<Change> {
     differences
         .iter()
         .filter(|c| c.kind == ChangeKind::Add)
-        .map(|c| *c)
+        .copied()
         .collect()
 }
 
@@ -203,7 +203,7 @@ pub fn removed(differences: &[Change]) -> Vec<Change> {
     differences
         .iter()
         .filter(|c| c.kind == ChangeKind::Remove)
-        .map(|c| *c)
+        .copied()
         .collect()
 }
 
