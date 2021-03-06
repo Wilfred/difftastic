@@ -254,11 +254,13 @@ ostream & operator<<(ostream & out, State & state) {
  */
 namespace state {
 
+bool eof(State & state) { return state.lexer->eof(state.lexer); }
+
 /**
  * The parser's position in the current line.
  */
 uint32_t column(State & state) {
-  return state.lexer->eof(state.lexer) ? 0 : state.lexer->get_column(state.lexer);
+  return eof(state) ? 0 : state.lexer->get_column(state.lexer);
 }
 
 /**
@@ -299,11 +301,11 @@ function<void(State&)> mark(string marked_by) {
  * With the provided operator overloads, conditions can be logically combined without having to write lambdas for
  * passing along the character.
  */
-typedef function<bool(const char)> Peek;
+typedef function<bool(uint32_t)> Peek;
 
-Peek operator&(const Peek & l, const Peek & r) { return [=](char c) { return l(c) && r(c); }; }
-Peek operator|(const Peek & l, const Peek & r) { return [=](char c) { return l(c) || r(c); }; }
-Peek not_(Peek con) { return [=](char c) { return !con(c); }; }
+Peek operator&(const Peek & l, const Peek & r) { return [=](uint32_t c) { return l(c) && r(c); }; }
+Peek operator|(const Peek & l, const Peek & r) { return [=](uint32_t c) { return l(c) || r(c); }; }
+Peek not_(Peek con) { return [=](uint32_t c) { return !con(c); }; }
 
 /**
  * This type abstracts over a boolean predicate of the current state.
@@ -321,8 +323,10 @@ Condition not_(const Condition & c) { return [=](State & state) { return !c(stat
 /**
  * Peeking the next character uses the `State` to access the lexer and returns the predicate success as well as the
  * character itself.
+ *
+ * TODO change to uint32_t
  */
-typedef function<pair<bool, char>(State &)> PeekResult;
+typedef function<pair<bool, uint32_t>(State &)> PeekResult;
 
 /**
  * The set of conditions used in the parser implementation.
@@ -331,15 +335,17 @@ namespace cond {
 
 Condition pure(bool c) { return const_<State&>(c); }
 
-bool varid_start_char(const char c) { return c == '_' || islower(c); }
+Peek eq(uint32_t target) { return [=](uint32_t c) { return target == static_cast<uint32_t>(c); }; }
 
-bool varid_char(const char c) { return c == '_' || c == '\'' || isalnum(c); };
+bool varid_start_char(const uint32_t c) { return eq('_')(c) || iswlower(c); }
+
+bool varid_char(const uint32_t c) { return eq('_')(c) || eq('\'')(c) || iswalnum(c); };
 
 /**
  * Require that the next character matches a predicate, without advancing the parser.
- * Returns the next char as well.
+ * Returns the next uint32_t as well.
  */
-function<std::pair<bool, char>(State &)> peeks(Peek pred) {
+function<std::pair<bool, uint32_t>(State &)> peeks(Peek pred) {
   return [=](State & state) {
     auto c = state::next_char(state);
     auto res = pred(c);
@@ -347,16 +353,14 @@ function<std::pair<bool, char>(State &)> peeks(Peek pred) {
   };
 }
 
-Condition peek_with(Peek pred) { return fst<bool, char> * peeks(pred); }
+Condition peek_with(Peek pred) { return fst<bool, uint32_t> * peeks(pred); }
 
 Condition varid = cond::peek_with(cond::varid_start_char);
-
-Peek eq(const char c) { return [=](auto c1) { { return c == c1; }; }; }
 
 /**
  * Require that the next character equals a concrete `c`, without advancing the parser.
  */
-Condition peek(const char c) { return fst<bool, char> * peeks(eq(c)); }
+Condition peek(uint32_t c) { return fst<bool, uint32_t> * peeks(eq(c)); }
 
 /**
  * Require that the next character matches a predicate, advancing the parser on success.
@@ -372,7 +376,7 @@ PeekResult consume_if(Peek pred) {
 /**
  * Require that the next character equals a concrete `c`, advancing the parser on success.
  */
-Condition consume(const char c) { return fst<bool, char> * consume_if(eq(c)); }
+Condition consume(uint32_t c) { return fst<bool, uint32_t> * consume_if(eq(c)); }
 
 /**
  * Require that the argument string follows the current position, consuming all characters.
@@ -382,43 +386,43 @@ Condition seq(const string & s) {
   return [=](State & state) { return all_of(s.begin(), s.end(), [&](auto a) { return consume(a)(state); }); };
 }
 
-function<void(State &)> consume_while(Peek pred) {
+function<void(State &)> read_while(Peek pred) {
   return [=](State & state) {
     while (true) {
-      auto c = state::next_char(state);
-      auto res = pred(c);
-      if (!res || c == 0) break;
+      if (state::eof(state)) break;
+      uint32_t c = state::next_char(state);
+      if (!pred(c)) break;
       state::advance(state);
     }
   };
 }
 
+function<void(State &)> consume_while(Peek pred) { return read_while(pred); }
+
+// TODO this breaks if the target sequence has a repetition of its prefix
 function<void(State &)> consume_until(string target) {
+  if (target.empty()) return [=](auto) {};
+  uint32_t first = target[0];
   return [=](State & state) {
-    if (target.empty()) return;
-    char first = target[0];
-    while (true) {
-      auto c = state::next_char(state);
-      if (c == 0) break;
-      if (c == first) {
+    Peek check = [&](uint32_t c) {
+      if (eq(first)(c)) {
         state::mark("consume_until " + target)(state);
-        if (seq(target)(state)) break;
+        return !seq(target)(state);
       }
-      state::advance(state);
-    }
+      else return true;
+    };
+    return read_while(check)(state);
   };
 }
 
-function<string(State &)> read_string(Peek pred) {
+function<u32string(State &)> read_string(Peek pred) {
   return [=](State & state) {
-    string s = "";
-    while (true) {
-      auto c = state::next_char(state);
-      auto res = pred(c);
-      if (!res || c == 0) break;
-      s += c;
-      state::advance(state);
-    }
+    u32string s;
+    read_while([&](uint32_t c) {
+        auto res = pred(c);
+        if (res) s += static_cast<uint32_t>(c);
+        return res;
+    })(state);
     return s;
   };
 }
@@ -514,7 +518,7 @@ Condition column(uint32_t col) {
  */
 bool after_error(State & state) { return syms::all(state.symbols); }
 
-bool symbolic(const char c) {
+bool symbolic(uint32_t c) {
   switch (c) {
     case '!':
     case '#':
@@ -542,7 +546,7 @@ bool symbolic(const char c) {
   }
 }
 
-bool valid_varsym_one_char(const char c) {
+bool valid_varsym_one_char(uint32_t c) {
   switch (c) {
     case '!':
     case '#':
@@ -565,7 +569,7 @@ bool valid_varsym_one_char(const char c) {
 
 Peek valid_first_varsym = not_(eq(':')) & symbolic;
 
-bool valid_tyconsym_one_char(const char c) {
+bool valid_tyconsym_one_char(uint32_t c) {
   switch (c) {
     case '*':
       return false;
@@ -581,7 +585,7 @@ bool valid_tyconsym_one_char(const char c) {
 /**
  * Test for reserved operators of two characters.
  */
-bool valid_symop_two_chars(const char first_char, const char second_char) {
+bool valid_symop_two_chars(uint32_t first_char, uint32_t second_char) {
   switch (first_char) {
     case '-':
       return second_char != '-' && second_char != '>';
@@ -599,9 +603,9 @@ bool valid_symop_two_chars(const char first_char, const char second_char) {
 }
 
 /**
- * Single-char operators that change meaning if they are followed by a varid without space.
+ * Single-uint32_t operators that change meaning if they are followed by a varid without space.
  */
-bool symop_needs_token_end(const char c) {
+bool symop_needs_token_end(uint32_t c) {
   switch (c) {
     case '$':
     case '?':
@@ -635,9 +639,9 @@ enum Symbolic: uint16_t {
 
 bool success(Symbolic type) { return type == Symbolic::con || type == Symbolic::op; }
 
-Symbolic con_or_var(const char c) { return c == ':' ? Symbolic::con : Symbolic::op; }
+Symbolic con_or_var(uint32_t c) { return c == ':' ? Symbolic::con : Symbolic::op; }
 
-bool single(const char c) {
+bool single(uint32_t c) {
   switch (c) {
     case '!':
     case '#':
@@ -688,12 +692,12 @@ bool expression_op(Symbolic type) {
  * parens/bracket, but strictness is only valid in patterns and that makes it ambiguous anyway.
  * Needs something better, but seems unlikely to be deterministic.
  *
- * Hashes followed by a varid start char `#foo` are labels.
+ * Hashes followed by a varid start uint32_t `#foo` are labels.
  */
-function<Symbolic(State &)> symop(string s) {
+function<Symbolic(State &)> symop(u32string s) {
   return [=](State & state) {
     if (s.empty()) return Symbolic::invalid;
-    auto c = s[0];
+    uint32_t c = s[0];
     if (s.size() == 1) {
       if (c == '!' && !(cond::peekws(state) || cond::peek(')')(state))) return Symbolic::strict;
       if (c == '#' && cond::peek(')')(state)) return Symbolic::unboxed_tuple_close;
@@ -717,7 +721,7 @@ function<Symbolic(State &)> symop(string s) {
     } else {
       if (all_of(s.begin(), s.end(), cond::eq('-'))) return Symbolic::comment;
       if (s.size() == 2) {
-        if (s == "$$" && cond::valid_splice(state)) return Symbolic::splice;
+        if (s[0] == '$' && s[1] == '$' && cond::valid_splice(state)) return Symbolic::splice;
         if (!cond::valid_symop_two_chars(s[0], s[1])) return Symbolic::invalid;
       }
     }
@@ -776,7 +780,7 @@ typedef function<Result(State&)> Parser;
 /**
  * Parsers that depend on the next character.
  */
-typedef function<Parser(const char)> CharParser;
+typedef function<Parser(uint32_t)> CharParser;
 
 /**
  * Convenience alias for a function that attaches conditions to a parser.
@@ -864,8 +868,8 @@ Parser finish(const Sym s, string desc) {
 Parser fail = ::const_<State>(result::fail);
 
 CharParser as_char_parser(CharParser p) { return p; }
-CharParser as_char_parser(Parser p) { return ::const_<char>(p); }
-CharParser as_char_parser(Result r) { return ::const_<char>(::const_<State>(r)); }
+CharParser as_char_parser(Parser p) { return ::const_<uint32_t>(p); }
+CharParser as_char_parser(Result r) { return ::const_<uint32_t>(::const_<State>(r)); }
 
 /**
  * Require a condition to be true for the next parser to be executed.
@@ -894,14 +898,14 @@ Modifier sym(const Sym s) { return iff(cond::sym(s)); }
 Parser finish_if_valid(const Sym s, string desc) { return sym(s)(finish(s, desc)); }
 
 /**
- * :: (State -> (bool, char)) -> (char -> Parser) -> (char -> Parser) -> Parser
+ * :: (State -> (bool, uint32_t)) -> (uint32_t -> Parser) -> (uint32_t -> Parser) -> Parser
  *
  * If the predicate is true, pass the character to the `match` parser, otherwise the `nomatch`
  * parser.
  *
- * The template allows passing in `Parser` or `Result` for the `(char -> Parser)` parameters.
+ * The template allows passing in `Parser` or `Result` for the `(uint32_t -> Parser)` parameters.
  */
-template<class A, class B> Parser either(function<pair<bool, char>(State &)> con, A match, B nomatch) {
+template<class A, class B> Parser either(function<pair<bool, uint32_t>(State &)> con, A match, B nomatch) {
   return [=](State & state) {
     auto res = con(state);
     return res.first ? as_char_parser(match)(res.second)(state) : as_char_parser(nomatch)(res.second)(state);
@@ -909,19 +913,19 @@ template<class A, class B> Parser either(function<pair<bool, char>(State &)> con
 }
 
 /**
- * :: (char -> bool) -> (char -> Parser) -> (char -> Parser) -> Parser
+ * :: (uint32_t -> bool) -> (uint32_t -> Parser) -> (uint32_t -> Parser) -> Parser
  *
  * If the predicate for the next character is true, pass the character to the `match` parser, otherwise the `nomatch`
  * parser.
  *
- * The template allows passing in `Parser` or `Result` for the `(char -> Parser)` parameters.
+ * The template allows passing in `Parser` or `Result` for the `(uint32_t -> Parser)` parameters.
  */
 template<class A, class B> Parser peeks(Peek pred, A match, B nomatch) {
   return either(cond::peeks(pred), match, nomatch);
 }
 
 /**
- * :: (char -> bool) -> Parser -> Parser
+ * :: (uint32_t -> bool) -> Parser -> Parser
  *
  * Specialization for a conditional parser that's executed in the success case.
  */
@@ -930,10 +934,10 @@ Modifier peeks(Peek pred) { return [=](Parser next) { return peeks(pred, next, r
 /**
  * Requires the next character to be `c` for the next parser to be executed.
  */
-Modifier peek(const char c) { return peeks(cond::eq(c)); }
+Modifier peek(uint32_t c) { return peeks(cond::eq(c)); }
 
 /**
- * :: (char -> bool) -> (char -> Parser) -> Parser
+ * :: (uint32_t -> bool) -> (uint32_t -> Parser) -> Parser
  *
  * If the predicate for the next character is true, advance the lexer and pass the consumed character to the next
  * parser.
@@ -945,7 +949,7 @@ function<Parser(CharParser)> consume_if(Peek pred) {
 /**
  * Require the next character to be `c` for the next parser to be executed, advancing the lexer in the success case.
  */
-Modifier consume(const char c) { return [=](Parser next) { return consume_if(cond::eq(c))(as_char_parser(next)); }; }
+Modifier consume(uint32_t c) { return [=](Parser next) { return consume_if(cond::eq(c))(as_char_parser(next)); }; }
 
 /**
  * Consume all characters while the predicate holds.
@@ -1272,7 +1276,7 @@ Parser symop(Symbolic type) {
 }
 
 /**
- * Parse an inline comment if the next chars are two or more minuses and the char after the last minus is not symbolic.
+ * Parse an inline comment if the next chars are two or more minuses and the uint32_t after the last minus is not symbolic.
  *
  * To be called when it is certain that two minuses cannot succeed as a symbolic operator.
  * Those cases are:
@@ -1592,7 +1596,7 @@ unsigned tree_sitter_haskell_external_scanner_serialize(void *payload, char *buf
  * `payload` is the state of the previous parser execution, while `buffer` is the saved state of a different position
  * (e.g. when doing incremental parsing).
  */
-void tree_sitter_haskell_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
+void tree_sitter_haskell_external_scanner_deserialize(void *payload, char *buffer, unsigned length) {
   auto *state = static_cast<vector<uint16_t> *>(payload);
   state->clear();
   copy(buffer, buffer + length, back_inserter(*state));
@@ -1601,8 +1605,6 @@ void tree_sitter_haskell_external_scanner_deserialize(void *payload, const char 
 /**
  * Destroy the state.
  */
-void tree_sitter_haskell_external_scanner_destroy(void *payload) {
-  delete static_cast<vector<uint16_t> *>(payload);
-}
+void tree_sitter_haskell_external_scanner_destroy(void *payload) { delete static_cast<vector<uint16_t> *>(payload); }
 
 }

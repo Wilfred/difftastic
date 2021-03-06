@@ -65,6 +65,8 @@ comment: unicode symbol
 
 -- ∀
 
+{- ∀ -}
+
 ---
 
-(haskell (comment) (empty_file))
+(haskell (comment) (comment) (empty_file))
