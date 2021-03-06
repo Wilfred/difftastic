@@ -858,3 +858,22 @@ let a!: b;
       (identifier)
       (type_annotation
       (type_identifier)))))
+
+====================================
+Top-level exports
+====================================
+
+export default abstract class C { }
+export default class C { }
+export class C { }
+export default interface I { }
+export interface I { }
+
+---
+
+(program
+  (export_statement (class (type_identifier) (class_body)))
+  (export_statement (class (type_identifier) (class_body)))
+  (export_statement (class_declaration (type_identifier) (class_body)))
+  (export_statement (interface_declaration (type_identifier) (object_type)))
+  (export_statement (interface_declaration (type_identifier) (object_type))))
