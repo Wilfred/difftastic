@@ -374,9 +374,14 @@ PeekResult consume_if(Peek pred) {
 }
 
 /**
+ * Like `consume_if`, but only return the boo result.
+ */
+Condition consumes(Peek pred) { return fst<bool, uint32_t> * consume_if(pred); }
+
+/**
  * Require that the next character equals a concrete `c`, advancing the parser on success.
  */
-Condition consume(uint32_t c) { return fst<bool, uint32_t> * consume_if(eq(c)); }
+Condition consume(uint32_t c) { return consumes(eq(c)); }
 
 /**
  * Require that the argument string follows the current position, consuming all characters.
@@ -498,7 +503,7 @@ Condition is_newline_where(uint32_t indent) {
   return keep_layout(indent) & (sym(Sym::semicolon) | sym(Sym::end)) & (not_(sym(Sym::where))) & peek('w');
 }
 
-Peek newline = eq('\n');
+Peek newline = eq('\n') | eq('\r') | eq('\f');
 
 Peek ticked = eq('`');
 
@@ -1053,7 +1058,7 @@ using namespace parser;
 uint32_t count_indent(State & state) {
   uint32_t indent = 0;
   for (;;) {
-    if (cond::consume('\n')(state)) {
+    if (cond::consumes(cond::newline)(state)) {
       indent = 0;
     } else if (cond::consume(' ')(state)) {
       indent++;
@@ -1492,7 +1497,7 @@ Parser main =
   eof +
   mark("main") +
   either(
-    cond::consume('\n'),
+    cond::consumes(cond::newline),
     with(count_indent)(newline),
     with(state::column)(immediate)
   );
