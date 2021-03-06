@@ -7,7 +7,7 @@ function sep1 (rule, separator) {
 }
 
 function commaSep1 (rule) {
-  return sep1(rule, ',');
+  return sep1(rule, seq(',', optional(/[\n\r]+/)));
 }
 
 function commaSep (rule) {
@@ -19,7 +19,10 @@ function atleastOnce (rule) {
 }
 
 function binaryOp($, assoc, precedence, operator) {
-  return assoc(precedence, seq($.expr, operator, optional($._newline), $.expr));
+  return assoc(precedence,
+               seq(field('left', $.expr),
+                   field('operator', operator),
+                   optional($._newline), field('right', $.expr)));
 }
 
 function unaryOp($, assoc, precedence, operator) {
@@ -48,7 +51,6 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.inline_fn],
   ],
 
   word: $ => $.identifier,
@@ -77,7 +79,7 @@ module.exports = grammar({
       $.tuple,
       $.binary_op,
       $.dot_call,
-      $.inline_fn,
+      $.anonymous_function,
       $.identifier,
     ),
 
@@ -99,7 +101,6 @@ module.exports = grammar({
     )),
 
     binary_op: $ => choice(
-      binaryOp($, prec.right, 10, choice('->')),
       binaryOp($, prec.left, 40, choice('\\\\', '<-')),
       binaryOp($, prec.right, 60, '::'),
       binaryOp($, prec.right, 70, '|'),
@@ -107,8 +108,9 @@ module.exports = grammar({
       binaryOp($, prec.right, 100, '='),
       binaryOp($, prec.left, 130, choice('||', '|||', 'or')),
       binaryOp($, prec.left, 150, choice('==', '!=', '=~', '===', '!==')),
-      binaryOp($, prec.right, 200, choice('++', '--', '..', '<>', '+++', '---')),
       binaryOp($, prec.left, 190, '|>'),
+      binaryOp($, prec.right, 200, choice('++', '--', '..', '<>', '+++', '---')),
+      binaryOp($, prec.left, 210, choice('+', '-')),
     ),
 
     dot_call: $ => seq(
@@ -126,17 +128,15 @@ module.exports = grammar({
       'end'
     ),
 
-    inline_fn: $ => seq(
+    anonymous_function: $ => seq(
       'fn',
-      choice(
-        seq(optional(choice($.args, $.bare_args)),
+      optional($._newline),
+      atleastOnce(
+        seq(choice($.args, optional($.bare_args)),
             '->',
-            atleastOnce($.expr)),
-        atleastOnce(
-          seq(choice($.args, $.bare_args),
-              '->',
-              atleastOnce($.expr)))
-      ),
+            optional($._newline),
+            prec.right(1, sep1($.expr, $._newline)))),
+      optional($._newline),
       'end'
     ),
 
