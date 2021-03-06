@@ -584,6 +584,10 @@
       "type": "PATTERN",
       "value": "[_a-z](\\w|')*#?"
     },
+    "label": {
+      "type": "PATTERN",
+      "value": "#[_a-z](\\w|')*"
+    },
     "variable": {
       "type": "SYMBOL",
       "name": "_varid"
@@ -4264,6 +4268,10 @@
         {
           "type": "SYMBOL",
           "name": "implicit_parid"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "label"
         }
       ]
     },

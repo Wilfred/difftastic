@@ -687,6 +687,8 @@ bool expression_op(Symbolic type) {
  * This only explicitly excludes `(!)` from being strictness; It could test for `cond::varid` plus opening
  * parens/bracket, but strictness is only valid in patterns and that makes it ambiguous anyway.
  * Needs something better, but seems unlikely to be deterministic.
+ *
+ * Hashes followed by a varid start char `#foo` are labels.
  */
 function<Symbolic(State &)> symop(string s) {
   return [=](State & state) {
@@ -695,6 +697,7 @@ function<Symbolic(State &)> symop(string s) {
     if (s.size() == 1) {
       if (c == '!' && !(cond::peekws(state) || cond::peek(')')(state))) return Symbolic::strict;
       if (c == '#' && cond::peek(')')(state)) return Symbolic::unboxed_tuple_close;
+      if (c == '#' && cond::peek_with(cond::varid_start_char)(state)) return Symbolic::invalid;
       if (c == '$' && cond::valid_splice(state)) return Symbolic::splice;
       if (c == '?' && cond::varid(state)) return Symbolic::implicit;
       if (c == '|') return Symbolic::bar;

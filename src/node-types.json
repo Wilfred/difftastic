@@ -5227,6 +5227,10 @@
           "named": true
         },
         {
+          "type": "label",
+          "named": true
+        },
+        {
           "type": "operator",
           "named": true
         },
@@ -12833,6 +12837,10 @@
   {
     "type": "jvm",
     "named": false
+  },
+  {
+    "type": "label",
+    "named": true
   },
   {
     "type": "let",

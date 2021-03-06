@@ -6,6 +6,7 @@ module.exports = {
   // ------------------------------------------------------------------------
 
   _varid: _ => /[_a-z](\w|')*#?/,
+  label: _ => /#[_a-z](\w|')*/,
   variable: $ => $._varid,
   qualified_variable: $ => qualified($, $.variable),
   _qvarid: $ => choice($.qualified_variable, $.variable),
