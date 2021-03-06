@@ -60,7 +60,7 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.clause_body],
-    [$.cond_body]
+    [$.cond_body],
   ],
 
   word: $ => $.identifier,
@@ -73,15 +73,19 @@ module.exports = grammar({
     ),
 
     expr: $ => choice(
-      $.call,
       $.module_assign,
-      $.dot_call,
       $.binary_op,
       $.unary_op,
-      $.anonymous_function,
       $.case,
       $.cond,
       $.try,
+      $._call_expr,
+    ),
+
+    _call_expr: $ => choice(
+      $.call,
+      $.dot_call,
+      $.anonymous_function,
       $.keyword_list,
       $.sigil,
       $.heredoc,
@@ -101,7 +105,7 @@ module.exports = grammar({
     call: $ => prec.left(PREC.CALL, seq(
       prec(PREC.CALL_NAME, field('name', $.identifier)),
       choice(
-        prec.right(seq(choice($.expr), optional(seq(',', optional($._newline), $.bare_keyword_list)))),
+        prec.right(seq($._call_expr, optional(seq(',', optional($._newline), $.bare_keyword_list)))),
         seq(optional('.'), $.args),
         $.bare_keyword_list
       ),
@@ -116,6 +120,7 @@ module.exports = grammar({
 
     unary_op: $ => choice(
       unaryOp($, prec, 90, '&'),
+      unaryOp($, prec, 300, choice('+', '-', '!', '^', '~~~')),
     ),
 
     binary_op: $ => choice(
@@ -127,8 +132,9 @@ module.exports = grammar({
       binaryOp($, prec.left, 140, choice('&&', '&&&', 'and')),
       binaryOp($, prec.left, 150, choice('==', '!=', '=~', '===', '!==')),
       binaryOp($, prec.left, 160, choice('<', '>', '<=', '>=')),
+      binaryOp($, prec.left, 170, choice('|>', '<<<', '>>>', '<<~', '~>>', '<~', '~>', '<~>', '<|>')),
       binaryOp($, prec.left, 180, choice('in', seq('not', 'in'))),
-      binaryOp($, prec.left, 190, '|>'),
+      binaryOp($, prec.left, 190, choice('^^^')),
       binaryOp($, prec.right, 200, choice('++', '--', '..', '<>', '+++', '---')),
       binaryOp($, prec.left, 210, choice('+', '-')),
       binaryOp($, prec.left, 220, choice('*', '/')),
