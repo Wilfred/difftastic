@@ -1,8 +1,10 @@
 // the constant contains the order of precedence.
 // the higher the value, higher the precedence.
 const PRECEDENCE = {
-  COMMENTS: 1, // comments over anything. TODO: is it so? refer - https://perldoc.perl.org/perlsyn#Comments
-
+  REGEXP: 1,
+  STRING: 2,
+  COMMENTS: 3, // comments over anything. Except in strings or regex.
+  
   HASH: 1,
   ARRAY: 2,
   SUB_ARGS: 29,
@@ -31,7 +33,6 @@ const PRECEDENCE = {
   UNARY_AND: 3,
   OR_XOR: 2,
   // end of operators
-
 };
 
 module.exports = grammar({
@@ -108,10 +109,6 @@ module.exports = grammar({
       $._expression,
       $.semi_colon,
     ),
-
-    comments: $ => token(prec(PRECEDENCE.COMMENTS, choice(
-      /#.*/, // single line comment
-    ))),
 
     use_statement: $ => seq(
       'use',
@@ -257,6 +254,7 @@ module.exports = grammar({
     
     scope: $ => choice(
       'our',
+      'state',
       'my',
     ),
 
@@ -687,9 +685,9 @@ module.exports = grammar({
 
     semi_colon: $ => ';',
 
-    string_single_quoted: $ => /\'.*\'/,
+    string_single_quoted: $ => prec(PRECEDENCE.STRING, /\'.*\'/),
 
-    string_double_quoted: $ => /\".*\"/,
+    string_double_quoted: $ => prec(PRECEDENCE.STRING, /\".*\"/),
 
     _boolean: $ => choice(
       $.true,
@@ -742,6 +740,10 @@ module.exports = grammar({
       '=>',
       $._primitive_expression,
     ),
+
+    comments: $ => token(prec(PRECEDENCE.COMMENTS, choice(
+      /#.*/, // single line comment
+    ))),
 
   }
 });
