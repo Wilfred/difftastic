@@ -32,6 +32,7 @@ function unaryOp($, assoc, precedence, operator) {
 const PREC = {
   COMMENT: -2,
   CALL: 5,
+  DOT_CALL: 7,
   CALL_NAME: 6,
   GUARD: 6,
   MAP: 5,
@@ -74,6 +75,16 @@ module.exports = grammar({
     expr: $ => choice(
       $.call,
       $.module_assign,
+      $.dot_call,
+      $.binary_op,
+      $.unary_op,
+      $.anonymous_function,
+      $.case,
+      $.cond,
+      $.try,
+      $.keyword_list,
+      $.sigil,
+      $.heredoc,
       $.module_attr,
       $.integer,
       $.float,
@@ -81,16 +92,9 @@ module.exports = grammar({
       $.atom,
       $.list,
       $.map,
-      $.keyword_list,
       $.string,
-      $.sigil,
-      $.heredoc,
       $.tuple,
-      $.binary_op,
-      $.dot_call,
-      $.anonymous_function,
-      $.case,
-      $.cond,
+      $.literal,
       $.identifier,
     ),
 
@@ -110,28 +114,34 @@ module.exports = grammar({
       $.expr
     )),
 
+    unary_op: $ => choice(
+      unaryOp($, prec, 90, '&'),
+    ),
+
     binary_op: $ => choice(
       binaryOp($, prec.left, 40, choice('\\\\', '<-')),
       binaryOp($, prec.right, 60, '::'),
       binaryOp($, prec.right, 70, '|'),
-      unaryOp($, prec, 90, '&'),
       binaryOp($, prec.right, 100, '='),
       binaryOp($, prec.left, 130, choice('||', '|||', 'or')),
+      binaryOp($, prec.left, 140, choice('&&', '&&&', 'and')),
       binaryOp($, prec.left, 150, choice('==', '!=', '=~', '===', '!==')),
+      binaryOp($, prec.left, 160, choice('<', '>', '<=', '>=')),
+      binaryOp($, prec.left, 180, choice('in', seq('not', 'in'))),
       binaryOp($, prec.left, 190, '|>'),
       binaryOp($, prec.right, 200, choice('++', '--', '..', '<>', '+++', '---')),
       binaryOp($, prec.left, 210, choice('+', '-')),
-      binaryOp($, prec.left, 210, choice('*', '/')),
+      binaryOp($, prec.left, 220, choice('*', '/')),
     ),
 
-    dot_call: $ => seq(
+    dot_call: $ => prec.left(PREC.DOT_CALL, seq(
       field('object', choice($.module, $.identifier, $.atom, $.dot_call)),
       '.',
       choice(
-        seq(field('function', $.func_name_identifier), $.args),
+        seq(field('function', $.func_name_identifier), optional($.args)),
         $.module
       )
-    ),
+    )),
 
     block: $ => seq(
       'do',
@@ -208,14 +218,14 @@ module.exports = grammar({
 
     _case_block: $ => seq(
       'do',
-      atleastOnce($.case_clause),
+      atleastOnce($.clause),
       optional($._newline),
       'end'
     ),
 
-    case_clause: $ => seq(
+    clause: $ => seq(
       optional($._newline),
-      $.expr,
+      commaSep1($.expr),
       optional($.when),
       '->',
       optional($._newline),
@@ -245,6 +255,29 @@ module.exports = grammar({
     ),
 
     cond_body: $ => seq($.expr, $._newline, optional($.cond_body)),
+
+    try: $ => seq(
+      'try',
+      'do',
+      atleastOnce($.statement),
+      optional(seq(
+        'rescue',
+        atleastOnce($.clause)
+      )),
+      optional(seq(
+        'catch',
+        atleastOnce($.clause)
+      )),
+      optional(seq(
+        'else',
+        atleastOnce($.clause)
+      )),
+      optional(seq(
+        'after',
+        atleastOnce($.statement)
+      )),
+      'end'
+    ),
 
     heredoc: $ => seq(
       $.heredoc_start,
@@ -278,6 +311,7 @@ module.exports = grammar({
     identifier: $ => /[_a-z][_a-zA-Z0-9]*/,
     func_name_identifier: $ => /[_a-z!][?!_a-zA-Z0-9]*/,
     comment: $ => token(prec(PREC.COMMENT, seq('#', /.*/))),
-    _newline: $ => /[\n\r]+/
+    _newline: $ => /[\n\r]+/,
+    literal: $ => choice('true', 'false', 'nil')
   }
 })
