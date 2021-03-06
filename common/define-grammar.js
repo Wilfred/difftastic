@@ -256,7 +256,14 @@ module.exports = function defineGrammar(dialect) {
         seq('export', 'type', $.export_clause),
         seq('export', '=', $.identifier, $._semicolon),
         seq('export', 'as', 'namespace', $.identifier, $._semicolon),
-        seq('export', 'default', $.function_signature)
+        seq('export', 'default', $.function_signature),
+        seq(
+          'export', 'default',
+          choice(
+            seq(optional("abstract"), $.class),
+            $.interface_declaration
+          )
+        )
       ),
 
       non_null_expression: $ => prec.left('unary', seq(
