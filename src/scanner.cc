@@ -121,6 +121,7 @@ namespace syms {
  *   - strict: Disambiguate strictness annotation `!` from symbolic operators
  *   - unboxed_tuple_close: Disambiguate the closing parens for unboxed tuples `#)` from symbolic operators
  *   - bar: The vertical bar `|`, used for guards and list comprehension
+ *   - in: Closes the layout of a `let` and consumes the token `in`
  *   - indent: Used as a dummy symbol for initialization; uses newline in the grammar to ensure the scanner is called
  *     for each token
  *   - empty: The empty file
@@ -143,6 +144,7 @@ enum Sym: uint16_t {
   strict,
   unboxed_tuple_close,
   bar,
+  in,
   indent,
   empty,
   fail,
@@ -165,6 +167,7 @@ vector<string> names = {
   "strict",
   "unboxed_tuple_close",
   "bar",
+  "in",
   "indent",
   "empty",
 };
@@ -254,7 +257,9 @@ namespace state {
 /**
  * The parser's position in the current line.
  */
-uint32_t column(State & state) { return state.lexer->get_column(state.lexer); }
+uint32_t column(State & state) {
+  return state.lexer->eof(state.lexer) ? 0 : state.lexer->get_column(state.lexer);
+}
 
 /**
  * The next character that would be parsed.
@@ -346,7 +351,7 @@ Condition peek_with(Peek pred) { return fst<bool, char> * peeks(pred); }
 
 Condition varid = cond::peek_with(cond::varid_start_char);
 
-Peek eq(char c) { return [=](auto c1) { { return c == c1; }; }; }
+Peek eq(const char c) { return [=](auto c1) { { return c == c1; }; }; }
 
 /**
  * Require that the next character equals a concrete `c`, without advancing the parser.
@@ -489,9 +494,9 @@ Condition is_newline_where(uint32_t indent) {
   return keep_layout(indent) & (sym(Sym::semicolon) | sym(Sym::end)) & (not_(sym(Sym::where))) & peek('w');
 }
 
-Peek is_char(const char target) { return [=](const char c) { return c == target; }; }
+Peek newline = eq('\n');
 
-Peek newline = is_char('\n');
+Peek ticked = eq('`');
 
 /**
  * Require that the state has not been initialized after parsing has started.
@@ -1071,13 +1076,14 @@ Parser eof = peek(0)(sym(Sym::empty)(finish(Sym::empty, "eof")) + end_or_semicol
  * If there is a `module` declaration, this will be handled by the grammar.
  */
 Parser initialize(uint32_t column) {
-  return mark("initialize") + token("module")(fail) + push(column) + finish(Sym::indent, "init");
+  return
+    iff(cond::uninitialized)(
+        mark("initialize") + token("module")(fail) + push(column) + finish(Sym::indent, "init")
+    );
 }
 
-/**
- * Initialize the indentation stack if the first token of the file isn't `module`.
- */
-Parser initialize_without_module = iff(cond::uninitialized)(skip_ws + with(state::column)(initialize));
+Parser initialize_init =
+  iff(cond::uninitialized)(with(state::column)([](auto col) { return when(col == 0)(initialize(col)); }));
 
 /**
  * If a dot is neither preceded nor succeded by whitespace, it may be parsed as a qualified module dot.
@@ -1100,7 +1106,7 @@ Parser dot =
 Parser cpp_consume =
   [](State & state) {
     auto p =
-      consume_while(not_(cond::newline) & not_(cond::is_char('\\'))) +
+      consume_while(not_(cond::newline) & not_(cond::eq('\\'))) +
       consume('\\')(parser::advance + cpp_consume);
     return p(state);
   };
@@ -1127,7 +1133,7 @@ Parser cpp_init = iff(cond::column(0))(cpp_workaround);
  * End a layout by removing an indentation from the stack, but only if the current column (which should be in the next
  * line after skipping whitespace) is smaller than the layout indent.
  */
-Parser dedent(uint32_t indent) { return iff(cond::smaller_indent(indent))(mark("dedent") + layout_end("dedent")); }
+Parser dedent(uint32_t indent) { return iff(cond::smaller_indent(indent))(layout_end("dedent")); }
 
 /**
  * Succeed if a `where` on a newline can end a statement or layout (see `is_newline_where`).
@@ -1135,7 +1141,9 @@ Parser dedent(uint32_t indent) { return iff(cond::smaller_indent(indent))(mark("
  * This is the case after `do` or `of`, where the `where` can be on the same indent.
  */
 Parser newline_where(uint32_t indent) {
-  return iff(cond::is_newline_where(indent))(mark("newline_where") + token("where")(end_or_semicolon("newline_where")) + fail);
+  return iff(cond::is_newline_where(indent))(
+    mark("newline_where") + token("where")(end_or_semicolon("newline_where")) + fail
+  );
 }
 
 /**
@@ -1158,8 +1166,7 @@ Parser newline_semicolon(uint32_t indent) {
  */
 Condition end_on_infix(uint32_t indent, Symbolic type) {
   return cond::indent_lesseq(indent) & (
-    cond::pure(symbolic::expression_op(type)) | cond::peek_with(cond::eq('`'))
-  );
+    cond::pure(symbolic::expression_op(type)) | cond::peek_with(cond::ticked));
 }
 
 /**
@@ -1177,9 +1184,9 @@ function<Parser(Symbolic)> newline_infix(uint32_t indent) {
 Parser where = token("where")(sym(Sym::where)(mark("where") + finish(Sym::where, "where")) + layout_end("where"));
 
 /**
- * An `in` token ends the layout openend by a `let`.
+ * An `in` token ends the layout openend by a `let` and its nested layouts.
  */
-Parser in = token("in")(end_or_semicolon("in"));
+Parser in = sym(Sym::in)(token("in")(mark("in") + effect(pop) + finish(Sym::in, "in")));
 
 /**
  * An `else` token may end a layout opened in the body of a `then`.
@@ -1407,21 +1414,38 @@ Parser repeat_end(uint32_t column) {
 }
 
 /**
+ * Rules that decide based on the indent of the next line.
+ */
+Parser newline_indent(uint32_t indent) {
+  return
+    dedent(indent) +
+    close_layout_in_list +
+    newline_semicolon(indent);
+}
+
+/**
+ * Rules that decide based on the first token on the next line.
+ */
+Parser newline_token(uint32_t indent) {
+  return
+    peeks(cond::symbolic | cond::ticked)(with(read_symop)(newline_infix(indent)) + fail) +
+    newline_where(indent) +
+    peek('i')(in)
+    ;
+}
+
+/**
  * To be called after parsing a newline, with the indent of the next line as argument.
- *
- * Checks for eof and end of layout by dedent and `where`.
  */
 Parser newline(uint32_t indent) {
   return
     eof +
+    initialize(indent) +
     cpp_workaround +
     comment +
-    dedent(indent) +
-    newline_where(indent) +
-    close_layout_in_list +
     mark("newline") +
-    with(read_symop)(newline_infix(indent)) +
-    newline_semicolon(indent)
+    newline_token(indent) +
+    newline_indent(indent)
     ;
 }
 
@@ -1451,7 +1475,7 @@ Parser immediate(uint32_t column) {
  *   - Qualified module dot (leading whitespace would mean it would be `(.)`)
  *   - cpp
  */
-Parser init = eof + iff(cond::after_error)(fail) + initialize_without_module + dot + cpp_init;
+Parser init = eof + iff(cond::after_error)(fail) + initialize_init + dot + cpp_init;
 
 /**
  * The main parser checks whether the first non-space character is a newline and delegates accordingly.

@@ -478,24 +478,24 @@ a = let { a :: A;
 (haskell
  (function
   (variable)
-  (exp_let
-   (let
+  (exp_let_in
+   (exp_let
     (decls
      (function (variable) (exp_name (variable)))
      (function (variable) (exp_name (variable)))))
    (exp_in (exp_name (variable)))))
  (function
   (variable)
-  (exp_let
-   (let
+  (exp_let_in
+   (exp_let
     (decls
      (function (variable) (exp_name (variable)))
      (function (variable) (exp_name (variable)))))
    (exp_in (exp_name (variable)))))
  (function
   (variable)
-  (exp_let
-   (let
+  (exp_let_in
+   (exp_let
     (decls
      (function (variable) (exp_name (variable)))
      (signature (variable) (type_name (type)))
@@ -503,8 +503,8 @@ a = let { a :: A;
    (exp_in (exp_name (variable)))))
   (function
    (variable)
-   (exp_let
-    (let
+   (exp_let_in
+    (exp_let
      (decls
       (signature (variable) (type_name (type)))
       (function (variable) (exp_name (variable)))
@@ -949,7 +949,7 @@ a = a let a = a in a
  (function (variable)
   (exp_apply
   (exp_name (variable))
-   (exp_let (let (decls (function (variable) (exp_name (variable))))) (exp_in (exp_name (variable)))))))
+   (exp_let_in (exp_let (decls (function (variable) (exp_name (variable))))) (exp_in (exp_name (variable)))))))
 
 ================================================================================
 exp: block argument: if
@@ -1025,8 +1025,8 @@ a = let a = a in a :: A
 (haskell
  (function
   (variable)
-  (exp_let
-   (let (decls (function (variable) (exp_name (variable)))))
+  (exp_let_in
+   (exp_let (decls (function (variable) (exp_name (variable)))))
    (exp_in (exp_name (variable)) (type_name (type))))))
 
 ================================================================================
@@ -1120,7 +1120,3 @@ a = (# a, a #)
 (haskell
  (signature (variable) (type_tuple (type_name (type)) (comma) (type_name (type))))
  (function (variable) (exp_unboxed_tuple (exp_name (variable)) (comma) (exp_name (variable)))))
-
-================================================================================
-exp: test
-================================================================================

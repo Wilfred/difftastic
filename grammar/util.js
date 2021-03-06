@@ -31,6 +31,8 @@ terminated = ($, rule) => seq(
   optional(choice(';', $._layout_semicolon)),
 )
 
+layouted_braces = rule => braces(sep(';', rule), optional(';')),
+
 /**
   * Wrap a repeated rule in a layout.
   * This is used for `where`, `let`, `of` and `do`, and the toplevel module.
@@ -41,8 +43,13 @@ terminated = ($, rule) => seq(
   * If explicit braces are provided, the scanner isn't relevant.
   */
 layouted = ($, rule) => choice(
-  braces(sep(';', rule), optional(';')),
+  layouted_braces(rule),
   seq($._layout_start, optional(terminated($, rule)), $._layout_end),
+)
+
+layouted_without_end = ($, rule) => choice(
+  layouted_braces(rule),
+  seq($._layout_start, optional(terminated($, rule))),
 )
 
 where = ($, rule) => seq(
