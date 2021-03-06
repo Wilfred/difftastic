@@ -58,7 +58,8 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.clause_body]
+    [$.clause_body],
+    [$.cond_body]
   ],
 
   word: $ => $.identifier,
@@ -89,6 +90,7 @@ module.exports = grammar({
       $.dot_call,
       $.anonymous_function,
       $.case,
+      $.cond,
       $.identifier,
     ),
 
@@ -119,6 +121,7 @@ module.exports = grammar({
       binaryOp($, prec.left, 190, '|>'),
       binaryOp($, prec.right, 200, choice('++', '--', '..', '<>', '+++', '---')),
       binaryOp($, prec.left, 210, choice('+', '-')),
+      binaryOp($, prec.left, 210, choice('*', '/')),
     ),
 
     dot_call: $ => seq(
@@ -220,6 +223,28 @@ module.exports = grammar({
     ),
 
     clause_body: $ => seq($.expr, $._newline, optional($.clause_body)),
+
+    cond: $ => seq(
+      'cond',
+      $._cond_block,
+    ),
+
+    _cond_block: $ => seq(
+      'do',
+      atleastOnce($.cond_clause),
+      optional($._newline),
+      'end'
+    ),
+
+    cond_clause: $ => seq(
+      optional($._newline),
+      $.expr,
+      '->',
+      optional($._newline),
+      $.cond_body,
+    ),
+
+    cond_body: $ => seq($.expr, $._newline, optional($.cond_body)),
 
     heredoc: $ => seq(
       $.heredoc_start,
