@@ -26,7 +26,7 @@ pub struct Change {
     pub opposite_line: LineNumber,
 }
 
-pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -> (Vec<Change>) {
+pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -> Vec<Change> {
     let re = language_lexer(lang);
     let before_tokens = lex(&before_src, &re);
     let after_tokens = lex(&after_src, &re);
