@@ -1,0 +1,86 @@
+================================================================================
+cond multi clause
+================================================================================
+
+cond do
+  1 -> "a"
+  2 -> "b"
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (cond
+        (cond_clause
+          (expr
+            (integer))
+          (cond_body
+            (expr
+              (string))))
+        (cond_clause
+          (expr
+            (integer))
+          (cond_body
+            (expr
+              (string))))))))
+
+================================================================================
+cond single clause
+================================================================================
+
+cond do
+  {a} -> "b"
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (cond
+        (cond_clause
+          (expr
+            (tuple
+              (expr
+                (identifier))))
+          (cond_body
+            (expr
+              (string))))))))
+
+================================================================================
+cond multi clause multi line body
+================================================================================
+
+cond do
+  1 -> "a"
+  2 ->
+    a.call()
+    5
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (cond
+        (cond_clause
+          (expr
+            (integer))
+          (cond_body
+            (expr
+              (string))))
+        (cond_clause
+          (expr
+            (integer))
+          (cond_body
+            (expr
+              (dot_call
+                (identifier)
+                (func_name_identifier)
+                (args)))
+            (cond_body
+              (expr
+                (integer)))))))))

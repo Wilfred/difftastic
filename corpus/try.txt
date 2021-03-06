@@ -1,0 +1,240 @@
+================================================================================
+try
+================================================================================
+
+try do
+  do_something_that_may_fail(some_arg)
+rescue
+  ArgumentError ->
+    IO.puts("Invalid argument given")
+catch
+  value ->
+    IO.puts("Caught #{inspect(value)}")
+else
+  value ->
+    IO.puts("Success! The result was #{inspect(value)}")
+after
+  IO.puts("This is printed regardless if it failed or succeeded")
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (try
+        (statement
+          (expr
+            (call
+              (identifier)
+              (args
+                (expr
+                  (identifier))))))
+        (clause
+          (expr
+            (module))
+          (clause_body
+            (expr
+              (dot_call
+                (module)
+                (func_name_identifier)
+                (args
+                  (expr
+                    (string)))))))
+        (clause
+          (expr
+            (identifier))
+          (clause_body
+            (expr
+              (dot_call
+                (module)
+                (func_name_identifier)
+                (args
+                  (expr
+                    (string)))))))
+        (clause
+          (expr
+            (identifier))
+          (clause_body
+            (expr
+              (dot_call
+                (module)
+                (func_name_identifier)
+                (args
+                  (expr
+                    (string)))))))
+        (statement
+          (expr
+            (dot_call
+              (module)
+              (func_name_identifier)
+              (args
+                (expr
+                  (string))))))))))
+
+================================================================================
+try with rescue only
+================================================================================
+
+try do
+  UndefinedModule.undefined_function
+rescue
+  x in [UndefinedFunctionError] -> nil
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (try
+        (statement
+          (expr
+            (dot_call
+              (module)
+              (func_name_identifier))))
+        (clause
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (list
+                  (expr
+                    (module))))))
+          (clause_body
+            (expr
+              (literal))))))))
+
+================================================================================
+try catch
+================================================================================
+
+try do
+  exit(:shutdown)
+catch
+  :exit, value ->
+    IO.puts("Exited with value #{inspect(value)}")
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (try
+        (statement
+          (expr
+            (call
+              (identifier)
+              (args
+                (expr
+                  (atom))))))
+        (clause
+          (expr
+            (atom))
+          (expr
+            (identifier))
+          (clause_body
+            (expr
+              (dot_call
+                (module)
+                (func_name_identifier)
+                (args
+                  (expr
+                    (string)))))))))))
+
+================================================================================
+try rescue else
+================================================================================
+
+try do
+  1 / x
+rescue
+  ArithmeticError ->
+    :infinity
+else
+  y when y < 1 and y > 5 ->
+    :small
+  _ ->
+    :large
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (try
+        (statement
+          (expr
+            (binary_op
+              (expr
+                (integer))
+              (expr
+                (identifier)))))
+        (clause
+          (expr
+            (module))
+          (clause_body
+            (expr
+              (atom))))
+        (clause
+          (expr
+            (identifier))
+          (when
+            (expr
+              (binary_op
+                (expr
+                  (binary_op
+                    (expr
+                      (identifier))
+                    (expr
+                      (integer))))
+                (expr
+                  (binary_op
+                    (expr
+                      (identifier))
+                    (expr
+                      (integer)))))))
+          (clause_body
+            (expr
+              (atom))))
+        (clause
+          (expr
+            (identifier))
+          (clause_body
+            (expr
+              (atom))))))))
+
+================================================================================
+try after
+================================================================================
+
+try do
+  do_something_with("tmp/story.txt")
+after
+  File.rm("tmp/story.txt")
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (try
+        (statement
+          (expr
+            (call
+              (identifier)
+              (args
+                (expr
+                  (string))))))
+        (statement
+          (expr
+            (dot_call
+              (module)
+              (func_name_identifier)
+              (args
+                (expr
+                  (string))))))))))

@@ -1,0 +1,133 @@
+================================================================================
+case multi clause
+================================================================================
+
+case s do
+  1 -> "a"
+  2 -> "b"
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (case
+        (expr
+          (identifier))
+        (clause
+          (expr
+            (integer))
+          (clause_body
+            (expr
+              (string))))
+        (clause
+          (expr
+            (integer))
+          (clause_body
+            (expr
+              (string))))))))
+
+================================================================================
+case single clause
+================================================================================
+
+case s do
+  {a} -> "b"
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (case
+        (expr
+          (identifier))
+        (clause
+          (expr
+            (tuple
+              (expr
+                (identifier))))
+          (clause_body
+            (expr
+              (string))))))))
+
+================================================================================
+case multi clause multi line body
+================================================================================
+
+case s do
+  1 -> "a"
+  2 ->
+    a.call()
+    5
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (case
+        (expr
+          (identifier))
+        (clause
+          (expr
+            (integer))
+          (clause_body
+            (expr
+              (string))))
+        (clause
+          (expr
+            (integer))
+          (clause_body
+            (expr
+              (dot_call
+                (identifier)
+                (func_name_identifier)
+                (args)))
+            (clause_body
+              (expr
+                (integer)))))))))
+
+================================================================================
+case with guards
+================================================================================
+
+case 1 do
+ x when hd(x) -> "Won't match"
+ x -> "Got " <> y
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (case
+        (expr
+          (integer))
+        (clause
+          (expr
+            (identifier))
+          (when
+            (expr
+              (call
+                (identifier)
+                (args
+                  (expr
+                    (identifier))))))
+          (clause_body
+            (expr
+              (string))))
+        (clause
+          (expr
+            (identifier))
+          (clause_body
+            (expr
+              (binary_op
+                (expr
+                  (string))
+                (expr
+                  (identifier))))))))))

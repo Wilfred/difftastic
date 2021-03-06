@@ -1,0 +1,188 @@
+================================================================================
+parenthesized no arg
+================================================================================
+
+fn() -> a + b end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (args)
+        (expr
+          (binary_op
+            (expr
+              (identifier))
+            (expr
+              (identifier))))))))
+
+================================================================================
+parenthesized one arg
+================================================================================
+
+fn(a) -> a + b end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (args
+          (expr
+            (identifier)))
+        (expr
+          (binary_op
+            (expr
+              (identifier))
+            (expr
+              (identifier))))))))
+
+================================================================================
+parenthesized multi args
+================================================================================
+
+fn(a, b) -> a + b end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (args
+          (expr
+            (identifier))
+          (expr
+            (identifier)))
+        (expr
+          (binary_op
+            (expr
+              (identifier))
+            (expr
+              (identifier))))))))
+
+================================================================================
+parenthesized multi args, multi line body
+================================================================================
+
+fn(a, b) ->
+  a + b
+  5
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (args
+          (expr
+            (identifier))
+          (expr
+            (identifier)))
+        (expr
+          (binary_op
+            (expr
+              (identifier))
+            (expr
+              (identifier))))
+        (expr
+          (integer))))))
+
+================================================================================
+non parenthesized no arg
+================================================================================
+
+fn -> a + b end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (expr
+          (binary_op
+            (expr
+              (identifier))
+            (expr
+              (identifier))))))))
+
+================================================================================
+non parenthesized one arg
+================================================================================
+
+fn a -> a + b end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (bare_args
+          (expr
+            (identifier)))
+        (expr
+          (binary_op
+            (expr
+              (identifier))
+            (expr
+              (identifier))))))))
+
+================================================================================
+non parenthesized multi args
+================================================================================
+
+fn a, b -> a + b end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (bare_args
+          (expr
+            (identifier))
+          (expr
+            (identifier)))
+        (expr
+          (binary_op
+            (expr
+              (identifier))
+            (expr
+              (identifier))))))))
+
+================================================================================
+non parenthesized multi args, multi line body
+================================================================================
+
+fn a, b ->
+  a + b
+  5
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (anonymous_function
+        (bare_args
+          (expr
+            (identifier))
+          (expr
+            (identifier)))
+        (expr
+          (binary_op
+            (expr
+              (identifier))
+            (expr
+              (identifier))))
+        (expr
+          (integer))))))
