@@ -1,4 +1,4 @@
-generate: grammar.js src/scanner.cc
+generate:
 	./node_modules/.bin/tree-sitter generate
 
 build-wasm: generate
@@ -9,14 +9,14 @@ ui:
 	./node_modules/.bin/tree-sitter build-wasm
 	./node_modules/tree-sitter-cli/tree-sitter web-ui -q
 
-parse: generate
+parse-all: generate
 	./node_modules/.bin/tree-sitter parse '../elixir/**/*.ex' --quiet --stat
 
-debug: generate
-	./node_modules/.bin/tree-sitter parse 'test.ex' --debug
+parse: generate
+	./node_modules/.bin/tree-sitter parse 'test.ex'
 
-corpus: generate
-	./node_modules/.bin/tree-sitter parse 'test.ex' | pbcopy
+debug: generate
+	./node_modules/.bin/tree-sitter parse 'test.ex' --debug-graph
 
 test: generate corpus/*.txt
 	./node_modules/.bin/tree-sitter test
