@@ -20,12 +20,12 @@ include = [
 ]
 
 # Keep in sync with package.json
-version = "5.3.0"
+version = "5.3.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tree-sitter = "0.19.0"
+tree-sitter = "0.19.1"
 
 [build-dependencies]
 cc = "1.0.61"
