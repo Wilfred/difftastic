@@ -113,22 +113,6 @@
         }
       ]
     },
-    "comments": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "#.*"
-            }
-          ]
-        }
-      }
-    },
     "use_statement": {
       "type": "SEQ",
       "members": [
@@ -844,6 +828,10 @@
         {
           "type": "STRING",
           "value": "our"
+        },
+        {
+          "type": "STRING",
+          "value": "state"
         },
         {
           "type": "STRING",
@@ -3215,12 +3203,20 @@
       "value": ";"
     },
     "string_single_quoted": {
-      "type": "PATTERN",
-      "value": "\\'.*\\'"
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "PATTERN",
+        "value": "\\'.*\\'"
+      }
     },
     "string_double_quoted": {
-      "type": "PATTERN",
-      "value": "\\\".*\\\""
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "PATTERN",
+        "value": "\\\".*\\\""
+      }
     },
     "_boolean": {
       "type": "CHOICE",
@@ -3524,6 +3520,22 @@
           "name": "_primitive_expression"
         }
       ]
+    },
+    "comments": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 3,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "#.*"
+            }
+          ]
+        }
+      }
     }
   },
   "extras": [

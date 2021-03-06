@@ -2166,6 +2166,16 @@
     }
   },
   {
+    "type": "string_double_quoted",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "string_single_quoted",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "ternary_expression",
     "named": true,
     "fields": {
@@ -3920,12 +3930,8 @@
     "named": true
   },
   {
-    "type": "string_double_quoted",
-    "named": true
-  },
-  {
-    "type": "string_single_quoted",
-    "named": true
+    "type": "state",
+    "named": false
   },
   {
     "type": "sub",
