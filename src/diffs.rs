@@ -73,7 +73,7 @@ pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -
 }
 
 /// Return a copy of `s` with this colour applied to the ranges specified.
-fn apply_color(s: &str, ranges: &[AbsoluteRange], c: Color) -> String {
+fn apply_bold_color(s: &str, ranges: &[AbsoluteRange], c: Color) -> String {
     let mut res = String::with_capacity(s.len());
     let mut i = 0;
     for range in ranges {
@@ -84,7 +84,7 @@ fn apply_color(s: &str, ranges: &[AbsoluteRange], c: Color) -> String {
         if i < range.start {
             res.push_str(&s[i..range.start]);
         }
-        let colored = &s[range.start..min(s.len(), range.end)].color(c);
+        let colored = &s[range.start..min(s.len(), range.end)].color(c).bold();
         res.push_str(&colored.to_string());
         i = range.end;
     }
@@ -129,7 +129,7 @@ fn apply_color_by_line(s: &str, ranges: &[LineRange], c: Color) -> String {
                     })
                     .collect();
 
-                res.push_str(&apply_color(&line, &ranges, c));
+                res.push_str(&apply_bold_color(&line, &ranges, c));
             }
             None => {
                 res.push_str(line);
@@ -150,21 +150,21 @@ fn apply_color_by_line_no_positions() {
 
 #[test]
 fn apply_color_no_positions() {
-    assert_eq!(apply_color("foobar", &vec![], Color::Black), "foobar");
+    assert_eq!(apply_bold_color("foobar", &vec![], Color::Black), "foobar");
 }
 
 #[test]
 fn apply_color_whole_length() {
     assert_eq!(
-        apply_color("foo", &vec![AbsoluteRange { start: 0, end: 3 }], Color::Red),
-        "foo".red().to_string()
+        apply_bold_color("foo", &vec![AbsoluteRange { start: 0, end: 3 }], Color::Red),
+        "foo".red().bold().to_string()
     );
 }
 
 #[test]
 fn apply_color_beyond_end() {
     assert_eq!(
-        apply_color(
+        apply_bold_color(
             "foobar",
             &vec![AbsoluteRange { start: 6, end: 10 }],
             Color::Black
@@ -179,10 +179,10 @@ fn apply_color_beyond_end() {
 fn apply_color_overlapping_end() {
     let mut expected = String::new();
     expected.push_str("foo");
-    expected.push_str(&"bar".green().to_string());
+    expected.push_str(&"bar".green().bold().to_string());
 
     assert_eq!(
-        apply_color(
+        apply_bold_color(
             "foobar",
             &vec![AbsoluteRange { start: 3, end: 100 }],
             Color::Green
@@ -278,7 +278,7 @@ pub fn highlight_differences_combined(
                     .collect();
 
                 res.push_str(&"-".red().to_string());
-                res.push_str(&apply_color(&before_line, &ranges, Color::Red));
+                res.push_str(&apply_bold_color(&before_line, &ranges, Color::Red));
                 res.push_str("\n");
 
                 Some(res)
@@ -299,7 +299,7 @@ pub fn highlight_differences_combined(
                     .collect();
 
                 res.push_str(&"+".green().to_string());
-                res.push_str(&apply_color(&after_line, &ranges, Color::Green));
+                res.push_str(&apply_bold_color(&after_line, &ranges, Color::Green));
                 res.push_str("\n");
 
                 Some(res)
