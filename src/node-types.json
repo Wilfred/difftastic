@@ -11320,6 +11320,10 @@
     "named": false
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "const_builtin",
     "named": true
   },
@@ -11350,6 +11354,10 @@
   {
     "type": "do",
     "named": false
+  },
+  {
+    "type": "documentation_comment",
+    "named": true
   },
   {
     "type": "dynamic",
