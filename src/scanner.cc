@@ -45,9 +45,8 @@ const char SIGIL_CHARS[] = {
   '/', '<', '"', '\'', '[', '(', '{', '|'
 };
 
-// TODO: need to lookahead operators only
 const char OPERATORS[] = {
-  ':', '|', '=', '&', '!', '<', '>', '+', '-', '*', '/', ',', '[', ']', ';'
+  '.', '^', ':', '|', '!', '=', '<', '>', '+', '-', '*', '/', '\\', ',', '[', ']', 'w', 'a', 'o', 'n', 'i'
 };
 
 const string RESERVERD[] = {
@@ -101,9 +100,18 @@ struct Scanner {
     return is_downcase_char(c) || c == '_';
   }
 
+  bool is_identifier_body(char c) {
+    return is_alpha_char(c) || is_digit_char(c) || c == '_';
+  }
+
   bool is_sigil_char(char c) {
     return memchr(&SIGIL_CHARS, c, sizeof(SIGIL_CHARS)) != NULL;
   }
+
+  bool is_token_end(char c) {
+    return !is_identifier_body(c) && c != '?' && c != '!';
+  }
+
 
   char sigil_terminator(char c) {
     switch (c) {
@@ -191,9 +199,7 @@ struct Scanner {
         lexer->result_symbol = KEYWORD;
         delete token;
         return true;
-      } else if (!is_alpha_char(lexer->lookahead) &&
-                 !is_digit_char(lexer->lookahead) &&
-                 lexer->lookahead != '_') {
+      } else if (!is_identifier_body(lexer->lookahead)) {
 
           reserved = is_reserved(token);
           delete token;
@@ -209,12 +215,61 @@ struct Scanner {
 
   bool is_operator_next(TSLexer *lexer) {
     if (memchr(&OPERATORS, lexer->lookahead, sizeof(OPERATORS)) != NULL) {
-      if (lexer->lookahead == ':') {
+      switch(lexer->lookahead) {
+      case ':':
         advance(lexer);
         return !is_alpha_char(lexer->lookahead);
+      case '^':
+        advance(lexer);
+        if (lexer->lookahead != '^') return false;
+        advance(lexer);
+        return lexer->lookahead != '^';
+      case '!':
+        advance(lexer);
+        return lexer->lookahead != '=';
+      case '~':
+        advance(lexer);
+        return lexer->lookahead != '>';
+      case '\\':
+        advance(lexer);
+        return lexer->lookahead != '\\';
+      case 'w':
+        advance(lexer);
+        if (lexer->lookahead != 'h') return false;
+        advance(lexer);
+        if (lexer->lookahead != 'e') return false;
+        advance(lexer);
+        if (lexer->lookahead != 'n') return false;
+        advance(lexer);
+        return is_token_end(lexer->lookahead);
+      case 'a':
+        advance(lexer);
+        if (lexer->lookahead != 'n') return false;
+        advance(lexer);
+        if (lexer->lookahead != 'd') return false;
+        advance(lexer);
+        return is_token_end(lexer->lookahead);
+      case 'o':
+        advance(lexer);
+        if (lexer->lookahead != 'r') return false;
+        advance(lexer);
+        return is_token_end(lexer->lookahead);
+      case 'n':
+        advance(lexer);
+        if (lexer->lookahead != 'o') return false;
+        advance(lexer);
+        if (lexer->lookahead != 't') return false;
+        advance(lexer);
+        return is_token_end(lexer->lookahead);
+      case 'i':
+        advance(lexer);
+        if (lexer->lookahead != 'n') return false;
+        advance(lexer);
+        return is_token_end(lexer->lookahead);
+      default:
+        return true;
       }
 
-      return true;
     }
     return false;
   }

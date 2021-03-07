@@ -48,9 +48,8 @@ const PREC = {
   ACCESS_CALL: 8,
   CALL_NAME: 6,
   MAP: 5,
-  LIST: 5,
-  KW: 4,
-  BARE_KW: 1,
+  LIST: 4,
+  BARE_KW: 6,
   ANONYMOUSE_FN: 10,
   BARE_ARGS: 20,
   STAB_EXPR: 15
@@ -78,7 +77,7 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.call],
-    [$.bare_args],
+    [$._bare_args],
     [$._clause_body],
   ],
 
@@ -99,7 +98,6 @@ module.exports = grammar({
       $.dot_call,
       $.access_call,
       $.anonymous_function,
-      $.keyword_list,
       $.sigil,
       $.heredoc,
       $.integer,
@@ -121,9 +119,8 @@ module.exports = grammar({
     call: $ => prec(PREC.CALL, seq(
       field('name', $.identifier),
       optional(choice(
-        $.bare_args,
+        $._bare_args,
         seq(optional('.'), $.args),
-        $.bare_keyword_list
       )),
       optional($.block)
     )),
@@ -131,7 +128,10 @@ module.exports = grammar({
 
     binary_op: $ => choice(
       binaryOp($, prec.left, 40, choice('\\\\', '<-')),
-      binaryOp($, prec.right, 50, 'when'),
+      prec.right(50,
+                 seq(field('left', $.expr),
+                     field('operator', 'when'),
+                     optional($._terminator), field('right', choice($.expr, $.bare_keyword_list)))),
       binaryOp($, prec.right, 60, '::'),
       binaryOp($, prec.right, 70, '|'),
       binaryOp($, prec.right, 100, '='),
@@ -200,7 +200,10 @@ module.exports = grammar({
       ')'
     )),
 
-    bare_args: $ => seq(commaSep1($, $.expr), optional(seq(',', optional($._terminator), $.bare_keyword_list))),
+    _bare_args: $ => choice(
+      seq(commaSep1($, $.expr), optional(seq(',', optional($._terminator), $.bare_keyword_list))),
+      $.bare_keyword_list
+    ),
 
     map: $ => prec.left(PREC.MAP, seq(
       '%{',
@@ -215,28 +218,22 @@ module.exports = grammar({
     list: $ => prec.left(PREC.LIST, seq(
       '[',
       optional($._terminator),
-      commaSep($, $.expr),
+      optional($._bare_args),
       ']'
     )),
 
-    keyword_list: $ => prec.left(PREC.KW, seq(
-      '[',
-      optional($._terminator),
-      commaSep1($, seq($.keyword, $.expr)),
-      ']'
-    )),
-
-    bare_keyword_list: $ => prec.left(PREC.BARE_KW, commaSep1($, seq($.keyword, optional($._terminator), $.expr))),
+    bare_keyword_list: $ => prec.right(PREC.BARE_KW, commaSep1($, seq($.keyword, optional($._terminator), $.expr))),
 
     tuple: $ => seq(
       '{',
-      commaSep($, choice($.bare_keyword_list, $.expr)),
+      optional($._terminator),
+      optional($._bare_args),
       '}'
     ),
 
     stab_expr: $ => prec.right(PREC.STAB_EXPR,
                                seq(
-                                 optional(choice($.args, $.bare_args)),
+                                 optional(choice($.args, $._bare_args)),
                                  '->',
                                  optional($._terminator),
                                  $._clause_body
