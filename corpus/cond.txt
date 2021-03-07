@@ -16,15 +16,13 @@ end
         (identifier)
         (block
           (stab_expr
-            (bare_args
-              (expr
-                (integer)))
+            (expr
+              (integer))
             (expr
               (string)))
           (stab_expr
-            (bare_args
-              (expr
-                (integer)))
+            (expr
+              (integer))
             (expr
               (string))))))))
 
@@ -45,11 +43,10 @@ end
         (identifier)
         (block
           (stab_expr
-            (bare_args
-              (expr
-                (tuple
-                  (expr
-                    (identifier)))))
+            (expr
+              (tuple
+                (expr
+                  (identifier))))
             (expr
               (string))))))))
 
@@ -73,15 +70,13 @@ end
         (identifier)
         (block
           (stab_expr
-            (bare_args
-              (expr
-                (integer)))
+            (expr
+              (integer))
             (expr
               (string)))
           (stab_expr
-            (bare_args
-              (expr
-                (integer)))
+            (expr
+              (integer))
             (expr
               (dot_call
                 (identifier)

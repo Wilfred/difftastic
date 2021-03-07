@@ -14,20 +14,17 @@ end
     (expr
       (call
         (identifier)
-        (bare_args
-          (expr
-            (identifier)))
+        (expr
+          (identifier))
         (block
           (stab_expr
-            (bare_args
-              (expr
-                (integer)))
+            (expr
+              (integer))
             (expr
               (string)))
           (stab_expr
-            (bare_args
-              (expr
-                (integer)))
+            (expr
+              (integer))
             (expr
               (string))))))))
 
@@ -46,16 +43,14 @@ end
     (expr
       (call
         (identifier)
-        (bare_args
-          (expr
-            (identifier)))
+        (expr
+          (identifier))
         (block
           (stab_expr
-            (bare_args
-              (expr
-                (tuple
-                  (expr
-                    (identifier)))))
+            (expr
+              (tuple
+                (expr
+                  (identifier))))
             (expr
               (string))))))))
 
@@ -77,20 +72,17 @@ end
     (expr
       (call
         (identifier)
-        (bare_args
-          (expr
-            (identifier)))
+        (expr
+          (identifier))
         (block
           (stab_expr
-            (bare_args
-              (expr
-                (integer)))
+            (expr
+              (integer))
             (expr
               (string)))
           (stab_expr
-            (bare_args
-              (expr
-                (integer)))
+            (expr
+              (integer))
             (expr
               (dot_call
                 (identifier)
@@ -115,28 +107,25 @@ end
     (expr
       (call
         (identifier)
-        (bare_args
-          (expr
-            (integer)))
+        (expr
+          (integer))
         (block
           (stab_expr
-            (bare_args
-              (expr
-                (binary_op
-                  (expr
-                    (identifier))
-                  (expr
-                    (call
-                      (identifier)
-                      (args
-                        (expr
-                          (identifier))))))))
+            (expr
+              (binary_op
+                (expr
+                  (identifier))
+                (expr
+                  (call
+                    (identifier)
+                    (args
+                      (expr
+                        (identifier)))))))
             (expr
               (string)))
           (stab_expr
-            (bare_args
-              (expr
-                (identifier)))
+            (expr
+              (identifier))
             (expr
               (binary_op
                 (expr

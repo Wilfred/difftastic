@@ -9,6 +9,7 @@ spec with splat
         (node -> {formatted_node, [node]}),
         keyword
       ) :: :ok
+      when node: term()
 
 --------------------------------------------------------------------------------
 
@@ -19,42 +20,48 @@ spec with splat
         (expr
           (call
             (identifier)
-            (bare_args
-              (expr
-                (binary_op
+            (expr
+              (binary_op
+                (expr
+                  (binary_op
+                    (expr
+                      (call
+                        (identifier)
+                        (args
+                          (expr
+                            (dot_call
+                              (module)
+                              (identifier)
+                              (args)))
+                          (expr
+                            (dot_call
+                              (module)
+                              (identifier)
+                              (args)))
+                          (expr
+                            (list
+                              (expr
+                                (identifier))))
+                          (expr
+                            (paren_expr
+                              (stab_expr
+                                (expr
+                                  (identifier))
+                                (expr
+                                  (tuple
+                                    (expr
+                                      (identifier))
+                                    (expr
+                                      (list
+                                        (expr
+                                          (identifier)))))))))
+                          (expr
+                            (identifier)))))
+                    (expr
+                      (atom))))
+                (bare_keyword_list
+                  (keyword)
                   (expr
                     (call
                       (identifier)
-                      (args
-                        (expr
-                          (dot_call
-                            (module)
-                            (identifier)
-                            (args)))
-                        (expr
-                          (dot_call
-                            (module)
-                            (identifier)
-                            (args)))
-                        (expr
-                          (list
-                            (expr
-                              (identifier))))
-                        (expr
-                          (paren_expr
-                            (stab_expr
-                              (bare_args
-                                (expr
-                                  (identifier)))
-                              (expr
-                                (tuple
-                                  (expr
-                                    (identifier))
-                                  (expr
-                                    (list
-                                      (expr
-                                        (identifier)))))))))
-                        (expr
-                          (identifier)))))
-                  (expr
-                    (atom)))))))))))
+                      (args))))))))))))

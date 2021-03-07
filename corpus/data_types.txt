@@ -1,0 +1,58 @@
+================================================================================
+keyword list
+================================================================================
+
+[
+  version: "0.1.0",
+  build_per_environment: true,
+  build_path: "_build",
+  lockfile: "mix.lock",
+  deps_path: "deps",
+  deps: deps,
+  app: :mix_install,
+  erlc_paths: ["src"],
+  elixirc_paths: ["lib"],
+  consolidate_protocols: false
+]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (list
+        (bare_keyword_list
+          (keyword)
+          (expr
+            (string))
+          (keyword)
+          (expr
+            (literal))
+          (keyword)
+          (expr
+            (string))
+          (keyword)
+          (expr
+            (string))
+          (keyword)
+          (expr
+            (string))
+          (keyword)
+          (expr
+            (identifier))
+          (keyword)
+          (expr
+            (atom))
+          (keyword)
+          (expr
+            (list
+              (expr
+                (string))))
+          (keyword)
+          (expr
+            (list
+              (expr
+                (string))))
+          (keyword)
+          (expr
+            (literal)))))))

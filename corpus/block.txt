@@ -18,24 +18,22 @@ end
         (expr
           (call
             (identifier)
-            (bare_args
-              (expr
-                (binary_op
-                  (expr
-                    (call
-                      (identifier)
-                      (args)))
-                  (expr
-                    (call
-                      (identifier)
-                      (args)))))))))))
+            (expr
+              (binary_op
+                (expr
+                  (call
+                    (identifier)
+                    (args)))
+                (expr
+                  (call
+                    (identifier)
+                    (args))))))))))
   (statement
     (expr
       (call
         (identifier)
-        (bare_args
-          (expr
-            (identifier)))
+        (expr
+          (identifier))
         (block
           (comment)
           (expr
@@ -63,21 +61,20 @@ end
     (expr
       (call
         (identifier)
-        (bare_args
-          (expr
-            (binary_op
-              (expr
-                (call
-                  (identifier)
-                  (args
-                    (expr
-                      (identifier)))))
-              (expr
-                (call
-                  (identifier)
-                  (args
-                    (expr
-                      (identifier))))))))
+        (expr
+          (binary_op
+            (expr
+              (call
+                (identifier)
+                (args
+                  (expr
+                    (identifier)))))
+            (expr
+              (call
+                (identifier)
+                (args
+                  (expr
+                    (identifier)))))))
         (block
           (expr
             (call

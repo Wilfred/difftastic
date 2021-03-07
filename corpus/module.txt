@@ -12,7 +12,6 @@ end
     (expr
       (call
         (identifier)
-        (bare_args
-          (expr
-            (module)))
+        (expr
+          (module))
         (block)))))

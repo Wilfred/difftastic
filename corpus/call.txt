@@ -43,25 +43,27 @@ Module.func!(
           (bare_keyword_list
             (keyword)
             (expr
-              (keyword_list
-                (keyword)
-                (expr
-                  (atom))
-                (keyword)
-                (expr
-                  (atom))
-                (keyword)
-                (expr
-                  (atom))
-                (keyword)
-                (expr
-                  (atom))))
+              (list
+                (bare_keyword_list
+                  (keyword)
+                  (expr
+                    (atom))
+                  (keyword)
+                  (expr
+                    (atom))
+                  (keyword)
+                  (expr
+                    (atom))
+                  (keyword)
+                  (expr
+                    (atom)))))
             (keyword)
             (expr
-              (keyword_list
-                (keyword)
-                (expr
-                  (atom))
-                (keyword)
-                (expr
-                  (atom))))))))))
+              (list
+                (bare_keyword_list
+                  (keyword)
+                  (expr
+                    (atom))
+                  (keyword)
+                  (expr
+                    (atom)))))))))))

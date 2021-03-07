@@ -33,9 +33,8 @@ end
                   (identifier)))))
           (rescue_block
             (stab_expr
-              (bare_args
-                (expr
-                  (module)))
+              (expr
+                (module))
               (expr
                 (dot_call
                   (module)
@@ -45,9 +44,8 @@ end
                       (string)))))))
           (catch_block
             (stab_expr
-              (bare_args
-                (expr
-                  (identifier)))
+              (expr
+                (identifier))
               (expr
                 (dot_call
                   (module)
@@ -57,9 +55,8 @@ end
                       (string)))))))
           (else_block
             (stab_expr
-              (bare_args
-                (expr
-                  (identifier)))
+              (expr
+                (identifier))
               (expr
                 (dot_call
                   (module)
@@ -100,15 +97,14 @@ end
               (identifier)))
           (rescue_block
             (stab_expr
-              (bare_args
-                (expr
-                  (binary_op
-                    (expr
-                      (identifier))
-                    (expr
-                      (list
-                        (expr
-                          (module)))))))
+              (expr
+                (binary_op
+                  (expr
+                    (identifier))
+                  (expr
+                    (list
+                      (expr
+                        (module))))))
               (expr
                 (literal)))))))))
 
@@ -139,11 +135,10 @@ end
                   (atom)))))
           (catch_block
             (stab_expr
-              (bare_args
-                (expr
-                  (atom))
-                (expr
-                  (identifier)))
+              (expr
+                (atom))
+              (expr
+                (identifier))
               (expr
                 (dot_call
                   (module)
@@ -184,38 +179,35 @@ end
                 (identifier))))
           (rescue_block
             (stab_expr
-              (bare_args
-                (expr
-                  (module)))
+              (expr
+                (module))
               (expr
                 (atom))))
           (else_block
             (stab_expr
-              (bare_args
-                (expr
-                  (binary_op
-                    (expr
-                      (identifier))
-                    (expr
-                      (binary_op
-                        (expr
-                          (binary_op
-                            (expr
-                              (identifier))
-                            (expr
-                              (integer))))
-                        (expr
-                          (binary_op
-                            (expr
-                              (identifier))
-                            (expr
-                              (integer)))))))))
+              (expr
+                (binary_op
+                  (expr
+                    (identifier))
+                  (expr
+                    (binary_op
+                      (expr
+                        (binary_op
+                          (expr
+                            (identifier))
+                          (expr
+                            (integer))))
+                      (expr
+                        (binary_op
+                          (expr
+                            (identifier))
+                          (expr
+                            (integer))))))))
               (expr
                 (atom)))
             (stab_expr
-              (bare_args
-                (expr
-                  (identifier)))
+              (expr
+                (identifier))
               (expr
                 (atom)))))))))
 
