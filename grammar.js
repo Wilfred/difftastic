@@ -592,7 +592,7 @@ module.exports = grammar({
             )),
             reservedWord('procedure'),
             $._designator,
-            optional(alias($._header, $.subprogram_header)),
+            optional($.subprogram_header),
             optional($.procedure_parameter_clause),
             optional($.return)
         ),
@@ -604,9 +604,14 @@ module.exports = grammar({
             )),
             reservedWord('function'),
             $._designator,
-            optional(alias($._header, $.subprogram_header)),
+            optional($.subprogram_header),
             optional($.function_parameter_clause),
             optional($.return)
+        ),
+
+        subprogram_header: $ => seq(
+          $._header,
+          ';'
         ),
 
         return: $ => seq(
