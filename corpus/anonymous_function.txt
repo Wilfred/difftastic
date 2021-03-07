@@ -186,3 +186,32 @@ end
               (identifier))))
         (expr
           (integer))))))
+
+================================================================================
+non parenthesized body with dot call
+================================================================================
+
+File.cd!(dir, fn ->
+  Mix.Task.run("deps.loadpaths")
+end)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (dot_call
+        (module)
+        (func_name_identifier)
+        (args
+          (expr
+            (identifier))
+          (expr
+            (anonymous_function
+              (expr
+                (dot_call
+                  (module)
+                  (func_name_identifier)
+                  (args
+                    (expr
+                      (string))))))))))))

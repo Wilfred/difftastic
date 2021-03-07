@@ -31,7 +31,7 @@ function unaryOp($, assoc, precedence, operator) {
 
 const PREC = {
   COMMENT: -2,
-  CALL: 5,
+  CALL: -1,
   DOT_CALL: 7,
   ACCESS_CALL: 8,
   CALL_NAME: 6,
@@ -63,6 +63,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$.clause_body],
     [$.cond_body],
+    [$.call]
   ],
 
   word: $ => $.identifier,
@@ -81,10 +82,6 @@ module.exports = grammar({
       $.case,
       $.cond,
       $.try,
-      $._call_expr,
-    ),
-
-    _call_expr: $ => choice(
       $.call,
       $.dot_call,
       $.access_call,
@@ -105,10 +102,10 @@ module.exports = grammar({
       $.identifier,
     ),
 
-    call: $ => prec.left(PREC.CALL, seq(
-      prec(PREC.CALL_NAME, field('name', $.identifier)),
+    call: $ => prec(-1, seq(
+      field('name', $.identifier),
       choice(
-        prec.right(seq($._call_expr, optional(seq(',', optional($._terminator), $.bare_keyword_list)))),
+        seq($.expr, optional(seq(',', optional($._terminator), $.bare_keyword_list))),
         seq(optional('.'), $.args),
         $.bare_keyword_list
       ),
@@ -120,11 +117,6 @@ module.exports = grammar({
       $.module_attr,
       choice($.expr, $.bare_keyword_list)
     )),
-
-    unary_op: $ => choice(
-      unaryOp($, prec, 90, '&'),
-      unaryOp($, prec, 300, choice('+', '-', '!', '^', '~~~')),
-    ),
 
     binary_op: $ => choice(
       binaryOp($, prec.left, 40, choice('\\\\', '<-')),
@@ -143,6 +135,11 @@ module.exports = grammar({
       binaryOp($, prec.left, 220, choice('*', '/')),
     ),
 
+    unary_op: $ => choice(
+      unaryOp($, prec, 90, '&'),
+      unaryOp($, prec, 300, choice('+', '-', '!', '^', '~~~')),
+    ),
+
     dot_call: $ => prec.left(PREC.DOT_CALL, seq(
       field('object', choice($.module, $.identifier, $.atom, $.dot_call)),
       '.',
@@ -153,7 +150,7 @@ module.exports = grammar({
     )),
 
     access_call: $ => prec.left(PREC.ACCESS_CALL, seq(
-      $._call_expr,
+      $.expr,
       '[',
       $.expr,
       ']'
