@@ -46,7 +46,6 @@ const PREC = {
   CALL: -1,
   DOT_CALL: 7,
   ACCESS_CALL: 8,
-  MODULE_ASSIGN: 1,
   CALL_NAME: 6,
   MAP: 5,
   LIST: 5,
@@ -93,7 +92,6 @@ module.exports = grammar({
     ),
 
     expr: $ => choice(
-      $.module_assign,
       $.binary_op,
       $.unary_op,
       $.paren_expr,
@@ -104,7 +102,6 @@ module.exports = grammar({
       $.keyword_list,
       $.sigil,
       $.heredoc,
-      $.module_attr,
       $.integer,
       $.float,
       $.module,
@@ -131,10 +128,6 @@ module.exports = grammar({
       optional($.block)
     )),
 
-    module_assign: $ => prec(PREC.MODULE_ASSIGN, seq(
-      $.module_attr,
-      choice($.expr, $.bare_keyword_list)
-    )),
 
     binary_op: $ => choice(
       binaryOp($, prec.left, 40, choice('\\\\', '<-')),
@@ -157,6 +150,7 @@ module.exports = grammar({
     unary_op: $ => choice(
       unaryOp($, prec, 90, '&'),
       unaryOp($, prec, 300, choice('+', '-', '!', '^', '~~~')),
+      unaryOp($, prec, 320, '@'),
     ),
 
     dot_call: $ => prec.left(PREC.DOT_CALL, seq(
@@ -276,7 +270,6 @@ module.exports = grammar({
     integer: $ => /0[bB][01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0[dD])?\d(_?\d)*|0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/,
     float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE][\+-]?\d(_?\d)*)?/,
     atom: $ => /:[_a-z!.][?!_a-zA-Z0-9]*/,
-    module_attr: $ => /@[_a-z][_a-zA-Z0-9]*/,
     string: $ => /"[^"]*"/,
     module: $ => /[A-Z][_a-zA-Z0-9]*(\.[A-Z][_a-zA-Z0-9]*)*/,
     comment: $ => token(prec(PREC.COMMENT, seq('#', /.*/))),
