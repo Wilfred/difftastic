@@ -6,7 +6,7 @@ edition = "2018"
 
 [dependencies]
 regex = "1"
-colored = "1.7"
+colored = "2.0"
 diff = "0.1.11"
 clap = "2.32"
 itertools = "0.8.0"
