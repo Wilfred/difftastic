@@ -122,15 +122,15 @@ end
           (stab_expr
             (bare_args
               (expr
-                (call
-                  (identifier)
-                  (when
-                    (expr
-                      (call
-                        (identifier)
-                        (args
-                          (expr
-                            (identifier)))))))))
+                (binary_op
+                  (expr
+                    (identifier))
+                  (expr
+                    (call
+                      (identifier)
+                      (args
+                        (expr
+                          (identifier))))))))
             (expr
               (string)))
           (stab_expr

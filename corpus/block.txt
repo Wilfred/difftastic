@@ -44,3 +44,47 @@ end
                   (atom))
                 (expr
                   (atom))))))))))
+
+================================================================================
+def with guard
+================================================================================
+
+def trim_trailing(string) when is_binary(string) do
+  trim_trailing(string, byte_size(string))
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (bare_args
+          (expr
+            (binary_op
+              (expr
+                (call
+                  (identifier)
+                  (args
+                    (expr
+                      (identifier)))))
+              (expr
+                (call
+                  (identifier)
+                  (args
+                    (expr
+                      (identifier))))))))
+        (block
+          (expr
+            (call
+              (identifier)
+              (args
+                (expr
+                  (identifier))
+                (expr
+                  (call
+                    (identifier)
+                    (args
+                      (expr
+                        (identifier)))))))))))))

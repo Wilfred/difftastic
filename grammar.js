@@ -51,7 +51,6 @@ const PREC = {
   ACCESS_CALL: 8,
   MODULE_ASSIGN: 1,
   CALL_NAME: 6,
-  GUARD: 6,
   MAP: 5,
   LIST: 5,
   KW: 4,
@@ -132,7 +131,6 @@ module.exports = grammar({
         seq(optional('.'), $.args),
         $.bare_keyword_list
       )),
-      optional($.when),
       optional($.block)
     )),
 
@@ -143,6 +141,7 @@ module.exports = grammar({
 
     binary_op: $ => choice(
       binaryOp($, prec.left, 40, choice('\\\\', '<-')),
+      binaryOp($, prec.right, 50, 'when'),
       binaryOp($, prec.right, 60, '::'),
       binaryOp($, prec.right, 70, '|'),
       binaryOp($, prec.right, 100, '='),
@@ -211,11 +210,6 @@ module.exports = grammar({
     )),
 
     bare_args: $ => seq(commaSep1($, $.expr), optional(seq(',', optional($._terminator), $.bare_keyword_list))),
-
-    when: $ => prec.left(PREC.GUARD, seq(
-      'when',
-      $.expr
-    )),
 
     map: $ => prec.left(PREC.MAP, seq(
       '%{',
