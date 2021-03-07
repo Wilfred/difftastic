@@ -52,7 +52,7 @@ const char OPERATORS[] = {
 
 const string RESERVERD[] = {
   "true", "false", "nil", "when", "and", "or", "not", "in", "fn", "do",
-  "end", "catch", "rescue", "after", "else", "try", "cond", "case"
+  "end", "catch", "rescue", "after", "else"
 };
 
 struct Scanner {

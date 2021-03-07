@@ -6,12 +6,12 @@ function sep1 (rule, separator) {
   return seq(rule, repeat(seq(separator, rule)));
 }
 
-function commaSep1 (rule) {
-  return sep1(rule, seq(',', optional(/[\n\r]+/)));
+function commaSep1 ($, rule) {
+  return prec.left(20, sep1(rule, seq(',', optional($._terminator))));
 }
 
-function commaSep (rule) {
-  return optional(commaSep1(rule));
+function commaSep($, rule) {
+  return optional(commaSep1($, rule));
 }
 
 function atleastOnce (rule) {
@@ -29,17 +29,36 @@ function unaryOp($, assoc, precedence, operator) {
   return assoc(precedence, seq(operator, $.expr));
 }
 
+function block_expression($, name) {
+  return prec.right(seq(
+    name,
+    optional($._terminator),
+    sep(
+      choice(
+        $.stab_expr,
+        $.expr
+      ),
+      $._terminator
+    ),
+    optional($._terminator),
+  ));
+}
+
 const PREC = {
   COMMENT: -2,
   CALL: -1,
   DOT_CALL: 7,
   ACCESS_CALL: 8,
+  MODULE_ASSIGN: 1,
   CALL_NAME: 6,
   GUARD: 6,
   MAP: 5,
   LIST: 5,
   KW: 4,
   BARE_KW: 1,
+  ANONYMOUSE_FN: 10,
+  BARE_ARGS: 20,
+  STAB_EXPR: 15
 };
 
 module.exports = grammar({
@@ -63,9 +82,9 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.clause_body],
-    [$.cond_body],
-    [$.call]
+    [$.call],
+    [$.bare_args],
+    [$._clause_body],
   ],
 
   word: $ => $.identifier,
@@ -81,9 +100,7 @@ module.exports = grammar({
       $.module_assign,
       $.binary_op,
       $.unary_op,
-      $.case,
-      $.cond,
-      $.try,
+      $.paren_expr,
       $.call,
       $.dot_call,
       $.access_call,
@@ -104,18 +121,22 @@ module.exports = grammar({
       $.identifier,
     ),
 
-    call: $ => prec(-1, seq(
+    paren_expr: $ => seq(
+      '(', choice($.stab_expr, $.expr), ')'
+    ),
+
+    call: $ => prec(PREC.CALL, seq(
       field('name', $.identifier),
-      choice(
-        seq($.expr, optional(seq(',', optional($._terminator), $.bare_keyword_list))),
+      optional(choice(
+        $.bare_args,
         seq(optional('.'), $.args),
         $.bare_keyword_list
-      ),
+      )),
       optional($.when),
       optional($.block)
     )),
 
-    module_assign: $ => prec(1, seq(
+    module_assign: $ => prec(PREC.MODULE_ASSIGN, seq(
       $.module_attr,
       choice($.expr, $.bare_keyword_list)
     )),
@@ -158,41 +179,38 @@ module.exports = grammar({
       ']'
     )),
 
+    after_block: $ => block_expression($, 'after'),
+    rescue_block: $ => block_expression($, 'rescue'),
+    catch_block: $ => block_expression($, 'catch'),
+    else_block: $ => block_expression($, 'else'),
+
     block: $ => seq(
-      'do',
-      choice(repeat($.statement),
-             optional($._terminator)),
+      block_expression($, 'do'),
+      repeat(choice($.after_block, $.rescue_block, $.catch_block, $.else_block)),
+      optional($._terminator),
       'end'
     ),
 
-    anonymous_function: $ => seq(
+    anonymous_function: $ => prec(PREC.ANONYMOUSE_FN, seq(
       'fn',
       optional($._terminator),
-      atleastOnce(seq(
-        choice($.args, optional($.bare_args)),
-        '->',
-        optional($._terminator),
-        prec.right(1, sep1($.expr, $._terminator)))),
+      sep1($.stab_expr, $._terminator),
       optional($._terminator),
       'end'
-    ),
+    )),
 
-    args: $ => choice(
-      seq(
-        '(',
-        optional($._terminator),
-        optional(choice(
-          seq(commaSep($.expr), optional(seq(',', optional($._terminator), $.bare_keyword_list))),
-          $.bare_keyword_list
-        )),
-        optional($._terminator),
-        ')'
-      ),
-    ),
+    args: $ => prec(1, seq(
+      '(',
+      optional($._terminator),
+      optional(choice(
+        seq(commaSep($, $.expr), optional(seq(',', optional($._terminator), $.bare_keyword_list))),
+        $.bare_keyword_list
+      )),
+      optional($._terminator),
+      ')'
+    )),
 
-    bare_args: $ => choice(
-      seq(commaSep1($.expr), optional(seq(',', $.bare_keyword_list)), optional($.when)),
-    ),
+    bare_args: $ => seq(commaSep1($, $.expr), optional(seq(',', optional($._terminator), $.bare_keyword_list))),
 
     when: $ => prec.left(PREC.GUARD, seq(
       'when',
@@ -202,7 +220,7 @@ module.exports = grammar({
     map: $ => prec.left(PREC.MAP, seq(
       '%{',
       optional($._terminator),
-      commaSep(choice(
+      commaSep($, choice(
         seq($.expr, '=>', $.expr),
         seq($.keyword, $.expr),
       )),
@@ -212,93 +230,35 @@ module.exports = grammar({
     list: $ => prec.left(PREC.LIST, seq(
       '[',
       optional($._terminator),
-      commaSep($.expr),
+      commaSep($, $.expr),
       ']'
     )),
 
     keyword_list: $ => prec.left(PREC.KW, seq(
       '[',
       optional($._terminator),
-      commaSep1(seq($.keyword, $.expr)),
+      commaSep1($, seq($.keyword, $.expr)),
       ']'
     )),
 
-    bare_keyword_list: $ => prec.left(PREC.BARE_KW, commaSep1(seq($.keyword, optional($._terminator), $.expr))),
+    bare_keyword_list: $ => prec.left(PREC.BARE_KW, commaSep1($, seq($.keyword, optional($._terminator), $.expr))),
 
     tuple: $ => seq(
       '{',
-      commaSep(choice($.bare_keyword_list, $.expr)),
+      commaSep($, choice($.bare_keyword_list, $.expr)),
       '}'
     ),
 
-    case: $ => seq(
-      'case',
-      $.expr,
-      $._case_block,
-    ),
+    stab_expr: $ => prec.right(PREC.STAB_EXPR,
+                               seq(
+                                 optional(choice($.args, $.bare_args)),
+                                 '->',
+                                 optional($._terminator),
+                                 $._clause_body
+                               )
+                              ),
 
-    _case_block: $ => seq(
-      'do',
-      atleastOnce($.clause),
-      optional($._terminator),
-      'end'
-    ),
-
-    clause: $ => seq(
-      optional($._terminator),
-      commaSep1($.expr),
-      optional($.when),
-      '->',
-      optional($._terminator),
-      $.clause_body,
-    ),
-
-    clause_body: $ => seq($.expr, $._terminator, optional($.clause_body)),
-
-    cond: $ => seq(
-      'cond',
-      $._cond_block,
-    ),
-
-    _cond_block: $ => seq(
-      'do',
-      atleastOnce($.cond_clause),
-      optional($._terminator),
-      'end'
-    ),
-
-    cond_clause: $ => seq(
-      optional($._terminator),
-      $.expr,
-      '->',
-      optional($._terminator),
-      $.cond_body,
-    ),
-
-    cond_body: $ => seq($.expr, $._terminator, optional($.cond_body)),
-
-    try: $ => seq(
-      'try',
-      'do',
-      atleastOnce($.statement),
-      optional(seq(
-        'rescue',
-        atleastOnce($.clause)
-      )),
-      optional(seq(
-        'catch',
-        atleastOnce($.clause)
-      )),
-      optional(seq(
-        'else',
-        atleastOnce($.clause)
-      )),
-      optional(seq(
-        'after',
-        atleastOnce($.statement)
-      )),
-      'end'
-    ),
+    _clause_body: $ => seq($.expr, optional(seq($._terminator, $._clause_body))),
 
     heredoc: $ => seq(
       $.heredoc_start,
@@ -329,7 +289,7 @@ module.exports = grammar({
     string: $ => /"[^"]*"/,
     module: $ => /[A-Z][_a-zA-Z0-9]*(\.[A-Z][_a-zA-Z0-9]*)*/,
     comment: $ => token(prec(PREC.COMMENT, seq('#', /.*/))),
-    _terminator: $ => choice($._line_break, ';'),
+    _terminator: $ => prec.right(atleastOnce(choice($._line_break, ';'))),
     literal: $ => choice('true', 'false', 'nil')
   }
 })
