@@ -33,12 +33,9 @@ function block_expression($, name) {
   return prec.right(seq(
     name,
     optional($._terminator),
-    sep(
-      choice(
-        $.stab_expr,
-        $.expr
-      ),
-      $._terminator
+    choice(
+      sep($.stab_expr, $._terminator),
+      sep($.expr, $._terminator),
     ),
     optional($._terminator),
   ));

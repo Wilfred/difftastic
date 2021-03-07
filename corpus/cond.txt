@@ -86,6 +86,6 @@ end
               (dot_call
                 (identifier)
                 (identifier)
-                (args))))
-          (expr
-            (integer)))))))
+                (args)))
+            (expr
+              (integer))))))))

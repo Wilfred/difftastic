@@ -193,23 +193,23 @@ end
             (stab_expr
               (bare_args
                 (expr
-                  (call
-                    (identifier)
-                    (when
-                      (expr
-                        (binary_op
-                          (expr
-                            (binary_op
-                              (expr
-                                (identifier))
-                              (expr
-                                (integer))))
-                          (expr
-                            (binary_op
-                              (expr
-                                (identifier))
-                              (expr
-                                (integer))))))))))
+                  (binary_op
+                    (expr
+                      (identifier))
+                    (expr
+                      (binary_op
+                        (expr
+                          (binary_op
+                            (expr
+                              (identifier))
+                            (expr
+                              (integer))))
+                        (expr
+                          (binary_op
+                            (expr
+                              (identifier))
+                            (expr
+                              (integer)))))))))
               (expr
                 (atom)))
             (stab_expr
