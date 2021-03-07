@@ -72,6 +72,10 @@ struct Scanner {
     return c >= 'a' && c <= 'z';
   }
 
+  bool is_alpha(char c) {
+    return is_upcase_char(c) || is_downcase_char(c);
+  }
+
   bool is_sigil_char(char c) {
     return memchr(&SIGIL_CHARS, c, sizeof(SIGIL_CHARS)) != NULL;
   }
@@ -130,6 +134,18 @@ struct Scanner {
       stack_item.allows_interpolation = buffer[i++];
       stack.push_back(stack_item);
     }
+  }
+
+  bool is_operator_next(TSLexer *lexer) {
+    if (memchr(&OPERATORS, lexer->lookahead, sizeof(OPERATORS)) != NULL) {
+      if (lexer->lookahead == ':') {
+        advance(lexer);
+        return !is_alpha(lexer->lookahead);
+      }
+
+      return true;
+    }
+    return false;
   }
 
   bool scan_sigil_start(TSLexer *lexer) {
@@ -296,11 +312,10 @@ struct Scanner {
         is_newline(lexer->lookahead)) {
       skip(lexer);
       while (is_whitespace(lexer->lookahead) || is_newline(lexer->lookahead)) skip(lexer);
-      if (memchr(&OPERATORS, lexer->lookahead, sizeof(OPERATORS)) != NULL) {
-        skip(lexer);
+      lexer->mark_end(lexer);
+      if (is_operator_next(lexer)) {
         return false;
       } else {
-        lexer->mark_end(lexer);
         lexer->result_symbol = LINE_BREAK;
         return true;
       }
