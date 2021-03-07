@@ -10,13 +10,14 @@ fn() -> a + b end
   (statement
     (expr
       (anonymous_function
-        (args)
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (identifier))))))))
+        (stab_expr
+          (args)
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier)))))))))
 
 ================================================================================
 parenthesized one arg
@@ -30,15 +31,16 @@ fn(a) -> a + b end
   (statement
     (expr
       (anonymous_function
-        (args
+        (stab_expr
+          (args
+            (expr
+              (identifier)))
           (expr
-            (identifier)))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (identifier))))))))
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier)))))))))
 
 ================================================================================
 parenthesized multi args
@@ -52,17 +54,18 @@ fn(a, b) -> a + b end
   (statement
     (expr
       (anonymous_function
-        (args
-          (expr
-            (identifier))
-          (expr
-            (identifier)))
-        (expr
-          (binary_op
+        (stab_expr
+          (args
             (expr
               (identifier))
             (expr
-              (identifier))))))))
+              (identifier)))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier)))))))))
 
 ================================================================================
 parenthesized multi args, multi line body
@@ -79,19 +82,20 @@ end
   (statement
     (expr
       (anonymous_function
-        (args
-          (expr
-            (identifier))
-          (expr
-            (identifier)))
-        (expr
-          (binary_op
+        (stab_expr
+          (args
             (expr
               (identifier))
             (expr
-              (identifier))))
-        (expr
-          (integer))))))
+              (identifier)))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier))))
+          (expr
+            (integer)))))))
 
 ================================================================================
 non parenthesized no arg
@@ -105,12 +109,13 @@ fn -> a + b end
   (statement
     (expr
       (anonymous_function
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (identifier))))))))
+        (stab_expr
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier)))))))))
 
 ================================================================================
 non parenthesized one arg
@@ -124,15 +129,16 @@ fn a -> a + b end
   (statement
     (expr
       (anonymous_function
-        (bare_args
+        (stab_expr
+          (bare_args
+            (expr
+              (identifier)))
           (expr
-            (identifier)))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (identifier))))))))
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier)))))))))
 
 ================================================================================
 non parenthesized multi args
@@ -146,17 +152,18 @@ fn a, b -> a + b end
   (statement
     (expr
       (anonymous_function
-        (bare_args
-          (expr
-            (identifier))
-          (expr
-            (identifier)))
-        (expr
-          (binary_op
+        (stab_expr
+          (bare_args
             (expr
               (identifier))
             (expr
-              (identifier))))))))
+              (identifier)))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier)))))))))
 
 ================================================================================
 non parenthesized multi args, multi line body
@@ -173,19 +180,20 @@ end
   (statement
     (expr
       (anonymous_function
-        (bare_args
-          (expr
-            (identifier))
-          (expr
-            (identifier)))
-        (expr
-          (binary_op
+        (stab_expr
+          (bare_args
             (expr
               (identifier))
             (expr
-              (identifier))))
-        (expr
-          (integer))))))
+              (identifier)))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (identifier))))
+          (expr
+            (integer)))))))
 
 ================================================================================
 non parenthesized body with dot call
@@ -208,10 +216,11 @@ end)
             (identifier))
           (expr
             (anonymous_function
-              (expr
-                (dot_call
-                  (module)
-                  (identifier)
-                  (args
-                    (expr
-                      (string))))))))))))
+              (stab_expr
+                (expr
+                  (dot_call
+                    (module)
+                    (identifier)
+                    (args
+                      (expr
+                        (string)))))))))))))

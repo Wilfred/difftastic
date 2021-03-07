@@ -12,19 +12,22 @@ end
 (source_file
   (statement
     (expr
-      (case
-        (expr
-          (identifier))
-        (clause
+      (call
+        (identifier)
+        (bare_args
           (expr
-            (integer))
-          (clause_body
+            (identifier)))
+        (block
+          (stab_expr
+            (bare_args
+              (expr
+                (integer)))
             (expr
-              (string))))
-        (clause
-          (expr
-            (integer))
-          (clause_body
+              (string)))
+          (stab_expr
+            (bare_args
+              (expr
+                (integer)))
             (expr
               (string))))))))
 
@@ -41,15 +44,18 @@ end
 (source_file
   (statement
     (expr
-      (case
-        (expr
-          (identifier))
-        (clause
+      (call
+        (identifier)
+        (bare_args
           (expr
-            (tuple
+            (identifier)))
+        (block
+          (stab_expr
+            (bare_args
               (expr
-                (identifier))))
-          (clause_body
+                (tuple
+                  (expr
+                    (identifier)))))
             (expr
               (string))))))))
 
@@ -69,27 +75,29 @@ end
 (source_file
   (statement
     (expr
-      (case
-        (expr
-          (identifier))
-        (clause
+      (call
+        (identifier)
+        (bare_args
           (expr
-            (integer))
-          (clause_body
+            (identifier)))
+        (block
+          (stab_expr
+            (bare_args
+              (expr
+                (integer)))
             (expr
-              (string))))
-        (clause
-          (expr
-            (integer))
-          (clause_body
+              (string)))
+          (stab_expr
+            (bare_args
+              (expr
+                (integer)))
             (expr
               (dot_call
                 (identifier)
                 (identifier)
-                (args)))
-            (clause_body
-              (expr
-                (integer)))))))))
+                (args))))
+          (expr
+            (integer)))))))
 
 ================================================================================
 case with guards
@@ -105,26 +113,30 @@ end
 (source_file
   (statement
     (expr
-      (case
-        (expr
-          (integer))
-        (clause
+      (call
+        (identifier)
+        (bare_args
           (expr
-            (identifier))
-          (when
+            (integer)))
+        (block
+          (stab_expr
+            (bare_args
+              (expr
+                (call
+                  (identifier)
+                  (when
+                    (expr
+                      (call
+                        (identifier)
+                        (args
+                          (expr
+                            (identifier)))))))))
             (expr
-              (call
-                (identifier)
-                (args
-                  (expr
-                    (identifier))))))
-          (clause_body
-            (expr
-              (string))))
-        (clause
-          (expr
-            (identifier))
-          (clause_body
+              (string)))
+          (stab_expr
+            (bare_args
+              (expr
+                (identifier)))
             (expr
               (binary_op
                 (expr

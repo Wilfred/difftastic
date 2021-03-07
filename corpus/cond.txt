@@ -12,17 +12,19 @@ end
 (source_file
   (statement
     (expr
-      (cond
-        (cond_clause
-          (expr
-            (integer))
-          (cond_body
+      (call
+        (identifier)
+        (block
+          (stab_expr
+            (bare_args
+              (expr
+                (integer)))
             (expr
-              (string))))
-        (cond_clause
-          (expr
-            (integer))
-          (cond_body
+              (string)))
+          (stab_expr
+            (bare_args
+              (expr
+                (integer)))
             (expr
               (string))))))))
 
@@ -39,13 +41,15 @@ end
 (source_file
   (statement
     (expr
-      (cond
-        (cond_clause
-          (expr
-            (tuple
+      (call
+        (identifier)
+        (block
+          (stab_expr
+            (bare_args
               (expr
-                (identifier))))
-          (cond_body
+                (tuple
+                  (expr
+                    (identifier)))))
             (expr
               (string))))))))
 
@@ -65,22 +69,23 @@ end
 (source_file
   (statement
     (expr
-      (cond
-        (cond_clause
-          (expr
-            (integer))
-          (cond_body
+      (call
+        (identifier)
+        (block
+          (stab_expr
+            (bare_args
+              (expr
+                (integer)))
             (expr
-              (string))))
-        (cond_clause
-          (expr
-            (integer))
-          (cond_body
+              (string)))
+          (stab_expr
+            (bare_args
+              (expr
+                (integer)))
             (expr
               (dot_call
                 (identifier)
                 (identifier)
-                (args)))
-            (cond_body
-              (expr
-                (integer)))))))))
+                (args))))
+          (expr
+            (integer)))))))

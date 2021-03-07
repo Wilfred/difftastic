@@ -1,25 +1,24 @@
 generate:
 	./node_modules/.bin/tree-sitter generate
 
-build-wasm: generate
+build-wasm:
 	./node_modules/.bin/tree-sitter build-wasm
 
 ui:
-	./node_modules/.bin/tree-sitter generate
 	./node_modules/.bin/tree-sitter build-wasm
 	./node_modules/tree-sitter-cli/tree-sitter web-ui -q
 
-parse-all: generate
+parse-all:
 	./node_modules/.bin/tree-sitter parse '../elixir/**/*.ex' --quiet --stat
 
-parse: generate
+parse:
 	./node_modules/.bin/tree-sitter parse 'test.ex'
 
-debug: generate
+debug:
 	./node_modules/.bin/tree-sitter parse 'test.ex' --debug-graph
 
-test: generate corpus/*.txt
+test: corpus/*.txt
 	./node_modules/.bin/tree-sitter test
 
-update-corpus: generate corpus/*.txt
+update-corpus: corpus/*.txt
 	./node_modules/.bin/tree-sitter test -u

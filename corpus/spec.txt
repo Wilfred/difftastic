@@ -1,0 +1,57 @@
+================================================================================
+spec with splat
+================================================================================
+
+@spec write_dot_graph!(
+        Path.t(),
+        String.t(),
+        [node],
+        (node -> {formatted_node, [node]}),
+        keyword
+      ) :: :ok
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (module_assign
+        (module_attr)
+        (expr
+          (binary_op
+            (expr
+              (call
+                (identifier)
+                (args
+                  (expr
+                    (dot_call
+                      (module)
+                      (identifier)
+                      (args)))
+                  (expr
+                    (dot_call
+                      (module)
+                      (identifier)
+                      (args)))
+                  (expr
+                    (list
+                      (expr
+                        (identifier))))
+                  (expr
+                    (paren_expr
+                      (stab_expr
+                        (bare_args
+                          (expr
+                            (identifier)))
+                        (expr
+                          (tuple
+                            (expr
+                              (identifier))
+                            (expr
+                              (list
+                                (expr
+                                  (identifier)))))))))
+                  (expr
+                    (identifier)))))
+            (expr
+              (atom))))))))

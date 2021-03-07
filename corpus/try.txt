@@ -22,55 +22,59 @@ end
 (source_file
   (statement
     (expr
-      (try
-        (statement
+      (call
+        (identifier)
+        (block
           (expr
             (call
               (identifier)
               (args
                 (expr
-                  (identifier))))))
-        (clause
-          (expr
-            (module))
-          (clause_body
-            (expr
-              (dot_call
-                (module)
-                (identifier)
-                (args
-                  (expr
-                    (string)))))))
-        (clause
-          (expr
-            (identifier))
-          (clause_body
-            (expr
-              (dot_call
-                (module)
-                (identifier)
-                (args
-                  (expr
-                    (string)))))))
-        (clause
-          (expr
-            (identifier))
-          (clause_body
-            (expr
-              (dot_call
-                (module)
-                (identifier)
-                (args
-                  (expr
-                    (string)))))))
-        (statement
-          (expr
-            (dot_call
-              (module)
-              (identifier)
-              (args
+                  (identifier)))))
+          (rescue_block
+            (stab_expr
+              (bare_args
                 (expr
-                  (string))))))))))
+                  (module)))
+              (expr
+                (dot_call
+                  (module)
+                  (identifier)
+                  (args
+                    (expr
+                      (string)))))))
+          (catch_block
+            (stab_expr
+              (bare_args
+                (expr
+                  (identifier)))
+              (expr
+                (dot_call
+                  (module)
+                  (identifier)
+                  (args
+                    (expr
+                      (string)))))))
+          (else_block
+            (stab_expr
+              (bare_args
+                (expr
+                  (identifier)))
+              (expr
+                (dot_call
+                  (module)
+                  (identifier)
+                  (args
+                    (expr
+                      (string)))))))
+          (after_block
+            (expr
+              (dot_call
+                (module)
+                (identifier)
+                (args
+                  (expr
+                    (string)))))))))))
 
 ================================================================================
 try with rescue only
@@ -87,24 +91,26 @@ end
 (source_file
   (statement
     (expr
-      (try
-        (statement
+      (call
+        (identifier)
+        (block
           (expr
             (dot_call
               (module)
-              (identifier))))
-        (clause
-          (expr
-            (binary_op
+              (identifier)))
+          (rescue_block
+            (stab_expr
+              (bare_args
+                (expr
+                  (binary_op
+                    (expr
+                      (identifier))
+                    (expr
+                      (list
+                        (expr
+                          (module)))))))
               (expr
-                (identifier))
-              (expr
-                (list
-                  (expr
-                    (module))))))
-          (clause_body
-            (expr
-              (literal))))))))
+                (literal)))))))))
 
 ================================================================================
 try catch
@@ -122,27 +128,29 @@ end
 (source_file
   (statement
     (expr
-      (try
-        (statement
+      (call
+        (identifier)
+        (block
           (expr
             (call
               (identifier)
               (args
                 (expr
-                  (atom))))))
-        (clause
-          (expr
-            (atom))
-          (expr
-            (identifier))
-          (clause_body
-            (expr
-              (dot_call
-                (module)
-                (identifier)
-                (args
-                  (expr
-                    (string)))))))))))
+                  (atom)))))
+          (catch_block
+            (stab_expr
+              (bare_args
+                (expr
+                  (atom))
+                (expr
+                  (identifier)))
+              (expr
+                (dot_call
+                  (module)
+                  (identifier)
+                  (args
+                    (expr
+                      (string))))))))))))
 
 ================================================================================
 try rescue else
@@ -165,47 +173,51 @@ end
 (source_file
   (statement
     (expr
-      (try
-        (statement
+      (call
+        (identifier)
+        (block
           (expr
             (binary_op
               (expr
                 (integer))
               (expr
-                (identifier)))))
-        (clause
-          (expr
-            (module))
-          (clause_body
-            (expr
-              (atom))))
-        (clause
-          (expr
-            (identifier))
-          (when
-            (expr
-              (binary_op
+                (identifier))))
+          (rescue_block
+            (stab_expr
+              (bare_args
                 (expr
-                  (binary_op
-                    (expr
-                      (identifier))
-                    (expr
-                      (integer))))
+                  (module)))
+              (expr
+                (atom))))
+          (else_block
+            (stab_expr
+              (bare_args
                 (expr
-                  (binary_op
-                    (expr
-                      (identifier))
-                    (expr
-                      (integer)))))))
-          (clause_body
-            (expr
-              (atom))))
-        (clause
-          (expr
-            (identifier))
-          (clause_body
-            (expr
-              (atom))))))))
+                  (call
+                    (identifier)
+                    (when
+                      (expr
+                        (binary_op
+                          (expr
+                            (binary_op
+                              (expr
+                                (identifier))
+                              (expr
+                                (integer))))
+                          (expr
+                            (binary_op
+                              (expr
+                                (identifier))
+                              (expr
+                                (integer))))))))))
+              (expr
+                (atom)))
+            (stab_expr
+              (bare_args
+                (expr
+                  (identifier)))
+              (expr
+                (atom)))))))))
 
 ================================================================================
 try after
@@ -222,19 +234,20 @@ end
 (source_file
   (statement
     (expr
-      (try
-        (statement
+      (call
+        (identifier)
+        (block
           (expr
             (call
               (identifier)
               (args
                 (expr
-                  (string))))))
-        (statement
-          (expr
-            (dot_call
-              (module)
-              (identifier)
-              (args
-                (expr
-                  (string))))))))))
+                  (string)))))
+          (after_block
+            (expr
+              (dot_call
+                (module)
+                (identifier)
+                (args
+                  (expr
+                    (string)))))))))))

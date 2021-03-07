@@ -1,0 +1,46 @@
+================================================================================
+def
+================================================================================
+
+@spec env() :: atom()
+def env do
+  # env is not available on bootstrapping, so set a :dev default
+  Mix.State.get(:env, :dev)
+end
+
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (module_assign
+        (module_attr)
+        (expr
+          (binary_op
+            (expr
+              (call
+                (identifier)
+                (args)))
+            (expr
+              (call
+                (identifier)
+                (args))))))))
+  (statement
+    (expr
+      (call
+        (identifier)
+        (bare_args
+          (expr
+            (identifier)))
+        (block
+          (comment)
+          (expr
+            (dot_call
+              (module)
+              (identifier)
+              (args
+                (expr
+                  (atom))
+                (expr
+                  (atom))))))))))
