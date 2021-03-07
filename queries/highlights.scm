@@ -1,10 +1,16 @@
 ; highlights.scm
 
-(call (identifier) @function.method)
+(call function: (identifier) @function)
+(namespace_get function: (identifier) @function.method)
+(namespace_get_internal function: (identifier) @function.method)
 
 ; Literals
 
 (integer) @number
+
+(float) @number
+
+(complex) @number
 
 (string) @string
 
@@ -21,6 +27,35 @@
  "<<-"
  "->"
 ] @operator
+
+(unary operator: [
+  "-"
+  "+"
+  "!"
+  "~"
+] @operator)
+
+(binary operator: [
+  "-"
+  "+"
+  "*"
+  "/"
+  "^"
+  "<"
+  ">"
+  "<="
+  ">="
+  "=="
+  "!="
+  "||"
+  "|"
+  "&&"
+  "&"
+  ":"
+  "~"
+] @operator)
+
+(special) @operator
 
 [
  "("
