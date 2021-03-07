@@ -85,7 +85,7 @@ end
             (expr
               (dot_call
                 (identifier)
-                (func_name_identifier)
+                (identifier)
                 (args)))
             (clause_body
               (expr

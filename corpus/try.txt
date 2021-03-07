@@ -37,7 +37,7 @@ end
             (expr
               (dot_call
                 (module)
-                (func_name_identifier)
+                (identifier)
                 (args
                   (expr
                     (string)))))))
@@ -48,7 +48,7 @@ end
             (expr
               (dot_call
                 (module)
-                (func_name_identifier)
+                (identifier)
                 (args
                   (expr
                     (string)))))))
@@ -59,7 +59,7 @@ end
             (expr
               (dot_call
                 (module)
-                (func_name_identifier)
+                (identifier)
                 (args
                   (expr
                     (string)))))))
@@ -67,7 +67,7 @@ end
           (expr
             (dot_call
               (module)
-              (func_name_identifier)
+              (identifier)
               (args
                 (expr
                   (string))))))))))
@@ -92,7 +92,7 @@ end
           (expr
             (dot_call
               (module)
-              (func_name_identifier))))
+              (identifier))))
         (clause
           (expr
             (binary_op
@@ -139,7 +139,7 @@ end
             (expr
               (dot_call
                 (module)
-                (func_name_identifier)
+                (identifier)
                 (args
                   (expr
                     (string)))))))))))
@@ -234,7 +234,7 @@ end
           (expr
             (dot_call
               (module)
-              (func_name_identifier)
+              (identifier)
               (args
                 (expr
                   (string))))))))))

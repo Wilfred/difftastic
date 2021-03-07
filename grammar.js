@@ -53,6 +53,8 @@ module.exports = grammar({
     $.sigil_start,
     $.sigil_content,
     $.sigil_end,
+    $.identifier,
+    $.keyword,
   ],
 
   extras: $ => [
@@ -144,14 +146,14 @@ module.exports = grammar({
       field('object', choice($.module, $.identifier, $.atom, $.dot_call)),
       '.',
       choice(
-        prec.right(seq(field('function', $.func_name_identifier), optional($.args))),
+        prec.right(seq(field('function', $.identifier), optional($.args))),
         $.module
       )
     )),
 
     access_call: $ => prec.left(PREC.ACCESS_CALL, seq(
       $.expr,
-      '[',
+      token.immediate('['),
       $.expr,
       ']'
     )),
@@ -178,10 +180,12 @@ module.exports = grammar({
     args: $ => choice(
       seq(
         '(',
+        optional($._terminator),
         optional(choice(
-          seq(commaSep($.expr), optional(seq(',', $.bare_keyword_list))),
+          seq(commaSep($.expr), optional(seq(',', optional($._terminator), $.bare_keyword_list))),
           $.bare_keyword_list
         )),
+        optional($._terminator),
         ')'
       ),
     ),
@@ -197,6 +201,7 @@ module.exports = grammar({
 
     map: $ => prec.left(PREC.MAP, seq(
       '%{',
+      optional($._terminator),
       commaSep(choice(
         seq($.expr, '=>', $.expr),
         seq($.keyword, $.expr),
@@ -206,12 +211,14 @@ module.exports = grammar({
 
     list: $ => prec.left(PREC.LIST, seq(
       '[',
+      optional($._terminator),
       commaSep($.expr),
       ']'
     )),
 
     keyword_list: $ => prec.left(PREC.KW, seq(
       '[',
+      optional($._terminator),
       commaSep1(seq($.keyword, $.expr)),
       ']'
     )),
@@ -319,11 +326,8 @@ module.exports = grammar({
     float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE][\+-]?\d(_?\d)*)?/,
     atom: $ => /:[_a-z!.][?!_a-zA-Z0-9]*/,
     module_attr: $ => /@[_a-z][_a-zA-Z0-9]*/,
-    keyword: $ => /[_a-z!][?!_a-zA-Z0-9]*:/,
     string: $ => /"[^"]*"/,
     module: $ => /[A-Z][_a-zA-Z0-9]*(\.[A-Z][_a-zA-Z0-9]*)*/,
-    identifier: $ => /[_a-z][_a-zA-Z0-9]*[?!]?/,
-    func_name_identifier: $ => /[_a-z!][?!_a-zA-Z0-9]*/,
     comment: $ => token(prec(PREC.COMMENT, seq('#', /.*/))),
     _terminator: $ => choice($._line_break, ';'),
     literal: $ => choice('true', 'false', 'nil')

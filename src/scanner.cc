@@ -18,7 +18,10 @@ enum TokenType {
   HEREDOC_END,
   SIGIL_START,
   SIGIL_CONTENT,
-  SIGIL_END
+  SIGIL_END,
+
+  IDENTIFIER,
+  KEYWORD,
 };
 
 enum StackItemType {
@@ -44,12 +47,26 @@ const char SIGIL_CHARS[] = {
 
 // TODO: need to lookahead operators only
 const char OPERATORS[] = {
-  ':', '|', '=', '&', '!', '<', '>', '+', '-', '*', '/'
+  ':', '|', '=', '&', '!', '<', '>', '+', '-', '*', '/', ',', '[', ']', ';'
+};
+
+const string RESERVERD[] = {
+  "true", "false", "nil", "when", "and", "or", "not", "in", "fn", "do",
+  "end", "catch", "rescue", "after", "else", "try", "cond", "case"
 };
 
 struct Scanner {
   void reset() {
     stack.clear();
+  }
+
+  bool is_reserved(string *token) {
+    for (unsigned int i = 0; i < sizeof(RESERVERD)/sizeof(RESERVERD[0]); i++) {
+      if (*token == RESERVERD[i]) {
+        return true;
+      }
+    }
+    return false;
   }
 
   bool is_whitespace(char c) {
@@ -64,6 +81,10 @@ struct Scanner {
     return c == '"' || c == '\'';
   }
 
+  bool is_digit_char(char c) {
+    return c >= '0' && c <= '9';
+  }
+
   bool is_upcase_char(char c) {
     return c >= 'A' && c <= 'Z';
   }
@@ -72,8 +93,12 @@ struct Scanner {
     return c >= 'a' && c <= 'z';
   }
 
-  bool is_alpha(char c) {
+  bool is_alpha_char(char c) {
     return is_upcase_char(c) || is_downcase_char(c);
+  }
+
+  bool is_identifier_start(char c) {
+    return is_downcase_char(c) || c == '_';
   }
 
   bool is_sigil_char(char c) {
@@ -136,11 +161,57 @@ struct Scanner {
     }
   }
 
+  bool scan_identifier_or_keyword(TSLexer *lexer) {
+    std::string *token= new std::string("");
+    bool reserved = false;
+
+    lexer->mark_end(lexer);
+    for (;;) {
+      token->push_back(lexer->lookahead);
+      advance(lexer);
+
+      if (lexer->lookahead == '?' ||
+          lexer->lookahead == '!') {
+        advance(lexer);
+        if (lexer->lookahead == ':') {
+          advance(lexer);
+          lexer->mark_end(lexer);
+          lexer->result_symbol = KEYWORD;
+          delete token;
+          return true;
+        } else {
+          lexer->mark_end(lexer);
+          lexer->result_symbol = IDENTIFIER;
+          delete token;
+          return true;
+        }
+      } else if (lexer->lookahead == ':') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+        lexer->result_symbol = KEYWORD;
+        delete token;
+        return true;
+      } else if (!is_alpha_char(lexer->lookahead) &&
+                 !is_digit_char(lexer->lookahead) &&
+                 lexer->lookahead != '_') {
+
+          reserved = is_reserved(token);
+          delete token;
+
+          if (!reserved) {
+            lexer->mark_end(lexer);
+            lexer->result_symbol = IDENTIFIER;
+          }
+          return !reserved;
+      }
+    }
+  }
+
   bool is_operator_next(TSLexer *lexer) {
     if (memchr(&OPERATORS, lexer->lookahead, sizeof(OPERATORS)) != NULL) {
       if (lexer->lookahead == ':') {
         advance(lexer);
-        return !is_alpha(lexer->lookahead);
+        return !is_alpha_char(lexer->lookahead);
       }
 
       return true;
@@ -319,6 +390,11 @@ struct Scanner {
         lexer->result_symbol = LINE_BREAK;
         return true;
       }
+    }
+
+    if ((valid_symbols[IDENTIFIER] || valid_symbols[KEYWORD]) &&
+        is_identifier_start(lexer->lookahead)) {
+      return scan_identifier_or_keyword(lexer);
     }
 
     if (valid_symbols[HEREDOC_START] &&

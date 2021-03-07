@@ -202,7 +202,7 @@ end)
     (expr
       (dot_call
         (module)
-        (func_name_identifier)
+        (identifier)
         (args
           (expr
             (identifier))
@@ -211,7 +211,7 @@ end)
               (expr
                 (dot_call
                   (module)
-                  (func_name_identifier)
+                  (identifier)
                   (args
                     (expr
                       (string))))))))))))

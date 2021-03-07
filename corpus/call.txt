@@ -11,7 +11,57 @@ A.B.c("a")
     (expr
       (dot_call
         (module)
-        (func_name_identifier)
+        (identifier)
         (args
           (expr
             (string)))))))
+
+================================================================================
+bare keyword list
+================================================================================
+
+Module.func!(
+  args,
+  aliases: [r: :require, p: :parallel, e: :eval, c: :config],
+  strict: [
+    parallel: :boolean,
+    require: :keep
+  ]
+)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (dot_call
+        (module)
+        (identifier)
+        (args
+          (expr
+            (identifier))
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (keyword_list
+                (keyword)
+                (expr
+                  (atom))
+                (keyword)
+                (expr
+                  (atom))
+                (keyword)
+                (expr
+                  (atom))
+                (keyword)
+                (expr
+                  (atom))))
+            (keyword)
+            (expr
+              (keyword_list
+                (keyword)
+                (expr
+                  (atom))
+                (keyword)
+                (expr
+                  (atom))))))))))
