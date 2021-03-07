@@ -17,7 +17,7 @@ fn term_width() -> Option<usize> {
 }
 
 fn index_map(lines: &[MatchedLine]) -> HashMap<usize, MatchedLine> {
-    lines.into_iter().map(|ml| (ml.line.number, *ml)).collect()
+    lines.iter().map(|ml| (ml.line.number, *ml)).collect()
 }
 
 /// Vertically concat the desired lines of `left` and `right`, lining
