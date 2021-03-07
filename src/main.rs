@@ -20,6 +20,22 @@ fn index_map(lines: &[MatchedLine]) -> HashMap<usize, MatchedLine> {
     lines.iter().map(|ml| (ml.line.number, *ml)).collect()
 }
 
+fn format_divider(line_num: usize, column_width: usize, spacer: &str) -> String {
+    let mut result = String::with_capacity(2 * column_width);
+
+    let line_description = format!("-- Line {} ", line_num);
+
+    result.push_str(&line_description.yellow().to_string());
+    result.push_str(
+        &"-".repeat(column_width - line_description.len())
+            .yellow()
+            .to_string(),
+    );
+    result.push_str(spacer);
+    result.push_str(&"-".repeat(column_width).yellow().to_string());
+    result
+}
+
 /// Vertically concat the desired lines of `left` and `right`, lining
 /// up corresponding lines where possible.
 ///
@@ -40,7 +56,7 @@ fn filter_concat(
 
     let mut left_i = 0;
     let mut right_i = 0;
-    let mut needs_separator = false;
+    let mut needs_separator = true;
 
     let mut result = String::new();
     let spacer = "  ";
@@ -52,9 +68,9 @@ fn filter_concat(
         let right_i_index = right_line_indexes.get(&right_i);
 
         if (left_i_index.is_some() || right_i_index.is_some()) && needs_separator {
-            result.push_str(&"-".repeat(max_left_length));
-            result.push_str(spacer);
-            result.push_str(&"-".repeat(max_left_length));
+            let left_line = left_i_index.unwrap_or_else(|| right_i_index.unwrap());
+            let left_line_num = left_line.line.number;
+            result.push_str(&format_divider(left_line_num, max_left_length, &spacer));
             needs_separator = false;
         }
 
