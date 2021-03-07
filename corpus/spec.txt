@@ -15,43 +15,46 @@ spec with splat
 (source_file
   (statement
     (expr
-      (module_assign
-        (module_attr)
+      (unary_op
         (expr
-          (binary_op
-            (expr
-              (call
-                (identifier)
-                (args
+          (call
+            (identifier)
+            (bare_args
+              (expr
+                (binary_op
                   (expr
-                    (dot_call
-                      (module)
+                    (call
                       (identifier)
-                      (args)))
-                  (expr
-                    (dot_call
-                      (module)
-                      (identifier)
-                      (args)))
-                  (expr
-                    (list
-                      (expr
-                        (identifier))))
-                  (expr
-                    (paren_expr
-                      (stab_expr
-                        (bare_args
-                          (expr
-                            (identifier)))
+                      (args
                         (expr
-                          (tuple
+                          (dot_call
+                            (module)
+                            (identifier)
+                            (args)))
+                        (expr
+                          (dot_call
+                            (module)
+                            (identifier)
+                            (args)))
+                        (expr
+                          (list
                             (expr
-                              (identifier))
-                            (expr
-                              (list
+                              (identifier))))
+                        (expr
+                          (paren_expr
+                            (stab_expr
+                              (bare_args
                                 (expr
-                                  (identifier)))))))))
+                                  (identifier)))
+                              (expr
+                                (tuple
+                                  (expr
+                                    (identifier))
+                                  (expr
+                                    (list
+                                      (expr
+                                        (identifier)))))))))
+                        (expr
+                          (identifier)))))
                   (expr
-                    (identifier)))))
-            (expr
-              (atom))))))))
+                    (atom)))))))))))

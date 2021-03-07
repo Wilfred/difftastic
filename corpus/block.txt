@@ -14,18 +14,21 @@ end
 (source_file
   (statement
     (expr
-      (module_assign
-        (module_attr)
+      (unary_op
         (expr
-          (binary_op
-            (expr
-              (call
-                (identifier)
-                (args)))
-            (expr
-              (call
-                (identifier)
-                (args))))))))
+          (call
+            (identifier)
+            (bare_args
+              (expr
+                (binary_op
+                  (expr
+                    (call
+                      (identifier)
+                      (args)))
+                  (expr
+                    (call
+                      (identifier)
+                      (args)))))))))))
   (statement
     (expr
       (call
