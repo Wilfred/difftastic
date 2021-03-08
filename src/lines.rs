@@ -19,8 +19,8 @@ pub struct LineNumber {
     pub number: usize,
 }
 
-impl LineNumber {
-    pub fn from(number: usize) -> LineNumber {
+impl From<usize> for LineNumber {
+    fn from(number: usize) -> Self {
         LineNumber { number }
     }
 }
@@ -50,8 +50,8 @@ pub struct NewlinePositions {
     positions: Vec<usize>,
 }
 
-impl NewlinePositions {
-    pub fn from(s: &str) -> NewlinePositions {
+impl From<&str> for NewlinePositions {
+    fn from(s: &str) -> Self {
         let newline_re = Regex::new("\n").unwrap();
         let newlines: Vec<_> = newline_re.find_iter(s).map(|mat| mat.end()).collect();
 
@@ -61,19 +61,21 @@ impl NewlinePositions {
 
         NewlinePositions { positions }
     }
+}
 
+impl NewlinePositions {
     pub fn from_offset(self: &NewlinePositions, offset: usize) -> LinePosition {
         for line_num in (0..self.positions.len()).rev() {
-            if offset >= self.positions[line_num as usize] {
+            if offset >= self.positions[line_num] {
                 return LinePosition {
-                    line: LineNumber::from(line_num as usize),
-                    column: offset - self.positions[line_num as usize],
+                    line: line_num.into(),
+                    column: offset - self.positions[line_num],
                 };
             }
         }
 
         LinePosition {
-            line: LineNumber::from(0),
+            line: 0.into(),
             column: offset,
         }
     }
@@ -108,7 +110,7 @@ impl NewlinePositions {
             let line_end_pos = self.positions[line_num + 1] - 1;
             let line_length = line_end_pos - self.positions[line_num];
             ranges.push(LineRange {
-                line: LineNumber::from(line_num),
+                line: line_num.into(),
                 start: 0,
                 end: line_length,
             });
@@ -147,7 +149,7 @@ fn from_offset_newline_boundary() {
     assert_eq!(
         position,
         LinePosition {
-            line: LineNumber::from(1),
+            line: 1.into(),
             column: 0
         }
     );
@@ -155,12 +157,12 @@ fn from_offset_newline_boundary() {
 
 #[test]
 fn from_ranges_first_line() {
-    let newline_positions = NewlinePositions::from("foo");
+    let newline_positions: NewlinePositions = "foo".into();
     let relative_ranges = newline_positions.from_ranges(&vec![AbsoluteRange { start: 1, end: 3 }]);
     assert_eq!(
         relative_ranges,
         vec![LineRange {
-            line: LineNumber::from(0),
+            line: 0.into(),
             start: 1,
             end: 3
         }]
@@ -169,19 +171,19 @@ fn from_ranges_first_line() {
 
 #[test]
 fn from_ranges_split_over_multiple_lines() {
-    let newline_positions = NewlinePositions::from("foo\nbar\nbaz\naaaaaaaaaaa");
+    let newline_positions: NewlinePositions = "foo\nbar\nbaz\naaaaaaaaaaa".into();
     let relative_ranges = newline_positions.from_ranges(&vec![AbsoluteRange { start: 5, end: 10 }]);
 
     assert_eq!(
         relative_ranges,
         vec![
             (LineRange {
-                line: LineNumber::from(1),
+                line: 1.into(),
                 start: 1,
                 end: 3
             }),
             (LineRange {
-                line: LineNumber::from(2),
+                line: 2.into(),
                 start: 0,
                 end: 2
             })
@@ -198,7 +200,7 @@ pub struct MatchedLine {
 /// Given a slice of changes, return the unique lines that
 /// they land on, plus their corresponding line in the other file.
 pub fn relevant_lines(changes: &[Change], s: &str) -> Vec<MatchedLine> {
-    let newlines = NewlinePositions::from(s);
+    let newlines: NewlinePositions = s.into();
 
     let mut line_nums_seen = HashSet::new();
 
@@ -250,7 +252,7 @@ pub fn add_context(
             }
             if is_new {
                 result.push(MatchedLine {
-                    line: LineNumber::from(i),
+                    line: i.into(),
                     opposite_line: LineNumber::from(max(i as isize + opposite_offset, 0) as usize),
                 });
             }
@@ -269,13 +271,13 @@ pub fn max_line(s: &str) -> LineNumber {
 fn test_add_context() {
     fn matched_line(i: usize) -> MatchedLine {
         MatchedLine {
-            line: LineNumber::from(i),
-            opposite_line: LineNumber::from(i),
+            line: i.into(),
+            opposite_line: i.into(),
         }
     }
 
     let start_lines = [matched_line(5), matched_line(12), matched_line(14)];
-    let result = add_context(&start_lines, 2, LineNumber::from(20));
+    let result = add_context(&start_lines, 2, 20.into());
 
     let expected = [
         matched_line(3),
@@ -298,19 +300,19 @@ fn test_add_context() {
 fn test_add_zero_context() {
     let start_lines = [
         MatchedLine {
-            line: LineNumber::from(5),
-            opposite_line: LineNumber::from(5),
+            line: 5.into(),
+            opposite_line: 5.into(),
         },
         MatchedLine {
-            line: LineNumber::from(12),
-            opposite_line: LineNumber::from(12),
+            line: 12.into(),
+            opposite_line: 12.into(),
         },
         MatchedLine {
-            line: LineNumber::from(14),
-            opposite_line: LineNumber::from(14),
+            line: 14.into(),
+            opposite_line: 14.into(),
         },
     ];
-    let result = add_context(&start_lines, 0, LineNumber::from(20));
+    let result = add_context(&start_lines, 0, 20.into());
 
     assert_eq!(result, start_lines);
 }
