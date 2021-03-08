@@ -275,7 +275,7 @@ module.exports = grammar({
     ),
 
     interpolation: $ => seq(
-      '#{', optional($.statement), '}'
+      '#{', sep($.expr, $._terminator), '}'
     ),
 
     integer: $ => /0[bB][01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0[dD])?\d(_?\d)*|0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/,
