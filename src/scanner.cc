@@ -22,6 +22,8 @@ enum TokenType {
 
   IDENTIFIER,
   KEYWORD,
+
+  ATOM_LITERAL
 };
 
 enum StackItemType {
@@ -104,6 +106,14 @@ struct Scanner {
     return is_alpha_char(c) || is_digit_char(c) || c == '_';
   }
 
+  bool is_atom_start(char c) {
+    return is_alpha_char(c) || c == '_';
+  }
+
+  bool is_atom_body(char c) {
+    return is_alpha_char(c) || is_digit_char(c) || c == '_' || c == '@';
+  }
+
   bool is_sigil_char(char c) {
     return memchr(&SIGIL_CHARS, c, sizeof(SIGIL_CHARS)) != NULL;
   }
@@ -166,6 +176,24 @@ struct Scanner {
       stack_item.heredoc = buffer[i++];
       stack_item.allows_interpolation = buffer[i++];
       stack.push_back(stack_item);
+    }
+  }
+
+  bool scan_atom(TSLexer *lexer) {
+    advance(lexer);
+    if (!is_atom_start(lexer->lookahead)) return false;
+
+    for (;;) {
+      advance(lexer);
+      if (!is_atom_body(lexer->lookahead)) {
+        if (lexer->lookahead == '?' ||
+            lexer->lookahead == '!') {
+          advance(lexer);
+        }
+
+        lexer->result_symbol = ATOM_LITERAL;
+        return true;
+      }
     }
   }
 
@@ -457,6 +485,11 @@ struct Scanner {
         lexer->result_symbol = LINE_BREAK;
         return true;
       }
+    }
+
+    if (valid_symbols[ATOM_LITERAL] &&
+        lexer->lookahead == ':') {
+      return scan_atom(lexer);
     }
 
     if ((valid_symbols[IDENTIFIER] || valid_symbols[KEYWORD]) &&
