@@ -23,7 +23,7 @@ fn index_map(lines: &[MatchedLine]) -> HashMap<usize, MatchedLine> {
 fn format_divider(line_num: usize, column_width: usize, spacer: &str) -> String {
     let mut result = String::with_capacity(2 * column_width);
 
-    let line_description = format!("-- Line {} ", line_num);
+    let line_description = format!("-- Line {} ", line_num + 1);
 
     result.push_str(&line_description.yellow().to_string());
     result.push_str(
