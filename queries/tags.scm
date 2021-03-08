@@ -85,4 +85,4 @@
   arguments: (_) @reference.call)
 
 (new_expression
-  constructor: (identifier) @name) @reference.class
+  constructor: (_) @name) @reference.class
