@@ -213,7 +213,8 @@ struct Scanner {
 
         if (lexer->lookahead == ':') {
           advance(lexer);
-          if (lexer->lookahead != ':') {
+          if (is_newline(lexer->lookahead) ||
+              is_whitespace(lexer->lookahead)) {
             lexer->mark_end(lexer);
             lexer->result_symbol = KEYWORD;
             delete token;
@@ -228,7 +229,8 @@ struct Scanner {
       } else if (lexer->lookahead == ':') {
         lexer->mark_end(lexer);
         advance(lexer);
-        if (lexer->lookahead != ':') {
+        if (is_newline(lexer->lookahead) ||
+            is_whitespace(lexer->lookahead)) {
           lexer->mark_end(lexer);
           lexer->result_symbol = KEYWORD;
           delete token;
