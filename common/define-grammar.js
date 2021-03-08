@@ -667,6 +667,7 @@ module.exports = function defineGrammar(dialect) {
         $._type_identifier,
         'in',
         $._type,
+        optional(seq('as', $._type))
       ),
 
       literal_type: $ => choice(
