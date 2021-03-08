@@ -181,24 +181,35 @@ struct Scanner {
       if (lexer->lookahead == '?' ||
           lexer->lookahead == '!') {
         advance(lexer);
+        lexer->mark_end(lexer);
+
         if (lexer->lookahead == ':') {
           advance(lexer);
+          if (lexer->lookahead != ':') {
+            lexer->mark_end(lexer);
+            lexer->result_symbol = KEYWORD;
+            delete token;
+            return true;
+          }
+        }
+
+        lexer->result_symbol = IDENTIFIER;
+        delete token;
+        return true;
+
+      } else if (lexer->lookahead == ':') {
+        lexer->mark_end(lexer);
+        advance(lexer);
+        if (lexer->lookahead != ':') {
           lexer->mark_end(lexer);
           lexer->result_symbol = KEYWORD;
           delete token;
           return true;
         } else {
-          lexer->mark_end(lexer);
           lexer->result_symbol = IDENTIFIER;
           delete token;
           return true;
         }
-      } else if (lexer->lookahead == ':') {
-        advance(lexer);
-        lexer->mark_end(lexer);
-        lexer->result_symbol = KEYWORD;
-        delete token;
-        return true;
       } else if (!is_identifier_body(lexer->lookahead)) {
 
           reserved = is_reserved(token);

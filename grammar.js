@@ -105,6 +105,7 @@ module.exports = grammar({
       $.module,
       $.atom,
       $.list,
+      $.binary,
       $.map,
       $.string,
       $.tuple,
@@ -221,6 +222,13 @@ module.exports = grammar({
       optional($._bare_args),
       ']'
     )),
+
+    binary: $ => seq(
+      '<<',
+      optional($._terminator),
+      optional($._bare_args),
+      '>>'
+    ),
 
     bare_keyword_list: $ => prec.right(PREC.BARE_KW, commaSep1($, seq($.keyword, optional($._terminator), $.expr))),
 
