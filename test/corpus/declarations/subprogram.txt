@@ -1,0 +1,243 @@
+==========================
+Procedure - Minimal
+==========================
+procedure p is
+begin
+end;
+
+procedure p is
+begin
+end procedure;
+
+procedure p is
+begin
+end procedure p;
+---
+
+(design_file
+  (procedure_body
+    designator: (identifier))
+  (procedure_body
+    designator: (identifier))
+  (procedure_body
+    designator: (identifier)
+    at_end: (simple_name)))
+
+==========================
+Pure function (implicit) - Minimal
+==========================
+function f return t is
+begin
+end;
+
+function f return t is
+begin
+end function;
+
+function f return t is
+begin
+end function f;
+---
+
+(design_file
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name)))
+    at_end: (simple_name)))
+
+==========================
+Pure function (explicit) - Minimal
+==========================
+pure function f return t is
+begin
+end;
+
+pure function f return t is
+begin
+end function;
+
+pure function f return t is
+begin
+end function f;
+---
+
+(design_file
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name)))
+    at_end: (simple_name)))
+
+==========================
+Impure function - Minimal
+==========================
+impure function f return t is
+begin
+end;
+
+impure function f return t is
+begin
+end function;
+
+impure function f return t is
+begin
+end function f;
+---
+
+(design_file
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name)))
+    at_end: (simple_name)))
+
+================================
+LINT: Header
+================================
+-- Illegal
+procedure p
+    port (s : t)
+    port map (x);
+
+-- Duplicated
+procedure p
+    generic (k:t)
+    generic (k:t);
+
+-- Duplicated
+procedure p
+    generic map (x)
+    generic map (x);
+
+-- Wrong order
+procedure p
+    generic map (x)
+    generic (k:t);
+---
+
+(design_file
+  (comment)
+  (procedure_declaration
+    designator: (identifier)
+    (subprogram_header
+      (port_clause
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))))
+      (port_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name)))))))
+  (comment)
+  (procedure_declaration
+    designator: (identifier)
+    (subprogram_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))))
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))))))
+  (comment)
+  (procedure_declaration
+    designator: (identifier)
+    (subprogram_header
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name)))))
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name)))))))
+  (comment)
+  (procedure_declaration
+    designator: (identifier)
+    (subprogram_header
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name)))))
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))))))
+
+================================
+LINT: Header (semicolon)
+================================
+procedure p
+    generic (k : t); -- unexpected semicolon
+    generic map (x);
+---
+
+(design_file
+  (procedure_declaration
+    designator: (identifier)
+    (subprogram_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon))
+      (comment)
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))))))

@@ -1,0 +1,187 @@
+=============================
+Minimal
+=============================
+component c
+end component;
+
+component c is
+end component;
+
+component c is
+end component c;
+---
+
+(design_file
+  (component_declaration
+    name: (identifier))
+  (component_declaration
+    name: (identifier))
+  (component_declaration
+    name: (identifier)
+    at_end: (simple_name)))
+
+=============================
+Header
+=============================
+component c
+    generic (k : t);
+       port (s : t);
+end component;
+---
+
+(design_file
+  (component_declaration
+    name: (identifier)
+    (component_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon))
+      (port_clause
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon)))))
+
+=============================
+LINT: Missing semicolon
+=============================
+component c
+    generic (k:t) -- here
+    port (s:t) -- here
+end component;
+---
+
+(design_file
+  (component_declaration
+    name: (identifier)
+    (component_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))))
+      (comment)
+      (port_clause
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))))
+    (comment)))
+
+=============================
+LINT: Illegal headers
+=============================
+-- Illegal
+component c
+    generic map (x);
+       port map (x);
+end component;
+
+-- Duplicated
+component c
+    generic (k:t);
+    generic (k:t);
+end component;
+
+-- Duplicated
+component c
+    port (s:t);
+    port (s:t);
+end component;
+
+-- Wrong order
+component c
+    port (s:t);
+    generic (k:t);
+end component;
+---
+
+(design_file
+  (comment)
+  (component_declaration
+    name: (identifier)
+    (component_header
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))
+        (semicolon))
+      (port_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))
+        (semicolon))))
+  (comment)
+  (component_declaration
+    name: (identifier)
+    (component_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon))
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon))))
+  (comment)
+  (component_declaration
+    name: (identifier)
+    (component_header
+      (port_clause
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon))
+      (port_clause
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon))))
+  (comment)
+  (component_declaration
+    name: (identifier)
+    (component_header
+      (port_clause
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon))
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon)))))

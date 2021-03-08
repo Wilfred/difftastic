@@ -1,0 +1,30 @@
+==============================
+Minimal
+==============================
+architecture rtl of ent is
+begin
+end;
+
+architecture rtl of ent is
+begin
+end architecture;
+
+architecture rtl of ent is
+begin
+end architecture rtl;
+---
+
+(design_file
+  (design_unit
+    (architecture_body
+      name: (identifier)
+      entity: (simple_name)))
+  (design_unit
+    (architecture_body
+      name: (identifier)
+      entity: (simple_name)))
+  (design_unit
+    (architecture_body
+      name: (identifier)
+      entity: (simple_name)
+      at_end: (simple_name))))

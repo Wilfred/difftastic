@@ -1,0 +1,103 @@
+================================
+Minimal
+================================
+if true then
+end if;
+
+L2:
+if true then
+end if;
+
+L3:
+if true then
+end if L3;
+---
+
+(design_file
+  (if_statement
+    (if
+      (conditional_expression
+        (simple_name))))
+  (if_statement
+    (label
+      (identifier))
+    (if
+      (conditional_expression
+        (simple_name))))
+  (if_statement
+    (label
+      (identifier))
+    (if
+      (conditional_expression
+        (simple_name)))
+    at_end: (simple_name)))
+
+================================
+Elsif
+================================
+if true then
+elsif true then
+end if;
+---
+
+(design_file
+  (if_statement
+    (if
+      (conditional_expression
+        (simple_name)))
+    (elsif
+      (conditional_expression
+        (simple_name)))))
+
+================================
+Else
+================================
+if true then
+elsif true then
+else
+end if;
+---
+
+(design_file
+  (if_statement
+    (if
+      (conditional_expression
+        (simple_name)))
+    (elsif
+      (conditional_expression
+        (simple_name)))
+    (else)))
+
+================================
+Sequence os statements
+================================
+if true then
+    null;
+elsif true then
+    null;
+    null;
+else
+    null;
+    null;
+    null;
+end if;
+---
+
+(design_file
+  (if_statement
+    (if
+      (conditional_expression
+        (simple_name))
+      (sequence_of_statements
+        (null_statement)))
+    (elsif
+      (conditional_expression
+        (simple_name))
+      (sequence_of_statements
+        (null_statement)
+        (null_statement)))
+    (else
+      (sequence_of_statements
+        (null_statement)
+        (null_statement)
+        (null_statement)))))

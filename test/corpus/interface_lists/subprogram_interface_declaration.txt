@@ -1,0 +1,33 @@
+============================================================================
+Interface subprogram default
+============================================================================
+entity e is
+    generic (impure function f1 return t is <>;
+               pure function f2 return t is foo.bar);
+end;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (generic_clause
+          (function_interface_declaration
+            designator: (identifier)
+            (return
+              (type_mark
+                (simple_name)))
+            (interface_subprogram_default
+              (same)))
+          (function_interface_declaration
+            designator: (identifier)
+            (return
+              (type_mark
+                (simple_name)))
+            (interface_subprogram_default
+              (selected_name
+                prefix: (simple_name)
+                suffix: (simple_name))))
+          (semicolon))))))
+

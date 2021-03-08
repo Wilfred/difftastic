@@ -1,0 +1,54 @@
+==========================================================
+Parenthesized expression
+==========================================================
+assert foo'(a);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (qualified_expression
+        (type_mark
+          (simple_name))
+        (expression
+          (simple_name))))))
+
+==========================================================
+Aggregate - Positional asssociation
+==========================================================
+assert foo'(a,b);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (qualified_expression
+        (type_mark
+          (simple_name))
+        (aggregate
+          (positional_element_association
+            (expression
+              (simple_name)))
+          (positional_element_association
+            (expression
+              (simple_name))))))))
+
+==========================================================
+Aggregate - Named asssociation
+==========================================================
+assert foo'(a=>b);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (qualified_expression
+        (type_mark
+          (simple_name))
+        (aggregate
+          (named_element_association
+            (choices
+              (simple_expression
+                (simple_name)))
+            (expression
+              (simple_name))))))))

@@ -1,0 +1,79 @@
+=============================
+Minimal
+=============================
+process
+begin
+end process;
+
+L1: process is
+begin
+end process L1;
+---
+
+(design_file
+  (process_statement)
+  (process_statement
+    (label (identifier))
+    at_end: (simple_name)))
+
+=============================
+Sequential statement
+=============================
+process
+begin
+    wait on a;
+end process;
+---
+
+(design_file
+  (process_statement
+    (sequence_of_statements
+      (wait_statement
+        (sensitivity_list
+          (simple_name))))))
+
+=============================
+Sensitivity list - All
+=============================
+process (all)
+begin
+end process;
+---
+
+(design_file
+  (process_statement
+    (sensitivity_list
+      (all))))
+
+=============================
+Sensitivity list - Signals
+=============================
+process (a,b)
+begin
+end process;
+---
+
+(design_file
+  (process_statement
+    (sensitivity_list
+      (simple_name)
+      (simple_name))))
+
+=============================
+Declarative part
+=============================
+process
+    constant k : t := g;
+begin
+end process;
+---
+
+(design_file
+  (process_statement
+    (declarative_part
+      (constant_declaration
+        (identifier_list (identifier))
+        (subtype_indication
+          (type_mark (simple_name)))
+        (default_expression
+          (simple_name))))))

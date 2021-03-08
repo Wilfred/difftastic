@@ -503,10 +503,7 @@ module.exports = grammar({
             $._entity_name,
             reservedWord('is'),
             optional($.declarative_part),
-            repeat(seq(
-                $.verification_unit_binding_indication,
-                ';'
-            )),
+            repeat($.verification_unit_binding_indication),
             optional($.block_configuration),
             reservedWord('end'),
             optional(reservedWord('configuration')),
@@ -555,19 +552,20 @@ module.exports = grammar({
         component_configuration: $ => seq(
             reservedWord('for'),
             $._component_specification,
-            optional(seq(
-                $.binding_indication,
-                $._semicolon
-            )),
-            repeat(seq(
-                $.verification_unit_binding_indication,
-                $._semicolon
-            )),
+            optional($._composite_configuration_binding_indication),
+            repeat($.verification_unit_binding_indication),
             optional($.block_configuration),
             reservedWord('end'),
             reservedWord('for'),
             ';'
         ),
+
+        // DOT NOT INLINE, used for error recovery of missing semicolon
+        _composite_configuration_binding_indication: $ => seq(
+            $.binding_indication,
+            ';'
+        ),
+
         // }}}
         // 4.2.1 Subprogram declarations {{{
         _subprogram_declaration: $ => choice(
@@ -592,7 +590,7 @@ module.exports = grammar({
             )),
             reservedWord('procedure'),
             $._designator,
-            optional($.subprogram_header),
+            optional(alias($._header,$.subprogram_header)),
             optional($.procedure_parameter_clause),
             optional($.return)
         ),
@@ -604,14 +602,9 @@ module.exports = grammar({
             )),
             reservedWord('function'),
             $._designator,
-            optional($.subprogram_header),
+            optional(alias($._header,$.subprogram_header)),
             optional($.function_parameter_clause),
             optional($.return)
-        ),
-
-        subprogram_header: $ => seq(
-          $._header,
-          ';'
         ),
 
         return: $ => seq(
@@ -1370,7 +1363,7 @@ module.exports = grammar({
             reservedWord('is'),
             reservedWord('new'),
             $._uninstantiated_name,
-            optional(alias($._header,$.package_instantiation_map_aspect)),
+            optional(alias($._header,$.package_map_aspect)),
         ),
         // }}}
         // 6.5.6.1 Interface lists {{{
@@ -1671,9 +1664,7 @@ module.exports = grammar({
 
         simple_configuration_specification: $ => prec.right(seq(
             reservedWord('for'),
-            $._component_specification,
-            optional($.binding_indication),
-            ';',
+            $._configuration_specification_header,
             optional(seq(
                 reservedWord('end'),
                 reservedWord('for'),
@@ -1683,13 +1674,17 @@ module.exports = grammar({
 
         compound_configuration_specification: $ => seq(
             reservedWord('for'),
-            $._component_specification,
-            optional($.binding_indication),
-            ';',
-            sepBy1(';', $.verification_unit_binding_indication),
-            ';',
+            $._configuration_specification_header,
+            repeat1($.verification_unit_binding_indication),
             reservedWord('end'),
             reservedWord('for'),
+            ';'
+        ),
+
+        // TODO: Error recovery for missing (MISSING ';')
+        _configuration_specification_header: $ => seq(
+            $._component_specification,
+            optional($.binding_indication),
             ';'
         ),
 
@@ -1736,7 +1731,8 @@ module.exports = grammar({
         verification_unit_binding_indication: $ => seq(
             reservedWord('use'),
             reservedWord('vunit'),
-            $.verification_unit_list
+            $.verification_unit_list,
+            ';'
         ),
 
         verification_unit_list: $ => sepBy1(

@@ -1,0 +1,109 @@
+===========================
+Ordinary case statement
+===========================
+case expr is
+end case;
+
+L1:
+case expr is
+end case;
+
+L2:
+case expr is
+end case L2;
+---
+
+(design_file
+  (case_statement
+    (expression
+      (simple_name)))
+  (case_statement
+    (label
+      (identifier))
+    (expression
+      (simple_name)))
+  (case_statement
+    (label
+      (identifier))
+    (expression
+      (simple_name))
+    at_end: (simple_name)))
+
+===========================
+Matching case statement
+===========================
+case? expr is
+end case?;
+
+L1:
+case? expr is
+end case?;
+
+L2:
+case? expr is
+end case? L2;
+---
+
+(design_file
+  (case_statement
+    (expression
+      (simple_name)))
+  (case_statement
+    (label
+      (identifier))
+    (expression
+      (simple_name)))
+  (case_statement
+    (label
+      (identifier))
+    (expression
+      (simple_name))
+    at_end: (simple_name)))
+
+===================================
+Case statement alternatives
+===================================
+case expr is
+    when a =>
+    when b | c =>
+    when others =>
+end case;
+---
+
+(design_file
+  (case_statement
+    (expression
+      (simple_name))
+    (case_statement_alternative
+      (choices
+        (simple_expression
+          (simple_name))))
+    (case_statement_alternative
+      (choices
+        (simple_expression
+          (simple_name))
+        (simple_expression
+          (simple_name))))
+    (case_statement_alternative
+      (choices
+        (others)))))
+
+===================================
+Sequence os statements
+===================================
+case expr is
+    when a =>
+        null;
+end case;
+---
+
+(design_file
+  (case_statement
+    (expression
+      (simple_name))
+    (case_statement_alternative
+      (choices
+        (simple_expression
+          (simple_name)))
+      (sequence_of_statements
+        (null_statement)))))

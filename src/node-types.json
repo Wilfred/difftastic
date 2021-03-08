@@ -4743,10 +4743,6 @@
           "named": true
         },
         {
-          "type": "semicolon",
-          "named": true
-        },
-        {
           "type": "verification_unit_binding_indication",
           "named": true
         }
@@ -7764,8 +7760,24 @@
             "named": true
           },
           {
+            "type": "function",
+            "named": false
+          },
+          {
+            "type": "impure",
+            "named": false
+          },
+          {
             "type": "operator_symbol",
             "named": true
+          },
+          {
+            "type": "procedure",
+            "named": false
+          },
+          {
+            "type": "pure",
+            "named": false
           },
           {
             "type": "simple_name",
@@ -10189,8 +10201,24 @@
             "named": true
           },
           {
+            "type": "function",
+            "named": false
+          },
+          {
+            "type": "impure",
+            "named": false
+          },
+          {
             "type": "operator_symbol",
             "named": true
+          },
+          {
+            "type": "procedure",
+            "named": false
+          },
+          {
+            "type": "pure",
+            "named": false
           },
           {
             "type": "simple_name",

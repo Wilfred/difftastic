@@ -1,0 +1,160 @@
+====================================
+Package declaration - Minimal
+====================================
+package pkg is
+end;
+
+package pkg is
+end package;
+
+package pkg is
+end pkg;
+
+package pkg is
+end package pkg;
+---
+
+(design_file
+  (package_declaration
+    name: (identifier))
+  (package_declaration
+    name: (identifier))
+  (package_declaration
+    name: (identifier)
+    at_end: (simple_name))
+  (package_declaration
+    name: (identifier)
+    at_end: (simple_name)))
+
+==========================
+Package body - Minimal
+==========================
+package body pkg is
+end;
+
+package body pkg is
+end package body;
+
+package body pkg is
+end package body pkg;
+---
+
+(design_file
+  (package_body
+    package: (simple_name))
+  (package_body
+    package: (simple_name))
+  (package_body
+    package: (simple_name)
+    at_end: (simple_name)))
+
+====================================
+LINT: Package declaration - Header
+====================================
+package pkg is
+    generic (k:t) -- missing semicolon
+    generic map (x);
+    port (k:t)    -- illegal
+    port map (x); -- illegal
+end package pkg;
+---
+
+(design_file
+  (package_declaration
+    name: (identifier)
+    (package_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))))
+      (comment)
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))
+        (semicolon))
+      (port_clause
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))))
+      (comment)
+      (port_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))
+        (semicolon)))
+    (comment)
+    at_end: (simple_name)))
+
+====================================
+LINT: Package declaration - Header (semicolon)
+====================================
+package pkg is
+    generic (k:t)  -- missing semicolon
+end package;
+
+package pkg is
+    generic (k:t)  -- missing semicolon
+    generic map (x);
+end package;
+
+package pkg is
+    generic (k:t)
+    generic map (x) -- missing semicolon
+end package;
+---
+
+
+(design_file
+  (package_declaration
+    name: (identifier)
+    (package_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))))
+    (comment))
+  (package_declaration
+    name: (identifier)
+    (package_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))))
+      (comment)
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))
+        (semicolon))))
+  (package_declaration
+    name: (identifier)
+    (package_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))))
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))))
+    (comment)))
