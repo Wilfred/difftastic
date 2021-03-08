@@ -53,3 +53,12 @@ else {
 #        say "$_ is something else";
 #    }
 # }
+
+my $i = 0;
+MEOW: while ($i < 10) {
+  print "hello $i";
+  
+  next MEOW;
+
+  $i++;
+}
