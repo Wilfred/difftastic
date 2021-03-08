@@ -18,18 +18,19 @@ function atleastOnce (rule) {
   return seq(rule, repeat(rule));
 }
 
-function binaryOp($, assoc, precedence, operator) {
+function binaryOp($, assoc, precedence, operator, bare_keyword) {
+  const right = bare_keyword ? choice($.expr, $.bare_keyword_list) : $.expr;
   return assoc(precedence,
                seq(field('left', $.expr),
                    field('operator', operator),
-                   optional($._terminator), field('right', $.expr)));
+                   optional($._terminator), field('right', right)));
 }
 
 function unaryOp($, assoc, precedence, operator) {
   return assoc(precedence, seq(operator, $.expr));
 }
 
-function block_expression($, name) {
+function blockExpression($, name) {
   return prec.right(seq(
     name,
     optional($._terminator),
@@ -107,6 +108,7 @@ module.exports = grammar({
       $.list,
       $.binary,
       $.map,
+      $.struct,
       $.string,
       $.tuple,
       $.literal,
@@ -129,12 +131,10 @@ module.exports = grammar({
 
     binary_op: $ => choice(
       binaryOp($, prec.left, 40, choice('\\\\', '<-')),
-      prec.right(50,
-                 seq(field('left', $.expr),
-                     field('operator', 'when'),
-                     optional($._terminator), field('right', choice($.expr, $.bare_keyword_list)))),
+      binaryOp($, prec.right, 50, 'when', true),
       binaryOp($, prec.right, 60, '::'),
-      binaryOp($, prec.right, 70, '|'),
+      binaryOp($, prec.right, 70, '|', true),
+      binaryOp($, prec.right, 80, '=>'),
       binaryOp($, prec.right, 100, '='),
       binaryOp($, prec.left, 130, choice('||', '|||', 'or')),
       binaryOp($, prec.left, 140, choice('&&', '&&&', 'and')),
@@ -170,13 +170,13 @@ module.exports = grammar({
       ']'
     )),
 
-    after_block: $ => block_expression($, 'after'),
-    rescue_block: $ => block_expression($, 'rescue'),
-    catch_block: $ => block_expression($, 'catch'),
-    else_block: $ => block_expression($, 'else'),
+    after_block: $ => blockExpression($, 'after'),
+    rescue_block: $ => blockExpression($, 'rescue'),
+    catch_block: $ => blockExpression($, 'catch'),
+    else_block: $ => blockExpression($, 'else'),
 
     block: $ => seq(
-      block_expression($, 'do'),
+      blockExpression($, 'do'),
       repeat(choice($.after_block, $.rescue_block, $.catch_block, $.else_block)),
       optional($._terminator),
       'end'
@@ -206,15 +206,21 @@ module.exports = grammar({
       $.bare_keyword_list
     ),
 
-    map: $ => prec.left(PREC.MAP, seq(
+    map: $ => seq(
       '%{',
       optional($._terminator),
-      commaSep($, choice(
-        seq($.expr, '=>', $.expr),
-        seq($.keyword, $.expr),
-      )),
+      optional($._bare_args),
       '}'
-    )),
+    ),
+
+    struct: $ => seq(
+      '%',
+      choice($.module, $.identifier),
+      '{',
+      optional($._terminator),
+      optional($._bare_args),
+      '}'
+    ),
 
     list: $ => prec.left(PREC.LIST, seq(
       '[',
