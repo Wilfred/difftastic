@@ -2,7 +2,7 @@
   "name": "tree-sitter-dart",
   "version": "1.0.0",
   "description": "Dart grammar attempt for tree-sitter",
-  "main": "index.js",
+  "main": "bindings/node",
   "keywords": [
     "tree-sitter",
     "parser",
@@ -11,12 +11,12 @@
   "author": "Benjamin Sobel",
   "license": "ISC",
   "dependencies": {
-    "nan": "^2.14.0"
+    "nan": "^2.14.2"
   },
   "devDependencies": {
-    "node-gyp": "^5.1.1",
-    "npm-watch": "^0.3.0",
-    "tree-sitter-cli": "^0.16.5"
+    "node-gyp": "^7.1.2",
+    "npm-watch": "^0.7.0",
+    "tree-sitter-cli": "^0.19.2"
   },
   "watch": {
     "test": {
