@@ -75,7 +75,7 @@ module.exports = grammar({
 
       $._declaration,
 
-      $._statement_modifiers,
+      $.single_line_statement,
 
       $._compound_statement,
     ),
@@ -84,6 +84,12 @@ module.exports = grammar({
       $._expression,
       $.return_expression,
     ),
+
+    // aka _statement_modifiers_expression
+    single_line_statement: $ => prec.right(seq(
+      $._expression_or_return_expression,
+      $._statement_modifiers,
+    )),
 
     _statement_modifiers: $ => choice(
       $.if_simple_statement,
@@ -103,6 +109,7 @@ module.exports = grammar({
 
       // loops
       $.while_statement,
+      $.until_statement,
     ),
 
     _expression_statement: $ => seq(
@@ -123,43 +130,36 @@ module.exports = grammar({
     ),
 
     if_simple_statement: $ => prec.right(seq(
-      $._expression_or_return_expression,
       'if',
       field('condition', choice($.parenthesized_expression, $._expression)),
       $.semi_colon,
     )),
     unless_simple_statement: $ => prec.right(seq(
-      $._expression_or_return_expression,
       'unless',
       field('condition', choice($.parenthesized_expression, $._expression)),
       $.semi_colon,
     )),
     while_simple_statement: $ => prec.right(seq(
-      $._expression_or_return_expression,
       'while',
       field('condition', choice($.parenthesized_expression, $._expression)),
       $.semi_colon,
     )),
     until_simple_statement: $ => prec.right(seq(
-      $._expression_or_return_expression,
       'until',
       field('condition', choice($.parenthesized_expression, $._expression)),
       $.semi_colon,
     )),
     for_simple_statement: $ => prec.right(seq(
-      $._expression_or_return_expression,
       'for',
       field('list', with_or_without_brackets($._list)),
       $.semi_colon,
     )),
     foreach_simple_statement: $ => prec.right(seq(
-      $._expression_or_return_expression,
       'foreach',
       field('list', with_or_without_brackets($._list)),
       $.semi_colon,
     )),
     when_simple_statement: $ => prec.right(seq(
-      $._expression_or_return_expression,
       'when',
       field('condition', choice($.parenthesized_expression, $._expression)),
       $.semi_colon,
@@ -219,6 +219,25 @@ module.exports = grammar({
       'while',
       field('condition', $.empty_parenthesized_expression),
       field('body', $.block),
+      optional(
+        seq(
+          'continue',
+          field('body', $.block), // normal block for a continue block
+        )
+      ),
+    ),
+
+    until_statement: $ => seq(
+      optional(seq(field('label', $.identifier), ':')),
+      'until',
+      field('condition', $.empty_parenthesized_expression),
+      field('body', $.block),
+      optional(
+        seq(
+          'continue',
+          field('body', $.block),
+        )
+      ),
     ),
 
     _declaration: $ => choice(
@@ -266,8 +285,20 @@ module.exports = grammar({
 
     block: $ => seq(
       '{',
-      optional(repeat($._statement)),
+      optional(repeat($._block_statements)),
       '}'
+    ),
+
+    _block_statements: $ => choice(
+      $._statement,
+      $.loop_control_statement,
+    ),
+
+    loop_control_statement: $ => seq(
+      $.loop_control_keyword,
+      optional(field('label', $.identifier)),
+      optional($._statement_modifiers),
+      $.semi_colon,
     ),
 
     parenthesized_expression: $ => seq(
@@ -680,6 +711,12 @@ module.exports = grammar({
     octal: $ => /0[1-7][0-7]*/,
 
     identifier: $ => /[a-zA-z0-9_]+/,
+
+    loop_control_keyword: $ => choice(
+      'next',
+      'last',
+      'redo',
+    ),
 
     package_name: $ => /[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/,
 
