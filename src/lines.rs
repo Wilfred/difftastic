@@ -53,11 +53,8 @@ pub struct NewlinePositions {
 impl From<&str> for NewlinePositions {
     fn from(s: &str) -> Self {
         let newline_re = Regex::new("\n").unwrap();
-        let newlines: Vec<_> = newline_re.find_iter(s).map(|mat| mat.end()).collect();
-
-        let mut positions = Vec::with_capacity(newlines.len() + 1);
-        positions.push(0);
-        positions.extend(&newlines);
+        let mut positions: Vec<_> = newline_re.find_iter(s).map(|mat| mat.end()).collect();
+        positions.insert(0, 0);
 
         NewlinePositions { positions }
     }
@@ -263,8 +260,7 @@ pub fn add_context(
 }
 
 pub fn max_line(s: &str) -> LineNumber {
-    let lines: Vec<_> = s.lines().collect();
-    LineNumber::from(lines.len() - 1)
+    LineNumber::from(s.lines().count() - 1)
 }
 
 #[test]
