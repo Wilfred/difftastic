@@ -12,6 +12,7 @@
   "dependencies": {
     "nan": "^2.14.0"
   },
+  "main": "./bindings/node",
   "devDependencies": {
     "tree-sitter-cli": "^0.19.1",
     "tree-sitter-javascript": "github:tree-sitter/tree-sitter-javascript#v0.19.0"

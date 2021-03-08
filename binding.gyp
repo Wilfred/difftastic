@@ -9,27 +9,13 @@
       "sources": [
         "typescript/src/parser.c",
         "typescript/src/scanner.c",
-        "typescript/bindings/node/binding.cc"
-      ],
-      "cflags_c": [
-        "-std=c99",
-      ]
-    },
-    {
-      "target_name": "tree_sitter_tsx_binding",
-      "include_dirs": [
-        "<!(node -e \"require('nan')\")",
-        "tsx/src"
-      ],
-      "sources": [
         "tsx/src/parser.c",
         "tsx/src/scanner.c",
-        "tsx/bindings/node/binding.cc"
+        "bindings/node/binding.cc"
       ],
       "cflags_c": [
         "-std=c99",
       ]
     },
-
   ]
 }

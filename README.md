@@ -9,8 +9,8 @@ TypeScript and TSX grammars for [tree-sitter][].
 Because TSX and TypeScript are actually two different dialects, this module defines two grammars. Require them as follows:
 
 ```js
-require('tree-sitter-typescript/typescript'); // TypeScript grammar
-require('tree-sitter-typescript/tsx'); // TSX grammar
+require('tree-sitter-typescript').typescript; // TypeScript grammar
+require('tree-sitter-typescript').tsx; // TSX grammar
 ```
 
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter

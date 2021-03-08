@@ -5,3 +5,5 @@ appveyor.yml
 .gitattributes
 build
 script
+target
+test.ts
