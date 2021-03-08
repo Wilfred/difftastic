@@ -4,6 +4,7 @@ A language-aware word-level diff.
 
 ```
 $ cargo run before.js after.js
+$ cargo run --inline before.js after.js
 ```
 
 ## Other Diff Techniques
