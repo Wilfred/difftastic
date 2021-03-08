@@ -1087,7 +1087,6 @@ Template literal types
 type A<B, C> = `${B}${C}`;
 type A = `${B[0]}-foo-${C}-bar-${D<U, D>}`
 type A = `[${'a'}${0}]`
-
 type A<B, C> = B extends C
   ? C extends string
     ? `${C}${"" extends C ? "" : "."}${B}`
@@ -1134,32 +1133,92 @@ type A<B, C> = B extends C
       (template_type
         (literal_type
           (number)))))
-          (type_alias_declaration
-            (type_identifier)
-            (type_parameters
-              (type_parameter
-                (type_identifier))
-              (type_parameter
-                (type_identifier)))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier))
+      (type_parameter
+        (type_identifier)))
+    (conditional_type
+      (type_identifier)
+      (type_identifier)
+      (conditional_type
+        (type_identifier)
+        (predefined_type)
+        (template_literal_type
+          (template_type
+            (type_identifier))
+          (template_type
             (conditional_type
+              (literal_type
+                (string))
               (type_identifier)
-              (type_identifier)
-              (conditional_type
+              (literal_type
+                (string))
+              (literal_type
+                (string))))
+          (template_type
+            (type_identifier)))
+        (type_identifier))
+      (type_identifier))))
+
+==================================
+Mapped type 'as' clauses
+==================================
+
+type A<B> = { [B in keyof C & string as `get${Capitalize<P>}`]: () => A[B] };
+type A<B> = { [B in keyof C & string as `${P}1` | `${P}2`]: A[B] }
+
+---
+
+(program
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (object_type
+      (index_signature
+        (mapped_type_clause
+          (type_identifier)
+          (intersection_type
+            (index_type_query
+              (type_identifier))
+            (predefined_type))
+          (template_literal_type
+            (template_type
+              (generic_type
                 (type_identifier)
-                (predefined_type)
-                (template_literal_type
-                  (template_type
-                    (type_identifier))
-                  (template_type
-                    (conditional_type
-                      (literal_type
-                        (string))
-                      (type_identifier)
-                      (literal_type
-                        (string))
-                      (literal_type
-                        (string))))
-                  (template_type
-                    (type_identifier)))
-                (type_identifier))
-              (type_identifier))))
+                (type_arguments
+                  (type_identifier))))))
+        (type_annotation
+          (function_type
+            (formal_parameters)
+            (lookup_type
+              (type_identifier)
+              (type_identifier)))))))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (object_type
+      (index_signature
+        (mapped_type_clause
+          (type_identifier)
+          (intersection_type
+            (index_type_query
+              (type_identifier))
+            (predefined_type))
+          (union_type
+            (template_literal_type
+              (template_type
+                (type_identifier)))
+            (template_literal_type
+              (template_type
+                (type_identifier)))))
+        (type_annotation
+          (lookup_type
+            (type_identifier)
+            (type_identifier)))))))
