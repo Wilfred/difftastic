@@ -30,5 +30,5 @@
   "protected"
   "public"
   "type"
-  (readonly)
+  "readonly"
 ] @keyword
