@@ -1,0 +1,86 @@
+================================================================================
+binary expression
+================================================================================
+
+<<"Elixir.Mix.Tasks.", rest::binary-size(part), rest!::binary-size(part), rest?::binary-size(part), ".beam">>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (binary
+        (expr
+          (string))
+        (expr
+          (binary_op
+            (expr
+              (identifier))
+            (expr
+              (binary_op
+                (expr
+                  (identifier))
+                (expr
+                  (call
+                    (identifier)
+                    (args
+                      (expr
+                        (identifier)))))))))
+        (expr
+          (binary_op
+            (expr
+              (identifier))
+            (expr
+              (binary_op
+                (expr
+                  (identifier))
+                (expr
+                  (call
+                    (identifier)
+                    (args
+                      (expr
+                        (identifier)))))))))
+        (expr
+          (binary_op
+            (expr
+              (identifier))
+            (expr
+              (binary_op
+                (expr
+                  (identifier))
+                (expr
+                  (call
+                    (identifier)
+                    (args
+                      (expr
+                        (identifier)))))))))
+        (expr
+          (string))))))
+
+================================================================================
+simple
+================================================================================
+
+<<"ABC">>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (binary
+        (expr
+          (string))))))
+
+================================================================================
+empty
+================================================================================
+
+<<>>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (binary))))
