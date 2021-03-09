@@ -2,7 +2,7 @@
   "name": "tree-sitter-r",
   "version": "0.0.1",
   "description": "R grammar for tree-sitter",
-  "main": "index.js",
+  "main": "bindings/node",
   "keywords": [
     "parser",
     "lexer"
@@ -13,7 +13,8 @@
     "nan": "^2.14.2"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.17.2"
+    "tree-sitter": "^0.19.0",
+    "tree-sitter-cli": "^0.19.3"
   },
   "scripts": {
     "test": "tree-sitter test"
