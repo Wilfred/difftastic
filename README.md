@@ -1,6 +1,6 @@
 # tree-sitter-haskell
 
-[![Build Status](https://github.com/tree-sitter/tree-sitter-haskell/workflows/build/badge.svg)](https://github.com/tree-sitter/tree-sitter-haskell/actions?query=workflow%3Atest)
+[![Test the grammar](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/test.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/test.yml)
 
 Haskell grammar for [tree-sitter].
 
