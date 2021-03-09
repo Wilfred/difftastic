@@ -99,12 +99,14 @@ struct Scanner {
   unsigned serialize(char *buffer) {
     size_t i = 0;
 
-    size_t stack_size = delimiter_stack.size();
-    if (stack_size > UINT8_MAX) stack_size = UINT8_MAX;
-    buffer[i++] = stack_size;
+    size_t delimiter_count = delimiter_stack.size();
+    if (delimiter_count > UINT8_MAX) delimiter_count = UINT8_MAX;
+    buffer[i++] = delimiter_count;
 
-    memcpy(&buffer[i], delimiter_stack.data(), stack_size);
-    i += stack_size;
+    if (delimiter_count > 0) {
+      memcpy(&buffer[i], delimiter_stack.data(), delimiter_count);
+    }
+    i += delimiter_count;
 
     vector<uint16_t>::iterator
       iter = indent_length_stack.begin() + 1,
@@ -127,7 +129,9 @@ struct Scanner {
 
       size_t delimiter_count = (uint8_t)buffer[i++];
       delimiter_stack.resize(delimiter_count);
-      memcpy(delimiter_stack.data(), &buffer[i], delimiter_count);
+      if (delimiter_count > 0) {
+        memcpy(delimiter_stack.data(), &buffer[i], delimiter_count);
+      }
       i += delimiter_count;
 
       for (; i < length; i++) {
