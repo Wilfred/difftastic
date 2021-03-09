@@ -1,7 +1,7 @@
 tree-sitter-javascript
 ===========================
 
-[![build](https://github.com/tree-sitter/tree-sitter-javascript/actions/workflows/ci.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-javascript/actions/workflows/ci.yml)
+[![Build/test](https://github.com/tree-sitter/tree-sitter-javascript/actions/workflows/ci.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-javascript/actions/workflows/ci.yml)
 
 JavaScript grammar for [tree-sitter][].
 
