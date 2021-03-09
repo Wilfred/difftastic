@@ -943,7 +943,7 @@ module.exports = grammar({
       ))
     },
 
-    identifier: $ => /[a-zA-Zα-ωΑ-Ω_][a-zA-Zα-ωΑ-Ω_0-9]*/,
+    identifier: $ => /[_\p{XID_Start}][_\p{XID_Continue}]*/,
 
     keyword_identifier: $ => prec(-3, alias(
       choice(
