@@ -17,7 +17,8 @@
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test && script/parse-examples"
+    "test": "tree-sitter test && script/parse-examples",
+    "test-windows": "tree-sitter test"
   },
   "tree-sitter": [
     {
