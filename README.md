@@ -1,7 +1,6 @@
 # tree-sitter-rust
 
-[![Build Status](https://travis-ci.org/tree-sitter/tree-sitter-rust.svg?branch=master)](https://travis-ci.org/tree-sitter/tree-sitter-rust)
-[![Build status](https://ci.appveyor.com/api/projects/status/q57l49j9ancaw0fs/branch/master?svg=true)](https://ci.appveyor.com/project/maxbrunsfeld/tree-sitter-rust/branch/master)
+[![Build/test](https://github.com/tree-sitter/tree-sitter-rust/actions/workflows/ci.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-rust/actions/workflows/ci.yml)
 
 Rust grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter)
 
