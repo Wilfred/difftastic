@@ -1,7 +1,7 @@
 tree-sitter-go
 ===========================
 
-[![Build Status](https://travis-ci.org/tree-sitter/tree-sitter-go.svg?branch=master)](https://travis-ci.org/tree-sitter/tree-sitter-go)
+[![Build/test](https://github.com/tree-sitter/tree-sitter-go/actions/workflows/ci.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-go/actions/workflows/ci.yml)
 
 Golang grammar for [tree-sitter][].
 
