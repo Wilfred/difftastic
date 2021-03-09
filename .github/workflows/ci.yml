@@ -17,12 +17,15 @@ jobs:
           node-version: 14
       - run: npm install
       - run: npm test
-  test_windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 14
-      - run: npm install
-      - run: npm run-script test-windows
+  # Switching from Appveyor to Actions made Actions encounter
+  # problems with CRLF endings. Once we fix that (issue #164),
+  # please reenable these tests.
+  # test_windows:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 14
+  #     - run: npm install
+  #     - run: npm run-script test-windows
