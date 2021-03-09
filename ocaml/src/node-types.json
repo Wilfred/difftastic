@@ -1088,6 +1088,25 @@
     }
   },
   {
+    "type": "attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute_id",
+          "named": true
+        },
+        {
+          "type": "attribute_payload",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "attribute_id",
     "named": true,
     "fields": {}
@@ -5530,6 +5549,10 @@
     "named": true
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "constraint",
     "named": false
   },
@@ -5639,6 +5662,10 @@
   },
   {
     "type": "let_operator",
+    "named": true
+  },
+  {
+    "type": "line_number_directive",
     "named": true
   },
   {

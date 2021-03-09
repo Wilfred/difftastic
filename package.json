@@ -12,7 +12,7 @@
     "nan": "^2.14.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.16.9"
+    "tree-sitter-cli": "^0.19.2"
   },
   "scripts": {
     "build": "npm run build-ocaml && npm run build-interface",
