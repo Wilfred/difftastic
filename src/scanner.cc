@@ -85,19 +85,6 @@ struct Scanner {
     lexer->advance(lexer, false);
   }
 
-  bool lookahead_is_line_end(TSLexer *lexer) {
-    if (lexer->lookahead == '\n') {
-      return true;
-    } else if (lexer->lookahead == '\r') {
-      skip(lexer);
-      if (lexer->lookahead == '\n') {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   bool scan_whitespace(TSLexer *lexer) {
     for (;;) {
       while (iswspace(lexer->lookahead)) {
@@ -159,7 +146,7 @@ struct Scanner {
 
     for (;;) {
       if (position_in_word == heredoc.word.size()) {
-        if (lexer->lookahead == ';' || lexer->lookahead == '\n') {
+        if (lexer->lookahead == ';' || lexer->lookahead == '\n' || lexer->lookahead == '\r') {
           open_heredocs.erase(open_heredocs.begin());
           return End;
         }
