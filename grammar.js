@@ -45,7 +45,7 @@ function blockExpression($, name) {
 const PREC = {
   COMMENT: -2,
   CALL: -1,
-  DOT_CALL: 7,
+  DOT_CALL: 310,
   ACCESS_CALL: 8,
   CALL_NAME: 6,
   MAP: 5,
@@ -96,6 +96,7 @@ module.exports = grammar({
       $.binary_op,
       $.unary_op,
       $.paren_expr,
+      $.qualified_call,
       $.call,
       $.dot_call,
       $.access_call,
@@ -120,13 +121,25 @@ module.exports = grammar({
       '(', choice($.stab_expr, $.expr), ')'
     ),
 
-    call: $ => prec(PREC.CALL, seq(
-      field('name', $.identifier),
-      optional(choice(
-        $._bare_args,
-        seq(optional('.'), $.args),
-      )),
-      optional($.block)
+    qualified_call: $ => seq(
+      field('name', choice($.identifier, $.dot_call)),
+      optional('.'),
+      $.args
+    ),
+
+    call: $ => prec(PREC.CALL, choice(
+      seq(
+        field('name', choice($.identifier, $.dot_call, $.qualified_call)),
+        choice(
+          $._bare_args,
+          seq(optional('.'), $.args),
+        ),
+        optional($.block)
+      ),
+      seq(
+        field('name', choice($.identifier, $.dot_call, $.qualified_call)),
+        $.block
+      )
     )),
 
 
@@ -176,12 +189,12 @@ module.exports = grammar({
     catch_block: $ => blockExpression($, 'catch'),
     else_block: $ => blockExpression($, 'else'),
 
-    block: $ => seq(
+    block: $ => prec.left(5, seq(
       blockExpression($, 'do'),
       repeat(choice($.after_block, $.rescue_block, $.catch_block, $.else_block)),
       optional($._terminator),
       'end'
-    ),
+    )),
 
     anonymous_function: $ => prec(PREC.ANONYMOUSE_FN, seq(
       'fn',
