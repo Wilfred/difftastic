@@ -1,4 +1,4 @@
-name: Test the grammar
+name: Build/test
 on:
   push:
     branches:
