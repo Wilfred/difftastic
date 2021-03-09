@@ -5437,7 +5437,12 @@
                 "type": "FIELD",
                 "name": "operator",
                 "content": {
-                  "type": "STRING",
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[iI][nN][sS][tT][aA][nN][cC][eE][oO][fF]"
+                  },
+                  "named": false,
                   "value": "instanceof"
                 }
               },
