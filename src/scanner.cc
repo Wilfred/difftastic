@@ -29,13 +29,16 @@ namespace
         {
             size_t i = 0;
 
-            size_t stack_size = runback.size();
-            if (stack_size > UINT8_MAX)
-                stack_size = UINT8_MAX;
-            buffer[i++] = stack_size;
+            size_t runback_count = runback.size();
+            if (runback_count > UINT8_MAX)
+                runback_count = UINT8_MAX;
+            buffer[i++] = runback_count;
 
-            memcpy(&buffer[i], runback.data(), stack_size);
-            i += stack_size;
+            if (runback_count > 0)
+            {
+                memcpy(&buffer[i], runback.data(), runback_count);
+            }
+            i += runback_count;
 
             buffer[i++] = indent_length;
 
@@ -63,7 +66,11 @@ namespace
 
                 size_t runback_count = (uint8_t)buffer[i++];
                 runback.resize(runback_count);
-                memcpy(runback.data(), &buffer[i], runback_count);
+                if (runback_count > 0)
+                {
+
+                    memcpy(runback.data(), &buffer[i], runback_count);
+                }
                 i += runback_count;
                 indent_length = buffer[i++];
                 for (; i < length; i++)
