@@ -96,8 +96,6 @@
   (match_operator)
 ] @operator
 
-(prefix_operator "!" @operator)
-
 (infix_operator ["&" "+" "-" "=" ">" "|" "%"] @operator)
 (signed_number ["+" "-"] @operator)
 

@@ -5,3 +5,5 @@ examples
 *.log
 test.ml
 test.mli
+target
+Cargo.lock
