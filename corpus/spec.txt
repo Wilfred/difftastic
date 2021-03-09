@@ -25,7 +25,7 @@ spec with splat
                 (expr
                   (binary_op
                     (expr
-                      (call
+                      (qualified_call
                         (identifier)
                         (args
                           (expr
@@ -62,6 +62,6 @@ spec with splat
                 (bare_keyword_list
                   (keyword)
                   (expr
-                    (call
+                    (qualified_call
                       (identifier)
                       (args))))))))))))

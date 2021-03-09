@@ -116,7 +116,7 @@ end
                 (expr
                   (identifier))
                 (expr
-                  (call
+                  (qualified_call
                     (identifier)
                     (args
                       (expr

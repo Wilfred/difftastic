@@ -21,11 +21,11 @@ end
             (expr
               (binary_op
                 (expr
-                  (call
+                  (qualified_call
                     (identifier)
                     (args)))
                 (expr
-                  (call
+                  (qualified_call
                     (identifier)
                     (args))))))))))
   (statement
@@ -64,26 +64,26 @@ end
         (expr
           (binary_op
             (expr
-              (call
+              (qualified_call
                 (identifier)
                 (args
                   (expr
                     (identifier)))))
             (expr
-              (call
+              (qualified_call
                 (identifier)
                 (args
                   (expr
                     (identifier)))))))
         (block
           (expr
-            (call
+            (qualified_call
               (identifier)
               (args
                 (expr
                   (identifier))
                 (expr
-                  (call
+                  (qualified_call
                     (identifier)
                     (args
                       (expr

@@ -26,7 +26,7 @@ end
         (identifier)
         (block
           (expr
-            (call
+            (qualified_call
               (identifier)
               (args
                 (expr
@@ -128,7 +128,7 @@ end
         (identifier)
         (block
           (expr
-            (call
+            (qualified_call
               (identifier)
               (args
                 (expr
@@ -230,7 +230,7 @@ end
         (identifier)
         (block
           (expr
-            (call
+            (qualified_call
               (identifier)
               (args
                 (expr

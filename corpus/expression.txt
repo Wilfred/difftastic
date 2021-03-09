@@ -9,7 +9,7 @@ y(+1)
 (source_file
   (statement
     (expr
-      (call
+      (qualified_call
         (identifier)
         (args
           (expr
