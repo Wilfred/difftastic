@@ -1150,6 +1150,10 @@
     "named": true
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "long_buf_lit",
     "named": true
   },
