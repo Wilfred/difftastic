@@ -6567,7 +6567,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[a-zA-Z_]\\w*"
+      "value": "[A-Za-z_$][A-Za-z0-9_$]*"
     },
     "comment": {
       "type": "TOKEN",
@@ -6661,6 +6661,7 @@
       "primary_expression"
     ]
   ],
+  "precedences": [],
   "externals": [],
   "inline": [
     "_name",
