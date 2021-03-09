@@ -12,13 +12,13 @@ edition = "2018"
 
 build = "bindings/rust/build.rs"
 include = [
-  "./common",
-  "./bindings/rust",
-  "./ocaml/grammar.js",
-  "./ocaml/src",
-  "./interface/grammar.js",
-  "./interface/src",
-  "./queries"
+  "common",
+  "bindings/rust/*",
+  "ocaml/grammar.js",
+  "ocaml/src",
+  "interface/grammar.js",
+  "interface/src",
+  "queries"
 ]
 
 [lib]
