@@ -1025,7 +1025,7 @@ module.exports = grammar({
     binary_expression: $ => choice(
       prec(PREC.INSTANCEOF, seq(
         field('left', $._unary_expression),
-        field('operator', 'instanceof'),
+        field('operator', keyword('instanceof')),
         field('right', $._class_type_designator)
       )),
       prec.right(PREC.NULL_COALESCE, seq($._expression, '??', $._expression)),
