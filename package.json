@@ -1,36 +1,36 @@
 {
-	"name": "tree-sitter-kotlin",
-	"version": "0.2.6",
-	"description": "Tree-Sitter grammar for Kotlin",
-	"main": "index.js",
-	"scripts": {
-		"test": "tree-sitter test",
-		"install": "node-gyp rebuild",
-		"generate": "tree-sitter generate",
-		"parse": "tree-sitter parse",
-		"build-wasm": "tree-sitter build-wasm",
-		"web-ui": "tree-sitter web-ui"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/fwcd/tree-sitter-kotlin.git"
-	},
-	"keywords": [
-		"tree-sitter",
-		"kotlin",
-		"grammar"
-	],
-	"author": "fwcd",
-	"license": "MIT",
-	"gypfile": true,
-	"bugs": {
-		"url": "https://github.com/fwcd/tree-sitter-kotlin/issues"
-	},
-	"homepage": "https://github.com/fwcd/tree-sitter-kotlin#readme",
-	"dependencies": {
-		"nan": "^2.12.1"
-	},
-	"devDependencies": {
-		"tree-sitter-cli": "^0.16.9"
-	}
+  "name": "tree-sitter-kotlin",
+  "version": "0.2.6",
+  "description": "Tree-Sitter grammar for Kotlin",
+  "main": "bindings/node",
+  "scripts": {
+    "test": "tree-sitter test",
+    "install": "node-gyp rebuild",
+    "generate": "tree-sitter generate",
+    "parse": "tree-sitter parse",
+    "build-wasm": "tree-sitter build-wasm",
+    "web-ui": "tree-sitter web-ui"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fwcd/tree-sitter-kotlin.git"
+  },
+  "keywords": [
+    "tree-sitter",
+    "kotlin",
+    "grammar"
+  ],
+  "author": "fwcd",
+  "license": "MIT",
+  "gypfile": true,
+  "bugs": {
+    "url": "https://github.com/fwcd/tree-sitter-kotlin/issues"
+  },
+  "homepage": "https://github.com/fwcd/tree-sitter-kotlin#readme",
+  "dependencies": {
+    "nan": "^2.12.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.19.2"
+  }
 }
