@@ -16,9 +16,14 @@ enum TokenType {
   HEREDOC_START,
   HEREDOC_CONTENT,
   HEREDOC_END,
+
   SIGIL_START,
   SIGIL_CONTENT,
   SIGIL_END,
+
+  STRING_START,
+  STRING_CONTENT,
+  STRING_END,
 
   IDENTIFIER,
   KEYWORD,
@@ -28,13 +33,14 @@ enum TokenType {
 
 enum StackItemType {
   HEREDOC,
-  SIGIL
+  SIGIL,
+  STRING
 };
 
 struct StackItem {
   StackItemType type;
 
-  // heredoc
+  // heredoc | string
   bool single_quote;
 
   // sigil
@@ -409,17 +415,44 @@ struct Scanner {
     }
   }
 
-  bool scan_heredoc_start(TSLexer *lexer) {
+  bool scan_heredoc_or_string_start(TSLexer *lexer, const bool *valid_symbols) {
     if (lexer->lookahead != '"') return false;
     advance(lexer);
-    if (lexer->lookahead != '"') return false;
-    advance(lexer);
-    if (lexer->lookahead != '"') return false;
-    advance(lexer);
-    lexer->result_symbol = HEREDOC_START;
+    lexer->mark_end(lexer);
+
     StackItem stack_item;
-    stack_item.type = HEREDOC;
     stack_item.single_quote = false;
+
+    if (!valid_symbols[HEREDOC_START]) {
+      lexer->result_symbol = STRING_START;
+      stack_item.type = STRING;
+      stack.push_back(stack_item);
+      return true;
+    }
+
+    if (lexer->lookahead != '"') {
+      if (!valid_symbols[STRING_START]) return false;
+
+      lexer->result_symbol = STRING_START;
+      stack_item.type = STRING;
+      stack.push_back(stack_item);
+      return true;
+    }
+    advance(lexer);
+
+    if (lexer->lookahead != '"') {
+      if (!valid_symbols[STRING_START]) return false;
+
+      lexer->result_symbol = STRING_START;
+      stack_item.type = STRING;
+      stack.push_back(stack_item);
+      return true;
+    }
+    advance(lexer);
+
+    lexer->mark_end(lexer);
+    lexer->result_symbol = HEREDOC_START;
+    stack_item.type = HEREDOC;
     stack.push_back(stack_item);
     return true;
   }
@@ -471,8 +504,47 @@ struct Scanner {
     }
   }
 
+  bool scan_string_content_or_end(TSLexer *lexer) {
+    bool has_content = false;
+
+    for(;;) {
+      if (lexer->lookahead == '#') {
+        lexer->mark_end(lexer);
+        advance(lexer);
+        if (lexer->lookahead == '{') {
+          if (has_content) {
+            lexer->result_symbol = STRING_CONTENT;
+            return true;
+          } else {
+            return false;
+          }
+        }
+      } else if (lexer->lookahead == '"') {
+        if (has_content) {
+          lexer->mark_end(lexer);
+          lexer->result_symbol = STRING_CONTENT;
+        } else {
+          advance(lexer);
+          lexer->mark_end(lexer);
+          lexer->result_symbol = STRING_END;
+          stack.pop_back();
+        }
+        return true;
+      } else if (lexer->lookahead == 0) {
+        lexer->mark_end(lexer);
+        return false;
+      } else {
+        has_content = true;
+        advance(lexer);
+      }
+    }
+  }
+
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    if (valid_symbols[HEREDOC_START] || valid_symbols[SIGIL_START] || valid_symbols[LINE_BREAK]) {
+    if (valid_symbols[HEREDOC_START] ||
+        valid_symbols[STRING_START] ||
+        valid_symbols[SIGIL_START] ||
+        valid_symbols[LINE_BREAK]) {
       while (is_whitespace(lexer->lookahead)) skip(lexer);
     }
 
@@ -499,15 +571,22 @@ struct Scanner {
       return scan_identifier_or_keyword(lexer);
     }
 
-    if (valid_symbols[HEREDOC_START] &&
+    if ((valid_symbols[HEREDOC_START] ||
+         valid_symbols[STRING_START]) &&
         is_quote_char(lexer->lookahead)) {
-      return scan_heredoc_start(lexer);
+      return scan_heredoc_or_string_start(lexer, valid_symbols);
     }
 
     if (!stack.empty() &&
         stack.back().type == HEREDOC &&
         (valid_symbols[HEREDOC_CONTENT] || valid_symbols[HEREDOC_END])) {
       return scan_heredoc_content_or_end(lexer);
+    }
+
+    if (!stack.empty() &&
+        stack.back().type == STRING &&
+        (valid_symbols[STRING_CONTENT] || valid_symbols[STRING_END])) {
+      return scan_string_content_or_end(lexer);
     }
 
     if (valid_symbols[SIGIL_START] &&

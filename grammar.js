@@ -67,6 +67,9 @@ module.exports = grammar({
     $.sigil_start,
     $.sigil_content,
     $.sigil_end,
+    $.string_start,
+    $.string_content,
+    $.string_end,
     $.identifier,
     $.keyword,
     $._atom_literal,
@@ -274,6 +277,7 @@ module.exports = grammar({
       $.heredoc_start,
       repeat(choice(
         $.heredoc_content,
+        $.escape_sequence,
         $.interpolation
       )),
       $.heredoc_end
@@ -283,19 +287,41 @@ module.exports = grammar({
       $.sigil_start,
       repeat(choice(
         $.sigil_content,
+        $.escape_sequence,
         $.interpolation
       )),
       $.sigil_end
     ),
 
+    string: $ => seq(
+      $.string_start,
+      repeat(choice(
+        $.string_content,
+        $.escape_sequence,
+        $.interpolation
+      )),
+      $.string_end
+    ),
+
+
     interpolation: $ => seq(
       '#{', sep($.expr, $._terminator), '}'
     ),
 
+    escape_sequence: $ => token(seq(
+      '\\',
+      choice(
+        /[^ux]/,             // single character
+        /x[0-9a-fA-F]{1,2}/, // hex code
+        /u[0-9a-fA-F]{4}/,   // single unicode
+        /u{[0-9a-fA-F ]+}/,  // multiple unicode
+      )
+    )),
+
     integer: $ => /0[bB][01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0[dD])?\d(_?\d)*|0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/,
     float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE][\+-]?\d(_?\d)*)?/,
     atom: $ => choice($._atom_literal),
-    string: $ => /"[^"]*"/,
+    // string: $ => /"[^"]*"/,
     module: $ => /[A-Z][_a-zA-Z0-9]*(\.[A-Z][_a-zA-Z0-9]*)*/,
     comment: $ => token(prec(PREC.COMMENT, seq('#', /.*/))),
     _terminator: $ => prec.right(atleastOnce(choice($._line_break, ';'))),
