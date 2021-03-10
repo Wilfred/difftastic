@@ -845,6 +845,10 @@
           "named": true
         },
         {
+          "type": "return_expression",
+          "named": true
+        },
+        {
           "type": "scalar_variable",
           "named": true
         },

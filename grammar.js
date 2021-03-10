@@ -346,6 +346,7 @@ module.exports = grammar({
 
     _block_statements: $ => choice(
       $._statement,
+      seq($.return_expression, $.semi_colon),
       $.loop_control_statement,
     ),
 
