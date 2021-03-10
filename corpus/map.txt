@@ -46,7 +46,10 @@ non atom key
         (expr
           (binary_op
             (expr
-              (string))
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))
             (expr
               (integer))))
         (expr
@@ -75,7 +78,10 @@ update syntax
             (bare_keyword_list
               (keyword)
               (expr
-                (string)))))))))
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))))))))))
 
 ================================================================================
 mixed
@@ -92,9 +98,15 @@ mixed
         (expr
           (binary_op
             (expr
-              (string))
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))
             (expr
-              (string))))
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))
         (bare_keyword_list
           (keyword)
           (expr

@@ -21,12 +21,18 @@ end
             (expr
               (integer))
             (expr
-              (string)))
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))
           (stab_expr
             (expr
               (integer))
             (expr
-              (string))))))))
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))))))
 
 ================================================================================
 case single clause
@@ -52,7 +58,10 @@ end
                 (expr
                   (identifier))))
             (expr
-              (string))))))))
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))))))
 
 ================================================================================
 case multi clause multi line body
@@ -79,7 +88,10 @@ end
             (expr
               (integer))
             (expr
-              (string)))
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))
           (stab_expr
             (expr
               (integer))
@@ -122,13 +134,19 @@ end
                       (expr
                         (identifier)))))))
             (expr
-              (string)))
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))
           (stab_expr
             (expr
               (identifier))
             (expr
               (binary_op
                 (expr
-                  (string))
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))
                 (expr
                   (identifier))))))))))

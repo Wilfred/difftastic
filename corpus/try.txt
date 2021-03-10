@@ -41,7 +41,10 @@ end
                   (identifier)
                   (args
                     (expr
-                      (string)))))))
+                      (string
+                        (string_start)
+                        (string_content)
+                        (string_end))))))))
           (catch_block
             (stab_expr
               (expr
@@ -52,7 +55,17 @@ end
                   (identifier)
                   (args
                     (expr
-                      (string)))))))
+                      (string
+                        (string_start)
+                        (string_content)
+                        (interpolation
+                          (expr
+                            (qualified_call
+                              (identifier)
+                              (args
+                                (expr
+                                  (identifier))))))
+                        (string_end))))))))
           (else_block
             (stab_expr
               (expr
@@ -63,7 +76,17 @@ end
                   (identifier)
                   (args
                     (expr
-                      (string)))))))
+                      (string
+                        (string_start)
+                        (string_content)
+                        (interpolation
+                          (expr
+                            (qualified_call
+                              (identifier)
+                              (args
+                                (expr
+                                  (identifier))))))
+                        (string_end))))))))
           (after_block
             (expr
               (dot_call
@@ -71,7 +94,10 @@ end
                 (identifier)
                 (args
                   (expr
-                    (string)))))))))))
+                    (string
+                      (string_start)
+                      (string_content)
+                      (string_end))))))))))))
 
 ================================================================================
 try with rescue only
@@ -145,7 +171,17 @@ end
                   (identifier)
                   (args
                     (expr
-                      (string))))))))))))
+                      (string
+                        (string_start)
+                        (string_content)
+                        (interpolation
+                          (expr
+                            (qualified_call
+                              (identifier)
+                              (args
+                                (expr
+                                  (identifier))))))
+                        (string_end)))))))))))))
 
 ================================================================================
 try rescue else
@@ -234,7 +270,10 @@ end
               (identifier)
               (args
                 (expr
-                  (string)))))
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end))))))
           (after_block
             (expr
               (dot_call
@@ -242,4 +281,7 @@ end
                 (identifier)
                 (args
                   (expr
-                    (string)))))))))))
+                    (string
+                      (string_start)
+                      (string_content)
+                      (string_end))))))))))))
