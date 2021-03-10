@@ -150,3 +150,58 @@ end
                     (string_end)))
                 (expr
                   (identifier))))))))))
+
+================================================================================
+case line break
+================================================================================
+
+case args do
+  ["callers", callee] ->
+    callers(callee, opts)
+
+  ["graph"] ->
+    graph(opts)
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (expr
+          (identifier))
+        (block
+          (stab_expr
+            (expr
+              (list
+                (expr
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))
+                (expr
+                  (identifier))))
+            (expr
+              (qualified_call
+                (identifier)
+                (args
+                  (expr
+                    (identifier))
+                  (expr
+                    (identifier))))))
+          (stab_expr
+            (expr
+              (list
+                (expr
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))))
+            (expr
+              (qualified_call
+                (identifier)
+                (args
+                  (expr
+                    (identifier)))))))))))
