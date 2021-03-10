@@ -103,7 +103,7 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
   (export_statement
     (function (formal_parameters) (statement_block)))
   (export_statement
-    (function (identifier) (formal_parameters) (statement_block)))
+    (function_declaration (identifier) (formal_parameters) (statement_block)))
   (export_statement
     (export_clause (export_specifier (identifier) (identifier))))
   (export_statement
