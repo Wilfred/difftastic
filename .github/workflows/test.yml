@@ -3,10 +3,10 @@ name: Test OSX, Windows and Linux
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   node:
