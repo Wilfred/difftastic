@@ -132,3 +132,45 @@ interpolated string
                 (integer)))))
         (string_content)
         (string_end)))))
+
+================================================================================
+string escape sequence
+================================================================================
+
+"a\"quote\"b"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (string
+        (string_start)
+        (string_content)
+        (escape_sequence)
+        (string_content)
+        (escape_sequence)
+        (string_content)
+        (string_end)))))
+
+================================================================================
+heredoc escape sequence
+================================================================================
+
+"""
+a\"quote\"b
+"""
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (heredoc
+        (heredoc_start)
+        (heredoc_content)
+        (escape_sequence)
+        (heredoc_content)
+        (escape_sequence)
+        (heredoc_content)
+        (heredoc_end)))))
