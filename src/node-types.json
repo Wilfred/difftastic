@@ -793,6 +793,18 @@
           "named": true
         },
         {
+          "type": "for_statement_1",
+          "named": true
+        },
+        {
+          "type": "for_statement_2",
+          "named": true
+        },
+        {
+          "type": "foreach_statement",
+          "named": true
+        },
+        {
           "type": "function_definition",
           "named": true
         },
@@ -1051,6 +1063,348 @@
     }
   },
   {
+    "type": "for_statement_1",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "array_ref",
+            "named": true
+          },
+          {
+            "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
+            "named": true
+          },
+          {
+            "type": "hash_variable",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "scalar_variable",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
+            "named": true
+          },
+          {
+            "type": "string_single_quoted",
+            "named": true
+          },
+          {
+            "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      },
+      "incrementor": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "array_ref",
+            "named": true
+          },
+          {
+            "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
+            "named": true
+          },
+          {
+            "type": "hash_variable",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "scalar_variable",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
+            "named": true
+          },
+          {
+            "type": "string_single_quoted",
+            "named": true
+          },
+          {
+            "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      },
+      "initializer": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "array_ref",
+            "named": true
+          },
+          {
+            "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
+            "named": true
+          },
+          {
+            "type": "hash_variable",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "scalar_variable",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
+            "named": true
+          },
+          {
+            "type": "string_single_quoted",
+            "named": true
+          },
+          {
+            "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      },
+      "label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "semi_colon",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_statement_2",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "foreach_simple_statement",
     "named": true,
     "fields": {
@@ -1083,6 +1437,54 @@
       "types": [
         {
           "type": "semi_colon",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "foreach_statement",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
+          "named": true
+        },
+        {
+          "type": "scope",
           "named": true
         }
       ]
@@ -1966,6 +2368,18 @@
         },
         {
           "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "for_statement_1",
+          "named": true
+        },
+        {
+          "type": "for_statement_2",
+          "named": true
+        },
+        {
+          "type": "foreach_statement",
           "named": true
         },
         {

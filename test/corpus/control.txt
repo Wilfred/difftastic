@@ -99,3 +99,51 @@ print "in a loop" for @array;
   (variable_declaration (scope) (single_var_declaration (array_variable) (array (integer) (integer) (integer))) (semi_colon))
   (single_line_statement (call_expression (identifier) (arguments (string_double_quoted))) (for_simple_statement (array_variable) (semi_colon)))
 )
+
+=================================================
+simple for loop TODO: this is failing
+=================================================
+
+for (my $i=1; $i < 10; $i++) {
+}
+
+---
+
+(source_file
+  (for_statement_1 (binary_expression (call_expression (identifier) (arguments (scalar_variable))) (integer)) (semi_colon) (binary_expression (scalar_variable) (integer)) (semi_colon) (unary_expression (scalar_variable))
+    (block)
+  )
+)
+
+=================================================
+for ever loop
+=================================================
+
+for (;;) {
+  print "hello";
+}
+
+---
+
+(source_file
+  (for_statement_1 (semi_colon) (semi_colon)
+    (block
+      (call_expression (identifier) (arguments (string_double_quoted))) (semi_colon)
+    )
+  )
+)
+
+=================================================
+foreach loop
+=================================================
+
+foreach my $single (@array) {
+}
+
+---
+
+(source_file
+  (foreach_statement (scope) (scalar_variable) (array_variable)
+    (block)
+  )
+)

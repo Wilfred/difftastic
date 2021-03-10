@@ -110,6 +110,9 @@ module.exports = grammar({
       // loops
       $.while_statement,
       $.until_statement,
+      $.for_statement_1,
+      $.for_statement_2,
+      $.foreach_statement,
     ),
 
     _expression_statement: $ => seq(
@@ -240,9 +243,61 @@ module.exports = grammar({
       ),
     ),
 
+    // the C - style for loop
+    for_statement_1: $ => seq(
+      optional(seq(field('label', $.identifier), ':')),
+      choice('for', 'foreach'),
+      $._for_parenthesize,
+      field('body', $.block),
+    ),
+
+    for_statement_2: $ => seq(
+      optional(seq(field('label', $.identifier), ':')),
+      'for',
+      optional($.scope),
+      $.scalar_variable,
+      '(',
+      $._list,
+      ')',      
+      field('body', $.block),
+      optional(
+        seq(
+          'continue',
+          field('body', $.block),
+        )
+      ),
+    ),
+
+    _for_parenthesize: $ => seq(
+      '(',
+      optional(field('initializer', $._expression)),
+      $.semi_colon,
+      optional(field('condition', $._expression)),
+      $.semi_colon,
+      optional(field('incrementor', $._expression)),
+      ')'
+    ),
+
+    foreach_statement: $ => seq(
+      optional(seq(field('label', $.identifier), ':')),
+      'foreach',
+      optional($.scope),
+      $.scalar_variable,
+      '(',
+      $._list,
+      ')',
+      field('body', $.block),
+      optional(
+        seq(
+          'continue',
+          field('body', $.block),
+        )
+      ),
+    ),
+    
     _declaration: $ => choice(
       $.function_definition,
-      $.variable_declaration,
+      $.variable_declaration, // TODO: make this under expression? to accommodate for loop?
     ),
 
     variable_declaration: $ => seq(
@@ -743,7 +798,7 @@ module.exports = grammar({
     _list: $ => choice(
       $.array,
       $.array_variable,
-      // TODO: array casted reference
+      // TODO: array casted reference, functions with return value as array, qw()
     ),
 
     array: $ => prec(PRECEDENCE.ARRAY, seq(
