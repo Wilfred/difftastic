@@ -373,6 +373,14 @@ struct Scanner {
             return false;
           }
         }
+      } else if (stack_item.allows_interpolation && lexer->lookahead == '\\') {
+        lexer->mark_end(lexer);
+        if (has_content) {
+          lexer->result_symbol = SIGIL_CONTENT;
+          return true;
+        } else {
+          return false;
+        }
       } else if (!stack_item.heredoc && lexer->lookahead == stack_item.terminator) {
         if (has_content) {
           lexer->mark_end(lexer);
@@ -474,6 +482,14 @@ struct Scanner {
             return false;
           }
         }
+      } else if (lexer->lookahead == '\\') {
+        lexer->mark_end(lexer);
+        if (has_content) {
+          lexer->result_symbol = HEREDOC_CONTENT;
+          return true;
+        } else {
+          return false;
+        }
       } else if (lexer->lookahead == '"') {
         if (quotes == 0) {
           lexer->mark_end(lexer);
@@ -518,6 +534,14 @@ struct Scanner {
           } else {
             return false;
           }
+        }
+      } else if (lexer->lookahead == '\\') {
+        lexer->mark_end(lexer);
+        if (has_content) {
+          lexer->result_symbol = STRING_CONTENT;
+          return true;
+        } else {
+          return false;
         }
       } else if (lexer->lookahead == '"') {
         if (has_content) {

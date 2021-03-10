@@ -83,6 +83,8 @@ string with interpolation
       (sigil
         (sigil_start)
         (sigil_content)
+        (escape_sequence)
+        (sigil_content)
         (interpolation
           (expr
             (binary_op
