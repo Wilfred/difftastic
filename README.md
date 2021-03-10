@@ -1,14 +1,14 @@
 tree-sitter-scala
 =================
 
-[![Build Status](https://travis-ci.org/tree-sitter/tree-sitter-scala.svg?branch=master)](https://travis-ci.org/tree-sitter/tree-sitter-scala)
+[![Test the grammar](https://github.com/tree-sitter/tree-sitter-scala/actions/workflows/ci.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-scala/actions/workflows/ci.yml)
 
 Scala grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
 
 References
 
-* [The Scala Language Specification](http://www.scala-lang.org/docu/files/ScalaReference.pdf)
-* [Scala Syntax Summary](https://www.scala-lang.org/files/archive/spec/2.11/13-syntax-summary.html)
+* [The Scala Language Specification](https://www.scala-lang.org/files/archive/spec/2.13/)
+* [Scala Syntax Summary](https://www.scala-lang.org/files/archive/spec/2.13/13-syntax-summary.html)
 
 Development
 -----------
