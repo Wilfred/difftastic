@@ -1319,6 +1319,19 @@
           "name": "_statement"
         },
         {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "return_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "semi_colon"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "loop_control_statement"
         }
