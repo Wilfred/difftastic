@@ -164,7 +164,7 @@ module.exports = grammar({
 
     unary_op: $ => choice(
       unaryOp($, prec, 90, '&'),
-      unaryOp($, prec, 300, choice('+', '-', '!', '^', '~~~')),
+      unaryOp($, prec, 300, choice('+', '-', '!', '^', '~~~', 'not')),
       unaryOp($, prec, 320, '@'),
     ),
 
