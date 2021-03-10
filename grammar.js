@@ -63,6 +63,7 @@ module.exports = grammar({
     [$.primary_expression, $.statement_block, 'object'],
     [$.import_statement, $.import],
     [$.export_statement, $.primary_expression],
+    [$.export_clause, $.object],
   ],
 
   conflicts: $ => [
@@ -79,6 +80,9 @@ module.exports = grammar({
     [$.assignment_expression, $.object_assignment_pattern],
     [$.labeled_statement, $._property_name],
     [$.computed_property_name, $.array],
+    [$.export_clause, $.object, $.object_pattern],
+    [$._import_export_specifier, $.object, $.object_pattern],
+    [$.export_statement, $._property_name],
   ],
 
   word: $ => $.identifier,
@@ -107,10 +111,10 @@ module.exports = grammar({
       seq(
         repeat(field('decorator', $.decorator)),
         'export',
+        optional('default'),
         choice(
           field('declaration', $.declaration),
           seq(
-            'default',
             field('value', $.expression),
             $._semicolon
           )
