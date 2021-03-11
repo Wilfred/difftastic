@@ -174,3 +174,133 @@ a\"quote\"b
         (escape_sequence)
         (heredoc_content)
         (heredoc_end)))))
+
+================================================================================
+atoms
+================================================================================
+
+:atom
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (atom))))
+
+================================================================================
+operator atom
+================================================================================
+
+[:@, :., :+, :-, :!, :^, :not, :~~~, :*, :/, :+, :-, :++, :--, :.., :<>, :+++, :---, :^^^, :in, :not, :|>, :<<<, :>>>, :<<~, :~>>, :<~, :~>, :<~>, :<|>, :<, :>, :<=, :>=, :==, :!=, :=~, :===, :!==, :&&, :&&&, :and, :||, :|||, :=, :&, :=>, :|, :::, :when, :<-, :\\]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (list
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))
+        (expr
+          (atom))))))
