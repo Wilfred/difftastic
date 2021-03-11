@@ -53,8 +53,12 @@ const char SIGIL_CHARS[] = {
   '/', '<', '"', '\'', '[', '(', '{', '|'
 };
 
-const char OPERATORS[] = {
+const char LINE_BREAK_OPERATORS[] = {
   '.', '^', ':', '|', '!', '=', '<', '>', '+', '-', '*', '/', '\\', ',', ']', 'w', 'a', 'o', 'n', 'i'
+};
+
+const char SYMBOL_OPERATORS[] = {
+  '@', '.', '+', '-', '!', '^', '-', '*', '/', '<', '>', '|', '~', '=', '&', ':', '\\'
 };
 
 const string RESERVERD[] = {
@@ -185,8 +189,196 @@ struct Scanner {
     }
   }
 
+  bool advance_to_operator_end(TSLexer *lexer) {
+    switch(lexer->lookahead) {
+    case '~':
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead == '~') {
+        advance(lexer);
+        if (lexer->lookahead != '~') return false;
+        advance(lexer);
+        lexer->mark_end(lexer);
+        return true;
+      } else if (lexer->lookahead == '>') {
+        advance(lexer);
+        if (lexer->lookahead == '>') {
+          advance(lexer);
+        }
+        lexer->mark_end(lexer);
+        return true;
+      }
+      return false;
+    case '=':
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead == '=') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+        if (lexer->lookahead != '=') return true;
+        advance(lexer);
+        lexer->mark_end(lexer);
+      } else if (lexer->lookahead == '~') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+      } else if (lexer->lookahead == '>') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+      }
+      return true;
+    case '+':
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead != '+') return true;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead != '+') return true;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      return true;
+    case '-':
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead != '-') return true;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead != '-') return true;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      return true;
+    case '&':
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead != '&') return true;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead != '&') return true;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      return true;
+    case '|':
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead == '>') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+        return true;
+      }
+
+      if (lexer->lookahead != '|') return true;
+      advance(lexer);
+      lexer->mark_end(lexer);
+
+      if (lexer->lookahead != '|') return true;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      return true;
+    case '.':
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead != '.') return true;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      return true;
+    case ':':
+      advance(lexer);
+      if (lexer->lookahead != ':') return false;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      return true;
+    case '^':
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead != '^') return true;
+      advance(lexer);
+      if (lexer->lookahead != '^') return true;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      return true;
+    case '>':
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead == '=') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+        return true;
+      }
+      if (lexer->lookahead != '>') return true;
+      advance(lexer);
+      if (lexer->lookahead != '>') return true;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      return true;
+    case '<':
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead == '=' ||
+          lexer->lookahead == '-' ||
+          lexer->lookahead == '>') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+        return true;
+      } else if (lexer->lookahead == '|') {
+        advance(lexer);
+        if (lexer->lookahead == '>') {
+          advance(lexer);
+          lexer->mark_end(lexer);
+        }
+        return true;
+      } else if (lexer->lookahead == '~') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+        if (lexer->lookahead == '>') {
+          advance(lexer);
+          lexer->mark_end(lexer);
+        }
+        return true;
+      } else if (lexer->lookahead == '<') {
+        advance(lexer);
+        if (lexer->lookahead == '<' ||
+            lexer->lookahead == '~') {
+          advance(lexer);
+          lexer->mark_end(lexer);
+        }
+        return true;
+      }
+      return true;
+    case '!':
+      advance(lexer);
+      lexer->mark_end(lexer);
+      if (lexer->lookahead == '=') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+        if (lexer->lookahead == '=') {
+          advance(lexer);
+          lexer->mark_end(lexer);
+        }
+      }
+      return true;
+    case '\\':
+      advance(lexer);
+      if (lexer->lookahead != '\\') return false;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      return true;
+    default:
+      advance(lexer);
+      lexer->mark_end(lexer);
+      return true;
+    }
+  }
+
   bool scan_atom(TSLexer *lexer) {
     advance(lexer);
+    if (memchr(&SYMBOL_OPERATORS, lexer->lookahead, sizeof(SYMBOL_OPERATORS)) != NULL) {
+      if (advance_to_operator_end(lexer)) {
+        lexer->result_symbol = ATOM_LITERAL;
+        return true;
+      }
+
+      return false;
+    }
+
     if (!is_atom_start(lexer->lookahead)) return false;
 
     for (;;) {
@@ -261,7 +453,7 @@ struct Scanner {
   }
 
   bool is_operator_next(TSLexer *lexer) {
-    if (memchr(&OPERATORS, lexer->lookahead, sizeof(OPERATORS)) != NULL) {
+    if (memchr(&LINE_BREAK_OPERATORS, lexer->lookahead, sizeof(LINE_BREAK_OPERATORS)) != NULL) {
       switch(lexer->lookahead) {
       case ':':
         advance(lexer);
