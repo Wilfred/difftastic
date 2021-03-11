@@ -162,7 +162,7 @@ module.exports = grammar({
       binaryOp($, prec.left, 150, choice('==', '!=', '=~', '===', '!==')),
       binaryOp($, prec.left, 160, choice('<', '>', '<=', '>=')),
       binaryOp($, prec.left, 170, choice('|>', '<<<', '>>>', '<<~', '~>>', '<~', '~>', '<~>', '<|>')),
-      binaryOp($, prec.left, 180, choice('in', seq('not', 'in'))),
+      binaryOp($, prec.left, 180, choice('in', seq(/not[\s+]in/))),
       binaryOp($, prec.left, 190, choice('^^^')),
       binaryOp($, prec.right, 200, choice('++', '--', '..', '<>', '+++', '---')),
       binaryOp($, prec.left, 210, choice('+', '-')),
