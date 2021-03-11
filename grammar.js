@@ -213,7 +213,7 @@ module.exports = grammar({
     )),
 
     args: $ => prec(1, seq(
-      '(',
+      token.immediate('('),
       optional($._terminator),
       optional(choice(
         seq(commaSep($, $.expr), optional(seq(',', optional($._terminator), $.bare_keyword_list))),
