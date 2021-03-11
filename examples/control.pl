@@ -62,3 +62,10 @@ MEOW: while ($i < 10) {
 
   $i++;
 }
+
+# standalone blocks
+{
+  print "hello";
+} continue {
+  print "con";
+}
