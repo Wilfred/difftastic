@@ -171,10 +171,14 @@ Module type definition
 ==============================
 
 module type T = T
+module type T := T
 
 ---
 
 (compilation_unit
+  (module_type_definition
+    (module_type_name)
+    (module_type_path (module_type_name)))
   (module_type_definition
     (module_type_name)
     (module_type_path (module_type_name))))
