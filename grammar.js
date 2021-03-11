@@ -57,7 +57,8 @@ module.exports = grammar({
     [$._range_exp],
     [$._class_instance_exp],
     [$._primitive_expression, $._list],
-    [$.standalone_block, $.hash_ref]
+    [$.standalone_block, $.hash_ref],
+    [$.goto_expression, $._expression],
   ],
 
   extras: $ => [
@@ -70,6 +71,8 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $.use_statement,
+      $.use_feature_statement,
+      $.use_version,
       $.require_statement,
 
       $._expression_statement,
@@ -81,6 +84,24 @@ module.exports = grammar({
       $._compound_statement,
 
       $.standalone_block,
+    ),
+
+    use_version: $ => seq(
+      'use',
+      field('version', $.version),
+      $.semi_colon,
+    ),
+    
+    use_feature_statement: $ => seq(
+      'use',
+      'feature',
+      $._experimental_feature,
+      $.semi_colon,
+    ),
+
+    _experimental_feature: $ => choice(
+      '"switch"',
+      "'switch'", // TODO: add more
     ),
 
     _expression_or_return_expression: $ => choice(
@@ -412,6 +433,16 @@ module.exports = grammar({
       $.ternary_expression,
 
       $.call_expression,
+      $.goto_expression,
+    ),
+
+    goto_expression: $ => seq(
+      'goto',
+      choice(
+        seq(field('label', $.identifier), ':'),
+        field('expression', $._expression),
+        field('subroutine', $.call_expression),
+      ),
     ),
 
     // begin of operators
@@ -737,6 +768,7 @@ module.exports = grammar({
     // end of operators
 
     call_expression: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
+      optional('&'),
       field('function_name', $.identifier),
       field('args', optional(choice($.parenthesized_arguments, $.arguments))),
     )),
@@ -788,6 +820,8 @@ module.exports = grammar({
     scientific_notation: $ => /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?/,
     hexadecimal: $ => /0[xX][0-9a-fA-F]+/,
     octal: $ => /0[1-7][0-7]*/,
+
+    version: $ => /v[\d.]+/,
 
     identifier: $ => /[a-zA-z0-9_]+/,
 

@@ -36,6 +36,10 @@
           "named": true
         },
         {
+          "type": "goto_expression",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -250,6 +254,10 @@
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
             "named": true
           },
           {
@@ -529,6 +537,10 @@
             "named": true
           },
           {
+            "type": "goto_expression",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -612,6 +624,10 @@
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
             "named": true
           },
           {
@@ -699,6 +715,10 @@
         },
         {
           "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "goto_expression",
           "named": true
         },
         {
@@ -809,6 +829,10 @@
           "named": true
         },
         {
+          "type": "goto_expression",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -897,7 +921,15 @@
           "named": true
         },
         {
+          "type": "use_feature_statement",
+          "named": true
+        },
+        {
           "type": "use_statement",
+          "named": true
+        },
+        {
+          "type": "use_version",
           "named": true
         },
         {
@@ -975,6 +1007,10 @@
         },
         {
           "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "goto_expression",
           "named": true
         },
         {
@@ -1117,6 +1153,10 @@
             "named": true
           },
           {
+            "type": "goto_expression",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -1203,6 +1243,10 @@
             "named": true
           },
           {
+            "type": "goto_expression",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -1286,6 +1330,10 @@
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
             "named": true
           },
           {
@@ -1533,6 +1581,122 @@
     }
   },
   {
+    "type": "goto_expression",
+    "named": true,
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "array_ref",
+            "named": true
+          },
+          {
+            "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
+            "named": true
+          },
+          {
+            "type": "hash_variable",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "scalar_variable",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
+            "named": true
+          },
+          {
+            "type": "string_single_quoted",
+            "named": true
+          },
+          {
+            "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      },
+      "label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "subroutine": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "call_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "hash",
     "named": true,
     "fields": {},
@@ -1700,6 +1864,10 @@
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
             "named": true
           },
           {
@@ -1948,6 +2116,10 @@
           "named": true
         },
         {
+          "type": "goto_expression",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -2063,6 +2235,10 @@
           "named": true
         },
         {
+          "type": "goto_expression",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -2164,6 +2340,10 @@
         },
         {
           "type": "foreach_simple_statement",
+          "named": true
+        },
+        {
+          "type": "goto_expression",
           "named": true
         },
         {
@@ -2300,6 +2480,10 @@
             "named": true
           },
           {
+            "type": "goto_expression",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -2408,6 +2592,10 @@
           "named": true
         },
         {
+          "type": "goto_expression",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -2488,7 +2676,15 @@
           "named": true
         },
         {
+          "type": "use_feature_statement",
+          "named": true
+        },
+        {
           "type": "use_statement",
+          "named": true
+        },
+        {
+          "type": "use_version",
           "named": true
         },
         {
@@ -2573,6 +2769,10 @@
         },
         {
           "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "goto_expression",
           "named": true
         },
         {
@@ -2668,7 +2868,15 @@
           "named": true
         },
         {
+          "type": "use_feature_statement",
+          "named": true
+        },
+        {
           "type": "use_statement",
+          "named": true
+        },
+        {
+          "type": "use_version",
           "named": true
         },
         {
@@ -2726,6 +2934,10 @@
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
             "named": true
           },
           {
@@ -2812,6 +3024,10 @@
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
             "named": true
           },
           {
@@ -2912,6 +3128,10 @@
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
             "named": true
           },
           {
@@ -3049,6 +3269,10 @@
             "named": true
           },
           {
+            "type": "goto_expression",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -3138,6 +3362,10 @@
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
             "named": true
           },
           {
@@ -3293,6 +3521,10 @@
             "named": true
           },
           {
+            "type": "goto_expression",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -3399,6 +3631,21 @@
     }
   },
   {
+    "type": "use_feature_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "semi_colon",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "use_statement",
     "named": true,
     "fields": {},
@@ -3410,6 +3657,32 @@
           "type": "package_name",
           "named": true
         },
+        {
+          "type": "semi_colon",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "use_version",
+    "named": true,
+    "fields": {
+      "version": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "version",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
           "type": "semi_colon",
           "named": true
@@ -3496,6 +3769,10 @@
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
             "named": true
           },
           {
@@ -3588,6 +3865,10 @@
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
             "named": true
           },
           {
@@ -3694,6 +3975,10 @@
           },
           {
             "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
             "named": true
           },
           {
@@ -3815,6 +4100,10 @@
     "named": false
   },
   {
+    "type": "\"switch\"",
+    "named": false
+  },
+  {
     "type": "%",
     "named": false
   },
@@ -3840,6 +4129,10 @@
   },
   {
     "type": "&=",
+    "named": false
+  },
+  {
+    "type": "'switch'",
     "named": false
   },
   {
@@ -4055,6 +4348,10 @@
     "named": true
   },
   {
+    "type": "feature",
+    "named": false
+  },
+  {
     "type": "floating_point",
     "named": true
   },
@@ -4068,6 +4365,10 @@
   },
   {
     "type": "ge",
+    "named": false
+  },
+  {
+    "type": "goto",
     "named": false
   },
   {
@@ -4189,6 +4490,10 @@
   {
     "type": "use",
     "named": false
+  },
+  {
+    "type": "version",
+    "named": true
   },
   {
     "type": "when",
