@@ -254,8 +254,10 @@ module.exports = grammar({
     for_statement_2: $ => seq(
       optional(seq(field('label', $.identifier), ':')),
       'for',
-      optional($.scope),
-      $.scalar_variable,
+      choice(
+        seq(optional($.scope), $.scalar_variable),
+        seq('\\', optional($.scope), $.hash_variable), // \my %hash
+      ),
       '(',
       $._list,
       ')',      
@@ -281,8 +283,10 @@ module.exports = grammar({
     foreach_statement: $ => seq(
       optional(seq(field('label', $.identifier), ':')),
       'foreach',
-      optional($.scope),
-      $.scalar_variable,
+      choice(
+        seq(optional($.scope), $.scalar_variable),
+        seq('\\', optional($.scope), $.hash_variable), // \my %hash
+      ),
       '(',
       $._list,
       ')',
