@@ -20,6 +20,7 @@ const PREC = {
 }
 
 const OP_CHAR = /[!$%&*+\-./:<=>?@^|~]/
+const HASH_OP_CHAR = /[#!$%&*+\-./:<=>?@^|~]/
 const NUMBER = token(choice(
   /[0-9][0-9_]*(\.[0-9_]*)?([eE][+\-]?[0-9][0-9_]*)?[g-zG-Z]?/,
   /0[xX][0-9A-Fa-f][0-9A-Fa-f_]*(\.[0-9A-Fa-f_]*)?([pP][+\-]?[0-9][0-9_]*)?[g-zG-Z]?/,
@@ -159,15 +160,17 @@ module.exports = grammar({
       sep1(choice('and', $.and_operator), $.let_binding)
     ),
 
-    let_binding: $ => seq(
+    let_binding: $ => prec.right(seq(
       field('pattern', $._binding_pattern_ext),
-      repeat($._parameter),
-      optional($._polymorphic_typed),
-      optional(seq(':>', $._type_ext)),
-      '=',
-      field('body', $._sequence_expression_ext),
+      optional(seq(
+        repeat($._parameter),
+        optional($._polymorphic_typed),
+        optional(seq(':>', $._type_ext)),
+        '=',
+        field('body', $._sequence_expression_ext),
+      )),
       repeat($.item_attribute)
-    ),
+    )),
 
     _parameter: $ => choice(
       $.parameter,
@@ -338,7 +341,7 @@ module.exports = grammar({
       'module', 'type',
       optional($._attribute),
       field('name', $._module_type_name),
-      optional(seq('=', field('body', $._module_type_ext))),
+      optional(seq(choice('=', ':='), field('body', $._module_type_ext))),
       repeat($.item_attribute)
     ),
 
@@ -457,7 +460,11 @@ module.exports = grammar({
     module_type_constraint: $ => prec.right(seq(
       $._module_type_ext,
       'with',
-      sep1('and', choice($.constrain_type, $.constrain_module))
+      sep1('and', choice(
+        $.constrain_type,
+        $.constrain_module,
+        $.constrain_module_type
+      ))
     )),
 
     constrain_type: $ => seq(
@@ -474,6 +481,13 @@ module.exports = grammar({
       choice('=', ':='),
       $.extended_module_path
     ),
+
+    constrain_module_type: $ => prec.left(seq(
+      'module', 'type',
+      $.module_type_path,
+      choice('=', ':='),
+      $._module_type_ext
+    )),
 
     module_type_of: $ => seq(
       'module', 'type', 'of',
@@ -1507,6 +1521,7 @@ module.exports = grammar({
 
     constructor_pattern: $ => prec.right(PREC.app, seq(
       $.constructor_path,
+      optional(alias($._parenthesized_abstract_type, $.abstract_type)),
       $._pattern_ext
     )),
 
@@ -1852,8 +1867,8 @@ module.exports = grammar({
     // Operators
 
     prefix_operator: $ => token(choice(
-      seq('!', choice(optional(/[!$%&*+\-./:<>?@^|~]/), repeat2(OP_CHAR))),
-      seq(/[~?]/, repeat1(OP_CHAR))
+      seq('!', choice(optional(/[#!$%&*+\-./:<>?@^|~]/), repeat2(HASH_OP_CHAR))),
+      seq(/[~?]/, repeat1(HASH_OP_CHAR))
     )),
 
     _sign_operator: $ => choice('+', '-', '+.', '-.'),
@@ -1870,7 +1885,7 @@ module.exports = grammar({
       $._assign_operator
     ),
 
-    _hash_operator: $ => /#[#!$%&*+\-./:<=>?@^|~]+/,
+    _hash_operator: $ => token(seq('#', repeat1(HASH_OP_CHAR))),
 
     _pow_operator: $ => choice(
       token(seq('**', repeat(OP_CHAR))),

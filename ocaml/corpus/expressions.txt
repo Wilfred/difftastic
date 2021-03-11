@@ -493,7 +493,8 @@ match+ x with x -> x;;
 Function expressions
 ===========================
 
-function 0 -> 0 | x -> 1
+function 0 -> 0 | x -> 1;;
+function A (type a) x -> 1;;
 
 ---
 
@@ -505,6 +506,14 @@ function 0 -> 0 | x -> 1
         (number))
       (match_case
         (value_pattern)
+        (number))))
+  (expression_item
+    (function_expression
+      (match_case
+        (constructor_pattern
+          (constructor_path (constructor_name))
+          (abstract_type (type_constructor))
+          (value_pattern))
         (number)))))
 
 ===========================

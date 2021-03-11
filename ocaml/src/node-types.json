@@ -1668,6 +1668,25 @@
     }
   },
   {
+    "type": "constrain_module_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_extension",
+          "named": true
+        },
+        {
+          "type": "_module_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "constrain_type",
     "named": true,
     "fields": {},
@@ -1815,6 +1834,10 @@
         },
         {
           "type": "_pattern",
+          "named": true
+        },
+        {
+          "type": "abstract_type",
           "named": true
         },
         {
@@ -2896,7 +2919,7 @@
     "fields": {
       "body": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "_extension",
@@ -3652,6 +3675,10 @@
         },
         {
           "type": "constrain_module",
+          "named": true
+        },
+        {
+          "type": "constrain_module_type",
           "named": true
         },
         {

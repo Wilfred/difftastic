@@ -42,7 +42,7 @@ end
 Constraints
 ==============================
 
-module M : T with type t = t and module M := M
+module M : T with type t = t and module M := M and module type T = T
 
 ---
 
@@ -57,7 +57,10 @@ module M : T with type t = t and module M := M
           (type_constructor_path (type_constructor)))
         (constrain_module
           (module_path (module_name))
-          (extended_module_path (module_name)))))))
+          (extended_module_path (module_name)))
+        (constrain_module_type
+          (module_type_path (module_type_name))
+          (module_type_path (module_type_name)))))))
 
 ==============================
 Module type of

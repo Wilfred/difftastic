@@ -6,10 +6,13 @@ examples/lwt/src/react/lwt_react.cppo.ml
 examples/lwt/src/unix/lwt_unix.cppo.ml
 examples/lwt/src/unix/lwt_unix.cppo.mli
 examples/lwt/test/unix/test_lwt_unix.cppo.ml
-examples/merlin/tests/test-dirs/completion/infix.ml
-examples/merlin/tests/test-dirs/completion/parenthesize.ml
-examples/merlin/tests/test-dirs/errors/typing-after-parsing/test.ml
-examples/merlin/tests/test-dirs/locate/context-detection/label.ml
+examples/merlin/tests/test-dirs/completion/infix.t/infix.ml
+examples/merlin/tests/test-dirs/completion/parenthesize.t/parenthesize.ml
+examples/merlin/tests/test-dirs/errors/typing-after-parsing.t/test.ml
+examples/merlin/tests/test-dirs/locate/context-detection/cd-label.t/label.ml
+examples/ocaml/stdlib/templates/float.template.mli
+examples/ocaml/stdlib/templates/moreLabels.template.mli
+examples/ocaml/testsuite/tests/generated-parse-errors/errors.ml
 examples/ocaml/testsuite/tests/lexing/escape.ml
 examples/ocaml/testsuite/tests/lexing/uchar_esc.ml
 examples/ocaml/testsuite/tests/parse-errors/escape_error.ml
