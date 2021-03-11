@@ -1,0 +1,9 @@
+=================================================
+switch feature
+=================================================
+
+use feature "switch";
+
+---
+
+(source_file (use_feature_statement (semi_colon)))
