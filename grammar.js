@@ -42,6 +42,10 @@ function blockExpression($, name) {
   ));
 }
 
+const OPERATORS = ['@', '.', '+', '-', '!', '^', '~~~', '*', '/', '+', '-', '++', '--', '..', '<>', '+++', '---', '^^^', '|>', '<<<', '>>>', '<<~', '~>>', '<~', '~>', '<~>', '<|>', '<', '>', '<=', '>=', '==', '!=', '=~', '===', '!==', '&&', '&&&', '||', '|||', '=', '&', '=>', '|', '::', '<-', '\\'];
+
+const RESERVED = ['true', 'false', 'nil', 'when', 'and', 'or', 'not', 'in', 'fn', 'do', 'end', 'catch', 'rescue', 'after', 'else'];
+
 const PREC = {
   COMMENT: -2,
   CALL: -1,
@@ -175,7 +179,8 @@ module.exports = grammar({
       field('object', choice($.module, $.identifier, $.atom, $.dot_call)),
       '.',
       choice(
-        prec.right(seq(field('function', $.identifier), optional($.args))),
+        prec.right(seq(field('function', choice(...OPERATORS)), $.args)),
+        prec.right(seq(field('function', choice($.identifier, ...RESERVED)), optional($.args))),
         $.module
       )
     )),
