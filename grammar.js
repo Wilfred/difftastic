@@ -57,6 +57,7 @@ module.exports = grammar({
     [$._range_exp],
     [$._class_instance_exp],
     [$._primitive_expression, $._list],
+    [$.standalone_block, $.hash_ref]
   ],
 
   extras: $ => [
@@ -78,6 +79,8 @@ module.exports = grammar({
       $.single_line_statement,
 
       $._compound_statement,
+
+      $.standalone_block,
     ),
 
     _expression_or_return_expression: $ => choice(
@@ -346,6 +349,22 @@ module.exports = grammar({
       '{',
       optional(repeat($._block_statements)),
       '}'
+    ),
+
+    standalone_block: $ => seq(
+      optional(choice(
+        seq(field('label', $.identifier), ':'),
+        $.phase,
+      )),
+      '{',
+      optional(repeat($._block_statements)),
+      '}',
+      optional(
+        seq(
+          'continue',
+          field('body', $.block),
+        )
+      ),
     ),
 
     _block_statements: $ => choice(
@@ -776,6 +795,10 @@ module.exports = grammar({
       'next',
       'last',
       'redo',
+    ),
+
+    phase: $ => choice(
+      'BEGIN', // TODO: when come across perlmod
     ),
 
     package_name: $ => /[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/,
