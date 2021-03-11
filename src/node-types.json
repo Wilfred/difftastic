@@ -1398,6 +1398,10 @@
           "named": true
         },
         {
+          "type": "hash_variable",
+          "named": true
+        },
+        {
           "type": "scalar_variable",
           "named": true
         },
@@ -1481,6 +1485,10 @@
         },
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "hash_variable",
           "named": true
         },
         {
