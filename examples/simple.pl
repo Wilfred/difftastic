@@ -54,3 +54,11 @@ my %hash = (
   seconds_things => 2,
 );
 
+# ellipsis
+{ ... }
+sub foo { ... }
+...;
+sub somemeth {
+  my $self = shift;
+  ...;
+}

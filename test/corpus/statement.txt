@@ -1,0 +1,15 @@
+=================================================
+ellipsis statement
+=================================================
+
+sub foo { ... }
+
+---
+
+(source_file
+  (function_definition (identifier)
+    (block
+      (ellipsis_statement)
+    )
+  )
+)
