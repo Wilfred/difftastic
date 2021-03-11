@@ -46,6 +46,31 @@
         {
           "type": "SYMBOL",
           "name": "standalone_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ellipsis_statement"
+        }
+      ]
+    },
+    "ellipsis_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "..."
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "semi_colon"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

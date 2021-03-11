@@ -84,6 +84,13 @@ module.exports = grammar({
       $._compound_statement,
 
       $.standalone_block,
+
+      $.ellipsis_statement,
+    ),
+
+    ellipsis_statement: $ => seq(
+      '...',
+      optional($.semi_colon),
     ),
 
     use_version: $ => seq(

@@ -805,6 +805,10 @@
           "named": true
         },
         {
+          "type": "ellipsis_statement",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -971,6 +975,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "ellipsis_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "semi_colon",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2568,6 +2587,10 @@
           "named": true
         },
         {
+          "type": "ellipsis_statement",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -2745,6 +2768,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "ellipsis_statement",
           "named": true
         },
         {
