@@ -26,7 +26,7 @@ enum TokenType {
   STRING_END,
 
   IDENTIFIER,
-  KEYWORD,
+  KEYWORD_LITERAL,
 
   ATOM_LITERAL,
   ATOM_START,
@@ -517,7 +517,7 @@ struct Scanner {
         if (is_newline(lexer->lookahead) ||
             is_whitespace(lexer->lookahead)) {
           lexer->mark_end(lexer);
-          lexer->result_symbol = KEYWORD;
+          lexer->result_symbol = KEYWORD_LITERAL;
           return true;
         }
       }
@@ -532,7 +532,7 @@ struct Scanner {
         if (is_newline(lexer->lookahead) ||
             is_whitespace(lexer->lookahead)) {
           lexer->mark_end(lexer);
-          lexer->result_symbol = KEYWORD;
+          lexer->result_symbol = KEYWORD_LITERAL;
           return true;
         }
       }
@@ -560,7 +560,7 @@ struct Scanner {
           if (is_newline(lexer->lookahead) ||
               is_whitespace(lexer->lookahead)) {
             lexer->mark_end(lexer);
-            lexer->result_symbol = KEYWORD;
+            lexer->result_symbol = KEYWORD_LITERAL;
             delete token;
             return true;
           }
@@ -576,7 +576,7 @@ struct Scanner {
         if (is_newline(lexer->lookahead) ||
             is_whitespace(lexer->lookahead)) {
           lexer->mark_end(lexer);
-          lexer->result_symbol = KEYWORD;
+          lexer->result_symbol = KEYWORD_LITERAL;
           delete token;
           return true;
         } else {
@@ -939,7 +939,7 @@ struct Scanner {
       return scan_atom(lexer, valid_symbols);
     }
 
-    if ((valid_symbols[IDENTIFIER] || valid_symbols[KEYWORD]) &&
+    if ((valid_symbols[IDENTIFIER] || valid_symbols[KEYWORD_LITERAL]) &&
         (is_identifier_start(lexer->lookahead) ||
          is_keyword_start(lexer->lookahead))) {
       return scan_identifier_or_keyword(lexer);
@@ -980,7 +980,7 @@ struct Scanner {
       return scan_sigil_content_or_end(lexer);
     }
 
-    if (valid_symbols[KEYWORD] &&
+    if (valid_symbols[KEYWORD_LITERAL] &&
         memchr(&SYMBOL_OPERATORS, lexer->lookahead, sizeof(SYMBOL_OPERATORS)) != NULL) {
       return scan_keyword_operator(lexer);
     }

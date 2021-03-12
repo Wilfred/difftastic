@@ -72,7 +72,7 @@ module.exports = grammar({
     $.string_content,
     $.string_end,
     $.identifier,
-    $.keyword,
+    $._keyword_literal,
     $._atom_literal,
     $.atom_start,
     $.atom_content,
@@ -325,6 +325,11 @@ module.exports = grammar({
         )),
         $.atom_end
       )
+    ),
+
+    keyword: $ => choice(
+      $._keyword_literal,
+      seq($.string, token.immediate(":"), /[\s]+/)
     ),
 
     interpolation: $ => seq(

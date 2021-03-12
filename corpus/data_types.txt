@@ -512,3 +512,66 @@ operator keyword
           (keyword)
           (expr
             (integer)))))))
+
+================================================================================
+string keyword
+================================================================================
+
+["a": 1, "b#{2}3": 2]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (list
+        (bare_keyword_list
+          (keyword
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))
+          (expr
+            (integer))
+          (keyword
+            (string
+              (string_start)
+              (string_content)
+              (interpolation
+                (expr
+                  (integer)))
+              (string_content)
+              (string_end)))
+          (expr
+            (integer)))))))
+
+================================================================================
+single quote string keyword
+================================================================================
+
+['a': 1, 'b#{1}': 2]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (list
+        (bare_keyword_list
+          (keyword
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))
+          (expr
+            (integer))
+          (keyword
+            (string
+              (string_start)
+              (string_content)
+              (interpolation
+                (expr
+                  (integer)))
+              (string_end)))
+          (expr
+            (integer)))))))
