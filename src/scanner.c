@@ -11,6 +11,8 @@ enum TokenType {
   MULTILINE_STRING_MIDDLE,
   MULTILINE_STRING_END,
   ELSE,
+  CATCH,
+  FINALLY
 };
 
 void *tree_sitter_scala_external_scanner_create() { return NULL; }
@@ -84,6 +86,57 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
       if (lexer->lookahead != 's') return true;
       advance(lexer);
       if (lexer->lookahead != 'e') return true;
+      advance(lexer);
+      if (iswalpha(lexer->lookahead)) return true;
+      return false;
+    }
+
+    if (valid_symbols[CATCH]) {
+      if (lexer->lookahead != 'c' && lexer->lookahead != 'f') return true;
+      advance(lexer);
+      if (lexer->lookahead == 'a') {
+        advance(lexer);
+        if (lexer->lookahead != 't') return true;
+        advance(lexer);
+        if (lexer->lookahead != 'c') return true;
+        advance(lexer);
+        if (lexer->lookahead != 'h') return true;
+        advance(lexer);
+        if (iswalpha(lexer->lookahead)) return true;
+        return false;
+      } else if (lexer->lookahead == 'i') {
+        advance(lexer);
+        if (lexer->lookahead != 'n') return true;
+        advance(lexer);
+        if (lexer->lookahead != 'a') return true;
+        advance(lexer);
+        if (lexer->lookahead != 'l') return true;
+        advance(lexer);
+        if (lexer->lookahead != 'l') return true;
+        advance(lexer);
+        if (lexer->lookahead != 'y') return true;
+        advance(lexer);
+        if (iswalpha(lexer->lookahead)) return true;
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    if (valid_symbols[FINALLY]) {
+      if (lexer->lookahead != 'f') return true;
+      advance(lexer);
+      if (lexer->lookahead != 'i') return true;
+      advance(lexer);
+      if (lexer->lookahead != 'n') return true;
+      advance(lexer);
+      if (lexer->lookahead != 'a') return true;
+      advance(lexer);
+      if (lexer->lookahead != 'l') return true;
+      advance(lexer);
+      if (lexer->lookahead != 'l') return true;
+      advance(lexer);
+      if (lexer->lookahead != 'y') return true;
       advance(lexer);
       if (iswalpha(lexer->lookahead)) return true;
       return false;
