@@ -631,12 +631,17 @@ struct Scanner {
   }
 
   bool scan_heredoc_or_string_start(TSLexer *lexer, const bool *valid_symbols) {
-    if (lexer->lookahead != '"') return false;
-    advance(lexer);
-    lexer->mark_end(lexer);
-
     StackItem stack_item;
     stack_item.single_quote = false;
+
+    int32_t quote = '"';
+    if (lexer->lookahead == '\'') {
+      stack_item.single_quote = true;
+      quote = '\'';
+    }
+
+    advance(lexer);
+    lexer->mark_end(lexer);
 
     if (!valid_symbols[HEREDOC_START]) {
       lexer->result_symbol = STRING_START;
@@ -645,7 +650,7 @@ struct Scanner {
       return true;
     }
 
-    if (lexer->lookahead != '"') {
+    if (lexer->lookahead != quote) {
       if (!valid_symbols[STRING_START]) return false;
 
       lexer->result_symbol = STRING_START;
@@ -655,7 +660,7 @@ struct Scanner {
     }
     advance(lexer);
 
-    if (lexer->lookahead != '"') {
+    if (lexer->lookahead != quote) {
       if (!valid_symbols[STRING_START]) return false;
 
       lexer->result_symbol = STRING_START;
@@ -675,6 +680,10 @@ struct Scanner {
   bool scan_heredoc_content_or_end(TSLexer *lexer) {
     bool has_content = false;
     int quotes = 0;
+    int32_t quote = '"';
+    if (stack.back().single_quote) {
+      quote = '\'';
+    }
 
     for(;;) {
       if (lexer->lookahead == '#') {
@@ -697,7 +706,7 @@ struct Scanner {
         } else {
           return false;
         }
-      } else if (lexer->lookahead == '"') {
+      } else if (lexer->lookahead == quote) {
         if (quotes == 0) {
           lexer->mark_end(lexer);
         }
@@ -729,6 +738,10 @@ struct Scanner {
 
   bool scan_string_content_or_end(TSLexer *lexer) {
     bool has_content = false;
+    int32_t quote = '"';
+    if (stack.back().single_quote) {
+      quote = '\'';
+    }
 
     for(;;) {
       if (lexer->lookahead == '#') {
@@ -750,7 +763,7 @@ struct Scanner {
         } else {
           return false;
         }
-      } else if (lexer->lookahead == '"') {
+      } else if (lexer->lookahead == quote) {
         if (has_content) {
           lexer->mark_end(lexer);
           lexer->result_symbol = STRING_CONTENT;
