@@ -329,3 +329,48 @@ alias ExUnit.{FailuresManifest, Test}
                 (module))
               (expr
                 (module)))))))))
+
+================================================================================
+import
+================================================================================
+
+import Kernel, except: [@: 1, defmodule: 2, def: 1, def: 2, defp: 2, defmacro: 1, defmacro: 2, defmacrop: 2]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (expr
+          (module))
+        (bare_keyword_list
+          (keyword)
+          (expr
+            (list
+              (bare_keyword_list
+                (keyword)
+                (expr
+                  (integer))
+                (keyword)
+                (expr
+                  (integer))
+                (keyword)
+                (expr
+                  (integer))
+                (keyword)
+                (expr
+                  (integer))
+                (keyword)
+                (expr
+                  (integer))
+                (keyword)
+                (expr
+                  (integer))
+                (keyword)
+                (expr
+                  (integer))
+                (keyword)
+                (expr
+                  (integer))))))))))

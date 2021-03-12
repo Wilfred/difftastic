@@ -480,3 +480,35 @@ eval_binds(CONFIG: config, SCRIPT: script)
             (keyword)
             (expr
               (identifier))))))))
+
+================================================================================
+operator keyword
+================================================================================
+
+[~~~: 1, &&&: 2, |||: 2, ^^^: 2, <<<: 2, >>>: 2]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (list
+        (bare_keyword_list
+          (keyword)
+          (expr
+            (integer))
+          (keyword)
+          (expr
+            (integer))
+          (keyword)
+          (expr
+            (integer))
+          (keyword)
+          (expr
+            (integer))
+          (keyword)
+          (expr
+            (integer))
+          (keyword)
+          (expr
+            (integer)))))))

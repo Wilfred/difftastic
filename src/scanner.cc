@@ -198,26 +198,30 @@ struct Scanner {
     }
   }
 
+  bool advance_to_sigil_operator_end(TSLexer *lexer) {
+    lexer->mark_end(lexer);
+    if (lexer->lookahead == '~') {
+      advance(lexer);
+      if (lexer->lookahead != '~') return false;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      return true;
+    } else if (lexer->lookahead == '>') {
+      advance(lexer);
+      if (lexer->lookahead == '>') {
+        advance(lexer);
+      }
+      lexer->mark_end(lexer);
+      return true;
+    }
+    return false;
+  }
+
   bool advance_to_operator_end(TSLexer *lexer) {
     switch(lexer->lookahead) {
     case '~':
       advance(lexer);
-      lexer->mark_end(lexer);
-      if (lexer->lookahead == '~') {
-        advance(lexer);
-        if (lexer->lookahead != '~') return false;
-        advance(lexer);
-        lexer->mark_end(lexer);
-        return true;
-      } else if (lexer->lookahead == '>') {
-        advance(lexer);
-        if (lexer->lookahead == '>') {
-          advance(lexer);
-        }
-        lexer->mark_end(lexer);
-        return true;
-      }
-      return false;
+      return advance_to_sigil_operator_end(lexer);
     case '=':
       advance(lexer);
       lexer->mark_end(lexer);
@@ -506,6 +510,36 @@ struct Scanner {
     }
   }
 
+  bool scan_keyword_operator(TSLexer *lexer) {
+    if (advance_to_operator_end(lexer)) {
+      if (lexer->lookahead == ':') {
+        advance(lexer);
+        if (is_newline(lexer->lookahead) ||
+            is_whitespace(lexer->lookahead)) {
+          lexer->mark_end(lexer);
+          lexer->result_symbol = KEYWORD;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  bool scan_sigil_keyword_operator(TSLexer *lexer) {
+    if (advance_to_sigil_operator_end(lexer)) {
+      if (lexer->lookahead == ':') {
+        advance(lexer);
+        if (is_newline(lexer->lookahead) ||
+            is_whitespace(lexer->lookahead)) {
+          lexer->mark_end(lexer);
+          lexer->result_symbol = KEYWORD;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   bool scan_identifier_or_keyword(TSLexer *lexer) {
     std::string *token= new std::string("");
     bool reserved = false;
@@ -630,7 +664,9 @@ struct Scanner {
     if (lexer->lookahead != '~') return false;
     advance(lexer);
 
-    if (!(is_upcase_char(lexer->lookahead) || is_downcase_char(lexer->lookahead))) return false;
+    if (!(is_upcase_char(lexer->lookahead) || is_downcase_char(lexer->lookahead))) {
+      return scan_sigil_keyword_operator(lexer);
+    }
     stack_item.allows_interpolation = is_downcase_char(lexer->lookahead);
     advance(lexer);
 
@@ -942,6 +978,11 @@ struct Scanner {
         stack.back().type == SIGIL &&
         (valid_symbols[SIGIL_CONTENT] || valid_symbols[SIGIL_END])) {
       return scan_sigil_content_or_end(lexer);
+    }
+
+    if (valid_symbols[KEYWORD] &&
+        memchr(&SYMBOL_OPERATORS, lexer->lookahead, sizeof(SYMBOL_OPERATORS)) != NULL) {
+      return scan_keyword_operator(lexer);
     }
 
     return false;
