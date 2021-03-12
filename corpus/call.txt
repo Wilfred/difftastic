@@ -247,3 +247,34 @@ end
                 (keyword)
                 (expr
                   (integer))))))))))
+
+================================================================================
+integer followed by dot call
+================================================================================
+
+[1]
+|> Enum.map(& &1.app)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (binary_op
+        (expr
+          (list
+            (expr
+              (integer))))
+        (expr
+          (dot_call
+            (module)
+            (identifier)
+            (args
+              (expr
+                (unary_op
+                  (expr
+                    (unary_op
+                      (expr
+                        (dot_call
+                          (integer)
+                          (identifier))))))))))))))
