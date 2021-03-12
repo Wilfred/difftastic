@@ -177,7 +177,7 @@ module.exports = grammar({
     ),
 
     dot_call: $ => prec.left(PREC.DOT_CALL, seq(
-      field('object', choice($.module, $.identifier, $.atom, $.dot_call, $.access_call)),
+      field('object', choice($.module, $.identifier, $.atom, $.dot_call, $.access_call, $.qualified_call)),
       '.',
       choice(
         prec.right(seq(field('function', choice(...OPERATORS)), $.args)),
