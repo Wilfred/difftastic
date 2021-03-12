@@ -284,6 +284,9 @@ struct Scanner {
       if (lexer->lookahead != '.') return true;
       advance(lexer);
       lexer->mark_end(lexer);
+      if (lexer->lookahead != '.') return true;
+      advance(lexer);
+      lexer->mark_end(lexer);
       return true;
     case ':':
       advance(lexer);
