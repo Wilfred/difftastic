@@ -24,7 +24,7 @@ end
     (expr
       (call
         (identifier)
-        (block
+        (do_block
           (expr
             (qualified_call
               (identifier)
@@ -116,7 +116,7 @@ end
     (expr
       (call
         (identifier)
-        (block
+        (do_block
           (expr
             (dot_call
               (module)
@@ -152,7 +152,7 @@ end
     (expr
       (call
         (identifier)
-        (block
+        (do_block
           (expr
             (qualified_call
               (identifier)
@@ -206,7 +206,7 @@ end
     (expr
       (call
         (identifier)
-        (block
+        (do_block
           (expr
             (binary_op
               (expr
@@ -264,7 +264,7 @@ end
     (expr
       (call
         (identifier)
-        (block
+        (do_block
           (expr
             (qualified_call
               (identifier)

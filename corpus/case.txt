@@ -16,7 +16,7 @@ end
         (identifier)
         (expr
           (identifier))
-        (block
+        (do_block
           (stab_expr
             (expr
               (integer))
@@ -51,7 +51,7 @@ end
         (identifier)
         (expr
           (identifier))
-        (block
+        (do_block
           (stab_expr
             (expr
               (tuple
@@ -83,7 +83,7 @@ end
         (identifier)
         (expr
           (identifier))
-        (block
+        (do_block
           (stab_expr
             (expr
               (integer))
@@ -121,7 +121,7 @@ end
         (identifier)
         (expr
           (integer))
-        (block
+        (do_block
           (stab_expr
             (expr
               (binary_op
@@ -172,7 +172,7 @@ end
         (identifier)
         (expr
           (identifier))
-        (block
+        (do_block
           (stab_expr
             (expr
               (list
@@ -226,7 +226,7 @@ end
         (identifier)
         (expr
           (identifier))
-        (block
+        (do_block
           (stab_expr
             (expr
               (binary_op

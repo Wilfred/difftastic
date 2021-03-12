@@ -144,11 +144,11 @@ module.exports = grammar({
           $._bare_args,
           seq(optional('.'), $.args),
         ),
-        optional($.block)
+        optional($.do_block)
       ),
       seq(
         field('name', choice($.identifier, $.dot_call, $.qualified_call)),
-        $.block
+        $.do_block
       )
     )),
 
@@ -204,7 +204,7 @@ module.exports = grammar({
     catch_block: $ => blockExpression($, 'catch'),
     else_block: $ => blockExpression($, 'else'),
 
-    block: $ => prec.left(5, seq(
+    do_block: $ => prec.left(5, seq(
       blockExpression($, 'do'),
       repeat(choice($.after_block, $.rescue_block, $.catch_block, $.else_block)),
       optional($._terminator),

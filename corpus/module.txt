@@ -14,4 +14,4 @@ end
         (identifier)
         (expr
           (module))
-        (block)))))
+        (do_block)))))

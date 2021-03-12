@@ -165,7 +165,7 @@ end
     (expr
       (call
         (identifier)
-        (block
+        (do_block
           (expr
             (dot_call
               (qualified_call
@@ -231,7 +231,7 @@ end
         (identifier)
         (expr
           (literal))
-        (block
+        (do_block
           (expr
             (call
               (identifier)

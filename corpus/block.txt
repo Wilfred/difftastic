@@ -34,7 +34,7 @@ end
         (identifier)
         (expr
           (identifier))
-        (block
+        (do_block
           (comment)
           (expr
             (dot_call
@@ -75,7 +75,7 @@ end
                 (args
                   (expr
                     (identifier)))))))
-        (block
+        (do_block
           (expr
             (qualified_call
               (identifier)
@@ -176,7 +176,7 @@ end
                                       (identifier))
                                     (expr
                                       (integer))))))))))))))))
-        (block
+        (do_block
           (expr
             (qualified_call
               (identifier)

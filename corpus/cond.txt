@@ -14,7 +14,7 @@ end
     (expr
       (call
         (identifier)
-        (block
+        (do_block
           (stab_expr
             (expr
               (integer))
@@ -47,7 +47,7 @@ end
     (expr
       (call
         (identifier)
-        (block
+        (do_block
           (stab_expr
             (expr
               (tuple
@@ -77,7 +77,7 @@ end
     (expr
       (call
         (identifier)
-        (block
+        (do_block
           (stab_expr
             (expr
               (integer))
@@ -115,7 +115,7 @@ end
     (expr
       (call
         (identifier)
-        (block
+        (do_block
           (stab_expr
             (expr
               (binary_op
