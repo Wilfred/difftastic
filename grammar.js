@@ -179,7 +179,17 @@ module.exports = grammar({
       unaryOp($, prec, 320, '@'),
     ),
 
-    capture_op: $ => prec.right(90, seq('&', optional($._terminator), $.integer)),
+    capture_op: $ => prec.right(
+      90,
+      seq(
+        '&',
+        optional($._terminator),
+        choice($.integer,
+               seq($.module, optional($._terminator), '.', optional($._terminator), $.identifier, optional($._terminator), '/', $.integer),
+               seq($.identifier, optional($._terminator), '/', $.integer),
+               seq(choice(...OPERATORS), optional($._terminator), '/', $.integer))
+      )
+    ),
 
     dot_call: $ => prec.left(PREC.DOT_CALL, seq(
       field('object', choice($.module, $.identifier, $.atom, $.capture_op, $.dot_call, $.access_call, $.qualified_call)),
