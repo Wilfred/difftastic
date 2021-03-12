@@ -75,6 +75,9 @@ module.exports = grammar({
     $.identifier,
     $.keyword,
     $._atom_literal,
+    $.atom_start,
+    $.atom_content,
+    $.atom_end,
   ],
 
   extras: $ => [
@@ -308,6 +311,18 @@ module.exports = grammar({
       $.string_end
     ),
 
+    atom: $ => choice(
+      $._atom_literal,
+      seq(
+        $.atom_start,
+        repeat(choice(
+          $.atom_content,
+          $.escape_sequence,
+          $.interpolation
+        )),
+        $.atom_end
+      )
+    ),
 
     interpolation: $ => seq(
       '#{', sep($.expr, $._terminator), '}'
@@ -326,7 +341,6 @@ module.exports = grammar({
 
     integer: $ => /0[bB][01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0[dD])?\d(_?\d)*|0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/,
     float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE][\+-]?\d(_?\d)*)?/,
-    atom: $ => choice($._atom_literal),
     module: $ => /[A-Z][_a-zA-Z0-9]*(\.[A-Z][_a-zA-Z0-9]*)*/,
     comment: $ => token(prec(PREC.COMMENT, seq('#', /.*/))),
     _terminator: $ => prec.right(atleastOnce(choice($._line_break, ';'))),

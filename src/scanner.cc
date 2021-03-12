@@ -28,19 +28,24 @@ enum TokenType {
   IDENTIFIER,
   KEYWORD,
 
-  ATOM_LITERAL
+  ATOM_LITERAL,
+  ATOM_START,
+  ATOM_CONTENT,
+  ATOM_END
+
 };
 
 enum StackItemType {
   HEREDOC,
   SIGIL,
-  STRING
+  STRING,
+  ATOM
 };
 
 struct StackItem {
   StackItemType type;
 
-  // heredoc | string
+  // heredoc | string | atom
   bool single_quote;
 
   // sigil
@@ -383,9 +388,10 @@ struct Scanner {
     }
   }
 
-  bool scan_atom(TSLexer *lexer) {
+  bool scan_atom(TSLexer *lexer, const bool *valid_symbols) {
     advance(lexer);
-    if (memchr(&SYMBOL_OPERATORS, lexer->lookahead, sizeof(SYMBOL_OPERATORS)) != NULL) {
+    if (valid_symbols[ATOM_LITERAL] &&
+        memchr(&SYMBOL_OPERATORS, lexer->lookahead, sizeof(SYMBOL_OPERATORS)) != NULL) {
       if (advance_to_operator_end(lexer)) {
         lexer->result_symbol = ATOM_LITERAL;
         return true;
@@ -394,7 +400,24 @@ struct Scanner {
       return false;
     }
 
-    if (!is_atom_start(lexer->lookahead)) return false;
+    if (valid_symbols[ATOM_START] && is_quote_char(lexer->lookahead)) {
+      StackItem stack_item;
+      stack_item.single_quote = false;
+
+      int32_t quote = '"';
+      if (lexer->lookahead == '\'') {
+        stack_item.single_quote = true;
+        quote = '\'';
+      }
+
+      advance(lexer);
+      lexer->result_symbol = ATOM_START;
+      stack_item.type = ATOM;
+      stack.push_back(stack_item);
+      return true;
+    }
+
+    if (!valid_symbols[ATOM_LITERAL] || !is_atom_start(lexer->lookahead)) return false;
 
     for (;;) {
       advance(lexer);
@@ -406,6 +429,54 @@ struct Scanner {
 
         lexer->result_symbol = ATOM_LITERAL;
         return true;
+      }
+    }
+  }
+
+  bool scan_atom_content_or_end(TSLexer *lexer) {
+    bool has_content = false;
+    int32_t quote = '"';
+    if (stack.back().single_quote) {
+      quote = '\'';
+    }
+
+    for(;;) {
+      if (lexer->lookahead == '#') {
+        lexer->mark_end(lexer);
+        advance(lexer);
+        if (lexer->lookahead == '{') {
+          if (has_content) {
+            lexer->result_symbol = ATOM_CONTENT;
+            return true;
+          } else {
+            return false;
+          }
+        }
+      } else if (lexer->lookahead == '\\') {
+        lexer->mark_end(lexer);
+        if (has_content) {
+          lexer->result_symbol = ATOM_CONTENT;
+          return true;
+        } else {
+          return false;
+        }
+      } else if (lexer->lookahead == quote) {
+        if (has_content) {
+          lexer->mark_end(lexer);
+          lexer->result_symbol = ATOM_CONTENT;
+        } else {
+          advance(lexer);
+          lexer->mark_end(lexer);
+          lexer->result_symbol = ATOM_END;
+          stack.pop_back();
+        }
+        return true;
+      } else if (lexer->lookahead == 0) {
+        lexer->mark_end(lexer);
+        return false;
+      } else {
+        has_content = true;
+        advance(lexer);
       }
     }
   }
@@ -472,7 +543,7 @@ struct Scanner {
       switch(lexer->lookahead) {
       case ':':
         advance(lexer);
-        return !is_alpha_char(lexer->lookahead);
+        return !(is_quote_char(lexer->lookahead) || is_alpha_char(lexer->lookahead));
       case '^':
         advance(lexer);
         if (lexer->lookahead != '^') return false;
@@ -805,9 +876,9 @@ struct Scanner {
       }
     }
 
-    if (valid_symbols[ATOM_LITERAL] &&
+    if ((valid_symbols[ATOM_LITERAL] || valid_symbols[ATOM_START]) &&
         lexer->lookahead == ':') {
-      return scan_atom(lexer);
+      return scan_atom(lexer, valid_symbols);
     }
 
     if ((valid_symbols[IDENTIFIER] || valid_symbols[KEYWORD]) &&
@@ -831,6 +902,12 @@ struct Scanner {
         stack.back().type == STRING &&
         (valid_symbols[STRING_CONTENT] || valid_symbols[STRING_END])) {
       return scan_string_content_or_end(lexer);
+    }
+
+    if (!stack.empty() &&
+        stack.back().type == ATOM &&
+        (valid_symbols[ATOM_CONTENT] || valid_symbols[ATOM_END])) {
+      return scan_atom_content_or_end(lexer);
     }
 
     if (valid_symbols[SIGIL_START] &&
