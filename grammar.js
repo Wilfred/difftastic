@@ -54,8 +54,7 @@ const PREC = {
   CALL_NAME: 6,
   MAP: 5,
   LIST: 4,
-  ANONYMOUSE_FN: 10,
-  STAB_EXPR: 15
+  ANONYMOUSE_FN: 10
 };
 
 module.exports = grammar({
@@ -90,6 +89,7 @@ module.exports = grammar({
     [$._bare_args],
     [$._clause_body],
     [$.bare_keyword_list],
+    [$.paren_expr, $._bare_args],
   ],
 
   word: $ => $.identifier,
@@ -219,7 +219,7 @@ module.exports = grammar({
       'end'
     )),
 
-    args: $ => prec(1, seq(
+    args: $ => seq(
       token.immediate('('),
       optional($._terminator),
       optional(choice(
@@ -228,7 +228,7 @@ module.exports = grammar({
       )),
       optional($._terminator),
       ')'
-    )),
+    ),
 
     _bare_args: $ => choice(
       seq(commaSep1($, $.expr), optional(seq(',', optional($._terminator), $.bare_keyword_list))),
@@ -274,14 +274,13 @@ module.exports = grammar({
       '}'
     ),
 
-    stab_expr: $ => prec.right(PREC.STAB_EXPR,
-                               seq(
-                                 optional(choice($.args, $._bare_args)),
-                                 '->',
-                                 optional($._terminator),
-                                 $._clause_body
-                               )
-                              ),
+    stab_expr: $ => seq(
+      optional(choice(seq('(', optional($._terminator), optional($._bare_args), optional($._terminator), ')'),
+                      $._bare_args)),
+      '->',
+      optional($._terminator),
+      $._clause_body
+    ),
 
     _clause_body: $ => seq($.expr, optional(seq($._terminator, $._clause_body))),
 

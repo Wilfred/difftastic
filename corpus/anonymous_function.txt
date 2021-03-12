@@ -11,7 +11,6 @@ fn() -> a + b end
     (expr
       (anonymous_function
         (stab_expr
-          (args)
           (expr
             (binary_op
               (expr
@@ -32,9 +31,10 @@ fn(a) -> a + b end
     (expr
       (anonymous_function
         (stab_expr
-          (args
-            (expr
-              (identifier)))
+          (expr
+            (paren_expr
+              (expr
+                (identifier))))
           (expr
             (binary_op
               (expr
@@ -55,11 +55,10 @@ fn(a, b) -> a + b end
     (expr
       (anonymous_function
         (stab_expr
-          (args
-            (expr
-              (identifier))
-            (expr
-              (identifier)))
+          (expr
+            (identifier))
+          (expr
+            (identifier))
           (expr
             (binary_op
               (expr
@@ -83,11 +82,10 @@ end
     (expr
       (anonymous_function
         (stab_expr
-          (args
-            (expr
-              (identifier))
-            (expr
-              (identifier)))
+          (expr
+            (identifier))
+          (expr
+            (identifier))
           (expr
             (binary_op
               (expr

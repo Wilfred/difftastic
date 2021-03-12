@@ -96,3 +96,52 @@ end
                 (args)))
             (expr
               (integer))))))))
+
+================================================================================
+cond with parens
+================================================================================
+
+cond do
+  (negated = false) && :boolean in List.wrap(b) ->
+    1
+  true ->
+    :unknown
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (block
+          (stab_expr
+            (expr
+              (binary_op
+                (expr
+                  (paren_expr
+                    (expr
+                      (binary_op
+                        (expr
+                          (identifier))
+                        (expr
+                          (literal))))))
+                (expr
+                  (binary_op
+                    (expr
+                      (atom))
+                    (expr
+                      (dot_call
+                        (module)
+                        (identifier)
+                        (args
+                          (expr
+                            (identifier)))))))))
+            (expr
+              (integer)))
+          (stab_expr
+            (expr
+              (literal))
+            (expr
+              (atom))))))))
