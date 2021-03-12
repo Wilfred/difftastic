@@ -7,7 +7,7 @@ function sep1 (rule, separator) {
 }
 
 function commaSep1 ($, rule) {
-  return prec.left(20, sep1(rule, seq(',', optional($._terminator))));
+  return sep1(rule, prec.left(20, seq(',', optional($._terminator))));
 }
 
 function commaSep($, rule) {
@@ -54,9 +54,7 @@ const PREC = {
   CALL_NAME: 6,
   MAP: 5,
   LIST: 4,
-  BARE_KW: 6,
   ANONYMOUSE_FN: 10,
-  BARE_ARGS: 20,
   STAB_EXPR: 15
 };
 
@@ -88,6 +86,7 @@ module.exports = grammar({
     [$.call],
     [$._bare_args],
     [$._clause_body],
+    [$.bare_keyword_list],
   ],
 
   word: $ => $.identifier,
@@ -259,7 +258,7 @@ module.exports = grammar({
       '>>'
     ),
 
-    bare_keyword_list: $ => prec.right(PREC.BARE_KW, commaSep1($, seq($.keyword, optional($._terminator), $.expr))),
+    bare_keyword_list: $ => commaSep1($, seq($.keyword, optional($._terminator), $.expr)),
 
     tuple: $ => seq(
       '{',

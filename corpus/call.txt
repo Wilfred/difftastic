@@ -213,3 +213,37 @@ end
                                             (identifier))
                                           (expr
                                             (integer)))))))))))))))))))))))
+
+================================================================================
+keyword args
+================================================================================
+
+if true do
+  raise Error, a: 1, b: 2, c: 3
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (expr
+          (literal))
+        (block
+          (expr
+            (call
+              (identifier)
+              (expr
+                (module))
+              (bare_keyword_list
+                (keyword)
+                (expr
+                  (integer))
+                (keyword)
+                (expr
+                  (integer))
+                (keyword)
+                (expr
+                  (integer))))))))))
