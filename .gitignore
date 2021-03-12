@@ -5,3 +5,5 @@ target
 test.scala
 package-lock.json
 Cargo.lock
+.scalafmt.conf
+*worksheet.sc

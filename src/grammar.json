@@ -3553,6 +3553,14 @@
     {
       "type": "STRING",
       "value": "else"
+    },
+    {
+      "type": "STRING",
+      "value": "catch"
+    },
+    {
+      "type": "STRING",
+      "value": "finally"
     }
   ],
   "inline": [

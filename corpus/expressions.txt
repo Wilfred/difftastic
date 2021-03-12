@@ -139,7 +139,18 @@ Try expressions
 
 def main() {
   try a() finally depth -= 1
-  try b() catch { case e => println(e) }
+  try {
+    doThing()
+  } catch {
+    case e: SomeException => prinlnt(e.message)
+  } finally {
+    tryAnotherThing()
+  }
+  try b()
+  catch { case e => println(e) }
+  finally doFinalThing()
+  try a()
+  finally b()
 }
 
 ---
@@ -153,8 +164,26 @@ def main() {
         (call_expression (identifier) (arguments))
         (finally_clause (infix_expression (identifier) (operator_identifier) (number))))
       (try_expression
-        (call_expression (identifier) (arguments))
-        (catch_clause (case_block (case_clause (identifier) (call_expression (identifier) (arguments (identifier))))))))))
+        (block (call_expression (identifier) (arguments)))
+        (catch_clause (case_block (case_clause
+          (typed_pattern
+            (identifier)
+            (type_identifier))
+          (call_expression
+            (identifier)
+            (arguments (field_expression
+              (identifier)
+              (identifier)))))))
+        (finally_clause (block (call_expression (identifier) (arguments)))))
+      (try_expression (call_expression (identifier) (arguments))
+        (catch_clause (case_block (case_clause
+          (identifier) 
+          (call_expression
+            (identifier)
+            (arguments (identifier))))))
+        (finally_clause (call_expression (identifier) (arguments))))
+      (try_expression (call_expression (identifier) (arguments))
+        (finally_clause (call_expression (identifier) (arguments)))))))
 
 ===============================
 Match expressions
