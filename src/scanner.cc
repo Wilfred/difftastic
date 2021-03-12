@@ -363,6 +363,13 @@ struct Scanner {
           advance(lexer);
           lexer->mark_end(lexer);
         }
+        if (lexer->lookahead == '>') {
+          advance(lexer);
+          if (lexer->lookahead == '>') {
+            advance(lexer);
+            lexer->mark_end(lexer);
+          }
+        }
         return true;
       }
       return true;
