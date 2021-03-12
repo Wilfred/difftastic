@@ -21,5 +21,5 @@ debug:
 test:
 	./node_modules/.bin/tree-sitter test
 
-update-corpus: corpus/*.txt
+update-corpus:
 	./node_modules/.bin/tree-sitter test -u
