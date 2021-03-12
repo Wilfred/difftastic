@@ -17,7 +17,7 @@ parse:
 debug:
 	./node_modules/.bin/tree-sitter parse 'test.ex' --debug-graph
 
-test: corpus/*.txt
+test:
 	./node_modules/.bin/tree-sitter test
 
 update-corpus: corpus/*.txt
