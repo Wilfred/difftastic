@@ -120,7 +120,7 @@ end
             (expr
               (binary_op
                 (expr
-                  (paren_expr
+                  (block
                     (expr
                       (binary_op
                         (expr

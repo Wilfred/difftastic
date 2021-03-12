@@ -43,7 +43,7 @@ spec with splat
                               (expr
                                 (identifier))))
                           (expr
-                            (paren_expr
+                            (block
                               (stab_expr
                                 (expr
                                   (identifier))

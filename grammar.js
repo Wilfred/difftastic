@@ -89,7 +89,8 @@ module.exports = grammar({
     [$._bare_args],
     [$._clause_body],
     [$.bare_keyword_list],
-    [$.paren_expr, $._bare_args],
+    [$.block, $._bare_args],
+    [$.block, $.stab_expr],
   ],
 
   word: $ => $.identifier,
@@ -105,7 +106,7 @@ module.exports = grammar({
       $.binary_op,
       $.unary_op,
       $.capture_op,
-      $.paren_expr,
+      $.block,
       $.qualified_call,
       $.call,
       $.dot_call,
@@ -128,8 +129,8 @@ module.exports = grammar({
       $.identifier,
     ),
 
-    paren_expr: $ => seq(
-      '(', choice($.stab_expr, $.expr), ')'
+    block: $ => seq(
+      '(', optional($._terminator), sep(choice($.stab_expr, $.expr), $._terminator), optional($._terminator), ')'
     ),
 
     qualified_call: $ => seq(
