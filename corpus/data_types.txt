@@ -452,3 +452,25 @@ single quote interpolated atom
             (identifier)))
         (atom_content)
         (atom_end)))))
+
+================================================================================
+keyword list with caps start
+================================================================================
+
+eval_binds(CONFIG: config, SCRIPT: script)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (qualified_call
+        (identifier)
+        (args
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (identifier))
+            (keyword)
+            (expr
+              (identifier))))))))

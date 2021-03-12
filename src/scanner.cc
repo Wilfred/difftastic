@@ -117,6 +117,10 @@ struct Scanner {
     return is_downcase_char(c) || c == '_';
   }
 
+  bool is_keyword_start(char c) {
+    return is_alpha_char(c) || c == '_';
+  }
+
   bool is_identifier_body(char c) {
     return is_alpha_char(c) || is_digit_char(c) || c == '_';
   }
@@ -487,6 +491,7 @@ struct Scanner {
   bool scan_identifier_or_keyword(TSLexer *lexer) {
     std::string *token= new std::string("");
     bool reserved = false;
+    bool is_identifier = is_identifier_start(lexer->lookahead);
 
     lexer->mark_end(lexer);
     for (;;) {
@@ -511,7 +516,7 @@ struct Scanner {
 
         lexer->result_symbol = IDENTIFIER;
         delete token;
-        return true;
+        return is_identifier;
 
       } else if (lexer->lookahead == ':') {
         lexer->mark_end(lexer);
@@ -525,7 +530,7 @@ struct Scanner {
         } else {
           lexer->result_symbol = IDENTIFIER;
           delete token;
-          return true;
+          return is_identifier;
         }
       } else if (!is_identifier_body(lexer->lookahead)) {
 
@@ -536,7 +541,7 @@ struct Scanner {
             lexer->mark_end(lexer);
             lexer->result_symbol = IDENTIFIER;
           }
-          return !reserved;
+          return is_identifier && !reserved;
       }
     }
   }
@@ -878,7 +883,8 @@ struct Scanner {
     }
 
     if ((valid_symbols[IDENTIFIER] || valid_symbols[KEYWORD]) &&
-        is_identifier_start(lexer->lookahead)) {
+        (is_identifier_start(lexer->lookahead) ||
+         is_keyword_start(lexer->lookahead))) {
       return scan_identifier_or_keyword(lexer);
     }
 
