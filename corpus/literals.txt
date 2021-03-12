@@ -1,43 +1,58 @@
 ==========================
-Multi-line strings
+Simple strings
 ==========================
 
-val string = """
+val oneLineString = "I'm just on one line"
+
+val multiLineString = """
   a
-  b
-  c
+  $thisIsntInterpolated
+  ${thisEither}
 """
 
 ---
 
 (compilation_unit
+  (val_definition (identifier) (string))
   (val_definition (identifier) (string)))
 
 ==========================
 Interpolated strings
 ==========================
 
-val string1 = "a $b c ${d} e"
+val string1 = s"a $b ${c}"
 
-val string2 = "$a"
+val string2 = f"hi $name%s"
 
-val string3 = """
-  a
-  $b
-  c
-  ${d}
+val string3 = raw"Not a new line \n${ha}"
+
+val string4 = s"""
+works even in multiline strings, ${name}
 """
-
 ---
 
 (compilation_unit
-  (val_definition (identifier) (string
-    (interpolation (identifier))
-    (interpolation (block (identifier)))))
-  (val_definition (identifier) (string (interpolation (identifier))))
-  (val_definition (identifier) (string
-    (interpolation (identifier))
-    (interpolation (block (identifier))))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier) (interpolated_string
+        (interpolation (identifier))
+        (interpolation (block (identifier))))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier) (interpolated_string
+        (interpolation (identifier)))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier) (interpolated_string
+        (interpolation (block (identifier))))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier) (interpolated_string
+        (interpolation (block (identifier)))))))
 
 ==========================
 Floating point numbers
