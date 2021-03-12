@@ -441,3 +441,27 @@ operator capture
     (expr
       (capture_op
         (integer)))))
+
+================================================================================
+string dot call
+================================================================================
+
+:erlang."=<"(left, right)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (dot_call
+          (atom)
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (args
+          (expr
+            (identifier))
+          (expr
+            (identifier)))))))
