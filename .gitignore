@@ -1,6 +1,7 @@
 node_modules
-binding.gyp
 tree-sitter-elixir.wasm
-src/parser.c
-src/grammar.json
-src/node-types.json
+log.html
+test.ex
+src/GPATH
+src/GRTAGS
+src/GTAGS
