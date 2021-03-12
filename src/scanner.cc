@@ -59,7 +59,7 @@ const char SIGIL_CHARS[] = {
 };
 
 const char LINE_BREAK_OPERATORS[] = {
-  '.', '^', ':', '|', '!', '=', '<', '>', '+', '-', '*', '/', '\\', ',', ']', 'w', 'a', 'o', 'n', 'i'
+  '.', ':', '|', '!', '=', '<', '>', '+', '-', '*', '/', '\\', ',', 'w', 'a', 'o', 'i'
 };
 
 const char SYMBOL_OPERATORS[] = {
@@ -543,7 +543,7 @@ struct Scanner {
       switch(lexer->lookahead) {
       case ':':
         advance(lexer);
-        return !(is_quote_char(lexer->lookahead) || is_alpha_char(lexer->lookahead));
+        return lexer->lookahead == ':';
       case '^':
         advance(lexer);
         if (lexer->lookahead != '^') return false;
@@ -551,7 +551,7 @@ struct Scanner {
         return lexer->lookahead != '^';
       case '!':
         advance(lexer);
-        return lexer->lookahead != '=';
+        return lexer->lookahead == '=';
       case '~':
         advance(lexer);
         return lexer->lookahead != '>';
@@ -577,13 +577,6 @@ struct Scanner {
       case 'o':
         advance(lexer);
         if (lexer->lookahead != 'r') return false;
-        advance(lexer);
-        return is_token_end(lexer->lookahead);
-      case 'n':
-        advance(lexer);
-        if (lexer->lookahead != 'o') return false;
-        advance(lexer);
-        if (lexer->lookahead != 't') return false;
         advance(lexer);
         return is_token_end(lexer->lookahead);
       case 'i':
