@@ -205,3 +205,81 @@ end
                 (args
                   (expr
                     (identifier)))))))))))
+
+================================================================================
+case binary line break
+================================================================================
+
+case x do
+  <<"sigil_", name>> when name >= ?A and name <= ?Z ->
+    a
+  <<"sigil_", name>> when name >= ?a and name <= ?z ->
+    b
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (expr
+          (identifier))
+        (block
+          (stab_expr
+            (expr
+              (binary_op
+                (expr
+                  (binary
+                    (expr
+                      (string
+                        (string_start)
+                        (string_content)
+                        (string_end)))
+                    (expr
+                      (identifier))))
+                (expr
+                  (binary_op
+                    (expr
+                      (binary_op
+                        (expr
+                          (identifier))
+                        (expr
+                          (char))))
+                    (expr
+                      (binary_op
+                        (expr
+                          (identifier))
+                        (expr
+                          (char))))))))
+            (expr
+              (identifier)))
+          (stab_expr
+            (expr
+              (binary_op
+                (expr
+                  (binary
+                    (expr
+                      (string
+                        (string_start)
+                        (string_content)
+                        (string_end)))
+                    (expr
+                      (identifier))))
+                (expr
+                  (binary_op
+                    (expr
+                      (binary_op
+                        (expr
+                          (identifier))
+                        (expr
+                          (char))))
+                    (expr
+                      (binary_op
+                        (expr
+                          (identifier))
+                        (expr
+                          (char))))))))
+            (expr
+              (identifier))))))))
