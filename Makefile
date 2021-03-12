@@ -3,6 +3,7 @@ generate:
 
 build-wasm:
 	./node_modules/.bin/tree-sitter build-wasm
+	cp tree-sitter-elixir.wasm playground/tree-sitter-parser.wasm
 
 ui:
 	./node_modules/.bin/tree-sitter build-wasm
