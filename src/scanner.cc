@@ -63,7 +63,7 @@ const char LINE_BREAK_OPERATORS[] = {
 };
 
 const char SYMBOL_OPERATORS[] = {
-  '@', '.', '+', '-', '!', '^', '-', '*', '/', '<', '>', '|', '~', '=', '&', ':', '\\', '%'
+  '@', '.', '+', '-', '!', '^', '-', '*', '/', '<', '>', '|', '~', '=', '&', ':', '\\', '%', '{'
 };
 
 const string RESERVERD[] = {
@@ -248,6 +248,11 @@ struct Scanner {
     case '-':
       advance(lexer);
       lexer->mark_end(lexer);
+      if (lexer->lookahead == '>') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+        return true;
+      }
       if (lexer->lookahead != '-') return true;
       advance(lexer);
       lexer->mark_end(lexer);
@@ -295,6 +300,12 @@ struct Scanner {
     case ':':
       advance(lexer);
       if (lexer->lookahead != ':') return false;
+      advance(lexer);
+      lexer->mark_end(lexer);
+      return true;
+    case '{':
+      advance(lexer);
+      if (lexer->lookahead != '}') return false;
       advance(lexer);
       lexer->mark_end(lexer);
       return true;
