@@ -59,7 +59,7 @@ const char SIGIL_CHARS[] = {
 };
 
 const char LINE_BREAK_OPERATORS[] = {
-  '.', ':', '|', '!', '=', '<', '>', '+', '-', '*', '/', '\\', ',', 'w', 'a', 'o', 'i'
+  '#', '.', ':', '|', '!', '=', '<', '>', '+', '-', '*', '/', '\\', ',', 'w', 'a', 'o', 'i',
 };
 
 const char SYMBOL_OPERATORS[] = {

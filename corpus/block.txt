@@ -88,3 +88,104 @@ end
                     (args
                       (expr
                         (identifier)))))))))))))
+
+================================================================================
+def with multiline guard
+================================================================================
+
+defp ascii_printable_guarded?([char | rest], counter)
+     # 7..13 is the range '\a\b\t\n\v\f\r'. 32..126 are ASCII printables.
+     when is_integer(char) and
+            ((char >= 7 and char <= 13) or char == ?\e or (char >= 32 and char <= 126)) do
+  ascii_printable_guarded?(rest, decrement(counter))
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (expr
+          (binary_op
+            (expr
+              (qualified_call
+                (identifier)
+                (args
+                  (expr
+                    (list
+                      (expr
+                        (binary_op
+                          (expr
+                            (identifier))
+                          (expr
+                            (identifier))))))
+                  (expr
+                    (identifier)))))
+            (comment)
+            (expr
+              (binary_op
+                (expr
+                  (qualified_call
+                    (identifier)
+                    (args
+                      (expr
+                        (identifier)))))
+                (expr
+                  (paren_expr
+                    (expr
+                      (binary_op
+                        (expr
+                          (binary_op
+                            (expr
+                              (paren_expr
+                                (expr
+                                  (binary_op
+                                    (expr
+                                      (binary_op
+                                        (expr
+                                          (identifier))
+                                        (expr
+                                          (integer))))
+                                    (expr
+                                      (binary_op
+                                        (expr
+                                          (identifier))
+                                        (expr
+                                          (integer))))))))
+                            (expr
+                              (binary_op
+                                (expr
+                                  (identifier))
+                                (expr
+                                  (char))))))
+                        (expr
+                          (paren_expr
+                            (expr
+                              (binary_op
+                                (expr
+                                  (binary_op
+                                    (expr
+                                      (identifier))
+                                    (expr
+                                      (integer))))
+                                (expr
+                                  (binary_op
+                                    (expr
+                                      (identifier))
+                                    (expr
+                                      (integer))))))))))))))))
+        (block
+          (expr
+            (qualified_call
+              (identifier)
+              (args
+                (expr
+                  (identifier))
+                (expr
+                  (qualified_call
+                    (identifier)
+                    (args
+                      (expr
+                        (identifier)))))))))))))
