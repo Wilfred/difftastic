@@ -144,3 +144,72 @@ cover[:tool].start(compile_path, cover)
             (identifier))
           (expr
             (identifier)))))))
+
+================================================================================
+qualified call followed by dot call
+================================================================================
+
+quote do
+  unquote(__MODULE__).profile(
+    fn ->
+      unquote(Code.string_to_quoted!(code_string))
+    end,
+    unquote(Macro.escape(Enum.map(opts, &parse_opt/1)))
+  )
+end
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (block
+          (expr
+            (dot_call
+              (qualified_call
+                (identifier)
+                (args
+                  (expr
+                    (identifier))))
+              (identifier)
+              (args
+                (expr
+                  (anonymous_function
+                    (stab_expr
+                      (expr
+                        (qualified_call
+                          (identifier)
+                          (args
+                            (expr
+                              (dot_call
+                                (module)
+                                (identifier)
+                                (args
+                                  (expr
+                                    (identifier)))))))))))
+                (expr
+                  (qualified_call
+                    (identifier)
+                    (args
+                      (expr
+                        (dot_call
+                          (module)
+                          (identifier)
+                          (args
+                            (expr
+                              (dot_call
+                                (module)
+                                (identifier)
+                                (args
+                                  (expr
+                                    (identifier))
+                                  (expr
+                                    (unary_op
+                                      (expr
+                                        (binary_op
+                                          (expr
+                                            (identifier))
+                                          (expr
+                                            (integer)))))))))))))))))))))))
