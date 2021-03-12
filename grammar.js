@@ -133,8 +133,7 @@ module.exports = grammar({
     ),
 
     qualified_call: $ => seq(
-      field('name', choice($.identifier, $.dot_call)),
-      optional('.'),
+      field('name', $.identifier),
       $.args
     ),
 
@@ -187,7 +186,8 @@ module.exports = grammar({
       choice(
         prec.right(seq(field('function', choice(...OPERATORS)), $.args)),
         prec.right(seq(field('function', choice($.identifier, ...RESERVED)), optional($.args))),
-        $.module
+        $.module,
+        $.args
       )
     )),
 

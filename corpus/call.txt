@@ -83,7 +83,7 @@ a.()()
   (statement
     (expr
       (call
-        (qualified_call
+        (dot_call
           (identifier)
           (args))
         (args)))))
@@ -249,7 +249,7 @@ end
                   (integer))))))))))
 
 ================================================================================
-integer followed by dot call
+captured arg dot call
 ================================================================================
 
 [1]
@@ -277,3 +277,33 @@ integer followed by dot call
                       (capture_op
                         (integer))
                       (identifier))))))))))))
+
+================================================================================
+captured arg dot call
+================================================================================
+
+Enum.reduce(funcs, result, & &1.(&2))
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (dot_call
+        (module)
+        (identifier)
+        (args
+          (expr
+            (identifier))
+          (expr
+            (identifier))
+          (expr
+            (unary_op
+              (expr
+                (dot_call
+                  (capture_op
+                    (integer))
+                  (args
+                    (expr
+                      (capture_op
+                        (integer)))))))))))))
