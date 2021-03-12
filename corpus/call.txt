@@ -273,8 +273,7 @@ integer followed by dot call
               (expr
                 (unary_op
                   (expr
-                    (unary_op
-                      (expr
-                        (dot_call
-                          (integer)
-                          (identifier))))))))))))))
+                    (dot_call
+                      (capture_op
+                        (integer))
+                      (identifier))))))))))))
