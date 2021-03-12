@@ -25,12 +25,11 @@ module.exports = grammar({
   externals: $ => [
     $._automatic_semicolon,
     $._simple_string,
-    $._string_start,
-    $._string_middle,
-    $._string_end,
-    $._multiline_string_start,
-    $._multiline_string_middle,
-    $._multiline_string_end,
+    $._simple_multiline_string,
+    $._interpolated_string_middle,
+    $._interpolated_string_end,
+    $._interpolated_multiline_string_middle,
+    $._interpolated_multiline_string_end,
     'else',
     'catch',
     'finally'
@@ -509,7 +508,7 @@ module.exports = grammar({
       $.generic_function,
       $.assignment_expression,
       $.parenthesized_expression,
-      $.string_transform_expression,
+      $.interpolated_string_expression,
       $.field_expression,
       $.instance_expression,
       // TODO: postfix and ascription
@@ -641,34 +640,41 @@ module.exports = grammar({
 
     number: $ => /[\d\.]+/,
 
-    string_transform_expression: $ => seq(
+    interpolated_string_expression: $ => seq(
       $.identifier,
-      $.string
+      $.interpolated_string
     ),
 
-    string: $ => choice(
-      $._simple_string,
+    _interpolated_string_start: $ => '"',
+
+    _interpolated_multiline_string_start: $ => '"""',
+
+    interpolation: $ => seq('$', choice($.identifier, $.block)),
+
+    interpolated_string: $ => choice(
       seq(
-        $._string_start,
-        $.interpolation,
+        $._interpolated_string_start,
         repeat(seq(
-          $._string_middle,
-          $.interpolation,
+          $._interpolated_string_middle,
+          $.interpolation
         )),
-        $._string_end
+        $._interpolated_string_end
       ),
       seq(
-        $._multiline_string_start,
-        $.interpolation,
+        $._interpolated_multiline_string_start,
         repeat(seq(
-          $._multiline_string_middle,
-          $.interpolation,
+          $._interpolated_multiline_string_middle,
+          $.interpolation
         )),
-        $._multiline_string_end
+        $._interpolated_multiline_string_end
       )
     ),
 
-    interpolation: $ => seq('$', choice($.identifier, $.block)),
+    string :$ => 
+      choice(
+        $._simple_string,
+        $._simple_multiline_string
+      ),
 
     _semicolon: $ => choice(
       ';',

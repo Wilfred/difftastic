@@ -2648,7 +2648,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "string_transform_expression"
+          "name": "interpolated_string_expression"
         },
         {
           "type": "SYMBOL",
@@ -3338,7 +3338,7 @@
       "type": "PATTERN",
       "value": "[\\d\\.]+"
     },
-    "string_transform_expression": {
+    "interpolated_string_expression": {
       "type": "SEQ",
       "members": [
         {
@@ -3347,84 +3347,17 @@
         },
         {
           "type": "SYMBOL",
-          "name": "string"
+          "name": "interpolated_string"
         }
       ]
     },
-    "string": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_simple_string"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_string_start"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "interpolation"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_string_middle"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "interpolation"
-                  }
-                ]
-              }
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_string_end"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_multiline_string_start"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "interpolation"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_multiline_string_middle"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "interpolation"
-                  }
-                ]
-              }
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_multiline_string_end"
-            }
-          ]
-        }
-      ]
+    "_interpolated_string_start": {
+      "type": "STRING",
+      "value": "\""
+    },
+    "_interpolated_multiline_string_start": {
+      "type": "STRING",
+      "value": "\"\"\""
     },
     "interpolation": {
       "type": "SEQ",
@@ -3445,6 +3378,82 @@
               "name": "block"
             }
           ]
+        }
+      ]
+    },
+    "interpolated_string": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_interpolated_string_start"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_interpolated_string_middle"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "interpolation"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_interpolated_string_end"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_interpolated_multiline_string_start"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_interpolated_multiline_string_middle"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "interpolation"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_interpolated_multiline_string_end"
+            }
+          ]
+        }
+      ]
+    },
+    "string": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_simple_string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_simple_multiline_string"
         }
       ]
     },
@@ -3528,27 +3537,23 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_string_start"
+      "name": "_simple_multiline_string"
     },
     {
       "type": "SYMBOL",
-      "name": "_string_middle"
+      "name": "_interpolated_string_middle"
     },
     {
       "type": "SYMBOL",
-      "name": "_string_end"
+      "name": "_interpolated_string_end"
     },
     {
       "type": "SYMBOL",
-      "name": "_multiline_string_start"
+      "name": "_interpolated_multiline_string_middle"
     },
     {
       "type": "SYMBOL",
-      "name": "_multiline_string_middle"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_multiline_string_end"
+      "name": "_interpolated_multiline_string_end"
     },
     {
       "type": "STRING",
