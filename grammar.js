@@ -251,6 +251,8 @@ module.exports = grammar({
       '%{',
       optional($._terminator),
       optional($._bare_args),
+      optional(','),
+      optional($._terminator),
       '}'
     ),
 
@@ -260,6 +262,8 @@ module.exports = grammar({
       '{',
       optional($._terminator),
       optional($._bare_args),
+      optional(','),
+      optional($._terminator),
       '}'
     ),
 
@@ -267,6 +271,8 @@ module.exports = grammar({
       '[',
       optional($._terminator),
       optional($._bare_args),
+      optional(','),
+      optional($._terminator),
       ']'
     )),
 
@@ -274,6 +280,8 @@ module.exports = grammar({
       '<<',
       optional($._terminator),
       optional($._bare_args),
+      optional(','),
+      optional($._terminator),
       '>>'
     ),
 
@@ -283,6 +291,8 @@ module.exports = grammar({
       '{',
       optional($._terminator),
       optional($._bare_args),
+      optional(','),
+      optional($._terminator),
       '}'
     ),
 

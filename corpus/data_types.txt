@@ -575,3 +575,53 @@ single quote string keyword
               (string_end)))
           (expr
             (integer)))))))
+
+================================================================================
+hanging comma
+================================================================================
+
+[
+  %{a: b,},
+  %Struct{a: b,},
+  {a, b,},
+  [a: b,],
+  <<a, b,>>,
+]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (list
+        (expr
+          (map
+            (bare_keyword_list
+              (keyword)
+              (expr
+                (identifier)))))
+        (expr
+          (struct
+            (module)
+            (bare_keyword_list
+              (keyword)
+              (expr
+                (identifier)))))
+        (expr
+          (tuple
+            (expr
+              (identifier))
+            (expr
+              (identifier))))
+        (expr
+          (list
+            (bare_keyword_list
+              (keyword)
+              (expr
+                (identifier)))))
+        (expr
+          (binary
+            (expr
+              (identifier))
+            (expr
+              (identifier))))))))
