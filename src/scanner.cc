@@ -612,7 +612,6 @@ struct Scanner {
   }
 
   bool scan_sigil_start(TSLexer *lexer) {
-    bool quote = false;
     bool allows_interpolation = false;
     StackItem stack_item;
     stack_item.type = SIGIL;
@@ -627,12 +626,13 @@ struct Scanner {
 
     if (is_sigil_char(lexer->lookahead)) {
       stack_item.terminator = sigil_terminator(lexer->lookahead);
-      quote = lexer->lookahead == '"';
+      bool is_quote = is_quote_char(lexer->lookahead);
+      int32_t quote = lexer->lookahead;
       advance(lexer);
       lexer->mark_end(lexer);
-      if (quote && lexer->lookahead == '"') {
+      if (is_quote && lexer->lookahead == quote) {
         advance(lexer);
-        if (lexer->lookahead == '"') {
+        if (lexer->lookahead == quote) {
           advance(lexer);
           lexer->mark_end(lexer);
           stack_item.heredoc = true;

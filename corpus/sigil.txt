@@ -155,3 +155,27 @@ date time
         (sigil_start)
         (sigil_content)
         (sigil_end)))))
+
+================================================================================
+single quote triple quotes
+================================================================================
+
+~S'''
+Converts double-quotes to single-quotes.
+
+## Examples
+
+    iex> convert("\"foo\"")
+    "'foo'"
+
+'''
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (sigil
+        (sigil_start)
+        (sigil_content)
+        (sigil_end)))))
