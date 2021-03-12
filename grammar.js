@@ -187,7 +187,8 @@ module.exports = grammar({
         prec.right(seq(field('function', choice(...OPERATORS)), $.args)),
         prec.right(seq(field('function', choice($.identifier, ...RESERVED)), optional($.args))),
         $.module,
-        $.args
+        $.args,
+        $.tuple
       )
     )),
 

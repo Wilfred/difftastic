@@ -307,3 +307,25 @@ Enum.reduce(funcs, result, & &1.(&2))
                     (expr
                       (capture_op
                         (integer)))))))))))))
+
+================================================================================
+alias
+================================================================================
+
+alias ExUnit.{FailuresManifest, Test}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (expr
+      (call
+        (identifier)
+        (expr
+          (dot_call
+            (module)
+            (tuple
+              (expr
+                (module))
+              (expr
+                (module)))))))))
