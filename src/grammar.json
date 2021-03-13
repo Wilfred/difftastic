@@ -50,8 +50,36 @@
         {
           "type": "SYMBOL",
           "name": "ellipsis_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pod_statement"
         }
       ]
+    },
+    "pod_statement": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "=[\\w]*"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "PATTERN",
+              "value": ".*"
+            }
+          },
+          {
+            "type": "PATTERN",
+            "value": "=cut"
+          }
+        ]
+      }
     },
     "ellipsis_statement": {
       "type": "SEQ",

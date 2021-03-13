@@ -86,7 +86,15 @@ module.exports = grammar({
       $.standalone_block,
 
       $.ellipsis_statement,
+
+      $.pod_statement,
     ),
+
+    pod_statement: $ => prec(1, seq(
+      /=[\w]*/,
+      repeat(/.*/),
+      /=cut/,
+    )),
 
     ellipsis_statement: $ => seq(
       '...',
