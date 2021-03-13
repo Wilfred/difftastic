@@ -6,18 +6,17 @@ A.B.c("a")
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (dot_call
-        (module)
-        (identifier)
-        (args
-          (expr
-            (string
-              (string_start)
-              (string_content)
-              (string_end))))))))
+(program
+  (expr
+    (dot_call
+      (module)
+      (identifier)
+      (args
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))))))
 
 ================================================================================
 bare keyword list
@@ -34,42 +33,41 @@ Module.func!(
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (dot_call
-        (module)
-        (identifier)
-        (args
+(program
+  (expr
+    (dot_call
+      (module)
+      (identifier)
+      (args
+        (expr
+          (identifier))
+        (bare_keyword_list
+          (keyword)
           (expr
-            (identifier))
-          (bare_keyword_list
-            (keyword)
-            (expr
-              (list
-                (bare_keyword_list
-                  (keyword)
-                  (expr
-                    (atom))
-                  (keyword)
-                  (expr
-                    (atom))
-                  (keyword)
-                  (expr
-                    (atom))
-                  (keyword)
-                  (expr
-                    (atom)))))
-            (keyword)
-            (expr
-              (list
-                (bare_keyword_list
-                  (keyword)
-                  (expr
-                    (atom))
-                  (keyword)
-                  (expr
-                    (atom)))))))))))
+            (list
+              (bare_keyword_list
+                (keyword)
+                (expr
+                  (atom))
+                (keyword)
+                (expr
+                  (atom))
+                (keyword)
+                (expr
+                  (atom))
+                (keyword)
+                (expr
+                  (atom)))))
+          (keyword)
+          (expr
+            (list
+              (bare_keyword_list
+                (keyword)
+                (expr
+                  (atom))
+                (keyword)
+                (expr
+                  (atom))))))))))
 
 ================================================================================
 local var call
@@ -79,14 +77,13 @@ a.()()
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (dot_call
-          (identifier)
-          (args))
-        (args)))))
+(program
+  (expr
+    (call
+      (dot_call
+        (identifier)
+        (args))
+      (args))))
 
 ================================================================================
 operator call
@@ -96,16 +93,15 @@ Kernel.+(1, 1)
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (dot_call
-        (module)
-        (args
-          (expr
-            (integer))
-          (expr
-            (integer)))))))
+(program
+  (expr
+    (dot_call
+      (module)
+      (args
+        (expr
+          (integer))
+        (expr
+          (integer))))))
 
 ================================================================================
 reserved word call
@@ -115,11 +111,10 @@ a.and
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (dot_call
-        (identifier)))))
+(program
+  (expr
+    (dot_call
+      (identifier))))
 
 ================================================================================
 access call followed by dot call
@@ -129,21 +124,20 @@ cover[:tool].start(compile_path, cover)
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (dot_call
-        (access_call
-          (expr
-            (identifier))
-          (expr
-            (atom)))
-        (identifier)
-        (args
-          (expr
-            (identifier))
-          (expr
-            (identifier)))))))
+(program
+  (expr
+    (dot_call
+      (access_call
+        (expr
+          (identifier))
+        (expr
+          (atom)))
+      (identifier)
+      (args
+        (expr
+          (identifier))
+        (expr
+          (identifier))))))
 
 ================================================================================
 qualified call followed by dot call
@@ -160,55 +154,54 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (do_block
-          (expr
-            (dot_call
-              (qualified_call
-                (identifier)
-                (args
-                  (expr
-                    (identifier))))
+(program
+  (expr
+    (call
+      (identifier)
+      (do_block
+        (expr
+          (dot_call
+            (qualified_call
               (identifier)
               (args
                 (expr
-                  (anonymous_function
-                    (stab_expr
-                      (expr
-                        (qualified_call
-                          (identifier)
-                          (args
-                            (expr
-                              (dot_call
-                                (module)
-                                (identifier)
-                                (args
-                                  (expr
-                                    (identifier)))))))))))
-                (expr
-                  (qualified_call
-                    (identifier)
-                    (args
-                      (expr
-                        (dot_call
-                          (module)
-                          (identifier)
-                          (args
-                            (expr
-                              (dot_call
-                                (module)
-                                (identifier)
-                                (args
-                                  (expr
-                                    (identifier))
-                                  (expr
-                                    (capture_op
-                                      (identifier)
-                                      (integer))))))))))))))))))))
+                  (identifier))))
+            (identifier)
+            (args
+              (expr
+                (anonymous_function
+                  (stab_expr
+                    (expr
+                      (qualified_call
+                        (identifier)
+                        (args
+                          (expr
+                            (dot_call
+                              (module)
+                              (identifier)
+                              (args
+                                (expr
+                                  (identifier)))))))))))
+              (expr
+                (qualified_call
+                  (identifier)
+                  (args
+                    (expr
+                      (dot_call
+                        (module)
+                        (identifier)
+                        (args
+                          (expr
+                            (dot_call
+                              (module)
+                              (identifier)
+                              (args
+                                (expr
+                                  (identifier))
+                                (expr
+                                  (capture_op
+                                    (identifier)
+                                    (integer)))))))))))))))))))
 
 ================================================================================
 keyword args
@@ -220,29 +213,28 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (literal))
+      (do_block
         (expr
-          (literal))
-        (do_block
-          (expr
-            (call
-              (identifier)
+          (call
+            (identifier)
+            (expr
+              (module))
+            (bare_keyword_list
+              (keyword)
               (expr
-                (module))
-              (bare_keyword_list
-                (keyword)
-                (expr
-                  (integer))
-                (keyword)
-                (expr
-                  (integer))
-                (keyword)
-                (expr
-                  (integer))))))))))
+                (integer))
+              (keyword)
+              (expr
+                (integer))
+              (keyword)
+              (expr
+                (integer)))))))))
 
 ================================================================================
 captured arg dot call
@@ -253,26 +245,25 @@ captured arg dot call
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (binary_op
-        (expr
-          (list
+(program
+  (expr
+    (binary_op
+      (expr
+        (list
+          (expr
+            (integer))))
+      (expr
+        (dot_call
+          (module)
+          (identifier)
+          (args
             (expr
-              (integer))))
-        (expr
-          (dot_call
-            (module)
-            (identifier)
-            (args
-              (expr
-                (unary_op
-                  (expr
-                    (dot_call
-                      (capture_op
-                        (integer))
-                      (identifier))))))))))))
+              (unary_op
+                (expr
+                  (dot_call
+                    (capture_op
+                      (integer))
+                    (identifier)))))))))))
 
 ================================================================================
 captured arg dot call
@@ -282,27 +273,26 @@ Enum.reduce(funcs, result, & &1.(&2))
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (dot_call
-        (module)
-        (identifier)
-        (args
-          (expr
-            (identifier))
-          (expr
-            (identifier))
-          (expr
-            (unary_op
-              (expr
-                (dot_call
-                  (capture_op
-                    (integer))
-                  (args
-                    (expr
-                      (capture_op
-                        (integer)))))))))))))
+(program
+  (expr
+    (dot_call
+      (module)
+      (identifier)
+      (args
+        (expr
+          (identifier))
+        (expr
+          (identifier))
+        (expr
+          (unary_op
+            (expr
+              (dot_call
+                (capture_op
+                  (integer))
+                (args
+                  (expr
+                    (capture_op
+                      (integer))))))))))))
 
 ================================================================================
 alias
@@ -312,19 +302,18 @@ alias ExUnit.{FailuresManifest, Test}
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (expr
-          (dot_call
-            (module)
-            (tuple
-              (expr
-                (module))
-              (expr
-                (module)))))))))
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (dot_call
+          (module)
+          (tuple
+            (expr
+              (module))
+            (expr
+              (module))))))))
 
 ================================================================================
 import
@@ -334,42 +323,41 @@ import Kernel, except: [@: 1, defmodule: 2, def: 1, def: 2, defp: 2, defmacro: 1
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (module))
+      (bare_keyword_list
+        (keyword)
         (expr
-          (module))
-        (bare_keyword_list
-          (keyword)
-          (expr
-            (list
-              (bare_keyword_list
-                (keyword)
-                (expr
-                  (integer))
-                (keyword)
-                (expr
-                  (integer))
-                (keyword)
-                (expr
-                  (integer))
-                (keyword)
-                (expr
-                  (integer))
-                (keyword)
-                (expr
-                  (integer))
-                (keyword)
-                (expr
-                  (integer))
-                (keyword)
-                (expr
-                  (integer))
-                (keyword)
-                (expr
-                  (integer))))))))))
+          (list
+            (bare_keyword_list
+              (keyword)
+              (expr
+                (integer))
+              (keyword)
+              (expr
+                (integer))
+              (keyword)
+              (expr
+                (integer))
+              (keyword)
+              (expr
+                (integer))
+              (keyword)
+              (expr
+                (integer))
+              (keyword)
+              (expr
+                (integer))
+              (keyword)
+              (expr
+                (integer))
+              (keyword)
+              (expr
+                (integer)))))))))
 
 ================================================================================
 capture mfa
@@ -379,13 +367,12 @@ capture mfa
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (capture_op
-        (module)
-        (identifier)
-        (integer)))))
+(program
+  (expr
+    (capture_op
+      (module)
+      (identifier)
+      (integer))))
 
 ================================================================================
 capture local
@@ -395,12 +382,11 @@ capture local
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (capture_op
-        (identifier)
-        (integer)))))
+(program
+  (expr
+    (capture_op
+      (identifier)
+      (integer))))
 
 ================================================================================
 anonymous capture
@@ -410,23 +396,22 @@ double = &(&1 * 2)
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (binary_op
-        (expr
-          (identifier))
-        (expr
-          (unary_op
-            (expr
-              (block
-                (expr
-                  (binary_op
-                    (expr
-                      (capture_op
-                        (integer)))
-                    (expr
-                      (integer))))))))))))
+(program
+  (expr
+    (binary_op
+      (expr
+        (identifier))
+      (expr
+        (unary_op
+          (expr
+            (block
+              (expr
+                (binary_op
+                  (expr
+                    (capture_op
+                      (integer)))
+                  (expr
+                    (integer)))))))))))
 
 ================================================================================
 operator capture
@@ -436,11 +421,10 @@ operator capture
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (capture_op
-        (integer)))))
+(program
+  (expr
+    (capture_op
+      (integer))))
 
 ================================================================================
 string dot call
@@ -450,18 +434,17 @@ string dot call
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (dot_call
-          (atom)
-          (string
-            (string_start)
-            (string_content)
-            (string_end)))
-        (args
-          (expr
-            (identifier))
-          (expr
-            (identifier)))))))
+(program
+  (expr
+    (call
+      (dot_call
+        (atom)
+        (string
+          (string_start)
+          (string_content)
+          (string_end)))
+      (args
+        (expr
+          (identifier))
+        (expr
+          (identifier))))))

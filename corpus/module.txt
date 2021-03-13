@@ -7,11 +7,10 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (expr
-          (module))
-        (do_block)))))
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (module))
+      (do_block))))

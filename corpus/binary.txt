@@ -6,62 +6,61 @@ binary expression
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (binary
-        (expr
-          (string
-            (string_start)
-            (string_content)
-            (string_end)))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (binary_op
-                (expr
-                  (identifier))
-                (expr
-                  (qualified_call
-                    (identifier)
-                    (args
-                      (expr
-                        (identifier)))))))))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (binary_op
-                (expr
-                  (identifier))
-                (expr
-                  (qualified_call
-                    (identifier)
-                    (args
-                      (expr
-                        (identifier)))))))))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (binary_op
-                (expr
-                  (identifier))
-                (expr
-                  (qualified_call
-                    (identifier)
-                    (args
-                      (expr
-                        (identifier)))))))))
-        (expr
-          (string
-            (string_start)
-            (string_content)
-            (string_end)))))))
+(program
+  (expr
+    (binary
+      (expr
+        (string
+          (string_start)
+          (string_content)
+          (string_end)))
+      (expr
+        (binary_op
+          (expr
+            (identifier))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (qualified_call
+                  (identifier)
+                  (args
+                    (expr
+                      (identifier)))))))))
+      (expr
+        (binary_op
+          (expr
+            (identifier))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (qualified_call
+                  (identifier)
+                  (args
+                    (expr
+                      (identifier)))))))))
+      (expr
+        (binary_op
+          (expr
+            (identifier))
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (qualified_call
+                  (identifier)
+                  (args
+                    (expr
+                      (identifier)))))))))
+      (expr
+        (string
+          (string_start)
+          (string_content)
+          (string_end))))))
 
 ================================================================================
 simple
@@ -71,15 +70,14 @@ simple
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (binary
-        (expr
-          (string
-            (string_start)
-            (string_content)
-            (string_end)))))))
+(program
+  (expr
+    (binary
+      (expr
+        (string
+          (string_start)
+          (string_content)
+          (string_end))))))
 
 ================================================================================
 empty
@@ -89,7 +87,6 @@ empty
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (binary))))
+(program
+  (expr
+    (binary)))

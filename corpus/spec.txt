@@ -13,58 +13,57 @@ spec with splat
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (unary_op
-        (expr
-          (call
-            (identifier)
-            (expr
-              (binary_op
-                (expr
-                  (binary_op
-                    (expr
-                      (qualified_call
-                        (identifier)
-                        (args
-                          (expr
-                            (dot_call
-                              (module)
-                              (identifier)
-                              (args)))
-                          (expr
-                            (dot_call
-                              (module)
-                              (identifier)
-                              (args)))
-                          (expr
-                            (list
-                              (expr
-                                (identifier))))
-                          (expr
-                            (block
-                              (stab_expr
-                                (expr
-                                  (identifier))
-                                (expr
-                                  (tuple
-                                    (expr
-                                      (identifier))
-                                    (expr
-                                      (list
-                                        (expr
-                                          (identifier)))))))))
-                          (expr
-                            (identifier)))))
-                    (expr
-                      (atom))))
-                (bare_keyword_list
-                  (keyword)
+(program
+  (expr
+    (unary_op
+      (expr
+        (call
+          (identifier)
+          (expr
+            (binary_op
+              (expr
+                (binary_op
                   (expr
                     (qualified_call
                       (identifier)
-                      (args))))))))))))
+                      (args
+                        (expr
+                          (dot_call
+                            (module)
+                            (identifier)
+                            (args)))
+                        (expr
+                          (dot_call
+                            (module)
+                            (identifier)
+                            (args)))
+                        (expr
+                          (list
+                            (expr
+                              (identifier))))
+                        (expr
+                          (block
+                            (stab_expr
+                              (expr
+                                (identifier))
+                              (expr
+                                (tuple
+                                  (expr
+                                    (identifier))
+                                  (expr
+                                    (list
+                                      (expr
+                                        (identifier)))))))))
+                        (expr
+                          (identifier)))))
+                  (expr
+                    (atom))))
+              (bare_keyword_list
+                (keyword)
+                (expr
+                  (qualified_call
+                    (identifier)
+                    (args)))))))))))
 
 ================================================================================
 non empty list
@@ -74,16 +73,15 @@ non empty list
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (unary_op
-        (expr
-          (call
-            (identifier)
-            (expr
-              (list
-                (expr
-                  (identifier))
-                (expr
-                  (literal))))))))))
+(program
+  (expr
+    (unary_op
+      (expr
+        (call
+          (identifier)
+          (expr
+            (list
+              (expr
+                (identifier))
+              (expr
+                (literal)))))))))

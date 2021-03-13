@@ -6,20 +6,19 @@ interpolation
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (sigil
-        (sigil_start)
-        (sigil_content)
-        (interpolation
-          (expr
-            (string
-              (string_start)
-              (string_content)
-              (string_end))))
-        (sigil_content)
-        (sigil_end)))))
+(program
+  (expr
+    (sigil
+      (sigil_start)
+      (sigil_content)
+      (interpolation
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end))))
+      (sigil_content)
+      (sigil_end))))
 
 ================================================================================
 regex
@@ -29,13 +28,12 @@ regex
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (sigil
-        (sigil_start)
-        (sigil_content)
-        (sigil_end)))))
+(program
+  (expr
+    (sigil
+      (sigil_start)
+      (sigil_content)
+      (sigil_end))))
 
 ================================================================================
 regex with modifier
@@ -45,13 +43,12 @@ regex with modifier
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (sigil
-        (sigil_start)
-        (sigil_content)
-        (sigil_end)))))
+(program
+  (expr
+    (sigil
+      (sigil_start)
+      (sigil_content)
+      (sigil_end))))
 
 ================================================================================
 quotes
@@ -61,13 +58,12 @@ quotes
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (sigil
-        (sigil_start)
-        (sigil_content)
-        (sigil_end)))))
+(program
+  (expr
+    (sigil
+      (sigil_start)
+      (sigil_content)
+      (sigil_end))))
 
 ================================================================================
 string with interpolation
@@ -77,28 +73,27 @@ string with interpolation
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (sigil
-        (sigil_start)
-        (sigil_content)
-        (escape_sequence)
-        (sigil_content)
-        (interpolation
-          (expr
-            (binary_op
-              (expr
-                (string
-                  (string_start)
-                  (string_content)
-                  (string_end)))
-              (expr
-                (string
-                  (string_start)
-                  (string_content)
-                  (string_end))))))
-        (sigil_end)))))
+(program
+  (expr
+    (sigil
+      (sigil_start)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (interpolation
+        (expr
+          (binary_op
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))))
+      (sigil_end))))
 
 ================================================================================
 string without interpolation
@@ -108,13 +103,12 @@ string without interpolation
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (sigil
-        (sigil_start)
-        (sigil_content)
-        (sigil_end)))))
+(program
+  (expr
+    (sigil
+      (sigil_start)
+      (sigil_content)
+      (sigil_end))))
 
 ================================================================================
 triple quotes
@@ -132,13 +126,12 @@ Converts double-quotes to single-quotes.
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (sigil
-        (sigil_start)
-        (sigil_content)
-        (sigil_end)))))
+(program
+  (expr
+    (sigil
+      (sigil_start)
+      (sigil_content)
+      (sigil_end))))
 
 ================================================================================
 date time
@@ -148,13 +141,12 @@ date time
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (sigil
-        (sigil_start)
-        (sigil_content)
-        (sigil_end)))))
+(program
+  (expr
+    (sigil
+      (sigil_start)
+      (sigil_content)
+      (sigil_end))))
 
 ================================================================================
 single quote triple quotes
@@ -172,10 +164,9 @@ Converts double-quotes to single-quotes.
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (sigil
-        (sigil_start)
-        (sigil_content)
-        (sigil_end)))))
+(program
+  (expr
+    (sigil
+      (sigil_start)
+      (sigil_content)
+      (sigil_end))))

@@ -8,41 +8,40 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (expr
-          (call
-            (qualified_call
-              (identifier)
-              (args
-                (expr
-                  (identifier))))
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (call
+          (qualified_call
+            (identifier)
             (args
+              (expr
+                (identifier))))
+          (args
+            (expr
+              (identifier))
+            (expr
+              (binary_op
+                (expr
+                  (identifier))
+                (expr
+                  (list)))))))
+      (do_block
+        (expr
+          (qualified_call
+            (identifier)
+            (args
+              (expr
+                (qualified_call
+                  (identifier)
+                  (args
+                    (expr
+                      (identifier)))))
               (expr
                 (identifier))
               (expr
-                (binary_op
-                  (expr
-                    (identifier))
-                  (expr
-                    (list)))))))
-        (do_block
-          (expr
-            (qualified_call
-              (identifier)
-              (args
-                (expr
-                  (qualified_call
-                    (identifier)
-                    (args
-                      (expr
-                        (identifier)))))
-                (expr
-                  (identifier))
-                (expr
-                  (identifier))
-                (expr
-                  (identifier))))))))))
+                (identifier))
+              (expr
+                (identifier)))))))))

@@ -6,16 +6,15 @@ y(+1)
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (qualified_call
-        (identifier)
-        (args
-          (expr
-            (unary_op
-              (expr
-                (integer)))))))))
+(program
+  (expr
+    (qualified_call
+      (identifier)
+      (args
+        (expr
+          (unary_op
+            (expr
+              (integer))))))))
 
 ================================================================================
 binary
@@ -25,14 +24,13 @@ y+1
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (binary_op
-        (expr
-          (identifier))
-        (expr
-          (integer))))))
+(program
+  (expr
+    (binary_op
+      (expr
+        (identifier))
+      (expr
+        (integer)))))
 
 ================================================================================
 and expression
@@ -42,22 +40,21 @@ y < 1 and x > 1
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (binary_op
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (integer))))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (integer))))))))
+(program
+  (expr
+    (binary_op
+      (expr
+        (binary_op
+          (expr
+            (identifier))
+          (expr
+            (integer))))
+      (expr
+        (binary_op
+          (expr
+            (identifier))
+          (expr
+            (integer)))))))
 
 ================================================================================
 bitwise shift
@@ -67,18 +64,17 @@ bitwise shift
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (binary_op
-        (expr
-          (unary_op
-            (expr
-              (integer))))
-        (expr
-          (unary_op
-            (expr
-              (integer))))))))
+(program
+  (expr
+    (binary_op
+      (expr
+        (unary_op
+          (expr
+            (integer))))
+      (expr
+        (unary_op
+          (expr
+            (integer)))))))
 
 ================================================================================
 bitwise or
@@ -88,14 +84,13 @@ a ||| b
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (binary_op
-        (expr
-          (identifier))
-        (expr
-          (identifier))))))
+(program
+  (expr
+    (binary_op
+      (expr
+        (identifier))
+      (expr
+        (identifier)))))
 
 ================================================================================
 bitwise expression
@@ -105,13 +100,12 @@ bitwise expression
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (binary_op
-        (expr
-          (unary_op
-            (expr
-              (integer))))
-        (expr
-          (integer))))))
+(program
+  (expr
+    (binary_op
+      (expr
+        (unary_op
+          (expr
+            (integer))))
+      (expr
+        (integer)))))

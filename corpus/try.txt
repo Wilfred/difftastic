@@ -19,75 +19,21 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (do_block
-          (expr
-            (qualified_call
-              (identifier)
-              (args
-                (expr
-                  (identifier)))))
-          (rescue_block
-            (stab_expr
+(program
+  (expr
+    (call
+      (identifier)
+      (do_block
+        (expr
+          (qualified_call
+            (identifier)
+            (args
               (expr
-                (module))
-              (expr
-                (dot_call
-                  (module)
-                  (identifier)
-                  (args
-                    (expr
-                      (string
-                        (string_start)
-                        (string_content)
-                        (string_end))))))))
-          (catch_block
-            (stab_expr
-              (expr
-                (identifier))
-              (expr
-                (dot_call
-                  (module)
-                  (identifier)
-                  (args
-                    (expr
-                      (string
-                        (string_start)
-                        (string_content)
-                        (interpolation
-                          (expr
-                            (qualified_call
-                              (identifier)
-                              (args
-                                (expr
-                                  (identifier))))))
-                        (string_end))))))))
-          (else_block
-            (stab_expr
-              (expr
-                (identifier))
-              (expr
-                (dot_call
-                  (module)
-                  (identifier)
-                  (args
-                    (expr
-                      (string
-                        (string_start)
-                        (string_content)
-                        (interpolation
-                          (expr
-                            (qualified_call
-                              (identifier)
-                              (args
-                                (expr
-                                  (identifier))))))
-                        (string_end))))))))
-          (after_block
+                (identifier)))))
+        (rescue_block
+          (stab_expr
+            (expr
+              (module))
             (expr
               (dot_call
                 (module)
@@ -97,7 +43,60 @@ end
                     (string
                       (string_start)
                       (string_content)
-                      (string_end))))))))))))
+                      (string_end))))))))
+        (catch_block
+          (stab_expr
+            (expr
+              (identifier))
+            (expr
+              (dot_call
+                (module)
+                (identifier)
+                (args
+                  (expr
+                    (string
+                      (string_start)
+                      (string_content)
+                      (interpolation
+                        (expr
+                          (qualified_call
+                            (identifier)
+                            (args
+                              (expr
+                                (identifier))))))
+                      (string_end))))))))
+        (else_block
+          (stab_expr
+            (expr
+              (identifier))
+            (expr
+              (dot_call
+                (module)
+                (identifier)
+                (args
+                  (expr
+                    (string
+                      (string_start)
+                      (string_content)
+                      (interpolation
+                        (expr
+                          (qualified_call
+                            (identifier)
+                            (args
+                              (expr
+                                (identifier))))))
+                      (string_end))))))))
+        (after_block
+          (expr
+            (dot_call
+              (module)
+              (identifier)
+              (args
+                (expr
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))))))))))
 
 ================================================================================
 try with rescue only
@@ -111,28 +110,27 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (do_block
-          (expr
-            (dot_call
-              (module)
-              (identifier)))
-          (rescue_block
-            (stab_expr
-              (expr
-                (binary_op
-                  (expr
-                    (identifier))
-                  (expr
-                    (list
-                      (expr
-                        (module))))))
-              (expr
-                (literal)))))))))
+(program
+  (expr
+    (call
+      (identifier)
+      (do_block
+        (expr
+          (dot_call
+            (module)
+            (identifier)))
+        (rescue_block
+          (stab_expr
+            (expr
+              (binary_op
+                (expr
+                  (identifier))
+                (expr
+                  (list
+                    (expr
+                      (module))))))
+            (expr
+              (literal))))))))
 
 ================================================================================
 try catch
@@ -147,41 +145,40 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (do_block
-          (expr
-            (qualified_call
-              (identifier)
-              (args
-                (expr
-                  (atom)))))
-          (catch_block
-            (stab_expr
+(program
+  (expr
+    (call
+      (identifier)
+      (do_block
+        (expr
+          (qualified_call
+            (identifier)
+            (args
               (expr
-                (atom))
-              (expr
-                (identifier))
-              (expr
-                (dot_call
-                  (module)
-                  (identifier)
-                  (args
-                    (expr
-                      (string
-                        (string_start)
-                        (string_content)
-                        (interpolation
-                          (expr
-                            (qualified_call
-                              (identifier)
-                              (args
-                                (expr
-                                  (identifier))))))
-                        (string_end)))))))))))))
+                (atom)))))
+        (catch_block
+          (stab_expr
+            (expr
+              (atom))
+            (expr
+              (identifier))
+            (expr
+              (dot_call
+                (module)
+                (identifier)
+                (args
+                  (expr
+                    (string
+                      (string_start)
+                      (string_content)
+                      (interpolation
+                        (expr
+                          (qualified_call
+                            (identifier)
+                            (args
+                              (expr
+                                (identifier))))))
+                      (string_end))))))))))))
 
 ================================================================================
 try rescue else
@@ -201,51 +198,50 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (do_block
-          (expr
-            (binary_op
-              (expr
-                (integer))
-              (expr
-                (identifier))))
-          (rescue_block
-            (stab_expr
-              (expr
-                (module))
-              (expr
-                (atom))))
-          (else_block
-            (stab_expr
-              (expr
-                (binary_op
-                  (expr
-                    (identifier))
-                  (expr
-                    (binary_op
-                      (expr
-                        (binary_op
-                          (expr
-                            (identifier))
-                          (expr
-                            (integer))))
-                      (expr
-                        (binary_op
-                          (expr
-                            (identifier))
-                          (expr
-                            (integer))))))))
-              (expr
-                (atom)))
-            (stab_expr
-              (expr
-                (identifier))
-              (expr
-                (atom)))))))))
+(program
+  (expr
+    (call
+      (identifier)
+      (do_block
+        (expr
+          (binary_op
+            (expr
+              (integer))
+            (expr
+              (identifier))))
+        (rescue_block
+          (stab_expr
+            (expr
+              (module))
+            (expr
+              (atom))))
+        (else_block
+          (stab_expr
+            (expr
+              (binary_op
+                (expr
+                  (identifier))
+                (expr
+                  (binary_op
+                    (expr
+                      (binary_op
+                        (expr
+                          (identifier))
+                        (expr
+                          (integer))))
+                    (expr
+                      (binary_op
+                        (expr
+                          (identifier))
+                        (expr
+                          (integer))))))))
+            (expr
+              (atom)))
+          (stab_expr
+            (expr
+              (identifier))
+            (expr
+              (atom))))))))
 
 ================================================================================
 try after
@@ -259,29 +255,28 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (do_block
+(program
+  (expr
+    (call
+      (identifier)
+      (do_block
+        (expr
+          (qualified_call
+            (identifier)
+            (args
+              (expr
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))))))
+        (after_block
           (expr
-            (qualified_call
+            (dot_call
+              (module)
               (identifier)
               (args
                 (expr
                   (string
                     (string_start)
                     (string_content)
-                    (string_end))))))
-          (after_block
-            (expr
-              (dot_call
-                (module)
-                (identifier)
-                (args
-                  (expr
-                    (string
-                      (string_start)
-                      (string_content)
-                      (string_end))))))))))))
+                    (string_end)))))))))))

@@ -17,63 +17,62 @@ keyword list
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (list
-        (bare_keyword_list
-          (keyword)
-          (expr
-            (string
-              (string_start)
-              (string_content)
-              (string_end)))
-          (keyword)
-          (expr
-            (literal))
-          (keyword)
-          (expr
-            (string
-              (string_start)
-              (string_content)
-              (string_end)))
-          (keyword)
-          (expr
-            (string
-              (string_start)
-              (string_content)
-              (string_end)))
-          (keyword)
-          (expr
-            (string
-              (string_start)
-              (string_content)
-              (string_end)))
-          (keyword)
-          (expr
-            (identifier))
-          (keyword)
-          (expr
-            (atom))
-          (keyword)
-          (expr
-            (list
-              (expr
-                (string
-                  (string_start)
-                  (string_content)
-                  (string_end)))))
-          (keyword)
-          (expr
-            (list
-              (expr
-                (string
-                  (string_start)
-                  (string_content)
-                  (string_end)))))
-          (keyword)
-          (expr
-            (literal)))))))
+(program
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (keyword)
+        (expr
+          (literal))
+        (keyword)
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (keyword)
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (keyword)
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (keyword)
+        (expr
+          (identifier))
+        (keyword)
+        (expr
+          (atom))
+        (keyword)
+        (expr
+          (list
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))
+        (keyword)
+        (expr
+          (list
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))
+        (keyword)
+        (expr
+          (literal))))))
 
 ================================================================================
 heredoc
@@ -85,13 +84,12 @@ a
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (heredoc
-        (heredoc_start)
-        (heredoc_content)
-        (heredoc_end)))))
+(program
+  (expr
+    (heredoc
+      (heredoc_start)
+      (heredoc_content)
+      (heredoc_end))))
 
 ================================================================================
 string
@@ -101,13 +99,12 @@ string
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (string
-        (string_start)
-        (string_content)
-        (string_end)))))
+(program
+  (expr
+    (string
+      (string_start)
+      (string_content)
+      (string_end))))
 
 ================================================================================
 interpolated string
@@ -117,21 +114,20 @@ interpolated string
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (string
-        (string_start)
-        (string_content)
-        (interpolation
-          (expr
-            (binary_op
-              (expr
-                (identifier))
-              (expr
-                (integer)))))
-        (string_content)
-        (string_end)))))
+(program
+  (expr
+    (string
+      (string_start)
+      (string_content)
+      (interpolation
+        (expr
+          (binary_op
+            (expr
+              (identifier))
+            (expr
+              (integer)))))
+      (string_content)
+      (string_end))))
 
 ================================================================================
 string escape sequence
@@ -141,17 +137,16 @@ string escape sequence
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (string
-        (string_start)
-        (string_content)
-        (escape_sequence)
-        (string_content)
-        (escape_sequence)
-        (string_content)
-        (string_end)))))
+(program
+  (expr
+    (string
+      (string_start)
+      (string_content)
+      (escape_sequence)
+      (string_content)
+      (escape_sequence)
+      (string_content)
+      (string_end))))
 
 ================================================================================
 heredoc escape sequence
@@ -163,17 +158,16 @@ a\"quote\"b
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (heredoc
-        (heredoc_start)
-        (heredoc_content)
-        (escape_sequence)
-        (heredoc_content)
-        (escape_sequence)
-        (heredoc_content)
-        (heredoc_end)))))
+(program
+  (expr
+    (heredoc
+      (heredoc_start)
+      (heredoc_content)
+      (escape_sequence)
+      (heredoc_content)
+      (escape_sequence)
+      (heredoc_content)
+      (heredoc_end))))
 
 ================================================================================
 atoms
@@ -183,10 +177,9 @@ atoms
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (atom))))
+(program
+  (expr
+    (atom)))
 
 ================================================================================
 operator atom
@@ -196,124 +189,123 @@ operator atom
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (list
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))
-        (expr
-          (atom))))))
+(program
+  (expr
+    (list
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom)))))
 
 ================================================================================
 single quote heredoc
@@ -325,13 +317,12 @@ a"
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (heredoc
-        (heredoc_start)
-        (heredoc_content)
-        (heredoc_end)))))
+(program
+  (expr
+    (heredoc
+      (heredoc_start)
+      (heredoc_content)
+      (heredoc_end))))
 
 ================================================================================
 single quote string
@@ -341,13 +332,12 @@ single quote string
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (string
-        (string_start)
-        (string_content)
-        (string_end)))))
+(program
+  (expr
+    (string
+      (string_start)
+      (string_content)
+      (string_end))))
 
 ================================================================================
 single quote interpolated string
@@ -357,21 +347,20 @@ single quote interpolated string
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (string
-        (string_start)
-        (string_content)
-        (interpolation
-          (expr
-            (binary_op
-              (expr
-                (identifier))
-              (expr
-                (integer)))))
-        (string_content)
-        (string_end)))))
+(program
+  (expr
+    (string
+      (string_start)
+      (string_content)
+      (interpolation
+        (expr
+          (binary_op
+            (expr
+              (identifier))
+            (expr
+              (integer)))))
+      (string_content)
+      (string_end))))
 
 ================================================================================
 single quote string escape sequence
@@ -381,17 +370,16 @@ single quote string escape sequence
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (string
-        (string_start)
-        (string_content)
-        (escape_sequence)
-        (string_content)
-        (escape_sequence)
-        (string_content)
-        (string_end)))))
+(program
+  (expr
+    (string
+      (string_start)
+      (string_content)
+      (escape_sequence)
+      (string_content)
+      (escape_sequence)
+      (string_content)
+      (string_end))))
 
 ================================================================================
 char
@@ -401,10 +389,9 @@ char
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (char))))
+(program
+  (expr
+    (char)))
 
 ================================================================================
 char escaped
@@ -414,10 +401,9 @@ char escaped
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (char))))
+(program
+  (expr
+    (char)))
 
 ================================================================================
 interpolated atom
@@ -427,17 +413,16 @@ interpolated atom
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (atom
-        (atom_start)
-        (atom_content)
-        (interpolation
-          (expr
-            (identifier)))
-        (atom_content)
-        (atom_end)))))
+(program
+  (expr
+    (atom
+      (atom_start)
+      (atom_content)
+      (interpolation
+        (expr
+          (identifier)))
+      (atom_content)
+      (atom_end))))
 
 ================================================================================
 single quote interpolated atom
@@ -447,17 +432,16 @@ single quote interpolated atom
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (atom
-        (atom_start)
-        (atom_content)
-        (interpolation
-          (expr
-            (identifier)))
-        (atom_content)
-        (atom_end)))))
+(program
+  (expr
+    (atom
+      (atom_start)
+      (atom_content)
+      (interpolation
+        (expr
+          (identifier)))
+      (atom_content)
+      (atom_end))))
 
 ================================================================================
 keyword list with caps start
@@ -467,19 +451,18 @@ eval_binds(CONFIG: config, SCRIPT: script)
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (qualified_call
-        (identifier)
-        (args
-          (bare_keyword_list
-            (keyword)
-            (expr
-              (identifier))
-            (keyword)
-            (expr
-              (identifier))))))))
+(program
+  (expr
+    (qualified_call
+      (identifier)
+      (args
+        (bare_keyword_list
+          (keyword)
+          (expr
+            (identifier))
+          (keyword)
+          (expr
+            (identifier)))))))
 
 ================================================================================
 operator keyword
@@ -489,29 +472,28 @@ operator keyword
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (list
-        (bare_keyword_list
-          (keyword)
-          (expr
-            (integer))
-          (keyword)
-          (expr
-            (integer))
-          (keyword)
-          (expr
-            (integer))
-          (keyword)
-          (expr
-            (integer))
-          (keyword)
-          (expr
-            (integer))
-          (keyword)
-          (expr
-            (integer)))))))
+(program
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer))
+        (keyword)
+        (expr
+          (integer))
+        (keyword)
+        (expr
+          (integer))
+        (keyword)
+        (expr
+          (integer))
+        (keyword)
+        (expr
+          (integer))
+        (keyword)
+        (expr
+          (integer))))))
 
 ================================================================================
 string keyword
@@ -521,29 +503,28 @@ string keyword
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (list
-        (bare_keyword_list
-          (keyword
-            (string
-              (string_start)
-              (string_content)
-              (string_end)))
-          (expr
-            (integer))
-          (keyword
-            (string
-              (string_start)
-              (string_content)
-              (interpolation
-                (expr
-                  (integer)))
-              (string_content)
-              (string_end)))
-          (expr
-            (integer)))))))
+(program
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (expr
+          (integer))
+        (keyword
+          (string
+            (string_start)
+            (string_content)
+            (interpolation
+              (expr
+                (integer)))
+            (string_content)
+            (string_end)))
+        (expr
+          (integer))))))
 
 ================================================================================
 single quote string keyword
@@ -553,28 +534,27 @@ single quote string keyword
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (list
-        (bare_keyword_list
-          (keyword
-            (string
-              (string_start)
-              (string_content)
-              (string_end)))
-          (expr
-            (integer))
-          (keyword
-            (string
-              (string_start)
-              (string_content)
-              (interpolation
-                (expr
-                  (integer)))
-              (string_end)))
-          (expr
-            (integer)))))))
+(program
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (expr
+          (integer))
+        (keyword
+          (string
+            (string_start)
+            (string_content)
+            (interpolation
+              (expr
+                (integer)))
+            (string_end)))
+        (expr
+          (integer))))))
 
 ================================================================================
 hanging comma
@@ -590,38 +570,37 @@ hanging comma
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (list
-        (expr
-          (map
-            (bare_keyword_list
-              (keyword)
-              (expr
-                (identifier)))))
-        (expr
-          (struct
-            (module)
-            (bare_keyword_list
-              (keyword)
-              (expr
-                (identifier)))))
-        (expr
-          (tuple
+(program
+  (expr
+    (list
+      (expr
+        (map
+          (bare_keyword_list
+            (keyword)
             (expr
-              (identifier))
+              (identifier)))))
+      (expr
+        (struct
+          (module)
+          (bare_keyword_list
+            (keyword)
             (expr
-              (identifier))))
-        (expr
-          (list
-            (bare_keyword_list
-              (keyword)
-              (expr
-                (identifier)))))
-        (expr
-          (binary
+              (identifier)))))
+      (expr
+        (tuple
+          (expr
+            (identifier))
+          (expr
+            (identifier))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
             (expr
-              (identifier))
-            (expr
-              (identifier))))))))
+              (identifier)))))
+      (expr
+        (binary
+          (expr
+            (identifier))
+          (expr
+            (identifier)))))))

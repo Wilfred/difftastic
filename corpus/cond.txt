@@ -9,28 +9,27 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (do_block
-          (stab_expr
-            (expr
-              (integer))
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end))))
-          (stab_expr
-            (expr
-              (integer))
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))))))))
+(program
+  (expr
+    (call
+      (identifier)
+      (do_block
+        (stab_expr
+          (expr
+            (integer))
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))
+        (stab_expr
+          (expr
+            (integer))
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))))))
 
 ================================================================================
 cond single clause
@@ -42,22 +41,21 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (do_block
-          (stab_expr
-            (expr
-              (tuple
-                (expr
-                  (identifier))))
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))))))))
+(program
+  (expr
+    (call
+      (identifier)
+      (do_block
+        (stab_expr
+          (expr
+            (tuple
+              (expr
+                (identifier))))
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))))))
 
 ================================================================================
 cond multi clause multi line body
@@ -72,30 +70,29 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (do_block
-          (stab_expr
-            (expr
-              (integer))
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end))))
-          (stab_expr
-            (expr
-              (integer))
-            (expr
-              (dot_call
-                (identifier)
-                (identifier)
-                (args)))
-            (expr
-              (integer))))))))
+(program
+  (expr
+    (call
+      (identifier)
+      (do_block
+        (stab_expr
+          (expr
+            (integer))
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))
+        (stab_expr
+          (expr
+            (integer))
+          (expr
+            (dot_call
+              (identifier)
+              (identifier)
+              (args)))
+          (expr
+            (integer)))))))
 
 ================================================================================
 cond with parens
@@ -110,38 +107,37 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (do_block
-          (stab_expr
-            (expr
-              (binary_op
-                (expr
-                  (block
-                    (expr
-                      (binary_op
+(program
+  (expr
+    (call
+      (identifier)
+      (do_block
+        (stab_expr
+          (expr
+            (binary_op
+              (expr
+                (block
+                  (expr
+                    (binary_op
+                      (expr
+                        (identifier))
+                      (expr
+                        (literal))))))
+              (expr
+                (binary_op
+                  (expr
+                    (atom))
+                  (expr
+                    (dot_call
+                      (module)
+                      (identifier)
+                      (args
                         (expr
-                          (identifier))
-                        (expr
-                          (literal))))))
-                (expr
-                  (binary_op
-                    (expr
-                      (atom))
-                    (expr
-                      (dot_call
-                        (module)
-                        (identifier)
-                        (args
-                          (expr
-                            (identifier)))))))))
-            (expr
-              (integer)))
-          (stab_expr
-            (expr
-              (literal))
-            (expr
-              (atom))))))))
+                          (identifier)))))))))
+          (expr
+            (integer)))
+        (stab_expr
+          (expr
+            (literal))
+          (expr
+            (atom)))))))

@@ -10,18 +10,17 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (expr
-          (unary_op
-            (expr
-              (identifier))))
-        (do_block
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (unary_op
           (expr
-            (identifier))
-          (else_block
-            (expr
-              (identifier))))))))
+            (identifier))))
+      (do_block
+        (expr
+          (identifier))
+        (else_block
+          (expr
+            (identifier)))))))

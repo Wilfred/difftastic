@@ -6,10 +6,9 @@ empty
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (map))))
+(program
+  (expr
+    (map)))
 
 ================================================================================
 keyword
@@ -19,17 +18,16 @@ keyword
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (map
-        (bare_keyword_list
-          (keyword)
-          (expr
-            (integer))
-          (keyword)
-          (expr
-            (integer)))))))
+(program
+  (expr
+    (map
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer))
+        (keyword)
+        (expr
+          (integer))))))
 
 ================================================================================
 non atom key
@@ -39,25 +37,24 @@ non atom key
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (map
-        (expr
-          (binary_op
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))
-            (expr
-              (integer))))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (integer))))))))
+(program
+  (expr
+    (map
+      (expr
+        (binary_op
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))
+          (expr
+            (integer))))
+      (expr
+        (binary_op
+          (expr
+            (identifier))
+          (expr
+            (integer)))))))
 
 ================================================================================
 update syntax
@@ -67,21 +64,20 @@ update syntax
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (map
-        (expr
-          (binary_op
+(program
+  (expr
+    (map
+      (expr
+        (binary_op
+          (expr
+            (identifier))
+          (bare_keyword_list
+            (keyword)
             (expr
-              (identifier))
-            (bare_keyword_list
-              (keyword)
-              (expr
-                (string
-                  (string_start)
-                  (string_content)
-                  (string_end))))))))))
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))))))
 
 ================================================================================
 mixed
@@ -91,26 +87,25 @@ mixed
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (map
+(program
+  (expr
+    (map
+      (expr
+        (binary_op
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))))
+      (bare_keyword_list
+        (keyword)
         (expr
-          (binary_op
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))))
-        (bare_keyword_list
-          (keyword)
-          (expr
-            (integer))
-          (keyword)
-          (expr
-            (integer)))))))
+          (integer))
+        (keyword)
+        (expr
+          (integer))))))

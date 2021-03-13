@@ -9,30 +9,29 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (expr
-          (identifier))
-        (do_block
-          (stab_expr
-            (expr
-              (integer))
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end))))
-          (stab_expr
-            (expr
-              (integer))
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))))))))
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (identifier))
+      (do_block
+        (stab_expr
+          (expr
+            (integer))
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))
+        (stab_expr
+          (expr
+            (integer))
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))))))
 
 ================================================================================
 case single clause
@@ -44,24 +43,23 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (expr
-          (identifier))
-        (do_block
-          (stab_expr
-            (expr
-              (tuple
-                (expr
-                  (identifier))))
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))))))))
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (identifier))
+      (do_block
+        (stab_expr
+          (expr
+            (tuple
+              (expr
+                (identifier))))
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))))))
 
 ================================================================================
 case multi clause multi line body
@@ -76,32 +74,31 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (expr
-          (identifier))
-        (do_block
-          (stab_expr
-            (expr
-              (integer))
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end))))
-          (stab_expr
-            (expr
-              (integer))
-            (expr
-              (dot_call
-                (identifier)
-                (identifier)
-                (args)))
-            (expr
-              (integer))))))))
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (identifier))
+      (do_block
+        (stab_expr
+          (expr
+            (integer))
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))
+        (stab_expr
+          (expr
+            (integer))
+          (expr
+            (dot_call
+              (identifier)
+              (identifier)
+              (args)))
+          (expr
+            (integer)))))))
 
 ================================================================================
 case with guards
@@ -114,42 +111,41 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (expr
-          (integer))
-        (do_block
-          (stab_expr
-            (expr
-              (binary_op
-                (expr
-                  (identifier))
-                (expr
-                  (qualified_call
-                    (identifier)
-                    (args
-                      (expr
-                        (identifier)))))))
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end))))
-          (stab_expr
-            (expr
-              (identifier))
-            (expr
-              (binary_op
-                (expr
-                  (string
-                    (string_start)
-                    (string_content)
-                    (string_end)))
-                (expr
-                  (identifier))))))))))
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (integer))
+      (do_block
+        (stab_expr
+          (expr
+            (binary_op
+              (expr
+                (identifier))
+              (expr
+                (qualified_call
+                  (identifier)
+                  (args
+                    (expr
+                      (identifier)))))))
+          (expr
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))
+        (stab_expr
+          (expr
+            (identifier))
+          (expr
+            (binary_op
+              (expr
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end)))
+              (expr
+                (identifier)))))))))
 
 ================================================================================
 case line break
@@ -165,46 +161,45 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (expr
-          (identifier))
-        (do_block
-          (stab_expr
-            (expr
-              (list
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (identifier))
+      (do_block
+        (stab_expr
+          (expr
+            (list
+              (expr
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end)))
+              (expr
+                (identifier))))
+          (expr
+            (qualified_call
+              (identifier)
+              (args
                 (expr
-                  (string
-                    (string_start)
-                    (string_content)
-                    (string_end)))
+                  (identifier))
                 (expr
-                  (identifier))))
-            (expr
-              (qualified_call
-                (identifier)
-                (args
-                  (expr
-                    (identifier))
-                  (expr
-                    (identifier))))))
-          (stab_expr
-            (expr
-              (list
+                  (identifier))))))
+        (stab_expr
+          (expr
+            (list
+              (expr
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end)))))
+          (expr
+            (qualified_call
+              (identifier)
+              (args
                 (expr
-                  (string
-                    (string_start)
-                    (string_content)
-                    (string_end)))))
-            (expr
-              (qualified_call
-                (identifier)
-                (args
-                  (expr
-                    (identifier)))))))))))
+                  (identifier))))))))))
 
 ================================================================================
 case binary line break
@@ -219,67 +214,66 @@ end
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (call
-        (identifier)
-        (expr
-          (identifier))
-        (do_block
-          (stab_expr
-            (expr
-              (binary_op
-                (expr
-                  (binary
-                    (expr
-                      (string
-                        (string_start)
-                        (string_content)
-                        (string_end)))
-                    (expr
-                      (identifier))))
-                (expr
-                  (binary_op
-                    (expr
-                      (binary_op
-                        (expr
-                          (identifier))
-                        (expr
-                          (char))))
-                    (expr
-                      (binary_op
-                        (expr
-                          (identifier))
-                        (expr
-                          (char))))))))
-            (expr
-              (identifier)))
-          (stab_expr
-            (expr
-              (binary_op
-                (expr
-                  (binary
-                    (expr
-                      (string
-                        (string_start)
-                        (string_content)
-                        (string_end)))
-                    (expr
-                      (identifier))))
-                (expr
-                  (binary_op
-                    (expr
-                      (binary_op
-                        (expr
-                          (identifier))
-                        (expr
-                          (char))))
-                    (expr
-                      (binary_op
-                        (expr
-                          (identifier))
-                        (expr
-                          (char))))))))
-            (expr
-              (identifier))))))))
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (identifier))
+      (do_block
+        (stab_expr
+          (expr
+            (binary_op
+              (expr
+                (binary
+                  (expr
+                    (string
+                      (string_start)
+                      (string_content)
+                      (string_end)))
+                  (expr
+                    (identifier))))
+              (expr
+                (binary_op
+                  (expr
+                    (binary_op
+                      (expr
+                        (identifier))
+                      (expr
+                        (char))))
+                  (expr
+                    (binary_op
+                      (expr
+                        (identifier))
+                      (expr
+                        (char))))))))
+          (expr
+            (identifier)))
+        (stab_expr
+          (expr
+            (binary_op
+              (expr
+                (binary
+                  (expr
+                    (string
+                      (string_start)
+                      (string_content)
+                      (string_end)))
+                  (expr
+                    (identifier))))
+              (expr
+                (binary_op
+                  (expr
+                    (binary_op
+                      (expr
+                        (identifier))
+                      (expr
+                        (char))))
+                  (expr
+                    (binary_op
+                      (expr
+                        (identifier))
+                      (expr
+                        (char))))))))
+          (expr
+            (identifier)))))))

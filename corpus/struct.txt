@@ -6,11 +6,10 @@ empty
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (struct
-        (module)))))
+(program
+  (expr
+    (struct
+      (module))))
 
 ================================================================================
 identifier
@@ -20,11 +19,10 @@ identifier
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (struct
-        (identifier)))))
+(program
+  (expr
+    (struct
+      (identifier))))
 
 ================================================================================
 with fields
@@ -34,18 +32,17 @@ with fields
 
 --------------------------------------------------------------------------------
 
-(source_file
-  (statement
-    (expr
-      (struct
-        (module)
-        (bare_keyword_list
-          (keyword)
-          (expr
-            (integer))
-          (keyword)
-          (expr
-            (string
-              (string_start)
-              (string_content)
-              (string_end))))))))
+(program
+  (expr
+    (struct
+      (module)
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer))
+        (keyword)
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))))))
