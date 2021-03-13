@@ -1,6 +1,4 @@
-sub meow {
-    print "meow called\n";
-}
-meow();
 
-&meow();
+=ddsewrewrew1 4543 4543 4543543
+fwfs
+=cut

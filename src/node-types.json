@@ -869,6 +869,10 @@
           "named": true
         },
         {
+          "type": "pod_statement",
+          "named": true
+        },
+        {
           "type": "require_statement",
           "named": true
         },
@@ -2199,6 +2203,11 @@
     "fields": {}
   },
   {
+    "type": "pod_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "require_statement",
     "named": true,
     "fields": {},
@@ -2647,6 +2656,10 @@
           "named": true
         },
         {
+          "type": "pod_statement",
+          "named": true
+        },
+        {
           "type": "require_statement",
           "named": true
         },
@@ -2836,6 +2849,10 @@
         },
         {
           "type": "phase",
+          "named": true
+        },
+        {
+          "type": "pod_statement",
           "named": true
         },
         {
