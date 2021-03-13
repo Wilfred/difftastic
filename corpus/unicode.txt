@@ -1,0 +1,88 @@
+================================================================================
+atom
+================================================================================
+
+{:runtime, :time_μs, :"£", "£", '£', :こんにちは世界, :Ólá, :olá, :Olá}
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (tuple
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom
+          (atom_start)
+          (atom_content)
+          (atom_end)))
+      (expr
+        (string
+          (string_start)
+          (string_content)
+          (string_end)))
+      (expr
+        (string
+          (string_start)
+          (string_content)
+          (string_end)))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom))
+      (expr
+        (atom)))))
+
+================================================================================
+char
+================================================================================
+
+[?ł, ?μ, ?£]
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (list
+      (expr
+        (char))
+      (expr
+        (char))
+      (expr
+        (char)))))
+
+================================================================================
+string
+================================================================================
+
+["über", 'hełło', 'olá', "olá"]
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (list
+      (expr
+        (string
+          (string_start)
+          (string_content)
+          (string_end)))
+      (expr
+        (string
+          (string_start)
+          (string_content)
+          (string_end)))
+      (expr
+        (string
+          (string_start)
+          (string_content)
+          (string_end)))
+      (expr
+        (string
+          (string_start)
+          (string_content)
+          (string_end))))))

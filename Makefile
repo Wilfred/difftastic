@@ -10,13 +10,16 @@ ui:
 	./node_modules/tree-sitter-cli/tree-sitter web-ui -q
 
 parse-all:
-	./node_modules/.bin/tree-sitter parse '../elixir/**/*.ex' --quiet --stat
+	./node_modules/.bin/tree-sitter parse '../elixir/**/*.ex*' --quiet --stat
 
 parse:
 	./node_modules/.bin/tree-sitter parse 'test.ex'
 
-debug:
+debug-graph:
 	./node_modules/.bin/tree-sitter parse 'test.ex' --debug-graph
+
+debug:
+	./node_modules/.bin/tree-sitter parse 'test.ex' --debug
 
 test:
 	./node_modules/.bin/tree-sitter test
