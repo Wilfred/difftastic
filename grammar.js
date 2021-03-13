@@ -42,7 +42,7 @@ function blockExpression($, name) {
   ));
 }
 
-const OPERATORS = ['@', '.', '+', '-', '!', '^', '~~~', '*', '/', '+', '-', '++', '--', '..', '<>', '+++', '---', '^^^', '|>', '<<<', '>>>', '<<~', '~>>', '<~', '~>', '<~>', '<|>', '<', '>', '<=', '>=', '==', '!=', '=~', '===', '!==', '&&', '&&&', '||', '|||', '=', '&', '=>', '|', '::', '<-', '\\'];
+const OPERATORS = ['@', '.', '+', '-', '!', '^', '~~~', '*', '/', '+', '-', '++', '--', '..', '<>', '+++', '---', '^^^', '|>', '<<<', '>>>', '<<~', '~>>', '<~', '~>', '<~>', '<|>', '<', '>', '<=', '>=', '==', '!=', '=~', '===', '!==', '&&', '&&&', '||', '|||', '=', '&', '=>', '|', '::', '<-', '\\\\'];
 
 const RESERVED = ['true', 'false', 'nil', 'when', 'and', 'or', 'not', 'in', 'fn', 'do', 'end', 'catch', 'rescue', 'after', 'else'];
 
@@ -171,6 +171,7 @@ module.exports = grammar({
       binaryOp($, prec.right, 200, choice('++', '--', '..', '<>', '+++', '---')),
       binaryOp($, prec.left, 210, choice('+', '-')),
       binaryOp($, prec.left, 220, choice('*', '/')),
+      $._op_capture,
     ),
 
     unary_op: $ => choice(
@@ -179,15 +180,14 @@ module.exports = grammar({
       unaryOp($, prec, 320, '@'),
     ),
 
+    _op_capture: $ => prec.left(220, seq(choice(...OPERATORS), optional($._terminator), '/', optional($._terminator), $.integer)),
+
     capture_op: $ => prec.right(
       90,
       seq(
         '&',
         optional($._terminator),
-        choice($.integer,
-               seq($.module, optional($._terminator), '.', optional($._terminator), $.identifier, optional($._terminator), '/', $.integer),
-               seq($.identifier, optional($._terminator), '/', $.integer),
-               seq(choice(...OPERATORS), optional($._terminator), '/', $.integer))
+        choice($.integer)
       )
     ),
 

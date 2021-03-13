@@ -199,9 +199,13 @@ end
                                 (expr
                                   (identifier))
                                 (expr
-                                  (capture_op
-                                    (identifier)
-                                    (integer)))))))))))))))))))
+                                  (unary_op
+                                    (expr
+                                      (binary_op
+                                        (expr
+                                          (identifier))
+                                        (expr
+                                          (integer))))))))))))))))))))))
 
 ================================================================================
 keyword args
@@ -369,10 +373,15 @@ capture mfa
 
 (program
   (expr
-    (capture_op
-      (module)
-      (identifier)
-      (integer))))
+    (unary_op
+      (expr
+        (binary_op
+          (expr
+            (dot_call
+              (module)
+              (identifier)))
+          (expr
+            (integer)))))))
 
 ================================================================================
 capture local
@@ -384,9 +393,13 @@ capture local
 
 (program
   (expr
-    (capture_op
-      (identifier)
-      (integer))))
+    (unary_op
+      (expr
+        (binary_op
+          (expr
+            (identifier))
+          (expr
+            (integer)))))))
 
 ================================================================================
 anonymous capture
@@ -423,8 +436,10 @@ operator capture
 
 (program
   (expr
-    (capture_op
-      (integer))))
+    (unary_op
+      (expr
+        (binary_op
+          (integer))))))
 
 ================================================================================
 string dot call
@@ -448,3 +463,20 @@ string dot call
           (identifier))
         (expr
           (identifier))))))
+
+================================================================================
+macro call
+================================================================================
+
+h(== / 2)
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (qualified_call
+      (identifier)
+      (args
+        (expr
+          (binary_op
+            (integer)))))))
