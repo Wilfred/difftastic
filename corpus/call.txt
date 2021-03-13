@@ -480,3 +480,55 @@ h(== / 2)
         (expr
           (binary_op
             (integer)))))))
+
+================================================================================
+pin on %
+================================================================================
+
+assert_diff(
+  %^type{age: ^age, name: "john"} = %User{name: "john", age: 33},
+  [],
+  pins
+)
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (qualified_call
+      (identifier)
+      (args
+        (expr
+          (binary_op
+            (expr
+              (struct
+                (identifier)
+                (bare_keyword_list
+                  (keyword)
+                  (expr
+                    (unary_op
+                      (expr
+                        (identifier))))
+                  (keyword)
+                  (expr
+                    (string
+                      (string_start)
+                      (string_content)
+                      (string_end))))))
+            (expr
+              (struct
+                (module)
+                (bare_keyword_list
+                  (keyword)
+                  (expr
+                    (string
+                      (string_start)
+                      (string_content)
+                      (string_end)))
+                  (keyword)
+                  (expr
+                    (integer)))))))
+        (expr
+          (list))
+        (expr
+          (identifier))))))

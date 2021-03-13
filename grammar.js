@@ -258,7 +258,7 @@ module.exports = grammar({
 
     struct: $ => seq(
       '%',
-      choice($.module, $.identifier),
+      choice($.module, $.identifier, seq('^', $.identifier)),
       '{',
       optional($._terminator),
       optional($._bare_args),
