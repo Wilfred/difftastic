@@ -604,3 +604,52 @@ hanging comma
             (identifier))
           (expr
             (identifier)))))))
+
+================================================================================
+atom escape
+================================================================================
+:"a\'##{}"
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (atom
+      (atom_start)
+      (atom_content)
+      (escape_sequence)
+      (atom_content)
+      (interpolation)
+      (atom_end))))
+
+================================================================================
+heredoc escape
+================================================================================
+
+r"""
+\["\$callers"
+\$"#{}
+\$"#
+"""
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (heredoc
+          (heredoc_start)
+          (heredoc_content)
+          (escape_sequence)
+          (heredoc_content)
+          (escape_sequence)
+          (heredoc_content)
+          (escape_sequence)
+          (heredoc_content)
+          (interpolation)
+          (heredoc_content)
+          (escape_sequence)
+          (heredoc_content)
+          (heredoc_end))))))

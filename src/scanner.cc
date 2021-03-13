@@ -481,6 +481,7 @@ struct Scanner {
             return false;
           }
         }
+        has_content = true;
       } else if (lexer->lookahead == '\\') {
         lexer->mark_end(lexer);
         if (has_content) {
@@ -698,20 +699,21 @@ struct Scanner {
 
     for(;;) {
       if (stack_item.allows_interpolation && lexer->lookahead == '#') {
-        quotes = 0;
         lexer->mark_end(lexer);
         advance(lexer);
         if (lexer->lookahead == '{') {
-          if (has_content) {
+          if (has_content || quotes > 0) {
             lexer->result_symbol = SIGIL_CONTENT;
             return true;
           } else {
             return false;
           }
         }
+        quotes = 0;
+        has_content = true;
       } else if (stack_item.allows_interpolation && lexer->lookahead == '\\') {
         lexer->mark_end(lexer);
-        if (has_content) {
+        if (has_content || quotes > 0) {
           lexer->result_symbol = SIGIL_CONTENT;
           return true;
         } else {
@@ -817,20 +819,21 @@ struct Scanner {
 
     for(;;) {
       if (lexer->lookahead == '#') {
-        quotes = 0;
         lexer->mark_end(lexer);
         advance(lexer);
         if (lexer->lookahead == '{') {
-          if (has_content) {
+          if (has_content || quotes > 0) {
             lexer->result_symbol = HEREDOC_CONTENT;
             return true;
           } else {
             return false;
           }
         }
+        quotes = 0;
+        has_content = true;
       } else if (lexer->lookahead == '\\') {
         lexer->mark_end(lexer);
-        if (has_content) {
+        if (has_content || quotes > 0) {
           lexer->result_symbol = HEREDOC_CONTENT;
           return true;
         } else {

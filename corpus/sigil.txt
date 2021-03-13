@@ -232,3 +232,32 @@ Client #PID<\d+\.\d+\.\d+> is alive
       (escape_sequence)
       (sigil_content)
       (sigil_end))))
+
+================================================================================
+sigil escape
+================================================================================
+
+~r"""
+\["\$callers"
+\$"#{}
+\$"#
+"""
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (sigil
+      (sigil_start)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (interpolation)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (sigil_end))))
