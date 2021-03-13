@@ -11,8 +11,6 @@ fn() -> a + b end
     (anonymous_function
       (stab_expr
         (expr
-          (block))
-        (expr
           (binary_op
             (expr
               (identifier))

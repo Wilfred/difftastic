@@ -6,6 +6,10 @@ function sep1 (rule, separator) {
   return seq(rule, repeat(seq(separator, rule)));
 }
 
+function sep2 (rule, separator) {
+  return seq(rule, separator, rule, repeat(seq(separator, rule)));
+}
+
 function commaSep1 ($, rule) {
   return sep1(rule, prec.left(20, seq(',', optional($._terminator))));
 }
@@ -90,6 +94,7 @@ module.exports = grammar({
     [$._clause_body],
     [$.bare_keyword_list],
     [$.block, $._bare_args],
+    [$.block, $.paren_expr, $._bare_args],
     [$.block, $.stab_expr],
   ],
 
@@ -130,7 +135,11 @@ module.exports = grammar({
     ),
 
     block: $ => seq(
-      '(', optional($._terminator), sep(choice($.stab_expr, $.expr), $._terminator), optional($._terminator), ')'
+      '(', optional($._terminator), sep1(choice($.stab_expr, $.expr), $._terminator), optional($._terminator), ')'
+    ),
+
+    paren_expr: $ => seq(
+      '(', optional($._terminator), $.expr, optional($._terminator), ')'
     ),
 
     qualified_call: $ => seq(
@@ -143,7 +152,7 @@ module.exports = grammar({
         field('name', choice($.identifier, $.dot_call, $.qualified_call)),
         choice(
           $._bare_args,
-          seq(optional('.'), $.args),
+          $.args,
         ),
         optional($.do_block)
       ),
@@ -192,7 +201,7 @@ module.exports = grammar({
     ),
 
     dot_call: $ => prec.left(PREC.DOT_CALL, seq(
-      field('object', choice($.module, $.identifier, $.atom, $.capture_op, $.dot_call, $.access_call, $.qualified_call)),
+      field('object', choice($.module, $.identifier, $.atom, $.capture_op, $.dot_call, $.access_call, $.qualified_call, $.paren_expr)),
       '.',
       choice(
         prec.right(seq(field('function', choice(...OPERATORS)), $.args)),
