@@ -13,5 +13,14 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.18.3"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.elixir",
+      "file-types": [
+        "ex",
+        "exs"
+      ]
+    }
+  ]
 }

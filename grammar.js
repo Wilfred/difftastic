@@ -27,7 +27,7 @@ function binaryOp($, assoc, precedence, operator, bare_keyword) {
 }
 
 function unaryOp($, assoc, precedence, operator) {
-  return assoc(precedence, seq(operator, $.expr));
+  return assoc(precedence, seq(field('operator', operator), $.expr));
 }
 
 function blockExpression($, name) {
@@ -96,9 +96,9 @@ module.exports = grammar({
   word: $ => $.identifier,
 
   rules: {
-    source_file: $ => seq(repeat($.statement), optional($._terminator)),
+    program: $ => seq(repeat($._statement), optional($._terminator)),
 
-    statement: $ => seq(
+    _statement: $ => seq(
       optional($._terminator), $.expr, $._terminator
     ),
 

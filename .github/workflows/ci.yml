@@ -36,7 +36,7 @@ jobs:
       - name: Install
         run: npm install
       - name: Build
-        run: make build-wasm
+        run: make generate build-wasm
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:

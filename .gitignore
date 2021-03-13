@@ -5,3 +5,5 @@ test.ex
 src/GPATH
 src/GRTAGS
 src/GTAGS
+src/*
+!src/scanner.cc
