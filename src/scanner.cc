@@ -740,6 +740,7 @@ struct Scanner {
             lexer->result_symbol = SIGIL_CONTENT;
           } else {
             advance(lexer);
+            while (is_upcase_char(lexer->lookahead) || is_downcase_char(lexer->lookahead)) advance(lexer);
             lexer->mark_end(lexer);
             lexer->result_symbol = SIGIL_END;
             stack.pop_back();

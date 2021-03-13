@@ -170,3 +170,65 @@ Converts double-quotes to single-quotes.
       (sigil_start)
       (sigil_content)
       (sigil_end))))
+
+================================================================================
+regex with triple quotes
+================================================================================
+
+~r"""
+\[error\] GenServer #PID<\d+\.\d+\.\d+> terminating
+\*\* \(RuntimeError\) oops
+.*
+Last message \(from #PID<\d+\.\d+\.\d+>\): :error
+State: :ok
+Client #PID<\d+\.\d+\.\d+> is alive
+.*
+"""s
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (sigil
+      (sigil_start)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (escape_sequence)
+      (sigil_content)
+      (escape_sequence)
+      (escape_sequence)
+      (sigil_content)
+      (sigil_end))))
