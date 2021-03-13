@@ -22,7 +22,7 @@ jobs:
           node --version
           npm --version
       - name: Install
-        run: npm install
+        run: npm install --ignore-scripts
       - name: Test
         run: make generate test
   publish:
