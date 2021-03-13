@@ -364,7 +364,7 @@ module.exports = grammar({
     ),
 
     interpolation: $ => seq(
-      '#{', sep($.expr, $._terminator), '}'
+      '#{', optional($._terminator), sep($.expr, $._terminator), optional($._terminator), '}'
     ),
 
     // https://hexdocs.pm/elixir/master/String.html#module-escape-characters
