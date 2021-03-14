@@ -6,10 +6,6 @@ function sep1 (rule, separator) {
   return seq(rule, repeat(seq(separator, rule)));
 }
 
-function sep2 (rule, separator) {
-  return seq(rule, separator, rule, repeat(seq(separator, rule)));
-}
-
 function commaSep1 ($, rule) {
   return sep1(rule, prec.left(20, seq(',', optional($._terminator))));
 }
@@ -55,10 +51,6 @@ const PREC = {
   CALL: -1,
   DOT_CALL: 310,
   ACCESS_CALL: 8,
-  CALL_NAME: 6,
-  MAP: 5,
-  LIST: 4,
-  ANONYMOUSE_FN: 10
 };
 
 module.exports = grammar({
@@ -232,13 +224,13 @@ module.exports = grammar({
       'end'
     )),
 
-    anonymous_function: $ => prec(PREC.ANONYMOUSE_FN, seq(
+    anonymous_function: $ => seq(
       'fn',
       optional($._terminator),
       sep1($.stab_expr, $._terminator),
       optional($._terminator),
       'end'
-    )),
+    ),
 
     args: $ => seq(
       token.immediate('('),
@@ -276,14 +268,14 @@ module.exports = grammar({
       '}'
     ),
 
-    list: $ => prec.left(PREC.LIST, seq(
+    list: $ => seq(
       '[',
       optional($._terminator),
       optional($._bare_args),
       optional(','),
       optional($._terminator),
       ']'
-    )),
+    ),
 
     binary: $ => seq(
       '<<',
@@ -386,4 +378,4 @@ module.exports = grammar({
     literal: $ => choice('true', 'false', 'nil', '...'),
     char: $ => /\?(.|\\.)/,
   }
-})
+});
