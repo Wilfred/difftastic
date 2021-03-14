@@ -172,17 +172,17 @@ module.exports = grammar({
 
     binary_op: $ => choice(
       binaryOp($, prec.left, 40, choice('\\\\', '<-')),
-      binaryOp($, prec.right, 50, $._when, true),
+      binaryOp($, prec.right, 50, alias(alias($._when, "when"), 'when'), true),
       binaryOp($, prec.right, 60, '::'),
       binaryOp($, prec.right, 70, '|', true),
       binaryOp($, prec.right, 80, '=>'),
       binaryOp($, prec.right, 100, '='),
-      binaryOp($, prec.left, 130, choice('||', '|||', $._or)),
-      binaryOp($, prec.left, 140, choice('&&', '&&&', $._and)),
+      binaryOp($, prec.left, 130, choice('||', '|||', alias($._or, "or"))),
+      binaryOp($, prec.left, 140, choice('&&', '&&&', alias($._and, "and"))),
       binaryOp($, prec.left, 150, choice('==', '!=', '=~', '===', '!==')),
       binaryOp($, prec.left, 160, choice('<', '>', '<=', '>=')),
       binaryOp($, prec.left, 170, choice('|>', '<<<', '>>>', '<<~', '~>>', '<~', '~>', '<~>', '<|>')),
-      binaryOp($, prec.left, 180, choice($._in, $._not_in)),
+      binaryOp($, prec.left, 180, choice(alias($._in, "in"), alias($._not_in, "not in"))),
       binaryOp($, prec.left, 190, choice('^^^')),
       binaryOp($, prec.right, 200, choice('++', '--', '..', '<>', '+++', '---')),
       binaryOp($, prec.left, 210, choice('+', '-')),
@@ -192,11 +192,11 @@ module.exports = grammar({
 
     unary_op: $ => choice(
       unaryOp($, prec, 90, '&'),
-      unaryOp($, prec, 300, choice('+', '-', '!', '^', '~~~', $._not)),
+      unaryOp($, prec, 300, choice('+', '-', '!', '^', '~~~', alias($._not, "not"))),
       unaryOp($, prec, 320, '@'),
     ),
 
-    _op_capture: $ => prec.left(220, seq(choice($._and, $._or, $._not, $._when, $._in, ...OPERATORS), optional($._terminator), '/', optional($._terminator), $.integer)),
+    _op_capture: $ => prec.left(220, seq(choice(alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._when, 'when'), alias($._in, "in"), ...OPERATORS), optional($._terminator), '/', optional($._terminator), $.integer)),
 
     capture_op: $ => prec(
       320,
@@ -211,9 +211,9 @@ module.exports = grammar({
       field('object', choice($.module, $.identifier, $.atom, $.dot_call, $.access_call, $.qualified_call, $.paren_expr, $.map, $.capture_op, $.integer)),
       '.',
       choice(
-        prec.right(seq(field('function', choice($._and, $._or, $._not, $._when, $._in, ...OPERATORS)), $.args)),
+        prec.right(seq(field('function', choice(alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._when, "when"), alias($._in, "in"), ...OPERATORS)), $.args)),
         prec.right(seq(field('function', $.string), optional($.args))),
-        prec.right(seq(field('function', choice($.identifier, $.true, $.false, $.nil, $._when, $._and, $._or, $._not, $._in, $._fn, $._do, $._end, $._catch, $._rescue, $._after, $._else)), optional($.args))),
+        prec.right(seq(field('function', choice($.identifier, $.true, $.false, $.nil, alias($._when, "when"), alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._in, "in"), alias($._fn, "fn"), alias($._do, "do"), alias($._end, "end"), alias($._catch, "catch"), alias($._rescue, "rescue"), alias($._after, "after"), alias($._else, "else"))), optional($.args))),
         $.module,
         $.args,
         $.tuple
@@ -227,24 +227,24 @@ module.exports = grammar({
       ']'
     )),
 
-    after_block: $ => blockExpression($, $._after),
-    rescue_block: $ => blockExpression($, $._rescue),
-    catch_block: $ => blockExpression($, $._catch),
-    else_block: $ => blockExpression($, $._else),
+    after_block: $ => blockExpression($, alias($._after, "after")),
+    rescue_block: $ => blockExpression($, alias($._rescue, "rescue")),
+    catch_block: $ => blockExpression($, alias($._catch, "catch")),
+    else_block: $ => blockExpression($, alias($._else, "else")),
 
     do_block: $ => prec.left(5, seq(
-      blockExpression($, $._do),
+      blockExpression($, alias($._do, 'do')),
       repeat(choice($.after_block, $.rescue_block, $.catch_block, $.else_block)),
       optional($._terminator),
-      $._end
+      alias($._end, "end")
     )),
 
     anonymous_function: $ => seq(
-      $._fn,
+      alias($._fn, "fn"),
       optional($._terminator),
       sep1($.stab_expr, $._terminator),
       optional($._terminator),
-      $._end
+      alias($._end, "end")
     ),
 
     args: $ => seq(
