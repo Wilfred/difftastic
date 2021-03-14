@@ -122,7 +122,7 @@ end
                       (expr
                         (identifier))
                       (expr
-                        (literal))))))
+                        (false))))))
               (expr
                 (binary_op
                   (expr
@@ -138,6 +138,6 @@ end
             (integer)))
         (stab_expr
           (expr
-            (literal))
+            (true))
           (expr
             (atom)))))))

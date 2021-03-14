@@ -83,5 +83,4 @@ non empty list
             (list
               (expr
                 (identifier))
-              (expr
-                (literal)))))))))
+              (expr))))))))

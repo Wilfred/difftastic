@@ -245,4 +245,4 @@ fun = fn () when node() == :nonode@nohost -> true end
                     (expr
                       (atom))))))
             (expr
-              (literal))))))))
+              (true))))))))

@@ -222,7 +222,7 @@ end
     (call
       (identifier)
       (expr
-        (literal))
+        (true))
       (do_block
         (expr
           (call

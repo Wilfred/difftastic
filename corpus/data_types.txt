@@ -29,7 +29,7 @@ keyword list
             (string_end)))
         (keyword)
         (expr
-          (literal))
+          (true))
         (keyword)
         (expr
           (string
@@ -72,7 +72,7 @@ keyword list
                 (string_end)))))
         (keyword)
         (expr
-          (literal))))))
+          (false))))))
 
 ================================================================================
 heredoc
