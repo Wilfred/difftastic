@@ -944,6 +944,10 @@ struct Scanner {
     if (valid_symbols[HEREDOC_START] ||
         valid_symbols[STRING_START] ||
         valid_symbols[SIGIL_START] ||
+        valid_symbols[KEYWORD_LITERAL] ||
+        valid_symbols[IDENTIFIER] ||
+        valid_symbols[ATOM_LITERAL] ||
+        valid_symbols[ATOM_START] ||
         valid_symbols[LINE_BREAK]) {
       while (is_whitespace(lexer->lookahead)) skip(lexer);
     }
