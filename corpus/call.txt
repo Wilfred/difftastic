@@ -270,7 +270,7 @@ captured arg dot call
                     (identifier)))))))))))
 
 ================================================================================
-captured arg dot call
+captured arg qualified dot call
 ================================================================================
 
 Enum.reduce(funcs, result, & &1.(&2))
@@ -451,13 +451,12 @@ string dot call
 
 (program
   (expr
-    (call
-      (dot_call
-        (atom)
-        (string
-          (string_start)
-          (string_content)
-          (string_end)))
+    (dot_call
+      (atom)
+      (string
+        (string_start)
+        (string_content)
+        (string_end))
       (args
         (expr
           (identifier))
@@ -620,3 +619,64 @@ end
               (keyword)
               (expr
                 (integer)))))))))
+
+================================================================================
+chained string qualified call
+================================================================================
+
+Macro.to_string(quote(do: Foo."bar baz"().""())) == ~s/Foo."bar baz"().""()/
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (binary_op
+      (expr
+        (dot_call
+          (module)
+          (identifier)
+          (args
+            (expr
+              (qualified_call
+                (identifier)
+                (args
+                  (bare_keyword_list
+                    (keyword)
+                    (expr
+                      (dot_call
+                        (dot_call
+                          (module)
+                          (string
+                            (string_start)
+                            (string_content)
+                            (string_end))
+                          (args))
+                        (string
+                          (string_start)
+                          (string_end))
+                        (args))))))))))
+      (expr
+        (sigil
+          (sigil_start)
+          (sigil_content)
+          (sigil_end))))))
+
+================================================================================
+integer call
+================================================================================
+
+1.(1, 2, 3)
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (dot_call
+      (integer)
+      (args
+        (expr
+          (integer))
+        (expr
+          (integer))
+        (expr
+          (integer))))))

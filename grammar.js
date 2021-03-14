@@ -191,8 +191,8 @@ module.exports = grammar({
 
     _op_capture: $ => prec.left(220, seq(choice(...OPERATORS), optional($._terminator), '/', optional($._terminator), $.integer)),
 
-    capture_op: $ => prec.right(
-      90,
+    capture_op: $ => prec(
+      320,
       seq(
         '&',
         optional($._terminator),
@@ -201,11 +201,11 @@ module.exports = grammar({
     ),
 
     dot_call: $ => prec.left(PREC.DOT_CALL, seq(
-      field('object', choice($.module, $.identifier, $.atom, $.capture_op, $.dot_call, $.access_call, $.qualified_call, $.paren_expr, $.map)),
+      field('object', choice($.module, $.identifier, $.atom, $.dot_call, $.access_call, $.qualified_call, $.paren_expr, $.map, $.capture_op, $.integer)),
       '.',
       choice(
         prec.right(seq(field('function', choice(...OPERATORS)), $.args)),
-        prec.right(seq(field('function', $.string, $.args))),
+        prec.right(seq(field('function', $.string), $.args)),
         prec.right(seq(field('function', choice($.identifier, ...RESERVED)), optional($.args))),
         $.module,
         $.args,
