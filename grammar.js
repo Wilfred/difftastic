@@ -146,6 +146,7 @@ module.exports = grammar({
           $._bare_args,
           $.args,
         ),
+        optional($._terminator),
         optional($.do_block)
       ),
       seq(
