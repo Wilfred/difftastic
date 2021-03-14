@@ -14,7 +14,7 @@
     "web-tree-sitter": "0.19.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "0.19.2"
+    "tree-sitter-cli": "0.19.3"
   },
   "tree-sitter": [
     {
