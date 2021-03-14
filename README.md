@@ -129,6 +129,7 @@ npx tree-sitter build-wasm
 * mauricioszabo - clover and repl-tooling
 * maxbrunsfeld - tree-sitter and related
 * monnier - emacs-tree-sitter related
+* nwjsmith - tree-sitter upgrade
 * oakmac - tree-sitter-clojure.oakmac, conj 2018 unsession, advice, etc.
 * pedrorgirardi - discussions, vscode and tree-sitter-clojure bits
 * PEZ - calva, vscode tips, and general discussion
