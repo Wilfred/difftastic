@@ -713,13 +713,28 @@ struct Scanner {
         }
         quotes = 0;
         has_content = true;
-      } else if (stack_item.allows_interpolation && lexer->lookahead == '\\') {
+      } else if (lexer->lookahead == '\\') {
         lexer->mark_end(lexer);
-        if (has_content || quotes > 0) {
-          lexer->result_symbol = SIGIL_CONTENT;
-          return true;
+
+        if (stack_item.allows_interpolation) {
+          if (has_content || quotes > 0) {
+            lexer->result_symbol = SIGIL_CONTENT;
+            return true;
+          } else {
+            return false;
+          }
         } else {
-          return false;
+          advance(lexer);
+          if (!stack_item.heredoc && lexer->lookahead == stack_item.terminator) {
+            if (has_content || quotes > 0) {
+              lexer->result_symbol = SIGIL_CONTENT;
+              return true;
+            } else {
+              return false;
+            }
+          }
+          quotes = 0;
+          has_content = true;
         }
       } else if (!stack_item.heredoc && lexer->lookahead == stack_item.terminator) {
         if (has_content) {

@@ -261,3 +261,33 @@ sigil escape
       (escape_sequence)
       (sigil_content)
       (sigil_end))))
+
+================================================================================
+sigil always escape terminator
+================================================================================
+
+[~S(foo\)), ~S[foo\]], ~S[foo"\]]]
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (list
+      (expr
+        (sigil
+          (sigil_start)
+          (sigil_content)
+          (escape_sequence)
+          (sigil_end)))
+      (expr
+        (sigil
+          (sigil_start)
+          (sigil_content)
+          (escape_sequence)
+          (sigil_end)))
+      (expr
+        (sigil
+          (sigil_start)
+          (sigil_content)
+          (escape_sequence)
+          (sigil_end))))))
