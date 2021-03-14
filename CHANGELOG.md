@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [0.5.0](https://github.com/ikatyang/tree-sitter-toml/compare/v0.4.1...v0.5.0) (2021-03-14)
+
+
+### Features
+
+* upgrade to tree-sitter@0.19.3 ([e880176](https://github.com/ikatyang/tree-sitter-toml/commit/e880176))
+
+
+### BREAKING CHANGES
+
+* require tree-sitter 0.19+
+
+
+
 ## [0.4.1](https://github.com/ikatyang/tree-sitter-toml/compare/v0.4.0...v0.4.1) (2020-11-14)
 
 
