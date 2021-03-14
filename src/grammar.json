@@ -129,7 +129,7 @@
               "type": "REPEAT",
               "content": {
                 "type": "PATTERN",
-                "value": "[0-9:a-zA-Z!$%&*+\\-./:<?=>@^_]"
+                "value": "[0-9:a-zA-Z!$%&*+\\-./<?=>@^_]"
               }
             }
           ]
@@ -833,13 +833,13 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "[a-zA-Z!$%&*+\\-./:<?=>@^_]"
+            "value": "[a-zA-Z!$%&*+\\-./<?=>@^_]"
           },
           {
             "type": "REPEAT",
             "content": {
               "type": "PATTERN",
-              "value": "[0-9:a-zA-Z!$%&*+\\-./:<?=>@^_]"
+              "value": "[0-9:a-zA-Z!$%&*+\\-./<?=>@^_]"
             }
           }
         ]

@@ -16,9 +16,9 @@ const ALPHA_NUM =
 // symbols and keywords
 // janet/tools/symcharsgen.c
 const SYM_CHAR_NO_DIGIT_NO_COLON =
-      /[a-zA-Z!$%&*+\-./:<?=>@^_]/;
+      /[a-zA-Z!$%&*+\-./<?=>@^_]/;
 const SYM_CHAR =
-      /[0-9:a-zA-Z!$%&*+\-./:<?=>@^_]/;
+      /[0-9:a-zA-Z!$%&*+\-./<?=>@^_]/;
 
 // strings
 const STRING_DOUBLE_QUOTE_CONTENT =
