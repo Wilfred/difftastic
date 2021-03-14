@@ -32,7 +32,24 @@ enum TokenType {
   ATOM_LITERAL,
   ATOM_START,
   ATOM_CONTENT,
-  ATOM_END
+  ATOM_END,
+
+  TRUE,
+  FALSE,
+  NIL,
+  WHEN,
+  AND,
+  OR,
+  NOT,
+  IN,
+  NOT_IN,
+  FN,
+  DO,
+  END,
+  CATCH,
+  RESCUE,
+  AFTER,
+  ELSE
 
 };
 
@@ -60,30 +77,16 @@ const char SIGIL_CHARS[] = {
 };
 
 const char LINE_BREAK_OPERATORS[] = {
-  '#', '.', ':', '|', '!', '=', '<', '>', '+', '-', '*', '/', '\\', ',', 'w', 'a', 'o', 'i', '&'
+  '#', '.', ':', '|', '!', '=', '<', '>', '+', '-', '*', '/', '\\', ',', 'w', 'a', 'o', 'i', 'n', '&'
 };
 
 const char SYMBOL_OPERATORS[] = {
   '@', '.', '+', '-', '!', '^', '-', '*', '/', '<', '>', '|', '~', '=', '&', ':', '\\', '%', '{'
 };
 
-const string RESERVERD[] = {
-  "true", "false", "nil", "when", "and", "or", "not", "in", "fn", "do",
-  "end", "catch", "rescue", "after", "else"
-};
-
 struct Scanner {
   void reset() {
     stack.clear();
-  }
-
-  bool is_reserved(string *token) {
-    for (unsigned int i = 0; i < sizeof(RESERVERD)/sizeof(RESERVERD[0]); i++) {
-      if (*token == RESERVERD[i]) {
-        return true;
-      }
-    }
-    return false;
   }
 
   bool is_whitespace(int32_t c) {
@@ -161,6 +164,14 @@ struct Scanner {
     lexer->advance(lexer, false);
   }
 
+  bool is_valid(TSLexer *lexer, const bool *valid_symbols, TokenType token_type) {
+    if (valid_symbols[token_type]) {
+      lexer->result_symbol = token_type;
+      return true;
+    }
+    return false;
+  }
+
   unsigned serialize(char *buffer) {
     unsigned i = 0;
 
@@ -197,6 +208,23 @@ struct Scanner {
       stack_item.allows_interpolation = buffer[i++];
       stack.push_back(stack_item);
     }
+  }
+
+  bool advance_to_in_opeartor_end(TSLexer *lexer) {
+    if (!(is_whitespace(lexer->lookahead) || is_newline(lexer->lookahead))) return false;
+
+    while (is_whitespace(lexer->lookahead) || is_newline(lexer->lookahead)) advance(lexer);
+
+    if (lexer->lookahead != 'i') return false;
+    advance(lexer);
+    if (lexer->lookahead != 'n') return false;
+    advance(lexer);
+
+    if (is_token_end(lexer->lookahead)) {
+      lexer->mark_end(lexer);
+      return true;
+    }
+    return false;
   }
 
   bool advance_to_sigil_operator_end(TSLexer *lexer) {
@@ -542,14 +570,13 @@ struct Scanner {
     return false;
   }
 
-  bool scan_identifier_or_keyword(TSLexer *lexer) {
-    std::string *token= new std::string("");
-    bool reserved = false;
+  bool scan_identifier_or_keyword(TSLexer *lexer, const bool *valid_symbols) {
+    std::string token= "";
     bool is_identifier = is_identifier_start(lexer->lookahead);
 
     lexer->mark_end(lexer);
     for (;;) {
-      token->push_back(lexer->lookahead);
+      token.push_back(lexer->lookahead);
       advance(lexer);
 
       if (lexer->lookahead == '?' ||
@@ -562,16 +589,11 @@ struct Scanner {
           if (is_newline(lexer->lookahead) ||
               is_whitespace(lexer->lookahead)) {
             lexer->mark_end(lexer);
-            lexer->result_symbol = KEYWORD_LITERAL;
-            delete token;
-            return true;
+            return is_valid(lexer, valid_symbols, KEYWORD_LITERAL);
           }
         }
 
-        lexer->result_symbol = IDENTIFIER;
-        delete token;
-        return is_identifier;
-
+        return is_identifier && is_valid(lexer, valid_symbols, IDENTIFIER);
       } else if (lexer->lookahead == '@') {
         is_identifier = false;
       } else if (lexer->lookahead == ':') {
@@ -580,29 +602,70 @@ struct Scanner {
         if (is_newline(lexer->lookahead) ||
             is_whitespace(lexer->lookahead)) {
           lexer->mark_end(lexer);
-          lexer->result_symbol = KEYWORD_LITERAL;
-          delete token;
-          return true;
+          return is_valid(lexer, valid_symbols, KEYWORD_LITERAL);
         } else {
-          lexer->result_symbol = IDENTIFIER;
-          delete token;
-          return is_identifier;
+          return is_identifier && is_valid(lexer, valid_symbols, IDENTIFIER);
         }
       } else if (!is_identifier_body(lexer->lookahead)) {
+        lexer->mark_end(lexer);
 
-          reserved = is_reserved(token);
-          delete token;
-
-          if (!reserved) {
-            lexer->mark_end(lexer);
-            lexer->result_symbol = IDENTIFIER;
+        if (token == std::string("true")) {
+          return is_valid(lexer, valid_symbols, TRUE);
+        }
+        if (token == std::string("false")) {
+          return is_valid(lexer, valid_symbols, FALSE);
+        }
+        if (token == std::string("nil")) {
+          return is_valid(lexer, valid_symbols, NIL);
+        }
+        if (token == std::string("when")) {
+          return is_valid(lexer, valid_symbols, WHEN);
+        }
+        if (token == std::string("and")) {
+          return is_valid(lexer, valid_symbols, AND);
+        }
+        if (token == std::string("or")) {
+          return is_valid(lexer, valid_symbols, OR);
+        }
+        if (token == std::string("not")) {
+          if (advance_to_in_opeartor_end(lexer)) {
+            return is_valid(lexer, valid_symbols, NOT_IN);
+          } else {
+            return is_valid(lexer, valid_symbols, NOT);
           }
-          return is_identifier && !reserved;
+        }
+        if (token == std::string("in")) {
+          return is_valid(lexer, valid_symbols, IN);
+        }
+        if (token == std::string("fn")) {
+          return is_valid(lexer, valid_symbols, FN);
+        }
+        if (token == std::string("do")) {
+          return is_valid(lexer, valid_symbols, DO);
+        }
+        if (token == std::string("end")) {
+          return is_valid(lexer, valid_symbols, END);
+        }
+        if (token == std::string("catch")) {
+          return is_valid(lexer, valid_symbols, CATCH);
+        }
+        if (token == std::string("rescue")) {
+          return is_valid(lexer, valid_symbols, RESCUE);
+        }
+        if (token == std::string("after")) {
+          return is_valid(lexer, valid_symbols, AFTER);
+        }
+        if (token == std::string("else")) {
+          return is_valid(lexer, valid_symbols, ELSE);
+        }
+
+        return is_identifier && is_valid(lexer, valid_symbols, IDENTIFIER);
       }
     }
   }
 
-  bool is_binary_operator_next(TSLexer *lexer) {
+  bool is_binary_operator_next(TSLexer *lexer, const bool *valid_symbols, bool *reserved) {
+    *reserved = false;
     if (memchr(&LINE_BREAK_OPERATORS, lexer->lookahead, sizeof(LINE_BREAK_OPERATORS)) != NULL) {
       switch(lexer->lookahead) {
       case '&':
@@ -642,24 +705,43 @@ struct Scanner {
         advance(lexer);
         if (lexer->lookahead != 'n') return false;
         advance(lexer);
-        return is_token_end(lexer->lookahead);
+        lexer->mark_end(lexer);
+        *reserved = is_token_end(lexer->lookahead) && is_valid(lexer, valid_symbols, WHEN);
+        return *reserved;
       case 'a':
         advance(lexer);
         if (lexer->lookahead != 'n') return false;
         advance(lexer);
         if (lexer->lookahead != 'd') return false;
         advance(lexer);
-        return is_token_end(lexer->lookahead);
+        lexer->mark_end(lexer);
+        *reserved = is_token_end(lexer->lookahead) && is_valid(lexer, valid_symbols, AND);
+        return *reserved;
       case 'o':
         advance(lexer);
         if (lexer->lookahead != 'r') return false;
         advance(lexer);
-        return is_token_end(lexer->lookahead);
+        lexer->mark_end(lexer);
+        *reserved = is_token_end(lexer->lookahead) && is_valid(lexer, valid_symbols, OR);
+        return *reserved;
       case 'i':
         advance(lexer);
         if (lexer->lookahead != 'n') return false;
         advance(lexer);
-        return is_token_end(lexer->lookahead);
+        lexer->mark_end(lexer);
+        *reserved = is_token_end(lexer->lookahead) && is_valid(lexer, valid_symbols, IN);
+        return *reserved;
+      case 'n':
+        advance(lexer);
+        if (lexer->lookahead != 'o') return false;
+        advance(lexer);
+        if (lexer->lookahead != 't') return false;
+        advance(lexer);
+        if (advance_to_in_opeartor_end(lexer)) {
+          *reserved = is_token_end(lexer->lookahead) && is_valid(lexer, valid_symbols, NOT_IN);
+          return *reserved;
+        }
+        return false;
       default:
         return true;
       }
@@ -951,7 +1033,22 @@ struct Scanner {
         valid_symbols[IDENTIFIER] ||
         valid_symbols[ATOM_LITERAL] ||
         valid_symbols[ATOM_START] ||
-        valid_symbols[LINE_BREAK]) {
+        valid_symbols[LINE_BREAK] ||
+        valid_symbols[TRUE] ||
+        valid_symbols[FALSE] ||
+        valid_symbols[NIL] ||
+        valid_symbols[WHEN] ||
+        valid_symbols[AND] ||
+        valid_symbols[OR] ||
+        valid_symbols[NOT] ||
+        valid_symbols[IN] ||
+        valid_symbols[FN] ||
+        valid_symbols[DO] ||
+        valid_symbols[END] ||
+        valid_symbols[CATCH] ||
+        valid_symbols[RESCUE] ||
+        valid_symbols[AFTER] ||
+        valid_symbols[ELSE]) {
       while (is_whitespace(lexer->lookahead)) skip(lexer);
     }
 
@@ -960,8 +1057,9 @@ struct Scanner {
       skip(lexer);
       while (is_whitespace(lexer->lookahead) || is_newline(lexer->lookahead)) skip(lexer);
       lexer->mark_end(lexer);
-      if (is_binary_operator_next(lexer)) {
-        return false;
+      bool reserved;
+      if (is_binary_operator_next(lexer, valid_symbols, &reserved)) {
+        return reserved;
       } else {
         lexer->result_symbol = LINE_BREAK;
         return true;
@@ -973,10 +1071,26 @@ struct Scanner {
       return scan_atom(lexer, valid_symbols);
     }
 
-    if ((valid_symbols[IDENTIFIER] || valid_symbols[KEYWORD_LITERAL]) &&
+    if ((valid_symbols[IDENTIFIER] ||
+         valid_symbols[KEYWORD_LITERAL] ||
+         valid_symbols[TRUE] ||
+         valid_symbols[FALSE] ||
+         valid_symbols[NIL] ||
+         valid_symbols[WHEN] ||
+         valid_symbols[AND] ||
+         valid_symbols[OR] ||
+         valid_symbols[NOT] ||
+         valid_symbols[IN] ||
+         valid_symbols[FN] ||
+         valid_symbols[DO] ||
+         valid_symbols[END] ||
+         valid_symbols[CATCH] ||
+         valid_symbols[RESCUE] ||
+         valid_symbols[AFTER] ||
+         valid_symbols[ELSE]) &&
         (is_identifier_start(lexer->lookahead) ||
          is_keyword_start(lexer->lookahead))) {
-      return scan_identifier_or_keyword(lexer);
+      return scan_identifier_or_keyword(lexer, valid_symbols);
     }
 
     if ((valid_symbols[HEREDOC_START] ||

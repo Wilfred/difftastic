@@ -42,9 +42,7 @@ function blockExpression($, name) {
   ));
 }
 
-const OPERATORS = ['@', '.', '+', '-', '!', '^', '~~~', '*', '/', '+', '-', '++', '--', '..', '<>', '+++', '---', '^^^', '|>', '<<<', '>>>', '<<~', '~>>', '<~', '~>', '<~>', '<|>', '<', '>', '<=', '>=', '==', '!=', '=~', '===', '!==', '&&', '&&&', '||', '|||', '=', '&', '=>', '|', '::', '<-', '\\\\', 'and', 'or', 'not', 'when', 'in'];
-
-const RESERVED = ['true', 'false', 'nil', 'when', 'and', 'or', 'not', 'in', 'fn', 'do', 'end', 'catch', 'rescue', 'after', 'else'];
+const OPERATORS = ['@', '.', '+', '-', '!', '^', '~~~', '*', '/', '+', '-', '++', '--', '..', '<>', '+++', '---', '^^^', '|>', '<<<', '>>>', '<<~', '~>>', '<~', '~>', '<~>', '<|>', '<', '>', '<=', '>=', '==', '!=', '=~', '===', '!==', '&&', '&&&', '||', '|||', '=', '&', '=>', '|', '::', '<-', '\\\\'];
 
 const PREC = {
   COMMENT: -2,
@@ -73,6 +71,22 @@ module.exports = grammar({
     $.atom_start,
     $.atom_content,
     $.atom_end,
+    $.true,
+    $.false,
+    $.nil,
+    $._when,
+    $._and,
+    $._or,
+    $._not,
+    $._in,
+    $._not_in,
+    $._fn,
+    $._do,
+    $._end,
+    $._catch,
+    $._rescue,
+    $._after,
+    $._else,
   ],
 
   extras: $ => [
@@ -121,7 +135,7 @@ module.exports = grammar({
       $.struct,
       $.string,
       $.tuple,
-      $.literal,
+      $._literal,
       $.char,
       $.identifier,
     ),
@@ -158,17 +172,17 @@ module.exports = grammar({
 
     binary_op: $ => choice(
       binaryOp($, prec.left, 40, choice('\\\\', '<-')),
-      binaryOp($, prec.right, 50, 'when', true),
+      binaryOp($, prec.right, 50, $._when, true),
       binaryOp($, prec.right, 60, '::'),
       binaryOp($, prec.right, 70, '|', true),
       binaryOp($, prec.right, 80, '=>'),
       binaryOp($, prec.right, 100, '='),
-      binaryOp($, prec.left, 130, choice('||', '|||', 'or')),
-      binaryOp($, prec.left, 140, choice('&&', '&&&', 'and')),
+      binaryOp($, prec.left, 130, choice('||', '|||', $._or)),
+      binaryOp($, prec.left, 140, choice('&&', '&&&', $._and)),
       binaryOp($, prec.left, 150, choice('==', '!=', '=~', '===', '!==')),
       binaryOp($, prec.left, 160, choice('<', '>', '<=', '>=')),
       binaryOp($, prec.left, 170, choice('|>', '<<<', '>>>', '<<~', '~>>', '<~', '~>', '<~>', '<|>')),
-      binaryOp($, prec.left, 180, choice('in', seq(/not[\s+]in/))),
+      binaryOp($, prec.left, 180, choice($._in, $._not_in)),
       binaryOp($, prec.left, 190, choice('^^^')),
       binaryOp($, prec.right, 200, choice('++', '--', '..', '<>', '+++', '---')),
       binaryOp($, prec.left, 210, choice('+', '-')),
@@ -178,11 +192,11 @@ module.exports = grammar({
 
     unary_op: $ => choice(
       unaryOp($, prec, 90, '&'),
-      unaryOp($, prec, 300, choice('+', '-', '!', '^', '~~~', 'not')),
+      unaryOp($, prec, 300, choice('+', '-', '!', '^', '~~~', $._not)),
       unaryOp($, prec, 320, '@'),
     ),
 
-    _op_capture: $ => prec.left(220, seq(choice(...OPERATORS), optional($._terminator), '/', optional($._terminator), $.integer)),
+    _op_capture: $ => prec.left(220, seq(choice($._and, $._or, $._not, $._when, $._in, ...OPERATORS), optional($._terminator), '/', optional($._terminator), $.integer)),
 
     capture_op: $ => prec(
       320,
@@ -197,9 +211,9 @@ module.exports = grammar({
       field('object', choice($.module, $.identifier, $.atom, $.dot_call, $.access_call, $.qualified_call, $.paren_expr, $.map, $.capture_op, $.integer)),
       '.',
       choice(
-        prec.right(seq(field('function', choice(...OPERATORS)), $.args)),
+        prec.right(seq(field('function', choice($._and, $._or, $._not, $._when, $._in, ...OPERATORS)), $.args)),
         prec.right(seq(field('function', $.string), optional($.args))),
-        prec.right(seq(field('function', choice($.identifier, ...RESERVED)), optional($.args))),
+        prec.right(seq(field('function', choice($.identifier, $.true, $.false, $.nil, $._when, $._and, $._or, $._not, $._in, $._fn, $._do, $._end, $._catch, $._rescue, $._after, $._else)), optional($.args))),
         $.module,
         $.args,
         $.tuple
@@ -213,24 +227,24 @@ module.exports = grammar({
       ']'
     )),
 
-    after_block: $ => blockExpression($, 'after'),
-    rescue_block: $ => blockExpression($, 'rescue'),
-    catch_block: $ => blockExpression($, 'catch'),
-    else_block: $ => blockExpression($, 'else'),
+    after_block: $ => blockExpression($, $._after),
+    rescue_block: $ => blockExpression($, $._rescue),
+    catch_block: $ => blockExpression($, $._catch),
+    else_block: $ => blockExpression($, $._else),
 
     do_block: $ => prec.left(5, seq(
-      blockExpression($, 'do'),
+      blockExpression($, $._do),
       repeat(choice($.after_block, $.rescue_block, $.catch_block, $.else_block)),
       optional($._terminator),
-      'end'
+      $._end
     )),
 
     anonymous_function: $ => seq(
-      'fn',
+      $._fn,
       optional($._terminator),
       sep1($.stab_expr, $._terminator),
       optional($._terminator),
-      'end'
+      $._end
     ),
 
     args: $ => seq(
@@ -376,7 +390,7 @@ module.exports = grammar({
     module: $ => /[A-Z][_a-zA-Z0-9]*(\.[A-Z][_a-zA-Z0-9]*)*/,
     comment: $ => token(prec(PREC.COMMENT, seq('#', /.*/))),
     _terminator: $ => prec.right(atleastOnce(choice($._line_break, ';'))),
-    literal: $ => choice('true', 'false', 'nil', '...'),
+    _literal: $ => choice($.true, $.false, $.nil, '...'),
     char: $ => /\?(.|\\.)/,
   }
 });
