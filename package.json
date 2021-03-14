@@ -6,7 +6,7 @@
     "parser",
     "lexer"
   ],
-  "main": "index.js",
+  "main": "bindings/node",
   "repository": "https://github.com/ikatyang/tree-sitter-toml",
   "homepage": "https://github.com/ikatyang/tree-sitter-toml#readme",
   "author": {
@@ -37,9 +37,8 @@
   "files": [
     "/src/",
     "/queries/",
-    "/binding.gyp",
-    "/grammar.js",
-    "/index.js"
+    "/bindings/node/",
+    "/grammar.js"
   ],
   "tree-sitter": [
     {

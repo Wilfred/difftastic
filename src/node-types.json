@@ -321,6 +321,10 @@
     "named": true
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "escape_sequence",
     "named": true
   },
