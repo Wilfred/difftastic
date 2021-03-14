@@ -26,3 +26,7 @@ test:
 
 update-corpus:
 	./node_modules/.bin/tree-sitter test -u
+
+generate-header:
+	mkdir -p scripts/target
+	cd scripts && ./generate-unicode-range > ../src/unicode.h
