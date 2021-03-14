@@ -277,3 +277,84 @@ end
                         (char))))))))
           (expr
             (identifier)))))))
+
+================================================================================
+case with unary ops
+================================================================================
+
+case order do
+  1 -> and_op([%{field => %{"$gt" => value}} | acc])
+  -1 -> and_op([%{field => %{"$lt" => value}} | acc])
+end
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (call
+      (identifier)
+      (expr
+        (identifier))
+      (do_block
+        (stab_expr
+          (expr
+            (integer))
+          (expr
+            (qualified_call
+              (identifier)
+              (args
+                (expr
+                  (list
+                    (expr
+                      (binary_op
+                        (expr
+                          (map
+                            (expr
+                              (binary_op
+                                (expr
+                                  (identifier))
+                                (expr
+                                  (map
+                                    (expr
+                                      (binary_op
+                                        (expr
+                                          (string
+                                            (string_start)
+                                            (string_content)
+                                            (string_end)))
+                                        (expr
+                                          (identifier))))))))))
+                        (expr
+                          (identifier))))))))))
+        (stab_expr
+          (expr
+            (unary_op
+              (expr
+                (integer))))
+          (expr
+            (qualified_call
+              (identifier)
+              (args
+                (expr
+                  (list
+                    (expr
+                      (binary_op
+                        (expr
+                          (map
+                            (expr
+                              (binary_op
+                                (expr
+                                  (identifier))
+                                (expr
+                                  (map
+                                    (expr
+                                      (binary_op
+                                        (expr
+                                          (string
+                                            (string_start)
+                                            (string_content)
+                                            (string_end)))
+                                        (expr
+                                          (identifier))))))))))
+                        (expr
+                          (identifier))))))))))))))

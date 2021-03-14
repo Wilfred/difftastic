@@ -608,6 +608,12 @@ struct Scanner {
       case ':':
         advance(lexer);
         return lexer->lookahead == ':';
+      case '+':
+        advance(lexer);
+        return lexer->lookahead == '+';
+      case '-':
+        advance(lexer);
+        return lexer->lookahead == '-';
       case '<':
         advance(lexer);
         return lexer->lookahead != '<';
