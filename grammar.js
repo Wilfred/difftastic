@@ -135,7 +135,7 @@ module.exports = grammar({
     ),
 
     block: $ => seq(
-      '(', optional($._terminator), sep1(choice($.stab_expr, $.expr), $._terminator), optional($._terminator), ')'
+      '(', optional($._terminator), sep(choice($.stab_expr, $.expr), $._terminator), optional($._terminator), ')'
     ),
 
     paren_expr: $ => seq(
