@@ -60,7 +60,7 @@ const char SIGIL_CHARS[] = {
 };
 
 const char LINE_BREAK_OPERATORS[] = {
-  '#', '.', ':', '|', '!', '=', '<', '>', '+', '-', '*', '/', '\\', ',', 'w', 'a', 'o', 'i',
+  '#', '.', ':', '|', '!', '=', '<', '>', '+', '-', '*', '/', '\\', ',', 'w', 'a', 'o', 'i', '&'
 };
 
 const char SYMBOL_OPERATORS[] = {
@@ -602,9 +602,12 @@ struct Scanner {
     }
   }
 
-  bool is_operator_next(TSLexer *lexer) {
+  bool is_binary_operator_next(TSLexer *lexer) {
     if (memchr(&LINE_BREAK_OPERATORS, lexer->lookahead, sizeof(LINE_BREAK_OPERATORS)) != NULL) {
       switch(lexer->lookahead) {
+      case '&':
+        advance(lexer);
+        return lexer->lookahead == '&';
       case ':':
         advance(lexer);
         return lexer->lookahead == ':';
@@ -957,7 +960,7 @@ struct Scanner {
       skip(lexer);
       while (is_whitespace(lexer->lookahead) || is_newline(lexer->lookahead)) skip(lexer);
       lexer->mark_end(lexer);
-      if (is_operator_next(lexer)) {
+      if (is_binary_operator_next(lexer)) {
         return false;
       } else {
         lexer->result_symbol = LINE_BREAK;
