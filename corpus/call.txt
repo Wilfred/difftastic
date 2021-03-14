@@ -680,3 +680,30 @@ integer call
           (integer))
         (expr
           (integer))))))
+
+================================================================================
+string dot call without args
+================================================================================
+
+inspect(&__MODULE__."weirdly named/fun-"/0)
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (qualified_call
+      (identifier)
+      (args
+        (expr
+          (unary_op
+            (expr
+              (binary_op
+                (expr
+                  (dot_call
+                    (identifier)
+                    (string
+                      (string_start)
+                      (string_content)
+                      (string_end))))
+                (expr
+                  (integer))))))))))

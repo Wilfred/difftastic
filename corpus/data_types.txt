@@ -690,3 +690,127 @@ raise ArgumentError,
                 (identifier)))
             (string_content)
             (string_end)))))))
+
+================================================================================
+keyword with special chars
+================================================================================
+[
+ [_12: 0],
+ [ola: 0],
+ [ólá: 0],
+ [ólá?: 0],
+ [ólá!: 0],
+ [ól@: 0],
+ [ól@!: 0],
+ [ó@@!: 0],
+ [Ola: 0],
+ [Ólá: 0],
+ [ÓLÁ: 0],
+ [ÓLÁ?: 0],
+ [ÓLÁ!: 0],
+ [ÓL@!: 0],
+ [Ó@@!: 0],
+ [こんにちは世界: 0],
+]
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (list
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer)))))
+      (expr
+        (list
+          (bare_keyword_list
+            (keyword)
+            (expr
+              (integer))))))))

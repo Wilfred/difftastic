@@ -572,6 +572,8 @@ struct Scanner {
         delete token;
         return is_identifier;
 
+      } else if (lexer->lookahead == '@') {
+        is_identifier = false;
       } else if (lexer->lookahead == ':') {
         lexer->mark_end(lexer);
         advance(lexer);
