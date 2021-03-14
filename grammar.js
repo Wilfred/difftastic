@@ -201,7 +201,7 @@ module.exports = grammar({
     ),
 
     dot_call: $ => prec.left(PREC.DOT_CALL, seq(
-      field('object', choice($.module, $.identifier, $.atom, $.capture_op, $.dot_call, $.access_call, $.qualified_call, $.paren_expr)),
+      field('object', choice($.module, $.identifier, $.atom, $.capture_op, $.dot_call, $.access_call, $.qualified_call, $.paren_expr, $.map)),
       '.',
       choice(
         prec.right(seq(field('function', choice(...OPERATORS)), $.args)),
@@ -267,7 +267,7 @@ module.exports = grammar({
 
     struct: $ => seq(
       '%',
-      choice($.module, $.identifier, $.atom, seq('^', $.identifier)),
+      choice($.module, $.identifier, $.atom, $.qualified_call, seq('^', $.identifier)),
       '{',
       optional($._terminator),
       optional($._bare_args),
