@@ -29,7 +29,7 @@ module.exports = grammar({
   name: 'janet_simple',
 
   extras: $ =>
-    [/\s/, $.comment],
+    [/\s|\x00/, $.comment],
 
   externals: $ => [
     $.long_buf_lit,

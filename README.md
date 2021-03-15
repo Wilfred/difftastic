@@ -107,6 +107,7 @@ npx tree-sitter build-wasm
 
 ## Acknowledgments
 
+* 314eter - handling null characters
 * Aerijo - Guide to your first Tree-sitter grammar
 * bakpakin - janet
 * GrayJack - tree-sitter-janet

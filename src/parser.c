@@ -342,6 +342,11 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
   switch (state) {
     case 0:
       if (eof) ADVANCE(13);
+      if (lookahead == 0 ||
+          lookahead == '\t' ||
+          lookahead == '\n' ||
+          lookahead == '\r' ||
+          lookahead == ' ') SKIP(0)
       if (lookahead == '"') ADVANCE(1);
       if (lookahead == '#') ADVANCE(14);
       if (lookahead == '\'') ADVANCE(87);
@@ -369,10 +374,6 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (lookahead == '|') ADVANCE(88);
       if (lookahead == '}') ADVANCE(82);
       if (lookahead == '~') ADVANCE(86);
-      if (lookahead == '\t' ||
-          lookahead == '\n' ||
-          lookahead == '\r' ||
-          lookahead == ' ') SKIP(0)
       if (('!' <= lookahead && lookahead <= 'Z') ||
           lookahead == '^' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(76);
