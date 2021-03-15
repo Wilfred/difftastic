@@ -164,9 +164,12 @@ struct Scanner {
     lexer->advance(lexer, false);
   }
 
-  bool is_valid(TSLexer *lexer, const bool *valid_symbols, TokenType token_type) {
+  bool is_valid(TSLexer *lexer, const bool *valid_symbols, TokenType token_type, bool mark_end = true) {
     if (valid_symbols[token_type]) {
       lexer->result_symbol = token_type;
+      if (mark_end) {
+        lexer->mark_end(lexer);
+      }
       return true;
     }
     return false;
@@ -221,7 +224,6 @@ struct Scanner {
     advance(lexer);
 
     if (is_token_end(lexer->lookahead)) {
-      lexer->mark_end(lexer);
       return true;
     }
     return false;
@@ -588,12 +590,11 @@ struct Scanner {
           advance(lexer);
           if (is_newline(lexer->lookahead) ||
               is_whitespace(lexer->lookahead)) {
-            lexer->mark_end(lexer);
             return is_valid(lexer, valid_symbols, KEYWORD_LITERAL);
           }
         }
 
-        return is_identifier && is_valid(lexer, valid_symbols, IDENTIFIER);
+        return is_identifier && is_valid(lexer, valid_symbols, IDENTIFIER, false);
       } else if (lexer->lookahead == '@') {
         is_identifier = false;
       } else if (lexer->lookahead == ':') {
@@ -601,14 +602,12 @@ struct Scanner {
         advance(lexer);
         if (is_newline(lexer->lookahead) ||
             is_whitespace(lexer->lookahead)) {
-          lexer->mark_end(lexer);
           return is_valid(lexer, valid_symbols, KEYWORD_LITERAL);
         } else {
-          return is_identifier && is_valid(lexer, valid_symbols, IDENTIFIER);
+          return is_identifier && is_valid(lexer, valid_symbols, IDENTIFIER, false);
         }
       } else if (!is_identifier_body(lexer->lookahead)) {
         lexer->mark_end(lexer);
-
         if (token == std::string("true")) {
           return is_valid(lexer, valid_symbols, TRUE);
         }
@@ -631,7 +630,7 @@ struct Scanner {
           if (advance_to_in_opeartor_end(lexer)) {
             return is_valid(lexer, valid_symbols, NOT_IN);
           } else {
-            return is_valid(lexer, valid_symbols, NOT);
+            return is_valid(lexer, valid_symbols, NOT, false);
           }
         }
         if (token == std::string("in")) {
@@ -706,7 +705,6 @@ struct Scanner {
         if (lexer->lookahead != 'n') return false;
         advance(lexer);
         if (is_token_end(lexer->lookahead)) {
-          lexer->mark_end(lexer);
           *reserved = is_valid(lexer, valid_symbols, WHEN);
           return *reserved;
         }
@@ -718,7 +716,6 @@ struct Scanner {
         if (lexer->lookahead != 'd') return false;
         advance(lexer);
         if (is_token_end(lexer->lookahead)) {
-          lexer->mark_end(lexer);
           *reserved = is_valid(lexer, valid_symbols, AND);
           return *reserved;
         }
@@ -728,7 +725,6 @@ struct Scanner {
         if (lexer->lookahead != 'r') return false;
         advance(lexer);
         if (is_token_end(lexer->lookahead)) {
-          lexer->mark_end(lexer);
           *reserved = is_valid(lexer, valid_symbols, OR);
           return *reserved;
         }
@@ -738,7 +734,6 @@ struct Scanner {
         if (lexer->lookahead != 'n') return false;
         advance(lexer);
         if (is_token_end(lexer->lookahead)) {
-          lexer->mark_end(lexer);
           *reserved = is_valid(lexer, valid_symbols, IN);
           return *reserved;
         }
