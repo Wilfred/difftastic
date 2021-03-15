@@ -142,7 +142,7 @@ struct Scanner {
   }
 
   bool is_token_end(int32_t c) {
-    return !is_identifier_body(c) && c != '?' && c != '!';
+    return !is_identifier_body(c) && c != '?' && c != '!' && c != ':';
   }
 
 
@@ -705,32 +705,44 @@ struct Scanner {
         advance(lexer);
         if (lexer->lookahead != 'n') return false;
         advance(lexer);
-        lexer->mark_end(lexer);
-        *reserved = is_token_end(lexer->lookahead) && is_valid(lexer, valid_symbols, WHEN);
-        return *reserved;
+        if (is_token_end(lexer->lookahead)) {
+          lexer->mark_end(lexer);
+          *reserved = is_valid(lexer, valid_symbols, WHEN);
+          return *reserved;
+        }
+        return false;
       case 'a':
         advance(lexer);
         if (lexer->lookahead != 'n') return false;
         advance(lexer);
         if (lexer->lookahead != 'd') return false;
         advance(lexer);
-        lexer->mark_end(lexer);
-        *reserved = is_token_end(lexer->lookahead) && is_valid(lexer, valid_symbols, AND);
-        return *reserved;
+        if (is_token_end(lexer->lookahead)) {
+          lexer->mark_end(lexer);
+          *reserved = is_valid(lexer, valid_symbols, AND);
+          return *reserved;
+        }
+        return false;
       case 'o':
         advance(lexer);
         if (lexer->lookahead != 'r') return false;
         advance(lexer);
-        lexer->mark_end(lexer);
-        *reserved = is_token_end(lexer->lookahead) && is_valid(lexer, valid_symbols, OR);
-        return *reserved;
+        if (is_token_end(lexer->lookahead)) {
+          lexer->mark_end(lexer);
+          *reserved = is_valid(lexer, valid_symbols, OR);
+          return *reserved;
+        }
+        return false;
       case 'i':
         advance(lexer);
         if (lexer->lookahead != 'n') return false;
         advance(lexer);
-        lexer->mark_end(lexer);
-        *reserved = is_token_end(lexer->lookahead) && is_valid(lexer, valid_symbols, IN);
-        return *reserved;
+        if (is_token_end(lexer->lookahead)) {
+          lexer->mark_end(lexer);
+          *reserved = is_valid(lexer, valid_symbols, IN);
+          return *reserved;
+        }
+        return false;
       case 'n':
         advance(lexer);
         if (lexer->lookahead != 'o') return false;

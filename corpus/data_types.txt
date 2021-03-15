@@ -814,3 +814,52 @@ keyword with special chars
             (keyword)
             (expr
               (integer))))))))
+
+================================================================================
+operator keyword
+================================================================================
+
+[
+  when: "when",
+  in: "in",
+  not: "not",
+  and: "and",
+  or: "or",
+]
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (keyword)
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (keyword)
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (keyword)
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (keyword)
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))))))
