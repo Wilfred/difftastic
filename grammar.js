@@ -169,6 +169,9 @@ const UNICODE =
 // XXX: not quite sure what this is supposed to be...
 //      return Character.valueOf(token.charAt(0)); -- LispReader.java
 //      java char is 16 bits...what can tree-sitter manage?
+//
+// XXX: null is supposed to be usable but putting \x00 below
+//      does not seem to work
 const ANY_CHAR =
       /.|\n/;
 
