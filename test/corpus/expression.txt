@@ -60,7 +60,8 @@ hash ref with initialization
 =================================================
 
 my $hash = {
-  cat => 'meow',
+  'cat' => 'meow',
+  "cow" => 'moo',
   dog => 'woof',
 };
 
@@ -69,6 +70,7 @@ my $hash = {
 (source_file
   (variable_declaration (scope) (single_var_declaration (scalar_variable)
     (hash_ref
+      (identifier) (string_single_quoted)
       (identifier) (string_single_quoted)
       (identifier) (string_single_quoted)))
     (semi_colon)))
