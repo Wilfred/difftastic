@@ -56,6 +56,24 @@ my @array = ('meow', 'woof', 'burp');
 )
 
 =================================================
+hash ref with initialization
+=================================================
+
+my $hash = {
+  cat => 'meow',
+  dog => 'woof',
+};
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)
+    (hash_ref
+      (identifier) (string_single_quoted)
+      (identifier) (string_single_quoted)))
+    (semi_colon)))
+
+=================================================
 use statement
 =================================================
 
