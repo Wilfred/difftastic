@@ -90,3 +90,15 @@ single line comment
 (source_file
   (comments)
 )
+
+=================================================
+length of an array
+=================================================
+
+$#array;
+
+---
+
+(source_file
+  (scalar_variable) (semi_colon)
+)
