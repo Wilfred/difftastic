@@ -909,7 +909,7 @@ module.exports = grammar({
 
     // cat => 'meow',
     _key_value_pair: $ => seq(
-      $.identifier,
+      with_or_without_quotes($.identifier),
       '=>',
       $._primitive_expression,
     ),
@@ -936,9 +936,35 @@ function commaSeparated(rule) {
   );
 }
 
+/**
+ * Given a rule, returns back a rule with and without
+ * brackets on them.
+ * 
+ * print ("hello"); vs print "hello"
+ * 
+ * @param {any} rule the rule
+ * @returns choice of rules
+ */
 function with_or_without_brackets(rule) {
   return choice(
     rule,
     seq('(', rule, ')'),
+  );
+}
+
+/**
+ * Given a rule, returns back a choice of rule with and
+ * without quotes surrounded by the rule.
+ * 
+ * $hash->{'romantic'} vs $hash->{romantic}
+ * 
+ * @param {any} rule the rule
+ * @returns choice of rules
+ */
+function with_or_without_quotes(rule) {
+  return choice(
+    rule,
+    seq('\'', rule, '\''),
+    seq('"', rule, '"'),
   );
 }
