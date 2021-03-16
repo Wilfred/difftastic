@@ -869,10 +869,6 @@
           "named": true
         },
         {
-          "type": "pod_statement",
-          "named": true
-        },
-        {
           "type": "require_statement",
           "named": true
         },
@@ -2203,11 +2199,6 @@
     "fields": {}
   },
   {
-    "type": "pod_statement",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "require_statement",
     "named": true,
     "fields": {},
@@ -2320,6 +2311,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "scalar_variable",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "scope",
@@ -2656,10 +2652,6 @@
           "named": true
         },
         {
-          "type": "pod_statement",
-          "named": true
-        },
-        {
           "type": "require_statement",
           "named": true
         },
@@ -2849,10 +2841,6 @@
         },
         {
           "type": "phase",
-          "named": true
-        },
-        {
-          "type": "pod_statement",
           "named": true
         },
         {
@@ -4498,10 +4486,6 @@
   {
     "type": "return",
     "named": false
-  },
-  {
-    "type": "scalar_variable",
-    "named": true
   },
   {
     "type": "scientific_notation",

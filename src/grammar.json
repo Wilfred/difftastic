@@ -50,36 +50,8 @@
         {
           "type": "SYMBOL",
           "name": "ellipsis_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "pod_statement"
         }
       ]
-    },
-    "pod_statement": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "=[\\w]*"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "PATTERN",
-              "value": ".*"
-            }
-          },
-          {
-            "type": "PATTERN",
-            "value": "=cut"
-          }
-        ]
-      }
     },
     "ellipsis_statement": {
       "type": "SEQ",
@@ -4096,8 +4068,29 @@
       "value": "false"
     },
     "scalar_variable": {
-      "type": "PATTERN",
-      "value": "\\$[a-zA-z0-9_]+"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "\\$[\\d]+"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\$[!]"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\$\\#_?[a-zA-z0-9_]+"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\$[A-Z^_?\\\\]"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\$_?[a-zA-z0-9_]+"
+        }
+      ]
     },
     "array_variable": {
       "type": "PATTERN",

@@ -87,14 +87,13 @@ module.exports = grammar({
 
       $.ellipsis_statement,
 
-      $.pod_statement,
+      // $.pod_statement, TODO: come back to this later
     ),
 
-    pod_statement: $ => prec(1, seq(
-      /=[\w]*/,
-      repeat(/.*/),
-      /=cut/,
-    )),
+    // pod_statement: $ => prec(1, seq(
+    //   /=[\w]*/,
+    //   /=cut/,
+    // )),
 
     ellipsis_statement: $ => seq(
       '...',
@@ -865,8 +864,13 @@ module.exports = grammar({
     true: $ => 'true',
     false: $ => 'false',
 
-    //TODO: add check that variable name shouldn't start with numbers
-    scalar_variable: $ => /\$[a-zA-z0-9_]+/,
+    scalar_variable: $ => choice(
+      /\$[\d]+/,                      // $0, $1 - they are read-only
+      /\$[!]/,
+      /\$\#_?[a-zA-z0-9_]+/,          // length of an array
+      /\$[A-Z^_?\\]/,                 // checkout https://perldoc.perl.org/perldata#Identifier-parsing
+      /\$_?[a-zA-z0-9_]+/,
+    ),
 
     array_variable: $ => /@[a-zA-z0-9_]+/,
 
