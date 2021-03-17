@@ -209,7 +209,7 @@ module.exports = grammar({
     ),
 
     _dot_call_function_args: $ => choice(
-      prec.right(seq(field('function', choice(alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._when, "when"), alias($._in, "in"), ...OPERATORS)), $.args)),
+      prec.right(seq(field('function', choice(alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._when, "when"), alias($._in, "in"), ...OPERATORS)), optional($.args))),
       prec.right(seq(field('function', $.string), optional($.args))),
       prec.right(seq(field('function', choice($.identifier, $.true, $.false, $.nil, alias($._when, "when"), alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._in, "in"), alias($._fn, "fn"), alias($._do, "do"), alias($._end, "end"), alias($._catch, "catch"), alias($._rescue, "rescue"), alias($._after, "after"), alias($._else, "else"))), optional($.args))),
       $.module,

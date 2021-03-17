@@ -782,3 +782,51 @@ Enum.join(" ")
                       (identifier)))
                   (string_end)))))
           (args))))))
+
+================================================================================
+captured operator call
+================================================================================
+
+[&Kernel.<=/2, &Kernel.>=/2, &Kernel.</2, &Kernel.>/2]
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (list
+      (expr
+        (unary_op
+          (expr
+            (binary_op
+              (expr
+                (dot_call
+                  (module)))
+              (expr
+                (integer))))))
+      (expr
+        (unary_op
+          (expr
+            (binary_op
+              (expr
+                (dot_call
+                  (module)))
+              (expr
+                (integer))))))
+      (expr
+        (unary_op
+          (expr
+            (binary_op
+              (expr
+                (dot_call
+                  (module)))
+              (expr
+                (integer))))))
+      (expr
+        (unary_op
+          (expr
+            (binary_op
+              (expr
+                (dot_call
+                  (module)))
+              (expr
+                (integer)))))))))
