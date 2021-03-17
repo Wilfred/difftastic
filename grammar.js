@@ -224,7 +224,7 @@ module.exports = grammar({
     )),
 
     _complex_dot_call: $ => prec.left(PREC.DOT_CALL, seq(
-      field('object', choice($.dot_call, $.access_call, $.paren_expr, $.map, $.anonymous_function)),
+      field('object', choice($.dot_call, $.access_call, $.paren_expr, $.map, $.struct, $.anonymous_function)),
       '.',
       $._dot_call_function_args
     )),
