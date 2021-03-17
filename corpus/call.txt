@@ -742,3 +742,43 @@ b
       (identifier)
       (expr
         (identifier)))))
+
+================================================================================
+anonymous function call
+================================================================================
+
+Enum.join(" ")
+|> fn(command) -> "MIX_ENV=test #{command}" end.()
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (binary_op
+      (expr
+        (dot_call
+          (module)
+          (identifier)
+          (args
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))))
+      (expr
+        (dot_call
+          (anonymous_function
+            (stab_expr
+              (expr
+                (block
+                  (expr
+                    (identifier))))
+              (expr
+                (string
+                  (string_start)
+                  (string_content)
+                  (interpolation
+                    (expr
+                      (identifier)))
+                  (string_end)))))
+          (args))))))
