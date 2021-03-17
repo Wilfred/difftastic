@@ -91,7 +91,8 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /\s|\\\n/
+    /\s/,
+    $._escaped_newline
   ],
 
   conflicts: $ => [
@@ -405,5 +406,6 @@ module.exports = grammar({
     _terminator: $ => prec.right(atleastOnce(choice($._line_break, ';'))),
     _literal: $ => choice($.true, $.false, $.nil, '...'),
     char: $ => /\?(.|\\.)/,
+    _escaped_newline: $ => /\\\n/
   }
 });
