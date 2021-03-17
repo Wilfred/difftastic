@@ -207,18 +207,31 @@ module.exports = grammar({
       )
     ),
 
-    dot_call: $ => prec.left(PREC.DOT_CALL, seq(
-      field('object', choice($.module, $.identifier, $.atom, $.dot_call, $.access_call, $.qualified_call, $.paren_expr, $.map, $.capture_op, $.integer)),
+    _dot_call_function_args: $ => choice(
+      prec.right(seq(field('function', choice(alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._when, "when"), alias($._in, "in"), ...OPERATORS)), $.args)),
+      prec.right(seq(field('function', $.string), optional($.args))),
+      prec.right(seq(field('function', choice($.identifier, $.true, $.false, $.nil, alias($._when, "when"), alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._in, "in"), alias($._fn, "fn"), alias($._do, "do"), alias($._end, "end"), alias($._catch, "catch"), alias($._rescue, "rescue"), alias($._after, "after"), alias($._else, "else"))), optional($.args))),
+      $.module,
+      $.args,
+      $.tuple
+    ),
+
+    _simple_dot_call: $ => prec.left(PREC.DOT_CALL, seq(
+      field('object', choice($.module, $.identifier, $.atom, alias($._simple_dot_call, $.dot_call), $.qualified_call, $.capture_op, $.integer)),
       '.',
-      choice(
-        prec.right(seq(field('function', choice(alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._when, "when"), alias($._in, "in"), ...OPERATORS)), $.args)),
-        prec.right(seq(field('function', $.string), optional($.args))),
-        prec.right(seq(field('function', choice($.identifier, $.true, $.false, $.nil, alias($._when, "when"), alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._in, "in"), alias($._fn, "fn"), alias($._do, "do"), alias($._end, "end"), alias($._catch, "catch"), alias($._rescue, "rescue"), alias($._after, "after"), alias($._else, "else"))), optional($.args))),
-        $.module,
-        $.args,
-        $.tuple
-      )
+      $._dot_call_function_args
     )),
+
+    _complex_dot_call: $ => prec.left(PREC.DOT_CALL, seq(
+      field('object', choice($.dot_call, $.access_call, $.paren_expr, $.map)),
+      '.',
+      $._dot_call_function_args
+    )),
+
+    dot_call: $ => choice(
+      $._simple_dot_call,
+      $._complex_dot_call
+    ),
 
     access_call: $ => prec.left(PREC.ACCESS_CALL, seq(
       $.expr,
@@ -274,7 +287,7 @@ module.exports = grammar({
 
     struct: $ => seq(
       '%',
-      choice($.module, $.identifier, $.atom, $.qualified_call, seq('^', $.identifier)),
+      choice($.module, $.identifier, $.atom, alias($._simple_dot_call, $.dot_call), $.qualified_call, seq('^', $.identifier)),
       '{',
       optional($._terminator),
       optional($._bare_args),
