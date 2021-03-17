@@ -8814,16 +8814,34 @@
   ],
   "precedences": [
     [
-      "context-empty",
-      "con_unit"
+      {
+        "type": "STRING",
+        "value": "context-empty"
+      },
+      {
+        "type": "STRING",
+        "value": "con_unit"
+      }
     ],
     [
-      "infix-type",
-      "btype"
+      {
+        "type": "STRING",
+        "value": "infix-type"
+      },
+      {
+        "type": "STRING",
+        "value": "btype"
+      }
     ],
     [
-      "function-type",
-      "type"
+      {
+        "type": "STRING",
+        "value": "function-type"
+      },
+      {
+        "type": "STRING",
+        "value": "type"
+      }
     ]
   ],
   "externals": [
