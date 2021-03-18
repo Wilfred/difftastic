@@ -1003,6 +1003,7 @@ struct Scanner {
             return false;
           }
         }
+        has_content = true;
       } else if (lexer->lookahead == '\\') {
         lexer->mark_end(lexer);
         if (has_content) {
