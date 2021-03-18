@@ -3927,7 +3927,15 @@
         },
         {
           "type": "SYMBOL",
+          "name": "string_q_quoted"
+        },
+        {
+          "type": "SYMBOL",
           "name": "string_double_quoted"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_qq_quoted"
         },
         {
           "type": "SYMBOL",
@@ -4038,12 +4046,28 @@
         "value": "\\'.*\\'"
       }
     },
+    "string_q_quoted": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "PATTERN",
+        "value": "q\\{.*\\}"
+      }
+    },
     "string_double_quoted": {
       "type": "PREC",
       "value": 2,
       "content": {
         "type": "PATTERN",
         "value": "\\\".*\\\""
+      }
+    },
+    "string_qq_quoted": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "PATTERN",
+        "value": "qq\\{.*\\}"
       }
     },
     "_boolean": {
