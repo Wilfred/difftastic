@@ -122,3 +122,15 @@ $#array;
 (source_file
   (scalar_variable) (semi_colon)
 )
+
+=================================================
+q{} string
+=================================================
+
+my $string = q{im a non interpolated string};
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration (scalar_variable) (string_q_quoted)) (semi_colon))
+)

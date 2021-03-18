@@ -813,8 +813,10 @@ module.exports = grammar({
 
     _scalar_type: $ => choice(
       $.string_single_quoted,
+      $.string_q_quoted,
       // TODO: handle escape sequences
       $.string_double_quoted,
+      $.string_qq_quoted,
       $._numeric_literals,
       $.array_ref,
       $.hash_ref,
@@ -854,8 +856,10 @@ module.exports = grammar({
     semi_colon: $ => ';',
 
     string_single_quoted: $ => prec(PRECEDENCE.STRING, /\'.*\'/),
+    string_q_quoted: $ => prec(PRECEDENCE.STRING, /q\{.*\}/),
 
     string_double_quoted: $ => prec(PRECEDENCE.STRING, /\".*\"/),
+    string_qq_quoted: $ => prec(PRECEDENCE.STRING, /qq\{.*\}/),
 
     _boolean: $ => choice(
       $.true,
