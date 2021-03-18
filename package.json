@@ -1,6 +1,6 @@
 {
   "name": "@elm-tooling/tree-sitter-elm",
-  "version": "5.3.2",
+  "version": "5.3.3",
   "description": "Tree sitter definitions for elm",
   "main": "bindings/node",
   "publishConfig": {
@@ -22,7 +22,7 @@
   "devDependencies": {
     "@asgerf/dts-tree-sitter": "^0.1.0",
     "prebuild": "^10.0.1",
-    "tree-sitter-cli": "^0.19.3"
+    "tree-sitter-cli": "^0.19.4"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build --debug",
