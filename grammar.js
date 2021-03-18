@@ -315,7 +315,7 @@ module.exports = grammar({
       '>>'
     ),
 
-    bare_keyword_list: $ => commaSep1($, seq($.keyword, optional($._terminator), $.expr)),
+    bare_keyword_list: $ => seq(commaSep1($, seq($.keyword, optional($._terminator), $.expr)), optional(','), optional($._terminator)),
 
     tuple: $ => seq(
       '{',

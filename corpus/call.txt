@@ -845,3 +845,25 @@ struct call
       (struct
         (module))
       (identifier))))
+
+================================================================================
+bare keyword hanging comma
+================================================================================
+
+call(a: a, b: b,
+)
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (qualified_call
+      (identifier)
+      (args
+        (bare_keyword_list
+          (keyword)
+          (expr
+            (identifier))
+          (keyword)
+          (expr
+            (identifier)))))))
