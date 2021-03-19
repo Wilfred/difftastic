@@ -108,11 +108,7 @@ module.exports = grammar({
   word: $ => $.identifier,
 
   rules: {
-    program: $ => seq(repeat($._statement), optional($._terminator)),
-
-    _statement: $ => seq(
-      optional($._terminator), $.expr, $._terminator
-    ),
+    program: $ => seq(optional($._terminator), sep($.expr, $._terminator), optional($._terminator)),
 
     expr: $ => choice(
       $.binary_op,
