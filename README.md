@@ -1,10 +1,9 @@
 ## Status
 
 The grammar is still in progress, as of now, it can parse all the
-files in the elixir source repo. I haven't verified if it builds ast
-node with correct structure (precedence and associativity). On a
-largish repo (around 3000 source files), it can parse 95% of the
-files. The immediate priority is to improve that.
+files in the elixir source repo. On a largish repo (around 3000 source
+files), it can parse 100% of the files. I haven't verified if it builds
+ast node with correct structure (precedence and associativity).
 
 ## Install
 
