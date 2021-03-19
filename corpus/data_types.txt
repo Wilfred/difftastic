@@ -881,3 +881,452 @@ string with #
         (expr
           (integer)))
       (string_end))))
+
+================================================================================
+linebreak followed by operator keyword
+================================================================================
+
+[
+@: 1]
+
+[
+.: 1]
+
+[
++: 1]
+
+[
+-: 1]
+
+[
+!: 1]
+
+[
+^: 1]
+
+[
+~~~: 1]
+
+[
+*: 1]
+
+[
+/: 1]
+
+[
++: 1]
+
+[
+-: 1]
+
+[
+++: 1]
+
+[
+--: 1]
+
+[
+..: 1]
+
+[
+<>: 1]
+
+[
++++: 1]
+
+[
+---: 1]
+
+[
+^^^: 1]
+
+[
+|>: 1]
+
+[
+<<<: 1]
+
+[
+>>>: 1]
+
+[
+<<~: 1]
+
+[
+~>>: 1]
+
+[
+<~: 1]
+
+[
+~>: 1]
+
+[
+<~>: 1]
+
+[
+<|>: 1]
+
+[
+<: 1]
+
+[
+>: 1]
+
+[
+<=: 1]
+
+[
+>=: 1]
+
+[
+==: 1]
+
+[
+!=: 1]
+
+[
+=~: 1]
+
+[
+===: 1]
+
+[
+!==: 1]
+
+[
+&&: 1]
+
+[
+&&&: 1]
+
+[
+||: 1]
+
+[
+|||: 1]
+
+[
+=: 1]
+
+[
+&: 1]
+
+[
+|: 1]
+
+[
+<-: 1]
+
+[
+when: 1]
+
+[
+or: 1]
+
+[
+and: 1]
+
+[
+not: 1]
+
+[
+in: 1]
+
+--------------------------------------------------------------------------------
+
+(program
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer)))))
+  (expr
+    (list
+      (bare_keyword_list
+        (keyword)
+        (expr
+          (integer))))))

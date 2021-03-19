@@ -663,39 +663,270 @@ struct Scanner {
     }
   }
 
+  bool is_keyword_end(TSLexer *lexer, const bool *valid_symbols) {
+    if (valid_symbols[KEYWORD_LITERAL] && lexer->lookahead == ':') {
+      advance(lexer);
+      if (is_newline(lexer->lookahead) ||
+          is_whitespace(lexer->lookahead)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   bool is_binary_operator_next(TSLexer *lexer, const bool *valid_symbols, bool *reserved) {
     *reserved = false;
     if (memchr(&LINE_BREAK_OPERATORS, lexer->lookahead, sizeof(LINE_BREAK_OPERATORS)) != NULL) {
       switch(lexer->lookahead) {
+      // &&, &&&
       case '&':
         advance(lexer);
-        return lexer->lookahead == '&';
+        if (lexer->lookahead == '&') {
+          advance(lexer);
+          if (lexer->lookahead == '&') {
+            advance(lexer);
+            if (lexer->lookahead == ':') {
+              return !is_keyword_end(lexer, valid_symbols);
+            }
+            return true;
+          } else if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        }
+        return false;
+      // =, ==, =~, =>, ===
+      case '=':
+        advance(lexer);
+        if (lexer->lookahead == '=') {
+          advance(lexer);
+          if (lexer->lookahead == '=') {
+            advance(lexer);
+            if (lexer->lookahead == ':') {
+              return !is_keyword_end(lexer, valid_symbols);
+            }
+            return true;
+          } else if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        } else if (lexer->lookahead == '~') {
+          advance(lexer);
+          if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        } else if (lexer->lookahead == '>') {
+          advance(lexer);
+          if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        } else if (lexer->lookahead == ':') {
+          return !is_keyword_end(lexer, valid_symbols);
+        }
+        return true;
+      // ::
       case ':':
         advance(lexer);
         return lexer->lookahead == ':';
+      // ++, +++
       case '+':
         advance(lexer);
-        return lexer->lookahead == '+';
+        if (lexer->lookahead == '+') {
+          advance(lexer);
+          if (lexer->lookahead == '+') {
+            advance(lexer);
+            if (lexer->lookahead == ':') {
+              return !is_keyword_end(lexer, valid_symbols);
+            }
+            return true;
+          } else if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        }
+        return false;
+      // --, ---
       case '-':
         advance(lexer);
-        return lexer->lookahead == '-';
+        if (lexer->lookahead == '-') {
+          advance(lexer);
+          if (lexer->lookahead == '-') {
+            advance(lexer);
+            if (lexer->lookahead == ':') {
+              return !is_keyword_end(lexer, valid_symbols);
+            }
+            return true;
+          } else if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        }
+        return false;
+      // <, <-, <=, <<<, <<~, <~, <~>, <|>, <>
       case '<':
         advance(lexer);
-        return lexer->lookahead != '<';
+        if (lexer->lookahead == '=' ||
+            lexer->lookahead == '-' ||
+            lexer->lookahead == '>') {
+          advance(lexer);
+          if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        } else if (lexer->lookahead == '~') {
+          advance(lexer);
+          if (lexer->lookahead == '>') {
+            advance(lexer);
+            if (lexer->lookahead == ':') {
+              return !is_keyword_end(lexer, valid_symbols);
+            }
+            return true;
+          } else if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        } else if (lexer->lookahead == '|') {
+          advance(lexer);
+          if (lexer->lookahead == '>') {
+            advance(lexer);
+            if (lexer->lookahead == ':') {
+              return !is_keyword_end(lexer, valid_symbols);
+            }
+            return true;
+          }
+          return false;
+        } else if (lexer->lookahead == '<') {
+          advance(lexer);
+          if (lexer->lookahead == '<' ||
+              lexer->lookahead == '~') {
+            advance(lexer);
+            if (lexer->lookahead == ':') {
+              return !is_keyword_end(lexer, valid_symbols);
+            }
+            return true;
+          }
+          return false;
+        } else if (lexer->lookahead == ':') {
+          return !is_keyword_end(lexer, valid_symbols);
+        }
+        return true;
+      // >, >=, >>>
+      case '>':
+        advance(lexer);
+        if (lexer->lookahead == '=') {
+          advance(lexer);
+          if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        } else if (lexer->lookahead == '>') {
+          advance(lexer);
+          if (lexer->lookahead == '>') {
+            advance(lexer);
+            if (lexer->lookahead == ':') {
+              return !is_keyword_end(lexer, valid_symbols);
+            }
+            return true;
+          }
+          return false;
+        } else if (lexer->lookahead == ':') {
+          return !is_keyword_end(lexer, valid_symbols);
+        }
+        return true;
+      // ^^^
       case '^':
         advance(lexer);
-        if (lexer->lookahead != '^') return false;
-        advance(lexer);
-        return lexer->lookahead != '^';
+        if (lexer->lookahead == '^') {
+          advance(lexer);
+          if (lexer->lookahead == '^') {
+            advance(lexer);
+            if (lexer->lookahead == ':') {
+              return !is_keyword_end(lexer, valid_symbols);
+            }
+            return true;
+          }
+          return false;
+        }
+        return false;
+      // !=, !==
       case '!':
         advance(lexer);
-        return lexer->lookahead == '=';
+        if (lexer->lookahead == '=') {
+          advance(lexer);
+          if (lexer->lookahead == '=') {
+            advance(lexer);
+            if (lexer->lookahead == ':') {
+              return !is_keyword_end(lexer, valid_symbols);
+            }
+            return true;
+          } else if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        }
+        return false;
+      // ~>
       case '~':
         advance(lexer);
-        return lexer->lookahead != '>';
+        if (lexer->lookahead == '>') {
+          advance(lexer);
+          if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        }
+        return false;
+      // |, ||, |||
+      case '|':
+        advance(lexer);
+        if (lexer->lookahead == '|') {
+          advance(lexer);
+          if (lexer->lookahead == '|') {
+            advance(lexer);
+            if (lexer->lookahead == ':') {
+              return !is_keyword_end(lexer, valid_symbols);
+            }
+            return true;
+          } else if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        } else if (lexer->lookahead == '>') {
+          advance(lexer);
+          if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        } else if (lexer->lookahead == ':') {
+          return !is_keyword_end(lexer, valid_symbols);
+        }
+        return true;
+      // *, /
+      case '*':
+      case '/':
+        advance(lexer);
+        if (lexer->lookahead == ':') {
+          return !is_keyword_end(lexer, valid_symbols);
+        }
+        return true;
+      // ..
+      case '.':
+        advance(lexer);
+        if (lexer->lookahead == '.') {
+          advance(lexer);
+          if (lexer->lookahead == ':') {
+            return !is_keyword_end(lexer, valid_symbols);
+          }
+          return true;
+        }
+        return false;
+      // \\
       case '\\':
         advance(lexer);
-        return lexer->lookahead != '\\';
+        return lexer->lookahead == '\\';
+      // when
       case 'w':
         advance(lexer);
         if (lexer->lookahead != 'h') return false;
@@ -709,6 +940,7 @@ struct Scanner {
           return *reserved;
         }
         return false;
+      // and
       case 'a':
         advance(lexer);
         if (lexer->lookahead != 'n') return false;
@@ -720,6 +952,7 @@ struct Scanner {
           return *reserved;
         }
         return false;
+      // or
       case 'o':
         advance(lexer);
         if (lexer->lookahead != 'r') return false;
@@ -729,6 +962,7 @@ struct Scanner {
           return *reserved;
         }
         return false;
+      // in
       case 'i':
         advance(lexer);
         if (lexer->lookahead != 'n') return false;
@@ -738,6 +972,7 @@ struct Scanner {
           return *reserved;
         }
         return false;
+      // not in
       case 'n':
         advance(lexer);
         if (lexer->lookahead != 'o') return false;
