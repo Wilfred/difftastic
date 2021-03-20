@@ -260,10 +260,11 @@ module.exports = grammar({
     args: $ => seq(
       token.immediate('('),
       optional($._terminator),
-      optional(choice(
-        seq(commaSep($, $._expression), optional(seq(',', optional($._terminator), $.keyword_list))),
-        $.keyword_list
-      )),
+      choice(
+        seq($.keyword_list, optional(',')),
+        seq(commaSep($, $._expression)),
+        seq(commaSep1($, $._expression), seq(',', optional($._terminator), $.keyword_list, optional(','))),
+      ),
       optional($._terminator),
       ')'
     ),
@@ -311,7 +312,7 @@ module.exports = grammar({
       '>>'
     ),
 
-    keyword_list: $ => seq(commaSep1($, seq($.keyword, optional($._terminator), $._expression)), optional(','), optional($._terminator)),
+    keyword_list: $ => seq(commaSep1($, seq($.keyword, optional($._terminator), $._expression))),
 
     tuple: $ => seq(
       '{',

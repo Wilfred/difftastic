@@ -88,3 +88,22 @@ mixed
       (integer)
       (keyword)
       (integer))))
+
+================================================================================
+update syntax with hanging comma
+================================================================================
+
+%{john | name: "Jane",}
+
+--------------------------------------------------------------------------------
+
+(program
+  (map
+    (binary_op
+      (identifier)
+      (keyword_list
+        (keyword)
+        (string
+          (string_start)
+          (string_content)
+          (string_end))))))
