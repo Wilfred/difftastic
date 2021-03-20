@@ -35,7 +35,7 @@ function blockExpression($, name) {
     name,
     optional($._terminator),
     choice(
-      sep($.stab_expr, $._terminator),
+      sep($.stab_expression, $._terminator),
       sep($._expression, $._terminator),
     ),
     optional($._terminator),
@@ -102,7 +102,7 @@ module.exports = grammar({
     [$.keyword_list],
     [$.block, $._bare_args],
     [$.block, $.paren_expr, $._bare_args],
-    [$.block, $.stab_expr],
+    [$.block, $.stab_expression],
   ],
 
   word: $ => $.identifier,
@@ -138,7 +138,7 @@ module.exports = grammar({
     ),
 
     block: $ => seq(
-      '(', optional($._terminator), sep(choice($.stab_expr, $._expression), $._terminator), optional($._terminator), ')'
+      '(', optional($._terminator), sep(choice($.stab_expression, $._expression), $._terminator), optional($._terminator), ')'
     ),
 
     paren_expr: $ => seq(
@@ -256,7 +256,7 @@ module.exports = grammar({
     anonymous_function: $ => seq(
       alias($._fn, "fn"),
       optional($._terminator),
-      sep1($.stab_expr, $._terminator),
+      sep1($.stab_expression, $._terminator),
       optional($._terminator),
       alias($._end, "end")
     ),
@@ -327,7 +327,7 @@ module.exports = grammar({
       '}'
     ),
 
-    stab_expr: $ => seq(
+    stab_expression: $ => seq(
       optional(choice(seq('(', optional($._terminator), optional($._bare_args), optional($._terminator), ')'),
                       $._bare_args)),
       '->',

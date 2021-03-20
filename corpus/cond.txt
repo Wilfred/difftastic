@@ -13,13 +13,13 @@ end
   (call
     (identifier)
     (do_block
-      (stab_expr
+      (stab_expression
         (integer)
         (string
           (string_start)
           (string_content)
           (string_end)))
-      (stab_expr
+      (stab_expression
         (integer)
         (string
           (string_start)
@@ -40,7 +40,7 @@ end
   (call
     (identifier)
     (do_block
-      (stab_expr
+      (stab_expression
         (tuple
           (identifier))
         (string
@@ -65,13 +65,13 @@ end
   (call
     (identifier)
     (do_block
-      (stab_expr
+      (stab_expression
         (integer)
         (string
           (string_start)
           (string_content)
           (string_end)))
-      (stab_expr
+      (stab_expression
         (integer)
         (dot_call
           (identifier)
@@ -96,7 +96,7 @@ end
   (call
     (identifier)
     (do_block
-      (stab_expr
+      (stab_expression
         (binary_op
           (block
             (binary_op
@@ -110,6 +110,6 @@ end
               (arguments
                 (identifier)))))
         (integer))
-      (stab_expr
+      (stab_expression
         (true)
         (atom)))))

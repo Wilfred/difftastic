@@ -8,7 +8,7 @@ fn() -> a + b end
 
 (program
   (anonymous_function
-    (stab_expr
+    (stab_expression
       (block)
       (binary_op
         (identifier)
@@ -24,7 +24,7 @@ fn(a) -> a + b end
 
 (program
   (anonymous_function
-    (stab_expr
+    (stab_expression
       (block
         (identifier))
       (binary_op
@@ -41,7 +41,7 @@ fn(a, b) -> a + b end
 
 (program
   (anonymous_function
-    (stab_expr
+    (stab_expression
       (identifier)
       (identifier)
       (binary_op
@@ -61,7 +61,7 @@ end
 
 (program
   (anonymous_function
-    (stab_expr
+    (stab_expression
       (identifier)
       (identifier)
       (binary_op
@@ -79,7 +79,7 @@ fn -> a + b end
 
 (program
   (anonymous_function
-    (stab_expr
+    (stab_expression
       (binary_op
         (identifier)
         (identifier)))))
@@ -94,7 +94,7 @@ fn a -> a + b end
 
 (program
   (anonymous_function
-    (stab_expr
+    (stab_expression
       (identifier)
       (binary_op
         (identifier)
@@ -110,7 +110,7 @@ fn a, b -> a + b end
 
 (program
   (anonymous_function
-    (stab_expr
+    (stab_expression
       (identifier)
       (identifier)
       (binary_op
@@ -130,7 +130,7 @@ end
 
 (program
   (anonymous_function
-    (stab_expr
+    (stab_expression
       (identifier)
       (identifier)
       (binary_op
@@ -155,7 +155,7 @@ end)
     (arguments
       (identifier)
       (anonymous_function
-        (stab_expr
+        (stab_expression
           (dot_call
             (module)
             (identifier)
@@ -177,7 +177,7 @@ fun = fn () when node() == :nonode@nohost -> true end
   (binary_op
     (identifier)
     (anonymous_function
-      (stab_expr
+      (stab_expression
         (binary_op
           (block)
           (binary_op

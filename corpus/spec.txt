@@ -33,7 +33,7 @@ spec with splat
               (list
                 (identifier))
               (block
-                (stab_expr
+                (stab_expression
                   (identifier)
                   (tuple
                     (identifier)

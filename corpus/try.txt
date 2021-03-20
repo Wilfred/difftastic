@@ -28,7 +28,7 @@ end
         (arguments
           (identifier)))
       (rescue_block
-        (stab_expr
+        (stab_expression
           (module)
           (dot_call
             (module)
@@ -39,7 +39,7 @@ end
                 (string_content)
                 (string_end))))))
       (catch_block
-        (stab_expr
+        (stab_expression
           (identifier)
           (dot_call
             (module)
@@ -55,7 +55,7 @@ end
                       (identifier))))
                 (string_end))))))
       (else_block
-        (stab_expr
+        (stab_expression
           (identifier)
           (dot_call
             (module)
@@ -100,7 +100,7 @@ end
         (module)
         (identifier))
       (rescue_block
-        (stab_expr
+        (stab_expression
           (binary_op
             (identifier)
             (list
@@ -129,7 +129,7 @@ end
         (arguments
           (atom)))
       (catch_block
-        (stab_expr
+        (stab_expression
           (atom)
           (identifier)
           (dot_call
@@ -172,11 +172,11 @@ end
         (integer)
         (identifier))
       (rescue_block
-        (stab_expr
+        (stab_expression
           (module)
           (atom)))
       (else_block
-        (stab_expr
+        (stab_expression
           (binary_op
             (identifier)
             (binary_op
@@ -187,7 +187,7 @@ end
                 (identifier)
                 (integer))))
           (atom))
-        (stab_expr
+        (stab_expression
           (identifier)
           (atom))))))
 

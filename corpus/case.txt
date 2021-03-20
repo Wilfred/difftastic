@@ -14,13 +14,13 @@ end
     (identifier)
     (identifier)
     (do_block
-      (stab_expr
+      (stab_expression
         (integer)
         (string
           (string_start)
           (string_content)
           (string_end)))
-      (stab_expr
+      (stab_expression
         (integer)
         (string
           (string_start)
@@ -42,7 +42,7 @@ end
     (identifier)
     (identifier)
     (do_block
-      (stab_expr
+      (stab_expression
         (tuple
           (identifier))
         (string
@@ -68,13 +68,13 @@ end
     (identifier)
     (identifier)
     (do_block
-      (stab_expr
+      (stab_expression
         (integer)
         (string
           (string_start)
           (string_content)
           (string_end)))
-      (stab_expr
+      (stab_expression
         (integer)
         (dot_call
           (identifier)
@@ -98,7 +98,7 @@ end
     (identifier)
     (integer)
     (do_block
-      (stab_expr
+      (stab_expression
         (binary_op
           (identifier)
           (qualified_call
@@ -109,7 +109,7 @@ end
           (string_start)
           (string_content)
           (string_end)))
-      (stab_expr
+      (stab_expression
         (identifier)
         (binary_op
           (string
@@ -137,7 +137,7 @@ end
     (identifier)
     (identifier)
     (do_block
-      (stab_expr
+      (stab_expression
         (list
           (string
             (string_start)
@@ -149,7 +149,7 @@ end
           (arguments
             (identifier)
             (identifier))))
-      (stab_expr
+      (stab_expression
         (list
           (string
             (string_start)
@@ -178,7 +178,7 @@ end
     (identifier)
     (identifier)
     (do_block
-      (stab_expr
+      (stab_expression
         (binary_op
           (binary
             (string
@@ -194,7 +194,7 @@ end
               (identifier)
               (char))))
         (identifier))
-      (stab_expr
+      (stab_expression
         (binary_op
           (binary
             (string
@@ -227,7 +227,7 @@ end
     (identifier)
     (identifier)
     (do_block
-      (stab_expr
+      (stab_expression
         (integer)
         (qualified_call
           (identifier)
@@ -245,7 +245,7 @@ end
                           (string_end))
                         (identifier)))))
                 (identifier))))))
-      (stab_expr
+      (stab_expression
         (unary_op
           (integer))
         (qualified_call

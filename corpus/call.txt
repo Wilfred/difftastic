@@ -144,7 +144,7 @@ end
         (identifier)
         (arguments
           (anonymous_function
-            (stab_expr
+            (stab_expression
               (qualified_call
                 (identifier)
                 (arguments
@@ -627,7 +627,7 @@ Enum.join(" ")
           (string_end))))
     (dot_call
       (anonymous_function
-        (stab_expr
+        (stab_expression
           (block
             (identifier))
           (string
