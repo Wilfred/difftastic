@@ -20,7 +20,7 @@ keyword list
 (program
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (string
@@ -456,7 +456,7 @@ eval_binds(CONFIG: config, SCRIPT: script)
     (qualified_call
       (identifier)
       (args
-        (bare_keyword_list
+        (keyword_list
           (keyword)
           (expr
             (identifier))
@@ -475,7 +475,7 @@ operator keyword
 (program
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer))
@@ -506,7 +506,7 @@ string keyword
 (program
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword
           (string
             (string_start)
@@ -537,7 +537,7 @@ single quote string keyword
 (program
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword
           (string
             (string_start)
@@ -575,14 +575,14 @@ hanging comma
     (list
       (expr
         (map
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (identifier)))))
       (expr
         (struct
           (module)
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (identifier)))))
@@ -594,7 +594,7 @@ hanging comma
             (identifier))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (identifier)))))
@@ -672,7 +672,7 @@ raise ArgumentError,
       (identifier)
       (expr
         (module))
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (string
@@ -720,97 +720,97 @@ keyword with special chars
     (list
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer)))))
       (expr
         (list
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (integer))))))))
@@ -832,7 +832,7 @@ operator keyword
 (program
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (string
@@ -1038,295 +1038,295 @@ in: 1]
 (program
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer)))))
   (expr
     (list
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer))))))

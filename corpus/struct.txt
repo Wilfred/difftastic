@@ -36,7 +36,7 @@ with fields
   (expr
     (struct
       (module)
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer))

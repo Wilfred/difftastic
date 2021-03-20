@@ -19,7 +19,7 @@ function atleastOnce (rule) {
 }
 
 function binaryOp($, assoc, precedence, operator, bare_keyword) {
-  const right = bare_keyword ? choice($.expr, $.bare_keyword_list) : $.expr;
+  const right = bare_keyword ? choice($.expr, $.keyword_list) : $.expr;
   return assoc(precedence,
                seq(field('left', $.expr),
                    field('operator', operator),
@@ -99,7 +99,7 @@ module.exports = grammar({
     [$.call],
     [$._bare_args],
     [$._clause_body],
-    [$.bare_keyword_list],
+    [$.keyword_list],
     [$.block, $._bare_args],
     [$.block, $.paren_expr, $._bare_args],
     [$.block, $.stab_expr],
@@ -169,7 +169,7 @@ module.exports = grammar({
 
     binary_op: $ => choice(
       binaryOp($, prec.left, 40, choice('\\\\', '<-')),
-      binaryOp($, prec.right, 50, alias(alias($._when, "when"), 'when'), true),
+      binaryOp($, prec.right, 50, alias($._when, "when"), true),
       binaryOp($, prec.right, 60, '::'),
       binaryOp($, prec.right, 70, '|', true),
       binaryOp($, prec.right, 80, '=>'),
@@ -261,16 +261,16 @@ module.exports = grammar({
       token.immediate('('),
       optional($._terminator),
       optional(choice(
-        seq(commaSep($, $.expr), optional(seq(',', optional($._terminator), $.bare_keyword_list))),
-        $.bare_keyword_list
+        seq(commaSep($, $.expr), optional(seq(',', optional($._terminator), $.keyword_list))),
+        $.keyword_list
       )),
       optional($._terminator),
       ')'
     ),
 
     _bare_args: $ => choice(
-      seq(commaSep1($, $.expr), optional(seq(',', optional($._terminator), $.bare_keyword_list))),
-      $.bare_keyword_list
+      seq(commaSep1($, $.expr), optional(seq(',', optional($._terminator), $.keyword_list))),
+      $.keyword_list
     ),
 
     map: $ => seq(
@@ -311,7 +311,7 @@ module.exports = grammar({
       '>>'
     ),
 
-    bare_keyword_list: $ => seq(commaSep1($, seq($.keyword, optional($._terminator), $.expr)), optional(','), optional($._terminator)),
+    keyword_list: $ => seq(commaSep1($, seq($.keyword, optional($._terminator), $.expr)), optional(','), optional($._terminator)),
 
     tuple: $ => seq(
       '{',

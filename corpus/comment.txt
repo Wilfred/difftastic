@@ -11,7 +11,7 @@ hanging comment
 (program
   (expr
     (map
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer))

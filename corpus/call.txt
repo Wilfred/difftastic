@@ -41,11 +41,11 @@ Module.func!(
       (args
         (expr
           (identifier))
-        (bare_keyword_list
+        (keyword_list
           (keyword)
           (expr
             (list
-              (bare_keyword_list
+              (keyword_list
                 (keyword)
                 (expr
                   (atom))
@@ -61,7 +61,7 @@ Module.func!(
           (keyword)
           (expr
             (list
-              (bare_keyword_list
+              (keyword_list
                 (keyword)
                 (expr
                   (atom))
@@ -229,7 +229,7 @@ end
             (identifier)
             (expr
               (module))
-            (bare_keyword_list
+            (keyword_list
               (keyword)
               (expr
                 (integer))
@@ -333,11 +333,11 @@ import Kernel, except: [@: 1, defmodule: 2, def: 1, def: 2, defp: 2, defmacro: 1
       (identifier)
       (expr
         (module))
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (list
-            (bare_keyword_list
+            (keyword_list
               (keyword)
               (expr
                 (integer))
@@ -502,7 +502,7 @@ assert_diff(
             (expr
               (struct
                 (identifier)
-                (bare_keyword_list
+                (keyword_list
                   (keyword)
                   (expr
                     (unary_op
@@ -517,7 +517,7 @@ assert_diff(
             (expr
               (struct
                 (module)
-                (bare_keyword_list
+                (keyword_list
                   (keyword)
                   (expr
                     (string
@@ -587,7 +587,7 @@ map call
   (expr
     (dot_call
       (map
-        (bare_keyword_list
+        (keyword_list
           (keyword)
           (expr
             (atom))))
@@ -615,7 +615,7 @@ end
               (args
                 (expr
                   (module))))
-            (bare_keyword_list
+            (keyword_list
               (keyword)
               (expr
                 (integer)))))))))
@@ -640,7 +640,7 @@ Macro.to_string(quote(do: Foo."bar baz"().""())) == ~s/Foo."bar baz"().""()/
               (qualified_call
                 (identifier)
                 (args
-                  (bare_keyword_list
+                  (keyword_list
                     (keyword)
                     (expr
                       (dot_call
@@ -860,7 +860,7 @@ call(a: a, b: b,
     (qualified_call
       (identifier)
       (args
-        (bare_keyword_list
+        (keyword_list
           (keyword)
           (expr
             (identifier))

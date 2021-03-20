@@ -21,7 +21,7 @@ keyword
 (program
   (expr
     (map
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer))
@@ -71,7 +71,7 @@ update syntax
         (binary_op
           (expr
             (identifier))
-          (bare_keyword_list
+          (keyword_list
             (keyword)
             (expr
               (string
@@ -102,7 +102,7 @@ mixed
               (string_start)
               (string_content)
               (string_end)))))
-      (bare_keyword_list
+      (keyword_list
         (keyword)
         (expr
           (integer))

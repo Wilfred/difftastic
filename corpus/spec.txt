@@ -58,7 +58,7 @@ spec with splat
                           (identifier)))))
                   (expr
                     (atom))))
-              (bare_keyword_list
+              (keyword_list
                 (keyword)
                 (expr
                   (qualified_call
