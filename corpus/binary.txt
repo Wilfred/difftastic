@@ -7,60 +7,39 @@ binary expression
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (binary
-      (expr
-        (string
-          (string_start)
-          (string_content)
-          (string_end)))
-      (expr
-        (binary_op
-          (expr
-            (identifier))
-          (expr
-            (binary_op
-              (expr
-                (identifier))
-              (expr
-                (qualified_call
-                  (identifier)
-                  (args
-                    (expr
-                      (identifier)))))))))
-      (expr
-        (binary_op
-          (expr
-            (identifier))
-          (expr
-            (binary_op
-              (expr
-                (identifier))
-              (expr
-                (qualified_call
-                  (identifier)
-                  (args
-                    (expr
-                      (identifier)))))))))
-      (expr
-        (binary_op
-          (expr
-            (identifier))
-          (expr
-            (binary_op
-              (expr
-                (identifier))
-              (expr
-                (qualified_call
-                  (identifier)
-                  (args
-                    (expr
-                      (identifier)))))))))
-      (expr
-        (string
-          (string_start)
-          (string_content)
-          (string_end))))))
+  (binary
+    (string
+      (string_start)
+      (string_content)
+      (string_end))
+    (binary_op
+      (identifier)
+      (binary_op
+        (identifier)
+        (qualified_call
+          (identifier)
+          (args
+            (identifier)))))
+    (binary_op
+      (identifier)
+      (binary_op
+        (identifier)
+        (qualified_call
+          (identifier)
+          (args
+            (identifier)))))
+    (binary_op
+      (identifier)
+      (binary_op
+        (identifier)
+        (qualified_call
+          (identifier)
+          (args
+            (identifier)))))
+    (string
+      (string_start)
+      (string_content)
+      (string_end))))
 
 ================================================================================
 simple
@@ -71,13 +50,11 @@ simple
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (binary
-      (expr
-        (string
-          (string_start)
-          (string_content)
-          (string_end))))))
+  (binary
+    (string
+      (string_start)
+      (string_content)
+      (string_end))))
 
 ================================================================================
 empty
@@ -88,5 +65,4 @@ empty
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (binary)))
+  (binary))

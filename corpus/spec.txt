@@ -14,56 +14,38 @@ spec with splat
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (unary_op
-      (expr
-        (call
-          (identifier)
-          (expr
-            (binary_op
-              (expr
-                (binary_op
-                  (expr
-                    (qualified_call
-                      (identifier)
-                      (args
-                        (expr
-                          (dot_call
-                            (module)
-                            (identifier)
-                            (args)))
-                        (expr
-                          (dot_call
-                            (module)
-                            (identifier)
-                            (args)))
-                        (expr
-                          (list
-                            (expr
-                              (identifier))))
-                        (expr
-                          (block
-                            (stab_expr
-                              (expr
-                                (identifier))
-                              (expr
-                                (tuple
-                                  (expr
-                                    (identifier))
-                                  (expr
-                                    (list
-                                      (expr
-                                        (identifier)))))))))
-                        (expr
-                          (identifier)))))
-                  (expr
-                    (atom))))
-              (keyword_list
-                (keyword)
-                (expr
-                  (qualified_call
+  (unary_op
+    (call
+      (identifier)
+      (binary_op
+        (binary_op
+          (qualified_call
+            (identifier)
+            (args
+              (dot_call
+                (module)
+                (identifier)
+                (args))
+              (dot_call
+                (module)
+                (identifier)
+                (args))
+              (list
+                (identifier))
+              (block
+                (stab_expr
+                  (identifier)
+                  (tuple
                     (identifier)
-                    (args)))))))))))
+                    (list
+                      (identifier)))))
+              (identifier)))
+          (atom))
+        (keyword_list
+          (keyword)
+          (qualified_call
+            (identifier)
+            (args)))))))
 
 ================================================================================
 non empty list
@@ -74,13 +56,8 @@ non empty list
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (unary_op
-      (expr
-        (call
-          (identifier)
-          (expr
-            (list
-              (expr
-                (identifier))
-              (expr))))))))
+  (unary_op
+    (call
+      (identifier)
+      (list
+        (identifier)))))

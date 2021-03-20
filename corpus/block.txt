@@ -12,37 +12,27 @@ end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (unary_op
-      (expr
-        (call
-          (identifier)
-          (expr
-            (binary_op
-              (expr
-                (qualified_call
-                  (identifier)
-                  (args)))
-              (expr
-                (qualified_call
-                  (identifier)
-                  (args)))))))))
-  (expr
+  (unary_op
     (call
       (identifier)
-      (expr
-        (identifier))
-      (do_block
-        (comment)
-        (expr
-          (dot_call
-            (module)
-            (identifier)
-            (args
-              (expr
-                (atom))
-              (expr
-                (atom)))))))))
+      (binary_op
+        (qualified_call
+          (identifier)
+          (args))
+        (qualified_call
+          (identifier)
+          (args)))))
+  (call
+    (identifier)
+    (identifier)
+    (do_block
+      (comment)
+      (dot_call
+        (module)
+        (identifier)
+        (args
+          (atom)
+          (atom))))))
 
 ================================================================================
 def with guard
@@ -55,36 +45,26 @@ end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (call
-      (identifier)
-      (expr
-        (binary_op
-          (expr
-            (qualified_call
-              (identifier)
-              (args
-                (expr
-                  (identifier)))))
-          (expr
-            (qualified_call
-              (identifier)
-              (args
-                (expr
-                  (identifier)))))))
-      (do_block
-        (expr
+  (call
+    (identifier)
+    (binary_op
+      (qualified_call
+        (identifier)
+        (args
+          (identifier)))
+      (qualified_call
+        (identifier)
+        (args
+          (identifier))))
+    (do_block
+      (qualified_call
+        (identifier)
+        (args
+          (identifier)
           (qualified_call
             (identifier)
             (args
-              (expr
-                (identifier))
-              (expr
-                (qualified_call
-                  (identifier)
-                  (args
-                    (expr
-                      (identifier))))))))))))
+              (identifier))))))))
 
 ================================================================================
 def with multiline guard
@@ -100,88 +80,51 @@ end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (call
-      (identifier)
-      (expr
-        (binary_op
-          (expr
-            (qualified_call
-              (identifier)
-              (args
-                (expr
-                  (list
-                    (expr
-                      (binary_op
-                        (expr
-                          (identifier))
-                        (expr
-                          (identifier))))))
-                (expr
-                  (identifier)))))
-          (comment)
-          (expr
+  (call
+    (identifier)
+    (binary_op
+      (qualified_call
+        (identifier)
+        (args
+          (list
             (binary_op
-              (expr
-                (qualified_call
+              (identifier)
+              (identifier)))
+          (identifier)))
+      (comment)
+      (binary_op
+        (qualified_call
+          (identifier)
+          (args
+            (identifier)))
+        (block
+          (binary_op
+            (binary_op
+              (block
+                (binary_op
+                  (binary_op
+                    (identifier)
+                    (integer))
+                  (binary_op
+                    (identifier)
+                    (integer))))
+              (binary_op
+                (identifier)
+                (char)))
+            (block
+              (binary_op
+                (binary_op
                   (identifier)
-                  (args
-                    (expr
-                      (identifier)))))
-              (expr
-                (block
-                  (expr
-                    (binary_op
-                      (expr
-                        (binary_op
-                          (expr
-                            (block
-                              (expr
-                                (binary_op
-                                  (expr
-                                    (binary_op
-                                      (expr
-                                        (identifier))
-                                      (expr
-                                        (integer))))
-                                  (expr
-                                    (binary_op
-                                      (expr
-                                        (identifier))
-                                      (expr
-                                        (integer))))))))
-                          (expr
-                            (binary_op
-                              (expr
-                                (identifier))
-                              (expr
-                                (char))))))
-                      (expr
-                        (block
-                          (expr
-                            (binary_op
-                              (expr
-                                (binary_op
-                                  (expr
-                                    (identifier))
-                                  (expr
-                                    (integer))))
-                              (expr
-                                (binary_op
-                                  (expr
-                                    (identifier))
-                                  (expr
-                                    (integer))))))))))))))))
-      (do_block
-        (expr
+                  (integer))
+                (binary_op
+                  (identifier)
+                  (integer))))))))
+    (do_block
+      (qualified_call
+        (identifier)
+        (args
+          (identifier)
           (qualified_call
             (identifier)
             (args
-              (expr
-                (identifier))
-              (expr
-                (qualified_call
-                  (identifier)
-                  (args
-                    (expr
-                      (identifier))))))))))))
+              (identifier))))))))

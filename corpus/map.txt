@@ -7,8 +7,7 @@ empty
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (map)))
+  (map))
 
 ================================================================================
 keyword
@@ -19,15 +18,12 @@ keyword
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (map
-      (keyword_list
-        (keyword)
-        (expr
-          (integer))
-        (keyword)
-        (expr
-          (integer))))))
+  (map
+    (keyword_list
+      (keyword)
+      (integer)
+      (keyword)
+      (integer))))
 
 ================================================================================
 non atom key
@@ -38,23 +34,16 @@ non atom key
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (map
-      (expr
-        (binary_op
-          (expr
-            (string
-              (string_start)
-              (string_content)
-              (string_end)))
-          (expr
-            (integer))))
-      (expr
-        (binary_op
-          (expr
-            (identifier))
-          (expr
-            (integer)))))))
+  (map
+    (binary_op
+      (string
+        (string_start)
+        (string_content)
+        (string_end))
+      (integer))
+    (binary_op
+      (identifier)
+      (integer))))
 
 ================================================================================
 update syntax
@@ -65,19 +54,15 @@ update syntax
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (map
-      (expr
-        (binary_op
-          (expr
-            (identifier))
-          (keyword_list
-            (keyword)
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))))))))
+  (map
+    (binary_op
+      (identifier)
+      (keyword_list
+        (keyword)
+        (string
+          (string_start)
+          (string_content)
+          (string_end))))))
 
 ================================================================================
 mixed
@@ -88,24 +73,18 @@ mixed
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (map
-      (expr
-        (binary_op
-          (expr
-            (string
-              (string_start)
-              (string_content)
-              (string_end)))
-          (expr
-            (string
-              (string_start)
-              (string_content)
-              (string_end)))))
-      (keyword_list
-        (keyword)
-        (expr
-          (integer))
-        (keyword)
-        (expr
-          (integer))))))
+  (map
+    (binary_op
+      (string
+        (string_start)
+        (string_content)
+        (string_end))
+      (string
+        (string_start)
+        (string_content)
+        (string_end)))
+    (keyword_list
+      (keyword)
+      (integer)
+      (keyword)
+      (integer))))

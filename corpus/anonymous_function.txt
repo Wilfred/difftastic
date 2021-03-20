@@ -7,17 +7,12 @@ fn() -> a + b end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (anonymous_function
-      (stab_expr
-        (expr
-          (block))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (identifier))))))))
+  (anonymous_function
+    (stab_expr
+      (block)
+      (binary_op
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 parenthesized one arg
@@ -28,19 +23,13 @@ fn(a) -> a + b end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (anonymous_function
-      (stab_expr
-        (expr
-          (block
-            (expr
-              (identifier))))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (identifier))))))))
+  (anonymous_function
+    (stab_expr
+      (block
+        (identifier))
+      (binary_op
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 parenthesized multi args
@@ -51,19 +40,13 @@ fn(a, b) -> a + b end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (anonymous_function
-      (stab_expr
-        (expr
-          (identifier))
-        (expr
-          (identifier))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (identifier))))))))
+  (anonymous_function
+    (stab_expr
+      (identifier)
+      (identifier)
+      (binary_op
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 parenthesized multi args, multi line body
@@ -77,21 +60,14 @@ end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (anonymous_function
-      (stab_expr
-        (expr
-          (identifier))
-        (expr
-          (identifier))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (identifier))))
-        (expr
-          (integer))))))
+  (anonymous_function
+    (stab_expr
+      (identifier)
+      (identifier)
+      (binary_op
+        (identifier)
+        (identifier))
+      (integer))))
 
 ================================================================================
 non parenthesized no arg
@@ -102,15 +78,11 @@ fn -> a + b end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (anonymous_function
-      (stab_expr
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (identifier))))))))
+  (anonymous_function
+    (stab_expr
+      (binary_op
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 non parenthesized one arg
@@ -121,17 +93,12 @@ fn a -> a + b end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (anonymous_function
-      (stab_expr
-        (expr
-          (identifier))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (identifier))))))))
+  (anonymous_function
+    (stab_expr
+      (identifier)
+      (binary_op
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 non parenthesized multi args
@@ -142,19 +109,13 @@ fn a, b -> a + b end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (anonymous_function
-      (stab_expr
-        (expr
-          (identifier))
-        (expr
-          (identifier))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (identifier))))))))
+  (anonymous_function
+    (stab_expr
+      (identifier)
+      (identifier)
+      (binary_op
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 non parenthesized multi args, multi line body
@@ -168,21 +129,14 @@ end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (anonymous_function
-      (stab_expr
-        (expr
-          (identifier))
-        (expr
-          (identifier))
-        (expr
-          (binary_op
-            (expr
-              (identifier))
-            (expr
-              (identifier))))
-        (expr
-          (integer))))))
+  (anonymous_function
+    (stab_expr
+      (identifier)
+      (identifier)
+      (binary_op
+        (identifier)
+        (identifier))
+      (integer))))
 
 ================================================================================
 non parenthesized body with dot call
@@ -195,26 +149,21 @@ end)
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (dot_call
-      (module)
+  (dot_call
+    (module)
+    (identifier)
+    (args
       (identifier)
-      (args
-        (expr
-          (identifier))
-        (expr
-          (anonymous_function
-            (stab_expr
-              (expr
-                (dot_call
-                  (module)
-                  (identifier)
-                  (args
-                    (expr
-                      (string
-                        (string_start)
-                        (string_content)
-                        (string_end)))))))))))))
+      (anonymous_function
+        (stab_expr
+          (dot_call
+            (module)
+            (identifier)
+            (args
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))))))
 
 ================================================================================
 no arg with guard
@@ -225,24 +174,15 @@ fun = fn () when node() == :nonode@nohost -> true end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (binary_op
-      (expr
-        (identifier))
-      (expr
-        (anonymous_function
-          (stab_expr
-            (expr
-              (binary_op
-                (expr
-                  (block))
-                (expr
-                  (binary_op
-                    (expr
-                      (qualified_call
-                        (identifier)
-                        (args)))
-                    (expr
-                      (atom))))))
-            (expr
-              (true))))))))
+  (binary_op
+    (identifier)
+    (anonymous_function
+      (stab_expr
+        (binary_op
+          (block)
+          (binary_op
+            (qualified_call
+              (identifier)
+              (args))
+            (atom)))
+        (true)))))

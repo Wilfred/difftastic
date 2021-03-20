@@ -8,9 +8,7 @@ end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (call
-      (identifier)
-      (expr
-        (module))
-      (do_block))))
+  (call
+    (identifier)
+    (module)
+    (do_block)))

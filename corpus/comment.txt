@@ -9,16 +9,12 @@ hanging comment
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (map
-      (keyword_list
-        (keyword)
-        (expr
-          (integer))
-        (keyword)
-        (expr
-          (integer))
-        (comment)
-        (keyword)
-        (expr
-          (integer))))))
+  (map
+    (keyword_list
+      (keyword)
+      (integer)
+      (keyword)
+      (integer)
+      (comment)
+      (keyword)
+      (integer))))

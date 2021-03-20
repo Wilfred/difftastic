@@ -11,16 +11,11 @@ end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (call
+  (call
+    (identifier)
+    (unary_op
+      (identifier))
+    (do_block
       (identifier)
-      (expr
-        (unary_op
-          (expr
-            (identifier))))
-      (do_block
-        (expr
-          (identifier))
-        (else_block
-          (expr
-            (identifier)))))))
+      (else_block
+        (identifier)))))

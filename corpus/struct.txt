@@ -7,9 +7,8 @@ empty
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (struct
-      (module))))
+  (struct
+    (module)))
 
 ================================================================================
 identifier
@@ -20,9 +19,8 @@ identifier
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (struct
-      (identifier))))
+  (struct
+    (identifier)))
 
 ================================================================================
 with fields
@@ -33,19 +31,16 @@ with fields
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (struct
-      (module)
-      (keyword_list
-        (keyword)
-        (expr
-          (integer))
-        (keyword)
-        (expr
-          (string
-            (string_start)
-            (string_content)
-            (string_end)))))))
+  (struct
+    (module)
+    (keyword_list
+      (keyword)
+      (integer)
+      (keyword)
+      (string
+        (string_start)
+        (string_content)
+        (string_end)))))
 
 ================================================================================
 with dot call
@@ -56,8 +51,7 @@ with dot call
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (struct
-      (dot_call
-        (identifier)
-        (module)))))
+  (struct
+    (dot_call
+      (identifier)
+      (module))))

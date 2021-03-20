@@ -19,15 +19,15 @@ function atleastOnce (rule) {
 }
 
 function binaryOp($, assoc, precedence, operator, bare_keyword) {
-  const right = bare_keyword ? choice($.expr, $.keyword_list) : $.expr;
+  const right = bare_keyword ? choice($._expression, $.keyword_list) : $._expression;
   return assoc(precedence,
-               seq(field('left', $.expr),
+               seq(field('left', $._expression),
                    field('operator', operator),
                    optional($._terminator), field('right', right)));
 }
 
 function unaryOp($, assoc, precedence, operator) {
-  return assoc(precedence, seq(field('operator', operator), $.expr));
+  return assoc(precedence, seq(field('operator', operator), $._expression));
 }
 
 function blockExpression($, name) {
@@ -36,7 +36,7 @@ function blockExpression($, name) {
     optional($._terminator),
     choice(
       sep($.stab_expr, $._terminator),
-      sep($.expr, $._terminator),
+      sep($._expression, $._terminator),
     ),
     optional($._terminator),
   ));
@@ -108,9 +108,9 @@ module.exports = grammar({
   word: $ => $.identifier,
 
   rules: {
-    program: $ => seq(optional($._terminator), sep($.expr, $._terminator), optional($._terminator)),
+    program: $ => seq(optional($._terminator), sep($._expression, $._terminator), optional($._terminator)),
 
-    expr: $ => choice(
+    _expression: $ => choice(
       $.binary_op,
       $.unary_op,
       $.capture_op,
@@ -138,11 +138,11 @@ module.exports = grammar({
     ),
 
     block: $ => seq(
-      '(', optional($._terminator), sep(choice($.stab_expr, $.expr), $._terminator), optional($._terminator), ')'
+      '(', optional($._terminator), sep(choice($.stab_expr, $._expression), $._terminator), optional($._terminator), ')'
     ),
 
     paren_expr: $ => seq(
-      '(', optional($._terminator), $.expr, optional($._terminator), ')'
+      '(', optional($._terminator), $._expression, optional($._terminator), ')'
     ),
 
     qualified_call: $ => seq(
@@ -231,9 +231,9 @@ module.exports = grammar({
     ),
 
     access_call: $ => prec.left(PREC.ACCESS_CALL, seq(
-      $.expr,
+      $._expression,
       token.immediate('['),
-      $.expr,
+      $._expression,
       ']'
     )),
 
@@ -261,7 +261,7 @@ module.exports = grammar({
       token.immediate('('),
       optional($._terminator),
       optional(choice(
-        seq(commaSep($, $.expr), optional(seq(',', optional($._terminator), $.keyword_list))),
+        seq(commaSep($, $._expression), optional(seq(',', optional($._terminator), $.keyword_list))),
         $.keyword_list
       )),
       optional($._terminator),
@@ -269,7 +269,7 @@ module.exports = grammar({
     ),
 
     _bare_args: $ => choice(
-      seq(commaSep1($, $.expr), optional(seq(',', optional($._terminator), $.keyword_list))),
+      seq(commaSep1($, $._expression), optional(seq(',', optional($._terminator), $.keyword_list))),
       $.keyword_list
     ),
 
@@ -311,7 +311,7 @@ module.exports = grammar({
       '>>'
     ),
 
-    keyword_list: $ => seq(commaSep1($, seq($.keyword, optional($._terminator), $.expr)), optional(','), optional($._terminator)),
+    keyword_list: $ => seq(commaSep1($, seq($.keyword, optional($._terminator), $._expression)), optional(','), optional($._terminator)),
 
     tuple: $ => seq(
       '{',
@@ -330,7 +330,7 @@ module.exports = grammar({
       $._clause_body
     ),
 
-    _clause_body: $ => seq($.expr, optional(seq($._terminator, $._clause_body))),
+    _clause_body: $ => seq($._expression, optional(seq($._terminator, $._clause_body))),
 
     heredoc: $ => seq(
       $.heredoc_start,
@@ -381,7 +381,7 @@ module.exports = grammar({
     ),
 
     interpolation: $ => seq(
-      '#{', optional($._terminator), sep($.expr, $._terminator), optional($._terminator), '}'
+      '#{', optional($._terminator), sep($._expression, $._terminator), optional($._terminator), '}'
     ),
 
     // https://hexdocs.pm/elixir/master/String.html#module-escape-characters

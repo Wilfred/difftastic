@@ -7,14 +7,11 @@ y(+1)
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (qualified_call
-      (identifier)
-      (args
-        (expr
-          (unary_op
-            (expr
-              (integer))))))))
+  (qualified_call
+    (identifier)
+    (args
+      (unary_op
+        (integer)))))
 
 ================================================================================
 binary
@@ -25,12 +22,9 @@ y+1
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (binary_op
-      (expr
-        (identifier))
-      (expr
-        (integer)))))
+  (binary_op
+    (identifier)
+    (integer)))
 
 ================================================================================
 and expression
@@ -41,20 +35,13 @@ y < 1 and x > 1
 --------------------------------------------------------------------------------
 
 (program
-  (expr
+  (binary_op
     (binary_op
-      (expr
-        (binary_op
-          (expr
-            (identifier))
-          (expr
-            (integer))))
-      (expr
-        (binary_op
-          (expr
-            (identifier))
-          (expr
-            (integer)))))))
+      (identifier)
+      (integer))
+    (binary_op
+      (identifier)
+      (integer))))
 
 ================================================================================
 bitwise shift
@@ -65,16 +52,11 @@ bitwise shift
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (binary_op
-      (expr
-        (unary_op
-          (expr
-            (integer))))
-      (expr
-        (unary_op
-          (expr
-            (integer)))))))
+  (binary_op
+    (unary_op
+      (integer))
+    (unary_op
+      (integer))))
 
 ================================================================================
 bitwise or
@@ -85,12 +67,9 @@ a ||| b
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (binary_op
-      (expr
-        (identifier))
-      (expr
-        (identifier)))))
+  (binary_op
+    (identifier)
+    (identifier)))
 
 ================================================================================
 bitwise expression
@@ -101,14 +80,10 @@ bitwise expression
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (binary_op
-      (expr
-        (unary_op
-          (expr
-            (integer))))
-      (expr
-        (integer)))))
+  (binary_op
+    (unary_op
+      (integer))
+    (integer)))
 
 ================================================================================
 and on next line
@@ -119,9 +94,6 @@ a
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (binary_op
-      (expr
-        (identifier))
-      (expr
-        (identifier)))))
+  (binary_op
+    (identifier)
+    (identifier)))

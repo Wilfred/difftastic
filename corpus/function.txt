@@ -9,42 +9,29 @@ end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
+  (call
+    (identifier)
     (call
-      (identifier)
-      (expr
-        (call
-          (qualified_call
-            (identifier)
-            (args
-              (expr
-                (identifier))))
+      (qualified_call
+        (identifier)
+        (args
+          (identifier)))
+      (args
+        (identifier)
+        (binary_op
+          (identifier)
+          (list)))
+      (do_block
+        (qualified_call
+          (identifier)
           (args
-            (expr
-              (identifier))
-            (expr
-              (binary_op
-                (expr
-                  (identifier))
-                (expr
-                  (list)))))
-          (do_block
-            (expr
-              (qualified_call
-                (identifier)
-                (args
-                  (expr
-                    (qualified_call
-                      (identifier)
-                      (args
-                        (expr
-                          (identifier)))))
-                  (expr
-                    (identifier))
-                  (expr
-                    (identifier))
-                  (expr
-                    (identifier)))))))))))
+            (qualified_call
+              (identifier)
+              (args
+                (identifier)))
+            (identifier)
+            (identifier)
+            (identifier)))))))
 
 ================================================================================
 multine def
@@ -58,11 +45,8 @@ end
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (call
-      (identifier)
-      (expr
-        (identifier))
-      (do_block
-        (expr
-          (integer))))))
+  (call
+    (identifier)
+    (identifier)
+    (do_block
+      (integer))))

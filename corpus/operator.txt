@@ -7,17 +7,13 @@ not Map.has_key?(set, tuple)
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (unary_op
-      (expr
-        (dot_call
-          (module)
-          (identifier)
-          (args
-            (expr
-              (identifier))
-            (expr
-              (identifier))))))))
+  (unary_op
+    (dot_call
+      (module)
+      (identifier)
+      (args
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 not in
@@ -28,13 +24,8 @@ x not in [y, z]
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (binary_op
-      (expr
-        (identifier))
-      (expr
-        (list
-          (expr
-            (identifier))
-          (expr
-            (identifier)))))))
+  (binary_op
+    (identifier)
+    (list
+      (identifier)
+      (identifier))))

@@ -8,17 +8,13 @@ not in ["a"]
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (binary_op
-      (expr
-        (identifier))
-      (expr
-        (list
-          (expr
-            (string
-              (string_start)
-              (string_content)
-              (string_end))))))))
+  (binary_op
+    (identifier)
+    (list
+      (string
+        (string_start)
+        (string_content)
+        (string_end)))))
 
 ================================================================================
 in
@@ -30,17 +26,13 @@ in ["a"]
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (binary_op
-      (expr
-        (identifier))
-      (expr
-        (list
-          (expr
-            (string
-              (string_start)
-              (string_content)
-              (string_end))))))))
+  (binary_op
+    (identifier)
+    (list
+      (string
+        (string_start)
+        (string_content)
+        (string_end)))))
 
 ================================================================================
 not
@@ -52,9 +44,6 @@ not y
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (identifier))
-  (expr
-    (unary_op
-      (expr
-        (identifier)))))
+  (identifier)
+  (unary_op
+    (identifier)))

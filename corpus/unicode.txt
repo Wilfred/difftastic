@@ -7,35 +7,25 @@ atom
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (tuple
-      (expr
-        (atom))
-      (expr
-        (atom))
-      (expr
-        (atom
-          (atom_start)
-          (atom_content)
-          (atom_end)))
-      (expr
-        (string
-          (string_start)
-          (string_content)
-          (string_end)))
-      (expr
-        (string
-          (string_start)
-          (string_content)
-          (string_end)))
-      (expr
-        (atom))
-      (expr
-        (atom))
-      (expr
-        (atom))
-      (expr
-        (atom)))))
+  (tuple
+    (atom)
+    (atom)
+    (atom
+      (atom_start)
+      (atom_content)
+      (atom_end))
+    (string
+      (string_start)
+      (string_content)
+      (string_end))
+    (string
+      (string_start)
+      (string_content)
+      (string_end))
+    (atom)
+    (atom)
+    (atom)
+    (atom)))
 
 ================================================================================
 char
@@ -46,14 +36,10 @@ char
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (list
-      (expr
-        (char))
-      (expr
-        (char))
-      (expr
-        (char)))))
+  (list
+    (char)
+    (char)
+    (char)))
 
 ================================================================================
 string
@@ -64,25 +50,20 @@ string
 --------------------------------------------------------------------------------
 
 (program
-  (expr
-    (list
-      (expr
-        (string
-          (string_start)
-          (string_content)
-          (string_end)))
-      (expr
-        (string
-          (string_start)
-          (string_content)
-          (string_end)))
-      (expr
-        (string
-          (string_start)
-          (string_content)
-          (string_end)))
-      (expr
-        (string
-          (string_start)
-          (string_content)
-          (string_end))))))
+  (list
+    (string
+      (string_start)
+      (string_content)
+      (string_end))
+    (string
+      (string_start)
+      (string_content)
+      (string_end))
+    (string
+      (string_start)
+      (string_content)
+      (string_end))
+    (string
+      (string_start)
+      (string_content)
+      (string_end))))
