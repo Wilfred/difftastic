@@ -38,8 +38,8 @@ pub struct LinePosition {
 pub struct LineRange {
     /// All zero-indexed.
     pub line: LineNumber,
-    pub start: usize,
-    pub end: usize,
+    pub start_col: usize,
+    pub end_col: usize,
 }
 
 /// A struct for efficiently converting absolute string positions to
@@ -89,8 +89,8 @@ impl NewlinePositions {
         if start.line == end.line {
             ranges.push(LineRange {
                 line: start.line,
-                start: start.column,
-                end: end.column,
+                start_col: start.column,
+                end_col: end.column,
             });
             return ranges;
         } else {
@@ -98,8 +98,8 @@ impl NewlinePositions {
             let first_line_length = first_line_end_pos - self.positions[start.line.number];
             ranges.push(LineRange {
                 line: start.line,
-                start: start.column,
-                end: first_line_length,
+                start_col: start.column,
+                end_col: first_line_length,
             });
         }
 
@@ -108,16 +108,16 @@ impl NewlinePositions {
             let line_length = line_end_pos - self.positions[line_num];
             ranges.push(LineRange {
                 line: line_num.into(),
-                start: 0,
-                end: line_length,
+                start_col: 0,
+                end_col: line_length,
             });
         }
 
         // Last line, up to end.
         ranges.push(LineRange {
             line: end.line,
-            start: 0,
-            end: end.column,
+            start_col: 0,
+            end_col: end.column,
         });
 
         ranges
@@ -160,8 +160,8 @@ fn from_ranges_first_line() {
         relative_ranges,
         vec![LineRange {
             line: 0.into(),
-            start: 1,
-            end: 3
+            start_col: 1,
+            end_col: 3
         }]
     );
 }
@@ -176,13 +176,13 @@ fn from_ranges_split_over_multiple_lines() {
         vec![
             (LineRange {
                 line: 1.into(),
-                start: 1,
-                end: 3
+                start_col: 1,
+                end_col: 3
             }),
             (LineRange {
                 line: 2.into(),
-                start: 0,
-                end: 2
+                start_col: 0,
+                end_col: 2
             })
         ]
     );

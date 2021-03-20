@@ -124,8 +124,8 @@ fn apply_color_by_line(s: &str, ranges: &[LineRange], c: Color) -> String {
                 let ranges: Vec<_> = line_ranges
                     .iter()
                     .map(|lr| AbsoluteRange {
-                        start: lr.start,
-                        end: lr.end,
+                        start: lr.start_col,
+                        end: lr.end_col,
                     })
                     .collect();
 
@@ -272,8 +272,8 @@ pub fn highlight_differences_combined(
                 let ranges: Vec<_> = line_ranges
                     .iter()
                     .map(|lr| AbsoluteRange {
-                        start: lr.start,
-                        end: lr.end,
+                        start: lr.start_col,
+                        end: lr.end_col,
                     })
                     .collect();
 
@@ -293,8 +293,8 @@ pub fn highlight_differences_combined(
                 let ranges: Vec<_> = line_ranges
                     .iter()
                     .map(|lr| AbsoluteRange {
-                        start: lr.start,
-                        end: lr.end,
+                        start: lr.start_col,
+                        end: lr.end_col,
                     })
                     .collect();
 
