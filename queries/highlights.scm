@@ -10,35 +10,33 @@
 (escape_sequence) @escape
 
 (call (identifier) @keyword
-      (#match? @keyword "^defmodule|defexception|defp|def|with|case|cond|raise|import|require$"))
+      (#match? @keyword "^(defmodule|defexception|defp|def|with|case|cond|raise|import|require|use|defmacro|defguard|defstruct|alias)$"))
 
 (call (identifier) @keyword
       [(qualified_call
         (identifier) @function)
-       (identifier) @function]
-      (#match? @keyword "^defp|def$"))
-
-(call (identifier) @keyword
-      (binary_op
+       (identifier) @function
+       (binary_op
         left:
         [(qualified_call
-           name: (identifier) @function)
-          (identifier) @function]
-        operator: "when")
-      (#match? @keyword "^defp|def$"))
+          name: (identifier) @function)
+         (identifier) @function]
+        operator: "when")]
+      (#match? @keyword "^(defp|def|defmacro|defguard|defdelegate)$"))
 
 (unary_op
  operator: "@"
  (call (identifier) @attribute
        (heredoc) @doc)
- (#match? @attribute "^doc|moduledoc$"))
+ (#match? @attribute "^(doc|moduledoc)$"))
 
 (module) @type
 
 (unary_op
  operator: "@" @attribute
- (call
-  name: (identifier) @attribute))
+ [(call
+   name: (identifier) @attribute)
+  (identifier) @attribute])
 
 (unary_op
  operator: _ @operator)
