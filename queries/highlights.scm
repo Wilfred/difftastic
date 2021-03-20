@@ -52,4 +52,21 @@
  "#{" @punctuation.special
  "}" @punctuation.special)
 
+[
+ ","
+ "->"
+ "."
+] @punctuation.delimiter
+
+[
+  "("
+  ")"
+  "["
+  "]"
+  "{"
+  "}"
+  "<<"
+  ">>"
+] @punctuation.bracket
+
 (ERROR) @warning
