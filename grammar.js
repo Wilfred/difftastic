@@ -327,7 +327,7 @@ module.exports = grammar({
 
     citation: $ =>
       seq(
-        field('command', token(choice(...commands.citation))),
+        field('command', choice(...commands.citation)),
         optional(
           seq(
             field('prenote', $.bracket_group),
@@ -341,7 +341,7 @@ module.exports = grammar({
 
     package_include: $ =>
       seq(
-        field('command', token(choice('\\usepackage', '\\RequirePackage'))),
+        field('command', choice('\\usepackage', '\\RequirePackage')),
         field('option', optional($.key_val_options)),
         '{',
         sepBy(field('path', $.word), ','),
@@ -359,7 +359,7 @@ module.exports = grammar({
 
     latex_include: $ =>
       seq(
-        field('command', token(choice('\\include', '\\subfileinclude'))),
+        field('command', choice('\\include', '\\subfileinclude')),
         '{',
         sepBy(field('path', $.word), ','),
         '}'
@@ -367,7 +367,7 @@ module.exports = grammar({
 
     latex_input: $ =>
       seq(
-        field('command', token(choice('\\input', '\\subfile'))),
+        field('command', choice('\\input', '\\subfile')),
         '{',
         sepBy(field('path', $.word), ','),
         '}'
@@ -419,7 +419,7 @@ module.exports = grammar({
 
     verbatim_include: $ =>
       seq(
-        field('command', token(choice('\\verbatiminput', '\\VerbatimInput'))),
+        field('command', choice('\\verbatiminput', '\\VerbatimInput')),
         '{',
         sepBy(field('path', $.word), ','),
         '}'
@@ -429,15 +429,13 @@ module.exports = grammar({
       seq(
         field(
           'command',
-          token(
-            choice(
-              '\\import',
-              '\\subimport',
-              '\\inputfrom',
-              '\\subimportfrom',
-              '\\includefrom',
-              '\\subincludefrom'
-            )
+          choice(
+            '\\import',
+            '\\subimport',
+            '\\inputfrom',
+            '\\subimportfrom',
+            '\\includefrom',
+            '\\subincludefrom'
           )
         ),
         '{',
@@ -453,7 +451,7 @@ module.exports = grammar({
 
     label_reference: $ =>
       seq(
-        field('command', token(choice(...commands.labelReference))),
+        field('command', choice(...commands.labelReference)),
         '{',
         sepBy(field('label', $.word), ','),
         '}'
@@ -470,7 +468,7 @@ module.exports = grammar({
     label_reference_range: $ =>
       prec.right(
         seq(
-          field('command', token(choice(...commands.labelRangeReference))),
+          field('command', choice(...commands.labelRangeReference)),
           '{',
           field('label1', $.word),
           '}',
@@ -492,9 +490,7 @@ module.exports = grammar({
       seq(
         field(
           'command',
-          token(
-            choice('\\newcommand', '\\renewcommand', '\\DeclareRobustCommand')
-          )
+          choice('\\newcommand', '\\renewcommand', '\\DeclareRobustCommand')
         ),
         field('argc', optional(seq('[', /\d/, ']'))),
         '{',
@@ -507,7 +503,7 @@ module.exports = grammar({
       seq(
         field(
           'command',
-          token(choice('\\DeclareMathOperator', '\\DeclareMathOperator*'))
+          choice('\\DeclareMathOperator', '\\DeclareMathOperator*')
         ),
         '{',
         field('name', $.generic_command_name),
@@ -528,7 +524,7 @@ module.exports = grammar({
 
     glossary_entry_reference: $ =>
       seq(
-        field('command', token(choice(...commands.glossaryEntryReference))),
+        field('command', choice(...commands.glossaryEntryReference)),
         field('option', optional($.key_val_options)),
         '{',
         field('name', $.word),
@@ -548,7 +544,7 @@ module.exports = grammar({
 
     acronym_reference: $ =>
       seq(
-        field('command', token(choice(...commands.acronymReference))),
+        field('command', choice(...commands.acronymReference)),
         field('option', optional($.key_val_options)),
         '{',
         field('name', $.word),
@@ -557,7 +553,7 @@ module.exports = grammar({
     theorem_definition: $ =>
       prec.right(
         seq(
-          field('command', token(choice('\\newtheorem', '\\declaretheorem'))),
+          field('command', choice('\\newtheorem', '\\declaretheorem')),
           '{',
           field('name', $.word),
           '}',
@@ -581,7 +577,7 @@ module.exports = grammar({
         seq(
           field(
             'command',
-            token(choice('\\color', '\\colorbox', '\\textcolor', '\\pagecolor'))
+            choice('\\color', '\\colorbox', '\\textcolor', '\\pagecolor')
           ),
           '{',
           field('name', $.word),

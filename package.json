@@ -2,7 +2,7 @@
   "name": "tree-sitter-latex",
   "version": "0.1.0",
   "description": "Tree-sitter Grammar for LaTeX",
-  "main": "index.js",
+  "main": "bindings/node",
   "scripts": {
     "build": "tree-sitter generate",
     "test": "tree-sitter test"
@@ -26,6 +26,6 @@
     "nan": "^2.14.2"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.17.3"
+    "tree-sitter-cli": "0.19.4"
   }
 }

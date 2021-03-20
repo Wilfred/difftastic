@@ -49,6 +49,184 @@
     "type": "acronym_reference",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\ACRfull",
+            "named": false
+          },
+          {
+            "type": "\\ACRfullpl",
+            "named": false
+          },
+          {
+            "type": "\\ACRlong",
+            "named": false
+          },
+          {
+            "type": "\\ACRlongpl",
+            "named": false
+          },
+          {
+            "type": "\\ACRshort",
+            "named": false
+          },
+          {
+            "type": "\\ACRshortpl",
+            "named": false
+          },
+          {
+            "type": "\\Ac",
+            "named": false
+          },
+          {
+            "type": "\\Acf",
+            "named": false
+          },
+          {
+            "type": "\\Acfp",
+            "named": false
+          },
+          {
+            "type": "\\Acl",
+            "named": false
+          },
+          {
+            "type": "\\Aclp",
+            "named": false
+          },
+          {
+            "type": "\\Acrfull",
+            "named": false
+          },
+          {
+            "type": "\\Acrfullpl",
+            "named": false
+          },
+          {
+            "type": "\\Acrlong",
+            "named": false
+          },
+          {
+            "type": "\\Acrlongpl",
+            "named": false
+          },
+          {
+            "type": "\\Acrshort",
+            "named": false
+          },
+          {
+            "type": "\\Acrshortpl",
+            "named": false
+          },
+          {
+            "type": "\\Acs",
+            "named": false
+          },
+          {
+            "type": "\\Acsp",
+            "named": false
+          },
+          {
+            "type": "\\Glsentryfullpl",
+            "named": false
+          },
+          {
+            "type": "\\Glsentrylong",
+            "named": false
+          },
+          {
+            "type": "\\Glsentrylongpl",
+            "named": false
+          },
+          {
+            "type": "\\Glsentryshort",
+            "named": false
+          },
+          {
+            "type": "\\Glsentryshortpl",
+            "named": false
+          },
+          {
+            "type": "\\ac",
+            "named": false
+          },
+          {
+            "type": "\\acf",
+            "named": false
+          },
+          {
+            "type": "\\acfp",
+            "named": false
+          },
+          {
+            "type": "\\acl",
+            "named": false
+          },
+          {
+            "type": "\\aclp",
+            "named": false
+          },
+          {
+            "type": "\\acp",
+            "named": false
+          },
+          {
+            "type": "\\acrfull",
+            "named": false
+          },
+          {
+            "type": "\\acrfullpl",
+            "named": false
+          },
+          {
+            "type": "\\acrlong",
+            "named": false
+          },
+          {
+            "type": "\\acrlongpl",
+            "named": false
+          },
+          {
+            "type": "\\acrshort",
+            "named": false
+          },
+          {
+            "type": "\\acrshortpl",
+            "named": false
+          },
+          {
+            "type": "\\acs",
+            "named": false
+          },
+          {
+            "type": "\\acsp",
+            "named": false
+          },
+          {
+            "type": "\\glsentryfullpl",
+            "named": false
+          },
+          {
+            "type": "\\glsentrylong",
+            "named": false
+          },
+          {
+            "type": "\\glsentrylongpl",
+            "named": false
+          },
+          {
+            "type": "\\glsentryshort",
+            "named": false
+          },
+          {
+            "type": "\\glsentryshortpl",
+            "named": false
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -839,6 +1017,232 @@
     "type": "citation",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\Autocite",
+            "named": false
+          },
+          {
+            "type": "\\Autocite*",
+            "named": false
+          },
+          {
+            "type": "\\Avolcite",
+            "named": false
+          },
+          {
+            "type": "\\Cite",
+            "named": false
+          },
+          {
+            "type": "\\Citeauthor",
+            "named": false
+          },
+          {
+            "type": "\\Citeauthor*",
+            "named": false
+          },
+          {
+            "type": "\\Parencite",
+            "named": false
+          },
+          {
+            "type": "\\Pnotecite",
+            "named": false
+          },
+          {
+            "type": "\\Pvolcite",
+            "named": false
+          },
+          {
+            "type": "\\Smartcite",
+            "named": false
+          },
+          {
+            "type": "\\Svolcite",
+            "named": false
+          },
+          {
+            "type": "\\Textcite",
+            "named": false
+          },
+          {
+            "type": "\\Tvolcite",
+            "named": false
+          },
+          {
+            "type": "\\Volcite",
+            "named": false
+          },
+          {
+            "type": "\\autocite",
+            "named": false
+          },
+          {
+            "type": "\\autocite*",
+            "named": false
+          },
+          {
+            "type": "\\avolcite",
+            "named": false
+          },
+          {
+            "type": "\\cite",
+            "named": false
+          },
+          {
+            "type": "\\cite*",
+            "named": false
+          },
+          {
+            "type": "\\citealp",
+            "named": false
+          },
+          {
+            "type": "\\citealt",
+            "named": false
+          },
+          {
+            "type": "\\citeauthor",
+            "named": false
+          },
+          {
+            "type": "\\citeauthor*",
+            "named": false
+          },
+          {
+            "type": "\\citedate",
+            "named": false
+          },
+          {
+            "type": "\\citedate*",
+            "named": false
+          },
+          {
+            "type": "\\citep",
+            "named": false
+          },
+          {
+            "type": "\\citep*",
+            "named": false
+          },
+          {
+            "type": "\\citet",
+            "named": false
+          },
+          {
+            "type": "\\citet*",
+            "named": false
+          },
+          {
+            "type": "\\citetext",
+            "named": false
+          },
+          {
+            "type": "\\citetitle",
+            "named": false
+          },
+          {
+            "type": "\\citetitle*",
+            "named": false
+          },
+          {
+            "type": "\\citeurl",
+            "named": false
+          },
+          {
+            "type": "\\citeyear",
+            "named": false
+          },
+          {
+            "type": "\\citeyear*",
+            "named": false
+          },
+          {
+            "type": "\\citeyearpar",
+            "named": false
+          },
+          {
+            "type": "\\fnotecite",
+            "named": false
+          },
+          {
+            "type": "\\footcite",
+            "named": false
+          },
+          {
+            "type": "\\footcitetext",
+            "named": false
+          },
+          {
+            "type": "\\footfullcite",
+            "named": false
+          },
+          {
+            "type": "\\ftvolcite",
+            "named": false
+          },
+          {
+            "type": "\\fullcite",
+            "named": false
+          },
+          {
+            "type": "\\fvolcite",
+            "named": false
+          },
+          {
+            "type": "\\nocite",
+            "named": false
+          },
+          {
+            "type": "\\notecite",
+            "named": false
+          },
+          {
+            "type": "\\parencite",
+            "named": false
+          },
+          {
+            "type": "\\parencite*",
+            "named": false
+          },
+          {
+            "type": "\\pnotecite",
+            "named": false
+          },
+          {
+            "type": "\\pvolcite",
+            "named": false
+          },
+          {
+            "type": "\\smartcite",
+            "named": false
+          },
+          {
+            "type": "\\supercite",
+            "named": false
+          },
+          {
+            "type": "\\svolcite",
+            "named": false
+          },
+          {
+            "type": "\\textcite",
+            "named": false
+          },
+          {
+            "type": "\\tvolcite",
+            "named": false
+          },
+          {
+            "type": "\\volcite",
+            "named": false
+          }
+        ]
+      },
       "key": {
         "multiple": true,
         "required": false,
@@ -957,6 +1361,28 @@
     "type": "color_reference",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\color",
+            "named": false
+          },
+          {
+            "type": "\\colorbox",
+            "named": false
+          },
+          {
+            "type": "\\pagecolor",
+            "named": false
+          },
+          {
+            "type": "\\textcolor",
+            "named": false
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -1049,6 +1475,24 @@
           },
           {
             "type": "]",
+            "named": false
+          }
+        ]
+      },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\DeclareRobustCommand",
+            "named": false
+          },
+          {
+            "type": "\\newcommand",
+            "named": false
+          },
+          {
+            "type": "\\renewcommand",
             "named": false
           }
         ]
@@ -2020,6 +2464,196 @@
     "type": "glossary_entry_reference",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\GLS",
+            "named": false
+          },
+          {
+            "type": "\\GLSdesc",
+            "named": false
+          },
+          {
+            "type": "\\GLSfirst",
+            "named": false
+          },
+          {
+            "type": "\\GLSfirstplural",
+            "named": false
+          },
+          {
+            "type": "\\GLSname",
+            "named": false
+          },
+          {
+            "type": "\\GLSpl",
+            "named": false
+          },
+          {
+            "type": "\\GLSplural",
+            "named": false
+          },
+          {
+            "type": "\\GLStext",
+            "named": false
+          },
+          {
+            "type": "\\GLSuseri",
+            "named": false
+          },
+          {
+            "type": "\\GLSuserii",
+            "named": false
+          },
+          {
+            "type": "\\GLSuseriii",
+            "named": false
+          },
+          {
+            "type": "\\GLSuseriv",
+            "named": false
+          },
+          {
+            "type": "\\GLSuserv",
+            "named": false
+          },
+          {
+            "type": "\\GLSuservi",
+            "named": false
+          },
+          {
+            "type": "\\Gls",
+            "named": false
+          },
+          {
+            "type": "\\Glsdesc",
+            "named": false
+          },
+          {
+            "type": "\\Glsfirst",
+            "named": false
+          },
+          {
+            "type": "\\Glsfirstplural",
+            "named": false
+          },
+          {
+            "type": "\\Glsname",
+            "named": false
+          },
+          {
+            "type": "\\Glspl",
+            "named": false
+          },
+          {
+            "type": "\\Glsplural",
+            "named": false
+          },
+          {
+            "type": "\\Glssymbol",
+            "named": false
+          },
+          {
+            "type": "\\Glstext",
+            "named": false
+          },
+          {
+            "type": "\\Glsuseri",
+            "named": false
+          },
+          {
+            "type": "\\Glsuserii",
+            "named": false
+          },
+          {
+            "type": "\\Glsuseriii",
+            "named": false
+          },
+          {
+            "type": "\\Glsuseriv",
+            "named": false
+          },
+          {
+            "type": "\\Glsuserv",
+            "named": false
+          },
+          {
+            "type": "\\Glsuservi",
+            "named": false
+          },
+          {
+            "type": "\\gls",
+            "named": false
+          },
+          {
+            "type": "\\glsdesc",
+            "named": false
+          },
+          {
+            "type": "\\glsdisp",
+            "named": false
+          },
+          {
+            "type": "\\glsfirst",
+            "named": false
+          },
+          {
+            "type": "\\glsfirstplural",
+            "named": false
+          },
+          {
+            "type": "\\glslink",
+            "named": false
+          },
+          {
+            "type": "\\glsname",
+            "named": false
+          },
+          {
+            "type": "\\glspl",
+            "named": false
+          },
+          {
+            "type": "\\glsplural",
+            "named": false
+          },
+          {
+            "type": "\\glssymbol",
+            "named": false
+          },
+          {
+            "type": "\\glstext",
+            "named": false
+          },
+          {
+            "type": "\\glsuseri",
+            "named": false
+          },
+          {
+            "type": "\\glsuserii",
+            "named": false
+          },
+          {
+            "type": "\\glsuseriii",
+            "named": false
+          },
+          {
+            "type": "\\glsuseriv",
+            "named": false
+          },
+          {
+            "type": "\\glsuserv",
+            "named": false
+          },
+          {
+            "type": "\\glsuservi",
+            "named": false
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -2082,6 +2716,36 @@
     "type": "import",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\import",
+            "named": false
+          },
+          {
+            "type": "\\includefrom",
+            "named": false
+          },
+          {
+            "type": "\\inputfrom",
+            "named": false
+          },
+          {
+            "type": "\\subimport",
+            "named": false
+          },
+          {
+            "type": "\\subimportfrom",
+            "named": false
+          },
+          {
+            "type": "\\subincludefrom",
+            "named": false
+          }
+        ]
+      },
       "directory": {
         "multiple": false,
         "required": true,
@@ -2682,6 +3346,80 @@
     "type": "label_reference",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\Cref",
+            "named": false
+          },
+          {
+            "type": "\\Cref*",
+            "named": false
+          },
+          {
+            "type": "\\Vref",
+            "named": false
+          },
+          {
+            "type": "\\autoref",
+            "named": false
+          },
+          {
+            "type": "\\cref",
+            "named": false
+          },
+          {
+            "type": "\\cref*",
+            "named": false
+          },
+          {
+            "type": "\\labelcpageref",
+            "named": false
+          },
+          {
+            "type": "\\labelcref",
+            "named": false
+          },
+          {
+            "type": "\\lcnamecref",
+            "named": false
+          },
+          {
+            "type": "\\lcnamecrefs",
+            "named": false
+          },
+          {
+            "type": "\\nameCref",
+            "named": false
+          },
+          {
+            "type": "\\nameCrefs",
+            "named": false
+          },
+          {
+            "type": "\\namecref",
+            "named": false
+          },
+          {
+            "type": "\\namecrefs",
+            "named": false
+          },
+          {
+            "type": "\\pageref",
+            "named": false
+          },
+          {
+            "type": "\\ref",
+            "named": false
+          },
+          {
+            "type": "\\vref",
+            "named": false
+          }
+        ]
+      },
       "label": {
         "multiple": true,
         "required": false,
@@ -2698,6 +3436,28 @@
     "type": "label_reference_range",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\Crefrange",
+            "named": false
+          },
+          {
+            "type": "\\Crefrange*",
+            "named": false
+          },
+          {
+            "type": "\\crefrange",
+            "named": false
+          },
+          {
+            "type": "\\crefrange*",
+            "named": false
+          }
+        ]
+      },
       "label1": {
         "multiple": false,
         "required": true,
@@ -2724,6 +3484,20 @@
     "type": "latex_include",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\include",
+            "named": false
+          },
+          {
+            "type": "\\subfileinclude",
+            "named": false
+          }
+        ]
+      },
       "path": {
         "multiple": true,
         "required": false,
@@ -2740,6 +3514,20 @@
     "type": "latex_input",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\input",
+            "named": false
+          },
+          {
+            "type": "\\subfile",
+            "named": false
+          }
+        ]
+      },
       "path": {
         "multiple": true,
         "required": false,
@@ -2756,6 +3544,20 @@
     "type": "math_operator",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\DeclareMathOperator",
+            "named": false
+          },
+          {
+            "type": "\\DeclareMathOperator*",
+            "named": false
+          }
+        ]
+      },
       "implementation": {
         "multiple": false,
         "required": true,
@@ -3006,6 +3808,20 @@
     "type": "package_include",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\RequirePackage",
+            "named": false
+          },
+          {
+            "type": "\\usepackage",
+            "named": false
+          }
+        ]
+      },
       "option": {
         "multiple": false,
         "required": false,
@@ -4457,6 +5273,20 @@
     "type": "theorem_definition",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\declaretheorem",
+            "named": false
+          },
+          {
+            "type": "\\newtheorem",
+            "named": false
+          }
+        ]
+      },
       "counter": {
         "multiple": false,
         "required": false,
@@ -4519,6 +5349,20 @@
     "type": "verbatim_include",
     "named": true,
     "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\VerbatimInput",
+            "named": false
+          },
+          {
+            "type": "\\verbatiminput",
+            "named": false
+          }
+        ]
+      },
       "path": {
         "multiple": true,
         "required": false,
@@ -4568,6 +5412,314 @@
     "named": false
   },
   {
+    "type": "\\ACRfull",
+    "named": false
+  },
+  {
+    "type": "\\ACRfullpl",
+    "named": false
+  },
+  {
+    "type": "\\ACRlong",
+    "named": false
+  },
+  {
+    "type": "\\ACRlongpl",
+    "named": false
+  },
+  {
+    "type": "\\ACRshort",
+    "named": false
+  },
+  {
+    "type": "\\ACRshortpl",
+    "named": false
+  },
+  {
+    "type": "\\Ac",
+    "named": false
+  },
+  {
+    "type": "\\Acf",
+    "named": false
+  },
+  {
+    "type": "\\Acfp",
+    "named": false
+  },
+  {
+    "type": "\\Acl",
+    "named": false
+  },
+  {
+    "type": "\\Aclp",
+    "named": false
+  },
+  {
+    "type": "\\Acrfull",
+    "named": false
+  },
+  {
+    "type": "\\Acrfullpl",
+    "named": false
+  },
+  {
+    "type": "\\Acrlong",
+    "named": false
+  },
+  {
+    "type": "\\Acrlongpl",
+    "named": false
+  },
+  {
+    "type": "\\Acrshort",
+    "named": false
+  },
+  {
+    "type": "\\Acrshortpl",
+    "named": false
+  },
+  {
+    "type": "\\Acs",
+    "named": false
+  },
+  {
+    "type": "\\Acsp",
+    "named": false
+  },
+  {
+    "type": "\\Autocite",
+    "named": false
+  },
+  {
+    "type": "\\Autocite*",
+    "named": false
+  },
+  {
+    "type": "\\Avolcite",
+    "named": false
+  },
+  {
+    "type": "\\Cite",
+    "named": false
+  },
+  {
+    "type": "\\Citeauthor",
+    "named": false
+  },
+  {
+    "type": "\\Citeauthor*",
+    "named": false
+  },
+  {
+    "type": "\\Cref",
+    "named": false
+  },
+  {
+    "type": "\\Cref*",
+    "named": false
+  },
+  {
+    "type": "\\Crefrange",
+    "named": false
+  },
+  {
+    "type": "\\Crefrange*",
+    "named": false
+  },
+  {
+    "type": "\\DeclareMathOperator",
+    "named": false
+  },
+  {
+    "type": "\\DeclareMathOperator*",
+    "named": false
+  },
+  {
+    "type": "\\DeclareRobustCommand",
+    "named": false
+  },
+  {
+    "type": "\\GLS",
+    "named": false
+  },
+  {
+    "type": "\\GLSdesc",
+    "named": false
+  },
+  {
+    "type": "\\GLSfirst",
+    "named": false
+  },
+  {
+    "type": "\\GLSfirstplural",
+    "named": false
+  },
+  {
+    "type": "\\GLSname",
+    "named": false
+  },
+  {
+    "type": "\\GLSpl",
+    "named": false
+  },
+  {
+    "type": "\\GLSplural",
+    "named": false
+  },
+  {
+    "type": "\\GLStext",
+    "named": false
+  },
+  {
+    "type": "\\GLSuseri",
+    "named": false
+  },
+  {
+    "type": "\\GLSuserii",
+    "named": false
+  },
+  {
+    "type": "\\GLSuseriii",
+    "named": false
+  },
+  {
+    "type": "\\GLSuseriv",
+    "named": false
+  },
+  {
+    "type": "\\GLSuserv",
+    "named": false
+  },
+  {
+    "type": "\\GLSuservi",
+    "named": false
+  },
+  {
+    "type": "\\Gls",
+    "named": false
+  },
+  {
+    "type": "\\Glsdesc",
+    "named": false
+  },
+  {
+    "type": "\\Glsentryfullpl",
+    "named": false
+  },
+  {
+    "type": "\\Glsentrylong",
+    "named": false
+  },
+  {
+    "type": "\\Glsentrylongpl",
+    "named": false
+  },
+  {
+    "type": "\\Glsentryshort",
+    "named": false
+  },
+  {
+    "type": "\\Glsentryshortpl",
+    "named": false
+  },
+  {
+    "type": "\\Glsfirst",
+    "named": false
+  },
+  {
+    "type": "\\Glsfirstplural",
+    "named": false
+  },
+  {
+    "type": "\\Glsname",
+    "named": false
+  },
+  {
+    "type": "\\Glspl",
+    "named": false
+  },
+  {
+    "type": "\\Glsplural",
+    "named": false
+  },
+  {
+    "type": "\\Glssymbol",
+    "named": false
+  },
+  {
+    "type": "\\Glstext",
+    "named": false
+  },
+  {
+    "type": "\\Glsuseri",
+    "named": false
+  },
+  {
+    "type": "\\Glsuserii",
+    "named": false
+  },
+  {
+    "type": "\\Glsuseriii",
+    "named": false
+  },
+  {
+    "type": "\\Glsuseriv",
+    "named": false
+  },
+  {
+    "type": "\\Glsuserv",
+    "named": false
+  },
+  {
+    "type": "\\Glsuservi",
+    "named": false
+  },
+  {
+    "type": "\\Parencite",
+    "named": false
+  },
+  {
+    "type": "\\Pnotecite",
+    "named": false
+  },
+  {
+    "type": "\\Pvolcite",
+    "named": false
+  },
+  {
+    "type": "\\RequirePackage",
+    "named": false
+  },
+  {
+    "type": "\\Smartcite",
+    "named": false
+  },
+  {
+    "type": "\\Svolcite",
+    "named": false
+  },
+  {
+    "type": "\\Textcite",
+    "named": false
+  },
+  {
+    "type": "\\Tvolcite",
+    "named": false
+  },
+  {
+    "type": "\\VerbatimInput",
+    "named": false
+  },
+  {
+    "type": "\\Volcite",
+    "named": false
+  },
+  {
+    "type": "\\Vref",
+    "named": false
+  },
+  {
     "type": "\\[",
     "named": false
   },
@@ -4576,7 +5728,79 @@
     "named": false
   },
   {
+    "type": "\\ac",
+    "named": false
+  },
+  {
+    "type": "\\acf",
+    "named": false
+  },
+  {
+    "type": "\\acfp",
+    "named": false
+  },
+  {
+    "type": "\\acl",
+    "named": false
+  },
+  {
+    "type": "\\aclp",
+    "named": false
+  },
+  {
+    "type": "\\acp",
+    "named": false
+  },
+  {
+    "type": "\\acrfull",
+    "named": false
+  },
+  {
+    "type": "\\acrfullpl",
+    "named": false
+  },
+  {
+    "type": "\\acrlong",
+    "named": false
+  },
+  {
+    "type": "\\acrlongpl",
+    "named": false
+  },
+  {
+    "type": "\\acrshort",
+    "named": false
+  },
+  {
+    "type": "\\acrshortpl",
+    "named": false
+  },
+  {
+    "type": "\\acs",
+    "named": false
+  },
+  {
+    "type": "\\acsp",
+    "named": false
+  },
+  {
     "type": "\\addbibresource",
+    "named": false
+  },
+  {
+    "type": "\\autocite",
+    "named": false
+  },
+  {
+    "type": "\\autocite*",
+    "named": false
+  },
+  {
+    "type": "\\autoref",
+    "named": false
+  },
+  {
+    "type": "\\avolcite",
     "named": false
   },
   {
@@ -4589,6 +5813,110 @@
   },
   {
     "type": "\\caption",
+    "named": false
+  },
+  {
+    "type": "\\cite",
+    "named": false
+  },
+  {
+    "type": "\\cite*",
+    "named": false
+  },
+  {
+    "type": "\\citealp",
+    "named": false
+  },
+  {
+    "type": "\\citealt",
+    "named": false
+  },
+  {
+    "type": "\\citeauthor",
+    "named": false
+  },
+  {
+    "type": "\\citeauthor*",
+    "named": false
+  },
+  {
+    "type": "\\citedate",
+    "named": false
+  },
+  {
+    "type": "\\citedate*",
+    "named": false
+  },
+  {
+    "type": "\\citep",
+    "named": false
+  },
+  {
+    "type": "\\citep*",
+    "named": false
+  },
+  {
+    "type": "\\citet",
+    "named": false
+  },
+  {
+    "type": "\\citet*",
+    "named": false
+  },
+  {
+    "type": "\\citetext",
+    "named": false
+  },
+  {
+    "type": "\\citetitle",
+    "named": false
+  },
+  {
+    "type": "\\citetitle*",
+    "named": false
+  },
+  {
+    "type": "\\citeurl",
+    "named": false
+  },
+  {
+    "type": "\\citeyear",
+    "named": false
+  },
+  {
+    "type": "\\citeyear*",
+    "named": false
+  },
+  {
+    "type": "\\citeyearpar",
+    "named": false
+  },
+  {
+    "type": "\\color",
+    "named": false
+  },
+  {
+    "type": "\\colorbox",
+    "named": false
+  },
+  {
+    "type": "\\cref",
+    "named": false
+  },
+  {
+    "type": "\\cref*",
+    "named": false
+  },
+  {
+    "type": "\\crefrange",
+    "named": false
+  },
+  {
+    "type": "\\crefrange*",
+    "named": false
+  },
+  {
+    "type": "\\declaretheorem",
     "named": false
   },
   {
@@ -4612,6 +5940,134 @@
     "named": false
   },
   {
+    "type": "\\fnotecite",
+    "named": false
+  },
+  {
+    "type": "\\footcite",
+    "named": false
+  },
+  {
+    "type": "\\footcitetext",
+    "named": false
+  },
+  {
+    "type": "\\footfullcite",
+    "named": false
+  },
+  {
+    "type": "\\ftvolcite",
+    "named": false
+  },
+  {
+    "type": "\\fullcite",
+    "named": false
+  },
+  {
+    "type": "\\fvolcite",
+    "named": false
+  },
+  {
+    "type": "\\gls",
+    "named": false
+  },
+  {
+    "type": "\\glsdesc",
+    "named": false
+  },
+  {
+    "type": "\\glsdisp",
+    "named": false
+  },
+  {
+    "type": "\\glsentryfullpl",
+    "named": false
+  },
+  {
+    "type": "\\glsentrylong",
+    "named": false
+  },
+  {
+    "type": "\\glsentrylongpl",
+    "named": false
+  },
+  {
+    "type": "\\glsentryshort",
+    "named": false
+  },
+  {
+    "type": "\\glsentryshortpl",
+    "named": false
+  },
+  {
+    "type": "\\glsfirst",
+    "named": false
+  },
+  {
+    "type": "\\glsfirstplural",
+    "named": false
+  },
+  {
+    "type": "\\glslink",
+    "named": false
+  },
+  {
+    "type": "\\glsname",
+    "named": false
+  },
+  {
+    "type": "\\glspl",
+    "named": false
+  },
+  {
+    "type": "\\glsplural",
+    "named": false
+  },
+  {
+    "type": "\\glssymbol",
+    "named": false
+  },
+  {
+    "type": "\\glstext",
+    "named": false
+  },
+  {
+    "type": "\\glsuseri",
+    "named": false
+  },
+  {
+    "type": "\\glsuserii",
+    "named": false
+  },
+  {
+    "type": "\\glsuseriii",
+    "named": false
+  },
+  {
+    "type": "\\glsuseriv",
+    "named": false
+  },
+  {
+    "type": "\\glsuserv",
+    "named": false
+  },
+  {
+    "type": "\\glsuservi",
+    "named": false
+  },
+  {
+    "type": "\\import",
+    "named": false
+  },
+  {
+    "type": "\\include",
+    "named": false
+  },
+  {
+    "type": "\\includefrom",
+    "named": false
+  },
+  {
     "type": "\\includegraphics",
     "named": false
   },
@@ -4624,6 +6080,14 @@
     "named": false
   },
   {
+    "type": "\\input",
+    "named": false
+  },
+  {
+    "type": "\\inputfrom",
+    "named": false
+  },
+  {
     "type": "\\item",
     "named": false
   },
@@ -4632,7 +6096,43 @@
     "named": false
   },
   {
+    "type": "\\labelcpageref",
+    "named": false
+  },
+  {
+    "type": "\\labelcref",
+    "named": false
+  },
+  {
+    "type": "\\lcnamecref",
+    "named": false
+  },
+  {
+    "type": "\\lcnamecrefs",
+    "named": false
+  },
+  {
+    "type": "\\nameCref",
+    "named": false
+  },
+  {
+    "type": "\\nameCrefs",
+    "named": false
+  },
+  {
+    "type": "\\namecref",
+    "named": false
+  },
+  {
+    "type": "\\namecrefs",
+    "named": false
+  },
+  {
     "type": "\\newacronym",
+    "named": false
+  },
+  {
+    "type": "\\newcommand",
     "named": false
   },
   {
@@ -4644,11 +6144,115 @@
     "named": false
   },
   {
+    "type": "\\newtheorem",
+    "named": false
+  },
+  {
+    "type": "\\nocite",
+    "named": false
+  },
+  {
+    "type": "\\notecite",
+    "named": false
+  },
+  {
+    "type": "\\pagecolor",
+    "named": false
+  },
+  {
+    "type": "\\pageref",
+    "named": false
+  },
+  {
+    "type": "\\parencite",
+    "named": false
+  },
+  {
+    "type": "\\parencite*",
+    "named": false
+  },
+  {
+    "type": "\\pnotecite",
+    "named": false
+  },
+  {
+    "type": "\\pvolcite",
+    "named": false
+  },
+  {
+    "type": "\\ref",
+    "named": false
+  },
+  {
+    "type": "\\renewcommand",
+    "named": false
+  },
+  {
+    "type": "\\smartcite",
+    "named": false
+  },
+  {
+    "type": "\\subfile",
+    "named": false
+  },
+  {
+    "type": "\\subfileinclude",
+    "named": false
+  },
+  {
+    "type": "\\subimport",
+    "named": false
+  },
+  {
+    "type": "\\subimportfrom",
+    "named": false
+  },
+  {
+    "type": "\\subincludefrom",
+    "named": false
+  },
+  {
+    "type": "\\supercite",
+    "named": false
+  },
+  {
+    "type": "\\svolcite",
+    "named": false
+  },
+  {
+    "type": "\\textcite",
+    "named": false
+  },
+  {
+    "type": "\\textcolor",
+    "named": false
+  },
+  {
+    "type": "\\tvolcite",
+    "named": false
+  },
+  {
+    "type": "\\usepackage",
+    "named": false
+  },
+  {
     "type": "\\usepgflibrary",
     "named": false
   },
   {
     "type": "\\usetikzlibrary",
+    "named": false
+  },
+  {
+    "type": "\\verbatiminput",
+    "named": false
+  },
+  {
+    "type": "\\volcite",
+    "named": false
+  },
+  {
+    "type": "\\vref",
     "named": false
   },
   {
