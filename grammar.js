@@ -157,8 +157,12 @@ module.exports = grammar({
           $._bare_args,
           $.args,
         ),
-        optional($._terminator),
-        optional($.do_block)
+        optional(
+          choice(
+            seq($._terminator, $.do_block),
+            $.do_block
+          )
+        ),
       ),
       seq(
         field('name', choice($.identifier, $.dot_call, $.qualified_call)),
