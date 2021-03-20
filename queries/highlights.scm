@@ -1,5 +1,6 @@
 ["when" "and" "or" "not" "in" "fn" "do" "end" "catch" "rescue" "after" "else"] @keyword
-[(true) (false) (nil)] @constant
+
+[(true) (false) (nil)] @constant.builtin
 
 (keyword) @tag
 (atom) @tag
@@ -38,6 +39,12 @@
  operator: "@" @attribute
  (call
   name: (identifier) @attribute))
+
+(unary_op
+ operator: _ @operator)
+
+(binary_op
+ operator: _ @operator)
 
 (string_start) @string
 (string_content) @string

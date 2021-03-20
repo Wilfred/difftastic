@@ -113,7 +113,7 @@ module.exports = grammar({
     _expression: $ => choice(
       $.binary_op,
       $.unary_op,
-      $.capture_op,
+      alias($._capture_op, $.unary_op),
       $.block,
       $.qualified_call,
       $.call,
@@ -193,14 +193,14 @@ module.exports = grammar({
       unaryOp($, prec, 320, '@'),
     ),
 
-    _op_capture: $ => prec.left(220, seq(choice(alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._when, 'when'), alias($._in, "in"), ...OPERATORS), optional($._terminator), '/', optional($._terminator), $.integer)),
+    _op_capture: $ => prec.left(220, seq(choice(alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._when, 'when'), alias($._in, "in"), ...OPERATORS), optional($._terminator), field('operator', '/'), optional($._terminator), $.integer)),
 
-    capture_op: $ => prec(
+    _capture_op: $ => prec(
       320,
       seq(
-        '&',
+        field('operator', '&'),
         optional($._terminator),
-        choice($.integer)
+        $.integer
       )
     ),
 
@@ -214,7 +214,7 @@ module.exports = grammar({
     ),
 
     _simple_dot_call: $ => prec.left(PREC.DOT_CALL, seq(
-      field('object', choice($.module, $.identifier, $.atom, alias($._simple_dot_call, $.dot_call), $.qualified_call, $.capture_op, $.integer)),
+      field('object', choice($.module, $.identifier, $.atom, alias($._simple_dot_call, $.dot_call), $.qualified_call, alias($._capture_op, $.unary_op), $.integer)),
       '.',
       $._dot_call_function_args
     )),

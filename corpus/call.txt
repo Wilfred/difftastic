@@ -215,7 +215,7 @@ captured arg dot call
       (args
         (unary_op
           (dot_call
-            (capture_op
+            (unary_op
               (integer))
             (identifier)))))))
 
@@ -236,10 +236,10 @@ Enum.reduce(funcs, result, & &1.(&2))
       (identifier)
       (unary_op
         (dot_call
-          (capture_op
+          (unary_op
             (integer))
           (args
-            (capture_op
+            (unary_op
               (integer))))))))
 
 ================================================================================
@@ -336,7 +336,7 @@ double = &(&1 * 2)
     (unary_op
       (block
         (binary_op
-          (capture_op
+          (unary_op
             (integer))
           (integer))))))
 
