@@ -1,10 +1,10 @@
 {
   "name": "tree-sitter-elixir",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "tree sitter grammar for elixir",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tree-sitter test"
   },
   "author": "Anantha Kumaran <ananthakumaran@gmail.com>",
   "license": "MIT",

@@ -922,7 +922,6 @@ struct Scanner {
           return true;
         }
         return false;
-      // \\
       case '\\':
         advance(lexer);
         return lexer->lookahead == '\\';
