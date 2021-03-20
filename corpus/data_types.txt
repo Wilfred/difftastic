@@ -361,7 +361,7 @@ eval_binds(CONFIG: config, SCRIPT: script)
 (program
   (qualified_call
     (identifier)
-    (args
+    (arguments
       (keyword_list
         (keyword)
         (identifier)

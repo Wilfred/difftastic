@@ -21,15 +21,15 @@ spec with splat
         (binary_op
           (qualified_call
             (identifier)
-            (args
+            (arguments
               (dot_call
                 (module)
                 (identifier)
-                (args))
+                (arguments))
               (dot_call
                 (module)
                 (identifier)
-                (args))
+                (arguments))
               (list
                 (identifier))
               (block
@@ -45,7 +45,7 @@ spec with splat
           (keyword)
           (qualified_call
             (identifier)
-            (args)))))))
+            (arguments)))))))
 
 ================================================================================
 non empty list

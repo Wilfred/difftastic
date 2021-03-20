@@ -9,7 +9,7 @@ y(+1)
 (program
   (qualified_call
     (identifier)
-    (args
+    (arguments
       (unary_op
         (integer)))))
 

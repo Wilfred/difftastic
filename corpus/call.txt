@@ -10,7 +10,7 @@ A.B.c("a")
   (dot_call
     (module)
     (identifier)
-    (args
+    (arguments
       (string
         (string_start)
         (string_content)
@@ -35,7 +35,7 @@ Module.func!(
   (dot_call
     (module)
     (identifier)
-    (args
+    (arguments
       (identifier)
       (keyword_list
         (keyword)
@@ -69,8 +69,8 @@ a.()()
   (call
     (dot_call
       (identifier)
-      (args))
-    (args)))
+      (arguments))
+    (arguments)))
 
 ================================================================================
 operator call
@@ -83,7 +83,7 @@ Kernel.+(1, 1)
 (program
   (dot_call
     (module)
-    (args
+    (arguments
       (integer)
       (integer))))
 
@@ -113,7 +113,7 @@ cover[:tool].start(compile_path, cover)
       (identifier)
       (atom))
     (identifier)
-    (args
+    (arguments
       (identifier)
       (identifier))))
 
@@ -139,31 +139,31 @@ end
       (dot_call
         (qualified_call
           (identifier)
-          (args
+          (arguments
             (identifier)))
         (identifier)
-        (args
+        (arguments
           (anonymous_function
             (stab_expr
               (qualified_call
                 (identifier)
-                (args
+                (arguments
                   (dot_call
                     (module)
                     (identifier)
-                    (args
+                    (arguments
                       (identifier)))))))
           (qualified_call
             (identifier)
-            (args
+            (arguments
               (dot_call
                 (module)
                 (identifier)
-                (args
+                (arguments
                   (dot_call
                     (module)
                     (identifier)
-                    (args
+                    (arguments
                       (identifier)
                       (unary_op
                         (binary_op
@@ -212,7 +212,7 @@ captured arg dot call
     (dot_call
       (module)
       (identifier)
-      (args
+      (arguments
         (unary_op
           (dot_call
             (unary_op
@@ -231,14 +231,14 @@ Enum.reduce(funcs, result, & &1.(&2))
   (dot_call
     (module)
     (identifier)
-    (args
+    (arguments
       (identifier)
       (identifier)
       (unary_op
         (dot_call
           (unary_op
             (integer))
-          (args
+          (arguments
             (unary_op
               (integer))))))))
 
@@ -368,7 +368,7 @@ string dot call
       (string_start)
       (string_content)
       (string_end))
-    (args
+    (arguments
       (identifier)
       (identifier))))
 
@@ -383,7 +383,7 @@ h(== / 2)
 (program
   (qualified_call
     (identifier)
-    (args
+    (arguments
       (binary_op
         (integer)))))
 
@@ -402,7 +402,7 @@ assert_diff(
 (program
   (qualified_call
     (identifier)
-    (args
+    (arguments
       (binary_op
         (struct
           (identifier)
@@ -496,7 +496,7 @@ end
       (struct
         (qualified_call
           (identifier)
-          (args
+          (arguments
             (module)))
         (keyword_list
           (keyword)
@@ -515,10 +515,10 @@ Macro.to_string(quote(do: Foo."bar baz"().""())) == ~s/Foo."bar baz"().""()/
     (dot_call
       (module)
       (identifier)
-      (args
+      (arguments
         (qualified_call
           (identifier)
-          (args
+          (arguments
             (keyword_list
               (keyword)
               (dot_call
@@ -528,11 +528,11 @@ Macro.to_string(quote(do: Foo."bar baz"().""())) == ~s/Foo."bar baz"().""()/
                     (string_start)
                     (string_content)
                     (string_end))
-                  (args))
+                  (arguments))
                 (string
                   (string_start)
                   (string_end))
-                (args)))))))
+                (arguments)))))))
     (sigil
       (sigil_start)
       (sigil_content)
@@ -549,7 +549,7 @@ integer call
 (program
   (dot_call
     (integer)
-    (args
+    (arguments
       (integer)
       (integer)
       (integer))))
@@ -565,7 +565,7 @@ inspect(&__MODULE__."weirdly named/fun-"/0)
 (program
   (qualified_call
     (identifier)
-    (args
+    (arguments
       (unary_op
         (binary_op
           (dot_call
@@ -587,7 +587,7 @@ is_function(&and/2)
 (program
   (qualified_call
     (identifier)
-    (args
+    (arguments
       (unary_op
         (binary_op
           (integer))))))
@@ -620,7 +620,7 @@ Enum.join(" ")
     (dot_call
       (module)
       (identifier)
-      (args
+      (arguments
         (string
           (string_start)
           (string_content)
@@ -636,7 +636,7 @@ Enum.join(" ")
             (interpolation
               (identifier))
             (string_end))))
-      (args))))
+      (arguments))))
 
 ================================================================================
 captured operator call
@@ -695,7 +695,7 @@ call(a: a, b: b,
 (program
   (qualified_call
     (identifier)
-    (args
+    (arguments
       (keyword_list
         (keyword)
         (identifier)

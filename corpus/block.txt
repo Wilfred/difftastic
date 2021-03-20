@@ -18,10 +18,10 @@ end
       (binary_op
         (qualified_call
           (identifier)
-          (args))
+          (arguments))
         (qualified_call
           (identifier)
-          (args)))))
+          (arguments)))))
   (call
     (identifier)
     (identifier)
@@ -30,7 +30,7 @@ end
       (dot_call
         (module)
         (identifier)
-        (args
+        (arguments
           (atom)
           (atom))))))
 
@@ -50,20 +50,20 @@ end
     (binary_op
       (qualified_call
         (identifier)
-        (args
+        (arguments
           (identifier)))
       (qualified_call
         (identifier)
-        (args
+        (arguments
           (identifier))))
     (do_block
       (qualified_call
         (identifier)
-        (args
+        (arguments
           (identifier)
           (qualified_call
             (identifier)
-            (args
+            (arguments
               (identifier))))))))
 
 ================================================================================
@@ -85,7 +85,7 @@ end
     (binary_op
       (qualified_call
         (identifier)
-        (args
+        (arguments
           (list
             (binary_op
               (identifier)
@@ -95,7 +95,7 @@ end
       (binary_op
         (qualified_call
           (identifier)
-          (args
+          (arguments
             (identifier)))
         (block
           (binary_op
@@ -122,9 +122,9 @@ end
     (do_block
       (qualified_call
         (identifier)
-        (args
+        (arguments
           (identifier)
           (qualified_call
             (identifier)
-            (args
+            (arguments
               (identifier))))))))

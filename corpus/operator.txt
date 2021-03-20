@@ -11,7 +11,7 @@ not Map.has_key?(set, tuple)
     (dot_call
       (module)
       (identifier)
-      (args
+      (arguments
         (identifier)
         (identifier)))))
 

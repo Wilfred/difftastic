@@ -18,7 +18,7 @@ binary expression
         (identifier)
         (qualified_call
           (identifier)
-          (args
+          (arguments
             (identifier)))))
     (binary_op
       (identifier)
@@ -26,7 +26,7 @@ binary expression
         (identifier)
         (qualified_call
           (identifier)
-          (args
+          (arguments
             (identifier)))))
     (binary_op
       (identifier)
@@ -34,7 +34,7 @@ binary expression
         (identifier)
         (qualified_call
           (identifier)
-          (args
+          (arguments
             (identifier)))))
     (string
       (string_start)

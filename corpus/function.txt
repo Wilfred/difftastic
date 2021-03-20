@@ -14,9 +14,9 @@ end
     (call
       (qualified_call
         (identifier)
-        (args
+        (arguments
           (identifier)))
-      (args
+      (arguments
         (identifier)
         (binary_op
           (identifier)
@@ -24,10 +24,10 @@ end
       (do_block
         (qualified_call
           (identifier)
-          (args
+          (arguments
             (qualified_call
               (identifier)
-              (args
+              (arguments
                 (identifier)))
             (identifier)
             (identifier)

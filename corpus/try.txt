@@ -25,7 +25,7 @@ end
     (do_block
       (qualified_call
         (identifier)
-        (args
+        (arguments
           (identifier)))
       (rescue_block
         (stab_expr
@@ -33,7 +33,7 @@ end
           (dot_call
             (module)
             (identifier)
-            (args
+            (arguments
               (string
                 (string_start)
                 (string_content)
@@ -44,14 +44,14 @@ end
           (dot_call
             (module)
             (identifier)
-            (args
+            (arguments
               (string
                 (string_start)
                 (string_content)
                 (interpolation
                   (qualified_call
                     (identifier)
-                    (args
+                    (arguments
                       (identifier))))
                 (string_end))))))
       (else_block
@@ -60,21 +60,21 @@ end
           (dot_call
             (module)
             (identifier)
-            (args
+            (arguments
               (string
                 (string_start)
                 (string_content)
                 (interpolation
                   (qualified_call
                     (identifier)
-                    (args
+                    (arguments
                       (identifier))))
                 (string_end))))))
       (after_block
         (dot_call
           (module)
           (identifier)
-          (args
+          (arguments
             (string
               (string_start)
               (string_content)
@@ -126,7 +126,7 @@ end
     (do_block
       (qualified_call
         (identifier)
-        (args
+        (arguments
           (atom)))
       (catch_block
         (stab_expr
@@ -135,14 +135,14 @@ end
           (dot_call
             (module)
             (identifier)
-            (args
+            (arguments
               (string
                 (string_start)
                 (string_content)
                 (interpolation
                   (qualified_call
                     (identifier)
-                    (args
+                    (arguments
                       (identifier))))
                 (string_end)))))))))
 
@@ -209,7 +209,7 @@ end
     (do_block
       (qualified_call
         (identifier)
-        (args
+        (arguments
           (string
             (string_start)
             (string_content)
@@ -218,7 +218,7 @@ end
         (dot_call
           (module)
           (identifier)
-          (args
+          (arguments
             (string
               (string_start)
               (string_content)

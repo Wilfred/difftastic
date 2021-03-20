@@ -79,7 +79,7 @@ end
         (dot_call
           (identifier)
           (identifier)
-          (args))
+          (arguments))
         (integer)))))
 
 ================================================================================
@@ -103,7 +103,7 @@ end
           (identifier)
           (qualified_call
             (identifier)
-            (args
+            (arguments
               (identifier))))
         (string
           (string_start)
@@ -146,7 +146,7 @@ end
           (identifier))
         (qualified_call
           (identifier)
-          (args
+          (arguments
             (identifier)
             (identifier))))
       (stab_expr
@@ -157,7 +157,7 @@ end
             (string_end)))
         (qualified_call
           (identifier)
-          (args
+          (arguments
             (identifier)))))))
 
 ================================================================================
@@ -231,7 +231,7 @@ end
         (integer)
         (qualified_call
           (identifier)
-          (args
+          (arguments
             (list
               (binary_op
                 (map
@@ -250,7 +250,7 @@ end
           (integer))
         (qualified_call
           (identifier)
-          (args
+          (arguments
             (list
               (binary_op
                 (map

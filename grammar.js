@@ -147,7 +147,7 @@ module.exports = grammar({
 
     qualified_call: $ => seq(
       field('name', $.identifier),
-      $.args
+      $.arguments
     ),
 
     call: $ => prec(PREC.CALL, choice(
@@ -155,7 +155,7 @@ module.exports = grammar({
         field('name', choice($.identifier, $.dot_call, $.qualified_call)),
         choice(
           $._bare_args,
-          $.args,
+          $.arguments,
         ),
         optional(
           choice(
@@ -209,11 +209,11 @@ module.exports = grammar({
     ),
 
     _dot_call_function_args: $ => choice(
-      prec.right(seq(field('function', choice(alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._when, "when"), alias($._in, "in"), ...OPERATORS)), optional($.args))),
-      prec.right(seq(field('function', $.string), optional($.args))),
-      prec.right(seq(field('function', choice($.identifier, $.true, $.false, $.nil, alias($._when, "when"), alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._in, "in"), alias($._fn, "fn"), alias($._do, "do"), alias($._end, "end"), alias($._catch, "catch"), alias($._rescue, "rescue"), alias($._after, "after"), alias($._else, "else"))), optional($.args))),
+      prec.right(seq(field('function', choice(alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._when, "when"), alias($._in, "in"), ...OPERATORS)), optional($.arguments))),
+      prec.right(seq(field('function', $.string), optional($.arguments))),
+      prec.right(seq(field('function', choice($.identifier, $.true, $.false, $.nil, alias($._when, "when"), alias($._and, "and"), alias($._or, "or"), alias($._not, "not"), alias($._in, "in"), alias($._fn, "fn"), alias($._do, "do"), alias($._end, "end"), alias($._catch, "catch"), alias($._rescue, "rescue"), alias($._after, "after"), alias($._else, "else"))), optional($.arguments))),
       $.module,
-      $.args,
+      $.arguments,
       $.tuple
     ),
 
@@ -261,7 +261,7 @@ module.exports = grammar({
       alias($._end, "end")
     ),
 
-    args: $ => seq(
+    arguments: $ => seq(
       token.immediate('('),
       optional($._terminator),
       choice(
@@ -316,7 +316,7 @@ module.exports = grammar({
       '>>'
     ),
 
-    keyword_list: $ => seq(commaSep1($, seq($.keyword, optional($._terminator), $._expression))),
+    keyword_list: $ => commaSep1($, seq($.keyword, optional($._terminator), $._expression)),
 
     tuple: $ => seq(
       '{',

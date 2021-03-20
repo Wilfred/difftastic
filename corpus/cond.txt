@@ -76,7 +76,7 @@ end
         (dot_call
           (identifier)
           (identifier)
-          (args))
+          (arguments))
         (integer)))))
 
 ================================================================================
@@ -107,7 +107,7 @@ end
             (dot_call
               (module)
               (identifier)
-              (args
+              (arguments
                 (identifier)))))
         (integer))
       (stab_expr
