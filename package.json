@@ -38,6 +38,7 @@
     "/src/",
     "/queries/",
     "/bindings/node/",
+    "/binding.gyp",
     "/grammar.js"
   ],
   "tree-sitter": [
