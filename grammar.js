@@ -28,6 +28,13 @@ const STRING_DOUBLE_QUOTE_CONTENT =
 module.exports = grammar({
   name: 'janet_simple',
 
+  // mdn says \s is:
+  //
+  //   [ \f\n\r\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]
+  //
+  // but that doesn't seem to match what tree-sitter thinks as it appears that
+  // for example, leaving out \x0b, \x0c, or \x00 from the following yields
+  // different behavior (other stuff may also differ)
   extras: $ =>
     [/\s|\x00/, $.comment],
 
