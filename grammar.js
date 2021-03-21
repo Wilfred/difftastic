@@ -591,6 +591,7 @@ module.exports = grammar({
           choice(
             /[^ux]/, // single character
             /x[0-9a-fA-F]{1,2}/, // hex code
+            /x{[0-9a-fA-F]+}/, // hex code
             /u[0-9a-fA-F]{4}/, // single unicode
             /u{[0-9a-fA-F ]+}/ // multiple unicode
           )

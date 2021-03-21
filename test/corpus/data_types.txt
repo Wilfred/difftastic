@@ -1058,3 +1058,36 @@ in: 1]
     (keyword_list
       (keyword)
       (integer))))
+
+================================================================================
+escaped binary
+================================================================================
+
+"Interspersed \x{ff} codes \7 \8 \65 \016 and \t\s\\s\z\+ \\ escapes"
+
+--------------------------------------------------------------------------------
+
+(program
+  (string
+    (string_start)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (escape_sequence)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (string_end)))

@@ -1,3 +1,5 @@
+.PHONY: test
+
 generate:
 	./node_modules/.bin/tree-sitter generate
 

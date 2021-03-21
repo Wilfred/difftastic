@@ -10,7 +10,7 @@
 (escape_sequence) @escape
 
 (call (identifier) @keyword
-      (#match? @keyword "^(defmodule|defexception|defp|def|with|case|cond|raise|import|require|use|defmacro|defguard|defstruct|alias)$"))
+      (#match? @keyword "^(defmodule|defexception|defp|def|with|case|cond|raise|import|require|use|defmacro|defguard|defstruct|alias|defimpl|defprotocol|receive|if|for)$"))
 
 (call (identifier) @keyword
       [(qualified_call
@@ -21,13 +21,20 @@
         [(qualified_call
           name: (identifier) @function)
          (identifier) @function]
-        operator: "when")]
+        operator: "when")
+       (binary_op
+        left: (identifier)
+        operator: _ @function
+        right: (identifier))]
       (#match? @keyword "^(defp|def|defmacro|defguard|defdelegate)$"))
 
 (unary_op
  operator: "@"
  (call (identifier) @attribute
-       (heredoc) @doc)
+       (heredoc
+        (heredoc_start) @doc
+        (heredoc_content) @doc
+        (heredoc_end) @doc))
  (#match? @attribute "^(doc|moduledoc)$"))
 
 (module) @type
@@ -49,7 +56,7 @@
 (string_end) @string
 
 (sigil_start) @string.special
-(sigil_content) @string.special
+(sigil_content) @string
 (sigil_end) @string.special
 
 (interpolation
@@ -72,5 +79,8 @@
   "<<"
   ">>"
 ] @punctuation.bracket
+
+[(identifier) @comment
+ (#match? @comment "^_")]
 
 (ERROR) @warning
