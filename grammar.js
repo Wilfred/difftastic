@@ -78,7 +78,9 @@ module.exports = grammar({
     [$.parameter, $.declaration_expression],
     [$.tuple_element],
     [$.tuple_element, $.declaration_expression],
-    [$.tuple_element, $.variable_declarator]
+    [$.tuple_element, $.variable_declarator],
+
+    [$.array_creation_expression, $.element_access_expression]
   ],
 
   inline: $ => [
@@ -1053,11 +1055,11 @@ module.exports = grammar({
       $._expression
     ),
 
-    array_creation_expression: $ => seq(
+    array_creation_expression: $ => prec.dynamic(PREC.UNARY, seq(
       'new',
       $.array_type,
       optional($.initializer_expression)
-    ),
+    )),
 
     initializer_expression: $ => seq(
       '{',

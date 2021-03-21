@@ -888,6 +888,38 @@ void b() {
                       (integer_literal))))))))))))
 
 ============================
+Array of named tuple
+============================
+
+void a() {
+  var z = new (string b, string c)[3];
+}
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_function_statement (void_keyword) (identifier) (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (array_creation_expression
+                  (array_type
+                    (tuple_type
+                      (tuple_element
+                        (predefined_type)
+                        (identifier))
+                      (tuple_element
+                        (predefined_type)
+                        (identifier)))
+                  (array_rank_specifier
+                    (integer_literal))))))))))))
+
+============================
 Makeref
 ============================
 
