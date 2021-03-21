@@ -3,7 +3,7 @@ mod language;
 mod lines;
 
 use crate::diffs::{
-    added, difference_positions, highlight_differences, highlight_differences_combined, removed,
+    added, apply_color_at_changes, difference_positions, highlight_differences_combined, removed,
 };
 use crate::language::{infer_language, Language};
 use crate::lines::{add_context, enforce_length, max_line, relevant_lines, MatchedLine};
@@ -166,8 +166,8 @@ fn side_by_side_diff(
     let mut left_lines = relevant_lines(&removed(&differences), &before_src);
     let mut right_lines = relevant_lines(&added(&differences), &after_src);
 
-    let (before_colored, after_colored) =
-        highlight_differences(&before_src, &after_src, &differences);
+    let before_colored = apply_color_at_changes(&before_src, &removed(&&differences), Color::Red);
+    let after_colored = apply_color_at_changes(&after_src, &added(&&differences), Color::Green);
 
     left_lines = add_context(&left_lines, num_ctx_lines, max_line(&before_src));
     right_lines = add_context(&right_lines, num_ctx_lines, max_line(&after_src));

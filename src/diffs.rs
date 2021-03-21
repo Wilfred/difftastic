@@ -207,26 +207,13 @@ pub fn removed(differences: &[Change]) -> Vec<Change> {
         .collect()
 }
 
-/// Return a copy of `before_src` and `after_src` with the regions in
-/// `differences` coloured by red/green.
-pub fn highlight_differences(
-    before_src: &str,
-    after_src: &str,
-    differences: &[Change],
-) -> (String, String) {
-    let before_newlines = NewlinePositions::from(before_src);
-    let after_newlines = NewlinePositions::from(after_src);
-
-    let before_abs_ranges: Vec<_> = removed(differences).iter().map(|c| c.range).collect();
-    let after_abs_ranges: Vec<_> = added(differences).iter().map(|c| c.range).collect();
-
-    let before_ranges = before_newlines.from_ranges(&before_abs_ranges);
-    let after_ranges = after_newlines.from_ranges(&after_abs_ranges);
-
-    let before_colored = apply_color_by_line(&before_src, &before_ranges, Color::Red);
-    let after_colored = apply_color_by_line(&after_src, &after_ranges, Color::Green);
-
-    (before_colored, after_colored)
+/// Return a copy of `src` and `after_src` with the regions in
+/// `changes` coloured.
+pub fn apply_color_at_changes(src: &str, changes: &[Change], color: Color) -> String {
+    let newlines = NewlinePositions::from(src);
+    let abs_ranges: Vec<_> = (changes).iter().map(|c| c.range).collect();
+    let ranges = newlines.from_ranges(&abs_ranges);
+    apply_color_by_line(&src, &ranges, color)
 }
 
 /// Given a list of differences, build up a string of the form:
