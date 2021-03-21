@@ -207,6 +207,8 @@ pub fn removed(differences: &[Change]) -> Vec<Change> {
         .collect()
 }
 
+/// Return a copy of `before_src` and `after_src` with the regions in
+/// `differences` coloured by red/green.
 pub fn highlight_differences(
     before_src: &str,
     after_src: &str,
