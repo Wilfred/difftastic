@@ -39,12 +39,12 @@ module.exports = grammar({
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
     source: $ =>
-      repeat($._form),
+      repeat($._lit),
 
     comment: $ =>
       /#.*/,
 
-    _form: $ =>
+    _lit: $ =>
       choice($.bool_lit,
              $.buf_lit,
              $.kwd_lit,
@@ -62,11 +62,11 @@ module.exports = grammar({
              $.par_tup_lit,
              $.sqr_tup_lit,
              //
-             $.quasi_quote_form,
-             $.quote_form,
-             $.short_fn_form,
-             $.splice_form,
-             $.unquote_form),
+             $.qq_lit,
+             $.quote_lit,
+             $.short_fn_lit,
+             $.splice_lit,
+             $.unquote_lit),
 
     // simplest things
 
@@ -153,43 +153,43 @@ module.exports = grammar({
 
     par_arr_lit: $ =>
       seq('@(',
-          repeat($._form),
+          repeat($._lit),
           ')'),
 
     sqr_arr_lit: $ =>
       seq('@[',
-          repeat($._form),
+          repeat($._lit),
           ']'),
 
     struct_lit: $ =>
       seq('{',
-          repeat($._form),
+          repeat($._lit),
           '}'),
 
     tbl_lit: $ =>
       seq('@{',
-          repeat($._form),
+          repeat($._lit),
           '}'),
 
     par_tup_lit: $ =>
       seq('(',
-          repeat($._form),
+          repeat($._lit),
           ')'),
 
     sqr_tup_lit: $ =>
       seq('[',
-          repeat($._form),
+          repeat($._lit),
           ']'),
 
     // macro-related
 
-    quasi_quote_form: $ =>
+    qq_lit: $ =>
       seq('~',
-          $._form),
+          $._lit),
 
-    quote_form: $ =>
+    quote_lit: $ =>
       seq("'",
-          $._form),
+          $._lit),
 
     // following all work at the repl..
     //   |8, ||8, |||8, etc.
@@ -202,18 +202,18 @@ module.exports = grammar({
     //   |@[8 9]
     //   |(= $ 1)
     // XXX: |() doesn't work...but don't bother disallowing
-    short_fn_form: $ =>
+    short_fn_lit: $ =>
       seq('|',
-          $._form),
+          $._lit),
 
     // XXX: ?
-    splice_form: $ =>
+    splice_lit: $ =>
       seq(';',
-          $._form),
+          $._lit),
 
-    unquote_form: $ =>
+    unquote_lit: $ =>
       seq(',',
-          $._form),
+          $._lit),
 
   }
 });

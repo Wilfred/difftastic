@@ -5,14 +5,14 @@
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "_form"
+        "name": "_lit"
       }
     },
     "comment": {
       "type": "PATTERN",
       "value": "#.*"
     },
-    "_form": {
+    "_lit": {
       "type": "CHOICE",
       "members": [
         {
@@ -77,23 +77,23 @@
         },
         {
           "type": "SYMBOL",
-          "name": "quasi_quote_form"
+          "name": "qq_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "quote_form"
+          "name": "quote_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "short_fn_form"
+          "name": "short_fn_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "splice_form"
+          "name": "splice_lit"
         },
         {
           "type": "SYMBOL",
-          "name": "unquote_form"
+          "name": "unquote_lit"
         }
       ]
     },
@@ -856,7 +856,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_form"
+            "name": "_lit"
           }
         },
         {
@@ -876,7 +876,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_form"
+            "name": "_lit"
           }
         },
         {
@@ -896,7 +896,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_form"
+            "name": "_lit"
           }
         },
         {
@@ -916,7 +916,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_form"
+            "name": "_lit"
           }
         },
         {
@@ -936,7 +936,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_form"
+            "name": "_lit"
           }
         },
         {
@@ -956,7 +956,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_form"
+            "name": "_lit"
           }
         },
         {
@@ -965,7 +965,7 @@
         }
       ]
     },
-    "quasi_quote_form": {
+    "qq_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -974,11 +974,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_form"
+          "name": "_lit"
         }
       ]
     },
-    "quote_form": {
+    "quote_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -987,11 +987,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_form"
+          "name": "_lit"
         }
       ]
     },
-    "short_fn_form": {
+    "short_fn_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -1000,11 +1000,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_form"
+          "name": "_lit"
         }
       ]
     },
-    "splice_form": {
+    "splice_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -1013,11 +1013,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_form"
+          "name": "_lit"
         }
       ]
     },
-    "unquote_form": {
+    "unquote_lit": {
       "type": "SEQ",
       "members": [
         {
@@ -1026,7 +1026,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_form"
+          "name": "_lit"
         }
       ]
     }

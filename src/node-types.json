@@ -54,19 +54,19 @@
           "named": true
         },
         {
-          "type": "quasi_quote_form",
+          "type": "qq_lit",
           "named": true
         },
         {
-          "type": "quote_form",
+          "type": "quote_lit",
           "named": true
         },
         {
-          "type": "short_fn_form",
+          "type": "short_fn_lit",
           "named": true
         },
         {
-          "type": "splice_form",
+          "type": "splice_lit",
           "named": true
         },
         {
@@ -94,7 +94,7 @@
           "named": true
         },
         {
-          "type": "unquote_form",
+          "type": "unquote_lit",
           "named": true
         }
       ]
@@ -145,19 +145,19 @@
           "named": true
         },
         {
-          "type": "quasi_quote_form",
+          "type": "qq_lit",
           "named": true
         },
         {
-          "type": "quote_form",
+          "type": "quote_lit",
           "named": true
         },
         {
-          "type": "short_fn_form",
+          "type": "short_fn_lit",
           "named": true
         },
         {
-          "type": "splice_form",
+          "type": "splice_lit",
           "named": true
         },
         {
@@ -185,14 +185,14 @@
           "named": true
         },
         {
-          "type": "unquote_form",
+          "type": "unquote_lit",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "quasi_quote_form",
+    "type": "qq_lit",
     "named": true,
     "fields": {},
     "children": {
@@ -236,19 +236,19 @@
           "named": true
         },
         {
-          "type": "quasi_quote_form",
+          "type": "qq_lit",
           "named": true
         },
         {
-          "type": "quote_form",
+          "type": "quote_lit",
           "named": true
         },
         {
-          "type": "short_fn_form",
+          "type": "short_fn_lit",
           "named": true
         },
         {
-          "type": "splice_form",
+          "type": "splice_lit",
           "named": true
         },
         {
@@ -276,14 +276,14 @@
           "named": true
         },
         {
-          "type": "unquote_form",
+          "type": "unquote_lit",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "quote_form",
+    "type": "quote_lit",
     "named": true,
     "fields": {},
     "children": {
@@ -327,19 +327,19 @@
           "named": true
         },
         {
-          "type": "quasi_quote_form",
+          "type": "qq_lit",
           "named": true
         },
         {
-          "type": "quote_form",
+          "type": "quote_lit",
           "named": true
         },
         {
-          "type": "short_fn_form",
+          "type": "short_fn_lit",
           "named": true
         },
         {
-          "type": "splice_form",
+          "type": "splice_lit",
           "named": true
         },
         {
@@ -367,14 +367,14 @@
           "named": true
         },
         {
-          "type": "unquote_form",
+          "type": "unquote_lit",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "short_fn_form",
+    "type": "short_fn_lit",
     "named": true,
     "fields": {},
     "children": {
@@ -418,19 +418,19 @@
           "named": true
         },
         {
-          "type": "quasi_quote_form",
+          "type": "qq_lit",
           "named": true
         },
         {
-          "type": "quote_form",
+          "type": "quote_lit",
           "named": true
         },
         {
-          "type": "short_fn_form",
+          "type": "short_fn_lit",
           "named": true
         },
         {
-          "type": "splice_form",
+          "type": "splice_lit",
           "named": true
         },
         {
@@ -458,7 +458,7 @@
           "named": true
         },
         {
-          "type": "unquote_form",
+          "type": "unquote_lit",
           "named": true
         }
       ]
@@ -509,19 +509,19 @@
           "named": true
         },
         {
-          "type": "quasi_quote_form",
+          "type": "qq_lit",
           "named": true
         },
         {
-          "type": "quote_form",
+          "type": "quote_lit",
           "named": true
         },
         {
-          "type": "short_fn_form",
+          "type": "short_fn_lit",
           "named": true
         },
         {
-          "type": "splice_form",
+          "type": "splice_lit",
           "named": true
         },
         {
@@ -549,14 +549,14 @@
           "named": true
         },
         {
-          "type": "unquote_form",
+          "type": "unquote_lit",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "splice_form",
+    "type": "splice_lit",
     "named": true,
     "fields": {},
     "children": {
@@ -600,19 +600,19 @@
           "named": true
         },
         {
-          "type": "quasi_quote_form",
+          "type": "qq_lit",
           "named": true
         },
         {
-          "type": "quote_form",
+          "type": "quote_lit",
           "named": true
         },
         {
-          "type": "short_fn_form",
+          "type": "short_fn_lit",
           "named": true
         },
         {
-          "type": "splice_form",
+          "type": "splice_lit",
           "named": true
         },
         {
@@ -640,7 +640,7 @@
           "named": true
         },
         {
-          "type": "unquote_form",
+          "type": "unquote_lit",
           "named": true
         }
       ]
@@ -691,19 +691,19 @@
           "named": true
         },
         {
-          "type": "quasi_quote_form",
+          "type": "qq_lit",
           "named": true
         },
         {
-          "type": "quote_form",
+          "type": "quote_lit",
           "named": true
         },
         {
-          "type": "short_fn_form",
+          "type": "short_fn_lit",
           "named": true
         },
         {
-          "type": "splice_form",
+          "type": "splice_lit",
           "named": true
         },
         {
@@ -731,7 +731,7 @@
           "named": true
         },
         {
-          "type": "unquote_form",
+          "type": "unquote_lit",
           "named": true
         }
       ]
@@ -782,19 +782,19 @@
           "named": true
         },
         {
-          "type": "quasi_quote_form",
+          "type": "qq_lit",
           "named": true
         },
         {
-          "type": "quote_form",
+          "type": "quote_lit",
           "named": true
         },
         {
-          "type": "short_fn_form",
+          "type": "short_fn_lit",
           "named": true
         },
         {
-          "type": "splice_form",
+          "type": "splice_lit",
           "named": true
         },
         {
@@ -822,7 +822,7 @@
           "named": true
         },
         {
-          "type": "unquote_form",
+          "type": "unquote_lit",
           "named": true
         }
       ]
@@ -873,19 +873,19 @@
           "named": true
         },
         {
-          "type": "quasi_quote_form",
+          "type": "qq_lit",
           "named": true
         },
         {
-          "type": "quote_form",
+          "type": "quote_lit",
           "named": true
         },
         {
-          "type": "short_fn_form",
+          "type": "short_fn_lit",
           "named": true
         },
         {
-          "type": "splice_form",
+          "type": "splice_lit",
           "named": true
         },
         {
@@ -913,7 +913,7 @@
           "named": true
         },
         {
-          "type": "unquote_form",
+          "type": "unquote_lit",
           "named": true
         }
       ]
@@ -964,19 +964,19 @@
           "named": true
         },
         {
-          "type": "quasi_quote_form",
+          "type": "qq_lit",
           "named": true
         },
         {
-          "type": "quote_form",
+          "type": "quote_lit",
           "named": true
         },
         {
-          "type": "short_fn_form",
+          "type": "short_fn_lit",
           "named": true
         },
         {
-          "type": "splice_form",
+          "type": "splice_lit",
           "named": true
         },
         {
@@ -1004,14 +1004,14 @@
           "named": true
         },
         {
-          "type": "unquote_form",
+          "type": "unquote_lit",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "unquote_form",
+    "type": "unquote_lit",
     "named": true,
     "fields": {},
     "children": {
@@ -1055,19 +1055,19 @@
           "named": true
         },
         {
-          "type": "quasi_quote_form",
+          "type": "qq_lit",
           "named": true
         },
         {
-          "type": "quote_form",
+          "type": "quote_lit",
           "named": true
         },
         {
-          "type": "short_fn_form",
+          "type": "short_fn_lit",
           "named": true
         },
         {
-          "type": "splice_form",
+          "type": "splice_lit",
           "named": true
         },
         {
@@ -1095,7 +1095,7 @@
           "named": true
         },
         {
-          "type": "unquote_form",
+          "type": "unquote_lit",
           "named": true
         }
       ]
