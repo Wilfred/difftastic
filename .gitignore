@@ -8,3 +8,5 @@ src/GTAGS
 src/*
 !src/scanner.cc
 !src/unicode.h
+scripts/target
+build

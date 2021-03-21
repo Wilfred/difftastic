@@ -2,7 +2,7 @@
   "name": "tree-sitter-elixir",
   "version": "0.1.0",
   "description": "tree sitter grammar for elixir",
-  "main": "index.js",
+  "main": "bindings/node",
   "scripts": {
     "test": "tree-sitter test"
   },
@@ -12,7 +12,7 @@
     "nan": "^2.14.2"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.18.3"
+    "tree-sitter-cli": "^0.19.4"
   },
   "tree-sitter": [
     {
