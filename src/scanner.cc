@@ -574,6 +574,40 @@ struct Scanner {
 
   bool scan_identifier_or_keyword(TSLexer *lexer, const bool *valid_symbols) {
     std::string token= "";
+
+    if (lexer->lookahead == '.') {
+      advance(lexer);
+      if (lexer->lookahead == ':') {
+        advance(lexer);
+        if (is_newline(lexer->lookahead) ||
+            is_whitespace(lexer->lookahead)) {
+          return is_valid(lexer, valid_symbols, KEYWORD_LITERAL);
+        }
+      }
+      if (lexer->lookahead != '.') return false;
+      advance(lexer);
+      if (lexer->lookahead == ':') {
+        advance(lexer);
+        if (is_newline(lexer->lookahead) ||
+            is_whitespace(lexer->lookahead)) {
+          return is_valid(lexer, valid_symbols, KEYWORD_LITERAL);
+        }
+      }
+      if (lexer->lookahead != '.') return false;
+      advance(lexer);
+      lexer->mark_end(lexer);
+
+      if (lexer->lookahead == ':') {
+        advance(lexer);
+        if (is_newline(lexer->lookahead) ||
+            is_whitespace(lexer->lookahead)) {
+          return is_valid(lexer, valid_symbols, KEYWORD_LITERAL);
+        }
+      }
+
+      return is_valid(lexer, valid_symbols, IDENTIFIER, false);
+    }
+
     bool is_identifier = is_identifier_start(lexer->lookahead);
 
     lexer->mark_end(lexer);
@@ -918,6 +952,8 @@ struct Scanner {
           advance(lexer);
           if (lexer->lookahead == ':') {
             return !is_keyword_end(lexer, valid_symbols);
+          } else if (lexer->lookahead == '.') {
+            return false;
           }
           return true;
         }
@@ -1331,7 +1367,8 @@ struct Scanner {
          valid_symbols[AFTER] ||
          valid_symbols[ELSE]) &&
         (is_identifier_start(lexer->lookahead) ||
-         is_keyword_start(lexer->lookahead))) {
+         is_keyword_start(lexer->lookahead) ||
+         lexer->lookahead == '.')) {
       return scan_identifier_or_keyword(lexer, valid_symbols);
     }
 

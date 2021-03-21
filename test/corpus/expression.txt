@@ -97,3 +97,25 @@ a
   (binary_op
     (identifier)
     (identifier)))
+
+================================================================================
+triple dot
+================================================================================
+
+... = 144
+... == !x && y || z
+
+--------------------------------------------------------------------------------
+
+(program
+  (binary_op
+    (identifier)
+    (integer))
+  (binary_op
+    (binary_op
+      (binary_op
+        (identifier)
+        (unary_op
+          (identifier)))
+      (identifier))
+    (identifier)))

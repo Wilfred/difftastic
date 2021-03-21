@@ -604,7 +604,7 @@ module.exports = grammar({
     module: $ => /[A-Z][_a-zA-Z0-9]*(\.[A-Z][_a-zA-Z0-9]*)*/,
     comment: $ => token(prec(PREC.COMMENT, seq("#", /.*/))),
     _terminator: $ => prec.right(atleastOnce(choice($._line_break, ";"))),
-    _literal: $ => choice($.true, $.false, $.nil, "..."),
+    _literal: $ => choice($.true, $.false, $.nil),
     char: $ => /\?(.|\\.)/,
     _escaped_newline: $ => /\\\n/
   }
