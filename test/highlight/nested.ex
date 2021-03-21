@@ -24,11 +24,6 @@ defmodule MyModule do
       }
     }
   end
-  # That's all, folks!
-
-  # The perfectly idiomatic Elixir code below is hard for mere humans to follow.
-  # Maybe a little makeup can help you?
-  # Place the cursor over the block keywords: do, else, catch, rescue after, end
   def g() do
     IO.inspect do
       "a"

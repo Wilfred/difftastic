@@ -80,6 +80,9 @@
   ">>"
 ] @punctuation.bracket
 
+[(identifier) @function.special
+ (#match? @function.special "^__.+__$")]
+
 [(identifier) @comment
  (#match? @comment "^_")]
 
