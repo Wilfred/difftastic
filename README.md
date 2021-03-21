@@ -80,6 +80,10 @@ $ git diff --indent-heuristic --no-index sample_files/css_before.css sample_file
 $ git diff --patience --no-index sample_files/css_before.css sample_files/css_after.css
 ```
 
+[Diff Match Patch](https://github.com/google/diff-match-patch) also
+has some excellent discussions of diff designs on the author's website
+(e.g [diff strategies](https://neil.fraser.name/writing/diff/)).
+
 ### Histogram Diff
 
 Git 1.7.7+ also has a [histogram
@@ -113,3 +117,8 @@ well out of the box with the sample files here. It implements LCS on words.
 [wu-diff](https://crates.io/crates/wu-diff) doesn't have much
 documentation, but it gives the same results as other LCS
 implementations in Rust.
+
+### JSON diff
+
+[json-diff](https://github.com/andreyvit/json-diff) provides a proper
+structural diff for JSON files.
