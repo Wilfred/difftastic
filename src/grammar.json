@@ -9149,6 +9149,7 @@
       "element_access_expression"
     ]
   ],
+  "precedences": [],
   "externals": [
     {
       "type": "SYMBOL",
