@@ -1,5 +1,23 @@
 // NOTES
 //
+// - 0.0.9 (planning)
+//   - rename _form -> _lit
+//   - update tree-sitter and friends to latest
+//   - regenerate
+//   - test
+//
+//   0.0.8
+//   - upgrade tree-sitter bits to 0.19.3
+//   - misc
+//
+//   0.0.7
+//   - add COPYING.txt (cc0)
+//   - misc
+//
+//   0.0.3
+//   - major renaming effort
+//   - misc
+//
 // - possibilities (may be as separate grammars?)
 //   - no fields (but likely that means metadata lives "outside")
 //   - retain whitespace and comments (for round-tripping)
@@ -32,9 +50,9 @@
 //   - approaches
 //     - "port" hand-written tests
 //       - oakmac (done)
-//       - Tavistock
+//       - Tavistock (done)
 //       - tonsky
-//     - generative testing for token testing -- revisit
+//     - generative testing for token testing (done via hypothesis and py-tree-sitter)
 //     - look for parsing errors across large sample (e.g. clojars) (done)
 //   - how to "package" testing facilities
 //     - currently each approach has its own project directory
@@ -292,7 +310,7 @@
 //
 // choice
 //   _gap
-//   _form
+//   _lit
 //
 // choice + optional
 //   _metadata_lit
