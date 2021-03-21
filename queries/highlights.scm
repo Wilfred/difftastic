@@ -48,6 +48,10 @@
 (string_content) @string
 (string_end) @string
 
+(sigil_start) @string.special
+(sigil_content) @string.special
+(sigil_end) @string.special
+
 (interpolation
  "#{" @punctuation.special
  "}" @punctuation.special)
