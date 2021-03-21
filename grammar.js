@@ -35,8 +35,10 @@ module.exports = grammar({
   // but that doesn't seem to match what tree-sitter thinks as it appears that
   // for example, leaving out \x0b, \x0c, or \x00 from the following yields
   // different behavior (other stuff may also differ)
-  extras: $ =>
-    [/\s|\x00/, $.comment],
+  extras: $ => [
+    /\s|\x0b|\x0c|\x00/,
+    $.comment
+  ],
 
   externals: $ => [
     $.long_buf_lit,

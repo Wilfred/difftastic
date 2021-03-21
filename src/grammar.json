@@ -1034,7 +1034,7 @@
   "extras": [
     {
       "type": "PATTERN",
-      "value": "\\s|\\x00"
+      "value": "\\s|\\x0b|\\x0c|\\x00"
     },
     {
       "type": "SYMBOL",
