@@ -158,7 +158,15 @@
         "named": true
       },
       {
+        "type": "keyword_separator",
+        "named": true
+      },
+      {
         "type": "list_splat_pattern",
+        "named": true
+      },
+      {
+        "type": "positional_separator",
         "named": true
       },
       {
@@ -1641,6 +1649,11 @@
     }
   },
   {
+    "type": "keyword_separator",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "lambda",
     "named": true,
     "fields": {
@@ -1774,7 +1787,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "attribute",
@@ -1973,6 +1986,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "positional_separator",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "print_statement",
