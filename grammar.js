@@ -15,10 +15,10 @@ const PREC = {
   OR: 6,
   LOGAND: 5,
   LOGOR: 4,
+  COALESCING: 3,
   COND: 3,
   ASSIGN: 2,
   SEQ: 1,
-  TERNARY: 1,  
   SELECT: 0,
   TYPE_PATTERN: -2,
 };
@@ -1457,15 +1457,19 @@ module.exports = grammar({
         ['==', PREC.EQUAL], // equals_expression
         ['!=', PREC.EQUAL], // not_equals_expression
         ['>=', PREC.REL], // greater_than_or_equal_expression
-        ['>', PREC.REL], //  greater_than_expression
-        ['??', PREC.TERNARY], // coalesce_expression
+        ['>', PREC.REL] //  greater_than_expression
       ].map(([operator, precedence]) =>
         prec.left(precedence, seq(
           field('left', $._expression),
           field('operator', operator),
           field('right', $._expression)
         ))
-      )
+      ),
+      prec.right(PREC.COALESCING, seq(
+        field('left', $._expression),
+        field('operator', '??'), // coalesce_expression
+        field('right', $._expression)
+      ))
     ),
 
     as_expression: $ => prec.left(PREC.EQUAL, seq(
