@@ -1,6 +1,7 @@
 mod diffs;
 mod language;
 mod lines;
+mod tree_diff;
 
 use crate::diffs::{
     added, apply_color_at_changes, difference_positions, highlight_differences_combined, removed,
