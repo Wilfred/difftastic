@@ -241,7 +241,7 @@ with expr select
 ---
 
 (design_file
-  (selected_signal_assignment
+  (selected_force_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -251,7 +251,7 @@ with expr select
       (choices
         (simple_expression
           (simple_name)))))
-  (selected_signal_assignment
+  (selected_force_assignment
     (expression
       (simple_name))
     target: (simple_name)
@@ -262,7 +262,7 @@ with expr select
       (choices
         (simple_expression
           (simple_name)))))
-  (selected_signal_assignment
+  (selected_force_assignment
     (expression
       (simple_name))
     target: (simple_name)

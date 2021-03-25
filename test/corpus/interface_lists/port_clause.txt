@@ -372,7 +372,7 @@ end entity e;
           (package_interface_declaration
             name: (identifier)
             uninstantiated: (simple_name)
-            (package_instantiation_map_aspect
+            (package_map_aspect
               (generic_map_aspect
                 (any))))
           (semicolon)))

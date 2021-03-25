@@ -37,7 +37,7 @@ report "a" & "b";
 (design_file
   (report_statement
     (string_expression
-      (simple_expression
+      (concatenation
         (string_literal)
         (string_literal)))))
 
@@ -50,7 +50,7 @@ report "a" & "b" & "c";
 (design_file
   (report_statement
     (string_expression
-      (simple_expression
+      (concatenation
         (string_literal)
         (string_literal)
         (string_literal)))))

@@ -7,7 +7,7 @@ report ' ' & ' ';
 (design_file
   (report_statement
     (string_expression
-      (simple_expression
+      (concatenation
          (character_literal)
          (character_literal)))))
 
@@ -20,7 +20,7 @@ report ''' & ''';
 (design_file
   (report_statement
     (string_expression
-      (simple_expression
+      (concatenation
          (character_literal)
          (character_literal)))))
 
@@ -33,7 +33,7 @@ report '"' & '"';
 (design_file
   (report_statement
     (string_expression
-      (simple_expression
+      (concatenation
          (character_literal)
          (character_literal)))))
 
@@ -57,7 +57,7 @@ report '/' & '\';
 (design_file
   (report_statement
     (string_expression
-      (simple_expression
+      (concatenation
          (character_literal)
          (character_literal)))))
 
@@ -70,7 +70,7 @@ report '#' & 'e';
 (design_file
   (report_statement
     (string_expression
-      (simple_expression
+      (concatenation
          (character_literal)
          (character_literal)))))
 
@@ -83,7 +83,7 @@ report '1' & '0' & 'U' & 'X' & 'W' & 'L' & 'H' & '-';
 (design_file
   (report_statement
     (string_expression
-      (simple_expression
+      (concatenation
         (character_literal)
         (character_literal)
         (character_literal)
@@ -103,7 +103,7 @@ report '1' & '0' & 'u' & 'x' & 'w' & 'l' & 'h' & '-';
 (design_file
   (report_statement
     (string_expression
-      (simple_expression
+      (concatenation
         (character_literal)
         (character_literal)
         (character_literal)
@@ -309,22 +309,22 @@ report ht & vt & cr & lf & ff;
       (simple_name)))
   (report_statement
     (string_expression
-      (simple_expression
+      (concatenation
         (simple_name)
         (simple_name))))
   (report_statement
     (string_expression
-      (simple_expression
+      (concatenation
         (simple_name)
         (simple_name))))
   (report_statement
     (string_expression
-      (simple_expression
+      (concatenation
         (simple_name)
         (simple_name))))
   (report_statement
     (string_expression
-      (simple_expression
+      (concatenation
         (simple_name)
         (simple_name)
         (simple_name)

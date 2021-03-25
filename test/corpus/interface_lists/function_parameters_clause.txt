@@ -349,7 +349,7 @@ function f (package pkg is new pkg generic map (<>)) return t;
       (package_interface_declaration
         (identifier)
         (simple_name)
-        (package_instantiation_map_aspect
+        (package_map_aspect
           (generic_map_aspect
             (any)))))
     (return

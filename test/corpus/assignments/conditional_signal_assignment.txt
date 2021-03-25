@@ -175,14 +175,14 @@ t <= force out w when true;
 ---
 
 (design_file
-  (conditional_signal_assignment
+  (conditional_force_assignment
     target: (simple_name)
     (conditional_expressions
       (expression
         (simple_name))
       (conditional_expression
         (simple_name))))
-  (conditional_signal_assignment
+  (conditional_force_assignment
     target: (simple_name)
     (force_mode)
     (conditional_expressions
@@ -190,7 +190,7 @@ t <= force out w when true;
         (simple_name))
       (conditional_expression
         (simple_name))))
-  (conditional_signal_assignment
+  (conditional_force_assignment
     target: (simple_name)
     (force_mode)
     (conditional_expressions

@@ -144,16 +144,16 @@ t <= force out expr;
 ---
 
 (design_file
-  (simple_signal_assignment
+  (simple_force_assignment
     target: (simple_name)
     (expression
       (simple_name)))
-  (simple_signal_assignment
+  (simple_force_assignment
     target: (simple_name)
     (force_mode)
     (expression
       (simple_name)))
-  (simple_signal_assignment
+  (simple_force_assignment
     target: (simple_name)
     (force_mode)
     (expression
@@ -168,12 +168,12 @@ t <= release out;
 ---
 
 (design_file
-  (simple_signal_assignment
+  (simple_release_assignment
     target: (simple_name))
-  (simple_signal_assignment
+  (simple_release_assignment
     target: (simple_name)
     (force_mode))
-  (simple_signal_assignment
+  (simple_release_assignment
     target: (simple_name)
     (force_mode)))
 
