@@ -209,6 +209,9 @@ module.exports = grammar({
         $._condition_clause, // 10.2
         $._timeout_clause, // 10.2
         $._signal_assignment_statement, // 10.5
+        $._simple_signal_assignment, // 10.5.2
+        $._conditional_signal_assignment, // 10.5.3
+        $._selected_signal_assignment, // 10.5.4
         $._variable_assignment_statement, // 10.6
         $._iteration_scheme, // 10.10
         $._concurrent_signal_assignment, // 11.6
@@ -396,6 +399,7 @@ module.exports = grammar({
         [ 'group_constituent_list'    , 'type_mark'           ],
         // Generate statatement element
         [ 'generate_statement_element', 'primary'             ],
+        // Incomplete selected assignment
         // Assertion
         // NOTE
         // VHDL LRM states that ambiguos VHDL/PSL assertions shall
@@ -404,8 +408,7 @@ module.exports = grammar({
         // VHDL operands precedence
         [
             'range',
-            'condition',
-            'reduction',
+            'exponentiation',
             'factor',
             'term',
             'sign',
@@ -413,6 +416,8 @@ module.exports = grammar({
             'shift_expression',
             'relation',
             'logical_expression',
+            'reduction',
+            'condition',
         ],
         // PSL operands precedence
         [
@@ -466,7 +471,7 @@ module.exports = grammar({
             optional($.declarative_part),
             optional(seq(
                 'begin',
-                optional($.sequence_of_statements)
+                optional($.concurrent_statement_part)
             )),
             reservedWord('end'),
             optional(reservedWord('entity')),
@@ -502,6 +507,10 @@ module.exports = grammar({
             reservedWord('of'),
             $._entity_name,
             reservedWord('is'),
+            // TODO
+            // Allow any sequence of declarative_item,
+            // verification_unit_binding_indication and block_configuration
+            // and use highlight query to highlight the errors
             optional($.declarative_part),
             repeat($.verification_unit_binding_indication),
             optional($.block_configuration),
@@ -608,7 +617,7 @@ module.exports = grammar({
         ),
 
         return: $ => seq(
-            optional(','), // used in linting to highlight misplaced comma
+            optional(','), // LINT: unexpected comma
             reservedWord('return'),
             $.type_mark,
         ),
@@ -843,8 +852,10 @@ module.exports = grammar({
         physical_type_definition: $ => seq(
             $.range_constraint,
             reservedWord('units'),
-            $.primary_unit_declaration,
-            repeat($.secondary_unit_declaration),
+            optional(seq(
+              $.primary_unit_declaration,
+              repeat($.secondary_unit_declaration),
+            )),
             reservedWord('end'),
             reservedWord('units'),
             optional($._end_simple_name)
@@ -1271,7 +1282,8 @@ module.exports = grammar({
             $.identifier_list,
             ':',
             optional(alias($._signal_mode, $.mode)), // ILLEGAL, LINT
-            $.subtype_indication
+            $.subtype_indication,
+            optional($.default_expression) // ILLEGAL, LINT
         ),
 
         // DO NOT LINE
@@ -1367,10 +1379,22 @@ module.exports = grammar({
         ),
         // }}}
         // 6.5.6.1 Interface lists {{{
-        _generic_interface_list: $ => sepBy1(';', $._generic_interface_declaration),
-        _port_interface_list: $ => sepBy1(';', $._port_interface_declaration),
-        _procedure_parameter_list: $ => sepBy1(';', $._procedure_interface_declaration),
-        _function_parameter_list: $ => sepBy1(';', $._function_interface_declaration),
+        // LINT: Semicolon after last declaration
+        _generic_interface_list: $ => seq(
+            sepBy1(';', $._generic_interface_declaration),
+        ),
+
+        _port_interface_list: $ => seq(
+            sepBy1(';', $._port_interface_declaration),
+        ),
+
+        _procedure_parameter_list: $ => seq(
+            sepBy1(';', $._procedure_interface_declaration),
+        ),
+
+        _function_parameter_list: $ => seq(
+            sepBy1(';', $._function_interface_declaration),
+        ),
         // }}}
         // 6.5.6.2 Generic clauses {{{
         generic_clause: $ => seq(
@@ -2002,6 +2026,7 @@ module.exports = grammar({
             $.relation,
             $.shift_expression,
             $.simple_expression,
+            $.concatenation,
             $.term,
             $.exponentiation,
         ),
@@ -2073,7 +2098,7 @@ module.exports = grammar({
         // LINT: condition shall not have expression as parent
         condition: $ => prec('condition', seq(
             field('operator', delimiter('??')),
-            $._primary
+            $._expr
         )),
 
         // LINT: reduction shall not have expression as parent
@@ -2106,8 +2131,8 @@ module.exports = grammar({
                 repeat1(prec.left('logical_expression',seq(field('operator', reservedWord('xor' )), $._expr))),
                 repeat1(prec.left('logical_expression',seq(field('operator', reservedWord('xnor')), $._expr))),
                 // non associative operators
-                seq(field('operator', reservedWord('nand')), $._expr),
-                seq(field('operator', reservedWord('nor' )), $._expr),
+                seq(prec.left('logical_expression',seq(field('operator', reservedWord('nand')), $._expr))),
+                seq(prec.left('logical_expression',seq(field('operator', reservedWord('nor' )), $._expr))),
             ),
         )),
 
@@ -2128,25 +2153,37 @@ module.exports = grammar({
         // LINT: operand shall not be sign
         simple_expression: $ => prec.right('simple_expression', seq(
             $._expr,
-            repeat1(prec.left(seq(
-                field('operator', choice(...['+', '-', '&'].map(op => delimiter(op)))),
+            repeat1(prec.left('simple_expression',seq(
+                field('operator', choice(
+                    ...['+', '-'].map(op => delimiter(op))
+                )),
+                $._expr
+            ))),
+        )),
+
+        concatenation: $ => prec.right('simple_expression', seq(
+            $._expr,
+            repeat1(prec.left('simple_expression',seq(
+                field('operator', delimiter('&')),
                 $._expr
             ))),
         )),
 
         term: $ => prec.right('term', seq(
             $._expr,
-            repeat1(prec.left(seq(
-                choice(
-                    field('operator', choice(...['rem', 'mod'].map(op => reservedWord(op)))),
-                    field('operator', choice(...['*', '/'].map(op => delimiter(op)))),
-                ),
-                $._expr
-            ))),
+            choice(
+                repeat1(prec.left('term',seq(
+                    field('operator', choice(
+                        ...['*', '/'].map(op => delimiter(op)),
+                        ...['rem', 'mod'].map(op => reservedWord(op)),
+                    )),
+                    $._expr
+                ))),
+            )
         )),
 
         // LINT: exponentiation are not associative
-        exponentiation: $ => prec.right('factor', seq(
+        exponentiation: $ => prec.left('exponentiation', seq(
             $._expr,
             field('operator', choice(...['**'].map(op => delimiter(op)))),
             $._expr
@@ -2297,6 +2334,8 @@ module.exports = grammar({
             $._time_expression
         ),
 
+        // LINT
+        // all is not allowed on sensitivy clause
         sensitivity_list: $ => choice(
             $.all,
             sepBy1(',', $._signal_name),
@@ -2335,19 +2374,19 @@ module.exports = grammar({
         // }}}
         // 10.5 Signal assignments {{{
         _signal_assignment_statement: $ => choice(
-            $.simple_signal_assignment,
-            $.conditional_signal_assignment,
-            $.selected_signal_assignment,
+            $._simple_signal_assignment,
+            $._conditional_signal_assignment,
+            $._selected_signal_assignment,
         ),
         // }}}
         // 10.5.2 Simple signal assignments {{{
-        simple_signal_assignment: $ => choice(
-            $._simple_waveform_assignment,
-            $._simple_force_assignment,
-            $._simple_release_assignment
+        _simple_signal_assignment: $ => choice(
+            $.simple_waveform_assignment,
+            $.simple_force_assignment,
+            $.simple_release_assignment
         ),
 
-        _simple_waveform_assignment: $ => seq(
+        simple_waveform_assignment: $ => seq(
             optional($.label),
             $._target,
             '<=',
@@ -2357,18 +2396,18 @@ module.exports = grammar({
             ';'
         ),
 
-        _simple_force_assignment: $ => seq(
+        simple_force_assignment: $ => seq(
             optional($.label),
             $._target,
             '<=',
             optional(reservedWord('guarded')),
             reservedWord('force'),
             optional($.force_mode),
-            $._value,
+            optional($._value),
             ';'
         ),
 
-        _simple_release_assignment: $ => seq(
+        simple_release_assignment: $ => seq(
             optional($.label),
             $._target,
             '<=',
@@ -2426,12 +2465,12 @@ module.exports = grammar({
         ),
         // }}}
         // 10.5.3 Conditional signal assignments {{{
-        conditional_signal_assignment: $ => choice(
-            $._conditional_waveform_assignment,
-            $._conditional_force_assignment
+        _conditional_signal_assignment: $ => choice(
+            $.conditional_waveform_assignment,
+            $.conditional_force_assignment
         ),
 
-        _conditional_waveform_assignment: $ => seq(
+        conditional_waveform_assignment: $ => prec(1,seq(
             optional($.label),
             $._target,
             '<=',
@@ -2439,7 +2478,7 @@ module.exports = grammar({
             optional($.delay_mechanism),
             $.conditional_waveforms,
             ';'
-        ),
+        )),
 
         _when_clause: $ => seq(
             reservedWord('when'),
@@ -2458,7 +2497,7 @@ module.exports = grammar({
             optional($._when_clause)
         ),
 
-        _conditional_force_assignment: $ => seq(
+        conditional_force_assignment: $ => seq(
             $._target,
             '<=',
             reservedWord('force'),
@@ -2480,38 +2519,36 @@ module.exports = grammar({
         ),
         // }}}
         // 10.5.4 Selected signal assignments {{{
-        selected_signal_assignment: $ => choice(
-            $._selected_waveform_assignment,
-            $._selected_force_assignment
+        _selected_signal_assignment: $ => choice(
+            $.selected_waveform_assignment,
+            $.selected_force_assignment
         ),
 
-        _with: $ => $._expression,
-
-        _selected_waveform_assignment: $ => seq(
+        selected_waveform_assignment: $ => seq(
             optional($.label),
             reservedWord('with'),
-            $._with,
+            $._expression,
             reservedWord('select'),
             optional(delimiter('?')),
             $._target,
             '<=',
             optional(reservedWord('guarded')),
             optional($.delay_mechanism),
-            optional($.selected_waveforms),
+            $.selected_waveforms,
             ';'
         ),
 
-        _selected_force_assignment: $ => seq(
+        selected_force_assignment: $ => seq(
             optional($.label),
             reservedWord('with'),
-            $._with,
+            $._expression,
             reservedWord('select'),
             optional(delimiter('?')),
             $._target,
             '<=',
             reservedWord('force'),
             optional($.force_mode),
-            optional($.selected_expressions),
+            $.selected_expressions,
             ';'
         ),
 
@@ -2551,13 +2588,13 @@ module.exports = grammar({
         ),
         // }}}
         // 10.6.2 Simple variable assignments {{{
-        simple_variable_assignment: $ => seq(
+        simple_variable_assignment: $ => prec(1,seq(
             optional($.label),
             $._target,
             ':=',
             $._value,
             ';'
-        ),
+        )),
         // }}}
         // 10.6.3 Conditional variable assignments {{{
         conditional_variable_assignment: $ => seq(
@@ -2572,7 +2609,7 @@ module.exports = grammar({
         selected_variable_assignment: $ => seq(
             optional($.label),
             reservedWord('with'),
-            $._with,
+            $._expression,
             reservedWord('select'),
             optional(delimiter('?')),
             $._target,
@@ -2785,20 +2822,20 @@ module.exports = grammar({
         ),
         // }}}
         // 11.6 Concurrent signal assignments {{{
-        _concurrent_signal_assignment: $ => prec(1, choice(
+        _concurrent_signal_assignment: $ => choice(
             alias(
-                $._simple_waveform_assignment,
+                $.simple_waveform_assignment,
                 $.simple_concurrent_signal_assignment
             ),
             alias(
-                $._conditional_waveform_assignment,
+                $.conditional_waveform_assignment,
                 $.conditional_concurrent_signal_assignment
             ),
             alias(
-                $._selected_waveform_assignment,
+                $.selected_waveform_assignment,
                 $.selected_concurrent_signal_assignment
             )
-        )),
+        ),
         // }}}
         // 11.7 Component instantiation statements {{{
         // LINT entity aspect shall not be open
