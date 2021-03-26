@@ -6260,6 +6260,10 @@
     "named": false
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "generic_command_name",
     "named": true
   },

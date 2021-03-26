@@ -13,7 +13,7 @@
       "type": "PATTERN",
       "value": "\\s+"
     },
-    "_comment": {
+    "comment": {
       "type": "PATTERN",
       "value": "%[^\\r\\n]*"
     },
@@ -3978,7 +3978,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_comment"
+      "name": "comment"
     }
   ],
   "conflicts": [],

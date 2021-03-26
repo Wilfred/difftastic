@@ -9,7 +9,7 @@ const sepBy = (rule, sep) => optional(sepBy1(rule, sep));
 
 module.exports = grammar({
   name: 'latex',
-  extras: $ => [$._whitespace, $._comment],
+  extras: $ => [$._whitespace, $.comment],
   word: $ => $.generic_command_name,
   rules: {
     document: $ => repeat($._content),
@@ -18,7 +18,7 @@ module.exports = grammar({
 
     _whitespace: $ => /\s+/,
 
-    _comment: $ => /%[^\r\n]*/,
+    comment: $ => /%[^\r\n]*/,
 
     //--- Content ---//
 
