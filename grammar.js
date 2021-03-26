@@ -82,7 +82,7 @@ module.exports = grammar({
     part: $ =>
       prec.right(
         seq(
-          field('command', /\\part\*?/),
+          field('command', choice('\\part', '\\part*')),
           field('text', $.brace_group),
           field(
             'child',
@@ -105,7 +105,7 @@ module.exports = grammar({
     chapter: $ =>
       prec.right(
         seq(
-          field('command', /\\chapter\*?/),
+          field('command', choice('\\chapter', '\\chapter*')),
           field('text', $.brace_group),
           field(
             'child',
@@ -127,7 +127,7 @@ module.exports = grammar({
     section: $ =>
       prec.right(
         seq(
-          field('command', /\\section\*?/),
+          field('command', choice('\\section', '\\section*')),
           field('text', $.brace_group),
           field(
             'child',
@@ -148,7 +148,7 @@ module.exports = grammar({
     subsection: $ =>
       prec.right(
         seq(
-          field('command', /\\subsection\*?/),
+          field('command', choice('\\subsection', '\\subsection*')),
           field('text', $.brace_group),
           field(
             'child',
@@ -168,7 +168,7 @@ module.exports = grammar({
     subsubsection: $ =>
       prec.right(
         seq(
-          field('command', /\\subsubsection\*?/),
+          field('command', choice('\\subsubsection', '\\subsubsection*')),
           field('text', $.brace_group),
           field(
             'child',
@@ -187,7 +187,7 @@ module.exports = grammar({
     paragraph: $ =>
       prec.right(
         seq(
-          field('command', /\\paragraph\*?/),
+          field('command', choice('\\paragraph', '\\paragraph*')),
           field('text', $.brace_group),
           field(
             'child',
@@ -199,7 +199,7 @@ module.exports = grammar({
     subparagraph: $ =>
       prec.right(
         seq(
-          field('command', /\\subparagraph\*?/),
+          field('command', choice('\\subparagraph', '\\subparagraph*')),
           field('text', $.brace_group),
           field('child', repeat(choice($.enum_item, $._simple_content)))
         )

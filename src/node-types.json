@@ -1001,6 +1001,20 @@
           }
         ]
       },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\chapter",
+            "named": false
+          },
+          {
+            "type": "\\chapter*",
+            "named": false
+          }
+        ]
+      },
       "text": {
         "multiple": false,
         "required": true,
@@ -4014,6 +4028,20 @@
           }
         ]
       },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\paragraph",
+            "named": false
+          },
+          {
+            "type": "\\paragraph*",
+            "named": false
+          }
+        ]
+      },
       "text": {
         "multiple": false,
         "required": true,
@@ -4432,6 +4460,20 @@
           }
         ]
       },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\part",
+            "named": false
+          },
+          {
+            "type": "\\part*",
+            "named": false
+          }
+        ]
+      },
       "text": {
         "multiple": false,
         "required": true,
@@ -4652,6 +4694,20 @@
           }
         ]
       },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\section",
+            "named": false
+          },
+          {
+            "type": "\\section*",
+            "named": false
+          }
+        ]
+      },
       "text": {
         "multiple": false,
         "required": true,
@@ -4827,6 +4883,20 @@
           {
             "type": "verbatim_include",
             "named": true
+          }
+        ]
+      },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\subparagraph",
+            "named": false
+          },
+          {
+            "type": "\\subparagraph*",
+            "named": false
           }
         ]
       },
@@ -5020,6 +5090,20 @@
           }
         ]
       },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\subsection",
+            "named": false
+          },
+          {
+            "type": "\\subsection*",
+            "named": false
+          }
+        ]
+      },
       "text": {
         "multiple": false,
         "required": true,
@@ -5203,6 +5287,20 @@
           {
             "type": "verbatim_include",
             "named": true
+          }
+        ]
+      },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\subsubsection",
+            "named": false
+          },
+          {
+            "type": "\\subsubsection*",
+            "named": false
           }
         ]
       },
@@ -5816,6 +5914,14 @@
     "named": false
   },
   {
+    "type": "\\chapter",
+    "named": false
+  },
+  {
+    "type": "\\chapter*",
+    "named": false
+  },
+  {
     "type": "\\cite",
     "named": false
   },
@@ -6164,11 +6270,27 @@
     "named": false
   },
   {
+    "type": "\\paragraph",
+    "named": false
+  },
+  {
+    "type": "\\paragraph*",
+    "named": false
+  },
+  {
     "type": "\\parencite",
     "named": false
   },
   {
     "type": "\\parencite*",
+    "named": false
+  },
+  {
+    "type": "\\part",
+    "named": false
+  },
+  {
+    "type": "\\part*",
     "named": false
   },
   {
@@ -6185,6 +6307,14 @@
   },
   {
     "type": "\\renewcommand",
+    "named": false
+  },
+  {
+    "type": "\\section",
+    "named": false
+  },
+  {
+    "type": "\\section*",
     "named": false
   },
   {
@@ -6209,6 +6339,30 @@
   },
   {
     "type": "\\subincludefrom",
+    "named": false
+  },
+  {
+    "type": "\\subparagraph",
+    "named": false
+  },
+  {
+    "type": "\\subparagraph*",
+    "named": false
+  },
+  {
+    "type": "\\subsection",
+    "named": false
+  },
+  {
+    "type": "\\subsection*",
+    "named": false
+  },
+  {
+    "type": "\\subsubsection",
+    "named": false
+  },
+  {
+    "type": "\\subsubsection*",
     "named": false
   },
   {

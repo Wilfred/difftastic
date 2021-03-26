@@ -225,8 +225,17 @@
             "type": "FIELD",
             "name": "command",
             "content": {
-              "type": "PATTERN",
-              "value": "\\\\part\\*?"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\part"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\part*"
+                }
+              ]
             }
           },
           {
@@ -294,8 +303,17 @@
             "type": "FIELD",
             "name": "command",
             "content": {
-              "type": "PATTERN",
-              "value": "\\\\chapter\\*?"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\chapter"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\chapter*"
+                }
+              ]
             }
           },
           {
@@ -359,8 +377,17 @@
             "type": "FIELD",
             "name": "command",
             "content": {
-              "type": "PATTERN",
-              "value": "\\\\section\\*?"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\section"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\section*"
+                }
+              ]
             }
           },
           {
@@ -420,8 +447,17 @@
             "type": "FIELD",
             "name": "command",
             "content": {
-              "type": "PATTERN",
-              "value": "\\\\subsection\\*?"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\subsection"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\subsection*"
+                }
+              ]
             }
           },
           {
@@ -477,8 +513,17 @@
             "type": "FIELD",
             "name": "command",
             "content": {
-              "type": "PATTERN",
-              "value": "\\\\subsubsection\\*?"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\subsubsection"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\subsubsection*"
+                }
+              ]
             }
           },
           {
@@ -530,8 +575,17 @@
             "type": "FIELD",
             "name": "command",
             "content": {
-              "type": "PATTERN",
-              "value": "\\\\paragraph\\*?"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\paragraph"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\paragraph*"
+                }
+              ]
             }
           },
           {
@@ -579,8 +633,17 @@
             "type": "FIELD",
             "name": "command",
             "content": {
-              "type": "PATTERN",
-              "value": "\\\\subparagraph\\*?"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\subparagraph"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\subparagraph*"
+                }
+              ]
             }
           },
           {
