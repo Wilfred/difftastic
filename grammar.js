@@ -49,6 +49,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$.simple_parameter, $.name],
     [$.variadic_parameter, $.name],
+    [$.static_modifier, $._reserved_identifier],
 
     // Do we need these?
     [$.qualified_name, $.namespace_name],
@@ -281,6 +282,7 @@ module.exports = grammar({
 
     property_declaration: $ => seq(
       repeat1($._modifier),
+      optional(field('type', $._type)),
       commaSep1($.property_element),
       $._semicolon
     ),
@@ -473,7 +475,7 @@ module.exports = grammar({
 
     float: $ => /\d*((\.\d*)?([eE][\+-]?\d+)|(\.\d*)([eE][\+-]?\d+)?)/,
 
-    try_statement:  $ => seq(
+    try_statement: $ => seq(
       keyword('try'),
       field('body', $.compound_statement),
       repeat1(choice($.catch_clause, $.finally_clause))
@@ -516,7 +518,7 @@ module.exports = grammar({
         hex,
         binary
       ))
-  },
+    },
 
     return_statement: $ => seq(
       keyword('return'), optional($._expression), $._semicolon
@@ -569,8 +571,8 @@ module.exports = grammar({
     ),
 
     sequence_expression: $ => prec(PREC.COMMA, seq(
-     $._expression, ',', choice($.sequence_expression, $._expression))
-   ),
+      $._expression, ',', choice($.sequence_expression, $._expression))
+    ),
 
     foreach_statement: $ => seq(
       keyword('foreach'),
@@ -1118,11 +1120,11 @@ function keyword(word, aliasAsWord = true) {
   return result
 }
 
-function commaSep1 (rule) {
+function commaSep1(rule) {
   return seq(rule, repeat(seq(',', rule)));
 }
 
-function commaSep (rule) {
+function commaSep(rule) {
   return optional(commaSep1(rule));
 }
 

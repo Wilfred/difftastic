@@ -1,0 +1,335 @@
+=========================================
+Abstract class
+=========================================
+
+<?php
+
+abstract class A {
+    public function a() {}
+    abstract public function b();
+}
+
+
+---
+
+(program
+  (php_tag)
+  (class_declaration
+    (class_modifier)
+    (name)
+    (declaration_list
+      (method_declaration
+        (visibility_modifier)
+        (name)
+        (formal_parameters)
+        (compound_statement)
+      )
+      (method_declaration
+        (class_modifier)
+        (visibility_modifier)
+        (name)
+        (formal_parameters)
+      )
+    )
+  )
+)
+
+=========================================
+Anonymous classes
+=========================================
+
+<?php
+
+new class {
+    public function test() {}
+};
+new class extends A implements B, C {};
+new class() {
+    public $foo;
+};
+new class($a, $b) extends A {
+    use T;
+};
+
+class A {
+    public function test() {
+        return new class($this) extends A {
+            const A = 'B';
+        };
+    }
+}
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (object_creation_expression
+      (declaration_list
+        (method_declaration
+          (visibility_modifier)
+          (name)
+          (formal_parameters)
+          (compound_statement)
+        )
+      )
+    )
+  )
+  (expression_statement
+    (object_creation_expression
+      (base_clause
+        (qualified_name (name))
+      )
+      (class_interface_clause
+        (qualified_name (name))
+        (qualified_name (name))
+      )
+      (declaration_list)
+    )
+  )
+  (expression_statement
+    (object_creation_expression
+      (arguments)
+      (declaration_list
+        (property_declaration
+          (visibility_modifier)
+          (property_element
+            (variable_name (name))
+          )
+        )
+      )
+    )
+  )
+  (expression_statement
+    (object_creation_expression
+      (arguments
+        (variable_name (name))
+        (variable_name (name))
+      )
+      (base_clause
+        (qualified_name (name))
+      )
+      (declaration_list
+        (use_declaration
+          (qualified_name (name))
+        )
+      )
+    )
+  )
+  (class_declaration
+    (name)
+    (declaration_list
+      (method_declaration
+        (visibility_modifier)
+        (name)
+        (formal_parameters)
+        (compound_statement
+          (return_statement
+            (object_creation_expression
+              (arguments (variable_name (name)))
+              (base_clause (qualified_name (name)))
+              (declaration_list
+                (const_declaration
+                  (const_element (name) (string))
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)
+
+=========================================
+Conditional class definition
+=========================================
+
+<?php
+
+if (true) {
+    class A {}
+}
+
+---
+
+(program
+  (php_tag)
+  (if_statement
+    (parenthesized_expression (boolean))
+    (compound_statement
+      (class_declaration
+        (name)
+        (declaration_list)
+      )
+    )
+  )
+)
+
+=========================================
+Class constant modifiers
+=========================================
+
+<?php
+
+class Foo {
+    const A = 1;
+    public const B = 2;
+    protected const C = 3;
+    private const D = 4;
+}
+
+---
+
+(program
+  (php_tag)
+  (class_declaration
+    (name)
+    (declaration_list
+      (const_declaration
+        (const_element (name) (integer))
+      )
+      (const_declaration
+        (visibility_modifier)
+        (const_element (name) (integer))
+      )
+      (const_declaration
+        (visibility_modifier)
+        (const_element (name) (integer))
+      )
+      (const_declaration
+        (visibility_modifier)
+        (const_element (name) (integer))
+      )
+    )
+  )
+)
+
+
+=========================================
+Final class
+=========================================
+
+<?php
+
+final class A {}
+
+---
+
+(program
+  (php_tag)
+  (class_declaration
+    (class_modifier)
+    (name)
+    (declaration_list)
+  )
+)
+
+=========================================
+Implicitly public properties and methods
+=========================================
+
+<?php
+
+abstract class A {
+    var $a;
+    static $b;
+    abstract function c();
+    final function d() {}
+    static function e() {}
+    final static function f() {}
+    function g() {}
+}
+
+---
+
+(program
+  (php_tag)
+  (class_declaration
+    (class_modifier)
+    (name)
+    (declaration_list
+      (property_declaration
+        (var_modifier)
+        (property_element (variable_name (name)))
+      )
+      (property_declaration
+        (static_modifier)
+        (property_element (variable_name (name)))
+      )
+      (method_declaration
+        (class_modifier)
+        (name)
+        (formal_parameters)
+      )
+      (method_declaration
+        (class_modifier)
+        (name)
+        (formal_parameters)
+        (compound_statement)
+      )
+      (method_declaration
+        (static_modifier)
+        (name)
+        (formal_parameters)
+        (compound_statement)
+      )
+      (method_declaration
+        (class_modifier)
+        (static_modifier)
+        (name)
+        (formal_parameters)
+        (compound_statement)
+      )
+      (method_declaration
+        (name)
+        (formal_parameters)
+        (compound_statement)
+      )
+    )
+  )
+)
+
+=========================================
+Property Types
+=========================================
+
+<?php
+
+class A {
+    public string $a;
+    protected static D $b;
+    private ?float $c;
+    private $d;
+}
+
+---
+
+(program
+	(php_tag)
+  (class_declaration
+    name: (name)
+    body: (declaration_list
+      (property_declaration
+        (visibility_modifier)
+        type: (primitive_type)
+        (property_element (variable_name (name)))
+      )
+      (property_declaration
+        (visibility_modifier)
+        (static_modifier)
+        type: (type_name (name))
+        (property_element (variable_name (name)))
+      )
+      (property_declaration
+        (visibility_modifier)
+        type: (optional_type (primitive_type))
+        (property_element (variable_name (name)))
+      )
+      (property_declaration
+        (visibility_modifier)
+        (property_element (variable_name (name)))
+      )
+    )
+  )
+)
