@@ -2982,14 +2982,14 @@
             "name": "primary_expression"
           },
           {
-            "type": "FIELD",
-            "name": "operators",
+            "type": "REPEAT1",
             "content": {
-              "type": "REPEAT1",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "operators",
+                  "content": {
                     "type": "CHOICE",
                     "members": [
                       {
@@ -3055,13 +3055,13 @@
                         ]
                       }
                     ]
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "primary_expression"
                   }
-                ]
-              }
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "primary_expression"
+                }
+              ]
             }
           }
         ]

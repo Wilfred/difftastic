@@ -852,16 +852,12 @@
           {
             "type": "not",
             "named": false
-          },
-          {
-            "type": "primary_expression",
-            "named": true
           }
         ]
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
