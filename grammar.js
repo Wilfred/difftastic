@@ -490,7 +490,7 @@ module.exports = grammar(C, {
       '[', commaSep1($.identifier), ']'
     )),
 
-    function_declarator: ($, original) => seq(
+    function_declarator: ($, original) => prec.dynamic(1, seq(
       original,
       repeat(choice(
         $.type_qualifier,
@@ -499,9 +499,9 @@ module.exports = grammar(C, {
         $.throw_specifier,
         $.trailing_return_type
       ))
-    ),
+    )),
 
-    function_field_declarator: ($, original) => seq(
+    function_field_declarator: ($, original) => prec.dynamic(1, seq(
       original,
       repeat(choice(
         $.type_qualifier,
@@ -510,7 +510,7 @@ module.exports = grammar(C, {
         $.throw_specifier,
         $.trailing_return_type
       ))
-    ),
+    )),
 
     abstract_function_declarator: ($, original) => prec.right(seq(
       original,
