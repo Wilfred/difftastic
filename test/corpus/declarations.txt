@@ -1054,3 +1054,27 @@ operator T*();
     (declaration (operator_cast
       (type_identifier)
       (abstract_pointer_declarator (abstract_function_declarator (parameter_list)))))))
+
+=========================
+Function declarations
+=========================
+
+inline int g();
+inline int h() { }
+
+---
+
+(translation_unit
+  (declaration
+    (storage_class_specifier)
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list)))
+  (function_definition
+    (storage_class_specifier)
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list))
+    body: (compound_statement)))
