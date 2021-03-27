@@ -2465,7 +2465,7 @@
           },
           {
             "type": "PATTERN",
-            "value": "[^*]*\\*+([^\\/*][^*]*\\*+)*"
+            "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
           },
           {
             "type": "STRING",
@@ -2522,7 +2522,7 @@
               "members": [
                 {
                   "type": "PATTERN",
-                  "value": "[^\\/\\s,;!{}()\\[\\]]"
+                  "value": "[^/\\s,;!{}()\\[\\]]"
                 },
                 {
                   "type": "PATTERN",
@@ -2555,6 +2555,7 @@
       "declaration"
     ]
   ],
+  "precedences": [],
   "externals": [
     {
       "type": "SYMBOL",
