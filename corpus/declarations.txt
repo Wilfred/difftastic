@@ -1384,3 +1384,21 @@ crate const X: u32 = 0;
     (visibility_modifier (crate)) (identifier) (parameters) (block))
   (const_item
     (visibility_modifier (crate)) (identifier) (primitive_type) (integer_literal)))
+
+===================================
+Reserved keywords in path
+===================================
+
+struct A {
+  a: default::B,
+  b: union::C,
+}
+
+---
+
+(source_file
+  (struct_item
+    (type_identifier)
+      (field_declaration_list
+        (field_declaration (field_identifier) (scoped_type_identifier (identifier) (type_identifier)))
+        (field_declaration (field_identifier) (scoped_type_identifier (identifier) (type_identifier))))))
