@@ -871,7 +871,18 @@ module.exports = grammar({
     semi_colon: $ => ';',
 
     string_single_quoted: $ => prec(PRECEDENCE.STRING, /\'.*\'/),
-    string_q_quoted: $ => prec(PRECEDENCE.STRING, /q\{.*\}/),
+    // NOTE/TODO:
+    // we are currently only supporting {, /, (, \ as delimiters
+    // in future release should use external scanners for delimiters
+    string_q_quoted: $ => prec(PRECEDENCE.STRING, seq(
+      'q',
+      choice(
+        seq('{', token(/[^}]+/), '}'),
+        seq('/', token(/[^/]+/), '/'),
+        seq('(', token(/[^)]+/), ')'),
+        seq('\'', token(/[^']+/), '\''),
+      ),
+    )),
 
     string_double_quoted: $ => prec(PRECEDENCE.STRING, seq(
       '"',
@@ -882,15 +893,19 @@ module.exports = grammar({
       'qq',
       choice(
         seq('{', repeat(choice($.interpolation, $.escape_sequence, token(/[^}]+/))), '}'),
+        seq('/', repeat(choice($.interpolation, $.escape_sequence, token(/[^/]+/))), '/'),
+        seq('(', repeat(choice($.interpolation, $.escape_sequence, token(/[^)]+/))), ')'),
+        /'.*'/, // don't interpolate for a single quote
       ),
     )),
 
     command_qx_quoted: $ => prec(PRECEDENCE.STRING, seq(
       'qx',
       choice(
-        /'.*'/, // don't interpolate for a single quote
         seq('{', repeat(choice($.interpolation, token(/[^}]+/))), '}'),
         seq('/', repeat(choice($.interpolation, token(/[^\/]+/))), '/'),
+        seq('(', repeat(choice($.interpolation, token(/[^)]+/))), ')'),
+        /'.*'/, // don't interpolate for a single quote
       ),
     )),
 
@@ -899,6 +914,8 @@ module.exports = grammar({
       choice(
         seq('{', repeat($.identifier),'}'),
         seq('/', repeat($.identifier),'/'),
+        seq('(', repeat($.identifier),')'),
+        seq('\'', repeat($.identifier),'\''),
       ),
     )),
 
